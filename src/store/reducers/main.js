@@ -14,7 +14,7 @@ export default function mainReducer(state = initialState.main, action) {
 				...state,
 				isLogged: false
 			}
-
+			
 		default:
 			return {
 				...state

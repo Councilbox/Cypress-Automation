@@ -1,20 +1,30 @@
 import React, {Component} from 'react';
-import '../styles/App.scss';
 import AppRouter from './AppRouter';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { Router } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
+import { setLocale, syncTranslationWithStore } from 'react-redux-i18n';
+import { setLanguage } from '../actions/mainActions';
+import CouncilboxApi from '../api/CouncilboxApi';
+import { setUserData } from '../actions/mainActions';
 
 export const store = configureStore();
+store.dispatch(setLanguage('cat'));
+export const history = createHistory();
+if(sessionStorage.getItem('token')){
+    store.dispatch({type: 'LOGIN_SUCCESS'});
+    store.dispatch(setUserData(sessionStorage.getItem('token')));
+}
 
 class App extends Component {
 
     render() {
         return (
             <Provider store={store}>
-                <BrowserRouter>
+                <Router history={history}>
                     <AppRouter />
-                </BrowserRouter>
+                </Router>
             </Provider>
         );
     }

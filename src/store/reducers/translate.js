@@ -3,10 +3,10 @@ import initialState from './initialState';
 
 export default function translateReducer(state = initialState.translate, action) {
     switch (action.type) {
-        case 'TRANSLATE_DONE':
+        case 'LOADED_LANG':
+            console.log('translate reducer');
             return {
-                ...state,
-                loaded: true
+                ...action.value
             }
         default:
             return {

@@ -1,19 +1,26 @@
 import React from 'react';
-import Home from "../components/Home";
+import HomePage from "../components/HomePage";
+import Header from '../components/Header';
+import { connect } from 'react-redux';
 
 
-const HomeContainer = () => {
-    return (
-        <Home></Home>
+const HomeContainer = ({main, company, user}) => {
+    return(
+        <div style={{height: '100vh', width: '100%', display: 'flex'}}>
+            <HomePage
+                main={main}
+                company={company}
+                user={user}    
+            />
+        </div>
     );
 }
 
-const styles = {
-    pruebas: {
-        background: 'red',
-        width: '10px',
-        height: '30px'
-    }
-}
+const mapStateToProps = (state) => ({
+    main: state.main,
+    company: state.company,
+    user: state.user
+});
 
-export default HomeContainer;
+
+export default connect(mapStateToProps)(HomeContainer);
