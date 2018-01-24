@@ -3,19 +3,13 @@ import * as mainActions from '../actions/mainActions';
 import * as companyActions from '../actions/companyActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {Grid, Row, Col} from "react-bootstrap";
 import { lightGrey, darkGrey, turquoise } from '../styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import { RaisedButton } from 'material-ui';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Dialog from 'material-ui/Dialog';
 
 class Dashboard extends React.Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     componentWillReceiveProps(nextProps){
         if(!this.props.company.id && nextProps.company.id){
@@ -33,7 +27,7 @@ class Dashboard extends React.Component {
                         <div style={{fontWeight: '700', color: darkGrey, padding: '2em', fontSize: '1em', paddingTop: '0.5em'}}>Te recomendamos que comiences revisando la configuración de tu empresa</div>
                         <div style={{width: '90%'}}>
                             <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
-                                <div style={{paddingLeft: '1.5em', paddingRight: '1.5em', backgroundColor: darkGrey, height: '10em', color: turquoise, fontWeight: '700', border: `1px solid ${lightGrey}`, paddingRight: '1em', paddingTop: '3em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                                <div style={{paddingLeft: '1.5em', paddingRight: '1.5em', backgroundColor: darkGrey, height: '10em', color: turquoise, fontWeight: '700', border: `1px solid ${lightGrey}`, paddingTop: '3em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                                     DATOS BÁSICOS
                                     <FontIcon className="material-icons" color={'grey'} style={{fontSize: '2em', color: 'white'}}>work</FontIcon>
                                 </div>

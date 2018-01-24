@@ -7,9 +7,7 @@ import Welcome from './Welcome';
 import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';
-import { Card, CardActions, CardHeader, CardText, TextField, RaisedButton, FontIcon } from 'material-ui';
-import { Grid, Row, Col } from "react-bootstrap";
-
+import { Card, CardText } from 'material-ui';
 
 class SignUpPage extends React.Component {
 

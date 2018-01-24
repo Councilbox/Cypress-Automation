@@ -1,5 +1,5 @@
 
-const apiURLs = {
+/*const apiURLs = {
     prod: {
         url: 'https://video.councilbox.com/#/login/',
         api: 'https://app.councilbox.com/server/api/'
@@ -9,7 +9,7 @@ const apiURLs = {
         url: 'https://videobeta.councilbox.com/#/login/',
         api: 'https://beta.councilbox.com/server/api/'
     }
-}
+}*/
 
 class CouncilboxApi {
     static login(userData) {
@@ -93,13 +93,13 @@ class CouncilboxApi {
         }
         formBody = formBody.join("&");
 
-        const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
+        /*const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
             method: 'POST',
             headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
             body: formBody
         });
 
-        /*return fetch(request).then(response => {
+        return fetch(request).then(response => {
             return response.json();
         }).catch( error => {
             throw error;

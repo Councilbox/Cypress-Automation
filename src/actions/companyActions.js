@@ -31,12 +31,12 @@ export const sendNewCompany = (company) => {
                 history.push('/welcome');
             }
         }).catch(error => {
-            if(error.code == 602){
+            if(error.code === 602){
                 //Aqui hay que poner funcionalidad para error de usuario existe, renderizando la página con el 
                 //nombre de usuario y señalando el error
                 console.log('error 602');
             }
-            if(error.code == 603){
+            if(error.code === 603){
                 //Aqui hay que poner funcionalidad para error de email existe, renderizando la página con el 
                 //email y señalando el error
                 console.log('error 603');

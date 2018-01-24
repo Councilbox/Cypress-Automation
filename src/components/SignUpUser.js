@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardActions, CardHeader, CardText, TextField, RaisedButton, FontIcon } from 'material-ui';
+import { TextField, RaisedButton, FontIcon } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
 
 class SignUpUser extends Component {

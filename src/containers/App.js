@@ -4,13 +4,11 @@ import { Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
-import { setLocale, syncTranslationWithStore } from 'react-redux-i18n';
 import { setLanguage } from '../actions/mainActions';
-import CouncilboxApi from '../api/CouncilboxApi';
 import { setUserData } from '../actions/mainActions';
 
 export const store = configureStore();
-store.dispatch(setLanguage('cat'));
+store.dispatch(setLanguage('pt'));
 export const history = createHistory();
 if(sessionStorage.getItem('token')){
     store.dispatch({type: 'LOGIN_SUCCESS'});

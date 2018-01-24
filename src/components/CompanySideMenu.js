@@ -3,8 +3,6 @@ import * as mainActions from '../actions/mainActions';
 import * as companyActions from '../actions/companyActions';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {Grid, Row, Col} from "react-bootstrap";
-import Header from './Header';
 import CompanyMenu from './CompanyMenu';
 
 class CompanySideMenu extends React.Component {
@@ -29,7 +27,7 @@ class CompanySideMenu extends React.Component {
         return(
             <div style={{width: `${this.props.width}%`, height: '100%', display: 'flex', overflow: 'hidden'}}>
                 <div style={{width: this.props.width === 10? "50%" : "20%", height: '100%', backgroundColor: 'black', color: 'white'}} > SIDE MENU </div>
-                <CompanyMenu company={this.props.company} toggleCompany={this.openCompany} open={this.state.company} toggled={this.props.open} />
+                <CompanyMenu company={this.props.company} toggleCompany={this.openCompany} toggle={this.props.toggleMenu} open={this.state.company} toggled={this.props.open} />
             </div>
         );             
     }

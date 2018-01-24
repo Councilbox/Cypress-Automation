@@ -3,8 +3,7 @@ import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from './Header';
-import { Card, CardActions, CardHeader, CardText, TextField, RaisedButton, FontIcon } from 'material-ui';
-import { Grid, Row, Col } from "react-bootstrap";
+import { Card, CardActions,CardText, RaisedButton, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
 
 

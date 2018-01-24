@@ -1,7 +1,4 @@
 import CouncilboxApi from '../api/CouncilboxApi';
-import {loadTranslations, setLocale, syncTranslationWithStore} from 'react-redux-i18n';
-//import langs from '../lang/langIndex';
-//import { store } from '../App';
 
 export let language = 'es';
 
