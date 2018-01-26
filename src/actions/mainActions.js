@@ -18,6 +18,12 @@ export const login = (creds) => {
     }
 };
 
+
+export const loadingFinished = () => (
+    {type: 'LOADING_FINISHED'}
+);
+
+
 export const setUserData = (token) => {
     const encodedProfile = token.split('.')[1];
     const profile = JSON.parse(atob(encodedProfile));

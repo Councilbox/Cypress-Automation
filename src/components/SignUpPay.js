@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 
 class SignUpPage extends Component {
-        constructor(props){
+    constructor(props){
         super(props);
         this.state = {
             data: {

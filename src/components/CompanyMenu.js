@@ -14,7 +14,7 @@ const sections = [
         name: "Mis reuniones",
         icon: "import_contacts",
         submenus: [
-            { name: "Nueva reunión", link: '/councils/new/' },
+            { name: "Nueva reunión", link: '/councils/new' },
             { name: "Borradores", link: '/councils/drafts' },
             { name: "En celebración", link: '/councils/live' },
             { name: "Redactando Acta", link: '/councils/writing' },

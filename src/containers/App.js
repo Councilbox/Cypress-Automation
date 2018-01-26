@@ -4,15 +4,18 @@ import { Router } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
-import { setLanguage } from '../actions/mainActions';
-import { setUserData } from '../actions/mainActions';
+import { setLanguage, setUserData, loadingFinished } from '../actions/mainActions';
+import { getCompanyInfo } from '../actions/companyActions';
 
 export const store = configureStore();
-store.dispatch(setLanguage('pt'));
-export const history = createHistory();
+store.dispatch(setLanguage('es'));
+export const bHistory = createHistory();
 if(sessionStorage.getItem('token')){
     store.dispatch({type: 'LOGIN_SUCCESS'});
     store.dispatch(setUserData(sessionStorage.getItem('token')));
+    store.dispatch(getCompanyInfo());
+}else{
+    store.dispatch(loadingFinished());
 }
 
 class App extends Component {
@@ -20,7 +23,7 @@ class App extends Component {
     render() {
         return (
             <Provider store={store}>
-                <Router history={history}>
+                <Router history={bHistory}>
                     <AppRouter />
                 </Router>
             </Provider>

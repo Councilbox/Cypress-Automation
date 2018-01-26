@@ -1,5 +1,6 @@
 import CouncilboxApi from "../api/CouncilboxApi";
-import {history} from '../containers/App';
+import { bHistory } from '../containers/App';
+import { loadingFinished } from './mainActions';
 
 export const saveSignUpInfo = (info) => {
     return({
@@ -9,10 +10,12 @@ export const saveSignUpInfo = (info) => {
 }
 
 export const getCompanyInfo = () => {
-    return (dispatch) => {
-        return CouncilboxApi.getCompany().then(response => {
-            dispatch({type: 'COMPANY_INFO', value: response[0]});
-        })
+    return async (dispatch) => {
+        const response = await CouncilboxApi.getCompany();
+        dispatch({type: 'COMPANY_INFO', value: response[0]});
+        if(response){
+            dispatch(loadingFinished());
+        }
     }
 }
 
@@ -28,7 +31,7 @@ export const sendNewCompany = (company) => {
     return (dispatch) => {
         return CouncilboxApi.createCompany(company).then(response => {
             if(response){
-                history.push('/welcome');
+                bHistory.push('/welcome');
             }
         }).catch(error => {
             if(error.code === 602){

@@ -14,6 +14,12 @@ export default function mainReducer(state = initialState.main, action) {
 				...state,
 				isLogged: false
 			}
+
+		case 'LOADING_FINISHED':
+			return {
+				...state,
+				loading: false
+			}
 			
 		default:
 			return {

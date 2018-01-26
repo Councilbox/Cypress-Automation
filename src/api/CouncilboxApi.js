@@ -37,6 +37,15 @@ class CouncilboxApi {
         return data.result.data;
     }
 
+    static async getLanguageList(){
+        const request = new Request(`https://beta.councilbox.com/server/api/languages`, {
+            method: 'GET'
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result.data;
+    }
+
     static async getProvinces(countryID){
         const request = new Request(`https://beta.councilbox.com/server/api/provinces?where=%7B"country_id":${countryID}%7D`, {
             method: 'GET'
@@ -44,6 +53,19 @@ class CouncilboxApi {
         const response = await fetch(request);
         const data = await response.json();
         return data.result.data;
+    }
+
+    static async getVotingTypes(){
+        const request = new Request(`https://beta.councilbox.com/server/api/votation_types`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result;
     }
 
     static async getSubscriptions(){
@@ -84,14 +106,8 @@ class CouncilboxApi {
             "census_name": "Por defecto",
             "census_description": "Primer censo creado automáticamente cuando se crea la sociedad"
         }
-        let formBody = [];
 
-        for (let property in body) {
-            let encodedKey = encodeURIComponent("data[" + property + "]");
-            let encodedValue = encodeURIComponent(body[property]);
-            formBody.push(encodedKey + "=" + encodedValue);
-        }
-        formBody = formBody.join("&");
+        //const data = urlParser(body);
 
         /*const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
             method: 'POST',
@@ -143,6 +159,153 @@ class CouncilboxApi {
         return data.result.data;
     }
 
+    static async getData(councilInfo){
+        const request = new Request(`https://beta.councilbox.com/server/api/new/getData?data=%7B%22company_id%22:%22${councilInfo.companyID}%22,%22council_id%22:%22${councilInfo.councilID}%22,%22step%22:%22${councilInfo.step}%22%7D`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result.data;
+    }
+
+    static async saveCouncilData(councilInfo){
+        
+        const urlEncondedInfo = urlParser(councilInfo);
+
+        const request = new Request('https://beta.councilbox.com/server/api/new/saveData', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            }),
+            body: urlEncondedInfo
+        });
+
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result.data;
+    }
+
+    static async getParticipants(councilID){
+        const request = new Request(`https://beta.councilbox.com/server/api/new/getParticipants?data=%7B%22council_id%22:%22${councilID}%22,%22order_by%22:%7B%22name%22:%22+ASC%22%7D,%22limit%22:25,%22page%22:1%7D`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result.data;
+    }
+
+    static async createCouncil(companyID){
+        const request = new Request(`https://beta.councilbox.com/server/api/new/create?data=%7B%22company_id%22:%22${companyID}%22%7D`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result.data;
+    }
+
+    static async deleteParticipant(participantInfo){
+        const urlEncondedInfo = urlParser(participantInfo);
+
+        const request = new Request('https://beta.councilbox.com/server/api/new/deleteParticipant', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            }),
+            body: urlEncondedInfo
+        });
+
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
+    }
+
+    static async sendNewParticipant(participant){
+        const urlEncondedInfo = urlParser(participant);
+
+        const request = new Request('https://beta.councilbox.com/server/api/new/saveParticipant', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            }),
+            body: urlEncondedInfo
+        });
+
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
+    }
+
+    static async sendCensusChange(info){
+        const request = new Request(`https://beta.councilbox.com/server/api/new/changeCensus?data=%7B%22council_id%22:%22${info.council_id}%22,%22census_id%22:%22${info.census_id}%22,%22company_id%22:%22${info.company_id}%22%7D`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
+    }
+
+}
+
+const urlParser = (obj) => {
+    let query = '',
+        name,
+        value,
+        fullSubName,
+        subName,
+        subValue,
+        innerObj,
+        i;
+
+    for (name in obj) {
+        if (name) {
+            value = obj[name];
+
+            if (value instanceof Array) {
+                for (i = 0; i < value.length; ++i) {
+                    subValue = value[i];
+                    fullSubName = name + '[' + i + ']';
+                    innerObj = {};
+                    innerObj[fullSubName] = subValue;
+                    query += urlParser(innerObj) + '&';
+                }
+            } else if (value instanceof Object) {
+                for (subName in value) {
+                    if (subName) {
+                        subValue = value[subName];
+                        fullSubName = name + '[' + subName + ']';
+                        innerObj = {};
+                        innerObj[fullSubName] = subValue;
+                        query += urlParser(innerObj) + '&';
+                    }
+                }
+            } else if (value !== undefined && value !== null) {
+                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
+            }
+        }
+    }
+    return query.length ? query.substr(0, query.length - 1) : query;
 }
 
 export default CouncilboxApi;
