@@ -2,46 +2,31 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
 import TabsScreen from '../components/TabsScreen';
-import Drafts from '../components/Drafts';
+import MeetingDrafts from '../components/meetingSections/MeetingDrafts';
+import MeetingsLive from '../components/meetingSections/MeetingsLive';
+import MeetingsTrash from '../components/meetingSections/MeetingsTrash';
 
-const MeetingsContainer = ({main, company, user, match}) => {
+const MeetingsContainer = ({main, company, user, match, translate}) => {
 
     const tabsIndex = {
         drafts: 0,
         live: 1,
-        writing: 2,
-        trash: 3
+        trash: 2
     }
 
     const tabsInfo = [
         {
-            text: 'Borradores',
-            link: '/meetings/drafts',
-            component: Drafts(user)
+            text: translate.companies_draft,
+            link: `/company/${company.id}/meetings/drafts`,
+            component: () => {return(<MeetingDrafts company={company} translate={translate} />)}
         }, {
-            text: 'En celebración',
-            link: '/meetings/live',
-            component: <div
-                    style={{
-                    height: '10em',
-                    padding: '2em'
-                }}>EN CELEBRACION prueba</div>
+            text: translate.companies_live,
+            link: `/company/${company.id}/meetings/live`,
+            component: () => {return(<MeetingsLive company={company} translate={translate} />)}
         }, {
-            text: 'Redactando acta',
-            link: '/meetings/writing',
-            component: <div
-                    style={{
-                    height: '10em',
-                    padding: '2em'
-                }}>REDACTANDO ACTA</div>
-        }, {
-            text: 'Papelera',
-            link: '/meetings/trash',
-            component: <div
-                    style={{
-                    height: '10em',
-                    padding: '2em'
-                }}>PAPELERA</div>
+            text: translate.signature_trash,
+            link: `/company/${company.id}/meetings/trash`,
+            component: () => {return(<MeetingsTrash company={company} translate={translate} />)}
         }
     ]
 
@@ -63,7 +48,8 @@ const MeetingsContainer = ({main, company, user, match}) => {
 const mapStateToProps = (state) => ({
     main: state.main,
     company: state.company,
-    user: state.user
+    user: state.user,
+    translate: state.translate
 });
 
 export default connect(mapStateToProps)(withRouter(MeetingsContainer));

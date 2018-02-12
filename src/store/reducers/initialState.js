@@ -6,7 +6,9 @@ export default {
 	},
     user: {},
     companies: [],
-    company: {},
-    translations: {},
+    company: {
+        drafts: []
+    },
+    translate: [],
     council: {}
 }

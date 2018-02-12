@@ -2,9 +2,12 @@ import React from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TabsScreen from '../components/TabsScreen';
-import Drafts from '../components/Drafts';
+import CouncilDrafts from '../components/councilSections/CouncilDrafts';
+import CouncilsLive from '../components/councilSections/CouncilsLive';
+import CouncilsWriting from '../components/councilSections/CouncilsWriting';
+import CouncilsTrash from '../components/councilSections/CouncilsTrash';
 
-const CouncilContainer = ({main, company, user, match}) => {
+const CouncilContainer = ({main, company, user, match, translate}) => {
 
     const tabsIndex = {
         drafts: 0,
@@ -15,33 +18,21 @@ const CouncilContainer = ({main, company, user, match}) => {
 
     const tabsInfo = [
         {
-            text: 'Borradores',
-            link: '/councils/drafts',
-            component: Drafts(user)
+            text: translate.companies_draft,
+            link: `/company/${company.id}/councils/drafts`,
+            component: () => {return(<CouncilDrafts company={company} translate={translate} />)}
         }, {
-            text: 'En celebración',
-            link: '/councils/live',
-            component: <div
-                    style={{
-                    height: '10em',
-                    padding: '2em'
-                }}>EN CELEBRACION prueba</div>
+            text: translate.companies_live,
+            link: `/company/${company.id}/councils/live`,
+            component: () => {return(<CouncilsLive  company={company} translate={translate} />)}
         }, {
-            text: 'Redactando acta',
-            link: '/councils/writing',
-            component: <div
-                    style={{
-                    height: '10em',
-                    padding: '2em'
-                }}>REDACTANDO ACTA</div>
+            text: translate.companies_writing,
+            link: `/company/${company.id}/councils/writing`,
+            component: () => {return(<CouncilsWriting  company={company} translate={translate} />)}
         }, {
-            text: 'Papelera',
-            link: '/councils/trash',
-            component: <div
-                    style={{
-                    height: '10em',
-                    padding: '2em'
-                }}>PAPELERA</div>
+            text: translate.signature_trash,
+            link: `/company/${company.id}/councils/trash`,
+            component: () => {return(<CouncilsTrash  company={company} translate={translate} />)}
         }
     ]
 
@@ -54,7 +45,10 @@ const CouncilContainer = ({main, company, user, match}) => {
 }
 
 const mapStateToProps = (state) => ({
-    main: state.main, company: state.company, user: state.user
+    main: state.main,
+    company: state.company,
+    user: state.user,
+    translate: state.translate
 });
 
 export default connect(mapStateToProps)(withRouter(CouncilContainer));

@@ -27,6 +27,16 @@ export const getRecount = (companyID) => {
     }
 }
 
+export const getCouncils = (info) => {
+    return (dispatch) => {
+        return CouncilboxApi.getCouncils(info).then(response => {
+            if(response){
+                dispatch({type: 'DRAFTS', value: response});
+            }
+        })
+    }
+}
+
 export const sendNewCompany = (company) => {
     return (dispatch) => {
         return CouncilboxApi.createCompany(company).then(response => {

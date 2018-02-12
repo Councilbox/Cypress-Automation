@@ -1,9 +1,9 @@
 import React from 'react';
-import * as mainActions from '../actions/mainActions';
-import * as companyActions from '../actions/companyActions';
+import * as mainActions from '../../actions/mainActions';
+import * as companyActions from '../../actions/companyActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import Welcome from './Welcome';
+import Welcome from '../Welcome';
 import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';
@@ -59,13 +59,28 @@ class SignUpPage extends React.Component {
                             </div>
                             <div style={{backgroundColor: 'white', width: '3em', height: '100%'}}>
                                 {this.state.page === 1 &&
-                                    <SignUpEnterprise nextPage={this.nextPage} saveInfo={this.props.companyActions.saveSignUpInfo} company={this.props.company} />
+                                    <SignUpEnterprise
+                                        nextPage={this.nextPage}
+                                        saveInfo={this.props.companyActions.saveSignUpInfo}
+                                        translate={this.props.translate}
+                                        company={this.props.company} />
                                 }
                                 {this.state.page === 2 &&
-                                    <SignUpUser nextPage={this.nextPage} saveInfo={this.props.companyActions.saveSignUpInfo} company={this.props.company} />
+                                    <SignUpUser
+                                        nextPage={this.nextPage}
+                                        saveInfo={this.props.companyActions.saveSignUpInfo}
+                                        company={this.props.company}
+                                        translate={this.props.translate}
+                                    />
                                 }
                                 {this.state.page === 3 &&
-                                    <SignUpPay nextPage={this.nextPage} saveInfo={this.props.companyActions.saveSignUpInfo} company={this.props.company} sendNewCompany={this.props.companyActions.sendNewCompany} />
+                                    <SignUpPay
+                                        nextPage={this.nextPage}
+                                        saveInfo={this.props.companyActions.saveSignUpInfo}
+                                        company={this.props.company}
+                                        translate={this.props.translate}
+                                        sendNewCompany={this.props.companyActions.sendNewCompany}
+                                    />
                                }
                             </div>
                         </div>

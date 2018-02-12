@@ -24,10 +24,18 @@ class CompanySideMenu extends React.Component {
     }
 
     render() {
+        
         return(
             <div style={{width: `${this.props.width}%`, height: '100%', display: 'flex', overflow: 'hidden'}}>
                 <div style={{width: this.props.width === 10? "50%" : "20%", height: '100%', backgroundColor: 'black', color: 'white'}} > SIDE MENU </div>
-                <CompanyMenu company={this.props.company} toggleCompany={this.openCompany} toggle={this.props.toggleMenu} open={this.state.company} toggled={this.props.open} />
+                <CompanyMenu
+                    company={this.props.company}
+                    toggleCompany={this.openCompany}
+                    toggle={this.props.toggleMenu}
+                    open={this.state.company}
+                    toggled={this.props.open}
+                    translate={this.props.translate}
+                />
             </div>
         );             
     }

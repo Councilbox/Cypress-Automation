@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton, FontIcon, Checkbox } from 'material-ui';
+import { FontIcon, Checkbox } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
-import CouncilboxApi from '../api/CouncilboxApi';
-import SelectField from 'material-ui/SelectField';
+import CouncilboxApi from '../../api/CouncilboxApi';
+import { SelectInput, BasicButton, TextInput } from '../displayComponents';
+import { primary } from '../../styles/colors';
 import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
+import gql from 'graphql-tag';
+import { graphql, withApollo } from 'react-apollo';
 
-class SignUpPage extends Component {
+class SignUpPay extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -38,25 +41,47 @@ class SignUpPage extends Component {
     }
 
     componentDidMount = async () => {
-        const countries = await CouncilboxApi.getCountries();
         const subscriptions = await CouncilboxApi.getSubscriptions();
-        let provinces = [];
-        if(this.props.company.country){
-            provinces = await CouncilboxApi.getProvinces(this.props.company.country);
+        if(this.props.data.countries){
+            let provinces = [];
+            if(this.props.company.country){
+                const response = await this.props.client.query({
+                    query: gql`query ProvinceList($countryID: ID!) {
+                        provinces(countryID: $countryID){
+                            deno
+                            id
+                        }
+                    }`,
+                    variables: {
+                        countryID: this.props.company.country
+                    },
+                });
+                provinces = response.data.provinces;
+                
+            }
+            this.setState({
+                provinces: provinces,
+                countries: this.props.data.countries,
+                subscriptions: subscriptions
+            });
         }
-        this.setState({
-            countries: countries,
-            subscriptions: subscriptions,
-            provinces: provinces
-        });
+
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.props.data.loading && !nextProps.data.loading){
+            this.setState({
+                countries: nextProps.data.countries
+            })
+        }
     }
 
     endForm = () => {
-        //this.props.saveInfo(this.state.data);
-        //if(!this.checkRequiredFields()){
-            this.props.sendNewCompany(this.props.company);
+        this.props.saveInfo(this.state.data);
+        if(!this.checkRequiredFields()){
+            //this.props.sendNewCompany(this.props.company);
             //CouncilboxApi.createCompany(this.props.company);
-        //}
+        }
     }
 
     checkRequiredFields(){
@@ -128,10 +153,20 @@ class SignUpPage extends Component {
                 country: this.state.countries[index].id
             }
         })
+        const response = await this.props.client.query({
+            query: gql`query ProvinceList($countryID: ID!) {
+                provinces(countryID: $countryID){
+                    deno
+                    id
+                }
+            }`,
+            variables: {
+                countryID: this.state.countries[index].id
+            },
+        });
         
-        const provinces = await CouncilboxApi.getProvinces(this.state.countries[index].id);
         this.setState({
-            provinces: provinces
+            provinces: response.data.provinces
         });
     }
 
@@ -166,15 +201,19 @@ class SignUpPage extends Component {
     }
 
     render(){
+        const { translate } = this.props;
+
+        if(this.props.data.loading){
+            return <p>Loading...</p>;
+        }
         return(
             <div>
                 Facturación
                 <Grid>
                     <Row style={{width: '75%'}}>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText="DIRECCIÓN"
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.address}
                                 type="text"
                                 errorText={this.state.errors.address}
                                 value={this.state.data.address}
@@ -188,9 +227,8 @@ class SignUpPage extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText="LOCALIDAD"
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.company_new_locality}
                                 type="text"
                                 errorText={this.state.errors.city}
                                 value={this.state.data.city}
@@ -204,8 +242,8 @@ class SignUpPage extends Component {
                             />
                         </Col>
                         <Col xs={6} md={3}>
-                            <SelectField
-                                floatingLabelText="País"
+                            <SelectInput
+                                floatingText={translate.country}
                                 value={this.state.data.country}
                                 onChange={this.handleCountryChange}
                                 errorText={this.state.errors.country}
@@ -214,12 +252,11 @@ class SignUpPage extends Component {
                                     return <MenuItem key={country.deno} value={country.id} primaryText={country.deno} />
                                 })
                                 }
-                            </SelectField>
+                            </SelectInput>
                         </Col>
                         <Col xs={6} md={3}>
-                            <TextField
-                                floatingLabelText="C.P."
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.company_new_zipcode}
                                 type="text"
                                 errorText={this.state.errors.zipCode}
                                 value={this.state.data.zipCode}
@@ -233,8 +270,8 @@ class SignUpPage extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <SelectField
-                                floatingLabelText="Provincia"
+                            <SelectInput
+                                floatingText={translate.company_new_country_state}
                                 value={this.state.data.province}
                                 errorText={this.state.errors.province}
                                 onChange={this.handleProvinceChange}
@@ -243,11 +280,11 @@ class SignUpPage extends Component {
                                     return <MenuItem key={province.deno} value={province.id} primaryText={province.deno} />
                                 })
                                 }
-                            </SelectField>
+                            </SelectInput>
                         </Col>
                         <Col xs={12} md={6}>
-                           <SelectField
-                                floatingLabelText="Subscripción"
+                           <SelectInput
+                                floatingText={translate.type_of_subscription}
                                 value={this.state.data.subscription}
                                 errorText={this.state.errors.subscription}
                                 onChange={this.handleSubscriptionChange}
@@ -256,12 +293,11 @@ class SignUpPage extends Component {
                                     return <MenuItem key={subscription} value={subscription} primaryText={subscription} />
                                 })
                                 }
-                            </SelectField>
+                            </SelectInput>
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText="IBAN"
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText="IBAN"
                                 type="text"
                                 errorText={this.state.errors.IBAN}
                                 value={this.state.data.IBAN}
@@ -288,12 +324,11 @@ class SignUpPage extends Component {
                             />
                         </Col>
                         <Col xs={12} md={4}>
-                            <RaisedButton
-                                label="Enviar solicitud"
-                                fullWidth={true}
-                                backgroundColor={'purple'}
-                                labelStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em'}}
-                                labelPosition="before"
+                            <BasicButton
+                                text={translate.send}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em'}}
+                                textPosition="before"
                                 onClick={this.endForm}
                                 icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
                             />
@@ -301,10 +336,10 @@ class SignUpPage extends Component {
                     </Row>
                 </Grid>
                 <Dialog
-                    actions={<RaisedButton 
-                        label="Aceptar"
-                        backgroundColor='purple'
-                        labelStyle={{color: 'white', fontWeight: '700'}}
+                    actions={<BasicButton 
+                        text={translate.accept}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700'}}
                         onClick={this.closeAlert} 
                     />}
                     modal={false}
@@ -312,7 +347,7 @@ class SignUpPage extends Component {
                     onRequestClose={this.closeAlert}
                     contentStyle={{width: '35%'}}
                     >
-                    Debes aceptar los términos y condiciones antes de continuar
+                    {translate.acept_terms}
                 </Dialog>
             </div>
         ); 
@@ -320,4 +355,13 @@ class SignUpPage extends Component {
 
 }
 
-export default SignUpPage;
+export const countriesQuery = gql `
+  query CountriesList {
+    countries {
+      deno
+      id
+    }
+  }
+`;
+
+export default graphql(countriesQuery)(withApollo(SignUpPay));

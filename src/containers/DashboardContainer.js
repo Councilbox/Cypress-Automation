@@ -1,17 +1,18 @@
 import React from 'react';
-import Dashboard from "../components/Dashboard";
+import Dashboard from "../components/dashboard/Dashboard";
 import {connect} from 'react-redux';
 
-const DashboardContainer = ({main, company, user}) => {
+const DashboardContainer = ({ main, company, user, translate }) => {
     return (
-        <Dashboard main={main} company={company} user={user}/>
+        <Dashboard main={main} company={company} user={user} translate={translate} />
     );
 }
 
 const mapStateToProps = (state) => ({
     main: state.main,
     company: state.company,
-    user: state.user
+    user: state.user,
+    translate: state.translate
 });
 
 export default connect(mapStateToProps)(DashboardContainer);

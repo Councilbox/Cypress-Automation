@@ -1,20 +1,18 @@
 import React from 'react';
-import * as councilActions from '../actions/councilActions';
+import * as councilActions from '../../actions/councilActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Card, CardText } from 'material-ui';
-import { lightGrey } from '../styles/colors';
+import { lightGrey } from '../../styles/colors';
 import {Step, Stepper, StepLabel } from 'material-ui/Stepper';
-import CouncilEditorNotice from './CouncilEditorNotice';
-import CouncilEditorCensus from './CouncilEditorCensus';
-import CouncilEditorAgenda from './CouncilEditorAgenda';
 
-class CouncilEditorPage extends React.Component {
+
+class MeetingEditorPage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            step: this.props.step || 1
+            step: this.props.step || 5
         };
     }
 
@@ -93,15 +91,7 @@ class CouncilEditorPage extends React.Component {
                                     </Step>
                                 </Stepper>
                             </div>
-                            {this.state.step === 1 &&
-                                <CouncilEditorNotice nextStep={this.nextStep} council={this.props.council} />
-                            }
-                            {this.state.step === 2 &&
-                                <CouncilEditorCensus nextStep={this.nextStep} previousStep={this.previousStep} council={this.props.council} />
-                            }
-                            {this.state.step === 3 &&
-                                <CouncilEditorAgenda nextStep={this.nextStep} previousStep={this.previousStep} council={this.props.council} />
-                            }
+                            Este va a ser el editor de meetings
                         </div>
                     </CardText>
                 </Card>
@@ -116,4 +106,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(CouncilEditorPage);
+export default connect(null, mapDispatchToProps)(MeetingEditorPage);

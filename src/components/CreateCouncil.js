@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as councilActions from '../actions/councilActions';
 import { bindActionCreators } from 'redux';
 
- class CreateCouncil extends PureComponent {
+ class CreateCouncil extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -13,11 +13,12 @@ import { bindActionCreators } from 'redux';
     }
 
     componentDidMount(){
-        if(this.props.match.url === "/councils/new" && !this.state.creating){
+        if(this.props.match.url === `/company/${this.props.match.params.company}/council/new` && !this.state.creating){
+            console.log('create');
             this.setState({
                 creating: true
             });
-            this.props.actions.create(this.props.company.id);
+            this.props.actions.create(this.props.match.params.company, 'council');
         }
     }
     render(){

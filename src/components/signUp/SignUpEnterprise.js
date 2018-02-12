@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton, FontIcon } from 'material-ui';
+import { FontIcon } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
-import CouncilboxApi from '../api/CouncilboxApi';
-import SelectField from 'material-ui/SelectField';
+import { SelectInput, BasicButton, LoadingSection, TextInput } from '../displayComponents';
 import MenuItem from 'material-ui/MenuItem';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { primary } from '../../styles/colors';
 
 class SignUpEnterprise extends Component {
 
@@ -24,11 +26,12 @@ class SignUpEnterprise extends Component {
         }
     }
 
-    componentDidMount = async () => {
-        const types = await CouncilboxApi.getCompanyTypes();
-        this.setState({
-            types: types
-        });
+    componentWillReceiveProps(nextProps){
+        if(this.props.data.loading && !nextProps.data.loading){
+            this.setState({
+                types: nextProps.data.companyTypes
+            });
+        }
     }
 
     nextPage = () => {
@@ -82,15 +85,22 @@ class SignUpEnterprise extends Component {
     }
 
     render() {
+        const { translate } = this.props;
+
+        if(this.props.data.loading){
+            return(
+                <LoadingSection />
+            );
+        }
+
         return(
             <div>
                 Empresa
                 <Grid>
                     <Row style={{width: '75%'}}>
                         <Col xs={12} md={12}>
-                            <TextField
-                                floatingLabelText="RAZÓN SOCIAL"
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.entity_name.toUpperCase()}
                                 type="text"
                                 value={this.state.data.companyName}
                                 onChange={(event) => this.setState({
@@ -104,22 +114,21 @@ class SignUpEnterprise extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <SelectField
-                                floatingLabelText="Tipo"
+                            <SelectInput
+                                floatingLabelText={translate.company_type}
                                 value={this.state.data.type}
                                 onChange={this.handleTypeChange}
                                 errorText={this.state.errors.type}
                             >   
                                 {this.state.types.map((type) => {
-                                    return <MenuItem key={type.label} value={type.value} primaryText={type.label} />
+                                    return <MenuItem key={type.label} value={type.value} primaryText={translate[type.label]} />
                                 })
                                 }
-                            </SelectField>
+                            </SelectInput>
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText="CIF"
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.cif}
                                 type="text"
                                 value={this.state.data.code}
                                 onChange={(event) => this.setState({
@@ -134,13 +143,13 @@ class SignUpEnterprise extends Component {
                         </Col>
                         <Col md={5} />
                         <Col xs={12} md={3}>
-                            <RaisedButton
-                                label="Continuar"
-                                fullWidth={true}
-                                backgroundColor={'purple'}
-                                labelStyle={{color: 'white', fontWeight: '700'}}
-                                labelPosition="before"
+                            <BasicButton
+                                text={translate.continue}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700'}}
                                 onClick={this.nextPage}
+                                textPosition="before"
+                                fullWidth
                                 icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
                             />
                         </Col>
@@ -151,4 +160,13 @@ class SignUpEnterprise extends Component {
     }
 }
 
-export default SignUpEnterprise;
+export const companyTypesQuery = gql `
+  query CompanyTypes {
+    companyTypes {
+      label
+      value
+    }
+  }
+`;
+
+export default graphql(companyTypesQuery)(SignUpEnterprise);

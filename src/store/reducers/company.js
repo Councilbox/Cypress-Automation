@@ -21,6 +21,12 @@ export default function companyReducer(state = initialState.company, action) {
                 recounts: action.value
             }
 
+        case 'DRAFTS':
+            return {
+                ...state,
+                drafts: action.value
+            }
+
         default:
             return {
                 ...state

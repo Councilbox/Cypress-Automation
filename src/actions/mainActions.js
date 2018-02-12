@@ -1,4 +1,5 @@
 import CouncilboxApi from '../api/CouncilboxApi';
+import { getCompanyInfo } from './companyActions';
 
 export let language = 'es';
 
@@ -7,14 +8,24 @@ export const login = (creds) => {
         return CouncilboxApi.login(creds).then(response => {
             if(response.token){
                 dispatch({type: 'LOGIN_SUCCESS'});
-                dispatch(setUserData(response.token));                
-                sessionStorage.setItem('token', response.token);
+                sessionStorage.setItem('token', response.token);                
+                dispatch(setUserData(response.token));
+                dispatch(getCompanyInfo());             
             }else{
                 return ({type: 'LOGIN_FAILED'});
             }
         }).catch(error => {
             console.log(error);
         });
+    }
+};
+
+export const loginSuccess = (token) => {
+    return (dispatch) => {
+        dispatch({type: 'LOGIN_SUCCESS'});
+        sessionStorage.setItem('token', token);
+        dispatch(setUserData(token));
+        dispatch(getCompanyInfo());
     }
 };
 
@@ -39,14 +50,10 @@ export const logout = () => {
 export const setLanguage = (language) => {
     return async (dispatch) => {
         const translations = await CouncilboxApi.getTranslations(language);
-        const translationObject = {
-            [language]: {}
-        };
+        const translationObject = {};
         translations.forEach(translation => {
-            (translationObject[language])[translation.label] = translation.text;
+            translationObject[translation.label] = translation.text;
         });
-        console.log('se cargó el idioma');
-        console.log(translationObject);
         dispatch({type: 'LOADED_LANG', value: translationObject});
         //store.dispatch(loadTranslations(translationsObject));
     }

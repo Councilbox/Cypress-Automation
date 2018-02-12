@@ -1,12 +1,12 @@
 import React from 'react';
 import * as mainActions from '../actions/mainActions';
 import * as companyActions from '../actions/companyActions';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import {lightGrey} from '../styles/colors';
-import {Tab, Tabs, TabList, TabPanel} from 'react-tabs';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { lightGrey } from '../styles/colors';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../styles/react-tabs.css';
-import {NavLink} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 class TabsScreen extends React.Component {
 
@@ -51,23 +51,16 @@ class TabsScreen extends React.Component {
                 className="container-fluid">
                 <Tabs
                     selectedIndex={this.state.selectedTab}
+                    style={{ paddingBottom: '2em'}}
                     onSelect={tabIndex => this.setState({tabIndex})}>
                     <TabList>
                         {tabsInfo.map((tab, index) => {
                             return (
-                                <Tab key={tab.text + index}>
-                                    <NavLink
-                                        to={tab.link}
-                                        style={{
-                                        color: 'black',
-                                        textDecoration: 'none'
-                                    }}
-                                        activeStyle={{
-                                        color: 'purple'
-                                    }}>
+                                <Link key={tab.text + index} to={tab.link} style={{color: 'black'}}>
+                                    <Tab>
                                         {tab.text}
-                                    </NavLink>
-                                </Tab>
+                                    </Tab>
+                                </Link>
                             );
 
                         })}
@@ -75,8 +68,8 @@ class TabsScreen extends React.Component {
 
                     {tabsInfo.map((tab, index) => {
                         return (
-                            <TabPanel key={tab.text + index}>
-                                {tab.component}
+                            <TabPanel key={tab.text + index} style={{minHeight: '80vh', overflow: 'auto', paddingBottom: '2em'}}>
+                                {tab.component()}
                             </TabPanel>
                         )
                     })

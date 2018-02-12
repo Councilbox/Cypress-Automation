@@ -1,14 +1,13 @@
 import React from 'react';
-import CouncilEditorPage from "../components/CouncilEditorPage";
+import CouncilEditorPage from "../components/councilEditor/CouncilEditorPage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import * as councilActions from '../actions/councilActions';
-import { bindActionCreators } from 'redux';
 
-const CouncilEditorContainer = ({main, company, user, council, match, actions}) => {
+const CouncilEditorContainer = ({main, company, user, council, match, translate}) => {
     return (
         <CouncilEditorPage
             main={main}
+            translate={translate}
             company={company}
             user={user}
             council={council}
@@ -23,7 +22,8 @@ const mapStateToProps = (state) => ({
     main: state.main,
     company: state.company,
     user: state.user,
-    council: state.council
+    council: state.council,
+    translate: state.translate
 });
 
 

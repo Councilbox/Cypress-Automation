@@ -1,12 +1,7 @@
 body{
     margin: 0;
     padding: 0;
-    height: 100vh;
-    font-family: "Roboto";
-}
-
-html{
-    height: 100vh;
+    font-family: "Lato";
 }
 
 input:-webkit-autofill {

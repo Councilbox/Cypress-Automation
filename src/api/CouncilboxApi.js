@@ -1,3 +1,4 @@
+import { urlParser } from '../utils';
 
 /*const apiURLs = {
     prod: {
@@ -68,6 +69,32 @@ class CouncilboxApi {
         return data.result;
     }
 
+    static async getMajorities(){
+        const request = new Request(`https://beta.councilbox.com/server/api/majorities`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result;
+    }
+
+    static async getCouncils(info){
+        const request = new Request(`https://beta.councilbox.com/server/api/dashboard/getCouncils?data=%7B%22company_id%22:%22${info.company_id}%22,%22view%22:%22${info.view}%22,%22isMeeting%22:${info.isMeeting}%7D`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data.result.data;
+    }
+
     static async getSubscriptions(){
         return Promise.resolve([
             'LITE - 25 €/mes',
@@ -84,7 +111,7 @@ class CouncilboxApi {
     }
 
     static createCompany(company){
-        const body = {
+        /*const body = {
             "preferred_language": 'es',
             "type": company.type,
             "country": company.country,
@@ -109,7 +136,7 @@ class CouncilboxApi {
 
         //const data = urlParser(body);
 
-        /*const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
+        const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
             method: 'POST',
             headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
             body: formBody
@@ -219,7 +246,7 @@ class CouncilboxApi {
 
     static async deleteParticipant(participantInfo){
         const urlEncondedInfo = urlParser(participantInfo);
-
+        
         const request = new Request('https://beta.councilbox.com/server/api/new/deleteParticipant', {
             method: 'POST',
             headers: new Headers({
@@ -266,46 +293,38 @@ class CouncilboxApi {
         return data;
     }
 
-}
+    static async saveAttachment(file){
+        const urlEncondedInfo = urlParser(file);
 
-const urlParser = (obj) => {
-    let query = '',
-        name,
-        value,
-        fullSubName,
-        subName,
-        subValue,
-        innerObj,
-        i;
+        const request = new Request('https://beta.councilbox.com/server/api/new/saveAttachment', {
+            method: 'POST',
+            headers: new Headers({
+                'Content-Type': 'application/x-www-form-urlencoded',
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            }),
+            body: urlEncondedInfo
+        });
 
-    for (name in obj) {
-        if (name) {
-            value = obj[name];
-
-            if (value instanceof Array) {
-                for (i = 0; i < value.length; ++i) {
-                    subValue = value[i];
-                    fullSubName = name + '[' + i + ']';
-                    innerObj = {};
-                    innerObj[fullSubName] = subValue;
-                    query += urlParser(innerObj) + '&';
-                }
-            } else if (value instanceof Object) {
-                for (subName in value) {
-                    if (subName) {
-                        subValue = value[subName];
-                        fullSubName = name + '[' + subName + ']';
-                        innerObj = {};
-                        innerObj[fullSubName] = subValue;
-                        query += urlParser(innerObj) + '&';
-                    }
-                }
-            } else if (value !== undefined && value !== null) {
-                query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
-            }
-        }
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
     }
-    return query.length ? query.substr(0, query.length - 1) : query;
+
+    static async deleteAttachment(fileInfo) {
+        const request = new Request(`https://beta.councilbox.com/server/api/new/deleteAttachment?data=%7B%22council_id%22:%22${fileInfo.council_id}%22,%22attachment_id%22:%22${fileInfo.attachment_id}%22%7D`, {
+            method: 'GET',
+            headers: new Headers({
+                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
+                "x-jwt-token": sessionStorage.getItem('token')
+            })
+        });
+        const response = await fetch(request);
+        const data = await response.json();
+        return data;
+    }
+
+
 }
 
 export default CouncilboxApi;

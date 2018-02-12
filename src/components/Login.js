@@ -4,8 +4,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Grid, Row, Col } from "react-bootstrap";
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import { TextField, RaisedButton, FlatButton, FontIcon } from 'material-ui';
+import { TextField, FlatButton, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { BasicButton } from './displayComponents';
 
 class Login extends React.PureComponent {
 
@@ -21,14 +24,18 @@ class Login extends React.PureComponent {
         }
     }
 
-    login = () => {
+    login = async () => {
         if(!this.checkRequiredFields()){
-            this.props.actions.login({
-                user: this.state.user,
-                password: this.state.password
+            const response = await this.props.mutate({
+                variables: {
+                    creds: {
+                        user: this.state.user,
+                        password: this.state.password
+                    }
+                }
             });
+            this.props.actions.loginSuccess(response.data.login);
         }
-        
     }
 
     checkRequiredFields(){
@@ -71,20 +78,20 @@ class Login extends React.PureComponent {
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros. Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo. Mauris sed quam eget lorem egestas pulvinar. Donec mollis diam justo, eget gravida purus ornare a. Curabitur congue lobortis semper. Mauris laoreet, nulla a fermentum pulvinar, tellus lacus cursus ex, non efficitur odio mauris sit amet enim.
                             <br />
                             <div style={{display: 'flex', flexDirection: 'row'}}>
-                                <RaisedButton
-                                    label="Solicitar demostración"
-                                    backgroundColor={'transparent'}
-                                    style={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-                                    labelStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                    labelPosition="before"
+                                <BasicButton
+                                    text="Solicitar demostración"
+                                    color={'transparent'}
+                                    buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
+                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
                                     onClick={this.login}
+                                    labelPosition={'before'}
                                 />
                                 <Link to="/signup">
-                                    <RaisedButton
-                                        label="Dar de alta mi empresa"
-                                        backgroundColor={'white'}
-                                        labelStyle={{color: 'purple', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                        labelPosition="before"
+                                    <BasicButton
+                                        text="Dar de alta mi empresa"
+                                        color={'white'}
+                                        textStyle={{color: 'purple', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                        textPosition="before"
                                     />
                                 </Link>
                             </div>
@@ -119,14 +126,14 @@ class Login extends React.PureComponent {
                                     />
                                 </CardText>
                                 <CardActions>
-                                    <RaisedButton
-                                        label="Entrar"
-                                        fullWidth={true}
-                                        backgroundColor={'purple'}
-                                        style={{width: '90%'}}
-                                        labelStyle={{color: 'white', fontWeight: '700'}}
-                                        labelPosition="before"
+                                    <BasicButton
+                                        text="Entrar"
+                                        color={'purple'}
+                                        buttonStyle={{width: '90%'}}
+                                        textStyle={{color: 'white', fontWeight: '700'}}
+                                        textPosition="before"
                                         onClick={this.login}
+                                        fullWidth={true}
                                         icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
                                     />
                                     <FlatButton 
@@ -148,4 +155,11 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+const submitRepository = gql `
+  mutation Login($creds: Credentials) {
+    login(creds: $creds)
+  }
+`;
+
+export default connect(null, mapDispatchToProps)(graphql(submitRepository)(Login));
+//export default connect(null, mapDispatchToProps)(Login);

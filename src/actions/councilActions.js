@@ -18,6 +18,29 @@ export const getData = (councilInfo) => {
     }
 }
 
+export const saveAttachment = (file) => {
+    return (dispatch) => {
+        return CouncilboxApi.saveAttachment(file).then(response => {
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+}
+
+export const deleteAttachment = (attachment) => {
+    return (dispatch) => {
+        return CouncilboxApi.deleteAttachment(attachment).then(response => {
+            console.log(response);
+            if(response.code === 200){
+                dispatch(getData({companyID: attachment.company_id, councilID: attachment.council_id, step: 4}));
+            }
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+}
+
 export const saveCouncilData = (councilInfo) => {
     return async (dispatch) => {
         try {
@@ -80,12 +103,12 @@ export const sendCensusChange = (info) => {
     }
 }
 
-export const create = (companyID) => {
+export const create = (companyID, type) => {
     return (dispatch) => {
         return CouncilboxApi.createCouncil(companyID).then(response => {
             console.log(response);
             dispatch({type: 'COUNCIL_DATA', value: response});
-            bHistory.push(`/councils/${response.council.company_id}/${response.council.id}`);
+            bHistory.push(`/company/${companyID}/${type}/${response.council.id}`);
         }).catch(error => {
             console.log(error);
         })
