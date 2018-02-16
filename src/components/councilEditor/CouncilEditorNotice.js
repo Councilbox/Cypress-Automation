@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { FontIcon, MenuItem} from 'material-ui';
-import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection } from "../displayComponents";
+import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert } from "../displayComponents";
 import { primary } from '../../styles/colors';
-import PlaceModal from './../PlaceModal';
+import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
 import { getCouncilDataStepOne, saveCouncilData } from '../../queries';
 import { urlParser } from '../../utils';
@@ -13,6 +13,7 @@ class CouncilEditorNotice extends Component {
         super(props);
         this.state = {
             placeModal: false,
+            alert: false,
             data: {},
             errors: {
                 name : '',
@@ -32,19 +33,74 @@ class CouncilEditorNotice extends Component {
         this.props.data.refetch();
     }
 
-    send = () => {
-        if(true){
+    nextPage = () => {
+        if(!this.checkRequiredFields()){
             this.saveCouncil();
             this.props.nextStep();
         }
     }
 
+    checkRequiredFields() {
+
+        const { translate } = this.props;
+
+        let errors = {
+            name : '',
+            date_start : "",
+            date_start_2nd_call : "",
+            convene_text : '',
+        };
+
+        let hasError = false;
+
+        if(!this.state.data.name){
+            hasError = true;
+            errors.name = translate.new_enter_title
+        }
+
+        if(!this.state.data.date_start){
+            hasError = true;
+            errors.date_start = 'Este campo es obligatorio'
+        }
+
+        if(!this.state.data.convene_text){
+            hasError = true;
+            errors.convene_text = 'Este campo es obligatorio'
+        }
+        
+
+
+        this.setState({
+            alert: true,
+            errors: errors
+        });
+        
+        return hasError;
+    }
+
     saveCouncil = () => {
         this.props.saveCouncil({
             variables: {
-                data: urlParser({data: {council: this.state.data}})
+                data: urlParser({
+                    data: {
+                        council: {
+                            ...this.state.data,
+                            step: this.props.actualStep > 1? this.props.actualStep : 1
+                        }
+                    }
+                })
             }
         });
+    }
+
+    savePlaceAndClose = (council) => {
+        this.setState({
+            placeModal: false,
+            data: {
+                ...this.state.data,
+                ...council
+            }
+        })
     }
 
     componentWillReceiveProps(nextProps){
@@ -67,7 +123,11 @@ class CouncilEditorNotice extends Component {
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 <h4>{translate.date_time_place}</h4>
-                <h5>{`${translate.new_location_of_celebrate}: ${this.state.data.street}`}</h5>
+                <h5>{`${translate.new_location_of_celebrate}: `}{
+                    this.state.data.remote_celebration === 1 ? 
+                        translate.remote_celebration 
+                    : 
+                        `${this.state.data.street}, ${this.state.data.country}` }</h5>
                 <BasicButton
                     text={translate.change_location}
                     color={primary}
@@ -89,18 +149,20 @@ class CouncilEditorNotice extends Component {
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.send}
+                    onClick={this.nextPage}
                 />
                 <PlaceModal
                     open={this.state.placeModal}
                     close={() => this.setState({placeModal: false})}
                     place={this.state.place}
-                    council={this.props.data.council}
+                    translate={this.props.translate}
+                    saveAndClose={this.savePlaceAndClose}
+                    council={this.state.data}
                 />
                 <br/>
                 <SelectInput
                     floatingText={translate.council_type}
-                    value={this.state.data.council_type}
+                    value={this.state.data.council_type || ''}
                     onChange={(event, index) => {
                         console.log(event.nativeEvent)
                         this.setState({
@@ -131,8 +193,8 @@ class CouncilEditorNotice extends Component {
                 <TextInput
                     floatingText={translate.convene_header}
                     type="text"
-                    errorText={this.state.errors.header}
-                    value={this.state.data.name}
+                    errorText={this.state.errors.name}
+                    value={this.state.data.name || ''}
                     onChange={(event) => this.setState({
                         ...this.state,
                         data: {
@@ -144,7 +206,21 @@ class CouncilEditorNotice extends Component {
                 <RichTextInput
                     errorText=''
                     floatingText={translate.convene_info}
-                    value={this.state.data.convene_text}
+                    value={this.state.data.convene_text || ''}
+                    onChange={(event) => this.setState({
+                        ...this.state,
+                        data: {
+                            ...this.state.data,
+                            convene_text: event.nativeEvent.target.value
+                        }
+                    })}
+                />
+                <ErrorAlert
+                    title={translate.error}
+                    bodyText={translate.check_form}
+                    buttonAccept={translate.accept}
+                    open={this.state.alert}
+                    requestClose={() => this.setState({alert: false})}
                 />
             </div>
         );
@@ -169,3 +245,4 @@ export default compose(
         name: "saveCouncil"
     })
 )(CouncilEditorNotice);
+ 

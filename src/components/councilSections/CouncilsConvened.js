@@ -10,7 +10,7 @@ import { urlParser } from '../../utils';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 
 
-class CouncilDrafts extends Component {
+class CouncilsConvened extends Component {
 
     constructor(props){
         super(props);
@@ -75,9 +75,9 @@ class CouncilDrafts extends Component {
         return(
             <div style={{height: '10em', padding: '2em'}}>
                 <SectionTitle
-                    icon="pencil-square-o"
-                    title={translate.companies_draft}
-                    subtitle={translate.companies_draft_desc}
+                    icon="calendar-o"
+                    title={translate.companies_calendar}
+                    subtitle={translate.companies_calendar_desc}
                 />
                 {this.props.data.loading? 
                     <LoadingSection />
@@ -96,7 +96,7 @@ class CouncilDrafts extends Component {
                                         key={`participant${council.id}`}  
                                     >
                                         <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableRowColumn>
-                                        <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${council.step}`}>{council.name}</Link></TableRowColumn>
+                                        <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/prepare`}>{council.name}</Link></TableRowColumn>
                                         <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
                                     </TableRow>
                                 )
@@ -130,9 +130,9 @@ export default compose(graphql(submitRepository), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            type: "draft",
+            type: "calendar",
             companyID: props.company.id,
             isMeeting: false
         }
     })
-}))(CouncilDrafts);
+}))(CouncilsConvened);

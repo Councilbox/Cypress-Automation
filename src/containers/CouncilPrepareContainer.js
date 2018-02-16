@@ -1,11 +1,11 @@
 import React from 'react';
-import CouncilLivePage from "../components/councilLive/CouncilLivePage";
+import CouncilPreparePage from "../components/councilPrepare/CouncilPreparePage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const CouncilLiveContainer = ({ main, company, user, council, match, translate }) => {
+const CouncilPrepareContainer = ({ main, company, user, council, match, translate }) => {
     return (
-        <CouncilLivePage
+        <CouncilPreparePage
             translate={translate}
             companyID={match.params.company}
             councilID={match.params.id}
@@ -17,4 +17,5 @@ const mapStateToProps = (state) => ({
     translate: state.translate
 });
 
-export default connect(mapStateToProps)(withRouter(CouncilLiveContainer));
+
+export default connect(mapStateToProps)(withRouter(CouncilPrepareContainer));

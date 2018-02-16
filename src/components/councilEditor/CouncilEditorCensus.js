@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { FontIcon, MenuItem, Dialog} from 'material-ui';
+import { FontIcon, MenuItem, Dialog } from 'material-ui';
 import { BasicButton, SelectInput, LoadingSection } from '../displayComponents';
 import { primary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
@@ -51,7 +51,10 @@ class CouncilEditorCensus extends Component {
         this.props.saveCouncil({
             variables: {
                 data: urlParser({
-                    data: this.props.data.council
+                    data: {
+                        ...this.props.data.council,
+                        step: this.props.actualStep > 2? this.props.actualStep : 2
+                    }
                 })
             }
         });
@@ -65,6 +68,16 @@ class CouncilEditorCensus extends Component {
             });
         }
         
+    }
+
+    nextPage = () => {
+        this.saveDraft();
+        this.props.nextStep();
+    }
+
+    previousPage = () => {
+        this.saveDraft();
+        this.props.previousStep();
     }
 
     sendCensusChange = async () => {
@@ -139,7 +152,7 @@ class CouncilEditorCensus extends Component {
                 >
                     {
                         this.props.data.council.censuses.map((census) => {
-                            return <MenuItem value={census.id} key={`census${census.id}`}>{census.census_name}</MenuItem>
+                            return <MenuItem value={parseInt(census.id)} key={`census${census.id}`}>{census.census_name}</MenuItem>
                         })
                     }
                 </SelectInput>
@@ -164,14 +177,14 @@ class CouncilEditorCensus extends Component {
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.props.previousStep}
+                    onClick={this.previousPage}
                 />
                 <BasicButton
                     text={translate.table_button_next}
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.props.nextStep}
+                    onClick={this.nextPage}
                 />
                 <ParticipantsTable
                     participants={this.props.participantList.participants}

@@ -1,9 +1,10 @@
 import React, { Fragment } from 'react';
 import { Dialog } from 'material-ui';
 import BasicButton from './BasicButton';
+import { primary } from '../../styles/colors';
 
 
-const AlertConfirmDelete = ({ title, buttonAccept, buttonCancel, modal, open, requestClose, acceptAction, bodyText }) => {
+const AlertConfirm = ({ title, buttonAccept, buttonCancel, modal, open, requestClose, acceptAction, bodyText }) => {
 
     const buttons = 
         <Fragment>
@@ -17,7 +18,7 @@ const AlertConfirmDelete = ({ title, buttonAccept, buttonCancel, modal, open, re
                 text={buttonAccept}
                 textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
                 buttonStyle={{marginLeft: '1em'}}
-                color={'purple'}
+                color={primary}
                 onClick={acceptAction}
             />
         </Fragment>;
@@ -35,4 +36,4 @@ const AlertConfirmDelete = ({ title, buttonAccept, buttonCancel, modal, open, re
     );
 }
 
-export default AlertConfirmDelete;
+export default AlertConfirm;

@@ -4,7 +4,7 @@ import { BasicButton, TextInput, SelectInput } from '../displayComponents';
 import { primary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { urlParser, errorHandler } from '../../utils';
+import { urlParser, errorHandler, checkValidEmail } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
 
 class NewParticipantForm extends Component {
@@ -51,7 +51,7 @@ class NewParticipantForm extends Component {
     }
 
     sendNewParticipant = async () => {
-        if(this.checkRequiredFields()){
+        if(!this.checkRequiredFields()){
             const participant = this.state.data.participant;
             const { translate } = this.props;
 
@@ -72,6 +72,7 @@ class NewParticipantForm extends Component {
             if (response) {
                 if(response.data.addParticipant.code === 200){
                     this.props.refetch();
+                    this.resetValues();
                     this.props.close();
                 } else {
                     const errorField = errorHandler(response.data.addParticipant.code);
@@ -86,9 +87,84 @@ class NewParticipantForm extends Component {
         }  
     }
 
-    checkRequiredFields(){
-        return true;
+    checkRequiredFields() {
+        const { participant } = this.state.data;
+        
+        let errors = {
+            name: '',
+            lastname: '',
+            dni: '',
+            position: '',
+            email: '',
+            phone: '',
+            language: '',
+            num_participations: ''
+        };
+
+        let hasError = false;
+
+        if(!participant.name){
+            hasError = true;
+            errors.name = 'Este campo es obligatorio';
+        }
+        
+        if(!participant.lastname && this.state.participantType === 0){
+            hasError = true;
+            errors.lastname = 'Este campo es obligatorio';
+        }
+
+        if(!participant.dni){
+            hasError = true;
+            errors.dni = 'Este campo es obligatorio';
+        }
+
+        if(!participant.position){
+            hasError = true;
+            errors.position = 'Este campo es obligatorio';
+        }
+
+        if(!checkValidEmail(participant.email.toLocaleLowerCase())){
+            hasError = true;
+            errors.email = 'Se requiere un email válido';
+        }
+
+        if(!participant.phone){
+            hasError = true;
+            errors.phone = 'Este campo es obligatorio';
+        }
+
+        if(!participant.language){
+            hasError = true;
+            errors.language = 'Este campo es obligatorio';
+        }
+
+        if(!participant.num_participations){
+            hasError = true;
+            errors.num_participations = 'Este campo es obligatorio';
+        }
+
+        this.setState({
+            ...this.state,
+            errors: errors
+        });
+        
+        return hasError;
     }
+
+    close = () => {
+        this.resetValues();
+        this.props.close();
+    }
+
+    resetValues = () => {
+        this.setState({
+            data: {
+                ...this.props.data,
+                participant: {}
+            }
+        })
+    }
+
 
 
     _renderAddParticipantButtons(){
@@ -101,7 +177,7 @@ class NewParticipantForm extends Component {
                     color={'white'}
                     textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.props.close}
+                    onClick={this.close}
                     buttonStyle={{marginRight: '1em'}}
                 />
                 <BasicButton
@@ -123,9 +199,15 @@ class NewParticipantForm extends Component {
             <RadioButtonGroup 
                 name={translate.person_or_entity}
                 valueSelected={this.state.participantType}
-                onChange={(event, value) => this.setState({
-                    participantType: value
-                })}
+                onChange={(event, value) => {
+                    this.setState({
+                        participantType: value,
+                        data: {
+                            ...this.state.data,
+                            participant: ''
+                        }
+                    })
+                }}
                 style={{display: 'flex', flexDirection: 'row'}}
             >
                 <RadioButton
@@ -416,7 +498,7 @@ class NewParticipantForm extends Component {
                 title={translate.add_participant}
                 open={this.props.show}
                 autoScrollBodyContent
-                >
+            >
                 {this._renderAddParticipantTypeSelector()}
                 {this._renderAddParticipantForm()}
             </Dialog>

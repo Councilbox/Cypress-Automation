@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import TabsScreen from '../components/TabsScreen';
+import { TabsScreen } from '../components/displayComponents';
 import MeetingDrafts from '../components/meetingSections/MeetingDrafts';
 import MeetingsLive from '../components/meetingSections/MeetingsLive';
 import MeetingsTrash from '../components/meetingSections/MeetingsTrash';

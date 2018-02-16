@@ -8,6 +8,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
+import { countriesQuery } from '../../queries';
 
 class SignUpPay extends Component {
     constructor(props){
@@ -355,13 +356,5 @@ class SignUpPay extends Component {
 
 }
 
-export const countriesQuery = gql `
-  query CountriesList {
-    countries {
-      deno
-      id
-    }
-  }
-`;
 
 export default graphql(countriesQuery)(withApollo(SignUpPay));

@@ -1,12 +1,8 @@
 import React from 'react';
-import * as mainActions from '../actions/mainActions';
-import * as companyActions from '../actions/companyActions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { lightGrey } from '../styles/colors';
+import { lightGrey } from '../../styles/colors';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import '../styles/react-tabs.css';
-import { Link} from 'react-router-dom';
+import '../../styles/react-tabs.css';
+import { Link } from 'react-router-dom';
 
 class TabsScreen extends React.Component {
 
@@ -80,11 +76,4 @@ class TabsScreen extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(mainActions, dispatch),
-        companyActions: bindActionCreators(companyActions, dispatch)
-    };
-}
-
-export default connect(null, mapDispatchToProps)(TabsScreen);
+export default TabsScreen;

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { FontIcon, MenuItem} from 'material-ui';
-import { TextInput, BasicButton, SelectInput, LoadingSection } from "../displayComponents";
+import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import CouncilboxApi from '../../api/CouncilboxApi';
 import { getCouncilDataStepThree, saveCouncilData } from '../../queries';
 import { urlParser } from '../../utils';
+import { primary } from '../../styles/colors';
  
 class CouncilEditorAgenda extends Component {
 
@@ -42,7 +43,10 @@ class CouncilEditorAgenda extends Component {
             variables: {
                 data: urlParser({
                     data: {
-                        council: this.props.data.council.council,
+                        council: {
+                            ...this.props.data.council.council,
+                            step: this.props.actualStep > 3? this.props.actualStep : 3
+                        },
                         agendas: this.state.agendas
                     }
                 })
@@ -68,12 +72,19 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
+    previousPage = () => {
+        if(true){
+            this.saveAgendas();
+            this.props.previousStep();
+        }
+    }
+
     _renderAgendaBlock(agenda, index){
         const errors = this.state.errors;
         const { translate } = this.props;
 
         return(
-            <div key={`agenda${agenda.id}`} style={{width: '90%', border: '1px solid purple'}}>
+            <div key={`agenda${agenda.id}`} style={{width: '90%', border: `1px solid ${primary}`}}>
                 <TextInput
                     floatingText={translate.convene_header}
                     type="text"
@@ -109,7 +120,7 @@ class CouncilEditorAgenda extends Component {
                         }
                 </SelectInput>
 
-                <TextInput
+                <RichTextInput
                     floatingText={translate.description}
                     type="text"
                     errorText={errors.description}
@@ -142,7 +153,7 @@ class CouncilEditorAgenda extends Component {
                 {translate.agenda}
                 <BasicButton
                     text={translate.add_agenda_point}
-                    color={'purple'}
+                    color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">add</FontIcon>}
                     textPosition="after"
@@ -151,7 +162,7 @@ class CouncilEditorAgenda extends Component {
 
                 <BasicButton
                     text={translate.save}
-                    color={'purple'}
+                    color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
@@ -160,14 +171,14 @@ class CouncilEditorAgenda extends Component {
 
                 <BasicButton
                     text={translate.previous}
-                    color={'purple'}
+                    color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.props.previousStep}
+                    onClick={this.previousPage}
                 />
                 <BasicButton
                     text={translate.next}
-                    color={'purple'}
+                    color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.nextPage}

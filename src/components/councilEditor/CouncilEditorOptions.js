@@ -38,7 +38,12 @@ class CouncilEditorOptions extends Component {
         this.props.saveCouncil({
             variables: {
                 data: urlParser({
-                    data: this.state.data
+                    data: {
+                        council: {
+                            ...this.state.data.council,
+                            step: this.props.actualStep >= 5? this.props.actualStep : 5
+                        }
+                    }
                 })
             }
         })
@@ -48,6 +53,13 @@ class CouncilEditorOptions extends Component {
         if(true){
             this.saveDraft();
             this.props.nextStep();
+        }
+    }
+
+    previousPage = () => {
+        if(true){
+            this.saveDraft();
+            this.props.previousStep();
         }
     }
     
@@ -122,7 +134,7 @@ class CouncilEditorOptions extends Component {
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.props.previousStep}
+                    onClick={this.previousPage}
                 />
                 <BasicButton
                     text={translate.next}

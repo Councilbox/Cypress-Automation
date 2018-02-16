@@ -19,7 +19,7 @@
     "moment-timezone": "^0.5.14",
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
-    "react-bootstrap": "^0.32.0",
+    "react-bootstrap": "^0.32.1",
     "react-collapsible": "^2.0.3",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",

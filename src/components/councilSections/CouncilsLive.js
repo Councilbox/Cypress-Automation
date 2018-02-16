@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils } from '../../queries.js';
 import { graphql } from 'react-apollo';
-import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirmDelete } from '../displayComponents';
+import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm } from '../displayComponents';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
 import { urlParser } from '../../utils';
@@ -101,7 +101,7 @@ class CouncilsLive extends Component {
                                 )
                             })}
                         </Table>
-                        <AlertConfirmDelete 
+                        <AlertConfirm 
                             title={translate.send_to_trash}
                             bodyText={translate.send_to_trash_desc}
                             open={this.state.deleteModal}

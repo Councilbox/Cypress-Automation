@@ -3,7 +3,7 @@ import { Dialog } from 'material-ui';
 import BasicButton from './BasicButton';
 
 
-const ErrorAlert = ({ title, buttonAccept, buttonCancel, modal, open, requestClose, acceptAction, bodyText }) => {
+const ErrorAlert = ({ title, buttonAccept, open, requestClose, bodyText }) => {
 
     const buttons = 
         <Fragment>
@@ -12,7 +12,7 @@ const ErrorAlert = ({ title, buttonAccept, buttonCancel, modal, open, requestClo
                 textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
                 buttonStyle={{marginLeft: '1em'}}
                 color={'purple'}
-                onClick={acceptAction}
+                onClick={requestClose}
             />
         </Fragment>;
 
@@ -20,7 +20,7 @@ const ErrorAlert = ({ title, buttonAccept, buttonCancel, modal, open, requestClo
         <Dialog
             title={title}
             actions={buttons}
-            modal={modal}
+            modal={false}
             open={open}
             onRequestClose={requestClose}
         >

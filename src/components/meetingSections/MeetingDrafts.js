@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, DateWrapper, AlertConfirmDelete, SectionTitle, Table } from '../displayComponents';
+import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table } from '../displayComponents';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
 import gql from 'graphql-tag';
@@ -103,7 +103,7 @@ class MeetingDrafts extends Component {
                                 )
                             })}
                         </Table>
-                        <AlertConfirmDelete 
+                        <AlertConfirm 
                             title={translate.send_to_trash}
                             bodyText={translate.send_to_trash_desc}
                             open={this.state.deleteModal}

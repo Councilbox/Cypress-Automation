@@ -108,7 +108,7 @@ export const create = (companyID, type) => {
         return CouncilboxApi.createCouncil(companyID).then(response => {
             console.log(response);
             dispatch({type: 'COUNCIL_DATA', value: response});
-            bHistory.push(`/company/${companyID}/${type}/${response.council.id}`);
+            bHistory.push(`/company/${companyID}/${type}/${response.council.id}/1`);
         }).catch(error => {
             console.log(error);
         })

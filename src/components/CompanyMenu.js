@@ -24,6 +24,7 @@ class CompanyMenu extends React.Component {
                 submenus: [
                     { name: translate.dashboard_new, link: `/company/${props.company.id}/council/new` },
                     { name: translate.drafts, link: `/company/${props.company.id}/councils/drafts` },
+                    { name: translate.companies_calendar, link: `/company/${props.company.id}/councils/calendar` },                    
                     { name: translate.companies_live, link: `/company/${props.company.id}/councils/live` },
                     { name: translate.companies_writing, link: `/company/${props.company.id}/councils/writing` },
                     { name: translate.signature_trash, link: `/company/${props.company.id}/councils/trash` },

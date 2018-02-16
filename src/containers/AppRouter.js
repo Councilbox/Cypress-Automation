@@ -4,8 +4,6 @@ import LoginContainer from './LoginContainer';
 import CouncilContainer from './CouncilContainer';
 import SignUpContainer from './SignUpContainer';
 import MeetingsContainer from './MeetingsContainer';
-import CouncilLiveContainer from './CouncilLiveContainer';
-import CouncilWritingContainer from './CouncilWritingContainer';
 import Welcome from '../components/Welcome';
 import NotFound from "../components/NotFound";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
@@ -13,6 +11,8 @@ import {connect} from "react-redux";
 import CompanySideMenu from '../components/CompanySideMenu';
 import DashboardContainer from './DashboardContainer';
 import CouncilEditorContainer from './CouncilEditorContainer';
+import CouncilPrepareContainer from './CouncilPrepareContainer';
+import CouncilLiveContainer from './CouncilLiveContainer';
 import MeetingEditorContainer from './MeetingEditorContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
@@ -68,9 +68,9 @@ class AppRouter extends Component {
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.company.id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />
                             <Route exact path="/company/:company/council/new" component={CreateCouncil} />
-                            <Route exact path="/company/:company/council/:id" component={CouncilEditorContainer} />
-                            <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />
-                            <Route exact path="/company/:company/council/:id/writing" component={CouncilWritingContainer} />                            
+                            <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />    
+                            <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />                                                        
+                            <Route exact path="/company/:company/council/:id/:step" component={CouncilEditorContainer} />                           
                             <Route path="/company/:company/councils/:section" component={CouncilContainer} />
                             <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />

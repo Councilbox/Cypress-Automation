@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { FontIcon, MenuItem} from 'material-ui';
 import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection } from "../displayComponents";
 import { primary, secondary } from '../../styles/colors';
-import PlaceModal from './../PlaceModal';
 import { withRouter } from 'react-router-dom';
-import { graphql } from 'react-apollo';
-import { getCouncilDataStepSix } from '../../queries';
+import { graphql, compose } from 'react-apollo';
+import { urlParser } from '../../utils';
+import { getCouncilDataStepSix, sendConvene } from '../../queries';
 
 class CouncilEditorPreview extends Component {
 
@@ -13,10 +13,20 @@ class CouncilEditorPreview extends Component {
         this.props.data.refetch();
     }
 
-    send = () => {
-        if(true){
-            this.props.nextStep();
+    send = async () => {
+        this.props.data.loading = true;
+        const response = await this.props.mutate({
+            variables: {
+                data: urlParser({data: {
+                    council: this.props.data.council.council
+                }})
+            }
+        });
+
+        if(response){
+            
         }
+
     }
 
     render(){
@@ -30,14 +40,6 @@ class CouncilEditorPreview extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-                <BasicButton
-                    text={translate.save}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
-                    textPosition="after"
-                    onClick={this.saveAgendas} 
-                />
 
                 <BasicButton
                     text={translate.previous}
@@ -47,11 +49,11 @@ class CouncilEditorPreview extends Component {
                     onClick={this.props.previousStep}
                 />
                 <BasicButton
-                    text={translate.next}
+                    text={translate.new_save_and_send}
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
-                    onClick={this.nextPage}
+                    onClick={this.send}
                 />
                 <div
                     dangerouslySetInnerHTML={{__html: this.props.data.council.previewHtml}}
@@ -62,15 +64,19 @@ class CouncilEditorPreview extends Component {
     }
 }
 
-export default graphql(getCouncilDataStepSix, {
-    name: "data",
-    options: (props) => ({
-        variables: {
-            councilInfo: {
-                companyID: props.companyID,
-                councilID: props.councilID,
-                step: 6
+export default compose(
+    graphql(sendConvene), 
+    
+    graphql(getCouncilDataStepSix, {
+        name: "data",
+        options: (props) => ({
+            variables: {
+                councilInfo: {
+                    companyID: props.companyID,
+                    councilID: props.councilID,
+                    step: 6
+                }
             }
-        }
+        })
     })
-})(withRouter(CouncilEditorPreview));
+)(withRouter(CouncilEditorPreview));

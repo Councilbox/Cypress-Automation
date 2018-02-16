@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TextField, RaisedButton, FontIcon } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
+import { checkValidEmail } from '../../utils';
 
 class SignUpUser extends Component {
 
@@ -42,8 +43,6 @@ class SignUpUser extends Component {
             username: '',
             password: ''
         };
-        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
 
         let hasError = false;
 
@@ -52,7 +51,7 @@ class SignUpUser extends Component {
             errors.firstName = 'Este campo es obligatorio'
         }
 
-        if(!re.test(this.state.data.email.toLowerCase())){
+        if(!checkValidEmail(this.state.data.email.toLowerCase())){
             hasError = true;
             errors.email = 'Por favor introduce un email válido'
         }
