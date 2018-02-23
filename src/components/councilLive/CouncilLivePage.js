@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu } from "../displayComponents";
-import ParticipantsTable from '../councilEditor/ParticipantsTable';
-import NewParticipantForm from '../councilEditor/NewParticipantForm';
-import { primary, secondary } from '../../styles/colors';
+import { LoadingMainApp } from "../displayComponents";
+import LiveHeader from './LiveHeader';
+import { lightGrey } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
-import { councilDetails, participantsQuery, majorities, quorums, votationTypes } from '../../queries';
+import { councilFullData, participantsQuery, majorities, quorums, votationTypes, getVideoHTML } from '../../queries';
+import AgendaManager from './AgendaManager';
+
+const minVideoWidth = 30;
+const minVideoHeight = '50%';
 
 class CouncilLivePage extends Component {
 
@@ -13,7 +16,13 @@ class CouncilLivePage extends Component {
         super(props);
         this.state = { 
             participants: false,
-            addParticipantModal: false
+            confirmModal: false,
+            selectedPoint: 0,
+            addParticipantModal: false,
+            showParticipants: false,
+            videoWidth: minVideoWidth,
+            videoHeight: minVideoHeight,
+            fullScreen: false
         }
     }
 
@@ -27,20 +36,78 @@ class CouncilLivePage extends Component {
         });
     }
 
+    checkVideoFlags = () => {
+        const council = this.props.data.councilData;
+        return council.state === 20 && council.council_type === 0;
+
+    }
+
+    checkLoadingComplete = () => {
+        return this.props.data.loading || this.props.participantList.loading;
+    }
+
     render(){
-        const council = this.props.data.councilDetails;
+        const council = this.props.data.councilData;
         const { translate } = this.props;
 
-        if(this.props.data.loading){
+        if(this.checkLoadingComplete()){
             return(
-                <LoadingSection />
+                <LoadingMainApp />
             );
         }
 
         return(
-            <CardPageLayout title={translate.open_room}>
-                <div>Preparando abrir sala</div>
-            </CardPageLayout>
+            <div style={{height: '100vh', overflow: 'hidden', backgroundColor: lightGrey, fontSize: '0.95em'}}>
+                <LiveHeader
+                    logo={this.props.company.logo}
+                    companyName={this.props.company.business_name}
+                    councilName={council.name}
+                    translate={translate}
+                />
+                
+                <div style={{display: 'flex', width: '100%', height: '100%', flexDirection: 'row'}}>
+                    {this.checkVideoFlags() &&
+                        <div style={{display: 'flex', flexDirection: this.state.fullScreen? 'row' : 'column', width: `${this.state.videoWidth}%`, height: '100%', position: 'relative'}}>
+                            {this.state.fullScreen && 
+                                <div style={{height: '95vh', width: '7%', overflow: 'auto', backgroundColor: 'black'}}>
+                                    
+                                </div>
+                            }
+    
+                            {this.props.videoHTML.getVideoHTML &&
+                                <Fragment>
+                                    <div style={{height: this.state.videoHeight, width: '100%', position: 'relative'}}>
+                                        {//<div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: this.props.videoHTML.getVideoHTML.html_video_council}}/>
+                                        }
+                                        {!this.state.fullScreen?
+                                            <FontIcon className="material-icons" color={lightGrey} style={{position: 'absolute', right: '10%', bottom: '7%'}} onClick={() => this.setState({videoWidth: 94, videoHeight: '90vh', fullScreen: true})}>zoom_in</FontIcon>
+                                        :
+                                            <FontIcon className="material-icons" color={lightGrey} style={{position: 'absolute', right: '10%', bottom: '7%'}} onClick={() => this.setState({videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}>zoom_out</FontIcon>
+                                        }
+                                    </div>
+                                </Fragment>
+                            }
+                            {!this.state.fullScreen &&
+                                <div style={{height: '95vh', width: '100%', overflow: 'auto', backgroundColor: 'black'}}>
+
+                                </div>
+                            }
+                        </div>
+                    }
+
+                    <div style={{width:`${this.checkVideoFlags()? 100 - this.state.videoWidth : 100}%`, height: '100%'}}>
+                        <AgendaManager 
+                            council={council}
+                            translate={translate}
+                            fullScreen={this.state.fullScreen}
+                            refetch={this.props.data.refetch}
+                            participants={this.props.participantList.participants}
+                            openMenu={() => this.setState({ videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}
+                        />
+    
+                    </div>
+                </div>
+            </div>
         );
     }
 }
@@ -54,10 +121,19 @@ export default  compose(
         name: 'quorums'
     }),
 
+    graphql(getVideoHTML, {
+        name: 'videoHTML',
+        options: (props) => ({
+            variables: {
+                councilID: props.councilID
+            }
+        })
+    }),
+
     graphql(votationTypes, {
         name: 'votations'
     }),
-    
+
     graphql(participantsQuery, {
         name: "participantList",
         options: (props) => ({
@@ -66,7 +142,7 @@ export default  compose(
             }
         })
     }),
-    graphql(councilDetails, {
+    graphql(councilFullData, {
         name: "data",
         options: (props) => ({
             variables: {
@@ -79,3 +155,7 @@ export default  compose(
         })
     })
 )(CouncilLivePage);
+
+/**
+ * 
+ */

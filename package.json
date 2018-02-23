@@ -20,7 +20,7 @@
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
     "react-bootstrap": "^0.32.1",
-    "react-collapsible": "^2.0.3",
+    "react-collapsible": "^2.0.4",
     "react-dom": "^16.2.0",
     "react-fontawesome": "^1.6.1",
     "react-moment": "^0.7.0",

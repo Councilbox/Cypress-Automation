@@ -1,11 +1,18 @@
 import React from 'react';
 import CouncilLivePage from "../components/councilLive/CouncilLivePage";
 import {connect} from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 
-const CouncilLiveContainer = ({ main, company, user, council, match, translate }) => {
+const CouncilLiveContainer = ({ main, company, match, translate }) => {
+    if(!main.isLogged){
+        return(
+            <Redirect to="/" />
+        );
+    }
+    
     return (
         <CouncilLivePage
+            company={company}
             translate={translate}
             companyID={match.params.company}
             councilID={match.params.id}
@@ -14,7 +21,9 @@ const CouncilLiveContainer = ({ main, company, user, council, match, translate }
 }
 
 const mapStateToProps = (state) => ({
-    translate: state.translate
+    translate: state.translate,
+    company: state.company,
+    main: state.main
 });
 
 export default connect(mapStateToProps)(withRouter(CouncilLiveContainer));

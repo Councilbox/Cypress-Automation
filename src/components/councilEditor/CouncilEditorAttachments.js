@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { FontIcon, IconButton } from 'material-ui';
+import { FontIcon } from 'material-ui';
 import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { primary, secondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
+import AttachmentList from './AttachmentList';
 import { getCouncilDataStepFour, saveAttachmentMutation, deleteAttachmentMutation, saveCouncilData } from '../../queries';
 import { urlParser } from '../../utils';
 
@@ -31,7 +31,7 @@ class CouncilEditorAttachments extends Component {
         let totalSize = 0;
         if(attachments.length !== 0){
             if(attachments.length > 1){
-                totalSize = attachments.reduce((a, b) => a + parseInt(b.filesize), 0)
+                totalSize = attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0)
             }else{
                 totalSize = attachments[0].filesize;
             }
@@ -98,8 +98,7 @@ class CouncilEditorAttachments extends Component {
     }
 
     deleteAttachment = async (attachmentID) => {
-
-        const response = this.props.deleteAttachment({
+        this.props.deleteAttachment({
             variables: {
                 attachment: {
                     attachment_id : attachmentID,
@@ -153,23 +152,26 @@ class CouncilEditorAttachments extends Component {
 
     render(){
         const { translate } = this.props;
+
         if(this.props.data.loading){
             return(
                 <LoadingSection />
             );
         }
 
+        const { attachments } = this.props.data.council;
+
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 {translate.attachment_files.toUpperCase()}
-                {this.props.data.council.attachments.length < 5?
+                {attachments.length < 5?
                     <FileUploadButton 
-                    text={translate.new_add}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">publish</FontIcon>}
-                    onChange={this.handleFile}
-                />
+                        text={translate.new_add}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                        icon={<FontIcon className="material-icons">publish</FontIcon>}
+                        onChange={this.handleFile}
+                    />
                 : 
                     'HAS LLEGADO AL LÍMITE'
                 }
@@ -206,19 +208,11 @@ class CouncilEditorAttachments extends Component {
                     style={{height: '1.2em'}}
                 />
 
-                {this.props.data.council.attachments.map((attachment) => {
-                    return(
-                        <div key={attachment.id}>
-                            {attachment.filename}
-                            <IconButton 
-                                iconStyle={{color: primary}}
-                                onClick={() => this.deleteAttachment(attachment.id)}
-                            >
-                                <DeleteForever />
-                            </IconButton>
-                        </div>
-                    );
-                })}
+                <AttachmentList
+                    attachments={attachments}
+                    deleteAction={this.deleteAttachment}
+                />
+
                 {this.state.uploading && 
                     <div style={{width: '30%', float: 'left'}}>
                         <LoadingSection size={25} /> 

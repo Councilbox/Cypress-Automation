@@ -1,6 +1,8 @@
+export { default as AgendaNumber } from './AgendaNumber';
 export { default as AlertConfirm } from './AlertConfirm';
 export { default as BasicButton } from './BasicButton';
 export { default as CardPageLayout } from './CardPageLayout';
+export { default as CollapsibleSection } from './CollapsibleSection';
 export { default as DateWrapper } from './DateWrapper';
 export { default as DateTimePicker } from './DateTimePicker';
 export { default as DropDownMenu } from './DropDownMenu';

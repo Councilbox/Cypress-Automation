@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import {TextField, FontIcon, SelectField, MenuItem, Checkbox } from 'material-ui';
+import { FontIcon, SelectField, MenuItem, Checkbox } from 'material-ui';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import { BasicButton, TextInput, LoadingSection } from '../displayComponents';
-import CouncilboxApi from '../../api/CouncilboxApi';
 import { getCouncilDataStepFive, majorities, saveCouncilData } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import { urlParser } from '../../utils';
@@ -177,22 +176,42 @@ class CouncilEditorOptions extends Component {
                         })
                     }
                 />
-                <Checkbox
-                    label={translate.full_video_record}
-                    checked={this.state.data.council.full_video_record === 0? false : true}
-                    onCheck={(event, isInputChecked) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                council: {
-                                    ...this.state.data.council,
-                                    full_video_record: isInputChecked? 1 : 0
+                {this.state.data.council.council_type === 0 ?
+                    <Checkbox
+                        label={translate.full_video_record}
+                        checked={this.state.data.council.full_video_record === 0? false : true}
+                        onCheck={(event, isInputChecked) => this.setState({
+                                ...this.state,
+                                data: {
+                                    ...this.state.data,
+                                    council: {
+                                        ...this.state.data.council,
+                                        full_video_record: isInputChecked? 1 : 0
+                                    }
                                 }
-                            }
-                           
-                        })
-                    }
-                />
+                            
+                            })
+                        }
+                    /> 
+                :
+                    <Checkbox
+                        label={translate.auto_close}
+                        checked={this.state.data.council.auto_close === 0? false : true}
+                        onCheck={(event, isInputChecked) => this.setState({
+                                ...this.state,
+                                data: {
+                                    ...this.state.data,
+                                    council: {
+                                        ...this.state.data.council,
+                                        auto_close: isInputChecked? 1 : 0
+                                    }
+                                }
+                            
+                            })
+                        }
+                    />
+                }
+                
                 <div>{translate.security}</div>
                 <RadioButtonGroup 
                     name="security"

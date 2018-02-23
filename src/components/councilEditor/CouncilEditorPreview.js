@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { FontIcon, MenuItem} from 'material-ui';
-import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection } from "../displayComponents";
+import { BasicButton, LoadingSection } from "../displayComponents";
 import { primary, secondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';

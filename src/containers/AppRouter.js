@@ -12,7 +12,6 @@ import CompanySideMenu from '../components/CompanySideMenu';
 import DashboardContainer from './DashboardContainer';
 import CouncilEditorContainer from './CouncilEditorContainer';
 import CouncilPrepareContainer from './CouncilPrepareContainer';
-import CouncilLiveContainer from './CouncilLiveContainer';
 import MeetingEditorContainer from './MeetingEditorContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
@@ -54,7 +53,7 @@ class AppRouter extends Component {
 
         return (
             this.props.main.isLogged?
-                <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>
+                <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>                                                      
                     <CompanySideMenu
                         width={this.state.sideWidth}
                         company={this.props.company}
@@ -68,8 +67,7 @@ class AppRouter extends Component {
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.company.id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />
                             <Route exact path="/company/:company/council/new" component={CreateCouncil} />
-                            <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />    
-                            <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />                                                        
+                            <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
                             <Route exact path="/company/:company/council/:id/:step" component={CouncilEditorContainer} />                           
                             <Route path="/company/:company/councils/:section" component={CouncilContainer} />
                             <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            

@@ -1,6 +1,5 @@
 import React from 'react';
 import { CardPageLayout } from '../displayComponents';
-import { lightGrey } from '../../styles/colors';
 import { Step, Stepper, StepLabel } from 'material-ui/Stepper';
 import CouncilEditorNotice from './CouncilEditorNotice';
 import CouncilEditorCensus from './CouncilEditorCensus';
@@ -16,14 +15,14 @@ class CouncilEditorPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: parseInt(this.props.step),
-            actualStep: parseInt(this.props.step)
+            step: parseInt(this.props.step, 10),
+            actualStep: parseInt(this.props.step, 10)
         };
     }
 
     componentWillReceiveProps(nextProps){
         this.setState({
-            step: parseInt(nextProps.step)
+            step: parseInt(nextProps.step, 10)
         })
     }
 

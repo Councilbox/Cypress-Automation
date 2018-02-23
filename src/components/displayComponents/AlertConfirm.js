@@ -4,7 +4,7 @@ import BasicButton from './BasicButton';
 import { primary } from '../../styles/colors';
 
 
-const AlertConfirm = ({ title, buttonAccept, buttonCancel, modal, open, requestClose, acceptAction, bodyText }) => {
+const AlertConfirm = ({ title, buttonAccept, buttonCancel, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
 
     const buttons = 
         <Fragment>
@@ -14,13 +14,16 @@ const AlertConfirm = ({ title, buttonAccept, buttonCancel, modal, open, requestC
                 primary={true}
                 onClick={requestClose}
             />
-            <BasicButton
-                text={buttonAccept}
-                textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                buttonStyle={{marginLeft: '1em'}}
-                color={primary}
-                onClick={acceptAction}
-            />
+            {!hideAccept &&
+                <BasicButton
+                    text={buttonAccept}
+                    textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                    buttonStyle={{marginLeft: '1em'}}
+                    color={primary}
+                    onClick={acceptAction}
+                />
+            }
+
         </Fragment>;
 
     return(

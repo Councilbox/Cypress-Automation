@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, AlertConfirm } from "../displayComponents";
+import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu } from "../displayComponents";
 import ParticipantsTable from '../councilEditor/ParticipantsTable';
 import NewParticipantForm from '../councilEditor/NewParticipantForm';
 import { primary, secondary } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 import DateHeader from './DateHeader';
-import { Link } from "react-router-dom";
 import { graphql, compose } from 'react-apollo';
 import { bHistory } from '../../containers/App';
 import { councilDetails, participantsQuery } from '../../queries';

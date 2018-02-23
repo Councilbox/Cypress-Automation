@@ -5,7 +5,6 @@ import { primary } from '../../styles/colors';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { countriesQuery } from "../../queries";
-import CouncilboxApi from '../../api/CouncilboxApi';
 
 class PlaceModal extends Component {
 

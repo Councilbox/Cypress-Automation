@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import AppRouter from './AppRouter';
-import { Router } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import CouncilLiveContainer from './CouncilLiveContainer';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
@@ -54,7 +55,10 @@ class App extends Component {
             <ApolloProvider client={client}>
                 <Provider store={store}>
                     <Router history={bHistory}>
-                        <AppRouter />
+                        <Switch>
+                            <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />
+                            <Route path="/" component={AppRouter} />
+                        </Switch>
                     </Router>
                 </Provider>
             </ApolloProvider>

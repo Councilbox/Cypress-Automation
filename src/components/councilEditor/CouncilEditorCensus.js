@@ -152,7 +152,7 @@ class CouncilEditorCensus extends Component {
                 >
                     {
                         this.props.data.council.censuses.map((census) => {
-                            return <MenuItem value={parseInt(census.id)} key={`census${census.id}`}>{census.census_name}</MenuItem>
+                            return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.census_name}</MenuItem>
                         })
                     }
                 </SelectInput>

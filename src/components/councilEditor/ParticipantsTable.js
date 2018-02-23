@@ -8,7 +8,6 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { urlParser } from '../../utils';
 
-
 class ParticipantsTable extends Component {
 
     _renderDeleteIcon(participantID){
@@ -39,11 +38,10 @@ class ParticipantsTable extends Component {
 
     render(){
         const { translate } = this.props;
-
         return(
             <Table
                 headers={[
-                    {name: translate.participant_data},
+                    {name: translate.name},
                     {name: translate.dni},
                     {name: translate.email},
                     {name: translate.phone_number},
@@ -58,7 +56,7 @@ class ParticipantsTable extends Component {
                         <TableRow
                             selectable={false}
                             hoverable
-                            key={`participant${participant.id}`}  
+                            key={`participant${participant.id}`} 
                         >
                             <TableRowColumn>{participant.name}</TableRowColumn>
                             <TableRowColumn>{participant.dni}</TableRowColumn>
@@ -66,8 +64,7 @@ class ParticipantsTable extends Component {
                             <TableRowColumn>{participant.phone}</TableRowColumn>
                             <TableRowColumn>{participant.position}</TableRowColumn>     
                             <TableRowColumn>{participant.num_participations}</TableRowColumn>
-                            <TableRowColumn>{this._renderDeleteIcon(participant.id)}</TableRowColumn>
-                                                            
+                            <TableRowColumn>{this._renderDeleteIcon(participant.id)}</TableRowColumn>                  
                         </TableRow>
                     )
                 })}

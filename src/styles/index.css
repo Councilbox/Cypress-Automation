@@ -3,3 +3,12 @@ body {
   padding: 0;
   font-family: 'Lato';
 }
+
+.temp_video {
+  width: 100%;
+  height: 100%;
+}
+
+.withShadow {
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
+}
