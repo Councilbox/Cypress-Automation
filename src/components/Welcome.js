@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import { Card, CardActions,CardText, RaisedButton, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
+import { getPrimary } from '../styles/colors';
 
 
 class SignUpPage extends React.Component {
@@ -17,8 +18,9 @@ class SignUpPage extends React.Component {
     }
 
     render(){
+        const primary = getPrimary();
         return(
-            <div style = {{backgroundColor: 'purple', display: 'flex', flexDirection: 'column', height:'100vh', width: '100%', alignItems: 'center', justifyContent: 'flex'}} >
+            <div style = {{backgroundColor: primary, display: 'flex', flexDirection: 'column', height:'100vh', width: '100%', alignItems: 'center', justifyContent: 'flex'}} >
                 <Header />
                 <h3 style={{color: 'white'}}>Bienvenido/a</h3>
                 <Card style={{width: '30%', height: '70%', padding: 0, paddingBottom: '4em', borderRadius: '0.3em', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}} containerStyle={{padding: 0}}>
@@ -33,7 +35,7 @@ class SignUpPage extends React.Component {
                         <Link to='/'>
                             <RaisedButton
                                 label="Comenzar"
-                                backgroundColor={'purple'}
+                                backgroundColor={primary}
                                 style={{width: '70%', margin: '2em'}}
                                 labelStyle={{color: 'white', fontWeight: '700', marginRight: '0.2em'}}
                                 labelPosition="before"

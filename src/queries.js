@@ -230,6 +230,7 @@ export const councilFullData = gql `
         social_capital_present
         social_capital_remote
         sortable
+        quality_vote_sense
         subject_type
         total_manual
         total_votings
@@ -719,9 +720,107 @@ export const deleteAgendaAttachment = gql `
   }
 `
 
+export const getComments = gql `
+  query getComments($request: Request) {
+      getComments(request: $request) {
+        agenda_id
+        be_on_record
+        cfs_code
+        code
+        comment
+        council_id
+        date
+        delegate_email
+        delegate_id
+        delegate_name
+        delegate_position
+        delegate_surname
+        email
+        id
+        name
+        num_participations
+        participant_email
+        participant_id
+        position
+        present_vote
+        req_code
+        req_text
+        state
+        subject_type
+        surname
+        vote
+      }
+  }
+`
+
+export const getCompanies = gql `
+  query getCompanies{
+    companies{
+      address
+      alias
+      business_name
+      city
+      country
+      country_state
+      creator_id
+      demo
+      domain
+      id
+      language
+      link_key
+      logo
+      tin
+      type
+      zipcode
+    }
+  }
+`;
+
+export const getVotings = gql `
+  query getVotings($request: Request) {
+      getVotings(request: $request) {
+        agenda_id
+        be_on_record
+        cfs_code
+        code
+        comment
+        council_id
+        date
+        delegate_email
+        delegate_id
+        delegate_name
+        delegate_position
+        delegate_surname
+        email
+        id
+        name
+        num_participations
+        participant_email
+        participant_id
+        position
+        present_vote
+        req_code
+        req_text
+        state
+        subject_type
+        surname
+        vote
+      }
+  }
+`
+
 export const openRoom = gql `
   mutation openRoom($data: String!) {
       openRoom(data: $data) {
+        code
+        msg
+      }
+  }
+`
+
+export const changeRequestWord = gql `
+  mutation changeRequestWord($wordState: WordState) {
+      changeRequestWord(wordState: $wordState) {
         code
         msg
       }
@@ -745,6 +844,51 @@ export const endCouncil = gql `
       }
   }
 `
+
+export const updateOrder = gql `
+  mutation updateOrder($data: String!) {
+      updateOrder(data: $data) {
+        code
+        msg
+      }
+  }
+`
+
+export const addAgenda = gql `
+  mutation addAgenda($data: String!) {
+      addAgenda(data: $data) {
+        code
+        msg
+      }
+  }
+`
+
+export const liveRecount = gql `
+  query liveRecount($councilID: ID!) {
+      liveRecount(councilID: $councilID) {
+        council_id
+        num_current_remote
+        num_no_participate
+        num_present
+        num_remote
+        num_right_voting
+        num_total
+        part_current_remote
+        part_no_participate
+        part_present
+        part_remote
+        part_right_voting
+        part_total
+        social_capital_current_remote
+        social_capital_no_participate
+        social_capital_present
+        social_capital_remote
+        social_capital_right_voting
+        social_capital_total
+      }
+  }
+`
+
 
 export const getVideoHTML = gql `
   query getVideoHTML($councilID: ID!) {
@@ -785,6 +929,7 @@ export const openVoting = gql `
   }
 `
 
+
 export const closeVoting = gql `
   mutation closeVoting($agenda: AgendaInfo) {
       closeVoting(agenda: $agenda) {
@@ -793,3 +938,31 @@ export const closeVoting = gql `
       }
   }
 `
+
+
+export const liveParticipants = gql `
+  query liveParticipants($councilID: ID!){
+    liveParticipants(councilID: $councilID){
+      blocked
+      council_id
+      council_prototype
+      council_video_mode
+      date
+      dni
+      email
+      id
+      last_date_connection
+      name
+      num_participations
+      participant_id
+      phone
+      position
+      real_position
+      request_word
+      state
+      surname
+    }
+  }
+
+`;
+

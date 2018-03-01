@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { RadioButton, RadioButtonGroup, FontIcon, MenuItem, Dialog} from 'material-ui';
 import { BasicButton, TextInput, SelectInput } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { urlParser, errorHandler, checkValidEmail } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
+let primary = getPrimary();
 
 class NewParticipantForm extends Component {
 
@@ -169,6 +170,7 @@ class NewParticipantForm extends Component {
 
     _renderAddParticipantButtons(){
         const { translate } = this.props;
+        primary = getPrimary();
 
         return(
             <Fragment>

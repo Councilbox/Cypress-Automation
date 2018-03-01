@@ -7,6 +7,7 @@ import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import { urlParser } from '../../utils';
+import { getPrimary } from '../../styles/colors';
 
 class CouncilsWriting extends Component {
 
@@ -22,9 +23,10 @@ class CouncilsWriting extends Component {
     }
 
     _renderDeleteIcon = (councilID) => {
+        const primary = getPrimary();
         return(
             <IconButton 
-                iconStyle={{color: 'purple'}}
+                iconStyle={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
             >
                 <DeleteForever />

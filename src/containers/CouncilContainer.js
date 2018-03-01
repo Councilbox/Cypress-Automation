@@ -55,7 +55,7 @@ const CouncilContainer = ({match, company, translate}) => {
 }
 
 const mapStateToProps = (state) => ({
-    company: state.company,
+    company: state.company.list[state.company.selected],
     translate: state.translate
 });
 

@@ -7,9 +7,9 @@ const DateTimePickerWrapper = ({ onChange, floatingText, format, value }) => (
     <DateTimePicker 
         onChange={onChange}
         floatingLabelFixed
-        floatingLabelText = {floatingText}
-        format= {format}
-        value= {value}
+        floatingLabelText={floatingText}
+        format={format}
+        value={value}
         DatePicker={DatePickerDialog}
         TimePicker={TimePickerDialog}
     />

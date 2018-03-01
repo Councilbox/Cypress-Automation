@@ -3,7 +3,7 @@ import { FontIcon, Checkbox } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
 import CouncilboxApi from '../../api/CouncilboxApi';
 import { SelectInput, BasicButton, TextInput } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
 import gql from 'graphql-tag';
@@ -202,11 +202,13 @@ class SignUpPay extends Component {
     }
 
     render(){
-        const { translate } = this.props;
-
         if(this.props.data.loading){
             return <p>Loading...</p>;
         }
+
+        const { translate } = this.props;
+        const primary = getPrimary();
+        
         return(
             <div>
                 Facturación

@@ -20,14 +20,28 @@ class AgendaManager extends Component {
 
     render(){
         const { council, translate } = this.props;
+        let agendas = [...council.agendas];
+        agendas.sort((a, b) => {
+            if (a.order_index > b.order_index) {
+              return 1;
+            }
+            if (a.order_index < b.order_index) {
+              return -1;
+            }
+            return 0;
+        });
 
         if(this.props.fullScreen){
             return(
                 <Card style={{width: '100%', height: '100%', overflow: 'auto', backgroundColor: 'white'}} onClick={this.props.openMenu} >
                     <AgendaSelector
-                        agendas={council.agendas}
+                        agendas={agendas}
+                        council={council}
                         selected={this.state.selectedPoint}
                         onClick={this.changeSelectedPoint}
+                        translate={translate}
+                        councilID={council.id}
+                        refetch={this.props.refetch}
                     />
                 </Card>
             )
@@ -37,14 +51,20 @@ class AgendaManager extends Component {
             <div style={{width: '100%', height: '100%', display: 'flex', flexDirection: 'row'}}>
                 <Card style={{width: '5em', height: '100%', overflow: 'auto', backgroundColor: 'white'}} >
                     <AgendaSelector
-                        agendas={council.agendas}
+                        agendas={agendas}
+                        council={council}
                         selected={this.state.selectedPoint}
                         onClick={this.changeSelectedPoint}
+                        translate={translate}
+                        councilID={council.id}
+                        refetch={this.props.refetch}
                     />
                 </Card>
-                <div style={{width: '94%', height: '5em', padding: '0', display: 'flex', flexDirection: 'row'}}>
+                <div style={{width: '94%', height: '92vh', padding: '0', display: 'flex', flexDirection: 'row'}}>
                     <AgendaDetailsSection
                         council={council}
+                        agendas={agendas}
+                        majorities={this.props.majorities}
                         selectedPoint={this.state.selectedPoint}
                         attachments={council.agenda_attachments}
                         participants={this.props.participants}

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { openAgenda, closeAgenda } from '../../queries';
 import { BasicButton } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 
 class ToggleAgendaButton extends Component {
@@ -58,20 +58,24 @@ class ToggleAgendaButton extends Component {
     }
 
     render(){
-        const { translate, agenda } = this.props;
+        const { translate, agenda, active } = this.props;
+        const primary = getPrimary();
 
         return(
             <Fragment>
                 {agenda.point_state === 0?
-                    <BasicButton
-                        text={translate.discuss_agenda}
-                        color={'white'}
-                        textPosition="before"
-                        icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }}color={primary}>lock_open</FontIcon>}
-                        buttonStyle={{width: '11em'}}
-                        onClick={this.openAgenda}
-                        textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
-                    />
+                    active?
+                        <BasicButton
+                            text={translate.discuss_agenda}
+                            color={'white'}
+                            textPosition="before"
+                            icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }}color={primary}>lock_open</FontIcon>}
+                            buttonStyle={{width: '11em'}}
+                            onClick={this.openAgenda}
+                            textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
+                        />
+                    :
+                        <span>{translate.warning_unclosed_agenda}</span>
                 :
                     <BasicButton
                         text={translate.close_point}

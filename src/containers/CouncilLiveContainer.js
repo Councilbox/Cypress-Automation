@@ -22,7 +22,7 @@ const CouncilLiveContainer = ({ main, company, match, translate }) => {
 
 const mapStateToProps = (state) => ({
     translate: state.translate,
-    company: state.company,
+    company: state.company.list[state.company.selected],
     main: state.main
 });
 

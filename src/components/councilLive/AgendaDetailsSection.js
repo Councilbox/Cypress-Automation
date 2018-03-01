@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import AgendaAttachmentsManager from './AgendaAttachmentsManager';
 import ActAgreements from './ActAgreements';
 import OpenRoomButton from './OpenRoomButton';
@@ -6,8 +6,34 @@ import StartCouncilButton from './StartCouncilButton';
 import EndCouncilButton from './EndCouncilButton';
 import ToggleAgendaButton from './ToggleAgendaButton';
 import ToggleVotingsButton from './ToggleVotingsButton';
+import RecountSection from './RecountSection';
+import CommentsSection from './CommentsSection';
+import VotingsSection from './VotingsSection';
+
 
 class AgendaDetailsSection extends Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            openIndex: 0
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(nextProps.agendas){
+            const openAgenda = nextProps.agendas.find((agenda, index) => agenda.point_state === 1 || (agenda.point_state === 0 && nextProps.agendas[index - 1].point_state === 2));
+            if(openAgenda){
+                this.setState({
+                    openIndex: openAgenda.order_index
+                })
+            }else{
+                this.setState({
+                    openIndex: 0
+                })
+            }
+        }
+    }
 
     getAttachmentByID = (id) => {
         const attachment = this.props.attachments.filter(attachment => {
@@ -15,19 +41,18 @@ class AgendaDetailsSection extends Component {
         });
         return attachment;
     }
-
     
     render(){
-        const { translate, council, participants, refetch } = this.props;
+        const { translate, council, agendas, participants, refetch } = this.props;
         if(!this.props.council.agendas){
             return(
                 <div>Nada hay puntos del día</div>
             )
         }
-        const agenda = this.props.council.agendas[this.props.selectedPoint];
+        const agenda = agendas[this.props.selectedPoint];
         
         return(
-            <div style={{width: '100%', height: '100%', margin: 0}}>
+            <div style={{width: '100%', height: '100%', margin: 0, overflow: 'auto'}}>
                 <div className="row" style={{width: '100%', padding: '2em'}}>
                     <div className="col-lg-6 col-md-5 col-xs-5">
                         {agenda.agenda_subject}<br />
@@ -44,6 +69,7 @@ class AgendaDetailsSection extends Component {
                                         agenda={agenda}
                                         translate={translate}
                                         refetch={refetch}
+                                        active={agenda.order_index === this.state.openIndex}
                                     />
                                 </div>
                             }
@@ -86,17 +112,55 @@ class AgendaDetailsSection extends Component {
                     </div>
                 </div>
                 <div style={{width: '100%', marginTop: '2em'}} className="withShadow">
-                    <AgendaAttachmentsManager
-                        attachments={this.getAttachmentByID(agenda.id)}
+                    <ActAgreements
+                        agenda={agenda}
                         translate={translate}
                         councilID={this.props.council.id}
                         refetch={this.props.refetch}
                         agendaID={agenda.id}
                     />
                 </div>
+                {council.council_started !== 0 && agenda.voting_state !== 0 && 
+                    <Fragment>
+                        <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
+                            <RecountSection
+                                agenda={agenda}
+                                council={council}
+                                majorities={this.props.majorities}
+                                translate={translate}
+                                councilID={this.props.council.id}
+                                refetch={this.props.refetch}
+                                agendaID={agenda.id}
+                            />
+                        </div>
+                        {council.statutes[0].exists_comments &&
+                            <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
+                                <CommentsSection
+                                    agenda={agenda}
+                                    council={council}
+                                    translate={translate}
+                                    councilID={this.props.council.id}
+                                    refetch={this.props.refetch}
+                                    agendaID={agenda.id}
+                                />
+                            </div>
+                        }
+                        <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
+                            <VotingsSection
+                                agenda={agenda}
+                                council={council}
+                                majorities={this.props.majorities}
+                                translate={translate}
+                                councilID={this.props.council.id}
+                                refetch={this.props.refetch}
+                                agendaID={agenda.id}
+                            />
+                        </div>
+                    </Fragment>
+                }
                 <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
-                    <ActAgreements
-                        agenda={agenda}
+                    <AgendaAttachmentsManager
+                        attachments={this.getAttachmentByID(agenda.id)}
                         translate={translate}
                         councilID={this.props.council.id}
                         refetch={this.props.refetch}

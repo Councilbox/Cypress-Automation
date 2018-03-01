@@ -4,7 +4,7 @@ import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
 import { openRoom } from '../../queries';
 import { BasicButton, AlertConfirm } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { FontIcon, Checkbox } from 'material-ui';
 
 class OpenRoomButton extends Component {
@@ -49,6 +49,7 @@ class OpenRoomButton extends Component {
 
     render(){
         const { translate } = this.props;
+        const primary = getPrimary();
 
         return(
             <Fragment>

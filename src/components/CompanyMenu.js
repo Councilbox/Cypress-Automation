@@ -12,32 +12,29 @@ import { Link } from 'react-router-dom';
 
 class CompanyMenu extends React.Component {
 
-    constructor(props){
-        super(props);
-
-        const { translate } = props;
-
-        this.sections = [
+    getSections = () => {
+        const { translate, company } = this.props;
+        return [
             {
-                name: "Mis reuniones",
+                name: translate.councils,
                 icon: "import_contacts",
                 submenus: [
-                    { name: translate.dashboard_new, link: `/company/${props.company.id}/council/new` },
-                    { name: translate.drafts, link: `/company/${props.company.id}/councils/drafts` },
-                    { name: translate.companies_calendar, link: `/company/${props.company.id}/councils/calendar` },                    
-                    { name: translate.companies_live, link: `/company/${props.company.id}/councils/live` },
-                    { name: translate.companies_writing, link: `/company/${props.company.id}/councils/writing` },
-                    { name: translate.signature_trash, link: `/company/${props.company.id}/councils/trash` },
+                    { name: translate.dashboard_new, link: `/company/${company.id}/council/new` },
+                    { name: translate.drafts, link: `/company/${company.id}/councils/drafts` },
+                    { name: translate.companies_calendar, link: `/company/${company.id}/councils/calendar` },                    
+                    { name: translate.companies_live, link: `/company/${company.id}/councils/live` },
+                    { name: translate.companies_writing, link: `/company/${company.id}/councils/writing` },
+                    { name: translate.signature_trash, link: `/company/${company.id}/councils/trash` },
                 ]
             },
             {
-                name: "conferencias",
+                name: translate.meetings,
                 icon: "question_answer",
                 submenus: [
-                    { name: translate.dashboard_new_meeting, link: `/company/${props.company.id}/meeting/new` },
-                    { name: translate.drafts, link: `/company/${props.company.id}/meetings/drafts` },                    
-                    { name: translate.companies_live, link: `/company/${props.company.id}/meetings/live` },                    
-                    { name: translate.signature_trash, link: `/company/${props.company.id}/meetings/trash` }
+                    { name: translate.dashboard_new_meeting, link: `/company/${company.id}/meeting/new` },
+                    { name: translate.drafts, link: `/company/${company.id}/meetings/drafts` },                    
+                    { name: translate.companies_live, link: `/company/${company.id}/meetings/live` },                    
+                    { name: translate.signature_trash, link: `/company/${company.id}/meetings/trash` }
                 ]
             },
             {name: "firmas", icon: "border_color", submenus: []},
@@ -47,13 +44,13 @@ class CompanyMenu extends React.Component {
             {name: "borradores", icon: "class", submenus: []},
             {name: "datos básicos", icon: "work", submenus: []}
         ];
-    }  
+    }
 
 
     _renderMenuIcon(text, icon){
         return(
-            <MenuItem style={{color: 'white', border: '1px solid black', fontSize: '1em'}}>
-                {this.props.toggled && text.toUpperCase()}
+            <MenuItem style={{color: 'white', border: '1px solid black', fontSize: '0.85em'}}>
+                {this.props.toggled && text}
                 <FontIcon 
                     className="material-icons"
                     color={'white'}
@@ -66,6 +63,8 @@ class CompanyMenu extends React.Component {
     }
 
     render() {
+        const sections = this.getSections();
+
         return(
             <div
                 onClick={!this.props.toggled? this.props.toggle : () => {}}
@@ -86,7 +85,7 @@ class CompanyMenu extends React.Component {
                         keyboard_backspace
                     </FontIcon>
                 }
-                {this.sections.map((section, index) => {
+                {sections.map((section, index) => {
                     return (
                         <Collapsible 
                             trigger={this._renderMenuIcon(section.name, section.icon)}
@@ -94,7 +93,7 @@ class CompanyMenu extends React.Component {
                             key={`section${index}`}
                         >
                             {this.props.toggled && section.submenus.map((menu) => {
-                                return(<Link to={menu.link} key={`${menu.name}${index}`}><MenuItem style={{color: 'white'}}>{menu.name}</MenuItem></Link>)
+                                return(<Link to={menu.link} key={`${menu.name}${index}`}><MenuItem style={{color: 'white', fontSize: '0.8em'}}>{menu.name}</MenuItem></Link>)
                             })}
                         </Collapsible>
                     );

@@ -1,20 +1,21 @@
 import React from 'react';
-import { primary, secondary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 
-const AgendaNumber = ({ index, active, activeColor = primary, secondaryColor = secondary, onClick }) => (
+const AgendaNumber = ({ index, active, activeColor = getPrimary(), secondaryColor = getSecondary(), onClick, open }) => (
     <div
         style={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             height: '2em',
+            filter: open && !active? 'opacity(50%)' : '',
             width: '2em',
             fontSize: '1.1em',
             margin: 0,
-            color: active? 'white' : secondaryColor,
+            color: active || open? 'white' : secondaryColor,
             borderRadius: '1em',
-            backgroundColor: active? activeColor : 'white',
-            border: `2px solid ${active? activeColor : secondaryColor}`
+            backgroundColor: active || open? activeColor : 'white',
+            border: `3px solid ${active || open? activeColor : secondaryColor}`
         }}
         onClick={onClick}
     >

@@ -1,15 +1,15 @@
 import React from 'react';
-import { primary, secondary, darkGrey, lightGrey } from '../../styles/colors';
+import { getPrimary, getSecondary, darkGrey, lightGrey } from '../../styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import { BasicButton } from '../displayComponents';
 
 const Block = ({ children, button }) => (
     <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
-        <div style={{paddingLeft: '1.5em', paddingRight: '1.5em', backgroundColor: darkGrey, height: '10em', color: secondary, fontWeight: '700', border: `1px solid ${lightGrey}`, paddingTop: '3em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+        <div style={{paddingLeft: '1.5em', paddingRight: '1.5em', backgroundColor: darkGrey, height: '10em', color: getSecondary(), fontWeight: '700', border: `1px solid ${lightGrey}`, paddingTop: '3em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             {children}
         </div>
         {button &&
-            <div style={{display: 'flex', alignItems: 'center', backgroundColor: 'purple', border: `1px solid ${lightGrey}`, color: 'white', fontWeight: '700'}}>
+            <div style={{display: 'flex', alignItems: 'center', backgroundColor: getPrimary(), border: `1px solid ${lightGrey}`, color: 'white', fontWeight: '700'}}>
                 {button()}
             </div>
         }
@@ -20,7 +20,7 @@ const estatutesButton = () => (
     <BasicButton
         text="Revisa tus estatutos"
         fullWidth={true}
-        color={primary}
+        color={getPrimary()}
         buttonStyle={{width: '90%'}}
         textStyle={{color: 'white', fontWeight: '500', textTransform: 'none'}}
         textPosition="after"
@@ -32,7 +32,7 @@ const censusesButton = () => (
     <BasicButton
         text="Crear un censo"
         fullWidth={true}
-        color={secondary}
+        color={getSecondary()}
         buttonStyle={{width: '90%'}}
         textStyle={{color: 'white', fontWeight: '500', textTransform: 'none'}}
         textPosition="after"

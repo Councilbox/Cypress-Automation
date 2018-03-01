@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { primary, secondary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import { bHistory } from '../../containers/App';
 import { AlertConfirm } from '../displayComponents';
@@ -20,11 +20,12 @@ class LiveHeader extends Component  {
     
     render(){
         const { primaryColor, companyName, councilName, logo, translate } = this.props;
+        const primary = getPrimary();
 
         return(
             <div 
                 style={{
-                    background: primaryColor || `linear-gradient(to right, ${secondary}, ${primary})`,
+                    background: primaryColor || `linear-gradient(to right, ${getSecondary()}, ${primary})`,
                     color: 'white',
                     display: 'flex',
                     width: '100%',

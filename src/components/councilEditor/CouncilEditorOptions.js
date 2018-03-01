@@ -5,7 +5,9 @@ import { BasicButton, TextInput, LoadingSection } from '../displayComponents';
 import { getCouncilDataStepFive, majorities, saveCouncilData } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import { urlParser } from '../../utils';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
+
+let primary = getPrimary();
 
 class CouncilEditorOptions extends Component {
 
@@ -25,6 +27,7 @@ class CouncilEditorOptions extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        primary = getPrimary();
         if(this.props.data.loading && !nextProps.loading){
             this.setState({
                 data: nextProps.data.council

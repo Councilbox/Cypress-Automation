@@ -60,8 +60,8 @@ class CouncilEditorPage extends React.Component {
 
         return(
             <CardPageLayout title={translate.dashboard_new}>
-                <div style={{display: 'flex', flexDirection: 'row', height:'75vh'}}>
-                    <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '12em', height: '100%'}}>
+                <div style={{display: 'flex', flexDirection: 'row', height: '100%'}}>
+                    <div style={{backgroundColor: 'lightgrey', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '12em', height: '100%'}}>
                         <Stepper activeStep={this.state.step - 1} orientation="vertical">
                             <Step>
                                 <StepLabel>{translate.wizard_convene}</StepLabel>

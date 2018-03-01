@@ -1,6 +1,7 @@
 import CouncilboxApi from "../api/CouncilboxApi";
-import { bHistory } from '../containers/App';
+import { bHistory, client } from '../containers/App';
 import { loadingFinished } from './mainActions';
+import { getCompanies } from '../queries';
 
 export const saveSignUpInfo = (info) => {
     return({
@@ -11,13 +12,17 @@ export const saveSignUpInfo = (info) => {
 
 export const getCompanyInfo = () => {
     return async (dispatch) => {
-        const response = await CouncilboxApi.getCompany();
-        dispatch({type: 'COMPANY_INFO', value: response[0]});
+        const response = await client.query({query: getCompanies});
+        dispatch({type: 'COMPANY_INFO', value: response.data.companies});
         if(response){
             dispatch(loadingFinished());
         }
     }
 }
+
+export const changeCompany = (index) => (
+    { type: 'CHANGE_SELECTED', value: index}
+)
 
 export const getRecount = (companyID) => {
     return (dispatch) => {

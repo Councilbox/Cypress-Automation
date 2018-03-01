@@ -5,7 +5,7 @@ import { SelectInput, BasicButton, LoadingSection, TextInput } from '../displayC
 import MenuItem from 'material-ui/MenuItem';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 
 class SignUpEnterprise extends Component {
 
@@ -85,13 +85,13 @@ class SignUpEnterprise extends Component {
     }
 
     render() {
-        const { translate } = this.props;
-
         if(this.props.data.loading){
             return(
                 <LoadingSection />
             );
         }
+        const { translate } = this.props;
+        const primary = getPrimary();        
 
         return(
             <div>

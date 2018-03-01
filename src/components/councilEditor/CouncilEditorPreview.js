@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BasicButton, LoadingSection } from "../displayComponents";
-import { primary, secondary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import { urlParser } from '../../utils';
@@ -30,6 +30,7 @@ class CouncilEditorPreview extends Component {
 
     render(){
         const { translate } = this.props;
+        const primary = getPrimary();
 
         if(this.props.data.loading){
             return(
@@ -56,7 +57,7 @@ class CouncilEditorPreview extends Component {
                 />
                 <div
                     dangerouslySetInnerHTML={{__html: this.props.data.council.previewHtml}}
-                    style={{border: `1px solid ${secondary}`, padding: '2em'}} 
+                    style={{border: `1px solid ${getSecondary()}`, padding: '2em'}} 
                 />
             </div>
         );

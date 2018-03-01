@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import SignUpPage from '../components/signUp/SignUpPage';
 import Header from '../components/Header';
 import {connect} from 'react-redux';
+import { getPrimary } from '../styles/colors';
 
 class SignUpContainer extends Component {
 
     render() {
+        const primary = getPrimary();
         return (
-            <div style={{height: '100vh', width: '100%', backgroundColor: 'purple'}}>
+            <div style={{height: '100vh', width: '100%', backgroundColor: primary}}>
                 <Header helpIcon />
                 <SignUpPage main={this.props.main} company={this.props.company} translate={this.props.translate} />
             </div>
@@ -17,7 +19,7 @@ class SignUpContainer extends Component {
 
 const mapStateToProps = (state) => ({
     main: state.main,
-    company: state.company,
+    company: state.company.list[state.company.selected],
     translate: state.translate
 });
 

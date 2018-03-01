@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { FontIcon, MenuItem, Dialog } from 'material-ui';
 import { BasicButton, SelectInput, LoadingSection } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
 import { getCouncilDataStepTwo, participantsQuery, saveCouncilData } from '../../queries';
@@ -117,14 +117,14 @@ class CouncilEditorCensus extends Component {
                 <BasicButton
                     text={translate.cancel}
                     color={'white'}
-                    textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                    textStyle={{color: getPrimary(), fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={() => this.setState({censusChangeAlert: false})}
                     buttonStyle={{marginRight: '1em'}}
                 />
                 <BasicButton
                     text={translate.want_census_change}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">cached</FontIcon>}
                     textPosition="after"
@@ -158,7 +158,7 @@ class CouncilEditorCensus extends Component {
                 </SelectInput>
                 <BasicButton
                     text={translate.add_participant}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">add</FontIcon>}
                     textPosition="after"
@@ -166,7 +166,7 @@ class CouncilEditorCensus extends Component {
                 />
                 <BasicButton
                     text={translate.save}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
@@ -174,14 +174,14 @@ class CouncilEditorCensus extends Component {
                 />
                 <BasicButton
                     text={translate.previous}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.previousPage}
                 />
                 <BasicButton
                     text={translate.table_button_next}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.nextPage}

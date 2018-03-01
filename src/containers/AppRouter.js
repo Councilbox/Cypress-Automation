@@ -47,7 +47,7 @@ class AppRouter extends Component {
             return(<LoadingMainApp />);
         }
 
-        if(this.props.main.isLogged && !this.props.company.id){
+        if(this.props.main.isLogged && !this.props.companies){
             return(<LoadingMainApp />);
         }
 
@@ -56,7 +56,8 @@ class AppRouter extends Component {
                 <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>                                                      
                     <CompanySideMenu
                         width={this.state.sideWidth}
-                        company={this.props.company}
+                        companies={this.props.companies.list}
+                        company={this.props.companies.list[this.props.companies.selected]}
                         toggleMenu={this.toggleMenu}
                         open={this.state.open}
                         translate={this.props.translate}
@@ -64,7 +65,7 @@ class AppRouter extends Component {
                     <div style={{width: `${100 - this.state.sideWidth}%`, height: '100%', display: 'flex', flexDirection: 'column'}}>
                         <Header user={this.props.user.name} />
                         <Switch>
-                            <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.company.id}`} />}} />
+                            <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />
                             <Route exact path="/company/:company/council/new" component={CreateCouncil} />
                             <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
@@ -93,7 +94,7 @@ class AppRouter extends Component {
 const mapStateToProps = (state) => ({
     main: state.main,
     translate: state.translate,
-    company: state.company,
+    companies: state.company,
     user: state.user
 });
 

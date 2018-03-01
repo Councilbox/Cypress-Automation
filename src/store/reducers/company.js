@@ -12,7 +12,15 @@ export default function companyReducer(state = initialState.company, action) {
         case 'COMPANY_INFO':
             return{
                 ...state,
-                ...action.value
+                list: action.value,
+                selected: 0
+            }
+
+        case 'CHANGE_SELECTED':
+            console.log(action.value);
+            return {
+                ...state,
+                selected: action.value
             }
 
         case 'RECOUNTS':

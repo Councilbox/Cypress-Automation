@@ -22,10 +22,10 @@ export const login = (creds) => {
 
 export const loginSuccess = (token) => {
     return (dispatch) => {
-        dispatch({type: 'LOGIN_SUCCESS'});
         sessionStorage.setItem('token', token);
         dispatch(setUserData(token));
         dispatch(getCompanyInfo());
+        dispatch({type: 'LOGIN_SUCCESS'});        
     }
 };
 

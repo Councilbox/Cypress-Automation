@@ -47,7 +47,7 @@ const MeetingsContainer = ({main, company, user, match, translate}) => {
 
 const mapStateToProps = (state) => ({
     main: state.main,
-    company: state.company,
+    company: state.company.list[state.company.selected],
     user: state.user,
     translate: state.translate
 });

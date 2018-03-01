@@ -1,7 +1,7 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
 import { SelectInput, BasicButton } from '../displayComponents';
-import { secondary, primary, lightGrey } from '../../styles/colors';
+import { getSecondary, getPrimary, lightGrey } from '../../styles/colors';
 
 const BottomSection = ({ translate }) => (
     <div style={{width: '100%', backgroundColor: 'white', display: 'flex', flexDirection: 'row'}} className="row">
@@ -29,8 +29,8 @@ const BottomSection = ({ translate }) => (
                 text="ABRIR SALA"
                 fullWidth={true}
                 color={'transparent'}
-                buttonStyle={{backgroundColor: 'transparent', border: `1px solid ${primary}`, marginRight: '2em'}}
-                textStyle={{color: primary, fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                buttonStyle={{backgroundColor: 'transparent', border: `1px solid ${getPrimary()}`, marginRight: '2em'}}
+                textStyle={{color: getPrimary(), fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
                 textPosition="before"
                 onClick={this.login}
             />
@@ -59,8 +59,8 @@ const BottomSection = ({ translate }) => (
                 text="Organizar Reunión"
                 fullWidth={true}
                 color={'transparent'}
-                buttonStyle={{backgroundColor: 'transparent', border: `1px solid ${secondary}`, marginRight: '2em'}}
-                textStyle={{color: secondary, fontWeight: '700', fontSize: '0.8em'}}
+                buttonStyle={{backgroundColor: 'transparent', border: `1px solid ${getSecondary()}`, marginRight: '2em'}}
+                textStyle={{color: getSecondary(), fontWeight: '700', fontSize: '0.8em'}}
                 textPosition="before"
                 onClick={this.login}
             />

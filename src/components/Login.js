@@ -8,6 +8,7 @@ import { TextField, FlatButton, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { getPrimary } from '../styles/colors';
 import { BasicButton } from './displayComponents';
 
 class Login extends React.PureComponent {
@@ -34,7 +35,9 @@ class Login extends React.PureComponent {
                     }
                 }
             });
-            this.props.actions.loginSuccess(response.data.login);
+            if(response.data.login){
+                this.props.actions.loginSuccess(response.data.login);
+            }
         }
     }
 
@@ -68,83 +71,82 @@ class Login extends React.PureComponent {
     }
 
     render(){
+        const primary = getPrimary();
         return(
-            <div>
-                <Grid className="show-grid">
-                    <Row>
-                        <Col xs={12} md={5} mdPush={1} style={{ color: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4em'}}>
-                            Bienvenido/a <br/>
-                            ¿Todavía no dispones de una cuenta en CouncilBox?<br/>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros. Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo. Mauris sed quam eget lorem egestas pulvinar. Donec mollis diam justo, eget gravida purus ornare a. Curabitur congue lobortis semper. Mauris laoreet, nulla a fermentum pulvinar, tellus lacus cursus ex, non efficitur odio mauris sit amet enim.
-                            <br />
-                            <div style={{display: 'flex', flexDirection: 'row'}}>
+            <div className="row" style={{width: '100%', fontSize: '0.85em'}}>
+                <div className="col-lg-6 col-md-6 col-xs-12" style={{ color: 'white', paddingLeft: '7%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4em'}}>
+                    <div style={{width: '70%'}}>
+                        Bienvenido/a <br/>
+                        ¿Todavía no dispones de una cuenta en CouncilBox?<br/>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros. Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo. Mauris sed quam eget lorem egestas pulvinar. Donec mollis diam justo, eget gravida purus ornare a. Curabitur congue lobortis semper. Mauris laoreet, nulla a fermentum pulvinar, tellus lacus cursus ex, non efficitur odio mauris sit amet enim.
+                        <br />
+                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                            <BasicButton
+                                text="Solicitar demostración"
+                                color={'transparent'}
+                                buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                onClick={this.login}
+                                labelPosition={'before'}
+                            />
+                            <Link to="/signup">
                                 <BasicButton
-                                    text="Solicitar demostración"
-                                    color={'transparent'}
-                                    buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                    onClick={this.login}
-                                    labelPosition={'before'}
+                                    text="Dar de alta mi empresa"
+                                    color={'white'}
+                                    textStyle={{color: primary, fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                    textPosition="before"
                                 />
-                                <Link to="/signup">
-                                    <BasicButton
-                                        text="Dar de alta mi empresa"
-                                        color={'white'}
-                                        textStyle={{color: 'purple', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                        textPosition="before"
-                                    />
-                                </Link>
-                            </div>
-                        </Col>
-                        <Col xs={12} md={4} mdOffset={2}>
-                            <Card style={{marginTop: '4em'}}>
-                                <CardHeader
-                                    title="Accede a tu cuenta"
-                                    titleColor="purple"
-                                    titleStyle={{fontWeight: '700'}}
-                                />
-                                <CardText>
-                                    <TextField
-                                        floatingLabelText="NOMBRE DE USUARIO"
-                                        floatingLabelFixed={true}
-                                        errorText={this.state.errors.user}
-                                        type="text"
-                                        value={this.state.user}
-                                        onChange={(event) => this.setState({
-                                            user: event.nativeEvent.target.value
-                                        })}
-                                    />
-                                    <TextField
-                                        floatingLabelText="CONTRASEÑA"
-                                        floatingLabelFixed={true}
-                                        type="password"
-                                        errorText={this.state.errors.password}
-                                        value={this.state.password}
-                                        onChange={(event) => this.setState({
-                                            password: event.nativeEvent.target.value
-                                        })}
-                                    />
-                                </CardText>
-                                <CardActions>
-                                    <BasicButton
-                                        text="Entrar"
-                                        color={'purple'}
-                                        buttonStyle={{width: '90%'}}
-                                        textStyle={{color: 'white', fontWeight: '700'}}
-                                        textPosition="before"
-                                        onClick={this.login}
-                                        fullWidth={true}
-                                        icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
-                                    />
-                                    <FlatButton 
-                                        label="¿Has olvidado tu contraseña?"
-                                        labelStyle={{color: 'grey', fontWeight: '700'}}
-                                    />
-                                </CardActions>   
-                            </Card>
-                        </Col>
-                    </Row>
-                </Grid>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-lg-6 col-md-6 col-xs-12" style={{display: 'flex', justifyContent: 'center', paddingRight: '5%'}}>
+                    <Card style={{marginTop: '4em', width: '70%'}} >
+                        <CardHeader
+                            title="Accede a tu cuenta"
+                            titleColor={primary}
+                            titleStyle={{fontWeight: '700'}}
+                        />
+                        <CardText>
+                            <TextField
+                                floatingLabelText="NOMBRE DE USUARIO"
+                                floatingLabelFixed={true}
+                                errorText={this.state.errors.user}
+                                type="text"
+                                value={this.state.user}
+                                onChange={(event) => this.setState({
+                                    user: event.nativeEvent.target.value
+                                })}
+                            />
+                            <TextField
+                                floatingLabelText="CONTRASEÑA"
+                                floatingLabelFixed={true}
+                                type="password"
+                                errorText={this.state.errors.password}
+                                value={this.state.password}
+                                onChange={(event) => this.setState({
+                                    password: event.nativeEvent.target.value
+                                })}
+                            />
+                        </CardText>
+                        <CardActions>
+                            <BasicButton
+                                text="Entrar"
+                                color={primary}
+                                buttonStyle={{width: '90%'}}
+                                textStyle={{color: 'white', fontWeight: '700'}}
+                                textPosition="before"
+                                onClick={this.login}
+                                fullWidth={true}
+                                icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
+                            />
+                            <FlatButton 
+                                label="¿Has olvidado tu contraseña?"
+                                labelStyle={{color: 'grey', fontWeight: '700'}}
+                            />
+                        </CardActions>   
+                    </Card>
+                </div>
             </div>
         );
     }

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu } from "../displayComponents";
 import ParticipantsTable from '../councilEditor/ParticipantsTable';
 import NewParticipantForm from '../councilEditor/NewParticipantForm';
-import { primary, secondary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 import DateHeader from './DateHeader';
 import { graphql, compose } from 'react-apollo';
@@ -36,6 +36,7 @@ class CouncilPreparePage extends Component {
     render(){
         const council = this.props.data.councilDetails;
         const { translate } = this.props;
+        const primary = getPrimary();
 
         if(this.props.data.loading){
             return(
@@ -78,7 +79,7 @@ class CouncilPreparePage extends Component {
                     <Fragment>
                         <div
                             dangerouslySetInnerHTML={{__html: this.props.data.councilDetails.email_text}}
-                            style={{border: `1px solid ${secondary}`, padding: '2em'}} 
+                            style={{border: `1px solid ${getSecondary()}`, padding: '2em'}} 
                         />
                     </Fragment>
                 :

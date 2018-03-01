@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import { LoadingSection, Table, SectionTitle, DateWrapper } from '../displayComponents';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { getPrimary } from '../../styles/colors';
 import { IconButton } from 'material-ui';
 
 class CouncilsTrash extends Component {
@@ -13,9 +14,10 @@ class CouncilsTrash extends Component {
     }
 
     _renderDeleteIcon(participantID){
+        const primary = getPrimary();
         return(
             <IconButton 
-                iconStyle={{color: 'purple'}}
+                iconStyle={{color: primary}}
                 onClick={() => this.deleteParticipant(participantID)}
             >
                 <DeleteForever />

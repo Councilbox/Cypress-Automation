@@ -5,6 +5,7 @@ import { graphql, compose } from 'react-apollo';
 import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table } from '../displayComponents';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
+import { getPrimary } from '../../styles/colors';
 import gql from 'graphql-tag';
 import { urlParser } from '../../utils';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
@@ -59,9 +60,11 @@ class CouncilDrafts extends Component {
     }
 
     _renderDeleteIcon(councilID) {
+        const primary = getPrimary();
+
         return(
             <IconButton 
-                iconStyle={{color: 'purple'}}
+                iconStyle={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
             >
                 <DeleteForever />

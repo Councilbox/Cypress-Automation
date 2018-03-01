@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { startCouncil } from '../../queries';
 import { graphql } from 'react-apollo';
 import { BasicButton, AlertConfirm } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 import ParticipantSelector from './ParticipantSelector';
 import { urlParser } from '../../utils';
@@ -109,6 +109,7 @@ class StartCouncilButton extends Component {
 
     render(){
         const { translate } = this.props;
+        const primary = getPrimary();
 
         return(
             <Fragment>

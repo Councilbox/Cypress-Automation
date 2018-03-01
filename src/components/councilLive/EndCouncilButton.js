@@ -3,7 +3,7 @@ import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
 import { endCouncil } from '../../queries';
 import { BasicButton, AlertConfirm } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 import { bHistory } from '../../containers/App';
 
@@ -44,6 +44,7 @@ class EndCouncilButton extends Component {
     render(){
         const { translate } = this.props;
         const unclosed = this.getUnclosedPoints();
+        const primary = getPrimary();
 
         return(
             <Fragment>

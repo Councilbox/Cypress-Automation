@@ -8,6 +8,7 @@ import { IconButton } from 'material-ui';
 import { urlParser } from '../../utils';
 import gql from 'graphql-tag';
 import { compose } from 'react-apollo';
+import { getPrimary } from '../../styles/colors';
 import { TableRowColumn, TableRow } from 'material-ui/Table';
 
 class CouncilsLive extends Component {
@@ -24,9 +25,10 @@ class CouncilsLive extends Component {
     }
 
     _renderDeleteIcon = (councilID) => {
+        const primary = getPrimary();
         return(
             <IconButton 
-                iconStyle={{color: 'purple'}}
+                iconStyle={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
             >
                 <DeleteForever />

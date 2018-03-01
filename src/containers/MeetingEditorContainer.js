@@ -19,7 +19,7 @@ const MeetingEditorContainer = ({main, company, user, council, match, actions}) 
 
 const mapStateToProps = (state) => ({
     main: state.main,
-    company: state.company,
+    company: state.company.list[state.company.selected],
     user: state.user,
     council: state.council
 });

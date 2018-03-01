@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { openVoting, closeVoting } from '../../queries';
 import { BasicButton } from '../displayComponents';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 
-class ToggleAgendaButton extends Component {
+class ToggleVotingsButton extends Component {
 
     constructor(props){
         super(props);
@@ -45,14 +45,14 @@ class ToggleAgendaButton extends Component {
     }
 
     closeVoting = async () => {
-        const { agenda } = this.props.council;
+        const { agenda } = this.props;
         const response = await this.props.closeVoting({
             variables: {
                 agenda: {
                     id: agenda.id,
                     council_id: agenda.council_id,
-                    point_state: 2,
-                    date_end: new Date().toISOString()
+                    voting_state: 1,
+                    subject_type: agenda.subject_type
                 }
             }
         });
@@ -63,6 +63,7 @@ class ToggleAgendaButton extends Component {
 
     render(){
         const { translate, agenda } = this.props;
+        const primary = getPrimary();
 
         return(
             <Fragment>
@@ -73,16 +74,16 @@ class ToggleAgendaButton extends Component {
                         onClick={this.openVoting}
                         textPosition="before"
                         icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }}color={primary}>thumbs_up_down</FontIcon>}                                    
-                        buttonStyle={{width: '11em'}}                                    
+                        buttonStyle={{minWidth: '11em'}}                                    
                         textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
                     />
                 :
                     <BasicButton
-                        text={translate.close_point}
+                        text={translate.close_point_votations}
                         color={primary}
                         textPosition="before"
                         icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }} color={'white'}>lock_open</FontIcon>}
-                        buttonStyle={{width: '11em'}}
+                        buttonStyle={{width: '15em'}}
                         onClick={this.closeVoting}
                         textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: 'white'}}
                     />
@@ -102,4 +103,4 @@ export default compose(
     graphql(closeVoting, {
         name: 'closeVoting'
     })
- ) (ToggleAgendaButton);
+ ) (ToggleVotingsButton);

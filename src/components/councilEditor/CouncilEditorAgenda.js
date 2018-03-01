@@ -3,9 +3,9 @@ import { FontIcon, MenuItem} from 'material-ui';
 import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { getCouncilDataStepThree, saveCouncilData } from '../../queries';
+import { getCouncilDataStepThree, saveCouncilData, votationTypes } from '../../queries';
 import { urlParser } from '../../utils';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
  
 class CouncilEditorAgenda extends Component {
 
@@ -19,15 +19,6 @@ class CouncilEditorAgenda extends Component {
                 description: ''
             }
         }
-    }
-
-
-    async componentDidMount(){
-        this.props.data.refetch();
-        const votingTypes = await CouncilboxApi.getVotingTypes();
-        this.setState({
-            votingTypes: votingTypes
-        });
     }
 
     componentWillReceiveProps(nextProps){
@@ -84,7 +75,7 @@ class CouncilEditorAgenda extends Component {
         const { translate } = this.props;
 
         return(
-            <div key={`agenda${agenda.id}`} style={{width: '90%', border: `1px solid ${primary}`}}>
+            <div key={`agenda${agenda.id}`} style={{width: '90%', border: `1px solid ${getPrimary()}`}}>
                 <TextInput
                     floatingText={translate.convene_header}
                     type="text"
@@ -114,21 +105,20 @@ class CouncilEditorAgenda extends Component {
                             }) 
                         }}
                     >
-                        {this.state.votingTypes.map((voting) => {
+                        {this.props.votation.votationTypes.map((voting) => {
                                 return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
                             })
                         }
                 </SelectInput>
-
                 <RichTextInput
                     floatingText={translate.description}
                     type="text"
                     errorText={errors.description}
                     value={agenda.description}
-                    onChange={(event) => {                     
+                    onChange={(value) => {                     
                         let agendas = [...this.state.agendas];
                         let newAgenda = {...agendas[index]};
-                        newAgenda.description = event.nativeEvent.target.value;
+                        newAgenda.description = value;
                         agendas[index] = newAgenda;
                         this.setState({
                             agendas: agendas
@@ -153,7 +143,7 @@ class CouncilEditorAgenda extends Component {
                 {translate.agenda}
                 <BasicButton
                     text={translate.add_agenda_point}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">add</FontIcon>}
                     textPosition="after"
@@ -162,7 +152,7 @@ class CouncilEditorAgenda extends Component {
 
                 <BasicButton
                     text={translate.save}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
@@ -171,14 +161,14 @@ class CouncilEditorAgenda extends Component {
 
                 <BasicButton
                     text={translate.previous}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.previousPage}
                 />
                 <BasicButton
                     text={translate.next}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.nextPage}
@@ -203,6 +193,10 @@ export default compose(
                 }
             }
         })
+    }),
+
+    graphql(votationTypes, {
+        name: 'votation'
     }),
 
     graphql(saveCouncilData, {

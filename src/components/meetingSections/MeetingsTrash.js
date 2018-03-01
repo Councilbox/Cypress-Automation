@@ -5,6 +5,7 @@ import { LoadingSection, Table, SectionTitle, DateWrapper } from '../displayComp
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import { IconButton } from 'material-ui';
+import { getPrimary } from '../../styles/colors';
 
 class MeetingsTrash extends Component {
 
@@ -15,7 +16,7 @@ class MeetingsTrash extends Component {
     _renderDeleteIcon(participantID){
         return(
             <IconButton 
-                iconStyle={{color: 'purple'}}
+                iconStyle={{color: getPrimary()}}
                 onClick={() => this.deleteParticipant(participantID)}
             >
                 <DeleteForever />

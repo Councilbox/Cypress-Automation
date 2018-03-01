@@ -141,18 +141,3 @@ export default compose(
         name: 'deleteAttachment'
     })
 )(AgendaAttachmentsManager);
-
-/**<div
-               
-            >
-                <div>
-                    {`${translate.dasboard_documentation}: ${attachments.length}` }
-                </div>
-                {this.state.open &&
-                    <div>
-                        {this.props.attachments.map((attachment) => {
-                            return 
-                        })}
-                    </div>
-                }
-            </div>*/

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontIcon, MenuItem} from 'material-ui';
 import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert } from "../displayComponents";
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
 import { getCouncilDataStepOne, saveCouncilData } from '../../queries';
@@ -130,7 +130,7 @@ class CouncilEditorNotice extends Component {
                         `${this.state.data.street}, ${this.state.data.country}` }</h5>
                 <BasicButton
                     text={translate.change_location}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={() => this.setState({placeModal: true})}
@@ -138,7 +138,7 @@ class CouncilEditorNotice extends Component {
                 />
                 <BasicButton
                     text={translate.save}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
@@ -146,7 +146,7 @@ class CouncilEditorNotice extends Component {
                 />
                 <BasicButton
                     text={translate.next}
-                    color={primary}
+                    color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.nextPage}
@@ -179,13 +179,16 @@ class CouncilEditorNotice extends Component {
                     <MenuItem value={2} primaryText={translate.board_of_directors} />
                 </SelectInput>
                 <DateTimePicker 
-                    onChange={(date) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            date_start: date
-                        }
-                    })}
+                    onChange={(date) => {
+                        const newDate = new Date(date);
+                        this.setState({
+                            ...this.state,
+                            data: {
+                                ...this.state.data,
+                                date_start: newDate.toISOString()
+                            }
+                        })}
+                    }
                     floatingText = {translate["1st_call_date"]}
                     format='DD/MM/YYYY hh:mm'
                     value={this.state.data.date_start}
@@ -207,11 +210,11 @@ class CouncilEditorNotice extends Component {
                     errorText=''
                     floatingText={translate.convene_info}
                     value={this.state.data.convene_text || ''}
-                    onChange={(event) => this.setState({
+                    onChange={(value) => this.setState({
                         ...this.state,
                         data: {
                             ...this.state.data,
-                            convene_text: event.nativeEvent.target.value
+                            convene_text: value
                         }
                     })}
                 />

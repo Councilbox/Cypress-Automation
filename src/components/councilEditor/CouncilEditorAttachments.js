@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontIcon } from 'material-ui';
 import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert } from '../displayComponents';
-import { primary, secondary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
 import AttachmentList from './AttachmentList';
@@ -160,6 +160,7 @@ class CouncilEditorAttachments extends Component {
         }
 
         const { attachments } = this.props.data.council;
+        const primary = getPrimary()
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
@@ -204,7 +205,7 @@ class CouncilEditorAttachments extends Component {
                     <br/>{(this.state.totalSize / 1024).toFixed(2)}/Mb</div>
                 <ProgressBar 
                     value={this.state.totalSize > 0 ? (this.state.totalSize / maxFileSize ) * 100 : 0} 
-                    color={secondary}
+                    color={getSecondary()}
                     style={{height: '1.2em'}}
                 />
 

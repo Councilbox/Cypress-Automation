@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { IconButton } from 'material-ui';
 import { Table } from '../displayComponents';
 import { graphql } from "react-apollo";
@@ -11,6 +11,8 @@ import { urlParser } from '../../utils';
 class ParticipantsTable extends Component {
 
     _renderDeleteIcon(participantID){
+        const primary = getPrimary();
+
         return(
             <IconButton 
                 iconStyle={{color: primary}}
@@ -38,6 +40,7 @@ class ParticipantsTable extends Component {
 
     render(){
         const { translate } = this.props;
+
         return(
             <Table
                 headers={[

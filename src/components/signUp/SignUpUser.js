@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TextField, RaisedButton, FontIcon } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
 import { checkValidEmail } from '../../utils';
+import { getPrimary } from '../../styles/colors';
 
 class SignUpUser extends Component {
 
@@ -92,14 +93,17 @@ class SignUpUser extends Component {
     }
 
     render(){
+        const primary = getPrimary();
+        const { translate } = this.props;
+
         return(
             <div>
-                Usuario
+                {translate.user_data}
                 <Grid>
                     <Row style={{width: '75%'}}>
                         <Col xs={12} md={6}>
                             <TextField
-                                floatingLabelText="NOMBRE"
+                                floatingLabelText={translate.name}
                                 floatingLabelFixed={true}
                                 type="text"
                                 value={this.state.data.firstName}
@@ -115,7 +119,7 @@ class SignUpUser extends Component {
                         </Col>
                         <Col xs={12} md={6}>
                             <TextField
-                                floatingLabelText="APELLIDOS"
+                                floatingLabelText={translate.new_surname}
                                 floatingLabelFixed={true}
                                 type="text"
                                 value={this.state.data.lastName}
@@ -131,7 +135,7 @@ class SignUpUser extends Component {
                         </Col>
                         <Col xs={12} md={6}>
                             <TextField
-                                floatingLabelText="TELÉFONO"
+                                floatingLabelText={translate.phone}
                                 floatingLabelFixed={true}
                                 type="text"
                                 value={this.state.data.phoneNumber}
@@ -147,7 +151,7 @@ class SignUpUser extends Component {
                         </Col>
                         <Col xs={12} md={6}>
                             <TextField
-                                floatingLabelText="EMAIL"
+                                floatingLabelText={translate.email}
                                 floatingLabelFixed={true}
                                 type="text"
                                 value={this.state.data.email}
@@ -163,7 +167,7 @@ class SignUpUser extends Component {
                         </Col>
                         <Col xs={12} md={6}>
                             <TextField
-                                floatingLabelText="NOMBRE DE USUARIO"
+                                floatingLabelText={translate.username}
                                 floatingLabelFixed={true}
                                 type="text"
                                 value={this.state.data.username}
@@ -179,7 +183,7 @@ class SignUpUser extends Component {
                         </Col>
                         <Col xs={12} md={6}>
                             <TextField
-                                floatingLabelText="CONTRASEÑA"
+                                floatingLabelText={translate.password}
                                 floatingLabelFixed={true}
                                 type="password"
                                 value={this.state.data.password}
@@ -196,9 +200,9 @@ class SignUpUser extends Component {
                         <Col md={5} />
                         <Col xs={12} md={3}>
                             <RaisedButton
-                                label="Continuar"
+                                label={translate.next}
                                 fullWidth={true}
-                                backgroundColor={'purple'}
+                                backgroundColor={primary}
                                 labelStyle={{color: 'white', fontWeight: '700'}}
                                 labelPosition="before"
                                 onClick={this.nextPage}

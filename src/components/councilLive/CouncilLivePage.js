@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { LoadingMainApp } from "../displayComponents";
 import LiveHeader from './LiveHeader';
-import { lightGrey } from '../../styles/colors';
+import { lightGrey, darkGrey } from '../../styles/colors';
 import { FontIcon } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
-import { councilFullData, participantsQuery, majorities, quorums, votationTypes, getVideoHTML } from '../../queries';
+import { councilFullData, participantsQuery, majorities, quorums, votationTypes, getVideoHTML, liveParticipants } from '../../queries';
 import AgendaManager from './AgendaManager';
+import ParticipantsLive from './ParticipantsLive';
 
 const minVideoWidth = 30;
 const minVideoHeight = '50%';
@@ -28,6 +29,14 @@ class CouncilLivePage extends Component {
 
     componentDidMount(){
         this.props.data.refetch();
+        /*window.addEventListener("beforeunload", (ev) => {  
+            ev.preventDefault();
+            return ev.returnValue = 'Are you sure you want to close?';
+        });*/
+    }
+
+    componentWillUnmount(){
+        //window.removeListener('beforeunload');
     }
 
     closeAddParticipantModal = () => {
@@ -69,8 +78,12 @@ class CouncilLivePage extends Component {
                     {this.checkVideoFlags() &&
                         <div style={{display: 'flex', flexDirection: this.state.fullScreen? 'row' : 'column', width: `${this.state.videoWidth}%`, height: '100%', position: 'relative'}}>
                             {this.state.fullScreen && 
-                                <div style={{height: '95vh', width: '7%', overflow: 'auto', backgroundColor: 'black'}}>
-                                    
+                                <div style={{height: '95vh', width: '7%', overflow: 'hidden', backgroundColor: darkGrey}}>
+                                    <ParticipantsLive
+                                        translate={translate}
+                                        participants={this.props.participantList.participants}
+                                        councilID={this.props.councilID}
+                                    />
                                 </div>
                             }
     
@@ -88,8 +101,12 @@ class CouncilLivePage extends Component {
                                 </Fragment>
                             }
                             {!this.state.fullScreen &&
-                                <div style={{height: '95vh', width: '100%', overflow: 'auto', backgroundColor: 'black'}}>
-
+                                <div style={{height: '95vh', width: '100%', overflow: 'hidden', backgroundColor: darkGrey}}>
+                                    <ParticipantsLive
+                                        translate={translate}
+                                        participants={this.props.participantList.participants}
+                                        councilID={this.props.councilID}
+                                    />
                                 </div>
                             }
                         </div>
@@ -99,6 +116,7 @@ class CouncilLivePage extends Component {
                         <AgendaManager 
                             council={council}
                             translate={translate}
+                            majorities={this.props.majorities.majorities}
                             fullScreen={this.state.fullScreen}
                             refetch={this.props.data.refetch}
                             participants={this.props.participantList.participants}
@@ -142,6 +160,7 @@ export default  compose(
             }
         })
     }),
+
     graphql(councilFullData, {
         name: "data",
         options: (props) => ({

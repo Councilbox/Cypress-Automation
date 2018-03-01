@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Dialog, Checkbox, MenuItem } from 'material-ui';
 import { BasicButton, TextInput, SelectInput, LoadingSection } from "../displayComponents";
-import { primary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { countriesQuery } from "../../queries";
@@ -55,7 +55,7 @@ class PlaceModal extends Component {
                 }
             })
 
-            if(this.props.data.countries && nextProps.council.country){
+            if((this.props.data.countries && nextProps.council.country)){
                 const country = this.props.data.countries.filter((country) => country.deno === nextProps.council.country)[0];            
                 if(country){
                     this.updateCountryStates(country.id);
@@ -91,7 +91,7 @@ class PlaceModal extends Component {
                 countryID: countryID
             },
         });
-        
+        console.log(response);
         this.setState({
             country_states: response.data.provinces
         });
@@ -180,6 +180,7 @@ class PlaceModal extends Component {
 
     _renderActionButtons = () => {
         const { translate } = this.props;
+        const primary = getPrimary();
 
         return(
             <Fragment>
