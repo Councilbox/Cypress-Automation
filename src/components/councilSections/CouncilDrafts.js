@@ -124,7 +124,7 @@ class CouncilDrafts extends Component {
 }
 
 const submitRepository = gql `
-  mutation UpdateCouncil( $data: String) {
+  mutation UpdateCouncil($data: String) {
     updateCouncil(data: $data)
   }
 `;
@@ -133,8 +133,8 @@ export default compose(graphql(submitRepository), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            type: "draft",
-            companyID: props.company.id,
+            state: 0,
+            companyId: props.company.id,
             isMeeting: false
         }
     })

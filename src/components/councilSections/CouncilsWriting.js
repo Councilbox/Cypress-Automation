@@ -122,8 +122,8 @@ class CouncilsWriting extends Component {
 export default graphql(councils, {
     options: (props) => ({
         variables: {
-            type: "writing",
-            companyID: props.company.id,
+            state: 40,
+            companyId: props.company.id,
             isMeeting: false
         }
     })

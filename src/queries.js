@@ -1,15 +1,59 @@
 import gql from 'graphql-tag';
 
+export const companies = gql`
+    query UserCompanies($userId: Int!){
+        userCompanies(userId: $userId){
+            company{
+                alias
+                tin
+                logo
+                id
+                businessName
+                address
+                city
+                zipcode
+                country
+                countryState
+                linkKey
+                creatorId
+                domain
+                demo
+                type
+                language
+                creationDate
+                corporationId
+            }
+        }
+    }
+`;
+
+
 export const councils = gql `
-  query Councils($type: String, $companyID: ID!, $isMeeting: Boolean!) {
-    councils(type: $type, companyID: $companyID, isMeeting: $isMeeting) {
+  query Councils($companyId: Int!, $state: Int, $isMeeting: Boolean) {
+    councils(companyId: $companyId, state: $state, isMeeting: $isMeeting) {
       id
-      date_start
+      dateStart
       name
       step
     }
   }
 `;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//OLD VERSION
 
 export const councilDetails = gql `
   query CouncilDetails($councilInfo: CouncilInfo) {
@@ -965,4 +1009,3 @@ export const liveParticipants = gql `
   }
 
 `;
-

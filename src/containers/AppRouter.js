@@ -16,6 +16,8 @@ import MeetingEditorContainer from './MeetingEditorContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 
 
 class AppRouter extends Component {
@@ -47,7 +49,7 @@ class AppRouter extends Component {
             return(<LoadingMainApp />);
         }
 
-        if(this.props.main.isLogged && !this.props.companies){
+        if(this.props.main.isLogged && !this.props.companies.list){
             return(<LoadingMainApp />);
         }
 
@@ -94,9 +96,8 @@ class AppRouter extends Component {
 const mapStateToProps = (state) => ({
     main: state.main,
     translate: state.translate,
-    companies: state.company,
+    companies: state.companies,
     user: state.user
 });
-
 
 export default withRouter(connect(mapStateToProps)(AppRouter));

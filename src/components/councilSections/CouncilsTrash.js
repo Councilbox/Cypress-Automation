@@ -64,8 +64,8 @@ class CouncilsTrash extends Component {
 export default graphql(councils, {
     options: (props) => ({
         variables: {
-            type: "trash",
-            companyID: props.company.id,
+            state: 0,
+            companyId: props.company.id,
             isMeeting: false
         }
     })

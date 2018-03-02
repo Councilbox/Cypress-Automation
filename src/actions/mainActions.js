@@ -1,5 +1,7 @@
 import CouncilboxApi from '../api/CouncilboxApi';
-import { getCompanyInfo } from './companyActions';
+import { getCompanies } from './companyActions';
+import { client } from '../containers/App';
+import gql from 'graphql-tag';
 
 export let language = 'es';
 
@@ -10,7 +12,7 @@ export const login = (creds) => {
                 dispatch({type: 'LOGIN_SUCCESS'});
                 sessionStorage.setItem('token', response.token);                
                 dispatch(setUserData(response.token));
-                dispatch(getCompanyInfo());             
+                dispatch(getCompanies());             
             }else{
                 return ({type: 'LOGIN_FAILED'});
             }
@@ -24,7 +26,7 @@ export const loginSuccess = (token) => {
     return (dispatch) => {
         sessionStorage.setItem('token', token);
         dispatch(setUserData(token));
-        dispatch(getCompanyInfo());
+        dispatch(getCompanies());
         dispatch({type: 'LOGIN_SUCCESS'});        
     }
 };
@@ -34,12 +36,27 @@ export const loadingFinished = () => (
     {type: 'LOADING_FINISHED'}
 );
 
+const me = gql`
+    query Me{
+        me {
+            name
+            surname
+            id
+        }
+    }
+`;
+
+
 
 export const setUserData = (token) => {
-    const encodedProfile = token.split('.')[1];
-    const profile = JSON.parse(atob(encodedProfile));
-    return {type: 'SET_USER_DATA', value: profile.data};
+    return async (dispatch) => {
+        const response = await client.query({query: me});
+        dispatch({type: 'SET_USER_DATA', value: response.data.me});
+        dispatch(getCompanies(response.data.me.id));
+    }
 }
+
+
 
 
 export const logout = () => {

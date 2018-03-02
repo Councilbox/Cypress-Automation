@@ -19,7 +19,7 @@ class SignUpContainer extends Component {
 
 const mapStateToProps = (state) => ({
     main: state.main,
-    company: state.company.list[state.company.selected],
+    company: state.companies.list[state.companies.selected],
     translate: state.translate
 });
 

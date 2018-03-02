@@ -131,8 +131,8 @@ export default compose(graphql(submitRepository), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            type: "live",
-            companyID: props.company.id,
+            state: 20,
+            companyId: props.company.id,
             isMeeting: false
         }
     })

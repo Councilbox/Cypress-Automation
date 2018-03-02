@@ -29,14 +29,13 @@ class Login extends React.PureComponent {
         if(!this.checkRequiredFields()){
             const response = await this.props.mutate({
                 variables: {
-                    creds: {
-                        user: this.state.user,
-                        password: this.state.password
-                    }
+                    email: this.state.user,
+                    password: this.state.password
                 }
             });
             if(response.data.login){
-                this.props.actions.loginSuccess(response.data.login);
+                console.log(response);
+                this.props.actions.loginSuccess(response.data.login.token);
             }
         }
     }
@@ -158,8 +157,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 const submitRepository = gql `
-  mutation Login($creds: Credentials) {
-    login(creds: $creds)
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password){
+        token
+    }
   }
 `;
 
