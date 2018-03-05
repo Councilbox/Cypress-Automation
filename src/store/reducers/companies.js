@@ -13,7 +13,7 @@ export default function companyReducer(state = initialState.company, action) {
             return{
                 ...state,
                 list: action.value,
-                selected: 0
+                selected: 1
             }
 
         case 'CHANGE_SELECTED':

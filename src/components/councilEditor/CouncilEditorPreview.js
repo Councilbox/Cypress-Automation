@@ -4,7 +4,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import { urlParser } from '../../utils';
-import { getCouncilDataStepSix, sendConvene } from '../../queries';
+import { councilStepSix, sendConvene } from '../../queries';
 
 class CouncilEditorPreview extends Component {
 
@@ -67,15 +67,11 @@ class CouncilEditorPreview extends Component {
 export default compose(
     graphql(sendConvene), 
     
-    graphql(getCouncilDataStepSix, {
+    graphql(councilStepSix, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 6
-                }
+                councilID: props.councilID
             }
         })
     })

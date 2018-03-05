@@ -1,4 +1,6 @@
 import { urlParser } from '../utils';
+import { client } from '../containers/App';
+import * as queries from '../queries';
 
 /*const apiURLs = {
     prod: {
@@ -232,17 +234,15 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async createCouncil(companyID){
-        const request = new Request(`https://beta.councilbox.com/server/api/new/create?data=%7B%22company_id%22:%22${companyID}%22%7D`, {
-            method: 'GET',
-            headers: new Headers({
-                "Authorization": `Bearer ${sessionStorage.getItem('token')}`,
-                "x-jwt-token": sessionStorage.getItem('token')
-            })
+    static async createCouncil(companyId){
+        const response = await client.mutate({
+            mutation: queries.createCouncil,
+            variables: {
+              companyId: companyId
+            },
         });
-        const response = await fetch(request);
-        const data = await response.json();
-        return data.result.data;
+        console.log(response);
+        return response.data.createCouncil.id;
     }
 
     static async deleteParticipant(participantInfo){

@@ -5,7 +5,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
 import AttachmentList from './AttachmentList';
-import { getCouncilDataStepFour, saveAttachmentMutation, deleteAttachmentMutation, saveCouncilData } from '../../queries';
+import { councilStepFour, saveAttachmentMutation, deleteAttachmentMutation, saveCouncilData } from '../../queries';
 import { urlParser } from '../../utils';
 
 class CouncilEditorAttachments extends Component {
@@ -78,14 +78,10 @@ class CouncilEditorAttachments extends Component {
                     }})
                 },
                 refetchQueries: [{
-                    query: getCouncilDataStepFour,
+                    query: councilStepFour,
                     name: "data",
                     variables: {
-                        councilInfo: {
-                            companyID: this.props.companyID,
-                            councilID: this.props.councilID,
-                            step: 4
-                        }
+                        councilId: this.props.councilID
                     }
                 }]
             })
@@ -107,14 +103,10 @@ class CouncilEditorAttachments extends Component {
             },
 
             refetchQueries: [{
-                query: getCouncilDataStepFour,
+                query: councilStepFour,
                 name: "data",
                 variables: {
-                    councilInfo: {
-                        companyID: this.props.companyID,
-                        councilID: this.props.councilID,
-                        step: 4
-                    }
+                    councilID: this.props.councilID
                 }
             }]
         });
@@ -232,15 +224,11 @@ class CouncilEditorAttachments extends Component {
 }
 
 export default compose(
-    graphql(getCouncilDataStepFour, {
+    graphql(councilStepFour, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 4
-                }
+                councilID: props.councilID,
             }
         })
     }),

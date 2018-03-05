@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { FontIcon, SelectField, MenuItem, Checkbox } from 'material-ui';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import { BasicButton, TextInput, LoadingSection } from '../displayComponents';
-import { getCouncilDataStepFive, majorities, saveCouncilData } from '../../queries';
+import { councilStepFive, majorities, saveCouncilData } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
@@ -16,8 +16,8 @@ class CouncilEditorOptions extends Component {
         this.state = {
             data: '',
             errors: {
-                confirm_assistance: '',
-                act_point_majority_divider: ''
+                confirmAssistance: '',
+                actPointMajorityDivider: ''
             }
         }
     }
@@ -304,15 +304,11 @@ class CouncilEditorOptions extends Component {
 }
 
 export default compose(
-    graphql(getCouncilDataStepFive, {
+    graphql(councilStepFive, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 5
-                }
+                councilID: props.councilID
             }
         })
     }),

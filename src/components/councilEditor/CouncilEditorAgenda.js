@@ -3,7 +3,7 @@ import { FontIcon, MenuItem} from 'material-ui';
 import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { getCouncilDataStepThree, saveCouncilData, votationTypes } from '../../queries';
+import { councilStepThree, saveCouncilData, votationTypes } from '../../queries';
 import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
  
@@ -182,15 +182,11 @@ class CouncilEditorAgenda extends Component {
 }
 
 export default compose(
-    graphql(getCouncilDataStepThree, {
+    graphql(councilStepThree, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 3
-                }
+                councilID: props.councilID
             }
         })
     }),

@@ -7,6 +7,7 @@ export { default as DateWrapper } from './DateWrapper';
 export { default as DateTimePicker } from './DateTimePicker';
 export { default as DropDownMenu } from './DropDownMenu';
 export { default as ErrorAlert } from './ErrorAlert';
+export { default as ErrorWrapper } from './ErrorWrapper';
 export { default as FileUploadButton } from './FileUploadButton';
 export { default as LoadingMainApp } from './LoadingMainApp';
 export { default as LoadingSection } from './LoadingSection';

@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { councils } from '../../queries.js';
+import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table } from '../displayComponents';
+import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper } from '../displayComponents';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
@@ -36,26 +36,14 @@ class CouncilDrafts extends Component {
         this.props.data.loading = true;
         const response = await this.props.mutate({
             variables: {
-                data: urlParser({data: {
-                    company_id: this.props.company.id,
-                    active: 0,
-                    id: this.state.councilToDelete
-                }})
-            },
-            refetchQueries: [{
-                query: councils,
-                name: "data",
-                variables: {
-                    type: "draft",
-                    companyID: this.props.company.id,
-                    isMeeting: false
-                }
-            }]
+                councilId: this.state.councilToDelete
+            }
         })
         if(response){
             this.setState({
                 deleteModal: false
             });
+            this.props.data.refetch();
         }
     }
 
@@ -74,7 +62,7 @@ class CouncilDrafts extends Component {
 
     render(){
         const { translate } = this.props;
-
+        const { loading, councils, error } = this.props.data;
         return(
             <div style={{height: '10em', padding: '2em'}}>
                 <SectionTitle
@@ -82,29 +70,40 @@ class CouncilDrafts extends Component {
                     title={translate.companies_draft}
                     subtitle={translate.companies_draft_desc}
                 />
-                {this.props.data.loading? 
+                {loading? 
                     <LoadingSection />
                 :
-                    <Fragment>
-                        <Table 
-                            headers={[{name: translate.date_real_start}, {name: translate.name}, {name: translate.delete}]}
-                            action={this._renderDeleteIcon}
-                            companyID={this.props.company.id}
-                        >
-                            {this.props.data.councils.map((council) => {
-                                return(
-                                    <TableRow
-                                        selectable={false}
-                                        hoverable
-                                        key={`participant${council.id}`}  
-                                    >
-                                        <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableRowColumn>
-                                        <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${council.step}`}>{council.name}</Link></TableRowColumn>
-                                        <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
-                                    </TableRow>
-                                )
-                            })}
-                        </Table>
+                <Fragment>
+                        {error?
+                            <div>
+                                {error.graphQLErrors.map((error) => {
+                                    return <ErrorWrapper error={error} translate={translate} />
+                                })}
+                            </div>
+                        :
+                            councils.length > 0?
+                                <Table 
+                                    headers={[{name: translate.date_real_start}, {name: translate.name}, {name: translate.delete}]}
+                                    action={this._renderDeleteIcon}
+                                    companyID={this.props.company.id}
+                                >
+                                    {councils.map((council) => {
+                                        return(
+                                            <TableRow
+                                                selectable={false}
+                                                hoverable
+                                                key={`participant${council.id}`}  
+                                            >
+                                                <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableRowColumn>
+                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name}</Link></TableRowColumn>
+                                                <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
+                                            </TableRow>
+                                        )
+                                    })}
+                                    </Table>
+                            :
+                                <span>{translate.no_results}</span>
+                        }
                         <AlertConfirm 
                             title={translate.send_to_trash}
                             bodyText={translate.send_to_trash_desc}
@@ -123,19 +122,15 @@ class CouncilDrafts extends Component {
 
 }
 
-const submitRepository = gql `
-  mutation UpdateCouncil($data: String) {
-    updateCouncil(data: $data)
-  }
-`;
 
-export default compose(graphql(submitRepository), graphql(councils, {
+export default compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
             state: 0,
             companyId: props.company.id,
-            isMeeting: false
+            isMeeting: false,
+            active: 1
         }
     })
 }))(CouncilDrafts);
