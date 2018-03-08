@@ -4,7 +4,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import { urlParser } from '../../utils';
-import { councilStepSix, sendConvene } from '../../queries';
+import { councilStepSix, conveneCouncil } from '../../queries';
 
 class CouncilEditorPreview extends Component {
 
@@ -13,12 +13,11 @@ class CouncilEditorPreview extends Component {
     }
 
     send = async () => {
+        const { __typename, ...council } = this.props.data.council;
         this.props.data.loading = true;
         const response = await this.props.mutate({
             variables: {
-                data: urlParser({data: {
-                    council: this.props.data.council.council
-                }})
+                council: council
             }
         });
 
@@ -55,23 +54,24 @@ class CouncilEditorPreview extends Component {
                     textPosition="after"
                     onClick={this.send}
                 />
-                <div
-                    dangerouslySetInnerHTML={{__html: this.props.data.council.previewHtml}}
+                {<div
+                    dangerouslySetInnerHTML={{__html: this.props.data.councilPreviewHTML}}
                     style={{border: `1px solid ${getSecondary()}`, padding: '2em'}} 
-                />
+                />}
             </div>
         );
     }
 }
 
 export default compose(
-    graphql(sendConvene), 
+    graphql(conveneCouncil), 
     
     graphql(councilStepSix, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilID: props.councilID
+                id: props.councilID,
+                companyId: props.companyID
             }
         })
     })

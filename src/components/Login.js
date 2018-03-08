@@ -85,10 +85,9 @@ class Login extends React.PureComponent {
                                 color={'transparent'}
                                 buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                onClick={this.login}
                                 labelPosition={'before'}
                             />
-                            <Link to="/signup">
+                            <Link to="/">
                                 <BasicButton
                                     text="Dar de alta mi empresa"
                                     color={'white'}

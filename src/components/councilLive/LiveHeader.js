@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { getPrimary, getSecondary } from '../../styles/colors';
-import FontIcon from 'material-ui/FontIcon';
+import { FontIcon } from 'material-ui';
 import { bHistory } from '../../containers/App';
 import { AlertConfirm } from '../displayComponents';
 

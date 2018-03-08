@@ -5,6 +5,7 @@ import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { BasicButton } from './displayComponents';
 
 class Header extends Component{
 
@@ -22,7 +23,10 @@ class Header extends Component{
                 {this.props.user &&
                     <div>
                         <div style={{float: 'right', marginRight: '2em'}} >{this.props.user}</div>
-                        <button onClick={this.logout}>Logout</button>
+                        <BasicButton
+                            text="Logout"
+                            onClick={this.logout}
+                        />
                     </div>
                 }
             </header>

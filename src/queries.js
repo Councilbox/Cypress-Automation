@@ -27,7 +27,6 @@ export const companies = gql`
     }
 `;
 
-
 export const councils = gql `
   query Councils($companyId: Int!, $state: Int, $isMeeting: Boolean) {
     councils(companyId: $companyId, state: $state, isMeeting: $isMeeting) {
@@ -39,6 +38,13 @@ export const councils = gql `
   }
 `;
 
+export const updateCouncil = gql`
+  mutation UpdateCouncil($council: NewCouncil){
+    updateCouncil(council: $council){
+      id
+    }
+  }
+`;
 
 export const deleteCouncil = gql`
   mutation DeleteCouncil($councilId: Int!){
@@ -73,9 +79,12 @@ export const councilStepOne = gql`
       dateStart
       dateStart2NdCall
     }
+    countries{
+      id
+      deno
+    }
   }
 `;
-
 
 export const councilStepTwo = gql`
   query CouncilStepTwo($id: Int!, $companyId: Int!){
@@ -93,23 +102,16 @@ export const councilStepTwo = gql`
         email
         phone
         dni
-        date
         type
         delegateId
         numParticipations
         socialCapital
         uuid
         delegateUuid
-        videoPassword
         position
         language
-        address
         city
-        country
-        countryState
-        zipcode
         personOrEntity
-        actived
       }
     }
 
@@ -125,81 +127,6 @@ export const councilStepTwo = gql`
   }
 `;
 
-
-/*
-  agendas{
-    abstention_manual
-    abstention_votings
-    agenda_subject
-    comment
-    council_id
-    current_remote_census
-    date_end
-    date_end_votation
-    date_start
-    date_start_votation
-    description
-    id
-    majority
-    majority_divider
-    majority_type
-    negative_manual
-    negative_votings
-    no_participate_census
-    no_vote_manual
-    no_vote_votings
-    num_abstention_manual
-    num_abstention_votings
-    num_current_remote_census
-    num_negative_manual
-    num_negative_votings
-    num_no_participate_census
-    num_no_vote_manual
-    num_no_vote_votings
-    num_positive_manual
-    num_positive_votings
-    num_present_census
-    num_remote_census
-    num_total_manual
-    num_total_votings
-    order_index
-    point_state
-    positive_manual
-    positive_votings
-    present_census
-    remote_census
-    social_capital_current_remote
-    social_capital_no_participate
-    social_capital_present
-    social_capital_remote
-    sortable
-    subject_type
-    total_manual
-    total_votings
-    voting_state
-  }
-
-  statute {
-    advance_notice_days
-    can_add_points
-    can_edit_convene
-    can_reorder_points
-    can_unblock
-    census_id
-    convene_header
-    council_id
-    exist_public_url
-    exists_act
-    exists_advance_notice_days
-    exists_second_call
-    id
-    minimum_separation_between_call
-    prototype
-    statute_id
-    title
-    who_can_vote
-  }
-*/
 export const councilStepThree = gql`
   query CouncilStepThree($id: Int!){
     council(id: $id){
@@ -213,64 +140,131 @@ export const councilStepThree = gql`
       step
       street
       zipcode
+
+      agendas{
+        abstentionManual
+        abstentionVotings
+        agendaSubject
+        comment
+        councilId
+        currentRemoteCensus
+        dateEnd
+        dateEndVotation
+        dateStart
+        dateStartVotation
+        description
+        id
+        majority
+        majorityDivider
+        majorityType
+        negativeManual
+        negativeVotings
+        noParticipateCensus
+        noVoteManual
+        noVoteVotings
+        numAbstentionManual
+        numAbstentionVotings
+        numCurrentRemoteCensus
+        numNegativeManual
+        numNegativeVotings
+        numNoParticipateCensus
+        numNoVoteManual
+        numNoVoteVotings
+        numPositiveManual
+        numPositiveVotings
+        numPresentCensus
+        numRemoteCensus
+        numTotalManual
+        numTotalVotings
+        orderIndex
+        pointState
+        positiveManual
+        positiveVotings
+        presentCensus
+        remoteCensus
+        socialCapitalCurrentRemote
+        socialCapitalNoParticipate
+        socialCapitalPresent
+        socialCapitalRemote
+        sortable
+        subjectType
+        totalManual
+        totalVotings
+        votingState
+      }
+    
+      statute {
+        advanceNoticeDays
+        canAddPoints
+        canEditConvene
+        canReorderPoints
+        canUnblock
+        censusId
+        conveneHeader
+        councilId
+        existPublicUrl
+        existsAct
+        existsAdvanceNoticeDays
+        existsSecondCall
+        id
+        minimumSeparationBetweenCall
+        prototype
+        statuteId
+        title
+        whoCanVote
+      }
+    }
+    votingTypes {
+      label
+      value
     }
   }
 `;
 
-/*
-  attachments{
-    council_id
-    filename
-    filesize
-    filetype
-    id
+export const addAgenda = gql `
+  mutation addAgenda($agenda: NewAgenda) {
+      addAgenda(agenda: $agenda) {
+        id
+      }
   }
-*/
+`
+
+export const removeAgenda = gql`
+  mutation removeAgenda($councilId: Int!, $agendaId: Int!){
+    removeAgenda(councilId: $councilId, agendaId: $agendaId){
+      id
+    }
+  }
+`;
+
 export const councilStepFour = gql`
   query CouncilStepFour($id: Int!){
     council(id: $id){
       id
       companyId
+      attachments{
+        filename
+        filesize
+        filetype
+        id
+      }
     }
   }
 `;
 
-/*
-  platforms {
-    act
-    company_id
-    council_id
-    emails
-    id
-    room
-    room_access
-    security_email
-    security_sms
-    signature
-    video
+export const addCouncilAttachment = gql`
+  mutation AddCouncilAttachment($attachment: NewCouncilAttachment){
+    addCouncilAttachment(attachment: $attachment){
+      id
+    }
   }
+`;
 
-  statute {
-    advance_notice_days
-    can_add_points
-    can_edit_convene
-    can_reorder_points
-    can_unblock
-    census_id
-    convene_header
-    council_id
-    exist_public_url
-    exists_act
-    exists_advance_notice_days
-    exists_second_call
-    id
-    minimum_separation_between_call
-    prototype
-    statute_id
-    title
-    who_can_vote
+export const removeCouncilAttachment = gql`
+  mutation removeCouncilAttachment($councilId: Int!, $attachmentId: Int!){
+    removeCouncilAttachment(councilId: $councilId, attachmentId: $attachmentId)
   }
-*/
+`;
 
 export const councilStepFive = gql`
   query CouncilStepFive($id: Int!){
@@ -292,6 +286,61 @@ export const councilStepFive = gql`
       id
       securityType
       step
+      platform {
+        act
+        companyId
+        councilId
+        emails
+        id
+        room
+        roomAccess
+        securityEmail
+        securitySms
+        signature
+        video
+      }
+    
+      statute {
+        advanceNoticeDays
+        canAddPoints
+        canEditConvene
+        canReorderPoints
+        canUnblock
+        censusId
+        conveneHeader
+        councilId
+        existPublicUrl
+        existsAct
+        existsAdvanceNoticeDays
+        existsSecondCall
+        id
+        minimumSeparationBetweenCall
+        prototype
+        statuteId
+        title
+        whoCanVote
+      }
+    }
+    majorityTypes{
+      label
+      value
+    }
+  }
+`;
+
+export const provinces = gql`
+  query ProvinceList($countryId: Int!){
+    provinces(countryId: $countryId){
+      id
+      deno
+    }
+  }
+`;
+
+export const conveneCouncil = gql`
+  mutation conveneCouncil($council: CouncilInput){
+    conveneCouncil(council: $council){
+      id
     }
   }
 `;
@@ -316,7 +365,7 @@ export const councilStepFive = gql`
 }*/
 
 export const councilStepSix = gql`
-  query CouncilStepSix($id: Int!){
+  query CouncilStepSix($id: Int!, $companyId: Int!){
     council(id: $id){
       actPointMajority
       actPointMajorityDivider
@@ -333,10 +382,11 @@ export const councilStepSix = gql`
       fullVideoRecord
       id
       name
-      remote_celebration
+      remoteCelebration
       state
       step
     }
+    councilPreviewHTML(id: $id, companyId: $companyId)
   }
 `;
 
@@ -935,15 +985,6 @@ export const endCouncil = gql `
 export const updateOrder = gql `
   mutation updateOrder($data: String!) {
       updateOrder(data: $data) {
-        code
-        msg
-      }
-  }
-`
-
-export const addAgenda = gql `
-  mutation addAgenda($data: String!) {
-      addAgenda(data: $data) {
         code
         msg
       }

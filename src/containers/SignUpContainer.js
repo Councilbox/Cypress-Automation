@@ -11,7 +11,7 @@ class SignUpContainer extends Component {
         return (
             <div style={{height: '100vh', width: '100%', backgroundColor: primary}}>
                 <Header helpIcon />
-                <SignUpPage main={this.props.main} company={this.props.company} translate={this.props.translate} />
+                <SignUpPage main={this.props.main} translate={this.props.translate} />
             </div>
         );
     }
@@ -19,7 +19,6 @@ class SignUpContainer extends Component {
 
 const mapStateToProps = (state) => ({
     main: state.main,
-    company: state.companies.list[state.companies.selected],
     translate: state.translate
 });
 

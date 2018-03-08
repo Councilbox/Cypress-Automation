@@ -4,7 +4,7 @@ import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, Loa
 import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
-import { councilStepOne, saveCouncilData } from '../../queries';
+import { councilStepOne, updateCouncil } from '../../queries';
 import { urlParser } from '../../utils';
 
 class CouncilEditorNotice extends Component {
@@ -35,7 +35,7 @@ class CouncilEditorNotice extends Component {
 
     nextPage = () => {
         if(!this.checkRequiredFields()){
-            this.saveCouncil();
+            this.updateCouncil();
             this.props.nextStep();
         }
     }
@@ -58,12 +58,12 @@ class CouncilEditorNotice extends Component {
             errors.name = translate.new_enter_title
         }
 
-        if(!this.state.data.date_start){
+        if(!this.state.data.dateStart){
             hasError = true;
             errors.dateStart = 'Este campo es obligatorio'
         }
 
-        if(!this.state.data.convene_text){
+        if(!this.state.data.conveneText){
             hasError = true;
             errors.conveneText = 'Este campo es obligatorio'
         }
@@ -78,17 +78,15 @@ class CouncilEditorNotice extends Component {
         return hasError;
     }
 
-    saveCouncil = () => {
-        this.props.saveCouncil({
+    updateCouncil = () => {
+        const { __typename, ...council } = this.state.data;
+        console.log(council);
+        this.props.updateCouncil({
             variables: {
-                data: urlParser({
-                    data: {
-                        council: {
-                            ...this.state.data,
-                            step: this.props.actualStep > 1? this.props.actualStep : 1
-                        }
-                    }
-                })
+                council: {
+                    ...council,
+                    step: this.props.actualStep > 1? this.props.actualStep : 1
+                }
             }
         });
     }
@@ -126,7 +124,7 @@ class CouncilEditorNotice extends Component {
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 <h4>{translate.date_time_place}</h4>
                 <h5>{`${translate.new_location_of_celebrate}: `}{
-                    this.state.data.remote_celebration === 1 ? 
+                    this.state.data.remoteCelebration === 1 ? 
                         translate.remote_celebration 
                     : 
                         `${council.street}, ${council.country}` }</h5>
@@ -144,7 +142,7 @@ class CouncilEditorNotice extends Component {
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
-                    onClick={this.saveCouncil} 
+                    onClick={this.updateCouncil} 
                 />
                 <BasicButton
                     text={translate.next}
@@ -157,6 +155,7 @@ class CouncilEditorNotice extends Component {
                     open={this.state.placeModal}
                     close={() => this.setState({placeModal: false})}
                     place={this.state.place}
+                    countries={this.props.data.countries}
                     translate={this.props.translate}
                     saveAndClose={this.savePlaceAndClose}
                     council={this.state.data}
@@ -242,8 +241,8 @@ export default compose(
         })
     }),
 
-    graphql(saveCouncilData, {
-        name: "saveCouncil"
+    graphql(updateCouncil, {
+        name: "updateCouncil"
     })
 )(CouncilEditorNotice);
  

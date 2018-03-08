@@ -18,10 +18,9 @@ class NewParticipantForm extends Component {
             data: {
                 participant: {
                     language : 'es',
-                    council_id : 2,
-                    lastname: '',
-                    num_participations : 1,
-                    person_or_entity : 1,
+                    councilId : 2,
+                    numParticipations : 1,
+                    personOrEntity : 1,
                     name : '',
                     dni : '',
                     position : '',
@@ -32,9 +31,9 @@ class NewParticipantForm extends Component {
 
             errors: {
                 language : '',
-                council_id : '',
-                num_participations : '',
-                person_or_entity : '',
+                councilId : '',
+                numParticipations : '',
+                personOrEntity : '',
                 name : '',
                 dni : '',
                 position : '',
@@ -58,31 +57,26 @@ class NewParticipantForm extends Component {
 
             const response = await this.props.mutate({
                 variables: {
-                    data : urlParser({
-                        data: {
-                            participant: {
-                                ...participant,
-                                name: `${participant.name} ${participant.lastname}`,
-                                council_id: this.props.councilID
-                            }
-                        }
-                    })
+                    participant: {
+                        ...participant,
+                        name: `${participant.name} ${participant.surname}`,
+                        councilId: this.props.councilID
+                    }
                 }
             });
-
             if (response) {
-                if(response.data.addParticipant.code === 200){
-                    this.props.refetch();
-                    this.resetValues();
-                    this.props.close();
-                } else {
-                    const errorField = errorHandler(response.data.addParticipant.code);
+                if(response.errors){
+                    const errorField = errorHandler(response.errors[0].code);
                     this.setState({
                         errors: {
                             ...this.state.errors,
                             email: translate[errorField]
                         }
                     })
+                } else {
+                    this.props.refetch();
+                    this.resetValues();
+                    this.props.close();
                 }
             }
         }  
@@ -93,13 +87,13 @@ class NewParticipantForm extends Component {
         
         let errors = {
             name: '',
-            lastname: '',
+            surname: '',
             dni: '',
             position: '',
             email: '',
             phone: '',
             language: '',
-            num_participations: ''
+            numParticipations: ''
         };
 
         let hasError = false;
@@ -109,9 +103,9 @@ class NewParticipantForm extends Component {
             errors.name = 'Este campo es obligatorio';
         }
         
-        if(!participant.lastname && this.state.participantType === 0){
+        if(!participant.surname && this.state.participantType === 0){
             hasError = true;
-            errors.lastname = 'Este campo es obligatorio';
+            errors.surname = 'Este campo es obligatorio';
         }
 
         if(!participant.dni){
@@ -139,9 +133,9 @@ class NewParticipantForm extends Component {
             errors.language = 'Este campo es obligatorio';
         }
 
-        if(!participant.num_participations){
+        if(!participant.numParticipations){
             hasError = true;
-            errors.num_participations = 'Este campo es obligatorio';
+            errors.numParticipations = 'Este campo es obligatorio';
         }
 
         this.setState({
@@ -165,8 +159,6 @@ class NewParticipantForm extends Component {
             }
         })
     }
-
-
 
     _renderAddParticipantButtons(){
         const { translate } = this.props;
@@ -336,15 +328,15 @@ class NewParticipantForm extends Component {
                     <TextInput
                         floatingText={translate.votes}
                         type="number"
-                        errorText={errors.num_participations}
-                        value={participant.num_participations}
+                        errorText={errors.numParticipations}
+                        value={participant.numParticipations}
                         onChange={(event) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
                                 participant: {
                                     ...this.state.data.participant,
-                                    num_participations: event.nativeEvent.target.value
+                                    numParticipations: event.nativeEvent.target.value
                                 }
                             }
                         })}
@@ -374,15 +366,15 @@ class NewParticipantForm extends Component {
                 <TextInput
                     floatingText={translate.surname}
                     type="text"
-                    errorText={errors.lastname}
-                    value={participant.lastname}
+                    errorText={errors.surname}
+                    value={participant.surname}
                     onChange={(event) => this.setState({
                         ...this.state,
                         data: {
                             ...this.state.data,
                             participant: {
                                 ...this.state.data.participant,
-                                lastname: event.nativeEvent.target.value
+                                surname: event.nativeEvent.target.value
                             }
                         }
                     })}
@@ -473,15 +465,15 @@ class NewParticipantForm extends Component {
                 <TextInput
                     floatingText={translate.votes}
                     type="number"
-                    errorText={errors.num_participations}
-                    value={participant.num_participations}
+                    errorText={errors.numParticipations}
+                    value={participant.numParticipations}
                     onChange={(event) => this.setState({
                         ...this.state,
                         data: {
                             ...this.state.data,
                             participant: {
                                 ...this.state.data.participant,
-                                num_participations: event.nativeEvent.target.value
+                                numParticipations: event.nativeEvent.target.value
                             }
                         }
                     })}
@@ -489,7 +481,6 @@ class NewParticipantForm extends Component {
             </Fragment>
         );
     }
-
 
     render() {
         const {translate} = this.props;
@@ -509,12 +500,15 @@ class NewParticipantForm extends Component {
 }
 
 const addParticipant = gql `
-    mutation addParticipant($data: String!) {
-        addParticipant(data: $data){
-            code
-            msg
+    mutation addParticipant($participant: NewParticipant) {
+        addCouncilParticipant(participant: $participant){
+            id
         }
     }
 `;
 
-export default graphql(addParticipant)(NewParticipantForm);
+export default graphql(addParticipant, {
+    options: {
+        errorPolicy: 'all'
+    }
+})(NewParticipantForm);

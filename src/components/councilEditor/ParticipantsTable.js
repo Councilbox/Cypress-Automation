@@ -26,10 +26,8 @@ class ParticipantsTable extends Component {
     deleteParticipant = async (id) => {
         const response = await this.props.mutate({
             variables: {
-                data: urlParser({data: {
-                    id: id,
-                    council_id: this.props.councilID
-                }})
+                participantId: id,
+                councilId: this.props.councilID
             }
         })
         
@@ -77,11 +75,8 @@ class ParticipantsTable extends Component {
 }
 
 const deleteParticipant = gql `
-    mutation DeleteParticipant($data: String!) {
-        deleteParticipant(data: $data){
-            code
-            msg
-        }
+    mutation DeleteParticipant($participantId: Int!, $councilId: Int!) {
+        deleteParticipant(participantId: $participantId, councilId: $councilId)
     }
 `;
 
