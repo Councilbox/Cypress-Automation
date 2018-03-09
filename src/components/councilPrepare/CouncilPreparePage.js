@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu } from "../displayComponents";
+import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, Icon } from "../displayComponents";
 import ParticipantsTable from '../councilEditor/ParticipantsTable';
 import NewParticipantForm from '../councilEditor/NewParticipantForm';
 import { getPrimary, getSecondary } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 import DateHeader from './DateHeader';
 import { graphql, compose } from 'react-apollo';
 import { bHistory } from '../../containers/App';
@@ -56,7 +55,7 @@ class CouncilPreparePage extends Component {
                                 color={primary}
                                 buttonStyle={{margin: '0', height: '100%'}}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                icon={<FontIcon className="material-icons">add</FontIcon>}
+                                icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
                                 textPosition="after"
                                 onClick={this.goToPrepareRoom}
                             />
@@ -69,7 +68,7 @@ class CouncilPreparePage extends Component {
                     color={primary}
                     buttonStyle={{margin: '0', height: '100%'}}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">add</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
                     textPosition="after"
                     onClick={() => this.setState({
                         page: !this.state.page
@@ -90,7 +89,7 @@ class CouncilPreparePage extends Component {
                             color={primary}
                             buttonStyle={{margin: '0', height: '100%'}}
                             textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                            icon={<FontIcon className="material-icons">add</FontIcon>}
+                            icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
                             textPosition="after"
                             onClick={() => this.setState({
                                 addParticipantModal: true

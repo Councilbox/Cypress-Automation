@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { RadioButton, RadioButtonGroup, FontIcon, MenuItem, Dialog} from 'material-ui';
-import { BasicButton, TextInput, SelectInput } from '../displayComponents';
+import { MenuItem, Dialog} from 'material-ui';
+import { BasicButton, TextInput, SelectInput, Radio, RadioGroup, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { urlParser, errorHandler, checkValidEmail } from '../../utils';
+import { errorHandler, checkValidEmail } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
 let primary = getPrimary();
 
@@ -178,7 +178,7 @@ class NewParticipantForm extends Component {
                     text={translate.save}
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
                     textPosition="after"
                     onClick={this.sendNewParticipant} 
                 />
@@ -190,9 +190,9 @@ class NewParticipantForm extends Component {
         const { translate } = this.props;
 
         return (
-            <RadioButtonGroup 
+            <RadioGroup 
                 name={translate.person_or_entity}
-                valueSelected={this.state.participantType}
+                value={this.state.participantType}
                 onChange={(event, value) => {
                     this.setState({
                         participantType: value,
@@ -204,17 +204,17 @@ class NewParticipantForm extends Component {
                 }}
                 style={{display: 'flex', flexDirection: 'row'}}
             >
-                <RadioButton
+                <Radio
                     value={0}
                     label={translate.person}
                     style={{padding: 0, margin: '1em', width: '50%'}}
                 />
-                <RadioButton
+                <Radio
                     value={1}
                     label={translate.entity}
                     style={{padding: 0, margin: '1em', width: '50%'}}
                 />
-            </RadioButtonGroup>
+            </RadioGroup>
         );
     }
 

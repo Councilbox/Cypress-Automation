@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import React from 'react';
+import { SortableContainer } from 'react-sortable-hoc';
 import DraggableBlock from './DraggableBlock';
 
 const SortableList = SortableContainer(({items}) => {

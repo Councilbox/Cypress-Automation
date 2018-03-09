@@ -2,12 +2,10 @@ import React from 'react';
 import Login from '../components/Login';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
-import { getPrimary } from '../styles/colors';
 
 class LoginContainer extends React.PureComponent {
 
     render(){
-        const primary = getPrimary();
         return(
             <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
                 <Header helpIcon />

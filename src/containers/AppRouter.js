@@ -8,7 +8,7 @@ import Welcome from '../components/Welcome';
 import NotFound from "../components/NotFound";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import {connect} from "react-redux";
-import CompanySideMenu from '../components/CompanySideMenu';
+import SideMenu from '../components/sideMenu/SideMenu';
 import DashboardContainer from './DashboardContainer';
 import CouncilEditorContainer from './CouncilEditorContainer';
 import CouncilPrepareContainer from './CouncilPrepareContainer';
@@ -16,8 +16,6 @@ import MeetingEditorContainer from './MeetingEditorContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
 
 
 class AppRouter extends Component {
@@ -25,20 +23,20 @@ class AppRouter extends Component {
     constructor(props){
         super(props);
         this.state = {
-            sideWidth: 10,
+            sideWidth: 5,
             open: false
         }    
     }
 
     toggleMenu = () => {
-        if(this.state.sideWidth === 25){
+        if(this.state.sideWidth === 20){
             this.setState({
-                sideWidth: 10,
+                sideWidth: 5,
                 open: false
             });
         }else{
             this.setState({
-                sideWidth: 25,
+                sideWidth: 20,
                 open: true
             });
         }
@@ -56,7 +54,7 @@ class AppRouter extends Component {
         return (
             this.props.main.isLogged?
                 <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>                                                      
-                    <CompanySideMenu
+                    <SideMenu
                         width={this.state.sideWidth}
                         companies={this.props.companies.list}
                         company={this.props.companies.list[this.props.companies.selected]}

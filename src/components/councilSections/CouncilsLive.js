@@ -5,8 +5,6 @@ import { graphql } from 'react-apollo';
 import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper } from '../displayComponents';
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
-import { urlParser } from '../../utils';
-import gql from 'graphql-tag';
 import { compose } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
 import { TableRowColumn, TableRow } from 'material-ui/Table';

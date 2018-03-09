@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { FontIcon, MenuItem, Checkbox } from 'material-ui';
-import { RadioButton, RadioButtonGroup } from 'material-ui';
-import { BasicButton, TextInput, LoadingSection, SelectInput } from '../displayComponents';
-import { councilStepFive, majorities, updateCouncil } from '../../queries';
+import { MenuItem } from 'material-ui';
+import { BasicButton, TextInput, LoadingSection, SelectInput, Radio, RadioGroup, Checkbox, Icon } from '../displayComponents';
+import { councilStepFive, updateCouncil } from '../../queries';
 import { graphql, compose } from 'react-apollo';
-import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 
 let primary = getPrimary();
@@ -125,7 +123,7 @@ class CouncilEditorOptions extends Component {
                     text={translate.save}
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
                     textPosition="after"
                     onClick={this.updateCouncil} 
                 />
@@ -147,8 +145,8 @@ class CouncilEditorOptions extends Component {
                 <div>{translate.confirm_assistance}</div>
                 <Checkbox
                     label={translate.confirm_assistance_desc}
-                    checked={this.state.data.council.confirmAssistance === 1? true : false}
-                    onCheck={(event, isInputChecked) => this.setState({
+                    value={this.state.data.council.confirmAssistance === 1? true : false}
+                    onChange={(event, isInputChecked) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
@@ -164,8 +162,8 @@ class CouncilEditorOptions extends Component {
                <div>{translate.video}</div>
                 <Checkbox
                     label={translate.room_video_broadcast}
-                    checked={this.state.data.council.councilType === 0? true : false}
-                    onCheck={(event, isInputChecked) => this.setState({
+                    value={this.state.data.council.councilType === 0? true : false}
+                    onChange={(event, isInputChecked) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
@@ -182,8 +180,8 @@ class CouncilEditorOptions extends Component {
                 {this.state.data.council.councilType === 0 ?
                     <Checkbox
                         label={translate.full_video_record}
-                        checked={this.state.data.council.fullVideoRecord === 0? false : true}
-                        onCheck={(event, isInputChecked) => this.setState({
+                        value={this.state.data.council.fullVideoRecord === 0? false : true}
+                        onChange={(event, isInputChecked) => this.setState({
                                 ...this.state,
                                 data: {
                                     ...this.state.data,
@@ -199,8 +197,8 @@ class CouncilEditorOptions extends Component {
                 :
                     <Checkbox
                         label={translate.auto_close}
-                        checked={this.state.data.council.autoClose === 0? false : true}
-                        onCheck={(event, isInputChecked) => this.setState({
+                        value={this.state.data.council.autoClose === 0? false : true}
+                        onChange={(event, isInputChecked) => this.setState({
                                 ...this.state,
                                 data: {
                                     ...this.state.data,
@@ -216,9 +214,9 @@ class CouncilEditorOptions extends Component {
                 }
                 
                 <div>{translate.security}</div>
-                <RadioButtonGroup 
+                <RadioGroup 
                     name="security"
-                    valueSelected={this.state.data.council.securityType}
+                    value={this.state.data.council.securityType}
                     onChange={(event, value) => this.setState({
                         data: {
                             ...this.state.data,
@@ -229,24 +227,24 @@ class CouncilEditorOptions extends Component {
                         }
                     })}
                 >
-                    <RadioButton
+                    <Radio
                         value={0}
                         label={translate.new_security_none}
                     />
-                    <RadioButton
+                    <Radio
                         value={1}
                         label={translate.new_security_email}
                     />
-                    <RadioButton
+                    <Radio
                         value={2}
                         label={translate.new_security_sms}
                     />
-                </RadioButtonGroup>
+                </RadioGroup>
                 <h5>{translate.approve_act_draft_at_end}</h5>
                 <Checkbox
                     label={translate.approve_act_draft_at_end_desc}
-                    checked={this.state.data.council.approveActDraft === 0? false : true}
-                    onCheck={(event, isInputChecked) => this.setState({
+                    value={this.state.data.council.approveActDraft === 0? false : true}
+                    onChange={(event, isInputChecked) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,

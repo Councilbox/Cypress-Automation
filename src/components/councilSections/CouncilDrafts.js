@@ -6,8 +6,6 @@ import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWr
 import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { IconButton } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
-import gql from 'graphql-tag';
-import { urlParser } from '../../utils';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 
 
@@ -95,7 +93,7 @@ class CouncilDrafts extends Component {
                                                 key={`participant${council.id}`}  
                                             >
                                                 <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableRowColumn>
-                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name}</Link></TableRowColumn>
+                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name || translate.dashboard_new}</Link></TableRowColumn>
                                                 <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
                                             </TableRow>
                                         )

@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import { FontIcon, MenuItem, Dialog } from 'material-ui';
-import { BasicButton, SelectInput, LoadingSection, ErrorWrapper } from '../displayComponents';
+import { MenuItem, Dialog } from 'material-ui';
+import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
-import { councilStepTwo, participantsQuery, updateCouncil } from '../../queries';
-import { urlParser } from '../../utils';
+import { councilStepTwo, updateCouncil } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import NewParticipantForm from './NewParticipantForm';
@@ -120,7 +119,7 @@ class CouncilEditorCensus extends Component {
                     text={translate.want_census_change}
                     color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">cached</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>cached</Icon>}
                     textPosition="after"
                     onClick={this.sendCensusChange} 
                 />
@@ -160,7 +159,7 @@ class CouncilEditorCensus extends Component {
                     text={translate.add_participant}
                     color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">add</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
                     textPosition="after"
                     onClick={() => this.setState({ addParticipantModal: true})} 
                 />
@@ -168,7 +167,7 @@ class CouncilEditorCensus extends Component {
                     text={translate.save}
                     color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
                     textPosition="after"
                     onClick={this.saveDraft} 
                 />

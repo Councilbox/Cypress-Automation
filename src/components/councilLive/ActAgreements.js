@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { CollapsibleSection, RichTextInput } from '../displayComponents';
-import { FontIcon } from 'material-ui';
+import { CollapsibleSection, RichTextInput, Icon } from '../displayComponents';
 import { darkGrey } from '../../styles/colors';
 
 class ActAgreements extends Component {
@@ -11,11 +10,11 @@ class ActAgreements extends Component {
         return(
             <div style={{height: '3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
-                    <FontIcon className="material-icons" color='grey'>edit</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>edit</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>{`${translate.comments_and_agreements}` }</span>
                 </div>
                 <div style={{width: '25%', display: 'flex', justifyContent: 'flex-end', paddingRight: '2em'}}>
-                    <FontIcon className="material-icons" color={'grey'}>keyboard_arrow_down</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>keyboard_arrow_down</Icon>
                 </div>
             </div>
         )

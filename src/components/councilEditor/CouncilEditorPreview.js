@@ -3,7 +3,6 @@ import { BasicButton, LoadingSection } from "../displayComponents";
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import { urlParser } from '../../utils';
 import { councilStepSix, conveneCouncil } from '../../queries';
 
 class CouncilEditorPreview extends Component {

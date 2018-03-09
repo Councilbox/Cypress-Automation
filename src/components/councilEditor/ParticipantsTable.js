@@ -6,7 +6,6 @@ import { IconButton } from 'material-ui';
 import { Table } from '../displayComponents';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { urlParser } from '../../utils';
 
 class ParticipantsTable extends Component {
 

@@ -2,15 +2,13 @@ import React from 'react';
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Grid, Row, Col } from "react-bootstrap";
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
-import { TextField, FlatButton, FontIcon } from 'material-ui';
+import {Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { TextField, FlatButton } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { login } from '../queries';
-import { getPrimary, getSecondary } from '../styles/colors';
-import { BasicButton } from './displayComponents';
+import { getPrimary } from '../styles/colors';
+import { BasicButton, Icon } from './displayComponents';
 
 
 class Login extends React.PureComponent {
@@ -88,22 +86,28 @@ class Login extends React.PureComponent {
                             Mauris sed quam eget lorem egestas pulvinar.
                         </span>
                         <br />
-                        <div style={{display: 'flex', flexDirection: 'row', marginTop: '1em'}}>
-                            <BasicButton
-                                text="Solicitar demostración"
-                                color={'transparent'}
-                                buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                labelPosition={'before'}
-                            />
-                            <Link to="/">
+                        <div className="row" style={{display: 'flex', flexDirection: 'row', marginTop: '1em'}}>
+                            <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>
                                 <BasicButton
-                                    text="Dar de alta mi empresa"
-                                    color={'white'}
-                                    textStyle={{color: primary, fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                    textPosition="before"
+                                    text="Solicitar demostración"
+                                    color={'transparent'}
+                                    fullWidth
+                                    buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
+                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                    labelPosition={'before'}
                                 />
-                            </Link>
+                            </div>
+                            <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>                            
+                                <Link to="/">
+                                    <BasicButton
+                                        text="Dar de alta mi empresa"
+                                        color={'white'}
+                                        fullWidth
+                                        textStyle={{color: primary, fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                        textPosition="before"
+                                    />
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -146,7 +150,7 @@ class Login extends React.PureComponent {
                                 textPosition="before"
                                 onClick={this.login}
                                 fullWidth={true}
-                                icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
+                                icon={<Icon className="material-icons">arrow_forward</Icon>}
                             />
                             <FlatButton 
                                 label="¿Has olvidado tu contraseña?"

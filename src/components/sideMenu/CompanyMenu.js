@@ -1,19 +1,27 @@
-import React from 'react';
-import * as mainActions from '../actions/mainActions';
-import * as companyActions from '../actions/companyActions';
-import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
-import { darkGrey } from '../styles/colors';
+import React, { Fragment } from 'react';
+import * as mainActions from '../../actions/mainActions';
+import * as companyActions from '../../actions/companyActions';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Popover, Icon } from '../displayComponents';
+import { darkGrey } from '../../styles/colors';
 import Collapsible from 'react-collapsible';
-import FontIcon from 'material-ui/FontIcon';
-import MenuItem from 'material-ui/MenuItem';
+import { MenuItem } from 'material-ui';
 import { Link } from 'react-router-dom';
 
 
 class CompanyMenu extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            popover: false,
+        }
+    }
+
     getSections = () => {
         const { translate, company } = this.props;
+
         return [
             {
                 name: translate.councils,
@@ -51,39 +59,81 @@ class CompanyMenu extends React.Component {
         return(
             <MenuItem style={{color: 'white', border: '1px solid black', fontSize: '0.85em'}}>
                 {this.props.toggled && text}
-                <FontIcon 
+                <Icon 
                     className="material-icons"
-                    color={'white'}
                     style={{fontSize: '2em', color: 'white', float: 'right', marginVertical: 'auto'}}
                 >
                     {icon}
-                </FontIcon>
+                </Icon>
             </MenuItem>
         );
     }
 
+    changeCompany = (index) => {
+        this.setState({
+            popover: false
+        });
+        this.props.changeCompany(index);
+    }
+
+    companyList = () => {
+        const { companies } = this.props;
+        return(
+            <Fragment>
+                {companies.map((company, index) => 
+                    company.id !== this.props.company.id &&
+                    <div key={`companyLogo_${company.id}`}> 
+                        <img
+                        src={company.logo}
+                        style={{width: '100%', height: 'auto', maxWidth: '5em'}}
+                        onClick={() => this.changeCompany(index)}
+                        alt={this.props.translate.company_logotype}
+                        />
+                    </div>
+                )}
+            </Fragment>
+        );
+    }
+
+
+    logoClick = (event) => {
+        this.setState({
+            popover: true,
+            anchorElement: event.currentTarget
+        })
+        event.stopPropagation();
+        event.nativeEvent.stopImmediatePropagation();
+    }
+
     render() {
         const sections = this.getSections();
+        const { company } = this.props;
 
         return(
             <div
                 onClick={!this.props.toggled? this.props.toggle : () => {}}
-                style={{width: this.props.toggled? "80%" : "50%", height: '100%', backgroundColor: darkGrey, color: 'white', overflowY : 'auto', overflowX: 'hidden'}}
+                style={{width: "100%", height: '100%', backgroundColor: darkGrey, color: 'white', overflowY : 'auto', overflowX: 'hidden'}}
             >
                 <img
-                    src={this.props.company.logo}
+                    src={company.logo}
                     style={{width: '100%', height: 'auto', maxWidth: '5em'}}
+                    onClick={this.logoClick}
                     alt={this.props.translate.company_logotype}
                 />
+                <Popover
+                    open={this.state.popover}
+                    anchorTo={this.state.anchorElement}
+                    requestClose={() => this.setState({ popover: false })}
+                    menu={this.companyList()}
+                />
                 {this.props.toggled && 
-                    <FontIcon 
+                    <Icon 
                         className="material-icons"
-                        color={'white'}
                         onClick={this.props.toggle}
                         style={{fontSize: '2em', color: 'white'}}
                     >
                         keyboard_backspace
-                    </FontIcon>
+                    </Icon>
                 }
                 {sections.map((section, index) => {
                     return (

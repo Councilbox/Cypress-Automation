@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { CollapsibleSection, FileUploadButton } from '../displayComponents';
+import { CollapsibleSection, FileUploadButton, Icon } from '../displayComponents';
 import AttachmentList from '../councilEditor/AttachmentList';
-import { FontIcon } from 'material-ui';
 import { darkGrey } from '../../styles/colors';
 import { urlParser } from '../../utils';
 import { sendAgendaAttachment, deleteAgendaAttachment } from '../../queries';
@@ -84,11 +83,11 @@ class AgendaAttachmentsManager extends Component {
         return(
             <div style={{height: '3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
-                    <FontIcon className="material-icons" color='grey'>description</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>description</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>{`${attachments.length}` }</span>
                 </div>
                 <div style={{width: '25%', display: 'flex', justifyContent: 'flex-end', paddingRight: '2em'}}>
-                    <FontIcon className="material-icons" color={'grey'}>keyboard_arrow_down</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>keyboard_arrow_down</Icon>
                 </div>
             </div>
         )
@@ -123,7 +122,7 @@ class AgendaAttachmentsManager extends Component {
                         textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                         buttonStyle={{width: '1em'}}
                         flat
-                        icon={<FontIcon className="material-icons" color="grey" style={{fontSize: '1.5em'}}>control_point</FontIcon>}
+                        icon={<Icon className="material-icons" style={{fontSize: '1.5em', color: 'grey'}}>control_point</Icon>}
                         onChange={this.handleFile}
                     />
                 </div>

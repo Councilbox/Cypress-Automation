@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton, FontIcon } from 'material-ui';
+import { TextField, RaisedButton } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
+import { Icon } from '../displayComponents';
 import { checkValidEmail } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 
@@ -206,7 +207,7 @@ class SignUpUser extends Component {
                                 labelStyle={{color: 'white', fontWeight: '700'}}
                                 labelPosition="before"
                                 onClick={this.nextPage}
-                                icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
+                                icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
                         </Col>
                     </Row>

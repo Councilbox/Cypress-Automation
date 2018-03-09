@@ -1,7 +1,5 @@
-import CouncilboxApi from '../api/CouncilboxApi';
 import { getCompanies } from './companyActions';
 import { client } from '../containers/App';
-import gql from 'graphql-tag';
 import { getMe, getTranslations } from '../queries';
 
 export let language = 'es';

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { FontIcon } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
-import { SelectInput, BasicButton, LoadingSection, TextInput } from '../displayComponents';
+import { SelectInput, BasicButton, LoadingSection, TextInput, Icon } from '../displayComponents';
 import MenuItem from 'material-ui/MenuItem';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -150,7 +149,7 @@ class SignUpEnterprise extends Component {
                                 onClick={this.nextPage}
                                 textPosition="before"
                                 fullWidth
-                                icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
+                                icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
                         </Col>
                     </Row>

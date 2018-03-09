@@ -3,9 +3,8 @@ import moment from 'moment/min/moment-with-locales';
 import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
 import { openRoom } from '../../queries';
-import { BasicButton, AlertConfirm } from '../displayComponents';
+import { BasicButton, AlertConfirm, Checkbox, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { FontIcon, Checkbox } from 'material-ui';
 
 class OpenRoomButton extends Component {
 
@@ -59,7 +58,7 @@ class OpenRoomButton extends Component {
                         color={primary}
                         onClick={() => this.setState({ confirmModal: true})}
                         textPosition="before"
-                        icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }} color={'white'}>play_arrow</FontIcon>}                                    
+                        icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>play_arrow</Icon>}                                    
                         buttonStyle={{width: '11em'}}                                    
                         textStyle={{color: 'white', fontSize: '0.65em', fontWeight: '700', textTransform: 'none'}}
                     />
@@ -71,15 +70,22 @@ class OpenRoomButton extends Component {
                             <div>{translate.open_room_continue}</div>
                             <Checkbox
                                 label={translate.send_video_credentials}
-                                checked={this.state.sendCredentials}
-                                onCheck={(event, isInputChecked) => this.setState({
+                                value={this.state.sendCredentials}
+                                onChange={(event, isInputChecked) => this.setState({
                                     sendCredentials: isInputChecked
                                 })}
                             />
-                            <a href="https://video.councilbox.com/#/videoInstructions/es" target="_blank"><div 
-                                dangerouslySetInnerHTML={{__html: translate.room_permits_firs_time_msg}}
-                                style={{color: primary}}
-                            /></a>
+                            <a 
+                                href="https://video.councilbox.com/#/videoInstructions/es"
+                                rel="noopener noreferrer"
+                                target="_blank"
+                            >
+                                <div 
+                                    dangerouslySetInnerHTML={{__html: translate.room_permits_firs_time_msg}}
+                                    style={{color: primary}}
+
+                                />
+                            </a>
                         </Fragment>
                     }
                     open={this.state.confirmModal}

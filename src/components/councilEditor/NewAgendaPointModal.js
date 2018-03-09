@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { graphql, compose } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, AgendaNumber, LoadingSection } from '../displayComponents';
+import { graphql } from 'react-apollo';
+import { AlertConfirm, SelectInput, TextInput, RichTextInput, AgendaNumber } from '../displayComponents';
 import { MenuItem } from 'material-ui';
-import { votationTypes, addAgenda } from '../../queries';
-import { urlParser } from '../../utils';
+import { addAgenda } from '../../queries';
+
 
 class NewAgendaPointModal extends Component {
 

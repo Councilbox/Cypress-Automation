@@ -1,12 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { CollapsibleSection, FileUploadButton, LoadingSection } from '../displayComponents';
-import AttachmentList from '../councilEditor/AttachmentList';
-import { FontIcon } from 'material-ui';
+import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
 import { darkGrey, getPrimary } from '../../styles/colors';
-import { urlParser } from '../../utils';
 import { liveRecount } from '../../queries';
-import { maxFileSize } from '../../constants';
 import LiveUtil from '../../utils/live';
 import FontAwesome from 'react-fontawesome';
 import VotesTable from './VotesTable';
@@ -28,11 +24,11 @@ class RecountSection extends Component {
         return(
             <div style={{height: '3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
-                    <FontIcon className="material-icons" color='grey'>thumbs_up_down</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>thumbs_up_down</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>{translate.recount}</span>
                 </div>
                 <div style={{width: '25%', display: 'flex', justifyContent: 'flex-end', paddingRight: '2em'}}>
-                    <FontIcon className="material-icons" color={'grey'}>keyboard_arrow_down</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>keyboard_arrow_down</Icon>
                 </div>
             </div>
         )

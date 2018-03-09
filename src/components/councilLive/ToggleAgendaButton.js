@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { openAgenda, closeAgenda } from '../../queries';
-import { BasicButton } from '../displayComponents';
+import { BasicButton, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 
 class ToggleAgendaButton extends Component {
 
@@ -69,7 +68,7 @@ class ToggleAgendaButton extends Component {
                             text={translate.discuss_agenda}
                             color={'white'}
                             textPosition="before"
-                            icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }}color={primary}>lock_open</FontIcon>}
+                            icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: primary }}>lock_open</Icon>}
                             buttonStyle={{width: '11em'}}
                             onClick={this.openAgenda}
                             textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
@@ -81,7 +80,7 @@ class ToggleAgendaButton extends Component {
                         text={translate.close_point}
                         color={primary}
                         textPosition="before"
-                        icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }} color={'white'}>lock_open</FontIcon>}
+                        icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>lock_open</Icon>}
                         buttonStyle={{width: '11em'}}
                         onClick={this.closeAgenda}
                         textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: 'white'}}

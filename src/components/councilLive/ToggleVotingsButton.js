@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { openVoting, closeVoting } from '../../queries';
-import { BasicButton } from '../displayComponents';
+import { BasicButton, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 
 class ToggleVotingsButton extends Component {
 
@@ -73,7 +72,7 @@ class ToggleVotingsButton extends Component {
                         color={'white'}
                         onClick={this.openVoting}
                         textPosition="before"
-                        icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }}color={primary}>thumbs_up_down</FontIcon>}                                    
+                        icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: primary }}>thumbs_up_down</Icon>}                                    
                         buttonStyle={{minWidth: '11em'}}                                    
                         textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
                     />
@@ -82,7 +81,7 @@ class ToggleVotingsButton extends Component {
                         text={translate.close_point_votations}
                         color={primary}
                         textPosition="before"
-                        icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }} color={'white'}>lock_open</FontIcon>}
+                        icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>lock_open</Icon>}
                         buttonStyle={{width: '15em'}}
                         onClick={this.closeVoting}
                         textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: 'white'}}

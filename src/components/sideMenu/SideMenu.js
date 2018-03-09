@@ -1,14 +1,14 @@
 import React from 'react';
-import * as mainActions from '../actions/mainActions';
-import * as companyActions from '../actions/companyActions';
+import * as mainActions from '../../actions/mainActions';
+import * as companyActions from '../../actions/companyActions';
 import {bindActionCreators} from 'redux';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import CompanyMenu from './CompanyMenu';
-import { LoadingMainApp } from './displayComponents';
-import { bHistory } from '../containers/App';
+import { LoadingMainApp } from '../displayComponents';
+import { bHistory } from '../../containers/App';
 
 
-class CompanySideMenu extends React.Component {
+class SideMenu extends React.Component {
 
     constructor(props) {
         super(props);
@@ -39,22 +39,10 @@ class CompanySideMenu extends React.Component {
         
         return(
             <div style={{width: `${this.props.width}%`, height: '100%', display: 'flex', overflow: 'hidden'}}>
-                <div style={{width: this.props.width === 10? "50%" : "20%", height: '100%', alignItems: 'center', display: 'flex', flexDirection: 'column', backgroundColor: 'black', color: 'white'}} >
-                    {this.props.companies.map((company, index) => {
-                        return (
-                            <img
-                                key={`logo_${company.id}`}
-                                src={company.logo}
-                                onClick={() => this.changeCompany(index)}
-                                style={{width: '100%', height: 'auto', maxWidth: '3em', borderRadius: '2.5em', marginTop: '1em'}}
-                                alt={this.props.translate.company_logotype}
-                            />
-                        )             
-                    })}
-                </div>
                 <CompanyMenu
                     company={this.props.company}
-                    toggleCompany={this.openCompany}
+                    companies={this.props.companies}
+                    changeCompany={this.changeCompany}
                     toggle={this.props.toggleMenu}
                     open={this.state.company}
                     toggled={this.props.open}
@@ -72,4 +60,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(CompanySideMenu);
+export default connect(null, mapDispatchToProps)(SideMenu);
