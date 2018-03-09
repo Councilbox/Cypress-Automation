@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { FontIcon, MenuItem, Dialog } from 'material-ui';
-import { BasicButton, SelectInput, LoadingSection } from '../displayComponents';
+import { BasicButton, SelectInput, LoadingSection, ErrorWrapper } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
-import { getCouncilDataStepTwo, participantsQuery, saveCouncilData } from '../../queries';
+import { councilStepTwo, participantsQuery, updateCouncil } from '../../queries';
 import { urlParser } from '../../utils';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -48,20 +48,19 @@ class CouncilEditorCensus extends Component {
     }
 
     saveDraft = () => {
-        this.props.saveCouncil({
+        const { __typename, participants, ...council } = this.props.data.council;
+        this.props.updateCouncil({
             variables: {
-                data: urlParser({
-                    data: {
-                        ...this.props.data.council,
-                        step: this.props.actualStep > 2? this.props.actualStep : 2
-                    }
-                })
+                council: {
+                    ...council,
+                    step: this.props.actualStep > 2? this.props.actualStep : 2
+                }
             }
         });
     }
 
     handleCensusChange = (event, index, value) => {
-        if(value !== this.props.data.council.council.selected_census_id){
+        if(value !== this.props.data.council.selectedCensusId){
             this.setState({
                 censusChangeAlert: true,
                 censusChangeId: value
@@ -83,20 +82,15 @@ class CouncilEditorCensus extends Component {
     sendCensusChange = async () => {
         const response = await this.props.mutate({
             variables: {
-                info: {
-                    censusID: this.state.censusChangeId,
-                    councilID: this.props.councilID,
-                    companyID: this.props.companyID
-                } 
+                censusId: this.state.censusChangeId,
+                councilId: this.props.councilID 
             }
-        })
+        });
         if(response){
-            this.props.data.loading = true;
             this.setState({
                 censusChangeAlert: false
             });
             const newData = await this.props.data.refetch();
-            this.props.participantList.refetch();
             if(newData){
                 this.setState({
                     data: {
@@ -136,10 +130,17 @@ class CouncilEditorCensus extends Component {
 
     render(){
         const { translate } = this.props;
+        const { council, loading, error, censuses } = this.props.data;
 
-        if(this.props.data.loading || this.props.participantList.loading){
-            return(
-                <LoadingSection />
+        if(loading){
+            return (<LoadingSection />);
+        }
+
+        if(error){
+            return (
+                <div style={{width: '100%', height: '100%', padding: '2em'}}>
+                    <ErrorWrapper error={error} translate={translate} />
+                </div>
             );
         }
 
@@ -147,12 +148,11 @@ class CouncilEditorCensus extends Component {
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 <SelectInput
                     floatingText={translate.current_census}
-                    value={this.props.data.council.council.selected_census_id}
+                    value={council.selectedCensusId}
                     onChange={this.handleCensusChange}
                 >
-                    {
-                        this.props.data.council.censuses.map((census) => {
-                            return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.census_name}</MenuItem>
+                    {censuses.map((census) => {
+                            return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.censusName}</MenuItem>
                         })
                     }
                 </SelectInput>
@@ -187,10 +187,10 @@ class CouncilEditorCensus extends Component {
                     onClick={this.nextPage}
                 />
                 <ParticipantsTable
-                    participants={this.props.participantList.participants}
+                    participants={council.participants}
                     councilID={this.props.councilID}
                     translate={translate}
-                    refetch={this.props.participantList.refetch}
+                    refetch={this.props.data.refetch}
                 />
                 <Dialog
                     actions={this._renderCensusChangeButtons()}
@@ -206,7 +206,7 @@ class CouncilEditorCensus extends Component {
                     show={this.state.addParticipantModal}
                     close={this.closeAddParticipantModal}
                     councilID={this.props.councilID}
-                    refetch={this.props.participantList.refetch}
+                    refetch={this.props.data.refetch}
                 />
             </div>
         );
@@ -214,39 +214,26 @@ class CouncilEditorCensus extends Component {
 }
 
 const changeCensus = gql `
-    mutation ChangeCensus( $info: CensusInfo) {
-        changeCensus( info: $info)
+    mutation ChangeCensus($councilId: Int!, $censusId: Int!) {
+        changeCensus(councilId: $councilId, censusId: $censusId)
     }
 `;
 
 export default compose(
-    graphql(participantsQuery, {
-        name: "participantList",
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID
-            }
-        })
-    }),
-    
-    
-    graphql(getCouncilDataStepTwo, {
+    graphql(councilStepTwo, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 2
-                }
+                id: props.councilID,
+                companyId: props.companyID
             }
         })
     }),
 
     graphql(changeCensus),
 
-    graphql(saveCouncilData, {
-        name: 'saveCouncil'
+    graphql(updateCouncil, {
+        name: 'updateCouncil'
     })
 
 )(withRouter(CouncilEditorCensus));

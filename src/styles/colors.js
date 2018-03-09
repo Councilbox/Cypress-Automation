@@ -12,7 +12,7 @@ export const secondary = turquoise;
 
 export const getPrimary = () => {
     if(store) {
-        const color = store.getState().company.primary;
+        const color = store.getState().companies.primary;
         return color? color : primary;
     }
     return primary;
@@ -20,7 +20,7 @@ export const getPrimary = () => {
 
 export const getSecondary = () => {
     if(store) {
-        const color = store.getState().company.secondary;
+        const color = store.getState().companies.secondary;
         return color? color : secondary;
     }
     return secondary;

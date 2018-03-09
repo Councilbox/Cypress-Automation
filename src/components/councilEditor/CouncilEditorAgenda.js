@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { FontIcon, MenuItem} from 'material-ui';
-import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput } from "../displayComponents";
+import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput, ErrorWrapper } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { getCouncilDataStepThree, saveCouncilData, votationTypes } from '../../queries';
+import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
 import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
+import NewAgendaPointModal from './NewAgendaPointModal';
  
 class CouncilEditorAgenda extends Component {
 
@@ -15,32 +16,27 @@ class CouncilEditorAgenda extends Component {
             votingTypes: [],
             agendas: [],
             errors: {
-                agenda_subject: '',
+                agendaSubject: '',
                 description: ''
             }
         }
     }
 
     componentWillReceiveProps(nextProps){
-        if(this.props.data.loading && !nextProps.data.loading){
-            this.setState({
-                agendas: nextProps.data.council.agendas
-            });
-        }
+        this.setState({
+            agendas: nextProps.data.council.agendas
+        });
     }
 
-    saveAgendas = () => {
-        this.props.saveCouncil({
+    updateCouncil = () => {
+        const { __typename, agendas, statute, ...council } = this.props.data.council;
+        
+        this.props.updateCouncil({
             variables: {
-                data: urlParser({
-                    data: {
-                        council: {
-                            ...this.props.data.council.council,
-                            step: this.props.actualStep > 3? this.props.actualStep : 3
-                        },
-                        agendas: this.state.agendas
-                    }
-                })
+                council: {
+                    ...council,
+                    step: this.props.actualStep > 3? this.props.actualStep : 3
+                }
             }
         })
     }
@@ -56,16 +52,29 @@ class CouncilEditorAgenda extends Component {
         })
     }
 
+    removeAgenda = async (agendaId) => {
+        const response = await this.props.removeAgenda({
+            variables: {
+                agendaId: agendaId,
+                councilId: this.props.councilID
+            }
+        })
+
+        if(response){
+            this.props.data.refetch();
+        }
+    }
+
     nextPage = () => {
         if(true){
-            this.saveAgendas();
+            this.updateCouncil();
             this.props.nextStep();
         }
     }
 
     previousPage = () => {
         if(true){
-            this.saveAgendas();
+            this.updateCouncil();
             this.props.previousStep();
         }
     }
@@ -73,18 +82,22 @@ class CouncilEditorAgenda extends Component {
     _renderAgendaBlock(agenda, index){
         const errors = this.state.errors;
         const { translate } = this.props;
+        const { votingTypes } = this.props.data;
 
         return(
             <div key={`agenda${agenda.id}`} style={{width: '90%', border: `1px solid ${getPrimary()}`}}>
+                <div onClick={() => this.removeAgenda(agenda.id)}>
+                    X
+                </div>
                 <TextInput
                     floatingText={translate.convene_header}
                     type="text"
-                    errorText={errors.agenda_subject}
-                    value={agenda.agenda_subject}
+                    errorText={errors.agendaSubject}
+                    value={agenda.agendaSubject}
                     onChange={(event) => {
                         let agendas = [...this.state.agendas];
                         let newAgenda = {...agendas[index]};
-                        newAgenda.agenda_subject = event.nativeEvent.target.value;
+                        newAgenda.agendaSubject = event.nativeEvent.target.value;
                         agendas[index] = newAgenda;
                         this.setState({
                             agendas: agendas
@@ -94,18 +107,18 @@ class CouncilEditorAgenda extends Component {
 
                <SelectInput
                         floatingText={translate.type}
-                        value={agenda.subject_type}
+                        value={agenda.subjectType}
                         onChange={(event, position, value) => {
                             let agendas = [...this.state.agendas];
                             let newAgenda = {...agendas[index]};
-                            newAgenda.subject_type = value;
+                            newAgenda.subjectType = value;
                             agendas[index] = newAgenda;
                             this.setState({
                                 agendas: agendas
                             }) 
                         }}
                     >
-                        {this.props.votation.votationTypes.map((voting) => {
+                        {votingTypes.map((voting) => {
                                 return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
                             })
                         }
@@ -130,25 +143,34 @@ class CouncilEditorAgenda extends Component {
     }
 
     render(){
+        const { translate } = this.props;
+        const { votingTypes, errors, council } = this.props.data;
+
         if(this.props.data.loading){
             return(
                 <LoadingSection />
             );
         }
 
-        const { translate } = this.props;
+        if(errors){
+            return(
+                <ErrorWrapper error={this.props.data.errors.graph} />
+            )
+        }
+        
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 {translate.agenda}
-                <BasicButton
-                    text={translate.add_agenda_point}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">add</FontIcon>}
-                    textPosition="after"
-                    onClick={this.addNewPoint} 
-                />
+                <div style={{width: '10%', display: 'block'}}>
+                    <NewAgendaPointModal
+                        translate={translate}
+                        agendas={council.agendas}
+                        votingTypes={votingTypes}
+                        councilID={this.props.councilID}
+                        refetch={this.props.data.refetch}
+                    />
+                </div>
 
                 <BasicButton
                     text={translate.save}
@@ -156,7 +178,7 @@ class CouncilEditorAgenda extends Component {
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
-                    onClick={this.saveAgendas} 
+                    onClick={this.updateCouncil} 
                 />  
 
                 <BasicButton
@@ -176,51 +198,46 @@ class CouncilEditorAgenda extends Component {
                 {this.state.agendas.map((agenda, index) => {
                     return this._renderAgendaBlock(agenda, index);
                 })}
+
             </div>
         );
     }
 }
 
 export default compose(
-    graphql(getCouncilDataStepThree, {
+    graphql(councilStepThree, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 3
-                }
+                id: props.councilID
             }
         })
     }),
-
-    graphql(votationTypes, {
-        name: 'votation'
+    graphql(removeAgenda, {
+        name: 'removeAgenda'
     }),
-
-    graphql(saveCouncilData, {
-        name: 'saveCouncil'
+    graphql(updateCouncil, {
+        name: 'updateCouncil'
     })
 )(CouncilEditorAgenda);
 
 const newAgendaFields = {
-    subject_type: 0,
+    subjectType: 0,
     sortable: 1,
     majority_type: 1,
     majority: 1,
     majority_divider: 3,
     order_index: 6,
     description: '',
-    agenda_subject: '',
+    agendaSubject: '',
     $$council_id: true,
-    $$subject_type: true,
+    $$subjectType: true,
     $$sortable: true,
     $$majority_type: true,
     $$majority: true,
     $$majority_divider: true,
     $$order_index: true,
     $$description: true,
-    $$agenda_subject: true,
+    $$agendaSubject: true,
     $$modified: true
 }

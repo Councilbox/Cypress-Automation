@@ -9,7 +9,7 @@ class LoginContainer extends React.PureComponent {
     render(){
         const primary = getPrimary();
         return(
-            <div style={{backgroundColor: primary, display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto'}}>
+            <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
                 <Header helpIcon />
                 <Login main={this.props.main} />
             </div>

@@ -4,7 +4,7 @@ import { BasicButton, TextInput, SelectInput, LoadingSection } from "../displayC
 import { getPrimary } from '../../styles/colors';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { countriesQuery } from "../../queries";
+import { provinces } from "../../queries";
 
 class PlaceModal extends Component {
 
@@ -12,7 +12,7 @@ class PlaceModal extends Component {
         super(props);
         this.state = {
             data: {
-                ...this.props.council.council
+                ...this.props.council
             },
             countries: [],
             country_states: [],
@@ -28,17 +28,15 @@ class PlaceModal extends Component {
     }
 
     componentDidMount(){
-        this.props.data.refetch();
         if(this.props.council){
-
             this.setState({
                 data: {
                     council: this.props.council
                 }
             })
 
-            if(this.props.data.countries && this.props.council.country){
-                const country = this.props.data.countries.filter((country) => country.deno === this.props.council.country)[0];            
+            if(this.props.countries && this.props.council.country){
+                const country = this.props.countries.filter((country) => country.deno === this.props.council.country)[0];            
                 if(country){
                     this.updateCountryStates(country.id);
                 }
@@ -55,8 +53,8 @@ class PlaceModal extends Component {
                 }
             })
 
-            if((this.props.data.countries && nextProps.council.country)){
-                const country = this.props.data.countries.filter((country) => country.deno === nextProps.council.country)[0];            
+            if(this.props.countries && (nextProps.council.country !== this.state.data.council.country)){
+                const country = this.props.countries.filter((country) => country.deno === nextProps.council.country)[0];            
                 if(country){
                     this.updateCountryStates(country.id);
                 }
@@ -76,19 +74,14 @@ class PlaceModal extends Component {
                 }
             }
         })
-        this.updateCountryStates(this.props.data.countries[index].id);
+        this.updateCountryStates(this.props.countries[index].id);
     }
 
     updateCountryStates = async (countryID) => {
         const response = await this.props.client.query({
-            query: gql`query ProvinceList($countryID: ID!) {
-                provinces(countryID: $countryID){
-                    deno
-                    id
-                }
-            }`,
+            query: provinces,
             variables: {
-                countryID: countryID
+                countryId: countryID
             },
         });
         console.log(response);
@@ -105,20 +98,20 @@ class PlaceModal extends Component {
                 ...this.state.data,
                 council: {
                     ...this.state.data.council,
-                    country_state: value
+                    countryState: value
                 }
             }
         })
     }
 
     checkRequiredFields() {
-        if(this.state.data.council.remote_celebration){
+        if(this.state.data.council.remoteCelebration){
             return false;
         }
         
         let errors = {
             country: '',
-            country_state: '',
+            countryState: '',
             street: '',
             zipcode: '',
             city: ''
@@ -146,9 +139,9 @@ class PlaceModal extends Component {
             errors.zipcode = 'Este campo es obligatorio'
         }
 
-        if(!this.state.data.council.country_state){
+        if(!this.state.data.council.countryState){
             hasError = true;
-            errors.country_state = 'Este campo es obligatorio'
+            errors.countryState = 'Este campo es obligatorio'
         }
 
         this.setState({
@@ -167,9 +160,9 @@ class PlaceModal extends Component {
             }else{
                 this.props.saveAndClose({
                     street: 'remote_celebration',
-                    remote_celebration: 1,
+                    remoteCelebration: 1,
                     country: '',
-                    country_state: '',
+                    countryState: '',
                     state: '',
                     city: '',
                     zipcode: ''
@@ -204,9 +197,9 @@ class PlaceModal extends Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate, countries } = this.props;
 
-        if(this.props.data.loading || !this.state.data.council){
+        if(!this.state.data.council){
             return(
                 <LoadingSection />
             );
@@ -223,20 +216,20 @@ class PlaceModal extends Component {
             >
                 <Checkbox
                     label={translate.remote_celebration}
-                    checked={this.state.data.council.remote_celebration === 1 ? true : false}
+                    checked={this.state.data.council.remoteCelebration === 1 ? true : false}
                     onCheck={(event, isInputChecked) => 
                         this.setState({
                             data: {
                                 ...this.state.data,
                                 council: {
                                     ...this.state.council,
-                                    remote_celebration: isInputChecked? 1 : 0,
+                                    remoteCelebration: isInputChecked? 1 : 0,
                                     street: ''
                                 }
                             }
                         })}
                 />
-                {!this.state.data.council.remote_celebration &&
+                {!this.state.data.council.remoteCelebration &&
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                         <SelectInput
                             floatingText={translate.country}
@@ -244,15 +237,15 @@ class PlaceModal extends Component {
                             onChange={this.handleCountryChange}
                             errorText={this.state.errors.country}
                         >   
-                            {this.props.data.countries.map((country) => {
+                            {countries.map((country) => {
                                 return <MenuItem key={country.deno} value={country.deno} primaryText={country.deno} />
                             })
                             }
                         </SelectInput>
                         <SelectInput
                             floatingText={translate.company_new_country_state}
-                            value={this.state.data.council.country_state}
-                            errorText={this.state.errors.country_state}
+                            value={this.state.data.council.countryState}
+                            errorText={this.state.errors.countryState}
                             onChange={this.handleProvinceChange}
                         >   
                             {this.state.country_states.map((country_state) => {
@@ -315,4 +308,4 @@ class PlaceModal extends Component {
     }
 }
 
-export default graphql(countriesQuery)(withApollo(PlaceModal));
+export default (withApollo(PlaceModal));

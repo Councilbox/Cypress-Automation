@@ -9,11 +9,11 @@ export default function companyReducer(state = initialState.company, action) {
                 ...action.value
             }
 
-        case 'COMPANY_INFO':
+        case 'COMPANIES':
             return{
                 ...state,
                 list: action.value,
-                selected: 0
+                selected: 1
             }
 
         case 'CHANGE_SELECTED':

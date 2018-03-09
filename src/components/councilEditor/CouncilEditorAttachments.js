@@ -5,7 +5,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
 import AttachmentList from './AttachmentList';
-import { getCouncilDataStepFour, saveAttachmentMutation, deleteAttachmentMutation, saveCouncilData } from '../../queries';
+import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../queries';
 import { urlParser } from '../../utils';
 
 class CouncilEditorAttachments extends Component {
@@ -49,7 +49,7 @@ class CouncilEditorAttachments extends Component {
         if(!file){
             return;
         }
-        if(file.size / 1000 + this.state.totalSize > maxFileSize){
+        if(file.size / 1000 + parseInt(this.state.totalSize, 10) > maxFileSize){
             this.setState({
                 alert: true
             });
@@ -65,31 +65,20 @@ class CouncilEditorAttachments extends Component {
                 filetype: file.type,
                 filesize: Math.round(file.size / 1000),
                 base64: reader.result,
-                council_id: this.props.councilID
+                councilId: this.props.councilID
             };
 
             this.setState({
                 uploading: true
             });
-            const response = await this.props.sendAttachment({
+            const response = await this.props.addAttachment({
                 variables: {
-                    data: urlParser({data: {
-                        ...fileInfo
-                    }})
-                },
-                refetchQueries: [{
-                    query: getCouncilDataStepFour,
-                    name: "data",
-                    variables: {
-                        councilInfo: {
-                            companyID: this.props.companyID,
-                            councilID: this.props.councilID,
-                            step: 4
-                        }
-                    }
-                }]
+                    attachment: fileInfo
+                }
             })
             if(response){
+                this.props.data.refetch();
+                console.log(response);
                 this.setState({
                     uploading: false
                 });
@@ -97,40 +86,30 @@ class CouncilEditorAttachments extends Component {
         }
     }
 
-    deleteAttachment = async (attachmentID) => {
-        this.props.deleteAttachment({
+    removeCouncilAttachment = async (attachmentID) => {
+        this.props.removeCouncilAttachment({
             variables: {
-                attachment: {
-                    attachment_id : attachmentID,
-                    council_id : this.props.councilID
-                }
+                attachmentId : attachmentID,
+                councilId : this.props.councilID
             },
-
             refetchQueries: [{
-                query: getCouncilDataStepFour,
+                query: councilStepFour,
                 name: "data",
                 variables: {
-                    councilInfo: {
-                        companyID: this.props.companyID,
-                        councilID: this.props.councilID,
-                        step: 4
-                    }
+                    id: this.props.councilID
                 }
             }]
         });
     }
 
-    saveDraft = () => {
-        this.props.saveCouncil({
+    updateCouncil = () => {
+        const { attachments, __typename, ...council } = this.props.data.council;
+        this.props.updateCouncil({
             variables: {
-                data: urlParser({
-                    data: {
-                        council: {
-                            ...this.props.data.council,
-                            step: this.props.actualStep > 4? this.props.actualStep : 4
-                        }
-                    }
-                })
+                council: {
+                    ...council,
+                    step: this.props.actualStep > 4? this.props.actualStep : 4
+                }
             }
         })
     }
@@ -138,14 +117,14 @@ class CouncilEditorAttachments extends Component {
 
     nextPage = () => {
         if(true){
-            this.saveDraft();
+            this.updateCouncil();
             this.props.nextStep();
         }
     }
 
     previousPage = () => {
         if(true){
-            this.saveDraft();
+            this.updateCouncil();
             this.props.previousStep()
         }
     }
@@ -183,7 +162,7 @@ class CouncilEditorAttachments extends Component {
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<FontIcon className="material-icons">save</FontIcon>}
                     textPosition="after"
-                    onClick={this.saveDraft} 
+                    onClick={this.updateCouncil} 
                 />
 
                 <BasicButton
@@ -211,7 +190,7 @@ class CouncilEditorAttachments extends Component {
 
                 <AttachmentList
                     attachments={attachments}
-                    deleteAction={this.deleteAttachment}
+                    deleteAction={this.removeCouncilAttachment}
                 />
 
                 {this.state.uploading && 
@@ -232,27 +211,23 @@ class CouncilEditorAttachments extends Component {
 }
 
 export default compose(
-    graphql(getCouncilDataStepFour, {
+    graphql(councilStepFour, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 4
-                }
+                id: props.councilID,
             }
         })
     }),
-    graphql(saveAttachmentMutation, {
-        name: 'sendAttachment'
+    graphql(addCouncilAttachment, {
+        name: 'addAttachment'
     }),
 
-    graphql(saveCouncilData, {
-        name: 'saveCouncil'
+    graphql(updateCouncil, {
+        name: 'updateCouncil'
     }),
 
-    graphql(deleteAttachmentMutation, {
-        name: 'deleteAttachment'
+    graphql(removeCouncilAttachment, {
+        name: 'removeCouncilAttachment'
     })
 )(CouncilEditorAttachments);

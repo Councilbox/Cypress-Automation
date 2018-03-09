@@ -6,7 +6,8 @@ moment.locale('es');
 
 const DateWrapper = ({ date, format }) => {
     if(!date){
-        date = Date.now();
+        const now = new Date();
+        date = now.toISOString();
     }
 
     return(

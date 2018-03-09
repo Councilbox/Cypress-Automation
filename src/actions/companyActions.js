@@ -1,7 +1,7 @@
 import CouncilboxApi from "../api/CouncilboxApi";
 import { bHistory, client } from '../containers/App';
 import { loadingFinished } from './mainActions';
-import { getCompanies } from '../queries';
+import { companies } from '../queries';
 
 export const saveSignUpInfo = (info) => {
     return({
@@ -10,13 +10,11 @@ export const saveSignUpInfo = (info) => {
     });
 }
 
-export const getCompanyInfo = () => {
+export const getCompanies = (userId) => {
     return async (dispatch) => {
-        const response = await client.query({query: getCompanies});
-        dispatch({type: 'COMPANY_INFO', value: response.data.companies});
-        if(response){
-            dispatch(loadingFinished());
-        }
+        const response = await client.query({query: companies, variables: { userId: userId}});
+        dispatch({type: 'COMPANIES', value: response.data.userCompanies.map((item) => {return{...item.company}})})
+        dispatch(loadingFinished());
     }
 }
 

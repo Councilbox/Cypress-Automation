@@ -11,16 +11,16 @@ class NewAgendaPointModal extends Component {
         super(props);
         this.state = {
             newPoint: {
-                agenda_subject: '',
-                subject_type: '',
+                agendaSubject: '',
+                subjectType: '',
                 description: ''
             },
 
             newPointModal: false,
 
             errors: {
-                agenda_subject: '',
-                subject_type: '',
+                agendaSubject: '',
+                subjectType: '',
                 description: ''
             }
         }
@@ -30,35 +30,33 @@ class NewAgendaPointModal extends Component {
         const { newPoint } = this.state;
         const response = await this.props.addAgenda({
             variables: {
-                data: urlParser({
-                    data: {
-                        council_id: this.props.councilID,
-                        subject_type: newPoint.subject_type,
-                        sortable: 1,
-                        majority_type: 1,
-                        majority: 1,
-                        majority_divider: 3,
-                        description: newPoint.description,
-                        agenda_subject: newPoint.agenda_subject,
-                        order_index: this.props.agendas.length
-                    }
-                })
+                agenda: {
+                    councilId: this.props.councilID,
+                    subjectType: newPoint.subjectType,
+                    sortable: 1,
+                    majorityType: 1,
+                    majority: 1,
+                    majorityDivider: 3,
+                    description: newPoint.description,
+                    agendaSubject: newPoint.agendaSubject,
+                    orderIndex: this.props.agendas.length + 1
+                }
             }
         })
         if(response){
             this.props.refetch();
             this.setState({
                 newPoint: {
-                    agenda_subject: '',
-                    subject_type: '',
+                    agendaSubject: '',
+                    subjectType: '',
                     description: ''
                 },
     
                 newPointModal: false,
     
                 errors: {
-                    agenda_subject: '',
-                    subject_type: '',
+                    agendaSubject: '',
+                    subjectType: '',
                     description: ''
                 }
 
@@ -70,12 +68,6 @@ class NewAgendaPointModal extends Component {
         const { translate } = this.props;
         const errors = this.state.errors;
         const agenda = this.state.newPoint;
-
-        if(!this.props.votation.votationTypes){
-            return (
-                <LoadingSection />
-            );
-        }
         
         return(
             <Fragment>
@@ -84,13 +76,13 @@ class NewAgendaPointModal extends Component {
                         <TextInput
                             floatingText={translate.convene_header}
                             type="text"
-                            errorText={errors.agenda_subject}
-                            value={agenda.agenda_subject}
+                            errorText={errors.agendaSubject}
+                            value={agenda.agendaSubject}
                             onChange={(event) => {
                                 this.setState({
                                     newPoint: {
                                         ...this.state.newPoint,
-                                        agenda_subject: event.nativeEvent.target.value
+                                        agendaSubject: event.nativeEvent.target.value
                                     }
                                 })
                             }}
@@ -99,17 +91,17 @@ class NewAgendaPointModal extends Component {
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <SelectInput
                             floatingText={translate.type}
-                            value={agenda.subject_type}
+                            value={agenda.subjectType}
                             onChange={(event, position, value) => {
                                 this.setState({
                                     newPoint: {
                                         ...this.state.newPoint,
-                                        subject_type: value
+                                        subjectType: value
                                     }
                                 }) 
                             }}
                         >
-                            {this.props.votation.votationTypes.map((voting) => {
+                            {this.props.votingTypes.map((voting) => {
                                     return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
                                 })
                             }
@@ -162,11 +154,6 @@ class NewAgendaPointModal extends Component {
     }
 }
 
-export default compose(
-    graphql(votationTypes, {
-        name: 'votation'
-    }),
-    graphql(addAgenda, {
-        name: 'addAgenda'
-    })
-)(NewAgendaPointModal);
+export default graphql(addAgenda, {
+    name: 'addAgenda' 
+})(NewAgendaPointModal);

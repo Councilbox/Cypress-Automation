@@ -6,7 +6,7 @@ import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
 import { setLanguage, setUserData, loadingFinished } from '../actions/mainActions';
-import { getCompanyInfo } from '../actions/companyActions';
+import { getCompanies } from '../actions/companyActions';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -14,10 +14,17 @@ import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 
+let httpLink;
+if(process.env.REACT_APP_MODE === 'dev'){
+    httpLink = new HttpLink({
+        uri: 'http://localhost:5000/graphql'
+    });
+}else{
+    httpLink = new HttpLink({
+        uri: 'http://alpha.councilbox.com:5000/graphql'
+    });
+}
 
-const httpLink = new HttpLink({
-    uri: 'http://172.18.2.65:4000/graphql'
-});
 
 const authLink = setContext((_, { headers }) => {
   const token = sessionStorage.getItem('token');
@@ -46,7 +53,6 @@ export const bHistory = createHistory();
 if(sessionStorage.getItem('token')){
     store.dispatch({type: 'LOGIN_SUCCESS'});
     store.dispatch(setUserData(sessionStorage.getItem('token')));
-    store.dispatch(getCompanyInfo());
 }else{
     store.dispatch(loadingFinished());
 }
