@@ -74,7 +74,7 @@ class Login extends React.PureComponent {
     render(){
         const primary = getPrimary();
         return(
-            <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, ${getSecondary()})`, fontSize: '0.85em', height: '100%'}}>
+            <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, #6499B1)`, fontSize: '0.85em', height: '100%'}}>
                 <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: '9em'}}>
                     <div style={{width: '70%', fontSize: '0.9em'}}>
                         <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>Bienvenido/a</h4>
