@@ -1,5 +1,32 @@
 import gql from 'graphql-tag';
 
+export const login = gql `
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password){
+        token
+    }
+  }
+`;
+
+export const getMe = gql`
+    query Me{
+        me {
+            name
+            surname
+            id
+        }
+    }
+`;
+
+export const getTranslations = gql`
+    query getTranslations($language: String!){
+      translations(language: $language){
+        label
+        text
+      }
+    }
+`;
+
 export const companies = gql`
     query UserCompanies($userId: Int!){
         userCompanies(userId: $userId){

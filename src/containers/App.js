@@ -14,10 +14,17 @@ import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 
+let httpLink;
+if(process.env.REACT_APP_MODE === 'dev'){
+    httpLink = new HttpLink({
+        uri: 'http://localhost:5000/graphql'
+    });
+}else{
+    httpLink = new HttpLink({
+        uri: 'http://alpha.councilbox.com:5000/graphql'
+    });
+}
 
-const httpLink = new HttpLink({
-    uri: 'http://localhost:5000/graphql'
-});
 
 const authLink = setContext((_, { headers }) => {
   const token = sessionStorage.getItem('token');

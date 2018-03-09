@@ -8,8 +8,10 @@ import { TextField, FlatButton, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getPrimary } from '../styles/colors';
+import { login } from '../queries';
+import { getPrimary, getSecondary } from '../styles/colors';
 import { BasicButton } from './displayComponents';
+
 
 class Login extends React.PureComponent {
 
@@ -72,14 +74,21 @@ class Login extends React.PureComponent {
     render(){
         const primary = getPrimary();
         return(
-            <div className="row" style={{width: '100%', fontSize: '0.85em'}}>
-                <div className="col-lg-6 col-md-6 col-xs-12" style={{ color: 'white', paddingLeft: '7%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '4em'}}>
-                    <div style={{width: '70%'}}>
-                        Bienvenido/a <br/>
-                        ¿Todavía no dispones de una cuenta en CouncilBox?<br/>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros. Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo. Mauris sed quam eget lorem egestas pulvinar. Donec mollis diam justo, eget gravida purus ornare a. Curabitur congue lobortis semper. Mauris laoreet, nulla a fermentum pulvinar, tellus lacus cursus ex, non efficitur odio mauris sit amet enim.
+            <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, ${getSecondary()})`, fontSize: '0.85em', height: '100%'}}>
+                <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: '9em'}}>
+                    <div style={{width: '70%', fontSize: '0.9em'}}>
+                        <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>Bienvenido/a</h4>
+                        <h6>¿Todavía no dispones de una cuenta en CouncilBox?</h6>
+                        <span style={{fontSize: '0.9', marginBottom: '1em', marginTop: '0.7em'}}>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                            Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, 
+                            ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, 
+                            velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros.
+                            Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo.
+                            Mauris sed quam eget lorem egestas pulvinar.
+                        </span>
                         <br />
-                        <div style={{display: 'flex', flexDirection: 'row'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', marginTop: '1em'}}>
                             <BasicButton
                                 text="Solicitar demostración"
                                 color={'transparent'}
@@ -98,12 +107,13 @@ class Login extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-6 col-md-6 col-xs-12" style={{display: 'flex', justifyContent: 'center', paddingRight: '5%'}}>
-                    <Card style={{marginTop: '4em', width: '70%'}} >
+                <div className="col-lg-5 col-md-5 col-xs-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Card style={{minHeight: '60%', width: '70%', padding: '6%', marginBottom: '5em', marginRight: '5em'}} >
                         <CardHeader
                             title="Accede a tu cuenta"
                             titleColor={primary}
-                            titleStyle={{fontWeight: '700'}}
+                            titleStyle={{fontWeight: '700', fontSize: '1.2em'}}
+                            style={{marginBottom: 0, paddingBottom: 0}}
                         />
                         <CardText>
                             <TextField
@@ -140,7 +150,7 @@ class Login extends React.PureComponent {
                             />
                             <FlatButton 
                                 label="¿Has olvidado tu contraseña?"
-                                labelStyle={{color: 'grey', fontWeight: '700'}}
+                                labelStyle={{color: 'grey', fontWeight: '700', fontSize: '0.8em'}}
                             />
                         </CardActions>   
                     </Card>
@@ -155,13 +165,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const submitRepository = gql `
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password){
-        token
-    }
-  }
-`;
-
-export default connect(null, mapDispatchToProps)(graphql(submitRepository)(Login));
-//export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(graphql(login)(Login));

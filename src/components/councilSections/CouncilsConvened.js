@@ -128,7 +128,7 @@ export default compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            state: 3,
+            state: 10,
             companyId: props.company.id,
             isMeeting: false
         }
