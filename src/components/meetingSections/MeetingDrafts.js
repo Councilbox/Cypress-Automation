@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
+import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, DeleteIcon } from '../displayComponents';
 import gql from 'graphql-tag';
 import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
@@ -62,12 +60,10 @@ class MeetingDrafts extends Component {
 
     _renderDeleteIcon(councilID) {
         return(
-            <IconButton 
-                iconStyle={{color: getPrimary()}}
+            <DeleteIcon
+                style={{color: getPrimary()}}
                 onClick={() => this.openDeleteModal(councilID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { TableRow, TableRowColumn } from 'material-ui/Table';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import { getPrimary } from '../../styles/colors';
-import { IconButton } from 'material-ui';
-import { Table } from '../displayComponents';
+import { Table, DeleteIcon } from '../displayComponents';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -13,12 +11,10 @@ class ParticipantsTable extends Component {
         const primary = getPrimary();
 
         return(
-            <IconButton 
-                iconStyle={{color: primary}}
+            <DeleteIcon
+                style={{color: primary}}
                 onClick={() => this.deleteParticipant(participantID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 

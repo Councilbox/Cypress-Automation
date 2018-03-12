@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { MenuItem} from 'material-ui';
-import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput, ErrorWrapper, Icon } from "../displayComponents";
+import { TextInput, BasicButton, SelectInput, LoadingSection, MenuItem, RichTextInput, ErrorWrapper, Icon } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
 import { getPrimary } from '../../styles/colors';

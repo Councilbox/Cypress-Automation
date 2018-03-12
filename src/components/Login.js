@@ -150,7 +150,7 @@ class Login extends React.PureComponent {
                                 textPosition="before"
                                 onClick={this.login}
                                 fullWidth={true}
-                                icon={<Icon className="material-icons">arrow_forward</Icon>}
+                                icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
                             <FlatButton 
                                 label="¿Has olvidado tu contraseña?"
