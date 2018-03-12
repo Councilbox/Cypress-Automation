@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { MenuItem, Dialog} from 'material-ui';
-import { BasicButton, TextInput, SelectInput, Radio, RadioGroup, Icon } from '../displayComponents';
+import { MenuItem, Radio } from 'material-ui';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
+import { BasicButton, TextInput, SelectInput, RadioGroup, Icon } from '../displayComponents';
+import { FormControlLabel } from 'material-ui/Form';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
@@ -155,7 +157,17 @@ class NewParticipantForm extends Component {
         this.setState({
             data: {
                 ...this.props.data,
-                participant: {}
+                participant: {
+                    language : 'es',
+                    councilId : 2,
+                    numParticipations : 1,
+                    personOrEntity : 1,
+                    name : '',
+                    dni : '',
+                    position : '',
+                    email : '',
+                    phone : '',
+                }
             }
         })
     }
@@ -190,31 +202,71 @@ class NewParticipantForm extends Component {
         const { translate } = this.props;
 
         return (
-            <RadioGroup 
-                name={translate.person_or_entity}
-                value={this.state.participantType}
-                onChange={(event, value) => {
-                    this.setState({
-                        participantType: value,
-                        data: {
-                            ...this.state.data,
-                            participant: ''
-                        }
-                    })
-                }}
-                style={{display: 'flex', flexDirection: 'row'}}
-            >
-                <Radio
-                    value={0}
+            <Fragment>
+                <FormControlLabel
+                    control={
+                        <Radio
+                            checked={this.state.participantType === '0'}
+                            onChange={(event) => {
+                                console.log(event);
+                                this.setState({
+                                    participantType: event.target.value,
+                                    data: {
+                                        ...this.state.data,
+                                        participant: {
+                                            language : 'es',
+                                            councilId : 2,
+                                            numParticipations : 1,
+                                            personOrEntity : 1,
+                                            name : '',
+                                            dni : '',
+                                            position : '',
+                                            email : '',
+                                            phone : '',
+                                        }
+                                    }
+                                })
+                            }}
+                            value="0"
+                            name={'person_or_entity'}
+                            aria-label="A"
+                        />
+                    }
+
                     label={translate.person}
-                    style={{padding: 0, margin: '1em', width: '50%'}}
                 />
-                <Radio
-                    value={1}
-                    label={translate.entity}
-                    style={{padding: 0, margin: '1em', width: '50%'}}
+                <FormControlLabel
+                    control={
+                        <Radio
+                            checked={this.state.participantType === '1'}
+                            onChange={(event) => {
+                                console.log(event);
+                                this.setState({
+                                    participantType: event.target.value,
+                                    data: {
+                                        ...this.state.data,
+                                        participant: {
+                                            language : 'es',
+                                            councilId : 2,
+                                            numParticipations : 1,
+                                            personOrEntity : 1,
+                                            name : '',
+                                            dni : '',
+                                            position : '',
+                                            email : '',
+                                            phone : '',
+                                        }
+                                    }
+                                })
+                            }}
+                            value="1"
+                            name="person_or_entity"
+                            aria-label="B"
+                        />
+                    }
+                    label={translate.entity_name}
                 />
-            </RadioGroup>
+            </Fragment>
         );
     }
 
@@ -223,7 +275,7 @@ class NewParticipantForm extends Component {
         const errors = this.state.errors;
         const { translate } = this.props;
 
-        if(this.state.participantType === 1){
+        if(this.state.participantType === '1'){
             return(
                 <Fragment>
                     <TextInput
@@ -309,13 +361,13 @@ class NewParticipantForm extends Component {
                     <SelectInput
                         floatingText={translate.language}
                         value={participant.language}
-                        onChange={(event, index, value) => this.setState({
+                        onChange={(event) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
                                 participant: {
                                     ...this.state.data.participant,
-                                    language: value
+                                    language: event.target.value
                                 }
                             }
                         })}
@@ -446,13 +498,13 @@ class NewParticipantForm extends Component {
                 <SelectInput
                     floatingText={translate.language}
                     value={participant.language}
-                    onChange={(event, index, value) => this.setState({
+                    onChange={(event) => this.setState({
                         ...this.state,
                         data: {
                             ...this.state.data,
                             participant: {
                                 ...this.state.data.participant,
-                                language: value
+                                language: event.target.value
                             }
                         }
                     })}
@@ -486,14 +538,20 @@ class NewParticipantForm extends Component {
         const {translate} = this.props;
         return(
             <Dialog
-                actions={this._renderAddParticipantButtons()}
-                modal={true}
-                title={translate.add_participant}
+                disableBackdropClick={true}
+                onClose={this.props.requestClose}
                 open={this.props.show}
-                autoScrollBodyContent
             >
-                {this._renderAddParticipantTypeSelector()}
-                {this._renderAddParticipantForm()}
+                <DialogTitle>
+                    {translate.add_participant}
+                </DialogTitle>
+                <DialogContent>
+                    {this._renderAddParticipantTypeSelector()}
+                    {this._renderAddParticipantForm()}
+                </DialogContent>
+                <DialogActions>
+                    {this._renderAddParticipantButtons()}
+                </DialogActions>
             </Dialog>
         );
     }

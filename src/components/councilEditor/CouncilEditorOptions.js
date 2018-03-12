@@ -262,14 +262,14 @@ class CouncilEditorOptions extends Component {
                         <SelectInput
                             floatingLabelText={translate.majority_label}
                             value={this.state.data.council.actPointMajorityType}
-                            onChange={(event, index, value) => {
+                            onChange={(event, index) => {
                                 this.setState({
                                     ...this.state,
                                     data: {
                                         ...this.state.data,
                                         council: {
                                             ...this.state.data.council,
-                                            actPointMajorityType: value
+                                            actPointMajorityType: event.target.value
                                         }
                                     }
                                     

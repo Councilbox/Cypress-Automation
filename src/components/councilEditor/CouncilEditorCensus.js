@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { MenuItem, Dialog } from 'material-ui';
+import { MenuItem } from 'material-ui';
 import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, Icon } from '../displayComponents';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
@@ -58,11 +59,11 @@ class CouncilEditorCensus extends Component {
         });
     }
 
-    handleCensusChange = (event, index, value) => {
-        if(value !== this.props.data.council.selectedCensusId){
+    handleCensusChange = (event) => {
+        if(event.target.value !== this.props.data.council.selectedCensusId){
             this.setState({
                 censusChangeAlert: true,
-                censusChangeId: value
+                censusChangeId: event.target.value
             });
         }
         
@@ -145,16 +146,20 @@ class CouncilEditorCensus extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-                <SelectInput
-                    floatingText={translate.current_census}
-                    value={council.selectedCensusId}
-                    onChange={this.handleCensusChange}
-                >
-                    {censuses.map((census) => {
-                            return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.censusName}</MenuItem>
-                        })
-                    }
-                </SelectInput>
+                <div className="row">
+                    <div className="col-lg-4 col-md-4 col-xs-6">
+                        <SelectInput
+                            floatingText={translate.current_census}
+                            value={council.selectedCensusId}
+                            onChange={this.handleCensusChange}
+                        >
+                            {censuses.map((census) => {
+                                    return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.censusName}</MenuItem>
+                                })
+                            }
+                        </SelectInput>
+                    </div>
+                </div>
                 <BasicButton
                     text={translate.add_participant}
                     color={getPrimary()}
@@ -192,16 +197,25 @@ class CouncilEditorCensus extends Component {
                     refetch={this.props.data.refetch}
                 />
                 <Dialog
-                    actions={this._renderCensusChangeButtons()}
-                    modal={false}
-                    title={translate.census_change}
+                    disableBackdropClick={false}
                     open={this.state.censusChangeAlert}
-                    onRequestClose={() => this.setState({censusChangeAlert: false})}
-                    >
-                    {translate.census_change_warning.replace('<br/>', '')}
+                    onClose={() => this.setState({censusChangeAlert: false})}
+                >
+                    <DialogTitle>
+                        {translate.census_change}
+                    </DialogTitle>
+                    <DialogContent>
+                        {translate.census_change_warning.replace('<br/>', '')}
+                    </DialogContent>
+                    <DialogActions>
+                        {this._renderCensusChangeButtons()}
+                    </DialogActions>
                 </Dialog>
                 <NewParticipantForm
                     translate={translate}
+                    requestClose={() => this.setState({
+                        addParticipantModal: false
+                    })}
                     show={this.state.addParticipantModal}
                     close={this.closeAddParticipantModal}
                     councilID={this.props.councilID}

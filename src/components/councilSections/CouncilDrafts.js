@@ -4,7 +4,7 @@ import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
 import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { TableRow, TableCell } from 'material-ui/Table';
 
 
 class CouncilDrafts extends Component {
@@ -84,13 +84,11 @@ class CouncilDrafts extends Component {
                                     {councils.map((council) => {
                                         return(
                                             <TableRow
-                                                selectable={false}
-                                                hoverable
                                                 key={`participant${council.id}`}  
                                             >
-                                                <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableRowColumn>
-                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name || translate.dashboard_new}</Link></TableRowColumn>
-                                                <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
+                                                <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
+                                                <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name || translate.dashboard_new}</Link></TableCell>
+                                                <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                             </TableRow>
                                         )
                                     })}

@@ -1,14 +1,15 @@
 import React from 'react';
 import { TextField } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+import { getPrimary } from '../../styles/colors';
 
-const TextInput = ({ floatingText, type, value, onChange, errorText }) => (
+const TextInput = ({ floatingText, type, value, onChange, errorText, classes }) => (
     <TextField
-        floatingLabelText={floatingText}
-        floatingLabelFixed={true}
-        type={type}
+        label={floatingText}
         value={value}
         onChange={onChange}
-        errorText={errorText}
+        margin="normal"
+        error={!!errorText}
     />
 );
 

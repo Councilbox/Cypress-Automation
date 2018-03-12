@@ -7,7 +7,7 @@ import Welcome from '../Welcome';
 import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';
-import { Card, CardText } from 'material-ui';
+import { Card, CardContent } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 
 class SignUpPage extends React.Component {
@@ -47,7 +47,7 @@ class SignUpPage extends React.Component {
             <div style = {{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex'}} >
                 <h3 style={{color: 'white'}}>Alta de empresa</h3>
                 <Card style={{width: '65%', padding: 0, borderRadius: '0.3em', overflow: 'hidden'}} containerStyle={{padding: 0}}>
-                    <CardText style={{padding: 0}}>
+                    <CardContent style={{padding: 0}}>
                         <div style={{display: 'flex', flexDirection: 'row', height:'75vh'}}>
                             <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '5em', height: '100%'}}>
                                 <div style={{backgroundColor: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: '700', width: '2em', height: '2em', borderRadius: '1em'}} onClick={() => this.setState({page: 1})}>
@@ -87,7 +87,7 @@ class SignUpPage extends React.Component {
                                }
                             </div>
                         </div>
-                    </CardText>
+                    </CardContent>
                 </Card>
             </div>
         );

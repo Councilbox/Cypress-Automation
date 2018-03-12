@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { TableRow, TableCell } from 'material-ui/Table';
 import { Table } from '../displayComponents';
 
 class ParticipantSelector extends Component {
@@ -18,14 +18,12 @@ class ParticipantSelector extends Component {
                 {this.props.participants.map((participant) => {
                     return(
                         <TableRow
-                            selectable={false}
-                            hoverable
                             key={`participant${participant.id}`}
                             onClick={() => this.props.action(participant.id, participant.name)}
                         >
-                            <TableRowColumn>{participant.name}</TableRowColumn>
-                            <TableRowColumn>{participant.dni}</TableRowColumn>
-                            <TableRowColumn>{participant.position}</TableRowColumn>                  
+                            <TableCell>{participant.name}</TableCell>
+                            <TableCell>{participant.dni}</TableCell>
+                            <TableCell>{participant.position}</TableCell>                  
                         </TableRow>
                     )
                 })}

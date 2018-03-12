@@ -3,7 +3,7 @@ import { Grid, Row, Col } from "react-bootstrap";
 import CouncilboxApi from '../../api/CouncilboxApi';
 import { SelectInput, BasicButton, TextInput, Checkbox, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import MenuItem from 'material-ui/MenuItem';
+import { MenuItem } from 'material-ui/Menu';
 import Dialog from 'material-ui/Dialog';
 import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';

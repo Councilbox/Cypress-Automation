@@ -160,39 +160,45 @@ class CouncilEditorNotice extends Component {
                     council={this.state.data}
                 />
                 <br/>
-                <SelectInput
-                    floatingText={translate.council_type}
-                    value={council.councilType || ''}
-                    onChange={(event, index) => {
-                        console.log(event.nativeEvent)
-                        this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                councilType: index
+                <div className="row">
+                    <div className="col-lg-6 col-md-6 col-xs-12">
+                        <SelectInput
+                            floatingText={translate.council_type}
+                            value={council.councilType || ''}
+                            id={'council_type'}
+                            onChange={(event, index) => {
+                                console.log(event.nativeEvent)
+                                this.setState({
+                                    ...this.state,
+                                    data: {
+                                        ...this.state.data,
+                                        councilType: index
+                                    }
+                                })}
                             }
-                        })}
-                    }
-                >   
-                    <MenuItem value={0} primaryText={translate.ordinary_general_assembly} />
-                    <MenuItem value={1} primaryText={translate.special_general_assembly} />
-                    <MenuItem value={2} primaryText={translate.board_of_directors} />
-                </SelectInput>
-                <DateTimePicker 
-                    onChange={(date) => {
-                        const newDate = new Date(date);
-                        this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                dateStart: newDate.toISOString()
+                        >   
+                            <MenuItem value={0}>{translate.ordinary_general_assembly}</MenuItem>
+                            <MenuItem value={1}>{translate.special_general_assembly}</MenuItem>
+                            <MenuItem value={2}>{translate.board_of_directors} </MenuItem>
+                        </SelectInput>
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-xs-12">                    
+                        <DateTimePicker 
+                            onChange={(date) => {
+                                const newDate = new Date(date);
+                                this.setState({
+                                    ...this.state,
+                                    data: {
+                                        ...this.state.data,
+                                        dateStart: newDate.toISOString()
+                                    }
+                                })}
                             }
-                        })}
-                    }
-                    floatingText = {translate["1st_call_date"]}
-                    format='DD/MM/YYYY hh:mm'
-                    value={council.dateStart}
-                />
+                            label = {translate["1st_call_date"]}
+                            value={council.dateStart}
+                        />
+                    </div>
+                </div>
                 <TextInput
                     floatingText={translate.convene_header}
                     type="text"

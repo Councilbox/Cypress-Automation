@@ -82,7 +82,7 @@ class NewAgendaPointModal extends Component {
                                 this.setState({
                                     newPoint: {
                                         ...this.state.newPoint,
-                                        agendaSubject: event.nativeEvent.target.value
+                                        agendaSubject: event.target.value
                                     }
                                 })
                             }}
@@ -92,11 +92,11 @@ class NewAgendaPointModal extends Component {
                         <SelectInput
                             floatingText={translate.type}
                             value={agenda.subjectType}
-                            onChange={(event, position, value) => {
+                            onChange={(event, child) => {
                                 this.setState({
                                     newPoint: {
                                         ...this.state.newPoint,
-                                        subjectType: value
+                                        subjectType: event.target.value
                                     }
                                 }) 
                             }}

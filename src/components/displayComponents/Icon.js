@@ -1,14 +1,12 @@
 import React from 'react';
-import { FontIcon } from 'material-ui';
+import { Icon } from 'material-ui';
 
-const Icon = ({ className, children, style, onClick }) => (
-    <FontIcon
+export default ({ className, children, style, onClick }) => (
+    <Icon
         className={className}
         style={style}
         onClick={onClick}
     >
         {children}
-    </FontIcon>
+    </Icon>
 )
-
-export default Icon;

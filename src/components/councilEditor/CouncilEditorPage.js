@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardPageLayout } from '../displayComponents';
-import { Step, Stepper, StepLabel } from 'material-ui/Stepper';
+import Stepper, { Step, StepLabel, StepContent } from 'material-ui/Stepper';
 import CouncilEditorNotice from './CouncilEditorNotice';
 import CouncilEditorCensus from './CouncilEditorCensus';
 import CouncilEditorAgenda from './CouncilEditorAgenda';
@@ -61,7 +61,7 @@ class CouncilEditorPage extends React.Component {
         return(
             <CardPageLayout title={translate.dashboard_new}>
                 <div style={{display: 'flex', flexDirection: 'row', height: '100%'}}>
-                    <div style={{backgroundColor: 'lightgrey', flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '12em', height: '100%'}}>
+                    <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '15%', height: '100%'}}>
                         <Stepper activeStep={this.state.step - 1} orientation="vertical">
                             <Step>
                                 <StepLabel>{translate.wizard_convene}</StepLabel>
@@ -83,65 +83,67 @@ class CouncilEditorPage extends React.Component {
                             </Step>
                         </Stepper>
                     </div>
-                    {this.state.step === 1 &&
-                        <CouncilEditorNotice 
-                            nextStep={this.nextStep}
-                            actualStep={this.state.actualStep}
-                            councilID={this.props.councilID}
-                            companyID={this.props.companyID}
-                            translate={translate}
-                        />
-                    }
-                    {this.state.step === 2 &&
-                        <CouncilEditorCensus
-                            nextStep={this.nextStep}
-                            previousStep={this.previousStep}
-                            actualStep={this.state.actualStep}                                    
-                            councilID={this.props.councilID}
-                            companyID={this.props.companyID}
-                            translate={translate}
-                        />
-                    }
-                    {this.state.step === 3 &&
-                        <CouncilEditorAgenda
-                            nextStep={this.nextStep}
-                            previousStep={this.previousStep}
-                            actualStep={this.state.actualStep}                                    
-                            councilID={this.props.councilID}
-                            companyID={this.props.companyID}
-                            translate={translate} 
-                        />
-                    }
-                    {this.state.step === 4 &&
-                        <CouncilEditorAttachments
-                            nextStep={this.nextStep}
-                            previousStep={this.previousStep}
-                            actualStep={this.state.actualStep}                                    
-                            councilID={this.props.councilID}
-                            companyID={this.props.companyID}
-                            translate={translate}
-                        />
-                    }
-                    {this.state.step === 5 &&
-                        <CouncilEditorOptions
-                            nextStep={this.nextStep}
-                            previousStep={this.previousStep}
-                            actualStep={this.state.actualStep}                                    
-                            councilID={this.props.councilID}
-                            companyID={this.props.companyID}
-                            translate={translate} 
-                        />
-                    }
-                    {this.state.step === 6 &&
-                        <CouncilEditorPreview
-                            nextStep={this.nextStep}
-                            previousStep={this.previousStep}
-                            actualStep={this.state.actualStep}                                    
-                            councilID={this.props.councilID}
-                            companyID={this.props.companyID}
-                            translate={translate} 
-                        />
-                    }
+                    <div style={{width: '80%'}}>
+                        {this.state.step === 1 &&
+                            <CouncilEditorNotice 
+                                nextStep={this.nextStep}
+                                actualStep={this.state.actualStep}
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate}
+                            />
+                        }
+                        {this.state.step === 2 &&
+                            <CouncilEditorCensus
+                                nextStep={this.nextStep}
+                                previousStep={this.previousStep}
+                                actualStep={this.state.actualStep}                                    
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate}
+                            />
+                        }
+                        {this.state.step === 3 &&
+                            <CouncilEditorAgenda
+                                nextStep={this.nextStep}
+                                previousStep={this.previousStep}
+                                actualStep={this.state.actualStep}                                    
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate} 
+                            />
+                        }
+                        {this.state.step === 4 &&
+                            <CouncilEditorAttachments
+                                nextStep={this.nextStep}
+                                previousStep={this.previousStep}
+                                actualStep={this.state.actualStep}                                    
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate}
+                            />
+                        }
+                        {this.state.step === 5 &&
+                            <CouncilEditorOptions
+                                nextStep={this.nextStep}
+                                previousStep={this.previousStep}
+                                actualStep={this.state.actualStep}                                    
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate} 
+                            />
+                        }
+                        {this.state.step === 6 &&
+                            <CouncilEditorPreview
+                                nextStep={this.nextStep}
+                                previousStep={this.previousStep}
+                                actualStep={this.state.actualStep}                                    
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate} 
+                            />
+                        }
+                    </div>
                 </div>
             </CardPageLayout>
         );

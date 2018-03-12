@@ -11,7 +11,6 @@ const BottomSection = ({ translate }) => (
                 floatingText="Censo"
                 value={0}
                 fullWidth={true}                            
-                onChange={this.handleCensusChange}
                 errorText=""
             >   
                 <MenuItem value={0} primaryText="Censo" />
@@ -20,7 +19,6 @@ const BottomSection = ({ translate }) => (
                 floatingText="Sin contraseña"
                 value={0}
                 fullWidth={true}
-                onChange={this.handleCensusChange}
                 errorText=""
             >   
                 <MenuItem value={0} primaryText="Sin contraseña" />
@@ -41,7 +39,6 @@ const BottomSection = ({ translate }) => (
                 floatingText="Consejo de administración"
                 value={0}
                 fullWidth={true}                            
-                onChange={this.handleCensusChange}
                 errorText=""
             >   
                 <MenuItem value={0} primaryText="Consejo de administración" />
@@ -50,7 +47,6 @@ const BottomSection = ({ translate }) => (
                 floatingText="Fecha"
                 value={0}
                 fullWidth={true}
-                onChange={this.handleCensusChange}
                 errorText=""
             >   
                 <MenuItem value={0} primaryText="Fecha" />

@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
-import { Dialog } from 'material-ui';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import BasicButton from './BasicButton';
 import { getPrimary } from '../../styles/colors';
 
 
 const AlertConfirm = ({ title, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
-
     const primary = getPrimary();
-    
     const buttons = 
         <Fragment>
             <BasicButton
@@ -30,14 +28,19 @@ const AlertConfirm = ({ title, buttonAccept, buttonCancel, scrollable = false, m
 
     return(
         <Dialog
-            title={title}
-            actions={buttons}
-            modal={modal}
+            disableBackdropClick={modal}
             open={open}
-            autoScrollBodyContent={scrollable}
-            onRequestClose={requestClose}
+            onClose={requestClose}
         >
-            {bodyText}
+            <DialogTitle>
+                {title}
+            </DialogTitle>
+            <DialogContent>
+                {bodyText}
+            </DialogContent>
+            <DialogActions>
+                {buttons}
+            </DialogActions>
         </Dialog>
     );
 }

@@ -6,7 +6,7 @@ import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, DeleteI
 import gql from 'graphql-tag';
 import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { TableRow, TableCell } from 'material-ui/Table';
 
 
 class MeetingDrafts extends Component {
@@ -88,14 +88,12 @@ class MeetingDrafts extends Component {
                         >
                             {this.props.data.councils.map((council) => {
                                 return(
-                                    <TableRow
-                                        selectable={false}
-                                        hoverable
+                                    <TableRow                               
                                         key={`participant${council.id}`}  
                                     >
-                                        <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableRowColumn>
-                                        <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}`}>{council.name}</Link></TableRowColumn>
-                                        <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
+                                        <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableCell>
+                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}`}>{council.name}</Link></TableCell>
+                                        <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                     </TableRow>
                                 )
                             })}

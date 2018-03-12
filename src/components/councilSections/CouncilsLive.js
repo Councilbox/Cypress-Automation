@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo';
 import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { compose } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
-import { TableRowColumn, TableRow } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 
 class CouncilsLive extends Component {
 
@@ -82,14 +82,12 @@ class CouncilsLive extends Component {
                                 >
                                     {councils.map((council) => {
                                         return(
-                                            <TableRow
-                                                selectable={false}
-                                                hoverable
+                                            <TableRow                                               
                                                 key={`participant${council.id}`}  
                                             >
-                                                <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableRowColumn>
-                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/live`}>{council.name}</Link></TableRowColumn>
-                                                <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
+                                                <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
+                                                <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/live`}>{council.name}</Link></TableCell>
+                                                <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                             </TableRow>
                                         )
                                     })}

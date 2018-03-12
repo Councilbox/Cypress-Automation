@@ -9,14 +9,15 @@ class LoginContainer extends React.PureComponent {
         return(
             <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
                 <Header helpIcon />
-                <Login main={this.props.main} />
+                <Login main={this.props.main} translate={this.props.translate} />
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => ({
-    main: state.main
+    main: state.main,
+    translate: state.translate
 });
 
 

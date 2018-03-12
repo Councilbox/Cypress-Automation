@@ -1,14 +1,16 @@
 import React from 'react';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
+//import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
+import { DeleteForever } from 'material-ui-icons';
+import { Button } from 'material-ui';
 
 const DeleteIcon = ({ style, onClick }) => (
-    <IconButton 
-        iconStyle={style}
+    <Button 
+        variant="fab"
+        style={style}
         onClick={onClick}
     >
         <DeleteForever />
-    </IconButton>
+    </Button>
 )
 
 export default DeleteIcon;

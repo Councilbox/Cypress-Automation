@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col } from "react-bootstrap";
 import { SelectInput, BasicButton, LoadingSection, TextInput, Icon } from '../displayComponents';
-import MenuItem from 'material-ui/MenuItem';
+import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';

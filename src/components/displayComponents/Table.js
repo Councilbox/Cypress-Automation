@@ -1,20 +1,19 @@
 import React from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import { Paper } from 'material-ui';
 
 const TableWrapper = ({ headers, children }) => (
     <Table>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+        <TableHead>
             <TableRow>
                 {headers.map((header) => {
                     return(
-                        <TableHeaderColumn key={`header${header.name}`}>{header.name}</TableHeaderColumn>
+                        <TableCell key={`header${header.name}`}>{header.name}</TableCell>
                     )
                 })}
             </TableRow>
-        </TableHeader>
+        </TableHead>
         <TableBody 
-            displayRowCheckbox={false}
-            showRowHover={true}
         >
             {children}
         </TableBody>

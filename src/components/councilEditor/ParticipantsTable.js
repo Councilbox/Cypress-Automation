@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { TableRow, TableCell } from 'material-ui/Table';
 import { getPrimary } from '../../styles/colors';
 import { Table, DeleteIcon } from '../displayComponents';
 import { graphql } from "react-apollo";
@@ -35,36 +35,36 @@ class ParticipantsTable extends Component {
         const { translate } = this.props;
 
         return(
-            <Table
-                headers={[
-                    {name: translate.name},
-                    {name: translate.dni},
-                    {name: translate.email},
-                    {name: translate.phone_number},
-                    {name: translate.position},
-                    {name: translate.votes},
-                    {name: translate.delete},                    
-                ]}
-                action={this._renderDeleteIcon}
-            >
-                {this.props.participants.map((participant) => {
-                    return(
-                        <TableRow
-                            selectable={false}
-                            hoverable
-                            key={`participant${participant.id}`} 
-                        >
-                            <TableRowColumn>{participant.name}</TableRowColumn>
-                            <TableRowColumn>{participant.dni}</TableRowColumn>
-                            <TableRowColumn>{participant.email}</TableRowColumn>
-                            <TableRowColumn>{participant.phone}</TableRowColumn>
-                            <TableRowColumn>{participant.position}</TableRowColumn>     
-                            <TableRowColumn>{participant.num_participations}</TableRowColumn>
-                            <TableRowColumn>{this._renderDeleteIcon(participant.id)}</TableRowColumn>                  
-                        </TableRow>
-                    )
-                })}
-            </Table>
+            <div>
+                <Table
+                    headers={[
+                        {name: translate.name},
+                        {name: translate.dni},
+                        {name: translate.email},
+                        {name: translate.phone_number},
+                        {name: translate.position},
+                        {name: translate.votes},
+                        {name: translate.delete},                    
+                    ]}
+                    action={this._renderDeleteIcon}
+                >
+                    {this.props.participants.map((participant) => {
+                        return(
+                            <TableRow                         
+                                key={`participant${participant.id}`} 
+                            >
+                                <TableCell>{participant.name}</TableCell>
+                                <TableCell>{participant.dni}</TableCell>
+                                <TableCell>{participant.email}</TableCell>
+                                <TableCell>{participant.phone}</TableCell>
+                                <TableCell>{participant.position}</TableCell>     
+                                <TableCell>{participant.num_participations}</TableCell>
+                                <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>                  
+                            </TableRow>
+                        )
+                    })}
+                </Table>
+            </div>
         );
     }
 }

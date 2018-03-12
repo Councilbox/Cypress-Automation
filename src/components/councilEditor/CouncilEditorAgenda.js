@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { TextInput, BasicButton, SelectInput, LoadingSection, MenuItem, RichTextInput, ErrorWrapper, Icon } from "../displayComponents";
+import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput, ErrorWrapper, Icon } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
+import { MenuItem } from 'material-ui';
 import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
 import { getPrimary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
@@ -108,7 +109,7 @@ class CouncilEditorAgenda extends Component {
                         onChange={(event, position, value) => {
                             let agendas = [...this.state.agendas];
                             let newAgenda = {...agendas[index]};
-                            newAgenda.subjectType = value;
+                            newAgenda.subjectType = event.target.value;
                             agendas[index] = newAgenda;
                             this.setState({
                                 agendas: agendas

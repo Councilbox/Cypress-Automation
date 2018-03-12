@@ -6,7 +6,7 @@ import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, DeleteI
 import { urlParser } from '../../utils';
 import gql from 'graphql-tag';
 import { compose } from 'react-apollo';
-import { TableRowColumn, TableRow } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 import { getPrimary } from '../../styles/colors';
 
 class MeetingsLive extends Component {
@@ -87,14 +87,12 @@ class MeetingsLive extends Component {
                         >
                             {this.props.data.councils.map((council) => {
                                 return(
-                                    <TableRow
-                                        selectable={false}
-                                        hoverable
+                                    <TableRow                                      
                                         key={`participant${council.id}`}  
                                     >
-                                        <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableRowColumn>
-                                        <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/live`}>{council.name}</Link></TableRowColumn>
-                                        <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
+                                        <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableCell>
+                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/live`}>{council.name}</Link></TableCell>
+                                        <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                     </TableRow>
                                 )
                             })}

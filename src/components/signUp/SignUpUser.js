@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { TextField, RaisedButton } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
-import { Icon } from '../displayComponents';
+import { Icon, BasicButton, TextInput } from '../displayComponents';
 import { checkValidEmail } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 
@@ -103,9 +102,8 @@ class SignUpUser extends Component {
                 <Grid>
                     <Row style={{width: '75%'}}>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText={translate.name}
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.name}
                                 type="text"
                                 value={this.state.data.firstName}
                                 errorText={this.state.errors.firstName}
@@ -119,9 +117,8 @@ class SignUpUser extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText={translate.new_surname}
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.new_surname}
                                 type="text"
                                 value={this.state.data.lastName}
                                 errorText={this.state.errors.lastName}
@@ -135,9 +132,8 @@ class SignUpUser extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText={translate.phone}
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.phone}
                                 type="text"
                                 value={this.state.data.phoneNumber}
                                 errorText={this.state.errors.phoneNumber}
@@ -151,9 +147,8 @@ class SignUpUser extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText={translate.email}
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.email}
                                 type="text"
                                 value={this.state.data.email}
                                 errorText={this.state.errors.email}
@@ -167,9 +162,8 @@ class SignUpUser extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText={translate.username}
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.username}
                                 type="text"
                                 value={this.state.data.username}
                                 errorText={this.state.errors.username}
@@ -183,9 +177,8 @@ class SignUpUser extends Component {
                             />
                         </Col>
                         <Col xs={12} md={6}>
-                            <TextField
-                                floatingLabelText={translate.password}
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText={translate.password}
                                 type="password"
                                 value={this.state.data.password}
                                 errorText={this.state.errors.password}
@@ -200,12 +193,12 @@ class SignUpUser extends Component {
                         </Col>
                         <Col md={5} />
                         <Col xs={12} md={3}>
-                            <RaisedButton
-                                label={translate.next}
+                            <BasicButton
+                                text={translate.next}
                                 fullWidth={true}
-                                backgroundColor={primary}
-                                labelStyle={{color: 'white', fontWeight: '700'}}
-                                labelPosition="before"
+                                color={primary}
+                                style={{color: 'white', fontWeight: '700'}}
+                                position="before"
                                 onClick={this.nextPage}
                                 icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />

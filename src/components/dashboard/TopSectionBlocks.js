@@ -20,7 +20,6 @@ const estatutesButton = () => (
         text="Revisa tus estatutos"
         fullWidth={true}
         color={getPrimary()}
-        buttonStyle={{width: '90%'}}
         textStyle={{color: 'white', fontWeight: '500', textTransform: 'none'}}
         textPosition="after"
         icon={<Icon className="material-icons" style={{color: 'white'}}>edit</Icon>}
@@ -32,7 +31,6 @@ const censusesButton = () => (
         text="Crear un censo"
         fullWidth={true}
         color={getSecondary()}
-        buttonStyle={{width: '90%'}}
         textStyle={{color: 'white', fontWeight: '500', textTransform: 'none'}}
         textPosition="after"
         icon={<Icon className="material-icons" style={{color: 'white'}}>control_point</Icon>}

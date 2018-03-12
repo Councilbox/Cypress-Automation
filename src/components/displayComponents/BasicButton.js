@@ -1,17 +1,16 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton/RaisedButton';
+import { Button } from 'material-ui';
 
 const BasicButton = ({ color, text, textStyle, buttonStyle, icon, textPosition, onClick, fullWidth }) => (
-    <RaisedButton
-        backgroundColor={color}
-        label={text}
-        style={buttonStyle}
-        labelStyle={textStyle}
-        labelPosition={textPosition}
+    <Button
+        style={{...buttonStyle, ...textStyle, backgroundColor: color}}
+        variant="raised"
         onClick={onClick}
         icon={icon}
         fullWidth={fullWidth}
-    />
+    >
+        {text}
+    </Button>
 );
 
 export default BasicButton;

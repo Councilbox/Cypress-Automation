@@ -2,13 +2,11 @@ import React from 'react';
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import {Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import { TextField, FlatButton } from 'material-ui';
-import { Link } from 'react-router-dom';
+import { Card, CardActions, CardHeader, CardContent } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { login } from '../queries';
 import { getPrimary } from '../styles/colors';
-import { BasicButton, Icon } from './displayComponents';
+import { BasicButton, Icon, TextInput, Link } from './displayComponents';
 
 
 class Login extends React.PureComponent {
@@ -34,7 +32,6 @@ class Login extends React.PureComponent {
                 }
             });
             if(response.data.login){
-                console.log(response);
                 this.props.actions.loginSuccess(response.data.login.token);
             }
         }
@@ -70,6 +67,7 @@ class Login extends React.PureComponent {
     }
 
     render(){
+        const { translate } = this.props;
         const primary = getPrimary();
         return(
             <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, #6499B1)`, fontSize: '0.85em', height: '100%'}}>
@@ -94,7 +92,6 @@ class Login extends React.PureComponent {
                                     fullWidth
                                     buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
                                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
-                                    labelPosition={'before'}
                                 />
                             </div>
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>                            
@@ -119,10 +116,9 @@ class Login extends React.PureComponent {
                             titleStyle={{fontWeight: '700', fontSize: '1.2em'}}
                             style={{marginBottom: 0, paddingBottom: 0}}
                         />
-                        <CardText>
-                            <TextField
-                                floatingLabelText="NOMBRE DE USUARIO"
-                                floatingLabelFixed={true}
+                        <CardContent>
+                            <TextInput
+                                floatingText={translate.login_user}
                                 errorText={this.state.errors.user}
                                 type="text"
                                 value={this.state.user}
@@ -130,9 +126,8 @@ class Login extends React.PureComponent {
                                     user: event.nativeEvent.target.value
                                 })}
                             />
-                            <TextField
-                                floatingLabelText="CONTRASEÑA"
-                                floatingLabelFixed={true}
+                            <TextInput
+                                floatingText="CONTRASEÑA"
                                 type="password"
                                 errorText={this.state.errors.password}
                                 value={this.state.password}
@@ -140,22 +135,18 @@ class Login extends React.PureComponent {
                                     password: event.nativeEvent.target.value
                                 })}
                             />
-                        </CardText>
+                        </CardContent>
                         <CardActions>
                             <BasicButton
                                 text="Entrar"
                                 color={primary}
-                                buttonStyle={{width: '90%'}}
                                 textStyle={{color: 'white', fontWeight: '700'}}
                                 textPosition="before"
                                 onClick={this.login}
                                 fullWidth={true}
                                 icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
-                            <FlatButton 
-                                label="¿Has olvidado tu contraseña?"
-                                labelStyle={{color: 'grey', fontWeight: '700', fontSize: '0.8em'}}
-                            />
+                            <Link to="/">¿Has olvidado tu contraseña?"</Link>
                         </CardActions>   
                     </Card>
                 </div>

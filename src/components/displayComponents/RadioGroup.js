@@ -1,15 +1,15 @@
 import React from 'react';
-import { RadioButtonGroup } from 'material-ui';
+import { RadioGroup, FormControl } from 'material-ui';
 
-const RadioGroup = ( { children, value, onChange, name, style }) => (
-    <RadioButtonGroup 
-        name={name}
-        valueSelected={value}
-        onChange={onChange}
-        style={style}
-    >
-        {children}
-    </RadioButtonGroup>
+export default ( { children, value, onChange, name, style }) => (
+    <FormControl component="fieldset">
+        <RadioGroup 
+            name={name}
+            value={value.toString()}
+            onChange={onChange}
+            style={style}
+        >
+            {children}
+        </RadioGroup>
+    </FormControl>
 )
-
-export default RadioGroup;
