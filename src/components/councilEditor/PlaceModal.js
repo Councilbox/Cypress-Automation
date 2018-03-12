@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Dialog, Checkbox, MenuItem } from 'material-ui';
-import { BasicButton, TextInput, SelectInput, LoadingSection } from "../displayComponents";
+import { Dialog, MenuItem } from 'material-ui';
+import { BasicButton, TextInput, SelectInput, LoadingSection, Checkbox } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
-import { graphql, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
 import { provinces } from "../../queries";
 
 class PlaceModal extends Component {
@@ -216,8 +215,8 @@ class PlaceModal extends Component {
             >
                 <Checkbox
                     label={translate.remote_celebration}
-                    checked={this.state.data.council.remoteCelebration === 1 ? true : false}
-                    onCheck={(event, isInputChecked) => 
+                    value={this.state.data.council.remoteCelebration === 1 ? true : false}
+                    onChange={(event, isInputChecked) => 
                         this.setState({
                             data: {
                                 ...this.state.data,

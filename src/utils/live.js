@@ -62,7 +62,6 @@ class LiveUtil {
         switch (majority_type) {
             case 0:
                 return Math.ceil(total_votes * majority / 100);
-                break;
             case 1:
                 var positiveNeeded = against_votes + 1;
                 if (quorum_prototype === 1) { //ACCIONES
@@ -71,19 +70,14 @@ class LiveUtil {
                 } else {
                     return positiveNeeded;
                 }
-                break;
             case 2:
                 return Math.ceil(total_votes * 50 / 100) + 1;
-                break;
             case 4:
                 return Math.ceil(total_votes * 2 / 3);
-                break;
             case 5:
                 return Math.ceil(total_votes * majority / majority_divider);
-                break;
             case 6:
                 return majority;
-                break;
             default:
                 return 0;
         }

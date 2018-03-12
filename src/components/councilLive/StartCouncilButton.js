@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { startCouncil } from '../../queries';
 import { graphql } from 'react-apollo';
-import { BasicButton, AlertConfirm } from '../displayComponents';
+import { BasicButton, AlertConfirm, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 import ParticipantSelector from './ParticipantSelector';
 import { urlParser } from '../../utils';
 
@@ -120,7 +119,7 @@ class StartCouncilButton extends Component {
                     onClick={() => this.setState({
                         alert: true
                     })}
-                    icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }} color={'white'}>play_arrow</FontIcon>}                                    
+                    icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>play_arrow</Icon>}                                    
                     buttonStyle={{width: '11em'}}                                    
                     textStyle={{color: 'white', fontSize: '0.65em', fontWeight: '700', textTransform: 'none'}}
                 />

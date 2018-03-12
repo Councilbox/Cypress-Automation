@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { FontIcon, Checkbox } from 'material-ui';
 import { Grid, Row, Col } from "react-bootstrap";
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { SelectInput, BasicButton, TextInput } from '../displayComponents';
+import { SelectInput, BasicButton, TextInput, Checkbox, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import MenuItem from 'material-ui/MenuItem';
 import Dialog from 'material-ui/Dialog';
@@ -316,8 +315,8 @@ class SignUpPay extends Component {
                         <Col md={5}>
                             <Checkbox
                                 label="He leido y acepto los términos y condiciones de CouncilBox"
-                                checked={this.state.data.termsCheck}
-                                onCheck={(event, isInputChecked) => this.setState({
+                                value={this.state.data.termsCheck}
+                                onChange={(event, isInputChecked) => this.setState({
                                     ...this.state,
                                     data: {
                                         ...this.state.data,
@@ -333,7 +332,7 @@ class SignUpPay extends Component {
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em'}}
                                 textPosition="before"
                                 onClick={this.endForm}
-                                icon={<FontIcon className="material-icons">arrow_forward</FontIcon>}
+                                icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
                         </Col>
                     </Row>

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import React from 'react';
+import { SortableElement } from 'react-sortable-hoc';
 import { getPrimary } from '../../styles/colors';
 
 const DraggableBlock = SortableElement(({value}) => {

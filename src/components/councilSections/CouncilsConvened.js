@@ -2,11 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
-import gql from 'graphql-tag';
-import { urlParser } from '../../utils';
+import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
 
@@ -51,12 +47,10 @@ class CouncilsConvened extends Component {
         const primary = getPrimary();
 
         return(
-            <IconButton 
-                iconStyle={{color: primary}}
+            <DeleteIcon 
+                style={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 

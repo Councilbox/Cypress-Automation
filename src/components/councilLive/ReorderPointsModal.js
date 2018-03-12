@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { graphql, compose } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, AgendaNumber } from '../displayComponents';
-import { MenuItem } from 'material-ui';
-import { votationTypes, addAgenda, updateOrder } from '../../queries';
+import { graphql } from 'react-apollo';
+import { AlertConfirm, AgendaNumber } from '../displayComponents';
+import { updateOrder } from '../../queries';
 import { urlParser } from '../../utils';
 import icon from '../../assets/img/reorder.PNG';
-import DraggableBlock from '../displayComponents/DraggableBlock';
 import SortableList from '../displayComponents/SortableList';
 import { arrayMove } from 'react-sortable-hoc';
 
@@ -57,8 +55,7 @@ class ReorderPointsModal extends Component {
 
 
     _renderNewPointBody = () => {
-        const { translate, agendas } = this.props;
-        
+                
         return(
             <SortableList items={this.state.agendas} onSortEnd={this.onSortEnd} helperClass="draggable" />
         );

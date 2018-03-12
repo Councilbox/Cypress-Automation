@@ -2,11 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
+import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { TableRow, TableRowColumn } from 'material-ui/Table';
-import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 
 class CouncilsWriting extends Component {
@@ -25,12 +22,10 @@ class CouncilsWriting extends Component {
     _renderDeleteIcon = (councilID) => {
         const primary = getPrimary();
         return(
-            <IconButton 
-                iconStyle={{color: primary}}
+            <DeleteIcon
+                style={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 

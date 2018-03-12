@@ -2,9 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils } from '../../queries.js';
 import { graphql } from 'react-apollo';
-import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
+import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, DeleteIcon } from '../displayComponents';
 import { urlParser } from '../../utils';
 import gql from 'graphql-tag';
 import { compose } from 'react-apollo';
@@ -27,12 +25,10 @@ class MeetingsLive extends Component {
 
     _renderDeleteIcon = (councilID) => {
         return(
-            <IconButton 
-                iconStyle={{color: getPrimary()}}
+            <DeleteIcon
+                style={{color: getPrimary()}}
                 onClick={() => this.openDeleteModal(councilID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 

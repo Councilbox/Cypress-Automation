@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { FontIcon, MenuItem} from 'material-ui';
-import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert } from "../displayComponents";
+import { MenuItem} from 'material-ui';
+import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert, Icon } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
 import { councilStepOne, updateCouncil } from '../../queries';
-import { urlParser } from '../../utils';
 
 class CouncilEditorNotice extends Component {
 
@@ -134,13 +133,13 @@ class CouncilEditorNotice extends Component {
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={() => this.setState({placeModal: true})}
-                    icon={<FontIcon className="material-icons">location_on</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>location_on</Icon>}
                 />
                 <BasicButton
                     text={translate.save}
                     color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
                     textPosition="after"
                     onClick={this.updateCouncil} 
                 />

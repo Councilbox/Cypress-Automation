@@ -2,9 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
 import { endCouncil } from '../../queries';
-import { BasicButton, AlertConfirm } from '../displayComponents';
+import { BasicButton, AlertConfirm, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 import { bHistory } from '../../containers/App';
 
 class EndCouncilButton extends Component {
@@ -54,7 +53,7 @@ class EndCouncilButton extends Component {
                         color={primary}
                         onClick={() => this.setState({ confirmModal: true})}
                         textPosition="before"
-                        icon={<FontIcon className="material-icons" style={{fontSize: '1.1em' }} color={'white'}>play_arrow</FontIcon>}                                    
+                        icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>play_arrow</Icon>}                                    
                         buttonStyle={{width: '11em'}}                                    
                         textStyle={{color: 'white', fontSize: '0.65em', fontWeight: '700', textTransform: 'none'}}
                     />

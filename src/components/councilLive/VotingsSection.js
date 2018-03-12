@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
-import { CollapsibleSection, FileUploadButton, LoadingSection } from '../displayComponents';
-import AttachmentList from '../councilEditor/AttachmentList';
-import { FontIcon } from 'material-ui';
+import { graphql } from 'react-apollo';
+import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
 import { darkGrey, getPrimary, getSecondary } from '../../styles/colors';
-import { urlParser } from '../../utils';
 import { getVotings } from '../../queries';
 import FontAwesome from 'react-fontawesome';
 
@@ -19,18 +16,18 @@ class VotingsSection extends Component {
     }
 
     _button = () => {
-        const { agenda, translate, council } = this.props;
+        const { translate } = this.props;
 
         return(
             <div style={{height: '3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
-                    <FontIcon className="material-icons" color='grey'>thumbs_up_down</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>thumbs_up_down</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>
                         {translate.voting}
                     </span>
                 </div>
                 <div style={{width: '25%', display: 'flex', justifyContent: 'flex-end', paddingRight: '2em'}}>
-                    <FontIcon className="material-icons" color={'grey'}>keyboard_arrow_down</FontIcon>
+                    <Icon className="material-icons" style={{color: 'grey'}}>keyboard_arrow_down</Icon>
                 </div>
             </div>
         )
@@ -67,7 +64,6 @@ class VotingsSection extends Component {
     }
 
     _section = () => {
-        const { agenda, translate } = this.props;
         const votes = this.props.data.getVotings;
         if(this.props.data.loading){
             return(

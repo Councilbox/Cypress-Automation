@@ -1,7 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { darkGrey, mediumGrey, getSecondary, lightGrey, getPrimary } from '../../styles/colors';
-import { CollapsibleSection, LoadingSection } from '../displayComponents';
-import { FontIcon } from 'material-ui';
+import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import { liveParticipants, changeRequestWord } from '../../queries';
  
@@ -35,18 +34,18 @@ class ParticipantsLive extends Component {
     _participantEntry = (participant) => {
         return(
             <div key={`participant${participant.id}`} style={{display: 'flex', flexDirection: 'row', height: '3em', padding: '0.5em', alignItems: 'center'}}>
-                <FontIcon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em' }} color={getSecondary()}>language</FontIcon>
+                <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: getSecondary() }}>language</Icon>
                 <div style={{color: 'white', fontSize: '0.85em', marginLeft: '0.5em', width: '45%'}} className="truncate">{`${participant.name} ${participant.surname}`}</div>
                 <div style={{width: '20%', color: lightGrey, marginLeft: '1em', fontSize: '0.8em'}} className="truncate">{participant.position}</div>
                 {participant.request_word === 2 &&
                     <div onClick={() => this.changeWordState(participant.id, 0)} style={{width: '1.6em', height: '1.6em', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getPrimary()}}>
-                        <FontIcon className="material-icons" style={{fontSize: '0.9em', marginRight: '0.3em' }} color={'white'}>pan_tool</FontIcon>
+                        <Icon className="material-icons" style={{fontSize: '0.9em', marginRight: '0.3em', color: 'white' }}>pan_tool</Icon>
                     </div>
 
                 }
                 {participant.request_word === 1 &&
                     <div onClick={() => this.changeWordState(participant.id, 2)} style={{width: '1.6em', height: '1.6em', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getSecondary()}}>
-                        <FontIcon className="material-icons" style={{fontSize: '0.92em', marginRight: '0.3em' }} color={'white'}>pan_tool</FontIcon>
+                        <Icon className="material-icons" style={{fontSize: '0.92em', marginRight: '0.3em', color: 'white' }} >pan_tool</Icon>
                     </div>
 
                 }
@@ -61,11 +60,11 @@ class ParticipantsLive extends Component {
         return(
             <div style={{height: '3em', display: 'flex', backgroundColor: mediumGrey, alignItems: 'center'}} className="withShadow">
                 <div style={{marginLeft: '1em', marginRight: '0.5em', height: '100%', display: 'flex', alignItems: 'center'}}>
-                    <FontIcon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em' }} color={lightGrey}>person</FontIcon>
+                    <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: lightGrey }} >person</Icon>
                     <span style={{fontWeight: '700', color: 'white', fontSize: '0.8em'}}>{participants.length}</span>
                 </div>
                 <div style={{marginLeft: '1em', marginRight: '0.5em', height: '100%', display: 'flex', alignItems: 'center'}}>
-                    <FontIcon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em' }} color={getSecondary()}>language</FontIcon>
+                    <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: getSecondary() }}>language</Icon>
                     <span style={{fontWeight: '700', color: 'white', fontSize: '0.8em'}}>{liveParticipants.length}</span>
                 </div>
             </div>
@@ -73,7 +72,6 @@ class ParticipantsLive extends Component {
     }
 
     _section = () => {
-        const { translate } = this.props;
         const { liveParticipants } = this.props.data;
 
         if(this.props.data.loading){

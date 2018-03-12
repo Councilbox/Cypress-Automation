@@ -17,7 +17,6 @@ export default function companyReducer(state = initialState.company, action) {
             }
 
         case 'CHANGE_SELECTED':
-            console.log(action.value);
             return {
                 ...state,
                 selected: action.value

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { AgendaNumber, AlertConfirm, TextInput, SelectInput, RichTextInput } from '../displayComponents';
-import { getPrimary, getSecondary, mediumGrey } from '../../styles/colors';
+import { AgendaNumber } from '../displayComponents';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from '../councilEditor/NewAgendaPointModal';
 import ReorderPointsModal from './ReorderPointsModal';
 

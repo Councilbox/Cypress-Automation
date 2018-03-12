@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { getPrimary, getSecondary } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 import { bHistory } from '../../containers/App';
-import { AlertConfirm } from '../displayComponents';
+import { AlertConfirm, Icon } from '../displayComponents';
 
 
 class LiveHeader extends Component  {
@@ -42,23 +41,21 @@ class LiveHeader extends Component  {
                     <span style={{alignSelf: 'center'}}>{councilName}</span>
                 </div>
                 <div style={{width: '10%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: '2em'}}>
-                    <FontIcon 
+                    <Icon 
                         className="material-icons"
-                        color={'white'}
                         style={{fontSize: '1.5em', color: 'white'}}
                     >
                         help
-                    </FontIcon>
-                    <FontIcon 
+                    </Icon>
+                    <Icon 
                         className="material-icons"
-                        color={'white'}
                         style={{fontSize: '1.5em', color: 'white'}}
                         onClick={() => this.setState({
                             showConfirm: true
                         })}
                     >
                         exit_to_app
-                    </FontIcon>
+                    </Icon>
                     <AlertConfirm
                         title={translate.exit}
                         bodyText={translate.exit_desc}

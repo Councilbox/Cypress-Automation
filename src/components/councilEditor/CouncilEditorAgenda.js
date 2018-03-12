@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
-import { FontIcon, MenuItem} from 'material-ui';
-import { TextInput, BasicButton, SelectInput, LoadingSection, RichTextInput, ErrorWrapper } from "../displayComponents";
+import { TextInput, BasicButton, SelectInput, LoadingSection, MenuItem, RichTextInput, ErrorWrapper, Icon } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
-import CouncilboxApi from '../../api/CouncilboxApi';
 import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
-import { urlParser } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
  
@@ -176,7 +173,7 @@ class CouncilEditorAgenda extends Component {
                     text={translate.save}
                     color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
                     textPosition="after"
                     onClick={this.updateCouncil} 
                 />  

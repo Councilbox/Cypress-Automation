@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { LoadingMainApp } from "../displayComponents";
+import { LoadingMainApp, Icon } from "../displayComponents";
 import LiveHeader from './LiveHeader';
 import { lightGrey, darkGrey } from '../../styles/colors';
-import { FontIcon } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
-import { councilFullData, participantsQuery, majorities, quorums, votationTypes, getVideoHTML, liveParticipants } from '../../queries';
+import { councilFullData, participantsQuery, majorities, quorums, votationTypes, getVideoHTML } from '../../queries';
 import AgendaManager from './AgendaManager';
 import ParticipantsLive from './ParticipantsLive';
 
@@ -93,9 +92,9 @@ class CouncilLivePage extends Component {
                                         {//<div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: this.props.videoHTML.getVideoHTML.html_video_council}}/>
                                         }
                                         {!this.state.fullScreen?
-                                            <FontIcon className="material-icons" color={lightGrey} style={{position: 'absolute', right: '10%', bottom: '7%'}} onClick={() => this.setState({videoWidth: 94, videoHeight: '90vh', fullScreen: true})}>zoom_in</FontIcon>
+                                            <Icon className="material-icons" style={{position: 'absolute', right: '10%', bottom: '7%', color: lightGrey}} onClick={() => this.setState({videoWidth: 94, videoHeight: '90vh', fullScreen: true})}>zoom_in</Icon>
                                         :
-                                            <FontIcon className="material-icons" color={lightGrey} style={{position: 'absolute', right: '10%', bottom: '7%'}} onClick={() => this.setState({videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}>zoom_out</FontIcon>
+                                            <Icon className="material-icons" style={{position: 'absolute', right: '10%', bottom: '7%', color: lightGrey}} onClick={() => this.setState({videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}>zoom_out</Icon>
                                         }
                                     </div>
                                 </Fragment>

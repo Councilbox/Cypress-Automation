@@ -1,7 +1,6 @@
 import React from 'react';
 import { getPrimary } from '../../styles/colors';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
+import { DeleteIcon } from '../displayComponents';
 
 const AttachmentList = ({ attachments, deleteAction, translate }) => (
     attachments.map((attachment) => {
@@ -9,12 +8,10 @@ const AttachmentList = ({ attachments, deleteAction, translate }) => (
             <div key={attachment.id}>
                 {attachment.filename}
                 {attachment.state !== 2?
-                    <IconButton 
-                        iconStyle={{color: getPrimary()}}
+                    <DeleteIcon 
+                        style={{color: getPrimary()}}
                         onClick={() => deleteAction(attachment.id)}
-                    >
-                        <DeleteForever />
-                    </IconButton>
+                    />
                 :
                     ` ${translate.deleted}`
 

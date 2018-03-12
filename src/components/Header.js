@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import logo from '../assets/img/logo.png';
-import FontIcon from 'material-ui/FontIcon';
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { BasicButton } from './displayComponents';
+import { BasicButton, Icon } from './displayComponents';
 
 class Header extends Component{
 
@@ -18,7 +17,7 @@ class Header extends Component{
             <header className="App-header" style={{height: '3em', display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
                 <Link to="/"><img src={logo} className="App-logo" style={{height: '1.5em', marginLeft: '2em'}} alt="logo" /></Link>
                 {this.props.helpIcon &&
-                    <FontIcon className="material-icons" color={'grey'} style={{marginRight: '2em', fontSize: '1.5em'}}>live_help</FontIcon>
+                    <Icon className="material-icons" style={{marginRight: '2em', fontSize: '1.5em', color: 'grey'}}>live_help</Icon>
                 }
                 {this.props.user &&
                     <div>

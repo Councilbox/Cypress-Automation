@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { FontIcon } from 'material-ui';
-import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert } from '../displayComponents';
+import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, Icon } from '../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
 import AttachmentList from './AttachmentList';
 import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../queries';
-import { urlParser } from '../../utils';
 
 class CouncilEditorAttachments extends Component {
 
@@ -149,7 +147,7 @@ class CouncilEditorAttachments extends Component {
                         text={translate.new_add}
                         color={primary}
                         textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                        icon={<FontIcon className="material-icons">publish</FontIcon>}
+                        icon={<Icon className="material-icons" style={{color: 'white'}}>publish</Icon>}
                         onChange={this.handleFile}
                     />
                 : 
@@ -160,7 +158,7 @@ class CouncilEditorAttachments extends Component {
                     text={translate.save}
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<FontIcon className="material-icons">save</FontIcon>}
+                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
                     textPosition="after"
                     onClick={this.updateCouncil} 
                 />
