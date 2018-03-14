@@ -66,6 +66,12 @@ class Login extends React.PureComponent {
         this.props.actions.logout();
     }
 
+    handleKeyUp = (event) => {
+        if(event.nativeEvent.keyCode === 13){
+            this.login();
+        }
+    }
+
     render(){
         const { translate } = this.props;
         const primary = getPrimary();
@@ -118,6 +124,7 @@ class Login extends React.PureComponent {
                         />
                         <CardContent>
                             <TextInput
+                                onKeyUp={this.handleKeyUp}
                                 floatingText={translate.login_user}
                                 errorText={this.state.errors.user}
                                 type="text"
@@ -127,7 +134,8 @@ class Login extends React.PureComponent {
                                 })}
                             />
                             <TextInput
-                                floatingText="CONTRASEÑA"
+                                onKeyUp={this.handleKeyUp}
+                                floatingText={translate.login_password}
                                 type="password"
                                 errorText={this.state.errors.password}
                                 value={this.state.password}

@@ -76,7 +76,6 @@ class CouncilEditorAttachments extends Component {
             })
             if(response){
                 this.props.data.refetch();
-                console.log(response);
                 this.setState({
                     uploading: false
                 });

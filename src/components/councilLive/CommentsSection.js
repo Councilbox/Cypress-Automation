@@ -21,7 +21,7 @@ class CommentsSection extends Component {
                 <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
                     <Icon className="material-icons" style={{color: 'grey'}}>assignment</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>
-                        {council.statutes[0].exists_act? translate.act_comments : translate.council_comments}
+                        {council.statute.existsAct? translate.act_comments : translate.council_comments}
                     </span>
                 </div>
                 <div style={{width: '25%', display: 'flex', justifyContent: 'flex-end', paddingRight: '2em'}}>
@@ -41,14 +41,14 @@ class CommentsSection extends Component {
 
         return(
             <div style={{width: '100%', padding: '2em'}}>
-                {comments.map((comment) => {
+                {/*comments.map((comment) => {
                     return(
                         <div key={`comment${comment.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
                             {comment.comment}<br />
                             {`${comment.name} ${comment.surname} - ${comment.position}`}
                         </div>
                     )
-                })}
+                })*/}
             </div>
         );
     }

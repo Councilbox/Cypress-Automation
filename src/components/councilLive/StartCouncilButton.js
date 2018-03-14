@@ -15,7 +15,7 @@ class StartCouncilButton extends Component {
             selecting: 0,
             data: {
                 president: '',
-                president_id: ''
+                presidentId: ''
             }
         }
     }
@@ -24,15 +24,15 @@ class StartCouncilButton extends Component {
         const { council } = this.props;
         const response = await this.props.startCouncil({
             variables: {
-                data: urlParser({data: {
+                council: {
                     ...this.state.data,
                     id: council.id,
-                    company_id: council.company_id,
-                    needed_quorum: council.needed_quorum || 2,
-                    current_quorum: council.current_quorum || 0,
-                    satisfy_quorum: council.satisfy_quorum || 0,
-                    first_or_second_convene: council.first_or_second_convene
-                }})
+                    companyId: council.companyId,
+                    neededQuorum: council.neededQuorum || 2,
+                    currentQuorum: council.currentQuorum || 0,
+                    satisfyQuorum: council.satisfyQuorum || 0,
+                    firstOrSecondConvene: council.firstOrSecondConvene
+                }
             }
         })
         if(response){
@@ -48,7 +48,7 @@ class StartCouncilButton extends Component {
                         data: {
                             ...this.state.data,
                             president: name,
-                            president_id: id,
+                            presidentId: id,
                         },
                         selecting: 0
                     })
@@ -60,7 +60,7 @@ class StartCouncilButton extends Component {
                         data: {
                             ...this.state.data,
                             secretary: name,
-                            secretary_id: id,
+                            secretaryId: id,
                         },
                         selecting: 0
                     })
@@ -71,8 +71,8 @@ class StartCouncilButton extends Component {
                     this.setState({
                         data: {
                             ...this.state.data,
-                            quality_vote_name: name,
-                            quality_vote_id: id,
+                            qualityVoteName: name,
+                            qualityVoteId: id,
                         },
                         selecting: 0
                     })

@@ -6,7 +6,6 @@ import './styles/index.css';
 import { ThemeProvider } from './components/displayComponents';
 
 
-
 ReactDOM.render(
     <ThemeProvider>
         <App />

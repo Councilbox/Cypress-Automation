@@ -12,9 +12,11 @@ export const saveSignUpInfo = (info) => {
 
 export const getCompanies = (userId) => {
     return async (dispatch) => {
-        const response = await client.query({query: companies, variables: { userId: userId}});
-        dispatch({type: 'COMPANIES', value: response.data.userCompanies.map((item) => {return{...item.company}})})
-        dispatch(loadingFinished());
+        if(userId){
+            const response = await client.query({query: companies, variables: { userId: userId}});
+            dispatch({type: 'COMPANIES', value: response.data.userCompanies.map((item) => {return{...item.company}})})
+            dispatch(loadingFinished());
+        }
     }
 }
 

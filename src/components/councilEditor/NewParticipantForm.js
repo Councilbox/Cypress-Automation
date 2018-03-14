@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
-import { MenuItem, Radio } from 'material-ui';
+import { MenuItem } from 'material-ui';
 import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
-import { BasicButton, TextInput, SelectInput, RadioGroup, Icon } from '../displayComponents';
+import { BasicButton, TextInput, SelectInput, Radio, Icon } from '../displayComponents';
 import { FormControlLabel } from 'material-ui/Form';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
@@ -19,15 +19,7 @@ class NewParticipantForm extends Component {
             participantType: 0,
             data: {
                 participant: {
-                    language : 'es',
-                    councilId : 2,
-                    numParticipations : 1,
-                    personOrEntity : 1,
-                    name : '',
-                    dni : '',
-                    position : '',
-                    email : '',
-                    phone : '',
+                    ...newParticipantInitialValues
                 }
             },
 
@@ -158,15 +150,7 @@ class NewParticipantForm extends Component {
             data: {
                 ...this.props.data,
                 participant: {
-                    language : 'es',
-                    councilId : 2,
-                    numParticipations : 1,
-                    personOrEntity : 1,
-                    name : '',
-                    dni : '',
-                    position : '',
-                    email : '',
-                    phone : '',
+                    ...newParticipantInitialValues
                 }
             }
         })
@@ -203,69 +187,45 @@ class NewParticipantForm extends Component {
 
         return (
             <Fragment>
-                <FormControlLabel
-                    control={
-                        <Radio
-                            checked={this.state.participantType === '0'}
-                            onChange={(event) => {
-                                console.log(event);
-                                this.setState({
-                                    participantType: event.target.value,
-                                    data: {
-                                        ...this.state.data,
-                                        participant: {
-                                            language : 'es',
-                                            councilId : 2,
-                                            numParticipations : 1,
-                                            personOrEntity : 1,
-                                            name : '',
-                                            dni : '',
-                                            position : '',
-                                            email : '',
-                                            phone : '',
-                                        }
-                                    }
-                                })
-                            }}
-                            value="0"
-                            name={'person_or_entity'}
-                            aria-label="A"
-                        />
-                    }
-
+                <Radio
+                    checked={this.state.participantType === 0}
                     label={translate.person}
+                    onChange={(event) => {
+                        console.log(event);
+                        this.setState({
+                            participantType: parseInt(event.target.value, 10),
+                            data: {
+                                ...this.state.data,
+                                participant: {
+                                    ...newParticipantInitialValues
+                                }
+                            }
+                        })
+                    }}
+                    value='0'
+                    name={'person_or_entity'}
+                    aria-label="A"
                 />
-                <FormControlLabel
-                    control={
-                        <Radio
-                            checked={this.state.participantType === '1'}
-                            onChange={(event) => {
-                                console.log(event);
-                                this.setState({
-                                    participantType: event.target.value,
-                                    data: {
-                                        ...this.state.data,
-                                        participant: {
-                                            language : 'es',
-                                            councilId : 2,
-                                            numParticipations : 1,
-                                            personOrEntity : 1,
-                                            name : '',
-                                            dni : '',
-                                            position : '',
-                                            email : '',
-                                            phone : '',
-                                        }
-                                    }
-                                })
-                            }}
-                            value="1"
-                            name="person_or_entity"
-                            aria-label="B"
-                        />
-                    }
+                <Radio
+                    checked={this.state.participantType === 1}
+                    onChange={(event) => {
+                        console.log(event);
+                        this.setState({
+                            participantType: parseInt(event.target.value, 10),
+                            data: {
+                                ...this.state.data,
+                                participant: {
+                                    ...newParticipantInitialValues
+                                }
+                            }
+                        })
+                    }}
+                    value="1"
+                    name="person_or_entity"
+                    aria-label="B"
                     label={translate.entity_name}
                 />
+
             </Fragment>
         );
     }
@@ -275,7 +235,7 @@ class NewParticipantForm extends Component {
         const errors = this.state.errors;
         const { translate } = this.props;
 
-        if(this.state.participantType === '1'){
+        if(this.state.participantType === 1){
             return(
                 <Fragment>
                     <TextInput
@@ -570,3 +530,15 @@ export default graphql(addParticipant, {
         errorPolicy: 'all'
     }
 })(NewParticipantForm);
+
+const newParticipantInitialValues = {
+    language : 'es',
+    councilId : 2,
+    numParticipations : 1,
+    personOrEntity : 1,
+    name : '',
+    dni : '',
+    position : '',
+    email : '',
+    phone : '',
+}

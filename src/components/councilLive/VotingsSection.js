@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
+import { CollapsibleSection, LoadingSection, Icon, ErrorWrapper } from '../displayComponents';
 import { darkGrey, getPrimary, getSecondary } from '../../styles/colors';
 import { getVotings } from '../../queries';
 import FontAwesome from 'react-fontawesome';
@@ -65,27 +65,39 @@ class VotingsSection extends Component {
 
     _section = () => {
         const votes = this.props.data.getVotings;
-        if(this.props.data.loading){
+        const { loading } = this.props.data;
+
+        if(loading){
             return(
                 <LoadingSection />
             )
         }
+        
 
         return(
             <div style={{width: '100%', padding: '2em'}}>
-                {votes.map((vote) => {
+                {/*votes.map((vote) => {
                     return(
                         <div key={`vote_${vote.email}`}>
                             {this.getIcon(vote.vote)}
                             {`${vote.name} ${vote.surname}`}
                         </div>
                   )
-              })}
+              })*/}
             </div>
         );
     }
 
     render(){
+
+        const { error } = this.props.data;
+        const { translate } = this.props;
+
+        if(error){
+            {error.graphQLErrors.map((error) => {
+                return <ErrorWrapper error={error} translate={translate} />
+            })}
+        }
 
         return(
             <div

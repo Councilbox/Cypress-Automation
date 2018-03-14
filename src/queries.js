@@ -66,7 +66,7 @@ export const councils = gql `
 `;
 
 export const updateCouncil = gql`
-  mutation UpdateCouncil($council: NewCouncil){
+  mutation UpdateCouncil($council: CouncilInput){
     updateCouncil(council: $council){
       id
     }
@@ -249,7 +249,7 @@ export const councilStepThree = gql`
 `;
 
 export const addAgenda = gql `
-  mutation addAgenda($agenda: NewAgenda) {
+  mutation addAgenda($agenda: AgendaInput) {
       addAgenda(agenda: $agenda) {
         id
       }
@@ -366,12 +366,9 @@ export const provinces = gql`
 
 export const conveneCouncil = gql`
   mutation conveneCouncil($council: CouncilInput){
-    conveneCouncil(council: $council){
-      id
-    }
+    conveneCouncil(council: $council)
   }
 `;
-
 
 /*
   platforms {
@@ -417,6 +414,548 @@ export const councilStepSix = gql`
   }
 `;
 
+export const councilDetails = gql `
+  query CouncilDetails($councilID: Int!) {
+    council(id: $councilID) {
+      active
+      agendas {
+        abstentionManual
+        abstentionVotings
+        agendaSubject
+        comment
+        councilId
+        currentRemoteCensus
+        dateEndVotation
+        dateStart
+        dateStartVotation
+        description
+        id
+        majority
+        majorityDivider
+        majorityType
+        negativeManual
+        negativeVotings
+        noParticipateCensus
+        noVoteManual
+        noVoteVotings
+        numAbstentionManual
+        numAbstentionVotings
+        numCurrentRemoteCensus
+        numNegativeManual
+        numNegativeVotings
+        numNoParticipateCensus
+        numNoVoteManual
+        numNoVoteVotings
+        numPositiveManual
+        numPositiveVotings
+        numPresentCensus
+        numRemoteCensus
+        numTotalManual
+        numTotalVotings
+        orderIndex
+        pointState
+        positiveManual
+        positiveVotings
+        presentCensus
+        remoteCensus
+        socialCapitalCurrentRemote
+        socialCapitalNoParticipate
+        socialCapitalPresent
+        socialCapitalRemote
+        sortable
+        subjectType
+        totalManual
+        totalVotings
+        votingState
+      }
+      approveActDraft
+      attachments {
+        councilId
+        filename
+        filesize
+        filetype
+        id
+      }
+      businessName
+      city
+      companyId
+      confirmAssistance
+      conveneText
+      councilStarted
+      councilType
+      country
+      countryState
+      currentQuorum
+      dateEnd
+      dateOpenRoom
+      dateRealStart
+      dateStart
+      dateStart2NdCall
+      duration
+      emailText
+      firstOrSecondConvene
+      fullVideoRecord
+      hasLimitDate
+      headerLogo
+      id
+      limitDateResponse
+      name
+      neededQuorum
+      noCelebrateComment
+      participants{
+        id
+        councilId
+        name
+        surname
+        position
+        email
+        phone
+        dni
+        type
+        delegateId
+        numParticipations
+        socialCapital
+        uuid
+        delegateUuid
+        position
+        language
+        city
+        personOrEntity
+      }
+      president
+      proposedActSent
+      prototype
+      quorumPrototype
+      satisfyQuorum
+      secretary
+      securityKey
+      securityType
+      selectedCensusId
+      sendDate
+      sendPointsMode
+      shortname
+      state
+      statute {
+        id
+        prototype
+        councilId
+        statuteId
+        title
+        existPublicUrl
+        addParticipantsListToAct
+        existsAdvanceNoticeDays
+        advanceNoticeDays
+        existsSecondCall
+        minimumSeparationBetweenCall
+        canEditConvene
+        firstCallQuorumType
+        firstCallQuorum
+        firstCallQuorumDivider
+        secondCallQuorumType
+        secondCallQuorum
+        secondCallQuorumDivider
+        existsDelegatedVote
+        delegatedVoteWay
+        existMaxNumDelegatedVotes
+        maxNumDelegatedVotes
+        existsLimitedAccessRoom
+        limitedAccessRoomMinutes
+        existsQualityVote
+        qualityVoteOption
+        canUnblock
+        canAddPoints
+        whoCanVote
+        canReorderPoints
+        existsAct
+        existsWhoWasSentAct
+        whoWasSentActWay
+        whoWasSentAct
+        existsWhoSignTheAct
+        includedInActBook
+        includeParticipantsList
+        existsComments
+        conveneHeader
+        intro
+        constitution
+        conclusion
+        actTemplate
+        censusId
+      }
+      street
+      tin
+      videoEmailsDate
+      videoMode
+      videoRecodingInitialized
+      votationType
+      weightedVoting
+      zipcode
+    }
+
+    votingTypes {
+      label
+      value
+    }
+  }
+`;
+
+export const councilLiveQuery =  gql`
+  query CouncilLiveQuery($councilID: Int!) {
+    council(id: $councilID) {
+      active
+      agendas {
+        abstentionManual
+        abstentionVotings
+        agendaSubject
+        attachments{
+          id
+          agendaId
+          filename
+          filesize
+          filetype
+          councilId
+          state
+        }
+        comment
+        councilId
+        currentRemoteCensus
+        dateEndVotation
+        dateStart
+        dateStartVotation
+        description
+        id
+        majority
+        majorityDivider
+        majorityType
+        negativeManual
+        negativeVotings
+        noParticipateCensus
+        noVoteManual
+        noVoteVotings
+        numAbstentionManual
+        numAbstentionVotings
+        numCurrentRemoteCensus
+        numNegativeManual
+        numNegativeVotings
+        numNoParticipateCensus
+        numNoVoteManual
+        numNoVoteVotings
+        numPositiveManual
+        numPositiveVotings
+        numPresentCensus
+        numRemoteCensus
+        numTotalManual
+        numTotalVotings
+        orderIndex
+        pointState
+        positiveManual
+        positiveVotings
+        presentCensus
+        remoteCensus
+        socialCapitalCurrentRemote
+        socialCapitalNoParticipate
+        socialCapitalPresent
+        socialCapitalRemote
+        sortable
+        subjectType
+        totalManual
+        totalVotings
+        votingState
+      }
+      approveActDraft
+      attachments {
+        councilId
+        filename
+        filesize
+        filetype
+        id
+      }
+      businessName
+      city
+      companyId
+      confirmAssistance
+      conveneText
+      councilStarted
+      councilType
+      country
+      countryState
+      currentQuorum
+      dateEnd
+      dateOpenRoom
+      dateRealStart
+      dateStart
+      dateStart2NdCall
+      duration
+      emailText
+      firstOrSecondConvene
+      fullVideoRecord
+      hasLimitDate
+      headerLogo
+      id
+      limitDateResponse
+      name
+      neededQuorum
+      noCelebrateComment
+      participants{
+        id
+        councilId
+        name
+        surname
+        position
+        email
+        phone
+        dni
+        type
+        delegateId
+        numParticipations
+        socialCapital
+        uuid
+        delegateUuid
+        position
+        language
+        city
+        personOrEntity
+      }
+      president
+      proposedActSent
+      prototype
+      quorumPrototype
+      satisfyQuorum
+      secretary
+      securityKey
+      securityType
+      selectedCensusId
+      sendDate
+      sendPointsMode
+      shortname
+      state
+      statute {
+        id
+        prototype
+        councilId
+        statuteId
+        title
+        existPublicUrl
+        addParticipantsListToAct
+        existsAdvanceNoticeDays
+        advanceNoticeDays
+        existsSecondCall
+        minimumSeparationBetweenCall
+        canEditConvene
+        firstCallQuorumType
+        firstCallQuorum
+        firstCallQuorumDivider
+        secondCallQuorumType
+        secondCallQuorum
+        secondCallQuorumDivider
+        existsDelegatedVote
+        delegatedVoteWay
+        existMaxNumDelegatedVotes
+        maxNumDelegatedVotes
+        existsLimitedAccessRoom
+        limitedAccessRoomMinutes
+        existsQualityVote
+        qualityVoteOption
+        canUnblock
+        canAddPoints
+        whoCanVote
+        canReorderPoints
+        existsAct
+        existsWhoWasSentAct
+        whoWasSentActWay
+        whoWasSentAct
+        existsWhoSignTheAct
+        includedInActBook
+        includeParticipantsList
+        existsComments
+        conveneHeader
+        intro
+        constitution
+        conclusion
+        actTemplate
+        censusId
+      }
+      street
+      tin
+      videoEmailsDate
+      videoMode
+      videoRecodingInitialized
+      votationType
+      weightedVoting
+      zipcode
+    }
+  }
+`;
+
+export const majorityTypes = gql`
+  query majorityTypes{
+    majorityTypes{
+      label
+      value
+    }
+  }
+`;
+
+export const votingTypes = gql`
+  query votingTypes{
+    votingTypes{
+      label
+      value
+    }
+  }
+`;
+
+export const quorumTypes = gql`
+  query quorumTypes {
+    quorumTypes{
+      label
+      value
+    }
+  }
+`;
+
+export const councilVideoHTML = gql`
+  query councilVideoHTML($councilId: Int!){
+    councilVideoHTML(councilId: $councilId){
+      councilId
+      htmlVideoCouncil
+      htmlVideoParticipant
+      id
+      videoLink
+    }
+  }
+`;
+
+export const updateAgendas = gql`
+  mutation updateAgendas($agendaList: [AgendaInput]){
+    updateAgendas(agendaList: $agendaList){
+      abstentionManual
+      abstentionVotings
+      agendaSubject
+      comment
+      councilId
+      currentRemoteCensus
+      dateEnd
+      dateEndVotation
+      dateStart
+      dateStartVotation
+      description
+      id
+      majority
+      majorityDivider
+      majorityType
+      negativeManual
+      negativeVotings
+      noParticipateCensus
+      noVoteManual
+      noVoteVotings
+      numAbstentionManual
+      numAbstentionVotings
+      numCurrentRemoteCensus
+      numNegativeManual
+      numNegativeVotings
+      numNoParticipateCensus
+      numNoVoteManual
+      numNoVoteVotings
+      numPositiveManual
+      numPositiveVotings
+      numPresentCensus
+      numRemoteCensus
+      numTotalManual
+      numTotalVotings
+      orderIndex
+      pointState
+      positiveManual
+      positiveVotings
+      presentCensus
+      remoteCensus
+      socialCapitalCurrentRemote
+      socialCapitalNoParticipate
+      socialCapitalPresent
+      socialCapitalRemote
+      sortable
+      subjectType
+      totalManual
+      totalVotings
+      votingState
+    }
+  }
+`;
+
+export const addAgendaAttachment = gql`
+  mutation addAgendaAttachment($attachment: AgendaAttachmentInput!){
+    addAgendaAttachment(attachment: $attachment){
+      id
+      agendaId
+      filename
+      base64
+      filesize
+      filetype
+      councilId
+      state
+    }
+  }
+`;
+
+export const removeAgendaAttachment = gql`
+  mutation removeAgendaAttachment($attachmentId: Int!, $agendaId: Int!){
+    removeAgendaAttachment(attachmentId: $attachmentId, agendaId: $agendaId)
+  } 
+`;
+
+export const openAgenda = gql`
+  mutation openAgenda($agendaId: Int!, $councilId: Int!){
+    openAgenda(agendaId: $agendaId councilId: $councilId)
+  }
+`;
+
+export const closeAgenda = gql`
+  mutation closeAgenda($agendaId: Int!, $councilId: Int!){
+    closeAgenda(agendaId: $agendaId councilId: $councilId){
+      id
+      pointState
+    }
+  }
+`;
+
+export const openAgendaVoting = gql`
+  mutation openAgendaVoting($agenda: AgendaInput){
+    openAgendaVoting(agenda: $agenda){
+      id
+    }
+  }
+`;
+
+export const closeAgendaVoting = gql`
+  mutation closeAgendaVoting($agenda: AgendaInput){
+    closeAgendaVoting(agenda: $agenda){
+      id
+    }
+  }
+`;
+
+export const startCouncil = gql `
+  mutation startCouncil($council: CouncilInput) {
+    startCouncil(council: $council) {
+      id
+    }
+  }
+`;
+
+export const endCouncil = gql `
+  mutation endCouncil($councilId: Int!) {
+      endCouncil(councilId: $councilId) {
+        id
+      }
+  }
+`;
+
+export const openCouncilRoom = gql `
+  mutation openCouncilRoom($council: CouncilInput) {
+      openCouncilRoom(council: $council) {
+        id
+      }
+  }
+`
 
 
 
@@ -433,336 +972,7 @@ export const councilStepSix = gql`
 
 //OLD VERSION
 
-export const councilDetails = gql `
-  query CouncilDetails($councilInfo: CouncilInfo) {
-    councilDetails(councilInfo: $councilInfo) {
-      active
-      agendas {
-        abstention_manual
-        abstention_votings
-        agenda_subject
-        comment
-        council_id
-        current_remote_census
-        date_end
-        date_end_votation
-        date_start
-        date_start_votation
-        description
-        id
-        majority
-        majority_divider
-        majority_type
-        negative_manual
-        negative_votings
-        no_participate_census
-        no_vote_manual
-        no_vote_votings
-        num_abstention_manual
-        num_abstention_votings
-        num_current_remote_census
-        num_negative_manual
-        num_negative_votings
-        num_no_participate_census
-        num_no_vote_manual
-        num_no_vote_votings
-        num_positive_manual
-        num_positive_votings
-        num_present_census
-        num_remote_census
-        num_total_manual
-        num_total_votings
-        order_index
-        point_state
-        positive_manual
-        positive_votings
-        present_census
-        remote_census
-        social_capital_current_remote
-        social_capital_no_participate
-        social_capital_present
-        social_capital_remote
-        sortable
-        subject_type
-        total_manual
-        total_votings
-        voting_state
-      }
-      approve_act_draft
-      attachments {
-        council_id
-        filename
-        filesize
-        filetype
-        id
-      }
-      business_name
-      city
-      company_id
-      confirm_assistance
-      convene_text
-      council_started
-      council_type
-      country
-      country_state
-      current_quorum
-      date_end
-      date_open_room
-      date_real_start
-      date_start
-      date_start_2nd_call
-      duration
-      email_text
-      first_or_second_convene
-      full_video_record
-      has_limit_date
-      header_logo
-      id
-      limit_date_response
-      name
-      needed_quorum
-      no_celebrate_comment
-      president
-      proposed_act_sent
-      prototype
-      quorum_prototype
-      satisfy_quorum
-      secretary
-      security_key
-      security_type
-      selected_census_id
-      send_date
-      send_points_mode
-      shortname
-      state
-      statutes {
-        id
-        prototype
-        council_id
-        statute_id
-        title
-        exist_public_url
-        add_participants_list_to_act
-        exists_advance_notice_days
-        advance_notice_days
-        exists_second_call
-        minimum_separation_between_call
-        can_edit_convene
-        first_call_quorum_type
-        first_call_quorum
-        first_call_quorum_divider
-        second_call_quorum_type
-        second_call_quorum
-        second_call_quorum_divider
-        exists_delegated_vote
-        delegated_vote_way
-        exist_max_num_delegated_votes
-        max_num_delegated_votes
-        exists_limited_access_room
-        limited_access_room_minutes
-        exists_quality_vote
-        quality_vote_option
-        can_unblock
-        can_add_points
-        who_can_vote
-        can_reorder_points
-        exists_act
-        exists_who_was_sent_act
-        who_was_sent_act_way
-        who_was_sent_act
-        exists_who_sign_the_act
-        included_in_act_book
-        include_participants_list
-        exists_comments
-        convene_header
-        intro
-        constitution
-        conclusion
-        act_template
-        census_id
-      }
-      street
-      tin
-      video_emails_date
-      video_mode
-      video_recoding_initialized
-      votation_type
-      weighted_voting
-      zipcode
-    }
-  }
-`;
 
-export const councilFullData = gql `
-  query councilFullData($councilInfo: CouncilInfo) {
-    councilData(councilInfo: $councilInfo) {
-      active
-      agenda_attachments{
-        agenda_id
-        council_id
-        filename
-        filesize
-        filetype
-        id
-        state
-      }
-      agendas {
-        abstention_manual
-        abstention_votings
-        agenda_subject
-        comment
-        council_id
-        current_remote_census
-        date_end
-        date_end_votation
-        date_start
-        date_start_votation
-        description
-        id
-        majority
-        majority_divider
-        majority_type
-        negative_manual
-        negative_votings
-        no_participate_census
-        no_vote_manual
-        no_vote_votings
-        num_abstention_manual
-        num_abstention_votings
-        num_current_remote_census
-        num_negative_manual
-        num_negative_votings
-        num_no_participate_census
-        num_no_vote_manual
-        num_no_vote_votings
-        num_positive_manual
-        num_positive_votings
-        num_present_census
-        num_remote_census
-        num_total_manual
-        num_total_votings
-        order_index
-        point_state
-        positive_manual
-        positive_votings
-        present_census
-        remote_census
-        social_capital_current_remote
-        social_capital_no_participate
-        social_capital_present
-        social_capital_remote
-        sortable
-        quality_vote_sense
-        subject_type
-        total_manual
-        total_votings
-        voting_state
-      }
-      approve_act_draft
-      attachments {
-        council_id
-        filename
-        filesize
-        filetype
-        id
-      }
-      business_name
-      city
-      company_id
-      confirm_assistance
-      convene_text
-      council_started
-      council_type
-      country
-      country_state
-      current_quorum
-      date_end
-      date_open_room
-      date_real_start
-      date_start
-      date_start_2nd_call
-      duration
-      email_text
-      first_or_second_convene
-      full_video_record
-      has_limit_date
-      header_logo
-      id
-      language
-      limit_date_response
-      name
-      needed_quorum
-      no_celebrate_comment
-      president
-      proposed_act_sent
-      prototype
-      quorum_prototype
-      satisfy_quorum
-      secretary
-      security_key
-      security_type
-      selected_census_id
-      send_date
-      send_points_mode
-      shortname
-      state
-      statutes {
-        id
-        prototype
-        council_id
-        statute_id
-        title
-        exist_public_url
-        add_participants_list_to_act
-        exists_advance_notice_days
-        advance_notice_days
-        exists_second_call
-        minimum_separation_between_call
-        can_edit_convene
-        first_call_quorum_type
-        first_call_quorum
-        first_call_quorum_divider
-        second_call_quorum_type
-        second_call_quorum
-        second_call_quorum_divider
-        exists_delegated_vote
-        delegated_vote_way
-        exist_max_num_delegated_votes
-        max_num_delegated_votes
-        exists_limited_access_room
-        limited_access_room_minutes
-        exists_quality_vote
-        quality_vote_option
-        can_unblock
-        can_add_points
-        who_can_vote
-        can_reorder_points
-        exists_act
-        exists_who_was_sent_act
-        who_was_sent_act_way
-        who_was_sent_act
-        exists_who_sign_the_act
-        included_in_act_book
-        include_participants_list
-        exists_comments
-        convene_header
-        intro
-        constitution
-        conclusion
-        act_template
-        census_id
-      }
-      street
-      tin
-      video_emails_date
-      video_mode
-      video_recoding_initialized
-      votation_type
-      weighted_voting
-      zipcode
-    }
-  }
-`;
 
 export const countriesQuery = gql `
   query CountriesList {
@@ -790,7 +1000,7 @@ export const quorums = gql `
 
 export const votationTypes = gql `
   query votationTypes{
-    votationTypes {
+    votingTypes {
       label
       value
     }
@@ -973,14 +1183,7 @@ export const getVotings = gql `
   }
 `
 
-export const openRoom = gql `
-  mutation openRoom($data: String!) {
-      openRoom(data: $data) {
-        code
-        msg
-      }
-  }
-`
+
 
 export const changeRequestWord = gql `
   mutation changeRequestWord($wordState: WordState) {
@@ -991,23 +1194,6 @@ export const changeRequestWord = gql `
   }
 `
 
-export const startCouncil = gql `
-  mutation startCouncil($data: String!) {
-      startCouncil(data: $data) {
-        code
-        msg
-      }
-  }
-`
-
-export const endCouncil = gql `
-  mutation endCouncil($data: String!) {
-      endCouncil(data: $data) {
-        code
-        msg
-      }
-  }
-`
 
 export const updateOrder = gql `
   mutation updateOrder($data: String!) {
@@ -1053,24 +1239,6 @@ export const getVideoHTML = gql `
         html_video_participant
         id
         video_link
-      }
-  }
-`
-
-export const openAgenda = gql `
-  mutation openDiscussion($agenda: AgendaInfo) {
-      openDiscussion(agenda: $agenda) {
-        code
-        msg
-      }
-  }
-`
-
-export const closeAgenda = gql `
-  mutation closeAgenda($agenda: AgendaInfo) {
-      closeAgenda(agenda: $agenda) {
-        code
-        msg
       }
   }
 `

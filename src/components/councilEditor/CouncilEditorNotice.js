@@ -166,13 +166,13 @@ class CouncilEditorNotice extends Component {
                             floatingText={translate.council_type}
                             value={council.councilType || ''}
                             id={'council_type'}
-                            onChange={(event, index) => {
+                            onChange={(event) => {
                                 console.log(event.nativeEvent)
                                 this.setState({
                                     ...this.state,
                                     data: {
                                         ...this.state.data,
-                                        councilType: index
+                                        councilType: event.target.value
                                     }
                                 })}
                             }

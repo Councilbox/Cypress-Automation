@@ -2,13 +2,13 @@ import React from 'react';
 import { Radio } from 'material-ui';
 import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
 
-export default ({ value, label, style, name, onChange }) => (
+export default ({ value, checked, label, style, name, onChange }) => (
     <FormControlLabel
         control={
             <Radio
-                checked={value}
+                checked={checked}
                 onChange={onChange}
-                value="1"
+                value={value}
                 name={name}
             />
         }

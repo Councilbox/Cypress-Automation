@@ -19,7 +19,7 @@ class AgendaSelector extends Component {
                             }
                             <AgendaNumber
                                 index={index + 1}
-                                open={agenda.point_state === 1}
+                                open={agenda.pointState === 1}
                                 active={selected === index}
                                 activeColor={getPrimary()}
                                 secondaryColor={getSecondary()}
@@ -32,10 +32,11 @@ class AgendaSelector extends Component {
                 <NewAgendaPointModal
                     translate={translate}
                     agendas={agendas}
+                    votingTypes={this.props.votingTypes}
                     councilID={this.props.councilID}
                     refetch={this.props.refetch}
                 />
-                {council.statutes[0].can_reorder_points === 1 &&
+                {council.statute.canReorderPoints === 1 &&
                     <ReorderPointsModal
                         translate={translate}
                         agendas={agendas}

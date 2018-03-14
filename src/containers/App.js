@@ -39,7 +39,6 @@ export const client = new ApolloClient({
     cache: new InMemoryCache()
 })
 
-
 export const store = configureStore();
 store.dispatch(setLanguage('es'));
 export const bHistory = createHistory();

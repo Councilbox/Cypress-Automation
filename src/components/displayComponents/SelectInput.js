@@ -13,7 +13,7 @@ const TextInput = ({ floatingText, id, value, onChange, errorText, children }) =
             }}
             value={value}
             onChange={onChange}
-            error={errorText}
+            error={!!errorText}
         >
             {children}
         </Select>

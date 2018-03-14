@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { openVoting, closeVoting } from '../../queries';
+import { openAgendaVoting, closeAgendaVoting } from '../../queries';
 import { BasicButton, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 
@@ -17,23 +17,19 @@ class ToggleVotingsButton extends Component {
     componentWillReceiveProps(nextProps){
         if(nextProps.council){
             this.setState({
-                sendCredentials: !nextProps.council.video_emails_date
+                sendCredentials: !nextProps.council.videoEmailsDate
             })
         }
     }
 
     openVoting = async () => {
         const { council, agenda } = this.props;
-        const response = await this.props.openVoting({
+        const response = await this.props.openAgendaVoting({
             variables: {
                 agenda: {
                     id: agenda.id, 
-                    council_id: agenda.council_id,
-                    subject_type: agenda.subject_type,
-                    voting_state: 1,
-                    date_start_votation: new Date().toISOString(),
-                    send_points_mode: council.send_points_mode,
-                    notify_points: 0,
+                    councilId: agenda.councilId,
+                    subjectType: agenda.subjectType,
                     language: council.language
                 }
             }
@@ -43,15 +39,15 @@ class ToggleVotingsButton extends Component {
         }
     }
 
-    closeVoting = async () => {
+    closeAgendaVoting = async () => {
         const { agenda } = this.props;
-        const response = await this.props.closeVoting({
+        const response = await this.props.closeAgendaVoting({
             variables: {
                 agenda: {
                     id: agenda.id,
-                    council_id: agenda.council_id,
-                    voting_state: 1,
-                    subject_type: agenda.subject_type
+                    councilId: agenda.councilId,
+                    votingState: 1,
+                    subjectType: agenda.subjectType
                 }
             }
         });
@@ -66,7 +62,7 @@ class ToggleVotingsButton extends Component {
 
         return(
             <Fragment>
-                {agenda.voting_state === 0?
+                {agenda.votingState === 0?
                     <BasicButton
                         text={translate.active_votings}
                         color={'white'}
@@ -83,7 +79,7 @@ class ToggleVotingsButton extends Component {
                         textPosition="before"
                         icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>lock_open</Icon>}
                         buttonStyle={{width: '15em'}}
-                        onClick={this.closeVoting}
+                        onClick={this.closeAgendaVoting}
                         textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: 'white'}}
                     />
                 }                
@@ -95,11 +91,11 @@ class ToggleVotingsButton extends Component {
 }
 
 export default compose(
-    graphql(openVoting, {
-        name: 'openVoting'
+    graphql(openAgendaVoting, {
+        name: 'openAgendaVoting'
     }),
 
-    graphql(closeVoting, {
-        name: 'closeVoting'
+    graphql(closeAgendaVoting, {
+        name: 'closeAgendaVoting'
     })
  ) (ToggleVotingsButton);

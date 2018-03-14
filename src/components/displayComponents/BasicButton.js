@@ -10,6 +10,7 @@ const BasicButton = ({ color, text, textStyle, buttonStyle, icon, textPosition, 
         fullWidth={fullWidth}
     >
         {text}
+        {icon}
     </Button>
 );
 

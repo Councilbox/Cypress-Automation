@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, Icon } from "../displayComponents";
+import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, Icon, ErrorWrapper } from "../displayComponents";
 import ParticipantsTable from '../councilEditor/ParticipantsTable';
 import NewParticipantForm from '../councilEditor/NewParticipantForm';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import DateHeader from './DateHeader';
 import { graphql, compose } from 'react-apollo';
 import { bHistory } from '../../containers/App';
-import { councilDetails, participantsQuery } from '../../queries';
+import { councilDetails } from '../../queries';
 
 class CouncilPreparePage extends Component {
 
@@ -33,21 +33,27 @@ class CouncilPreparePage extends Component {
     }
 
     render(){
-        const council = this.props.data.councilDetails;
+        const { council, error, loading } = this.props.data;
         const { translate } = this.props;
         const primary = getPrimary();
 
-        if(this.props.data.loading){
+        if(loading){
             return(
                 <LoadingSection />
             );
+        }
+
+        if(error){
+            return(
+                <ErrorWrapper error={error} translate={translate} />
+            )
         }
 
         return(
             <CardPageLayout title={translate.prepare_room}>
                 <DateHeader
                     title={council.name}
-                    date={council.date_start}
+                    date={council.dateStart}
                     button={
                         <Fragment>
                             <BasicButton
@@ -77,7 +83,7 @@ class CouncilPreparePage extends Component {
                 {!this.state.page?
                     <Fragment>
                         <div
-                            dangerouslySetInnerHTML={{__html: this.props.data.councilDetails.email_text}}
+                            dangerouslySetInnerHTML={{__html: council.emailText}}
                             style={{border: `1px solid ${getSecondary()}`, padding: '2em'}} 
                         />
                     </Fragment>
@@ -96,17 +102,17 @@ class CouncilPreparePage extends Component {
                             })} 
                         />
                         <ParticipantsTable
-                            participants={this.props.participantList.participants}
+                            participants={council.participants}
                             councilID={this.props.councilID}
                             translate={translate}
-                            refetch={this.props.participantList.refetch}
+                            refetch={this.props.data.refetch}
                         />
                         <NewParticipantForm
                             translate={translate}
                             show={this.state.addParticipantModal}
                             close={this.closeAddParticipantModal}
                             councilID={this.props.councilID}
-                            refetch={this.props.participantList.refetch}
+                            refetch={this.props.data.refetch}
                         />
                     </Fragment>
                 }
@@ -115,25 +121,11 @@ class CouncilPreparePage extends Component {
     }
 }
 
-export default  compose(
-    graphql(participantsQuery, {
-        name: "participantList",
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID
-            }
-        })
-    }),
-    graphql(councilDetails, {
-        name: "data",
-        options: (props) => ({
-            variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 6
-                }
-            }
-        })
+export default graphql(councilDetails, {
+    name: "data",
+    options: (props) => ({
+        variables: {
+            councilID: props.councilID,
+        }
     })
-)(CouncilPreparePage);
+})(CouncilPreparePage);

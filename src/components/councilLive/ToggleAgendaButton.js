@@ -26,12 +26,8 @@ class ToggleAgendaButton extends Component {
         const { agenda } = this.props;
         const response = await this.props.openAgenda({
             variables: {
-                agenda: {
-                    id: agenda.id,
-                    council_id: agenda.council_id,
-                    point_state: 1,
-                    date_start: new Date().toISOString()
-                }
+                agendaId: agenda.id,
+                councilId: agenda.councilId
             }
         });
         if(response){
@@ -43,12 +39,8 @@ class ToggleAgendaButton extends Component {
         const { agenda } = this.props;
         const response = await this.props.closeAgenda({
             variables: {
-                agenda: {
-                    id: agenda.id,
-                    council_id: agenda.council_id,
-                    point_state: 2,
-                    date_end: new Date().toISOString()
-                }
+                agendaId: agenda.id,
+                councilId: agenda.councilId
             }
         });
         if(response){
@@ -62,7 +54,7 @@ class ToggleAgendaButton extends Component {
 
         return(
             <Fragment>
-                {agenda.point_state === 0?
+                {agenda.pointState === 0?
                     active?
                         <BasicButton
                             text={translate.discuss_agenda}

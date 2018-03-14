@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { MenuItem } from 'material-ui';
-import { BasicButton, TextInput, LoadingSection, SelectInput, Radio, RadioGroup, Checkbox, Icon } from '../displayComponents';
+import { BasicButton, TextInput, LoadingSection, SelectInput, Radio, Checkbox, Icon } from '../displayComponents';
 import { councilStepFive, updateCouncil } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
@@ -110,6 +110,7 @@ class CouncilEditorOptions extends Component {
 
     render(){
         const { translate } = this.props;
+        const { council } = this.state.data;
         if(this.props.data.loading || !this.state.data){
             return(
                 <LoadingSection />
@@ -145,13 +146,13 @@ class CouncilEditorOptions extends Component {
                 <div>{translate.confirm_assistance}</div>
                 <Checkbox
                     label={translate.confirm_assistance_desc}
-                    value={this.state.data.council.confirmAssistance === 1? true : false}
+                    value={council.confirmAssistance === 1? true : false}
                     onChange={(event, isInputChecked) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
                                 council: {
-                                    ...this.state.data.council,
+                                    ...council,
                                     confirmAssistance: isInputChecked? 1 : 0
                                 }
                             }
@@ -162,13 +163,13 @@ class CouncilEditorOptions extends Component {
                <div>{translate.video}</div>
                 <Checkbox
                     label={translate.room_video_broadcast}
-                    value={this.state.data.council.councilType === 0? true : false}
+                    value={council.councilType === 0? true : false}
                     onChange={(event, isInputChecked) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
                                 council: {
-                                    ...this.state.data.council,
+                                    ...council,
                                     councilType: isInputChecked? 0 : 1,
                                     fullVideoRecord: 0
                                 }
@@ -177,16 +178,16 @@ class CouncilEditorOptions extends Component {
                         })
                     }
                 />
-                {this.state.data.council.councilType === 0 ?
+                {council.councilType === 0 ?
                     <Checkbox
                         label={translate.full_video_record}
-                        value={this.state.data.council.fullVideoRecord === 0? false : true}
+                        value={council.fullVideoRecord === 0? false : true}
                         onChange={(event, isInputChecked) => this.setState({
                                 ...this.state,
                                 data: {
                                     ...this.state.data,
                                     council: {
-                                        ...this.state.data.council,
+                                        ...council,
                                         fullVideoRecord: isInputChecked? 1 : 0
                                     }
                                 }
@@ -197,13 +198,13 @@ class CouncilEditorOptions extends Component {
                 :
                     <Checkbox
                         label={translate.auto_close}
-                        value={this.state.data.council.autoClose === 0? false : true}
+                        value={council.autoClose === 0? false : true}
                         onChange={(event, isInputChecked) => this.setState({
                                 ...this.state,
                                 data: {
                                     ...this.state.data,
                                     council: {
-                                        ...this.state.data.council,
+                                        ...council,
                                         autoClose: isInputChecked? 1 : 0
                                     }
                                 }
@@ -214,42 +215,61 @@ class CouncilEditorOptions extends Component {
                 }
                 
                 <div>{translate.security}</div>
-                <RadioGroup 
-                    name="security"
-                    value={this.state.data.council.securityType}
+                <Radio
+                    value={'0'}
+                    checked={council.securityType === 0}
                     onChange={(event, value) => this.setState({
                         data: {
                             ...this.state.data,
                             council: {
-                                ...this.state.data.council,
-                                securityType: value
+                                ...council,
+                                securityType: parseInt(event.target.value, 10)
                             }
                         }
                     })}
-                >
-                    <Radio
-                        value={0}
-                        label={translate.new_security_none}
-                    />
-                    <Radio
-                        value={1}
-                        label={translate.new_security_email}
-                    />
-                    <Radio
-                        value={2}
-                        label={translate.new_security_sms}
-                    />
-                </RadioGroup>
+                    name="security"
+                    label={translate.new_security_none}
+                />
+                <Radio
+                    value={'1'}
+                    checked={council.securityType === 1}
+                    onChange={(event, value) => this.setState({
+                        data: {
+                            ...this.state.data,
+                            council: {
+                                ...council,
+                                securityType: parseInt(event.target.value, 10)
+                            }
+                        }
+                    })}
+                    name="security"
+                    label={translate.new_security_email}
+                />
+                <Radio
+                    value={'2'}
+                    checked={council.securityType === 2}
+                    onChange={(event) => this.setState({
+                        data: {
+                            ...this.state.data,
+                            council: {
+                                ...council,
+                                securityType: parseInt(event.target.value, 10)
+                            }
+                        }
+                    })}
+                    name="security"
+                    label={translate.new_security_sms}
+                />
                 <h5>{translate.approve_act_draft_at_end}</h5>
                 <Checkbox
                     label={translate.approve_act_draft_at_end_desc}
-                    value={this.state.data.council.approveActDraft === 0? false : true}
+                    value={council.approveActDraft === 0? false : true}
                     onChange={(event, isInputChecked) => this.setState({
                             ...this.state,
                             data: {
                                 ...this.state.data,
                                 council: {
-                                    ...this.state.data.council,
+                                    ...council,
                                     approveActDraft: isInputChecked? 1 : 0
                                 }
                             }
@@ -257,18 +277,18 @@ class CouncilEditorOptions extends Component {
                         })
                     }
                 />
-                {this.state.data.council.approveActDraft === 1 &&
+                {council.approveActDraft === 1 &&
                     <Fragment>
                         <SelectInput
                             floatingLabelText={translate.majority_label}
-                            value={this.state.data.council.actPointMajorityType}
+                            value={council.actPointMajorityType}
                             onChange={(event, index) => {
                                 this.setState({
                                     ...this.state,
                                     data: {
                                         ...this.state.data,
                                         council: {
-                                            ...this.state.data.council,
+                                            ...council,
                                             actPointMajorityType: event.target.value
                                         }
                                     }
@@ -282,13 +302,13 @@ class CouncilEditorOptions extends Component {
                                 );
                             })}
                         </SelectInput>
-                        {this.state.data.council.actPointMajorityType === 0 &&
+                        {council.actPointMajorityType === 0 &&
                             this._renderNumberInput()
                         }
-                        {this.state.data.council.actPointMajorityType === 5 &&
+                        {council.actPointMajorityType === 5 &&
                             this._renderNumberInput()
                         }
-                        {this.state.data.council.actPointMajorityType === 6 &&
+                        {council.actPointMajorityType === 6 &&
                             this._renderNumberInput()
                         }
                     </Fragment>

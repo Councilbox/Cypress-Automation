@@ -6,7 +6,7 @@ const SortableList = SortableContainer(({items}) => {
   return (
     <ul>
       {items.map((item, index) => (
-        <DraggableBlock disabled={item.point_state > 1} key={`item-${index}`} index={index} value={`${index + 1} - ${item.agenda_subject}`} />
+        <DraggableBlock disabled={item.pointState > 1} key={`item-${index}`} index={index} value={`${index + 1} - ${item.agendaSubject}`} />
       ))}
     </ul>
   );

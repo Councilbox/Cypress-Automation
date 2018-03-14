@@ -19,9 +19,13 @@ export const loadingFinished = () => (
 
 export const setUserData = (token) => {
     return async (dispatch) => {
-        const response = await client.query({query: getMe});
-        dispatch({type: 'SET_USER_DATA', value: response.data.me});
-        dispatch(getCompanies(response.data.me.id));
+        const response = await client.query({query: getMe, errorPolicy: 'all'});
+        if(!response.errors){
+            dispatch({type: 'SET_USER_DATA', value: response.data.me});
+            dispatch(getCompanies(response.data.me.id));
+        }else{
+            response.errors[0].code === 440 && sessionStorage.removeItem('token');
+        }
     }
 }
 

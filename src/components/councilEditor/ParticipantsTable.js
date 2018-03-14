@@ -35,7 +35,7 @@ class ParticipantsTable extends Component {
         const { translate } = this.props;
 
         return(
-            <div>
+            <div style={{display: 'flex', width: '100%'}}>
                 <Table
                     headers={[
                         {name: translate.name},

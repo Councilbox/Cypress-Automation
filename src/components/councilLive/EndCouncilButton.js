@@ -19,16 +19,12 @@ class EndCouncilButton extends Component {
         const { council } = this.props;
         const response = await this.props.endCouncil({
             variables: {
-                data: urlParser({
-                    data: {
-                        id: council.id
-                    }
-                })
+                councilId: council.id
             }
         });
         if(response){
-            if(response.data.endCouncil.code === 200){
-                bHistory.push(`/company/${council.company_id}/council/${council.id}/writing-act`);
+            if(response.data.endCouncil.id){
+                bHistory.push(`/company/${council.companyId}/council/${council.id}/writing-act`);
                 //this.props.refetch();
             }
         }
@@ -36,7 +32,7 @@ class EndCouncilButton extends Component {
 
     getUnclosedPoints = () => {
         const { agendas } = this.props.council;
-        const unclosed = agendas.filter((agenda) => agenda.voting_state !==2 || agenda.point_state !==2);
+        const unclosed = agendas.filter((agenda) => agenda.votingState !==2 || agenda.pointState !==2);
         return unclosed;
     }
 
@@ -67,7 +63,7 @@ class EndCouncilButton extends Component {
                                     <div>{translate.unclosed_points_desc}</div>
                                     <ul>
                                         {unclosed.map((agenda) => {
-                                            return <li key={`unclosed${agenda.id}`}>{agenda.agenda_subject}</li>
+                                            return <li key={`unclosed${agenda.id}`}>{agenda.agendaSubject}</li>
                                         })}
                                     </ul>
                                 </Fragment>
