@@ -75,6 +75,8 @@ class AppRouter extends Component {
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
                             <Route exact path="/company/:company/meeting/:id" component={MeetingEditorContainer} />
+                            <Route exact path="/company/:company/censuses" component={CompanyDraftsContainer} />
+                            <Route exact path="/company/:company/drafts" component={MeetingEditorContainer} />
                             
                             <Route path="*" component={NotFound}/>
                         </Switch>
