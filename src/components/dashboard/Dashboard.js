@@ -16,7 +16,7 @@ class Dashboard extends React.Component {
     }
 
     render() {
-        const { translate } = this.props;
+        const { translate, company } = this.props;
 
         return (
             <div style={{overflowY: 'auto', width: '100%', backgroundColor: 'white', padding: 0, height: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column'}} className="container-fluid">
@@ -26,6 +26,7 @@ class Dashboard extends React.Component {
                         <div style={{fontWeight: '700', color: darkGrey, padding: '2em', fontSize: '1em', paddingTop: '0.5em'}}>Te recomendamos que comiences revisando la configuración de tu empresa</div>
                         <TopSectionBlocks
                             translate={translate}
+                            company={company}
                         />
                     </div>
                     <BottomSection />

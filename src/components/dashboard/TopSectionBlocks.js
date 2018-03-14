@@ -1,6 +1,6 @@
 import React from 'react';
 import { getPrimary, getSecondary, darkGrey, lightGrey } from '../../styles/colors';
-import { BasicButton, Icon } from '../displayComponents';
+import { BasicButton, Icon, Link } from '../displayComponents';
 
 const Block = ({ children, button }) => (
     <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
@@ -37,7 +37,7 @@ const censusesButton = () => (
     />
 )
 
-const TopSectionBlocks = ({ translate }) => (
+const TopSectionBlocks = ({ translate, company }) => (
     <div style={{width: '90%', flexDirection: 'row'}} className="row" >
         <Block>
             {translate.edit_company && translate.edit_company.toUpperCase()}
@@ -51,10 +51,12 @@ const TopSectionBlocks = ({ translate }) => (
             {translate.censuses && translate.censuses.toUpperCase()}
             <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>person</Icon>
         </Block>
-        <Block>
-            {translate.drafts && translate.drafts.toUpperCase()}
-            <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>class</Icon>
-        </Block>
+        <Link to={`/company/${company.id}/drafts`}>
+            <Block>
+                {translate.drafts && translate.drafts.toUpperCase()}
+                <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>class</Icon>
+            </Block>
+        </Link>
         
     </div>
 )
