@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { drafts, deleteDraft } from '../../queries/drafts.js';
+import { companyDrafts, deleteDraft } from '../../queries/drafts.js';
 import { graphql } from 'react-apollo';
 import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { compose } from 'react-apollo';
@@ -13,7 +13,8 @@ class CompanyDraftList extends Component {
         super(props);
         this.state = {
             deleteModal: false,
-            draftID: null
+            draftID: null,
+            drafts: []
         }
     }
 
@@ -116,7 +117,7 @@ class CompanyDraftList extends Component {
 }
 
 
-export default compose(graphql(deleteDraft), graphql(drafts, {
+export default compose(graphql(deleteDraft), graphql(companyDrafts, {
     name: "data",
     options: (props) => ({
         variables: {
