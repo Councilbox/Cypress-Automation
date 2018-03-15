@@ -5,6 +5,7 @@ import { graphql, compose } from 'react-apollo';
 import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { TableRow, TableCell } from 'material-ui/Table';
+import withSharedProps from '../../HOCs/withSharedProps';
 
 
 class CouncilDrafts extends Component {
@@ -115,7 +116,7 @@ class CouncilDrafts extends Component {
 }
 
 
-export default compose(graphql(deleteCouncil), graphql(councils, {
+export default withSharedProps()(compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
@@ -125,4 +126,4 @@ export default compose(graphql(deleteCouncil), graphql(councils, {
             active: 1
         }
     })
-}))(CouncilDrafts);
+}))(CouncilDrafts));

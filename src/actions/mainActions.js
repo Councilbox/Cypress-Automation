@@ -42,6 +42,6 @@ export const setLanguage = (language) => {
         response.data.translations.forEach(translation => {
             translationObject[translation.label] = translation.text;
         });
-        dispatch({type: 'LOADED_LANG', value: translationObject});
+        dispatch({type: 'LOADED_LANG', value: translationObject, selected: language});
     }
 }

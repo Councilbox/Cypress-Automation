@@ -4,6 +4,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
 import AttachmentList from './AttachmentList';
+import { showAddCouncilAttachment, canAddCouncilAttachment} from '../../utils/CBX';
 import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../queries';
 
 class CouncilEditorAttachments extends Component {
@@ -141,7 +142,7 @@ class CouncilEditorAttachments extends Component {
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 {translate.attachment_files.toUpperCase()}
-                {attachments.length < 5?
+                {showAddCouncilAttachment(attachments)?
                     <FileUploadButton 
                         text={translate.new_add}
                         color={primary}

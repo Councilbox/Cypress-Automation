@@ -7,8 +7,9 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
-            "program": "${file}"
+            "name": "Test CBX conditionals",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "args": ["--require", "babel-register", "./src/tests"]
         }
     ]
 }

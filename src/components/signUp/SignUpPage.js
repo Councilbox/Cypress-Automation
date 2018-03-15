@@ -15,15 +15,21 @@ class SignUpPage extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            page: 1
+            page: 1,
+            data: {
+
+            }
         };
     }
 
-    nextPage = () => {
+    nextPage = (state) => {
         const index = this.state.page + 1;
         if(index <= 3){
             this.setState({
-                page: index
+                page: index,
+                data: {
+                    ...state
+                }
             })
         } 
     }
@@ -64,23 +70,20 @@ class SignUpPage extends React.Component {
                                 {this.state.page === 1 &&
                                     <SignUpEnterprise
                                         nextPage={this.nextPage}
-                                        saveInfo={this.props.companyActions.saveSignUpInfo}
                                         translate={this.props.translate}
-                                        company={this.props.company} />
+                                        data={this.state.data} />
                                 }
                                 {this.state.page === 2 &&
                                     <SignUpUser
                                         nextPage={this.nextPage}
-                                        saveInfo={this.props.companyActions.saveSignUpInfo}
-                                        company={this.props.company}
+                                        data={this.state.data}
                                         translate={this.props.translate}
                                     />
                                 }
                                 {this.state.page === 3 &&
                                     <SignUpPay
                                         nextPage={this.nextPage}
-                                        saveInfo={this.props.companyActions.saveSignUpInfo}
-                                        company={this.props.company}
+                                        data={this.state.data}
                                         translate={this.props.translate}
                                         sendNewCompany={this.props.companyActions.sendNewCompany}
                                     />

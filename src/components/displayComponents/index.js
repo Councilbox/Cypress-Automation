@@ -27,3 +27,4 @@ export { default as Table } from './Table';
 export { default as TabsScreen } from './TabsScreen';
 export { default as TextInput } from './TextInput';
 export { default as ThemeProvider } from './ThemeProvider';
+export { default as Tooltip } from './Tooltip';

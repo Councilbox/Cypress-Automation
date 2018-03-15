@@ -12,9 +12,7 @@ class SignUpEnterprise extends Component {
         super(props);
         this.state = {
             data: {
-                companyName: this.props.company.companyName || '',
-                type: this.props.company.type || '',
-                code: this.props.company.code || ''
+                ...this.props.data
             }, 
             types: [],
             errors: {
@@ -95,11 +93,45 @@ class SignUpEnterprise extends Component {
         return(
             <div>
                 Empresa
+                <div className="row">
+                    <div className="col-lg-6 col-md-6 col-xs-12">
+                        <TextInput
+                            floatingText={translate.entity_name}
+                            type="text"
+                            value={this.state.data.companyName}
+                            onChange={(event) => this.setState({
+                                ...this.state,
+                                data: {
+                                    ...this.state.data,
+                                    companyName: event.nativeEvent.target.value
+                                }
+                            })}
+                            errorText={this.state.errors.companyName}
+                        />
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
+
+export const companyTypesQuery = gql `
+  query CompanyTypes {
+    companyTypes {
+      label
+      value
+    }
+  }
+`;
+
+export default graphql(companyTypesQuery)(SignUpEnterprise);
+
+/*
                 <Grid>
                     <Row style={{width: '75%'}}>
                         <Col xs={12} md={12}>
                             <TextInput
-                                floatingText={translate.entity_name.toUpperCase()}
+                                floatingText={translate.entity_name}
                                 type="text"
                                 value={this.state.data.companyName}
                                 onChange={(event) => this.setState({
@@ -154,18 +186,4 @@ class SignUpEnterprise extends Component {
                         </Col>
                     </Row>
                 </Grid>
-            </div>
-        );
-    }
-}
-
-export const companyTypesQuery = gql `
-  query CompanyTypes {
-    companyTypes {
-      label
-      value
-    }
-  }
-`;
-
-export default graphql(companyTypesQuery)(SignUpEnterprise);
+*/

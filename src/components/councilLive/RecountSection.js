@@ -140,12 +140,4 @@ class RecountSection extends Component {
     }
 }
 
-export default compose(
-    graphql(liveRecount, {
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID
-            }
-        })
-    })
-)(RecountSection);
+export default RecountSection;

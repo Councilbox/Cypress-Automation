@@ -22,7 +22,7 @@ const CouncilContainer = ({match, company, translate}) => {
         {
             text: translate.companies_draft,
             link: `/company/${company.id}/councils/drafts`,
-            component: () => {return(<CouncilDrafts company={company} translate={translate} />)}
+            component: () => {return(<CouncilDrafts />)}
         }, 
         {
             text: translate.companies_calendar,

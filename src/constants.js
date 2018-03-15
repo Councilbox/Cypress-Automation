@@ -1,4 +1,7 @@
 export const maxFileSize = 10240;
+export const maxCouncilFilesSize = 10240;
+export const openAgenda = 1;
+export const maxCouncilAttachments = 5;
 export const agendaTypes = ['text', 'public_voting', 'public_act', 'fake_public_votation', 'private_act', 'private_voting'];
 export const AGENDA_TYPE = {
     'INFORMATIVE': 0,

@@ -65,7 +65,7 @@ class AppRouter extends Component {
                         translate={this.props.translate}
                     />
                     <div style={{width: `${100 - this.state.sideWidth}%`, height: '100%', display: 'flex', flexDirection: 'column'}}>
-                        <Header user={this.props.user.name} />
+                        <Header user={this.props.user.name} translate={this.props.translate} />
                         <Switch>
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />

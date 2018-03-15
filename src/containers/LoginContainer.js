@@ -8,7 +8,7 @@ class LoginContainer extends React.PureComponent {
     render(){
         return(
             <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
-                <Header helpIcon />
+                <Header translate={this.props.translate} helpIcon />
                 <Login main={this.props.main} translate={this.props.translate} />
             </div>
         );

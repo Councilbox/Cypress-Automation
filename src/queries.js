@@ -8,6 +8,15 @@ export const login = gql `
   }
 `;
 
+export const languages = gql`
+  query languages{
+    languages{
+      desc
+      columnName
+    }
+  }
+`;
+
 export const getMe = gql`
     query Me{
         me {
@@ -955,8 +964,66 @@ export const openCouncilRoom = gql `
         id
       }
   }
-`
+`;
 
+export const liveParticipants = gql `
+  query liveParticipants($councilId: Int!){
+    liveParticipants(councilId: $councilId){
+      id
+      delegateId
+      state
+      audio
+      video
+      councilId
+      name
+      position
+      email
+      phone
+      dni
+      date
+      type
+      participantId
+      online
+      requestWord
+      numParticipations
+      surname
+      uuid
+      assistanceComment
+      assistanceLastDateConfirmed
+      assistanceIntention
+      videoPassword
+      blocked
+      lastDateConnection
+      videoMode
+      firstLoginDate
+      firstLoginCurrentPointId
+      language
+      signed
+      socialCapital
+      address
+      city
+      country
+      countryState
+      zipcode
+      delegateUuid
+      actived
+      personOrEntity
+    }
+  }
+
+`;
+
+export const agendaComments = gql`
+  query agendaVotings($agendaId: Int!){
+    agendaVotings(agendaId: $agendaId){
+      comment
+      name
+      surname
+      email
+      position
+    }
+  }
+`;
 
 
 
@@ -1250,8 +1317,7 @@ export const openVoting = gql `
         msg
       }
   }
-`
-
+`;
 
 export const closeVoting = gql `
   mutation closeVoting($agenda: AgendaInfo) {
@@ -1260,31 +1326,4 @@ export const closeVoting = gql `
         msg
       }
   }
-`
-
-
-export const liveParticipants = gql `
-  query liveParticipants($councilID: ID!){
-    liveParticipants(councilID: $councilID){
-      blocked
-      council_id
-      council_prototype
-      council_video_mode
-      date
-      dni
-      email
-      id
-      last_date_connection
-      name
-      num_participations
-      participant_id
-      phone
-      position
-      real_position
-      request_word
-      state
-      surname
-    }
-  }
-
 `;

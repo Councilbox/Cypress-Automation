@@ -9,8 +9,8 @@ class SignUpContainer extends Component {
     render() {
         const primary = getPrimary();
         return (
-            <div style={{height: '100vh', width: '100%', backgroundColor: primary}}>
-                <Header helpIcon />
+            <div style={{height: '100vh', width: '100%', background: `linear-gradient(to right, ${primary}, #6499B1)`}}>
+                <Header translate={this.props.translate} helpIcon />
                 <SignUpPage main={this.props.main} translate={this.props.translate} />
             </div>
         );

@@ -3,21 +3,13 @@ import * as mainActions from '../../actions/mainActions';
 import * as companyActions from '../../actions/companyActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Popover, Icon } from '../displayComponents';
+import { Popover, Icon, Link, Tooltip } from '../displayComponents';
 import { darkGrey } from '../../styles/colors';
 import Collapsible from 'react-collapsible';
 import { MenuItem } from 'material-ui';
-import { Link } from 'react-router-dom';
-
+import CompanySelector from '../menus/CompanySelector';
 
 class CompanyMenu extends React.Component {
-
-    constructor(props){
-        super(props);
-        this.state = {
-            popover: false,
-        }
-    }
 
     getSections = () => {
         const { translate, company } = this.props;
@@ -57,14 +49,16 @@ class CompanyMenu extends React.Component {
 
     _renderMenuIcon(text, icon){
         return(
-            <MenuItem style={{color: 'white', border: '1px solid black', fontSize: '0.85em'}}>
+            <MenuItem style={{color: 'white', border: '1px solid black', fontSize: '0.85em', display: 'flex', justifyContent: 'space-between'}}>
                 {this.props.toggled && text}
-                <Icon 
-                    className="material-icons"
-                    style={{fontSize: '2em', color: 'white', float: 'right', marginVertical: 'auto'}}
-                >
-                    {icon}
-                </Icon>
+                <Tooltip text={text} position="right">
+                    <Icon 
+                        className="material-icons"
+                        style={{fontSize: '2em', color: 'white', float: 'right', marginVertical: 'auto'}}
+                    >
+                        {icon}
+                    </Icon>
+                </Tooltip>
             </MenuItem>
         );
     }
@@ -76,56 +70,19 @@ class CompanyMenu extends React.Component {
         this.props.changeCompany(index);
     }
 
-    companyList = () => {
-        const { companies } = this.props;
-        return(
-            <Fragment>
-                {companies.map((company, index) => 
-                    company.id !== this.props.company.id &&
-                    <div key={`companyLogo_${company.id}`}> 
-                        <img
-                        src={company.logo}
-                        style={{width: '100%', height: 'auto', maxWidth: '5em'}}
-                        onClick={() => this.changeCompany(index)}
-                        alt={this.props.translate.company_logotype}
-                        />
-                    </div>
-                )}
-            </Fragment>
-        );
-    }
-
-
-    logoClick = (event) => {
-        this.setState({
-            popover: true,
-            anchorElement: event.currentTarget
-        })
-        event.stopPropagation();
-        event.nativeEvent.stopImmediatePropagation();
-    }
-
     render() {
         const sections = this.getSections();
-        const { company } = this.props;
+        const { company, companies } = this.props;
 
         return(
             <div
                 onClick={!this.props.toggled? this.props.toggle : () => {}}
                 style={{width: "100%", height: '100%', backgroundColor: darkGrey, color: 'white', overflowY : 'auto', overflowX: 'hidden'}}
             >
-                <img
-                    src={company.logo}
-                    style={{width: '100%', height: 'auto', maxWidth: '5em'}}
-                    onClick={this.logoClick}
-                    alt={this.props.translate.company_logotype}
-                />
-                <Popover
-                    open={this.state.popover}
-                    anchorTo={this.state.anchorElement}
-                    requestClose={() => this.setState({ popover: false })}
-                    menu={this.companyList()}
-                />
+                <CompanySelector
+                    companies={companies}
+                    company={company}
+                />                
                 {this.props.toggled && 
                     <Icon 
                         className="material-icons"

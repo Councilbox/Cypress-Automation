@@ -93,7 +93,7 @@ class ParticipantsLive extends Component {
 
         return(
             <div>
-                {/*<CollapsibleSection trigger={this._button} collapse={this._section} open={true} />*/}  
+                <CollapsibleSection trigger={this._button} collapse={this._section} open={true} /> 
             </div>
         );
     }
@@ -104,7 +104,7 @@ export default compose(
         name: "data",
         options: (props) => ({
             variables: {
-                councilID: props.councilID
+                councilId: props.councilID
             },
         })
     }),

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
 import { darkGrey } from '../../styles/colors';
-import { getComments } from '../../queries';
+import { agendaComments } from '../../queries';
 
 class CommentsSection extends Component {
 
@@ -32,7 +32,7 @@ class CommentsSection extends Component {
     }
 
     _section = () => {
-        const comments = this.props.data.getComments;
+        const comments = this.props.data.agendaVotings;
         if(this.props.data.loading){
             return(
                 <LoadingSection />
@@ -69,15 +69,10 @@ class CommentsSection extends Component {
     }
 }
 
-export default graphql(getComments, {
+export default graphql(agendaComments, {
     options: (props) => ({
         variables: {
-            request: {
-                council_id: props.council.id,
-                agenda_id: props.agenda.id,
-                page: 1,
-                limit: 25
-            }
+            agendaId: props.agenda.id
         }
     })
 })(CommentsSection);

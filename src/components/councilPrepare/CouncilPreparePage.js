@@ -3,6 +3,7 @@ import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, Icon, ErrorW
 import ParticipantsTable from '../councilEditor/ParticipantsTable';
 import NewParticipantForm from '../councilEditor/NewParticipantForm';
 import { getPrimary, getSecondary } from '../../styles/colors';
+import { MenuItem } from 'material-ui';
 import DateHeader from './DateHeader';
 import { graphql, compose } from 'react-apollo';
 import { bHistory } from '../../containers/App';
@@ -65,7 +66,17 @@ class CouncilPreparePage extends Component {
                                 textPosition="after"
                                 onClick={this.goToPrepareRoom}
                             />
-                            <DropDownMenu />
+                            <DropDownMenu 
+                                title={'cosas'} 
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700'}}
+                                items={
+                                    <Fragment>
+                                        <MenuItem onClick={() => alert('hola')}>HOLA</MenuItem>
+                                        <MenuItem onClick={() => alert('adios')}>ADIOS</MenuItem>
+                                    </Fragment>
+                                } 
+                            />
                         </Fragment>
                     }
                 />
