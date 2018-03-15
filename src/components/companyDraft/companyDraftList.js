@@ -14,6 +14,7 @@ import {
 import { compose } from "react-apollo";
 import { getPrimary } from "../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";
+import withSharedProps from '../../HOCs/withSharedProps';
 
 class CompanyDraftList extends Component {
     constructor(props) {
@@ -130,7 +131,7 @@ class CompanyDraftList extends Component {
     }
 }
 
-export default compose(
+export default withSharedProps()(compose(
     graphql(deleteDraft),
     graphql(companyDrafts, {
         name: "data",
@@ -141,4 +142,4 @@ export default compose(
             }
         })
     })
-)(CompanyDraftList);
+)(CompanyDraftList));

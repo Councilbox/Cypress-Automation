@@ -16,8 +16,7 @@ import MeetingEditorContainer from './MeetingEditorContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
-import CompanyDraftListContainer from '../containers/CompanyDraft/CompanyDraftListContainer'
-import CompanyDraftFormContainer from '../containers/CompanyDraft/CompanyDraftFormContainer'
+import CompanyDraftList from '../components/companyDraft/companyDraftList'
 
 
 class AppRouter extends Component {
@@ -77,10 +76,8 @@ class AppRouter extends Component {
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
                             <Route exact path="/company/:company/meeting/:id" component={MeetingEditorContainer} />
-                            <Route exact path="/company/:company/censuses" component={CompanyDraftListContainer} />
-                            <Route exact path="/company/:company/drafts" component={CompanyDraftListContainer} />
-                            <Route exact path="/company/:company/draft/:id" component={CompanyDraftFormContainer} />
-                            
+                            <Route exact path="/company/:company/censuses" component={CompanyDraftList} />
+                            <Route exact path="/company/:company/drafts" component={CompanyDraftList} />                            
                             <Route path="*" component={NotFound}/>
                         </Switch>
                     </div>
