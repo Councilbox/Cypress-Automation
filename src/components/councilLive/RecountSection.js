@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { graphql, compose } from 'react-apollo';
-import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
+import { LoadingSection, Icon } from '../displayComponents';
 import { darkGrey, getPrimary } from '../../styles/colors';
-import { liveRecount } from '../../queries';
 import LiveUtil from '../../utils/live';
 import FontAwesome from 'react-fontawesome';
 import VotesTable from './VotesTable';

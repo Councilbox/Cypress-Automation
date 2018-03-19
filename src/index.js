@@ -10,4 +10,4 @@ ReactDOM.render(
     <ThemeProvider>
         <App />
     </ThemeProvider>, document.getElementById('root'));
-registerServiceWorker();
+//registerServiceWorker();

@@ -1,5 +1,5 @@
 import React from 'react';
-import Menu, { MenuItem } from 'material-ui/Menu';
+import Menu from 'material-ui/Menu';
 import { BasicButton } from './';
 
 class DropDownMenu extends React.Component {

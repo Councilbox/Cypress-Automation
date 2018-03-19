@@ -5,7 +5,7 @@ import NewParticipantForm from '../councilEditor/NewParticipantForm';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { MenuItem } from 'material-ui';
 import DateHeader from './DateHeader';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import { bHistory } from '../../containers/App';
 import { councilDetails } from '../../queries';
 

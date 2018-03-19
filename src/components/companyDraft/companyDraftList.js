@@ -2,15 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../queries/companyDrafts.js";
 import { graphql } from "react-apollo";
-import {
-    LoadingSection,
-    Table,
-    DateWrapper,
-    SectionTitle,
-    AlertConfirm,
-    ErrorWrapper,
-    DeleteIcon
-} from "../displayComponents";
+import { LoadingSection, Table, AlertConfirm, ErrorWrapper, DeleteIcon } from "../displayComponents";
 import { compose } from "react-apollo";
 import { getPrimary } from "../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";

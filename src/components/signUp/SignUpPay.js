@@ -1,83 +1,51 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from "react-bootstrap";
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { SelectInput, BasicButton, TextInput, Checkbox, Icon } from '../displayComponents';
+import { SelectInput, BasicButton, TextInput, Icon, LoadingSection } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { MenuItem } from 'material-ui/Menu';
 import Dialog from 'material-ui/Dialog';
-import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
-import { countriesQuery } from '../../queries';
+import { countries, provinces } from '../../queries';
 
 class SignUpPay extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: {
-                address: this.props.company.address || '',
-                city: this.props.company.city || '',
-                country: this.props.company.country || '',
-                zipCode: this.props.company.zipCode || '',
-                province: this.props.company.province || '',
-                subscription: this.props.company.subscription || '',
-                IBAN: this.props.company.IBAN || ''
-            },
-            countries: [],
             provinces: [],
             subscriptions: [],
             termsCheck: false,
             termsAlert: false,
-            errors: {
-                address: '',
-                city: '',
-                country: '',
-                zipCode: '',
-                region: '',
-                subscription: '',
-                IBAN: '',
-                termsCheck: '',
-            }
         }
     }
 
     componentDidMount = async () => {
-        const subscriptions = await CouncilboxApi.getSubscriptions();
-        if(this.props.data.countries){
-            let provinces = [];
-            if(this.props.company.country){
-                const response = await this.props.client.query({
-                    query: gql`query ProvinceList($countryID: ID!) {
-                        provinces(countryID: $countryID){
-                            deno
-                            id
-                        }
-                    }`,
-                    variables: {
-                        countryID: this.props.company.country
-                    },
-                });
-                provinces = response.data.provinces;
-                
-            }
-            this.setState({
-                provinces: provinces,
-                countries: this.props.data.countries,
-                subscriptions: subscriptions
-            });
-        }
-
+        const subscriptions = await CouncilboxApi.getSubscriptions(); 
+        this.setState({
+            subscriptions: subscriptions
+        });
     }
 
-    componentWillReceiveProps(nextProps){
-        if(this.props.data.loading && !nextProps.data.loading){
-            this.setState({
-                countries: nextProps.data.countries
-            })
+    componentWillReceiveProps = async (nextProps) => {
+        if(!this.props.data.loading){
+            const data = nextProps.formData;
+            const selectedCountry = this.props.data.countries.find((country) => country.deno === data.country);        
+
+            const response = await this.props.client.query({
+                query: provinces,
+                variables: {
+                    countryId: selectedCountry.id
+                },
+            });
+
+            if(response){
+                this.setState({
+                    provinces: response.data.provinces
+                })
+            }
         }
     }
 
     endForm = () => {
-        this.props.saveInfo(this.state.data);
         if(!this.checkRequiredFields()){
             //this.props.sendNewCompany(this.props.company);
             //CouncilboxApi.createCompany(this.props.company);
@@ -96,78 +64,58 @@ class SignUpPay extends Component {
             termsCheck: '',
         };
         let hasError = false;
+        const data = this.props.formData;
 
-        if(!this.state.data.address.length > 0){
+        if(!data.address.length > 0){
             hasError = true;
             errors.address = 'Este campo es obligatorio';
         }
         
-        if(!this.state.data.city.length > 0){
+        if(!data.city.length > 0){
             hasError = true;
             errors.city = 'Este campo es obligatorio';
         }
 
-        if(this.state.data.type === ''){
+        if(data.type === ''){
             hasError = true;
             errors.country = 'Este campo es obligatorio';
         }
 
-        if(!this.state.data.zipCode.length > 0){
+        if(!data.zipCode.length > 0){
             hasError = true;
             errors.zipCode = 'Este campo es obligatorio';
         }
 
-        if(this.state.data.type === ''){
+        if(data.type === ''){
             hasError = true;
             errors.province = 'Este campo es obligatorio';
         }
 
-        if(!this.state.data.subscription.length > 0){
+        if(!data.subscription.length > 0){
             hasError = true;
             errors.subscription = 'Este campo es obligatorio';
         }
 
-        if(!this.state.data.IBAN.length > 0){
+        if(!data.IBAN.length > 0){
             hasError = true;
             errors.IBAN = 'Este campo es obligatorio';
         }
 
-        if(!this.state.data.termsCheck){
+        if(!data.termsCheck){
             hasError = true;
             errors.termsCheck = 'Tienes que aceptar los términos';
         }
 
-        this.setState({
-            ...this.state,
-            errors: errors
-        });
+        this.props.updateErrorse(errors);
         
         return hasError;
     }
 
-    handleCountryChange = async (event, index) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                country: this.state.countries[index].id
-            }
+
+    handleCountryChange = async (event) => {
+        this.props.updateState({
+            country: event.target.value
         })
-        const response = await this.props.client.query({
-            query: gql`query ProvinceList($countryID: ID!) {
-                provinces(countryID: $countryID){
-                    deno
-                    id
-                }
-            }`,
-            variables: {
-                countryID: this.state.countries[index].id
-            },
-        });
-        
-        this.setState({
-            provinces: response.data.provinces
-        });
     }
 
     handleProvinceChange = (event, index) => {
@@ -202,23 +150,151 @@ class SignUpPay extends Component {
 
     render(){
         if(this.props.data.loading){
-            return <p>Loading...</p>;
+            return <LoadingSection />;
         }
 
-        const { translate } = this.props;
+        const { translate, errors } = this.props;
+        const data = this.props.formData;
         const primary = getPrimary();
         
         return(
-            <div>
-                Facturación
-                <Grid>
+            <div style={{width: '100%', padding: '6%'}}>
+                <span style={{fontSize: '1.3em', fontWeight: '700', color: primary}}>{translate.billing_information}</span>
+                <div className="row" style={{marginTop: '2em'}}>
+                    <div className="col-lg-8 col-md-8 col-xs-12" style={{marginBottom: '2.2em', height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <TextInput
+                            floatingText={translate.address}
+                            type="text"
+                            value={data.address}
+                            errorText={this.props.errors.address}
+                            onChange={(event) => this.props.updateState({
+                                address: event.target.value
+                            })}
+                        />
+                    </div>
+                    <div className="col-lg-4 col-md-4 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <TextInput
+                            floatingText={translate.company_new_locality}
+                            type="text"
+                            value={data.city}
+                            onChange={(event) => this.props.updateState({
+                                city: event.target.value
+                            })}
+                            errorText={this.props.errors.city}
+                        />
+                    </div>
+                    <div className="col-lg-4 col-md-4 col-xs-6" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <SelectInput
+                            floatingText={translate.country}
+                            value={data.country}
+                            onChange={this.handleCountryChange}
+                            errorText={errors.country}
+                        >   
+                            {this.props.data.countries.map((country) => {
+                                return <MenuItem key={country.deno} value={country.deno}>{country.deno}</MenuItem>
+                            })}
+                        </SelectInput>
+                    </div>
+                    <div className="col-lg-4 col-md-4 col-xs-6" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <SelectInput
+                            floatingText={translate.company_new_country_state}
+                            value={data.countryState}
+                            errorText={errors.countryState}
+                            onChange={(event) => this.props.updateState({countryState: event.target.value})}
+                        >   
+                            {this.state.provinces.map((province) => {
+                                return <MenuItem key={province.deno} value={province.id}>{province.deno}</MenuItem>
+                            })
+                            }
+                        </SelectInput>
+                    </div>
+                    <div className="col-lg-4 col-md-4 col-xs-6" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <TextInput
+                            floatingText={translate.company_new_zipcode}
+                            type="text"
+                            value={data.zipcode}
+                            onChange={(event) => this.props.updateState({
+                                zipcode: event.target.value
+                            })}
+                            errorText={this.props.errors.zipcode}
+                        />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-xs-6" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <TextInput
+                            floatingText={translate.type_of_subscription}
+                            type="text"
+                            value={this.state.subscriptionType}
+                            onChange={(event) => this.setState({
+                                subscriptionType: event.target.value
+                            })}
+                            errorText={this.props.errors.subscriptionType}
+                        />
+                    </div>
+                    <div className="col-lg-3 col-md-3 col-xs-6" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <TextInput
+                            floatingText="Código"
+                            type="text"
+                            value={this.state.code}
+                            onChange={(event) => this.setState({
+                                code: event.target.value
+                            })}
+                            errorText={this.props.errors.code}
+                        />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                        <TextInput
+                            floatingText="IBAN"
+                            type="text"
+                            value={this.state.IBAN}
+                            onChange={(event) => this.setState({
+                                IBAN: event.target.value
+                            })}
+                            errorText={this.props.errors.IBAN}
+                        />
+                    </div>
+                </div>
+                <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{float: 'right', marginTop: '3em'}} >
+                    <BasicButton
+                        text={translate.continue}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700'}}
+                        onClick={this.nextPage}
+                        fullWidth
+                        icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
+                    />
+                </div>
+                <Dialog
+                    actions={<BasicButton 
+                        text={translate.accept}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700'}}
+                        onClick={this.closeAlert} 
+                    />}
+                    modal={false}
+                    open={!!this.props.errors.termsCheck}
+                    onRequestClose={this.closeAlert}
+                    contentStyle={{width: '35%'}}
+                    >
+                    {translate.acept_terms}
+                </Dialog>
+            </div>
+        ); 
+    }
+
+}
+
+
+export default graphql(countries)(withApollo(SignUpPay));
+
+/*
+<Grid>
                     <Row style={{width: '75%'}}>
                         <Col xs={12} md={6}>
                             <TextInput
                                 floatingText={translate.address}
                                 type="text"
-                                errorText={this.state.errors.address}
-                                value={this.state.data.address}
+                                errorText={errors.address}
+                                value={data.address}
                                 onChange={(event) => this.setState({
                                     ...this.state,
                                     data: {
@@ -337,25 +413,4 @@ class SignUpPay extends Component {
                         </Col>
                     </Row>
                 </Grid>
-                <Dialog
-                    actions={<BasicButton 
-                        text={translate.accept}
-                        color={primary}
-                        textStyle={{color: 'white', fontWeight: '700'}}
-                        onClick={this.closeAlert} 
-                    />}
-                    modal={false}
-                    open={!!this.state.errors.termsCheck}
-                    onRequestClose={this.closeAlert}
-                    contentStyle={{width: '35%'}}
-                    >
-                    {translate.acept_terms}
-                </Dialog>
-            </div>
-        ); 
-    }
-
-}
-
-
-export default graphql(countriesQuery)(withApollo(SignUpPay));
+*/

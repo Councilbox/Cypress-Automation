@@ -9,6 +9,7 @@ import NotFound from "../components/NotFound";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import {connect} from "react-redux";
 import SideMenu from '../components/sideMenu/SideMenu';
+import Sidebar from '../components/sideMenu/SideBar';
 import DashboardContainer from './DashboardContainer';
 import CouncilEditorContainer from './CouncilEditorContainer';
 import CouncilPrepareContainer from './CouncilPrepareContainer';
@@ -16,7 +17,8 @@ import MeetingEditorContainer from './MeetingEditorContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
-import CompanyDraftList from '../components/companyDraft/companyDraftList'
+import CompanyDraftList from '../components/companyDraft/CompanyDraftList';
+import { sideBarRoutes } from '../routes';
 
 
 class AppRouter extends Component {
@@ -52,17 +54,30 @@ class AppRouter extends Component {
             return(<LoadingMainApp />);
         }
 
+        const company = this.props.companies.list[this.props.companies.selected];
+
         return (
             this.props.main.isLogged?
                 <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>                                                      
-                    <SideMenu
+                    {/*<SideMenu
                         width={this.state.sideWidth}
                         companies={this.props.companies.list}
                         company={this.props.companies.list[this.props.companies.selected]}
                         toggleMenu={this.toggleMenu}
                         open={this.state.open}
                         translate={this.props.translate}
+                    />*/}
+                    <Sidebar
+                        routes={sideBarRoutes}
+                        logoText={company.businessName}
+                        logo={company.logo}
+                        company={company}
+                        handleDrawerToggle={this.handleDrawerToggle}
+                        open={true}
+                        color="blue"
+                        location={this.props.location}
                     />
+
                     <div style={{width: `${100 - this.state.sideWidth}%`, height: '100%', display: 'flex', flexDirection: 'column'}}>
                         <Header user={this.props.user.name} translate={this.props.translate} />
                         <Switch>

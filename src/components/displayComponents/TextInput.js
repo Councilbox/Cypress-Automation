@@ -1,18 +1,27 @@
 import React from 'react';
-import { TextField } from 'material-ui';
-import { withStyles } from 'material-ui/styles';
-import { getPrimary } from '../../styles/colors';
+import { TextField, FormControl } from 'material-ui';
 
-const TextInput = ({ floatingText, type, value, onChange, errorText, classes, onKeyUp }) => (
-    <TextField
-        label={floatingText}
-        value={value}
-        type={type}
-        onKeyUp={onKeyUp}
-        onChange={onChange}
-        margin="normal"
-        error={!!errorText}
-    />
+const TextInput = ({ floatingText, type, value, onChange, errorText, classes, onKeyUp, placeholder }) => (
+    <FormControl style={{width: '100%'}}>
+        <TextField
+            label={floatingText}
+            value={value}
+            placeholder={placeholder}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            FormHelperTextProps={{
+                error: !!errorText
+            }}
+            color="secondary"
+            type={type}
+            onKeyUp={onKeyUp}
+            onChange={onChange}
+            margin="normal"
+            helperText={errorText}
+            error={!!errorText}
+        />
+    </FormControl>
 );
 
 export default TextInput;

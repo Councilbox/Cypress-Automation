@@ -1025,6 +1025,14 @@ export const agendaComments = gql`
   }
 `;
 
+export const countries = gql `
+  query countries {
+    countries {
+      deno
+      id
+    }
+  }
+`;
 
 
 
@@ -1039,16 +1047,6 @@ export const agendaComments = gql`
 
 //OLD VERSION
 
-
-
-export const countriesQuery = gql `
-  query CountriesList {
-    countries {
-      deno
-      id
-    }
-  }
-`;
 
 export const majorities = gql `
   query majorities{

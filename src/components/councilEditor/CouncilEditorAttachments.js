@@ -4,7 +4,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { maxFileSize } from '../../constants';
 import AttachmentList from './AttachmentList';
-import { showAddCouncilAttachment, canAddCouncilAttachment} from '../../utils/CBX';
+import { showAddCouncilAttachment } from '../../utils/CBX';
 import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../queries';
 
 class CouncilEditorAttachments extends Component {

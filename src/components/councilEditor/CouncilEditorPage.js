@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardPageLayout } from '../displayComponents';
-import Stepper, { Step, StepLabel, StepContent } from 'material-ui/Stepper';
+import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import CouncilEditorNotice from './CouncilEditorNotice';
 import CouncilEditorCensus from './CouncilEditorCensus';
 import CouncilEditorAgenda from './CouncilEditorAgenda';

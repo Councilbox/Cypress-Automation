@@ -6,7 +6,6 @@ import BottomSection from './BottomSection';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { darkGrey, lightGrey } from '../../styles/colors';
-import Pruebas from './Pruebas';
 
 class Dashboard extends React.Component {
 

@@ -3,7 +3,6 @@ import { graphql, compose } from 'react-apollo';
 import { CollapsibleSection, FileUploadButton, Icon } from '../displayComponents';
 import AttachmentList from '../councilEditor/AttachmentList';
 import { darkGrey } from '../../styles/colors';
-import { urlParser } from '../../utils';
 import { addAgendaAttachment, removeAgendaAttachment } from '../../queries';
 import { maxFileSize } from '../../constants';
 

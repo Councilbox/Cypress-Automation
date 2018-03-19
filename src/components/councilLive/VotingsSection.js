@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { CollapsibleSection, LoadingSection, Icon, ErrorWrapper } from '../displayComponents';
 import { darkGrey, getPrimary, getSecondary } from '../../styles/colors';
@@ -64,7 +64,6 @@ class VotingsSection extends Component {
     }
 
     _section = () => {
-        const votes = this.props.data.getVotings;
         const { loading } = this.props.data;
 
         if(loading){
@@ -94,9 +93,14 @@ class VotingsSection extends Component {
         const { translate } = this.props;
 
         if(error){
-            {error.graphQLErrors.map((error) => {
-                return <ErrorWrapper error={error} translate={translate} />
-            })}
+            return(
+                <Fragment>
+                    {error.graphQLErrors.map((error) => {
+                        return <ErrorWrapper error={error} translate={translate} />
+                    })}
+                </Fragment>
+            )
+
         }
 
         return(

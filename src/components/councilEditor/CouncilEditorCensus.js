@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { MenuItem } from 'material-ui';
 import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, Icon } from '../displayComponents';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';

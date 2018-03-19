@@ -4,7 +4,7 @@ import * as mainActions from '../../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { MenuItem } from 'material-ui';
-import { Icon, DropDownMenu, LoadingSection } from '../displayComponents';
+import { Icon, DropDownMenu } from '../displayComponents';
 const secondary = getSecondary();
 
 const UserMenu = ({ username, actions }) => {

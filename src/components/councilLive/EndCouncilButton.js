@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
 import { endCouncil } from '../../queries';
 import { BasicButton, AlertConfirm, Icon } from '../displayComponents';

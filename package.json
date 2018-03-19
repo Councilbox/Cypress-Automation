@@ -23,6 +23,7 @@
     "material-ui-pickers": "^1.0.0-rc.2",
     "mocha": "^5.0.4",
     "moment-timezone": "0.5.14",
+    "perfect-scrollbar": "^1.3.0",
     "react": "16.2.0",
     "react-apollo": "2.0.4",
     "react-bootstrap": "0.32.1",
@@ -58,6 +59,8 @@
     "webpack": "3.10.0"
   },
   "babel": {
-    "presets": ["env"]
+    "presets": [
+      "env"
+    ]
   }
 }

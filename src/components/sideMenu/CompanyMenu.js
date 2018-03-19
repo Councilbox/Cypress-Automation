@@ -1,9 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import * as mainActions from '../../actions/mainActions';
 import * as companyActions from '../../actions/companyActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Popover, Icon, Link, Tooltip } from '../displayComponents';
+import { Icon, Link, Tooltip } from '../displayComponents';
 import { darkGrey } from '../../styles/colors';
 import Collapsible from 'react-collapsible';
 import { MenuItem } from 'material-ui';

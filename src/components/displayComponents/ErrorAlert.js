@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import BasicButton from './BasicButton';
 import { getPrimary } from '../../styles/colors';
 

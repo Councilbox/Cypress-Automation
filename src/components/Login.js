@@ -2,7 +2,7 @@ import React from 'react';
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardHeader, CardContent } from 'material-ui';
+import { Card, CardActions, CardContent } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { login } from '../queries';
 import { getPrimary } from '../styles/colors';
@@ -75,6 +75,7 @@ class Login extends React.PureComponent {
     render(){
         const { translate } = this.props;
         const primary = getPrimary();
+
         return(
             <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, #6499B1)`, fontSize: '0.85em', height: '100%'}}>
                 <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: '9em'}}>
@@ -101,7 +102,7 @@ class Login extends React.PureComponent {
                                 />
                             </div>
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>                            
-                                <Link to="/">
+                                <Link to="/signup">
                                     <BasicButton
                                         text="Dar de alta mi empresa"
                                         color={'white'}
@@ -115,36 +116,33 @@ class Login extends React.PureComponent {
                     </div>
                 </div>
                 <div className="col-lg-5 col-md-5 col-xs-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <Card style={{minHeight: '60%', width: '70%', padding: '6%', marginBottom: '5em', marginRight: '5em'}} >
-                        <CardHeader
-                            title="Accede a tu cuenta"
-                            titleColor={primary}
-                            titleStyle={{fontWeight: '700', fontSize: '1.2em'}}
-                            style={{marginBottom: 0, paddingBottom: 0}}
+                    <Card style={{minHeight: '60%', width: '70%', padding: '8%', marginBottom: '5em', marginRight: '5em'}} >
+                        <div
+                            style={{marginBottom: 0, paddingBottom: 0, fontWeight: '700', fontSize: '1.5em', color: primary}}
+                        >
+                            {`${translate.login_signin_header} Councilbox`}
+                        </div>
+                        <TextInput
+                            onKeyUp={this.handleKeyUp}
+                            floatingText={translate.login_user}
+                            errorText={this.state.errors.user}
+                            type="text"
+                            value={this.state.user}
+                            onChange={(event) => this.setState({
+                                user: event.nativeEvent.target.value
+                            })}
                         />
-                        <CardContent>
-                            <TextInput
-                                onKeyUp={this.handleKeyUp}
-                                floatingText={translate.login_user}
-                                errorText={this.state.errors.user}
-                                type="text"
-                                value={this.state.user}
-                                onChange={(event) => this.setState({
-                                    user: event.nativeEvent.target.value
-                                })}
-                            />
-                            <TextInput
-                                onKeyUp={this.handleKeyUp}
-                                floatingText={translate.login_password}
-                                type="password"
-                                errorText={this.state.errors.password}
-                                value={this.state.password}
-                                onChange={(event) => this.setState({
-                                    password: event.nativeEvent.target.value
-                                })}
-                            />
-                        </CardContent>
-                        <CardActions>
+                        <TextInput
+                            onKeyUp={this.handleKeyUp}
+                            floatingText={translate.login_password}
+                            type="password"
+                            errorText={this.state.errors.password}
+                            value={this.state.password}
+                            onChange={(event) => this.setState({
+                                password: event.nativeEvent.target.value
+                            })}
+                        />
+                        <div style={{marginTop: '3em'}}>
                             <BasicButton
                                 text="Entrar"
                                 color={primary}
@@ -154,8 +152,8 @@ class Login extends React.PureComponent {
                                 fullWidth={true}
                                 icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
-                            <Link to="/">¿Has olvidado tu contraseña?"</Link>
-                        </CardActions>   
+                            <Link to="/">¿Has olvidado tu contraseña?"</Link>  
+                        </div>
                     </Card>
                 </div>
             </div>

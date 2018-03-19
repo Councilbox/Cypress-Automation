@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment/min/moment-with-locales';
-import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
 import { openCouncilRoom } from '../../queries';
 import { BasicButton, AlertConfirm, Checkbox, Icon } from '../displayComponents';

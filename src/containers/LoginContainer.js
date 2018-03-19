@@ -2,10 +2,15 @@ import React from 'react';
 import Login from '../components/Login';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
+import { LoadingMainApp } from '../components/displayComponents';
 
 class LoginContainer extends React.PureComponent {
 
     render(){
+        if(!this.props.translate.login_signin_header){
+            return <LoadingMainApp />
+        }
+
         return(
             <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
                 <Header translate={this.props.translate} helpIcon />

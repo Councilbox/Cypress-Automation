@@ -1,6 +1,5 @@
 import React from 'react';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import { Paper } from 'material-ui';
 
 const TableWrapper = ({ headers, children }) => (
     <Table>

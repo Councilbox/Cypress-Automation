@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { BasicButton, AlertConfirm, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import ParticipantSelector from './ParticipantSelector';
-import { urlParser } from '../../utils';
+
 
 class StartCouncilButton extends Component {
 

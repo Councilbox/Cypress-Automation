@@ -17,19 +17,32 @@ class SignUpPage extends React.Component {
         this.state = {
             page: 1,
             data: {
-
-            }
+                businessName: '',
+                type: 0,
+                cif: '',
+                name: '',
+                surname: '',
+                phone: '',
+                email: '',
+                pwd: '',
+                address: '',
+                city: '',
+                country: 'España',
+                countryState: '',
+                zipcode: '',
+                subscriptionType: '',
+                iban: '',
+                code: ''
+            },
+            errors: {}
         };
     }
 
-    nextPage = (state) => {
+    nextPage = () => {
         const index = this.state.page + 1;
         if(index <= 3){
             this.setState({
-                page: index,
-                data: {
-                    ...state
-                }
+                page: index
             })
         } 
     }
@@ -42,19 +55,42 @@ class SignUpPage extends React.Component {
         }
     }
 
+    updateState = (object) => {
+        this.setState({
+            ...this.state,
+            data: {
+                ...this.state.data,
+                ...object
+            }
+        })
+    }
+
+    updateErrors = (object) => {
+        this.setState({
+            ...this.state,
+            errors: {
+                ...this.state.errors,
+                ...object
+            }
+        })
+    }
+
     render(){
         if(this.state.success){
             return(<Welcome />);
         }
 
+        const { translate } = this.props;
         const primary = getPrimary();
 
         return(
-            <div style = {{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex'}} >
-                <h3 style={{color: 'white'}}>Alta de empresa</h3>
-                <Card style={{width: '65%', padding: 0, borderRadius: '0.3em', overflow: 'hidden'}} containerStyle={{padding: 0}}>
-                    <CardContent style={{padding: 0}}>
-                        <div style={{display: 'flex', flexDirection: 'row', height:'75vh'}}>
+            <div style = {{display: 'flex', flexDirection: 'column', height: '100%', background: `linear-gradient(to right, ${primary}, #6499B1)`, overflow: 'auto', alignItems: 'center'}} >
+                <div style={{height: '13%', display: 'flex', alignItems: 'center'}}>
+                    <h3 style={{color: 'white'}}>{translate.registration_of_society}</h3>
+                </div>
+                <Card style={{width: '65%', padding: 0, borderRadius: '0.3em', overflow: 'hidden'}}>
+                    <CardContent style={{padding: 0, width: '100%'}}>
+                        <div style={{display: 'flex', flexDirection: 'row', height:'70vh', width: '100%'}}>
                             <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '5em', height: '100%'}}>
                                 <div style={{backgroundColor: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: '700', width: '2em', height: '2em', borderRadius: '1em'}} onClick={() => this.setState({page: 1})}>
                                     1
@@ -66,24 +102,34 @@ class SignUpPage extends React.Component {
                                     3
                                 </div>
                             </div>
-                            <div style={{backgroundColor: 'white', width: '3em', height: '100%'}}>
+                            <div style={{backgroundColor: 'white', width: '100%', height: '100%'}}>
                                 {this.state.page === 1 &&
                                     <SignUpEnterprise
                                         nextPage={this.nextPage}
                                         translate={this.props.translate}
-                                        data={this.state.data} />
+                                        formData={this.state.data} 
+                                        errors={this.state.errors}
+                                        updateState={this.updateState}
+                                        updateErrors={this.updateErrors}
+                                    />
                                 }
                                 {this.state.page === 2 &&
                                     <SignUpUser
                                         nextPage={this.nextPage}
-                                        data={this.state.data}
+                                        formData={this.state.data}
+                                        errors={this.state.errors}
+                                        updateState={this.updateState}
+                                        updateErrors={this.updateErrors}
                                         translate={this.props.translate}
                                     />
                                 }
                                 {this.state.page === 3 &&
                                     <SignUpPay
                                         nextPage={this.nextPage}
-                                        data={this.state.data}
+                                        formData={this.state.data}
+                                        errors={this.state.errors}
+                                        updateState={this.updateState}
+                                        updateErrors={this.updateErrors}
                                         translate={this.props.translate}
                                         sendNewCompany={this.props.companyActions.sendNewCompany}
                                     />

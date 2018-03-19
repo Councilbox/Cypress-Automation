@@ -1,83 +1,54 @@
 import React, { Component } from 'react';
-import { Grid, Row, Col } from "react-bootstrap";
 import { SelectInput, BasicButton, LoadingSection, TextInput, Icon } from '../displayComponents';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
 
+
 class SignUpEnterprise extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            data: {
-                ...this.props.data
-            }, 
-            types: [],
-            errors: {
-                companyName: '',
-                type: '',
-                code: ''
-            }
-        }
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(this.props.data.loading && !nextProps.data.loading){
-            this.setState({
-                types: nextProps.data.companyTypes
-            });
-        }
-    }
 
     nextPage = () => {
         if(!this.checkRequiredFields()){
-            this.props.saveInfo(this.state.data);
             this.props.nextPage();
         }
     }
 
     checkRequiredFields(){
+        const data = this.props.formData;
         let errors = {
-            companyName: '',
+            businessName: '',
             type: '',
-            code: ''
+            cif: ''
         };
         let hasError = false;
 
-        if(!this.state.data.companyName.length > 0){
+        if(!data.businessName.length > 0){
             hasError = true;
-            errors.companyName = 'Este campo es obligatorio'
+            errors.businessName = 'Este campo es obligatorio'
         }
         
-        if(this.state.data.type === ''){
+        if(data.type === ''){
             hasError = true;
             errors.type = 'Este campo es obligatorio'
         }
 
-        if(!this.state.data.code.length > 0){
+        if(!data.cif.length > 0){
             hasError = true;
-            errors.code = 'Este campo es obligatorio'
+            errors.cif = 'Este campo es obligatorio'
         }
 
         console.log(errors);
 
-        this.setState({
-            ...this.state,
-            errors: errors
-        });
+        this.props.updateErrors(errors);
         
         return hasError;
     }
 
-    handleTypeChange = (event, index) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                type: this.state.types[index].value
-            }
+    handleTypeChange = (event) => {
+        this.props.updateState({
+            type: event.target.value
         });
     }
 
@@ -91,24 +62,54 @@ class SignUpEnterprise extends Component {
         const primary = getPrimary();        
 
         return(
-            <div>
-                Empresa
+            <div style={{width: '100%', padding: '6%'}}>
+                <span style={{fontSize: '1.3em', fontWeight: '700', color: primary}}>{translate.company_data}</span>
+                <div style={{width: '100%', marginBottom: '2.2em', marginTop: '2em'}}>
+                    <TextInput
+                        floatingText={translate.entity_name}
+                        type="text"
+                        value={this.props.formData.businessName}
+                        onChange={(event) => this.props.updateState({
+                            businessName: event.nativeEvent.target.value
+                        })}
+                        errorText={this.props.errors.businessName}
+                    />
+                </div>
                 <div className="row">
-                    <div className="col-lg-6 col-md-6 col-xs-12">
+                    <div className="col-lg-6 col-md-6 col-xs-12" style={{marginBottom: '2.2em', height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        <SelectInput
+                            floatingText={translate.company_type}
+                            value={this.props.formData.type}
+                            onChange={this.handleTypeChange}
+                            errorText={this.props.errors.type}
+                        >   
+                            {this.props.data.companyTypes.map((type) => {
+                                return <MenuItem key={type.label} value={type.value}>{translate[type.label]}</MenuItem>
+                            })
+                            }
+                        </SelectInput>
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                         <TextInput
-                            floatingText={translate.entity_name}
+                            floatingText={translate.cif}
                             type="text"
-                            value={this.state.data.companyName}
-                            onChange={(event) => this.setState({
-                                ...this.state,
-                                data: {
-                                    ...this.state.data,
-                                    companyName: event.nativeEvent.target.value
-                                }
+                            value={this.props.formData.cif}
+                            onChange={(event) => this.props.updateState({
+                                cif: event.target.value
                             })}
-                            errorText={this.state.errors.companyName}
+                            errorText={this.props.errors.cif}
                         />
                     </div>
+                </div>
+                <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{float: 'right', marginTop: '3em'}} >
+                    <BasicButton
+                        text={translate.continue}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700'}}
+                        onClick={this.nextPage}
+                        fullWidth
+                        icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
+                    />
                 </div>
             </div>
         );
@@ -125,65 +126,3 @@ export const companyTypesQuery = gql `
 `;
 
 export default graphql(companyTypesQuery)(SignUpEnterprise);
-
-/*
-                <Grid>
-                    <Row style={{width: '75%'}}>
-                        <Col xs={12} md={12}>
-                            <TextInput
-                                floatingText={translate.entity_name}
-                                type="text"
-                                value={this.state.data.companyName}
-                                onChange={(event) => this.setState({
-                                    ...this.state,
-                                    data: {
-                                        ...this.state.data,
-                                        companyName: event.nativeEvent.target.value
-                                    }
-                                })}
-                                errorText={this.state.errors.companyName}
-                            />
-                        </Col>
-                        <Col xs={12} md={6}>
-                            <SelectInput
-                                floatingLabelText={translate.company_type}
-                                value={this.state.data.type}
-                                onChange={this.handleTypeChange}
-                                errorText={this.state.errors.type}
-                            >   
-                                {this.state.types.map((type) => {
-                                    return <MenuItem key={type.label} value={type.value} primaryText={translate[type.label]} />
-                                })
-                                }
-                            </SelectInput>
-                        </Col>
-                        <Col xs={12} md={6}>
-                            <TextInput
-                                floatingText={translate.cif}
-                                type="text"
-                                value={this.state.data.code}
-                                onChange={(event) => this.setState({
-                                    ...this.state,
-                                    data: {
-                                        ...this.state.data,
-                                        code: event.nativeEvent.target.value
-                                    }
-                                })}
-                                errorText={this.state.errors.code}
-                            />
-                        </Col>
-                        <Col md={5} />
-                        <Col xs={12} md={3}>
-                            <BasicButton
-                                text={translate.continue}
-                                color={primary}
-                                textStyle={{color: 'white', fontWeight: '700'}}
-                                onClick={this.nextPage}
-                                textPosition="before"
-                                fullWidth
-                                icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
-                            />
-                        </Col>
-                    </Row>
-                </Grid>
-*/

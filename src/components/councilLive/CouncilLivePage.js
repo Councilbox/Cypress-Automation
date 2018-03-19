@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { LoadingMainApp, Icon } from "../displayComponents";
+import React, { Component } from 'react';
+import { LoadingMainApp } from "../displayComponents";
 import LiveHeader from './LiveHeader';
 import { lightGrey, darkGrey } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes, getVideoHTML } from '../../queries';
+import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes } from '../../queries';
 import AgendaManager from './AgendaManager';
 import ParticipantsLive from './ParticipantsLive';
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import TextField from 'material-ui/TextField';
 import { DateTimePicker } from 'material-ui-pickers'
-import { IconButton, Typography, Icon, InputAdornment } from 'material-ui';
+import { IconButton, Icon, InputAdornment } from 'material-ui';
 
 const DateTimePickerWrapper = ({ label, onChange, floatingText, format, value }) => (
     <DateTimePicker

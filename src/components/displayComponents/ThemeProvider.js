@@ -9,10 +9,10 @@ const secondary = getSecondary();
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: getPrimary(),
+            main: primary,
         },
         secondary: {
-            main: getSecondary()
+            main: secondary
         }
     },
 
@@ -25,6 +25,21 @@ const theme = createMuiTheme({
         MuiTableRow: {
             root: {
                 width: '50%'
+            }
+        },
+        MuiInputLabel: {
+            root: {
+                color: secondary
+            }
+        },
+        MuiInput: {
+            underline: {
+                '&:hover:not($disabled):before': { //underline color when hovered 
+                    backgroundColor: secondary,
+              },
+                '&:after': {
+                     backgroundColor: secondary
+                }
             }
         }
     }

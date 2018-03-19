@@ -1,9 +1,9 @@
 import React from 'react';
 import { Select } from 'material-ui';
 import { InputLabel } from 'material-ui/Input';
-import { FormControl, FormHelperText } from 'material-ui/Form';
+import { FormControl } from 'material-ui/Form';
 
-const TextInput = ({ floatingText, id, value, onChange, errorText, children }) => (
+const SelectInput = ({ floatingText, id, value = 0, onChange, errorText, children }) => (
     <FormControl style={{width: '100%'}}>
         <InputLabel htmlFor={id}>{floatingText}</InputLabel>
         <Select
@@ -20,4 +20,4 @@ const TextInput = ({ floatingText, id, value, onChange, errorText, children }) =
     </FormControl>
 );
 
-export default TextInput;
+export default SelectInput;

@@ -32,7 +32,7 @@ class CommentsSection extends Component {
     }
 
     _section = () => {
-        const comments = this.props.data.agendaVotings;
+        //const comments = this.props.data.agendaVotings;
         if(this.props.data.loading){
             return(
                 <LoadingSection />

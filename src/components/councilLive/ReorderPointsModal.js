@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, AgendaNumber } from '../displayComponents';
 import { updateAgendas } from '../../queries';
-import { urlParser } from '../../utils';
 import icon from '../../assets/img/reorder.PNG';
 import SortableList from '../displayComponents/SortableList';
 import { arrayMove } from 'react-sortable-hoc';

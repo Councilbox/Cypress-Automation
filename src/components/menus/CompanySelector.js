@@ -1,10 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { store, bHistory } from '../../containers/App';
 import { changeCompany } from '../../actions/companyActions';
-import { getSecondary } from '../../styles/colors';
-import { MenuItem } from 'material-ui';
-import { Icon, Popover, LoadingSection } from '../displayComponents';
-const secondary = getSecondary();
+import { Popover } from '../displayComponents';
 
 class CompanySelector extends Component {
     
@@ -48,7 +45,7 @@ class CompanySelector extends Component {
     }
 
     render(){
-        const { companies, company } = this.props;
+        const { company } = this.props;
         return(
             <Fragment>
                 <img

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { MenuItem } from 'material-ui';
-import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { BasicButton, TextInput, SelectInput, LoadingSection, Checkbox } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
 import { withApollo } from 'react-apollo';

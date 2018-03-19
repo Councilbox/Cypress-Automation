@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import CompanyMenu from './CompanyMenu';
 import { LoadingMainApp } from '../displayComponents';
 

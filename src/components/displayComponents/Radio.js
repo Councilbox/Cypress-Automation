@@ -1,6 +1,6 @@
 import React from 'react';
 import { Radio } from 'material-ui';
-import { FormLabel, FormControl, FormControlLabel, FormHelperText } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 
 export default ({ value, checked, label, style, name, onChange }) => (
     <FormControlLabel
