@@ -24,7 +24,7 @@ const sidebarStyle = theme => ({
     bottom: "0",
     left: "0",
     zIndex: "1",
-    // overflow: 'auto',
+    overflow: 'hidden',
     ...boxShadow,
     width: drawerWidth,
     [theme.breakpoints.up("md")]: {
@@ -54,7 +54,6 @@ const sidebarStyle = theme => ({
   },
   logo: {
     position: "relative",
-    backgroundColor: darkGrey,
     padding: "15px 15px",
     zIndex: "4",
     "&:after": {
@@ -85,6 +84,7 @@ const sidebarStyle = theme => ({
   },
   logoImage: {
     width: "30px",
+    margin: '0.2em',
     display: "inline-block",
     maxHeight: "30px",
     marginLeft: "10px",
@@ -214,7 +214,6 @@ const sidebarStyle = theme => ({
     height: "calc(100vh - 75px)",
     overflow: "auto",
     width: "260px",
-    backgroundColor: darkGrey,
     zIndex: "4",
     overflowScrolling: 'touch'
   }

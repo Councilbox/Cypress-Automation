@@ -1,13 +1,13 @@
 import React from 'react';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 
-const TableWrapper = ({ headers, children }) => (
+const TableWrapper = ({ headers = [], children }) => (
     <Table>
         <TableHead>
             <TableRow>
-                {headers.map((header) => {
+                {headers.map((header, index) => {
                     return(
-                        <TableCell key={`header${header.name}`}>{header.name}</TableCell>
+                        <TableCell key={`header_${index}`}>{header.name}</TableCell>
                     )
                 })}
             </TableRow>

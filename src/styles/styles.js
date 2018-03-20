@@ -1,6 +1,6 @@
 import { darkGrey } from './colors';
 
-const drawerWidth = 260;
+const drawerWidth = 250;
 
 const transition = {
   transition: "all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"
@@ -22,6 +22,7 @@ const card = {
   display: "inline-block",
   position: "relative",
   width: "100%",
+  height: '100%',
   margin: "25px 0",
   boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
   borderRadius: "3px",
@@ -96,7 +97,8 @@ const cardActions = {
 const cardHeader = {
   margin: "-20px 15px 0",
   borderRadius: "3px",
-  padding: "15px"
+  padding: "15px",
+  width: '250px'
 };
 
 const defaultBoxShadow = {

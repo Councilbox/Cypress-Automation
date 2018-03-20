@@ -98,7 +98,7 @@ class Login extends React.PureComponent {
                                     color={'transparent'}
                                     fullWidth
                                     buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                 />
                             </div>
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>                            
@@ -107,7 +107,7 @@ class Login extends React.PureComponent {
                                         text="Dar de alta mi empresa"
                                         color={'white'}
                                         fullWidth
-                                        textStyle={{color: primary, fontWeight: '700', fontSize: '0.8em', textTransform: 'none'}}
+                                        textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                         textPosition="before"
                                     />
                                 </Link>

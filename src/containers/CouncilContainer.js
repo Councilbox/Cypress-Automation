@@ -9,7 +9,6 @@ import CouncilsWriting from '../components/councilSections/CouncilsWriting';
 import CouncilsTrash from '../components/councilSections/CouncilsTrash';
 
 const CouncilContainer = ({match, company, translate}) => {
-
     const tabsIndex = {
         drafts: 0,
         calendar: 1,
@@ -43,6 +42,11 @@ const CouncilContainer = ({match, company, translate}) => {
             text: translate.signature_trash,
             link: `/company/${company.id}/councils/trash`,
             component: () => {return(<CouncilsTrash  company={company} translate={translate} />)}
+        },
+        {
+            text: `${translate.dashboard_new}`,
+            link: `/company/${company.id}/council/new`,
+            add: true
         }
     ]
 

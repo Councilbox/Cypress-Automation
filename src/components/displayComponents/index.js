@@ -1,6 +1,7 @@
 export { default as AgendaNumber } from './AgendaNumber';
 export { default as AlertConfirm } from './AlertConfirm';
 export { default as BasicButton } from './BasicButton';
+export { default as ButtonIcon } from './ButtonIcon';
 export { default as CardPageLayout } from './CardPageLayout';
 export { default as Checkbox } from './CheckBox';
 export { default as CollapsibleSection } from './CollapsibleSection';
@@ -16,6 +17,7 @@ export { default as Link } from './LinkWithoutStyling';
 export { default as LoadingMainApp } from './LoadingMainApp';
 export { default as LoadingSection } from './LoadingSection';
 export { default as MenuItem } from './MenuItem';
+export { default as MobileStepper } from './MobileStepper';
 export { default as Popover } from './Popover';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Radio } from './Radio';

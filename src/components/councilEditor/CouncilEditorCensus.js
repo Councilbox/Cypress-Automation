@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { MenuItem } from 'material-ui';
-import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, Icon } from '../displayComponents';
+import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, ButtonIcon } from '../displayComponents';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
@@ -120,7 +120,7 @@ class CouncilEditorCensus extends Component {
                     text={translate.want_census_change}
                     color={getPrimary()}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>cached</Icon>}
+                    icon={<ButtonIcon type="save" color="white" />}
                     textPosition="after"
                     onClick={this.sendCensusChange} 
                 />
@@ -147,7 +147,7 @@ class CouncilEditorCensus extends Component {
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
                 <div className="row">
-                    <div className="col-lg-4 col-md-4 col-xs-6">
+                    <div className="col-lg-3 col-md-3 col-xs-6" style={{height: '4em', verticalAlign: 'middle'}}>
                         <SelectInput
                             floatingText={translate.current_census}
                             value={council.selectedCensusId}
@@ -159,43 +159,51 @@ class CouncilEditorCensus extends Component {
                             }
                         </SelectInput>
                     </div>
+                    <div className="col-lg-3 col-md-3 col-xs-6" style={{height: '4em', display: 'flex', alignItems: 'center'}}>
+                        <BasicButton
+                            text={translate.add_participant}
+                            color={getPrimary()}
+                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                            icon={<ButtonIcon type="add" color="white" />}
+                            textPosition="after"
+                            onClick={() => this.setState({ addParticipantModal: true})} 
+                        />
+                    </div>
                 </div>
-                <BasicButton
-                    text={translate.add_participant}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
-                    textPosition="after"
-                    onClick={() => this.setState({ addParticipantModal: true})} 
-                />
-                <BasicButton
-                    text={translate.save}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
-                    textPosition="after"
-                    onClick={this.saveDraft} 
-                />
-                <BasicButton
-                    text={translate.previous}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.previousPage}
-                />
-                <BasicButton
-                    text={translate.table_button_next}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.nextPage}
-                />
                 <ParticipantsTable
                     participants={council.participants}
                     councilID={this.props.councilID}
                     translate={translate}
                     refetch={this.props.data.refetch}
                 />
+                <div className="row" style={{marginTop: '2em'}}>
+                    <div className="col-lg-12 col-md-12 col-xs-12">
+                        <div style={{float: 'right'}}>
+                            <BasicButton
+                                text={translate.previous}
+                                color={getPrimary()}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                textPosition="after"
+                                onClick={this.previousPage}
+                            />
+                            <BasicButton
+                                text={translate.save}
+                                color={getPrimary()}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', marginLeft: '0.5em', marginRight: '0.5em', textTransform: 'none'}}
+                                icon={<ButtonIcon type="save" color="white" />}
+                                textPosition="after"
+                                onClick={this.saveDraft} 
+                            />
+                            <BasicButton
+                                text={translate.table_button_next}
+                                color={getPrimary()}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                textPosition="after"
+                                onClick={this.nextPage}
+                            />
+                        </div>
+                    </div>
+                </div>
                 <Dialog
                     disableBackdropClick={false}
                     open={this.state.censusChangeAlert}

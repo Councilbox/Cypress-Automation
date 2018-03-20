@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MenuItem} from 'material-ui';
-import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert, Icon } from "../displayComponents";
+import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert, ButtonIcon } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
@@ -121,46 +121,23 @@ class CouncilEditorNotice extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-                <h4>{translate.date_time_place}</h4>
-                <h5>{`${translate.new_location_of_celebrate}: `}{
-                    this.state.data.remoteCelebration === 1 ? 
-                        translate.remote_celebration 
-                    : 
-                        `${council.street}, ${council.country}` }</h5>
-                <BasicButton
-                    text={translate.change_location}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={() => this.setState({placeModal: true})}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>location_on</Icon>}
-                />
-                <BasicButton
-                    text={translate.save}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
-                    textPosition="after"
-                    onClick={this.updateCouncil} 
-                />
-                <BasicButton
-                    text={translate.next}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.nextPage}
-                />
-                <PlaceModal
-                    open={this.state.placeModal}
-                    close={() => this.setState({placeModal: false})}
-                    place={this.state.place}
-                    countries={this.props.data.countries}
-                    translate={this.props.translate}
-                    saveAndClose={this.savePlaceAndClose}
-                    council={this.state.data}
-                />
-                <br/>
-                <div className="row">
+                <div className="row" >
+                    <div className="col-lg-12 col-md-12 col-xs-12" style={{height: '4em', verticalAlign: 'middle', display: 'flex', alignItems: 'center'}}>
+                        <BasicButton
+                            text={translate.change_location}
+                            color={getPrimary()}
+                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                            textPosition="after"
+                            onClick={() => this.setState({placeModal: true})}
+                            icon={<ButtonIcon type="location_on" color="white" />}
+                        />
+                        <h6 style={{marginLeft: '1.5em'}}><b>{`${translate.new_location_of_celebrate}: `}</b>{
+                            this.state.data.remoteCelebration === 1 ? 
+                                translate.remote_celebration 
+                            : 
+                                `${council.street}, ${council.country}` }
+                        </h6>
+                    </div>
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <SelectInput
                             floatingText={translate.council_type}
@@ -198,32 +175,65 @@ class CouncilEditorNotice extends Component {
                             value={council.dateStart}
                         />
                     </div>
+                    <div className="col-lg-5 col-md-6 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
+                        <TextInput
+                            floatingText={translate.convene_header}
+                            type="text"
+                            errorText={this.state.errors.name}
+                            value={council.name || ''}
+                            onChange={(event) => this.setState({
+                                ...this.state,
+                                data: {
+                                    ...this.state.data,
+                                    name: event.nativeEvent.target.value
+                                }
+                            })}
+                        />
+                    </div>
+                    <div className="col-lg-10 col-md-10 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
+                        <RichTextInput
+                            errorText=''
+                            floatingText={translate.convene_info}
+                            value={council.conveneText || ''}
+                            onChange={(value) => this.setState({
+                                ...this.state,
+                                data: {
+                                    ...this.state.data,
+                                    conveneText: value
+                                }
+                            })}
+                        />
+                    </div>
                 </div>
-                <TextInput
-                    floatingText={translate.convene_header}
-                    type="text"
-                    errorText={this.state.errors.name}
-                    value={council.name || ''}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            name: event.nativeEvent.target.value
-                        }
-                    })}
-                /><br />
-                <RichTextInput
-                    errorText=''
-                    floatingText={translate.convene_info}
-                    value={council.conveneText || ''}
-                    onChange={(value) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            conveneText: value
-                        }
-                    })}
-                />
+
+                <div style={{marginTop: '2em', width: '40%', float: 'right', height: '3em'}}>
+                    <BasicButton
+                        text={translate.save}
+                        color={getPrimary()}
+                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none', marginRight: '0.6em'}}
+                        icon={<ButtonIcon type="save" color="white" />}
+                        textPosition="after"
+                        onClick={this.updateCouncil} 
+                    />
+                    <BasicButton
+                        text={translate.next}
+                        color={getPrimary()}
+                        icon={<ButtonIcon type="arrow_forward" color="white" />}                        
+                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                        textPosition="after"
+                        onClick={this.nextPage}
+                    />
+                </div>
+
+                <PlaceModal
+                    open={this.state.placeModal}
+                    close={() => this.setState({placeModal: false})}
+                    place={this.state.place}
+                    countries={this.props.data.countries}
+                    translate={this.props.translate}
+                    saveAndClose={this.savePlaceAndClose}
+                    council={this.state.data}
+                />  
                 <ErrorAlert
                     title={translate.error}
                     bodyText={translate.check_form}
@@ -250,4 +260,3 @@ export default compose(
         name: "updateCouncil"
     })
 )(CouncilEditorNotice);
- 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { CardPageLayout } from '../displayComponents';
+import { CardPageLayout, MobileStepper } from '../displayComponents';
+import RegularCard from '../displayComponents/RegularCard';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import CouncilEditorNotice from './CouncilEditorNotice';
 import CouncilEditorCensus from './CouncilEditorCensus';
@@ -8,6 +9,7 @@ import CouncilEditorAttachments from './CouncilEditorAttachments';
 import CouncilEditorOptions from './CouncilEditorOptions';
 import CouncilEditorPreview from './CouncilEditorPreview';
 import { bHistory } from '../../containers/App';
+import withWindowSize from '../../HOCs/withWindowSize';
 
 
 class CouncilEditorPage extends React.Component {
@@ -18,6 +20,15 @@ class CouncilEditorPage extends React.Component {
             step: parseInt(this.props.step, 10),
             actualStep: parseInt(this.props.step, 10)
         };
+    }
+
+    componentDidMount(){
+        this.props.updateSize();
+        window.addEventListener('resize', this.props.updateSize);
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.props.updateSize);
     }
 
     componentWillReceiveProps(nextProps){
@@ -56,34 +67,42 @@ class CouncilEditorPage extends React.Component {
 
 
     render() {
-        const { translate } = this.props;
+        const { translate, size } = this.props;
 
         return(
             <CardPageLayout title={translate.dashboard_new}>
-                <div style={{display: 'flex', flexDirection: 'row', height: '100%'}}>
-                    <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '15%', height: '100%'}}>
-                        <Stepper activeStep={this.state.step - 1} orientation="vertical">
-                            <Step>
-                                <StepLabel>{translate.wizard_convene}</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>{translate.census}</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>{translate.wizard_agenda}</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>{translate.wizard_attached_documentation}</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>{translate.wizard_options}</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel>{translate.wizard_preview}</StepLabel>
-                            </Step>
-                        </Stepper>
+                <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                    <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
+                        {size === 'xs'? 
+                            <MobileStepper
+                                active={this.state.step - 1}
+                                total={6}
+                            
+                            />
+                        :
+                            <Stepper activeStep={this.state.step - 1} orientation="horizontal">
+                                <Step>
+                                    <StepLabel>{translate.wizard_convene}</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>{translate.census}</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>{translate.wizard_agenda}</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>{translate.wizard_attached_documentation}</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>{translate.wizard_options}</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>{translate.wizard_preview}</StepLabel>
+                                </Step>
+                            </Stepper>
+                        }
                     </div>
-                    <div style={{width: '80%'}}>
+                    <div style={{width: '100%'}}>
                         {this.state.step === 1 &&
                             <CouncilEditorNotice 
                                 nextStep={this.nextStep}
@@ -151,4 +170,4 @@ class CouncilEditorPage extends React.Component {
   
 }
 
-export default CouncilEditorPage;
+export default withWindowSize(CouncilEditorPage);

@@ -35,7 +35,13 @@ class AgendaSelector extends Component {
                     votingTypes={this.props.votingTypes}
                     councilID={this.props.councilID}
                     refetch={this.props.refetch}
-                />
+                >
+                    <AgendaNumber
+                        index={'+'}
+                        active={false}
+                        secondaryColor={'#888888'}
+                    />
+                </NewAgendaPointModal>
                 {council.statute.canReorderPoints === 1 &&
                     <ReorderPointsModal
                         translate={translate}

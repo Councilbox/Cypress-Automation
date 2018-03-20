@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import LanguageSelector from './menus/LanguageSelector';
 import UserMenu from './menus/UserMenu';
 
-
 class Header extends Component{
 
     logout = () => {

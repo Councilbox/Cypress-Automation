@@ -19,33 +19,28 @@ import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
 import CompanyDraftList from '../components/companyDraft/CompanyDraftList';
 import { sideBarRoutes } from '../routes';
-
+import "perfect-scrollbar/css/perfect-scrollbar.css";
+import appStyle from "../styles/appStyle.jsx";
+import image from "../assets/img/sidebar-2.jpg";
+import { withStyles } from 'material-ui';
 
 class AppRouter extends Component {
-
     constructor(props){
         super(props);
         this.state = {
             sideWidth: 5,
-            open: false
+            mobileOpen: false
         }    
     }
 
-    toggleMenu = () => {
-        if(this.state.sideWidth === 20){
-            this.setState({
-                sideWidth: 5,
-                open: false
-            });
-        }else{
-            this.setState({
-                sideWidth: 20,
-                open: true
-            });
-        }
-    }
+    handleDrawerToggle = () => {
+        this.setState({ mobileOpen: !this.state.mobileOpen });
+    };
+
+    
 
     render() {
+        const { translate } = this.props;
         if(this.props.main.loading || !this.props.translate){
             return(<LoadingMainApp />);
         }
@@ -54,11 +49,9 @@ class AppRouter extends Component {
             return(<LoadingMainApp />);
         }
 
-        const company = this.props.companies.list[this.props.companies.selected];
-
         return (
             this.props.main.isLogged?
-                <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>                                                      
+                <div style={{width: '100%', height: '100vh', position: 'relative'}}>                                                      
                     {/*<SideMenu
                         width={this.state.sideWidth}
                         companies={this.props.companies.list}
@@ -68,17 +61,15 @@ class AppRouter extends Component {
                         translate={this.props.translate}
                     />*/}
                     <Sidebar
-                        routes={sideBarRoutes}
-                        logoText={company.businessName}
-                        logo={company.logo}
-                        company={company}
+                        company={this.props.companies.list[this.props.companies.selected]}
+                        open={this.state.mobileOpen}
                         handleDrawerToggle={this.handleDrawerToggle}
-                        open={true}
+                        image={image}
+                        translate={translate}
                         color="blue"
-                        location={this.props.location}
                     />
 
-                    <div style={{width: `${100 - this.state.sideWidth}%`, height: '100%', display: 'flex', flexDirection: 'column'}}>
+                    <div className={this.props.classes.mainPanel}>
                         <Header user={this.props.user.name} translate={this.props.translate} />
                         <Switch>
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
@@ -115,4 +106,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-export default withRouter(connect(mapStateToProps)(AppRouter));
+export default withRouter(connect(mapStateToProps)(withStyles(appStyle)(AppRouter)));

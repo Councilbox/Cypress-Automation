@@ -41,6 +41,12 @@ const theme = createMuiTheme({
                      backgroundColor: secondary
                 }
             }
+        },
+
+        MuiStepper: {
+            root: {
+                backgroundColor: 'transparent'
+            }
         }
     }
 

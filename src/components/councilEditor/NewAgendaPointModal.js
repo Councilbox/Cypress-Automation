@@ -128,17 +128,12 @@ class NewAgendaPointModal extends Component {
     }
 
     render(){
-        const { translate } = this.props;
+        const { translate, children } = this.props;
  
         return(
             <Fragment>
-                <div style={{marginTop: '1em'}}>
-                    <AgendaNumber
-                        index={'+'}
-                        active={false}
-                        onClick={() => this.setState({newPointModal: true})}
-                        secondaryColor={'#888888'}
-                    />
+                <div onClick={() => this.setState({newPointModal: true})}>
+                    {children}
                 </div>
                 <AlertConfirm
                     requestClose={() => this.setState({newPointModal: false})}
