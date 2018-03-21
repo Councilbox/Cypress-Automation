@@ -2,21 +2,19 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, TextInput, RichTextInput, AgendaNumber } from '../displayComponents';
 import { MenuItem } from 'material-ui';
-import { addAgenda } from '../../queries';
+import { updateAgenda } from '../../queries';
 
 
-class NewAgendaPointModal extends Component {
+class PointEditor extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            newPoint: {
+            data: {
                 agendaSubject: '',
                 subjectType: '',
                 description: ''
             },
-
-            newPointModal: false,
 
             errors: {
                 agendaSubject: '',
@@ -25,55 +23,40 @@ class NewAgendaPointModal extends Component {
             }
         }
     }
-    
-    addAgenda = async () => {
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            data: {
+                ...nextProps.agenda
+            }
+        })
+    }
+
+    saveChanges = async () => {
         if(this.checkRequiredFields()){
-            const { newPoint } = this.state;
-            const response = await this.props.addAgenda({
+            const { __typename, ...data } = this.state.data;
+            const response = await this.props.updateAgenda({
                 variables: {
                     agenda: {
-                        councilId: this.props.councilID,
-                        subjectType: newPoint.subjectType,
-                        sortable: 1,
-                        majorityType: 1,
-                        majority: 1,
-                        majorityDivider: 3,
-                        description: newPoint.description,
-                        agendaSubject: newPoint.agendaSubject,
-                        orderIndex: this.props.agendas.length + 1
+                        ...data
                     }
                 }
-            })
+            });
             if(response){
                 this.props.refetch();
-                this.setState({
-                    newPoint: {
-                        agendaSubject: '',
-                        subjectType: '',
-                        description: ''
-                    },
-        
-                    newPointModal: false,
-        
-                    errors: {
-                        agendaSubject: '',
-                        subjectType: '',
-                        description: ''
-                    }
-    
-                })
+                this.props.requestClose();
             }
         }
     }
 
-    checkRequiredFields(){
+    checkRequiredFields() {
         return true;
     }
 
-    _renderNewPointBody = () => {
+    _renderModalBody = () => {
         const { translate } = this.props;
         const errors = this.state.errors;
-        const agenda = this.state.newPoint;
+        const agenda = this.state.data;
         
         return(
             <Fragment>
@@ -86,8 +69,8 @@ class NewAgendaPointModal extends Component {
                             value={agenda.agendaSubject}
                             onChange={(event) => {
                                 this.setState({
-                                    newPoint: {
-                                        ...this.state.newPoint,
+                                    data: {
+                                        ...this.state.data,
                                         agendaSubject: event.target.value
                                     }
                                 })
@@ -100,8 +83,8 @@ class NewAgendaPointModal extends Component {
                             value={agenda.subjectType}
                             onChange={(event, child) => {
                                 this.setState({
-                                    newPoint: {
-                                        ...this.state.newPoint,
+                                    data: {
+                                        ...this.state.data,
                                         subjectType: event.target.value
                                     }
                                 }) 
@@ -122,8 +105,8 @@ class NewAgendaPointModal extends Component {
                     value={agenda.description}
                     onChange={(value) => {                     
                         this.setState({
-                            newPoint: {
-                                ...this.state.newPoint,
+                            data: {
+                                ...this.state.data,
                                 description: value
                             }
                         })
@@ -134,27 +117,20 @@ class NewAgendaPointModal extends Component {
     }
 
     render(){
-        const { translate, children } = this.props;
+        const { title, open, translate, requestClose } = this.props;
  
         return(
-            <Fragment>
-                <div onClick={() => this.setState({newPointModal: true})}>
-                    {children}
-                </div>
-                <AlertConfirm
-                    requestClose={() => this.setState({newPointModal: false})}
-                    open={this.state.newPointModal}
-                    acceptAction={this.addAgenda}
-                    buttonAccept={translate.accept}
-                    buttonCancel={translate.cancel}
-                    bodyText={this._renderNewPointBody()}
-                    title={translate.new_point}
-                />
-            </Fragment>
+            <AlertConfirm
+                requestClose={requestClose}
+                open={open}
+                acceptAction={this.saveChanges}
+                buttonAccept={translate.accept}
+                buttonCancel={translate.cancel}
+                bodyText={this._renderModalBody()}
+                title={translate.edit}
+            />
         );
     }
 }
 
-export default graphql(addAgenda, {
-    name: 'addAgenda' 
-})(NewAgendaPointModal);
+export default graphql(updateAgenda, {name: 'updateAgenda'})(PointEditor);

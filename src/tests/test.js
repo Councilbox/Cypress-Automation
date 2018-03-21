@@ -77,3 +77,17 @@ describe('canToggleAgendaVoting', () => {
         ), true);
     })
 })
+
+describe('councilHasVideo', () => {
+    it('should return true when the councilType === 0', () => {
+        assert.equal(CBX.councilHasVideo({
+            councilType: 1
+        }), false);
+        assert.equal(CBX.councilHasVideo({
+            councilType: 'NO'
+        }), false);
+        assert.equal(CBX.councilHasVideo({
+            councilType: 0
+        }), true);
+    })
+})

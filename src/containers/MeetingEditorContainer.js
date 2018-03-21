@@ -3,14 +3,12 @@ import MeetingEditorPage from "../components/meetingEditor/MeetingEditorPage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const MeetingEditorContainer = ({main, company, user, council, match, actions}) => {
+const MeetingEditorContainer = ({translate, council, match}) => {
     return (
         <MeetingEditorPage
-            main={main}
-            company={company}
-            user={user}
             council={council}
-            step={council.step}
+            step={match.params.step}
+            translate={translate}
             companyID={match.params.company}
             councilID={match.params.id}
         />
@@ -18,9 +16,7 @@ const MeetingEditorContainer = ({main, company, user, council, match, actions}) 
 }
 
 const mapStateToProps = (state) => ({
-    main: state.main,
-    company: state.companies.list[state.companies.selected],
-    user: state.user,
+    translate: state.translate,
     council: state.council
 });
 

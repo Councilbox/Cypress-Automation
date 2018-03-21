@@ -1,10 +1,11 @@
 import React from 'react';
-import * as councilActions from '../../actions/councilActions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Card, CardContent } from 'material-ui';
-import { lightGrey } from '../../styles/colors';
-import {Step, Stepper, StepLabel } from 'material-ui/Stepper';
+import { CardPageLayout, MobileStepper } from '../displayComponents';
+import RegularCard from '../displayComponents/RegularCard';
+import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
+import { bHistory } from '../../containers/App';
+import withWindowSize from '../../HOCs/withWindowSize';
+import MeetingEditorConfig from './MeetingEditorConfig';
+import MeetingEditorCensus from './MeetingEditorCensus';
 
 
 class MeetingEditorPage extends React.Component {
@@ -12,37 +13,36 @@ class MeetingEditorPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: this.props.step || 5
+            step: +this.props.step || 1,
+            actualStep: 1
         };
     }
 
     componentDidMount(){
-        this.props.actions.getData({
-            councilID: this.props.councilID,
-            companyID: this.props.companyID,
-            step: this.state.step
+        this.props.updateSize();
+        window.addEventListener('resize', this.props.updateSize);
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            step: +nextProps.step
         });
-        this.props.actions.getParticipants(this.props.councilID);
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.props.updateSize);
     }
 
     nextStep = () => {
-        const index = this.state.step + 1;
+        const index = this.state.step + 1;        
+        bHistory.push(`/company/${this.props.companyID}/meeting/${this.props.councilID}/${index}`);
         this.setState({step: index});
-        this.props.actions.getData({
-            councilID: this.props.councilID,
-            companyID: this.props.companyID,
-            step: index
-        });
     }
 
     previousStep = () => {
         const index = this.state.step - 1;
+        bHistory.push(`/company/${this.props.companyID}/meeting/${this.props.councilID}/${index}`);        
         this.setState({step: index});
-        this.props.actions.getData({
-            councilID: this.props.councilID,
-            companyID: this.props.companyID,
-            step: index
-        });
     }
 
     send = () => {
@@ -63,47 +63,55 @@ class MeetingEditorPage extends React.Component {
 
 
     render() {
+        const { translate, size } = this.props;
+
         return(
-            <div style = {{display: 'flex', flexDirection: 'column', backgroundColor: lightGrey, height: '100%', alignItems: 'center', justifyContent: 'flex'}} >
-                <h3>Crear junta</h3>
-                <Card style={{width: '95%', padding: 0, borderRadius: '0.3em', overflow: 'auto'}} containerStyle={{padding: 0}}>
-                    <CardContent style={{padding: 0}}>
-                        <div style={{display: 'flex', flexDirection: 'row', height:'75vh'}}>
-                            <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '12em', height: '100%'}}>
-                                <Stepper activeStep={this.state.step - 1} orientation="vertical">
-                                    <Step>
-                                        <StepLabel>Convocatoria</StepLabel>
-                                    </Step>
-                                    <Step>
-                                        <StepLabel>Censo</StepLabel>
-                                    </Step>
-                                    <Step>
-                                        <StepLabel>Orden del día</StepLabel>
-                                    </Step>
-                                    <Step>
-                                        <StepLabel>Documentación</StepLabel>
-                                    </Step>
-                                    <Step>
-                                        <StepLabel>Opciones</StepLabel>
-                                    </Step>
-                                    <Step>
-                                        <StepLabel>Previsualización</StepLabel>
-                                    </Step>
-                                </Stepper>
-                            </div>
-                            Este va a ser el editor de meetings
-                        </div>
-                    </CardContent>
-                </Card>
-            </div>
+            <CardPageLayout title={translate.dashboard_new_meeting}>
+                <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
+                    <div style={{backgroundColor: 'lightgrey', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
+                        {size === 'xs'? 
+                            <MobileStepper
+                                active={this.state.step - 1}
+                                total={2}
+                            
+                            />
+                        :
+                            <Stepper activeStep={this.state.step - 1} orientation="horizontal">
+                                <Step>
+                                    <StepLabel>{translate.wizard_convene}</StepLabel>
+                                </Step>
+                                <Step>
+                                    <StepLabel>{translate.census}</StepLabel>
+                                </Step>
+                            </Stepper>
+                        }
+                    </div>
+                    <div style={{width: '100%'}}>
+                        {this.state.step === 1 &&
+                            <MeetingEditorConfig 
+                                nextStep={this.nextStep}
+                                actualStep={this.state.actualStep}
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate}
+                            />
+                        }
+                        {this.state.step === 2 &&
+                            <MeetingEditorCensus
+                                nextStep={this.nextStep}
+                                previousStep={this.previousStep}
+                                actualStep={this.state.actualStep}                                    
+                                councilID={this.props.councilID}
+                                companyID={this.props.companyID}
+                                translate={translate}
+                            />
+                        }
+                    </div>
+                </div>
+            </CardPageLayout>
         );
     }
   
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(councilActions, dispatch),
-    };
-}
 
-export default connect(null, mapDispatchToProps)(MeetingEditorPage);
+export default withWindowSize(MeetingEditorPage);

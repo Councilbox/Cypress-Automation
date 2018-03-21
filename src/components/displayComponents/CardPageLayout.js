@@ -23,10 +23,3 @@ const CardPageLayout = ({ children, title }) => (
 )
 
 export default CardPageLayout;
-/*        <Typography variant="headline" gutterBottom>
-            {title}
-        </Typography>
-
-<Card style={{width: '95%', height: '80vh', padding: 0, borderRadius: '0.3em', overflow: 'auto'}}>
-            {children}
-        </Card>   */

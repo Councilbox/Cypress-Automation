@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { CollapsibleSection, FileUploadButton, Icon } from '../displayComponents';
-import AttachmentList from '../councilEditor/AttachmentList';
+import AttachmentList from '../attachments/AttachmentList';
 import { darkGrey } from '../../styles/colors';
 import { addAgendaAttachment, removeAgendaAttachment } from '../../queries';
 import { maxFileSize } from '../../constants';

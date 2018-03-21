@@ -17,8 +17,8 @@ class CouncilEditorPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: parseInt(this.props.step, 10),
-            actualStep: parseInt(this.props.step, 10)
+            step: 1,
+            actualStep: 1
         };
     }
 
@@ -72,7 +72,7 @@ class CouncilEditorPage extends React.Component {
         return(
             <CardPageLayout title={translate.dashboard_new}>
                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                    <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
+                    <div style={{backgroundColor: 'lightgrey', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
                         {size === 'xs'? 
                             <MobileStepper
                                 active={this.state.step - 1}

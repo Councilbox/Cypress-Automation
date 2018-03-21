@@ -38,24 +38,25 @@ class CouncilEditorPreview extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-
-                <BasicButton
-                    text={translate.previous}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.props.previousStep}
-                />
-                <BasicButton
-                    text={translate.new_save_and_send}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.send}
-                />
+                <div style={{float: 'right'}}>
+                    <BasicButton
+                        text={translate.previous}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                        textPosition="after"
+                        onClick={this.props.previousStep}
+                    />
+                    <BasicButton
+                        text={translate.new_save_and_send}
+                        color={primary}
+                        textStyle={{color: 'white', fontWeight: '700', marginLeft: '0.3em', fontSize: '0.9em', textTransform: 'none'}}
+                        textPosition="after"
+                        onClick={this.send}
+                    />
+                </div>
                 {<div
                     dangerouslySetInnerHTML={{__html: this.props.data.councilPreviewHTML}}
-                    style={{border: `1px solid ${getSecondary()}`, padding: '2em'}} 
+                    style={{padding: '2em'}} 
                 />}
             </div>
         );

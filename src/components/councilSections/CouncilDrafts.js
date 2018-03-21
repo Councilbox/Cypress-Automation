@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
+import withSharedProps from '../../HOCs/withSharedProps';
 import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { TableRow, TableCell } from 'material-ui/Table';
-import withSharedProps from '../../HOCs/withSharedProps';
 import Scrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 

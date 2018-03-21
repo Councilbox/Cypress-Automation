@@ -26,5 +26,8 @@ export const showAgendaVotingsToggle = (council, agenda) => {
         return true;
     }
     return false;
-    
+}
+
+export const councilHasVideo = (council) => {
+    return council.councilType === 0;
 }

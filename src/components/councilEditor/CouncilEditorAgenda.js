@@ -2,11 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { TextInput, BasicButton, Table, DeleteIcon, SelectInput, LoadingSection, RichTextInput, ErrorWrapper, ButtonIcon } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import { TableRow, TableCell } from 'material-ui/Table';
-import { MenuItem, Typography } from 'material-ui';
+import { MenuItem, Typography, IconButton } from 'material-ui';
 import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
+import PointEditor from './PointEditor';
 import Divider from 'material-ui/Divider';
+import { ModeEdit, DeleteForever } from 'material-ui-icons';
 
 
 class CouncilEditorAgenda extends Component {
@@ -15,7 +17,8 @@ class CouncilEditorAgenda extends Component {
         super(props);
         this.state = {
             votingTypes: [],
-            snackbar: true,
+            edit: false,
+            editIndex: 0,
             agendas: [],
             errors: {
                 agendaSubject: '',
@@ -80,85 +83,11 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
-    _renderAgendaBlock(agenda, index){
-        const errors = this.state.errors;
-        const { translate } = this.props;
-        const { votingTypes } = this.props.data;
-
-        /*
-                <div onClick={() => this.removeAgenda(agenda.id)}>
-                    X
-                </div>
-        */
-
-        return(
-            <div key={`agenda${agenda.id}`} style={{width: '90%', position: 'relative', padding: '1.5em', border: `1px solid ${getPrimary()}`, borderRadius: '4px'}} className="row">
-                <div onClick={() => this.removeAgenda(agenda.id)} style={{position: 'absolute', top: '10px', right: '10px'}}>
-                    X
-                </div>
-                <div className="col-lg-6 col-md-6 col-xs-6" style={{height: '5em', display: 'flex', aligItems: 'center'}}>
-                    <TextInput
-                        floatingText={translate.convene_header}
-                        type="text"
-                        errorText={errors.agendaSubject}
-                        value={agenda.agendaSubject}
-                        onChange={(event) => {
-                            let agendas = [...this.state.agendas];
-                            let newAgenda = {...agendas[index]};
-                            newAgenda.agendaSubject = event.nativeEvent.target.value;
-                            agendas[index] = newAgenda;
-                            this.setState({
-                                agendas: agendas
-                            })
-                        }}
-                    />
-                </div>
-                <div className="col-lg-3 col-md-4 col-xs-6" style={{height: '5em', display: 'flex', aligItems: 'center'}}>
-                    <SelectInput
-                        floatingText={translate.type}
-                        value={agenda.subjectType}
-                        onChange={(event, position, value) => {
-                            let agendas = [...this.state.agendas];
-                            let newAgenda = {...agendas[index]};
-                            newAgenda.subjectType = event.target.value;
-                            agendas[index] = newAgenda;
-                            this.setState({
-                                agendas: agendas
-                            }) 
-                        }}
-                    >
-                        {votingTypes.map((voting) => {
-                                return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
-                            })
-                        }
-                    </SelectInput>
-                </div>
-
-                <div className="col-lg-12 col-md-12 col-xs-12">
-                    <RichTextInput
-                        floatingText={translate.description}
-                        type="text"
-                        errorText={errors.description}
-                        value={agenda.description}
-                        onChange={(value) => {                     
-                            let agendas = [...this.state.agendas];
-                            let newAgenda = {...agendas[index]};
-                            newAgenda.description = value;
-                            agendas[index] = newAgenda;
-                            this.setState({
-                                agendas: agendas
-                            })
-                        }}
-                    />
-                </div>
-            </div>
-        );
-    }
-
     render(){
         const { translate } = this.props;
         const { votingTypes, errors, council } = this.props.data;
         const primary = getPrimary();
+        const secondary = getSecondary();
 
         if(this.props.data.loading){
             return(
@@ -200,16 +129,24 @@ class CouncilEditorAgenda extends Component {
                     </div>
                 </div>
                 <Table
-                    headers={[{},{},{}]}
+                    headers={[
+                        {name: translate.convene_header},
+                        {name: translate.description},
+                        {},
+                        {},
+                        {}
+                    ]}
                 >
                     {this.state.agendas.map((agenda, index) => {
                         return (
                             <TableRow                         
                                 key={`agenda_${agenda.id}`} 
                             >
-                                <TableCell>{agenda.agendaSubject}</TableCell>
+                                <TableCell style={{padding: 0}}>{agenda.agendaSubject}</TableCell>
                                 <TableCell><div dangerouslySetInnerHTML={{ __html: agenda.description }} /></TableCell>
-                                <TableCell>Delete</TableCell>                  
+                                <TableCell>{agenda.subjectType}</TableCell>                                
+                                <TableCell><IconButton onClick={() => this.setState({edit: true, editIndex: index})}><ModeEdit style={{color: secondary }} /></IconButton></TableCell>
+                                <TableCell><IconButton onClick={() => this.removeAgenda(agenda.id)}><DeleteForever style={{color: secondary }} /></IconButton></TableCell>                  
                             </TableRow>
                         )
                     })}
@@ -243,6 +180,14 @@ class CouncilEditorAgenda extends Component {
                         </div>
                     </div>
                 </div>
+                <PointEditor
+                    translate={translate}
+                    open={this.state.edit}
+                    agenda={council.agendas[this.state.editIndex]}
+                    votingTypes={votingTypes}
+                    refetch={this.props.data.refetch}
+                    requestClose={() => this.setState({edit: false})}
+                />
             </div>
         );
     }
@@ -264,5 +209,3 @@ export default compose(
         name: 'updateCouncil'
     })
 )(CouncilEditorAgenda);
-
-//this._renderAgendaBlock(agenda, index);

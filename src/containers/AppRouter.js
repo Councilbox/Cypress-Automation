@@ -18,8 +18,6 @@ import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
 import CompanyDraftList from '../components/companyDraft/CompanyDraftList';
-import { sideBarRoutes } from '../routes';
-import "perfect-scrollbar/css/perfect-scrollbar.css";
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
@@ -52,14 +50,6 @@ class AppRouter extends Component {
         return (
             this.props.main.isLogged?
                 <div style={{width: '100%', height: '100vh', position: 'relative'}}>                                                      
-                    {/*<SideMenu
-                        width={this.state.sideWidth}
-                        companies={this.props.companies.list}
-                        company={this.props.companies.list[this.props.companies.selected]}
-                        toggleMenu={this.toggleMenu}
-                        open={this.state.open}
-                        translate={this.props.translate}
-                    />*/}
                     <Sidebar
                         company={this.props.companies.list[this.props.companies.selected]}
                         open={this.state.mobileOpen}
@@ -81,7 +71,7 @@ class AppRouter extends Component {
                             <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
-                            <Route exact path="/company/:company/meeting/:id" component={MeetingEditorContainer} />
+                            <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
                             <Route exact path="/company/:company/censuses" component={CompanyDraftList} />
                             <Route exact path="/company/:company/drafts" component={CompanyDraftList} />                            
                             <Route path="*" component={NotFound}/>

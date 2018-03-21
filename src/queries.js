@@ -107,6 +107,7 @@ export const councilStepOne = gql`
       conveneText
       name
       street
+      fullVideoRecord
       remoteCelebration
       country
       countryState
@@ -728,6 +729,9 @@ export const councilLiveQuery =  gql`
       proposedActSent
       prototype
       quorumPrototype
+      room {
+        htmlVideoCouncil
+      }
       satisfyQuorum
       secretary
       securityKey
@@ -886,6 +890,14 @@ export const updateAgendas = gql`
       totalManual
       totalVotings
       votingState
+    }
+  }
+`;
+
+export const updateAgenda = gql`
+  mutation updateAgenda($agenda: AgendaInput){
+    updateAgenda(agenda: $agenda){
+      id
     }
   }
 `;

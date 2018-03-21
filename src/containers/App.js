@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AppRouter from './AppRouter';
 import { Router, Switch, Route } from 'react-router-dom';
 import CouncilLiveContainer from './CouncilLiveContainer';
+import MeetingLiveContainer from './MeetingLiveContainer';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
@@ -58,6 +59,7 @@ class App extends Component {
                     <Router history={bHistory}>
                         <Switch>
                             <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />
+                            <Route exact path="/company/:company/meeting/:id/live" component={MeetingLiveContainer} />                            
                             <Route path="/" component={AppRouter} />
                         </Switch>
                     </Router>
