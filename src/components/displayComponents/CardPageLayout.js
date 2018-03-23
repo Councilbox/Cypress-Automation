@@ -1,7 +1,5 @@
 import React from 'react';
 import { lightGrey } from '../../styles/colors';
-import { Card } from 'material-ui';
-import { Typography } from 'material-ui';
 import RegularCard from '../displayComponents/RegularCard';
 import Scrollbar from 'react-perfect-scrollbar';
 

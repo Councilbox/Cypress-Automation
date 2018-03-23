@@ -1,6 +1,5 @@
 import React from 'react';
 import { CardPageLayout, MobileStepper } from '../displayComponents';
-import RegularCard from '../displayComponents/RegularCard';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import CouncilEditorNotice from './CouncilEditorNotice';
 import CouncilEditorCensus from './CouncilEditorCensus';

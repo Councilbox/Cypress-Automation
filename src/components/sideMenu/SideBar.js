@@ -3,7 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import cx from "classnames";
 import { withStyles, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText } from "material-ui";
 import sidebarStyle from "../../styles/sidebarStyle";
-import { Dashboard, ContentPaste, BorderColor, ImportContacts, QuestionAnswer } from "material-ui-icons";
+import { Dashboard, ContentPaste, BorderColor, ImportContacts } from "material-ui-icons";
 
 class Sidebar extends Component {
 
@@ -60,7 +60,6 @@ class Sidebar extends Component {
 
   findActiveRoute = (pathname) => {
     let routeIndex = 0;
-    const { location } = this.props;
     this.routes.forEach((route, index) => {
       if(pathname.includes(route.name)){
         routeIndex = index;

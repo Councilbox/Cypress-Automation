@@ -1,11 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { MenuItem} from 'material-ui';
-import { BasicButton, TextInput, Radio, Checkbox, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert, ButtonIcon } from "../displayComponents";
+import { BasicButton, TextInput, Radio, Checkbox, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert, ButtonIcon } from "../displayComponents";
 import { Typography } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { councilStepOne, updateCouncil } from '../../queries';
-import { councilHasVideo } from '../../utils/CBX';
 
 class MeetingEditorConfig extends Component {
 

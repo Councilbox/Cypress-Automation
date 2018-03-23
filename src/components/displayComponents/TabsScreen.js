@@ -5,7 +5,6 @@ import '../../styles/react-tabs.css';
 import { Link } from 'react-router-dom';
 import { getPrimary } from '../../styles/colors';
 import { Add } from 'material-ui-icons';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 
 class TabsScreen extends React.Component {
@@ -21,9 +20,6 @@ class TabsScreen extends React.Component {
         this.setState({
             selectedTab: this.props.tabsIndex[this.props.selected]
         });
-        if(navigator.platform.indexOf('Win') > -1){
-            const ps = new PerfectScrollbar(this.refs.tabContent);
-        }
     }
 
     changeTab = (index) => {

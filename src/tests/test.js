@@ -89,5 +89,27 @@ describe('councilHasVideo', () => {
         assert.equal(CBX.councilHasVideo({
             councilType: 0
         }), true);
-    })
-})
+    });
+});
+
+
+/*
+- STATUTES
+
+EXISTE ACTA - DEPENDEN DE ESO -> 
+Se incluye en el libro de actas
+Se incluye lista de participantes en acta
+Plantillas de acta
+
+EXISTE SEGUNDA CONVOCATORIA ->
+Separación mínima entre 1.ª y 2.ª convocatoria
+Quorum asistencia 2.ª convocatoria
+
+EXISTE VOTO DELEGADO
+Existe n.º máximo de votos delegados
+
+SE LIMITA EL ACCESO A SALA DESPUES DEL INICIO REUNIÓN
+Tiempo máximo acceso permitido
+
+
+*

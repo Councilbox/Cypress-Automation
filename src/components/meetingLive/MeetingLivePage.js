@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { LoadingMainApp, Icon } from "../displayComponents";
+import { LoadingMainApp } from "../displayComponents";
 import LiveHeader from '../councilLive/LiveHeader';
 import { lightGrey, darkGrey } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';

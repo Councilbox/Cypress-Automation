@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, AgendaNumber } from '../displayComponents';
+import { AlertConfirm, SelectInput, TextInput, RichTextInput } from '../displayComponents';
 import { MenuItem } from 'material-ui';
 import { updateAgenda } from '../../queries';
 
@@ -117,7 +117,7 @@ class PointEditor extends Component {
     }
 
     render(){
-        const { title, open, translate, requestClose } = this.props;
+        const { open, translate, requestClose } = this.props;
  
         return(
             <AlertConfirm

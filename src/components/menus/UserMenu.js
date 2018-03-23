@@ -4,19 +4,20 @@ import * as mainActions from '../../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { MenuItem } from 'material-ui';
-import { Icon, DropDownMenu } from '../displayComponents';
+import { Icon, DropDownMenu, Link } from '../displayComponents';
 const secondary = getSecondary();
 
-const UserMenu = ({ username, actions }) => {
+const UserMenu = ({ user, actions, translate }) => {
     return(
         <DropDownMenu
             color="transparent"
-            text={username}
+            text={user.name}
             textStyle={{color: secondary}}
             type="flat"
             icon={<Icon className="material-icons" style={{color: secondary}}>keyboard_arrow_down</Icon>}
             items={
                 <Fragment>
+                    <MenuItem><Link to={`/user/${user.id}`}>{translate.settings}</Link></MenuItem>
                     <MenuItem onClick={() => actions.logout()}>Logout</MenuItem>
                 </Fragment>
             }

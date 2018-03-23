@@ -1,13 +1,12 @@
-import React, { Component, Fragment } from 'react';
-import { TextInput, BasicButton, Table, DeleteIcon, SelectInput, LoadingSection, RichTextInput, ErrorWrapper, ButtonIcon } from "../displayComponents";
+import React, { Component } from 'react';
+import { BasicButton, Table, LoadingSection, ErrorWrapper, ButtonIcon } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import { TableRow, TableCell } from 'material-ui/Table';
-import { MenuItem, Typography, IconButton } from 'material-ui';
+import { Typography, IconButton } from 'material-ui';
 import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
 import PointEditor from './PointEditor';
-import Divider from 'material-ui/Divider';
 import { ModeEdit, DeleteForever } from 'material-ui-icons';
 
 

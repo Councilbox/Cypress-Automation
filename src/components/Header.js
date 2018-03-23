@@ -25,7 +25,10 @@ class Header extends Component{
                         selectedLanguage={language}
                     />
                     {this.props.user &&
-                        <UserMenu username={this.props.user} />
+                        <UserMenu 
+                            user={this.props.user} 
+                            translate={this.props.translate}
+                        />
                     }
                 </div>
             </header>

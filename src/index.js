@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './containers/App';
-import registerServiceWorker, { unregister } from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 import './styles/index.css';
 import { ThemeProvider } from './components/displayComponents';
 

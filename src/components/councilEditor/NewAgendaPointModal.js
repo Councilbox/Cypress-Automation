@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, AgendaNumber } from '../displayComponents';
+import { AlertConfirm, SelectInput, TextInput, RichTextInput } from '../displayComponents';
 import { MenuItem } from 'material-ui';
 import { addAgenda } from '../../queries';
 

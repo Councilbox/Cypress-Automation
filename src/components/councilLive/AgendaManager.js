@@ -28,6 +28,7 @@ class AgendaManager extends Component {
                     <AgendaSelector
                         agendas={agendas}
                         council={council}
+                        votingTypes={this.props.votingTypes}
                         selected={this.state.selectedPoint}
                         onClick={this.changeSelectedPoint}
                         translate={translate}

@@ -23,7 +23,58 @@ export const getMe = gql`
             name
             surname
             id
+            roles
+            phone
+            email
+            preferred_language
         }
+    }
+`;
+
+export const updateUser = gql`
+    mutation updateUser($user: UserInput){
+      updateUser(user: $user){
+        name
+        surname
+        id
+        roles
+        phone
+        email
+        preferred_language
+      }
+    }
+`;
+
+export const updateCompany = gql`
+    mutation updateCompany($company: CompanyInput){
+      updateCompany(company: $company){
+        alias
+        tin
+        logo
+        id
+        businessName
+        address
+        city
+        zipcode
+        country
+        countryState
+        linkKey
+        creatorId
+        domain
+        demo
+        type
+        language
+        creationDate
+        corporationId
+      }
+    }
+`;
+
+export const updatePassword = gql`
+    mutation updatePassword($oldPassword: String!, $newPassword: String!){
+      updatePassword(oldPassword: $oldPassword, newPassword: $newPassword){
+        id
+      }
     }
 `;
 

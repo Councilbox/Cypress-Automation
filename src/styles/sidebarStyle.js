@@ -13,7 +13,6 @@ import {
   successColor,
   warningColor,
   dangerColor,
-  darkGrey
 } from "./styles";
 
 const sidebarStyle = theme => ({

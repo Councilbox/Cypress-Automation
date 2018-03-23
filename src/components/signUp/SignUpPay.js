@@ -45,15 +45,17 @@ class SignUpPay extends Component {
         }
     }
 
-    endForm = () => {
+    endForm = async () => {
         if(!this.checkRequiredFields()){
             //this.props.sendNewCompany(this.props.company);
-            //CouncilboxApi.createCompany(this.props.company);
+            const response = await CouncilboxApi.createCompany(this.props.formData);
+            console.log(response);
         }
     }
 
     checkRequiredFields(){
-        let errors = {
+        return false;
+        /*let errors = {
             address: '',
             city: '',
             country: '',
@@ -108,7 +110,7 @@ class SignUpPay extends Component {
 
         this.props.updateErrorse(errors);
         
-        return hasError;
+        return hasError;*/
     }
 
 
@@ -258,7 +260,7 @@ class SignUpPay extends Component {
                         text={translate.continue}
                         color={primary}
                         textStyle={{color: 'white', fontWeight: '700'}}
-                        onClick={this.nextPage}
+                        onClick={this.endForm}
                         fullWidth
                         icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                     />

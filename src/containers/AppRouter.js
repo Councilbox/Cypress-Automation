@@ -8,12 +8,13 @@ import Welcome from '../components/Welcome';
 import NotFound from "../components/NotFound";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import {connect} from "react-redux";
-import SideMenu from '../components/sideMenu/SideMenu';
 import Sidebar from '../components/sideMenu/SideBar';
 import DashboardContainer from './DashboardContainer';
 import CouncilEditorContainer from './CouncilEditorContainer';
 import CouncilPrepareContainer from './CouncilPrepareContainer';
 import MeetingEditorContainer from './MeetingEditorContainer';
+import CompanySettingsContainer from './CompanySettingsContainer';
+import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import { LoadingMainApp } from '../components/displayComponents';
@@ -60,10 +61,11 @@ class AppRouter extends Component {
                     />
 
                     <div className={this.props.classes.mainPanel}>
-                        <Header user={this.props.user.name} translate={this.props.translate} />
+                        <Header user={this.props.user} translate={this.props.translate} />
                         <Switch>
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />
+                            <Route exact path="/company/:company/settings" component={CompanySettingsContainer} />                            
                             <Route exact path="/company/:company/council/new" component={CreateCouncil} />
                             <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
                             <Route exact path="/company/:company/council/:id/:step" component={CouncilEditorContainer} />                           
@@ -73,7 +75,8 @@ class AppRouter extends Component {
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
                             <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
                             <Route exact path="/company/:company/censuses" component={CompanyDraftList} />
-                            <Route exact path="/company/:company/drafts" component={CompanyDraftList} />                            
+                            <Route exact path="/company/:company/drafts" component={CompanyDraftList} />
+                            <Route exact path="/user/:id" component={UserSettingsContainer} />                        
                             <Route path="*" component={NotFound}/>
                         </Switch>
                     </div>

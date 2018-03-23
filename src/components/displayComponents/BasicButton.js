@@ -1,16 +1,30 @@
 import React from 'react';
 import { Button } from 'material-ui';
+import { ButtonIcon } from './';
+import { CircularProgress } from 'material-ui/Progress';
 
-const BasicButton = ({ color, text, textStyle, buttonStyle, icon, type, textPosition, onClick, fullWidth }) => (
+
+const BasicButton = ({ color, error, text, textStyle, buttonStyle, icon, type, textPosition, onClick, fullWidth, loading, success }) => (
     <Button
-        style={{...buttonStyle, ...textStyle, backgroundColor: color}}
+        style={{...buttonStyle, ...textStyle, backgroundColor: success? 'green' : error? 'red' : color}}
         variant={type}
         onClick={onClick}
-        icon={icon}
         fullWidth={fullWidth}
     >
         {text}
-        {icon}
+        {success?
+            <ButtonIcon type="checkIcon" color="white" /> 
+        :
+            error?
+                <ButtonIcon type="clear" color="white" /> 
+            :
+                loading?
+                    <div style={{color: 'white', marginLeft: '0.3em'}}>
+                        <CircularProgress size={12} color={'inherit'} />
+                    </div>
+                :
+                    icon
+        }
     </Button>
 );
 

@@ -2,11 +2,11 @@ import React from 'react';
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Card, CardActions, CardContent } from 'material-ui';
+import { Card } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { login } from '../queries';
 import { getPrimary } from '../styles/colors';
-import { BasicButton, Icon, TextInput, Link } from './displayComponents';
+import { BasicButton, ButtonIcon, TextInput, Link } from './displayComponents';
 
 
 class Login extends React.PureComponent {
@@ -24,6 +24,7 @@ class Login extends React.PureComponent {
     }
 
     login = async () => {
+        const { translate } = this.props;
         if(!this.checkRequiredFields()){
             const response = await this.props.mutate({
                 variables: {
@@ -31,6 +32,29 @@ class Login extends React.PureComponent {
                     password: this.state.password
                 }
             });
+            if(response.errors){
+                switch(response.errors[0].message){
+                    case 'Incorrect password':
+                        this.setState({
+                            errors: {
+                                password: translate.password_err
+                            }
+                        })
+                        break;
+                    case 'Not found':
+                        this.setState({
+                            errors: {
+                                user: translate.email_not_found
+                            }
+                        });
+                        break;
+
+                    default:
+                        return;
+
+                }
+
+            }
             if(response.data.login){
                 this.props.actions.loginSuccess(response.data.login.token);
             }
@@ -150,7 +174,7 @@ class Login extends React.PureComponent {
                                 textPosition="before"
                                 onClick={this.login}
                                 fullWidth={true}
-                                icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
+                                icon={<ButtonIcon color='white' type="arrow_forward" />}
                             />
                             <Link to="/">¿Has olvidado tu contraseña?"</Link>  
                         </div>
@@ -166,4 +190,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(graphql(login)(Login));
+export default connect(null, mapDispatchToProps)(graphql(login, {options: {errorPolicy: 'all'}})(Login));

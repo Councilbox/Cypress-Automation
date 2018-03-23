@@ -1,5 +1,5 @@
 import CouncilboxApi from "../api/CouncilboxApi";
-import { bHistory, client } from '../containers/App';
+import { bHistory, client, store } from '../containers/App';
 import { loadingFinished } from './mainActions';
 import { companies } from '../queries';
 
@@ -18,6 +18,13 @@ export const getCompanies = (userId) => {
             dispatch(loadingFinished());
         }
     }
+}
+
+export const setCompany = (company) => {
+    const index = store.getState().companies.selected;
+    const companies = [...store.getState().companies.list];
+    companies[index] = company;
+    return({type: 'COMPANIES', value: companies});
 }
 
 export const changeCompany = (index) => (

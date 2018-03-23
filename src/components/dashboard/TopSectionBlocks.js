@@ -1,9 +1,10 @@
 import React from 'react';
 import { getPrimary, getSecondary, darkGrey, lightGrey } from '../../styles/colors';
-import { BasicButton, Icon, Link } from '../displayComponents';
+import { BasicButton, Icon } from '../displayComponents';
+import { Link } from 'react-router-dom';
 
 const Block = ({ children, button }) => (
-    <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
+    <React.Fragment>
         <div style={{paddingLeft: '1.5em', paddingRight: '1.5em', backgroundColor: darkGrey, height: '10em', color: getSecondary(), fontWeight: '700', border: `1px solid ${lightGrey}`, paddingTop: '3em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
             {children}
         </div>
@@ -12,7 +13,7 @@ const Block = ({ children, button }) => (
                 {button()}
             </div>
         }
-    </div>
+    </React.Fragment>
 )
 
 const estatutesButton = () => (
@@ -37,26 +38,40 @@ const censusesButton = () => (
     />
 )
 
-const TopSectionBlocks = ({ translate, company }) => (
+const TopSectionBlocks = ({ translate, company, user }) => (
     <div style={{width: '90%', flexDirection: 'row'}} className="row" >
-        <Block>
-            {translate.edit_company && translate.edit_company.toUpperCase()}
-            <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>work</Icon>            
-        </Block>
-        <Block button={estatutesButton}>
-            {translate.statutes && translate.statutes.toUpperCase()}
-            <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>gavel</Icon>
-        </Block>
-        <Block button={censusesButton}>
-            {translate.censuses && translate.censuses.toUpperCase()}
-            <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>person</Icon>
-        </Block>
-        <Link to={`/company/${company.id}/drafts`}>
-            <Block>
-                {translate.drafts && translate.drafts.toUpperCase()}
-                <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>class</Icon>
+        <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
+        
+            <Link to={`/company/${company.id}/settings`}>
+                <Block>
+                    {translate.edit_company && translate.edit_company.toUpperCase()}
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>work</Icon>          
+                </Block>
+            </Link>
+        </div>
+
+        <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
+            <Block button={estatutesButton}>
+                {translate.statutes && translate.statutes.toUpperCase()}
+                <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>gavel</Icon>
             </Block>
-        </Link>
+        </div>
+
+        <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>        
+            <Block button={censusesButton}>
+                {translate.censuses && translate.censuses.toUpperCase()}
+                <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>person</Icon>
+            </Block>
+        </div>
+
+        <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
+            <Link to={`/company/${company.id}/drafts`}>
+                <Block>
+                    {translate.drafts && translate.drafts.toUpperCase()}
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>class</Icon>
+                </Block>
+            </Link>
+        </div>
         
     </div>
 )

@@ -6,7 +6,7 @@ import MeetingLiveContainer from './MeetingLiveContainer';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
-import { setLanguage, setUserData, loadingFinished } from '../actions/mainActions';
+import { setLanguage, initUserData, loadingFinished } from '../actions/mainActions';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
@@ -45,7 +45,7 @@ store.dispatch(setLanguage('es'));
 export const bHistory = createHistory();
 if(sessionStorage.getItem('token')){
     store.dispatch({type: 'LOGIN_SUCCESS'});
-    store.dispatch(setUserData(sessionStorage.getItem('token')));
+    store.dispatch(initUserData());
 }else{
     store.dispatch(loadingFinished());
 }
