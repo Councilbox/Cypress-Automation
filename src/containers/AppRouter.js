@@ -14,9 +14,12 @@ import CouncilEditorContainer from './CouncilEditorContainer';
 import CouncilPrepareContainer from './CouncilPrepareContainer';
 import MeetingEditorContainer from './MeetingEditorContainer';
 import CompanySettingsContainer from './CompanySettingsContainer';
+import CompanyCensusContainer from './CompanyCensusContainer';
 import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
+import StatutesPage from '../components/statutes/StatutesPage';
+import CensusEditorPage from '../components/companyCensus/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../components/displayComponents';
 import CompanyDraftList from '../components/companyDraft/CompanyDraftList';
 import appStyle from "../styles/appStyle.jsx";
@@ -74,8 +77,10 @@ class AppRouter extends Component {
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
                             <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
-                            <Route exact path="/company/:company/censuses" component={CompanyDraftList} />
                             <Route exact path="/company/:company/drafts" component={CompanyDraftList} />
+                            <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
+                            <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />  
+                            <Route exact path="/company/:company/statutes" component={StatutesPage} />                                                        
                             <Route exact path="/user/:id" component={UserSettingsContainer} />                        
                             <Route path="*" component={NotFound}/>
                         </Switch>

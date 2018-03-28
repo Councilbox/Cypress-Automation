@@ -31,3 +31,7 @@ export const showAgendaVotingsToggle = (council, agenda) => {
 export const councilHasVideo = (council) => {
     return council.councilType === 0;
 }
+
+export const censusHasParticipations = (census) => {
+    return census.quorumPrototype === 1
+}

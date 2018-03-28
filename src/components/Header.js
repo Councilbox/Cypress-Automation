@@ -11,7 +11,7 @@ class Header extends Component{
     }
 
     render(){
-        const { language } = this.props.translate;
+        const language = this.props.translate.selectedLanguage;
 
         return(
             <header className="App-header" style={{height: '3em', display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>

@@ -110,12 +110,12 @@ class Sidebar extends Component {
 
   brand = () => (
     <div className={this.props.classes.logo}>
-      <a href="/" className={this.props.classes.logoLink}>
+      <span className={this.props.classes.logoLink}>
         <div className={this.props.classes.logoImage}>
           <img src={this.props.company.logo} alt="logo" className={this.props.classes.img} />
         </div>
         <span style={{fontSize: '0.9em', fontWeight: '700'}}>{this.props.company.businessName}</span>
-      </a>
+      </span>
     </div>
   );
 

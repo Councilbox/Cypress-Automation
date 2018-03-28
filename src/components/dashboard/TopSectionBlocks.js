@@ -51,17 +51,21 @@ const TopSectionBlocks = ({ translate, company, user }) => (
         </div>
 
         <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>
-            <Block button={estatutesButton}>
-                {translate.statutes && translate.statutes.toUpperCase()}
-                <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>gavel</Icon>
-            </Block>
+            <Link to={`/company/${company.id}/statutes`}> 
+                <Block button={estatutesButton}>
+                    {translate.statutes && translate.statutes.toUpperCase()}
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>gavel</Icon>
+                </Block>
+            </Link>
         </div>
 
-        <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>        
-            <Block button={censusesButton}>
-                {translate.censuses && translate.censuses.toUpperCase()}
-                <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>person</Icon>
-            </Block>
+        <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>     
+            <Link to={`/company/${company.id}/censuses`}> 
+                <Block button={censusesButton}>
+                    {translate.censuses && translate.censuses.toUpperCase()}
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>person</Icon>
+                </Block>
+            </Link>
         </div>
 
         <div className="col-lg-3 col-md-6 col-xs-6" style={{margin: 0, padding: 0}}>

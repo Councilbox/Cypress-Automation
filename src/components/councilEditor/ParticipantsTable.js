@@ -35,7 +35,7 @@ class ParticipantsTable extends Component {
         const { translate } = this.props;
 
         return(
-            <div style={{display: 'flex', width: '100%'}}>
+            <div style={{width: '100%'}}>
                 <Table
                     headers={[
                         {name: translate.name},
@@ -58,7 +58,7 @@ class ParticipantsTable extends Component {
                                 <TableCell>{participant.email}</TableCell>
                                 <TableCell>{participant.phone}</TableCell>
                                 <TableCell>{participant.position}</TableCell>     
-                                <TableCell>{participant.num_participations}</TableCell>
+                                <TableCell>{participant.numParticipations}</TableCell>
                                 <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>                  
                             </TableRow>
                         )

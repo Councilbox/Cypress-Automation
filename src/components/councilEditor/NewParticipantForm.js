@@ -532,9 +532,9 @@ export default graphql(addParticipant, {
 
 const newParticipantInitialValues = {
     language : 'es',
-    councilId : 2,
+    councilId : '',
     numParticipations : 1,
-    personOrEntity : 1,
+    personOrEntity : 0,
     name : '',
     dni : '',
     position : '',

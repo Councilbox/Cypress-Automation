@@ -12,6 +12,8 @@ export { default as DropDownMenu } from './DropDownMenu';
 export { default as ErrorAlert } from './ErrorAlert';
 export { default as ErrorWrapper } from './ErrorWrapper';
 export { default as FileUploadButton } from './FileUploadButton';
+export { default as Grid } from './Grid';
+export { default as GridItem } from './GridItem';
 export { default as Icon } from './Icon';
 export { default as Link } from './LinkWithoutStyling';
 export { default as LoadingMainApp } from './LoadingMainApp';

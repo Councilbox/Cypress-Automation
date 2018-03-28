@@ -215,6 +215,180 @@ export const councilStepTwo = gql`
   }
 `;
 
+export const censuses = gql`
+  query censuses($companyId: Int!){
+    censuses(companyId: $companyId){
+      id
+      companyId
+      censusName
+      censusDescription
+      defaultCensus
+      quorumPrototype
+      state
+      creatorId
+      creationDate
+      lastEdit
+    }
+  }
+`;
+
+export const deleteCensus = gql`
+  mutation deleteCensus($censusId: Int!){
+    deleteCensus(censusId: $censusId){
+      id
+    }
+  }
+`;
+
+export const census = gql`
+  query census($id: Int!){
+    census(id: $id){
+      id
+      companyId
+      censusName
+      censusDescription
+      defaultCensus
+      quorumPrototype
+      state
+      creatorId
+      creationDate
+      lastEdit
+    }
+  }
+`;
+
+export const censusParticipants = gql`
+  query censusParticipants($censusId: Int!){
+    censusParticipants(censusId: $censusId){
+      id
+      name
+      surname
+      position
+      email
+      phone
+      dni
+      type
+      delegateId
+      numParticipations
+      socialCapital
+      uuid
+      delegateUuid
+      position
+      language
+      city
+      personOrEntity
+    }
+  }
+`;
+
+
+export const addCensusParticipant = gql`
+  mutation addCensusParticipant($participant: CensusParticipantInput!, $representative: CensusParticipantInput){
+    addCensusParticipant(participant: $participant, representative: $representative){
+      id
+    }
+  }
+`;
+
+export const createCensus = gql`
+  mutation createCensus($census: CensusInput!){
+    createCensus(census: $census){
+      id
+    }
+  }
+`;
+
+export const statutes = gql`
+  query statutes($companyId: Int!){
+    companyStatutes(companyId: $companyId){
+      id
+      companyId
+      title
+      existPublicUrl
+      addParticipantsListToAct
+      existsAdvanceNoticeDays
+      advanceNoticeDays
+      existsSecondCall
+      minimumSeparationBetweenCall
+      firstCallQuorumType
+      firstCallQuorum
+      secondCallQuorumType
+      secondCallQuorum
+      existsDelegatedVote
+      delegatedVoteWay
+      existMaxNumDelegatedVotes
+      maxNumDelegatedVotes
+      existsPresentWithRemoteVote
+      existsLimitedAccessRoom
+      limitedAccessRoomMinutes
+      existsQualityVote
+      qualityVoteOption
+      canAddPoints
+      whoCanVote
+      canReorderPoints
+      existsAct
+      existsWhoWasSentAct
+      whoWasSentAct
+      includedInActBook
+      whoWasSentActWay
+      canUnblock
+      includeParticipantsList
+      existsWhoSignTheAct
+      prototype
+      intro
+      constitution
+      conclusion
+      actTemplate
+      conveneHeader
+      censusId
+      quorumPrototype
+      existsComments
+      firstCallQuorumDivider
+      secondCallQuorumDivider
+      canEditConvene
+      notifyPoints
+    }
+  }
+`;
+
+export const updateStatute = gql`
+  mutation updateStatute($statute: StatuteInput!){
+    updateCompanyStatute(statute: $statute){
+      id
+    }
+  }
+`;
+
+export const deleteStatute = gql`
+  mutation deleteStatute($statuteId: Int!){
+    deleteCompanyStatute(statuteId: $statuteId)
+  }
+`;
+
+export const createStatute = gql`
+  mutation createCompanyStatute($statute: StatuteInput!){
+    createCompanyStatute(statute: $statute){
+      id
+    }
+  }
+`;
+
+export const setDefaultCensus = gql`
+  mutation setDefaultCensus($censusId: Int!){
+    setDefaultCensus(censusId: $censusId){
+      id
+    }
+  }
+`;
+
+export const cloneCensus = gql`
+  mutation cloneCensus($census: CensusInput!){
+    cloneCensus(census: $census){
+      id
+    }
+  }
+`;
+
 export const councilStepThree = gql`
   query CouncilStepThree($id: Int!){
     council(id: $id){
@@ -1096,6 +1270,7 @@ export const countries = gql `
     }
   }
 `;
+
 
 
 

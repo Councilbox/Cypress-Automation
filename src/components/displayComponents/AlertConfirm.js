@@ -4,7 +4,7 @@ import BasicButton from './BasicButton';
 import { getPrimary } from '../../styles/colors';
 
 
-const AlertConfirm = ({ title, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
+const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
     const primary = getPrimary();
     const buttons = 
         <Fragment>
@@ -29,6 +29,9 @@ const AlertConfirm = ({ title, buttonAccept, buttonCancel, scrollable = false, m
     return(
         <Dialog
             disableBackdropClick={modal}
+            fullWidth={fullWidth}
+            fullScreen={fullScreen}
+            maxWidth="md"
             open={open}
             onClose={requestClose}
         >

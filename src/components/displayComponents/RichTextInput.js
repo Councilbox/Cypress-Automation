@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import RichTextEditor from 'react-rte';
+import { Typography } from 'material-ui';
 
 
 class RichTextField extends Component {
@@ -22,12 +23,17 @@ class RichTextField extends Component {
 
     render(){
         return(
-            <RichTextEditor
-                className={'text-editor'}
-                value={this.state.value}
-                onChange={this.onChange}
-                toolbarConfig={toolbarConfig}
-            />
+            <Fragment>
+                <Typography variant="body1">
+                    {this.props.floatingText}
+                </Typography>
+                <RichTextEditor
+                    className={'text-editor'}
+                    value={this.state.value}
+                    onChange={this.onChange}
+                    toolbarConfig={toolbarConfig}
+                />
+            </Fragment>
         )
     }
 }

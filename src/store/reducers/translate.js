@@ -6,7 +6,7 @@ export default function translateReducer(state = initialState.translate, action)
         case 'LOADED_LANG':
             return {
                 ...action.value,
-                language: action.selected
+                selectedLanguage: action.selected
             }
         default:
             return {
