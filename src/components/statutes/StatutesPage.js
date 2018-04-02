@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { graphql, compose } from 'react-apollo';
 import { LoadingSection, CardPageLayout, SelectInput, TextInput, Grid, AlertConfirm, GridItem, BasicButton, ButtonIcon, DeleteIcon } from '../displayComponents';
 import { MenuItem } from 'material-ui';
-import { statutes, updateStatute, deleteStatute } from '../../queries';
+import { statutes, updateStatute, deleteStatute, createStatute } from '../../queries';
 import { getPrimary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import StatuteEditor from './StatuteEditor';
@@ -34,6 +34,14 @@ class StatutesPage extends Component {
                 }
             });
         }
+    }
+
+    resetButtonStates = () => {
+        this.setState({
+            error: false,
+            loading: false,
+            success: false
+        });
     }
 
     updateStatute = async () => {
@@ -85,6 +93,37 @@ class StatutesPage extends Component {
         return false;
     }
 
+    createStatute = async () => {
+        if(this.state.newStatuteName){
+            const statute = {
+                title: this.state.newStatuteName,
+                companyId: this.props.company.id
+            }
+            const response = await this.props.createStatute({
+                variables: {
+                    statute: statute
+                }
+            });
+            if(!response.errors){
+                const updated = await this.props.data.refetch();
+                if(updated){
+                    this.setState({
+                        newStatute: false
+                    });
+                    this.handleStatuteChange(this.props.data.companyStatutes.length - 1);
+                }
+            }
+        }else{
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    newStatuteName: this.props.translate.required_field
+                }
+            })
+        }
+        
+    }
+
     updateState = (object) => {
         this.setState({
             statute: {
@@ -98,11 +137,14 @@ class StatutesPage extends Component {
     handleStatuteChange = (index) => {
         if(!this.state.unsavedChanges){
             this.setState({
-                selectedStatute: index,
-                statute: {
-                    ...this.props.data.companyStatutes[index]
-                }
-            })
+                statute: null
+            }, () => this.setState({
+                    selectedStatute: index,
+                    statute: {
+                        ...this.props.data.companyStatutes[index]
+                    }
+                })
+            );
         }else{
             alert('tienes cambios sin guardar');
         }
@@ -111,7 +153,7 @@ class StatutesPage extends Component {
     render(){
         const { loading, companyStatutes } = this.props.data;
         const { translate } = this.props;
-        const { statute, success, requesting, requestError } = this.state;
+        const { statute, success, requesting, requestError, errors } = this.state;
     
         if(loading){
             return <LoadingSection />
@@ -127,6 +169,7 @@ class StatutesPage extends Component {
                                 color={getPrimary()}
                                 error={requestError}
                                 success={success}
+                                reset={this.resetButtonStates}
                                 loading={requesting}
                                 textStyle={{color: 'white', fontWeight: '700'}}
                                 onClick={this.updateStatute}
@@ -137,7 +180,7 @@ class StatutesPage extends Component {
                                 color={getPrimary()}
                                 textStyle={{color: 'white', fontWeight: '700'}}
                                 onClick={() =>  this.setState({newStatute: true})}
-                                icon={<ButtonIcon type="save" color='white' />}
+                                icon={<ButtonIcon type="add" color='white' />}
                             />
                         </GridItem>
                         <GridItem xs={6} md={1} lg={1}>
@@ -160,33 +203,38 @@ class StatutesPage extends Component {
                         </GridItem>
                     </Grid>
                 </div>
-                <StatuteEditor
-                    statute={statute}
-                    translate={translate}
-                    updateState={this.updateState}
-                    errors={this.state.errors}
-                />
-                <AlertConfirm
-                    requestClose={() => this.setState({newStatute: false})}
-                    open={this.state.newStatute}
-                    acceptAction={this.createStatute}
-                    buttonAccept={translate.accept}
-                    buttonCancel={translate.cancel}
-                    bodyText={
-                        <TextInput
-                            floatingText={translate.council_type}
-                            required
-                            type="text"
-                            value={statute.newStatuteName}
-                            onChange={(event) => this.setState({
-                                    newStatuteName: event.target.value
-                                })
-                            }
+                {!!statute &&
+                    <Fragment>
+                        <StatuteEditor
+                            statute={statute}
+                            translate={translate}
+                            updateState={this.updateState}
+                            errors={this.state.errors}
                         />
-                    }
-                    title={translate.add_council_type}
-                />
-                            
+                    
+                        <AlertConfirm
+                            requestClose={() => this.setState({newStatute: false})}
+                            open={this.state.newStatute}
+                            acceptAction={this.createStatute}
+                            buttonAccept={translate.accept}
+                            buttonCancel={translate.cancel}
+                            bodyText={
+                                <TextInput
+                                    floatingText={translate.council_type}
+                                    required
+                                    type="text"
+                                    errorText={errors.newStatuteName}
+                                    value={statute.newStatuteName}
+                                    onChange={(event) => this.setState({
+                                            newStatuteName: event.target.value
+                                        })
+                                    }
+                                />
+                            }
+                            title={translate.add_council_type}
+                        />
+                    </Fragment>
+                }            
             </CardPageLayout>
         )
     }
@@ -198,6 +246,9 @@ export default withSharedProps()(withRouter(compose(
     }),
     graphql(deleteStatute, {
         name: 'deleteStatute'
+    }),
+    graphql(createStatute, {
+        name: 'createStatute'
     }),
     graphql(statutes, {
         options: (props) => ({

@@ -12,6 +12,12 @@ class RichTextField extends Component {
         }
     }
 
+    componentDidMount(){
+        this.setState({
+            value: RichTextEditor.createValueFromString(this.props.value, 'html')
+        });
+    }
+
     onChange = (value) => {
         this.setState({value});
         if(this.props.onChange) {
@@ -59,16 +65,3 @@ const toolbarConfig = {
   };
 
 export default RichTextField;
-
-/* 
-<TextField
-        floatingLabelText={floatingText}
-        floatingLabelFixed={true}
-        type={type}
-        multiLine={true}
-        rows={4}
-        value={value}
-        onChange={onChange}
-        errorText={errorText}
-    />
-*/

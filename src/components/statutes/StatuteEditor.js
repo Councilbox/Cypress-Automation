@@ -5,7 +5,7 @@ import { quorumTypes, censuses } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
 
-class StatuteEditor extends Component {
+class StatuteEditor extends React.PureComponent {
 
     render(){
         const { statute, translate, updateState, errors } = this.props;
@@ -280,7 +280,7 @@ class StatuteEditor extends Component {
                     <GridItem xs={12} md={4} lg={4}>
                         <SelectInput
                             floatingText={translate.associated_census}
-                            value={statute.censusId}
+                            value={statute.censusId || '-1'}
                             onChange={(event, child) => updateState({
                                     censusId: event.target.value
                                 }) 
@@ -341,7 +341,7 @@ class StatuteEditor extends Component {
                         <RichTextInput
                             errorText=''
                             floatingText={translate.convene_header}
-                            value={statute.conveneHeader || ''}
+                            value={!!statute.conveneHeader? statute.conveneHeader : ''}
                             onChange={(value) => updateState({
                                 conveneHeader: value
                             })}
