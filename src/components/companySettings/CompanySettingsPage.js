@@ -266,7 +266,7 @@ class CompanySettingsPage extends Component {
                             })}
                         />
                     </div>
-                    <div className="col-lg-2 col-md-2 col-xs-3" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                    <div className="col-lg-2 col-md-2 col-xs-3" style={{height: '3em', marginBottom: '2.2em'}}>
                         <SelectInput
                             floatingText={translate.company_new_country}
                             value={data.country}
@@ -278,7 +278,7 @@ class CompanySettingsPage extends Component {
                             })}
                         </SelectInput>
                     </div>
-                    <div className="col-lg-2 col-md-2 col-xs-3" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                    <div className="col-lg-2 col-md-2 col-xs-3" style={{height: '3em', marginBottom: '2.2em'}}>
                         <SelectInput
                             floatingText={translate.company_new_country_state}
                             value={data.countryState}

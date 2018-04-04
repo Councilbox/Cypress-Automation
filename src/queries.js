@@ -150,8 +150,16 @@ export const createCouncil = gql`
   }
 `;
 
+export const changeStatute = gql`
+  mutation changeCouncilStatute($councilId: Int!, $statuteId: Int!){
+    changeCouncilStatute(councilId: $councilId, statuteId: $statuteId){
+      id
+    }
+  }
+`;
+
 export const councilStepOne = gql`
-  query CouncilStepOne($id: Int!){
+  query CouncilStepOne($id: Int!, $companyId: Int!){
     council(id: $id){
       id
       councilType
@@ -166,6 +174,14 @@ export const councilStepOne = gql`
       city
       dateStart
       dateStart2NdCall
+      statute {
+        statuteId
+        title
+      }
+    }
+    companyStatutes(companyId: $companyId){
+      id
+      title
     }
     countries{
       id
@@ -293,6 +309,68 @@ export const addCensusParticipant = gql`
 export const createCensus = gql`
   mutation createCensus($census: CensusInput!){
     createCensus(census: $census){
+      id
+    }
+  }
+`;
+
+export const draftData = gql`
+  query statutes($companyId: Int!){
+    companyStatutes(companyId: $companyId){
+      title
+      id
+    }
+    draftTypes{
+      id
+      label
+      value
+    }
+    votingTypes{
+      value
+      label
+    }
+    majorityTypes{
+      label
+      value
+    }
+  }
+`;
+
+export const platformDrafts = gql`
+  query platformDrafts($companyId: Int!){
+    corporationDrafts(corporationId: 1){
+      categories
+      companyType
+      corporationId
+      councilType
+      description
+      id
+      language
+      majority
+      majorityDivider
+      majorityType
+      prototype
+      statuteId
+      text
+      title
+      type
+      userId
+      votationType
+    }
+    companyDrafts(companyId: $companyId){
+      draftId
+    }
+    draftTypes{
+      id
+      label
+      value
+    }
+  }
+`;
+
+export const createCompanyDraft = gql`
+  mutation createCompanyDraft($draft: CompanyDraftInput!){
+    createCompanyDraft(draft: $draft){
       id
     }
   }
@@ -1249,6 +1327,53 @@ export const liveParticipants = gql `
   }
 
 `;
+
+export const iframeURLTEMP = gql`
+  query councilRoomTEMP($councilId: Int!, $participantName: String!){
+    councilRoomTEMP(councilId: $councilId, participantName: $participantName)
+  }
+`;
+
+export const companyTypes = gql `
+  query CompanyTypes {
+    companyTypes {
+      label
+      value
+    }
+  }
+`;
+
+export const draftDetails = gql`
+  query draftDetails{
+    companyTypes{
+      label
+      value
+    }
+
+    draftTypes{
+      id
+      label
+      value
+    }
+
+    majorityTypes{
+      label
+      value
+    }
+
+    votingTypes{
+      value
+      label
+    }
+  }
+`;
+
+export const cloneDrafts = gql`
+  mutation clonePlatformDrafts($ids: [Int], $companyId: Int!){
+    clonePlaftormDrafts(platformDraftIds: $ids, companyId: $companyId)
+  }
+`;
+
 
 export const agendaComments = gql`
   query agendaVotings($agendaId: Int!){

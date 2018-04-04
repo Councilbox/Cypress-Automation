@@ -19,6 +19,7 @@ import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import CreateMeeting from '../components/CreateMeeting';
 import StatutesPage from '../components/statutes/StatutesPage';
+import PlatformDrafts from '../components/companyDraft/PlatformDrafts';
 import CensusEditorPage from '../components/companyCensus/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../components/displayComponents';
 import CompanyDraftList from '../components/companyDraft/CompanyDraftList';
@@ -77,7 +78,8 @@ class AppRouter extends Component {
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
                             <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
-                            <Route exact path="/company/:company/drafts" component={CompanyDraftList} />
+                            <Route exact path="/company/:company/drafts/:id?" component={CompanyDraftList} />
+                            <Route exact path="/company/:company/platform/drafts" component={PlatformDrafts} />                            
                             <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
                             <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />  
                             <Route exact path="/company/:company/statutes" component={StatutesPage} />                                                        

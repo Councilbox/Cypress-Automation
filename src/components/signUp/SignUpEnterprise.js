@@ -4,6 +4,7 @@ import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
+import { companyTypes } from '../../queries';
 
 
 class SignUpEnterprise extends Component {
@@ -116,13 +117,4 @@ class SignUpEnterprise extends Component {
     }
 }
 
-export const companyTypesQuery = gql `
-  query CompanyTypes {
-    companyTypes {
-      label
-      value
-    }
-  }
-`;
-
-export default graphql(companyTypesQuery)(SignUpEnterprise);
+export default graphql(companyTypes)(SignUpEnterprise);

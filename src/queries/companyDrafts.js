@@ -1,10 +1,9 @@
 import gql from "graphql-tag";
 
 export const deleteDraft = gql`
-    mutation deleteCompanyDraft($draftId: Int!) {
-        deleteCompanyDraft(draftId: $draftId) {
-            code
-            msg
+    mutation deleteCompanyDraft($id: Int!) {
+        deleteCompanyDraft(id: $id) {
+            success
         }
     }
 `;

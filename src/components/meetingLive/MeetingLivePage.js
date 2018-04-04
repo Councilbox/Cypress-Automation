@@ -3,7 +3,7 @@ import { LoadingMainApp } from "../displayComponents";
 import LiveHeader from '../councilLive/LiveHeader';
 import { lightGrey, darkGrey } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes } from '../../queries';
+import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes, iframeURLTEMP } from '../../queries';
 import ParticipantsLive from '../councilLive/ParticipantsLive';
 
 const minVideoWidth = 30;
@@ -56,6 +56,7 @@ class MeetingLivePage extends Component {
     render(){
         const council = this.props.data.council;
         const { translate } = this.props;
+        const roomURL = this.props.room.councilRoomTEMP;
 
         if(this.checkLoadingComplete()){
             return(
@@ -88,7 +89,7 @@ class MeetingLivePage extends Component {
                             {council.room.htmlVideoCouncil &&
                                 <Fragment>
                                     <div style={{height: 'calc(100% - 3em)', width: 'calc(100% - 350px)', position: 'relative'}}>
-                                        <div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}/>
+                                        <iframe allow="geolocation; microphone; camera" scrolling="no" className="temp_video" src={`https://${roomURL}`} allowFullScreen="true" style={{border:'none !important'}}>Something wrong...</iframe>
                                     </div>
                                 </Fragment>
                             }
@@ -121,6 +122,16 @@ export default  compose(
         options: (props) => ({
             variables: {
                 councilID: props.councilID,
+            }
+        })
+    }),
+
+    graphql(iframeURLTEMP, {
+        name: 'room',
+        options: (props) => ({
+            variables: {
+                councilId: props.councilID,
+                participantName: 'Mod'
             }
         })
     })

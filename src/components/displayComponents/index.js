@@ -18,6 +18,7 @@ export { default as Icon } from './Icon';
 export { default as Link } from './LinkWithoutStyling';
 export { default as LoadingMainApp } from './LoadingMainApp';
 export { default as LoadingSection } from './LoadingSection';
+export { default as MajorityInput } from './MajorityInput';
 export { default as MenuItem } from './MenuItem';
 export { default as MobileStepper } from './MobileStepper';
 export { default as Popover } from './Popover';

@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { MenuItem } from 'material-ui';
-import { BasicButton, TextInput, LoadingSection, SelectInput, Radio, Checkbox, ButtonIcon } from '../displayComponents';
+import { BasicButton, TextInput, MajorityInput, LoadingSection, SelectInput, Radio, Checkbox, ButtonIcon } from '../displayComponents';
 import { councilStepFive, updateCouncil } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
 import { Typography } from 'material-ui';
+import * as CBX from '../../utils/CBX';
 
 let primary = getPrimary();
 
@@ -153,11 +154,14 @@ class CouncilEditorOptions extends Component {
     render(){
         const { translate } = this.props;
         const { council } = this.state.data;
+
         if(this.props.data.loading || !this.state.data){
             return(
                 <LoadingSection />
             );
         }
+        const { statute } = this.props.data.council;
+        
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
@@ -215,49 +219,60 @@ class CouncilEditorOptions extends Component {
                 {this._renderSecurityForm()}
 
 
-                <Typography variant="subheading" style={{marginTop: '2em'}}>
-                    {translate.approve_act_draft_at_end}
-                </Typography>
-                <Checkbox
-                    label={translate.approve_act_draft_at_end_desc}
-                    value={council.approveActDraft === 0? false : true}
-                    onChange={(event, isInputChecked) => this.updateCouncilData({
-                            approveActDraft: isInputChecked? 1 : 0
-                        })
-                    }
-                />
-                {council.approveActDraft === 1 &&
-                    <div className="row">
-                        <div className="col-lg-3 col-md-3 col-xs-4">
-                            <SelectInput
-                                floatingLabelText={translate.majority_label}
-                                value={council.actPointMajorityType}
-                                onChange={(event, index) => {
-                                    this.updateCouncilData({
-                                        actPointMajorityType: event.target.value
-                                    })}
-                                }
-                            >
-                                {this.props.data.majorityTypes.map((majority) => {
-                                    return(
-                                        <MenuItem value={majority.value} key={`majority${majority.value}`}>{translate[majority.label]}</MenuItem>
-                                    );
-                                })}
-                            </SelectInput>
-                        </div>
-                        <div className="col-lg-8 col-md-8 col-xs-8">
-                            {council.actPointMajorityType === 0 &&
-                                this._renderNumberInput()
+                {CBX.hasAct(statute) &&
+                    <Fragment>
+                        <Typography variant="subheading" style={{marginTop: '2em'}}>
+                            {translate.approve_act_draft_at_end}
+                        </Typography>
+                        <Checkbox
+                            label={translate.approve_act_draft_at_end_desc}
+                            value={council.approveActDraft === 0? false : true}
+                            onChange={(event, isInputChecked) => this.updateCouncilData({
+                                    approveActDraft: isInputChecked? 1 : 0
+                                })
                             }
-                            {council.actPointMajorityType === 5 &&
-                                this._renderNumberInput()
-                            }
-                            {council.actPointMajorityType === 6 &&
-                                this._renderNumberInput()
-                            }
-                        </div>
-                    </div>
+                        />
+                        {council.approveActDraft === 1 &&
+                            <div className="row">
+                                <div className="col-lg-3 col-md-3 col-xs-4">
+                                    <SelectInput
+                                        floatingLabelText={translate.majority_label}
+                                        value={council.actPointMajorityType}
+                                        onChange={(event, index) => {
+                                            this.updateCouncilData({
+                                                actPointMajorityType: event.target.value
+                                            })}
+                                        }
+                                    >
+                                        {this.props.data.majorityTypes.map((majority) => {
+                                            return(
+                                                <MenuItem value={majority.value} key={`majority${majority.value}`}>{translate[majority.label]}</MenuItem>
+                                            );
+                                        })}
+                                    </SelectInput>
+                                </div>
+                                <div className="col-lg-8 col-md-8 col-xs-8">
+                                    {CBX.majorityNeedsInput(council.actPointMajorityType) &&
+                                        <MajorityInput
+                                            type={council.actPointMajorityType}
+                                            style={{marginLeft: '1em'}}
+                                            value={council.actPointMajority}
+                                            divider={council.actPointMajorityDivider}
+                                            onChange={(value) => this.updateCouncilData({
+                                                actPointMajority: +value
+                                            })}
+                                            onChangeDivider={(value) => this.updateCouncilData({
+                                                actPointMajorityDivider: +value
+                                            })}
+                                        />
+
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </Fragment>
                 }
+                
                 <div className="row">
                     <div className="col-lg-12 col-md-12 col-xs-12">
                         <div style={{float: 'right'}}>

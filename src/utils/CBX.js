@@ -35,3 +35,27 @@ export const councilHasVideo = (council) => {
 export const censusHasParticipations = (census) => {
     return census.quorumPrototype === 1
 }
+
+export const hasVotation = (pointType) => {
+    return pointType === 1 || pointType === 3 || pointType === 5;
+}
+
+export const majorityNeedsInput = (majorityType) => {
+    return majorityType === 0 || majorityType === 5 || majorityType === 6;
+}
+
+export const isMajorityPercentage = (majorityType) => {
+    return majorityType === 0;
+}
+
+export const isMajorityFraction = (majorityType) => {
+    return majorityType === 5;
+}
+
+export const isMajorityNumber = (majorityType) => {
+    return majorityType === 6;
+}
+
+export const hasAct = (statute) => {
+    return statute.existsAct === 1;
+}

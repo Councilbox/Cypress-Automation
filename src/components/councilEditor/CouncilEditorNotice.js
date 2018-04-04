@@ -4,7 +4,7 @@ import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, Loa
 import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
-import { councilStepOne, updateCouncil } from '../../queries';
+import { councilStepOne, updateCouncil, changeStatute } from '../../queries';
 
 class CouncilEditorNotice extends Component {
 
@@ -100,6 +100,28 @@ class CouncilEditorNotice extends Component {
         })
     }
 
+    updateState = (object) =>  {
+        this.setState({
+            data: {
+                ...this.state.data,
+                ...object
+            }
+        });
+    }
+
+    changeStatute = async (statuteId) => {
+        const response = await this.props.changeStatute({
+            variables: {
+                councilId: this.props.councilID,
+                statuteId: statuteId
+            }
+        });
+
+        if(response){
+            this.props.data.refetch();
+        }
+    }
+
     componentWillReceiveProps(nextProps){
        if(this.props.data.loading && !nextProps.data.loading){
             this.setState({
@@ -110,7 +132,7 @@ class CouncilEditorNotice extends Component {
 
     render(){
         const { translate } = this.props;
-        const { loading } = this.props.data;
+        const { loading, companyStatutes } = this.props.data;
         const council = this.state.data;
 
         if(loading){
@@ -141,34 +163,20 @@ class CouncilEditorNotice extends Component {
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <SelectInput
                             floatingText={translate.council_type}
-                            value={council.councilType || ''}
-                            id={'council_type'}
-                            onChange={(event) => {
-                                console.log(event.nativeEvent)
-                                this.setState({
-                                    ...this.state,
-                                    data: {
-                                        ...this.state.data,
-                                        councilType: event.target.value
-                                    }
-                                })}
-                            }
+                            value={this.props.data.council.statute.statuteId || ''}
+                            onChange={(event) => this.changeStatute(+event.target.value)}
                         >   
-                            <MenuItem value={0}>{translate.ordinary_general_assembly}</MenuItem>
-                            <MenuItem value={1}>{translate.special_general_assembly}</MenuItem>
-                            <MenuItem value={2}>{translate.board_of_directors} </MenuItem>
+                            {companyStatutes.map((statute) => {
+                                return <MenuItem value={+statute.id} key={`statutes_${statute.id}`}>{translate[statute.title] || statute.title}</MenuItem>
+                            })}
                         </SelectInput>
                     </div>
                     <div className="col-lg-6 col-md-6 col-xs-12">                    
                         <DateTimePicker 
                             onChange={(date) => {
                                 const newDate = new Date(date);
-                                this.setState({
-                                    ...this.state,
-                                    data: {
-                                        ...this.state.data,
-                                        dateStart: newDate.toISOString()
-                                    }
+                                this.updateState({
+                                    dateStart: newDate.toISOString()
                                 })}
                             }
                             label = {translate["1st_call_date"]}
@@ -181,12 +189,8 @@ class CouncilEditorNotice extends Component {
                             type="text"
                             errorText={this.state.errors.name}
                             value={council.name || ''}
-                            onChange={(event) => this.setState({
-                                ...this.state,
-                                data: {
-                                    ...this.state.data,
-                                    name: event.nativeEvent.target.value
-                                }
+                            onChange={(event) => this.updateState({
+                                name: event.nativeEvent.target.value
                             })}
                         />
                     </div>
@@ -195,12 +199,8 @@ class CouncilEditorNotice extends Component {
                             errorText=''
                             floatingText={translate.convene_info}
                             value={council.conveneText || ''}
-                            onChange={(value) => this.setState({
-                                ...this.state,
-                                data: {
-                                    ...this.state.data,
-                                    conveneText: value
-                                }
+                            onChange={(value) => this.updateState({
+                                conveneText: value
                             })}
                         />
                     </div>
@@ -252,8 +252,13 @@ export default compose(
         options: (props) => ({
             variables: {
                 id: props.councilID,
+                companyId: props.companyID
             }
         })
+    }),
+
+    graphql(changeStatute, {
+        name: 'changeStatute'
     }),
 
     graphql(updateCouncil, {

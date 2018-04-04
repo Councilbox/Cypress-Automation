@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../queries/companyDrafts.js";
-import { graphql } from "react-apollo";
-import { LoadingSection, Table, AlertConfirm, ErrorWrapper, DeleteIcon } from "../displayComponents";
-import { compose } from "react-apollo";
-import { getPrimary } from "../../styles/colors";
+import { graphql, compose } from "react-apollo";
+import CompanyDraftForm from './CompanyDraftForm';
+import PlatformDrafts from './PlatformDrafts';
+import { LoadingSection, Table, AlertConfirm, ErrorWrapper, DeleteIcon, BasicButton, ButtonIcon, CardPageLayout } from "../displayComponents";
+import { getPrimary, getSecondary } from "../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from '../../HOCs/withSharedProps';
 
@@ -13,7 +14,8 @@ class CompanyDraftList extends Component {
         super(props);
         this.state = {
             deleteModal: false,
-            draftID: null
+            draftID: null,
+            newForm: false
         };
     }
 
@@ -40,12 +42,12 @@ class CompanyDraftList extends Component {
 
     deleteDraft = async () => {
         this.props.data.loading = true;
-        const response = await this.props.mutate({
+        const response = await this.props.deleteDraft({
             variables: {
-                draftID: this.state.draftID
+                id: this.state.draftID
             }
         });
-        if (response) {
+        if (!response.errors) {
             this.props.data.refetch();
             this.setState({
                 deleteModal: false
@@ -54,11 +56,41 @@ class CompanyDraftList extends Component {
     };
 
     render() {
-        const { translate } = this.props;
+        const { translate, company } = this.props;
         const { companyDrafts, loading, error } = this.props.data;
 
+        if(this.state.newForm){
+            return (
+                <CompanyDraftForm
+                    translate={translate}
+                    closeForm={() => {
+                        this.setState({newForm: false});
+                        this.props.data.refetch();
+                    }}
+                    company={company}
+                />
+            );
+        }
+
         return (
-            <div style={{ height: "10em", padding: "2em" }}>
+            <CardPageLayout title={translate.drafts}>
+                <BasicButton
+                    text={translate.drafts_new}
+                    color={getPrimary()}
+                    textStyle={{color: 'white', fontWeight: '700'}}
+                    onClick={() => this.setState({
+                        newForm: true
+                    })}
+                    icon={<ButtonIcon type="add" color='white' />}
+                />
+                <Link to={`/company/${company.id}/platform/drafts/`}>
+                    <BasicButton
+                        text={translate.general_drafts}
+                        color={getSecondary()}
+                        textStyle={{color: 'white', fontWeight: '700'}}
+                        icon={<ButtonIcon type="add" color='white' />}
+                    />
+                </Link><br/>
                 {loading ? (
                     <LoadingSection />
                 ) : (
@@ -75,31 +107,33 @@ class CompanyDraftList extends Component {
                                 })}
                             </div>
                         ) : companyDrafts.length > 0 ? (
-                            <Table
-                                headers={[
-                                    { name: translate.name },
-                                    { name: translate.delete }
-                                ]}
-                                action={this._renderDeleteIcon}
-                                companyID={this.props.company.id}
-                            >
-                                {companyDrafts.map(draft => {
-                                    return (
-                                        <TableRow key={`draft${draft.id}`}>
-                                            <TableCell>
-                                                <Link
-                                                    to={`/company/${ this.props.company.id }/draft/${ draft.id }`}
-                                                >
-                                                    {draft.title}
-                                                </Link>
-                                            </TableCell>
-                                            <TableCell>
-                                                {this._renderDeleteIcon( draft.id )}
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </Table>
+                            <Fragment>
+                                <Table
+                                    headers={[
+                                        { name: translate.name },
+                                        { name: translate.delete }
+                                    ]}
+                                    action={this._renderDeleteIcon}
+                                    companyID={this.props.company.id}
+                                >
+                                    {companyDrafts.map(draft => {
+                                        return (
+                                            <TableRow key={`draft${draft.id}`}>
+                                                <TableCell>
+                                                    <Link
+                                                        to={`/company/${ this.props.company.id }/draft/${ draft.id }`}
+                                                    >
+                                                        {draft.title}
+                                                    </Link>
+                                                </TableCell>
+                                                <TableCell>
+                                                    {this._renderDeleteIcon( draft.id )}
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </Table>
+                            </Fragment>
                         ) : (
                             <span>{translate.no_results}</span>
                         )}
@@ -118,20 +152,26 @@ class CompanyDraftList extends Component {
                         />
                     </Fragment>
                 )}
-            </div>
+            </CardPageLayout>
         );
     }
 }
 
 export default withSharedProps()(compose(
-    graphql(deleteDraft),
+    graphql(deleteDraft, {
+        name: 'deleteDraft',
+        options: {
+            errorPolicy: 'all'
+        }
+    }),
     graphql(companyDrafts, {
         name: "data",
         options: props => ({
             variables: {
                 companyId: props.company.id,
                 isMeeting: false
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     })
 )(CompanyDraftList));
