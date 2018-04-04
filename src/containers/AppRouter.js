@@ -17,6 +17,7 @@ import CompanySettingsContainer from './CompanySettingsContainer';
 import CompanyCensusContainer from './CompanyCensusContainer';
 import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
+import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import CreateMeeting from '../components/CreateMeeting';
 import StatutesPage from '../components/statutes/StatutesPage';
 import PlatformDrafts from '../components/companyDraft/PlatformDrafts';
@@ -93,6 +94,7 @@ class AppRouter extends Component {
                     <Route exact path="/" component={LoginContainer}/>
                     <Route path="/signup" component={SignUpContainer}/>
                     <Route path="/welcome" component={Welcome} />
+                    <Route path="/participant/:id" component={ParticipantPage} />
                     <Route path="*" component={NotFound}/>            
                 </Switch>
         );

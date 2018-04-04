@@ -56,7 +56,7 @@ class MeetingLivePage extends Component {
     render(){
         const council = this.props.data.council;
         const { translate } = this.props;
-        const roomURL = this.props.room.councilRoomTEMP;
+        const roomURL = this.props.room.roomVideoURL;
 
         if(this.checkLoadingComplete()){
             return(
@@ -131,7 +131,7 @@ export default  compose(
         options: (props) => ({
             variables: {
                 councilId: props.councilID,
-                participantName: 'Mod'
+                participantId: 'Mod'
             }
         })
     })

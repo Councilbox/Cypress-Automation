@@ -1329,8 +1329,14 @@ export const liveParticipants = gql `
 `;
 
 export const iframeURLTEMP = gql`
-  query councilRoomTEMP($councilId: Int!, $participantName: String!){
-    councilRoomTEMP(councilId: $councilId, participantName: $participantName)
+  query councilRoomTEMP($councilId: Int!, $participantId: String!){
+    roomVideoURL(councilId: $councilId, participantId: $participantId)
+  }
+`;
+
+export const iframeParticipant = gql`
+  query iframeURL($participantId: String!){
+    participantVideoURL(participantId: $participantId)
   }
 `;
 
