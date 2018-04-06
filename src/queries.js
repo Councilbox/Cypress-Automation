@@ -232,8 +232,8 @@ export const councilStepTwo = gql`
 `;
 
 export const censuses = gql`
-  query censuses($companyId: Int!){
-    censuses(companyId: $companyId){
+  query censuses($companyId: Int!, $filters: filtersInput, $options: OptionsInput){
+    censuses(companyId: $companyId, filters: $filters, options: $options){
       id
       companyId
       censusName
@@ -274,25 +274,29 @@ export const census = gql`
 `;
 
 export const censusParticipants = gql`
-  query censusParticipants($censusId: Int!){
-    censusParticipants(censusId: $censusId){
-      id
-      name
-      surname
-      position
-      email
-      phone
-      dni
-      type
-      delegateId
-      numParticipations
-      socialCapital
-      uuid
-      delegateUuid
-      position
-      language
-      city
-      personOrEntity
+  query censusParticipants($censusId: Int!, $filter: FilterInput, $options: OptionsInput){
+    censusParticipants(censusId: $censusId, filter: $filter, options: $options){
+      list{
+        id
+        name
+        surname
+        position
+        email
+        phone
+        dni
+        type
+        delegateId
+        numParticipations
+        socialCapital
+        uuid
+        delegateUuid
+        position
+        language
+        city
+        personOrEntity
+      }
+      total
+
     }
   }
 `;

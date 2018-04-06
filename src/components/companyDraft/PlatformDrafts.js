@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, Checkbox, ErrorWrapper, Table, LoadingSection, Link } from '../displayComponents';
+import { CardPageLayout, Checkbox, ErrorWrapper, Table, LoadingSection } from '../displayComponents';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { platformDrafts, cloneDrafts } from '../../queries';
 import { TableCell, TableRow } from "material-ui/Table";
@@ -8,6 +8,7 @@ import { getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { withRouter } from 'react-router-dom';
 import PlatformDraftDetails from './PlatformDraftDetails';
+
 
 class PlatformDrafts extends Component {
 
@@ -43,7 +44,7 @@ class PlatformDrafts extends Component {
                 this.props.data.refetch();
             }
         }
-    } 
+    }
 
     updateSelectedValues = (id, selected) => {
         let values = this.state.selectedValues;

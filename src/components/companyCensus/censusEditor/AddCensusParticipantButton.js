@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm, TextInput, SelectInput, Radio } from '../../displayComponents';
+import { BasicButton, ButtonIcon, AlertConfirm, TextInput, SelectInput, Radio, LoadingSection } from '../../displayComponents';
 import { MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
@@ -118,6 +118,10 @@ class AddCensusParticipantButton extends Component {
         const participant = this.state.data;
         const errors = this.state.errors;
         const { translate } = this.props;
+
+        if(this.props.data.loading){
+            return <LoadingSection />
+        }
 
         if(participant.personOrEntity === 1){
             return(

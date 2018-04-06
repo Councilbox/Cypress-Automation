@@ -92,6 +92,86 @@ describe('councilHasVideo', () => {
     });
 });
 
+describe('Census has participations', () => {
+    it('should return true when the census quorum prototype === 1', () => {
+        assert.equal(CBX.censusHasParticipations({
+            quorumPrototype: 1
+        }), true);
+        assert.equal(CBX.censusHasParticipations({
+            quorumPrototype: 0
+        }), false);
+        assert.equal(CBX.censusHasParticipations({
+            prototype: 0
+        }), false);
+    })
+});
+
+describe('Point has votations', () => {
+    it('should return true when the point type is 1, 3 or 5', () => {
+        assert.equal(CBX.hasVotation(1), true);
+        assert.equal(CBX.hasVotation(), false);
+        assert.equal(CBX.hasVotation(3), true);
+        assert.equal(CBX.hasVotation(5), true);
+        assert.equal(CBX.hasVotation('False'), false);
+    });
+});
+
+describe('Majority needs an input from user', () => {
+    it('should return true in the cases 0, 5 and 6', () => {
+        assert.equal(CBX.majorityNeedsInput('0'), false);
+        assert.equal(CBX.majorityNeedsInput(0), true);
+        assert.equal(CBX.majorityNeedsInput(5), true);
+        assert.equal(CBX.majorityNeedsInput(6), true);
+        assert.equal(CBX.majorityNeedsInput(), false);
+        assert.equal(CBX.majorityNeedsInput(-1), false);   
+    });
+});
+
+describe('Majority is fraction', () => {
+    it('should return true when the value is 5', () => {
+        assert.equal(CBX.isMajorityFraction('5'), false);
+        assert.equal(CBX.isMajorityFraction(0), false);
+        assert.equal(CBX.isMajorityFraction(), false);
+        assert.equal(CBX.isMajorityFraction(5), true);
+    });
+});
+
+describe('Majority is percentage', () => {
+    it('should return true when the values is 0', () => {
+        assert.equal(CBX.isMajorityPercentage('0'), false);
+        assert.equal(CBX.isMajorityPercentage(0), true);
+        assert.equal(CBX.isMajorityPercentage(), false);
+        assert.equal(CBX.isMajorityPercentage(5), false);
+    });
+});
+
+
+describe('Majority is number', () => {
+    it('should return true when the values is 6', () => {
+        assert.equal(CBX.isMajorityNumber('6'), false);
+        assert.equal(CBX.isMajorityNumber(6), true);
+        assert.equal(CBX.isMajorityNumber(), false);
+        assert.equal(CBX.isMajorityNumber(5), false);
+    });
+});
+
+
+describe('Return if the config have exitsAct selected', () => {
+    it('should return true when statute.existsAct === 1', () => {
+        assert.equal(CBX.hasAct({
+            existsAct: '1'
+        }), false);
+        assert.equal(CBX.hasAct({
+            existsAct: 0
+        }), false);
+        assert.equal(CBX.hasAct({
+            act: 1
+        }), false);
+        assert.equal(CBX.hasAct({
+            existsAct: 1
+        }), true);
+    });
+});
 
 /*
 - STATUTES
@@ -112,4 +192,4 @@ SE LIMITA EL ACCESO A SALA DESPUES DEL INICIO REUNIÓN
 Tiempo máximo acceso permitido
 
 
-*
+*/

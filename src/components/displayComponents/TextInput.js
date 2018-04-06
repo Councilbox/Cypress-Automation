@@ -1,12 +1,15 @@
 import React from 'react';
-import { TextField, FormControl, InputLabel, InputAdornment } from 'material-ui';
+import { TextField, FormControl, InputAdornment } from 'material-ui';
 
 const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorText, classes, onKeyUp, placeholder, required }) => (
-    <FormControl style={{width: '100%'}}>
-        <InputLabel></InputLabel>
+    <FormControl style={{width: '100%', marginTop: 0}}>
         <TextField
             label={`${floatingText} ${required? '*' : ''}`}
             value={value}
+            style={{
+                marginTop: 0,
+                width: '100%'
+            }}
             placeholder={placeholder}
             InputLabelProps={{
                 shrink: true,

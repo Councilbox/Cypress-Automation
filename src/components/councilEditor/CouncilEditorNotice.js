@@ -32,6 +32,14 @@ class CouncilEditorNotice extends Component {
         this.props.data.refetch();
     }
 
+    componentWillReceiveProps(nextProps){
+        if(this.props.data.loading && !nextProps.data.loading){
+             this.setState({
+                 data: nextProps.data.council
+             })
+         }
+     }
+
     nextPage = () => {
         if(!this.checkRequiredFields()){
             this.updateCouncil();
@@ -122,14 +130,6 @@ class CouncilEditorNotice extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps){
-       if(this.props.data.loading && !nextProps.data.loading){
-            this.setState({
-                data: nextProps.data.council
-            })
-        }
-    }
-
     render(){
         const { translate } = this.props;
         const { loading, companyStatutes } = this.props.data;
@@ -137,7 +137,9 @@ class CouncilEditorNotice extends Component {
 
         if(loading){
             return(
-                <LoadingSection />
+                <div style={{height: '300px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                    <LoadingSection />
+                </div>
             );
         }
 

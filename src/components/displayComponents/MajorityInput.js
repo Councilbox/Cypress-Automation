@@ -1,8 +1,6 @@
 import React from 'react';
 import { TextInput, Grid, GridItem } from './';
 import * as CBX from '../../utils/CBX';
-import { getPrimary } from '../../styles/colors';
-const primary = getPrimary();
 
 const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style, majorityError, dividerError }) => {
     if(CBX.isMajorityPercentage(type)){

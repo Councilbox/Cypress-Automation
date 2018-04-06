@@ -11,14 +11,14 @@ const UserMenu = ({ user, actions, translate }) => {
     return(
         <DropDownMenu
             color="transparent"
-            text={user.name}
+            text={<Icon className="material-icons" style={{color: secondary}}>account_circle</Icon>}
             textStyle={{color: secondary}}
             type="flat"
             icon={<Icon className="material-icons" style={{color: secondary}}>keyboard_arrow_down</Icon>}
             items={
                 <Fragment>
                     <MenuItem><Link to={`/user/${user.id}`}>{translate.settings}</Link></MenuItem>
-                    <MenuItem onClick={() => actions.logout()}>Logout</MenuItem>
+                    <MenuItem onClick={() => actions.logout()}>{translate.logout}</MenuItem>
                 </Fragment>
             }
         />

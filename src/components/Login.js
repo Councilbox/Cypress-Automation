@@ -6,6 +6,7 @@ import { Card } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { login } from '../queries';
 import { getPrimary } from '../styles/colors';
+import withWindowSize from '../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput, Link } from './displayComponents';
 
 
@@ -97,25 +98,27 @@ class Login extends React.PureComponent {
     }
 
     render(){
-        const { translate } = this.props;
+        const { translate, windowSize } = this.props;
         const primary = getPrimary();
 
         return(
             <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, #6499B1)`, fontSize: '0.85em', height: '100%'}}>
-                <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: '9em'}}>
+                <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: windowSize === 'xs'? '1em' : '9em'}}>
                     <div style={{width: '70%', fontSize: '0.9em'}}>
                         <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>Bienvenido/a</h4>
                         <h6>¿Todavía no dispones de una cuenta en CouncilBox?</h6>
-                        <span style={{fontSize: '0.9', marginBottom: '1em', marginTop: '0.7em'}}>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, 
-                            ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, 
-                            velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros.
-                            Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo.
-                            Mauris sed quam eget lorem egestas pulvinar.
-                        </span>
+                        {windowSize !== 'xs' &&
+                            <span style={{fontSize: '0.9', marginBottom: '1em', marginTop: '0.7em'}}>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                                Duis ut volutpat magna, sed auctor ligula. Quisque felis ex, 
+                                ultricies sit amet dapibus ac, egestas ac ex. Aliquam pellentesque, 
+                                velit quis tristique faucibus, neque sapien volutpat diam, sed aliquet sem leo ornare eros.
+                                Maecenas sed urna magna. Vestibulum vel arcu ac nisl laoreet molestie ut id justo.
+                                Mauris sed quam eget lorem egestas pulvinar.
+                            </span>
+                        }
                         <br />
-                        <div className="row" style={{display: 'flex', flexDirection: 'row', marginTop: '1em'}}>
+                        <div className="row" style={{display: 'flex', flexDirection: 'row', marginTop: windowSize === 'xs'? 0 : '1em'}}>
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>
                                 <BasicButton
                                     text="Solicitar demostración"
@@ -139,8 +142,8 @@ class Login extends React.PureComponent {
                         </div>
                     </div>
                 </div>
-                <div className="col-lg-5 col-md-5 col-xs-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <Card style={{minHeight: '60%', width: '70%', padding: '8%', marginBottom: '5em', marginRight: '5em'}} >
+                <div className="col-lg-5 col-md-5 col-xs-12" style={{display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 0}}>
+                    <Card style={{minHeight: '60%', width: windowSize === 'xs'? '100%' : '70%', padding: '8%', marginBottom: windowSize === 'xs'? 0 : '5em', marginRight: windowSize === 'xs'? 0 : '5em'}} >
                         <div
                             style={{marginBottom: 0, paddingBottom: 0, fontWeight: '700', fontSize: '1.5em', color: primary}}
                         >
@@ -190,4 +193,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(graphql(login, {options: {errorPolicy: 'all'}})(Login));
+export default connect(null, mapDispatchToProps)(graphql(login, {options: {errorPolicy: 'all'}})(withWindowSize(Login)));

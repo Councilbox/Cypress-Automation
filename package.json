@@ -65,8 +65,7 @@
       "env"
     ],
     "plugins": [
-      "add-react-displayname",
-      "transform-optional-chaining"
+      "add-react-displayname"
     ]
   }
 }

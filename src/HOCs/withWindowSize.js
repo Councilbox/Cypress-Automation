@@ -9,6 +9,15 @@ const withWindowSize = (WrappedComponent) => {
             }
         }
 
+        componentDidMount(){
+            this.updateSize();
+            window.addEventListener('resize', this.updateSize);
+        }
+    
+        componentWillUnmount(){
+            window.removeEventListener('resize', this.updateSize);
+        }
+
         updateSize = () => {
             if(window.innerWidth < 500) {
                 this.setState({ size: 'xs' });
@@ -23,7 +32,7 @@ const withWindowSize = (WrappedComponent) => {
             return(
                 <WrappedComponent
                     updateSize={this.updateSize}
-                    size={this.state.size}
+                    windowSize={this.state.size}
                     {...this.props} 
                 />
             )

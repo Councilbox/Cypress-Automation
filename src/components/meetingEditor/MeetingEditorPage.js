@@ -17,19 +17,10 @@ class MeetingEditorPage extends React.Component {
         };
     }
 
-    componentDidMount(){
-        this.props.updateSize();
-        window.addEventListener('resize', this.props.updateSize);
-    }
-
     componentWillReceiveProps(nextProps){
         this.setState({
             step: +nextProps.step
         });
-    }
-
-    componentWillUnmount(){
-        window.removeEventListener('resize', this.props.updateSize);
     }
 
     nextStep = () => {
@@ -62,13 +53,13 @@ class MeetingEditorPage extends React.Component {
 
 
     render() {
-        const { translate, size } = this.props;
+        const { translate, windowSize } = this.props;
 
         return(
             <CardPageLayout title={translate.dashboard_new_meeting}>
                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
                     <div style={{backgroundColor: 'lightgrey', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
-                        {size === 'xs'? 
+                        {windowSize === 'xs'? 
                             <MobileStepper
                                 active={this.state.step - 1}
                                 total={2}

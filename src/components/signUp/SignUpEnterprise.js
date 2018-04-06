@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { SelectInput, BasicButton, LoadingSection, TextInput, Icon } from '../displayComponents';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
 import { companyTypes } from '../../queries';
 

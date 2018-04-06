@@ -1,5 +1,5 @@
 import React from 'react';
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 
 const TableWrapper = ({ headers = [], children }) => (
     <Table>
@@ -7,7 +7,19 @@ const TableWrapper = ({ headers = [], children }) => (
             <TableRow>
                 {headers.map((header, index) => {
                     return(
-                        <TableCell key={`header_${index}`}>{header.name}</TableCell>
+                        <TableCell key={`header_${index}`} sortDirection={header.order}>
+                            {header.canOrder?
+                                <TableSortLabel
+                                    active={header.active}
+                                    direction={header.order}
+                                    onClick={() => header.handler()}
+                                >
+                                    {header.name}
+                                </TableSortLabel>
+                            :
+                                header.name
+                            }
+                        </TableCell>
                     )
                 })}
             </TableRow>

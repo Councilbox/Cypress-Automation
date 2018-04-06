@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { MenuItem } from 'material-ui';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import { BasicButton, TextInput, SelectInput, Radio, Icon } from '../displayComponents';
+import { BasicButton, TextInput, SelectInput, Radio, ButtonIcon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
@@ -173,7 +173,7 @@ class NewParticipantForm extends Component {
                     text={translate.save}
                     color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
+                    icon={<ButtonIcon color='white' type="save" />}
                     textPosition="after"
                     onClick={this.sendNewParticipant} 
                 />

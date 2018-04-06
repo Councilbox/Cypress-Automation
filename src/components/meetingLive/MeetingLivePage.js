@@ -89,7 +89,7 @@ class MeetingLivePage extends Component {
                             {council.room.htmlVideoCouncil &&
                                 <Fragment>
                                     <div style={{height: 'calc(100% - 3em)', width: 'calc(100% - 350px)', position: 'relative'}}>
-                                        <iframe allow="geolocation; microphone; camera" scrolling="no" className="temp_video" src={`https://${roomURL}?rand=${Math.round(Math.random() * 10000000)}`} allowFullScreen="true" style={{border:'none !important'}}>Something wrong...</iframe>
+                                        <iframe title="meetingScreen" allow="geolocation; microphone; camera" scrolling="no" className="temp_video" src={`https://${roomURL}?rand=${Math.round(Math.random() * 10000000)}`} allowFullScreen="true" style={{border:'none !important'}}>Something wrong...</iframe>
                                     </div>
                                 </Fragment>
                             }

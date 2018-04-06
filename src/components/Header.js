@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import logo from '../assets/img/logo.png';
+import icono from '../assets/img/logo-icono.png';
 import { Link } from 'react-router-dom';
 import LanguageSelector from './menus/LanguageSelector';
 import UserMenu from './menus/UserMenu';
+import { Icon } from './displayComponents';
+import { bHistory } from '../containers/App';
+import withWindowSize from '../HOCs/withWindowSize';
 
 class Header extends Component{
 
@@ -10,25 +14,42 @@ class Header extends Component{
         this.props.actions.logout();
     }
 
+    goBack = () => {
+        bHistory.goBack();
+    }
+
     render(){
         const language = this.props.translate.selectedLanguage;
+        const { backButton, windowSize, languageSelector, drawerIcon } = this.props;
 
         return(
             <header className="App-header" style={{height: '3em', display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
-                <Link to="/"><img src={logo} className="App-logo" style={{height: '1.5em', marginLeft: '2em'}} alt="logo" /></Link>
-                {/*this.props.helpIcon &&
-                    <Icon className="material-icons" style={{marginRight: '2em', fontSize: '1.5em', color: 'grey'}}>live_help</Icon>
-                */}
+                <div style={{display: 'flex', flexDirection: 'row', height: '100%', alignItems: 'center'}}>
+                    {backButton &&
+                        <div
+                            style={{cursor: 'pointer', width: '2em', height: '100%', border: '1px solid darkgrey', display: 'flex', alignItems: 'center'}}
+                            onClick={this.goBack}
+                        >
+                            <Icon className="material-icons" style={{color: 'grey'}}>keyboard_arrow_left</Icon>
+                        </div>
+                    }
+                    <Link to="/"><img src={windowSize !== 'xs'? logo : icono} className="App-logo" style={{height: '1.5em', marginLeft: '2em'}} alt="logo" /></Link>
+                </div>
                 
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-                    <LanguageSelector
-                        selectedLanguage={language}
-                    />
+                    {languageSelector &&
+                        <LanguageSelector
+                            selectedLanguage={language}
+                        />
+                    }
                     {this.props.user &&
                         <UserMenu 
                             user={this.props.user} 
                             translate={this.props.translate}
                         />
+                    }
+                    {drawerIcon &&
+                        'DRAWER'
                     }
                 </div>
             </header>
@@ -36,4 +57,4 @@ class Header extends Component{
     }
 }
 
-export default Header;
+export default withWindowSize(Header);

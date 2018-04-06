@@ -1,6 +1,6 @@
 import React, { Component, Fragment} from 'react';
 import { TextInput, SelectInput, RichTextInput, LoadingSection, MajorityInput, BasicButton, ButtonIcon, CardPageLayout, Grid, GridItem } from '../displayComponents';
-import { Typography, MenuItem } from 'material-ui';
+import { MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import { createCompanyDraft, draftData } from '../../queries';
 import { getPrimary } from "../../styles/colors";
@@ -17,7 +17,6 @@ class CompanyDraftForm extends Component {
                 type: -1,
                 description: '',
                 text: '',
-                type: -1,
                 votationType: -1,
                 majorityType: -1,
                 majority: null,
@@ -64,7 +63,6 @@ class CompanyDraftForm extends Component {
                 type: -1,
                 description: '',
                 text: '',
-                type: -1,
                 votationType: -1,
                 majorityType: -1,
                 majority: null,

@@ -1,8 +1,9 @@
 import React from 'react';
-import { CardPageLayout, LoadingSection, Table, DeleteIcon, DateWrapper, AlertConfirm } from '../displayComponents';
+import { CardPageLayout, LoadingSection, Table, DeleteIcon, DateWrapper, AlertConfirm, TextInput, Grid, GridItem, SelectInput } from '../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import { censuses, deleteCensus, setDefaultCensus } from '../../queries';
 import { TableRow, TableCell } from 'material-ui/Table';
+import { MenuItem } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { getPrimary } from '../../styles/colors';
 import CloneCensusModal from './CloneCensusModal';
@@ -16,7 +17,12 @@ class CompanyCensusPage extends React.Component {
         this.state = {
             deleteModal: false,
             cloneModal: false,
-            cloneIndex: 0
+            cloneIndex: 0,
+            censusName: '',
+            limit: 1,
+            page: 1,
+            orderBy: '',
+            orderDirection: 'asc'
         }
     }
 
@@ -57,6 +63,101 @@ class CompanyCensusPage extends React.Component {
         bHistory.push(`/company/${this.props.company.id}/census/${censusId}`);
     }
 
+
+    filterByCensusName = async (censusName) => {
+        if(!!censusName){
+            this.setState({
+                censusName: censusName
+            });
+            this.props.data.refetch({
+                companyId: this.props.company.id,
+                filters: {
+                    censusName: censusName
+                }
+            });
+        }
+    }
+
+    changeLimit = async (limit) => {
+        if(!!limit){
+            let variables = {
+                companyId: this.props.company.id,
+                options: {
+                    limit: limit
+                }
+            }
+            if(!!this.state.censusName){
+                variables = {
+                    ...variables,
+                    filters: {
+                        censusName: this.state.censusName
+                    }
+                }
+            }
+            this.props.data.refetch(variables);
+            this.setState({
+                limit: limit
+            });
+        }
+    }
+
+    changePage = (page) => {
+        if(!!page){
+            let variables = {
+                companyId: this.props.company.id,
+                options: {
+                    limit: this.state.limit,
+                    offset: this.state.limit * (page - 1)
+                }
+            }
+            if(!!this.state.censusName){
+                variables = {
+                    ...variables,
+                    filters: {
+                        censusName: this.state.censusName
+                    }
+                }
+            }
+            this.props.data.refetch(variables);
+            this.setState({
+                page: page
+            });
+        }
+    }
+
+    orderBy = async (field) => {
+        const { orderBy } = this.state;
+        let direction = 'asc';
+        
+        if(field === orderBy){
+            direction = this.state.orderDirection === 'asc'? 'desc' : 'asc';
+        }
+
+        let variables = {
+            companyId: this.props.company.id,
+            options: {
+                limit: this.state.limit,
+                orderBy: field,
+                orderDirection: direction,
+                offset: 0
+            }
+        }
+        if(!!this.state.censusName){
+            variables = {
+                ...variables,
+                filters: {
+                    censusName: this.state.censusName
+                }
+            }
+        }
+        this.props.data.refetch(variables);
+        this.setState({
+            orderBy: field,
+            orderDirection: direction
+        });
+
+    }
+
     render(){
         const { translate, company } = this.props;
         const { loading, censuses } = this.props.data;
@@ -64,20 +165,72 @@ class CompanyCensusPage extends React.Component {
 
         return(
             <CardPageLayout title={translate.censuses_list}>
-                <AddCensusButton
-                    translate={translate}      
-                    company={company}
-                    refetch={this.props.data.refetch}  
-                />
+                <Grid>
+                    <GridItem xs={6} lg={3} md={3}>
+                        <AddCensusButton
+                            translate={translate}      
+                            company={company}
+                            refetch={this.props.data.refetch}  
+                        />
+                    </GridItem>
+                    <GridItem xs={2} lg={2} md={2}>
+                        <TextInput
+                            floatingText={translate.find}
+                            type="text"
+                            onChange={(event) => {
+                                this.filterByCensusName(event.target.value)
+                            }}
+                        />
+                    </GridItem>
+                    <GridItem xs={3} lg={3} md={3}>
+                        <SelectInput
+                            onChange={(event) => this.changeLimit(event.target.value)}
+                            value={this.state.limit}
+                        >
+                            <MenuItem value={1}>1</MenuItem>
+                            <MenuItem value={2}>2</MenuItem>    
+                            <MenuItem value={3}>3</MenuItem>    
+                        </SelectInput>
+                    </GridItem>
+                    <GridItem xs={3} lg={3} md={3}>
+                        <SelectInput
+                            onChange={(event) => this.changePage(event.target.value)}
+                            value={this.state.page}
+                        >
+                            <MenuItem value={1}>1</MenuItem>
+                            <MenuItem value={2}>2</MenuItem>    
+                            <MenuItem value={3}>3</MenuItem>    
+                        </SelectInput>
+                    </GridItem>
+                </Grid>
+
                 {loading?
                     <LoadingSection />
 
                 :
                     <Table
                         headers={[
-                            {name: translate.name},
-                            {name: translate.creation_date},
-                            {name: translate.last_edit},                 
+                            {
+                                name: translate.name,
+                                canOrder: true,
+                                order: this.state.orderDirection,
+                                active: this.state.orderBy === 'censusName',
+                                handler: () => this.orderBy('censusName')
+                            },
+                            {
+                                name: translate.creation_date,
+                                canOrder: true,
+                                order: this.state.orderDirection,
+                                active: this.state.orderBy === 'creationDate',
+                                handler: () => this.orderBy('creationDate')
+                            },
+                            {
+                                name: translate.last_edit,
+                                canOrder: true,
+                                order: this.state.orderDirection,
+                                active: this.state.orderBy === 'lastEdit',
+                                handler: () => this.orderBy('lastEdit')
+                            },                 
                             {name: ''},                 
                         ]}
                         action={this._renderDeleteIcon}
@@ -158,7 +311,11 @@ export default compose(
         name: "data",
         options: (props) => ({
             variables: {
-                companyId: props.company.id
+                companyId: props.company.id,
+                options: {
+                    limit: 1,
+                    offset: 0
+                }
             }
         })
     }),
