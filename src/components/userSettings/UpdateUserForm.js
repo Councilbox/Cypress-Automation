@@ -110,6 +110,14 @@ class UpdateUserForm extends React.Component {
         return hasError;
     }
 
+    resetButtonStates = () => {
+        this.setState({
+            error: false,
+            loading: false,
+            success: false
+        });
+    }
+
     render(){
         const { translate } = this.props;
         const { data, errors, error, success, loading } = this.state;
@@ -186,6 +194,7 @@ class UpdateUserForm extends React.Component {
                     text={translate.save}
                     color={getPrimary()}
                     error={error}
+                    reset={this.resetButtonStates}
                     success={success}
                     loading={loading}
                     textStyle={{color: 'white', fontWeight: '700'}}

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import RichTextEditor from 'react-rte';
+import { Grid, GridItem } from './';
 import { Typography } from 'material-ui';
 
 
@@ -27,18 +28,46 @@ class RichTextField extends Component {
         }
     };
 
+    paste = (text) => {
+        let cd = new DataTransfer();
+        cd.setData('text/plain', text);
+        this.refs.rtEditor.refs.editor._onPaste({
+            preventDefault : () => {this.refs.rtEditor.refs.editor.focus();},
+            clipboardData  : cd
+        });
+        //this.refs.rtEditor.refs.editor.focus();
+    }
+
     render(){
+        const { tags } = this.props;
+
         return(
             <Fragment>
                 <Typography variant="body1">
                     {this.props.floatingText}
                 </Typography>
-                <RichTextEditor
-                    className={'text-editor'}
-                    value={this.state.value}
-                    onChange={this.onChange}
-                    toolbarConfig={toolbarConfig}
-                />
+                <Grid>
+                    <GridItem xs={12} lg={11} md={11}>
+                        <RichTextEditor
+                            ref={'rtEditor'}
+                            className={'text-editor'}
+                            value={this.state.value}
+                            onChange={this.onChange}
+                            toolbarConfig={toolbarConfig}
+                        />
+                    </GridItem>
+                    {!!tags &&
+                        <GridItem xs={12} lg={1} md={1}>
+                            {tags.map((tag) => {
+                                return(
+                                    <div>
+                                        <span onClick={() => this.paste(tag.value)}>{tag.label}</span>
+                                    </div>
+                                )
+                            })} 
+                        </GridItem>
+                    }
+                </Grid>
             </Fragment>
         )
     }
@@ -46,7 +75,7 @@ class RichTextField extends Component {
 
 const toolbarConfig = {
     // Optionally specify the groups to display (displayed in the order listed).
-    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'BLOCK_TYPE_DROPDOWN', 'HISTORY_BUTTONS'],
+    display: ['INLINE_STYLE_BUTTONS', 'BLOCK_TYPE_BUTTONS', 'LINK_BUTTONS', 'TAGS','BLOCK_TYPE_DROPDOWN', 'HISTORY_BUTTONS'],
     INLINE_STYLE_BUTTONS: [
       {label: 'Bold', style: 'BOLD', className: 'custom-css-class'},
       {label: 'Italic', style: 'ITALIC'},

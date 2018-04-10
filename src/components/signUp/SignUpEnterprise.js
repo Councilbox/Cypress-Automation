@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { SelectInput, BasicButton, LoadingSection, TextInput, Icon } from '../displayComponents';
+import { SelectInput, BasicButton, LoadingSection, ButtonIcon, TextInput, Icon } from '../displayComponents';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
 import { companyTypes } from '../../queries';
-
 
 class SignUpEnterprise extends Component {
 
@@ -62,7 +61,7 @@ class SignUpEnterprise extends Component {
         const primary = getPrimary();        
 
         return(
-            <div style={{width: '100%', padding: '6%'}}>
+            <div style={{width: '100%', padding: '6%', height: '100%'}}>
                 <span style={{fontSize: '1.3em', fontWeight: '700', color: primary}}>{translate.company_data}</span>
                 <div style={{width: '100%', marginBottom: '2.2em', marginTop: '2em'}}>
                     <TextInput
@@ -108,7 +107,7 @@ class SignUpEnterprise extends Component {
                         textStyle={{color: 'white', fontWeight: '700'}}
                         onClick={this.nextPage}
                         fullWidth
-                        icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
+                        icon={<ButtonIcon color='white' type="arrow_forward" />}
                     />
                 </div>
             </div>

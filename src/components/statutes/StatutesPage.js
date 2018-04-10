@@ -36,6 +36,10 @@ class StatutesPage extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.data.refetch();
+    }
+
     resetButtonStates = () => {
         this.setState({
             error: false,
@@ -254,7 +258,8 @@ export default withSharedProps()(withRouter(compose(
         options: (props) => ({
             variables: {
                 companyId: props.match.params.company
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     })
 )(StatutesPage)));

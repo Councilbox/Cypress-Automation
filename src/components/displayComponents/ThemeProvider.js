@@ -3,6 +3,9 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import moment from 'moment';
+import 'moment/locale/fr';
+moment.updateLocale('fr');
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -54,7 +57,11 @@ const theme = createMuiTheme({
 
 export default ({ children }) => (
     <MuiThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider utils={MomentUtils}>
+        <MuiPickersUtilsProvider
+            utils={MomentUtils}
+            moment={moment}
+            locale="fr"
+        >
             {children}
         </MuiPickersUtilsProvider>
     </MuiThemeProvider>

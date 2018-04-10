@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { SelectInput, BasicButton, TextInput, Icon, LoadingSection } from '../displayComponents';
+import { SelectInput, BasicButton, ButtonIcon, TextInput, Icon, LoadingSection } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { MenuItem } from 'material-ui/Menu';
 import Dialog from 'material-ui/Dialog';
@@ -262,7 +262,7 @@ class SignUpPay extends Component {
                         textStyle={{color: 'white', fontWeight: '700'}}
                         onClick={this.endForm}
                         fullWidth
-                        icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
+                        icon={<ButtonIcon color='white' type="arrow_forward" />}
                     />
                 </div>
                 <Dialog

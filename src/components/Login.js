@@ -8,6 +8,7 @@ import { login } from '../queries';
 import { getPrimary } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput, Link } from './displayComponents';
+import background from '../assets/img/signup3.jpg';
 
 
 class Login extends React.PureComponent {
@@ -101,9 +102,9 @@ class Login extends React.PureComponent {
     render(){
         const { translate, windowSize } = this.props;
         const primary = getPrimary();
-
+        //background: `linear-gradient(to right, ${primary}, #6499B1)`
         return(
-            <div className="row" style={{width: '100%', margin: 0, background: `linear-gradient(to right, ${primary}, #6499B1)`, fontSize: '0.85em', height: '100%'}}>
+            <div className="row" style={{width: '100%', margin: 0, backgroundImage: `url(${background})`, fontSize: '0.85em', height: '100%'}}>
                 <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: windowSize === 'xs'? '1em' : '9em'}}>
                     <div style={{width: '70%', fontSize: '0.9em'}}>
                         <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>Bienvenido/a</h4>
@@ -150,26 +151,30 @@ class Login extends React.PureComponent {
                         >
                             {`${translate.login_signin_header} Councilbox`}
                         </div>
-                        <TextInput
-                            onKeyUp={this.handleKeyUp}
-                            floatingText={translate.login_user}
-                            errorText={this.state.errors.user}
-                            type="text"
-                            value={this.state.user}
-                            onChange={(event) => this.setState({
-                                user: event.nativeEvent.target.value
-                            })}
-                        />
-                        <TextInput
-                            onKeyUp={this.handleKeyUp}
-                            floatingText={translate.login_password}
-                            type="password"
-                            errorText={this.state.errors.password}
-                            value={this.state.password}
-                            onChange={(event) => this.setState({
-                                password: event.nativeEvent.target.value
-                            })}
-                        />
+                        <div style={{marginTop: '2em', width: '95%'}}>
+                            <TextInput
+                                onKeyUp={this.handleKeyUp}
+                                floatingText={translate.login_user}
+                                errorText={this.state.errors.user}
+                                type="text"
+                                value={this.state.user}
+                                onChange={(event) => this.setState({
+                                    user: event.nativeEvent.target.value
+                                })}
+                            />
+                        </div>
+                        <div style={{marginTop: '1.5em', width: '95%'}}>                        
+                            <TextInput
+                                onKeyUp={this.handleKeyUp}
+                                floatingText={translate.login_password}
+                                type="password"
+                                errorText={this.state.errors.password}
+                                value={this.state.password}
+                                onChange={(event) => this.setState({
+                                    password: event.nativeEvent.target.value
+                                })}
+                            />
+                        </div>
                         <div style={{marginTop: '3em'}}>
                             <BasicButton
                                 text="Entrar"

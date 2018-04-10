@@ -2,12 +2,13 @@ import React from 'react';
 import { lightGrey } from '../../styles/colors';
 import RegularCard from '../displayComponents/RegularCard';
 import Scrollbar from 'react-perfect-scrollbar';
+import withWindowSize from '../../HOCs/withWindowSize';
 
 
-const CardPageLayout = ({ children, title }) => (
-    <div style = {{paddingBottom: '4em', overflow: 'hidden', position: 'relative', paddingTop: '0.6em', backgroundColor: lightGrey, height: '100vh', width: '100%'}} >
+const CardPageLayout = ({ children, title, windowSize }) => (
+    <div style = {{paddingBottom: windowSize !== 'xs'? '4em' : 0, overflow: 'hidden', position: 'relative', paddingTop: '0.6em', backgroundColor: lightGrey, height: '100vh', width: '100%'}} >
         <Scrollbar>
-            <div style={{width: '95%', margin: 'auto'}}>
+            <div style={{width: windowSize !== 'xs'? '95%' : '100%', margin: 'auto'}}>
                 <RegularCard
                     cardTitle={title}
                     cardSubtitle={''}
@@ -20,4 +21,4 @@ const CardPageLayout = ({ children, title }) => (
     </div>
 )
 
-export default CardPageLayout;
+export default withWindowSize(CardPageLayout);

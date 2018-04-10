@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, BasicButton, TextInput } from '../displayComponents';
+import { Icon, BasicButton, TextInput, ButtonIcon } from '../displayComponents';
 import { checkValidEmail } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 
@@ -148,14 +148,14 @@ class SignUpUser extends Component {
                         />
                     </div>
                 </div>
-                <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{float: 'right', marginTop: '3em'}} >
+                <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{float: 'right', marginTop: '2em'}} >
                     <BasicButton
                         text={translate.continue}
                         color={primary}
                         textStyle={{color: 'white', fontWeight: '700'}}
                         onClick={this.nextPage}
                         fullWidth
-                        icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
+                        icon={<ButtonIcon color='white' type="arrow_forward" />}
                     />
                 </div>
             </div>

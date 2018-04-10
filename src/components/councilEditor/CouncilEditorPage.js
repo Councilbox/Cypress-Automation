@@ -98,7 +98,7 @@ class CouncilEditorPage extends React.Component {
                                 nextStep={this.nextStep}
                                 actualStep={this.state.actualStep}
                                 councilID={this.props.councilID}
-                                companyID={this.props.companyID}
+                                company={this.props.company}
                                 translate={translate}
                             />
                         }

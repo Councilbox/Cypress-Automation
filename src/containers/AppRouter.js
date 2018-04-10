@@ -66,7 +66,7 @@ class AppRouter extends Component {
                     />
 
                     <div className={this.props.classes.mainPanel}>
-                        <Header user={this.props.user} drawerIcon={this.state.mobileOpen} translate={this.props.translate} backButton />
+                        <Header user={this.props.user} drawerIcon={this.state.mobileOpen} translate={this.props.translate} backButton={this.props.location.pathname !== `/company/${this.props.companies.list[this.props.companies.selected].id}`} />
                         <Switch>
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />

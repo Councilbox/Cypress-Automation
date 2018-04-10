@@ -5,6 +5,7 @@ import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
 import { councilStepOne, updateCouncil, changeStatute } from '../../queries';
+import moment from 'moment';
 
 class CouncilEditorNotice extends Component {
 
@@ -131,9 +132,13 @@ class CouncilEditorNotice extends Component {
     }
 
     render(){
-        const { translate } = this.props;
+        const { translate, company } = this.props;
         const { loading, companyStatutes } = this.props.data;
         const council = this.state.data;
+        const date = new Date(this.state.data.dateStart);
+        const dateWrapper = moment(date);
+        console.log(dateWrapper);
+
 
         if(loading){
             return(
@@ -199,6 +204,10 @@ class CouncilEditorNotice extends Component {
                     <div className="col-lg-10 col-md-10 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
                         <RichTextInput
                             errorText=''
+                            tags={[
+                                {value: '132', label: translate["1st_call_date"]},
+                                {value: company.businessName, label: translate.business_name}
+                            ]}
                             floatingText={translate.convene_info}
                             value={council.conveneText || ''}
                             onChange={(value) => this.updateState({
@@ -254,7 +263,7 @@ export default compose(
         options: (props) => ({
             variables: {
                 id: props.councilID,
-                companyId: props.companyID
+                companyId: props.company.id
             }
         })
     }),

@@ -9,6 +9,10 @@ import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';
 import { Card, CardContent } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
+import image from '../../assets/img/signup3.jpg';
+import SignUpStepper from './SignUpStepper';
+import withWindowSize from '../../HOCs/withWindowSize';
+import Scrollbar from 'react-perfect-scrollbar';
 
 class SignUpPage extends React.Component {
 
@@ -80,60 +84,61 @@ class SignUpPage extends React.Component {
             return(<Welcome />);
         }
 
-        const { translate } = this.props;
+        const { translate, windowSize } = this.props;
+        const { page } = this.state;
         const primary = getPrimary();
 
         return(
-            <div style = {{display: 'flex', flexDirection: 'column', height: '100%', background: `linear-gradient(to right, ${primary}, #6499B1)`, overflow: 'auto', alignItems: 'center'}} >
+            <div style = {{display: 'flex', flexDirection: 'column', height: 'calc(100vh - 3em)', backgroundImage: `url(${image})`, overflow: 'auto', alignItems: 'center'}} >
                 <div style={{height: '13%', display: 'flex', alignItems: 'center'}}>
                     <h3 style={{color: 'white'}}>{translate.registration_of_society}</h3>
                 </div>
-                <Card style={{width: '65%', padding: 0, borderRadius: '0.3em', overflow: 'hidden'}}>
+                <Card style={{width: windowSize !== 'xs'? '65%' : '100%', height: windowSize !== 'xs'? null : '100%', padding: 0, borderRadius: windowSize !== 'xs'? '0.3em' : '0', overflow: 'hidden'}}>
                     <CardContent style={{padding: 0, width: '100%'}}>
-                        <div style={{display: 'flex', flexDirection: 'row', height:'70vh', width: '100%'}}>
-                            <div style={{backgroundColor: 'lightgrey', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', width: '5em', height: '100%'}}>
-                                <div style={{backgroundColor: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: '700', width: '2em', height: '2em', borderRadius: '1em'}} onClick={() => this.setState({page: 1})}>
-                                    1
-                                </div>
-                                <div style={{backgroundColor: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: '700', width: '2em', height: '2em', borderRadius: '1em'}} onClick={() => this.setState({page: 2})}>
-                                    2
-                                </div>
-                                <div style={{backgroundColor: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: '700', width: '2em', height: '2em', borderRadius: '1em'}} onClick={() => this.setState({page: 3})}>
-                                    3
-                                </div>
+                        <div style={{display: 'flex', flexDirection: windowSize !== 'xs'? 'row' : 'column', height: windowSize !== 'xs'? '72vh' : 'calc(100vh - 3em)', width: '100%'}}>
+                            <div style={{backgroundColor: 'WhiteSmoke', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '1em', height: windowSize !== 'xs'? '100%' : '5em'}}>
+                                <SignUpStepper
+                                    translate={translate}
+                                    active={page - 1}
+                                    windowSize={windowSize}
+                                />
                             </div>
-                            <div style={{backgroundColor: 'white', width: '100%', height: '100%'}}>
-                                {this.state.page === 1 &&
-                                    <SignUpEnterprise
-                                        nextPage={this.nextPage}
-                                        translate={this.props.translate}
-                                        formData={this.state.data} 
-                                        errors={this.state.errors}
-                                        updateState={this.updateState}
-                                        updateErrors={this.updateErrors}
-                                    />
-                                }
-                                {this.state.page === 2 &&
-                                    <SignUpUser
-                                        nextPage={this.nextPage}
-                                        formData={this.state.data}
-                                        errors={this.state.errors}
-                                        updateState={this.updateState}
-                                        updateErrors={this.updateErrors}
-                                        translate={this.props.translate}
-                                    />
-                                }
-                                {this.state.page === 3 &&
-                                    <SignUpPay
-                                        nextPage={this.nextPage}
-                                        formData={this.state.data}
-                                        errors={this.state.errors}
-                                        updateState={this.updateState}
-                                        updateErrors={this.updateErrors}
-                                        translate={this.props.translate}
-                                        sendNewCompany={this.props.companyActions.sendNewCompany}
-                                    />
-                               }
+                            <div style={{backgroundColor: 'white', width: '100%', position: 'relative', overflowY: 'hidden', height: windowSize !== 'xs'? '100%' : 'calc(100vh - 8em - 11.5%)'}}>
+                                <Scrollbar>
+                                    <div style={{paddingBottom: '6.5em'}}>
+                                        {page === 1 &&
+                                            <SignUpEnterprise
+                                                nextPage={this.nextPage}
+                                                translate={this.props.translate}
+                                                formData={this.state.data} 
+                                                errors={this.state.errors}
+                                                updateState={this.updateState}
+                                                updateErrors={this.updateErrors}
+                                            />
+                                        }
+                                        {page === 2 &&
+                                            <SignUpUser
+                                                nextPage={this.nextPage}
+                                                formData={this.state.data}
+                                                errors={this.state.errors}
+                                                updateState={this.updateState}
+                                                updateErrors={this.updateErrors}
+                                                translate={this.props.translate}
+                                            />
+                                        }
+                                        {page === 3 &&
+                                            <SignUpPay
+                                                nextPage={this.nextPage}
+                                                formData={this.state.data}
+                                                errors={this.state.errors}
+                                                updateState={this.updateState}
+                                                updateErrors={this.updateErrors}
+                                                translate={this.props.translate}
+                                                sendNewCompany={this.props.companyActions.sendNewCompany}
+                                            />
+                                        }
+                                    </div>
+                                </Scrollbar>
                             </div>
                         </div>
                     </CardContent>
@@ -149,4 +154,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(SignUpPage);
+export default connect(null, mapDispatchToProps)(withWindowSize(SignUpPage));

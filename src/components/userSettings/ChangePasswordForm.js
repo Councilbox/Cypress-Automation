@@ -114,6 +114,14 @@ class ChangePasswordForm extends Component {
         });
     }
 
+    resetButtonStates = () => {
+        this.setState({
+            error: false,
+            loading: false,
+            success: false
+        });
+    }
+
     render(){
         const { translate } = this.props;
         const { data, errors, success, loading, error } = this.state;
@@ -168,6 +176,7 @@ class ChangePasswordForm extends Component {
                     onClick={this.updatePassword}
                     loading={loading}
                     error={error}
+                    reset={this.resetButtonStates}
                     success={success}
                     icon={<ButtonIcon type={'save'} color='white' />}
                 />

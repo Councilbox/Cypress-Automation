@@ -286,8 +286,8 @@ class StatuteEditor extends React.PureComponent {
                                 }) 
                             }
                         >
-                            {!this.props.censusList.loading &&
-                                this.props.censusList.censuses.map((census) => {
+                            {!this.props.censusList.loading && !!this.props.censusList &&
+                                this.props.censusList.censuses.list.map((census) => {
                                     return <MenuItem value={census.id} key={`censu_${census.id}`}>{census.censusName}</MenuItem>
                                 })
 
@@ -401,7 +401,8 @@ export default compose(
         options: (props) => ({
             variables: {
                 companyId: props.statute.companyId
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     })
 )(StatuteEditor);

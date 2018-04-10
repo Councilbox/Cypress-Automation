@@ -13,8 +13,8 @@ class EnhancedTable extends Component {
             filterField: this.props.defaultFilter,
             limit: this.props.defaultLimit,
             page: 1,
-            orderBy: this.props.defaultOrder[0],
-            orderDirection : this.props.defaultOrder[1]
+            orderBy: this.props.defaultOrder? this.props.defaultOrder[0] : '',
+            orderDirection :this.props.defaultOrder? this.props.defaultOrder[1] : 'asc'
         }
         this.timeout = null;
     }
