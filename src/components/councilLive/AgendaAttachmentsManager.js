@@ -4,7 +4,7 @@ import { CollapsibleSection, FileUploadButton, Icon } from '../displayComponents
 import AttachmentList from '../attachments/AttachmentList';
 import { darkGrey } from '../../styles/colors';
 import { addAgendaAttachment, removeAgendaAttachment } from '../../queries';
-import { maxFileSize } from '../../constants';
+import { MAX_FILE_SIZE } from '../../constants';
 
 class AgendaAttachmentsManager extends Component {
 
@@ -21,7 +21,7 @@ class AgendaAttachmentsManager extends Component {
         if(!file){
             return;
         }
-        if(file.size / 1000 + this.state.totalSize > maxFileSize){
+        if(file.size / 1000 + this.state.totalSize > MAX_FILE_SIZE){
             this.setState({
                 alert: true
             });

@@ -41,7 +41,7 @@ class Sidebar extends Component {
   }
 
 
-  componentWillMount(){
+  componentDidMount(){
     const index = this.findActiveRoute(this.props.location.pathname);
     console.log(index);
     this.setState({

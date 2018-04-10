@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, ButtonIcon } from '../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { maxFileSize } from '../../constants';
+import { MAX_FILE_SIZE } from '../../constants';
 import { Typography } from "material-ui";
 import AttachmentList from '../attachments/AttachmentList';
 import { showAddCouncilAttachment } from '../../utils/CBX';
@@ -50,7 +50,7 @@ class CouncilEditorAttachments extends Component {
         if(!file){
             return;
         }
-        if(file.size / 1000 + parseInt(this.state.totalSize, 10) > maxFileSize){
+        if(file.size / 1000 + parseInt(this.state.totalSize, 10) > MAX_FILE_SIZE){
             this.setState({
                 alert: true
             });
@@ -168,7 +168,7 @@ class CouncilEditorAttachments extends Component {
                 </Typography>
 
                 <ProgressBar 
-                    value={this.state.totalSize > 0 ? (this.state.totalSize / maxFileSize ) * 100 : 0} 
+                    value={this.state.totalSize > 0 ? (this.state.totalSize / MAX_FILE_SIZE ) * 100 : 0} 
                     color={getSecondary()}
                     style={{height: '1.2em'}}
                 />

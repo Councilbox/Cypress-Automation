@@ -9,11 +9,14 @@ export const deleteDraft = gql`
 `;
 
 export const companyDrafts = gql`
-    query companyDrafts($companyId: Int!) {
-      companyDrafts(companyId: $companyId) {
-            id
-            title
-            description
+    query companyDrafts($companyId: Int!, $filter: FilterInput, $options: OptionsInput) {
+      companyDrafts(companyId: $companyId, filter: $filter, options: $options) {
+            list{
+                id
+                title
+                description
+            }
+            total
         }
     }
 `;

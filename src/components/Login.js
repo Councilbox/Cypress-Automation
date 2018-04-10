@@ -26,11 +26,12 @@ class Login extends React.PureComponent {
 
     login = async () => {
         const { translate } = this.props;
+        const { user, password } = this.state;
         if(!this.checkRequiredFields()){
             const response = await this.props.mutate({
                 variables: {
-                    email: this.state.user,
-                    password: this.state.password
+                    email: user,
+                    password: password
                 }
             });
             if(response.errors){
@@ -57,7 +58,7 @@ class Login extends React.PureComponent {
 
             }
             if(response.data.login){
-                this.props.actions.loginSuccess(response.data.login.token);
+                this.props.actions.loginSuccess(response.data.login.token, user, password);
             }
         }
     }

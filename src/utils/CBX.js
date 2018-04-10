@@ -1,4 +1,4 @@
-import { maxCouncilAttachments, maxCouncilFilesSize } from '../constants';
+import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE } from '../constants';
 
 export const canReorderPoints = (council) => {
     if(council.statute.canReorderPoints === 1){
@@ -8,14 +8,14 @@ export const canReorderPoints = (council) => {
 }
 
 export const showAddCouncilAttachment = (attachments) => {
-    if(attachments.length >= maxCouncilAttachments){
+    if(attachments.length >= MAX_COUNCIL_ATTACHMENTS){
         return false;
     }
     return true;
 }
 
 export const canAddCouncilAttachment = (council, filesize) => {
-    if(council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) + filesize < maxCouncilFilesSize){
+    if(council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) + filesize < MAX_COUNCIL_FILE_SIZE){
         return true;
     }
     return false;

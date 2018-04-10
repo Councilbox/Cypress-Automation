@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../queries/companyDrafts.js";
 import { graphql, compose } from "react-apollo";
 import CompanyDraftForm from './CompanyDraftForm';
-import { LoadingSection, Table, AlertConfirm, ErrorWrapper, DeleteIcon, BasicButton, ButtonIcon, CardPageLayout } from "../displayComponents";
+import { LoadingSection, EnhancedTable, AlertConfirm, ErrorWrapper, DeleteIcon, BasicButton, ButtonIcon, CardPageLayout } from "../displayComponents";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from '../../HOCs/withSharedProps';
+import { DRAFTS_LIMITS } from '../../constants';
 
 class CompanyDraftList extends Component {
     constructor(props) {
@@ -90,67 +91,74 @@ class CompanyDraftList extends Component {
                         icon={<ButtonIcon type="add" color='white' />}
                     />
                 </Link><br/>
-                {loading ? (
-                    <LoadingSection />
-                ) : (
-                    <Fragment>
-                        {error ? (
-                            <div>
-                                {error.graphQLErrors.map(error => {
+                <Fragment>
+                    {error ? (
+                        <div>
+                            {error.graphQLErrors.map(error => {
+                                return (
+                                    <ErrorWrapper
+                                        error={error}
+                                        translate={translate}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ) : !!companyDrafts &&
+                        <Fragment>
+                            <EnhancedTable
+                                translate={translate}
+                                defaultLimit={DRAFTS_LIMITS[0]}
+                                defaultFilter={'title'}
+                                limits={DRAFTS_LIMITS}
+                                page={1}
+                                loading={loading}
+                                length={companyDrafts.list.length}
+                                total={companyDrafts.total}
+                                refetch={this.props.data.refetch}
+                                headers={[
+                                    {
+                                        text: translate.name,
+                                        name: 'title',
+                                        canOrder: true
+                                    },
+                                    { name: translate.delete }
+                                ]}
+                                action={this._renderDeleteIcon}
+                                companyID={this.props.company.id}
+                            >
+                                {companyDrafts.list.map(draft => {
                                     return (
-                                        <ErrorWrapper
-                                            error={error}
-                                            translate={translate}
-                                        />
+                                        <TableRow key={`draft${draft.id}`}>
+                                            <TableCell>
+                                                <Link
+                                                    to={`/company/${ this.props.company.id }/draft/${ draft.id }`}
+                                                >
+                                                    {draft.title}
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>
+                                                {this._renderDeleteIcon( draft.id )}
+                                            </TableCell>
+                                        </TableRow>
                                     );
                                 })}
-                            </div>
-                        ) : companyDrafts.length > 0 ? (
-                            <Fragment>
-                                <Table
-                                    headers={[
-                                        { name: translate.name },
-                                        { name: translate.delete }
-                                    ]}
-                                    action={this._renderDeleteIcon}
-                                    companyID={this.props.company.id}
-                                >
-                                    {companyDrafts.map(draft => {
-                                        return (
-                                            <TableRow key={`draft${draft.id}`}>
-                                                <TableCell>
-                                                    <Link
-                                                        to={`/company/${ this.props.company.id }/draft/${ draft.id }`}
-                                                    >
-                                                        {draft.title}
-                                                    </Link>
-                                                </TableCell>
-                                                <TableCell>
-                                                    {this._renderDeleteIcon( draft.id )}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    })}
-                                </Table>
-                            </Fragment>
-                        ) : (
-                            <span>{translate.no_results}</span>
-                        )}
+                            </EnhancedTable>
+                        </Fragment>
+                    }
 
-                        <AlertConfirm
-                            title={translate.send_to_trash}
-                            bodyText={translate.send_to_trash_desc}
-                            open={this.state.deleteModal}
-                            buttonAccept={translate.send_to_trash}
-                            buttonCancel={translate.cancel}
-                            modal={true}
-                            acceptAction={this.deleteDraft}
-                            requestClose={() =>
-                                this.setState({ deleteModal: false })
-                            }
-                        />
-                    </Fragment>
-                )}
+                    <AlertConfirm
+                        title={translate.send_to_trash}
+                        bodyText={translate.question_delete}
+                        open={this.state.deleteModal}
+                        buttonAccept={translate.send_to_trash}
+                        buttonCancel={translate.cancel}
+                        modal={true}
+                        acceptAction={this.deleteDraft}
+                        requestClose={() =>
+                            this.setState({ deleteModal: false })
+                        }
+                    />
+                </Fragment>
             </CardPageLayout>
         );
     }
@@ -168,7 +176,10 @@ export default withSharedProps()(compose(
         options: props => ({
             variables: {
                 companyId: props.company.id,
-                isMeeting: false
+                options: {
+                    limit: DRAFTS_LIMITS[0],
+                    offset: 0
+                }
             },
             notifyOnNetworkStatusChange: true
         })

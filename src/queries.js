@@ -232,18 +232,21 @@ export const councilStepTwo = gql`
 `;
 
 export const censuses = gql`
-  query censuses($companyId: Int!, $filters: filtersInput, $options: OptionsInput){
-    censuses(companyId: $companyId, filters: $filters, options: $options){
-      id
-      companyId
-      censusName
-      censusDescription
-      defaultCensus
-      quorumPrototype
-      state
-      creatorId
-      creationDate
-      lastEdit
+  query censuses($companyId: Int!, $filter: FilterInput, $options: OptionsInput){
+    censuses(companyId: $companyId, filter: $filter, options: $options){
+      list{
+        id
+        companyId
+        censusName
+        censusDescription
+        defaultCensus
+        quorumPrototype
+        state
+        creatorId
+        creationDate
+        lastEdit
+      }
+      total
     }
   }
 `;
@@ -341,28 +344,33 @@ export const draftData = gql`
 `;
 
 export const platformDrafts = gql`
-  query platformDrafts($companyId: Int!){
-    corporationDrafts(corporationId: 1){
-      categories
-      companyType
-      corporationId
-      councilType
-      description
-      id
-      language
-      majority
-      majorityDivider
-      majorityType
-      prototype
-      statuteId
-      text
-      title
-      type
-      userId
-      votationType
+  query platformDrafts($companyId: Int!, $filter: FilterInput, $options: OptionsInput){
+    platformDrafts(filter: $filter, options: $options){
+      list{
+        categories
+        companyType
+        corporationId
+        councilType
+        description
+        id
+        language
+        majority
+        majorityDivider
+        majorityType
+        prototype
+        statuteId
+        text
+        title
+        type
+        userId
+        votationType
+      }
+      total
     }
     companyDrafts(companyId: $companyId){
-      draftId
+      list{
+        draftId
+      }
     }
     draftTypes{
       id

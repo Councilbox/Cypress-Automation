@@ -1,17 +1,33 @@
 import { getCompanies } from './companyActions';
 import { client } from '../containers/App';
-import { getMe, getTranslations } from '../queries';
+import { getMe, getTranslations, login } from '../queries';
 
 export let language = 'es';
+let interval = null
 
-export const loginSuccess = (token) => {
+export const loginSuccess = (token, user, password) => {
     return (dispatch) => {
         sessionStorage.setItem('token', token);
         dispatch(initUserData());
         dispatch(getCompanies());
-        dispatch({type: 'LOGIN_SUCCESS'});        
+        dispatch({type: 'LOGIN_SUCCESS'}); 
+        interval = setInterval(() => refreshToken(user, password), 15000000);       
     }
 };
+
+const refreshToken = async (user, password) => {
+    const response = await client.mutate({
+        mutation: login, 
+        errorPolicy: 'all',
+        variables: {
+            email: user,
+            password: password
+        }
+    });
+    if(!response.errors){
+        sessionStorage.setItem('token', response.data.login.token);
+    }
+}
 
 export const loadingFinished = () => (
     {type: 'LOADING_FINISHED'}
@@ -41,6 +57,7 @@ export const setUserData = (user) => {
 
 export const logout = () => {
     sessionStorage.clear();
+    clearInterval(interval);
     return({type: 'LOGOUT'});
 };
 

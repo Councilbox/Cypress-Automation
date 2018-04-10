@@ -1,5 +1,7 @@
 import assert from 'assert';
 import * as CBX from '../utils/CBX';
+import * as Pagination from '../utils/pagination';
+
 
 describe('canReorderPoints', () => {
     const council = {
@@ -172,6 +174,14 @@ describe('Return if the config have exitsAct selected', () => {
         }), true);
     });
 });
+
+describe('Return true is it shouldnt be more pages', () => {
+    it('should return true when the num of pages is enough for the total elements', () => {
+        assert.equal(Pagination.hasMorePages(3, 16, 5), true);
+        assert.equal(Pagination.hasMorePages(3, 15, 5), false);
+        assert.equal(Pagination.hasMorePages(3, 14, 5), false);
+    });
+})
 
 /*
 - STATUTES
