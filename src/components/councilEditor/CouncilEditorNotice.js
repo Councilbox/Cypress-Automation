@@ -5,7 +5,9 @@ import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import { graphql, compose } from 'react-apollo';
 import { councilStepOne, updateCouncil, changeStatute } from '../../queries';
+import * as CBX from '../../utils/CBX';
 import moment from 'moment';
+moment.locale('es');
 
 class CouncilEditorNotice extends Component {
 
@@ -51,6 +53,7 @@ class CouncilEditorNotice extends Component {
     checkRequiredFields() {
 
         const { translate } = this.props;
+        const { data } = this.state;
 
         let errors = {
             name : '',
@@ -61,23 +64,21 @@ class CouncilEditorNotice extends Component {
 
         let hasError = false;
 
-        if(!this.state.data.name){
+        if(!data.name){
             hasError = true;
             errors.name = translate.new_enter_title
         }
 
-        if(!this.state.data.dateStart){
+        if(!data.dateStart){
             hasError = true;
             errors.dateStart = 'Este campo es obligatorio'
         }
 
-        if(!this.state.data.conveneText){
+        if(!data.conveneText || data.conveneText.replace(/<\/?[^>]+(>|$)/g, "").length <= 0){
             hasError = true;
             errors.conveneText = 'Este campo es obligatorio'
         }
         
-
-
         this.setState({
             alert: true,
             errors: errors
@@ -87,7 +88,7 @@ class CouncilEditorNotice extends Component {
     }
 
     updateCouncil = () => {
-        const { __typename, ...council } = this.state.data;
+        const { __typename, statute, ...council } = this.state.data;
         console.log(council);
         this.props.updateCouncil({
             variables: {
@@ -135,10 +136,7 @@ class CouncilEditorNotice extends Component {
         const { translate, company } = this.props;
         const { loading, companyStatutes } = this.props.data;
         const council = this.state.data;
-        const date = new Date(this.state.data.dateStart);
-        const dateWrapper = moment(date);
-        console.log(dateWrapper);
-
+        const { errors } = this.state;
 
         if(loading){
             return(
@@ -150,7 +148,7 @@ class CouncilEditorNotice extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-                <div className="row" >
+                <div className="row">
                     <div className="col-lg-12 col-md-12 col-xs-12" style={{height: '4em', verticalAlign: 'middle', display: 'flex', alignItems: 'center'}}>
                         <BasicButton
                             text={translate.change_location}
@@ -161,7 +159,7 @@ class CouncilEditorNotice extends Component {
                             icon={<ButtonIcon type="location_on" color="white" />}
                         />
                         <h6 style={{marginLeft: '1.5em'}}><b>{`${translate.new_location_of_celebrate}: `}</b>{
-                            this.state.data.remoteCelebration === 1 ? 
+                            council.remoteCelebration === 1 ? 
                                 translate.remote_celebration 
                             : 
                                 `${council.street}, ${council.country}` }
@@ -169,6 +167,7 @@ class CouncilEditorNotice extends Component {
                     </div>
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <SelectInput
+                            required
                             floatingText={translate.council_type}
                             value={this.props.data.council.statute.statuteId || ''}
                             onChange={(event) => this.changeStatute(+event.target.value)}
@@ -180,33 +179,59 @@ class CouncilEditorNotice extends Component {
                     </div>
                     <div className="col-lg-6 col-md-6 col-xs-12">                    
                         <DateTimePicker 
+                            required
                             onChange={(date) => {
                                 const newDate = new Date(date);
                                 this.updateState({
                                     dateStart: newDate.toISOString()
                                 })}
                             }
+                            minDateMessage={''}
+                            acceptText={translate.accept}
+                            cancelText={translate.cancel}
                             label = {translate["1st_call_date"]}
                             value={council.dateStart}
                         />
                     </div>
+                    {CBX.hasSecondCall(council.statute) &&
+                        <div className="col-lg-6 col-md-6 col-xs-12">                    
+                            <DateTimePicker 
+                                required
+                                onChange={(date) => {
+                                    const newDate = new Date(date);
+                                    this.updateState({
+                                        dateStart2ndCall: newDate.toISOString()
+                                    })}
+                                }
+                                minDateMessage={''}
+                                acceptText={translate.accept}
+                                cancelText={translate.cancel}
+                                label = {translate["2nd_call_date"]}
+                                value={council.dateStart2ndCall}
+                            />
+                        </div>
+                    }
                     <div className="col-lg-5 col-md-6 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
                         <TextInput
+                            required
                             floatingText={translate.convene_header}
                             type="text"
-                            errorText={this.state.errors.name}
+                            errorText={errors.name}
                             value={council.name || ''}
                             onChange={(event) => this.updateState({
                                 name: event.nativeEvent.target.value
                             })}
                         />
                     </div>
-                    <div className="col-lg-10 col-md-10 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
+                    <div className="col-lg-12 col-md-12 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
                         <RichTextInput
-                            errorText=''
+                            errorText={errors.conveneText}
+                            required
                             tags={[
-                                {value: '132', label: translate["1st_call_date"]},
-                                {value: company.businessName, label: translate.business_name}
+                                {value: moment(council.dateStart).format('LLL'), label: translate.date},
+                                {value: company.businessName, label: translate.business_name},
+                                {value: `${council.street}, ${council.country}`, label: translate.new_location_of_celebrate},
+                                {value: company.country, label: translate.company_new_country}
                             ]}
                             floatingText={translate.convene_info}
                             value={council.conveneText || ''}
@@ -243,7 +268,7 @@ class CouncilEditorNotice extends Component {
                     countries={this.props.data.countries}
                     translate={this.props.translate}
                     saveAndClose={this.savePlaceAndClose}
-                    council={this.state.data}
+                    council={council}
                 />  
                 <ErrorAlert
                     title={translate.error}

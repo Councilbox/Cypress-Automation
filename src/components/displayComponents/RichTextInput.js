@@ -39,15 +39,15 @@ class RichTextField extends Component {
     }
 
     render(){
-        const { tags } = this.props;
+        const { tags, errorText, required } = this.props;
 
         return(
             <Fragment>
-                <Typography variant="body1">
-                    {this.props.floatingText}
+                <Typography variant="body1" style={{color: !!errorText? 'red' : 'inherit'}}>
+                    {this.props.floatingText}{!!required && '*'}
                 </Typography>
                 <Grid>
-                    <GridItem xs={12} lg={11} md={11}>
+                    <GridItem xs={12} lg={10} md={10}>
                         <RichTextEditor
                             ref={'rtEditor'}
                             className={'text-editor'}
@@ -57,11 +57,11 @@ class RichTextField extends Component {
                         />
                     </GridItem>
                     {!!tags &&
-                        <GridItem xs={12} lg={1} md={1}>
+                        <GridItem xs={12} lg={2} md={2}>
                             {tags.map((tag) => {
                                 return(
-                                    <div>
-                                        <span onClick={() => this.paste(tag.value)}>{tag.label}</span>
+                                    <div key={`tag_${tag.label}`} onClick={() => this.paste(tag.value)} style={{width: '100%', padding: '0.2em', border: '1px solid Gainsboro', cursor: 'pointer'}}>
+                                        <span>{tag.label}</span>
                                     </div>
                                 )
                             })} 

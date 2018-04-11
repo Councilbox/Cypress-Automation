@@ -6,13 +6,13 @@ import MeetingLiveContainer from './MeetingLiveContainer';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
-import { setLanguage, initUserData, loadingFinished } from '../actions/mainActions';
+import { setLanguage, initUserData, loadingFinished, logout } from '../actions/mainActions';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
-//import { onError } from 'apollo-link-error';
+import { onError } from 'apollo-link-error';
 import { API_URL } from '../config';
 
 
@@ -31,12 +31,15 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-/*const logoutLink = onError(({ graphQLErrors, networkError }) => {
+const logoutLink = onError(({ graphQLErrors, networkError }) => {
     console.log(graphQLErrors);
-})*/
+    if(graphQLErrors[0].code === 440){
+        store.dispatch(logout());
+    }
+})
 
 export const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: logoutLink.concat(authLink.concat(httpLink)),
     cache: new InMemoryCache()
 })
 

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { TableRow, TableCell } from 'material-ui/Table';
 import { getPrimary } from '../../styles/colors';
-import { Table, DeleteIcon } from '../displayComponents';
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import { EnhancedTable, DeleteIcon, LoadingSection } from '../displayComponents';
+import { graphql, compose } from "react-apollo";
+import { councilParticipants, deleteParticipant } from '../../queries';
+import { PARTICIPANTS_LIMITS } from '../../constants';
 
 class ParticipantsTable extends Component {
 
@@ -16,6 +17,10 @@ class ParticipantsTable extends Component {
                 onClick={() => this.deleteParticipant(participantID)}
             />
         );
+    }
+
+    componentDidUpdate(){
+        this.props.data.refetch();
     }
 
     deleteParticipant = async (id) => {
@@ -33,46 +38,90 @@ class ParticipantsTable extends Component {
 
     render(){
         const { translate } = this.props;
+        const { loading, councilParticipants } = this.props.data;
 
         return(
             <div style={{width: '100%'}}>
-                <Table
-                    headers={[
-                        {name: translate.name},
-                        {name: translate.dni},
-                        {name: translate.email},
-                        {name: translate.phone_number},
-                        {name: translate.position},
-                        {name: translate.votes},
-                        {name: translate.delete},                    
-                    ]}
-                    action={this._renderDeleteIcon}
-                >
-                    {this.props.participants.map((participant) => {
-                        return(
-                            <TableRow                         
-                                key={`participant${participant.id}`} 
-                            >
-                                <TableCell>{participant.name}</TableCell>
-                                <TableCell>{participant.dni}</TableCell>
-                                <TableCell>{participant.email}</TableCell>
-                                <TableCell>{participant.phone}</TableCell>
-                                <TableCell>{participant.position}</TableCell>     
-                                <TableCell>{participant.numParticipations}</TableCell>
-                                <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>                  
-                            </TableRow>
-                        )
-                    })}
-                </Table>
+                {!!councilParticipants && 
+                    <EnhancedTable
+                        translate={translate}
+                        defaultLimit={PARTICIPANTS_LIMITS[0]}
+                        defaultFilter={'fullName'}
+                        defaultOrder={['name', 'asc']}
+                        limits={PARTICIPANTS_LIMITS}
+                        page={1}
+                        loading={loading}
+                        length={councilParticipants.list.length}
+                        total={councilParticipants.total}
+                        refetch={this.props.data.refetch}
+                        action={this._renderDeleteIcon}
+                        fields={[
+                            {value: 'fullName', translation: translate.participant_data}, 
+                            {value: 'dni', translation: translate.dni},
+                            {value: 'email', translation: translate.email},
+                            {value: 'position', translation: translate.position}
+                        ]}
+                        headers={[
+                            {
+                                text: translate.name,
+                                name: 'name',
+                                canOrder: true
+                            },
+                            {
+                                text: translate.dni,
+                                name: 'dni',
+                                canOrder: true
+                            },
+                            {
+                                text: translate.email,
+                                name: 'email',
+                                canOrder: true
+                            },{
+                                text: translate.phone
+                            },
+                            {text: translate.position},
+                            {
+                                text: translate.votes,
+                                name: 'numParticipations',
+                                canOrder: true
+                            },
+                            {name: translate.delete},
+                        ]}
+                    >
+                        {councilParticipants.list.map((participant) => {
+                            return(
+                                <TableRow                         
+                                    key={`participant${participant.id}`} 
+                                >
+                                    <TableCell>{participant.name}</TableCell>
+                                    <TableCell>{participant.dni}</TableCell>
+                                    <TableCell>{participant.email}</TableCell>
+                                    <TableCell>{participant.phone}</TableCell>
+                                    <TableCell>{participant.position}</TableCell>     
+                                    <TableCell>{participant.numParticipations}</TableCell>
+                                    <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>                  
+                                </TableRow>
+                            )
+                        })}
+                    </EnhancedTable>
+
+                }
             </div>
         );
     }
 }
 
-const deleteParticipant = gql `
-    mutation DeleteParticipant($participantId: Int!, $councilId: Int!) {
-        deleteParticipant(participantId: $participantId, councilId: $councilId)
-    }
-`;
-
-export default graphql(deleteParticipant)(ParticipantsTable);
+export default compose(
+    graphql(deleteParticipant),
+    graphql(councilParticipants, {
+        options: (props) => ({
+            variables: {
+                councilId: props.councilId,
+                options: {
+                    limit: PARTICIPANTS_LIMITS[0],
+                    offset: 0
+                }
+            }
+        })
+    })
+)(ParticipantsTable);

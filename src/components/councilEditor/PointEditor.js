@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, TextInput, RichTextInput } from '../displayComponents';
 import { MenuItem } from 'material-ui';
 import { updateAgenda } from '../../queries';
+import * as CBX from '../../utils/CBX';
 
 
 class PointEditor extends Component {
@@ -54,9 +55,11 @@ class PointEditor extends Component {
     }
 
     _renderModalBody = () => {
-        const { translate } = this.props;
+        const { translate, votingTypes, statute } = this.props;
         const errors = this.state.errors;
         const agenda = this.state.data;
+
+        const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
         
         return(
             <Fragment>
@@ -90,7 +93,7 @@ class PointEditor extends Component {
                                 }) 
                             }}
                         >
-                            {this.props.votingTypes.map((voting) => {
+                            {filteredTypes.map((voting) => {
                                     return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
                                 })
                             }

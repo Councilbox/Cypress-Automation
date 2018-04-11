@@ -1,6 +1,7 @@
 import { getCompanies } from './companyActions';
 import { client } from '../containers/App';
 import { getMe, getTranslations, login } from '../queries';
+import moment from 'moment';
 
 export let language = 'es';
 let interval = null
@@ -67,6 +68,14 @@ export const setLanguage = (language) => {
         const translationObject = {};
         response.data.translations.forEach(translation => {
             translationObject[translation.label] = translation.text;
+        });
+        let locale = language;
+        if(language === 'cat' || language === 'gal'){
+            locale = 'es';
+        }
+        moment.locale(locale, {
+            months: translationObject.datepicker_months.split(','),
+            monthsShort: translationObject.datepicker_months.split(',').map(month => month.substring(0,3))
         });
         dispatch({type: 'LOADED_LANG', value: translationObject, selected: language});
     }

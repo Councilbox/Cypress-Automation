@@ -175,6 +175,8 @@ export const councilStepOne = gql`
       dateStart
       dateStart2NdCall
       statute {
+        existsSecondCall
+        id
         statuteId
         title
       }
@@ -197,7 +199,33 @@ export const councilStepTwo = gql`
       id
       quorumPrototype
       selectedCensusId
-      participants{
+    }
+
+    censuses(companyId: $companyId){
+      list{
+        id
+        companyId
+        censusName
+        censusDescription
+        defaultCensus
+        quorumPrototype
+        state
+      }
+      total
+    }
+  }
+`;
+
+export const deleteParticipant = gql `
+    mutation DeleteParticipant($participantId: Int!, $councilId: Int!) {
+        deleteParticipant(participantId: $participantId, councilId: $councilId)
+    }
+`;
+
+export const councilParticipants = gql`
+  query participants($councilId: Int!, $filter: FilterInput, $options: OptionsInput){
+    councilParticipants(councilId: $councilId, filter: $filter, options: $options){
+      list{
         id
         councilId
         name
@@ -217,16 +245,7 @@ export const councilStepTwo = gql`
         city
         personOrEntity
       }
-    }
-
-    censuses(companyId: $companyId){
-      id
-      companyId
-      censusName
-      censusDescription
-      defaultCensus
-      quorumPrototype
-      state
+      total
     }
   }
 `;
@@ -557,6 +576,7 @@ export const councilStepThree = gql`
         existPublicUrl
         existsAct
         existsAdvanceNoticeDays
+        existsPresentWithRemoteVote
         existsSecondCall
         id
         minimumSeparationBetweenCall

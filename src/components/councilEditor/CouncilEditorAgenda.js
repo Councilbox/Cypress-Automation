@@ -114,6 +114,7 @@ class CouncilEditorAgenda extends Component {
                             translate={translate}
                             agendas={council.agendas}
                             votingTypes={votingTypes}
+                            statute={council.statute}
                             councilID={this.props.councilID}
                             refetch={this.props.data.refetch}
                         >
@@ -182,6 +183,7 @@ class CouncilEditorAgenda extends Component {
                 <PointEditor
                     translate={translate}
                     open={this.state.edit}
+                    statute={council.statute}
                     agenda={council.agendas[this.state.editIndex]}
                     votingTypes={votingTypes}
                     refetch={this.props.data.refetch}

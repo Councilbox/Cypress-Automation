@@ -153,7 +153,7 @@ class CouncilEditorCensus extends Component {
                             value={council.selectedCensusId}
                             onChange={this.handleCensusChange}
                         >
-                            {censuses.map((census) => {
+                            {censuses.list.map((census) => {
                                     return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.censusName}</MenuItem>
                                 })
                             }
@@ -171,8 +171,7 @@ class CouncilEditorCensus extends Component {
                     </div>
                 </div>
                 <ParticipantsTable
-                    participants={council.participants}
-                    councilID={this.props.councilID}
+                    councilId={this.props.councilID}
                     translate={translate}
                     refetch={this.props.data.refetch}
                 />

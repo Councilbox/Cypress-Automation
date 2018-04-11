@@ -59,3 +59,14 @@ export const isMajorityNumber = (majorityType) => {
 export const hasAct = (statute) => {
     return statute.existsAct === 1;
 }
+
+export const filterAgendaVotingTypes = (votingTypes, statute) => {
+    if(statute.existsPresentWithRemoteVote === 1){
+        return votingTypes.filter((type) => type.label === 'text' || type.label === 'public_votation');
+    }
+    return votingTypes; 
+}
+
+export const hasSecondCall = (statute) => {
+    return statute.existsSecondCall === 1;
+}

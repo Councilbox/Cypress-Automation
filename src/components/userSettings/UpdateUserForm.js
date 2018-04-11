@@ -54,13 +54,13 @@ class UpdateUserForm extends React.Component {
                     loading: false,
                     success: false
                 });
-                store.dispatch(setUserData(response.data.updateUser))
             }else{
                 this.setState({
                     success: true,
                     error: false,
                     loading: false
-                })
+                });
+                store.dispatch(setUserData(response.data.updateUser))
             }
         }
 
@@ -184,7 +184,7 @@ class UpdateUserForm extends React.Component {
                         >   
                             {this.props.languages.map((language) =>
                                 <MenuItem key={`language_${language.columnName}`} value={language.columnName}>
-                                    {language.columnName.toUpperCase()}
+                                    {language.desc}
                                 </MenuItem>
                             )}
                         </SelectInput>

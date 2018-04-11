@@ -181,7 +181,49 @@ describe('Return true is it shouldnt be more pages', () => {
         assert.equal(Pagination.hasMorePages(3, 15, 5), false);
         assert.equal(Pagination.hasMorePages(3, 14, 5), false);
     });
-})
+});
+
+describe('Return a subarray of voting types, depending on the statute config', () => {
+    it('should return the correct options from the array', () => {
+        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, {existsPresentWithRemoteVote: 1}), [{
+            'value': 0,
+            'label': 'text'
+        }, {
+            'value': 1,
+            'label': 'public_votation'
+        }]);
+        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, {existsPresentWithRemoteVote: 0}), votingTypes);
+        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, {existsPresentWithRemoteVote: -1}), votingTypes);
+    });
+});
+
+describe('Return true if the council statutes have the exists second call activated', () => {
+    it('Should return true when is 1 and false otherwise', () => {
+        assert.equal(CBX.hasSecondCall({
+            existsSecondCall: '1'
+        }), false);
+        assert.equal(CBX.hasSecondCall({
+            existsSecondCall: 0
+        }), false);
+        assert.equal(CBX.hasSecondCall({
+            existsSecondCall: 1
+        }), true);
+    });
+});
+
+const votingTypes = [{
+    'value': 0,
+    'label': 'text'
+}, {
+    'value': 1,
+    'label': 'public_votation'
+}, {
+    'value': 3,
+    'label': 'fake_public_votation'
+}, {
+    'value': 5,
+    'label': 'private_votation'
+}];
 
 /*
 - STATUTES
@@ -192,7 +234,7 @@ Se incluye lista de participantes en acta
 Plantillas de acta
 
 EXISTE SEGUNDA CONVOCATORIA ->
-Separación mínima entre 1.ª y 2.ª convocatoria
+Separación mínima entre 1.ª y 2.ª convocatoria1
 Quorum asistencia 2.ª convocatoria
 
 EXISTE VOTO DELEGADO
