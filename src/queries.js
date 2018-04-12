@@ -175,8 +175,11 @@ export const councilStepOne = gql`
       dateStart
       dateStart2NdCall
       statute {
+        advanceNoticeDays
+        existsAdvanceNoticeDays
         existsSecondCall
         id
+        minimumSeparationBetweenCall
         statuteId
         title
       }
@@ -437,7 +440,6 @@ export const statutes = gql`
       canReorderPoints
       existsAct
       existsWhoWasSentAct
-      whoWasSentAct
       includedInActBook
       whoWasSentActWay
       canUnblock

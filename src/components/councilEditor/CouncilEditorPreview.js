@@ -19,11 +19,6 @@ class CouncilEditorPreview extends Component {
                 council: council
             }
         });
-
-        if(response){
-            
-        }
-
     }
 
     render(){

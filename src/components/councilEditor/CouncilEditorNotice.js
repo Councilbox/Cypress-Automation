@@ -7,7 +7,6 @@ import { graphql, compose } from 'react-apollo';
 import { councilStepOne, updateCouncil, changeStatute } from '../../queries';
 import * as CBX from '../../utils/CBX';
 import moment from 'moment';
-moment.locale('es');
 
 class CouncilEditorNotice extends Component {
 
@@ -119,6 +118,15 @@ class CouncilEditorNotice extends Component {
         });
     }
 
+    updateError = (object) => {
+        this.setState({
+            errors: {
+                ...this.state.errors,
+                ...object
+            }
+        });
+    }
+
     changeStatute = async (statuteId) => {
         const response = await this.props.changeStatute({
             variables: {
@@ -129,6 +137,30 @@ class CouncilEditorNotice extends Component {
 
         if(response){
             this.props.data.refetch();
+            this.updateDate();
+        }
+    }
+
+    updateDate = (firstDate = this.state.data.dateStart, secondDate = this.state.data.dateStart2NdCall) => {
+        const { translate } = this.props;
+        this.updateState({
+            dateStart: firstDate,
+            dateStart2NdCall: secondDate
+        })
+        if(!CBX.checkSecondDateAfterFirst(firstDate, secondDate)){
+            this.updateError({
+                dateStart2NdCall: translate['2nd_call_date_changed']
+            });
+            this.updateState({
+                dateStart2NdCall: CBX.addMinimunDistance(firstDate, this.props.data.council.statute)
+            });
+        }else{
+            if(!CBX.checkMinimunDistanceBetweenCalls(firstDate, secondDate, this.props.data.council.statute)){
+                console.log('no llega al minimo');
+                this.updateError({
+                    dateStart2NdCall: translate.new_statutes_hours_warning.replace('{{hours}}', this.props.data.council.statute.minimumSeparationBetweenCall)
+                });
+            }
         }
     }
 
@@ -145,6 +177,8 @@ class CouncilEditorNotice extends Component {
                 </div>
             );
         }
+
+        const { statute } = this.props.data.council;
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
@@ -193,21 +227,22 @@ class CouncilEditorNotice extends Component {
                             value={council.dateStart}
                         />
                     </div>
-                    {CBX.hasSecondCall(council.statute) &&
+                    {CBX.hasSecondCall(statute) &&
                         <div className="col-lg-6 col-md-6 col-xs-12">                    
                             <DateTimePicker 
                                 required
+                                minDate={new Date(council.dateStart).toISOString()}
+                                errorText={errors.dateStart2NdCall}
                                 onChange={(date) => {
                                     const newDate = new Date(date);
-                                    this.updateState({
-                                        dateStart2ndCall: newDate.toISOString()
-                                    })}
-                                }
+                                    const dateString = newDate.toISOString();
+                                    this.updateDate(undefined, dateString);
+                                }}
                                 minDateMessage={''}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
                                 label = {translate["2nd_call_date"]}
-                                value={council.dateStart2ndCall}
+                                value={council.dateStart2NdCall}
                             />
                         </div>
                     }

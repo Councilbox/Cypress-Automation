@@ -1,4 +1,5 @@
 import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE } from '../constants';
+import moment from 'moment';
 
 export const canReorderPoints = (council) => {
     if(council.statute.canReorderPoints === 1){
@@ -69,4 +70,23 @@ export const filterAgendaVotingTypes = (votingTypes, statute) => {
 
 export const hasSecondCall = (statute) => {
     return statute.existsSecondCall === 1;
+}
+
+export const checkMinimunDistanceBetweenCalls = (firstCall, secondCall, statute) => {
+    const firstDate = moment(new Date(firstCall).toISOString(), moment.ISO_8601);
+    const secondDate = moment(new Date(secondCall).toISOString(), moment.ISO_8601);
+    const difference = secondDate.diff(firstDate, 'minutes');
+    return difference >= statute.minimumSeparationBetweenCall;
+}
+
+export const checkSecondDateAfterFirst = (firstDate, secondDate) => {
+    const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
+    const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
+    const difference = second.diff(first, 'minutes');
+    return difference > 0;
+}
+
+export const addMinimunDistance = (date, statute) => {
+    const momentDate = moment(new Date(date).toISOString());
+    return momentDate.add(statute.minimumSeparationBetweenCall, 'minutes');
 }

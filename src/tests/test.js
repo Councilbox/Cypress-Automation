@@ -211,6 +211,15 @@ describe('Return true if the council statutes have the exists second call activa
     });
 });
 
+describe('Check if the distance between the first and second date exceeds the minimun value set in the statute', () => {
+    it('Should return true when is bigger than the minium false otherwise', () => {
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:30', {minimumSeparationBetweenCall: 10}), true);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:05', {minimumSeparationBetweenCall: 10}), false);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:00', {minimumSeparationBetweenCall: 10}), false);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 11:00', {minimumSeparationBetweenCall: 10}), false);
+    });
+})
+
 const votingTypes = [{
     'value': 0,
     'label': 'text'
