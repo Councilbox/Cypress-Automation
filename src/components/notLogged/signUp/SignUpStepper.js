@@ -1,5 +1,5 @@
 import React from 'react';
-import Stepper, { Step, StepLabel, StepContent } from 'material-ui/Stepper';
+import Stepper, { Step, StepContent, StepLabel } from 'material-ui/Stepper';
 
 const SignUpStepper = ({ active, translate, windowSize }) => {
 

@@ -4,6 +4,7 @@ import LoginContainer from './LoginContainer';
 import CouncilContainer from './CouncilContainer';
 import SignUpContainer from './SignUpContainer';
 import MeetingsContainer from './MeetingsContainer';
+import ForgetPdwContainer from './ForgetPwdContainer';
 import Welcome from '../components/Welcome';
 import NotFound from "../components/NotFound";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
@@ -41,7 +42,6 @@ class AppRouter extends Component {
         this.setState({ mobileOpen: !this.state.mobileOpen });
     };
 
-    
 
     render() {
         const { translate } = this.props;
@@ -93,6 +93,7 @@ class AppRouter extends Component {
                 <Switch>
                     <Route exact path="/" component={LoginContainer}/>
                     <Route path="/signup" component={SignUpContainer}/>
+                    <Route path="/forgetPwd" component={ForgetPdwContainer}/>
                     <Route path="/welcome" component={Welcome} />
                     <Route path="/participant/:id" component={ParticipantPage} />
                     <Route path="*" component={NotFound}/>            

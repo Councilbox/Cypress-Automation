@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SignUpPage from '../components/signUp/SignUpPage';
+import SignUpPage from '../components/notLogged/signUp/SignUpPage';
 import Header from '../components/Header';
 import {connect} from 'react-redux';
 

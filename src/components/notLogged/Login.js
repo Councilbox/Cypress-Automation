@@ -1,15 +1,14 @@
 import React from 'react';
-import * as mainActions from '../actions/mainActions';
+import * as mainActions from '../../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Card } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { login } from '../queries';
-import { getPrimary } from '../styles/colors';
-import withWindowSize from '../HOCs/withWindowSize';
-import { BasicButton, ButtonIcon, TextInput, Link } from './displayComponents';
-import background from '../assets/img/signup3.jpg';
-
+import { login } from '../../queries';
+import { getPrimary } from '../../styles/colors';
+import withWindowSize from '../../HOCs/withWindowSize';
+import { BasicButton, ButtonIcon, TextInput, Link } from '../displayComponents/index';
+import background from '../../assets/img/signup3.jpg';
 
 class Login extends React.PureComponent {
 
@@ -42,7 +41,7 @@ class Login extends React.PureComponent {
                             errors: {
                                 password: translate.password_err
                             }
-                        })
+                        });
                         break;
                     case 'Not found':
                         this.setState({
@@ -62,7 +61,7 @@ class Login extends React.PureComponent {
                 this.props.actions.loginSuccess(response.data.login.token, user, password);
             }
         }
-    }
+    };
 
     checkRequiredFields(){
         let errors = {
@@ -91,13 +90,13 @@ class Login extends React.PureComponent {
 
     logout = () => {
         this.props.actions.logout();
-    }
+    };
 
     handleKeyUp = (event) => {
         if(event.nativeEvent.keyCode === 13){
             this.login();
         }
-    }
+    };
 
     render(){
         const { translate, windowSize } = this.props;
@@ -122,13 +121,13 @@ class Login extends React.PureComponent {
                         <br />
                         <div className="row" style={{display: 'flex', flexDirection: 'row', marginTop: windowSize === 'xs'? 0 : '1em'}}>
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>
-                                <BasicButton
-                                    text="Solicitar demostración"
-                                    color={'transparent'}
-                                    fullWidth
-                                    buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                />
+                                {/*<BasicButton*/}
+                                    {/*text="Solicitar demostración"*/}
+                                    {/*color={'transparent'}*/}
+                                    {/*fullWidth*/}
+                                    {/*buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}*/}
+                                    {/*textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}*/}
+                                {/*/>*/}
                             </div>
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>                            
                                 <Link to="/signup">
@@ -185,7 +184,9 @@ class Login extends React.PureComponent {
                                 fullWidth={true}
                                 icon={<ButtonIcon color='white' type="arrow_forward" />}
                             />
-                            <Link to="/">¿Has olvidado tu contraseña?"</Link>  
+                            <Link to="/forgetPwd">
+                                ¿Has olvidado tu contraseña?
+                            </Link>
                         </div>
                     </Card>
                 </div>
@@ -193,6 +194,7 @@ class Login extends React.PureComponent {
         );
     }
 }
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators(mainActions, dispatch)

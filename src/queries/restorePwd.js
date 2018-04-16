@@ -1,0 +1,17 @@
+import gql from "graphql-tag";
+
+export const restorePwd = gql`
+    mutation restorePwd($email: String!) {
+        restorePwd(email: $email) {
+            success
+        }
+    }
+`;
+
+export const changePwd = gql`
+    mutation changePwd($pwd: String!, $token: String!) {
+        restorePwd(pwd: $pwd, token: $token) {
+            success
+        }
+    }
+`;

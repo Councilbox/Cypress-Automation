@@ -13,7 +13,7 @@ const MeetingEditorContainer = ({translate, council, match}) => {
             councilID={match.params.id}
         />
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     translate: state.translate,

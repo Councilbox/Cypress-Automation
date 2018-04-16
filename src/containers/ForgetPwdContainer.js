@@ -1,10 +1,10 @@
 import React from 'react';
-import Login from '../components/notLogged/Login';
+import ForgetPdw from '../components/notLogged/ForgetPdw';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
 import { LoadingMainApp } from '../components/displayComponents';
 
-class LoginContainer extends React.PureComponent {
+class ForgetPwdContainer extends React.PureComponent {
 
     render(){
         if(!this.props.translate.login_signin_header){
@@ -14,7 +14,7 @@ class LoginContainer extends React.PureComponent {
         return(
             <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
                 <Header translate={this.props.translate} helpIcon languageSelector />
-                <Login main={this.props.main} translate={this.props.translate} />
+                <ForgetPdw main={this.props.main} translate={this.props.translate} />
             </div>
         );
     }
@@ -25,4 +25,4 @@ const mapStateToProps = (state) => ({
     translate: state.translate
 });
 
-export default connect(mapStateToProps)(LoginContainer);
+export default connect(mapStateToProps)(ForgetPwdContainer);
