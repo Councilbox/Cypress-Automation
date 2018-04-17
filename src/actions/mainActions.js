@@ -4,7 +4,7 @@ import { getMe, getTranslations, login } from '../queries';
 import moment from 'moment';
 
 export let language = 'es';
-let interval = null
+let interval = null;
 
 export const loginSuccess = (token, user, password) => {
     return (dispatch) => {
@@ -28,7 +28,7 @@ const refreshToken = async (user, password) => {
     if(!response.errors){
         sessionStorage.setItem('token', response.data.login.token);
     }
-}
+};
 
 export const loadingFinished = () => (
     {type: 'LOADING_FINISHED'}
@@ -45,7 +45,7 @@ export const initUserData = () => {
             response.errors[0].code === 440 && sessionStorage.removeItem('token');
         }
     }
-}
+};
 
 export const setUserData = (user) => {
     return (dispatch) => {
@@ -53,7 +53,7 @@ export const setUserData = (user) => {
         dispatch({type: 'SET_USER_DATA', value: user});
         dispatch(setLanguage(user.preferred_language));
     }
-}
+};
 
 
 export const logout = () => {
@@ -79,4 +79,4 @@ export const setLanguage = (language) => {
         });
         dispatch({type: 'LOADED_LANG', value: translationObject, selected: language});
     }
-}
+};

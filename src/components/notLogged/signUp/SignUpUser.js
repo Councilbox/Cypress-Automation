@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { BasicButton, TextInput, ButtonIcon } from '../displayComponents';
-import { checkValidEmail } from '../../utils';
-import { getPrimary } from '../../styles/colors';
+import { BasicButton, ButtonIcon, TextInput } from '../../displayComponents/index';
+import { checkValidEmail } from '../../../utils/index';
+import { getPrimary } from '../../../styles/colors';
 
 class SignUpUser extends Component {
 
@@ -16,7 +16,7 @@ class SignUpUser extends Component {
         if(!this.checkRequiredFields()){
             this.props.nextPage();
         }
-    }
+    };
 
     checkRequiredFields(){
         let errors = {
