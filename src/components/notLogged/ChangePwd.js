@@ -10,10 +10,11 @@ import { getPrimary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput } from '../displayComponents/index';
 import background from '../../assets/img/signup3.jpg';
+import {Link} from "../displayComponents";
 
 const DEFAULT_ERRORS = {
     pwd: '',
-    repeatPdw: '',
+    repeatPwd: '',
 };
 
 class ChangePwd extends React.PureComponent {
@@ -21,8 +22,8 @@ class ChangePwd extends React.PureComponent {
     constructor(props) {
         super(props);
         this.state = {
-            pdw: '',
-            repeatPdw: '',
+            pwd: '',
+            repeatPwd: '',
             linkExpired: false,
             changed: false,
             errors: DEFAULT_ERRORS,
@@ -40,13 +41,13 @@ class ChangePwd extends React.PureComponent {
 
         let hasError = false;
 
-        if (!this.state.pdw.length > 0) {
+        if (!this.state.pwd.length > 0) {
             hasError = true;
             errors.pwd = translate.no_empty_pwd;
         }
-        if (this.state.pdw !== this.state.repeatPdw) {
+        if (this.state.pwd !== this.state.repeatPwd) {
             hasError = true;
-            errors.repeatPdw = translate.no_match_pwd;
+            errors.repeatPwd = translate.no_match_pwd;
         }
 
         this.setState({
@@ -57,12 +58,12 @@ class ChangePwd extends React.PureComponent {
         return hasError;
     }
 
-    changePdw = async () => {
+    changePwd = async () => {
         const { user } = this.state;
         if (!this.checkRequiredFields()) {
             const response = await this.props.changePwd({
                 variables: {
-                    token: user,
+                    token: this.props.match.params.token,
                     pwd: this.state.pwd,
                 }
             });
@@ -78,7 +79,7 @@ class ChangePwd extends React.PureComponent {
                         return;
                 }
             }
-            if (response.data.changePdw.success) {
+            if (response.data.changePwd.success) {
                 this.setState({
                     changed: true
                 });
@@ -93,9 +94,10 @@ class ChangePwd extends React.PureComponent {
                 token: this.props.match.params.token
             }
         });
+        console.log(response)
         if (response.errors) {
             switch (response.errors[ 0 ].code) {
-                case 402:
+                case 440:
                     this.setState({
                         linkExpired: true
                     });
@@ -109,7 +111,7 @@ class ChangePwd extends React.PureComponent {
 
     handleKeyUp = (event) => {
         if (event.nativeEvent.keyCode === 13) {
-            this.changePdw();
+            this.changePwd();
         }
     };
 
@@ -159,9 +161,9 @@ class ChangePwd extends React.PureComponent {
                                 <TextInput
                                     onKeyUp={this.handleKeyUp}
                                     floatingText={translate.new_password}
-                                    errorText={this.state.errors.user}
+                                    errorText={this.state.errors.pwd}
                                     type="password"
-                                    value={this.state.user}
+                                    value={this.state.pwd}
                                     onChange={(event) => this.setState({
                                         pwd: event.nativeEvent.target.value
                                     })}/>
@@ -170,9 +172,9 @@ class ChangePwd extends React.PureComponent {
                                 <TextInput
                                     onKeyUp={this.handleKeyUp}
                                     floatingText={translate.login_confirm_password}
-                                    errorText={this.state.errors.user}
+                                    errorText={this.state.errors.repeatPwd}
                                     type="password"
-                                    value={this.state.user}
+                                    value={this.state.repeatPwd}
                                     onChange={(event) => this.setState({
                                         repeatPwd: event.nativeEvent.target.value
                                     })}/>
@@ -186,7 +188,7 @@ class ChangePwd extends React.PureComponent {
                                         fontWeight: '700'
                                     }}
                                     textPosition="before"
-                                    onClick={this.changePdw}
+                                    onClick={this.changePwd}
                                     fullWidth={true}
                                     icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
                             </div>
@@ -199,9 +201,19 @@ class ChangePwd extends React.PureComponent {
                                 width: windowSize === 'xs' ? '100%' : '70%',
                                 padding: '3vw'
                             }}>
-                            {translate.password_changed}
+                            <div
+                                style={{
+                                    marginBottom: 0,
+                                    paddingBottom: 0,
+                                    fontWeight: '600',
+                                    fontSize: '1.5em',
+                                    color: primary
+                                }}>
+                                {translate.password_changed}
+                            </div>
+                            <br/>
                             <BasicButton
-                                text={translate.to_entry}
+                                text={translate.change_password}
                                 color={primary}
                                 textStyle={{
                                     color: 'white',
@@ -220,18 +232,31 @@ class ChangePwd extends React.PureComponent {
                             width: windowSize === 'xs' ? '100%' : '70%',
                             padding: '3vw'
                         }}>
-                        {translate.link_expired}
-                        <BasicButton
-                            text={translate.restore_header}
-                            color={primary}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700'
-                            }}
-                            textPosition="before"
-                            onClick={this.goRestorePwd}
-                            fullWidth={true}
-                            icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
+                        <div
+                            style={{
+                                marginBottom: 0,
+                                paddingBottom: 0,
+                                fontWeight: '600',
+                                fontSize: '1.5em',
+                                color: primary
+                            }}>
+                            {translate.link_expired}
+                        </div>
+                        <br/>
+                        <Link to={'/forgetPwd'}>
+                            <BasicButton
+                                text={translate.restore_header}
+                                color={primary}
+                                textStyle={{
+                                    color: 'white',
+                                    fontWeight: '700'
+                                }}
+                                textPosition="before"
+                                onClick={this.goRestorePwd}
+                                fullWidth={true}
+                                icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
+                        </Link>
+
                     </Card>}
             </div>
         </div>);

@@ -170,7 +170,7 @@ class ForgetPwd extends React.PureComponent {
                             style={{
                                 marginBottom: 0,
                                 paddingBottom: 0,
-                                fontWeight: '700',
+                                fontWeight: '600',
                                 fontSize: '1.5em',
                                 color: primary
                             }}>

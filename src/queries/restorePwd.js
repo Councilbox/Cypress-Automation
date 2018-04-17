@@ -10,7 +10,7 @@ export const restorePwd = gql`
 
 export const changePwd = gql`
     mutation changePwd($pwd: String!, $token: String!) {
-        restorePwd(pwd: $pwd, token: $token) {
+        changePwd(pwd: $pwd, token: $token) {
             success
         }
     }
