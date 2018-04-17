@@ -1,9 +1,8 @@
 import React from 'react';
-import { CardPageLayout, LoadingSection, EnhancedTable, DeleteIcon, DateWrapper, AlertConfirm, TextInput, Grid, GridItem, SelectInput } from '../displayComponents';
+import { CardPageLayout, LoadingSection, EnhancedTable, DeleteIcon, DateWrapper, AlertConfirm, Grid, GridItem } from '../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import { censuses, deleteCensus, setDefaultCensus } from '../../queries';
 import { TableRow, TableCell } from 'material-ui/Table';
-import { MenuItem } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { getPrimary } from '../../styles/colors';
 import CloneCensusModal from './CloneCensusModal';
@@ -106,7 +105,6 @@ class CompanyCensusPage extends React.Component {
                             },                 
                             {name: ''},                 
                         ]}
-                        action={this._renderDeleteIcon}
                     >
                         {censuses.list.map((census, index) => {
                             return(

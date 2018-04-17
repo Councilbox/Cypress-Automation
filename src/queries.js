@@ -192,6 +192,11 @@ export const councilStepOne = gql`
       id
       deno
     }
+
+    draftTypes{
+      label
+      value
+    }
   }
 `;
 
@@ -203,6 +208,9 @@ export const councilStepTwo = gql`
       quorumPrototype
       selectedCensusId
     }
+
+    councilTotalVotes(councilId: $id)
+    councilSocialCapital(councilId: $id)
 
     censuses(companyId: $companyId){
       list{
@@ -226,8 +234,8 @@ export const deleteParticipant = gql `
 `;
 
 export const councilParticipants = gql`
-  query participants($councilId: Int!, $filter: FilterInput, $options: OptionsInput){
-    councilParticipants(councilId: $councilId, filter: $filter, options: $options){
+  query participants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    councilParticipants(councilId: $councilId, filters: $filters, options: $options){
       list{
         id
         councilId
@@ -238,7 +246,6 @@ export const councilParticipants = gql`
         phone
         dni
         type
-        delegateId
         numParticipations
         socialCapital
         uuid
@@ -254,8 +261,8 @@ export const councilParticipants = gql`
 `;
 
 export const censuses = gql`
-  query censuses($companyId: Int!, $filter: FilterInput, $options: OptionsInput){
-    censuses(companyId: $companyId, filter: $filter, options: $options){
+  query censuses($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    censuses(companyId: $companyId, filters: $filters, options: $options){
       list{
         id
         companyId
@@ -299,8 +306,8 @@ export const census = gql`
 `;
 
 export const censusParticipants = gql`
-  query censusParticipants($censusId: Int!, $filter: FilterInput, $options: OptionsInput){
-    censusParticipants(censusId: $censusId, filter: $filter, options: $options){
+  query censusParticipants($censusId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    censusParticipants(censusId: $censusId, filters: $filters, options: $options){
       list{
         id
         name
@@ -366,8 +373,8 @@ export const draftData = gql`
 `;
 
 export const platformDrafts = gql`
-  query platformDrafts($companyId: Int!, $filter: FilterInput, $options: OptionsInput){
-    platformDrafts(filter: $filter, options: $options){
+  query platformDrafts($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    platformDrafts(filters: $filters, options: $options){
       list{
         categories
         companyType
@@ -587,6 +594,11 @@ export const councilStepThree = gql`
         title
         whoCanVote
       }
+    }
+
+    majorityTypes{
+      label
+      value
     }
     votingTypes {
       label

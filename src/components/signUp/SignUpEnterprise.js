@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SelectInput, BasicButton, LoadingSection, ButtonIcon, TextInput, Icon } from '../displayComponents';
+import { SelectInput, BasicButton, LoadingSection, ButtonIcon, TextInput } from '../displayComponents';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';

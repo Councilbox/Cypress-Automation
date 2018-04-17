@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, BasicButton, TextInput, ButtonIcon } from '../displayComponents';
+import { BasicButton, TextInput, ButtonIcon } from '../displayComponents';
 import { checkValidEmail } from '../../utils';
 import { getPrimary } from '../../styles/colors';
 

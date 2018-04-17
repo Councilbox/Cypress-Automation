@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, Checkbox, ErrorWrapper, EnhancedTable, LoadingSection } from '../displayComponents';
+import { CardPageLayout, Checkbox, ErrorWrapper, EnhancedTable } from '../displayComponents';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { platformDrafts, cloneDrafts } from '../../queries';
 import { TableCell, TableRow } from "material-ui/Table";
@@ -62,7 +62,7 @@ class PlatformDrafts extends Component {
 
     render(){
         const { translate } = this.props;
-        const { loading, error, companyDrafts, platformDrafts, draftTypes } = this.props.data;
+        const { loading, error, platformDrafts, draftTypes } = this.props.data;
         const { selectedIndex } = this.state;
 
         return (

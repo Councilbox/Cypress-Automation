@@ -21,7 +21,8 @@ class CouncilEditorAgenda extends Component {
             agendas: [],
             errors: {
                 agendaSubject: '',
-                description: ''
+                description: '',
+                emptyAgendas: ''
             }
         }
     }
@@ -69,6 +70,12 @@ class CouncilEditorAgenda extends Component {
 
     checkConditions = () => {
         if(this.state.agendas.length === 0 ){
+            this.setState({
+                errors: {
+                    ...this.state.errors,
+                    emptyAgendas: this.props.translate.required_agendas
+                }
+            })
             return false;
         }
 
@@ -84,7 +91,7 @@ class CouncilEditorAgenda extends Component {
 
     render(){
         const { translate } = this.props;
-        const { votingTypes, errors, council } = this.props.data;
+        const { votingTypes, errors, council, majorityTypes } = this.props.data;
         const primary = getPrimary();
         const secondary = getSecondary();
 
@@ -114,6 +121,7 @@ class CouncilEditorAgenda extends Component {
                             translate={translate}
                             agendas={council.agendas}
                             votingTypes={votingTypes}
+                            majorityTypes={majorityTypes}
                             statute={council.statute}
                             councilID={this.props.councilID}
                             refetch={this.props.data.refetch}
@@ -128,29 +136,40 @@ class CouncilEditorAgenda extends Component {
                         </NewAgendaPointModal>
                     </div>
                 </div>
-                <Table
-                    headers={[
-                        {name: translate.convene_header},
-                        {name: translate.description},
-                        {},
-                        {},
-                        {}
-                    ]}
-                >
-                    {this.state.agendas.map((agenda, index) => {
-                        return (
-                            <TableRow                         
-                                key={`agenda_${agenda.id}`} 
-                            >
-                                <TableCell style={{padding: 0}}>{agenda.agendaSubject}</TableCell>
-                                <TableCell><div dangerouslySetInnerHTML={{ __html: agenda.description }} /></TableCell>
-                                <TableCell>{agenda.subjectType}</TableCell>                                
-                                <TableCell><IconButton onClick={() => this.setState({edit: true, editIndex: index})}><ModeEdit style={{color: secondary }} /></IconButton></TableCell>
-                                <TableCell><IconButton onClick={() => this.removeAgenda(agenda.id)}><DeleteForever style={{color: secondary }} /></IconButton></TableCell>                  
-                            </TableRow>
-                        )
-                    })}
-                </Table>
+                {this.state.agendas.length > 0?
+                    <Table
+                        headers={[
+                            {name: translate.convene_header},
+                            {name: translate.description},
+                            {},
+                            {},
+                            {}
+                        ]}
+                    >
+                        {this.state.agendas.map((agenda, index) => {
+                            return (
+                                <TableRow                         
+                                    key={`agenda_${agenda.id}`} 
+                                >
+                                    <TableCell style={{padding: 0}}>{agenda.agendaSubject}</TableCell>
+                                    <TableCell><div dangerouslySetInnerHTML={{ __html: agenda.description }} /></TableCell>
+                                    <TableCell>{agenda.subjectType}</TableCell>                                
+                                    <TableCell><IconButton onClick={() => this.setState({edit: true, editIndex: index})}><ModeEdit style={{color: secondary }} /></IconButton></TableCell>
+                                    <TableCell><IconButton onClick={() => this.removeAgenda(agenda.id)}><DeleteForever style={{color: secondary }} /></IconButton></TableCell>                  
+                                </TableRow>
+                            )
+                        })}
+                    </Table>
+                :
+                    <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '2em', marginBottom: '3em'}}>
+                        <Typography variant="subheading">
+                            {translate.empty_agendas}
+                        </Typography>
+                        <Typography variant="body1" style={{color: 'red'}}>
+                            {this.state.errors.emptyAgendas}
+                        </Typography>
+                    </div>
+                }
 
                 <div className="row" style={{marginTop: '2em'}}>
                     <div className="col-lg-12 col-md-12 col-xs-12">

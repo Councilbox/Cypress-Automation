@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CouncilboxApi from '../../api/CouncilboxApi';
-import { SelectInput, BasicButton, ButtonIcon, TextInput, Icon, LoadingSection } from '../displayComponents';
+import { SelectInput, BasicButton, ButtonIcon, TextInput, LoadingSection } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { MenuItem } from 'material-ui/Menu';
 import Dialog from 'material-ui/Dialog';

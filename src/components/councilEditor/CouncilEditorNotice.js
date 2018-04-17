@@ -3,6 +3,7 @@ import { MenuItem} from 'material-ui';
 import { BasicButton, TextInput, SelectInput, DateTimePicker, RichTextInput, LoadingSection, ErrorAlert, ButtonIcon } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
+import LoadDraft from './LoadDraft';
 import { graphql, compose } from 'react-apollo';
 import { councilStepOne, updateCouncil, changeStatute } from '../../queries';
 import * as CBX from '../../utils/CBX';
@@ -31,6 +32,7 @@ class CouncilEditorNotice extends Component {
     }
 
     componentDidMount(){
+        this.props.data.loading = true;
         this.props.data.refetch();
     }
 
@@ -152,11 +154,11 @@ class CouncilEditorNotice extends Component {
                 dateStart2NdCall: translate['2nd_call_date_changed']
             });
             this.updateState({
+                dateStart: firstDate,
                 dateStart2NdCall: CBX.addMinimunDistance(firstDate, this.props.data.council.statute)
             });
         }else{
             if(!CBX.checkMinimunDistanceBetweenCalls(firstDate, secondDate, this.props.data.council.statute)){
-                console.log('no llega al minimo');
                 this.updateError({
                     dateStart2NdCall: translate.new_statutes_hours_warning.replace('{{hours}}', this.props.data.council.statute.minimumSeparationBetweenCall)
                 });
@@ -164,9 +166,14 @@ class CouncilEditorNotice extends Component {
         }
     }
 
+    loadDraft = (text) => {
+        const correctedText = CBX.changeVariablesToValues(text, {company: this.props.company, council: this.state.data});
+        this.refs.editor.setValue(correctedText);
+    }
+
     render(){
         const { translate, company } = this.props;
-        const { loading, companyStatutes } = this.props.data;
+        const { loading, companyStatutes, draftTypes } = this.props.data;
         const council = this.state.data;
         const { errors } = this.state;
 
@@ -216,10 +223,9 @@ class CouncilEditorNotice extends Component {
                             required
                             onChange={(date) => {
                                 const newDate = new Date(date);
-                                this.updateState({
-                                    dateStart: newDate.toISOString()
-                                })}
-                            }
+                                const dateString = newDate.toISOString();
+                                this.updateDate(dateString);
+                            }}
                             minDateMessage={''}
                             acceptText={translate.accept}
                             cancelText={translate.cancel}
@@ -231,7 +237,7 @@ class CouncilEditorNotice extends Component {
                         <div className="col-lg-6 col-md-6 col-xs-12">                    
                             <DateTimePicker 
                                 required
-                                minDate={new Date(council.dateStart).toISOString()}
+                                minDate={!!council.dateStart? new Date(council.dateStart) : new Date()}
                                 errorText={errors.dateStart2NdCall}
                                 onChange={(date) => {
                                     const newDate = new Date(date);
@@ -249,7 +255,7 @@ class CouncilEditorNotice extends Component {
                     <div className="col-lg-5 col-md-6 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
                         <TextInput
                             required
-                            floatingText={translate.convene_header}
+                            floatingText={translate.table_councils_name}
                             type="text"
                             errorText={errors.name}
                             value={council.name || ''}
@@ -260,7 +266,8 @@ class CouncilEditorNotice extends Component {
                     </div>
                     <div className="col-lg-12 col-md-12 col-xs-12" style={{margin: '0.7em 0.7em 0 0'}}>
                         <RichTextInput
-                            errorText={errors.conveneText}
+                            ref='editor'
+                            errorText={errors.convene_header}
                             required
                             tags={[
                                 {value: moment(council.dateStart).format('LLL'), label: translate.date},
@@ -278,6 +285,14 @@ class CouncilEditorNotice extends Component {
                 </div>
 
                 <div style={{marginTop: '2em', width: '40%', float: 'right', height: '3em'}}>
+                    <LoadDraft
+                        translate={translate}
+                        company={company}
+                        loadDraft={this.loadDraft}
+                        councilType={statute}
+                        statutes={companyStatutes}
+                        draftType={draftTypes.filter((draft => draft.label === 'convene_header'))[0].value}
+                    />
                     <BasicButton
                         text={translate.save}
                         color={getPrimary()}
@@ -324,7 +339,8 @@ export default compose(
             variables: {
                 id: props.councilID,
                 companyId: props.company.id
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
 

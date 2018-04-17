@@ -31,7 +31,7 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
             disableBackdropClick={modal}
             fullWidth={fullWidth}
             fullScreen={fullScreen}
-            maxWidth="md"
+            maxWidth={false}
             open={open}
             onClose={requestClose}
         >

@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { MenuItem } from 'material-ui';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import { BasicButton, TextInput, SelectInput, Radio, ButtonIcon } from '../displayComponents';
+import { BasicButton, TextInput, SelectInput, Radio, ButtonIcon, Grid, GridItem, Checkbox } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { errorHandler, checkValidEmail } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
+import { Typography } from "material-ui";
 let primary = getPrimary();
 
 class NewParticipantForm extends Component {
@@ -15,10 +16,14 @@ class NewParticipantForm extends Component {
         super(props);
         this.state = {
             languages: [],
+            addRepresentative: false,
             participantType: 0,
             data: {
                 participant: {
                     ...newParticipantInitialValues
+                },
+                representative: {
+                    ...newRepresentativeInitialValues
                 }
             },
 
@@ -43,19 +48,53 @@ class NewParticipantForm extends Component {
         });
     }
 
+    updateParticipant = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data,
+                participant: {
+                    ...this.state.data.participant,
+                    ...object
+                }
+            }
+        });
+    }
+
+    updateRepresentative = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data,
+                representative: {
+                    ...this.state.data.representative,
+                    ...object
+                }
+            }
+        });
+    }
+
     sendNewParticipant = async () => {
         if(!this.checkRequiredFields()){
-            const participant = this.state.data.participant;
+            const { participant, representative } = this.state.data;
             const { translate } = this.props;
 
-            const response = await this.props.mutate({
-                variables: {
-                    participant: {
-                        ...participant,
-                        name: `${participant.name} ${participant.surname}`,
-                        councilId: this.props.councilID
-                    }
+            let variables = {
+                participant: {
+                    ...participant,
+                    name: `${participant.name} ${participant.surname}`,
+                    councilId: this.props.councilID
                 }
+            }
+
+            if(this.state.addRepresentative){
+                variables.representative = {
+                    ...representative,
+                    name: `${representative.name} ${representative.surname}`,
+                    councilId: this.props.councilID
+                }
+            }
+
+            const response = await this.props.mutate({
+                variables: variables
             });
             if (response) {
                 if(response.errors){
@@ -67,9 +106,9 @@ class NewParticipantForm extends Component {
                         }
                     })
                 } else {
-                    this.props.refetch();
-                    this.resetValues();
-                    this.props.close();
+                    //this.props.refetch();
+                    //this.resetValues();
+                    //this.props.close();
                 }
             }
         }  
@@ -150,6 +189,9 @@ class NewParticipantForm extends Component {
                 ...this.props.data,
                 participant: {
                     ...newParticipantInitialValues
+                },
+                representative: {
+                    ...newRepresentativeInitialValues
                 }
             }
         })
@@ -167,7 +209,7 @@ class NewParticipantForm extends Component {
                     textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={this.close}
-                    buttonStyle={{marginRight: '1em'}}
+                    buttonStyle={{marginRight: '1em', border: `2px solid ${primary}`}}
                 />
                 <BasicButton
                     text={translate.save}
@@ -229,296 +271,375 @@ class NewParticipantForm extends Component {
         );
     }
 
+    _renderRepresentativeCheckbox(){
+        return(
+            <Grid>
+                <GridItem xs={12} lg={12} md={12}>
+                    <Checkbox
+                        label={this.props.translate.add_representative}
+                        value={this.state.addRepresentative}
+                        onChange={(event, isInputChecked) => this.setState({
+                                addRepresentative: isInputChecked
+                            })
+                        }
+                    />
+                </GridItem>
+            </Grid>
+        );
+    }
+
+    _renderRepresentativeForm(){
+        const { translate } = this.props;
+        const { representative } = this.state.data;
+        const { errors } = this.state;
+
+        return(
+            <Grid style={{margin: '1em', padding: '1em', border: '1px solid turquoise'}}>
+                <GridItem xs={6} lg={4} md={4}>
+                    <TextInput
+                        floatingText={translate.name}
+                        type="text"
+                        errorText={errors.name}
+                        value={representative.name}
+                        onChange={(event) => this.updateRepresentative({
+                            name: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={6} lg={4} md={4}>
+                    <TextInput
+                        floatingText={translate.surname}
+                        type="text"
+                        errorText={errors.surname}
+                        value={representative.surname}
+                        onChange={(event) => this.updateRepresentative({
+                            surname: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={6} lg={4} md={4}>
+                    <TextInput
+                        floatingText={translate.new_dni}
+                        type="text"
+                        errorText={errors.dni}
+                        value={representative.dni}
+                        onChange={(event) => this.updateRepresentative({
+                            dni: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={6} lg={4} md={4}>
+                    <TextInput
+                        floatingText={translate.position}
+                        type="text"
+                        errorText={errors.position}
+                        value={representative.position}
+                        onChange={(event) => this.updateRepresentative({
+                            position: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={6} lg={4} md={4}>
+                    <TextInput
+                        floatingText={translate.email}
+                        type="text"
+                        errorText={errors.email}
+                        value={representative.email}
+                        onChange={(event) => this.updateRepresentative({
+                            email: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={6} lg={4} md={4}>
+                    <TextInput
+                        floatingText={translate.phone}
+                        type="text"
+                        errorText={errors.phone}
+                        value={representative.phone}
+                        onChange={(event) => this.updateRepresentative({
+                            phone: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={12} lg={2} md={2}>
+                    <SelectInput
+                        floatingText={translate.language}
+                        value={representative.language}
+                        onChange={(event) => this.updateRepresentative({
+                            language: event.target.value
+                        })}
+                    >
+                        {this.state.languages.map((language) => {
+                            return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
+                        })}
+                    </SelectInput>
+                </GridItem>
+            </Grid>
+        )
+    }
+
     _renderAddParticipantForm(){
         const participant = this.state.data.participant;
         const errors = this.state.errors;
-        const { translate } = this.props;
+        const { translate, participations } = this.props;
 
         if(this.state.participantType === 1){
             return(
-                <Fragment>
+                <Grid>
+                    <GridItem xs={12} lg={4} md={6}>
+                        <TextInput
+                            floatingText={translate.entity_name}
+                            type="text"
+                            errorText={errors.name}
+                            value={participant.name}
+                            onChange={(event) => this.updateParticipant({
+                                name: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+
+                    <GridItem xs={12} lg={4} md={6}>
+                        <TextInput
+                            floatingText={translate.cif}
+                            type="text"
+                            errorText={errors.dni}
+                            value={participant.dni}
+                            onChange={(event) => this.updateParticipant({
+                                dni: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+
+                    <GridItem xs={12} lg={4} md={6}>
+                        <TextInput
+                            floatingText={translate.position}
+                            type="text"
+                            errorText={errors.position}
+                            value={participant.position}
+                            onChange={(event) => this.updateParticipant({
+                                position: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+
+                    <GridItem xs={12} lg={4} md={6}>                    
+                        <TextInput
+                            floatingText={translate.email}
+                            type="text"
+                            errorText={errors.email}
+                            value={participant.email}
+                            onChange={(event) => this.updateParticipant({
+                                email: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+
+                    <GridItem xs={12} lg={4} md={6}>                    
+                        <TextInput
+                            floatingText={translate.phone}
+                            type="text"
+                            errorText={errors.phone}
+                            value={participant.phone}
+                            onChange={(event) => this.updateParticipant({
+                                phone: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+
+                    <GridItem xs={4} lg={2} md={2}>                    
+                        <SelectInput
+                            floatingText={translate.language}
+                            value={participant.language}
+                            onChange={(event) => this.updateParticipant({
+                                language: event.target.value
+                            })}
+                        >
+                            {this.state.languages.map((language) => {
+                                    return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
+                                })
+                            }
+                        </SelectInput>
+                    </GridItem>
+
+                    <GridItem xs={4} lg={2} md={2}>                    
+                        <TextInput
+                            floatingText={translate.votes}
+                            type="number"
+                            errorText={errors.numParticipations}
+                            value={participant.numParticipations}
+                            onChange={(event) => this.updateParticipant({
+                                numParticipations: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+                    {participations &&
+                        <GridItem xs={4} lg={2} md={2}>                    
+                            <TextInput
+                                floatingText={translate.social_capital}
+                                type="number"
+                                errorText={errors.socialCapital}
+                                value={participant.socialCapital}
+                                onChange={(event) => this.updateParticipant({
+                                    socialCapital: event.nativeEvent.target.value
+                                })}
+                            />
+                        </GridItem>
+                    }
+                </Grid>
+            );
+        }
+
+        return(
+            <Grid>
+                <GridItem xs={12} lg={4} md={6}>
                     <TextInput
-                        floatingText={translate.entity_name}
+                        floatingText={translate.name}
                         type="text"
                         errorText={errors.name}
                         value={participant.name}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    name: event.nativeEvent.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            name: event.nativeEvent.target.value
                         })}
                     />
+                </GridItem>
+
+                <GridItem xs={12} lg={4} md={6}>
                     <TextInput
-                        floatingText={translate.cif}
+                        floatingText={translate.surname}
+                        type="text"
+                        errorText={errors.surname}
+                        value={participant.surname}
+                        onChange={(event) => this.updateParticipant({
+                            surname: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+
+                <GridItem xs={12} lg={4} md={6}>
+                    <TextInput
+                        floatingText={translate.new_dni}
                         type="text"
                         errorText={errors.dni}
                         value={participant.dni}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    dni: event.nativeEvent.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            dni: event.nativeEvent.target.value
                         })}
                     />
+                </GridItem>
+
+                <GridItem xs={12} lg={4} md={6}>
                     <TextInput
                         floatingText={translate.position}
                         type="text"
                         errorText={errors.position}
                         value={participant.position}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    position: event.nativeEvent.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            position: event.nativeEvent.target.value
                         })}
                     />
+                </GridItem>
+
+                <GridItem xs={12} lg={4} md={6}>
                     <TextInput
                         floatingText={translate.email}
                         type="text"
                         errorText={errors.email}
                         value={participant.email}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    email: event.nativeEvent.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            email: event.nativeEvent.target.value
                         })}
                     />
+                </GridItem>
+
+                <GridItem xs={12} lg={4} md={6}>
                     <TextInput
                         floatingText={translate.phone}
                         type="text"
                         errorText={errors.phone}
                         value={participant.phone}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    phone: event.nativeEvent.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            phone: event.nativeEvent.target.value
                         })}
                     />
+                </GridItem>
+
+                <GridItem xs={12} lg={4} md={6}>
                     <SelectInput
                         floatingText={translate.language}
                         value={participant.language}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    language: event.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            language: event.target.value
                         })}
                     >
                         {this.state.languages.map((language) => {
-                                return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
-                            })
-                        }
+                            return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
+                        })}
                     </SelectInput>
+                </GridItem>
+                
+                <GridItem xs={4} lg={2} md={2}>
                     <TextInput
                         floatingText={translate.votes}
                         type="number"
                         errorText={errors.numParticipations}
                         value={participant.numParticipations}
-                        onChange={(event) => this.setState({
-                            ...this.state,
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...this.state.data.participant,
-                                    numParticipations: event.nativeEvent.target.value
-                                }
-                            }
+                        onChange={(event) => this.updateParticipant({
+                            numParticipations: event.nativeEvent.target.value
                         })}
                     />
-                </Fragment>
-            );
-        }
-
-        return(
-            <Fragment>
-                <TextInput
-                    floatingText={translate.name}
-                    type="text"
-                    errorText={errors.name}
-                    value={participant.name}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                name: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-                <TextInput
-                    floatingText={translate.surname}
-                    type="text"
-                    errorText={errors.surname}
-                    value={participant.surname}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                surname: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-                <TextInput
-                    floatingText={translate.new_dni}
-                    type="text"
-                    errorText={errors.dni}
-                    value={participant.dni}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                dni: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-                <TextInput
-                    floatingText={translate.position}
-                    type="text"
-                    errorText={errors.position}
-                    value={participant.position}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                position: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-                <TextInput
-                    floatingText={translate.email}
-                    type="text"
-                    errorText={errors.email}
-                    value={participant.email}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                email: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-                <TextInput
-                    floatingText={translate.phone}
-                    type="text"
-                    errorText={errors.phone}
-                    value={participant.phone}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                phone: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-                <SelectInput
-                    floatingText={translate.language}
-                    value={participant.language}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                language: event.target.value
-                            }
-                        }
-                    })}
-                >
-                    {this.state.languages.map((language) => {
-                            return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
-                        })
-                    }
-                </SelectInput>
-                <TextInput
-                    floatingText={translate.votes}
-                    type="number"
-                    errorText={errors.numParticipations}
-                    value={participant.numParticipations}
-                    onChange={(event) => this.setState({
-                        ...this.state,
-                        data: {
-                            ...this.state.data,
-                            participant: {
-                                ...this.state.data.participant,
-                                numParticipations: event.nativeEvent.target.value
-                            }
-                        }
-                    })}
-                />
-            </Fragment>
+                </GridItem>
+                {participations &&
+                    <GridItem xs={4} lg={2} md={2}>                    
+                        <TextInput
+                            floatingText={translate.social_capital}
+                            type="number"
+                            errorText={errors.socialCapital}
+                            value={participant.socialCapital}
+                            onChange={(event) => this.updateParticipant({
+                                socialCapital: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>
+                }
+            </Grid>
         );
     }
 
     render() {
-        const {translate} = this.props;
+        const { translate } = this.props;
         return(
-            <Dialog
-                disableBackdropClick={true}
-                onClose={this.props.requestClose}
-                open={this.props.show}
-            >
-                <DialogTitle>
-                    {translate.add_participant}
-                </DialogTitle>
-                <DialogContent>
+            <Fragment>
+                <Grid>
+                    <GridItem xs={12} lg={12} md={12}>
+                        <BasicButton
+                            text={translate.back}
+                            color={getPrimary()}
+                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                            textPosition="after"
+                            onClick={this.close}
+                        />
+                    </GridItem>
+                    <GridItem xs={12} lg={12} md={12}>
+                        <Typography variant="title">
+                            {translate.add_participant}
+                        </Typography>
+                    </GridItem>
                     {this._renderAddParticipantTypeSelector()}
                     {this._renderAddParticipantForm()}
-                </DialogContent>
-                <DialogActions>
+                    {this._renderRepresentativeCheckbox()}
+                    {this.state.addRepresentative &&
+                        this._renderRepresentativeForm()
+                    }
                     {this._renderAddParticipantButtons()}
-                </DialogActions>
-            </Dialog>
+                </Grid>
+            </Fragment>
         );
     }
 }
 
 const addParticipant = gql `
-    mutation addParticipant($participant: NewParticipant) {
-        addCouncilParticipant(participant: $participant){
+    mutation addParticipant($participant: NewParticipant, $representative: NewRepresentative) {
+        addCouncilParticipant(participant: $participant, representative: $representative){
             id
         }
     }
@@ -536,8 +657,20 @@ const newParticipantInitialValues = {
     numParticipations : 1,
     personOrEntity : 0,
     name : '',
+    surname: '',
     dni : '',
     position : '',
     email : '',
     phone : '',
+}
+
+const newRepresentativeInitialValues = {
+    language: 'es',
+    personOrEntity: 0,
+    name: '',
+    surname: '',
+    position: '',
+    dni: '',
+    email: '',
+    phone: ''
 }

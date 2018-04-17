@@ -28,6 +28,12 @@ class RichTextField extends Component {
         }
     };
 
+    setValue = (value) => {
+        this.setState({
+            value: RichTextEditor.createValueFromString(value, 'html')
+        });
+    }
+
     paste = (text) => {
         let cd = new DataTransfer();
         cd.setData('text/plain', text);
@@ -47,7 +53,7 @@ class RichTextField extends Component {
                     {this.props.floatingText}{!!required && '*'}
                 </Typography>
                 <Grid>
-                    <GridItem xs={12} lg={10} md={10}>
+                    <GridItem xs={12} lg={!!tags? 10 : 12} md={!!tags? 10 : 12}>
                         <RichTextEditor
                             ref={'rtEditor'}
                             className={'text-editor'}

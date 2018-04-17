@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DeleteIcon, LoadingSection, TextInput, Grid, GridItem, SelectInput } from './';
+import { LoadingSection, TextInput, Grid, GridItem, SelectInput } from './';
 import { MenuItem } from 'material-ui';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 import { hasMorePages } from '../../utils/pagination';
@@ -14,26 +14,43 @@ class EnhancedTable extends Component {
             limit: this.props.defaultLimit,
             page: 1,
             orderBy: this.props.defaultOrder? this.props.defaultOrder[0] : '',
-            orderDirection :this.props.defaultOrder? this.props.defaultOrder[1] : 'asc'
+            orderDirection :this.props.defaultOrder? this.props.defaultOrder[1] : 'asc',
+            selectedCategory: this.props.selectedCategory? this.props.selectedCategory.field : '',
+            categoryValue: this.props.selectedCategory? this.props.selectedCategory.value : '',
         }
         this.timeout = null;
     }
 
     updateFilterText = async (value) => {
-        const { refetch } = this.props;
+        const { refetch, addedFilters } = this.props;
         this.setState({
             filterText: value,
             page: 1
         });
 
-        let newVariables = {
-            filter: {
-                field: this.state.filterField,
-                text: value
+        let variables = {
+            filters: [
+                {field: this.state.filterField, text: value }
+            ]
+        }
+        if(addedFilters){
+            variables.filters = [
+                ...addedFilters,
+                ...variables.filters
+            ]
+        }
+        if(!!this.state.selectedCategory){
+            variables = {
+                ...variables,
+                filters: [
+                    ...variables.filters,
+                    {field: this.state.selectedCategory,
+                    text: this.state.categoryValue}
+                ]
             }
         }
         clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => refetch(newVariables), 450);
+        this.timeout = setTimeout(() => refetch(variables), 450);
     }
 
     updateFilterField = async (value) => {
@@ -46,10 +63,10 @@ class EnhancedTable extends Component {
 
         if(this.state.filterText){
             let newVariables = {
-                filter: {
+                filters: [{
                     field: value,
                     text: this.state.filterText
-                }
+                }]
             }
             refetch(newVariables);
         }
@@ -67,10 +84,11 @@ class EnhancedTable extends Component {
             if(!!this.state.filterText){
                 variables = {
                     ...variables,
-                    filter: {
+                    ...this.props.addedFilters,                    
+                    filters: [{
                         field: this.state.filterField,
                         text: this.state.filterText
-                    }
+                    }]
                 }
             }
             refetch(variables);
@@ -94,10 +112,21 @@ class EnhancedTable extends Component {
             if(!!this.state.filterText){
                 variables = {
                     ...variables,
-                    filter: {
+                    ...this.props.addedFilters,
+                    filters: [{
                         field: this.state.filterField,
                         text: this.state.filterText
-                    }
+                    }]
+                }
+            }
+            if(!!this.state.selectedCategory){
+                variables = {
+                    ...variables,
+                    filters: [
+                        ...variables.filters,
+                        {field: this.state.selectedCategory,
+                        text: this.state.categoryValue}
+                    ]
                 }
             }
             refetch(variables);
@@ -126,11 +155,22 @@ class EnhancedTable extends Component {
         }
         if(!!this.state.filterText){
             variables = {
+                ...this.props.addedFilters,
                 ...variables,
-                filter: {
+                filters: [{
                     field: this.state.filterField,
                     text: this.state.filterText
-                }
+                }]
+            }
+        }
+        if(!!this.state.selectedCategory){
+            variables = {
+                ...variables,
+                filters: [
+                    ...variables.filters,
+                    {field: this.state.selectedCategory,
+                    text: this.state.categoryValue}
+                ]
             }
         }
         refetch(variables);
@@ -141,10 +181,41 @@ class EnhancedTable extends Component {
 
     }
 
+    updateCategory = (event, field) => {
+        const { refetch } = this.props;
+
+        let variables = {
+            filters: [
+                ...this.props.addedFilters,
+                {
+                    field: field,
+                    text: event.value
+                }
+        ]            
+        }
+
+        if(!!this.state.filterText){
+            variables = {
+                ...variables,
+                filters: [
+                    ...variables.filters,
+                {
+                    field: this.state.filterField,
+                    text: this.state.filterText
+                }]
+            }
+        }
+        refetch(variables);
+        this.setState({
+            selectedCategory: field,
+            categoryValue: event.value
+        });
+    }
+
     
     render(){
-        const { fields, limits, translate, total, length, loading, headers, children } = this.props;
-        const { filterText, filterField, limit, page } = this.state;
+        const { fields, limits, translate, total, length, loading, headers, children, categories } = this.props;
+        const { filterText, filterField, selectedCategory, limit, page } = this.state;
 
         return(
             <React.Fragment>
@@ -179,7 +250,19 @@ class EnhancedTable extends Component {
                                 onChange={(event) =>  this.updateFilterField(event.target.value)}
                             >
                                 {fields.map((field) => 
-                                    <MenuItem key={`filter_${field.value}`} value={field.value}>{field.translation}</MenuItem>
+                                    <MenuItem key={`field_${field.value}`} value={field.value}>{field.translation}</MenuItem>
+                                )}
+                            </SelectInput>
+                        </GridItem>
+                    }
+                    {categories &&
+                        <GridItem xs={12} md={3} lg={3}>
+                            <SelectInput
+                                value={selectedCategory}
+                                onChange={(event) =>  this.updateCategory(event.target, categories[0].field)}
+                            >
+                                {categories.map((category) => 
+                                    <MenuItem key={`category_${category.value}`} value={category.value}>{category.label}</MenuItem>
                                 )}
                             </SelectInput>
                         </GridItem>

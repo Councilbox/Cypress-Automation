@@ -14,7 +14,7 @@ class CouncilEditorPreview extends Component {
     send = async () => {
         const { __typename, ...council } = this.props.data.council;
         this.props.data.loading = true;
-        const response = await this.props.mutate({
+        this.props.mutate({
             variables: {
                 council: council
             }

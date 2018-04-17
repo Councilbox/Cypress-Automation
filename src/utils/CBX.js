@@ -90,3 +90,25 @@ export const addMinimunDistance = (date, statute) => {
     const momentDate = moment(new Date(date).toISOString());
     return momentDate.add(statute.minimumSeparationBetweenCall, 'minutes');
 }
+
+export const changeVariablesToValues = (text, data) => {
+    if(!data || !data.company || !data.council){
+        throw new Error('Missing data');
+    }
+
+    text = text.replace('{{dateFirstCall}}', moment(new Date(data.council.dateStart).toISOString(), moment.ISO_8601).format('LLL'));
+    text = text.replace('{{business_name}}', data.company.businessName);
+    text = text.replace('{{city}}', data.council.city);
+    text = text.replace('{{street}}', data.council.street);
+    text = text.replace('{{country_state}}', data.council.countryState);
+    
+    return text;
+}
+
+export const hasParticipations = (statute = {}) => {
+    return statute.quorumPrototype === 1;
+}
+
+export const isRepresentative = (participant) => {
+    return participant.type === 2;
+}

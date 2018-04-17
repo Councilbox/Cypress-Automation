@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
-import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 import { getPrimary } from '../../../styles/colors';
-import { DeleteIcon, LoadingSection, TextInput, Grid, GridItem, SelectInput, TableEnhancer, EnhancedTable } from '../../displayComponents';
-import { MenuItem } from 'material-ui';
+import { TableRow, TableCell } from 'material-ui';
+import { DeleteIcon, Grid, GridItem, EnhancedTable } from '../../displayComponents';
 import { graphql, compose } from "react-apollo";
 import { censusParticipants } from '../../../queries';
 import gql from "graphql-tag";
