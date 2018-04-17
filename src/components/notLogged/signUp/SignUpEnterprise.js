@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BasicButton, ButtonIcon, LoadingSection, SelectInput, TextInput } from '../../displayComponents/index';
+import { BasicButton, ButtonIcon, LoadingSection, SelectInput, TextInput, Grid, GridItem } from '../../displayComponents/index';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
@@ -67,47 +67,31 @@ class SignUpEnterprise extends Component {
                     fontWeight: '700',
                     color: primary
                 }}>{translate.company_data}</span>
-            <div style={{
-                width: '100%',
-                marginBottom: '2.2em',
-                marginTop: '2em'
-            }}>
-                <TextInput
-                    floatingText={translate.entity_name}
-                    type="text"
-                    value={this.props.formData.businessName}
-                    onChange={(event) => this.props.updateState({
-                        businessName: event.nativeEvent.target.value
-                    })}
-                    errorText={this.props.errors.businessName}
-                />
-            </div>
-            <div className="row">
-                <div className="col-lg-6 col-md-6 col-xs-12" style={{
-                    marginBottom: '2.2em',
-                    height: '3em',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
+            <Grid style={{ marginTop: '2em' }}>
+                <GridItem xs={12} md={12} lg={12}>
+                    <TextInput
+                        floatingText={translate.entity_name}
+                        type="text"
+                        value={this.props.formData.businessName}
+                        onChange={(event) => this.props.updateState({
+                            businessName: event.nativeEvent.target.value
+                        })}
+                        errorText={this.props.errors.businessName}
+                    />
+                </GridItem>
+                <GridItem xs={12} md={6} lg={6}>
                     <SelectInput
                         floatingText={translate.company_type}
                         value={this.props.formData.type}
                         onChange={this.handleTypeChange}
-                        errorText={this.props.errors.type}
-                    >
+                        errorText={this.props.errors.type}>
                         {this.props.data.companyTypes.map((type) => {
                             return <MenuItem key={type.label}
                                              value={type.value}>{translate[ type.label ]}</MenuItem>
                         })}
                     </SelectInput>
-                </div>
-                <div className="col-lg-6 col-md-6 col-xs-12" style={{
-                    height: '3em',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
+                </GridItem>
+                <GridItem xs={12} md={6} lg={6}>
                     <TextInput
                         floatingText={translate.cif}
                         type="text"
@@ -117,24 +101,21 @@ class SignUpEnterprise extends Component {
                         })}
                         errorText={this.props.errors.cif}
                     />
-                </div>
-            </div>
-            <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{
-                float: 'right',
-                marginTop: '3em'
-            }}>
-                <BasicButton
-                    text={translate.continue}
-                    color={primary}
-                    textStyle={{
-                        color: 'white',
-                        fontWeight: '700'
-                    }}
-                    onClick={this.nextPage}
-                    fullWidth
-                    icon={<ButtonIcon color='white' type="arrow_forward"/>}
-                />
-            </div>
+                </GridItem>
+                <GridItem xs={12} md={12} lg={12}>
+                    <BasicButton
+                        text={translate.continue}
+                        color={primary}
+                        textStyle={{
+                            color: 'white',
+                            fontWeight: '700'
+                        }}
+                        onClick={this.nextPage}
+                        fullWidth
+                        icon={<ButtonIcon color='white' type="arrow_forward"/>}
+                    />
+                </GridItem>
+            </Grid>
         </div>);
     }
 }

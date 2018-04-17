@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { BasicButton, ButtonIcon, TextInput } from '../../displayComponents/index';
+import { BasicButton, ButtonIcon, Grid, GridItem, TextInput } from '../../displayComponents/index';
 import { checkValidEmail } from '../../../utils/index';
-import { getPrimary } from '../../../styles/colors';
+import { getPrimary, secondary } from '../../../styles/colors';
 
 class SignUpUser extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             confirmPWD: ''
@@ -13,12 +13,16 @@ class SignUpUser extends Component {
     }
 
     nextPage = () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             this.props.nextPage();
         }
     };
 
-    checkRequiredFields(){
+    previousPage = () => {
+        this.props.previousPage();
+    };
+
+    checkRequiredFields() {
         let errors = {
             name: '',
             surname: '',
@@ -32,38 +36,38 @@ class SignUpUser extends Component {
         const { translate } = this.props;
         let hasError = false;
 
-        if(!data.name.length > 0){
+        if (!data.name.length > 0) {
             hasError = true;
             errors.name = 'Este campo es obligatorio';
         }
 
-        if(!checkValidEmail(data.email.toLowerCase())){
+        if (!checkValidEmail(data.email.toLowerCase())) {
             hasError = true;
             errors.email = 'Por favor introduce un email válido';
         }
 
-        if(!data.surname.length > 0){
+        if (!data.surname.length > 0) {
             hasError = true;
             errors.surname = 'Este campo es obligatorio';
         }
 
-        if(!data.phone.length > 0){
+        if (!data.phone.length > 0) {
             hasError = true;
             errors.phone = 'Este campo es obligatorio';
         }
-        
-        if(!data.email.length > 0){
+
+        if (!data.email.length > 0) {
             hasError = true;
             errors.email = 'Este campo es obligatorio';
         }
 
-        
-        if(!data.pwd.length > 0){
+
+        if (!data.pwd.length > 0) {
             hasError = true;
             errors.pwd = translate.no_empty_pwd;
         }
 
-        if(data.pwd !== this.state.confirmPWD){
+        if (data.pwd !== this.state.confirmPWD) {
             hasError = true;
             errors.confirmPWD = translate.no_match_pwd;
         }
@@ -72,16 +76,25 @@ class SignUpUser extends Component {
         return hasError;
     }
 
-    render(){
+    render() {
         const primary = getPrimary();
         const { translate } = this.props;
         const data = this.props.formData;
 
-        return(
-            <div style={{width: '100%', padding: '6%'}}>
-                <span style={{fontSize: '1.3em', fontWeight: '700', color: primary}}>{translate.user_data}</span>
-                <div className="row" style={{marginTop: '2em'}}>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{marginBottom: '2.2em', height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        return (<div
+                style={{
+                    width: '100%',
+                    padding: '6%'
+                }}>
+                <div style={{
+                    fontSize: '1.3em',
+                    fontWeight: '700',
+                    color: primary
+                }}>
+                    {translate.user_data}
+                </div>
+                <Grid style={{ marginTop: '2em' }}>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.name}
                             type="text"
@@ -89,10 +102,9 @@ class SignUpUser extends Component {
                             errorText={this.props.errors.name}
                             onChange={(event) => this.props.updateState({
                                 name: event.target.value
-                            })}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            })}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.surname}
                             type="text"
@@ -100,10 +112,9 @@ class SignUpUser extends Component {
                             onChange={(event) => this.props.updateState({
                                 surname: event.target.value
                             })}
-                            errorText={this.props.errors.surname}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            errorText={this.props.errors.surname}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.phone}
                             type="text"
@@ -111,10 +122,9 @@ class SignUpUser extends Component {
                             onChange={(event) => this.props.updateState({
                                 phone: event.target.value
                             })}
-                            errorText={this.props.errors.phone}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            errorText={this.props.errors.phone}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.email}
                             type="text"
@@ -122,10 +132,9 @@ class SignUpUser extends Component {
                             onChange={(event) => this.props.updateState({
                                 email: event.target.value
                             })}
-                            errorText={this.props.errors.email}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            errorText={this.props.errors.email}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.login_password}
                             type="password"
@@ -133,10 +142,9 @@ class SignUpUser extends Component {
                             onChange={(event) => this.props.updateState({
                                 pwd: event.target.value
                             })}
-                            errorText={this.props.errors.pwd}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            errorText={this.props.errors.pwd}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.login_confirm_password}
                             type="password"
@@ -146,21 +154,35 @@ class SignUpUser extends Component {
                             })}
                             errorText={this.props.errors.confirmPWD}
                         />
-                    </div>
-                </div>
-                <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{float: 'right', marginTop: '2em'}} >
-                    <BasicButton
-                        text={translate.continue}
-                        color={primary}
-                        textStyle={{color: 'white', fontWeight: '700'}}
-                        onClick={this.nextPage}
-                        fullWidth
-                        icon={<ButtonIcon color='white' type="arrow_forward" />}
-                    />
-                </div>
-            </div>
-        );
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
+                        <BasicButton
+                            text={translate.back}
+                            color={secondary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700'
+                            }}
+                            onClick={this.previousPage}
+                            fullWidth
+                            icon={<ButtonIcon color='white' type="arrow_back"/>}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
+                        <BasicButton
+                            text={translate.continue}
+                            color={primary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700'
+                            }}
+                            onClick={this.nextPage}
+                            fullWidth
+                            icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
+                    </GridItem>
+                </Grid>
+            </div>);
     }
+
 }
 
 export default SignUpUser;

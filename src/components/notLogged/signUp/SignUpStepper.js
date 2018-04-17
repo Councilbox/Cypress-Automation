@@ -7,16 +7,16 @@ const SignUpStepper = ({ active, translate, windowSize }) => {
         return(
             <Stepper activeStep={active} orientation={"vertical"}>
                 <Step>
-                    <StepLabel>{'1'}</StepLabel>
-                    <StepContent>{translate.company_data}</StepContent>
+                    <StepLabel>{translate.company_data}</StepLabel>
+                    <StepContent></StepContent>
                 </Step>
                 <Step>
-                    <StepLabel>{'2'}</StepLabel>
-                    <StepContent>{translate.user_data}</StepContent>
+                    <StepLabel>{translate.user_data}</StepLabel>
+                    <StepContent></StepContent>
                 </Step>
                 <Step>
-                    <StepLabel>{'3'}</StepLabel>
-                    <StepContent>{translate.billing_information}</StepContent>
+                    <StepLabel>{translate.billing_information}</StepLabel>
+                    <StepContent></StepContent>
                 </Step>
             </Stepper>
         );
@@ -35,6 +35,6 @@ const SignUpStepper = ({ active, translate, windowSize }) => {
             </Step>
         </Stepper>
     )
-}
+};
 
 export default SignUpStepper;
