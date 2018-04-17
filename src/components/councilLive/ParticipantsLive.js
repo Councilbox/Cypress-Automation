@@ -10,8 +10,8 @@ class ParticipantsLive extends Component {
         this.props.data.loading = true;
         const object = {
             wordState: {
-                council_id: this.props.councilID,
-                request_word: value,
+                councilId: this.props.councilID,
+                requestWord: value,
                 id: id
             } 
         }
@@ -19,8 +19,8 @@ class ParticipantsLive extends Component {
         const response = await this.props.changeRequestWord({
             variables: {
                 wordState: {
-                    council_id: this.props.councilID,
-                    request_word: value,
+                    councilId: this.props.councilID,
+                    requestWord: value,
                     id: id
                 }
             }
@@ -37,7 +37,7 @@ class ParticipantsLive extends Component {
                 <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: getSecondary() }}>language</Icon>
                 <div style={{color: 'white', fontSize: '0.85em', marginLeft: '0.5em', width: '45%'}} className="truncate">{`${participant.name} ${participant.surname}`}</div>
                 <div style={{width: '20%', color: lightGrey, marginLeft: '1em', fontSize: '0.8em'}} className="truncate">{participant.position}</div>
-                {participant.request_word === 2 &&
+                {participant.requestWord === 2 &&
                     <div onClick={() => this.changeWordState(participant.id, 0)} style={{width: '1.6em', height: '1.6em', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getPrimary()}}>
                         <Icon className="material-icons" style={{fontSize: '0.9em', marginRight: '0.3em', color: 'white' }}>pan_tool</Icon>
                     </div>
@@ -92,7 +92,9 @@ class ParticipantsLive extends Component {
     render(){
 
         return(
-            <CollapsibleSection trigger={this._button} collapse={this._section} open={true} />
+            <div>
+                <CollapsibleSection trigger={this._button} collapse={this._section} open={true} /> 
+            </div>
         );
     }
 }
@@ -102,9 +104,8 @@ export default compose(
         name: "data",
         options: (props) => ({
             variables: {
-                councilID: props.councilID
-            }, 
-            pollInterval: 5000
+                councilId: props.councilID
+            },
         })
     }),
 

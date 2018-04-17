@@ -1,20 +1,30 @@
 import React from 'react';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow } from 'material-ui/Table';
+import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
 
-const TableWrapper = ({ headers, children }) => (
+const TableWrapper = ({ headers = [], children }) => (
     <Table>
-        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+        <TableHead>
             <TableRow>
-                {headers.map((header) => {
+                {headers.map((header, index) => {
                     return(
-                        <TableHeaderColumn key={`header${header.name}`}>{header.name}</TableHeaderColumn>
+                        <TableCell key={`header_${index}`} sortDirection={header.order}>
+                            {header.canOrder?
+                                <TableSortLabel
+                                    active={header.active}
+                                    direction={header.order}
+                                    onClick={() => header.handler()}
+                                >
+                                    {header.name}
+                                </TableSortLabel>
+                            :
+                                header.name
+                            }
+                        </TableCell>
                     )
                 })}
             </TableRow>
-        </TableHeader>
+        </TableHead>
         <TableBody 
-            displayRowCheckbox={false}
-            showRowHover={true}
         >
             {children}
         </TableBody>

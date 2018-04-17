@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { LoadingMainApp } from './displayComponents';
 import { withRouter } from 'react-router-dom';
 import * as councilActions from '../actions/councilActions';
 import { bindActionCreators } from 'redux';
@@ -22,7 +23,7 @@ import { bindActionCreators } from 'redux';
         }
     }
     render(){
-        return <p>Spinner spinning...</p>;
+        return <LoadingMainApp />;
     }
 }
 

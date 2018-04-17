@@ -7,7 +7,7 @@ export const font = 'Lato';
 export const turquoise = '#61ABB7';
 export const green = '#84CE5A';
 
-export const primary = 'purple';
+export const primary = '#9C27B0';
 export const secondary = turquoise;
 
 export const getPrimary = () => {

@@ -1,15 +1,23 @@
 import React from 'react';
-import { SelectField } from 'material-ui';
+import { Select } from 'material-ui';
+import { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
 
-const TextInput = ({ floatingText, value, onChange, errorText, children }) => (
-    <SelectField
-        floatingLabelText={floatingText}
-        value={value}
-        onChange={onChange}
-        errorText={errorText}
-    >
-        {children}
-    </SelectField>
+const SelectInput = ({ floatingText, id, value = 0, onChange, errorText, children }) => (
+    <FormControl style={{width: '100%', marginTop: '0', marginBottom: '8px'}}>
+        <InputLabel htmlFor={id}>{floatingText}</InputLabel>
+        <Select
+            inputProps={{
+                name: floatingText,
+                id: id,
+            }}
+            value={value}
+            onChange={onChange}
+            error={!!errorText}
+        >
+            {children}
+        </Select>
+    </FormControl>
 );
 
-export default TextInput;
+export default SelectInput;

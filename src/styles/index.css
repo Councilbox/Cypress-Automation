@@ -8,6 +8,10 @@ body {
   font-family: var(--font-family);
 }
 
+a:hover{
+  text-decoration: none !important;
+}
+
 .temp_video {
   width: 100%;
   height: 100%;

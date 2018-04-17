@@ -1,43 +1,27 @@
-import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
+import React, { Fragment } from 'react';
+import { Button } from 'material-ui';
 
-const FileUploadButton = ( { onChange, text, color, textStyle, textPosition, icon, buttonStyle, flat }) => (
-    flat? 
-        <FlatButton 
-            label={text}
-            backgroundColor={color}
-            labelStyle={textStyle}
-            style={buttonStyle}
-            icon={icon}
-            labelPosition="after"
-            containerElement="label"
-        >
-            <input
-                type="file"
-                multiple
-                onChange={onChange}
-                style={{cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0, }}
-            />
-        </FlatButton>
-    :
-        <RaisedButton 
-            label={text}
-            backgroundColor={color}
-            labelStyle={textStyle}
-            icon={icon}
-            buttonStyle={buttonStyle}
-            labelPosition="after"
-            containerElement="label"
-        >
-            <input
-                type="file"
-                multiple
-                onChange={onChange}
-                style={{cursor: 'pointer', position: 'absolute', top: 0, bottom: 0, right: 0, left: 0, width: '100%', opacity: 0, }}
-            />
-        </RaisedButton>
-)
+const FileUploadButton = ( { onChange, image, text, color, textStyle, textPosition, icon, buttonStyle, flat }) => (
+    <Fragment>
+        <input
+            type="file"
+            accept={image? 'image/*' : ''}
+            id={'raised-button-file'}
+            onChange={onChange}
+            style={{cursor: 'pointer', position: 'absolute', top: 0, width: 0, bottom: 0, right: 0, left: 0, opacity: 0, }}
+        />
+        <label htmlFor="raised-button-file">
+            <Button
+                variant={flat? 'flat' : 'raised'}
+                component="span"
+                style={{...buttonStyle, ...textStyle, backgroundColor: color}}
+            >
+                {text}
+                {icon}
+            </Button>
+        </label>
+    </Fragment>
+);
 
 export default FileUploadButton;
                 

@@ -2,10 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper, DeleteIcon } from '../displayComponents';
+import { TableRow, TableCell } from 'material-ui/Table';
 import { getPrimary } from '../../styles/colors';
 
 class CouncilsWriting extends Component {
@@ -24,12 +22,10 @@ class CouncilsWriting extends Component {
     _renderDeleteIcon = (councilID) => {
         const primary = getPrimary();
         return(
-            <IconButton 
-                iconStyle={{color: primary}}
+            <DeleteIcon
+                style={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 
@@ -86,13 +82,11 @@ class CouncilsWriting extends Component {
                                     {councils.map((council) => {
                                         return(
                                             <TableRow
-                                                selectable={false}
-                                                hoverable
                                                 key={`participant${council.id}`}  
                                             >
-                                                <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableRowColumn>
-                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/writing`}>{council.name}</Link></TableRowColumn>
-                                                <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
+                                                <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
+                                                <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/writing`}>{council.name}</Link></TableCell>
+                                                <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                             </TableRow>
                                         )
                                     })}

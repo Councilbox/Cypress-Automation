@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { CollapsibleSection, FileUploadButton, Icon } from '../displayComponents';
-import AttachmentList from '../councilEditor/AttachmentList';
+import AttachmentList from '../attachments/AttachmentList';
 import { darkGrey } from '../../styles/colors';
-import { urlParser } from '../../utils';
-import { sendAgendaAttachment, deleteAgendaAttachment } from '../../queries';
-import { maxFileSize } from '../../constants';
+import { addAgendaAttachment, removeAgendaAttachment } from '../../queries';
+import { MAX_FILE_SIZE } from '../../constants';
 
 class AgendaAttachmentsManager extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            open: false
+            open: false,
+            loadingId: ''
         }
     }
 
@@ -21,7 +21,7 @@ class AgendaAttachmentsManager extends Component {
         if(!file){
             return;
         }
-        if(file.size / 1000 + this.state.totalSize > maxFileSize){
+        if(file.size / 1000 + this.state.totalSize > MAX_FILE_SIZE){
             this.setState({
                 alert: true
             });
@@ -38,18 +38,16 @@ class AgendaAttachmentsManager extends Component {
                 filesize: Math.round(file.size / 1000),
                 base64: reader.result,
                 state: 0,
-                agenda_id: this.props.agendaID,
-                council_id: this.props.councilID
+                agendaId: this.props.agendaID,
+                councilId: this.props.councilID
             };
 
             this.setState({
                 uploading: true
             });
-            const response = await this.props.sendAgendaAttachment({
+            const response = await this.props.addAgendaAttachment({
                 variables: {
-                    data: urlParser({data: {
-                        ...fileInfo
-                    }})
+                    attachment: fileInfo
                 }
             })
             if(response){
@@ -61,19 +59,23 @@ class AgendaAttachmentsManager extends Component {
         }
     }
 
-    deleteAttachment = async (attachmentID) => {
-        const response = this.props.deleteAttachment({
+    removeAgendaAttachment = async (attachmentID) => {
+        this.setState({
+            loadingId: attachmentID
+        });
+
+        const response = await this.props.removeAgendaAttachment({
             variables: {
-                attachment: {
-                    attachment_id : attachmentID,
-                    agenda_id: this.props.agendaID,
-                    council_id : this.props.councilID
-                }
+                attachmentId : attachmentID,
+                agendaId: this.props.agendaID
             }
         });
 
         if(response){
-            this.props.refetch();
+            const refetch = await this.props.refetch();
+            if(refetch){
+                this.setState({loadingId: ''});
+            }
         }
     }
 
@@ -100,7 +102,8 @@ class AgendaAttachmentsManager extends Component {
             <AttachmentList 
                 attachments={attachments}
                 translate={translate}
-                deleteAction={this.deleteAttachment}
+                loadingId={this.state.loadingId}
+                deleteAction={this.removeAgendaAttachment}
             />
         );
     }
@@ -116,11 +119,11 @@ class AgendaAttachmentsManager extends Component {
                 }}
             >
                 <CollapsibleSection trigger={this._button} collapse={this._section} />
-                <div style={{display: 'flex', overflow: 'hidden', height: '3em', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: '5em'}}>
+                <div style={{overflow: 'hidden', height: '3em', position: 'absolute', top: '5px', left: '5em', margin: 0, padding: 0}}>
                     <FileUploadButton 
                         color={'lightgrey'}
                         textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                        buttonStyle={{width: '1em'}}
+                        buttonStyle={{maxWidth: '1em', height: '3em'}}
                         flat
                         icon={<Icon className="material-icons" style={{fontSize: '1.5em', color: 'grey'}}>control_point</Icon>}
                         onChange={this.handleFile}
@@ -132,11 +135,11 @@ class AgendaAttachmentsManager extends Component {
 }
 
 export default compose(
-    graphql(sendAgendaAttachment, {
-        name: 'sendAgendaAttachment'
+    graphql(addAgendaAttachment, {
+        name: 'addAgendaAttachment'
     }),
 
-    graphql(deleteAgendaAttachment, {
-        name: 'deleteAttachment'
+    graphql(removeAgendaAttachment, {
+        name: 'removeAgendaAttachment'
     })
 )(AgendaAttachmentsManager);

@@ -1,7 +1,7 @@
 export default {
 	main: {
 	    isLogged: false,
-        language: 'es',
+        selectedLanguage: 'es',
         loading: true
 	},
     user: {},

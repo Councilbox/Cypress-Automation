@@ -4,45 +4,48 @@ import LoginContainer from './LoginContainer';
 import CouncilContainer from './CouncilContainer';
 import SignUpContainer from './SignUpContainer';
 import MeetingsContainer from './MeetingsContainer';
+import ForgetPwdContainer from './ForgetPwdContainer';
+import ChangePwdContainer from './ChangePwdContainer';
 import Welcome from '../components/Welcome';
 import NotFound from "../components/NotFound";
 import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
 import {connect} from "react-redux";
-import SideMenu from '../components/sideMenu/SideMenu';
+import Sidebar from '../components/sideMenu/SideBar';
 import DashboardContainer from './DashboardContainer';
 import CouncilEditorContainer from './CouncilEditorContainer';
 import CouncilPrepareContainer from './CouncilPrepareContainer';
 import MeetingEditorContainer from './MeetingEditorContainer';
+import CompanySettingsContainer from './CompanySettingsContainer';
+import CompanyCensusContainer from './CompanyCensusContainer';
+import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
+import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import CreateMeeting from '../components/CreateMeeting';
+import StatutesPage from '../components/statutes/StatutesPage';
+import PlatformDrafts from '../components/companyDraft/PlatformDrafts';
+import CensusEditorPage from '../components/companyCensus/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../components/displayComponents';
-
+import CompanyDraftList from '../components/companyDraft/CompanyDraftList';
+import appStyle from "../styles/appStyle.jsx";
+import image from "../assets/img/sidebar-2.jpg";
+import { withStyles } from 'material-ui';
 
 class AppRouter extends Component {
-
     constructor(props){
         super(props);
         this.state = {
             sideWidth: 5,
-            open: false
+            mobileOpen: false
         }    
     }
 
-    toggleMenu = () => {
-        if(this.state.sideWidth === 20){
-            this.setState({
-                sideWidth: 5,
-                open: false
-            });
-        }else{
-            this.setState({
-                sideWidth: 20,
-                open: true
-            });
-        }
-    }
+    handleDrawerToggle = () => {
+        this.setState({ mobileOpen: !this.state.mobileOpen });
+    };
+
 
     render() {
+        const { translate } = this.props;
         if(this.props.main.loading || !this.props.translate){
             return(<LoadingMainApp />);
         }
@@ -53,20 +56,22 @@ class AppRouter extends Component {
 
         return (
             this.props.main.isLogged?
-                <div style={{width: '100%', height: '100vh', display: 'flex', flexDirection: 'row'}}>                                                      
-                    <SideMenu
-                        width={this.state.sideWidth}
-                        companies={this.props.companies.list}
+                <div style={{width: '100%', height: '100vh', position: 'relative'}}>                                                      
+                    <Sidebar
                         company={this.props.companies.list[this.props.companies.selected]}
-                        toggleMenu={this.toggleMenu}
-                        open={this.state.open}
-                        translate={this.props.translate}
+                        open={this.state.mobileOpen}
+                        handleDrawerToggle={this.handleDrawerToggle}
+                        image={image}
+                        translate={translate}
+                        color="blue"
                     />
-                    <div style={{width: `${100 - this.state.sideWidth}%`, height: '100%', display: 'flex', flexDirection: 'column'}}>
-                        <Header user={this.props.user.name} />
+
+                    <div className={this.props.classes.mainPanel}>
+                        <Header user={this.props.user} drawerIcon={this.state.mobileOpen} translate={this.props.translate} backButton={this.props.location.pathname !== `/company/${this.props.companies.list[this.props.companies.selected].id}`} />
                         <Switch>
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />
+                            <Route exact path="/company/:company/settings" component={CompanySettingsContainer} />                            
                             <Route exact path="/company/:company/council/new" component={CreateCouncil} />
                             <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
                             <Route exact path="/company/:company/council/:id/:step" component={CouncilEditorContainer} />                           
@@ -74,8 +79,13 @@ class AppRouter extends Component {
                             <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            
                             <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                             <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
-                            <Route exact path="/company/:company/meeting/:id" component={MeetingEditorContainer} />
-                            
+                            <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
+                            <Route exact path="/company/:company/drafts/:id?" component={CompanyDraftList} />
+                            <Route exact path="/company/:company/platform/drafts" component={PlatformDrafts} />                            
+                            <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
+                            <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />  
+                            <Route exact path="/company/:company/statutes" component={StatutesPage} />                                                        
+                            <Route exact path="/user/:id" component={UserSettingsContainer} />                        
                             <Route path="*" component={NotFound}/>
                         </Switch>
                     </div>
@@ -84,7 +94,10 @@ class AppRouter extends Component {
                 <Switch>
                     <Route exact path="/" component={LoginContainer}/>
                     <Route path="/signup" component={SignUpContainer}/>
+                    <Route path="/forgetPwd" component={ForgetPwdContainer}/>
+                    <Route exact path="/changePwd/:language/:token" component={ChangePwdContainer} />
                     <Route path="/welcome" component={Welcome} />
+                    <Route path="/participant/:id" component={ParticipantPage} />
                     <Route path="*" component={NotFound}/>            
                 </Switch>
         );
@@ -98,4 +111,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-export default withRouter(connect(mapStateToProps)(AppRouter));
+export default withRouter(connect(mapStateToProps)(withStyles(appStyle)(AppRouter)));

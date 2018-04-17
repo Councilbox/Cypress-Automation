@@ -3,7 +3,7 @@ import { LoadingMainApp, Icon } from "../displayComponents";
 import LiveHeader from './LiveHeader';
 import { lightGrey, darkGrey } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { councilFullData, participantsQuery, majorities, quorums, votationTypes, getVideoHTML } from '../../queries';
+import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes } from '../../queries';
 import AgendaManager from './AgendaManager';
 import ParticipantsLive from './ParticipantsLive';
 
@@ -45,17 +45,17 @@ class CouncilLivePage extends Component {
     }
 
     checkVideoFlags = () => {
-        const council = this.props.data.councilData;
-        return council.state === 20 && council.council_type === 0;
+        const council = this.props.data.council;
+        return council.state === 20 && council.councilType === 0;
 
     }
 
     checkLoadingComplete = () => {
-        return this.props.data.loading || this.props.participantList.loading;
+        return this.props.data.loading && this.props.companies.list;
     }
 
     render(){
-        const council = this.props.data.councilData;
+        const council = this.props.data.council;
         const { translate } = this.props;
 
         if(this.checkLoadingComplete()){
@@ -64,11 +64,13 @@ class CouncilLivePage extends Component {
             );
         }
 
+        const company = this.props.companies.list[this.props.companies.selected];        
+
         return(
-            <div style={{height: '100vh', overflow: 'hidden', backgroundColor: lightGrey, fontSize: '0.95em'}}>
+            <div style={{height: '100vh', overflow: 'hidden', backgroundColor: lightGrey, fontSize: '1em'}}>
                 <LiveHeader
-                    logo={this.props.company.logo}
-                    companyName={this.props.company.business_name}
+                    logo={company.logo}
+                    companyName={company.businessName}
                     councilName={council.name}
                     translate={translate}
                 />
@@ -80,17 +82,17 @@ class CouncilLivePage extends Component {
                                 <div style={{height: '95vh', width: '7%', overflow: 'hidden', backgroundColor: darkGrey}}>
                                     <ParticipantsLive
                                         translate={translate}
-                                        participants={this.props.participantList.participants}
+                                        participants={this.props.data.council.participants}
                                         councilID={this.props.councilID}
                                     />
                                 </div>
                             }
     
-                            {this.props.videoHTML.getVideoHTML &&
+                            {council.room.htmlVideoCouncil &&
                                 <Fragment>
                                     <div style={{height: this.state.videoHeight, width: '100%', position: 'relative'}}>
-                                        {//<div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: this.props.videoHTML.getVideoHTML.html_video_council}}/>
-                                        }
+                                        <div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}/>
+                                        
                                         {!this.state.fullScreen?
                                             <Icon className="material-icons" style={{position: 'absolute', right: '10%', bottom: '7%', color: lightGrey}} onClick={() => this.setState({videoWidth: 94, videoHeight: '90vh', fullScreen: true})}>zoom_in</Icon>
                                         :
@@ -103,7 +105,7 @@ class CouncilLivePage extends Component {
                                 <div style={{height: '95vh', width: '100%', overflow: 'hidden', backgroundColor: darkGrey}}>
                                     <ParticipantsLive
                                         translate={translate}
-                                        participants={this.props.participantList.participants}
+                                        participants={this.props.data.council.participants}
                                         councilID={this.props.councilID}
                                     />
                                 </div>
@@ -115,10 +117,11 @@ class CouncilLivePage extends Component {
                         <AgendaManager 
                             council={council}
                             translate={translate}
+                            votingTypes={this.props.votations.votingTypes}
                             majorities={this.props.majorities.majorities}
                             fullScreen={this.state.fullScreen}
                             refetch={this.props.data.refetch}
-                            participants={this.props.participantList.participants}
+                            participants={this.props.data.council.participants}
                             openMenu={() => this.setState({ videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}
                         />
     
@@ -130,50 +133,26 @@ class CouncilLivePage extends Component {
 }
 
 export default  compose(
-    graphql(majorities, {
+
+    graphql(majorityTypes, {
         name: 'majorities'
     }),
 
-    graphql(quorums, {
-        name: 'quorums'
-    }),
-
-    graphql(getVideoHTML, {
-        name: 'videoHTML',
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID
-            }
-        })
-    }),
-
-    graphql(votationTypes, {
+    graphql(votingTypes, {
         name: 'votations'
     }),
 
-    graphql(participantsQuery, {
-        name: "participantList",
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID
-            }
-        })
+    graphql(quorumTypes, {
+        name: 'quorum'
     }),
 
-    graphql(councilFullData, {
+
+    graphql(councilLiveQuery, {
         name: "data",
         options: (props) => ({
             variables: {
-                councilInfo: {
-                    companyID: props.companyID,
-                    councilID: props.councilID,
-                    step: 6
-                }
+                councilID: props.councilID,
             }
         })
     })
 )(CouncilLivePage);
-
-/**
- * 
- */

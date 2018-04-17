@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { councils } from '../../queries.js';
 import { graphql } from 'react-apollo';
-import { LoadingSection, Table, SectionTitle, DateWrapper } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { LoadingSection, Table, SectionTitle, DateWrapper, DeleteIcon } from '../displayComponents';
+import { TableRow, TableCell } from 'material-ui/Table';
 import { getPrimary } from '../../styles/colors';
-import { IconButton } from 'material-ui';
 
 class CouncilsTrash extends Component {
 
@@ -16,12 +14,10 @@ class CouncilsTrash extends Component {
     _renderDeleteIcon(participantID){
         const primary = getPrimary();
         return(
-            <IconButton 
-                iconStyle={{color: primary}}
+            <DeleteIcon 
+                style={{color: primary}}
                 onClick={() => this.deleteParticipant(participantID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 
@@ -45,11 +41,10 @@ class CouncilsTrash extends Component {
                         {this.props.data.councils.map((council) => {
                             return(
                                 <TableRow
-                                    selectable={false}
                                     key={`participant${council.id}`}  
                                 >
-                                    <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableRowColumn>
-                                    <TableRowColumn>{council.name}</TableRowColumn>
+                                    <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableCell>
+                                    <TableCell>{council.name}</TableCell>
                                 </TableRow>
                             )
                         })}

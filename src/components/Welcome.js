@@ -3,7 +3,7 @@ import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Header from './Header';
-import { Card, CardActions,CardText, RaisedButton } from 'material-ui';
+import { Card, CardActions, CardContent, Button } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { Icon } from './displayComponents';
 import { getPrimary } from '../styles/colors';
@@ -25,21 +25,20 @@ class SignUpPage extends React.Component {
                 <Header />
                 <h3 style={{color: 'white'}}>Bienvenido/a</h3>
                 <Card style={{width: '30%', height: '70%', padding: 0, paddingBottom: '4em', borderRadius: '0.3em', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}} containerStyle={{padding: 0}}>
-                    <CardText style={{padding: 0}}>
+                    <CardContent style={{padding: 0}}>
                         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', height:'50%'}}>
                             <h3>Alta Completa</h3>
                             <Icon className="material-icons" style={{fontSize: '10em', color: 'green'}}>verified_user</Icon>
                             <div style={{fontSize: '1.2em', width: '60%', margin: '2em'}}>Para poder entrar hemos enviado un enlace a tu email con el que podrás activar tu cuenta CouncilBox</div>
                         </div>
-                    </CardText>
+                    </CardContent>
                     <CardActions style={{alignItems: 'center', justifyContent: 'center', display: 'flex', width: '100%'}}>
                         <Link to='/'>
-                            <RaisedButton
+                            <Button
                                 label="Comenzar"
                                 backgroundColor={primary}
                                 style={{width: '70%', margin: '2em'}}
                                 labelStyle={{color: 'white', fontWeight: '700', marginRight: '0.2em'}}
-                                labelPosition="before"
                                 icon={<Icon className="material-icons" style={{color: 'white'}}>arrow_forward</Icon>}
                             />
                         </Link>

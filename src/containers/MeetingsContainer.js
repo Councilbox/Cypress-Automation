@@ -4,7 +4,6 @@ import {withRouter} from 'react-router-dom';
 import { TabsScreen } from '../components/displayComponents';
 import MeetingDrafts from '../components/meetingSections/MeetingDrafts';
 import MeetingsLive from '../components/meetingSections/MeetingsLive';
-import MeetingsTrash from '../components/meetingSections/MeetingsTrash';
 
 const MeetingsContainer = ({main, company, user, match, translate}) => {
 
@@ -23,10 +22,11 @@ const MeetingsContainer = ({main, company, user, match, translate}) => {
             text: translate.companies_live,
             link: `/company/${company.id}/meetings/live`,
             component: () => {return(<MeetingsLive company={company} translate={translate} />)}
-        }, {
-            text: translate.signature_trash,
-            link: `/company/${company.id}/meetings/trash`,
-            component: () => {return(<MeetingsTrash company={company} translate={translate} />)}
+        },
+        {
+            text: `${translate.dashboard_new_meeting}`,
+            link: `/company/${company.id}/meeting/new`,
+            add: true
         }
     ]
 

@@ -3,6 +3,9 @@ import { lightGrey } from '../../styles/colors';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import '../../styles/react-tabs.css';
 import { Link } from 'react-router-dom';
+import { getPrimary } from '../../styles/colors';
+import { Add } from 'material-ui-icons';
+
 
 class TabsScreen extends React.Component {
 
@@ -16,7 +19,7 @@ class TabsScreen extends React.Component {
     componentDidMount() {
         this.setState({
             selectedTab: this.props.tabsIndex[this.props.selected]
-        })
+        });
     }
 
     changeTab = (index) => {
@@ -31,11 +34,12 @@ class TabsScreen extends React.Component {
 
     render() {
         const tabsInfo = this.props.tabsInfo;
+        const primary = getPrimary();
 
         return (
             <div
                 style={{
-                overflowY: 'auto',
+                overflowY: 'hidden',
                 width: '100%',
                 backgroundColor: lightGrey,
                 padding: 0,
@@ -53,8 +57,8 @@ class TabsScreen extends React.Component {
                         {tabsInfo.map((tab, index) => {
                             return (
                                 <Link key={tab.text + index} to={tab.link} style={{color: 'black'}}>
-                                    <Tab>
-                                        {tab.text}
+                                    <Tab style={tab.add && {backgroundColor: primary, color: 'white'}}>
+                                        {tab.text}{tab.add && <Add style={{fontSize: '1em'}}/>}
                                     </Tab>
                                 </Link>
                             );
@@ -64,12 +68,11 @@ class TabsScreen extends React.Component {
 
                     {tabsInfo.map((tab, index) => {
                         return (
-                            <TabPanel key={tab.text + index} style={{minHeight: '80vh', overflow: 'auto', paddingBottom: '2em'}}>
-                                {tab.component()}
+                            <TabPanel key={tab.text + index} style={{height: '80vh', overflow: 'hidden', boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)", borderRadius: '0px 5px 5px 5px'}}>
+                                {!!tab.component && tab.component()}                           
                             </TabPanel>
                         )
-                    })
-}
+                    })}
                 </Tabs>
             </div>
         );

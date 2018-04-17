@@ -1,5 +1,5 @@
 import CouncilboxApi from "../api/CouncilboxApi";
-import { bHistory, client } from '../containers/App';
+import { bHistory, client, store } from '../containers/App';
 import { loadingFinished } from './mainActions';
 import { companies } from '../queries';
 
@@ -12,10 +12,19 @@ export const saveSignUpInfo = (info) => {
 
 export const getCompanies = (userId) => {
     return async (dispatch) => {
-        const response = await client.query({query: companies, variables: { userId: userId}});
-        dispatch({type: 'COMPANIES', value: response.data.userCompanies.map((item) => {return{...item.company}})})
-        dispatch(loadingFinished());
+        if(userId){
+            const response = await client.query({query: companies, variables: { userId: userId}});
+            dispatch({type: 'COMPANIES', value: response.data.userCompanies.map((item) => {return{...item.company}})})
+            dispatch(loadingFinished());
+        }
     }
+}
+
+export const setCompany = (company) => {
+    const index = store.getState().companies.selected;
+    const companies = [...store.getState().companies.list];
+    companies[index] = company;
+    return({type: 'COMPANIES', value: companies});
 }
 
 export const changeCompany = (index) => (

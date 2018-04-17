@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { councils } from '../../queries.js';
 import { graphql } from 'react-apollo';
-import { LoadingSection, Table, SectionTitle, DateWrapper } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
-import { IconButton } from 'material-ui';
+import { LoadingSection, Table, SectionTitle, DateWrapper, DeleteIcon } from '../displayComponents';
+import { TableRow, TableCell } from 'material-ui/Table';
 import { getPrimary } from '../../styles/colors';
 
 class MeetingsTrash extends Component {
@@ -15,12 +13,10 @@ class MeetingsTrash extends Component {
 
     _renderDeleteIcon(participantID){
         return(
-            <IconButton 
-                iconStyle={{color: getPrimary()}}
+            <DeleteIcon 
+                style={{color: getPrimary()}}
                 onClick={() => this.deleteParticipant(participantID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 
@@ -44,11 +40,10 @@ class MeetingsTrash extends Component {
                         {this.props.data.councils.map((council) => {
                             return(
                                 <TableRow
-                                    selectable={false}
                                     key={`participant${council.id}`}  
                                 >
-                                    <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableRowColumn>
-                                    <TableRowColumn>{council.name}</TableRowColumn>
+                                    <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.date_start}/></TableCell>
+                                    <TableCell>{council.name}</TableCell>
                                 </TableRow>
                             )
                         })}

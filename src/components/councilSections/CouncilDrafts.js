@@ -2,11 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper } from '../displayComponents';
-import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import { IconButton } from 'material-ui';
+import withSharedProps from '../../HOCs/withSharedProps';
+import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, DeleteIcon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { TableRow, TableRowColumn } from 'material-ui/Table';
+import { TableRow, TableCell } from 'material-ui/Table';
+import Scrollbar from 'react-perfect-scrollbar';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 
 class CouncilDrafts extends Component {
@@ -49,12 +50,10 @@ class CouncilDrafts extends Component {
         const primary = getPrimary();
 
         return(
-            <IconButton 
-                iconStyle={{color: primary}}
+            <DeleteIcon
+                style={{color: primary}}
                 onClick={() => this.openDeleteModal(councilID)}
-            >
-                <DeleteForever />
-            </IconButton>
+            />
         );
     }
 
@@ -62,58 +61,60 @@ class CouncilDrafts extends Component {
         const { translate } = this.props;
         const { loading, councils, error } = this.props.data;
         return(
-            <div style={{height: '10em', padding: '2em'}}>
-                <SectionTitle
-                    icon="pencil-square-o"
-                    title={translate.companies_draft}
-                    subtitle={translate.companies_draft_desc}
-                />
-                {loading? 
-                    <LoadingSection />
-                :
-                <Fragment>
-                        {error?
-                            <div>
-                                {error.graphQLErrors.map((error) => {
-                                    return <ErrorWrapper error={error} translate={translate} />
-                                })}
-                            </div>
-                        :
-                            councils.length > 0?
-                                <Table 
-                                    headers={[{name: translate.date_real_start}, {name: translate.name}, {name: translate.delete}]}
-                                    action={this._renderDeleteIcon}
-                                    companyID={this.props.company.id}
-                                >
-                                    {councils.map((council) => {
-                                        return(
-                                            <TableRow
-                                                selectable={false}
-                                                hoverable
-                                                key={`participant${council.id}`}  
-                                            >
-                                                <TableRowColumn><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableRowColumn>
-                                                <TableRowColumn><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name || translate.dashboard_new}</Link></TableRowColumn>
-                                                <TableRowColumn>{this._renderDeleteIcon(council.id)}</TableRowColumn>
-                                            </TableRow>
-                                        )
-                                    })}
-                                    </Table>
-                            :
-                                <span>{translate.no_results}</span>
-                        }
-                        <AlertConfirm 
-                            title={translate.send_to_trash}
-                            bodyText={translate.send_to_trash_desc}
-                            open={this.state.deleteModal}
-                            buttonAccept={translate.send_to_trash}
-                            buttonCancel={translate.cancel}
-                            modal={true}
-                            acceptAction={this.deleteCouncil}
-                            requestClose={() => this.setState({ deleteModal: false})}
+            <div style={{height: '100%', overflow: 'hidden', position: 'relative'}}>
+                <Scrollbar>
+                    <div style={{padding: '2em'}}>
+                        <SectionTitle
+                            icon="pencil-square-o"
+                            title={translate.companies_draft}
+                            subtitle={translate.companies_draft_desc}
                         />
-                    </Fragment>
-                }
+                        {loading? 
+                            <LoadingSection />
+                        :
+                        <Fragment>
+                                {error?
+                                    <div>
+                                        {error.graphQLErrors.map((error) => {
+                                            return <ErrorWrapper error={error} translate={translate} />
+                                        })}
+                                    </div>
+                                :
+                                    councils.length > 0?
+                                        <Table 
+                                            headers={[{name: translate.date_real_start}, {name: translate.name}, {name: translate.delete}]}
+                                            action={this._renderDeleteIcon}
+                                            companyID={this.props.company.id}
+                                        >
+                                            {councils.map((council) => {
+                                                return(
+                                                    <TableRow
+                                                        key={`participant${council.id}`}  
+                                                    >
+                                                        <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
+                                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name || translate.dashboard_new}</Link></TableCell>
+                                                        <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
+                                                    </TableRow>
+                                                )
+                                            })}
+                                        </Table>
+                                    :
+                                        <span>{translate.no_results}</span>
+                                }
+                                <AlertConfirm 
+                                    title={translate.send_to_trash}
+                                    bodyText={translate.send_to_trash_desc}
+                                    open={this.state.deleteModal}
+                                    buttonAccept={translate.send_to_trash}
+                                    buttonCancel={translate.cancel}
+                                    modal={true}
+                                    acceptAction={this.deleteCouncil}
+                                    requestClose={() => this.setState({ deleteModal: false})}
+                                />
+                            </Fragment>
+                        }
+                    </div>
+                </Scrollbar>
             </div>
         );
     }
@@ -121,7 +122,7 @@ class CouncilDrafts extends Component {
 }
 
 
-export default compose(graphql(deleteCouncil), graphql(councils, {
+export default withSharedProps()(compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
@@ -131,4 +132,4 @@ export default compose(graphql(deleteCouncil), graphql(councils, {
             active: 1
         }
     })
-}))(CouncilDrafts);
+}))(CouncilDrafts));

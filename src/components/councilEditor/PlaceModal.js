@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Dialog, MenuItem } from 'material-ui';
+import { MenuItem } from 'material-ui';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { BasicButton, TextInput, SelectInput, LoadingSection, Checkbox } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
 import { withApollo } from 'react-apollo';
@@ -62,18 +63,19 @@ class PlaceModal extends Component {
         }
     }
 
-    handleCountryChange = (event, index, value) => {
+    handleCountryChange = (event) => {
         this.setState({
             ...this.state,
             data: {
                 ...this.state.data,
                 council: {
                     ...this.state.data.council,
-                    country: value
+                    country: event.target.value
                 }
             }
         })
-        this.updateCountryStates(this.props.countries[index].id);
+        const selectedCountry = this.props.countries.find((country) => country.deno === event.target.value);
+        this.updateCountryStates(selectedCountry.id);
     }
 
     updateCountryStates = async (countryID) => {
@@ -90,14 +92,14 @@ class PlaceModal extends Component {
     }
 
 
-    handleProvinceChange = (event, index, value) => {
+    handleProvinceChange = (event) => {
         this.setState({
             ...this.state,
             data: {
                 ...this.state.data,
                 council: {
                     ...this.state.data.council,
-                    countryState: value
+                    countryState: event.target.value
                 }
             }
         })
@@ -206,102 +208,106 @@ class PlaceModal extends Component {
 
         return (
             <Dialog
-                title={translate.new_location_of_celebrate}
-                actions={this._renderActionButtons()}
-                contentStyle={{width: '40%', padding: '2em'}}
-                autoScrollBodyContent
-                modal={true}
+                disableBackdropClick={true}
                 open={this.props.open}
             >
-                <Checkbox
-                    label={translate.remote_celebration}
-                    value={this.state.data.council.remoteCelebration === 1 ? true : false}
-                    onChange={(event, isInputChecked) => 
-                        this.setState({
-                            data: {
-                                ...this.state.data,
-                                council: {
-                                    ...this.state.council,
-                                    remoteCelebration: isInputChecked? 1 : 0,
-                                    street: ''
-                                }
-                            }
-                        })}
-                />
-                {!this.state.data.council.remoteCelebration &&
-                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
-                        <SelectInput
-                            floatingText={translate.country}
-                            value={this.state.data.council.country}
-                            onChange={this.handleCountryChange}
-                            errorText={this.state.errors.country}
-                        >   
-                            {countries.map((country) => {
-                                return <MenuItem key={country.deno} value={country.deno} primaryText={country.deno} />
-                            })
-                            }
-                        </SelectInput>
-                        <SelectInput
-                            floatingText={translate.company_new_country_state}
-                            value={this.state.data.council.countryState}
-                            errorText={this.state.errors.countryState}
-                            onChange={this.handleProvinceChange}
-                        >   
-                            {this.state.country_states.map((country_state) => {
-                                return <MenuItem key={country_state.deno} value={country_state.deno} primaryText={country_state.deno} />
-                            })
-                            }
-                        </SelectInput>
-                        <TextInput
-                            floatingText={translate.company_new_zipcode}
-                            type="text"
-                            errorText={this.state.errors.zipcode}
-                            value={this.state.data.council.zipcode}
-                            onChange={(event) => this.setState({
-                                ...this.state,
+                <DialogTitle>
+                    {translate.new_location_of_celebrate}
+                </DialogTitle>
+                <DialogContent>
+                    <Checkbox
+                        label={translate.remote_celebration}
+                        value={this.state.data.council.remoteCelebration === 1 ? true : false}
+                        onChange={(event, isInputChecked) => 
+                            this.setState({
                                 data: {
                                     ...this.state.data,
                                     council: {
                                         ...this.state.data.council,
-                                        zipcode: event.nativeEvent.target.value
+                                        remoteCelebration: isInputChecked? 1 : 0,
+                                        street: ''
                                     }
                                 }
                             })}
-                        />
-                        <TextInput
-                            floatingText={translate.company_new_locality}
-                            type="text"
-                            errorText={this.state.errors.city}
-                            value={this.state.data.council.city}
-                            onChange={(event) => this.setState({
-                                ...this.state,
-                                data: {
-                                    ...this.state.data,
-                                    council: {
-                                        ...this.state.data.council,
-                                        city: event.nativeEvent.target.value
-                                    }
+                    />
+                    {!this.state.data.council.remoteCelebration &&
+                        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
+                            <SelectInput
+                                floatingText={translate.country}
+                                value={this.state.data.council.country}
+                                onChange={this.handleCountryChange}
+                                errorText={this.state.errors.country}
+                            >   
+                                {countries.map((country) => {
+                                    return <MenuItem key={country.deno} value={country.deno}>{country.deno}</MenuItem>
+                                })
                                 }
-                            })}
-                        />
-                        <TextInput
-                            floatingText={translate.company_new_address}
-                            type="text"
-                            errorText={this.state.errors.street}
-                            value={this.state.data.council.street}
-                            onChange={(event) => this.setState({
-                                ...this.state,
-                                data: {
-                                    ...this.state.data,
-                                    council: {
-                                        ...this.state.data.council,
-                                        street: event.nativeEvent.target.value
-                                    }
+                            </SelectInput>
+                            <SelectInput
+                                floatingText={translate.company_new_country_state}
+                                value={this.state.data.council.countryState}
+                                errorText={this.state.errors.countryState}
+                                onChange={this.handleProvinceChange}
+                            >   
+                                {this.state.country_states.map((country_state) => {
+                                    return <MenuItem key={country_state.deno} value={country_state.deno}>{country_state.deno}</MenuItem>
+                                })
                                 }
-                            })}
-                        />
-                    </div>
-                }
+                            </SelectInput>
+                            <TextInput
+                                floatingText={translate.company_new_zipcode}
+                                type="text"
+                                errorText={this.state.errors.zipcode}
+                                value={this.state.data.council.zipcode}
+                                onChange={(event) => this.setState({
+                                    ...this.state,
+                                    data: {
+                                        ...this.state.data,
+                                        council: {
+                                            ...this.state.data.council,
+                                            zipcode: event.nativeEvent.target.value
+                                        }
+                                    }
+                                })}
+                            />
+                            <TextInput
+                                floatingText={translate.company_new_locality}
+                                type="text"
+                                errorText={this.state.errors.city}
+                                value={this.state.data.council.city}
+                                onChange={(event) => this.setState({
+                                    ...this.state,
+                                    data: {
+                                        ...this.state.data,
+                                        council: {
+                                            ...this.state.data.council,
+                                            city: event.nativeEvent.target.value
+                                        }
+                                    }
+                                })}
+                            />
+                            <TextInput
+                                floatingText={translate.company_new_address}
+                                type="text"
+                                errorText={this.state.errors.street}
+                                value={this.state.data.council.street}
+                                onChange={(event) => this.setState({
+                                    ...this.state,
+                                    data: {
+                                        ...this.state.data,
+                                        council: {
+                                            ...this.state.data.council,
+                                            street: event.nativeEvent.target.value
+                                        }
+                                    }
+                                })}
+                            />
+                        </div>
+                    }
+                </DialogContent>
+                <DialogActions>
+                    {this._renderActionButtons()}
+                </DialogActions>
             </Dialog>
         );
     }

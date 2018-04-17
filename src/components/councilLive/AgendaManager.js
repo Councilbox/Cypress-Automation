@@ -20,16 +20,7 @@ class AgendaManager extends Component {
 
     render(){
         const { council, translate } = this.props;
-        let agendas = [...council.agendas];
-        agendas.sort((a, b) => {
-            if (a.order_index > b.order_index) {
-              return 1;
-            }
-            if (a.order_index < b.order_index) {
-              return -1;
-            }
-            return 0;
-        });
+        const { agendas } = this.props.council;
 
         if(this.props.fullScreen){
             return(
@@ -37,6 +28,7 @@ class AgendaManager extends Component {
                     <AgendaSelector
                         agendas={agendas}
                         council={council}
+                        votingTypes={this.props.votingTypes}
                         selected={this.state.selectedPoint}
                         onClick={this.changeSelectedPoint}
                         translate={translate}
@@ -53,6 +45,7 @@ class AgendaManager extends Component {
                     <AgendaSelector
                         agendas={agendas}
                         council={council}
+                        votingTypes={this.props.votingTypes}
                         selected={this.state.selectedPoint}
                         onClick={this.changeSelectedPoint}
                         translate={translate}

@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { graphql, compose } from 'react-apollo';
-import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
+import { LoadingSection, Icon } from '../displayComponents';
 import { darkGrey, getPrimary } from '../../styles/colors';
-import { liveRecount } from '../../queries';
 import LiveUtil from '../../utils/live';
 import FontAwesome from 'react-fontawesome';
 import VotesTable from './VotesTable';
@@ -134,18 +132,10 @@ class RecountSection extends Component {
                     position: 'relative'
                 }}
             >
-                <CollapsibleSection trigger={this._button} collapse={this._section} />
+                {/*<CollapsibleSection trigger={this._button} collapse={this._section} />*/}
             </div>
         );
     }
 }
 
-export default compose(
-    graphql(liveRecount, {
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID
-            }
-        })
-    })
-)(RecountSection);
+export default RecountSection;

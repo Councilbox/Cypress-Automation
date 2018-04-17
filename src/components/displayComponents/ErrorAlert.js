@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Dialog } from 'material-ui';
+import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import BasicButton from './BasicButton';
 import { getPrimary } from '../../styles/colors';
 
@@ -21,12 +21,19 @@ const ErrorAlert = ({ title, buttonAccept, open, requestClose, bodyText }) => {
     return(
         <Dialog
             title={title}
-            actions={buttons}
-            modal={false}
+            disableBackdropClick={false}
             open={open}
-            onRequestClose={requestClose}
+            onClose={requestClose}
         >
-            {bodyText}
+            <DialogTitle>
+                {title}
+            </DialogTitle>
+            <DialogContent>
+                {bodyText}
+            </DialogContent>
+            <DialogActions>
+                {buttons}
+            </DialogActions>
         </Dialog>
     );
 }

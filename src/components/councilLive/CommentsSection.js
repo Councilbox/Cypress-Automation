@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { CollapsibleSection, LoadingSection, Icon } from '../displayComponents';
 import { darkGrey } from '../../styles/colors';
-import { getComments } from '../../queries';
+import { agendaComments } from '../../queries';
 
 class CommentsSection extends Component {
 
@@ -21,7 +21,7 @@ class CommentsSection extends Component {
                 <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
                     <Icon className="material-icons" style={{color: 'grey'}}>assignment</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>
-                        {council.statutes[0].exists_act? translate.act_comments : translate.council_comments}
+                        {council.statute.existsAct? translate.act_comments : translate.council_comments}
                     </span>
                 </div>
                 <div style={{width: '25%', display: 'flex', justifyContent: 'flex-end', paddingRight: '2em'}}>
@@ -32,7 +32,7 @@ class CommentsSection extends Component {
     }
 
     _section = () => {
-        const comments = this.props.data.getComments;
+        //const comments = this.props.data.agendaVotings;
         if(this.props.data.loading){
             return(
                 <LoadingSection />
@@ -41,14 +41,14 @@ class CommentsSection extends Component {
 
         return(
             <div style={{width: '100%', padding: '2em'}}>
-                {comments.map((comment) => {
+                {/*comments.map((comment) => {
                     return(
                         <div key={`comment${comment.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
                             {comment.comment}<br />
                             {`${comment.name} ${comment.surname} - ${comment.position}`}
                         </div>
                     )
-                })}
+                })*/}
             </div>
         );
     }
@@ -69,15 +69,10 @@ class CommentsSection extends Component {
     }
 }
 
-export default graphql(getComments, {
+export default graphql(agendaComments, {
     options: (props) => ({
         variables: {
-            request: {
-                council_id: props.council.id,
-                agenda_id: props.agenda.id,
-                page: 1,
-                limit: 25
-            }
+            agendaId: props.agenda.id
         }
     })
 })(CommentsSection);

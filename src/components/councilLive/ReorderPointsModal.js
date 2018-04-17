@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, AgendaNumber } from '../displayComponents';
-import { updateOrder } from '../../queries';
-import { urlParser } from '../../utils';
+import { updateAgendas } from '../../queries';
 import icon from '../../assets/img/reorder.PNG';
 import SortableList from '../displayComponents/SortableList';
 import { arrayMove } from 'react-sortable-hoc';
@@ -26,19 +25,14 @@ class ReorderPointsModal extends Component {
     
     updateOrder = async () => {
         const reorderedAgenda = this.state.agendas.map((agenda, index) => {
-            const updatedAgenda = { ...agenda };
-            updatedAgenda.order_index = index + 1; 
+            const {  __typename, ...updatedAgenda } = agenda;
+            updatedAgenda.orderIndex = index + 1; 
             return updatedAgenda;
-        })
+        });
 
-        console.log(reorderedAgenda);
-        const response = await this.props.updateOrder({
+        const response = await this.props.updateAgendas({
             variables: {
-                data: urlParser({
-                    data: {
-                        ...reorderedAgenda
-                    }
-                })
+                agendaList: [ ...reorderedAgenda ]
             }
         })
         if(response){
@@ -89,6 +83,6 @@ class ReorderPointsModal extends Component {
     }
 }
 
-export default graphql(updateOrder, {
-    name: 'updateOrder'
+export default graphql(updateAgendas, {
+    name: 'updateAgendas'
 })(ReorderPointsModal);

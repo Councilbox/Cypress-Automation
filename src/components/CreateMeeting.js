@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import * as councilActions from '../actions/councilActions';
 import { bindActionCreators } from 'redux';
+import { LoadingMainApp } from './displayComponents';
 
  class CreateMeeting extends Component {
     constructor(props){
@@ -22,7 +23,7 @@ import { bindActionCreators } from 'redux';
         }
     }
     render(){
-        return <p>Spinner spinning...</p>;
+        return <LoadingMainApp />
     }
 }
 

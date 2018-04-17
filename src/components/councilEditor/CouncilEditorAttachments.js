@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, Icon } from '../displayComponents';
+import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, ButtonIcon } from '../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { maxFileSize } from '../../constants';
-import AttachmentList from './AttachmentList';
+import { MAX_FILE_SIZE } from '../../constants';
+import { Typography } from "material-ui";
+import AttachmentList from '../attachments/AttachmentList';
+import { showAddCouncilAttachment } from '../../utils/CBX';
 import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../queries';
+
 
 class CouncilEditorAttachments extends Component {
 
@@ -47,7 +50,7 @@ class CouncilEditorAttachments extends Component {
         if(!file){
             return;
         }
-        if(file.size / 1000 + parseInt(this.state.totalSize, 10) > maxFileSize){
+        if(file.size / 1000 + parseInt(this.state.totalSize, 10) > MAX_FILE_SIZE){
             this.setState({
                 alert: true
             });
@@ -76,7 +79,6 @@ class CouncilEditorAttachments extends Component {
             })
             if(response){
                 this.props.data.refetch();
-                console.log(response);
                 this.setState({
                     uploading: false
                 });
@@ -141,54 +143,44 @@ class CouncilEditorAttachments extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-                {translate.attachment_files.toUpperCase()}
-                {attachments.length < 5?
-                    <FileUploadButton 
-                        text={translate.new_add}
-                        color={primary}
-                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                        icon={<Icon className="material-icons" style={{color: 'white'}}>publish</Icon>}
-                        onChange={this.handleFile}
-                    />
-                : 
-                    'HAS LLEGADO AL LÍMITE'
-                }
-
-                <BasicButton
-                    text={translate.save}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>save</Icon>}
-                    textPosition="after"
-                    onClick={this.updateCouncil} 
-                />
-
-                <BasicButton
-                    text={translate.previous}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.props.previousStep}
-                />
-                <BasicButton
-                    text={translate.next}
-                    color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    textPosition="after"
-                    onClick={this.nextPage}
-                />
-                <div>
+                <div className="row">
+                    <div className="col-lg-3 col-md-3 col-xs-6">
+                        <Typography variant="title">
+                            {translate.attachment_files}
+                        </Typography>
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-xs-6">
+                        {showAddCouncilAttachment(attachments)?
+                            <FileUploadButton 
+                                text={translate.new_add}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                icon={<ButtonIcon type="publish" color='white' />}
+                                onChange={this.handleFile}
+                            />
+                        : 
+                            'HAS LLEGADO AL LÍMITE'
+                        }
+                    </div>
+                </div>             
+                <Typography variant="subheading" style={{marginTop: '1.5em'}}>
                     {translate.new_files_desc}
-                    <br/>{(this.state.totalSize / 1024).toFixed(2)}/Mb</div>
+                </Typography>
+
                 <ProgressBar 
-                    value={this.state.totalSize > 0 ? (this.state.totalSize / maxFileSize ) * 100 : 0} 
+                    value={this.state.totalSize > 0 ? (this.state.totalSize / MAX_FILE_SIZE ) * 100 : 0} 
                     color={getSecondary()}
                     style={{height: '1.2em'}}
                 />
 
+                <Typography variant="caption">
+                    {(this.state.totalSize / 1024).toFixed(2)}/Mb
+                </Typography>
+
                 <AttachmentList
                     attachments={attachments}
                     deleteAction={this.removeCouncilAttachment}
+                    translate={translate}
                 />
 
                 {this.state.uploading && 
@@ -196,6 +188,37 @@ class CouncilEditorAttachments extends Component {
                         <LoadingSection size={25} /> 
                     </div>
                 }
+
+                <div className="row" style={{marginTop: '3em'}}>
+                    <div className="col-lg-12 col-md-12 col-xs-12">
+                        <div style={{float: 'right'}}>
+                            <BasicButton
+                                text={translate.previous}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                textPosition="after"
+                                onClick={this.props.previousStep}
+                            />
+                            <BasicButton
+                                text={translate.save}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700', marginLeft: '0.5em', marginRight: '0.5em', fontSize: '0.9em', textTransform: 'none'}}
+                                icon={<ButtonIcon color='white' type="save" />}
+                                textPosition="after"
+                                onClick={this.updateCouncil} 
+                            />
+                            <BasicButton
+                                text={translate.next}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                textPosition="after"
+                                onClick={this.nextPage}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+
                 <ErrorAlert
                     title={translate.error}
                     bodyText={translate.file_exceeds_rest}

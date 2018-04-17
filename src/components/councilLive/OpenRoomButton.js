@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import moment from 'moment/min/moment-with-locales';
-import { urlParser } from '../../utils';
 import { graphql } from 'react-apollo';
-import { openRoom } from '../../queries';
+import { openCouncilRoom } from '../../queries';
 import { BasicButton, AlertConfirm, Checkbox, Icon } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 
-class OpenRoomButton extends Component {
+class openCouncilRoomButton extends Component {
 
     constructor(props){
         super(props);
@@ -19,26 +18,24 @@ class OpenRoomButton extends Component {
     componentWillReceiveProps(nextProps){
         if(nextProps.council){
             this.setState({
-                sendCredentials: !nextProps.council.video_emails_date
+                sendCredentials: !nextProps.council.videoEmailsDate
             })
         }
     }
 
-    openRoom = async () => { 
+    openCouncilRoom = async () => { 
         const { council } = this.props;
-        const response = await this.props.openRoom({
+        const response = await this.props.openCouncilRoom({
             variables: {
-                data: urlParser({
-                    data: {
-                        id: council.id,
-                        state: 20,
-                        noVideoEmails: !this.state.sendCredentials,
-                        name: council.name,
-                        timezone: moment().utcOffset(),
-                        language: council.language,
-                        councilType: council.council_type
-                    }
-                })
+                council: {
+                    id: council.id,
+                    name: council.name,
+                    language: council.language,
+                    councilType: council.councilType
+                },
+                timezone: moment().utcOffset(),
+                noVideoEmails: !this.state.sendCredentials
+
             }
         });
         if(response){
@@ -92,7 +89,7 @@ class OpenRoomButton extends Component {
                     buttonAccept={translate.accept}
                     buttonCancel={translate.cancel}
                     modal={true}
-                    acceptAction={this.openRoom}
+                    acceptAction={this.openCouncilRoom}
                     requestClose={() => this.setState({ confirmModal: false})}
                 />
             </Fragment>
@@ -102,6 +99,6 @@ class OpenRoomButton extends Component {
 
 }
 
-export default graphql(openRoom, {
-    name: 'openRoom'
-}) (OpenRoomButton);
+export default graphql(openCouncilRoom, {
+    name: 'openCouncilRoom'
+}) (openCouncilRoomButton);

@@ -113,7 +113,7 @@ class CouncilboxApi {
     }
 
     static createCompany(company){
-        /*const body = {
+        const body = {
             "preferred_language": 'es',
             "type": company.type,
             "country": company.country,
@@ -136,20 +136,20 @@ class CouncilboxApi {
             "census_description": "Primer censo creado automáticamente cuando se crea la sociedad"
         }
 
-        //const data = urlParser(body);
+        const data = urlParser(body);
 
         const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
             method: 'POST',
             headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
-            body: formBody
+            body: data
         });
 
         return fetch(request).then(response => {
             return response.json();
         }).catch( error => {
             throw error;
-        });*/
-        return Promise.resolve({code: 200});
+        });
+        //return Promise.resolve({code: 200});
         //return Promise.reject({code: 602})
     }
 
