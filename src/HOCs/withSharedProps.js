@@ -10,7 +10,7 @@ const withSharedProps = () => WrappedComponent => {
     );
 
     return connect(mapStateToProps)(WithSharedProps);
-}
+};
 
 const mapStateToProps = (state) => ({
     company: state.companies.list[state.companies.selected],

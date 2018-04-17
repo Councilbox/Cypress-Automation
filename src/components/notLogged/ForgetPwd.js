@@ -9,8 +9,9 @@ import { getPrimary, secondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput } from '../displayComponents/index';
 import background from '../../assets/img/signup3.jpg';
+import withTranslations from "../../HOCs/withTranslations";
 
-class ForgetPdw extends React.PureComponent {
+class ForgetPwd extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -187,4 +188,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(graphql(restorePwd, { options: { errorPolicy: 'all' } })(withWindowSize(ForgetPdw)));
+export default connect(null, mapDispatchToProps)(graphql(restorePwd, { options: { errorPolicy: 'all' } })(withWindowSize(ForgetPwd)));

@@ -15,3 +15,11 @@ export const changePwd = gql`
         }
     }
 `;
+
+export const checkExpiration = gql`
+    mutation checkExpiration($token: String!) {
+        checkExpiration(token: $token) {
+            success
+        }
+    }
+`;

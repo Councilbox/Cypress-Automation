@@ -2,9 +2,10 @@ import React from 'react';
 import * as mainActions from '../../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Card } from 'material-ui';
-import { graphql } from 'react-apollo';
-import { changePwd } from '../../queries/restorePwd';
+import { compose, graphql } from 'react-apollo';
+import { changePwd, checkExpiration } from '../../queries/restorePwd';
 import { getPrimary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput } from '../displayComponents/index';
@@ -15,7 +16,7 @@ const DEFAULT_ERRORS = {
     repeatPdw: '',
 };
 
-class ChangePdw extends React.PureComponent {
+class ChangePwd extends React.PureComponent {
 
     constructor(props) {
         super(props);
@@ -26,6 +27,10 @@ class ChangePdw extends React.PureComponent {
             changed: false,
             errors: DEFAULT_ERRORS,
         }
+    }
+
+    componentDidMount() {
+        this.checkExpiration();
     }
 
     checkRequiredFields() {
@@ -55,7 +60,7 @@ class ChangePdw extends React.PureComponent {
     changePdw = async () => {
         const { user } = this.state;
         if (!this.checkRequiredFields()) {
-            const response = await this.props.mutate({
+            const response = await this.props.changePwd({
                 variables: {
                     token: user,
                     pwd: this.state.pwd,
@@ -81,6 +86,27 @@ class ChangePdw extends React.PureComponent {
         }
     };
 
+    checkExpiration = async () => {
+        const { user } = this.state;
+        const response = await this.props.checkExpiration({
+            variables: {
+                token: this.props.match.params.token
+            }
+        });
+        if (response.errors) {
+            switch (response.errors[ 0 ].code) {
+                case 402:
+                    this.setState({
+                        linkExpired: true
+                    });
+                    break;
+
+                default:
+                    return;
+            }
+        }
+    };
+
     handleKeyUp = (event) => {
         if (event.nativeEvent.keyCode === 13) {
             this.changePdw();
@@ -90,13 +116,14 @@ class ChangePdw extends React.PureComponent {
     render() {
         const { translate, windowSize } = this.props;
         const primary = getPrimary();
-        return (<div className="row justify-content-md-center" style={{
-            width: '100%',
-            margin: 0,
-            backgroundImage: `url(${background})`,
-            fontSize: '0.85em',
-            height: '100%'
-        }}>
+        return (<div className="row justify-content-md-center"
+                     style={{
+                         width: '100%',
+                         margin: 0,
+                         backgroundImage: `url(${background})`,
+                         fontSize: '0.85em',
+                         height: '100%'
+                     }}>
             <div className="col-lg-8 col-md-8 col-xs-12 "
                  style={{
                      display: 'flex',
@@ -217,4 +244,10 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(graphql(changePwd, { options: { errorPolicy: 'all' } })(withWindowSize(ChangePdw)));
+export default connect(null, mapDispatchToProps)(compose(graphql(changePwd, {
+    name: 'changePwd',
+    options: { errorPolicy: 'all' }
+}), graphql(checkExpiration, {
+    name: 'checkExpiration',
+    options: { errorPolicy: 'all' }
+}),)(withWindowSize(withRouter(ChangePwd))))
