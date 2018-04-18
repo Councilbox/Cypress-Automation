@@ -27,6 +27,7 @@ class SignUpPage extends React.Component {
                 name: '',
                 surname: '',
                 phone: '',
+                language: props.main.selectedLanguage,
                 email: '',
                 pwd: '',
                 address: '',
@@ -54,6 +55,15 @@ class SignUpPage extends React.Component {
     previousPage = () => {
         const index = this.state.page - 1;
         if (index <= 3) {
+            this.setState({
+                page: index
+            })
+        }
+    };
+
+    goToPage = (index) => {
+        // if (index < this.state.page) {
+        if (index !== this.state.page) {
             this.setState({
                 page: index
             })
@@ -146,6 +156,7 @@ class SignUpPage extends React.Component {
                                 translate={translate}
                                 active={page - 1}
                                 windowSize={windowSize}
+                                goToPage={this.goToPage}
                             />
                         </div>
                         <div style={{

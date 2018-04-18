@@ -27,22 +27,23 @@ class SignUpPay extends Component {
     };
 
     componentWillReceiveProps = async (nextProps) => {
-        if (!this.props.data.loading) {
-            const data = nextProps.formData;
-            const selectedCountry = this.props.data.countries.find((country) => country.deno === data.country);
+        const data = nextProps.formData;
+        const selectedCountry = (this.props.data.countries ? this.props.data.countries.find((country) => country.deno === data.country) : {
+            deno: 'España',
+            id: 1
+        });
 
-            const response = await this.props.client.query({
-                query: provinces,
-                variables: {
-                    countryId: selectedCountry.id
-                },
-            });
+        const response = await this.props.client.query({
+            query: provinces,
+            variables: {
+                countryId: selectedCountry.id
+            },
+        });
 
-            if (response) {
-                this.setState({
-                    provinces: response.data.provinces
-                })
-            }
+        if (response) {
+            this.setState({
+                provinces: response.data.provinces
+            })
         }
     };
 
@@ -52,7 +53,7 @@ class SignUpPay extends Component {
 
     endForm = async () => {
         if (!this.checkRequiredFields()) {
-            //this.props.sendNewCompany(this.props.company);
+            this.props.sendNewCompany(this.props.company);
             const response = await CouncilboxApi.createCompany(this.props.formData);
             console.log(response);
         }
@@ -75,38 +76,29 @@ class SignUpPay extends Component {
 
         // if (!data.address.length > 0) {
         //     hasError = true;
-        //     errors.address = 'Este campo es obligatorio';
+        //     errors.address = translate.field_required;
         // }
         //
         // if (!data.city.length > 0) {
         //     hasError = true;
-        //     errors.city = 'Este campo es obligatorio';
+        //     errors.city = translate.field_required;
         // }
         //
         // if (data.type === '') {
         //     hasError = true;
-        //     errors.country = 'Este campo es obligatorio';
+        //     errors.country = translate.field_required;
         // }
         //
         // if (!data.zipCode.length > 0) {
         //     hasError = true;
-        //     errors.zipCode = 'Este campo es obligatorio';
+        //     errors.zipCode = translate.field_required;
         // }
         //
         // if (data.type === '') {
         //     hasError = true;
-        //     errors.province = 'Este campo es obligatorio';
+        //     errors.province = translate.field_required;
         // }
         //
-        // if (!data.subscription.length > 0) {
-        //     hasError = true;
-        //     errors.subscription = 'Este campo es obligatorio';
-        // }
-        //
-        // if (!data.IBAN.length > 0) {
-        //     hasError = true;
-        //     errors.IBAN = 'Este campo es obligatorio';
-        // }
 
         if (!data.termsCheck) {
             hasError = true;
@@ -121,36 +113,6 @@ class SignUpPay extends Component {
     handleCountryChange = async (event) => {
         this.props.updateState({
             country: event.target.value
-        })
-    };
-
-    handleProvinceChange = (event, index) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                province: this.state.provinces[ index ].id
-            }
-        })
-    };
-
-    handleSubscriptionChange = (event, index) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                subscription: this.state.subscriptions[ index ]
-            }
-        })
-    };
-
-    closeAlert = () => {
-        this.setState({
-            ...this.state,
-            errors: {
-                ...this.state.errors,
-                termsCheck: ''
-            }
         })
     };
 
@@ -175,7 +137,7 @@ class SignUpPay extends Component {
                 {translate.billing_information}
             </div>
             <Grid style={{ marginTop: '2em' }}>
-                <GridItem xs={12} md={6} lg={6}>
+                <GridItem xs={12} md={12} lg={12}>
                     <TextInput
                         floatingText={translate.address}
                         type="text"
@@ -184,7 +146,7 @@ class SignUpPay extends Component {
                         onChange={(event) => this.props.updateState({
                             address: event.target.value
                         })}
-                    />
+                        required/>
                 </GridItem>
                 <GridItem xs={12} md={6} lg={6}>
                     <TextInput
@@ -195,14 +157,15 @@ class SignUpPay extends Component {
                             city: event.target.value
                         })}
                         errorText={this.props.errors.city}
-                    />
+                        required/>
                 </GridItem>
                 <GridItem xs={12} md={6} lg={6}>
                     <SelectInput
-                        floatingText={translate.country}
+                        floatingText={translate.company_new_country}
                         value={data.country}
                         onChange={this.handleCountryChange}
-                        errorText={errors.country}>
+                        errorText={errors.country}
+                        required>
                         {this.props.data.countries.map((country) => {
                             return <MenuItem key={country.deno} value={country.deno}>{country.deno}</MenuItem>
                         })}
@@ -213,7 +176,8 @@ class SignUpPay extends Component {
                         floatingText={translate.company_new_country_state}
                         value={data.countryState}
                         errorText={errors.countryState}
-                        onChange={(event) => this.props.updateState({ countryState: event.target.value })}>
+                        onChange={(event) => this.props.updateState({ countryState: event.target.value })}
+                        required>
                         {this.state.provinces.map((province) => {
                             return <MenuItem key={province.deno} value={province.id}>{province.deno}</MenuItem>
                         })}
@@ -227,29 +191,23 @@ class SignUpPay extends Component {
                         onChange={(event) => this.props.updateState({
                             zipcode: event.target.value
                         })}
-                        errorText={this.props.errors.zipcode}/>
+                        errorText={this.props.errors.zipcode}
+                        required/>
                 </GridItem>
-                <GridItem xs={12} md={6} lg={6}>
-                    <TextInput
+                <GridItem xs={12} md={4} lg={4}>
+                    <SelectInput
                         floatingText={translate.type_of_subscription}
-                        type="text"
-                        value={this.state.subscriptionType}
-                        onChange={(event) => this.setState({
+                        value={data.subscriptionType}
+                        onChange={(event) => this.props.updateState({
                             subscriptionType: event.target.value
                         })}
-                        errorText={this.props.errors.subscriptionType}/>
-                </GridItem>
-                <GridItem xs={12} md={6} lg={6}>
-                    <TextInput
-                        floatingText="Código"
-                        type="text"
-                        value={this.state.code}
-                        onChange={(event) => this.setState({
-                            code: event.target.value
+                        errorText={errors.subscriptionType}>
+                        {this.state.subscriptions.map((subscription) => {
+                            return <MenuItem key={subscription} value={subscription}>{subscription}</MenuItem>
                         })}
-                        errorText={this.props.errors.code}/>
+                    </SelectInput>
                 </GridItem>
-                <GridItem xs={12} md={6} lg={6}>
+                <GridItem xs={12} md={4} lg={4}>
                     <TextInput
                         floatingText="IBAN"
                         type="text"
@@ -260,6 +218,17 @@ class SignUpPay extends Component {
                         errorText={this.props.errors.IBAN}
                     />
                 </GridItem>
+                <GridItem xs={12} md={4} lg={4}>
+                    <TextInput
+                        floatingText="Código"
+                        type="text"
+                        value={this.state.code}
+                        onChange={(event) => this.setState({
+                            code: event.target.value
+                        })}
+                        errorText={this.props.errors.code}/>
+                </GridItem>
+
                 <GridItem xs={12} md={12} lg={12}>
                     <Checkbox
                         label="He leido y acepto los términos y condiciones de CouncilBox"
@@ -269,8 +238,6 @@ class SignUpPay extends Component {
                         })}
                     />
                 </GridItem>
-            </Grid>
-            <Grid>
                 <GridItem xs={12} md={6} lg={6}>
                     <BasicButton
                         text={translate.back}

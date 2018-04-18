@@ -14,6 +14,8 @@ class SignUpEnterprise extends Component {
     };
 
     checkRequiredFields() {
+        const { translate } = this.props;
+
         const data = this.props.formData;
         let errors = {
             businessName: '',
@@ -24,17 +26,17 @@ class SignUpEnterprise extends Component {
 
         if (!data.businessName.length > 0) {
             hasError = true;
-            errors.businessName = 'Este campo es obligatorio'
+            errors.businessName = translate.field_required
         }
 
         if (data.type === '') {
             hasError = true;
-            errors.type = 'Este campo es obligatorio'
+            errors.type = translate.field_required
         }
 
         if (!data.cif.length > 0) {
             hasError = true;
-            errors.cif = 'Este campo es obligatorio'
+            errors.cif = translate.field_required
         }
 
         console.log(errors);
@@ -77,14 +79,15 @@ class SignUpEnterprise extends Component {
                             businessName: event.nativeEvent.target.value
                         })}
                         errorText={this.props.errors.businessName}
-                    />
+                        required/>
                 </GridItem>
                 <GridItem xs={12} md={6} lg={6}>
                     <SelectInput
                         floatingText={translate.company_type}
                         value={this.props.formData.type}
                         onChange={this.handleTypeChange}
-                        errorText={this.props.errors.type}>
+                        errorText={this.props.errors.type}
+                        required>
                         {this.props.data.companyTypes.map((type) => {
                             return <MenuItem key={type.label}
                                              value={type.value}>{translate[ type.label ]}</MenuItem>
@@ -100,9 +103,10 @@ class SignUpEnterprise extends Component {
                             cif: event.target.value
                         })}
                         errorText={this.props.errors.cif}
-                    />
+                        required/>
                 </GridItem>
-                <GridItem xs={12} md={12} lg={12}>
+                <GridItem xs={12} md={6} lg={6}></GridItem>
+                <GridItem xs={12} md={6} lg={6}>
                     <BasicButton
                         text={translate.continue}
                         color={primary}

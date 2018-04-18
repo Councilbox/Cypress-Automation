@@ -1,20 +1,20 @@
 import React from 'react';
 import Stepper, { Step, StepContent, StepLabel } from 'material-ui/Stepper';
 
-const SignUpStepper = ({ active, translate, windowSize }) => {
+const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 
     if(windowSize !== 'xs'){
         return(
             <Stepper activeStep={active} orientation={"vertical"}>
-                <Step>
+                <Step onClick={() => goToPage(1)}>
                     <StepLabel>{translate.company_data}</StepLabel>
                     <StepContent></StepContent>
                 </Step>
-                <Step>
+                <Step onClick={() => goToPage(2)}>
                     <StepLabel>{translate.user_data}</StepLabel>
                     <StepContent></StepContent>
                 </Step>
-                <Step>
+                <Step onClick={() => goToPage(3)}>
                     <StepLabel>{translate.billing_information}</StepLabel>
                     <StepContent></StepContent>
                 </Step>
