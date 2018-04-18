@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BasicButton, Table, LoadingSection, ErrorWrapper, ButtonIcon } from "../displayComponents";
+import { BasicButton, Table, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import { TableRow, TableCell } from 'material-ui/Table';
 import { Typography, IconButton } from 'material-ui';
@@ -8,6 +8,9 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
 import PointEditor from './PointEditor';
 import { ModeEdit, DeleteForever } from 'material-ui-icons';
+import * as CBX from '../../utils/CBX';
+import ReorderPointsModal from '../councilLive/ReorderPointsModal';
+import icon from '../../assets/img/reorder.PNG';
 
 
 class CouncilEditorAgenda extends Component {
@@ -91,7 +94,7 @@ class CouncilEditorAgenda extends Component {
 
     render(){
         const { translate } = this.props;
-        const { votingTypes, errors, council, majorityTypes } = this.props.data;
+        const { votingTypes, errors, council, majorityTypes, draftTypes } = this.props.data;
         const primary = getPrimary();
         const secondary = getSecondary();
 
@@ -110,19 +113,22 @@ class CouncilEditorAgenda extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}} >
-                <div className="row">
-                    <div className="col-lg-2 col-md-3 col-xs-6" style={{height: '4em', display: 'flex', alignItems: 'center'}}>
+                <Grid>
+                    <GridItem xs={12} lg={12} md={12}>
                         <Typography variant="title" gutterBottom>
                             {translate.agenda}
                         </Typography>
-                    </div>
-                    <div className="col-lg-8 col-md-7 col-xs-5" style={{height: '4em', display: 'flex', alignItems: 'center'}}>
+                    </GridItem>
+                    <GridItem xs={12} lg={12} md={12} style={{display: 'flex', flexDirection: 'row'}}>
                         <NewAgendaPointModal
                             translate={translate}
                             agendas={council.agendas}
                             votingTypes={votingTypes}
                             majorityTypes={majorityTypes}
+                            draftTypes={draftTypes}
                             statute={council.statute}
+                            company={this.props.company}
+                            companyStatutes={this.props.data.companyStatutes}
                             councilID={this.props.councilID}
                             refetch={this.props.data.refetch}
                         >
@@ -134,14 +140,30 @@ class CouncilEditorAgenda extends Component {
                                 textStyle={{color: 'white', fontWeight: '700', textTransform: 'none'}}
                             />
                         </NewAgendaPointModal>
-                    </div>
-                </div>
+                        {CBX.canReorderPoints(council) &&
+                            <ReorderPointsModal
+                                translate={translate}
+                                agendas={council.agendas}
+                                councilID={this.props.councilID}
+                                refetch={this.props.data.refetch}
+                                style={{marginLeft: '0.8em'}}
+                            >
+                                <BasicButton
+                                    type="raised"
+                                    text={translate.reorder_agenda_points}
+                                    color={primary}
+                                    icon={<ButtonIcon type="cached" color="white" />}                                
+                                    textStyle={{color: 'white', fontWeight: '700', textTransform: 'none'}}
+                                />
+                            </ReorderPointsModal>
+                        }
+                    </GridItem>
+                </Grid>
                 {this.state.agendas.length > 0?
                     <Table
                         headers={[
                             {name: translate.convene_header},
                             {name: translate.description},
-                            {},
                             {},
                             {}
                         ]}
@@ -150,12 +172,14 @@ class CouncilEditorAgenda extends Component {
                             return (
                                 <TableRow                         
                                     key={`agenda_${agenda.id}`} 
+                                    style={{cursor: 'pointer'}}
+                                    hover
+                                    onClick={() => this.setState({edit: true, editIndex: index})}
                                 >
                                     <TableCell style={{padding: 0}}>{agenda.agendaSubject}</TableCell>
                                     <TableCell><div dangerouslySetInnerHTML={{ __html: agenda.description }} /></TableCell>
-                                    <TableCell>{agenda.subjectType}</TableCell>                                
-                                    <TableCell><IconButton onClick={() => this.setState({edit: true, editIndex: index})}><ModeEdit style={{color: secondary }} /></IconButton></TableCell>
-                                    <TableCell><IconButton onClick={() => this.removeAgenda(agenda.id)}><DeleteForever style={{color: secondary }} /></IconButton></TableCell>                  
+                                    <TableCell>{translate[votingTypes.find((item) => item.value === agenda.subjectType).label]}</TableCell>                                
+                                    <TableCell><IconButton onClick={(event) => {event.stopPropagation();this.removeAgenda(agenda.id)}}><DeleteForever style={{color: secondary }} /></IconButton></TableCell>                  
                                 </TableRow>
                             )
                         })}
@@ -205,6 +229,7 @@ class CouncilEditorAgenda extends Component {
                     statute={council.statute}
                     agenda={council.agendas[this.state.editIndex]}
                     votingTypes={votingTypes}
+                    majorityTypes={majorityTypes}                    
                     refetch={this.props.data.refetch}
                     requestClose={() => this.setState({edit: false})}
                 />
@@ -218,7 +243,8 @@ export default compose(
         name: "data",
         options: (props) => ({
             variables: {
-                id: props.councilID
+                id: props.councilID,
+                companyId: props.company.id
             }
         })
     }),

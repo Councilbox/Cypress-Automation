@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../displayComponents';
 import { MenuItem } from 'material-ui';
+import LoadDraft from './LoadDraft';
 import { addAgenda } from '../../queries';
 import * as CBX from '../../utils/CBX';
 
@@ -80,14 +81,14 @@ class NewAgendaPointModal extends Component {
     }
 
     _renderNewPointBody = () => {
-        const { translate, votingTypes, statute } = this.props;
+        const { translate, votingTypes, statute, draftTypes, company, companyStatutes } = this.props;
         const errors = this.state.errors;
         const agenda = this.state.newPoint;
         const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
         
         return(
             <Fragment>
-                <div className="row" style={{width: '700px'}}> 
+                <div className="row" style={{width: '90vw', maxWidth: '850px'}}> 
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <TextInput
                             floatingText={translate.convene_header}
@@ -149,6 +150,15 @@ class NewAgendaPointModal extends Component {
                         </GridItem>
                     </Grid>
                 }
+
+                <LoadDraft
+                    translate={translate}
+                    company={company}
+                    loadDraft={this.loadDraft}
+                    councilType={statute}
+                    statutes={companyStatutes}
+                    draftType={draftTypes.filter((draft => draft.label === 'agenda'))[0].value}
+                />
 
                 <RichTextInput
                     floatingText={translate.description}

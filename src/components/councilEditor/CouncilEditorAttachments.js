@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, ButtonIcon } from '../displayComponents';
+import React, { Component, Fragment } from 'react';
+import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, ButtonIcon, Grid, GridItem } from '../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { MAX_FILE_SIZE } from '../../constants';
@@ -143,26 +143,31 @@ class CouncilEditorAttachments extends Component {
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>
-                <div className="row">
-                    <div className="col-lg-3 col-md-3 col-xs-6">
+                <Grid>
+                    <GridItem xs={12} lg={12} md={12}>
                         <Typography variant="title">
                             {translate.attachment_files}
                         </Typography>
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-6">
-                        {showAddCouncilAttachment(attachments)?
-                            <FileUploadButton 
-                                text={translate.new_add}
-                                color={primary}
-                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                icon={<ButtonIcon type="publish" color='white' />}
-                                onChange={this.handleFile}
-                            />
-                        : 
-                            'HAS LLEGADO AL LÍMITE'
+                    </GridItem>
+                    <GridItem xs={12} md={12} lg={12} style={{display: 'flex', flexDirection: 'row'}}>
+                        {showAddCouncilAttachment(attachments) &&
+                            <Fragment>
+                                <FileUploadButton 
+                                    text={translate.new_add}
+                                    color={primary}
+                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                    icon={<ButtonIcon type="publish" color='white' />}
+                                    onChange={this.handleFile}
+                                />
+                                <div style={{width: '3em'}}>
+                                    {this.state.uploading && 
+                                        <LoadingSection size={25} /> 
+                                    }
+                                </div>
+                            </Fragment>
                         }
-                    </div>
-                </div>             
+                    </GridItem>
+                </Grid>             
                 <Typography variant="subheading" style={{marginTop: '1.5em'}}>
                     {translate.new_files_desc}
                 </Typography>
@@ -177,20 +182,16 @@ class CouncilEditorAttachments extends Component {
                     {(this.state.totalSize / 1024).toFixed(2)}/Mb
                 </Typography>
 
-                <AttachmentList
-                    attachments={attachments}
-                    deleteAction={this.removeCouncilAttachment}
-                    translate={translate}
-                />
-
-                {this.state.uploading && 
-                    <div style={{width: '30%', float: 'left'}}>
-                        <LoadingSection size={25} /> 
-                    </div>
+                {attachments.length > 0 &&
+                    <AttachmentList
+                        attachments={attachments}
+                        refetch={this.props.data.refetch}
+                        deleteAction={this.removeCouncilAttachment}
+                        translate={translate}
+                    />
                 }
-
-                <div className="row" style={{marginTop: '3em'}}>
-                    <div className="col-lg-12 col-md-12 col-xs-12">
+                <Grid style={{marginTop: '3em'}}>
+                    <GridItem xs={12} md={12} lg={12}>
                         <div style={{float: 'right'}}>
                             <BasicButton
                                 text={translate.previous}
@@ -215,8 +216,8 @@ class CouncilEditorAttachments extends Component {
                                 onClick={this.nextPage}
                             />
                         </div>
-                    </div>
-                </div>
+                    </GridItem>
+                </Grid>
 
 
                 <ErrorAlert

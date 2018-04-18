@@ -3,6 +3,8 @@ import { AgendaNumber } from '../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from '../councilEditor/NewAgendaPointModal';
 import ReorderPointsModal from './ReorderPointsModal';
+import * as CBX from '../../utils/CBX';
+import icon from '../../assets/img/reorder.PNG';
 
 class AgendaSelector extends Component {
 
@@ -42,13 +44,19 @@ class AgendaSelector extends Component {
                         secondaryColor={'#888888'}
                     />
                 </NewAgendaPointModal>
-                {council.statute.canReorderPoints === 1 &&
+                {CBX.canReorderPoints(council) &&
                     <ReorderPointsModal
                         translate={translate}
                         agendas={agendas}
                         councilID={this.props.councilID}
                         refetch={this.props.refetch}
-                    />
+                    >
+                        <AgendaNumber
+                            index={<img src={icon} alt="reorder icon" style={{width: '1.2em', height: 'auto'}}/>}
+                            active={false}
+                            secondaryColor={'#888888'}
+                        />
+                    </ReorderPointsModal>
                 }
 
             </div>

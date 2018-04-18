@@ -508,7 +508,7 @@ export const cloneCensus = gql`
 `;
 
 export const councilStepThree = gql`
-  query CouncilStepThree($id: Int!){
+  query CouncilStepThree($id: Int!, $companyId: Int!){
     council(id: $id){
       businessName
       city
@@ -596,7 +596,16 @@ export const councilStepThree = gql`
       }
     }
 
+    companyStatutes(companyId: $companyId){
+      id
+      title
+    }
+
     majorityTypes{
+      label
+      value
+    }
+    draftTypes {
       label
       value
     }
@@ -639,9 +648,17 @@ export const councilStepFour = gql`
 `;
 
 export const addCouncilAttachment = gql`
-  mutation AddCouncilAttachment($attachment: NewCouncilAttachment){
+  mutation AddCouncilAttachment($attachment: CouncilAttachmentInput){
     addCouncilAttachment(attachment: $attachment){
       id
+    }
+  }
+`;
+
+export const updateCouncilAttachment = gql`
+  mutation updateCouncilAttachment($id: Int!, $filename: String!){
+    updateCouncilAttachment(id: $id, filename: $filename){
+      filename
     }
   }
 `;
