@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, AgendaNumber } from '../displayComponents';
 import { updateAgendas } from '../../queries';
-import icon from '../../assets/img/reorder.PNG';
 import SortableList from '../displayComponents/SortableList';
 import { arrayMove } from 'react-sortable-hoc';
 
@@ -60,13 +59,8 @@ class ReorderPointsModal extends Component {
  
         return(
             <Fragment>
-                <div style={{marginTop: '1em'}}>
-                    <AgendaNumber
-                        index={<img src={icon} alt="reorder icon" style={{width: '1.2em', height: 'auto'}}/>}
-                        active={false}
-                        onClick={() => this.setState({reorderModal: true})}
-                        secondaryColor={'#888888'}
-                    />
+                <div onClick={() => this.setState({reorderModal: true})} style={this.props.style}>
+                    {this.props.children}
                 </div>
                 <AlertConfirm
                     requestClose={() => this.setState({reorderModal: false, agendas: this.props.agendas})}

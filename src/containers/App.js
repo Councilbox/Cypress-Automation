@@ -33,10 +33,13 @@ const authLink = setContext((_, { headers }) => {
 
 const logoutLink = onError(({ graphQLErrors, networkError }) => {
     console.log(graphQLErrors);
-    if(graphQLErrors[0].code === 440){
-        store.dispatch(logout());
+    console.log(networkError);
+    if(graphQLErrors){
+        if(graphQLErrors[0].code === 440){
+            store.dispatch(logout());
+        }
     }
-})
+});
 
 export const client = new ApolloClient({
     link: logoutLink.concat(authLink.concat(httpLink)),
