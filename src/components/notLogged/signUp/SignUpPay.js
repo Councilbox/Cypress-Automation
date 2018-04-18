@@ -60,7 +60,8 @@ class SignUpPay extends Component {
     };
 
     checkRequiredFields() {
-        // return false;
+        const { translate } = this.props;
+
         let errors = {
             address: '',
             city: '',
@@ -74,31 +75,30 @@ class SignUpPay extends Component {
         let hasError = false;
         const data = this.props.formData;
 
-        // if (!data.address.length > 0) {
-        //     hasError = true;
-        //     errors.address = translate.field_required;
-        // }
-        //
-        // if (!data.city.length > 0) {
-        //     hasError = true;
-        //     errors.city = translate.field_required;
-        // }
-        //
-        // if (data.type === '') {
-        //     hasError = true;
-        //     errors.country = translate.field_required;
-        // }
-        //
-        // if (!data.zipCode.length > 0) {
-        //     hasError = true;
-        //     errors.zipCode = translate.field_required;
-        // }
-        //
-        // if (data.type === '') {
-        //     hasError = true;
-        //     errors.province = translate.field_required;
-        // }
-        //
+        if (!data.address.length > 0) {
+            hasError = true;
+            errors.address = translate.field_required;
+        }
+
+        if (!data.city.length > 0) {
+            hasError = true;
+            errors.city = translate.field_required;
+        }
+
+        if (data.countryState === '') {
+            hasError = true;
+            errors.countryState = translate.field_required;
+        }
+
+        if (!data.zipCode.length > 0) {
+            hasError = true;
+            errors.zipCode = translate.field_required;
+        }
+
+        if (data.type === '') {
+            hasError = true;
+            errors.province = translate.field_required;
+        }
 
         if (!data.termsCheck) {
             hasError = true;
@@ -187,11 +187,11 @@ class SignUpPay extends Component {
                     <TextInput
                         floatingText={translate.company_new_zipcode}
                         type="text"
-                        value={data.zipcode}
+                        value={data.zipCode}
                         onChange={(event) => this.props.updateState({
-                            zipcode: event.target.value
+                            zipCode: event.target.value
                         })}
-                        errorText={this.props.errors.zipcode}
+                        errorText={this.props.errors.zipCode}
                         required/>
                 </GridItem>
                 <GridItem xs={12} md={4} lg={4}>

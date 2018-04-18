@@ -34,7 +34,7 @@ class SignUpPage extends React.Component {
                 city: '',
                 country: 'España',
                 countryState: '',
-                zipcode: '',
+                zipCode: '',
                 subscriptionType: '',
                 iban: '',
                 code: ''
