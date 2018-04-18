@@ -508,7 +508,7 @@ export const cloneCensus = gql`
 `;
 
 export const councilStepThree = gql`
-  query CouncilStepThree($id: Int!){
+  query CouncilStepThree($id: Int!, $companyId: Int!){
     council(id: $id){
       businessName
       city
@@ -596,7 +596,16 @@ export const councilStepThree = gql`
       }
     }
 
+    companyStatutes(companyId: $companyId){
+      id
+      title
+    }
+
     majorityTypes{
+      label
+      value
+    }
+    draftTypes {
       label
       value
     }

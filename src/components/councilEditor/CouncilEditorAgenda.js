@@ -94,7 +94,7 @@ class CouncilEditorAgenda extends Component {
 
     render(){
         const { translate } = this.props;
-        const { votingTypes, errors, council, majorityTypes } = this.props.data;
+        const { votingTypes, errors, council, majorityTypes, draftTypes } = this.props.data;
         const primary = getPrimary();
         const secondary = getSecondary();
 
@@ -125,7 +125,10 @@ class CouncilEditorAgenda extends Component {
                             agendas={council.agendas}
                             votingTypes={votingTypes}
                             majorityTypes={majorityTypes}
+                            draftTypes={draftTypes}
                             statute={council.statute}
+                            company={this.props.company}
+                            companyStatutes={this.props.data.companyStatutes}
                             councilID={this.props.councilID}
                             refetch={this.props.data.refetch}
                         >
@@ -240,7 +243,8 @@ export default compose(
         name: "data",
         options: (props) => ({
             variables: {
-                id: props.councilID
+                id: props.councilID,
+                companyId: props.company.id
             }
         })
     }),
