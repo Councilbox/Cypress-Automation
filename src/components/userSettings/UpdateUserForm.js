@@ -1,8 +1,8 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { Typography, MenuItem } from 'material-ui';
+import { MenuItem, Typography } from 'material-ui';
 import { checkValidEmail } from '../../utils';
-import { TextInput, SelectInput, ButtonIcon, BasicButton } from '../displayComponents';
+import { BasicButton, ButtonIcon, SelectInput, TextInput } from '../displayComponents';
 import { updateUser } from '../../queries';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';
@@ -10,7 +10,7 @@ import { getPrimary } from '../../styles/colors';
 
 
 class UpdateUserForm extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             data: this.props.user,
@@ -21,23 +21,22 @@ class UpdateUserForm extends React.Component {
         }
     }
 
-    componentWillReceiveProps(nextProps){
+    componentWillReceiveProps(nextProps) {
         this.setState({
             data: nextProps.user
         });
     }
 
-    updateState(newValues){
+    updateState(newValues) {
         this.setState({
             data: {
-                ...this.state.data,
-                ...newValues
+                ...this.state.data, ...newValues
             }
         });
     }
 
     saveUser = async () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             this.setState({
                 loading: true
             });
@@ -47,14 +46,14 @@ class UpdateUserForm extends React.Component {
                 variables: {
                     user: data
                 }
-            })
-            if(response.errors){
+            });
+            if (response.errors) {
                 this.setState({
                     error: true,
                     loading: false,
                     success: false
                 });
-            }else{
+            } else {
                 this.setState({
                     success: true,
                     error: false,
@@ -64,9 +63,11 @@ class UpdateUserForm extends React.Component {
             }
         }
 
-    }
+    };
 
-    checkRequiredFields(){
+    checkRequiredFields() {
+        const { translate } = this.props;
+
         let errors = {
             name: '',
             surname: '',
@@ -79,29 +80,29 @@ class UpdateUserForm extends React.Component {
         const data = this.state.data;
         let hasError = false;
 
-        if(!data.name.length > 0){
+        if (!data.name.length > 0) {
             hasError = true;
-            errors.name = 'Este campo es obligatorio';
+            errors.name = translate.field_required;
         }
 
-        if(!checkValidEmail(data.email.toLowerCase())){
+        if (!checkValidEmail(data.email.toLowerCase())) {
             hasError = true;
             errors.email = 'Por favor introduce un email válido';
         }
 
-        if(!data.surname.length > 0){
+        if (!data.surname.length > 0) {
             hasError = true;
-            errors.surname = 'Este campo es obligatorio';
+            errors.surname = translate.field_required;
         }
 
-        if(!data.phone.length > 0){
+        if (!data.phone.length > 0) {
             hasError = true;
-            errors.phone = 'Este campo es obligatorio';
+            errors.phone = translate.field_required;
         }
-        
-        if(!data.email.length > 0){
+
+        if (!data.email.length > 0) {
             hasError = true;
-            errors.email = 'Este campo es obligatorio';
+            errors.email = translate.field_required;
         }
 
         this.setState({
@@ -116,18 +117,17 @@ class UpdateUserForm extends React.Component {
             loading: false,
             success: false
         });
-    }
+    };
 
-    render(){
+    render() {
         const { translate } = this.props;
         const { data, errors, error, success, loading } = this.state;
 
-        return(
-           <React.Fragment>
-                <Typography variant="subheading" style={{marginTop: '2em'}}>
+        return (<React.Fragment>
+                <Typography variant="subheading" style={{ marginTop: '2em' }}>
                     {translate.user_data}
                 </Typography>
-                <div className="row" style={{paddingRight: '3em'}}>
+                <div className="row" style={{ paddingRight: '3em' }}>
                     <div className="col-lg-3 col-md-6 col-xs-12">
                         <TextInput
                             floatingText={translate.name}
@@ -181,12 +181,11 @@ class UpdateUserForm extends React.Component {
                                 preferred_language: event.target.value
                             })}
                             errorText={errors.preferred_language}
-                        >   
-                            {this.props.languages.map((language) =>
-                                <MenuItem key={`language_${language.columnName}`} value={language.columnName}>
-                                    {language.desc}
-                                </MenuItem>
-                            )}
+                        >
+                            {this.props.languages.map((language) => <MenuItem key={`language_${language.columnName}`}
+                                                                              value={language.columnName}>
+                                {language.desc}
+                            </MenuItem>)}
                         </SelectInput>
                     </div>
                 </div>
@@ -197,15 +196,17 @@ class UpdateUserForm extends React.Component {
                     reset={this.resetButtonStates}
                     success={success}
                     loading={loading}
-                    textStyle={{color: 'white', fontWeight: '700'}}
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
                     onClick={this.saveUser}
-                    icon={<ButtonIcon type="save" color='white' />}
+                    icon={<ButtonIcon type="save" color='white'/>}
                 />
-            </React.Fragment>
-        );
+            </React.Fragment>);
     }
 }
 
 export default graphql(updateUser, {
-        name: 'updateUser'
+    name: 'updateUser'
 })(UpdateUserForm);

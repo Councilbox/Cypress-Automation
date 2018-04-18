@@ -16,7 +16,7 @@ export const getPrimary = () => {
         return color? color : primary;
     }
     return primary;
-}
+};
 
 export const getSecondary = () => {
     if(store) {
@@ -24,4 +24,4 @@ export const getSecondary = () => {
         return color? color : secondary;
     }
     return secondary;
-}
+};

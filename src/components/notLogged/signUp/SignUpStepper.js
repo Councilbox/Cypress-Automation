@@ -1,22 +1,22 @@
 import React from 'react';
 import Stepper, { Step, StepContent, StepLabel } from 'material-ui/Stepper';
 
-const SignUpStepper = ({ active, translate, windowSize }) => {
+const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 
     if(windowSize !== 'xs'){
         return(
             <Stepper activeStep={active} orientation={"vertical"}>
-                <Step>
-                    <StepLabel>{'1'}</StepLabel>
-                    <StepContent>{translate.company_data}</StepContent>
+                <Step onClick={() => goToPage(1)}>
+                    <StepLabel>{translate.company_data}</StepLabel>
+                    <StepContent></StepContent>
                 </Step>
-                <Step>
-                    <StepLabel>{'2'}</StepLabel>
-                    <StepContent>{translate.user_data}</StepContent>
+                <Step onClick={() => goToPage(2)}>
+                    <StepLabel>{translate.user_data}</StepLabel>
+                    <StepContent></StepContent>
                 </Step>
-                <Step>
-                    <StepLabel>{'3'}</StepLabel>
-                    <StepContent>{translate.billing_information}</StepContent>
+                <Step onClick={() => goToPage(3)}>
+                    <StepLabel>{translate.billing_information}</StepLabel>
+                    <StepContent></StepContent>
                 </Step>
             </Stepper>
         );
@@ -35,6 +35,6 @@ const SignUpStepper = ({ active, translate, windowSize }) => {
             </Step>
         </Stepper>
     )
-}
+};
 
 export default SignUpStepper;

@@ -47,6 +47,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_MODE=dev react-scripts start",
+    "startlinux": "REACT_APP_MODE=dev react-scripts start",
     "build": "cross-env REACT_APP_MODE=alpha react-scripts build",
     "test": "mocha --require babel-register ./src/tests",
     "eject": "react-scripts eject"
