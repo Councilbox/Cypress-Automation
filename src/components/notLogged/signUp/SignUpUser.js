@@ -9,6 +9,10 @@ class SignUpUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
+            surname: '',
+            phone: '',
+            email: '',
             confirmPWD: '',
             subscriptions: [],
             languages: []
@@ -52,16 +56,6 @@ class SignUpUser extends Component {
             errors.name = translate.field_required;
         }
 
-        if (!checkValidEmail(data.email)) {
-            hasError = true;
-            errors.email = 'Por favor introduce un email válido';
-        }
-
-        if (data.email !== data.repeatEmail) {
-            hasError = true;
-            errors.repeatEmail = translate.register_unmatch_emails;
-        }
-
         if (!data.surname.length > 0) {
             hasError = true;
             errors.surname = translate.field_required;
@@ -70,6 +64,16 @@ class SignUpUser extends Component {
         if (!data.phone.length > 0) {
             hasError = true;
             errors.phone = translate.field_required;
+        }
+
+        if (!checkValidEmail(data.email)) {
+            hasError = true;
+            errors.email = 'Por favor introduce un email válido';
+        }
+
+        if (data.email !== data.repeatEmail) {
+            hasError = true;
+            errors.repeatEmail = translate.register_unmatch_emails;
         }
 
         if (!data.email.length > 0) {
