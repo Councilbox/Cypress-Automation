@@ -27,6 +27,7 @@ class SignUpPage extends React.Component {
                 name: '',
                 surname: '',
                 phone: '',
+                language: props.main.selectedLanguage,
                 email: '',
                 pwd: '',
                 address: '',
@@ -51,6 +52,24 @@ class SignUpPage extends React.Component {
         }
     };
 
+    previousPage = () => {
+        const index = this.state.page - 1;
+        if (index <= 3) {
+            this.setState({
+                page: index
+            })
+        }
+    };
+
+    goToPage = (index) => {
+        // if (index < this.state.page) {
+        if (index !== this.state.page) {
+            this.setState({
+                page: index
+            })
+        }
+    };
+
     send = () => {
         if (true) {
             this.setState({
@@ -63,7 +82,8 @@ class SignUpPage extends React.Component {
         this.setState({
             ...this.state,
             data: {
-                ...this.state.data, ...object
+                ...this.state.data,
+                ...object
             }
         })
     };
@@ -72,7 +92,8 @@ class SignUpPage extends React.Component {
         this.setState({
             ...this.state,
             errors: {
-                ...this.state.errors, ...object
+                ...this.state.errors,
+                ...object
             }
         })
     };
@@ -86,38 +107,43 @@ class SignUpPage extends React.Component {
         const { page } = this.state;
         const primary = getPrimary();
 
-        return (<div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            height: 'calc(100vh - 3em)',
-            backgroundImage: `url(${image})`,
-            overflow: 'auto',
-            alignItems: 'center'
-        }}>
-            <div style={{
-                height: '13%',
+        return (<div
+            style={{
                 display: 'flex',
+                flexDirection: 'column',
+                height: 'calc(100vh - 3em)',
+                backgroundImage: `url(${image})`,
+                overflow: 'auto',
                 alignItems: 'center'
             }}>
+            <div
+                style={{
+                    height: '13%',
+                    display: 'flex',
+                    alignItems: 'center'
+                }}>
                 <h3 style={{ color: 'white' }}>{translate.registration_of_society}</h3>
             </div>
-            <Card style={{
-                width: windowSize !== 'xs' ? '65%' : '100%',
-                height: windowSize !== 'xs' ? null : '100%',
-                padding: 0,
-                borderRadius: windowSize !== 'xs' ? '0.3em' : '0',
-                overflow: 'hidden'
-            }}>
-                <CardContent style={{
+            <Card
+                style={{
+                    width: windowSize !== 'xs' ? '65%' : '100%',
+                    height: windowSize !== 'xs' ? null : '100%',
                     padding: 0,
-                    width: '100%'
+                    borderRadius: windowSize !== 'xs' ? '0.3em' : '0',
+                    overflow: 'hidden'
                 }}>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: windowSize !== 'xs' ? 'row' : 'column',
-                        height: windowSize !== 'xs' ? '72vh' : 'calc(100vh - 3em)',
+                <CardContent
+                    style={{
+                        padding: 0,
                         width: '100%'
                     }}>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: windowSize !== 'xs' ? 'row' : 'column',
+                            height: windowSize !== 'xs' ? '72vh' : 'calc(100vh - 3em)',
+                            width: '100%'
+                        }}>
                         <div style={{
                             backgroundColor: 'WhiteSmoke',
                             display: 'flex',
@@ -130,6 +156,7 @@ class SignUpPage extends React.Component {
                                 translate={translate}
                                 active={page - 1}
                                 windowSize={windowSize}
+                                goToPage={this.goToPage}
                             />
                         </div>
                         <div style={{
@@ -141,6 +168,7 @@ class SignUpPage extends React.Component {
                         }}>
                             <Scrollbar>
                                 <div style={{ paddingBottom: '6.5em' }}>
+
                                     {page === 1 && <SignUpEnterprise
                                         nextPage={this.nextPage}
                                         translate={this.props.translate}
@@ -149,16 +177,20 @@ class SignUpPage extends React.Component {
                                         updateState={this.updateState}
                                         updateErrors={this.updateErrors}
                                     />}
+
                                     {page === 2 && <SignUpUser
                                         nextPage={this.nextPage}
+                                        previousPage={this.previousPage}
                                         formData={this.state.data}
                                         errors={this.state.errors}
                                         updateState={this.updateState}
                                         updateErrors={this.updateErrors}
                                         translate={this.props.translate}
                                     />}
+
                                     {page === 3 && <SignUpPay
                                         nextPage={this.nextPage}
+                                        previousPage={this.previousPage}
                                         formData={this.state.data}
                                         errors={this.state.errors}
                                         updateState={this.updateState}
@@ -166,6 +198,7 @@ class SignUpPage extends React.Component {
                                         translate={this.props.translate}
                                         sendNewCompany={this.props.companyActions.sendNewCompany}
                                     />}
+
                                 </div>
                             </Scrollbar>
                         </div>
