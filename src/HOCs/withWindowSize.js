@@ -19,14 +19,14 @@ const withWindowSize = (WrappedComponent) => {
         }
 
         updateSize = () => {
-            if(window.innerWidth < 500) {
+            if(window.innerWidth < 700) {
                 this.setState({ size: 'xs' });
-            }else if(window.innerWidth < 700) {
+            }else if(window.innerWidth < 1024) {
                 this.setState({ size: 'md' });
             }else{
                 this.setState({ size: 'lg' });
             }
-        }
+        };
 
         render(){
             return(
@@ -38,7 +38,7 @@ const withWindowSize = (WrappedComponent) => {
             )
         }
     }
-}
+};
 
 
 export default withWindowSize;

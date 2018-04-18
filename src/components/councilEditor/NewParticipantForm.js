@@ -1,18 +1,17 @@
 import React, { Component, Fragment } from "react";
-import { MenuItem } from 'material-ui';
-import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import { BasicButton, TextInput, SelectInput, Radio, ButtonIcon, Grid, GridItem, Checkbox } from '../displayComponents';
+import { MenuItem, Typography } from 'material-ui';
+import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio, SelectInput, TextInput } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { errorHandler, checkValidEmail } from '../../utils';
+import { checkValidEmail, errorHandler } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
-import { Typography } from "material-ui";
+
 let primary = getPrimary();
 
 class NewParticipantForm extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             languages: [],
@@ -28,20 +27,20 @@ class NewParticipantForm extends Component {
             },
 
             errors: {
-                language : '',
-                councilId : '',
-                numParticipations : '',
-                personOrEntity : '',
-                name : '',
-                dni : '',
-                position : '',
-                email : '',
-                phone : '',
+                language: '',
+                councilId: '',
+                numParticipations: '',
+                personOrEntity: '',
+                name: '',
+                dni: '',
+                position: '',
+                email: '',
+                phone: '',
             }
         }
     }
 
-    async componentDidMount(){
+    async componentDidMount() {
         const languages = await CouncilBoxApi.getLanguageList();
         this.setState({
             languages: languages
@@ -53,27 +52,25 @@ class NewParticipantForm extends Component {
             data: {
                 ...this.state.data,
                 participant: {
-                    ...this.state.data.participant,
-                    ...object
+                    ...this.state.data.participant, ...object
                 }
             }
         });
-    }
+    };
 
     updateRepresentative = (object) => {
         this.setState({
             data: {
                 ...this.state.data,
                 representative: {
-                    ...this.state.data.representative,
-                    ...object
+                    ...this.state.data.representative, ...object
                 }
             }
         });
-    }
+    };
 
     sendNewParticipant = async () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             const { participant, representative } = this.state.data;
             const { translate } = this.props;
 
@@ -83,9 +80,9 @@ class NewParticipantForm extends Component {
                     name: `${participant.name} ${participant.surname}`,
                     councilId: this.props.councilID
                 }
-            }
+            };
 
-            if(this.state.addRepresentative){
+            if (this.state.addRepresentative) {
                 variables.representative = {
                     ...representative,
                     name: `${representative.name} ${representative.surname}`,
@@ -97,12 +94,12 @@ class NewParticipantForm extends Component {
                 variables: variables
             });
             if (response) {
-                if(response.errors){
-                    const errorField = errorHandler(response.errors[0].code);
+                if (response.errors) {
+                    const errorField = errorHandler(response.errors[ 0 ].code);
                     this.setState({
                         errors: {
                             ...this.state.errors,
-                            email: translate[errorField]
+                            email: translate[ errorField ]
                         }
                     })
                 } else {
@@ -111,12 +108,13 @@ class NewParticipantForm extends Component {
                     //this.props.close();
                 }
             }
-        }  
-    }
+        }
+    };
 
     checkRequiredFields() {
         const { participant } = this.state.data;
-        
+        const { translate } = this.props;
+
         let errors = {
             name: '',
             surname: '',
@@ -130,58 +128,58 @@ class NewParticipantForm extends Component {
 
         let hasError = false;
 
-        if(!participant.name){
+        if (!participant.name) {
             hasError = true;
-            errors.name = 'Este campo es obligatorio';
-        }
-        
-        if(!participant.surname && this.state.participantType === 0){
-            hasError = true;
-            errors.surname = 'Este campo es obligatorio';
+            errors.name = translate.field_required;
         }
 
-        if(!participant.dni){
+        if (!participant.surname && this.state.participantType === 0) {
             hasError = true;
-            errors.dni = 'Este campo es obligatorio';
+            errors.surname = translate.field_required;
         }
 
-        if(!participant.position){
+        if (!participant.dni) {
             hasError = true;
-            errors.position = 'Este campo es obligatorio';
+            errors.dni = translate.field_required;
         }
 
-        if(!checkValidEmail(participant.email.toLocaleLowerCase())){
+        if (!participant.position) {
+            hasError = true;
+            errors.position = translate.field_required;
+        }
+
+        if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
             hasError = true;
             errors.email = 'Se requiere un email válido';
         }
 
-        if(!participant.phone){
+        if (!participant.phone) {
             hasError = true;
-            errors.phone = 'Este campo es obligatorio';
+            errors.phone = translate.field_required;
         }
 
-        if(!participant.language){
+        if (!participant.language) {
             hasError = true;
-            errors.language = 'Este campo es obligatorio';
+            errors.language = translate.field_required;
         }
 
-        if(!participant.numParticipations){
+        if (!participant.numParticipations) {
             hasError = true;
-            errors.numParticipations = 'Este campo es obligatorio';
+            errors.numParticipations = translate.field_required;
         }
 
         this.setState({
             ...this.state,
             errors: errors
         });
-        
+
         return hasError;
     }
 
     close = () => {
         this.resetValues();
         this.props.close();
-    }
+    };
 
     resetValues = () => {
         this.setState({
@@ -195,39 +193,49 @@ class NewParticipantForm extends Component {
                 }
             }
         })
-    }
+    };
 
-    _renderAddParticipantButtons(){
+    _renderAddParticipantButtons() {
         const { translate } = this.props;
         primary = getPrimary();
 
-        return(
-            <Fragment>
+        return (<Fragment>
                 <BasicButton
                     text={translate.cancel}
                     color={'white'}
-                    textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                    textStyle={{
+                        color: primary,
+                        fontWeight: '700',
+                        fontSize: '0.9em',
+                        textTransform: 'none'
+                    }}
                     textPosition="after"
                     onClick={this.close}
-                    buttonStyle={{marginRight: '1em', border: `2px solid ${primary}`}}
+                    buttonStyle={{
+                        marginRight: '1em',
+                        border: `2px solid ${primary}`
+                    }}
                 />
                 <BasicButton
                     text={translate.save}
                     color={primary}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<ButtonIcon color='white' type="save" />}
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700',
+                        fontSize: '0.9em',
+                        textTransform: 'none'
+                    }}
+                    icon={<ButtonIcon color='white' type="save"/>}
                     textPosition="after"
-                    onClick={this.sendNewParticipant} 
+                    onClick={this.sendNewParticipant}
                 />
-            </Fragment>
-        );
+            </Fragment>);
     }
 
-    _renderAddParticipantTypeSelector(){
+    _renderAddParticipantTypeSelector() {
         const { translate } = this.props;
 
-        return (
-            <Fragment>
+        return (<Fragment>
                 <Radio
                     checked={this.state.participantType === 0}
                     label={translate.person}
@@ -267,34 +275,33 @@ class NewParticipantForm extends Component {
                     label={translate.entity_name}
                 />
 
-            </Fragment>
-        );
+            </Fragment>);
     }
 
-    _renderRepresentativeCheckbox(){
-        return(
-            <Grid>
+    _renderRepresentativeCheckbox() {
+        return (<Grid>
                 <GridItem xs={12} lg={12} md={12}>
                     <Checkbox
                         label={this.props.translate.add_representative}
                         value={this.state.addRepresentative}
                         onChange={(event, isInputChecked) => this.setState({
-                                addRepresentative: isInputChecked
-                            })
-                        }
+                            addRepresentative: isInputChecked
+                        })}
                     />
                 </GridItem>
-            </Grid>
-        );
+            </Grid>);
     }
 
-    _renderRepresentativeForm(){
+    _renderRepresentativeForm() {
         const { translate } = this.props;
         const { representative } = this.state.data;
         const { errors } = this.state;
 
-        return(
-            <Grid style={{margin: '1em', padding: '1em', border: '1px solid turquoise'}}>
+        return (<Grid style={{
+                margin: '1em',
+                padding: '1em',
+                border: '1px solid turquoise'
+            }}>
                 <GridItem xs={6} lg={4} md={4}>
                     <TextInput
                         floatingText={translate.name}
@@ -370,22 +377,21 @@ class NewParticipantForm extends Component {
                         })}
                     >
                         {this.state.languages.map((language) => {
-                            return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
+                            return <MenuItem value={language.column_name}
+                                             key={`language${language.id}`}>{language.desc}</MenuItem>
                         })}
                     </SelectInput>
                 </GridItem>
-            </Grid>
-        )
+            </Grid>)
     }
 
-    _renderAddParticipantForm(){
+    _renderAddParticipantForm() {
         const participant = this.state.data.participant;
         const errors = this.state.errors;
         const { translate, participations } = this.props;
 
-        if(this.state.participantType === 1){
-            return(
-                <Grid>
+        if (this.state.participantType === 1) {
+            return (<Grid>
                     <GridItem xs={12} lg={4} md={6}>
                         <TextInput
                             floatingText={translate.entity_name}
@@ -422,7 +428,7 @@ class NewParticipantForm extends Component {
                         />
                     </GridItem>
 
-                    <GridItem xs={12} lg={4} md={6}>                    
+                    <GridItem xs={12} lg={4} md={6}>
                         <TextInput
                             floatingText={translate.email}
                             type="text"
@@ -434,7 +440,7 @@ class NewParticipantForm extends Component {
                         />
                     </GridItem>
 
-                    <GridItem xs={12} lg={4} md={6}>                    
+                    <GridItem xs={12} lg={4} md={6}>
                         <TextInput
                             floatingText={translate.phone}
                             type="text"
@@ -446,7 +452,7 @@ class NewParticipantForm extends Component {
                         />
                     </GridItem>
 
-                    <GridItem xs={4} lg={2} md={2}>                    
+                    <GridItem xs={4} lg={2} md={2}>
                         <SelectInput
                             floatingText={translate.language}
                             value={participant.language}
@@ -455,13 +461,13 @@ class NewParticipantForm extends Component {
                             })}
                         >
                             {this.state.languages.map((language) => {
-                                    return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
-                                })
-                            }
+                                return <MenuItem value={language.column_name}
+                                                 key={`language${language.id}`}>{language.desc}</MenuItem>
+                            })}
                         </SelectInput>
                     </GridItem>
 
-                    <GridItem xs={4} lg={2} md={2}>                    
+                    <GridItem xs={4} lg={2} md={2}>
                         <TextInput
                             floatingText={translate.votes}
                             type="number"
@@ -472,25 +478,21 @@ class NewParticipantForm extends Component {
                             })}
                         />
                     </GridItem>
-                    {participations &&
-                        <GridItem xs={4} lg={2} md={2}>                    
-                            <TextInput
-                                floatingText={translate.social_capital}
-                                type="number"
-                                errorText={errors.socialCapital}
-                                value={participant.socialCapital}
-                                onChange={(event) => this.updateParticipant({
-                                    socialCapital: event.nativeEvent.target.value
-                                })}
-                            />
-                        </GridItem>
-                    }
-                </Grid>
-            );
+                    {participations && <GridItem xs={4} lg={2} md={2}>
+                        <TextInput
+                            floatingText={translate.social_capital}
+                            type="number"
+                            errorText={errors.socialCapital}
+                            value={participant.socialCapital}
+                            onChange={(event) => this.updateParticipant({
+                                socialCapital: event.nativeEvent.target.value
+                            })}
+                        />
+                    </GridItem>}
+                </Grid>);
         }
 
-        return(
-            <Grid>
+        return (<Grid>
                 <GridItem xs={12} lg={4} md={6}>
                     <TextInput
                         floatingText={translate.name}
@@ -572,11 +574,12 @@ class NewParticipantForm extends Component {
                         })}
                     >
                         {this.state.languages.map((language) => {
-                            return <MenuItem value={language.column_name} key={`language${language.id}`}>{language.desc}</MenuItem>
+                            return <MenuItem value={language.column_name}
+                                             key={`language${language.id}`}>{language.desc}</MenuItem>
                         })}
                     </SelectInput>
                 </GridItem>
-                
+
                 <GridItem xs={4} lg={2} md={2}>
                     <TextInput
                         floatingText={translate.votes}
@@ -588,33 +591,34 @@ class NewParticipantForm extends Component {
                         })}
                     />
                 </GridItem>
-                {participations &&
-                    <GridItem xs={4} lg={2} md={2}>                    
-                        <TextInput
-                            floatingText={translate.social_capital}
-                            type="number"
-                            errorText={errors.socialCapital}
-                            value={participant.socialCapital}
-                            onChange={(event) => this.updateParticipant({
-                                socialCapital: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-                }
-            </Grid>
-        );
+                {participations && <GridItem xs={4} lg={2} md={2}>
+                    <TextInput
+                        floatingText={translate.social_capital}
+                        type="number"
+                        errorText={errors.socialCapital}
+                        value={participant.socialCapital}
+                        onChange={(event) => this.updateParticipant({
+                            socialCapital: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>}
+            </Grid>);
     }
 
     render() {
         const { translate } = this.props;
-        return(
-            <Fragment>
+        return (<Fragment>
                 <Grid>
                     <GridItem xs={12} lg={12} md={12}>
                         <BasicButton
                             text={translate.back}
                             color={getPrimary()}
-                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700',
+                                fontSize: '0.9em',
+                                textTransform: 'none'
+                            }}
                             textPosition="after"
                             onClick={this.close}
                         />
@@ -627,13 +631,10 @@ class NewParticipantForm extends Component {
                     {this._renderAddParticipantTypeSelector()}
                     {this._renderAddParticipantForm()}
                     {this._renderRepresentativeCheckbox()}
-                    {this.state.addRepresentative &&
-                        this._renderRepresentativeForm()
-                    }
+                    {this.state.addRepresentative && this._renderRepresentativeForm()}
                     {this._renderAddParticipantButtons()}
                 </Grid>
-            </Fragment>
-        );
+            </Fragment>);
     }
 }
 
@@ -652,17 +653,17 @@ export default graphql(addParticipant, {
 })(NewParticipantForm);
 
 const newParticipantInitialValues = {
-    language : 'es',
-    councilId : '',
-    numParticipations : 1,
-    personOrEntity : 0,
-    name : '',
+    language: 'es',
+    councilId: '',
+    numParticipations: 1,
+    personOrEntity: 0,
+    name: '',
     surname: '',
-    dni : '',
-    position : '',
-    email : '',
-    phone : '',
-}
+    dni: '',
+    position: '',
+    email: '',
+    phone: '',
+};
 
 const newRepresentativeInitialValues = {
     language: 'es',
@@ -673,4 +674,4 @@ const newRepresentativeInitialValues = {
     dni: '',
     email: '',
     phone: ''
-}
+};

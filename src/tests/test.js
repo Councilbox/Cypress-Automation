@@ -8,7 +8,7 @@ describe('canReorderPoints', () => {
         statute: {
             canReorderPoints: 1
         }
-    }
+    };
     it('should return true when the statute have canReorderPoints == 1', () => {
         assert.equal(CBX.canReorderPoints(council), true);
     })
@@ -16,14 +16,7 @@ describe('canReorderPoints', () => {
 
 describe('showAddCouncilAttachments', () => {
     it('should return true when the num of attachments < max permitted files', () => {
-        assert.equal(CBX.showAddCouncilAttachment([
-            {filesize: 100},
-            {filesize: 100},
-            {filesize: 100},
-            {filesize: 100},
-            {filesize: 100}                
-        ]
-        ), false);
+        assert.equal(CBX.showAddCouncilAttachment([ { filesize: 100 }, { filesize: 100 }, { filesize: 100 }, { filesize: 100 }, { filesize: 100 } ]), false);
 
         assert.equal(CBX.showAddCouncilAttachment({
             attachments: []
@@ -34,17 +27,11 @@ describe('showAddCouncilAttachments', () => {
 describe('canAddCouncilAttachments', () => {
     it('should return true when the total size of the attachments < total permitted size', () => {
         assert.equal(CBX.canAddCouncilAttachment({
-            attachments: [
-                {filesize: 10000},
-                {filesize: 10000},
-                {filesize: 100}            
-            ]
+            attachments: [ { filesize: 10000 }, { filesize: 10000 }, { filesize: 100 } ]
         }, 1000), false);
 
         assert.equal(CBX.canAddCouncilAttachment({
-            attachments: [
-                {filesize: 1000}
-            ]
+            attachments: [ { filesize: 1000 } ]
         }, 100000), false);
 
         assert.equal(CBX.canAddCouncilAttachment({
@@ -52,33 +39,31 @@ describe('canAddCouncilAttachments', () => {
         }, 1000), true);
 
         assert.equal(CBX.canAddCouncilAttachment({
-            attachments: [
-                {filesize: 1000}
-            ]
+            attachments: [ { filesize: 1000 } ]
         }, 1000), true);
     });
 });
 
 describe('canToggleAgendaVoting', () => {
     it('should return true if the council is started and the agenda is not informative and is already closed', () => {
-        assert.equal(CBX.showAgendaVotingsToggle(
-            {councilStarted: 1},
-            {subjectType: 0, votingState: 0}
-        ), false);
-        assert.equal(CBX.showAgendaVotingsToggle(
-            {councilStarted: 0},
-            {subjectType: 1, votingState: 0}
-        ), false);
-        assert.equal(CBX.showAgendaVotingsToggle(
-            {councilStarted: 1},
-            {subjectType: 1, votingState: 2}
-        ), false);
-        assert.equal(CBX.showAgendaVotingsToggle(
-            {councilStarted: 1},
-            {subjectType: 1, votingState: 0}
-        ), true);
+        assert.equal(CBX.showAgendaVotingsToggle({ councilStarted: 1 }, {
+            subjectType: 0,
+            votingState: 0
+        }), false);
+        assert.equal(CBX.showAgendaVotingsToggle({ councilStarted: 0 }, {
+            subjectType: 1,
+            votingState: 0
+        }), false);
+        assert.equal(CBX.showAgendaVotingsToggle({ councilStarted: 1 }, {
+            subjectType: 1,
+            votingState: 2
+        }), false);
+        assert.equal(CBX.showAgendaVotingsToggle({ councilStarted: 1 }, {
+            subjectType: 1,
+            votingState: 0
+        }), true);
     })
-})
+});
 
 describe('councilHasVideo', () => {
     it('should return true when the councilType === 0', () => {
@@ -125,7 +110,7 @@ describe('Majority needs an input from user', () => {
         assert.equal(CBX.majorityNeedsInput(5), true);
         assert.equal(CBX.majorityNeedsInput(6), true);
         assert.equal(CBX.majorityNeedsInput(), false);
-        assert.equal(CBX.majorityNeedsInput(-1), false);   
+        assert.equal(CBX.majorityNeedsInput(-1), false);
     });
 });
 
@@ -185,15 +170,15 @@ describe('Return true is it shouldnt be more pages', () => {
 
 describe('Return a subarray of voting types, depending on the statute config', () => {
     it('should return the correct options from the array', () => {
-        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, {existsPresentWithRemoteVote: 1}), [{
+        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, { existsPresentWithRemoteVote: 1 }), [ {
             'value': 0,
             'label': 'text'
         }, {
             'value': 1,
             'label': 'public_votation'
-        }]);
-        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, {existsPresentWithRemoteVote: 0}), votingTypes);
-        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, {existsPresentWithRemoteVote: -1}), votingTypes);
+        } ]);
+        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, { existsPresentWithRemoteVote: 0 }), votingTypes);
+        assert.deepEqual(CBX.filterAgendaVotingTypes(votingTypes, { existsPresentWithRemoteVote: -1 }), votingTypes);
     });
 });
 
@@ -213,14 +198,14 @@ describe('Return true if the council statutes have the exists second call activa
 
 describe('Check if the distance between the first and second date exceeds the minimun value set in the statute', () => {
     it('Should return true when is bigger than the minium false otherwise', () => {
-        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:30', {minimumSeparationBetweenCall: 10}), true);
-        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:05', {minimumSeparationBetweenCall: 10}), false);
-        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:00', {minimumSeparationBetweenCall: 10}), false);
-        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 11:00', {minimumSeparationBetweenCall: 10}), false);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:30', { minimumSeparationBetweenCall: 10 }), true);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:05', { minimumSeparationBetweenCall: 10 }), false);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 12:00', { minimumSeparationBetweenCall: 10 }), false);
+        assert.equal(CBX.checkMinimunDistanceBetweenCalls('04-10-2018 12:00', '04-10-2018 11:00', { minimumSeparationBetweenCall: 10 }), false);
     });
-})
+});
 
-const votingTypes = [{
+const votingTypes = [ {
     'value': 0,
     'label': 'text'
 }, {
@@ -232,25 +217,25 @@ const votingTypes = [{
 }, {
     'value': 5,
     'label': 'private_votation'
-}];
+} ];
 
 /*
-- STATUTES
+ - STATUTES
 
-EXISTE ACTA - DEPENDEN DE ESO -> 
-Se incluye en el libro de actas
-Se incluye lista de participantes en acta
-Plantillas de acta
+ EXISTE ACTA - DEPENDEN DE ESO ->
+ Se incluye en el libro de actas
+ Se incluye lista de participantes en acta
+ Plantillas de acta
 
-EXISTE SEGUNDA CONVOCATORIA ->
-Separación mínima entre 1.ª y 2.ª convocatoria1
-Quorum asistencia 2.ª convocatoria
+ EXISTE SEGUNDA CONVOCATORIA ->
+ Separación mínima entre 1.ª y 2.ª convocatoria1
+ Quorum asistencia 2.ª convocatoria
 
-EXISTE VOTO DELEGADO
-Existe n.º máximo de votos delegados
+ EXISTE VOTO DELEGADO
+ Existe n.º máximo de votos delegados
 
-SE LIMITA EL ACCESO A SALA DESPUES DEL INICIO REUNIÓN
-Tiempo máximo acceso permitido
+ SE LIMITA EL ACCESO A SALA DESPUES DEL INICIO REUNIÓN
+ Tiempo máximo acceso permitido
 
 
-*/
+ */

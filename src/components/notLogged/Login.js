@@ -64,6 +64,8 @@ class Login extends React.PureComponent {
     };
 
     checkRequiredFields(){
+        const { translate } = this.props;
+
         let errors = {
             user: '',
             password: ''
@@ -72,7 +74,7 @@ class Login extends React.PureComponent {
 
         if(!this.state.user.length > 0){
             hasError = true;
-            errors.user = 'Este campo es obligatorio'
+            errors.user = translate.field_required
         }
 
         if(!this.state.password.length > 0){

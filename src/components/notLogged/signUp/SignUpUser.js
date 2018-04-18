@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
-import { BasicButton, ButtonIcon, TextInput } from '../../displayComponents/index';
+import { BasicButton, ButtonIcon, Grid, GridItem, TextInput, SelectInput, MenuItem } from '../../displayComponents/index';
 import { checkValidEmail } from '../../../utils/index';
-import { getPrimary } from '../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import CouncilboxApi from "../../../api/CouncilboxApi";
 
 class SignUpUser extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            confirmPWD: ''
+            confirmPWD: '',
+            subscriptions: [],
+            languages: []
         }
     }
 
+    componentDidMount = async () => {
+        const languages = await CouncilboxApi.getLanguageList();
+        this.setState({
+            languages: languages
+        });
+        console.log(languages)
+    };
+
     nextPage = () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             this.props.nextPage();
         }
     };
 
-    checkRequiredFields(){
+    previousPage = () => {
+        this.props.previousPage();
+    };
+
+    checkRequiredFields() {
         let errors = {
             name: '',
             surname: '',
@@ -32,38 +47,43 @@ class SignUpUser extends Component {
         const { translate } = this.props;
         let hasError = false;
 
-        if(!data.name.length > 0){
+        if (!data.name.length > 0) {
             hasError = true;
-            errors.name = 'Este campo es obligatorio';
+            errors.name = translate.field_required;
         }
 
-        if(!checkValidEmail(data.email.toLowerCase())){
+        if (!checkValidEmail(data.email)) {
             hasError = true;
             errors.email = 'Por favor introduce un email válido';
         }
 
-        if(!data.surname.length > 0){
+        if (data.email !== data.repeatEmail) {
             hasError = true;
-            errors.surname = 'Este campo es obligatorio';
+            errors.repeatEmail = translate.register_unmatch_emails;
         }
 
-        if(!data.phone.length > 0){
+        if (!data.surname.length > 0) {
             hasError = true;
-            errors.phone = 'Este campo es obligatorio';
-        }
-        
-        if(!data.email.length > 0){
-            hasError = true;
-            errors.email = 'Este campo es obligatorio';
+            errors.surname = translate.field_required;
         }
 
-        
-        if(!data.pwd.length > 0){
+        if (!data.phone.length > 0) {
+            hasError = true;
+            errors.phone = translate.field_required;
+        }
+
+        if (!data.email.length > 0) {
+            hasError = true;
+            errors.email = translate.field_required;
+        }
+
+
+        if (!data.pwd.length > 0) {
             hasError = true;
             errors.pwd = translate.no_empty_pwd;
         }
 
-        if(data.pwd !== this.state.confirmPWD){
+        if (data.pwd !== this.state.confirmPWD) {
             hasError = true;
             errors.confirmPWD = translate.no_match_pwd;
         }
@@ -72,16 +92,26 @@ class SignUpUser extends Component {
         return hasError;
     }
 
-    render(){
+    render() {
         const primary = getPrimary();
+        const secondary = getSecondary();
         const { translate } = this.props;
         const data = this.props.formData;
 
-        return(
-            <div style={{width: '100%', padding: '6%'}}>
-                <span style={{fontSize: '1.3em', fontWeight: '700', color: primary}}>{translate.user_data}</span>
-                <div className="row" style={{marginTop: '2em'}}>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{marginBottom: '2.2em', height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        return (<div
+                style={{
+                    width: '100%',
+                    padding: '6%'
+                }}>
+                <div style={{
+                    fontSize: '1.3em',
+                    fontWeight: '700',
+                    color: primary
+                }}>
+                    {translate.user_data}
+                </div>
+                <Grid style={{ marginTop: '2em' }}>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.name}
                             type="text"
@@ -90,9 +120,9 @@ class SignUpUser extends Component {
                             onChange={(event) => this.props.updateState({
                                 name: event.target.value
                             })}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.surname}
                             type="text"
@@ -101,9 +131,9 @@ class SignUpUser extends Component {
                                 surname: event.target.value
                             })}
                             errorText={this.props.errors.surname}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.phone}
                             type="text"
@@ -112,20 +142,43 @@ class SignUpUser extends Component {
                                 phone: event.target.value
                             })}
                             errorText={this.props.errors.phone}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
+                        <SelectInput
+                            floatingText={translate.language}
+                            value={data.language}
+                            errorText={this.props.errors.language}
+                            onChange={(event) => this.props.updateState({ language: event.target.value })}
+                            required>
+                            {this.state.languages.map((language) => {
+                                return <MenuItem key={language.id} value={language.column_name}>{language.desc}</MenuItem>
+                            })}
+                        </SelectInput>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
-                            floatingText={translate.email}
+                            floatingText={translate.login_email}
                             type="text"
                             value={data.email}
                             onChange={(event) => this.props.updateState({
-                                email: event.target.value
+                                email: event.target.value.toLowerCase()
                             })}
                             errorText={this.props.errors.email}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
+                        <TextInput
+                            floatingText={translate.repeat_email}
+                            type="text"
+                            value={data.repeatEmail}
+                            onChange={(event) => this.props.updateState({
+                                repeatEmail: event.target.value.toLowerCase()
+                            })}
+                            errorText={this.props.errors.repeatEmail}
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.login_password}
                             type="password"
@@ -134,9 +187,9 @@ class SignUpUser extends Component {
                                 pwd: event.target.value
                             })}
                             errorText={this.props.errors.pwd}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12" style={{height: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2.2em'}}>
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.login_confirm_password}
                             type="password"
@@ -145,22 +198,36 @@ class SignUpUser extends Component {
                                 confirmPWD: event.target.value
                             })}
                             errorText={this.props.errors.confirmPWD}
-                        />
-                    </div>
-                </div>
-                <div className="col-lg-6 col-lg-offset-6 col-md-6 col-md-offset-6 col-xs-12" style={{float: 'right', marginTop: '2em'}} >
-                    <BasicButton
-                        text={translate.continue}
-                        color={primary}
-                        textStyle={{color: 'white', fontWeight: '700'}}
-                        onClick={this.nextPage}
-                        fullWidth
-                        icon={<ButtonIcon color='white' type="arrow_forward" />}
-                    />
-                </div>
-            </div>
-        );
+                            required/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
+                        <BasicButton
+                            text={translate.back}
+                            color={secondary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700'
+                            }}
+                            onClick={this.previousPage}
+                            fullWidth
+                            icon={<ButtonIcon color='white' type="arrow_back"/>}/>
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={6}>
+                        <BasicButton
+                            text={translate.continue}
+                            color={primary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700'
+                            }}
+                            onClick={this.nextPage}
+                            fullWidth
+                            icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
+                    </GridItem>
+                </Grid>
+            </div>);
     }
+
 }
 
 export default SignUpUser;
