@@ -639,9 +639,17 @@ export const councilStepFour = gql`
 `;
 
 export const addCouncilAttachment = gql`
-  mutation AddCouncilAttachment($attachment: NewCouncilAttachment){
+  mutation AddCouncilAttachment($attachment: CouncilAttachmentInput){
     addCouncilAttachment(attachment: $attachment){
       id
+    }
+  }
+`;
+
+export const updateCouncilAttachment = gql`
+  mutation updateCouncilAttachment($id: Int!, $filename: String!){
+    updateCouncilAttachment(id: $id, filename: $filename){
+      filename
     }
   }
 `;
