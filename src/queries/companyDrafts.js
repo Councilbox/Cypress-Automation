@@ -16,6 +16,11 @@ export const companyDrafts = gql`
                 title
                 text
                 description
+                majority
+                majorityType
+                majorityDivider
+                votationType
+                type
             }
             total
         }

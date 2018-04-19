@@ -512,6 +512,7 @@ export const councilStepThree = gql`
     council(id: $id){
       businessName
       city
+      country
       companyId
       countryState
       dateStart
