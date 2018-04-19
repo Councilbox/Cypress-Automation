@@ -215,7 +215,7 @@ class EnhancedTable extends Component {
     
     render(){
         const { fields, limits, translate, total, length, loading, headers, children, categories } = this.props;
-        const { filterText, filterField, selectedCategory, limit, page } = this.state;
+        const { filterText, filterField, selectedCategory, categoryValue, limit, page } = this.state;
 
         return(
             <React.Fragment>
@@ -258,7 +258,7 @@ class EnhancedTable extends Component {
                     {categories &&
                         <GridItem xs={12} md={3} lg={3}>
                             <SelectInput
-                                value={selectedCategory}
+                                value={categoryValue}
                                 onChange={(event) =>  this.updateCategory(event.target, categories[0].field)}
                             >
                                 {categories.map((category) => 

@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const withTranslations = () => WrappedComponent => {
-    const WithTranslations = ({ translate }) => (
+    const WithTranslations = ({ translate, ...restProps }) => (
         <WrappedComponent
             translate={translate}
+            {...restProps}
         />
     );
 

@@ -38,7 +38,7 @@ class LoadDraft extends React.Component {
                 />
                 <Dialog
                     open={this.state.loadDraft}
-                    maxWidth="md"
+                    maxWidth={false}
                     onClose={() => this.setState({loadDraft: false})}
                 >
                     <DialogTitle>
@@ -50,7 +50,6 @@ class LoadDraft extends React.Component {
                                 translate={translate}
                                 defaultLimit={DRAFTS_LIMITS[0]}
                                 defaultFilter={'title'}
-                                defaultOrder={['title', 'asc']}
                                 limits={DRAFTS_LIMITS}
                                 page={1}
                                 loading={loading}
@@ -63,8 +62,8 @@ class LoadDraft extends React.Component {
                                 action={this._renderDeleteIcon}
                                 selectedCategory={{
                                     field: 'statuteId',
-                                    value: councilType.statuteId,
-                                    label: translate[councilType.title] || councilType.title
+                                    value: '',
+                                    label: translate.all_plural
                                 }}
                                 categories={statutes.map(statute => {return({
                                     field: 'statuteId',
@@ -74,13 +73,11 @@ class LoadDraft extends React.Component {
                                 headers={[
                                     {
                                         text: translate.title,
-                                        name: 'title',
-                                        canOrder: true
+                                        name: 'title'
                                     },
                                     {
                                         text: translate.type,
-                                        name: 'type',
-                                        canOrder: true
+                                        name: 'type'
                                     }
                                 ]}
                             >
@@ -90,7 +87,7 @@ class LoadDraft extends React.Component {
                                             key={`draft${draft.id}`} 
                                             style={{cursor: 'pointer'}}
                                             onClick={() => {
-                                                this.props.loadDraft(draft.text)
+                                                this.props.loadDraft(draft)
                                                 this.setState({
                                                     loadDraft: false
                                                 })

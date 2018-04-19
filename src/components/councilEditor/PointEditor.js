@@ -4,7 +4,7 @@ import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, Ma
 import { MenuItem } from 'material-ui';
 import { updateAgenda } from '../../queries';
 import * as CBX from '../../utils/CBX';
-
+import LoadDraft from './LoadDraft';
 
 class PointEditor extends Component {
 
@@ -32,6 +32,22 @@ class PointEditor extends Component {
             }
         })
     }
+
+    loadDraft = (draft) => {
+        const correctedText = CBX.changeVariablesToValues(draft.text, {
+            company: this.props.company,
+            council: this.props.council
+        });
+        this.updateState({
+            description: correctedText,
+            majority: draft.majority,
+            majorityType: draft.majorityType,
+            majorityDivider: draft.majorityDivider,
+            subjectType: draft.type,
+            agendaSubject: draft.title
+        });
+        this.editor.setValue(correctedText);
+    };
 
     saveChanges = async () => {
         if(this.checkRequiredFields()){
@@ -64,15 +80,15 @@ class PointEditor extends Component {
     }
 
     _renderModalBody = () => {
-        const { translate, votingTypes, statute } = this.props;
+        const { translate, votingTypes, statute, draftTypes, council, company, companyStatutes } = this.props;
         const errors = this.state.errors;
         const agenda = this.state.data;
 
         const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
         
         return(
-            <Fragment>
-                <div className="row" style={{width: '700px'}}> 
+            <div style={{width: '850px'}}>
+                <div className="row"> 
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <TextInput
                             floatingText={translate.convene_header}
@@ -136,17 +152,39 @@ class PointEditor extends Component {
                         </GridItem>
                     </Grid>
                 }
+                
+                <LoadDraft
+                    translate={translate}
+                    company={company}
+                    loadDraft={this.loadDraft}
+                    councilType={statute}
+                    statutes={companyStatutes}
+                    draftType={draftTypes.filter((draft => draft.label === 'agenda'))[0].value}
+                />
 
                 <RichTextInput
+                    ref={(editor) => this.editor = editor}
                     floatingText={translate.description}
                     type="text"
+                    tags={[
+                    {
+                        value: `${council.street}, ${council.country}`,
+                        label: translate.new_location_of_celebrate
+                    }, {
+                        value: company.countryState,
+                        label: translate.company_new_country_state
+                    },{
+                        value: company.city,
+                        label: translate.company_new_locality
+                    },
+                     ]}
                     errorText={errors.description}
                     value={agenda.description}
                     onChange={(value) => this.updateState({
                         description: value
                     })}
                 />
-            </Fragment>
+            </div>
         );
     }
 

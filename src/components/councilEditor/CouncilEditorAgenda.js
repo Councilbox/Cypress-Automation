@@ -2,15 +2,16 @@ import React, { Component } from 'react';
 import { BasicButton, Table, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem } from "../displayComponents";
 import { graphql, compose } from 'react-apollo';
 import { TableRow, TableCell } from 'material-ui/Table';
-import { Typography, IconButton } from 'material-ui';
+import { Typography, IconButton, Tooltip } from 'material-ui';
 import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
 import PointEditor from './PointEditor';
-import { ModeEdit, DeleteForever } from 'material-ui-icons';
+import { ModeEdit, DeleteForever, Save } from 'material-ui-icons';
 import * as CBX from '../../utils/CBX';
 import ReorderPointsModal from '../councilLive/ReorderPointsModal';
 import icon from '../../assets/img/reorder.PNG';
+import SaveDraftModal from '../companyDraft/SaveDraftModal';
 
 
 class CouncilEditorAgenda extends Component {
@@ -21,6 +22,8 @@ class CouncilEditorAgenda extends Component {
             votingTypes: [],
             edit: false,
             editIndex: 0,
+            saveAsDraft: false,
+            saveIndex: 0,
             agendas: [],
             errors: {
                 agendaSubject: '',
@@ -92,6 +95,13 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
+    saveAsDraft = (index) => {
+        this.setState({
+            saveAsDraft: true,
+            saveIndex: index
+        });
+    }
+
     render(){
         const { translate } = this.props;
         const { votingTypes, errors, council, majorityTypes, draftTypes } = this.props.data;
@@ -128,8 +138,8 @@ class CouncilEditorAgenda extends Component {
                             draftTypes={draftTypes}
                             statute={council.statute}
                             company={this.props.company}
+                            council={council}
                             companyStatutes={this.props.data.companyStatutes}
-                            councilID={this.props.councilID}
                             refetch={this.props.data.refetch}
                         >
                             <BasicButton
@@ -165,6 +175,7 @@ class CouncilEditorAgenda extends Component {
                             {name: translate.convene_header},
                             {name: translate.description},
                             {},
+                            {},
                             {}
                         ]}
                     >
@@ -178,8 +189,21 @@ class CouncilEditorAgenda extends Component {
                                 >
                                     <TableCell style={{padding: 0}}>{agenda.agendaSubject}</TableCell>
                                     <TableCell><div dangerouslySetInnerHTML={{ __html: agenda.description }} /></TableCell>
-                                    <TableCell>{translate[votingTypes.find((item) => item.value === agenda.subjectType).label]}</TableCell>                                
-                                    <TableCell><IconButton onClick={(event) => {event.stopPropagation();this.removeAgenda(agenda.id)}}><DeleteForever style={{color: secondary }} /></IconButton></TableCell>                  
+                                    <TableCell>{translate[votingTypes.find((item) => item.value === agenda.subjectType).label]}</TableCell>
+                                    <TableCell>
+                                        <Tooltip title={translate.new_save} placement="top">
+                                            <IconButton onClick={(event) => {event.stopPropagation();this.saveAsDraft(index)}}>
+                                                <Save style={{color: secondary }} />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>                                           
+                                    <TableCell>
+                                        <Tooltip title={translate.delete} placement="top">
+                                            <IconButton onClick={(event) => {event.stopPropagation();this.removeAgenda(agenda.id)}}>
+                                                <DeleteForever style={{color: secondary }} />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>                  
                                 </TableRow>
                             )
                         })}
@@ -225,14 +249,40 @@ class CouncilEditorAgenda extends Component {
                 </div>
                 <PointEditor
                     translate={translate}
-                    open={this.state.edit}
+                    draftTypes={draftTypes}
                     statute={council.statute}
+                    company={this.props.company}
+                    council={council}
+                    companyStatutes={this.props.data.companyStatutes}
+                    open={this.state.edit}
                     agenda={council.agendas[this.state.editIndex]}
                     votingTypes={votingTypes}
                     majorityTypes={majorityTypes}                    
                     refetch={this.props.data.refetch}
                     requestClose={() => this.setState({edit: false})}
                 />
+                
+                {council.agendas.length > 0 &&
+                    <SaveDraftModal
+                        open={this.state.saveAsDraft}
+                        statute={council.statute}                    
+                        data={{
+                            ...council.agendas[this.state.saveIndex],
+                            text: council.agendas[this.state.saveIndex].description,
+                            description: '',
+                            title: council.agendas[this.state.saveIndex].agendaSubject,
+                            votationType: council.agendas[this.state.saveIndex].subjectType,
+                            type: draftTypes.filter((draft => draft.label === 'agenda'))[0].value,
+                            statuteId: council.statute.statuteId
+                        }}
+                        company={this.props.company}
+                        requestClose={() => this.setState({saveAsDraft: false})}
+                        companyStatutes={this.props.data.companyStatutes}
+                        votingTypes={votingTypes}
+                        majorityTypes={majorityTypes}
+                        draftTypes={draftTypes}
+                    />
+                }
             </div>
         );
     }
