@@ -112,3 +112,7 @@ export const hasParticipations = (statute = {}) => {
 export const isRepresentative = (participant) => {
     return participant.type === 2;
 }
+
+export const showUserUniqueKeyMessage = (council) => {
+    return council.securityType === 1 || council.securityType === 2;
+}
