@@ -7,6 +7,8 @@ import UserMenu from './menus/UserMenu';
 import { Icon } from './displayComponents';
 import { bHistory } from '../containers/App';
 import withWindowSize from '../HOCs/withWindowSize';
+import { getSecondary } from '../styles/colors';
+import { Tooltip } from 'material-ui';
 
 class Header extends Component{
 
@@ -26,12 +28,14 @@ class Header extends Component{
             <header className="App-header" style={{height: '3em', display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'white'}}>
                 <div style={{display: 'flex', flexDirection: 'row', height: '100%', alignItems: 'center'}}>
                     {backButton &&
-                        <div
-                            style={{cursor: 'pointer', width: '2em', height: '100%', border: '1px solid darkgrey', display: 'flex', alignItems: 'center'}}
-                            onClick={this.goBack}
-                        >
-                            <Icon className="material-icons" style={{color: 'grey'}}>keyboard_arrow_left</Icon>
-                        </div>
+                        <Tooltip title={this.props.translate.back} placement="bottom">
+                            <div
+                                style={{cursor: 'pointer', width: '2em', height: '60%', borderRight: '1px solid darkgrey', display: 'flex', alignItems: 'center'}}
+                                onClick={this.goBack}
+                            >
+                                <Icon className="material-icons" style={{color: getSecondary()}}>keyboard_arrow_left</Icon>
+                            </div>
+                        </Tooltip>
                     }
                     <Link to="/"><img src={windowSize !== 'xs'? logo : icono} className="App-logo" style={{height: '1.5em', marginLeft: '2em'}} alt="logo" /></Link>
                 </div>
