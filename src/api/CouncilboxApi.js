@@ -134,7 +134,7 @@ class CouncilboxApi {
             "terms": 1,
             "census_name": "Por defecto",
             "census_description": "Primer censo creado automáticamente cuando se crea la sociedad"
-        }
+        };
 
         const data = urlParser(body);
 

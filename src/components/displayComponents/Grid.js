@@ -1,7 +1,7 @@
 import React from 'react';
 import Grid from 'material-ui/Grid';
 
-const GridWrapper = ({ children, alignItems, alignContent, style, spacing, justify }) => (
+const GridWrapper = ({ children, alignItems, alignContent, style, spacing = 8, justify }) => (
     <Grid
         container
         justify={justify}
@@ -12,6 +12,6 @@ const GridWrapper = ({ children, alignItems, alignContent, style, spacing, justi
     >
         {children}
     </Grid>
-)
+);
 
 export default GridWrapper;
