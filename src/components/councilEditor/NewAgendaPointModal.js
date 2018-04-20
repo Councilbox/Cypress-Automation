@@ -16,9 +16,9 @@ class NewAgendaPointModal extends Component {
                 agendaSubject: '',
                 subjectType: '',
                 description: '',
-                majority: '',
-                majorityType: 0,
-                majorityDivider: '',
+                majority: null,
+                majorityType: 1,
+                majorityDivider: null,
             },
 
             newPointModal: false,

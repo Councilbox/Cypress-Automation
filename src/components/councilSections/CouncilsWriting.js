@@ -118,7 +118,7 @@ export default compose(
     graphql(councils, {
         options: (props) => ({
             variables: {
-                state: 40,
+                state: [40],
                 companyId: props.company.id,
                 isMeeting: false
             }

@@ -54,7 +54,7 @@ class SignUpUser extends Component {
 
         if (!checkValidEmail(data.email)) {
             hasError = true;
-            errors.email = 'Por favor introduce un email válido';
+            errors.email = 'POR FAVOR INTRODUCE UN EMAIL VÁLIDO';
         }
 
         if (data.email !== data.repeatEmail) {

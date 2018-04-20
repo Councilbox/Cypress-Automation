@@ -1,6 +1,5 @@
-import React, { Component, Fragment} from 'react';
-import { TextInput, SelectInput, RichTextInput, LoadingSection, MajorityInput, BasicButton, ButtonIcon, CardPageLayout, Grid, GridItem } from '../displayComponents';
-import { MenuItem } from 'material-ui';
+import React, { Component } from 'react';
+import { LoadingSection, BasicButton, ButtonIcon, CardPageLayout } from '../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import { createCompanyDraft, draftData } from '../../queries';
 import { getPrimary } from "../../styles/colors";

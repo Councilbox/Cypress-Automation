@@ -205,6 +205,22 @@ describe('Check if the distance between the first and second date exceeds the mi
     });
 });
 
+describe('Takes a string a returns the same string with all HTML tags stripped', () => {
+    it('Should return the correct string', () => {
+        assert.equal(CBX.removeHTMLTags('<p>Test string</p>'), 'Test string');
+        assert.equal(CBX.removeHTMLTags('<p><b>Test <span>string</span></b></p>'), 'Test string');
+        assert.equal(CBX.removeHTMLTags('Test string'), 'Test string');
+    });
+});
+
+describe('Return if a council have act point', () => {
+    it('Should return true when approveActPoint === 1', () => {
+        assert.equal(CBX.councilHasActPoint({approveActDraft: 1}), true);
+        assert.equal(CBX.councilHasActPoint({approveActDraft: 2}), false);
+        assert.equal(CBX.councilHasActPoint({}), false);
+    });
+});
+
 const votingTypes = [ {
     'value': 0,
     'label': 'text'

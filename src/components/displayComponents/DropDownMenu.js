@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Menu from 'material-ui/Menu';
 import { BasicButton } from './';
 
@@ -20,7 +20,7 @@ class DropDownMenu extends React.Component {
       const { text, items, id, textStyle, buttonStyle, color, type, icon } = this.props;
   
       return (
-        <div>
+        <Fragment>
           <BasicButton
             type={type}
             onClick={this.handleClick}
@@ -38,7 +38,7 @@ class DropDownMenu extends React.Component {
           >
             {items}
           </Menu>
-        </div>
+        </Fragment>
       );
     }
   }

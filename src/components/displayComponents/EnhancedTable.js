@@ -215,7 +215,7 @@ class EnhancedTable extends Component {
     
     render(){
         const { fields, limits, translate, total, length, loading, headers, children, categories } = this.props;
-        const { filterText, filterField, selectedCategory, categoryValue, limit, page } = this.state;
+        const { filterText, filterField, categoryValue, limit, page } = this.state;
 
         return(
             <React.Fragment>

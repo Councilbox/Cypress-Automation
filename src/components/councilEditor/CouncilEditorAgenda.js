@@ -7,10 +7,9 @@ import { councilStepThree, updateCouncil, removeAgenda } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
 import PointEditor from './PointEditor';
-import { ModeEdit, DeleteForever, Save } from 'material-ui-icons';
+import { DeleteForever, Save } from 'material-ui-icons';
 import * as CBX from '../../utils/CBX';
 import ReorderPointsModal from '../councilLive/ReorderPointsModal';
-import icon from '../../assets/img/reorder.PNG';
 import SaveDraftModal from '../companyDraft/SaveDraftModal';
 
 

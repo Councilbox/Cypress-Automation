@@ -112,3 +112,15 @@ export const hasParticipations = (statute = {}) => {
 export const isRepresentative = (participant) => {
     return participant.type === 2;
 }
+
+export const removeHTMLTags = (string) => {
+    return string.replace(/<(?:.|\n)*?>/gm, '');
+}
+
+export const councilHasActPoint = (council) => {
+    return council.approveActDraft === 1;
+}
+
+export const getActPointSubjectType = () => {
+    return 2;
+}

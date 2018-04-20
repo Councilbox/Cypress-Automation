@@ -115,7 +115,7 @@ export const companies = gql`
 `;
 
 export const councils = gql `
-  query Councils($companyId: Int!, $state: Int, $isMeeting: Boolean) {
+  query Councils($companyId: Int!, $state: [Int], $isMeeting: Boolean) {
     councils(companyId: $companyId, state: $state, isMeeting: $isMeeting) {
       id
       dateStart
@@ -503,6 +503,30 @@ export const cloneCensus = gql`
   mutation cloneCensus($census: CensusInput!){
     cloneCensus(census: $census){
       id
+    }
+  }
+`;
+
+export const sendConveneTest = gql`
+  mutation sendConveneTest($councilId: Int!, $email: String!){
+    sendConveneTest(councilId: $councilId, email: $email){
+      success
+    }
+  }
+`;
+
+export const sendPreConvene = gql`
+  mutation sendPreConvene($councilId: Int!){
+    sendPreConvene(councilId: $councilId){
+      success
+    }
+  }
+`;
+
+export const conveneWithoutNotice = gql`
+  mutation conveneWithoutNotice($councilId: Int!){
+    conveneWithoutNotice(councilId: $councilId){
+      success
     }
   }
 `;
