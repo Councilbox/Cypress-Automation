@@ -47,9 +47,9 @@ export const getCouncils = (info) => {
             }
         })
     }
-}
+};
 
-export const sendNewCompany = (company) => {
+/*export const sendNewCompany = (company) => {
     return (dispatch) => {
         return CouncilboxApi.createCompany(company).then(response => {
             if(response){
@@ -70,4 +70,4 @@ export const sendNewCompany = (company) => {
             console.log(error);
         });
     }
-} 
+} */

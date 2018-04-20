@@ -12,6 +12,6 @@ const CheckBox = ( { value, label, onChange, style }) => (
         }
         label={label}
     />
-)
+);
 
 export default CheckBox;

@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
-import { BasicButton, ButtonIcon, LoadingSection, SelectInput, TextInput, Grid, GridItem } from '../../displayComponents/index';
+import {
+    BasicButton,
+    ButtonIcon,
+    LoadingSection,
+    SelectInput,
+    TextInput,
+    Grid,
+    GridItem
+} from '../../displayComponents/index';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
 import { companyTypes } from '../../../queries';
+import { withApollo } from "react-apollo/index";
+import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 
 class SignUpEnterprise extends Component {
 
-    nextPage = () => {
-        if (!this.checkRequiredFields()) {
+     nextPage = async () => {
+        let isSuccess = await this.checkRequiredFields();
+        if (!isSuccess) {
             this.props.nextPage();
         }
     };
 
-    checkRequiredFields() {
+    async checkRequiredFields() {
         const { translate } = this.props;
 
         const data = this.props.formData;
@@ -33,17 +44,26 @@ class SignUpEnterprise extends Component {
             hasError = true;
             errors.type = translate.field_required
         }
+        let existsCif = await this.checkCifExists();
 
-        if (!data.cif.length > 0) {
+        if (!data.cif.length > 0 || existsCif) {
             hasError = true;
-            errors.cif = translate.field_required
+            errors.cif = existsCif ? translate.vat_previosly_save : translate.field_required
         }
-
-        console.log(errors);
 
         this.props.updateErrors(errors);
 
         return hasError;
+    }
+
+    async checkCifExists() {
+        const response = await this.props.client.query({
+            query: checkCifExists,
+            variables: { cif: this.props.formData.cif }
+        });
+
+        const result = response.data.checkCifExists.success;
+        return result;
     }
 
     handleTypeChange = (event) => {
@@ -124,4 +144,4 @@ class SignUpEnterprise extends Component {
     }
 }
 
-export default graphql(companyTypes)(SignUpEnterprise);
+export default graphql(companyTypes)(withApollo(SignUpEnterprise));
