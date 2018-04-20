@@ -7,6 +7,7 @@ import Welcome from '../../Welcome';
 import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';
+import { getPrimary } from '../../../styles/colors';
 import { Card, CardContent } from 'material-ui';
 import image from '../../../assets/img/signup3.jpg';
 import SignUpStepper from './SignUpStepper';
@@ -114,6 +115,7 @@ class SignUpPage extends React.Component {
 
         const { translate, windowSize } = this.props;
         const { page } = this.state;
+        const primary = getPrimary();
 
         return (<div
             style={{
