@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../queries/companyDrafts.js";
 import { graphql, compose } from "react-apollo";
-import CompanyDraftForm from './CompanyDraftForm';
+import CompanyDraftNew from './CompanyDraftNew';
 import { LoadingSection, EnhancedTable, AlertConfirm, ErrorWrapper, DeleteIcon, BasicButton, ButtonIcon, CardPageLayout } from "../displayComponents";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";
@@ -61,7 +61,7 @@ class CompanyDraftList extends Component {
 
         if(this.state.newForm){
             return (
-                <CompanyDraftForm
+                <CompanyDraftNew
                     translate={translate}
                     closeForm={() => {
                         this.setState({newForm: false});

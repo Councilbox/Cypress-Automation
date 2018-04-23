@@ -165,10 +165,13 @@ class CouncilEditorNotice extends Component {
         }
     };
 
-    loadDraft = (text) => {
-        const correctedText = CBX.changeVariablesToValues(text, {
+    loadDraft = (draft) => {
+        const correctedText = CBX.changeVariablesToValues(draft.text, {
             company: this.props.company,
             council: this.state.data
+        });
+        this.updateState({
+            conveneText: correctedText
         });
         this.refs.editor.setValue(correctedText);
     };

@@ -126,7 +126,7 @@ export default withSharedProps()(compose(graphql(deleteCouncil), graphql(council
     name: "data",
     options: (props) => ({
         variables: {
-            state: 0,
+            state: [0],
             companyId: props.company.id,
             isMeeting: false,
             active: 1
