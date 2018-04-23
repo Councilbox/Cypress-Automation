@@ -16,7 +16,8 @@ class UserSettingsPage extends Component {
         }
 
         return(
-           <CardPageLayout title={translate.settings}>
+           <CardPageLayout title={translate.settings}
+                           isFullHeight={false}>
                 <UpdateUserForm
                     translate={translate}
                     user={this.props.user}

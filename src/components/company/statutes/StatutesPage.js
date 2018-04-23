@@ -141,7 +141,8 @@ class StatutesPage extends Component {
     updateState = (object) => {
         this.setState({
             statute: {
-                ...this.state.statute, ...object
+                ...this.state.statute,
+                ...object
             },
             unsavedChanges: true
         })
@@ -185,82 +186,68 @@ class StatutesPage extends Component {
 
         return (<CardPageLayout
             title={translate.statutes}>
-
                 <VTabs tabs={tabs}
                        changeTab={this.handleStatuteChange}
                        additionalTab={{
                            title: translate.add_council_type,
                            action: this.showNewStatute
                        }}>
-                    {!!statute && <Fragment>
-                        <div style={{
-                            float: 'right',
-                            paddingRight: '2em',
-                            width: '50%',
-                        }}>
-                            <Grid alignContent="flex-end">
-                                <GridItem xs={6} md={4} lg={4}>
-                                    <BasicButton
-                                        text={translate.save}
-                                        color={getPrimary()}
-                                        error={requestError}
-                                        success={success}
-                                        reset={this.resetButtonStates}
-                                        loading={requesting}
-                                        textStyle={{
-                                            color: 'white',
-                                            fontWeight: '700'
-                                        }}
-                                        onClick={this.updateStatute}
-                                        icon={<ButtonIcon type="save" color='white'/>}
-                                    />
-                                </GridItem>
-                                <GridItem xs={6} md={1} lg={1}>
-                                    <DeleteIcon
-                                        onClick={() => this.deleteStatute(statute.id)}
-                                    />
-                                </GridItem>
+                    <div className="container-fluid">
+                        {!!statute && <Fragment>
+                                <Grid alignContent="flex-end">
+                                    <GridItem xs={6} md={4} lg={4}>
+                                        <BasicButton
+                                            text={translate.save}
+                                            color={getPrimary()}
+                                            error={requestError}
+                                            success={success}
+                                            reset={this.resetButtonStates}
+                                            loading={requesting}
+                                            textStyle={{
+                                                color: 'white',
+                                                fontWeight: '700'
+                                            }}
+                                            onClick={this.updateStatute}
+                                            icon={<ButtonIcon type="save" color='white'/>}
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={2} lg={2}>
+                                        <DeleteIcon
+                                            onClick={() => this.deleteStatute(statute.id)}
+                                        />
+                                    </GridItem>
+                                </Grid>
+                            <div style={{width: 'calc(100% - 8px)'}}>
+                                <StatuteEditor
+                                    statute={statute}
+                                    translate={translate}
+                                    updateState={this.updateState}
+                                    errors={this.state.errors}
+                                />
+                            </div>
 
-                                <GridItem xs={6} md={7} lg={7}>
-                                    <SelectInput
-                                        floatingText={translate.statute}
-                                        value={this.state.selectedStatute}
-                                        onChange={(event) => this.handleStatuteChange(event.target.value)}
-                                    >
-                                        {companyStatutes.map((statute, index) => {
-                                            return <MenuItem value={index}
-                                                             key={`statute_${statute.id}`}>{translate[ statute.title ] || statute.title}</MenuItem>
-                                        })}
-                                    </SelectInput>
-                                </GridItem>
-                            </Grid>
-                        </div>
-                        <StatuteEditor
-                            statute={statute}
-                            translate={translate}
-                            updateState={this.updateState}
-                            errors={this.state.errors}
-                        />
 
-                        <AlertConfirm
-                            requestClose={() => this.setState({ newStatute: false })}
-                            open={this.state.newStatute}
-                            acceptAction={this.createStatute}
-                            buttonAccept={translate.accept}
-                            buttonCancel={translate.cancel}
-                            bodyText={<TextInput
-                                floatingText={translate.council_type}
-                                required
-                                type="text"
-                                errorText={errors.newStatuteName}
-                                value={statute.newStatuteName}
-                                onChange={(event) => this.setState({
-                                    newStatuteName: event.target.value
-                                })}
-                            />}
-                            title={translate.add_council_type}
-                        />
-                    </Fragment>}
+                            <AlertConfirm
+                                requestClose={() => this.setState({ newStatute: false })}
+                                open={this.state.newStatute}
+                                acceptAction={this.createStatute}
+                                buttonAccept={translate.accept}
+                                buttonCancel={translate.cancel}
+                                bodyText={
+                                    <TextInput
+                                        floatingText={translate.council_type}
+                                        required
+                                        type="text"
+                                        errorText={errors.newStatuteName}
+                                        value={statute.newStatuteName}
+                                        onChange={(event) => this.setState({
+                                            newStatuteName: event.target.value
+                                        })}/>
+                                }
+                                title={translate.add_council_type}
+                            />
+                        </Fragment>}
+                    </div>
                 </VTabs>
             </CardPageLayout>)
     }

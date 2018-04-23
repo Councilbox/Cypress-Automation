@@ -18,7 +18,7 @@ class StatuteEditor extends React.PureComponent {
                     {translate.convene}
                 </Typography>
                 <Grid>
-                    <GridItem xs={12} md={6} lg={6}>
+                    <GridItem xs={12} md={8} lg={6}>
                         <Checkbox
                             label={translate.exists_advance_notice_days}
                             value={statute.existsAdvanceNoticeDays === 1}
@@ -28,7 +28,7 @@ class StatuteEditor extends React.PureComponent {
                             }
                         />
                     </GridItem>
-                    <GridItem xs={12} md={1} lg={1}>
+                    <GridItem xs={12} md={4} lg={6}>
                         {statute.existsAdvanceNoticeDays === 1 &&
                             <TextInput
                                 floatingText={translate.input_group_days}
@@ -39,8 +39,7 @@ class StatuteEditor extends React.PureComponent {
                                 onChange={(event) => updateState({
                                         advanceNoticeDays: event.target.value
                                     })
-                                }
-                            />
+                                }/>
                         }
                     </GridItem>
                     
@@ -71,9 +70,6 @@ class StatuteEditor extends React.PureComponent {
                     </GridItem>
 
                 </Grid>
-
-
-
                 <Typography variant="title" style={{color: primary, marginTop: '1em'}}>
                     {translate.assistance}
                 </Typography>
@@ -90,8 +86,7 @@ class StatuteEditor extends React.PureComponent {
                             onChange={(event, child) => updateState({
                                     quorumPrototype: event.target.value
                                 }) 
-                            }
-                        >
+                            }>
                             <MenuItem value={0}>{translate.census_type_assistants}</MenuItem>
                             <MenuItem value={1}>{translate.social_capital}</MenuItem>    
                         </SelectInput>
