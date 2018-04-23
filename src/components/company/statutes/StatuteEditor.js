@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../displayComponents';
+import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../displayComponents/index';
 import { Typography, MenuItem } from 'material-ui';
-import { quorumTypes, censuses } from '../../queries';
+import { quorumTypes, censuses } from '../../../queries';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
 
 class StatuteEditor extends React.PureComponent {
 

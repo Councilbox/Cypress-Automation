@@ -21,7 +21,7 @@ import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import CreateMeeting from '../components/CreateMeeting';
-import StatutesPage from '../components/statutes/StatutesPage';
+import StatutesPage from '../components/company/statutes/StatutesPage';
 import PlatformDrafts from '../components/companyDraft/PlatformDrafts';
 import CensusEditorPage from '../components/companyCensus/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../components/displayComponents';
