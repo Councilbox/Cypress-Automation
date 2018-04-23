@@ -5,7 +5,7 @@ import Scrollbar from 'react-perfect-scrollbar';
 import withWindowSize from '../../HOCs/withWindowSize';
 
 
-const CardPageLayout = ({ children, title, windowSize, isFullHeight=true }) => (<div style={{
+const CardPageLayout = ({ children, title, windowSize, isFullHeight = true }) => (<div style={{
     backgroundColor: lightGrey,
     height: '100%',
     width: '100%'
@@ -45,6 +45,7 @@ const CardPageLayout = ({ children, title, windowSize, isFullHeight=true }) => (
                 paddingTop: '2.5em',
                 paddingBottom: '1em',
                 height: '100%',
+                width: 'calc(100% - 2em)',
             }}>
                 {children}
             </div>
