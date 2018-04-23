@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Card } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { login } from '../../queries';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput, Link } from '../displayComponents/index';
 import background from '../../assets/img/signup3.jpg';
@@ -79,7 +79,7 @@ class Login extends React.PureComponent {
 
         if(!this.state.password.length > 0){
             hasError = true;
-            errors.password = 'Por favor introduce una contraseña'
+            errors.password = translate.field_required
         }
 
         this.setState({
@@ -103,11 +103,13 @@ class Login extends React.PureComponent {
     render(){
         const { translate, windowSize } = this.props;
         const primary = getPrimary();
+        const secondary = getSecondary();
         //background: `linear-gradient(to right, ${primary}, #6499B1)`
         return(
             <div className="row" style={{width: '100%', margin: 0, backgroundImage: `url(${background})`, fontSize: '0.85em', height: '100%'}}>
                 <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: windowSize === 'xs'? '1em' : '9em'}}>
                     <div style={{width: '70%', fontSize: '0.9em'}}>
+                        {/*TODO*/}
                         <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>Bienvenido/a</h4>
                         <h6>¿Todavía no dispones de una cuenta en CouncilBox?</h6>
                         {windowSize !== 'xs' &&
@@ -186,7 +188,10 @@ class Login extends React.PureComponent {
                                 fullWidth={true}
                                 icon={<ButtonIcon color='white' type="arrow_forward" />}
                             />
+                        </div>
+                        <div style={{marginTop: '2em', color: secondary}}>
                             <Link to="/forgetPwd">
+                                {/*TODO*/}
                                 ¿Has olvidado tu contraseña?
                             </Link>
                         </div>
