@@ -236,11 +236,4 @@ class SignUpPage extends React.Component {
     }
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(mainActions, dispatch),
-        companyActions: bindActionCreators(companyActions, dispatch)
-    };
-}
-
 export default graphql(userAndCompanySignUp, { options: { errorPolicy: 'all' } })(withWindowSize(SignUpPage));
