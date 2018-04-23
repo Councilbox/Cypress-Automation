@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../displayComponents';
+import { AlertConfirm} from '../../displayComponents';
 
 class TermsModal extends Component {
 

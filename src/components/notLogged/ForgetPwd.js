@@ -9,7 +9,6 @@ import { getPrimary, secondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { BasicButton, ButtonIcon, TextInput } from '../displayComponents/index';
 import background from '../../assets/img/signup3.jpg';
-import withTranslations from "../../HOCs/withTranslations";
 
 class ForgetPwd extends React.PureComponent {
 
