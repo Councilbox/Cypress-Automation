@@ -16,14 +16,16 @@ const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize }) => (
         <GridItem xs={12} md={3} lg={3}
                   className="nav-tabs-left">
             {tabs.map((tab, index) => {
-                return <div style={{
+                return <div
+                    key={`vtab${index}`}
+                    style={{
                     width: '100%',
                     backgroundColor: tab.active ? 'white' : lightTurquoise,
                     padding: '0.8vh',
                     color: tab.active ? primary : secondary,
                     fontWeight: '700',
                     borderLeft: 'solid 3px ' + (tab.active ? primary : secondary),
-                    marginBottom: '0.5vh',
+                    marginBottom: '0.6vh',
                     cursor: tab.active ? '' : 'pointer',
                     boxShadow: tab.active ?'-2px 2px 6px -2px rgba(0, 0, 0, 0.2)' : ''
                 }}
@@ -47,9 +49,9 @@ const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize }) => (
 
         </GridItem>
         <GridItem xs={12} md={9} lg={9} s>
-            {/*<Scrollbar>*/}
-                {/*{children}*/}
-            {/*</Scrollbar>*/}
+            <Scrollbar>
+                {children}
+            </Scrollbar>
         </GridItem>
     </Grid>
 

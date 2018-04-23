@@ -68,26 +68,32 @@ class AppRouter extends Component {
 
                     <div className={this.props.classes.mainPanel}>
                         <Header user={this.props.user} drawerIcon={this.state.mobileOpen} translate={this.props.translate} backButton={this.props.location.pathname !== `/company/${this.props.companies.list[this.props.companies.selected].id}`} />
-                        <Switch>
-                            <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
-                            <Route exact path="/company/:company" component={DashboardContainer} />
-                            <Route exact path="/company/:company/settings" component={CompanySettingsContainer} />                            
-                            <Route exact path="/company/:company/council/new" component={CreateCouncil} />
-                            <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
-                            <Route exact path="/company/:company/council/:id/:step" component={CouncilEditorContainer} />                           
-                            <Route path="/company/:company/councils/:section" component={CouncilContainer} />
-                            <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            
-                            <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
-                            <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
-                            <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
-                            <Route exact path="/company/:company/drafts/:id?" component={CompanyDraftList} />
-                            <Route exact path="/company/:company/platform/drafts" component={PlatformDrafts} />                            
-                            <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
-                            <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />  
-                            <Route exact path="/company/:company/statutes" component={StatutesPage} />                                                        
-                            <Route exact path="/user/:id" component={UserSettingsContainer} />                        
-                            <Route path="*" component={NotFound}/>
-                        </Switch>
+                        <div style={{
+                            height: 'calc(100vh - 3em)',
+                            display: 'flex',
+                            width: '100%',
+                        }}>
+                            <Switch>
+                                <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
+                                <Route exact path="/company/:company" component={DashboardContainer} />
+                                <Route exact path="/company/:company/settings" component={CompanySettingsContainer} />
+                                <Route exact path="/company/:company/council/new" component={CreateCouncil} />
+                                <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />
+                                <Route exact path="/company/:company/council/:id/:step" component={CouncilEditorContainer} />
+                                <Route path="/company/:company/councils/:section" component={CouncilContainer} />
+                                <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />
+                                <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
+                                <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
+                                <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
+                                <Route exact path="/company/:company/drafts/:id?" component={CompanyDraftList} />
+                                <Route exact path="/company/:company/platform/drafts" component={PlatformDrafts} />
+                                <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
+                                <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />
+                                <Route exact path="/company/:company/statutes" component={StatutesPage} />
+                                <Route exact path="/user/:id" component={UserSettingsContainer} />
+                                <Route path="*" component={NotFound}/>
+                            </Switch>
+                        </div>
                     </div>
                 </div>
             :
