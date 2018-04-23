@@ -102,13 +102,13 @@ class CouncilEditorAttachments extends Component {
         });
     }
 
-    updateCouncil = () => {
+    updateCouncil = (step) => {
         const { attachments, __typename, ...council } = this.props.data.council;
         this.props.updateCouncil({
             variables: {
                 council: {
                     ...council,
-                    step: this.props.actualStep > 4? this.props.actualStep : 4
+                    step: step
                 }
             }
         })
@@ -117,15 +117,15 @@ class CouncilEditorAttachments extends Component {
 
     nextPage = () => {
         if(true){
-            this.updateCouncil();
+            this.updateCouncil(5);
             this.props.nextStep();
         }
     }
 
     previousPage = () => {
         if(true){
-            this.updateCouncil();
-            this.props.previousStep()
+            this.updateCouncil(4);
+            this.props.previousStep();
         }
     }
 
@@ -195,7 +195,7 @@ class CouncilEditorAttachments extends Component {
                         <div style={{float: 'right'}}>
                             <BasicButton
                                 text={translate.previous}
-                                color={primary}
+                                color={getSecondary()}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                 textPosition="after"
                                 onClick={this.props.previousStep}

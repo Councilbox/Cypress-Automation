@@ -110,7 +110,7 @@ class SignUpPage extends React.Component {
 
     render() {
         if (this.state.success) {
-            return (<Welcome/>);
+            return (<div>JIJIJIJbiri</div>);
         }
 
         const { translate, windowSize } = this.props;

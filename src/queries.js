@@ -142,6 +142,15 @@ export const deleteCouncil = gql`
   }
 `;
 
+export const council = gql`
+  query Council($id: Int!){
+    council(id: $id){
+      state
+      step
+    }
+  }
+`;
+
 export const createCouncil = gql`
   mutation CreateCouncil($companyId: Int!){
     createCouncil(companyId: $companyId){

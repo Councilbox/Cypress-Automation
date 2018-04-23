@@ -14,7 +14,8 @@ import { ApolloProvider } from 'react-apollo';
 import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { API_URL } from '../config';
-
+import { ToastContainer, toast } from 'react-toastify';
+import { printSessionExpiredError } from '../utils/CBX'; 
 
 const httpLink = new HttpLink({
     uri: API_URL
@@ -34,9 +35,13 @@ const authLink = setContext((_, { headers }) => {
 const logoutLink = onError(({ graphQLErrors, networkError }) => {
     console.log(graphQLErrors);
     console.log(networkError);
+    const translate = store.getState().translate;   
     if(graphQLErrors){
         if(graphQLErrors[0].code === 440){
+            toast.error(printSessionExpiredError());
             store.dispatch(logout());
+        }else{
+            toast.error(graphQLErrors[0].message);
         }
     }
 });
@@ -63,11 +68,16 @@ class App extends Component {
             <ApolloProvider client={client}>
                 <Provider store={store}>
                     <Router history={bHistory}>
-                        <Switch>
-                            <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />
-                            <Route exact path="/company/:company/meeting/:id/live" component={MeetingLiveContainer} />                            
-                            <Route path="/" component={AppRouter} />
-                        </Switch>
+                        <React.Fragment>
+                            <Switch>
+                                <Route exact path="/company/:company/council/:id/live" component={CouncilLiveContainer} />
+                                <Route exact path="/company/:company/meeting/:id/live" component={MeetingLiveContainer} />                            
+                                <Route path="/" component={AppRouter} />
+                            </Switch>
+                            <ToastContainer
+                                position="top-right"
+                            />
+                        </React.Fragment>
                     </Router>
                 </Provider>
             </ApolloProvider>

@@ -34,6 +34,7 @@ class AgendaSelector extends Component {
                 <NewAgendaPointModal
                     translate={translate}
                     agendas={agendas}
+                    statute={council.statute}
                     votingTypes={this.props.votingTypes}
                     councilID={this.props.councilID}
                     refetch={this.props.refetch}

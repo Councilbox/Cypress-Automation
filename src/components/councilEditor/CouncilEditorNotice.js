@@ -48,7 +48,7 @@ class CouncilEditorNotice extends Component {
 
     nextPage = () => {
         if (!this.checkRequiredFields()) {
-            this.updateCouncil();
+            this.updateCouncil(2);
             this.props.nextStep();
         }
     };
@@ -90,14 +90,13 @@ class CouncilEditorNotice extends Component {
         return hasError;
     }
 
-    updateCouncil = () => {
+    updateCouncil = (step) => {
         const { __typename, statute, ...council } = this.state.data;
-        console.log(council);
         this.props.updateCouncil({
             variables: {
                 council: {
                     ...council,
-                    step: this.props.actualStep > 1 ? this.props.actualStep : 1
+                    step: step
                 }
             }
         });
@@ -335,7 +334,7 @@ class CouncilEditorNotice extends Component {
                         }}
                         icon={<ButtonIcon type="save" color="white"/>}
                         textPosition="after"
-                        onClick={this.updateCouncil}
+                        onClick={() => this.updateCouncil(1)}
                     />
                     <BasicButton
                         text={translate.next}

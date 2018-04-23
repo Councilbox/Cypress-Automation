@@ -92,7 +92,7 @@ class CouncilDrafts extends Component {
                                                         key={`participant${council.id}`}  
                                                     >
                                                         <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
-                                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/${1}`}>{council.name || translate.dashboard_new}</Link></TableCell>
+                                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}`}>{council.name || translate.dashboard_new}</Link></TableCell>
                                                         <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                                     </TableRow>
                                                 )

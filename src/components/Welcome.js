@@ -9,7 +9,7 @@ import { Icon } from './displayComponents';
 import { getPrimary } from '../styles/colors';
 
 
-class SignUpPage extends React.Component {
+class Welcome extends React.Component {
 
     constructor(props){
         super(props);
@@ -54,4 +54,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(SignUpPage);
+export default connect(null, mapDispatchToProps)(Welcome);

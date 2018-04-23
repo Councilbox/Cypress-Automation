@@ -3,6 +3,7 @@ import { lightGrey } from '../../styles/colors';
 import RegularCard from '../displayComponents/RegularCard';
 import Scrollbar from 'react-perfect-scrollbar';
 import withWindowSize from '../../HOCs/withWindowSize';
+import { ToastContainer } from 'react-toastify';
 
 
 const CardPageLayout = ({ children, title, windowSize }) => (
@@ -17,7 +18,7 @@ const CardPageLayout = ({ children, title, windowSize }) => (
                     }
                 />
             </div>
-        </Scrollbar>        
+        </Scrollbar>     
     </div>
 )
 

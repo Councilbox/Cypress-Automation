@@ -9,6 +9,7 @@ import FontAwesome from 'react-fontawesome';
 import { bHistory } from '../../containers/App';
 import * as CBX from '../../utils/CBX';
 import { checkValidEmail } from '../../utils/validation';
+import { toast } from 'react-toastify';
 
 
 class CouncilEditorPreview extends Component {
@@ -106,17 +107,22 @@ class CouncilEditorPreview extends Component {
             this.setState({
                 preConveneSuccess: true
             });
-        } 
+        }
     }
 
     sendConveneWithoutNotice = async () => {
         const { council } = this.props.data;
-
         const response = await this.props.conveneWithoutNotice({
             variables: {
                 councilId: this.props.data.council.id
             }
-        })
+        });
+        console.log(response);
+        if(!response.errors){
+            this.setState({
+                conveneWithoutNoticeSuccess: true
+            });
+        }
     }
 
     _renderPreConveneModalBody = () => {
@@ -191,7 +197,7 @@ class CouncilEditorPreview extends Component {
                     <GridItem xs={12} lg={12} md={12}>
                         <BasicButton
                             text={translate.previous}
-                            color={primary}
+                            color={secondary}
                             textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                             textPosition="after"
                             onClick={this.props.previousStep}
@@ -259,7 +265,12 @@ class CouncilEditorPreview extends Component {
                 <AlertConfirm
                     requestClose={() => this.setState({sendConveneWithoutNoticeModal: false, sendWithoutNoticeSuccess: false})}
                     open={this.state.sendConveneWithoutNoticeModal}
-                    acceptAction={this.state.sendWithoutNoticeSuccess? () => this.setState({sendConveneWithoutNoticeModal: false, sendWithoutNoticeSuccess: false}) : this.sendConveneWithoutNotice}
+                    acceptAction={this.state.sendWithoutNoticeSuccess? () => {
+                        this.setState({
+                            sendConveneWithoutNoticeModal: false,
+                            sendWithoutNoticeSuccess: false
+                        }, () => bHistory.push(`/`)); 
+                    } : this.sendConveneWithoutNotice}
                     buttonAccept={this.state.sendWithoutNoticeSuccess? translate.accept : translate.send}
                     buttonCancel={translate.close}
                     bodyText={this._renderSendConveneWithoutNoticeBody()}
@@ -295,7 +306,10 @@ export default compose(
     }),
 
     graphql(conveneWithoutNotice, {
-        name: 'conveneWithoutNotice'
+        name: 'conveneWithoutNotice',
+        options: {
+            errorPolicy: 'all'
+        }
     }),
     graphql(councilStepSix, {
         name: "data",
