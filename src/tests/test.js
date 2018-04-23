@@ -235,6 +235,16 @@ const votingTypes = [ {
     'label': 'private_votation'
 } ];
 
+describe('Check if the security type needs to show extra info to the user', () => {
+    it('should return true when the securityType is either 1 or 2', () => {
+        assert.equal(CBX.showUserUniqueKeyMessage({securityType: 1}), true);
+        assert.equal(CBX.showUserUniqueKeyMessage({securityType: 2}), true);
+        assert.equal(CBX.showUserUniqueKeyMessage({securityType: 0}), false);
+        assert.equal(CBX.showUserUniqueKeyMessage({securityType: null}), false);
+    });
+});
+
+
 /*
  - STATUTES
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import CouncilboxApi from '../../../api/CouncilboxApi';
 import {
     BasicButton, ButtonIcon, Checkbox, Grid, GridItem, LoadingSection, SelectInput, TextInput
@@ -7,6 +7,7 @@ import { getPrimary, secondary } from '../../../styles/colors';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql, withApollo } from 'react-apollo';
 import { countries, provinces } from '../../../queries';
+import TermsModal from './TermsModal'
 
 class SignUpPay extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class SignUpPay extends Component {
             subscriptions: [],
             termsCheck: false,
             termsAlert: false,
+            showTermsModal: false
         }
     }
 
@@ -53,56 +55,51 @@ class SignUpPay extends Component {
 
     endForm = async () => {
         if (!this.checkRequiredFields()) {
-            this.props.sendNewCompany(this.props.company);
-            const response = await CouncilboxApi.createCompany(this.props.formData);
-            console.log(response);
+            this.props.send();
         }
     };
 
     checkRequiredFields() {
-        // return false;
+        const { translate } = this.props;
+
         let errors = {
             address: '',
             city: '',
             country: '',
             zipCode: '',
-            region: '',
-            subscription: '',
-            IBAN: '',
             termsCheck: '',
         };
         let hasError = false;
         const data = this.props.formData;
 
-        // if (!data.address.length > 0) {
-        //     hasError = true;
-        //     errors.address = translate.field_required;
-        // }
-        //
-        // if (!data.city.length > 0) {
-        //     hasError = true;
-        //     errors.city = translate.field_required;
-        // }
-        //
-        // if (data.type === '') {
-        //     hasError = true;
-        //     errors.country = translate.field_required;
-        // }
-        //
-        // if (!data.zipCode.length > 0) {
-        //     hasError = true;
-        //     errors.zipCode = translate.field_required;
-        // }
-        //
-        // if (data.type === '') {
-        //     hasError = true;
-        //     errors.province = translate.field_required;
-        // }
-        //
-
-        if (!data.termsCheck) {
+        if (!data.address.length > 0) {
             hasError = true;
-            errors.termsCheck = 'Tienes que aceptar los términos';
+            errors.address = translate.field_required;
+        }
+
+        if (!data.city.length > 0) {
+            hasError = true;
+            errors.city = translate.field_required;
+        }
+
+        if (data.countryState === '') {
+            hasError = true;
+            errors.countryState = translate.field_required;
+        }
+
+        if (!data.zipCode.length > 0) {
+            hasError = true;
+            errors.zipCode = translate.field_required;
+        }
+
+        if (data.type === '') {
+            hasError = true;
+            errors.province = translate.field_required;
+        }
+
+        if (!this.state.termsCheck) {
+            hasError = true;
+            errors.termsCheck = translate.acept_terms;
         }
 
         this.props.updateErrors(errors);
@@ -187,11 +184,11 @@ class SignUpPay extends Component {
                     <TextInput
                         floatingText={translate.company_new_zipcode}
                         type="text"
-                        value={data.zipcode}
+                        value={data.zipCode}
                         onChange={(event) => this.props.updateState({
-                            zipcode: event.target.value
+                            zipCode: event.target.value
                         })}
-                        errorText={this.props.errors.zipcode}
+                        errorText={this.props.errors.zipCode}
                         required/>
                 </GridItem>
                 <GridItem xs={12} md={4} lg={4}>
@@ -211,11 +208,11 @@ class SignUpPay extends Component {
                     <TextInput
                         floatingText="IBAN"
                         type="text"
-                        value={this.state.IBAN}
-                        onChange={(event) => this.setState({
-                            IBAN: event.target.value
+                        value={this.state.iban}
+                        onChange={(event) => this.props.updateState({
+                            iban: event.target.value
                         })}
-                        errorText={this.props.errors.IBAN}
+                        errorText={this.props.errors.iban}
                     />
                 </GridItem>
                 <GridItem xs={12} md={4} lg={4}>
@@ -223,7 +220,7 @@ class SignUpPay extends Component {
                         floatingText="Código"
                         type="text"
                         value={this.state.code}
-                        onChange={(event) => this.setState({
+                        onChange={(event) => this.props.updateState({
                             code: event.target.value
                         })}
                         errorText={this.props.errors.code}/>
@@ -231,12 +228,34 @@ class SignUpPay extends Component {
 
                 <GridItem xs={12} md={12} lg={12}>
                     <Checkbox
-                        label="He leido y acepto los términos y condiciones de CouncilBox"
+                        label={<Fragment>
+                            {translate.login_read_terms}
+                            <a style={{color: primary}} onClick={(event)=>{
+                                event.stopPropagation();
+                                this.setState({
+                                    showTermsModal: true
+                                })
+                            }}>
+                                {translate.login_read_terms2}
+                            </a>
+                        </Fragment>}
                         value={this.state.termsCheck}
                         onChange={(event, isInputChecked) => this.setState({
                             termsCheck: isInputChecked
                         })}
+                        onClick={(event)=>{
+                            this.setState({
+                                termsCheck: true
+                            })
+                        }}
                     />
+                    {
+                        this.props.errors.termsCheck &&
+                        <div style={{color:'red'}}>
+                            {this.props.errors.termsCheck}
+                        </div>
+                    }
+
                 </GridItem>
                 <GridItem xs={12} md={6} lg={6}>
                     <BasicButton
@@ -263,6 +282,14 @@ class SignUpPay extends Component {
                         icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
                 </GridItem>
             </Grid>
+            <TermsModal open={this.state.showTermsModal}
+                        translate={translate}
+                        close={()=>{
+                            this.setState({
+                                showTermsModal: false
+                            })
+                        }}
+            />
         </div>);
     }
 }

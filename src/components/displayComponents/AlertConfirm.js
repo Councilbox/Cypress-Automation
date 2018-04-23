@@ -6,28 +6,31 @@ import { getPrimary } from '../../styles/colors';
 
 const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
     const primary = getPrimary();
-    const buttons = 
-        <Fragment>
-            <BasicButton
-                text={buttonCancel}
-                textStyle={{textTransform: 'none', fontWeight: '700'}}
-                primary={true}
-                onClick={requestClose}
-            />
-            {!hideAccept &&
-                <BasicButton
-                    text={buttonAccept}
-                    textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
-                    buttonStyle={{marginLeft: '1em'}}
-                    color={primary}
-                    onClick={acceptAction}
-                />
-            }
+    const buttons = <Fragment>
+        <BasicButton
+            text={buttonCancel}
+            textStyle={{
+                textTransform: 'none',
+                fontWeight: '700'
+            }}
+            primary={true}
+            onClick={requestClose}
+        />
+        {!hideAccept && <BasicButton
+            text={buttonAccept}
+            textStyle={{
+                color: 'white',
+                textTransform: 'none',
+                fontWeight: '700'
+            }}
+            buttonStyle={{ marginLeft: '1em' }}
+            color={primary}
+            onClick={acceptAction}
+        />}
 
-        </Fragment>;
+    </Fragment>;
 
-    return(
-        <Dialog
+    return (<Dialog
             disableBackdropClick={modal}
             fullWidth={fullWidth}
             fullScreen={fullScreen}
@@ -44,8 +47,7 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
             <DialogActions>
                 {buttons}
             </DialogActions>
-        </Dialog>
-    );
-}
+        </Dialog>);
+};
 
 export default AlertConfirm;

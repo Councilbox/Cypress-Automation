@@ -3,12 +3,18 @@ import { BasicButton, ButtonIcon, Grid, GridItem, TextInput, SelectInput, MenuIt
 import { checkValidEmail } from '../../../utils/index';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import CouncilboxApi from "../../../api/CouncilboxApi";
+import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
+import { withApollo } from "react-apollo/index";
 
 class SignUpUser extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
+            surname: '',
+            phone: '',
+            email: '',
             confirmPWD: '',
             subscriptions: [],
             languages: []
@@ -23,8 +29,8 @@ class SignUpUser extends Component {
         console.log(languages)
     };
 
-    nextPage = () => {
-        if (!this.checkRequiredFields()) {
+    nextPage = async () => {
+        if (!await this.checkRequiredFields()) {
             this.props.nextPage();
         }
     };
@@ -33,7 +39,7 @@ class SignUpUser extends Component {
         this.props.previousPage();
     };
 
-    checkRequiredFields() {
+    async checkRequiredFields() {
         let errors = {
             name: '',
             surname: '',
@@ -52,16 +58,6 @@ class SignUpUser extends Component {
             errors.name = translate.field_required;
         }
 
-        if (!checkValidEmail(data.email)) {
-            hasError = true;
-            errors.email = 'POR FAVOR INTRODUCE UN EMAIL VÁLIDO';
-        }
-
-        if (data.email !== data.repeatEmail) {
-            hasError = true;
-            errors.repeatEmail = translate.register_unmatch_emails;
-        }
-
         if (!data.surname.length > 0) {
             hasError = true;
             errors.surname = translate.field_required;
@@ -75,8 +71,19 @@ class SignUpUser extends Component {
         if (!data.email.length > 0) {
             hasError = true;
             errors.email = translate.field_required;
+        } else {
+            let existsCif = await this.checkEmailExists();
+
+            if (!checkValidEmail(data.email) || existsCif) {
+                hasError = true;
+                errors.email = existsCif ? translate.register_exists_email : translate.email_not_valid;
+            }
         }
 
+        if (data.email !== data.repeatEmail) {
+            hasError = true;
+            errors.repeatEmail = translate.register_unmatch_emails;
+        }
 
         if (!data.pwd.length > 0) {
             hasError = true;
@@ -90,6 +97,15 @@ class SignUpUser extends Component {
 
         this.props.updateErrors(errors);
         return hasError;
+    }
+
+    async checkEmailExists() {
+        const response = await this.props.client.query({
+            query: checkEmailExists,
+            variables: { email: this.props.formData.email }
+        });
+
+        return response.data.checkEmailExists.success;
     }
 
     render() {
@@ -230,4 +246,4 @@ class SignUpUser extends Component {
 
 }
 
-export default SignUpUser;
+export default withApollo(SignUpUser);

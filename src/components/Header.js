@@ -21,7 +21,7 @@ class Header extends Component{
     }
 
     render(){
-        const language = this.props.translate.selectedLanguage;
+        const language = this.props.translate && this.props.translate.selectedLanguage;
         const { backButton, windowSize, languageSelector, drawerIcon } = this.props;
 
         return(
