@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { MenuItem, Typography } from 'material-ui';
 import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem } from '../displayComponents';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
 import * as CBX from '../../utils/CBX';
@@ -27,7 +27,7 @@ class CouncilEditorCensus extends Component {
         }
     }
 
-    async componentDidMount(){
+    componentDidMount(){
         this.props.data.refetch();
     }
 
@@ -48,13 +48,13 @@ class CouncilEditorCensus extends Component {
         });
     }
 
-    saveDraft = () => {
+    saveDraft = (step) => {
         const { __typename, participants, ...council } = this.props.data.council;
         this.props.updateCouncil({
             variables: {
                 council: {
                     ...council,
-                    step: this.props.actualStep > 2? this.props.actualStep : 2
+                    step: step
                 }
             }
         });
@@ -71,12 +71,12 @@ class CouncilEditorCensus extends Component {
     }
 
     nextPage = () => {
-        this.saveDraft();
+        this.saveDraft(3);
         this.props.nextStep();
     }
 
     previousPage = () => {
-        this.saveDraft();
+        this.saveDraft(2);
         this.props.previousStep();
     }
 
@@ -106,20 +106,21 @@ class CouncilEditorCensus extends Component {
 
     _renderCensusChangeButtons(){
         const { translate } = this.props;
+        const primary = getPrimary();
 
         return(
             <Fragment>
                 <BasicButton
                     text={translate.cancel}
                     color={'white'}
-                    textStyle={{color: getPrimary(), fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                    textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     textPosition="after"
                     onClick={() => this.setState({censusChangeAlert: false})}
                     buttonStyle={{marginRight: '1em'}}
                 />
                 <BasicButton
                     text={translate.want_census_change}
-                    color={getPrimary()}
+                    color={primary}
                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                     icon={<ButtonIcon type="save" color="white" />}
                     textPosition="after"
@@ -132,6 +133,8 @@ class CouncilEditorCensus extends Component {
     render(){
         const { translate } = this.props;
         const { council, loading, error, censuses } = this.props.data;
+        const primary = getPrimary();
+        const secondary = getSecondary();
 
         if(loading){
             return (<LoadingSection />);
@@ -177,7 +180,7 @@ class CouncilEditorCensus extends Component {
                             <GridItem lg={3} md={3} xs={6} style={{height: '4em', display: 'flex', alignItems: 'center'}}>
                                 <BasicButton
                                     text={translate.add_participant}
-                                    color={getPrimary()}
+                                    color={primary}
                                     textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                     icon={<ButtonIcon type="add" color="white" />}
                                     textPosition="after"
@@ -198,41 +201,43 @@ class CouncilEditorCensus extends Component {
                             }
                         </Grid>
                         <ParticipantsTable
+                            editable={true}
                             councilId={this.props.councilID}
                             translate={translate}
                             totalVotes={this.props.data.councilTotalVotes}
                             socialCapital={this.props.data.councilSocialCapital}
                             participations={CBX.hasParticipations(council)}
                             refetch={this.props.data.refetch}
-                        />
-                        <div className="row" style={{marginTop: '2em'}}>
-                            <div className="col-lg-12 col-md-12 col-xs-12">
-                                <div style={{float: 'right'}}>
-                                    <BasicButton
-                                        text={translate.previous}
-                                        color={getPrimary()}
-                                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                        textPosition="after"
-                                        onClick={this.previousPage}
-                                    />
-                                    <BasicButton
-                                        text={translate.save}
-                                        color={getPrimary()}
-                                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', marginLeft: '0.5em', marginRight: '0.5em', textTransform: 'none'}}
-                                        icon={<ButtonIcon type="save" color="white" />}
-                                        textPosition="after"
-                                        onClick={this.saveDraft} 
-                                    />
-                                    <BasicButton
-                                        text={translate.table_button_next}
-                                        color={getPrimary()}
-                                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                        textPosition="after"
-                                        onClick={this.nextPage}
-                                    />
+                        >
+                            <div className="row" style={{marginTop: '2em'}}>
+                                <div className="col-lg-12 col-md-12 col-xs-12">
+                                    <div style={{float: 'right'}}>
+                                        <BasicButton
+                                            text={translate.previous}
+                                            color={secondary}
+                                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                            textPosition="after"
+                                            onClick={this.previousPage}
+                                        />
+                                        <BasicButton
+                                            text={translate.save}
+                                            color={primary}
+                                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', marginLeft: '0.5em', marginRight: '0.5em', textTransform: 'none'}}
+                                            icon={<ButtonIcon type="save" color="white" />}
+                                            textPosition="after"
+                                            onClick={this.saveDraft(2)} 
+                                        />
+                                        <BasicButton
+                                            text={translate.table_button_next}
+                                            color={primary}
+                                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                            textPosition="after"
+                                            onClick={this.nextPage}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </ParticipantsTable>
                         <Dialog
                             disableBackdropClick={false}
                             open={this.state.censusChangeAlert}
@@ -268,7 +273,8 @@ export default compose(
             variables: {
                 id: props.councilID,
                 companyId: props.companyID
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
 

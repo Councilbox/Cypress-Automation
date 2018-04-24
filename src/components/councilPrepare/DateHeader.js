@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { getSecondary } from '../../styles/colors';
 import { DateWrapper } from '../displayComponents';
+import { hasSecondCall } from '../../utils/CBX';
+import { Paper } from 'material-ui';
+import moment from 'moment';
 
-const DateHeader = ({ title, date, button }) => (
-    <div style={{border: `1px solid ${getSecondary()}`, height: '5em', padding: '1em', display: 'flex', flexDirection: 'row'}}>
+const DateHeader = ({ council, button, translate }) => (
+    <Paper style={{padding: '1.5em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} elevation={2}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
-            <h5>{title}</h5>
-            <DateWrapper date={date} format="DD/MM/YYYY HH:mm" />
+            <h5>{council.name}</h5>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
+                {`${translate['1st_call_date']}: ${moment(council.dateStart).format('LLL')}`}
+            </div>
+            {hasSecondCall(council.statute) &&
+                `${translate['2nd_call_date']}: ${moment(council.dateStart2NdCall).format('LLL')}`
+            }
+            <h6>
+                <b>{`${translate.new_location_of_celebrate}: `}</b>{council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${council.country}`}
+            </h6>
         </div>
-        {button}
-    </div>
+        <div>
+            {button}
+        </div>
+    </Paper>
 );
 
 export default DateHeader;

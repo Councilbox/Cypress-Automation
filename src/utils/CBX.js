@@ -143,4 +143,49 @@ export const getActPointSubjectType = () => {
 
 export const showUserUniqueKeyMessage = (council) => {
     return council.securityType === 1 || council.securityType === 2;
-};
+}
+
+
+
+
+export const checkCouncilState = (council, company, bHistory, expected) => {
+    switch(council.state){
+        case 0: 
+            if(expected !== 'draft'){
+                bHistory.push(`/company/${company.id}/council/${council.id}`);
+            }
+            break;
+        case 5:
+            if(expected !== 'convened'){
+                bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
+            }
+            break;
+        case 10:
+            if(expected !== 'convened'){
+                bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
+            }
+            break;
+        case 20: 
+            if(expected !== 'live'){
+                bHistory.push(`/company/${company.id}/council/${council.id}/live`);
+            }
+            break;
+        default:
+            return;
+    }
+} 
+
+export const printSessionExpiredError = () => {
+    const messages = {
+        'es': 'Su sesión ha caducado',
+        'en': 'Session expired',
+        'cat': 'La seva sessió ha caducat',
+        'gl': 'A súa sesión caducou',
+        'pt': 'A sua sessão expirou',
+    }
+    const selectedLanguage = sessionStorage.getItem('language');
+    if(selectedLanguage){
+        return messages[selectedLanguage];
+    }
+    return messages['es'];
+}

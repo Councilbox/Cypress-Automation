@@ -3,7 +3,7 @@ import { MenuItem } from 'material-ui';
 import { BasicButton, TextInput, MajorityInput, LoadingSection, SelectInput, Radio, Checkbox, ButtonIcon } from '../displayComponents';
 import { councilStepFive, updateCouncil } from '../../queries';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { Typography } from 'material-ui';
 import * as CBX from '../../utils/CBX';
 
@@ -50,13 +50,13 @@ class CouncilEditorOptions extends Component {
     }
 
 
-    updateCouncil = () => {
+    updateCouncil = (step) => {
         const { __typename, statute, platform, ...council } = this.state.data.council;
         this.props.updateCouncil({
             variables: {
                 council: {
                     ...council,
-                    step: this.props.actualStep >= 5? this.props.actualStep : 5
+                    step: step
                 }
             }
         })
@@ -64,14 +64,14 @@ class CouncilEditorOptions extends Component {
 
     nextPage = () => {
         if(true){
-            this.updateCouncil();
+            this.updateCouncil(6);
             this.props.nextStep();
         }
     }
 
     previousPage = () => {
         if(true){
-            this.updateCouncil();
+            this.updateCouncil(5);
             this.props.previousStep();
         }
     }
@@ -285,7 +285,7 @@ class CouncilEditorOptions extends Component {
                         <div style={{float: 'right'}}>
                             <BasicButton
                                 text={translate.previous}
-                                color={primary}
+                                color={getSecondary()}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                 textPosition="after"
                                 onClick={this.previousPage}
@@ -296,7 +296,7 @@ class CouncilEditorOptions extends Component {
                                 textStyle={{color: 'white', fontWeight: '700', marginLeft: '0.5em', marginRight: '0.5em', fontSize: '0.9em', textTransform: 'none'}}
                                 icon={<ButtonIcon type="save" color='white' />}
                                 textPosition="after"
-                                onClick={this.updateCouncil} 
+                                onClick={() => this.updateCouncil(5)} 
                             />
                             <BasicButton
                                 text={translate.next}
@@ -319,7 +319,8 @@ export default compose(
         options: (props) => ({
             variables: {
                 id: props.councilID
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
 

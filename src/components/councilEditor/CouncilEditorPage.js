@@ -9,6 +9,7 @@ import CouncilEditorOptions from './CouncilEditorOptions';
 import CouncilEditorPreview from './CouncilEditorPreview';
 import { bHistory } from '../../containers/App';
 import withWindowSize from '../../HOCs/withWindowSize';
+import { checkCouncilState } from '../../utils/CBX';
 
 
 class CouncilEditorPage extends React.Component {
@@ -16,26 +17,36 @@ class CouncilEditorPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: 1,
-            actualStep: 1
+            step: this.props.step,
+            actualStep: this.props.step
         };
     }
 
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            step: parseInt(nextProps.step, 10)
-        })
+    componentDidMount(){
+        if(this.state.step !== this.props.step){
+            this.setState({
+                step: this.props.step
+            });
+        }
+        checkCouncilState({state: this.props.councilState, id: this.props.councilID}, this.props.company, bHistory, 'draft');
     }
 
     nextStep = () => {
-        const index = this.state.step + 1;        
-        bHistory.push(`/company/${this.props.company.id}/council/${this.props.councilID}/${index}`);
+        const index = this.state.step + 1;
+        this.props.updateStep();        
         this.setState({step: index});
     }
 
+    goToPage = (page) => {
+        if(page < this.props.step){
+            this.setState({
+                step: page
+            });
+        }
+    }
+
     previousStep = () => {
-        const index = this.state.step - 1;
-        bHistory.push(`/company/${this.props.company.id}/council/${this.props.councilID}/${index}`);        
+        const index = this.state.step - 1;     
         this.setState({step: index});
     }
 
@@ -62,7 +73,7 @@ class CouncilEditorPage extends React.Component {
         return(
             <CardPageLayout title={translate.dashboard_new}>
                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                    <div style={{backgroundColor: 'Gainsboro', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
+                    <div style={{backgroundColor: 'Gainsboro', maxHeight: '5em', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
                         {windowSize === 'xs'? 
                             <MobileStepper
                                 active={this.state.step - 1}
@@ -71,19 +82,19 @@ class CouncilEditorPage extends React.Component {
                             />
                         :
                             <Stepper activeStep={this.state.step - 1} orientation="horizontal">
-                                <Step>
+                                <Step {...(this.state.step > 1? {onClick: () => this.goToPage(1), style: {cursor: 'pointer'}} : {})}>
                                     <StepLabel>{translate.wizard_convene}</StepLabel>
                                 </Step>
-                                <Step>
+                                <Step {...(this.state.step > 2? {onClick: () => this.goToPage(2), style: {cursor: 'pointer'}} : {})}>
                                     <StepLabel>{translate.census}</StepLabel>
                                 </Step>
-                                <Step>
+                                <Step {...(this.state.step > 3? {onClick: () => this.goToPage(3), style: {cursor: 'pointer'}} : {})}>
                                     <StepLabel>{translate.wizard_agenda}</StepLabel>
                                 </Step>
-                                <Step>
+                                <Step {...(this.state.step > 4? {onClick: () => this.goToPage(4), style: {cursor: 'pointer'}} : {})}>
                                     <StepLabel>{translate.wizard_attached_documentation}</StepLabel>
                                 </Step>
-                                <Step>
+                                <Step {...(this.state.step > 5? {onClick: () => this.goToPage(5), style: {cursor: 'pointer'}} : {})}>
                                     <StepLabel>{translate.wizard_options}</StepLabel>
                                 </Step>
                                 <Step>
