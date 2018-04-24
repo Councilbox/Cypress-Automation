@@ -73,7 +73,7 @@ class CouncilEditorPage extends React.Component {
         return(
             <CardPageLayout title={translate.dashboard_new}>
                 <div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>
-                    <div style={{backgroundColor: 'Gainsboro', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', paddingTop: '1em', width: '100%', height: '100%'}}>
+                    <div style={{backgroundColor: 'Gainsboro', maxHeight: '5em', borderRadius: '5px', display: 'flex', flexDirection: 'row', justifyContent: 'center', width: '100%'}}>
                         {windowSize === 'xs'? 
                             <MobileStepper
                                 active={this.state.step - 1}

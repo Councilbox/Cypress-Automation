@@ -35,7 +35,8 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
 
     </Fragment>;
 
-    return (<Dialog
+    return (
+        <Dialog
             disableBackdropClick={modal}
             fullWidth={fullWidth}
             fullScreen={fullScreen}
@@ -43,9 +44,11 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
             open={open}
             onClose={requestClose}
         >
-            <DialogTitle>
+            {!!title &&
+                <DialogTitle>
                 {title}
-            </DialogTitle>
+                </DialogTitle>
+            }
             <DialogContent>
                 {bodyText}
             </DialogContent>

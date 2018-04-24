@@ -86,17 +86,19 @@ class CouncilPreparePage extends Component {
                         </div>
                     }
                 />
-                <BasicButton
-                    text={this.state.page? translate.convene : translate.new_list_called}
-                    color={primary}
-                    buttonStyle={{margin: '0', height: '100%'}}
-                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                    icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
-                    textPosition="after"
-                    onClick={() => this.setState({
-                        page: !this.state.page
-                    })} 
-                />
+                <div>
+                    <BasicButton
+                        text={this.state.page? translate.convene : translate.new_list_called}
+                        color={primary}
+                        buttonStyle={{margin: '0', height: '100%'}}
+                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                        icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
+                        textPosition="after"
+                        onClick={() => this.setState({
+                            page: !this.state.page
+                        })} 
+                    />
+                </div>
                 {!this.state.page?
                     <Paper style={{marginTop: '1.5em'}}>
                         <div
@@ -107,17 +109,19 @@ class CouncilPreparePage extends Component {
                 :
 
                     <Fragment>
-                        <BasicButton
-                            text={translate.add_participant}
-                            color={primary}
-                            buttonStyle={{margin: '0', height: '100%'}}
-                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                            icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
-                            textPosition="after"
-                            onClick={() => this.setState({
-                                showModal: true
-                            })} 
-                        />
+                        <div>
+                            <BasicButton
+                                text={translate.add_participant}
+                                color={primary}
+                                buttonStyle={{margin: '0', height: '100%'}}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
+                                textPosition="after"
+                                onClick={() => this.setState({
+                                    showModal: true
+                                })} 
+                            />
+                        </div>
                         <ParticipantsTable
                             participants={council.participants}
                             councilId={council.id}
@@ -131,15 +135,17 @@ class CouncilPreparePage extends Component {
                             requestClose={() => this.setState({showModal: false})}
                             open={this.state.showModal}
                             bodyText={
-                                <NewParticipantForm
-                                    translate={translate}
-                                    requestClose={() => this.setState({
-                                        showModal: false
-                                    })}
-                                    participations={CBX.hasParticipations(council)}
-                                    close={this.closeAddParticipantModal}
-                                    councilID={this.props.councilID}
-                                />
+                                <div style={{maxWidth: '850px'}}>
+                                    <NewParticipantForm
+                                        translate={translate}
+                                        requestClose={() => this.setState({
+                                            showModal: false
+                                        })}
+                                        participations={CBX.hasParticipations(council)}
+                                        close={this.closeAddParticipantModal}
+                                        councilID={this.props.councilID}
+                                    />
+                                </div>
                             }
                         />
 
