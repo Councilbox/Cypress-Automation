@@ -3,17 +3,23 @@ import CouncilEditorPage from "../components/councilEditor/CouncilEditorPage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { LoadingMainApp } from '../components/displayComponents';
+import { graphql } from 'react-apollo';
+import { council } from '../queries';
+import { bHistory } from './App';
 
-const CouncilEditorContainer = ({ main, company, user, council, match, translate }) => {
-    if(!company){
+
+const CouncilEditorContainer = ({ main, company, user, match, translate, data }) => {
+    if(!company || data.loading){
         return <LoadingMainApp />
     }
 
     return (
         <CouncilEditorPage
             translate={translate}
-            step={match.params.step}
+            councilState={data.council.state}
+            step={+data.council.step}
             company={company}
+            updateStep={() => data.refetch}
             councilID={match.params.id}
         />
     );
@@ -25,4 +31,10 @@ const mapStateToProps = (state) => ({
 });
 
 
-export default connect(mapStateToProps)(withRouter(CouncilEditorContainer));
+export default graphql(council, {
+    options: (props) => ({
+        variables: {
+            id: props.match.params.id
+        }
+    })
+})(connect(mapStateToProps)(withRouter(CouncilEditorContainer)));

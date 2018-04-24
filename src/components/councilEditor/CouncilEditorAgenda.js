@@ -32,6 +32,10 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.data.refetch();
+    }
+
     componentWillReceiveProps(nextProps){
         if(!nextProps.data.loading){
             this.setState({
@@ -40,14 +44,14 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
-    updateCouncil = () => {
+    updateCouncil = (step) => {
         const { __typename, agendas, statute, ...council } = this.props.data.council;
         
         this.props.updateCouncil({
             variables: {
                 council: {
                     ...council,
-                    step: this.props.actualStep > 3? this.props.actualStep : 3
+                    step: step
                 }
             }
         })
@@ -68,7 +72,7 @@ class CouncilEditorAgenda extends Component {
 
     nextPage = () => {
         if(this.checkConditions()){
-            this.updateCouncil();
+            this.updateCouncil(4);
             this.props.nextStep();
         }
     }
@@ -89,7 +93,7 @@ class CouncilEditorAgenda extends Component {
 
     previousPage = () => {
         if(true){
-            this.updateCouncil();
+            this.updateCouncil(3);
             this.props.previousStep();
         }
     }
@@ -223,7 +227,7 @@ class CouncilEditorAgenda extends Component {
                         <div style={{float: 'right'}}>
                             <BasicButton
                                 text={translate.previous}
-                                color={primary}
+                                color={secondary}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                 textPosition="after"
                                 onClick={this.previousPage}
@@ -294,7 +298,8 @@ export default compose(
             variables: {
                 id: props.councilID,
                 companyId: props.company.id
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
     graphql(removeAgenda, {

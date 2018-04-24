@@ -12,7 +12,8 @@ export default function mainReducer(state = initialState.main, action) {
 		case 'LOGOUT':
 			return {
 				...state,
-				isLogged: false
+				isLogged: false,
+				loading: false
 			}
 
 		case 'LOADING_FINISHED':

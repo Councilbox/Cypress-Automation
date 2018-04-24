@@ -103,6 +103,7 @@ class NewParticipantForm extends Component {
                         }
                     })
                 } else {
+                    this.props.requestClose();
                     //this.props.refetch();
                     //this.resetValues();
                     //this.props.close();
@@ -178,7 +179,7 @@ class NewParticipantForm extends Component {
 
     close = () => {
         this.resetValues();
-        this.props.close();
+        this.props.requestClose();
     };
 
     resetValues = () => {
@@ -609,20 +610,6 @@ class NewParticipantForm extends Component {
         const { translate } = this.props;
         return (<Fragment>
                 <Grid>
-                    <GridItem xs={12} lg={12} md={12}>
-                        <BasicButton
-                            text={translate.back}
-                            color={getPrimary()}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            textPosition="after"
-                            onClick={this.close}
-                        />
-                    </GridItem>
                     <GridItem xs={12} lg={12} md={12}>
                         <Typography variant="title">
                             {translate.add_participant}

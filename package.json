@@ -43,6 +43,7 @@
     "react-sortable-hoc": "^0.6.8",
     "react-spinkit": "^3.0.0",
     "react-tabs": "^2.2.1",
+    "react-toastify": "^4.0.0-rc.5",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
   },
