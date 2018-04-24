@@ -191,7 +191,9 @@ class StatutesPage extends Component {
                        additionalTab={{
                            title: translate.add_council_type,
                            action: this.showNewStatute
-                       }}>
+                       }}
+                       delete={this.deleteStatute}
+                >
                     <div className="container-fluid">
                         {!!statute && <Fragment>
                                 <Grid alignContent="flex-end">
