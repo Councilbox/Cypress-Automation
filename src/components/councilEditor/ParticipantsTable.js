@@ -3,7 +3,7 @@ import { TableRow, TableCell } from 'material-ui/Table';
 import { Typography } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import * as CBX from '../../utils/CBX';
-import { EnhancedTable, DeleteIcon } from '../displayComponents';
+import { EnhancedTable, DeleteIcon, Grid, GridItem } from '../displayComponents';
 import { graphql, compose } from "react-apollo";
 import { councilParticipants, deleteParticipant } from '../../queries';
 import { PARTICIPANTS_LIMITS } from '../../constants';
@@ -85,9 +85,10 @@ class ParticipantsTable extends Component {
 
         if(this.state.editParticipant && this.props.editable){
             return(
-                <div>
+                <Grid>
+                    
                     {councilParticipants.list[this.state.editIndex].name}
-                </div>
+                </Grid>
             )
         }
 
@@ -152,6 +153,7 @@ class ParticipantsTable extends Component {
                         </EnhancedTable>
                     </React.Fragment>
                 }
+                {this.props.children}
             </div>
         );
     }

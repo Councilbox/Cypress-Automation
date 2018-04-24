@@ -208,35 +208,36 @@ class CouncilEditorCensus extends Component {
                             socialCapital={this.props.data.councilSocialCapital}
                             participations={CBX.hasParticipations(council)}
                             refetch={this.props.data.refetch}
-                        />
-                        <div className="row" style={{marginTop: '2em'}}>
-                            <div className="col-lg-12 col-md-12 col-xs-12">
-                                <div style={{float: 'right'}}>
-                                    <BasicButton
-                                        text={translate.previous}
-                                        color={secondary}
-                                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                        textPosition="after"
-                                        onClick={this.previousPage}
-                                    />
-                                    <BasicButton
-                                        text={translate.save}
-                                        color={primary}
-                                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', marginLeft: '0.5em', marginRight: '0.5em', textTransform: 'none'}}
-                                        icon={<ButtonIcon type="save" color="white" />}
-                                        textPosition="after"
-                                        onClick={this.saveDraft(2)} 
-                                    />
-                                    <BasicButton
-                                        text={translate.table_button_next}
-                                        color={primary}
-                                        textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                        textPosition="after"
-                                        onClick={this.nextPage}
-                                    />
+                        >
+                            <div className="row" style={{marginTop: '2em'}}>
+                                <div className="col-lg-12 col-md-12 col-xs-12">
+                                    <div style={{float: 'right'}}>
+                                        <BasicButton
+                                            text={translate.previous}
+                                            color={secondary}
+                                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                            textPosition="after"
+                                            onClick={this.previousPage}
+                                        />
+                                        <BasicButton
+                                            text={translate.save}
+                                            color={primary}
+                                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', marginLeft: '0.5em', marginRight: '0.5em', textTransform: 'none'}}
+                                            icon={<ButtonIcon type="save" color="white" />}
+                                            textPosition="after"
+                                            onClick={this.saveDraft(2)} 
+                                        />
+                                        <BasicButton
+                                            text={translate.table_button_next}
+                                            color={primary}
+                                            textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                            textPosition="after"
+                                            onClick={this.nextPage}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </ParticipantsTable>
                         <Dialog
                             disableBackdropClick={false}
                             open={this.state.censusChangeAlert}

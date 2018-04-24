@@ -6,7 +6,7 @@ import { Paper } from 'material-ui';
 import moment from 'moment';
 
 const DateHeader = ({ council, button, translate }) => (
-    <Paper style={{padding: '1.5em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} elevation={0}>
+    <Paper style={{padding: '1.5em', display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}} elevation={2}>
         <div style={{display: 'flex', flexDirection: 'column'}}>
             <h5>{council.name}</h5>
             <div style={{display: 'flex', flexDirection: 'row'}}>
