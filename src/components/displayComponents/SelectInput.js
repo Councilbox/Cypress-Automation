@@ -5,7 +5,7 @@ import { FormControl } from 'material-ui/Form';
 
 const SelectInput = ({ floatingText, id, value = 0, onChange, errorText, children, required }) => (
     <FormControl style={{width: '100%', marginTop: '0', marginBottom: '8px'}} >
-        <InputLabel htmlFor={id}>{`${!!floatingText? floatingText : ''} ${required? '*' : ''}`}</InputLabel>
+        <InputLabel htmlFor={id}>{`${!!floatingText? floatingText : ''}${required? '*' : ''}`}</InputLabel>
         <Select
             inputProps={{
                 name: floatingText,

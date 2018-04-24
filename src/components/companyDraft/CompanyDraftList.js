@@ -147,10 +147,10 @@ class CompanyDraftList extends Component {
                     }
 
                     <AlertConfirm
-                        title={translate.send_to_trash}
+                        title={translate.attention}
                         bodyText={translate.question_delete}
                         open={this.state.deleteModal}
-                        buttonAccept={translate.send_to_trash}
+                        buttonAccept={translate.delete}
                         buttonCancel={translate.cancel}
                         modal={true}
                         acceptAction={this.deleteDraft}

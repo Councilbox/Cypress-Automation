@@ -15,8 +15,10 @@ class UserSettingsPage extends Component {
             return <LoadingSection/>;
         }
 
-        return (<CardPageLayout title={translate.settings}
-                                isFullHeight={false}>
+        return (
+
+            <CardPageLayout title={translate.settings}>
+                <br/>
                 <UpdateUserForm
                     translate={translate}
                     user={this.props.user}
@@ -24,10 +26,14 @@ class UserSettingsPage extends Component {
                 />
                 <br/>
                 <br/>
+                <hr/>
+                <br/>
                 <ChangePasswordForm
                     translate={translate}
                 />
-            </CardPageLayout>);
+            </CardPageLayout>
+
+        );
     }
 }
 

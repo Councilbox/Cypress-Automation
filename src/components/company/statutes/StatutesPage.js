@@ -19,6 +19,7 @@ import { getPrimary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import StatuteEditor from './StatuteEditor';
 import VTabs from "../../displayComponents/VTabs";
+import Scrollbar from 'react-perfect-scrollbar';
 
 class StatutesPage extends Component {
 
@@ -33,23 +34,33 @@ class StatutesPage extends Component {
             requestError: false,
             requesting: false,
             unsavedChanges: false,
-            errors: {}
+            errors: {},
+            deleteModal: false
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if (this.props.data.loading && !nextProps.data.loading) {
-            this.setState({
-                statute: {
-                    ...nextProps.data.companyStatutes[ this.state.selectedStatute ]
-                }
-            });
+            if (nextProps.data.companyStatutes[ this.state.selectedStatute ]){
+                this.setState({
+                    statute: {
+                        ...nextProps.data.companyStatutes[ this.state.selectedStatute ]
+                    }
+                });
+            }
         }
     }
 
     componentDidMount() {
         this.props.data.refetch();
     }
+
+    openDeleteModal = ID => {
+        this.setState({
+            deleteModal: true,
+            deleteID: ID
+        });
+    };
 
     resetButtonStates = () => {
         this.setState({
@@ -89,17 +100,17 @@ class StatutesPage extends Component {
     };
 
     deleteStatute = async () => {
-        const { id } = this.state.statute;
         const response = await this.props.deleteStatute({
             variables: {
-                statuteId: id
+                statuteId: this.state.deleteID
             }
         });
         if (response) {
             this.props.data.refetch();
             this.setState({
                 statute: this.props.data.companyStatutes[ 0 ],
-                selectedStatute: 0
+                selectedStatute: 0,
+                deleteModal: false,
             })
         }
     };
@@ -145,7 +156,7 @@ class StatutesPage extends Component {
                 ...object
             },
             unsavedChanges: true
-        })
+        });
     };
 
     handleStatuteChange = (index) => {
@@ -184,74 +195,63 @@ class StatutesPage extends Component {
             })
         }
 
-        return (<CardPageLayout
-            title={translate.statutes}>
+        return (
+
+            <CardPageLayout
+                disableScroll={true}
+                title={translate.statutes}>
                 <VTabs tabs={tabs}
                        changeTab={this.handleStatuteChange}
                        additionalTab={{
                            title: translate.add_council_type,
                            action: this.showNewStatute
                        }}
-                       delete={this.deleteStatute}
+                       deleteAction={this.openDeleteModal}
                 >
-                    <div className="container-fluid">
-                        {!!statute && <Fragment>
-                                <Grid alignContent="flex-end">
-                                    <GridItem xs={6} md={4} lg={4}>
-                                        <BasicButton
-                                            text={translate.save}
-                                            color={getPrimary()}
-                                            error={requestError}
-                                            success={success}
-                                            reset={this.resetButtonStates}
-                                            loading={requesting}
-                                            textStyle={{
-                                                color: 'white',
-                                                fontWeight: '700'
-                                            }}
-                                            onClick={this.updateStatute}
-                                            icon={<ButtonIcon type="save" color='white'/>}
-                                        />
-                                    </GridItem>
-                                    <GridItem xs={6} md={2} lg={2}>
-                                        <DeleteIcon
-                                            onClick={() => this.deleteStatute(statute.id)}
-                                        />
-                                    </GridItem>
-                                </Grid>
-                            <div style={{width: 'calc(100% - 8px)'}}>
-                                <StatuteEditor
-                                    statute={statute}
-                                    translate={translate}
-                                    updateState={this.updateState}
-                                    errors={this.state.errors}
-                                />
-                            </div>
-
-
-                            <AlertConfirm
-                                requestClose={() => this.setState({ newStatute: false })}
-                                open={this.state.newStatute}
-                                acceptAction={this.createStatute}
-                                buttonAccept={translate.accept}
-                                buttonCancel={translate.cancel}
-                                bodyText={
-                                    <TextInput
-                                        floatingText={translate.council_type}
-                                        required
-                                        type="text"
-                                        errorText={errors.newStatuteName}
-                                        value={statute.newStatuteName}
-                                        onChange={(event) => this.setState({
-                                            newStatuteName: event.target.value
-                                        })}/>
-                                }
-                                title={translate.add_council_type}
+                    {!!statute && <Fragment>
+                        <div className="container-fluid">
+                            <StatuteEditor
+                                statute={statute}
+                                companyId={this.props.company.id}
+                                translate={translate}
+                                updateState={this.updateState}
+                                errors={this.state.errors}
                             />
-                        </Fragment>}
-                    </div>
+                        </div>
+                        <AlertConfirm
+                            requestClose={() => this.setState({ newStatute: false })}
+                            open={this.state.newStatute}
+                            acceptAction={this.createStatute}
+                            buttonAccept={translate.accept}
+                            buttonCancel={translate.cancel}
+                            bodyText={<TextInput
+                                floatingText={translate.council_type}
+                                required
+                                type="text"
+                                errorText={errors.newStatuteName}
+                                value={statute.newStatuteName}
+                                onChange={(event) => this.setState({
+                                    newStatuteName: event.target.value
+                                })}/>}
+                            title={translate.add_council_type}
+                        />
+                    </Fragment>}
                 </VTabs>
-            </CardPageLayout>)
+                <AlertConfirm
+                    title={translate.attention}
+                    bodyText={translate.question_delete}
+                    open={this.state.deleteModal}
+                    buttonAccept={translate.delete}
+                    buttonCancel={translate.cancel}
+                    modal={true}
+                    acceptAction={this.deleteStatute}
+                    requestClose={() =>
+                        this.setState({ deleteModal: false })
+                    }
+                />
+            </CardPageLayout>
+
+        )
     }
 }
 
