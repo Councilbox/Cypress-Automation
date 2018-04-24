@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
-import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../displayComponents';
+import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../displayComponents/index';
 import { Typography, MenuItem } from 'material-ui';
-import { quorumTypes, censuses } from '../../queries';
+import { quorumTypes, censuses } from '../../../queries';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
+import * as CBX from "../../../utils/CBX";
+import QuorumInput from "../../displayComponents/QuorumInput";
 
 class StatuteEditor extends React.PureComponent {
 
@@ -17,8 +19,9 @@ class StatuteEditor extends React.PureComponent {
                 <Typography variant="title" style={{color: primary}}>
                     {translate.convene}
                 </Typography>
+                <br/>
                 <Grid>
-                    <GridItem xs={12} md={6} lg={6}>
+                    <GridItem xs={12} md={8} lg={6}>
                         <Checkbox
                             label={translate.exists_advance_notice_days}
                             value={statute.existsAdvanceNoticeDays === 1}
@@ -28,7 +31,7 @@ class StatuteEditor extends React.PureComponent {
                             }
                         />
                     </GridItem>
-                    <GridItem xs={12} md={1} lg={1}>
+                    <GridItem xs={12} md={4} lg={6}>
                         {statute.existsAdvanceNoticeDays === 1 &&
                             <TextInput
                                 floatingText={translate.input_group_days}
@@ -39,8 +42,7 @@ class StatuteEditor extends React.PureComponent {
                                 onChange={(event) => updateState({
                                         advanceNoticeDays: event.target.value
                                     })
-                                }
-                            />
+                                }/>
                         }
                     </GridItem>
                     
@@ -71,47 +73,31 @@ class StatuteEditor extends React.PureComponent {
                     </GridItem>
 
                 </Grid>
-
-
-
                 <Typography variant="title" style={{color: primary, marginTop: '1em'}}>
                     {translate.assistance}
                 </Typography>
+                <br/>
                 <Grid>
-                    <GridItem xs={12} md={6} lg={6}>
-                        <Typography variant="body1">
-                            {translate.quorum_type}
-                        </Typography>
-                    </GridItem>
-                    <GridItem xs={12} md={4} lg={4}>
+                    <GridItem xs={12} md={12} lg={12}>
                         <SelectInput
-                            floatingText={translate.census_type}
+                            floatingText={translate.quorum_type}
                             value={statute.quorumPrototype}
                             onChange={(event, child) => updateState({
                                     quorumPrototype: event.target.value
                                 }) 
-                            }
-                        >
+                            }>
                             <MenuItem value={0}>{translate.census_type_assistants}</MenuItem>
                             <MenuItem value={1}>{translate.social_capital}</MenuItem>    
                         </SelectInput>
                     </GridItem>
-
-
-                    <GridItem xs={12} md={6} lg={6}>
-                        <Typography variant="body1">
-                            {translate.exist_quorum_assistance_first_call}
-                        </Typography>
-                    </GridItem>
-                    <GridItem xs={6} md={2} lg={2}>
+                    <GridItem xs={6} md={6} lg={6}>
                         <SelectInput
-                            floatingText={translate.census_type}
-                            value={statute.quorumPrototype}
+                            floatingText={translate.exist_quorum_assistance_first_call}
+                            value={statute.firstCallQuorumType}
                             onChange={(event, child) => updateState({
-                                    quorumPrototype: event.target.value
+                                firstCallQuorumType: event.target.value
                                 }) 
-                            }
-                        >
+                            }>
                             {!loading &&
                                 quorumTypes.map((quorumType) => {
                                     return <MenuItem value={quorumType.value} key={`quorum_${quorumType.label}`}>{translate[quorumType.label]}</MenuItem>
@@ -121,17 +107,22 @@ class StatuteEditor extends React.PureComponent {
                         </SelectInput>
                     </GridItem>
                     <GridItem xs={6} md={2} lg={2}>
-                        <TextInput
-                            floatingText={translate.minutes}
-                            required
-                            type="number"
-                            errorText={errors.minimumSeparationBetweenCall}
-                            value={statute.minimumSeparationBetweenCall}
-                            onChange={(event) => updateState({
-                                    minimumSeparationBetweenCall: event.target.value
-                                })
-                            }
+                        {CBX.quorumNeedsInput(statute.firstCallQuorumType) &&
+                        <QuorumInput
+                            type={statute.firstCallQuorumType}
+                            style={{marginLeft: '1em'}}
+                            value={statute.firstCallQuorum}
+                            divider={statute.firstCallQuorumDivider}
+                            quorumError={errors.firstCallQuorum}
+                            dividerError={errors.firstCallQuorumDivider}
+                            onChange={(value) => updateState({
+                                firstCallQuorum: +value
+                            })}
+                            onChangeDivider={(value) => updateState({
+                                firstCallQuorumDivider: +value
+                            })}
                         />
+                        }
                     </GridItem>
                     <GridItem xs={12} md={7} lg={7}>
                         <Checkbox
@@ -337,7 +328,7 @@ class StatuteEditor extends React.PureComponent {
                     {translate.call_template}
                 </Typography>
                 <Grid>
-                    <GridItem xs={12} md={10} lg={8}>
+                    <GridItem xs={12} md={12} lg={12}>
                         <RichTextInput
                             errorText=''
                             floatingText={translate.convene_header}
@@ -354,7 +345,7 @@ class StatuteEditor extends React.PureComponent {
                             {translate.act_templates}
                         </Typography>
                         <Grid>
-                            <GridItem xs={12} md={10} lg={8}>
+                            <GridItem xs={12} md={12} lg={12}>
                                 <RichTextInput
                                     errorText=''
                                     floatingText={translate.intro}
@@ -365,7 +356,7 @@ class StatuteEditor extends React.PureComponent {
                                 />
                             </GridItem>
 
-                            <GridItem xs={12} md={10} lg={8}>
+                            <GridItem xs={12} md={12} lg={12}>
                                 <RichTextInput
                                     errorText=''
                                     floatingText={translate.constitution}
@@ -376,7 +367,7 @@ class StatuteEditor extends React.PureComponent {
                                 />
                             </GridItem>
 
-                            <GridItem xs={12} md={10} lg={8}>
+                            <GridItem xs={12} md={12} lg={12}>
                                 <RichTextInput
                                     errorText=''
                                     floatingText={translate.conclusion}

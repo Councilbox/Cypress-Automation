@@ -2,8 +2,6 @@ import React from 'react';
 import * as mainActions from '../../../actions/mainActions';
 import * as companyActions from '../../../actions/companyActions';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import Welcome from '../../Welcome';
 import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';
@@ -109,10 +107,6 @@ class SignUpPage extends React.Component {
     };
 
     render() {
-        if (this.state.success) {
-            return (<div>JIJIJIJbiri</div>);
-        }
-
         const { translate, windowSize } = this.props;
         const { page } = this.state;
         const primary = getPrimary();
@@ -240,13 +234,6 @@ class SignUpPage extends React.Component {
                 </Card>}
         </div>);
     }
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        actions: bindActionCreators(mainActions, dispatch),
-        companyActions: bindActionCreators(companyActions, dispatch)
-    };
 }
 
 export default graphql(userAndCompanySignUp, { options: { errorPolicy: 'all' } })(withWindowSize(SignUpPage));

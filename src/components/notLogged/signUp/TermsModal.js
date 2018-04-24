@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../displayComponents';
+import { AlertConfirm} from '../../displayComponents';
 
 class TermsModal extends Component {
 
@@ -26,7 +26,7 @@ class TermsModal extends Component {
                     <p><b>2.- Aceptación de la suscripción</b></p>
 
                     <p>Al suscribirte a cualquier plan de Councilbox estás aceptando los
-                        términos de suscripción recogidos en <a href="http://www.councilbox.com/" target="_blank">
+                        términos de suscripción recogidos en <a href="http://www.councilbox.com/" target="_blank" without rel="noopener noreferrer">
                             www.councilbox.com</a>.
                     </p>
 
@@ -431,7 +431,7 @@ class TermsModal extends Component {
     };
 
     render(){
-        const { translate, children } = this.props;
+        const { translate } = this.props;
  
         return(
             <Fragment>

@@ -21,7 +21,7 @@ import UserSettingsContainer from './UserSettingsContainer';
 import CreateCouncil from '../components/CreateCouncil';
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import CreateMeeting from '../components/CreateMeeting';
-import StatutesPage from '../components/statutes/StatutesPage';
+import StatutesPage from '../components/company/statutes/StatutesPage';
 import PlatformDrafts from '../components/companyDraft/PlatformDrafts';
 import CensusEditorPage from '../components/companyCensus/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../components/displayComponents';
@@ -70,6 +70,11 @@ class AppRouter extends Component {
 
                     <div className={this.props.classes.mainPanel}>
                         <Header user={this.props.user} drawerIcon={this.state.mobileOpen} translate={this.props.translate} backButton={this.props.location.pathname !== `/company/${this.props.companies.list[this.props.companies.selected].id}`} />
+                        <div style={{
+                            height: 'calc(100vh - 3em)',
+                            display: 'flex',
+                            width: '100%',
+                        }}>
                         <Switch>
                             <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                             <Route exact path="/company/:company" component={DashboardContainer} />

@@ -122,11 +122,15 @@ class UpdateUserForm extends React.Component {
     render() {
         const { translate } = this.props;
         const { data, errors, error, success, loading } = this.state;
+        const primary = getPrimary();
 
-        return (<React.Fragment>
-                <Typography variant="subheading" style={{ marginTop: '2em' }}>
+        return (
+
+            <React.Fragment>
+                <Typography variant="title" style={{ color: primary }}>
                     {translate.user_data}
                 </Typography>
+                <br/>
                 <div className="row" style={{ paddingRight: '3em' }}>
                     <div className="col-lg-3 col-md-6 col-xs-12">
                         <TextInput
@@ -203,7 +207,9 @@ class UpdateUserForm extends React.Component {
                     onClick={this.saveUser}
                     icon={<ButtonIcon type="save" color='white'/>}
                 />
-            </React.Fragment>);
+            </React.Fragment>
+
+        );
     }
 }
 

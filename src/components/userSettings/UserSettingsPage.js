@@ -8,25 +8,26 @@ import { languages } from '../../queries';
 
 class UserSettingsPage extends Component {
 
-    render(){
+    render() {
         const { translate } = this.props;
 
-        if(this.props.data.loading){
-            return <LoadingSection />;
+        if (this.props.data.loading) {
+            return <LoadingSection/>;
         }
 
-        return(
-           <CardPageLayout title={translate.settings}>
+        return (<CardPageLayout title={translate.settings}
+                                isFullHeight={false}>
                 <UpdateUserForm
                     translate={translate}
                     user={this.props.user}
                     languages={this.props.data.languages}
                 />
+                <br/>
+                <br/>
                 <ChangePasswordForm
                     translate={translate}
                 />
-            </CardPageLayout>
-        );
+            </CardPageLayout>);
     }
 }
 
