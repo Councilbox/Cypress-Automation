@@ -1001,6 +1001,9 @@ export const councilDetails = gql `
       zipcode
     }
 
+    councilTotalVotes(councilId: $councilID)
+    councilSocialCapital(councilId: $councilID)
+
     votingTypes {
       label
       value

@@ -317,7 +317,8 @@ export default compose(
             variables: {
                 id: props.councilID,
                 companyId: props.companyID
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     })
 )(withRouter(CouncilEditorPreview));

@@ -27,7 +27,7 @@ class CouncilEditorCensus extends Component {
         }
     }
 
-    async componentDidMount(){
+    componentDidMount(){
         this.props.data.refetch();
     }
 
@@ -201,6 +201,7 @@ class CouncilEditorCensus extends Component {
                             }
                         </Grid>
                         <ParticipantsTable
+                            editable={true}
                             councilId={this.props.councilID}
                             translate={translate}
                             totalVotes={this.props.data.councilTotalVotes}
@@ -271,7 +272,8 @@ export default compose(
             variables: {
                 id: props.councilID,
                 companyId: props.companyID
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
 

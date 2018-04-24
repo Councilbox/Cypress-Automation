@@ -181,6 +181,10 @@ class EnhancedTable extends Component {
 
     }
 
+    refresh = () => {
+        this.changePage(1);
+    }
+
     updateCategory = (event, field) => {
         const { refetch } = this.props;
 

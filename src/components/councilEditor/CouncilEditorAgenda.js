@@ -32,6 +32,10 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.data.refetch();
+    }
+
     componentWillReceiveProps(nextProps){
         if(!nextProps.data.loading){
             this.setState({
@@ -294,7 +298,8 @@ export default compose(
             variables: {
                 id: props.councilID,
                 companyId: props.company.id
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
     graphql(removeAgenda, {

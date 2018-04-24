@@ -7,26 +7,31 @@ import { getPrimary } from '../../styles/colors';
 const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
     const primary = getPrimary();
     const buttons = <Fragment>
-        <BasicButton
-            text={buttonCancel}
-            textStyle={{
-                textTransform: 'none',
-                fontWeight: '700'
-            }}
-            primary={true}
-            onClick={requestClose}
-        />
-        {!hideAccept && <BasicButton
-            text={buttonAccept}
-            textStyle={{
-                color: 'white',
-                textTransform: 'none',
-                fontWeight: '700'
-            }}
-            buttonStyle={{ marginLeft: '1em' }}
-            color={primary}
-            onClick={acceptAction}
-        />}
+        {!!buttonCancel &&
+            <BasicButton
+                text={buttonCancel}
+                textStyle={{
+                    textTransform: 'none',
+                    fontWeight: '700'
+                }}
+                primary={true}
+                onClick={requestClose}
+            />
+        }
+
+        {!hideAccept && !!buttonAccept &&
+            <BasicButton
+                text={buttonAccept}
+                textStyle={{
+                    color: 'white',
+                    textTransform: 'none',
+                    fontWeight: '700'
+                }}
+                buttonStyle={{ marginLeft: '1em' }}
+                color={primary}
+                onClick={acceptAction}
+            />
+        }
 
     </Fragment>;
 

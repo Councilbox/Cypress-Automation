@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, Icon, ErrorWrapper } from "../displayComponents";
+import { CardPageLayout, BasicButton, LoadingSection, DropDownMenu, Icon, ErrorWrapper, AlertConfirm } from "../displayComponents";
 import ParticipantsTable from '../councilEditor/ParticipantsTable';
 import NewParticipantForm from '../councilEditor/NewParticipantForm';
 import { getPrimary, getSecondary } from '../../styles/colors';
-import { MenuItem } from 'material-ui';
+import { MenuItem, Paper } from 'material-ui';
 import DateHeader from './DateHeader';
 import { graphql } from 'react-apollo';
 import { bHistory } from '../../containers/App';
 import { councilDetails } from '../../queries';
+import * as CBX from '../../utils/CBX';
+import FontAwesome from 'react-fontawesome';
 
 class CouncilPreparePage extends Component {
 
@@ -15,7 +17,8 @@ class CouncilPreparePage extends Component {
         super(props);
         this.state = { 
             participants: false,
-            addParticipantModal: false
+            addParticipantModal: false,
+            showModal: false
         }
     }
 
@@ -53,16 +56,19 @@ class CouncilPreparePage extends Component {
         return(
             <CardPageLayout title={translate.prepare_room}>
                 <DateHeader
-                    title={council.name}
-                    date={council.dateStart}
+                    council={council}
+                    translate={translate}
                     button={
-                        <Fragment>
+                        <div>
                             <BasicButton
                                 text={translate.prepare_room}
                                 color={primary}
                                 buttonStyle={{margin: '0', height: '100%'}}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
+                                icon={<FontAwesome
+                                    name={'user-plus'}
+                                    style={{fontSize: '1em', color: 'white', marginLeft: '0.3em'}}
+                                /> }
                                 textPosition="after"
                                 onClick={this.goToPrepareRoom}
                             />
@@ -77,7 +83,7 @@ class CouncilPreparePage extends Component {
                                     </Fragment>
                                 } 
                             />
-                        </Fragment>
+                        </div>
                     }
                 />
                 <BasicButton
@@ -92,12 +98,12 @@ class CouncilPreparePage extends Component {
                     })} 
                 />
                 {!this.state.page?
-                    <Fragment>
+                    <Paper style={{marginTop: '1.5em'}}>
                         <div
                             dangerouslySetInnerHTML={{__html: council.emailText}}
-                            style={{border: `1px solid ${getSecondary()}`, padding: '2em'}} 
+                            style={{padding: '2em'}} 
                         />
-                    </Fragment>
+                    </Paper>
                 :
 
                     <Fragment>
@@ -109,22 +115,34 @@ class CouncilPreparePage extends Component {
                             icon={<Icon className="material-icons" style={{color: 'white'}}>add</Icon>}
                             textPosition="after"
                             onClick={() => this.setState({
-                                addParticipantModal: true
+                                showModal: true
                             })} 
                         />
                         <ParticipantsTable
                             participants={council.participants}
-                            councilID={this.props.councilID}
+                            councilId={council.id}
+                            totalVotes={this.props.data.councilTotalVotes}
+                            socialCapital={this.props.data.councilSocialCapital}
+                            participations={CBX.hasParticipations(council)}
                             translate={translate}
                             refetch={this.props.data.refetch}
                         />
-                        <NewParticipantForm
-                            translate={translate}
-                            show={this.state.addParticipantModal}
-                            close={this.closeAddParticipantModal}
-                            councilID={this.props.councilID}
-                            refetch={this.props.data.refetch}
+                        <AlertConfirm
+                            requestClose={() => this.setState({showModal: false})}
+                            open={this.state.showModal}
+                            bodyText={
+                                <NewParticipantForm
+                                    translate={translate}
+                                    requestClose={() => this.setState({
+                                        showModal: false
+                                    })}
+                                    participations={CBX.hasParticipations(council)}
+                                    close={this.closeAddParticipantModal}
+                                    councilID={this.props.councilID}
+                                />
+                            }
                         />
+
                     </Fragment>
                 }
             </CardPageLayout>

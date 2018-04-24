@@ -41,7 +41,7 @@ const logoutLink = onError(({ graphQLErrors, networkError }) => {
             toast.error(printSessionExpiredError());
             store.dispatch(logout());
         }else{
-            toast.error(graphQLErrors[0].message);
+            //toast.error(graphQLErrors[0].message);
         }
     }
 });

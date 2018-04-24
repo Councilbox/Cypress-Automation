@@ -238,7 +238,8 @@ export default compose(
         options: (props) => ({
             variables: {
                 id: props.councilID,
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
     graphql(addCouncilAttachment, {

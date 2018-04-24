@@ -10,6 +10,14 @@ import { PARTICIPANTS_LIMITS } from '../../constants';
 
 class ParticipantsTable extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            editParticipant: false,
+            editIndex: null
+        }
+    }
+
     _renderDeleteIcon(participantID){
         const primary = getPrimary();
 
@@ -34,7 +42,8 @@ class ParticipantsTable extends Component {
         })
         
         if(response){
-            this.props.refetch();
+            this.table.refresh();
+            //this.props.data.refetch();
         }
     }    
 
@@ -74,11 +83,20 @@ class ParticipantsTable extends Component {
         }
         headers.push({text: translate.delete});
 
+        if(this.state.editParticipant && this.props.editable){
+            return(
+                <div>
+                    {councilParticipants.list[this.state.editIndex].name}
+                </div>
+            )
+        }
+
         return(
             <div style={{width: '100%'}}>
                 {!!councilParticipants && 
                     <React.Fragment>
                         <EnhancedTable
+                            ref={(table) => this.table = table}
                             translate={translate}
                             defaultLimit={PARTICIPANTS_LIMITS[0]}
                             defaultFilter={'fullName'}
@@ -98,11 +116,13 @@ class ParticipantsTable extends Component {
                             ]}
                             headers={headers}
                         >
-                            {councilParticipants.list.map((participant) => {
+                            {councilParticipants.list.map((participant, index) => {
                                 return(
-                                    <TableRow                         
+                                    <TableRow  
+                                        hover={true}
+                                        onClick={() => this.setState({editParticipant: true, editIndex: index})}                       
                                         key={`participant${participant.id}`} 
-                                        style={{fontSize: '0.5em', backgroundColor: CBX.isRepresentative(participant)? 'WhiteSmoke' : 'transparent'}}
+                                        style={{cursor: 'pointer', fontSize: '0.5em', backgroundColor: CBX.isRepresentative(participant)? 'WhiteSmoke' : 'transparent'}}
                                     >
                                         <TableCell>{`${participant.name} ${participant.surname}`}</TableCell>
                                         <TableCell>{participant.dni}</TableCell>
