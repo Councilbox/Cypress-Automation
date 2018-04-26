@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { MenuItem, Typography } from 'material-ui';
 import { checkValidEmail } from '../../utils';
-import { BasicButton, ButtonIcon, SelectInput, TextInput } from '../displayComponents';
+import { BasicButton, ButtonIcon, SelectInput, TextInput, Grid, GridItem } from '../displayComponents';
 import { updateUser } from '../../queries';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';
@@ -131,8 +131,8 @@ class UpdateUserForm extends React.Component {
                     {translate.user_data}
                 </Typography>
                 <br/>
-                <div className="row" style={{ paddingRight: '3em' }}>
-                    <div className="col-lg-3 col-md-6 col-xs-12">
+                <Grid>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.name}
                             type="text"
@@ -142,9 +142,10 @@ class UpdateUserForm extends React.Component {
                             onChange={(event) => this.updateState({
                                 name: event.target.value
                             })}
+                            required
                         />
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.surname}
                             type="text"
@@ -153,9 +154,10 @@ class UpdateUserForm extends React.Component {
                                 surname: event.target.value
                             })}
                             errorText={errors.surname}
+                            required
                         />
-                    </div>
-                    <div className="col-lg-5 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.email}
                             type="text"
@@ -164,9 +166,10 @@ class UpdateUserForm extends React.Component {
                                 email: event.target.value
                             })}
                             errorText={errors.email}
+                            required
                         />
-                    </div>
-                    <div className="col-lg-3 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.phone}
                             type="text"
@@ -176,8 +179,8 @@ class UpdateUserForm extends React.Component {
                                 phone: event.target.value
                             })}
                         />
-                    </div>
-                    <div className="col-lg-3 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={4}>
                         <SelectInput
                             floatingText={translate.language}
                             value={data.preferred_language}
@@ -185,14 +188,18 @@ class UpdateUserForm extends React.Component {
                                 preferred_language: event.target.value
                             })}
                             errorText={errors.preferred_language}
+                            required
                         >
-                            {this.props.languages.map((language) => <MenuItem key={`language_${language.columnName}`}
-                                                                              value={language.columnName}>
-                                {language.desc}
-                            </MenuItem>)}
+                            {this.props.languages.map((language) =>
+
+                                <MenuItem key={`language_${language.columnName}`}
+                                          value={language.columnName}>
+                                    {language.desc}
+                                </MenuItem>)}
                         </SelectInput>
-                    </div>
-                </div>
+                    </GridItem>
+                </Grid>
+                <br/>
                 <BasicButton
                     text={translate.save}
                     color={getPrimary()}
@@ -200,6 +207,7 @@ class UpdateUserForm extends React.Component {
                     reset={this.resetButtonStates}
                     success={success}
                     loading={loading}
+                    floatRight
                     textStyle={{
                         color: 'white',
                         fontWeight: '700'

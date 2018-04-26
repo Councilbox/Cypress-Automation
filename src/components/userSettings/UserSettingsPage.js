@@ -26,8 +26,6 @@ class UserSettingsPage extends Component {
                 />
                 <br/>
                 <br/>
-                <hr/>
-                <br/>
                 <ChangePasswordForm
                     translate={translate}
                 />

@@ -156,7 +156,36 @@ class CompanySettingsPage extends Component {
     };
 
     checkRequiredFields() {
-        return false;
+        const { translate } = this.props;
+
+        let errors = {
+            businessName: '',
+            alias: '',
+            tin: '',
+        };
+
+        const data = this.state.data;
+        let hasError = false;
+
+        if (!data.businessName.length > 0) {
+            hasError = true;
+            errors.businessName = translate.field_required;
+        }
+
+        if (!data.alias.length > 0) {
+            hasError = true;
+            errors.alias = translate.field_required;
+        }
+
+        if (!data.tin.length > 0) {
+            hasError = true;
+            errors.tin = translate.field_required;
+        }
+
+        this.setState({
+            errors: errors
+        });
+        return hasError;
     }
 
     render() {
@@ -190,6 +219,7 @@ class CompanySettingsPage extends Component {
                                     onChange={(event) => this.updateState({
                                         businessName: event.target.value
                                     })}
+                                    required
                                 />
                             </GridItem>
                             <GridItem xs={12} md={6} lg={4}>
@@ -201,6 +231,7 @@ class CompanySettingsPage extends Component {
                                     onChange={(event) => this.updateState({
                                         alias: event.target.value
                                     })}
+                                    required
                                 />
                             </GridItem>
                             <GridItem xs={12} md={6} lg={4}>
@@ -232,6 +263,7 @@ class CompanySettingsPage extends Component {
                                     onChange={(event) => this.updateState({
                                         tin: event.target.value
                                     })}
+                                    required
                                 />
                             </GridItem>
                             <GridItem xs={12} md={6} lg={4}>
