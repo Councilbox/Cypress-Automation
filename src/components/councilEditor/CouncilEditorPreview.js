@@ -42,11 +42,12 @@ class CouncilEditorPreview extends Component {
         this.props.data.loading = true;
         const response = await this.props.conveneCouncil({
             variables: {
-                council: council
+                councilId: council.id
             }
         });
 
-        if(!response.errors){
+        if(response.data.conveneCouncil.success){
+            toast.success(this.props.translate.council_sended);
             bHistory.push('/');
         }
     }

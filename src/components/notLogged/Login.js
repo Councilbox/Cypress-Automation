@@ -58,7 +58,7 @@ class Login extends React.PureComponent {
 
             }
             if(response.data.login){
-                this.props.actions.loginSuccess(response.data.login.token, user, password);
+                this.props.actions.loginSuccess(response.data.login.token);
             }
         }
     };

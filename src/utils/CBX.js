@@ -1,5 +1,13 @@
 import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE } from '../constants';
 import moment from 'moment';
+import dropped from '../assets/img/dropped.png';
+import delivered from '../assets/img/delivered.png';
+import invalidEmailAddress from '../assets/img/invalid_email_address.png';
+import notSent from '../assets/img/not_sent.png';
+import opened from '../assets/img/opened.png';
+import pendingShipping from '../assets/img/pending_shipping.png';
+import spam from '../assets/img/spam.png';
+
 
 export const canReorderPoints = (council) => {
     if(council.statute.canReorderPoints === 1){
@@ -145,7 +153,66 @@ export const showUserUniqueKeyMessage = (council) => {
     return council.securityType === 1 || council.securityType === 2;
 }
 
+export const councilIsNotified = (council) => {
+    return council.state === 10;
+}
 
+export const printPrettyFilesize = (filesize) => {
+    if(filesize < 1024) {
+        return `${filesize} Bytes`;
+    }
+    if(filesize < 1048576){
+        return `${addTwoDecimals(filesize / 1024, 2)} KBs`;
+    }
+    if(filesize < 1073741824){
+        return `${addTwoDecimals(filesize / 1048576, 2)} MBs`;
+    }
+    return `${addTwoDecimals(filesize / 1073741824, 2)} GBs`;
+}
+
+export const addTwoDecimals = (num, fixed) => {
+    num = num.toString();
+    return num.slice(0, (num.indexOf(".")) + fixed + 1);
+}
+
+export const downloadFile = (base64, filetype, filename) => {
+    var bufferArray = dataURItoBlob(base64);
+
+    if (window.navigator.msSaveOrOpenBlob) {
+        var fileData = [bufferArray];
+        var blobObject = new Blob(fileData, {
+            type: 'data:application/stream;base64'
+        });
+        return window.navigator.msSaveOrOpenBlob(blobObject, filename);
+    } else {
+        var blob = new Blob([bufferArray], {
+            type: filetype
+        });
+        var objectUrl = URL.createObjectURL(blob);
+
+        var a = document.createElement("a");
+        a.style.cssText = "display: none";
+        document.body.appendChild(a);
+        a.href = objectUrl;
+        a.download = filename;
+        a.click();
+    }
+}
+
+function dataURItoBlob(dataURI) {
+    // convert base64 to raw binary data held in a string
+    // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+    var byteString = atob(dataURI);
+
+    // write the bytes of the string to an ArrayBuffer
+    var arrayBuffer = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(arrayBuffer);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return arrayBuffer;
+}
 
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
@@ -174,6 +241,60 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
             return;
     }
 } 
+
+export const getEmailIconByReqCode = (reqCode) => {
+    switch(reqCode){
+
+        case -1: 
+            return notSent;
+        case 0:
+            return notSent;
+
+        case 20:
+            return pendingShipping;
+
+        case 22:
+            return delivered;
+
+        case 25:
+            return opened;
+
+        case 32:
+            return 'clicked';
+
+        case 35:
+            return spam;
+
+        case 36:
+            return invalidEmailAddress;
+
+        case 37:
+            return dropped;
+    }
+}
+
+export const getTranslationReqCode = (reqCode) => {
+    switch(reqCode){
+        case -1: 
+            return 'tooltip_failed_shipping';
+        case 0:
+            return 'tooltip_not_sent';
+        case 20:
+            return 'tooltip_pending_shipping';
+        case 22:
+            return 'tooltip_inbox';
+        case 25:
+            return 'tooltip_opened';
+        case 32:
+            return 'clicked';
+        case 35:
+            return 'tooltip_spam';
+        case 36:
+            return 'tooltip_invalid_email_address';
+        case 37:
+            return 'tooltip_dropped';
+    }
+}
 
 export const printSessionExpiredError = () => {
     const messages = {

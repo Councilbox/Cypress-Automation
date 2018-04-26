@@ -24,7 +24,7 @@ class DropDownMenu extends React.Component {
           <BasicButton
             type={type}
             onClick={this.handleClick}
-            textStyle={textStyle}
+            textStyle={{...textStyle, textTransform: 'none'}}
             color={color}
             icon={icon}
             buttonStyle={buttonStyle}

@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import BasicButton from './BasicButton';
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import FontAwesome from 'react-fontawesome';
 
 
 const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
@@ -44,17 +45,22 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
             open={open}
             onClose={requestClose}
         >
-            {!!title &&
-                <DialogTitle>
-                {title}
-                </DialogTitle>
-            }
-            <DialogContent>
-                {bodyText}
-            </DialogContent>
-            <DialogActions>
-                {buttons}
-            </DialogActions>
+                <FontAwesome
+                    name={'close'}
+                    style={{cursor: 'pointer', fontSize: '1.5em', color: getSecondary(), position: 'absolute', right: '12px', top: '9px'}}
+                    onClick={(event) => requestClose()}
+                /> 
+                {!!title &&
+                    <DialogTitle style={{paddingRight: '4em'}}>
+                    {title}
+                    </DialogTitle>
+                }
+                <DialogContent>
+                    {bodyText}
+                </DialogContent>
+                <DialogActions>
+                    {buttons}
+                </DialogActions>
         </Dialog>);
 };
 

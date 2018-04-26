@@ -99,16 +99,18 @@ class EnhancedTable extends Component {
         }
     }
 
-    changePage = async (page) => {
+    changePage = async (page, object = {}) => {
         const { refetch } = this.props;
 
         if(!!page){
             let variables = {
+                ...object,
                 options: {
                     limit: this.state.limit,
                     offset: this.state.limit * (page - 1)
                 }
             }
+            console.log(variables);
             if(!!this.state.filterText){
                 variables = {
                     ...variables,
@@ -181,8 +183,8 @@ class EnhancedTable extends Component {
 
     }
 
-    refresh = () => {
-        this.changePage(1);
+    refresh = (object) => {
+        this.changePage(1, object);
     }
 
     updateCategory = (event, field) => {

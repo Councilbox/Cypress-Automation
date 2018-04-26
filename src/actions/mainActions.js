@@ -4,31 +4,17 @@ import { getMe, getTranslations, login } from '../queries';
 import moment from 'moment';
 
 export let language = 'es';
-let interval = null;
 
-export const loginSuccess = (token, user, password) => {
+export const loginSuccess = (token) => {
     return (dispatch) => {
         sessionStorage.setItem('token', token);
         dispatch(initUserData());
         dispatch(getCompanies());
-        dispatch({type: 'LOGIN_SUCCESS'}); 
-        interval = setInterval(() => refreshToken(user, password), 15000000);       
+        dispatch({type: 'LOGIN_SUCCESS'});
+
     }
 };
 
-const refreshToken = async (user, password) => {
-    const response = await client.mutate({
-        mutation: login, 
-        errorPolicy: 'all',
-        variables: {
-            email: user,
-            password: password
-        }
-    });
-    if(!response.errors){
-        sessionStorage.setItem('token', response.data.login.token);
-    }
-};
 
 export const loadingFinished = () => (
     {type: 'LOADING_FINISHED'}
@@ -38,9 +24,11 @@ export const initUserData = () => {
     return async (dispatch) => {
         const response = await client.query({query: getMe, errorPolicy: 'all'});
         if(!response.errors){
-            dispatch({type: 'SET_USER_DATA', value: response.data.me});
-            dispatch(getCompanies(response.data.me.id));
-            dispatch(setLanguage(response.data.me.preferred_language));
+            if(response.data.me){
+                dispatch({type: 'SET_USER_DATA', value: response.data.me});
+                dispatch(getCompanies(response.data.me.id));
+                dispatch(setLanguage(response.data.me.preferred_language));
+            }
         }else{
             response.errors[0].code === 440 && sessionStorage.removeItem('token');
         }
@@ -49,17 +37,20 @@ export const initUserData = () => {
 
 export const setUserData = (user) => {
     return (dispatch) => {
-        console.log(user);
+        resetStore();
         dispatch({type: 'SET_USER_DATA', value: user});
         dispatch(setLanguage(user.preferred_language));
     }
 };
 
+const resetStore = () => {
+    client.resetStore();
+}
+
 
 export const logout = () => {
     sessionStorage.clear();
-    clearInterval(interval);
-    return({type: 'LOGOUT'});
+    return({type: 'LOGOUT'});  
 };
 
 export const setLanguage = (language) => {
