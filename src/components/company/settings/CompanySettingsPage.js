@@ -28,15 +28,6 @@ export const info = gql `
   }
 `;
 
-function getCompanyType(type, types) {
-    for (let i = 0; i < types.length; i++) {
-        const typeObject = types[ i ];
-        if (type === typeObject.value) {
-            return typeObject.label;
-        }
-    }
-}
-
 class CompanySettingsPage extends Component {
 
     constructor(props) {
@@ -53,10 +44,8 @@ class CompanySettingsPage extends Component {
 
     async componentWillReceiveProps(nextProps) {
 
-        const companyTypeText = getCompanyType(nextProps.company.type, nextProps.info.companyTypes);
         this.setState({
-            data: nextProps.company,
-            companyTypeText
+            data: nextProps.company
         });
 
         if (!nextProps.info.loading) {
@@ -236,13 +225,17 @@ class CompanySettingsPage extends Component {
                                 />
                             </GridItem>
                             <GridItem xs={12} md={6} lg={3}>
-                                <TextInput
-                                    disabled
+                                <SelectInput
                                     floatingText={translate.company_type}
-                                    type="text"
-                                    value={translate[ this.state.companyTypeText ]}
+                                    value={data.type}
+                                    disabled
+                                    onChange={(event)=>this.updateState({ type: event.target.value })}
                                     errorText={errors.type}
-                                />
+                                >
+                                    {this.props.info.companyTypes.map((companyType) => {
+                                        return <MenuItem key={companyType.label} value={companyType.value}>{translate[companyType.label]}</MenuItem>
+                                    })}
+                                </SelectInput>
                             </GridItem>
                             <GridItem xs={12} md={6} lg={4}>
                                 <TextInput

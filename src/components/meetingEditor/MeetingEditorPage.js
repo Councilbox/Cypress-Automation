@@ -66,7 +66,7 @@ class MeetingEditorPage extends React.Component {
                             
                             />
                         :
-                            <Stepper activeStep={this.state.step - 1} orientation="horizontal">
+                            <Stepper activeStep={this.state.step - 1} alternativeLabel orientation="horizontal">
                                 <Step>
                                     <StepLabel>{translate.wizard_convene}</StepLabel>
                                 </Step>

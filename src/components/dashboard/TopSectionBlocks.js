@@ -19,7 +19,7 @@ const Block = ({ children, button }) => (
             </div>
         }
     </React.Fragment>
-)
+);
 
 const estatutesButton = () => (
     <BasicButton
@@ -30,7 +30,7 @@ const estatutesButton = () => (
         textPosition="after"
         icon={<Icon className="material-icons" style={{color: 'white'}}>edit</Icon>}
     />
-)
+);
 
 const censusesButton = () => (
     <BasicButton
@@ -41,33 +41,33 @@ const censusesButton = () => (
         textPosition="after"
         icon={<Icon className="material-icons" style={{color: 'white'}}>control_point</Icon>}
     />
-)
+);
 
 const TopSectionBlocks = ({ translate, company, user }) => (
-    <Grid style={{width: '90%'}} spacing={8}>
+    <Grid style={{width: '90%', marginTop:'4vh'}} spacing={8}>
         <GridItem xs={12} md={6} lg={3}>
-            <Link to={`/company/${company.id}/settings`} style={{padding: '0.2em'}}>
+            <Link to={`/company/${company.id}/settings`}>
                 <Block>
                     {translate.edit_company && translate.edit_company.toUpperCase()}
-                    <Icon className="material-icons" style={{fontSize: '2em', marginLeft: '1.5em', color: 'white'}}>work</Icon>          
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>work</Icon>
                 </Block>
             </Link>
         </GridItem>
 
         <GridItem xs={12} md={6} lg={3}>
             <Link to={`/company/${company.id}/statutes`}> 
-                <Block button={estatutesButton}>
+                <Block>
                     {translate.statutes && translate.statutes.toUpperCase()}
-                    <Icon className="material-icons" style={{fontSize: '2em', marginLeft: '1.5em', color: 'white'}}>gavel</Icon>
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>gavel</Icon>
                 </Block>
             </Link>
         </GridItem>
 
         <GridItem xs={12} md={6} lg={3}>   
             <Link to={`/company/${company.id}/censuses`}> 
-                <Block button={censusesButton}>
+                <Block>
                     {translate.censuses && translate.censuses.toUpperCase()}
-                    <Icon className="material-icons" style={{fontSize: '2em', marginLeft: '1.5em', color: 'white'}}>person</Icon>
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>person</Icon>
                 </Block>
             </Link>
         </GridItem>
@@ -76,7 +76,7 @@ const TopSectionBlocks = ({ translate, company, user }) => (
             <Link to={`/company/${company.id}/drafts`}>
                 <Block>
                     {translate.drafts && translate.drafts.toUpperCase()}
-                    <Icon className="material-icons" style={{fontSize: '2em', marginLeft: '1.5em', color: 'white'}}>class</Icon>
+                    <Icon className="material-icons" style={{fontSize: '2em', color: 'white'}}>class</Icon>
                 </Block>
             </Link>
         </GridItem>
