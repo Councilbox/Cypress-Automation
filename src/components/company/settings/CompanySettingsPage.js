@@ -116,12 +116,13 @@ class CompanySettingsPage extends Component {
                 councilId: this.props.councilID
             };
 
-            this.updateState({
+            this.setState({
                 uploading: true,
                 data: {
                     ...this.state.data,
                     logo: fileInfo.base64
-                }
+                },
+                success: false
             });
         }
     };
@@ -245,17 +246,6 @@ class CompanySettingsPage extends Component {
                             </GridItem>
                             <GridItem xs={12} md={6} lg={4}>
                                 <TextInput
-                                    floatingText={translate.company_new_domain}
-                                    type="text"
-                                    value={data.domain}
-                                    errorText={errors.domain}
-                                    onChange={(event) => this.updateState({
-                                        domain: event.target.value
-                                    })}
-                                />
-                            </GridItem>
-                            <GridItem xs={12} md={6} lg={4}>
-                                <TextInput
                                     floatingText={translate.company_new_cif}
                                     type="text"
                                     value={data.tin}
@@ -264,6 +254,17 @@ class CompanySettingsPage extends Component {
                                         tin: event.target.value
                                     })}
                                     required
+                                />
+                            </GridItem>
+                            <GridItem xs={12} md={6} lg={4}>
+                                <TextInput
+                                    floatingText={translate.company_new_domain}
+                                    type="text"
+                                    value={data.domain}
+                                    errorText={errors.domain}
+                                    onChange={(event) => this.updateState({
+                                        domain: event.target.value
+                                    })}
                                 />
                             </GridItem>
                             <GridItem xs={12} md={6} lg={4}>
