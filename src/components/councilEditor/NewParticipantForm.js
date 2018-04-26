@@ -5,7 +5,7 @@ import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { checkValidEmail, errorHandler } from '../../utils';
-import CouncilBoxApi from '../../api/CouncilboxApi';
+import { languages } from "../../queries/masters";
 
 let primary = getPrimary();
 
@@ -38,13 +38,6 @@ class NewParticipantForm extends Component {
                 phone: '',
             }
         }
-    }
-
-    async componentDidMount() {
-        const languages = await CouncilBoxApi.getLanguageList();
-        this.setState({
-            languages: languages
-        });
     }
 
     updateParticipant = (object) => {
@@ -377,7 +370,7 @@ class NewParticipantForm extends Component {
                             language: event.target.value
                         })}
                     >
-                        {this.state.languages.map((language) => {
+                        {this.props.data.languages.map((language) => {
                             return <MenuItem value={language.column_name}
                                              key={`language${language.id}`}>{language.desc}</MenuItem>
                         })}
@@ -637,7 +630,7 @@ export default graphql(addParticipant, {
     options: {
         errorPolicy: 'all'
     }
-})(NewParticipantForm);
+}, graphql(languages))(NewParticipantForm);
 
 const newParticipantInitialValues = {
     language: 'es',

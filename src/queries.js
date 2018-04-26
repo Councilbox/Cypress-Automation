@@ -8,15 +8,6 @@ export const login = gql `
   }
 `;
 
-export const languages = gql`
-  query languages{
-    languages{
-      desc
-      columnName
-    }
-  }
-`;
-
 export const getMe = gql`
     query Me{
         me {
@@ -41,31 +32,6 @@ export const updateUser = gql`
         phone
         email
         preferred_language
-      }
-    }
-`;
-
-export const updateCompany = gql`
-    mutation updateCompany($company: CompanyInput){
-      updateCompany(company: $company){
-        alias
-        tin
-        logo
-        id
-        businessName
-        address
-        city
-        zipcode
-        country
-        countryState
-        linkKey
-        creatorId
-        domain
-        demo
-        type
-        language
-        creationDate
-        corporationId
       }
     }
 `;
@@ -765,14 +731,6 @@ export const councilStepFive = gql`
   }
 `;
 
-export const provinces = gql`
-  query ProvinceList($countryId: Int!){
-    provinces(countryId: $countryId){
-      id
-      deno
-    }
-  }
-`;
 
 export const conveneCouncil = gql`
   mutation conveneCouncil($council: CouncilInput){
@@ -1493,53 +1451,12 @@ export const agendaComments = gql`
   }
 `;
 
-export const countries = gql `
-  query countries {
-    countries {
-      deno
-      id
-    }
-  }
-`;
-
-
-
-
-
-
-
-
 
 
 
 
 
 //OLD VERSION
-
-
-export const majorities = gql `
-  query majorities{
-    majorities {
-      value
-      label
-    }
-  }
-`;
-
-export const quorums = gql `
-  query quorums{
-    quorums 
-  }
-`;
-
-export const votationTypes = gql `
-  query votationTypes{
-    votingTypes {
-      label
-      value
-    }
-  }
-`;
 
 export const participantsQuery = gql `
   query Participants($councilID: ID!){

@@ -32,7 +32,7 @@ class Sidebar extends Component {
         icon: ContentPaste,
       },
       {
-        path: "/",
+        path: "/company/${props.company.id}/signatures/drafts",
         name: 'signature',
         sidebarName: props.translate.signatures,
         icon: BorderColor,

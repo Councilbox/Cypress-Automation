@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField, FormControl, InputAdornment } from 'material-ui';
 
-const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorText, classes, onKeyUp, placeholder, required, min, max }) => (
+const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorText, classes, onKeyUp, placeholder, required, min, max, disabled }) => (
     <FormControl style={{
         width: '100%',
         marginTop: 0
@@ -29,6 +29,7 @@ const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorT
                 max: max
             }}
             type={type}
+            disabled={!!disabled}
             onKeyUp={onKeyUp}
             onChange={onChange}
             margin="normal"

@@ -3,7 +3,7 @@ import { CardPageLayout, LoadingSection } from '../displayComponents';
 import ChangePasswordForm from './ChangePasswordForm';
 import UpdateUserForm from './UpdateUserForm';
 import { graphql } from 'react-apollo';
-import { languages } from '../../queries';
+import { languages } from '../../queries/masters';
 
 
 class UserSettingsPage extends Component {
