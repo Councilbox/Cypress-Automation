@@ -1,30 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="close #70">
-      <change afterPath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/signature/Signature.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/signature/Signatures.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/SignatureContainer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/queries/company.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/queries/masters.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/queries/signature.js" afterDir="false" />
+    <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companySettings/CompanySettingsPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/PlaceModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/councilEditor/PlaceModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/displayComponents/BasicButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/displayComponents/BasicButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/displayComponents/TabsScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/displayComponents/TabsScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/displayComponents/TextInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/displayComponents/TextInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sideMenu/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sideMenu/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/AppRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/AppRouter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/CompanySettingsContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CompanySettingsContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,51 +31,34 @@
       <file leaf-file-name="CompanySettingsPage.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="581">
-              <caret line="118" column="17" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
+            <state relative-caret-position="555">
+              <caret line="307" column="34" selection-start-line="307" selection-start-column="34" selection-end-line="307" selection-end-column="34" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
-                <element signature="n#!!block;n#f#0" />
                 <element signature="n#!!block;n#constructor#0;n#CompanySettingsPage#0" />
+                <element signature="e#5015#8580#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TextInput.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/displayComponents/TextInput.js">
+      <file leaf-file-name="Grid.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/displayComponents/Grid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+            <state relative-caret-position="40">
+              <caret line="3" column="73" selection-start-line="3" selection-start-column="66" selection-end-line="3" selection-end-column="73" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CompanySettingsContainer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/containers/CompanySettingsContainer.js">
+      <file leaf-file-name="UpdateUserForm.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="120">
+              <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="111" selection-end-column="5" />
               <folding>
-                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="masters.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/queries/masters.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="23" column="12" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="queries.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/queries.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="680" column="12" selection-start-line="680" selection-start-column="12" selection-end-line="680" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -105,8 +67,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>map</find>
-      <find>deleteAction</find>
       <find>CloseIcon</find>
       <find>DeleteIcon</find>
       <find>isFullHeight</find>
@@ -132,9 +92,11 @@
       <find>graphql</find>
       <find>data.countries</find>
       <find>step</find>
-      <find>province</find>
       <find>provinces</find>
+      <find>province</find>
       <find>success</find>
+      <find>resetButtonStates</find>
+      <find>handleFile</find>
     </findStrings>
     <replaceStrings>
       <replace>ChangePdw</replace>
@@ -201,8 +163,6 @@
         <option value="$PROJECT_DIR$/src/styles/styles.js" />
         <option value="$PROJECT_DIR$/src/containers/CouncilContainer.js" />
         <option value="$PROJECT_DIR$/src/utils/CBX.js" />
-        <option value="$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js" />
-        <option value="$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js" />
         <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPage.js" />
         <option value="$PROJECT_DIR$/src/components/notLogged/signUp/TermsModal.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/MajorityInput.js" />
@@ -230,7 +190,6 @@
         <option value="$PROJECT_DIR$/src/queries/company.js" />
         <option value="$PROJECT_DIR$/src/queries.js" />
         <option value="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" />
-        <option value="$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js" />
         <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" />
         <option value="$PROJECT_DIR$/src/queries/masters.js" />
         <option value="$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js" />
@@ -238,6 +197,9 @@
         <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js" />
         <option value="$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/TextInput.js" />
+        <option value="$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js" />
+        <option value="$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js" />
+        <option value="$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js" />
         <option value="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" />
       </list>
     </option>
@@ -304,7 +266,29 @@
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
               <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="containers" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="company" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="company" type="462c0819:PsiDirectoryNode" />
+              <item name="settings" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="userSettings" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -448,7 +432,7 @@
       <workItem from="1524555097886" duration="23607000" />
       <workItem from="1524644921455" duration="11964000" />
       <workItem from="1524727024546" duration="8067000" />
-      <workItem from="1524737161073" duration="5751000" />
+      <workItem from="1524737161073" duration="7246000" />
     </task>
     <task id="LOCAL-00001" summary="close #35">
       <created>1523896925018</created>
@@ -555,7 +539,21 @@
       <option name="project" value="LOCAL" />
       <updated>1524585182430</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="close #70">
+      <created>1524743516598</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1524743516598</updated>
+    </task>
+    <task id="LOCAL-00017" summary="close #70">
+      <created>1524744708763</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1524744708763</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -567,7 +565,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155577000" />
+    <option name="totallyTimeSpent" value="157072000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -586,11 +584,11 @@
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info active="true" anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
+      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
       <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -687,7 +685,8 @@
     <MESSAGE value="close #39" />
     <MESSAGE value="close #38" />
     <MESSAGE value="working in #23" />
-    <option name="LAST_COMMIT_MESSAGE" value="working in #23" />
+    <MESSAGE value="close #70" />
+    <option name="LAST_COMMIT_MESSAGE" value="close #70" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -705,13 +704,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/CheckBox.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" column="17" lean-forward="true" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/companyDraft/CompanyDraftForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -730,13 +722,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="735">
           <caret line="71" column="30" selection-start-line="71" selection-start-column="21" selection-end-line="71" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-303">
-          <caret line="134" column="21" selection-start-line="134" selection-start-column="21" selection-end-line="134" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -962,13 +947,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="129" column="16" selection-start-line="129" selection-start-column="16" selection-end-line="131" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/displayComponents/BasicButton.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -1030,13 +1008,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="24" column="20" lean-forward="true" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/councilEditor/PlaceModal.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
@@ -1070,13 +1041,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/TextInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/queries.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -1091,14 +1055,63 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js">
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/TextInput.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="581">
-          <caret line="118" column="17" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
+        <state relative-caret-position="547">
+          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="168" column="36" selection-start-line="168" selection-start-column="36" selection-end-line="168" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+            <element signature="e#724#1614#0" />
+            <element signature="e#2532#2721#0" />
+            <element signature="n#!!block;n#updateState#0;n#ChangePasswordForm#0" />
+            <element signature="n#!!block;n#handleButtonSuccess#0;n#ChangePasswordForm#0" />
+            <element signature="e#3034#3158#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="540">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-            <element signature="n#!!block;n#f#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="67" column="4" selection-start-line="67" selection-start-column="4" selection-end-line="111" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/Grid.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="3" column="73" selection-start-line="3" selection-start-column="66" selection-end-line="3" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="555">
+          <caret line="307" column="34" selection-start-line="307" selection-start-column="34" selection-end-line="307" selection-end-column="34" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
             <element signature="n#!!block;n#constructor#0;n#CompanySettingsPage#0" />
+            <element signature="e#5015#8580#0" />
           </folding>
         </state>
       </provider>

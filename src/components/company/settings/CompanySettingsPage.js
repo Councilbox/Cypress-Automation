@@ -207,10 +207,10 @@ class CompanySettingsPage extends Component {
                     {translate.fiscal_data}
                 </Typography>
                 <br/>
-                <Grid>
+                <Grid spacing={0}>
                     <GridItem xs={12} md={9} lg={9}>
-                        <Grid>
-                            <GridItem xs={12} md={6} lg={4}>
+                        <Grid spacing={16}>
+                            <GridItem xs={12} md={6} lg={5}>
                                 <TextInput
                                     floatingText={translate.business_name}
                                     type="text"
@@ -234,7 +234,7 @@ class CompanySettingsPage extends Component {
                                     required
                                 />
                             </GridItem>
-                            <GridItem xs={12} md={6} lg={4}>
+                            <GridItem xs={12} md={6} lg={3}>
                                 <TextInput
                                     disabled
                                     floatingText={translate.company_type}
@@ -305,7 +305,7 @@ class CompanySettingsPage extends Component {
                     {translate.contact_data}
                 </Typography>
                 <br/>
-                <Grid>
+                <Grid spacing={16}>
                     <GridItem xs={12} md={6} lg={6}>
                         <TextInput
                             floatingText={translate.address}
