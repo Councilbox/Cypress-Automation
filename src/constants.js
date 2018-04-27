@@ -10,6 +10,29 @@ export const AGENDA_TYPE = {
     'PRIVATE_ACT': 4,
     'REAL_PRIVATE_VOTING': 5
 };
-export const DRAFTS_LIMITS = [1, 2, 10, 30];
-export const CENSUS_LIMITS = [1, 2, 10, 30];
-export const PARTICIPANTS_LIMITS = [1, 2, 10, 30];
+export const DRAFTS_LIMITS = [25, 50, 100, 250];
+export const CENSUS_LIMITS = [25, 50, 100, 250];
+export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];
+
+
+export const EMAIL_TRACK_STATES = {
+    FAILED: -1,
+    NOT_SENT: 0,
+    PENDING_SHIPPING: 20,
+    DELIVERED: 22,
+    OPENED: 25,
+    CLICKED: 32,
+    SPAM: 35,
+    INVALID_EMAIL_ADDRESS: 36,
+    DROPPED: 37
+};
+
+export const EMAIL_STATES_FILTERS = {
+    FAILED: -1,
+    DROPPED: 37,
+    INVALID_EMAIL_ADDRESS: 36,
+    SPAM: 35,
+    PENDING_SHIPPING: 20,
+    DELIVERED: 22,
+    OPENED: 25
+};

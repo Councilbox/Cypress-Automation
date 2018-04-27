@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from "react";
-import { MenuItem, Typography } from 'material-ui';
+import { MenuItem, Typography, Paper } from 'material-ui';
 import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio, SelectInput, TextInput } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { checkValidEmail, errorHandler } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
+import ParticipantForm from '../councilParticipants/ParticipantForm';
+import RepresentativeForm from '../councilParticipants/RepresentativeForm';
 
 let primary = getPrimary();
 
@@ -103,10 +105,8 @@ class NewParticipantForm extends Component {
                         }
                     })
                 } else {
+                    this.resetValues();                                      
                     this.props.requestClose();
-                    //this.props.refetch();
-                    //this.resetValues();
-                    //this.props.close();
                 }
             }
         }
@@ -298,92 +298,15 @@ class NewParticipantForm extends Component {
         const { representative } = this.state.data;
         const { errors } = this.state;
 
-        return (<Grid style={{
-                margin: '1em',
-                padding: '1em',
-                border: '1px solid turquoise'
-            }}>
-                <GridItem xs={6} lg={4} md={4}>
-                    <TextInput
-                        floatingText={translate.name}
-                        type="text"
-                        errorText={errors.name}
-                        value={representative.name}
-                        onChange={(event) => this.updateRepresentative({
-                            name: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                <GridItem xs={6} lg={4} md={4}>
-                    <TextInput
-                        floatingText={translate.surname}
-                        type="text"
-                        errorText={errors.surname}
-                        value={representative.surname}
-                        onChange={(event) => this.updateRepresentative({
-                            surname: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                <GridItem xs={6} lg={4} md={4}>
-                    <TextInput
-                        floatingText={translate.new_dni}
-                        type="text"
-                        errorText={errors.dni}
-                        value={representative.dni}
-                        onChange={(event) => this.updateRepresentative({
-                            dni: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                <GridItem xs={6} lg={4} md={4}>
-                    <TextInput
-                        floatingText={translate.position}
-                        type="text"
-                        errorText={errors.position}
-                        value={representative.position}
-                        onChange={(event) => this.updateRepresentative({
-                            position: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                <GridItem xs={6} lg={4} md={4}>
-                    <TextInput
-                        floatingText={translate.email}
-                        type="text"
-                        errorText={errors.email}
-                        value={representative.email}
-                        onChange={(event) => this.updateRepresentative({
-                            email: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                <GridItem xs={6} lg={4} md={4}>
-                    <TextInput
-                        floatingText={translate.phone}
-                        type="text"
-                        errorText={errors.phone}
-                        value={representative.phone}
-                        onChange={(event) => this.updateRepresentative({
-                            phone: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                <GridItem xs={12} lg={2} md={2}>
-                    <SelectInput
-                        floatingText={translate.language}
-                        value={representative.language}
-                        onChange={(event) => this.updateRepresentative({
-                            language: event.target.value
-                        })}
-                    >
-                        {this.state.languages.map((language) => {
-                            return <MenuItem value={language.column_name}
-                                             key={`language${language.id}`}>{language.desc}</MenuItem>
-                        })}
-                    </SelectInput>
-                </GridItem>
-            </Grid>)
+        return (
+            <RepresentativeForm 
+                representative={representative}
+                translate={translate}
+                languages={this.state.languages}
+                errors={errors}
+                updateState={this.updateRepresentative}
+            />
+        )
     }
 
     _renderAddParticipantForm() {
@@ -391,219 +314,17 @@ class NewParticipantForm extends Component {
         const errors = this.state.errors;
         const { translate, participations } = this.props;
 
-        if (this.state.participantType === 1) {
-            return (<Grid>
-                    <GridItem xs={12} lg={4} md={6}>
-                        <TextInput
-                            floatingText={translate.entity_name}
-                            type="text"
-                            errorText={errors.name}
-                            value={participant.name}
-                            onChange={(event) => this.updateParticipant({
-                                name: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-
-                    <GridItem xs={12} lg={4} md={6}>
-                        <TextInput
-                            floatingText={translate.cif}
-                            type="text"
-                            errorText={errors.dni}
-                            value={participant.dni}
-                            onChange={(event) => this.updateParticipant({
-                                dni: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-
-                    <GridItem xs={12} lg={4} md={6}>
-                        <TextInput
-                            floatingText={translate.position}
-                            type="text"
-                            errorText={errors.position}
-                            value={participant.position}
-                            onChange={(event) => this.updateParticipant({
-                                position: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-
-                    <GridItem xs={12} lg={4} md={6}>
-                        <TextInput
-                            floatingText={translate.email}
-                            type="text"
-                            errorText={errors.email}
-                            value={participant.email}
-                            onChange={(event) => this.updateParticipant({
-                                email: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-
-                    <GridItem xs={12} lg={4} md={6}>
-                        <TextInput
-                            floatingText={translate.phone}
-                            type="text"
-                            errorText={errors.phone}
-                            value={participant.phone}
-                            onChange={(event) => this.updateParticipant({
-                                phone: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-
-                    <GridItem xs={4} lg={2} md={2}>
-                        <SelectInput
-                            floatingText={translate.language}
-                            value={participant.language}
-                            onChange={(event) => this.updateParticipant({
-                                language: event.target.value
-                            })}
-                        >
-                            {this.state.languages.map((language) => {
-                                return <MenuItem value={language.column_name}
-                                                 key={`language${language.id}`}>{language.desc}</MenuItem>
-                            })}
-                        </SelectInput>
-                    </GridItem>
-
-                    <GridItem xs={4} lg={2} md={2}>
-                        <TextInput
-                            floatingText={translate.votes}
-                            type="number"
-                            errorText={errors.numParticipations}
-                            value={participant.numParticipations}
-                            onChange={(event) => this.updateParticipant({
-                                numParticipations: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>
-                    {participations && <GridItem xs={4} lg={2} md={2}>
-                        <TextInput
-                            floatingText={translate.social_capital}
-                            type="number"
-                            errorText={errors.socialCapital}
-                            value={participant.socialCapital}
-                            onChange={(event) => this.updateParticipant({
-                                socialCapital: event.nativeEvent.target.value
-                            })}
-                        />
-                    </GridItem>}
-                </Grid>);
-        }
-
-        return (<Grid>
-                <GridItem xs={12} lg={4} md={6}>
-                    <TextInput
-                        floatingText={translate.name}
-                        type="text"
-                        errorText={errors.name}
-                        value={participant.name}
-                        onChange={(event) => this.updateParticipant({
-                            name: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-
-                <GridItem xs={12} lg={4} md={6}>
-                    <TextInput
-                        floatingText={translate.surname}
-                        type="text"
-                        errorText={errors.surname}
-                        value={participant.surname}
-                        onChange={(event) => this.updateParticipant({
-                            surname: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-
-                <GridItem xs={12} lg={4} md={6}>
-                    <TextInput
-                        floatingText={translate.new_dni}
-                        type="text"
-                        errorText={errors.dni}
-                        value={participant.dni}
-                        onChange={(event) => this.updateParticipant({
-                            dni: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-
-                <GridItem xs={12} lg={4} md={6}>
-                    <TextInput
-                        floatingText={translate.position}
-                        type="text"
-                        errorText={errors.position}
-                        value={participant.position}
-                        onChange={(event) => this.updateParticipant({
-                            position: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-
-                <GridItem xs={12} lg={4} md={6}>
-                    <TextInput
-                        floatingText={translate.email}
-                        type="text"
-                        errorText={errors.email}
-                        value={participant.email}
-                        onChange={(event) => this.updateParticipant({
-                            email: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-
-                <GridItem xs={12} lg={4} md={6}>
-                    <TextInput
-                        floatingText={translate.phone}
-                        type="text"
-                        errorText={errors.phone}
-                        value={participant.phone}
-                        onChange={(event) => this.updateParticipant({
-                            phone: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-
-                <GridItem xs={12} lg={4} md={6}>
-                    <SelectInput
-                        floatingText={translate.language}
-                        value={participant.language}
-                        onChange={(event) => this.updateParticipant({
-                            language: event.target.value
-                        })}
-                    >
-                        {this.state.languages.map((language) => {
-                            return <MenuItem value={language.column_name}
-                                             key={`language${language.id}`}>{language.desc}</MenuItem>
-                        })}
-                    </SelectInput>
-                </GridItem>
-
-                <GridItem xs={4} lg={2} md={2}>
-                    <TextInput
-                        floatingText={translate.votes}
-                        type="number"
-                        errorText={errors.numParticipations}
-                        value={participant.numParticipations}
-                        onChange={(event) => this.updateParticipant({
-                            numParticipations: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>
-                {participations && <GridItem xs={4} lg={2} md={2}>
-                    <TextInput
-                        floatingText={translate.social_capital}
-                        type="number"
-                        errorText={errors.socialCapital}
-                        value={participant.socialCapital}
-                        onChange={(event) => this.updateParticipant({
-                            socialCapital: event.nativeEvent.target.value
-                        })}
-                    />
-                </GridItem>}
-            </Grid>);
+        return(
+            <ParticipantForm
+                type={this.state.participantType}
+                participant={participant}
+                participations={participations}
+                translate={translate}
+                languages={this.state.languages}
+                errors={errors}
+                updateState={this.updateParticipant}
+            />
+        )
     }
 
     render() {
@@ -615,13 +336,20 @@ class NewParticipantForm extends Component {
                             {translate.add_participant}
                         </Typography>
                     </GridItem>
-                    {this._renderAddParticipantTypeSelector()}
-                    {this._renderAddParticipantForm()}
+                    <Paper style={{padding: '2em', paddingTop: '1em', marginTop: '1em', marginBottom: '1em'}}>
+                        {this._renderAddParticipantTypeSelector()}
+                        {this._renderAddParticipantForm()}
+                    </Paper>
                     {this._renderRepresentativeCheckbox()}
-                    {this.state.addRepresentative && this._renderRepresentativeForm()}
+                    {this.state.addRepresentative && 
+                        <Paper style={{marginBottom: '1.3em', padding: '2em'}}>
+                            {this._renderRepresentativeForm()}
+                        </Paper>
+                    }                    
                     {this._renderAddParticipantButtons()}
                 </Grid>
-            </Fragment>);
+            </Fragment>
+        );
     }
 }
 

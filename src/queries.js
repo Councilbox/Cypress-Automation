@@ -133,6 +133,22 @@ export const updateCouncil = gql`
   }
 `;
 
+export const cancelCouncil = gql`
+  mutation cancelCouncil($councilId: Int!){
+    cancelCouncil(councilId: $councilId){
+      success
+    }
+  }
+`;
+
+export const rescheduleCouncil = gql`
+  mutation rescheduleCouncil($councilId: Int!, $dateStart: String, $dateStart2NdCall: String){
+    rescheduleCouncil(councilId: $councilId, dateStart: $dateStart, dateStart2NdCall: $dateStart2NdCall){
+      success
+    }
+  }
+`;
+
 export const deleteCouncil = gql`
   mutation DeleteCouncil($councilId: Int!){
     deleteCouncil(councilId: $councilId){
@@ -259,12 +275,61 @@ export const councilParticipants = gql`
         socialCapital
         uuid
         delegateUuid
+        delegateId
+        representative {
+          id
+          name
+          surname
+          dni
+          email
+          phone
+          position
+        }
         position
         language
         city
         personOrEntity
       }
       total
+    }
+  }
+`;
+
+export const convenedcouncilParticipants = gql`
+  query participants($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput){
+    councilParticipants(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+      list{
+        id
+        councilId
+        name
+        surname
+        position
+        email
+        phone
+        dni
+        type
+        numParticipations
+        socialCapital
+        uuid
+        delegateUuid
+        position
+        language
+        city
+        personOrEntity
+        notifications{
+          reqCode
+        }
+      }
+      total
+    }
+  }
+`;
+
+export const updateNotificationsStatus = gql`
+  mutation updateNotificationsStatus($councilId: Int!){
+    updateNotificationsStatus(councilId: $councilId){
+      success
+      message
     }
   }
 `;
@@ -775,8 +840,10 @@ export const provinces = gql`
 `;
 
 export const conveneCouncil = gql`
-  mutation conveneCouncil($council: CouncilInput){
-    conveneCouncil(council: $council)
+  mutation conveneCouncil($councilId: Int!){
+    conveneCouncil(councilId: $councilId){
+      success
+    }
   }
 `;
 
@@ -1198,6 +1265,31 @@ export const councilLiveQuery =  gql`
       votationType
       weightedVoting
       zipcode
+    }
+  }
+`;
+
+export const downloadCouncilAttachment = gql`
+  query downloadCouncilAttachment($attachmentId: Int!){
+    councilAttachment(id: $attachmentId){
+      base64
+      filename
+      filetype
+    }
+  }
+`;
+
+export const downloadConvenePDF = gql`
+  query downloadConvenePDF($councilId: Int!){
+    downloadConvenePDF(councilId: $councilId)
+  }
+`;
+
+export const sendConveneReminder = gql`
+  mutation sendConveneReminder($councilId: Int!, $includeAgenda: Int, $confirmAssistance: Int){
+    sendConveneReminder(councilId: $councilId, includeAgenda: $includeAgenda, confirmAssistance: $confirmAssistance){
+      success
+      message
     }
   }
 `;

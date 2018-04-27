@@ -34,7 +34,7 @@ class AttachmentList extends Component {
         const { errors } = this.state;
 
         return(
-            <React.Fragment>
+            <div style={{width: '650px'}}>
                 <TextInput
                     floatingText={translate.name}
                     type="text"
@@ -44,7 +44,7 @@ class AttachmentList extends Component {
                         name: event.target.value
                     })}
                 />
-            </React.Fragment>
+            </div>
         )
     }
 

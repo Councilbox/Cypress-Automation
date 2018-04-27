@@ -221,6 +221,19 @@ describe('Return if a council have act point', () => {
     });
 });
 
+describe('Return Formatted filesize to byte, kb, mb or gb', () => {
+    it('Should return the correct string', () => {
+        assert.equal(CBX.printPrettyFilesize(1023), '1023 Bytes');
+        assert.equal(CBX.printPrettyFilesize(1024), '1 KBs');
+        assert.equal(CBX.printPrettyFilesize(1048575), '1023.99 KBs');
+        assert.equal(CBX.printPrettyFilesize(1048576), '1 MBs');
+        assert.equal(CBX.printPrettyFilesize(1073741823), '1023.99 MBs');
+        assert.equal(CBX.printPrettyFilesize(1073741824), '1 GBs');
+        
+        
+    })
+});
+
 const votingTypes = [ {
     'value': 0,
     'label': 'text'

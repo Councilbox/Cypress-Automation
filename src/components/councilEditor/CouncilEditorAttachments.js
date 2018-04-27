@@ -24,7 +24,7 @@ class CouncilEditorAttachments extends Component {
         this.props.data.refetch();
     }
 
-    componentWillReceiveProps(nextProps){
+    static getDerivedStateFromProps(nextProps){
         if(!nextProps.data.council){
             return;
         }
@@ -32,21 +32,22 @@ class CouncilEditorAttachments extends Component {
         let totalSize = 0;
         if(attachments.length !== 0){
             if(attachments.length > 1){
-                totalSize = attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0)
+                totalSize = attachments.reduce((a, b) => a + +b.filesize / 1000, 0)
             }else{
-                totalSize = attachments[0].filesize;
+                totalSize = attachments[0].filesize / 1000;
             }
         }
 
         if(attachments){
-            this.setState({
+            return({
                 totalSize: totalSize
             });
         }
     } 
 
-    handleFile = (event) => {
+    handleFile = async (event) => {
         const file = event.nativeEvent.target.files[0];
+        console.log(file);
         if(!file){
             return;
         }
@@ -57,17 +58,19 @@ class CouncilEditorAttachments extends Component {
             return;
         }
         let reader = new FileReader();
-        reader.readAsDataURL(file);
+        reader.readAsBinaryString(file);
 
-
-        reader.onload = async () => {
+        reader.onload = async (event) => {
+            console.log(event);
             let fileInfo = {
                 filename: file.name,
                 filetype: file.type,
-                filesize: Math.round(file.size / 1000),
-                base64: reader.result,
+                filesize: event.loaded,
+                base64: btoa(event.target.result),
                 councilId: this.props.councilID
             };
+
+            console.log(fileInfo);
 
             this.setState({
                 uploading: true
