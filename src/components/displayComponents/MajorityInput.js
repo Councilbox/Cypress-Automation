@@ -11,6 +11,8 @@ const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style,
                         type={"number"}
                         value={value}
                         errorText={majorityError}
+                        min="1"
+                        max="100"
                         adornment={'%'}
                         onChange={(event) => onChange(event.nativeEvent.target.value)}
                     />
@@ -27,6 +29,7 @@ const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style,
                         <TextInput
                             type={"number"}
                             value={value}
+                            min="1"
                             errorText={majorityError}
                             onChange={(event) => onChange(event.nativeEvent.target.value)}
                         />
@@ -35,6 +38,7 @@ const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style,
                         <TextInput
                             type={"number"}
                             value={divider}
+                            min="1"
                             errorText={dividerError}
                             adornment={'/'}
                             onChange={(event) => onChangeDivider(event.nativeEvent.target.value)}
@@ -51,6 +55,7 @@ const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style,
                 <div style={{...style, width: '4.2em'}}>
                     <TextInput
                         type={"number"}
+                        min="1"
                         value={value}
                         errorText={majorityError}
                         onChange={(event) => onChange(event.nativeEvent.target.value)}

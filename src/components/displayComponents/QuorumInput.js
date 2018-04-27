@@ -12,6 +12,8 @@ const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, q
                     <TextInput
                         type={"number"}
                         value={value}
+                        min="1"
+                        max="100"
                         errorText={quorumError}
                         adornment={'%'}
                         onChange={(event) => onChange(event.nativeEvent.target.value)}
@@ -27,6 +29,7 @@ const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, q
                         <TextInput
                             type={"number"}
                             value={value}
+                            min="1"
                             errorText={quorumError}
                             onChange={(event) => onChange(event.nativeEvent.target.value)}
                         />
@@ -35,6 +38,7 @@ const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, q
                         <TextInput
                             type={"number"}
                             value={divider}
+                            min="1"
                             errorText={dividerError}
                             adornment={'/'}
                             onChange={(event) => onChangeDivider(event.nativeEvent.target.value)}
@@ -53,6 +57,7 @@ const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, q
                     <TextInput
                         type={"number"}
                         value={value}
+                        min="1"
                         errorText={quorumError}
                         onChange={(event) => onChange(event.nativeEvent.target.value)}
                     />

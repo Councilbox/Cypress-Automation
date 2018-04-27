@@ -3,7 +3,7 @@ import { CardPageLayout, LoadingSection } from '../displayComponents';
 import ChangePasswordForm from './ChangePasswordForm';
 import UpdateUserForm from './UpdateUserForm';
 import { graphql } from 'react-apollo';
-import { languages } from '../../queries';
+import { languages } from '../../queries/masters';
 
 
 class UserSettingsPage extends Component {
@@ -15,8 +15,10 @@ class UserSettingsPage extends Component {
             return <LoadingSection/>;
         }
 
-        return (<CardPageLayout title={translate.settings}
-                                isFullHeight={false}>
+        return (
+
+            <CardPageLayout title={translate.settings}>
+                <br/>
                 <UpdateUserForm
                     translate={translate}
                     user={this.props.user}
@@ -27,7 +29,9 @@ class UserSettingsPage extends Component {
                 <ChangePasswordForm
                     translate={translate}
                 />
-            </CardPageLayout>);
+            </CardPageLayout>
+
+        );
     }
 }
 

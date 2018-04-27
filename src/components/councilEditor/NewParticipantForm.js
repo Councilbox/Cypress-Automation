@@ -8,6 +8,7 @@ import { checkValidEmail, errorHandler } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
 import ParticipantForm from '../councilParticipants/ParticipantForm';
 import RepresentativeForm from '../councilParticipants/RepresentativeForm';
+import { languages } from "../../queries/masters";
 
 let primary = getPrimary();
 
@@ -40,13 +41,6 @@ class NewParticipantForm extends Component {
                 phone: '',
             }
         }
-    }
-
-    async componentDidMount() {
-        const languages = await CouncilBoxApi.getLanguageList();
-        this.setState({
-            languages: languages
-        });
     }
 
     updateParticipant = (object) => {
@@ -365,7 +359,7 @@ export default graphql(addParticipant, {
     options: {
         errorPolicy: 'all'
     }
-})(NewParticipantForm);
+}, graphql(languages))(NewParticipantForm);
 
 const newParticipantInitialValues = {
     language: 'es',
