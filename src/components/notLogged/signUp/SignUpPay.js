@@ -6,7 +6,7 @@ import {
 import { getPrimary, secondary } from '../../../styles/colors';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql, withApollo } from 'react-apollo';
-import { countries, provinces } from '../../../queries';
+import { countries, provinces } from '../../../queries/masters';
 import TermsModal from './TermsModal'
 
 class SignUpPay extends Component {

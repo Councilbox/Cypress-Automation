@@ -14,6 +14,6 @@ const DeleteIcon = ({ style, onClick, loading }) => (
             <CircularProgress size={20} color="primary" />
         }
     </Fragment>
-)
+);
 
 export default DeleteIcon;

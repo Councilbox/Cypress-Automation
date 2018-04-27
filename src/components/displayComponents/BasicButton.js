@@ -4,7 +4,7 @@ import { ButtonIcon } from './';
 import { CircularProgress } from 'material-ui/Progress';
 
 
-const BasicButton = ({ color, error, text, resetDelay = 2700, textStyle, reset, buttonStyle, icon, type, textPosition, onClick, fullWidth, loading, success }) => {
+const BasicButton = ({ color, error, text, resetDelay = 2700, textStyle, reset, buttonStyle, icon, type, textPosition, onClick, fullWidth, loading, success, floatRight }) => {
 
     if((error || success) && !!reset){
         let timeout = setTimeout(() => {
@@ -15,7 +15,12 @@ const BasicButton = ({ color, error, text, resetDelay = 2700, textStyle, reset, 
     
     return(
         <Button
-            style={{...buttonStyle, ...textStyle, backgroundColor: success? 'green' : error? 'red' : color}}
+            style={{
+                ...buttonStyle,
+                ...textStyle,
+                backgroundColor: success? 'green' : error? 'red' : color,
+                float: floatRight && 'right'
+            }}
             variant={type}
             onClick={onClick}
             fullWidth={fullWidth}

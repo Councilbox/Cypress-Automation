@@ -11,7 +11,7 @@ import {
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
-import { companyTypes } from '../../../queries';
+import { companyTypes } from '../../../queries/masters';
 import { withApollo } from "react-apollo/index";
 import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 

@@ -4,7 +4,7 @@ import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/D
 import { BasicButton, Checkbox, LoadingSection, SelectInput, TextInput } from "../displayComponents";
 import { getPrimary } from '../../styles/colors';
 import { withApollo } from 'react-apollo';
-import { provinces } from "../../queries";
+import { provinces } from "../../queries/masters";
 
 class PlaceModal extends Component {
 

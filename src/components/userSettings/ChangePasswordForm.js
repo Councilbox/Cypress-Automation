@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { TextInput, BasicButton, ButtonIcon } from '../displayComponents';
+import { TextInput, BasicButton, ButtonIcon, Grid, GridItem } from '../displayComponents';
 import { Typography } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import { updatePassword } from '../../queries';
@@ -78,10 +78,6 @@ class ChangePasswordForm extends Component {
             errors.currentPassword = translate.no_empty_pwd;
         }
 
-        if (data.newPassword !== data.currentPassword) {
-
-        }
-
         this.setState({
             errors: errors
         });
@@ -133,8 +129,8 @@ class ChangePasswordForm extends Component {
                     {translate.change_password}
                 </Typography>
                 <br/>
-                <div className="row" style={{ paddingRight: '3em' }}>
-                    <div className="col-lg-3 col-md-6 col-xs-12">
+                <Grid>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.current_password}
                             type="password"
@@ -144,9 +140,10 @@ class ChangePasswordForm extends Component {
                             onChange={(event) => this.updateState({
                                 currentPassword: event.nativeEvent.target.value
                             })}
+                            required
                         />
-                    </div>
-                    <div className="col-lg-4 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.new_password}
                             type="password"
@@ -156,9 +153,10 @@ class ChangePasswordForm extends Component {
                                 newPassword: event.nativeEvent.target.value
                             })}
                             errorText={errors.newPassword}
+                            required
                         />
-                    </div>
-                    <div className="col-lg-5 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={12} md={6} lg={4}>
                         <TextInput
                             floatingText={translate.repeat_password}
                             type="password"
@@ -168,9 +166,11 @@ class ChangePasswordForm extends Component {
                                 newPasswordConfirm: event.nativeEvent.target.value
                             })}
                             errorText={errors.newPasswordConfirm}
+                            required
                         />
-                    </div>
-                </div>
+                    </GridItem>
+                </Grid>
+                <br/>
                 <BasicButton
                     text={translate.save}
                     color={success ? 'green' : getPrimary()}
@@ -178,6 +178,7 @@ class ChangePasswordForm extends Component {
                         color: 'white',
                         fontWeight: '700'
                     }}
+                    floatRight
                     onClick={this.updatePassword}
                     loading={loading}
                     error={error}

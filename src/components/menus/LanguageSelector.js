@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { getSecondary } from '../../styles/colors';
 import { graphql } from 'react-apollo';
-import { languages } from '../../queries';
+import { languages } from '../../queries/masters';
 import { setLanguage } from '../../actions/mainActions';
 import { MenuItem } from 'material-ui';
 import { Icon, DropDownMenu, LoadingSection } from '../displayComponents';

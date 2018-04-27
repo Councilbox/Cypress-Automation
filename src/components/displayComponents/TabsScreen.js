@@ -24,7 +24,7 @@ class TabsScreen extends React.Component {
 
     changeTab = (index) => {
         this.setState({selectedTab: this.props.tabsIndex[index]})
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         this.setState({

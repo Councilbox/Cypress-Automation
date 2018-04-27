@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from '../components/Header';
 import LoginContainer from './LoginContainer';
 import CouncilContainer from './CouncilContainer';
+import SignatureContainer from './SignatureContainer';
 import SignUpContainer from './SignUpContainer';
 import MeetingsContainer from './MeetingsContainer';
 import ForgetPwdContainer from './ForgetPwdContainer';
@@ -83,6 +84,7 @@ class AppRouter extends Component {
                                 <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
                                 <Route exact path="/company/:company/council/:id" component={CouncilEditorContainer} />                           
                                 <Route path="/company/:company/councils/:section" component={CouncilContainer} />
+                                <Route path="/company/:company/signatures/:section" component={SignatureContainer} />
                                 <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            
                                 <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
                                 <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />

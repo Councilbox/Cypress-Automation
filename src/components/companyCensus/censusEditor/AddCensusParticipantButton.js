@@ -3,7 +3,8 @@ import { BasicButton, ButtonIcon, AlertConfirm, TextInput, SelectInput, Radio, L
 import { MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
-import { addCensusParticipant, languages } from '../../../queries';
+import { addCensusParticipant } from '../../../queries';
+import { languages } from '../../../queries/masters'
 import { censusHasParticipations } from '../../../utils/CBX';
 import RepresentativeForm from './RepresentativeForm';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CompanySettingsPage from '../components/companySettings/CompanySettingsPage';
+import CompanySettingsPage from '../components/company/settings/CompanySettingsPage';
 import {connect} from 'react-redux';
 
 class CompanySettingsContainer extends Component {
