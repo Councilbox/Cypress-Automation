@@ -4,6 +4,7 @@ import RegularCard from '../displayComponents/RegularCard';
 import Scrollbar from 'react-perfect-scrollbar';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { ToastContainer } from 'react-toastify';
+import { Paper } from 'material-ui';
 
 
 const CardPageLayout = ({ children, title, windowSize, disableScroll = false }) => (<div style={{
@@ -24,7 +25,7 @@ const CardPageLayout = ({ children, title, windowSize, disableScroll = false }) 
                 padding: windowSize !== 'xs' ? '0.5em' : '0.2em',
                 height: windowSize !== 'xs' ? '2.6em' : '2em',
                 zIndex: '1000',
-                marginLeft: windowSize !== 'xs' ? (windowSize === 'xl' ? '12%': '3em') : '1em',
+                marginLeft: windowSize !== 'xs' ? (windowSize === 'xl' ? '8%': '3em') : '1em',
                 marginRight: windowSize !== 'xs' && '1em',
                 position: 'relative',
                 borderRadius: '3px',
@@ -33,11 +34,11 @@ const CardPageLayout = ({ children, title, windowSize, disableScroll = false }) 
                  className="align-middle">
                 {title}
             </div>
-            <div style={{
+            <Paper style={{
                 height: windowSize !== 'xs' ? 'calc(100% - 2em)': 'calc(100% - 1.5em)',
                 backgroundColor: 'white',
                 borderRadius: '3px',
-                width: windowSize !== 'xs' ? (windowSize === 'xl' ? '80%': '96%') : '98%',
+                width: windowSize !== 'xs' ? (windowSize === 'xl' ? '90%': '96%') : '98%',
                 margin: '0 auto',
                 marginTop: '-4em',
             }}>
@@ -70,7 +71,7 @@ const CardPageLayout = ({ children, title, windowSize, disableScroll = false }) 
                         {children}
                     </div>}
                 </div>
-            </div>
+            </Paper>
         </div>
     </div>);
 
