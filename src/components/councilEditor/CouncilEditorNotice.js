@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import { MenuItem } from 'material-ui';
 import {
-    BasicButton, ButtonIcon, DateTimePicker, ErrorAlert, LoadingSection, RichTextInput, SelectInput, TextInput
+    BasicButton,
+    ButtonIcon,
+    DateTimePicker,
+    ErrorAlert,
+    LoadingSection,
+    RichTextInput,
+    SelectInput,
+    TextInput,
+    Grid,
+    GridItem
 } from "../displayComponents";
-import { getPrimary } from '../../styles/colors';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import PlaceModal from './PlaceModal';
 import LoadDraft from './LoadDraft';
 import { compose, graphql } from 'react-apollo';
@@ -180,78 +189,79 @@ class CouncilEditorNotice extends Component {
         const { loading, companyStatutes, draftTypes } = this.props.data;
         const council = this.state.data;
         const { errors } = this.state;
+        const primary = getPrimary();
+        const secondary = getSecondary();
 
         if (loading) {
             return (<div style={{
-                    height: '300px',
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <LoadingSection/>
-                </div>);
+                height: '300px',
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+            }}>
+                <LoadingSection/>
+            </div>);
         }
 
         const { statute } = this.props.data.council;
 
         return (<div style={{
-                width: '100%',
-                height: '100%',
-                padding: '2em'
-            }}>
-                <div className="row">
-                    <div className="col-lg-12 col-md-12 col-xs-12" style={{
-                        height: '4em',
-                        verticalAlign: 'middle',
-                        display: 'flex',
-                        alignItems: 'center'
-                    }}>
-                        <BasicButton
-                            text={translate.change_location}
-                            color={getPrimary()}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            textPosition="after"
-                            onClick={() => this.setState({ placeModal: true })}
-                            icon={<ButtonIcon type="location_on" color="white"/>}
-                        />
-                        <h6 style={{ marginLeft: '1.5em' }}>
-                            <b>{`${translate.new_location_of_celebrate}: `}</b>{council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${council.country}`}
-                        </h6>
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12">
-                        <SelectInput
-                            required
-                            floatingText={translate.council_type}
-                            value={this.props.data.council.statute.statuteId || ''}
-                            onChange={(event) => this.changeStatute(+event.target.value)}
-                        >
-                            {companyStatutes.map((statute) => {
-                                return <MenuItem value={+statute.id}
-                                                 key={`statutes_${statute.id}`}>{translate[ statute.title ] || statute.title}</MenuItem>
-                            })}
-                        </SelectInput>
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12">
-                        <DateTimePicker
-                            required
-                            onChange={(date) => {
-                                const newDate = new Date(date);
-                                const dateString = newDate.toISOString();
-                                this.updateDate(dateString);
-                            }}
-                            minDateMessage={''}
-                            acceptText={translate.accept}
-                            cancelText={translate.cancel}
-                            label={translate[ "1st_call_date" ]}
-                            value={council.dateStart}
-                        />
-                    </div>
+            width: '100%',
+            height: '100%',
+        }}>
+            <Grid>
+                <GridItem xs={12} md={6} lg={6}>
+                    <SelectInput
+                        required
+                        floatingText={translate.council_type}
+                        value={this.props.data.council.statute.statuteId || ''}
+                        onChange={(event) => this.changeStatute(+event.target.value)}
+                    >
+                        {companyStatutes.map((statute) => {
+                            return <MenuItem value={+statute.id}
+                                             key={`statutes_${statute.id}`}>{translate[ statute.title ] || statute.title}</MenuItem>
+                        })}
+                    </SelectInput>
+                </GridItem>
+                <GridItem xs={12} md={6} lg={6}></GridItem>
+                <GridItem xs={12} md={3} lg={3} style={{ display: 'flex-inline' }}>
+                    <BasicButton
+                        text={translate.change_location}
+                        color={secondary}
+                        textStyle={{
+                            color: 'white',
+                            fontWeight: '600',
+                            fontSize: '0.9em',
+                            textTransform: 'none',
+                        }}
+                        textPosition="after"
+                        onClick={() => this.setState({ placeModal: true })}
+                        icon={<ButtonIcon type="location_on" color="white"/>}
+                    />
+                </GridItem>
+                <GridItem xs={12} md={9} lg={9} style={{ display: 'flex-inline',                     verticalAlign: 'middle', alignItems: 'center'
+                }}>
+                    <h6 style={{ paddingTop: '0.8em' }}>
+                        <b>{`${translate.new_location_of_celebrate}: `}</b>{council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${council.country}`}
+                    </h6>
+                </GridItem>
+                <GridItem xs={12} md={6} lg={6}>
+                    <DateTimePicker
+                        required
+                        onChange={(date) => {
+                            const newDate = new Date(date);
+                            const dateString = newDate.toISOString();
+                            this.updateDate(dateString);
+                        }}
+                        minDateMessage={''}
+                        acceptText={translate.accept}
+                        cancelText={translate.cancel}
+                        label={translate[ "1st_call_date" ]}
+                        value={council.dateStart}
+                    />
+                </GridItem>
+                <GridItem xs={12} md={6} lg={6}>
                     {CBX.hasSecondCall(statute) && <div className="col-lg-6 col-md-6 col-xs-12">
                         <DateTimePicker
                             required
@@ -269,51 +279,20 @@ class CouncilEditorNotice extends Component {
                             value={council.dateStart2NdCall}
                         />
                     </div>}
-                    <div className="col-lg-5 col-md-6 col-xs-12" style={{ margin: '0.7em 0.7em 0 0' }}>
-                        <TextInput
-                            required
-                            floatingText={translate.table_councils_name}
-                            type="text"
-                            errorText={errors.name}
-                            value={council.name || ''}
-                            onChange={(event) => this.updateState({
-                                name: event.nativeEvent.target.value
-                            })}
-                        />
-                    </div>
-                    <div className="col-lg-12 col-md-12 col-xs-12" style={{ margin: '0.7em 0.7em 0 0' }}>
-                        <RichTextInput
-                            ref='editor'
-                            errorText={errors.convene_header}
-                            required
-                            tags={[ {
-                                value: moment(council.dateStart).format('LLL'),
-                                label: translate.date
-                            }, {
-                                value: company.businessName,
-                                label: translate.business_name
-                            }, {
-                                value: `${council.street}, ${council.country}`,
-                                label: translate.new_location_of_celebrate
-                            }, {
-                                value: company.country,
-                                label: translate.company_new_country
-                            } ]}
-                            floatingText={translate.convene_info}
-                            value={council.conveneText || ''}
-                            onChange={(value) => this.updateState({
-                                conveneText: value
-                            })}
-                        />
-                    </div>
-                </div>
-
-                <div style={{
-                    marginTop: '2em',
-                    width: '40%',
-                    float: 'right',
-                    height: '3em'
-                }}>
+                </GridItem>
+                <GridItem xs={12} md={12} lg={12}>
+                    <TextInput
+                        required
+                        floatingText={translate.table_councils_name}
+                        type="text"
+                        errorText={errors.name}
+                        value={council.name || ''}
+                        onChange={(event) => this.updateState({
+                            name: event.nativeEvent.target.value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={12} md={12} lg={12}>
                     <LoadDraft
                         translate={translate}
                         company={company}
@@ -322,9 +301,49 @@ class CouncilEditorNotice extends Component {
                         statutes={companyStatutes}
                         draftType={draftTypes.filter((draft => draft.label === 'convene_header'))[ 0 ].value}
                     />
+                    <RichTextInput
+                        ref='editor'
+                        errorText={errors.convene_header}
+                        required
+                        tags={[ {
+                            value: moment(council.dateStart).format('LLL'),
+                            label: translate.date
+                        }, {
+                            value: company.businessName,
+                            label: translate.business_name
+                        }, {
+                            value: `${council.street}, ${council.country}`,
+                            label: translate.new_location_of_celebrate
+                        }, {
+                            value: company.country,
+                            label: translate.company_new_country
+                        } ]}
+                        floatingText={translate.convene_info}
+                        value={council.conveneText || ''}
+                        onChange={(value) => this.updateState({
+                            conveneText: value
+                        })}
+                    />
+                </GridItem>
+                <GridItem xs={12} md={12} lg={12} style={{marginTop: '1em'}}>
                     <BasicButton
+                        floatRight
+                        text={translate.next}
+                        color={primary}
+                        icon={<ButtonIcon type="arrow_forward" color="white"/>}
+                        textStyle={{
+                            color: 'white',
+                            fontWeight: '700',
+                            fontSize: '0.9em',
+                            textTransform: 'none'
+                        }}
+                        textPosition="after"
+                        onClick={this.nextPage}
+                    />
+                    <BasicButton
+                        floatRight
                         text={translate.save}
-                        color={getPrimary()}
+                        color={secondary}
                         textStyle={{
                             color: 'white',
                             fontWeight: '700',
@@ -336,38 +355,26 @@ class CouncilEditorNotice extends Component {
                         textPosition="after"
                         onClick={() => this.updateCouncil(1)}
                     />
-                    <BasicButton
-                        text={translate.next}
-                        color={getPrimary()}
-                        icon={<ButtonIcon type="arrow_forward" color="white"/>}
-                        textStyle={{
-                            color: 'white',
-                            fontWeight: '700',
-                            fontSize: '0.9em',
-                            textTransform: 'none'
-                        }}
-                        textPosition="after"
-                        onClick={this.nextPage}
-                    />
-                </div>
+                </GridItem>
 
-                <PlaceModal
-                    open={this.state.placeModal}
-                    close={() => this.setState({ placeModal: false })}
-                    place={this.state.place}
-                    countries={this.props.data.countries}
-                    translate={this.props.translate}
-                    saveAndClose={this.savePlaceAndClose}
-                    council={council}
-                />
-                <ErrorAlert
-                    title={translate.error}
-                    bodyText={translate.check_form}
-                    buttonAccept={translate.accept}
-                    open={this.state.alert}
-                    requestClose={() => this.setState({ alert: false })}
-                />
-            </div>);
+            </Grid>
+            <PlaceModal
+                open={this.state.placeModal}
+                close={() => this.setState({ placeModal: false })}
+                place={this.state.place}
+                countries={this.props.data.countries}
+                translate={this.props.translate}
+                saveAndClose={this.savePlaceAndClose}
+                council={council}
+            />
+            <ErrorAlert
+                title={translate.error}
+                bodyText={translate.check_form}
+                buttonAccept={translate.accept}
+                open={this.state.alert}
+                requestClose={() => this.setState({ alert: false })}
+            />
+        </div>);
     }
 }
 

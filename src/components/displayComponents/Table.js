@@ -1,13 +1,14 @@
 import React from 'react';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
+import TableStyles from '../../styles/table';
 
 const TableWrapper = ({ headers = [], children }) => (
-    <Table>
+    <Table style={{maxWidth: '100%'}}>
         <TableHead>
             <TableRow>
                 {headers.map((header, index) => {
                     return(
-                        <TableCell key={`header_${index}`} sortDirection={header.order}>
+                        <TableCell style={TableStyles.TH} key={`header_${index}`} sortDirection={header.order}>
                             {header.canOrder?
                                 <TableSortLabel
                                     active={header.active}
