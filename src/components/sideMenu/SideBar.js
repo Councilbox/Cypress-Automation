@@ -91,7 +91,7 @@ class Sidebar extends Component {
             style={{':hover': { textDecoration: 'none', color: 'red'}}}
             onClick={() => this.setState({ selectedRoute: key })}
           >
-            <ListItem button className={this.props.classes.itemLink + listItemClasses}>
+            <ListItem button className={this.props.classes.itemLink + listItemClasses} style={{display: 'flex', flexDirection: 'row'}}>
               <ListItemIcon className={this.props.classes.itemIcon + whiteFontClasses}>
                 <route.icon />
               </ListItemIcon>
@@ -110,12 +110,12 @@ class Sidebar extends Component {
 
   brand = () => (
     <div className={this.props.classes.logo}>
-      <span className={this.props.classes.logoLink}>
+      <div className={this.props.classes.logoLink} style={{display: 'flex', flexDirection: 'row'}}>
         <div className={this.props.classes.logoImage}>
           <img src={this.props.company.logo} alt="logo" className={this.props.classes.img} />
         </div>
-        <span style={{fontSize: '0.9em', fontWeight: '700'}}>{this.props.company.businessName}</span>
-      </span>
+        <div style={{fontSize: '0.85em', fontWeight: '700'}}>{this.props.company.businessName}</div>
+      </div>
     </div>
   );
 

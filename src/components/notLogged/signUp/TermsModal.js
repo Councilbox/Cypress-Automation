@@ -439,6 +439,7 @@ class TermsModal extends Component {
                     requestClose={() => this.props.close()}
                     open={this.props.open}
                     buttonAccept={translate.close}
+                    acceptAction={this.props.close}
                     bodyText={this._renderNewPointBody()}
                     title={translate.login_read_terms2}
                 />

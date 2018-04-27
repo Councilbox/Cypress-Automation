@@ -110,7 +110,7 @@ class Login extends React.PureComponent {
                 <div className="col-lg-7 col-md-7 col-xs-12" style={{ color: 'white', display: 'flex', paddingLeft: '3%', flexDirection: 'column', alignItems: 'center', paddingTop: windowSize === 'xs'? '1em' : '9em'}}>
                     <div style={{width: '70%', fontSize: '0.9em'}}>
                         {/*TODO*/}
-                        <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>Bienvenido/a</h4>
+                        <h4 style={{fontWeigth: '300', marginBottom: '1.2em', fontSize: '2em'}}>{translate.welcome_title}</h4>
                         <h6>¿Todavía no dispones de una cuenta en CouncilBox?</h6>
                         {windowSize !== 'xs' &&
                             <span style={{fontSize: '0.9', marginBottom: '1em', marginTop: '0.7em'}}>
@@ -136,7 +136,7 @@ class Login extends React.PureComponent {
                             <div className="col-lg-6 col-md-6 col-xs-6" style={{padding: '1em'}}>                            
                                 <Link to="/signup">
                                     <BasicButton
-                                        text="Dar de alta mi empresa"
+                                        text={translate.login_check_in}
                                         color={'white'}
                                         fullWidth
                                         textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
@@ -180,7 +180,7 @@ class Login extends React.PureComponent {
                         </div>
                         <div style={{marginTop: '3em'}}>
                             <BasicButton
-                                text="Entrar"
+                                text={translate.dashboard_enter}
                                 color={primary}
                                 textStyle={{color: 'white', fontWeight: '700'}}
                                 textPosition="before"
@@ -192,7 +192,7 @@ class Login extends React.PureComponent {
                         <div style={{marginTop: '2em', color: secondary}}>
                             <Link to="/forgetPwd">
                                 {/*TODO*/}
-                                ¿Has olvidado tu contraseña?
+                                {translate.login_forgot}
                             </Link>
                         </div>
                     </Card>

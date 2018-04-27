@@ -89,6 +89,13 @@ class ParticipantsTable extends Component {
             return(
                 <ParticipantEditor
                     translate={translate}
+                    participant={councilParticipants.list[this.state.editIndex]}
+                    requestClose={() => {
+                        this.props.data.refetch();
+                        this.setState({
+                            editParticipant: false
+                        })
+                    }}
                 />
             )
         }
@@ -120,11 +127,10 @@ class ParticipantsTable extends Component {
                         >
                             {councilParticipants.list.map((participant, index) => {
                                 return(
-                                    <Fragment>
+                                    <Fragment key={`participant${participant.id}`}>
                                         <TableRow  
                                             hover={true}
-                                            onClick={() => this.setState({editParticipant: true, editIndex: index})}                       
-                                            key={`participant${participant.id}`} 
+                                            onClick={() => this.setState({editParticipant: true, editIndex: index})}
                                             style={{cursor: 'pointer', fontSize: '0.5em'}}
                                         >
                                             <TableCell>{`${participant.name} ${participant.surname}`}</TableCell>

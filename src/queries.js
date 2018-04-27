@@ -250,6 +250,7 @@ export const councilParticipants = gql`
           email
           phone
           position
+          language
         }
         position
         language
@@ -257,6 +258,14 @@ export const councilParticipants = gql`
         personOrEntity
       }
       total
+    }
+  }
+`;
+
+export const updateParticipant = gql `
+  mutation updateParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
+    updateCouncilParticipant(participant: $participant, representative: $representative){
+      id
     }
   }
 `;
