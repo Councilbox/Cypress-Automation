@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, AlertConfirm, ButtonIcon } from "../displayComponents";
+import { CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, ButtonIcon } from "../displayComponents";
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { MenuItem, Card, Divider, Typography } from 'material-ui';
 import DateHeader from './DateHeader';

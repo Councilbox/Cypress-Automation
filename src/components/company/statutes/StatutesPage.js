@@ -1,25 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { graphql, compose } from 'react-apollo';
-import {
-    LoadingSection,
-    CardPageLayout,
-    SelectInput,
-    TextInput,
-    Grid,
-    AlertConfirm,
-    GridItem,
-    BasicButton,
-    ButtonIcon,
-    DeleteIcon
-} from '../../displayComponents/index';
-import { MenuItem } from 'material-ui';
+import { LoadingSection, CardPageLayout, TextInput, AlertConfirm } from '../../displayComponents/index';
 import { statutes, updateStatute, deleteStatute, createStatute } from '../../../queries';
-import { getPrimary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import StatuteEditor from './StatuteEditor';
 import VTabs from "../../displayComponents/VTabs";
-import Scrollbar from 'react-perfect-scrollbar';
 
 class StatutesPage extends Component {
 
@@ -179,7 +165,7 @@ class StatutesPage extends Component {
     render() {
         const { loading, companyStatutes } = this.props.data;
         const { translate } = this.props;
-        const { statute, success, requesting, requestError, errors } = this.state;
+        const { statute, errors } = this.state;
 
         if (loading) {
             return <LoadingSection/>

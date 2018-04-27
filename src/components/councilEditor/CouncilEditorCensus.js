@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { MenuItem, Typography } from 'material-ui';
-import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem } from '../displayComponents';
+import { BasicButton, LoadingSection, ErrorWrapper, ButtonIcon } from '../displayComponents';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
@@ -10,7 +9,6 @@ import { councilStepTwo, updateCouncil } from '../../queries';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import NewParticipantForm from './NewParticipantForm';
-
 
 class CouncilEditorCensus extends Component {
 
@@ -132,7 +130,7 @@ class CouncilEditorCensus extends Component {
 
     render(){
         const { translate } = this.props;
-        const { council, loading, error, censuses } = this.props.data;
+        const { council, loading, error } = this.props.data;
         const primary = getPrimary();
         const secondary = getSecondary();
 
@@ -154,6 +152,7 @@ class CouncilEditorCensus extends Component {
                 {this.state.addParticipant? 
                     <NewParticipantForm
                         translate={translate}
+                        languages={this.props.data.languages}
                         requestClose={() => this.setState({
                             addParticipant: false
                         })}
@@ -163,46 +162,13 @@ class CouncilEditorCensus extends Component {
                     />
                 :
                     <Fragment>
-                        <Grid>
-                            <GridItem lg={3} md={3} xs={6} style={{height: '4em', verticalAlign: 'middle'}}>
-                                <SelectInput
-                                    floatingText={translate.current_census}
-                                    value={council.selectedCensusId}
-                                    onChange={this.handleCensusChange}
-                                >
-                                    {censuses.list.map((census) => {
-                                            return <MenuItem value={parseInt(census.id, 10)} key={`census${census.id}`}>{census.censusName}</MenuItem>
-                                        })
-                                    }
-                                </SelectInput>
-                            </GridItem>
-                            <GridItem lg={3} md={3} xs={6} style={{height: '4em', display: 'flex', alignItems: 'center'}}>
-                                <BasicButton
-                                    text={translate.add_participant}
-                                    color={primary}
-                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                    icon={<ButtonIcon type="add" color="white" />}
-                                    textPosition="after"
-                                    onClick={() => this.setState({ addParticipant: true})} 
-                                />
-                            </GridItem>
-                            <GridItem lg={3} md={3} xs={6} style={{height: '4em', display: 'flex', alignItems: 'center'}}>
-                                <Typography variant="body2">
-                                    {`${translate.total_votes}: ${this.props.data.councilTotalVotes}`}
-                                </Typography>
-                            </GridItem>
-                            {CBX.hasParticipations(council) &&
-                                <GridItem lg={3} md={3} xs={6} style={{height: '4em', display: 'flex', alignItems: 'center'}}>
-                                    <Typography variant="body2">
-                                        {`${translate.total_social_capital}: ${this.props.data.councilSocialCapital}`}
-                                    </Typography>
-                                </GridItem>
-                            }
-                        </Grid>
                         <ParticipantsTable
-                            editable={true}
-                            councilId={this.props.councilID}
                             translate={translate}
+                            council={council}
+                            handleCensusChange={this.handleCensusChange}
+                            showAddModal={() => this.setState({addParticipant: true})}
+                            censuses={this.props.data.censuses}
+                            editable={true}
                             totalVotes={this.props.data.councilTotalVotes}
                             socialCapital={this.props.data.councilSocialCapital}
                             participations={CBX.hasParticipations(council)}

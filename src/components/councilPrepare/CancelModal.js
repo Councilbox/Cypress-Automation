@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { TextInput, Checkbox, AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../displayComponents";
+import { AlertConfirm, Icon } from "../displayComponents";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { cancelCouncil } from '../../queries';
-import * as CBX from '../../utils/CBX';
 import { bHistory } from '../../containers/App';
 
 
@@ -51,7 +50,7 @@ class CancelModal extends Component {
 
 
     _renderCancelBody(){
-        const { translate, council } = this.props;
+        const { translate } = this.props;
 
         if(this.state.sending){
             return(

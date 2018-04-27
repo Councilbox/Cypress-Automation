@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { BasicButton, ButtonIcon, Grid, GridItem, Checkbox, Radio } from '../displayComponents';
+import { BasicButton, ButtonIcon, Grid, GridItem, Checkbox } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { Typography, Paper } from 'material-ui';
 import RepresentativeForm from './RepresentativeForm';
@@ -257,7 +257,7 @@ class ParticipantEditor extends Component {
 
         return(
             <Fragment>
-                <Grid style={{marginTop: '1em'}}>
+                <Grid>
                     <GridItem xs={12} lg={12} md={12}>
                         <Typography variant="title">
                             {translate.edit_participant}
@@ -294,19 +294,6 @@ class ParticipantEditor extends Component {
 }
 
 export default graphql(updateParticipant, {name: 'updateParticipant'})(ParticipantEditor);
-
-const newParticipantInitialValues = {
-    language: 'es',
-    councilId: '',
-    numParticipations: 1,
-    personOrEntity: 0,
-    name: '',
-    surname: '',
-    dni: '',
-    position: '',
-    email: '',
-    phone: '',
-};
 
 const newRepresentativeInitialValues = {
     language: 'es',

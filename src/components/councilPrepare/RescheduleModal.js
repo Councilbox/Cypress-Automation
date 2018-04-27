@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Checkbox, AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../displayComponents";
+import { AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../displayComponents";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { rescheduleCouncil } from '../../queries';

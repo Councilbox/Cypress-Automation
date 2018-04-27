@@ -270,6 +270,8 @@ export const getEmailIconByReqCode = (reqCode) => {
 
         case 37:
             return dropped;
+        default:
+            return;
     }
 }
 
@@ -293,6 +295,8 @@ export const getTranslationReqCode = (reqCode) => {
             return 'tooltip_invalid_email_address';
         case 37:
             return 'tooltip_dropped';
+        default: 
+            return;
     }
 }
 

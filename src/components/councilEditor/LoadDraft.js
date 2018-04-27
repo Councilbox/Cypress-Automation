@@ -3,7 +3,7 @@ import { BasicButton, EnhancedTable, ButtonIcon } from "../displayComponents";
 import { graphql } from 'react-apollo';
 import { companyDrafts } from '../../queries/companyDrafts';
 import { getPrimary } from '../../styles/colors';
-import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
+import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { DRAFTS_LIMITS } from '../../constants';
 import { TableRow, TableCell } from 'material-ui/Table';
 
@@ -23,7 +23,7 @@ class LoadDraft extends React.Component {
     }
 
     render(){
-        const { translate, statutes, councilType } = this.props;
+        const { translate, statutes } = this.props;
         const { companyDrafts, loading } = this.props.data;
 
         return(

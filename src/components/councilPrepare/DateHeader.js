@@ -1,6 +1,4 @@
-import React, { Fragment } from 'react';
-import { getSecondary } from '../../styles/colors';
-import { DateWrapper } from '../displayComponents';
+import React from 'react';
 import { hasSecondCall } from '../../utils/CBX';
 import { Paper } from 'material-ui';
 import moment from 'moment';

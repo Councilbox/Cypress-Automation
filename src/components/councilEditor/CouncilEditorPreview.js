@@ -4,7 +4,7 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
 import { councilStepSix, conveneCouncil, sendConveneTest, conveneWithoutNotice, sendPreConvene } from '../../queries';
-import { Paper, Icon, MenuItem, Typography, Tooltip } from 'material-ui';
+import { Paper, Icon, MenuItem, Typography } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { bHistory } from '../../containers/App';
 import * as CBX from '../../utils/CBX';
@@ -112,7 +112,6 @@ class CouncilEditorPreview extends Component {
     }
 
     sendConveneWithoutNotice = async () => {
-        const { council } = this.props.data;
         const response = await this.props.conveneWithoutNotice({
             variables: {
                 councilId: this.props.data.council.id

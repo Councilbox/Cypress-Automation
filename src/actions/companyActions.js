@@ -1,5 +1,5 @@
 import CouncilboxApi from "../api/CouncilboxApi";
-import { bHistory, client, store } from '../containers/App';
+import { client, store } from '../containers/App';
 import { loadingFinished } from './mainActions';
 import { companies } from '../queries';
 

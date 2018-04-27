@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { LoadingMainApp } from '../components/displayComponents';
 import { graphql } from 'react-apollo';
 import { council } from '../queries';
-import { bHistory } from './App';
 
 
 const CouncilEditorContainer = ({ main, company, user, match, translate, data }) => {
