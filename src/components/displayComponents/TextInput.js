@@ -19,15 +19,13 @@ const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorT
             }}
             InputProps={{
                 startAdornment: adornment ? <InputAdornment position="start">{adornment}</InputAdornment> : '',
+                min: min,
+                max: max
             }}
             FormHelperTextProps={{
                 error: !!errorText
             }}
             color="secondary"
-            inputProps={{
-                min: min,
-                max: max
-            }}
             type={type}
             disabled={!!disabled}
             onKeyUp={onKeyUp}

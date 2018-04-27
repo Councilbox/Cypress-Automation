@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Checkbox, AlertConfirm, Icon } from "../displayComponents";
+import { Checkbox, AlertConfirm, Icon } from "../displayComponents";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { sendConveneReminder } from '../../queries';

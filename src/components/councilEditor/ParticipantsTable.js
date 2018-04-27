@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { TableRow, TableCell } from 'material-ui/Table';
-import { Typography } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import * as CBX from '../../utils/CBX';
-import { EnhancedTable, DeleteIcon, Grid, GridItem } from '../displayComponents';
+import { EnhancedTable, DeleteIcon } from '../displayComponents';
 import { graphql, compose } from "react-apollo";
 import { councilParticipants, deleteParticipant } from '../../queries';
 import { PARTICIPANTS_LIMITS } from '../../constants';
 import ParticipantEditor from '../councilParticipants/ParticipantEditor';
+import ChangeCensusMenu from './ChangeCensusMenu';
+
 
 class ParticipantsTable extends Component {
 
@@ -41,7 +42,7 @@ class ParticipantsTable extends Component {
         const response = await this.props.mutate({
             variables: {
                 participantId: id,
-                councilId: this.props.councilId
+                councilId: this.props.council.id
             }
         })
         
@@ -102,6 +103,14 @@ class ParticipantsTable extends Component {
 
         return(
             <div style={{width: '100%'}}>
+                <ChangeCensusMenu
+                    translate={translate}
+                    council={this.props.council}
+                    handleCensusChange={this.props.handleCensusChange}
+                    showAddModal={this.props.showAddModal}
+                    censuses={this.props.censuses}
+                    totalVotes={this.props.totalVotes}
+                /> 
                 {!!councilParticipants && 
                     <React.Fragment>
                         <EnhancedTable
@@ -211,7 +220,7 @@ export default compose(
     graphql(councilParticipants, {
         options: (props) => ({
             variables: {
-                councilId: props.councilId,
+                councilId: props.council.id,
                 options: {
                     limit: PARTICIPANTS_LIMITS[0],
                     offset: 0

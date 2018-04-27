@@ -1,6 +1,6 @@
 import { getCompanies } from './companyActions';
 import { client } from '../containers/App';
-import { getMe, getTranslations, login } from '../queries';
+import { getMe, getTranslations } from '../queries';
 import moment from 'moment';
 
 export let language = 'es';

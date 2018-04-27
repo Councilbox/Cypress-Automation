@@ -1,9 +1,7 @@
 import React from 'react';
 import { lightGrey } from '../../styles/colors';
-import RegularCard from '../displayComponents/RegularCard';
 import Scrollbar from 'react-perfect-scrollbar';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { ToastContainer } from 'react-toastify';
 import { Paper } from 'material-ui';
 
 

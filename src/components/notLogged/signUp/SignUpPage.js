@@ -1,7 +1,4 @@
 import React from 'react';
-import * as mainActions from '../../../actions/mainActions';
-import * as companyActions from '../../../actions/companyActions';
-import { bindActionCreators } from 'redux';
 import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
 import SignUpPay from './SignUpPay';

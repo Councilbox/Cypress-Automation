@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
 import { signatures, deleteSignature } from '../../queries/signature';
 import { graphql, compose } from 'react-apollo';
 import {

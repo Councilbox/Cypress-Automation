@@ -40,7 +40,7 @@ class AttachmentDownload extends React.Component {
     }
 
     render() {
-        const { loading, attachment, spacing = 0 } = this.props;
+        const { attachment, spacing = 0 } = this.props;
 
         return(
             <div 

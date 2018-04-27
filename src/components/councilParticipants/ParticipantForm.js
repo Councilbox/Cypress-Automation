@@ -74,8 +74,9 @@ const ParticipantForm = ({ type, participant, errors, updateState, participation
                         })}
                     >
                         {languages.map((language) => {
-                            return <MenuItem value={language.column_name}
-                                             key={`language${language.id}`}>{language.desc}</MenuItem>
+                            return <MenuItem
+                                value={language.column_name}
+                                key={`language_${language.id}`}>{language.desc}</MenuItem>
                         })}
                     </SelectInput>
                 </GridItem>

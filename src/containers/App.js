@@ -35,7 +35,6 @@ const authLink = setContext((_, { headers }) => {
 const logoutLink = onError(({ graphQLErrors, networkError }) => {
     console.log(graphQLErrors);
     console.log(networkError);
-    const translate = store.getState().translate;   
     if(graphQLErrors){
         if(graphQLErrors[0].code === 440){
             toast.error(printSessionExpiredError());
