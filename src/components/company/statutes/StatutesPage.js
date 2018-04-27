@@ -217,6 +217,22 @@ class StatutesPage extends Component {
                                 updateState={this.updateState}
                                 errors={this.state.errors}
                             />
+                            <br/>
+                            <BasicButton
+                                text={translate.save}
+                                color={success ? 'green' : getPrimary()}
+                                textStyle={{
+                                    color: 'white',
+                                    fontWeight: '700'
+                                }}
+                                floatRight
+                                onClick={this.updateStatute}
+                                loading={this.state.loading}
+                                error={this.state.error}
+                                reset={this.resetButtonStates}
+                                success={success}
+                                icon={<ButtonIcon type={'save'} color='white'/>}
+                            />
                         </div>
                         <AlertConfirm
                             requestClose={() => this.setState({ newStatute: false })}

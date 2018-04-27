@@ -11,6 +11,7 @@ const CheckBox = ( { value, label, onChange, style }) => (
             />
         }
         label={label}
+        style={{marginBottom: '0'}}
     />
 );
 

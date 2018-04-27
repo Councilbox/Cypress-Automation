@@ -3,11 +3,14 @@ import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../queries/companyDrafts.js";
 import { graphql, compose } from "react-apollo";
 import CompanyDraftNew from './CompanyDraftNew';
-import { LoadingSection, EnhancedTable, AlertConfirm, ErrorWrapper, DeleteIcon, BasicButton, ButtonIcon, CardPageLayout } from "../displayComponents";
+import { LoadingSection, EnhancedTable, AlertConfirm, ErrorWrapper, CloseIcon, BasicButton, ButtonIcon, CardPageLayout } from "../displayComponents";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from '../../HOCs/withSharedProps';
 import { DRAFTS_LIMITS } from '../../constants';
+import TableStyles from '../../styles/table';
+import { bHistory } from "../../containers/App";
+
 
 class CompanyDraftList extends Component {
     constructor(props) {
@@ -26,9 +29,12 @@ class CompanyDraftList extends Component {
     _renderDeleteIcon = draftID => {
         const primary = getPrimary();
         return (
-            <DeleteIcon
+            <CloseIcon
                 style={{ color: primary }}
-                onClick={() => this.openDeleteModal(draftID)}
+                onClick={(event) => {
+                    this.openDeleteModal(draftID);
+                    event.stopPropagation();
+                }}
             />
         );
     };
@@ -83,14 +89,17 @@ class CompanyDraftList extends Component {
                     })}
                     icon={<ButtonIcon type="add" color='white' />}
                 />
-                <Link to={`/company/${company.id}/platform/drafts/`}>
+                <Link to={`/company/${company.id}/platform/drafts/`}
+                style={{marginLeft: '1em'}}>
                     <BasicButton
                         text={translate.general_drafts}
                         color={getSecondary()}
                         textStyle={{color: 'white', fontWeight: '700'}}
                         icon={<ButtonIcon type="add" color='white' />}
                     />
-                </Link><br/>
+                </Link>
+                <br/>
+                <br/>
                 <Fragment>
                     {error ? (
                         <div>
@@ -121,20 +130,23 @@ class CompanyDraftList extends Component {
                                         name: 'title',
                                         canOrder: true
                                     },
-                                    { name: translate.delete }
+                                    {
+                                        name: translate.delete,
+                                        text: translate.delete
+                                    }
                                 ]}
                                 action={this._renderDeleteIcon}
                                 companyID={this.props.company.id}
                             >
                                 {companyDrafts.list.map(draft => {
                                     return (
-                                        <TableRow key={`draft${draft.id}`}>
-                                            <TableCell>
-                                                <Link
-                                                    to={`/company/${ this.props.company.id }/draft/${ draft.id }`}
-                                                >
+                                        <TableRow hover key={`draft${draft.id}`}
+                                                  style={TableStyles.ROW}
+                                                  onClick={()=> {
+                                                      bHistory.push(`/company/${ this.props.company.id }/draft/${ draft.id }`)
+                                                  }}>
+                                            <TableCell style={TableStyles.TD}>
                                                     {draft.title}
-                                                </Link>
                                             </TableCell>
                                             <TableCell>
                                                 {this._renderDeleteIcon( draft.id )}

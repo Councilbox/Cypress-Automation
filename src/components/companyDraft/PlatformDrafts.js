@@ -9,6 +9,7 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { withRouter } from 'react-router-dom';
 import PlatformDraftDetails from './PlatformDraftDetails';
 import { DRAFTS_LIMITS } from '../../constants';
+import TableStyles from "../../styles/table";
 
 
 class PlatformDrafts extends Component {
@@ -29,7 +30,7 @@ class PlatformDrafts extends Component {
         const { companyDrafts } = this.props.data;
         const item = companyDrafts.list.find((draft) => draft.draftId === id);
         return !!item;
-    }
+    };
 
     cloneDrafts = async () => {
         const { selectedValues } = this.state;
@@ -45,7 +46,7 @@ class PlatformDrafts extends Component {
                 this.props.data.refetch();
             }
         }
-    }
+    };
 
     updateSelectedValues = (id, selected) => {
         let values = this.state.selectedValues;
@@ -58,7 +59,7 @@ class PlatformDrafts extends Component {
         this.setState({
             selectedValues: values
         });
-    }
+    };
 
     render(){
         const { translate } = this.props;
@@ -118,12 +119,12 @@ class PlatformDrafts extends Component {
                                     {platformDrafts.list.map((draft, index) => {
                                         return (
                                             <TableRow key={`draft${draft.id}`}>
-                                                <TableCell>
+                                                <TableCell style={TableStyles.TD}>
                                                     <Checkbox
                                                         onChange={(event, isInputChecked) => this.updateSelectedValues(draft.id, isInputChecked)}
                                                     />
                                                 </TableCell>
-                                                <TableCell>
+                                                <TableCell style={TableStyles.TD}>
                                                     {this.alreadySaved(draft.id) &&
                                                         <FontAwesome
                                                             name={'save'}
@@ -131,7 +132,7 @@ class PlatformDrafts extends Component {
                                                         />
                                                     }
                                                 </TableCell>
-                                                <TableCell style={{cursor: 'pointer'}} onClick={() => this.setState({selectedIndex: index})}>
+                                                <TableCell style={TableStyles.TD} onClick={() => this.setState({selectedIndex: index})}>
                                                     {draft.title}
                                                 </TableCell>
                                                 <TableCell>

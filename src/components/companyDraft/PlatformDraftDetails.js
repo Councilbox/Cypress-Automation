@@ -16,15 +16,13 @@ const PlatformDraftDetails = ({ translate, draft, close, data }) => {
     const findMajorityLabel = () => {
         const result = data.majorityTypes.find((majority) => majority.value === draft.majorityType);
         return result? result.label : '-';
-    } 
+    };
 
     const findVotationLabel = () => {
         const result = data.votingTypes.find((voting) => voting.value === draft.votationType);
         return result? result.label : '-';
-    }
+    };
 
-    console.log(draft);
-    console.log(data);
 
     return(
         <div>
