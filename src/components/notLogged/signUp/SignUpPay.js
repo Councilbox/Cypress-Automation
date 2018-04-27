@@ -282,13 +282,14 @@ class SignUpPay extends Component {
                         icon={<ButtonIcon color='white' type="arrow_forward"/>}/>
                 </GridItem>
             </Grid>
-            <TermsModal open={this.state.showTermsModal}
-                        translate={translate}
-                        close={()=>{
-                            this.setState({
-                                showTermsModal: false
-                            })
-                        }}
+            <TermsModal
+                open={this.state.showTermsModal}
+                translate={translate}
+                close={()=>{
+                    this.setState({
+                        showTermsModal: false
+                    })
+                }}
             />
         </div>);
     }

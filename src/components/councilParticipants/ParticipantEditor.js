@@ -7,6 +7,7 @@ import RepresentativeForm from './RepresentativeForm';
 import ParticipantForm from './ParticipantForm';
 import CouncilBoxApi from '../../api/CouncilboxApi';
 import { checkValidEmail, errorHandler } from '../../utils';
+import { updateParticipant } from '../../queries';
 
 
 
@@ -18,12 +19,9 @@ class ParticipantEditor extends Component {
             languages: [],
             addRepresentative: false,
             participantType: 0,
-            data:  {               
-                participant: {
-                    ...newParticipantInitialValues
-                },
+            data:  {
                 representative: {
-                    ...newRepresentativeInitialValues
+
                 }
             },
 
@@ -48,16 +46,71 @@ class ParticipantEditor extends Component {
         });
     }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(!!nextProps.participant){
+            if(nextProps.participant.id !== prevState.data.id){
+                return({
+                    ...prevState,
+                    addRepresentative: !!nextProps.participant.representative,
+                    data: {
+                        ...nextProps.participant
+                    }
+                });
+            }
+        }
+        return({
+            ...prevState
+        });
 
-    updateParticipant = (object) => {
+    }
+
+
+    updateParticipantData = (object) => {
         this.setState({
             data: {
                 ...this.state.data,
-                participant: {
-                    ...this.state.data.participant, ...object
-                }
+                ...object
             }
         });
+    };
+
+    updateParticipant = async () => {
+        if (!this.checkRequiredFields()) {
+            const { __typename, representative, ...participant } = this.state.data;
+            //const { representative } = this.state.data;
+            const { translate } = this.props;
+
+            let variables = {
+                participant: {
+                    ...participant
+                }
+            };
+
+            if (this.state.addRepresentative) {
+                variables.representative = {
+                    ...representative
+                }
+            }
+
+            console.log(variables);
+
+            const response = await this.props.updateParticipant({
+                variables: variables
+            });
+            if (response) {
+                if (response.errors) {
+                    const errorField = errorHandler(response.errors[ 0 ].code);
+                    this.setState({
+                        errors: {
+                            ...this.state.errors,
+                            email: translate[ errorField ]
+                        }
+                    })
+                } else {                                    
+                    this.props.requestClose();
+                }
+            }
+        }
     };
 
     updateRepresentative = (object) => {
@@ -71,54 +124,8 @@ class ParticipantEditor extends Component {
         });
     };
 
-    _renderAddParticipantTypeSelector() {
-        const { translate } = this.props;
-
-        return (<Fragment>
-                <Radio
-                    checked={this.state.participantType === 0}
-                    label={translate.person}
-                    onChange={(event) => {
-                        console.log(event);
-                        this.setState({
-                            participantType: parseInt(event.target.value, 10),
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...newParticipantInitialValues
-                                }
-                            }
-                        })
-                    }}
-                    value='0'
-                    name={'person_or_entity'}
-                    aria-label="A"
-                />
-                <Radio
-                    checked={this.state.participantType === 1}
-                    onChange={(event) => {
-                        console.log(event);
-                        this.setState({
-                            participantType: parseInt(event.target.value, 10),
-                            data: {
-                                ...this.state.data,
-                                participant: {
-                                    ...newParticipantInitialValues
-                                }
-                            }
-                        })
-                    }}
-                    value="1"
-                    name="person_or_entity"
-                    aria-label="B"
-                    label={translate.entity_name}
-                />
-
-            </Fragment>);
-    }
-
     checkRequiredFields() {
-        const { participant } = this.state.data;
+        const participant = this.state.data;
         const { translate } = this.props;
 
         let errors = {
@@ -182,15 +189,24 @@ class ParticipantEditor extends Component {
         return hasError;
     }
 
+    activateRepresentative = (value) => {
+        let newState = { ...this.state, addRepresentative: value };
+
+        if(!this.state.data.representative && value){
+            newState.data.representative = {
+                ...newRepresentativeInitialValues
+            }
+        }
+        this.setState({...newState});
+    }
+
     _renderRepresentativeCheckbox() {
         return (<Grid>
                 <GridItem xs={12} lg={12} md={12}>
                     <Checkbox
                         label={this.props.translate.add_representative}
                         value={this.state.addRepresentative}
-                        onChange={(event, isInputChecked) => this.setState({
-                            addRepresentative: isInputChecked
-                        })}
+                        onChange={(event, isInputChecked) => this.activateRepresentative(isInputChecked)}
                     />
                 </GridItem>
             </Grid>);
@@ -211,7 +227,7 @@ class ParticipantEditor extends Component {
                         textTransform: 'none'
                     }}
                     textPosition="after"
-                    onClick={this.close}
+                    onClick={this.props.requestClose}
                     buttonStyle={{
                         marginRight: '1em',
                         border: `2px solid ${primary}`
@@ -228,27 +244,26 @@ class ParticipantEditor extends Component {
                     }}
                     icon={<ButtonIcon color='white' type="save"/>}
                     textPosition="after"
-                    onClick={this.sendNewParticipant}
+                    onClick={this.updateParticipant}
                 />
             </Fragment>);
     }
 
     render(){
-        const participant = this.state.data.participant;
+        const participant = this.state.data;
         const { translate, participations } = this.props;
-        const { representative } = this.state.data;
+        const { representative } = participant;
         const { errors } = this.state;
 
         return(
             <Fragment>
-                <Grid>
+                <Grid style={{marginTop: '1em'}}>
                     <GridItem xs={12} lg={12} md={12}>
                         <Typography variant="title">
-                            {translate.add_participant}
+                            {translate.edit_participant}
                         </Typography>
                     </GridItem>
                     <Paper style={{padding: '2em', paddingTop: '1em', marginTop: '1em', marginBottom: '1em'}}>
-                        {this._renderAddParticipantTypeSelector()}
                         {<ParticipantForm
                             type={this.state.participantType}
                             participant={participant}
@@ -256,7 +271,7 @@ class ParticipantEditor extends Component {
                             translate={translate}
                             languages={this.state.languages}
                             errors={errors}
-                            updateState={this.updateParticipant}
+                            updateState={this.updateParticipantData}
                         />}
                     </Paper>
                     {this._renderRepresentativeCheckbox()}
@@ -278,7 +293,7 @@ class ParticipantEditor extends Component {
     }
 }
 
-export default ParticipantEditor;
+export default graphql(updateParticipant, {name: 'updateParticipant'})(ParticipantEditor);
 
 const newParticipantInitialValues = {
     language: 'es',

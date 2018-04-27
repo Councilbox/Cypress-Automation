@@ -84,7 +84,6 @@ const sidebarStyle = theme => ({
   logoImage: {
     width: "30px",
     margin: '0.2em',
-    display: "inline-block",
     maxHeight: "30px",
     marginLeft: "10px",
     marginRight: "15px"
@@ -92,7 +91,6 @@ const sidebarStyle = theme => ({
   img: {
     width: "35px",
     top: "22px",
-    position: "absolute",
     verticalAlign: "middle",
     border: "0"
   },
