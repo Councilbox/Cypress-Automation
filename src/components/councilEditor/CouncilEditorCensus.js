@@ -160,7 +160,6 @@ class CouncilEditorCensus extends Component {
                         participations={CBX.hasParticipations(council)}
                         close={this.closeAddParticipantModal}
                         councilID={this.props.councilID}
-                        refetch={this.props.data.refetch}
                     />
                 :
                     <Fragment>
@@ -207,7 +206,6 @@ class CouncilEditorCensus extends Component {
                             totalVotes={this.props.data.councilTotalVotes}
                             socialCapital={this.props.data.councilSocialCapital}
                             participations={CBX.hasParticipations(council)}
-                            refetch={this.props.data.refetch}
                         >
                             <div className="row" style={{marginTop: '2em'}}>
                                 <div className="col-lg-12 col-md-12 col-xs-12">

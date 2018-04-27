@@ -275,6 +275,16 @@ export const councilParticipants = gql`
         socialCapital
         uuid
         delegateUuid
+        delegateId
+        representative {
+          id
+          name
+          surname
+          dni
+          email
+          phone
+          position
+        }
         position
         language
         city
