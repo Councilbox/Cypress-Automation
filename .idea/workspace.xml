@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="">
+    <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="close #70">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/TopSectionBlocks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/TopSectionBlocks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/displayComponents/SelectInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/displayComponents/SelectInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/menus/CompanySelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/menus/CompanySelector.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,54 +27,12 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MeetingEditorPage.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorPage.js">
+    <leaf>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="68" column="86" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="86" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CouncilEditorPage.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1215">
-              <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
-              <folding>
-                <element signature="n#!!block;n#constructor#0;n#CouncilEditorPage#0" />
-                <element signature="n#!!block;n#componentDidMount#0;n#CouncilEditorPage#0" />
-                <element signature="e#1211#1340#0" />
-                <element signature="e#1367#1491#0" />
-                <element signature="e#1518#1611#0" />
-                <element signature="e#1630#1711#0" />
-                <element signature="e#1741#1911#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CouncilEditorNotice.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="20">
-              <caret line="197" column="16" lean-forward="true" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="16" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MobileStepper.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="200">
-              <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+            <state relative-caret-position="140">
+              <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -161,7 +113,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="jose" />
       </map>
     </option>
     <option name="RESET_MODE" value="HARD" />
@@ -174,7 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/notLogged/Login.js" />
         <option value="$PROJECT_DIR$/src/styles/colors.js" />
         <option value="$PROJECT_DIR$/src/styles/App.scss" />
         <option value="$PROJECT_DIR$/src/styles/appStyle.jsx" />
@@ -225,6 +176,7 @@
         <option value="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js" />
         <option value="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -252,28 +204,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope">
-        <subPane subId="Project Files">
-          <expand>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="councilbox_client" type="cbb8eebc:String" user="councilbox_client" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="councilbox_client" type="cbb8eebc:String" user="councilbox_client" />
-              <item name="public" type="cbb8eebc:String" user="public" />
-            </path>
-            <path>
-              <item name="Root" type="cbb8eebc:String" user="Root" />
-              <item name="councilbox_client" type="cbb8eebc:String" user="councilbox_client" />
-              <item name="src" type="cbb8eebc:String" user="src" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -297,12 +227,27 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scope">
+        <subPane subId="Project Files">
+          <expand>
             <path>
-              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="councilEditor" type="462c0819:PsiDirectoryNode" />
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="councilbox_client" type="cbb8eebc:String" user="councilbox_client" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="councilbox_client" type="cbb8eebc:String" user="councilbox_client" />
+              <item name="public" type="cbb8eebc:String" user="public" />
+            </path>
+            <path>
+              <item name="Root" type="cbb8eebc:String" user="Root" />
+              <item name="councilbox_client" type="cbb8eebc:String" user="councilbox_client" />
+              <item name="src" type="cbb8eebc:String" user="src" />
             </path>
           </expand>
           <select />
@@ -322,17 +267,17 @@
     <property name="settings.editor.selected.configurable" value="debugger.dataViews" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/company" />
-      <recent name="$PROJECT_DIR$/src/components/signature" />
-      <recent name="$PROJECT_DIR$/src/components/notLogged" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/signature" />
       <recent name="$PROJECT_DIR$/src/containers" />
       <recent name="$PROJECT_DIR$/src/queries" />
       <recent name="$PROJECT_DIR$/src/components" />
       <recent name="$PROJECT_DIR$/src/components/displayComponents" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/company" />
+      <recent name="$PROJECT_DIR$/src/components/signature" />
+      <recent name="$PROJECT_DIR$/src/components/notLogged" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -593,7 +538,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164141000" />
+    <option name="totallyTimeSpent" value="164230000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -609,35 +554,50 @@
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
+      <window_info anchor="bottom" id="Messages" order="6" weight="0.32928178" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
+      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23529412" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
-      <window_info anchor="bottom" id="TypeScript" order="10" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20427808" />
       <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Designer" order="2" />
       <window_info anchor="right" id="Palette" order="0" />
+      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
       <window_info id="Image Layers" order="2" />
+      <window_info anchor="bottom" id="TypeScript" order="10" />
       <window_info anchor="right" id="Commander" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="7" show_stripe_button="false" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="UI Designer" order="2" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
       <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
       <window_info anchor="right" id="Capture Analysis" order="2" />
+      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
+      <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
+      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
       <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Messages" order="6" />
       <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
+      <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
     </layout>
     <layout-to-restore>
       <window_info id="Designer" order="2" />
@@ -750,9 +710,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="100">
           <caret line="12" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -838,9 +795,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret line="47" column="3" lean-forward="true" selection-start-line="47" selection-start-column="3" selection-end-line="86" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -848,9 +802,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
           <caret line="26" column="8" lean-forward="true" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -858,9 +809,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
           <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-          <folding>
-            <element signature="n#!!block;n#render#0;n#Signatures#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -908,20 +856,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-321">
           <caret line="620" column="20" selection-start-line="620" selection-start-column="6" selection-end-line="620" selection-end-column="20" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#NewParticipantForm#0" />
-            <element signature="e#1479#1703#0" />
-            <element signature="e#1745#1975#0" />
-            <element signature="e#2015#3456#0" />
-            <element signature="n#!!block;n#checkRequiredFields#0;n#NewParticipantForm#0" />
-            <element signature="e#5114#5184#0" />
-            <element signature="e#5211#5530#0" />
-            <element signature="n#!!block;n#_renderAddParticipantButtons#0;n#NewParticipantForm#0" />
-            <element signature="n#!!block;n#_renderAddParticipantTypeSelector#0;n#NewParticipantForm#0" />
-            <element signature="n#!!block;n#_renderRepresentativeCheckbox#0;n#NewParticipantForm#0" />
-            <element signature="n#!!block;n#_renderRepresentativeForm#0;n#NewParticipantForm#0" />
-            <element signature="n#!!block;n#_renderAddParticipantForm#0;n#NewParticipantForm#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -929,9 +863,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="140">
           <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1021,9 +952,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/displayComponents/SelectInput.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -1100,9 +1028,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
           <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1124,9 +1049,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="440">
           <caret line="68" column="86" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="86" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1148,15 +1070,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1215">
           <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
-          <folding>
-            <element signature="n#!!block;n#constructor#0;n#CouncilEditorPage#0" />
-            <element signature="n#!!block;n#componentDidMount#0;n#CouncilEditorPage#0" />
-            <element signature="e#1211#1340#0" />
-            <element signature="e#1367#1491#0" />
-            <element signature="e#1518#1611#0" />
-            <element signature="e#1630#1711#0" />
-            <element signature="e#1741#1911#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1164,9 +1077,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="20">
           <caret line="197" column="16" lean-forward="true" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="16" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
         </state>
       </provider>
     </entry>
