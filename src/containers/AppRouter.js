@@ -30,8 +30,6 @@ import CompanyDraftList from '../components/company/drafts/CompanyDraftList';
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
-import { ToastContainer } from 'react-toastify';
-
 
 class AppRouter extends Component {
     constructor(props){

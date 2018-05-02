@@ -36,6 +36,6 @@ const ErrorAlert = ({ title, buttonAccept, open, requestClose, bodyText }) => {
             </DialogActions>
         </Dialog>
     );
-}
+};
 
 export default ErrorAlert;

@@ -62,8 +62,7 @@ class SignUpEnterprise extends Component {
             variables: { cif: this.props.formData.cif }
         });
 
-        const result = response.data.checkCifExists.success;
-        return result;
+        return response.data.checkCifExists.success;
     }
 
     handleTypeChange = (event) => {
@@ -125,7 +124,7 @@ class SignUpEnterprise extends Component {
                         errorText={this.props.errors.cif}
                         required/>
                 </GridItem>
-                <GridItem xs={12} md={6} lg={6}></GridItem>
+                <GridItem xs={12} md={6} lg={6}> </GridItem>
                 <GridItem xs={12} md={6} lg={6}>
                     <BasicButton
                         text={translate.continue}

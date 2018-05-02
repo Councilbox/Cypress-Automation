@@ -45,7 +45,7 @@ class MeetingEditorCensus extends Component {
         this.setState({
             addParticipantModal: false
         });
-    }
+    };
 
     saveDraft = () => {
         const { __typename, participants, ...council } = this.props.data.council;
@@ -57,7 +57,7 @@ class MeetingEditorCensus extends Component {
                 }
             }
         });
-    }
+    };
 
     handleCensusChange = (event) => {
         if(event.target.value !== this.props.data.council.selectedCensusId){
@@ -67,17 +67,17 @@ class MeetingEditorCensus extends Component {
             });
         }
         
-    }
+    };
 
     nextPage = () => {
         this.saveDraft();
         this.props.nextStep();
-    }
+    };
 
     previousPage = () => {
         this.saveDraft();
         this.props.previousStep();
-    }
+    };
 
     sendCensusChange = async () => {
         const response = await this.props.mutate({
@@ -100,8 +100,7 @@ class MeetingEditorCensus extends Component {
                 })
             }
         }
-
-    }
+    };
 
     _renderCensusChangeButtons(){
         const { translate } = this.props;

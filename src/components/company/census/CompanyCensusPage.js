@@ -21,13 +21,13 @@ class CompanyCensusPage extends React.Component {
         }
     }
 
-    deleteCensus = async (censusId) => {
+    deleteCensus = async () => {
         this.props.data.loading = true;
         const response = await this.props.deleteCensus({
             variables: {
                 censusId: this.state.deleteCensus
             }
-        })
+        });
         if(response){
             this.setState({
                 deleteModal: false,
@@ -35,28 +35,28 @@ class CompanyCensusPage extends React.Component {
             });
             this.props.data.refetch();
         }
-    }
+    };
 
     setDefaultCensus = async (censusId) => {
         this.setState({
             changingDefault: censusId
-        })
+        });
         const response = await this.props.setDefaultCensus({
             variables: {
                 censusId: censusId
             }
-        })
+        });
         if(response){
             this.setState({
                 changingDefault: -1
             });
             this.props.data.refetch();
         }  
-    }
+    };
 
     openCensusEdit = (censusId) => {
         bHistory.push(`/company/${this.props.company.id}/census/${censusId}`);
-    }
+    };
 
 
     render(){

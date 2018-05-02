@@ -41,17 +41,17 @@ class MeetingLivePage extends Component {
         this.setState({
             addParticipantModal: false
         });
-    }
+    };
 
     checkVideoFlags = () => {
         const council = this.props.data.council;
         return council.state === 20 && council.councilType === 0;
 
-    }
+    };
 
     checkLoadingComplete = () => {
         return this.props.data.loading && this.props.companies.list;
-    }
+    };
 
     render(){
         const council = this.props.data.council;

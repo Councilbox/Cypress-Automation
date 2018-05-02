@@ -5,6 +5,6 @@ const CollapsibleSection = ({ trigger, collapse, open }) => (
     <Collapsible trigger={trigger()} open={open}>
         {collapse()}
     </Collapsible>
-)
+);
 
 export default CollapsibleSection;

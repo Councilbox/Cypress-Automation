@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from "react";
-import { MenuItem, Typography, Paper } from 'material-ui';
-import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio, SelectInput, TextInput } from '../../../displayComponents';
+import { Typography, Paper } from 'material-ui';
+import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { checkValidEmail, errorHandler } from '../../../utils/index';
+import { checkValidEmail, errorHandler } from '../../../utils';
 import CouncilBoxApi from '../../../api/CouncilboxApi';
-import ParticipantForm from '../participants/ParticipantForm';
-import RepresentativeForm from '../participants/RepresentativeForm';
-import { languages } from "../../../queries/masters";
+import ParticipantForm from '../../council/participants/ParticipantForm';
+import RepresentativeForm from '../../council/participants/RepresentativeForm';
 
 let primary = getPrimary();
 
@@ -41,6 +40,13 @@ class NewParticipantForm extends Component {
                 phone: '',
             }
         }
+    }
+
+    async componentDidMount() {
+        const languages = await CouncilBoxApi.getLanguageList();
+        this.setState({
+            languages: languages
+        });
     }
 
     updateParticipant = (object) => {
@@ -323,7 +329,8 @@ class NewParticipantForm extends Component {
 
     render() {
         const { translate } = this.props;
-        return (<Fragment>
+        return (
+            <Fragment>
                 <Grid>
                     <GridItem xs={12} lg={12} md={12}>
                         <Typography variant="title">
@@ -359,7 +366,7 @@ export default graphql(addParticipant, {
     options: {
         errorPolicy: 'all'
     }
-}, graphql(languages))(NewParticipantForm);
+})(NewParticipantForm);
 
 const newParticipantInitialValues = {
     language: 'es',

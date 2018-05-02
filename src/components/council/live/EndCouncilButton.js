@@ -27,13 +27,12 @@ class EndCouncilButton extends Component {
                 //this.props.refetch();
             }
         }
-    }
+    };
 
     getUnclosedPoints = () => {
         const { agendas } = this.props.council;
-        const unclosed = agendas.filter((agenda) => agenda.votingState !==2 || agenda.pointState !==2);
-        return unclosed;
-    }
+        return agendas.filter((agenda) => agenda.votingState !== 2 || agenda.pointState !== 2);
+    };
 
     render(){
         const { translate } = this.props;

@@ -5,7 +5,6 @@ import { withRouter } from 'react-router-dom';
 import { LoadingMainApp } from '../displayComponents';
 import { graphql } from 'react-apollo';
 import { council } from '../queries';
-import { bHistory } from './App';
 
 
 const CouncilEditorContainer = ({ main, company, user, match, translate, data }) => {
@@ -23,7 +22,7 @@ const CouncilEditorContainer = ({ main, company, user, match, translate, data })
             councilID={match.params.id}
         />
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     translate: state.translate,

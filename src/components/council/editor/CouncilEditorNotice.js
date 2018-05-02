@@ -224,7 +224,7 @@ class CouncilEditorNotice extends Component {
                         })}
                     </SelectInput>
                 </GridItem>
-                <GridItem xs={12} md={6} lg={6}></GridItem>
+                <GridItem xs={12} md={6} lg={6}> </GridItem>
                 <GridItem xs={12} md={3} lg={3} style={{ display: 'flex-inline' }}>
                     <BasicButton
                         text={translate.change_location}

@@ -45,7 +45,7 @@ class AddCensusParticipantButton extends Component {
                     },
                     representative: representative
                 }
-            })
+            });
             if(!response.errors){
                 this.props.refetch();
                 this.setState({
@@ -57,11 +57,11 @@ class AddCensusParticipantButton extends Component {
                 });
             }
         }
-    }
+    };
 
     addParticipantRepresentative = () => {
 
-    }
+    };
 
     checkRequiredFields(){
         return false;
@@ -74,7 +74,7 @@ class AddCensusParticipantButton extends Component {
                 ...object
             }
         });
-    }
+    };
 
     updateRepresentative = (object) => {
         this.setState({
@@ -83,7 +83,7 @@ class AddCensusParticipantButton extends Component {
                 ...object
             }
         })
-    } 
+    };
 
     _renderAddParticipantTypeSelector(){
         const { translate } = this.props;
@@ -407,4 +407,4 @@ const newParticipantInitialValues = {
     language: 'es',
     city: '',
     personOrEntity: 0 
-}
+};

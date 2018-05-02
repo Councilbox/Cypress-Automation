@@ -18,7 +18,7 @@ class ActAgreements extends Component {
                 </div>
             </div>
         )
-    }
+    };
 
     _section = () => {
         const { agenda } = this.props;
@@ -28,7 +28,7 @@ class ActAgreements extends Component {
                 value={agenda.comment || ''}
             />
         );
-    }
+    };
 
     render(){
         

@@ -34,11 +34,11 @@ class StartCouncilButton extends Component {
                     firstOrSecondConvene: council.firstOrSecondConvene
                 }
             }
-        })
+        });
         if(response){
             this.props.refetch();
         }
-    }
+    };
 
     actionSwitch = () => {
         switch(this.state.selecting){
@@ -52,7 +52,7 @@ class StartCouncilButton extends Component {
                         },
                         selecting: 0
                     })
-                }
+                };
 
             case 2: 
                 return (id, name) => {
@@ -64,7 +64,7 @@ class StartCouncilButton extends Component {
                         },
                         selecting: 0
                     })
-                }
+                };
             
             case 3:
                 return (id, name) => {
@@ -76,12 +76,12 @@ class StartCouncilButton extends Component {
                         },
                         selecting: 0
                     })
-                }
+                };
 
             default: 
                 return;
         }
-    }
+    };
 
     _startCouncilForm = () => {
         const { translate } = this.props;
@@ -103,7 +103,7 @@ class StartCouncilButton extends Component {
                 {translate.quality_vote}<button onClick={() => this.setState({selecting: 3})}>{translate.select_quality_vote}</button>{this.state.data.quality_vote_name}<br/>
             </Fragment>
         );
-    }
+    };
 
 
     render(){

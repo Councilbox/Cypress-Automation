@@ -11,7 +11,7 @@ const CouncilPrepareContainer = ({ main, company, user, council, match, translat
             councilID={match.params.id}
         />
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     translate: state.translate

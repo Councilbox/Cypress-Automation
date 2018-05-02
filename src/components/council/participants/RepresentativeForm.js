@@ -85,6 +85,6 @@ const RepresentativeForm = ({ representative, errors, updateState, translate, la
             </SelectInput>
         </GridItem>
     </Grid>
-)
+);
 
 export default RepresentativeForm;

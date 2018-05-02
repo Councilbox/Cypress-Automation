@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput, BasicButton, ButtonIcon } from '../../../displayComponents';
+
+import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
 import { MenuItem } from 'material-ui';
 import LoadDraft from './LoadDraft';
 import { addAgenda } from '../../../queries';
-import { getPrimary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 
 class NewAgendaPointModal extends Component {
@@ -44,7 +44,7 @@ class NewAgendaPointModal extends Component {
                         orderIndex: this.props.agendas.length + 1
                     }
                 }
-            })
+            });
             if(response){
                 this.props.refetch();
                 this.setState({
@@ -65,7 +65,7 @@ class NewAgendaPointModal extends Component {
                 })
             }
         }
-    }
+    };
 
     updateState = (object) => {
         this.setState({
@@ -74,7 +74,7 @@ class NewAgendaPointModal extends Component {
                 ...object
             }
         });
-    }
+    };
 
     loadDraft = (draft) => {
         const correctedText = CBX.changeVariablesToValues(draft.text, {
@@ -120,7 +120,7 @@ class NewAgendaPointModal extends Component {
                         <SelectInput
                             floatingText={translate.type}
                             value={''+agenda.subjectType}
-                            onChange={(event, child) => this.updateState({
+                            onChange={(event) => this.updateState({
                                 subjectType: +event.target.value
                             })}
                         >
@@ -201,7 +201,7 @@ class NewAgendaPointModal extends Component {
                 />
             </Fragment>
         );
-    }
+    };
 
     render(){
         const { translate, children } = this.props;

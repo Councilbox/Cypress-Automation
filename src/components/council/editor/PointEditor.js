@@ -64,7 +64,7 @@ class PointEditor extends Component {
                 this.props.requestClose();
             }
         }
-    }
+    };
 
     updateState = (object) => {
         this.setState({
@@ -73,7 +73,7 @@ class PointEditor extends Component {
                 ...object
             }
         });
-    }
+    };
 
     checkRequiredFields() {
         return true;
@@ -104,7 +104,7 @@ class PointEditor extends Component {
                         <SelectInput
                             floatingText={translate.type}
                             value={agenda.subjectType}
-                            onChange={(event, child) => this.updateState({
+                            onChange={(event) => this.updateState({
                                 subjectType: event.target.value
                             })}
                         >
@@ -186,7 +186,7 @@ class PointEditor extends Component {
                 />
             </div>
         );
-    }
+    };
 
     render(){
         const { open, translate, requestClose } = this.props;

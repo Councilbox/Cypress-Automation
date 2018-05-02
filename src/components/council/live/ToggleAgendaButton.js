@@ -33,7 +33,7 @@ class ToggleAgendaButton extends Component {
         if(response){
             this.props.refetch();
         }
-    }
+    };
 
     closeAgenda = async () => {
         const { agenda } = this.props;
@@ -46,7 +46,7 @@ class ToggleAgendaButton extends Component {
         if(response){
             this.props.refetch();
         }
-    }
+    };
 
     render(){
         const { translate, agenda, active } = this.props;

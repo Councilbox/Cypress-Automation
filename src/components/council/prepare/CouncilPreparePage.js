@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, AlertConfirm, ButtonIcon } from "../../../displayComponents";
+
+import { CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, ButtonIcon } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { MenuItem, Card, Divider, Typography } from 'material-ui';
 import DateHeader from './DateHeader';
@@ -33,7 +34,7 @@ class CouncilPreparePage extends Component {
 
     goToPrepareRoom = () => {
         bHistory.push(`/company/${this.props.companyID}/council/${this.props.councilID}/live`);
-    }
+    };
 
     downloadPDF = async () => {
         const response = await this.props.client.query({
@@ -49,7 +50,7 @@ class CouncilPreparePage extends Component {
             }
         }
         console.log(response);
-    }
+    };
 
 
     render(){

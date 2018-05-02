@@ -14,7 +14,7 @@ class ParticipantsLive extends Component {
                 requestWord: value,
                 id: id
             } 
-        }
+        };
         console.log(object);
         const response = await this.props.changeRequestWord({
             variables: {
@@ -24,12 +24,12 @@ class ParticipantsLive extends Component {
                     id: id
                 }
             }
-        })
+        });
 
         if(response){
             this.props.data.refetch();
         }
-    }
+    };
 
     _participantEntry = (participant) => {
         return(
@@ -51,7 +51,7 @@ class ParticipantsLive extends Component {
                 }
             </div>
         )
-    } 
+    };
 
     _button = () => {
         const { participants } = this.props;
@@ -69,7 +69,7 @@ class ParticipantsLive extends Component {
                 </div>
             </div>
         )
-    }
+    };
 
     _section = () => {
         const { liveParticipants } = this.props.data;
@@ -87,7 +87,7 @@ class ParticipantsLive extends Component {
                 })}
             </div>
         );
-    }
+    };
 
     render(){
 

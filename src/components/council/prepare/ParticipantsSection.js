@@ -1,10 +1,9 @@
-import React, { Fragment, Component } from 'react';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import React, { Component } from 'react';
 import * as CBX from '../../../utils/CBX';
 import { Card } from 'material-ui';
 import NewParticipantForm from '../editor/NewParticipantForm';
 import ConvenedParticipantsTable from './ConvenedParticipantsTable';
-import { CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, AlertConfirm, ButtonIcon } from "../../../displayComponents";
+import { AlertConfirm } from "../../../displayComponents";
 
 
 class ParticipantsSection extends Component{
@@ -25,8 +24,6 @@ class ParticipantsSection extends Component{
 
     render(){
         const { translate, council, refetch, totalVotes, socialCapital } = this.props;
-        const primary = getPrimary();
-        const secondary = getSecondary();
     
         return (
             <Card style={{marginTop: '1em', padding: '1.5em'}}>

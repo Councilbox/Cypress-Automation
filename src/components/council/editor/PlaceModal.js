@@ -223,7 +223,7 @@ class PlaceModal extends Component {
             <DialogContent>
                 <Checkbox
                     label={translate.remote_celebration}
-                    value={this.state.data.council.remoteCelebration === 1 ? true : false}
+                    value={this.state.data.council.remoteCelebration === 1}
                     onChange={(event, isInputChecked) => this.setState({
                         data: {
                             ...this.state.data,

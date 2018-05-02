@@ -200,6 +200,11 @@ export const councilStepTwo = gql`
       selectedCensusId
     }
 
+    languages{
+      desc
+      columnName
+    }
+
     councilTotalVotes(councilId: $id)
     councilSocialCapital(councilId: $id)
 
@@ -250,6 +255,7 @@ export const councilParticipants = gql`
           email
           phone
           position
+          language
         }
         position
         language
@@ -261,9 +267,17 @@ export const councilParticipants = gql`
   }
 `;
 
+export const updateParticipant = gql `
+  mutation updateParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
+    updateCouncilParticipant(participant: $participant, representative: $representative){
+      success
+    }
+  }
+`;
+
 export const convenedcouncilParticipants = gql`
   query participants($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput){
-    councilParticipants(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+    councilParticipantsWithNotifications(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
       list{
         id
         councilId

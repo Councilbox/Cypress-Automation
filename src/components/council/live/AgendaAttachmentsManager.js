@@ -49,7 +49,7 @@ class AgendaAttachmentsManager extends Component {
                 variables: {
                     attachment: fileInfo
                 }
-            })
+            });
             if(response){
                 this.props.refetch();
                 this.setState({
@@ -57,7 +57,7 @@ class AgendaAttachmentsManager extends Component {
                 });
             }
         }
-    }
+    };
 
     removeAgendaAttachment = async (attachmentID) => {
         this.setState({
@@ -77,7 +77,7 @@ class AgendaAttachmentsManager extends Component {
                 this.setState({loadingId: ''});
             }
         }
-    }
+    };
 
     _button = () => {
         const { attachments } = this.props;
@@ -93,7 +93,7 @@ class AgendaAttachmentsManager extends Component {
                 </div>
             </div>
         )
-    }
+    };
 
     _section = () => {
         const { attachments, translate } = this.props;
@@ -106,7 +106,7 @@ class AgendaAttachmentsManager extends Component {
                 deleteAction={this.removeAgendaAttachment}
             />
         );
-    }
+    };
 
     render(){
 

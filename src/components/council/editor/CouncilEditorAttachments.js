@@ -79,7 +79,7 @@ class CouncilEditorAttachments extends Component {
                 variables: {
                     attachment: fileInfo
                 }
-            })
+            });
             if(response){
                 this.props.data.refetch();
                 this.setState({
@@ -87,7 +87,7 @@ class CouncilEditorAttachments extends Component {
                 });
             }
         }
-    }
+    };
 
     removeCouncilAttachment = async (attachmentID) => {
         this.props.removeCouncilAttachment({
@@ -103,7 +103,7 @@ class CouncilEditorAttachments extends Component {
                 }
             }]
         });
-    }
+    };
 
     updateCouncil = (step) => {
         const { attachments, __typename, ...council } = this.props.data.council;
@@ -115,7 +115,7 @@ class CouncilEditorAttachments extends Component {
                 }
             }
         })
-    }
+    };
 
 
     nextPage = () => {
@@ -123,14 +123,14 @@ class CouncilEditorAttachments extends Component {
             this.updateCouncil(5);
             this.props.nextStep();
         }
-    }
+    };
 
     previousPage = () => {
         if(true){
             this.updateCouncil(4);
             this.props.previousStep();
         }
-    }
+    };
 
     render(){
         const { translate } = this.props;
@@ -142,7 +142,7 @@ class CouncilEditorAttachments extends Component {
         }
 
         const { attachments } = this.props.data.council;
-        const primary = getPrimary()
+        const primary = getPrimary();
 
         return(
             <div style={{width: '100%', height: '100%', padding: '2em'}}>

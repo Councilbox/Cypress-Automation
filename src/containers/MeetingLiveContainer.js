@@ -23,7 +23,7 @@ const MeetingLiveContainer = ({ main, companies, match, translate }) => {
             councilID={match.params.id}
         />
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     translate: state.translate,

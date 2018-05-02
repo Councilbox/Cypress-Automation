@@ -28,7 +28,7 @@ class CouncilDrafts extends Component {
             deleteModal: true,
             councilToDelete: councilID
         })
-    }
+    };
 
     deleteCouncil = async () => {
         this.props.data.loading = true;
@@ -36,14 +36,14 @@ class CouncilDrafts extends Component {
             variables: {
                 councilId: this.state.councilToDelete
             }
-        })
+        });
         if(response){
             this.setState({
                 deleteModal: false
             });
             this.props.data.refetch();
         }
-    }
+    };
 
     _renderDeleteIcon(councilID) {
         const primary = getPrimary();

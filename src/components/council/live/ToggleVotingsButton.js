@@ -37,7 +37,7 @@ class ToggleVotingsButton extends Component {
         if(response){
             this.props.refetch();
         }
-    }
+    };
 
     closeAgendaVoting = async () => {
         const { agenda } = this.props;
@@ -54,7 +54,7 @@ class ToggleVotingsButton extends Component {
         if(response){
             this.props.refetch();
         }
-    }
+    };
 
     render(){
         const { translate, agenda } = this.props;

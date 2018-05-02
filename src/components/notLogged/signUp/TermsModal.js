@@ -26,7 +26,7 @@ class TermsModal extends Component {
                     <p><b>2.- Aceptación de la suscripción</b></p>
 
                     <p>Al suscribirte a cualquier plan de Councilbox estás aceptando los
-                        términos de suscripción recogidos en <a href="http://www.councilbox.com/" target="_blank" without rel="noopener noreferrer">
+                        términos de suscripción recogidos en <a href="http://www.councilbox.com/" target="_blank" rel="noopener noreferrer">
                             www.councilbox.com</a>.
                     </p>
 
@@ -439,6 +439,7 @@ class TermsModal extends Component {
                     requestClose={() => this.props.close()}
                     open={this.props.open}
                     buttonAccept={translate.close}
+                    acceptAction={this.props.close}
                     bodyText={this._renderNewPointBody()}
                     title={translate.login_read_terms2}
                 />

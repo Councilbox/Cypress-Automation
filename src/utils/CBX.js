@@ -10,31 +10,19 @@ import spam from '../assets/img/spam.png';
 
 
 export const canReorderPoints = (council) => {
-    if(council.statute.canReorderPoints === 1){
-        return true;
-    }
-    return false;
+    return council.statute.canReorderPoints === 1;
 };
 
 export const showAddCouncilAttachment = (attachments) => {
-    if(attachments.length >= MAX_COUNCIL_ATTACHMENTS){
-        return false;
-    }
-    return true;
+    return attachments.length < MAX_COUNCIL_ATTACHMENTS;
 };
 
 export const canAddCouncilAttachment = (council, filesize) => {
-    if(council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) + filesize < MAX_COUNCIL_FILE_SIZE){
-        return true;
-    }
-    return false;
+    return council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) + filesize < MAX_COUNCIL_FILE_SIZE;
 };
 
 export const showAgendaVotingsToggle = (council, agenda) => {
-    if(council.councilStarted === 1 && agenda.subjectType !== 0 && agenda.votingState !== 2){
-        return true;
-    }
-    return false;
+    return council.councilStarted === 1 && agenda.subjectType !== 0 && agenda.votingState !== 2;
 };
 
 export const councilHasVideo = (council) => {
@@ -151,11 +139,11 @@ export const getActPointSubjectType = () => {
 
 export const showUserUniqueKeyMessage = (council) => {
     return council.securityType === 1 || council.securityType === 2;
-}
+};
 
 export const councilIsNotified = (council) => {
     return council.state === 10;
-}
+};
 
 export const printPrettyFilesize = (filesize) => {
     if(filesize < 1024) {
@@ -168,46 +156,46 @@ export const printPrettyFilesize = (filesize) => {
         return `${addTwoDecimals(filesize / 1048576, 2)} MBs`;
     }
     return `${addTwoDecimals(filesize / 1073741824, 2)} GBs`;
-}
+};
 
 export const addTwoDecimals = (num, fixed) => {
     num = num.toString();
     return num.slice(0, (num.indexOf(".")) + fixed + 1);
-}
+};
 
 export const downloadFile = (base64, filetype, filename) => {
-    var bufferArray = dataURItoBlob(base64);
+    let bufferArray = dataURItoBlob(base64);
 
     if (window.navigator.msSaveOrOpenBlob) {
-        var fileData = [bufferArray];
-        var blobObject = new Blob(fileData, {
+        let fileData = [bufferArray];
+        let blobObject = new Blob(fileData, {
             type: 'data:application/stream;base64'
         });
         return window.navigator.msSaveOrOpenBlob(blobObject, filename);
     } else {
-        var blob = new Blob([bufferArray], {
+        let blob = new Blob([bufferArray], {
             type: filetype
         });
-        var objectUrl = URL.createObjectURL(blob);
+        let objectUrl = URL.createObjectURL(blob);
 
-        var a = document.createElement("a");
+        let a = document.createElement("a");
         a.style.cssText = "display: none";
         document.body.appendChild(a);
         a.href = objectUrl;
         a.download = filename;
         a.click();
     }
-}
+};
 
 function dataURItoBlob(dataURI) {
     // convert base64 to raw binary data held in a string
     // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-    var byteString = atob(dataURI);
+    let byteString = atob(dataURI);
 
     // write the bytes of the string to an ArrayBuffer
-    var arrayBuffer = new ArrayBuffer(byteString.length);
-    var ia = new Uint8Array(arrayBuffer);
-    for (var i = 0; i < byteString.length; i++) {
+    let arrayBuffer = new ArrayBuffer(byteString.length);
+    let ia = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
         ia[i] = byteString.charCodeAt(i);
     }
 
@@ -240,7 +228,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
         default:
             return;
     }
-} 
+};
 
 export const getEmailIconByReqCode = (reqCode) => {
     switch(reqCode){
@@ -270,8 +258,10 @@ export const getEmailIconByReqCode = (reqCode) => {
 
         case 37:
             return dropped;
+        default:
+            return;
     }
-}
+};
 
 export const getTranslationReqCode = (reqCode) => {
     switch(reqCode){
@@ -293,8 +283,10 @@ export const getTranslationReqCode = (reqCode) => {
             return 'tooltip_invalid_email_address';
         case 37:
             return 'tooltip_dropped';
+        default: 
+            return;
     }
-}
+};
 
 export const printSessionExpiredError = () => {
     const messages = {
@@ -303,10 +295,10 @@ export const printSessionExpiredError = () => {
         'cat': 'La seva sessió ha caducat',
         'gl': 'A súa sesión caducou',
         'pt': 'A sua sessão expirou',
-    }
+    };
     const selectedLanguage = sessionStorage.getItem('language');
     if(selectedLanguage){
         return messages[selectedLanguage];
     }
     return messages['es'];
-}
+};

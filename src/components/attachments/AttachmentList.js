@@ -69,7 +69,7 @@ class AttachmentList extends Component {
             });
             this.props.refetch();
         }
-    }
+    };
 
     deleteAttachment = (id) => {
         this.setState({

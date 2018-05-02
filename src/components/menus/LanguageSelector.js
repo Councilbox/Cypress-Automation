@@ -38,11 +38,11 @@ const LanguageSelector = ({ selectedLanguage, data }) => {
         />
     )
 
-}
+};
 
 const changeLanguage = (language) => {
     store.dispatch(setLanguage(language));
-}
+};
 
 
 export default graphql(languages)(LanguageSelector);

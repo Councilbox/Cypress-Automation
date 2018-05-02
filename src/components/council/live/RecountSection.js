@@ -30,7 +30,7 @@ class RecountSection extends Component {
                 </div>
             </div>
         )
-    }
+    };
 
     _section = () => {
         if(this.props.data.loading){
@@ -121,7 +121,7 @@ class RecountSection extends Component {
                 </div>
             </Fragment>
         );
-    }
+    };
 
     render(){
         return(

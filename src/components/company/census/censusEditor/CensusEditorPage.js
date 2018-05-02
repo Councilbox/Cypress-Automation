@@ -42,7 +42,7 @@ class CensusEditorPage extends Component {
                 ...object
             }
         });
-    }
+    };
 
     render(){
         const { translate } = this.props;
@@ -71,7 +71,7 @@ class CensusEditorPage extends Component {
                         <SelectInput
                             floatingText={translate.census_type}
                             value={census.quorumPrototype}
-                            onChange={(event, child) => {
+                            onChange={(event) => {
                                 this.updateState({
                                     quorumPrototype: event.target.value
                                 }) 

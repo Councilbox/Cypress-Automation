@@ -30,7 +30,7 @@ class AddCensusButton extends Component {
                         defaultCensus: 0
                     }
                 }
-            })
+            });
             if(response){
                 console.log(response);
                 this.props.refetch();
@@ -45,7 +45,7 @@ class AddCensusButton extends Component {
                 });
             }
         }
-    }
+    };
 
     checkRequiredFields(){
         return false;
@@ -58,7 +58,7 @@ class AddCensusButton extends Component {
                 ...object
             }
         })
-    }
+    };
 
     _renderNewPointBody = () => {
         const { translate } = this.props;
@@ -86,7 +86,7 @@ class AddCensusButton extends Component {
                         <SelectInput
                             floatingText={translate.census_type}
                             value={census.quorumPrototype}
-                            onChange={(event, child) => {
+                            onChange={(event) => {
                                 this.updateState({
                                     quorumPrototype: event.target.value
                                 }) 
@@ -112,7 +112,7 @@ class AddCensusButton extends Component {
                 />
             </Fragment>
         );
-    }
+    };
 
     render(){
         const { translate } = this.props;

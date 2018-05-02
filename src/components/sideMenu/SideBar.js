@@ -13,6 +13,7 @@ class Sidebar extends Component {
             selectedRoute: 0
         };
 
+
         this.routes = [ {
             path: `/company/${props.company.id}`,
             sidebarName: props.translate.dashboard,
@@ -28,7 +29,7 @@ class Sidebar extends Component {
             sidebarName: props.translate.meetings,
             icon: ContentPaste,
         }, {
-            path: "/company/${props.company.id}/signatures/drafts",
+            path: `/company/${props.company.id}/signatures/drafts`,
             name: 'signature',
             sidebarName: props.translate.signatures,
             icon: BorderColor,
@@ -67,6 +68,7 @@ class Sidebar extends Component {
         return index === this.state.selectedRoute;
     }
 
+
     links = () => (<List className={this.props.classes.list}>
         {this.routes.map((route, key) => {
             if (route.redirect) {
@@ -91,7 +93,10 @@ class Sidebar extends Component {
                 }}
                 onClick={() => this.setState({ selectedRoute: key })}
             >
-                <ListItem button className={this.props.classes.itemLink + listItemClasses}>
+                <ListItem button className={this.props.classes.itemLink + listItemClasses} style={{
+                    display: 'flex',
+                    flexDirection: 'row'
+                }}>
                     <ListItemIcon className={this.props.classes.itemIcon + whiteFontClasses}>
                         <route.icon/>
                     </ListItemIcon>
@@ -107,15 +112,19 @@ class Sidebar extends Component {
 
 
     brand = () => (<div className={this.props.classes.logo}>
-      <span className={this.props.classes.logoLink}>
-        <div className={this.props.classes.logoImage}>
-          <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
+        <div className={this.props.classes.logoLink} style={{
+            display: 'flex',
+            flexDirection: 'row'
+        }}>
+            <div className={this.props.classes.logoImage}>
+                <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
+            </div>
+
+            <div style={{
+                fontSize: '0.85em',
+                fontWeight: '700'
+            }}>{this.props.company.businessName}</div>
         </div>
-        <span style={{
-            fontSize: '0.9em',
-            fontWeight: '700'
-        }}>{this.props.company.businessName}</span>
-      </span>
     </div>);
 
     render() {

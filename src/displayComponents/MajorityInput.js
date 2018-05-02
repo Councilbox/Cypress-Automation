@@ -65,7 +65,7 @@ const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style,
         )
     }
 
-    return(<div></div>);
-}
+    return(<div> </div>);
+};
 
 export default MajorityInput;

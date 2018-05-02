@@ -59,7 +59,7 @@ class CloneCensusModal extends Component {
                         ...census
                     }
                 }
-            })
+            });
             if(response){
                 console.log(response);
                 this.props.refetch();
@@ -68,7 +68,7 @@ class CloneCensusModal extends Component {
                 });
             }
         }
-    }
+    };
 
     updateState(object){
         this.setState({
@@ -109,7 +109,7 @@ class CloneCensusModal extends Component {
                         <SelectInput
                             floatingText={translate.census_type}
                             value={census.quorumPrototype}
-                            onChange={(event, child) => {
+                            onChange={(event) => {
                                 this.updateState({
                                     quorumPrototype: event.target.value
                                 }) 
@@ -134,7 +134,7 @@ class CloneCensusModal extends Component {
                 />
             </Fragment>
         );
-    }
+    };
 
     render(){
         const { translate, children } = this.props;

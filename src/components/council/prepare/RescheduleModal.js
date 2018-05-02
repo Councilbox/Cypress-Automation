@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextInput, Checkbox, AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../../../displayComponents";
+import { AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../../../displayComponents";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { rescheduleCouncil } from '../../../queries';
@@ -29,7 +29,7 @@ class RescheduleModal extends Component {
             unsavedChanges: false,
             error2NdCall: ''
         });
-    }
+    };
 
     rescheduleCouncil = async () => {
         this.setState({
@@ -54,14 +54,14 @@ class RescheduleModal extends Component {
                 error: true
             });
         }
-    }
+    };
 
     updateState = (object) => {
         this.setState({
             ...object,
             unsavedChanges: true
         });
-    }
+    };
 
     updateDate = (firstDate = this.state.dateStart, secondDate = this.state.dateStart2NdCall) => {
         const { translate } = this.props;
@@ -181,4 +181,4 @@ const SuccessMessage = ({ message }) => (
             {message}
         </Typography>
     </div>
-)
+);

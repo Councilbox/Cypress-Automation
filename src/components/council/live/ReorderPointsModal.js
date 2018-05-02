@@ -33,12 +33,12 @@ class ReorderPointsModal extends Component {
             variables: {
                 agendaList: [ ...reorderedAgenda ]
             }
-        })
+        });
         if(response){
             this.props.refetch();
             this.setState({reorderModal: false});
         }
-    }
+    };
 
     onSortEnd = ({ oldIndex, newIndex }) => {
         this.setState({
@@ -52,7 +52,7 @@ class ReorderPointsModal extends Component {
         return(
             <SortableList items={this.state.agendas} onSortEnd={this.onSortEnd} helperClass="draggable" />
         );
-    }
+    };
 
     render(){
         const { translate } = this.props;

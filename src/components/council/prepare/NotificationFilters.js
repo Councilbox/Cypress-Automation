@@ -22,7 +22,7 @@ class NotificationFilters extends Component {
         if(selectedFilter === code){
             this.setState({
                 selectedFilter: ''
-            })
+            });
             refetch({
                 notificationStatus: null
             });
@@ -34,8 +34,7 @@ class NotificationFilters extends Component {
                 selectedFilter: code
             })
         }
-
-    }
+    };
 
     _renderFilterIcon = (value) => {
         const { selectedFilter } = this.state;
@@ -67,16 +66,16 @@ class NotificationFilters extends Component {
                 </Tooltip>
             </GridItem>
         )
-    }
+    };
 
     render(){
         const { translate } = this.props;
 
         return(
-            <Grid style={{marginTop: '0.6em'}} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Grid style={{display: 'flex', marginTop: '0.6em', justifyContent: 'center', alignItems: 'center'}}>
                 {`${translate.filter_by}: `}
                 <GridItem xs={10} lg={10} md={10} style={{display: 'flex', flexDirection: 'row', marginLeft: '0.7em'}}>
-                    {Object.keys(EMAIL_STATES_FILTERS).map((code, index) => (
+                    {Object.keys(EMAIL_STATES_FILTERS).map((code) => (
                         this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
                     ))}
                 </GridItem>

@@ -30,14 +30,14 @@ class CouncilsLive extends Component {
                 onClick={() => this.openDeleteModal(councilID)}
             />
         );
-    };
+    }
 
     openDeleteModal = (councilID) => {
         this.setState({
             deleteModal: true,
             councilToDelete: councilID
         })
-    };
+    }
 
     deleteCouncil = async () => {
         this.props.data.loading = true;
@@ -45,14 +45,14 @@ class CouncilsLive extends Component {
             variables: {
                 councilId: this.state.councilToDelete
             }
-        });
+        })
         if(response){
             this.props.data.refetch();
             this.setState({
                 deleteModal: false
             });
         }
-    };
+    }
 
     render(){
         const { translate } = this.props;
@@ -90,7 +90,7 @@ class CouncilsLive extends Component {
                                                         key={`participant${council.id}`}  
                                                     >
                                                         <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
-                                                        <TableCell><Link to={`/company/${this.props.company.id}/meeting/${council.id}/live`}>{council.name}</Link></TableCell>
+                                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/live`}>{council.name}</Link></TableCell>
                                                         <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
                                                     </TableRow>
                                                 )
@@ -125,9 +125,9 @@ export default compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            state: 20,
+            state: [20],
             companyId: props.company.id,
-            isMeeting: true
+            isMeeting: false
         }
     })
 }))(CouncilsLive);

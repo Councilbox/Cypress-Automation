@@ -142,7 +142,6 @@ class UpdateUserForm extends React.Component {
                             onChange={(event) => this.updateState({
                                 name: event.target.value
                             })}
-                            required
                         />
                     </GridItem>
                     <GridItem xs={12} md={6} lg={4}>

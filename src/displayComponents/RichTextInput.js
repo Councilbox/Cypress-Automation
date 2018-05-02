@@ -32,7 +32,7 @@ class RichTextField extends Component {
         this.setState({
             value: RichTextEditor.createValueFromString(value, 'html')
         });
-    }
+    };
 
     paste = (text) => {
         let cd = new DataTransfer();
@@ -42,7 +42,7 @@ class RichTextField extends Component {
             clipboardData  : cd
         });
         //this.refs.rtEditor.refs.editor.focus();
-    }
+    };
 
     render(){
         const { tags, errorText, required } = this.props;

@@ -29,7 +29,7 @@ class CommentsSection extends Component {
                 </div>
             </div>
         )
-    }
+    };
 
     _section = () => {
         //const comments = this.props.data.agendaVotings;
@@ -51,7 +51,7 @@ class CommentsSection extends Component {
                 })*/}
             </div>
         );
-    }
+    };
 
     render(){
 

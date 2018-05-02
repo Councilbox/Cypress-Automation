@@ -15,7 +15,7 @@ class LiveHeader extends Component  {
     
     exitAction = () => {
         bHistory.push('/');
-    }
+    };
     
     render(){
         const { primaryColor, companyName, councilName, logo, translate } = this.props;

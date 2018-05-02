@@ -102,6 +102,6 @@ const RepresentativeForm = ({ updateState, translate, state, errors, languages }
             }
         </Grid>
     )
-}
+};
 
 export default RepresentativeForm;

@@ -30,7 +30,7 @@ class MeetingEditorConfig extends Component {
             this.updateCouncil();
             this.props.nextStep();
         }
-    }
+    };
 
     checkRequiredFields() {
         return false;
@@ -47,7 +47,7 @@ class MeetingEditorConfig extends Component {
                 }
             }
         });
-    }
+    };
 
     savePlaceAndClose = (council) => {
         this.setState({
@@ -57,7 +57,7 @@ class MeetingEditorConfig extends Component {
                 ...council
             }
         })
-    }
+    };
 
     componentWillReceiveProps(nextProps){
        if(this.props.data.loading && !nextProps.data.loading){
@@ -86,7 +86,7 @@ class MeetingEditorConfig extends Component {
                 <Radio
                     value={'0'}
                     checked={council.securityType === 0}
-                    onChange={(event, value) => this.updateCouncilData({
+                    onChange={(event) => this.updateCouncilData({
                         securityType: parseInt(event.target.value, 10)
                     })}
                     name="security"
@@ -95,7 +95,7 @@ class MeetingEditorConfig extends Component {
                 <Radio
                     value={'1'}
                     checked={council.securityType === 1}
-                    onChange={(event, value) => this.updateCouncilData({
+                    onChange={(event) => this.updateCouncilData({
                         securityType: parseInt(event.target.value, 10)
                     })}
                     name="security"
@@ -181,7 +181,7 @@ class MeetingEditorConfig extends Component {
                     </Typography>
                     <Checkbox
                         label={translate.full_video_record}
-                        value={council.fullVideoRecord === 0? false : true}
+                        value={council.fullVideoRecord !== 0}
                         onChange={(event, isInputChecked) => this.updateCouncilData({
                                 fullVideoRecord: isInputChecked? 1 : 0
                             })

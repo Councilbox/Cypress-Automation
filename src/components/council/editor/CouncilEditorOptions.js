@@ -60,7 +60,7 @@ class CouncilEditorOptions extends Component {
                 }
             }
         })
-    }
+    };
 
     nextPage = () => {
         if(true){
@@ -123,7 +123,7 @@ class CouncilEditorOptions extends Component {
                 <Radio
                     value={'0'}
                     checked={council.securityType === 0}
-                    onChange={(event, value) => this.updateCouncilData({
+                    onChange={(event) => this.updateCouncilData({
                         securityType: parseInt(event.target.value, 10)
                     })}
                     name="security"
@@ -132,7 +132,7 @@ class CouncilEditorOptions extends Component {
                 <Radio
                     value={'1'}
                     checked={council.securityType === 1}
-                    onChange={(event, value) => this.updateCouncilData({
+                    onChange={(event) => this.updateCouncilData({
                         securityType: parseInt(event.target.value, 10)
                     })}
                     name="security"

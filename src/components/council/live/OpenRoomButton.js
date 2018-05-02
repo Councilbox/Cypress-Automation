@@ -41,7 +41,7 @@ class openCouncilRoomButton extends Component {
         if(response){
             this.props.refetch();
         }
-    }
+    };
 
     render(){
         const { translate } = this.props;

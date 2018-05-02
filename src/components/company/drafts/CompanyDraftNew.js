@@ -35,11 +35,11 @@ class CompanyDraftNew extends Component {
                 ...object
             }
         });
-    }
+    };
 
     createCompanyDraft = async () => {
         if(!this.checkRequiredFields()){
-            this.setState({loading: true})
+            this.setState({loading: true});
             const response = await this.props.createCompanyDraft({
                 variables: {
                     draft: this.state.draft
@@ -51,7 +51,7 @@ class CompanyDraftNew extends Component {
                 this.timeout = setTimeout(() => this.resetAndClose(), 2000);
             }
         }
-    }
+    };
 
     resetAndClose = () => {
         clearTimeout(this.timeout);
@@ -73,7 +73,7 @@ class CompanyDraftNew extends Component {
             success: false
         });
         this.props.closeForm();
-    }
+    };
 
     checkRequiredFields(){
         const { translate } = this.props;
@@ -88,7 +88,7 @@ class CompanyDraftNew extends Component {
             majority: '',
             majorityDivider: '',
             majorityType: ''
-        }
+        };
         let hasError = false;
 
         if(!draft.title){

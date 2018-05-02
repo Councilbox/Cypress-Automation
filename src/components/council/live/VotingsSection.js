@@ -31,7 +31,7 @@ class VotingsSection extends Component {
                 </div>
             </div>
         )
-    }
+    };
 
     getIcon = (vote) => {
         const primary = getPrimary();
@@ -59,9 +59,9 @@ class VotingsSection extends Component {
                         />;
 
             default:
-                return <div></div>;
+                return <div> </div>;
         }
-    }
+    };
 
     _section = () => {
         const { loading } = this.props.data;
@@ -85,7 +85,7 @@ class VotingsSection extends Component {
               })*/}
             </div>
         );
-    }
+    };
 
     render(){
 

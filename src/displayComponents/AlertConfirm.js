@@ -48,7 +48,7 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
             <FontAwesome
                 name={'close'}
                 style={{cursor: 'pointer', fontSize: '1.5em', color: getSecondary(), position: 'absolute', right: '12px', top: '9px'}}
-                onClick={(event) => requestClose()}
+                onClick={() => requestClose()}
             /> 
             {!!title &&
                 <DialogTitle style={{paddingRight: '4em'}}>

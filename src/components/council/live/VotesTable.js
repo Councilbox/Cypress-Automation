@@ -93,6 +93,6 @@ const VotesTable = ({ agenda, translate }) => (
         </tr>
         </tbody>
     </table>
-)
+);
 
 export default VotesTable;

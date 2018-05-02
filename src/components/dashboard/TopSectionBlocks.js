@@ -21,7 +21,8 @@ const Block = ({ children, button }) => (
     </React.Fragment>
 );
 
-const estatutesButton = () => (
+/*
+const statutesButton = () => (
     <BasicButton
         text="Revisa tus estatutos"
         fullWidth={true}
@@ -41,9 +42,9 @@ const censusesButton = () => (
         textPosition="after"
         icon={<Icon className="material-icons" style={{color: 'white'}}>control_point</Icon>}
     />
-);
+);*/
 
-const TopSectionBlocks = ({ translate, company, user }) => (
+const TopSectionBlocks = ({ translate, company }) => (
     <Grid style={{width: '90%', marginTop:'4vh'}} spacing={8}>
         <GridItem xs={12} md={6} lg={3}>
             <Link to={`/company/${company.id}/settings`}>
@@ -81,6 +82,6 @@ const TopSectionBlocks = ({ translate, company, user }) => (
             </Link>
         </GridItem>
     </Grid>
-)
+);
 
 export default TopSectionBlocks;

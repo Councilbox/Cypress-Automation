@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { TableRow, TableCell } from 'material-ui/Table';
-import { Typography, Tooltip } from 'material-ui';
+
+import { Tooltip } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import { EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton } from '../../../displayComponents';
@@ -41,16 +42,16 @@ class ConvenedParticipantsTable extends Component {
                 participantId: id,
                 councilId: this.props.councilId
             }
-        })
+        });
         
         if(response){
             this.table.refresh();
         }
-    }   
+    };
     
     refresh = (object) => {
         this.table.refresh(object);
-    } 
+    };
 
     refreshEmailStates = async () => {
         const response = await this.props.updateNotificationsStatus({
@@ -62,12 +63,14 @@ class ConvenedParticipantsTable extends Component {
         if(response.data.updateNotificationsStatus.success){
             this.table.refresh();
         }
-    }
+    };
 
 
     render(){
         const { translate, totalVotes, socialCapital} = this.props;
-        const { loading, councilParticipants,  } = this.props.data;
+        const { loading } = this.props.data;
+        const councilParticipants = this.props.data.councilParticipantsWithNotifications;
+
         let headers = [
             {
                 text: translate.name,
@@ -98,7 +101,6 @@ class ConvenedParticipantsTable extends Component {
         if(this.props.participations){
             headers.push({text: translate.census_type_social_capital, name: 'socialCapital', canOrder: true});
         }
-        headers.push({text: translate.delete});
 
         if(this.state.editParticipant && this.props.editable){
             return(
@@ -197,19 +199,19 @@ class ConvenedParticipantsTable extends Component {
                                             </TableCell>
                                         } 
                                         <TableCell>
-                                            <Tooltip title={translate[CBX.getTranslationReqCode(participant.notifications[participant.notifications.length - 1].reqCode)]}>
-                                                <img 
-                                                    style={{height: '2.1em', width: 'auto'}}
-                                                    src={CBX.getEmailIconByReqCode(participant.notifications[participant.notifications.length - 1].reqCode)}
-                                                    alt="email-state-icon"
-                                                />
-                                            </Tooltip>
-                                        </TableCell>
-                                        <TableCell>
-                                            {!CBX.isRepresentative(participant) &&
-                                                this._renderDeleteIcon(participant.id)
+                                            {participant.notifications.length > 0?
+                                                <Tooltip title={translate[CBX.getTranslationReqCode(participant.notifications[participant.notifications.length - 1].reqCode)]}>
+                                                    <img 
+                                                        style={{height: '2.1em', width: 'auto'}}
+                                                        src={CBX.getEmailIconByReqCode(participant.notifications[participant.notifications.length - 1].reqCode)}
+                                                        alt="email-state-icon"
+                                                    />
+                                                </Tooltip>
+                                            :
+                                                '-'
                                             }
-                                        </TableCell> 
+
+                                        </TableCell>
                                     </TableRow>
                                 )
                             })}

@@ -65,7 +65,7 @@ const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, q
             </div>)
     }
 
-    return (<div></div>);
+    return (<div> </div>);
 };
 
 export default QuorumInput;

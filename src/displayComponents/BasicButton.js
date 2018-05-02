@@ -41,6 +41,6 @@ const BasicButton = ({ color, error, text, resetDelay = 2700, textStyle, reset, 
             }
         </Button>
     )
-}
+};
 
 export default BasicButton;

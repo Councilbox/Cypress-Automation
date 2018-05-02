@@ -35,7 +35,6 @@ const authLink = setContext((_, { headers }) => {
 const logoutLink = onError(({ graphQLErrors, networkError }) => {
     console.log(graphQLErrors);
     console.log(networkError);
-    const translate = store.getState().translate;   
     if(graphQLErrors){
         if(graphQLErrors[0].code === 440){
             toast.error(printSessionExpiredError());
@@ -49,7 +48,7 @@ const logoutLink = onError(({ graphQLErrors, networkError }) => {
 export const client = new ApolloClient({
     link: logoutLink.concat(authLink.concat(httpLink)),
     cache: new InMemoryCache()
-})
+});
 
 export const store = configureStore();
 store.dispatch(setLanguage('es'));

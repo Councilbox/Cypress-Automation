@@ -27,19 +27,19 @@ class MeetingEditorPage extends React.Component {
         const index = this.state.step + 1;        
         bHistory.push(`/company/${this.props.companyID}/meeting/${this.props.councilID}/${index}`);
         this.setState({step: index});
-    }
+    };
 
     previousStep = () => {
         const index = this.state.step - 1;
         bHistory.push(`/company/${this.props.companyID}/meeting/${this.props.councilID}/${index}`);        
         this.setState({step: index});
-    }
+    };
 
     send = () => {
         if (true) {
             this.setState({success: true});
         }
-    }
+    };
 
     setDate = (dateTime) => {
         this.setState({

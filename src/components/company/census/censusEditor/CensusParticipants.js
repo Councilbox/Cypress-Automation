@@ -28,12 +28,12 @@ class CensusParticipants extends Component {
                 participantId: id,
                 censusId: this.props.census.id
             }
-        })
+        });
         
         if(response){
             this.props.data.refetch();
         }
-    }
+    };
 
     render(){
         const { translate, census } = this.props;

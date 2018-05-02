@@ -1,6 +1,6 @@
 import React from 'react';
 import CompanyMenu from './CompanyMenu';
-import { LoadingMainApp } from '../displayComponents';
+import { LoadingMainApp } from '../../displayComponents';
 
 class SideMenu extends React.Component {
 

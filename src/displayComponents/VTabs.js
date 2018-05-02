@@ -78,7 +78,7 @@ const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize, deleteAct
         {windowSize === 'xs' && <Grid style={{ height: '100%' }}>
             <GridItem xs={6}>
                 <SelectInput
-                    onChange={(event, child) => changeTab(event.target.value)}>
+                    onChange={(event) => changeTab(event.target.value)}>
                     {tabs.map((tab, index) => {
                         return <MenuItem value={index}
                                          key={`statute_${index}`}>{tab.title}</MenuItem>
