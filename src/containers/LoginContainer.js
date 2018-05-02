@@ -2,7 +2,7 @@ import React from 'react';
 import Login from '../components/notLogged/Login';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
-import { LoadingMainApp } from '../components/displayComponents';
+import { LoadingMainApp } from '../displayComponents';
 
 class LoginContainer extends React.PureComponent {
 

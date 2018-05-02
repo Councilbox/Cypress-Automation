@@ -1,6 +1,6 @@
 import React from 'react';
 import { getPrimary, getSecondary, darkGrey, lightGrey } from '../../styles/colors';
-import { BasicButton, Icon, Grid, GridItem } from '../displayComponents';
+import { BasicButton, Icon, Grid, GridItem } from '../../displayComponents';
 import { Link } from 'react-router-dom';
 
 const Block = ({ children, button }) => (

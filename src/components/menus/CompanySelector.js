@@ -1,7 +1,7 @@
 import React, { Fragment, Component } from 'react';
 import { store, bHistory } from '../../containers/App';
 import { changeCompany } from '../../actions/companyActions';
-import { Popover } from '../displayComponents';
+import { Popover } from '../../displayComponents';
 
 class CompanySelector extends Component {
 

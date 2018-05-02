@@ -1,5 +1,5 @@
 import React from 'react';
-import CouncilPreparePage from "../components/councilPrepare/CouncilPreparePage";
+import CouncilPreparePage from "../components/council/prepare/CouncilPreparePage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 

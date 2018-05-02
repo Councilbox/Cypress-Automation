@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CompanyCensusPage from '../components/companyCensus/CompanyCensusPage';
+import CompanyCensusPage from '../components/company/census/CompanyCensusPage';
 import {connect} from 'react-redux';
 
 class CompanyCensusContainer extends Component {

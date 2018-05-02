@@ -11,14 +11,14 @@ import {
     GridItem,
     BasicButton,
     ButtonIcon,
-    DeleteIcon
-} from '../../displayComponents/index';
+    DeleteIcon,
+    VTabs
+} from '../../../displayComponents';
 import { MenuItem } from 'material-ui';
 import { statutes, updateStatute, deleteStatute, createStatute } from '../../../queries';
 import { getPrimary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import StatuteEditor from './StatuteEditor';
-import VTabs from "../../displayComponents/VTabs";
 import Scrollbar from 'react-perfect-scrollbar';
 
 class StatutesPage extends Component {

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AlertConfirm} from '../../displayComponents';
+import { AlertConfirm} from '../../../displayComponents';
 
 class TermsModal extends Component {
 

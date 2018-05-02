@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import TabsScreen from '../components/displayComponents/TabsScreen';
-import CouncilDrafts from '../components/councilSections/CouncilDrafts';
-import CouncilsConvened from '../components/councilSections/CouncilsConvened';
-import CouncilsLive from '../components/councilSections/CouncilsLive';
-import CouncilsWriting from '../components/councilSections/CouncilsWriting';
-import CouncilsTrash from '../components/councilSections/CouncilsTrash';
+import TabsScreen from '../displayComponents/TabsScreen';
+import CouncilDrafts from '../components/dashboard/councilSections/CouncilDrafts';
+import CouncilsConvened from '../components/dashboard/councilSections/CouncilsConvened';
+import CouncilsLive from '../components/dashboard/councilSections/CouncilsLive';
+import CouncilsWriting from '../components/dashboard/councilSections/CouncilsWriting';
+import CouncilsTrash from '../components/dashboard/councilSections/CouncilsTrash';
 
 const CouncilContainer = ({ match, company, translate }) => {
     const tabsIndex = {

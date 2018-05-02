@@ -7,7 +7,7 @@ import {
     TextInput,
     Grid,
     GridItem
-} from '../../displayComponents/index';
+} from '../../../displayComponents';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';

@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../displayComponents/index';
+import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../../displayComponents';
 import { Typography, MenuItem } from 'material-ui';
 import { quorumTypes, censuses } from '../../../queries';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
 import * as CBX from "../../../utils/CBX";
-import QuorumInput from "../../displayComponents/QuorumInput";
+import QuorumInput from "../../../displayComponents/QuorumInput";
 
 class StatuteEditor extends React.PureComponent {
 

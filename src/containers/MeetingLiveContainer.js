@@ -1,7 +1,7 @@
 import React from 'react';
-import MeetingLivePage from "../components/meetingLive/MeetingLivePage";
+import MeetingLivePage from "../components/meeting/live/MeetingLivePage";
 import { connect } from 'react-redux';
-import { LoadingMainApp } from '../components/displayComponents';
+import { LoadingMainApp } from '../displayComponents';
 import { withRouter, Redirect } from 'react-router-dom';
 
 const MeetingLiveContainer = ({ main, companies, match, translate }) => {

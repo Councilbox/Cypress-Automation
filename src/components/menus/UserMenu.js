@@ -4,7 +4,7 @@ import * as mainActions from '../../actions/mainActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { MenuItem } from 'material-ui';
-import { Icon, DropDownMenu, Link } from '../displayComponents';
+import { Icon, DropDownMenu, Link } from '../../displayComponents';
 const secondary = getSecondary();
 
 const UserMenu = ({ user, actions, translate }) => {
@@ -24,7 +24,7 @@ const UserMenu = ({ user, actions, translate }) => {
         />
     )
 
-}
+};
 
 function mapDispatchToProps(dispatch) {
     return {

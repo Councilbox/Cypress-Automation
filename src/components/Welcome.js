@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import { Card, CardActions, CardContent, Button } from 'material-ui';
 import { Link } from 'react-router-dom';
-import { Icon } from './displayComponents';
+import { Icon } from '../displayComponents';
 import { getPrimary } from '../styles/colors';
 
 
