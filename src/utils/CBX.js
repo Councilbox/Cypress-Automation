@@ -303,7 +303,7 @@ export const printSessionExpiredError = () => {
     return messages['es'];
 };
 
-export const checkRequiredFields = (translate, draft, setState) => {
+export const checkRequiredFields = (translate, draft, updateErrors) => {
     let errors = {
         title: '',
         description: '',
@@ -362,9 +362,9 @@ export const checkRequiredFields = (translate, draft, setState) => {
         errors.majorityDivider = translate.required_field;
     }
 
-    setState({
+    updateErrors(
         errors
-    });
+    );
 
     return hasError;
 };

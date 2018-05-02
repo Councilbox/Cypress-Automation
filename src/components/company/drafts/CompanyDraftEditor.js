@@ -56,7 +56,8 @@ class CompanyDraftEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {}
+            data: {},
+            errors: {}
         }
     }
 
@@ -69,17 +70,23 @@ class CompanyDraftEditor extends Component {
     updateState = (object) => {
         this.setState({
             data: {
-                ...this.state.data, ...object
+                ...this.state.data,
+                ...object
             }
         })
     };
 
+    updateErrors = (errors) => {
+        this.setState({
+            errors
+        });
+    };
+
     updateCompanyDraft = async () => {
         const { translate } = this.props;
-        const { draft } = this.state;
+        const { data } = this.state;
 
-        if (!checkRequiredFields(translate, draft, this.setState)) {
-            const { data } = this.state;
+        if (!checkRequiredFields(translate, data, this.updateErrors)) {
             this.setState({ loading: true });
             const response = await this.props.updateCompanyDraft({
                 variables: {
@@ -105,16 +112,9 @@ class CompanyDraftEditor extends Component {
         }
     };
 
-    checkRequiredFields() {
-        return false;
-    }
-
-    saveDraft = async () => {
-        console.log(this.state.data);
-    };
-
     render() {
         const { translate } = this.props;
+        const { data, errors } = this.state;
 
         return (
 
@@ -125,9 +125,9 @@ class CompanyDraftEditor extends Component {
                         <div style={{ marginTop: '1.8em' }}>
                             <CompanyDraftForm
                                 translate={translate}
-                                errors={{}}
+                                errors={errors}
                                 updateState={this.updateState}
-                                draft={this.state.data}
+                                draft={data}
                                 companyStatutes={this.props.data.companyStatutes}
                                 draftTypes={this.props.data.draftTypes}
                                 votingTypes={this.props.data.votingTypes}
@@ -145,7 +145,7 @@ class CompanyDraftEditor extends Component {
                                 fontWeight: '700'
                             }}
                             floatRight
-                            onClick={() => this.createCompanyDraft()}
+                            onClick={() => this.updateCompanyDraft()}
                             icon={<ButtonIcon type="save" color='white'/>}
                         />
                     </div>
@@ -164,4 +164,4 @@ export default compose(graphql(getData, {
         },
         notifyOnNetworkStatusChange: true
     })
-}), graphql(createCompanyDraft, { name: 'updateCompanyDraft' }))(withRouter(withTranslations(CompanyDraftEditor)));
+}), graphql(createCompanyDraft, { name: 'updateCompanyDraft' }))(withRouter(withTranslations()(CompanyDraftEditor)));

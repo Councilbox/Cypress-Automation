@@ -37,10 +37,16 @@ class CompanyDraftNew extends Component {
         });
     };
 
+    updateErrors = (errors) => {
+        this.setState({
+            errors
+        });
+    };
+
     createCompanyDraft = async () => {
         const { translate } = this.props;
         const { draft } = this.state;
-        if(!checkRequiredFields(translate, draft, this.setState)){
+        if(!checkRequiredFields(translate, draft, this.updateErrors)){
             this.setState({loading: true});
             const response = await this.props.createCompanyDraft({
                 variables: {
@@ -90,23 +96,6 @@ class CompanyDraftNew extends Component {
 
         return(
             <CardPageLayout title={translate.drafts_new}>
-                <BasicButton
-                    text={translate.back}
-                    color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700'}}
-                    onClick={() => closeForm()}
-                    icon={<ButtonIcon type="keyboard_arrow_left" color='white' />}
-                />
-                <BasicButton
-                    text={translate.save}
-                    color={getPrimary()}
-                    loading={this.state.loading}
-                    success={this.state.success}
-                    textStyle={{color: 'white', fontWeight: '700'}}
-                    onClick={() => this.createCompanyDraft()}
-                    icon={<ButtonIcon type="save" color='white' />}
-                />
-
                 <div style={{marginTop: '1.8em'}}>
                     <CompanyDraftForm
                         draft={draft}
@@ -117,6 +106,17 @@ class CompanyDraftNew extends Component {
                         draftTypes={this.props.data.draftTypes}
                         votingTypes={this.props.data.votingTypes}
                         majorityTypes={this.props.data.majorityTypes}
+                    />
+                    <br/>
+                    <BasicButton
+                        floatRight
+                        text={translate.save}
+                        color={getPrimary()}
+                        loading={this.state.loading}
+                        success={this.state.success}
+                        textStyle={{color: 'white', fontWeight: '700'}}
+                        onClick={() => this.createCompanyDraft()}
+                        icon={<ButtonIcon type="save" color='white' />}
                     />
                 </div>
             </CardPageLayout>
