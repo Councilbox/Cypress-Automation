@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, CardPageLayout, TextInput, AlertConfirm } from '../../displayComponents/index';
+
+import { LoadingSection, CardPageLayout, TextInput, AlertConfirm, VTabs, BasicButton, ButtonIcon } from '../../../displayComponents';
 import { statutes, updateStatute, deleteStatute, createStatute } from '../../../queries';
 import { withRouter } from 'react-router-dom';
 import StatuteEditor from './StatuteEditor';
-import VTabs from "../../displayComponents/VTabs";
+import { getPrimary } from "../../../styles/colors";
+
 
 class StatutesPage extends Component {
 
@@ -166,6 +168,7 @@ class StatutesPage extends Component {
         const { loading, companyStatutes } = this.props.data;
         const { translate } = this.props;
         const { statute, errors } = this.state;
+        const { success } = this.state.success;
 
         if (loading) {
             return <LoadingSection/>
@@ -202,6 +205,22 @@ class StatutesPage extends Component {
                                 translate={translate}
                                 updateState={this.updateState}
                                 errors={this.state.errors}
+                            />
+                            <br/>
+                            <BasicButton
+                                text={translate.save}
+                                color={success ? 'green' : getPrimary()}
+                                textStyle={{
+                                    color: 'white',
+                                    fontWeight: '700'
+                                }}
+                                floatRight
+                                onClick={this.updateStatute}
+                                loading={this.state.loading}
+                                error={this.state.error}
+                                reset={this.resetButtonStates}
+                                success={success}
+                                icon={<ButtonIcon type={'save'} color='white'/>}
                             />
                         </div>
                         <AlertConfirm

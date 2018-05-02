@@ -1,6 +1,6 @@
 import React from 'react';
 import { getPrimary, getSecondary, darkGrey, lightGrey } from '../../styles/colors';
-import { BasicButton, Icon, Grid, GridItem } from '../displayComponents';
+import { BasicButton, Icon, Grid, GridItem } from '../../displayComponents';
 import { Link } from 'react-router-dom';
 
 const Block = ({ children, button }) => (
@@ -44,7 +44,7 @@ const censusesButton = () => (
     />
 );*/
 
-const TopSectionBlocks = ({ translate, company, user }) => (
+const TopSectionBlocks = ({ translate, company }) => (
     <Grid style={{width: '90%', marginTop:'4vh'}} spacing={8}>
         <GridItem xs={12} md={6} lg={3}>
             <Link to={`/company/${company.id}/settings`}>
@@ -82,6 +82,6 @@ const TopSectionBlocks = ({ translate, company, user }) => (
             </Link>
         </GridItem>
     </Grid>
-)
+);
 
 export default TopSectionBlocks;

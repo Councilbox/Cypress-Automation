@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { MenuItem, Typography } from 'material-ui';
 import { checkValidEmail } from '../../utils';
-import { BasicButton, ButtonIcon, SelectInput, TextInput, Grid, GridItem } from '../displayComponents';
+import { BasicButton, ButtonIcon, SelectInput, TextInput, Grid, GridItem } from '../../displayComponents';
 import { updateUser } from '../../queries';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';

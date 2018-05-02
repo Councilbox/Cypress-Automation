@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './containers/App';
 import { unregister } from './registerServiceWorker';
 import './styles/index.css';
-import { ThemeProvider } from './components/displayComponents';
+import { ThemeProvider } from './displayComponents';
 import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.render(

@@ -2,7 +2,7 @@ import React from 'react';
 import ChangePwd from '../components/notLogged/ChangePwd';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
-import { LoadingMainApp } from '../components/displayComponents';
+import { LoadingMainApp } from '../displayComponents';
 import { withRouter } from "react-router-dom";
 import  { setLanguage } from "../actions/mainActions";
 import { store } from "./App";

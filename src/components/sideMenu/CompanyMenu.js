@@ -3,7 +3,7 @@ import * as mainActions from '../../actions/mainActions';
 import * as companyActions from '../../actions/companyActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Icon, Link, Tooltip } from '../displayComponents';
+import { Icon, Link, Tooltip } from '../../displayComponents';
 import { darkGrey } from '../../styles/colors';
 import Collapsible from 'react-collapsible';
 import { MenuItem } from 'material-ui';
@@ -14,53 +14,95 @@ class CompanyMenu extends React.Component {
     getSections = () => {
         const { translate, company } = this.props;
 
-        return [
-            {
-                name: translate.councils,
-                icon: "import_contacts",
-                submenus: [
-                    { name: translate.dashboard_new, link: `/company/${company.id}/council/new` },
-                    { name: translate.drafts, link: `/company/${company.id}/councils/drafts` },
-                    { name: translate.companies_calendar, link: `/company/${company.id}/councils/calendar` },                    
-                    { name: translate.companies_live, link: `/company/${company.id}/councils/live` },
-                    { name: translate.companies_writing, link: `/company/${company.id}/councils/writing` },
-                    { name: translate.signature_trash, link: `/company/${company.id}/councils/trash` },
-                ]
-            },
-            {
-                name: translate.meetings,
-                icon: "question_answer",
-                submenus: [
-                    { name: translate.dashboard_new_meeting, link: `/company/${company.id}/meeting/new` },
-                    { name: translate.drafts, link: `/company/${company.id}/meetings/drafts` },                    
-                    { name: translate.companies_live, link: `/company/${company.id}/meetings/live` },                    
-                    { name: translate.signature_trash, link: `/company/${company.id}/meetings/trash` }
-                ]
-            },
-            {name: "firmas", icon: "border_color", submenus: []},
-            {name: "libro de socios", icon: "account_balance", submenus: []},
-            {name: "censo", icon: "person", submenus: []},
-            {name: "estatutos", icon: "gavel", submenus: []},
-            {name: "borradores", icon: "class", submenus: []},
-            {name: "datos básicos", icon: "work", submenus: []}
-        ];
-    }
+        return [ {
+            name: translate.councils,
+            icon: "import_contacts",
+            submenus: [ {
+                name: translate.dashboard_new,
+                link: `/company/${company.id}/council/new`
+            }, {
+                name: translate.drafts,
+                link: `/company/${company.id}/councils/drafts`
+            }, {
+                name: translate.companies_calendar,
+                link: `/company/${company.id}/councils/calendar`
+            }, {
+                name: translate.companies_live,
+                link: `/company/${company.id}/councils/live`
+            }, {
+                name: translate.companies_writing,
+                link: `/company/${company.id}/councils/writing`
+            }, {
+                name: translate.signature_trash,
+                link: `/company/${company.id}/councils/trash`
+            }, ]
+        }, {
+            name: translate.meetings,
+            icon: "question_answer",
+            submenus: [ {
+                name: translate.dashboard_new_meeting,
+                link: `/company/${company.id}/meeting/new`
+            }, {
+                name: translate.drafts,
+                link: `/company/${company.id}/meetings/drafts`
+            }, {
+                name: translate.companies_live,
+                link: `/company/${company.id}/meetings/live`
+            }, {
+                name: translate.signature_trash,
+                link: `/company/${company.id}/meetings/trash`
+            } ]
+        }, {
+            name: "firmas",
+            icon: "border_color",
+            submenus: []
+        }, {
+            name: "libro de socios",
+            icon: "account_balance",
+            submenus: []
+        }, {
+            name: "censo",
+            icon: "person",
+            submenus: []
+        }, {
+            name: "estatutos",
+            icon: "gavel",
+            submenus: []
+        }, {
+            name: "borradores",
+            icon: "class",
+            submenus: []
+        }, {
+            name: "datos básicos",
+            icon: "work",
+            submenus: []
+        } ];
+    };
 
 
-    _renderMenuIcon(text, icon){
-        return(
-            <MenuItem style={{color: 'white', border: '1px solid black', fontSize: '0.85em', display: 'flex', justifyContent: 'space-between'}}>
+    _renderMenuIcon(text, icon) {
+        return (<MenuItem style={{
+                color: 'white',
+                border: '1px solid black',
+                fontSize: '0.85em',
+                display: 'flex',
+                justifyContent: 'space-between'
+            }}>
                 {this.props.toggled && text}
                 <Tooltip text={text} position="right">
-                    <Icon 
+                    <Icon
                         className="material-icons"
-                        style={{fontSize: '2em', color: 'white', float: 'right', marginVertical: 'auto'}}
+                        style={{
+                            fontSize: '2em',
+                            color: 'white',
+                            float: 'right',
+                            marginVertical: 'auto'
+                        }}
                     >
                         {icon}
                     </Icon>
                 </Tooltip>
-            </MenuItem>
-        );
+            </MenuItem>);
     }
 
     changeCompany = (index) => {
@@ -68,45 +110,53 @@ class CompanyMenu extends React.Component {
             popover: false
         });
         this.props.changeCompany(index);
-    }
+    };
 
     render() {
         const sections = this.getSections();
         const { company, companies } = this.props;
 
-        return(
-            <div
-                onClick={!this.props.toggled? this.props.toggle : () => {}}
-                style={{width: "100%", height: '100%', backgroundColor: darkGrey, color: 'white', overflowY : 'auto', overflowX: 'hidden'}}
+        return (<div
+                onClick={!this.props.toggled ? this.props.toggle : () => {
+                }}
+                style={{
+                    width: "100%",
+                    height: '100%',
+                    backgroundColor: darkGrey,
+                    color: 'white',
+                    overflowY: 'auto',
+                    overflowX: 'hidden'
+                }}
             >
                 <CompanySelector
                     companies={companies}
                     company={company}
-                />                
-                {this.props.toggled && 
-                    <Icon 
-                        className="material-icons"
-                        onClick={this.props.toggle}
-                        style={{fontSize: '2em', color: 'white'}}
-                    >
-                        keyboard_backspace
-                    </Icon>
-                }
+                />
+                {this.props.toggled && <Icon
+                    className="material-icons"
+                    onClick={this.props.toggle}
+                    style={{
+                        fontSize: '2em',
+                        color: 'white'
+                    }}
+                >
+                    keyboard_backspace
+                </Icon>}
                 {sections.map((section, index) => {
-                    return (
-                        <Collapsible 
+                    return (<Collapsible
                             trigger={this._renderMenuIcon(section.name, section.icon)}
                             transitionTime={200}
                             key={`section${index}`}
                         >
                             {this.props.toggled && section.submenus.map((menu) => {
-                                return(<Link to={menu.link} key={`${menu.name}${index}`}><MenuItem style={{color: 'white', fontSize: '0.8em'}}>{menu.name}</MenuItem></Link>)
+                                return (<Link to={menu.link} key={`${menu.name}${index}`}><MenuItem style={{
+                                    color: 'white',
+                                    fontSize: '0.8em'
+                                }}>{menu.name}</MenuItem></Link>)
                             })}
-                        </Collapsible>
-                    );
+                        </Collapsible>);
                 })}
-            </div>  
-        );             
+            </div>);
     }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import CompanyMenu from './CompanyMenu';
-import { LoadingMainApp } from '../displayComponents';
+import { LoadingMainApp } from '../../displayComponents';
 
 class SideMenu extends React.Component {
 
@@ -18,15 +18,19 @@ class SideMenu extends React.Component {
             company: true
         });
         this.props.toggleMenu();
-    }
+    };
 
     render() {
-        if(!this.props.companies){
-            return <LoadingMainApp />
+        if (!this.props.companies) {
+            return <LoadingMainApp/>
         }
-        
-        return(
-            <div style={{width: `${this.props.width}%`, height: '100%', display: 'flex', overflow: 'hidden'}}>
+
+        return (<div style={{
+                width: `${this.props.width}%`,
+                height: '100%',
+                display: 'flex',
+                overflow: 'hidden'
+            }}>
                 <CompanyMenu
                     company={this.props.company}
                     companies={this.props.companies}
@@ -35,8 +39,7 @@ class SideMenu extends React.Component {
                     toggled={this.props.open}
                     translate={this.props.translate}
                 />
-            </div>
-        );             
+            </div>);
     }
 }
 

@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react';
-import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../displayComponents/index';
+import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../../displayComponents';
 import { Typography, MenuItem } from 'material-ui';
 import { quorumTypes, censuses } from '../../../queries';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
 import * as CBX from "../../../utils/CBX";
-import QuorumInput from "../../displayComponents/QuorumInput";
+import QuorumInput from "../../../displayComponents/QuorumInput";
 
 class StatuteEditor extends React.PureComponent {
 
@@ -79,7 +79,7 @@ class StatuteEditor extends React.PureComponent {
                         <SelectInput
                             floatingText={translate.quorum_type}
                             value={statute.quorumPrototype}
-                            onChange={(event, child) => updateState({
+                            onChange={(event) => updateState({
                                 quorumPrototype: event.target.value
                             })}>
                             <MenuItem value={0}>{translate.census_type_assistants}</MenuItem>
@@ -91,7 +91,7 @@ class StatuteEditor extends React.PureComponent {
                         <SelectInput
                             floatingText={translate.exist_quorum_assistance_first_call}
                             value={statute.firstCallQuorumType}
-                            onChange={(event, child) => updateState({
+                            onChange={(event) => updateState({
                                 firstCallQuorumType: event.target.value
                             })}>
                             {!loading && quorumTypes.map((quorumType) => {
@@ -122,7 +122,7 @@ class StatuteEditor extends React.PureComponent {
                         <SelectInput
                             floatingText={translate.exist_quorum_assistance_second_call}
                             value={statute.secondCallQuorumType}
-                            onChange={(event, child) => updateState({
+                            onChange={(event) => updateState({
                                 secondCallQuorumType: event.target.value
                             })}>
                             {!loading && quorumTypes.map((quorumType) => {
@@ -291,7 +291,7 @@ class StatuteEditor extends React.PureComponent {
                         <SelectInput
                             floatingText={translate.associated_census}
                             value={statute.censusId || '-1'}
-                            onChange={(event, child) => updateState({
+                            onChange={(event) => updateState({
                                 censusId: event.target.value
                             })}
                         >

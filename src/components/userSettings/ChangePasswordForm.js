@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { TextInput, BasicButton, ButtonIcon, Grid, GridItem } from '../displayComponents';
+import { TextInput, BasicButton, ButtonIcon, Grid, GridItem } from '../../displayComponents';
 import { Typography } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import { updatePassword } from '../../queries';
