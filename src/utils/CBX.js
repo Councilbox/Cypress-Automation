@@ -302,3 +302,69 @@ export const printSessionExpiredError = () => {
     }
     return messages['es'];
 };
+
+export const checkRequiredFields = (translate, draft, setState) => {
+    let errors = {
+        title: '',
+        description: '',
+        text: '',
+        statuteId: '',
+        type: '',
+        votingType: '',
+        majority: '',
+        majorityDivider: '',
+        majorityType: ''
+    };
+    let hasError = false;
+
+    if(!draft.title){
+        hasError = true;
+        errors.title = translate.required_field;
+    }
+
+    if(!draft.description){
+        hasError = true;
+        errors.description = translate.required_field;
+    }
+
+    if(!draft.text){
+        hasError = true;
+        errors.text = translate.required_field;
+    }
+
+    if(draft.type === -1){
+        hasError = true;
+        errors.type = translate.required_field;
+    }
+
+    if(draft.statuteId === -1){
+        hasError = true;
+        errors.statuteId = translate.required_field;
+    }
+
+    if(draft.type === 1 && draft.votationType === -1){
+        hasError = true;
+        errors.votationType = translate.required_field;
+    }
+
+    if(hasVotation(draft.votationType) && draft.majorityType === -1){
+        hasError = true;
+        errors.majorityType = translate.required_field;
+    }
+
+    if(majorityNeedsInput(draft.majorityType) && !draft.majority){
+        hasError = true;
+        errors.majority = translate.required_field;
+    }
+
+    if(isMajorityFraction(draft.majorityType) && !draft.majorityDivider){
+        hasError = true;
+        errors.majorityDivider = translate.required_field;
+    }
+
+    setState({
+        errors
+    });
+
+    return hasError;
+};

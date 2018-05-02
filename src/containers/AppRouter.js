@@ -30,6 +30,7 @@ import CompanyDraftList from '../components/company/drafts/CompanyDraftList';
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
+import CompanyDraftEditor from '../components/company/drafts/CompanyDraftEditor'
 
 class AppRouter extends Component {
     constructor(props){
@@ -88,6 +89,7 @@ class AppRouter extends Component {
                                 <Route exact path="/company/:company/meeting/new" component={CreateMeeting} />
                                 <Route exact path="/company/:company/meeting/:id/:step" component={MeetingEditorContainer} />
                                 <Route exact path="/company/:company/drafts/:id?" component={CompanyDraftList} />
+                                <Route exact path="/company/:company/draft/:id?" component={CompanyDraftEditor} />
                                 <Route exact path="/company/:company/platform/drafts" component={PlatformDrafts} />                            
                                 <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
                                 <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />  

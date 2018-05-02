@@ -3,7 +3,7 @@ import { LoadingSection, BasicButton, ButtonIcon, CardPageLayout } from '../../.
 import { graphql, compose } from 'react-apollo';
 import { createCompanyDraft, draftData } from '../../../queries';
 import { getPrimary } from "../../../styles/colors";
-import { hasVotation, majorityNeedsInput, isMajorityFraction } from '../../../utils/CBX';
+import { checkRequiredFields } from '../../../utils/CBX';
 import CompanyDraftForm from './CompanyDraftForm';
 
 class CompanyDraftNew extends Component {
@@ -38,7 +38,9 @@ class CompanyDraftNew extends Component {
     };
 
     createCompanyDraft = async () => {
-        if(!this.checkRequiredFields()){
+        const { translate } = this.props;
+        const { draft } = this.state;
+        if(!checkRequiredFields(translate, draft, this.setState)){
             this.setState({loading: true});
             const response = await this.props.createCompanyDraft({
                 variables: {
@@ -74,76 +76,6 @@ class CompanyDraftNew extends Component {
         });
         this.props.closeForm();
     };
-
-    checkRequiredFields(){
-        const { translate } = this.props;
-        const { draft } = this.state;
-        let errors = {
-            title: '',
-            description: '',
-            text: '',
-            statuteId: '',
-            type: '',
-            votingType: '',
-            majority: '',
-            majorityDivider: '',
-            majorityType: ''
-        };
-        let hasError = false;
-
-        if(!draft.title){
-            hasError = true;
-            errors.title = translate.required_field;
-        }
-
-        if(!draft.description){
-            hasError = true;
-            errors.description = translate.required_field;
-        }
-
-        if(!draft.text){
-            hasError = true;
-            errors.text = translate.required_field;
-        }
-
-        if(draft.type === -1){
-            hasError = true;
-            errors.type = translate.required_field;
-        }
-
-        if(draft.statuteId === -1){
-            hasError = true;
-            errors.statuteId = translate.required_field;
-        }
-
-        if(draft.type === 1 && draft.votationType === -1){
-            hasError = true;
-            errors.votationType = translate.required_field;
-        }
-
-        if(hasVotation(draft.votationType) && draft.majorityType === -1){
-            hasError = true;
-            errors.majorityType = translate.required_field;
-        }
-
-        if(majorityNeedsInput(draft.majorityType) && !draft.majority){
-            hasError = true;
-            errors.majority = translate.required_field;
-        }
-
-        if(isMajorityFraction(draft.majorityType) && !draft.majorityDivider){
-            hasError = true;
-            errors.majorityDivider = translate.required_field;
-        }
-
-        this.setState({
-            errors
-        });
-
-        return hasError;
-
-    }
-
 
     render(){
         const { translate, closeForm } = this.props;
