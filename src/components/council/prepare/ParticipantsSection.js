@@ -30,30 +30,13 @@ class ParticipantsSection extends Component{
                 <ConvenedParticipantsTable
                     participants={council.participants}
                     councilId={council.id}
+                    council={council}
                     totalVotes={totalVotes}
                     socialCapital={socialCapital}
                     participations={CBX.hasParticipations(council)}
                     translate={translate}
                     refetch={refetch}
-                />
-                <AlertConfirm
-                    requestClose={() => this.setState({showModal: false})}
-                    open={this.state.showModal}
-                    bodyText={
-                        <div style={{maxWidth: '850px'}}>
-                            <NewParticipantForm
-                                translate={translate}
-                                requestClose={() => this.setState({
-                                    showModal: false
-                                })}
-                                participations={CBX.hasParticipations(council)}
-                                close={this.closeAddParticipantModal}
-                                councilID={this.props.councilID}
-                            />
-                        </div>
-                    }
-                />
-    
+                />    
             </Card>
         );
     }

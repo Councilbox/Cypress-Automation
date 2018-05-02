@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { TableRow, TableCell } from 'material-ui/Table';
 import { Tooltip } from 'material-ui';
-import { getPrimary, getSecondary } from '../../../styles/colors';
-import * as CBX from '../../../utils/CBX';
-import { EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton, AlertConfirm } from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import * as CBX from '../../utils/CBX';
+import { EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton, AlertConfirm } from '../displayComponents';
 import { graphql, compose } from "react-apollo";
-import { convenedcouncilParticipants, deleteParticipant, updateNotificationsStatus } from '../../../queries';
+import { convenedcouncilParticipants, deleteParticipant, updateNotificationsStatus } from '../../queries';
 import EditParticipantModal from './EditParticipantModal';
-import { PARTICIPANTS_LIMITS } from '../../../constants';
+import { PARTICIPANTS_LIMITS } from '../../constants';
 import NotificationFilters from './NotificationFilters';
-import NewParticipantForm from '../editor/NewParticipantForm';
+import NewParticipantForm from '../councilEditor/NewParticipantForm';
 
 class ConvenedParticipantsTable extends Component {
 
