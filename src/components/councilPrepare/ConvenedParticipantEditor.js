@@ -3,11 +3,11 @@ import { graphql, compose } from 'react-apollo';
 import { BasicButton, ButtonIcon, Grid, GridItem, Checkbox } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
 import { Typography, Paper } from 'material-ui';
-import RepresentativeForm from './RepresentativeForm';
-import ParticipantForm from './ParticipantForm';
+import RepresentativeForm from '../councilParticipants/RepresentativeForm';
+import ParticipantForm from '../councilParticipants/ParticipantForm';
 import CouncilBoxApi from '../../api/CouncilboxApi';
 import { checkValidEmail, errorHandler } from '../../utils';
-import { updateParticipant } from '../../queries';
+import { updateConvenedParticipant } from '../../queries';
 
 
 
@@ -92,7 +92,8 @@ class ParticipantEditor extends Component {
                 }
             }
 
-            const response = await this.props.updateParticipant({
+
+            const response = await this.props.updateConvenedParticipant({
                 variables: variables
             });
             if (response) {
@@ -291,8 +292,8 @@ class ParticipantEditor extends Component {
     }
 }
 
-export default  graphql(updateParticipant, {
-    name: 'updateParticipant',
+export default  graphql(updateConvenedParticipant, {
+    name: 'updateConvenedParticipant',
     withRef: true
 })(ParticipantEditor);
 

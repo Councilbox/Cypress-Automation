@@ -275,6 +275,14 @@ export const updateParticipant = gql `
   }
 `;
 
+export const updateConvenedParticipant = gql `
+  mutation updateConvenedParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
+    updateConvenedParticipant(participant: $participant, representative: $representative){
+      success
+    }
+  }
+`;
+
 export const convenedcouncilParticipants = gql`
   query participants($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput){
     councilParticipantsWithNotifications(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
@@ -292,12 +300,24 @@ export const convenedcouncilParticipants = gql`
         socialCapital
         uuid
         delegateUuid
+        delegateId
         position
         language
+        representative {
+          id
+          name
+          surname
+          dni
+          email
+          phone
+          position
+          language
+        }
         city
         personOrEntity
         notifications{
           reqCode
+          refreshDate
         }
       }
       total

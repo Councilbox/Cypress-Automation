@@ -2,8 +2,9 @@ import React, { Component, Fragment } from "react";
 import { Typography, Paper } from 'material-ui';
 import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio } from '../displayComponents';
 import { getPrimary } from '../../styles/colors';
-import { graphql } from "react-apollo";
+import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
+import { updateConvenedParticipant } from '../../queries';
 import { checkValidEmail, errorHandler } from '../../utils';
 import CouncilBoxApi from '../../api/CouncilboxApi';
 import ParticipantForm from '../councilParticipants/ParticipantForm';
@@ -92,21 +93,42 @@ class NewParticipantForm extends Component {
                 }
             }
 
-            const response = await this.props.mutate({
-                variables: variables
-            });
-            if (response) {
-                if (response.errors) {
-                    const errorField = errorHandler(response.errors[ 0 ].code);
-                    this.setState({
-                        errors: {
-                            ...this.state.errors,
-                            email: translate[ errorField ]
-                        }
-                    })
-                } else {
-                    this.resetValues();                                      
-                    this.props.requestClose();
+            if(this.props.convened){
+                const response = await this.props.updateConvenedParticipant({
+                    variables: variables
+                });
+                console.log(response);
+                if (response) {
+                    if (response.errors) {
+                        const errorField = errorHandler(response.errors[ 0 ].code);
+                        this.setState({
+                            errors: {
+                                ...this.state.errors,
+                                email: translate[ errorField ]
+                            }
+                        })
+                    } else {
+                        this.resetValues();                                      
+                        this.props.requestClose();
+                    }
+                }
+            }else{
+                const response = await this.props.mutate({
+                    variables: variables
+                });
+                if (response) {
+                    if (response.errors) {
+                        const errorField = errorHandler(response.errors[ 0 ].code);
+                        this.setState({
+                            errors: {
+                                ...this.state.errors,
+                                email: translate[ errorField ]
+                            }
+                        })
+                    } else {
+                        this.resetValues();                                      
+                        this.props.requestClose();
+                    }
                 }
             }
         }
@@ -362,11 +384,19 @@ const addParticipant = gql `
     }
 `;
 
-export default graphql(addParticipant, {
-    options: {
-        errorPolicy: 'all'
-    }
-})(NewParticipantForm);
+export default compose(
+    graphql(addParticipant, {
+        options: {
+            errorPolicy: 'all'
+        }
+    }),
+    graphql(updateConvenedParticipant, {
+        name: 'updateConvenedParticipant',
+        options: {
+            errorPolicy: 'all'
+        }
+    })
+)(NewParticipantForm);
 
 const newParticipantInitialValues = {
     language: 'es',
