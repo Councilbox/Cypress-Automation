@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AlertConfirm } from '../displayComponents';
+import { AlertConfirm } from '../../../displayComponents';
 import ConvenedParticipantEditor from './ConvenedParticipantEditor';
 
 class EditParticipantModal extends Component {

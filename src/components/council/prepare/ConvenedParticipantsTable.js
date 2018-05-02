@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { TableRow, TableCell } from 'material-ui/Table';
-
 import { Tooltip } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
-import { EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton } from '../../../displayComponents';
+import { EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton, AlertConfirm } from '../../../displayComponents';
 import { graphql, compose } from "react-apollo";
 import { convenedcouncilParticipants, deleteParticipant, updateNotificationsStatus } from '../../../queries';
+import EditParticipantModal from './EditParticipantModal';
 import { PARTICIPANTS_LIMITS } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
+import NewParticipantForm from '../editor/NewParticipantForm';
 
 class ConvenedParticipantsTable extends Component {
 
@@ -16,6 +17,7 @@ class ConvenedParticipantsTable extends Component {
         super(props);
         this.state = {
             editParticipant: false,
+            addParticipant: false,
             editIndex: null,
             activeStatusFilter: ''
         }
@@ -42,16 +44,16 @@ class ConvenedParticipantsTable extends Component {
                 participantId: id,
                 councilId: this.props.councilId
             }
-        });
+        })
         
         if(response){
             this.table.refresh();
         }
-    };
+    }   
     
     refresh = (object) => {
         this.table.refresh(object);
-    };
+    } 
 
     refreshEmailStates = async () => {
         const response = await this.props.updateNotificationsStatus({
@@ -63,7 +65,7 @@ class ConvenedParticipantsTable extends Component {
         if(response.data.updateNotificationsStatus.success){
             this.table.refresh();
         }
-    };
+    }
 
 
     render(){
@@ -150,6 +152,23 @@ class ConvenedParticipantsTable extends Component {
                                             showModal: true
                                         })} 
                                     />
+                                    <AlertConfirm
+                                        requestClose={() => this.setState({showModal: false})}
+                                        open={this.state.showModal}
+                                        bodyText={
+                                            <div style={{maxWidth: '850px', padding: '1em'}}>
+                                                <NewParticipantForm
+                                                    translate={translate}
+                                                    requestClose={() => this.setState({
+                                                        showModal: false
+                                                    })}
+                                                    convened={true}
+                                                    participations={CBX.hasParticipations(this.props.council)}
+                                                    councilID={this.props.councilId}
+                                                />
+                                            </div>
+                                        }
+                                    />
                                 </div>
                             </GridItem>
                         </Grid>
@@ -176,46 +195,92 @@ class ConvenedParticipantsTable extends Component {
                         >
                             {councilParticipants.list.map((participant, index) => {
                                 return(
-                                    <TableRow  
-                                        hover={true}
-                                        onClick={() => this.setState({editParticipant: true, editIndex: index})}                       
-                                        key={`participant${participant.id}`} 
-                                        style={{cursor: 'pointer', fontSize: '0.5em', backgroundColor: CBX.isRepresentative(participant)? 'WhiteSmoke' : 'transparent'}}
-                                    >
-                                        <TableCell>{`${participant.name} ${participant.surname}`}</TableCell>
-                                        <TableCell>{participant.dni}</TableCell>
-                                        <TableCell>{participant.email}</TableCell>
-                                        <TableCell>{participant.position}</TableCell>
-                                        <TableCell>
-                                            {!CBX.isRepresentative(participant) &&
-                                                `${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`
-                                            }
-                                        </TableCell>
-                                        {this.props.participations &&
+                                    <Fragment>
+                                        <TableRow  
+                                            hover={true}
+                                            onClick={() => this.setState({editParticipant: true, editIndex: index})}                       
+                                            key={`participant${participant.id}`} 
+                                            style={{cursor: 'pointer', fontSize: '0.5em', backgroundColor: CBX.isRepresentative(participant)? 'WhiteSmoke' : 'transparent'}}
+                                        >
+                                            <TableCell>{`${participant.name} ${participant.surname}`}</TableCell>
+                                            <TableCell>{participant.dni}</TableCell>
+                                            <TableCell>{participant.email}</TableCell>
+                                            <TableCell>{participant.position}</TableCell>
                                             <TableCell>
                                                 {!CBX.isRepresentative(participant) &&
-                                                    `${participant.socialCapital} (${((participant.socialCapital / socialCapital) * 100).toFixed(2)}%)`
+                                                    `${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`
                                                 }
                                             </TableCell>
-                                        } 
-                                        <TableCell>
-                                            {participant.notifications.length > 0?
-                                                <Tooltip title={translate[CBX.getTranslationReqCode(participant.notifications[participant.notifications.length - 1].reqCode)]}>
-                                                    <img 
-                                                        style={{height: '2.1em', width: 'auto'}}
-                                                        src={CBX.getEmailIconByReqCode(participant.notifications[participant.notifications.length - 1].reqCode)}
-                                                        alt="email-state-icon"
-                                                    />
-                                                </Tooltip>
-                                            :
-                                                '-'
-                                            }
+                                            {this.props.participations &&
+                                                <TableCell>
+                                                    {!CBX.isRepresentative(participant) &&
+                                                        `${participant.socialCapital} (${((participant.socialCapital / socialCapital) * 100).toFixed(2)}%)`
+                                                    }
+                                                </TableCell>
+                                            } 
+                                            <TableCell>
+                                                {participant.notifications.length > 0?
+                                                    <Tooltip title={translate[CBX.getTranslationReqCode(participant.notifications[0].reqCode)]}>
+                                                        <img 
+                                                            style={{height: '2.1em', width: 'auto'}}
+                                                            src={CBX.getEmailIconByReqCode(participant.notifications[0].reqCode)}
+                                                            alt="email-state-icon"
+                                                        />
+                                                    </Tooltip>
+                                                :
+                                                    '-'
+                                                }
 
-                                        </TableCell>
-                                    </TableRow>
+                                            </TableCell>
+                                        </TableRow>
+                                        {!!participant.representative &&
+                                            <TableRow
+                                                hover={true}
+                                                style={{cursor: 'pointer', backgroundColor: 'WhiteSmoke'}}
+                                                onClick={() => this.setState({editParticipant: true, editIndex: index})}  
+                                            >
+                                                <TableCell>
+                                                    <div style={{fontSize: '0.9em', width: '100%'}}>
+                                                        {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <div style={{fontSize: '0.9em', width: '100%'}}>
+                                                        {participant.representative.dni}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <div style={{fontSize: '0.9em', width: '100%'}}>
+                                                        {participant.representative.email}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <div style={{fontSize: '0.9em', width: '100%'}}>
+                                                        {participant.representative.phone}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                    <div style={{fontSize: '0.9em', width: '100%'}}>
+                                                        {participant.representative.position}
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell>
+                                                </TableCell>
+                                                <TableCell>
+                                                </TableCell>
+                                            </TableRow>
+                                        }
+                                    </Fragment>
                                 )
                             })}
                         </EnhancedTable>
+                        <EditParticipantModal
+                            requestClose={() => this.setState({editParticipant: false})}
+                            open={this.state.editParticipant}
+                            participations={CBX.hasParticipations(this.props.council)}
+                            participant={councilParticipants.list[this.state.editIndex]}
+                            translate={translate}
+                        />                        
                     </React.Fragment>
                 }
                 {this.props.children}
