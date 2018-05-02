@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { LoadingMainApp } from './displayComponents';
+import { connect } from 'react-redux';
+import { LoadingMainApp } from '../displayComponents';
 import { withRouter } from 'react-router-dom';
 import * as councilActions from '../actions/councilActions';
 import { bindActionCreators } from 'redux';
 
- class CreateCouncil extends Component {
-    constructor(props){
+class CreateCouncil extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             creating: false
         }
     }
 
-    componentDidMount(){
-        if(this.props.match.url === `/company/${this.props.match.params.company}/council/new` && !this.state.creating){
+    componentDidMount() {
+        if (this.props.match.url === `/company/${this.props.match.params.company}/council/new` && !this.state.creating) {
             console.log('create');
             this.setState({
                 creating: true
@@ -22,8 +22,9 @@ import { bindActionCreators } from 'redux';
             this.props.actions.create(this.props.match.params.company, 'council');
         }
     }
-    render(){
-        return <LoadingMainApp />;
+
+    render() {
+        return <LoadingMainApp/>;
     }
 }
 

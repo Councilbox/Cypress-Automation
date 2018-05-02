@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import TabsScreen from '../components/displayComponents/TabsScreen';
-import Signatures from '../components/signature/Signatures';
+import TabsScreen from '../displayComponents/TabsScreen';
+import Signatures from '../components/dashboard/signatures/Signatures';
 
 const SignatureContainer = ({ match, company, translate }) => {
     const tabsIndex = {

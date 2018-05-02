@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import CouncilboxApi from '../../../api/CouncilboxApi';
 import {
     BasicButton, ButtonIcon, Checkbox, Grid, GridItem, LoadingSection, SelectInput, TextInput
-} from '../../displayComponents';
+} from '../../../displayComponents';
 import { getPrimary, secondary } from '../../../styles/colors';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql, withApollo } from 'react-apollo';
@@ -243,7 +243,7 @@ class SignUpPay extends Component {
                         onChange={(event, isInputChecked) => this.setState({
                             termsCheck: isInputChecked
                         })}
-                        onClick={(event)=>{
+                        onClick={()=>{
                             this.setState({
                                 termsCheck: true
                             })

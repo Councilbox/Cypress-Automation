@@ -7,7 +7,7 @@ import { graphql } from 'react-apollo';
 import { restorePwd } from '../../queries/restorePwd';
 import { getPrimary, secondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { BasicButton, ButtonIcon, TextInput } from '../displayComponents/index';
+import { BasicButton, ButtonIcon, TextInput } from '../../displayComponents';
 import background from '../../assets/img/signup3.jpg';
 
 class ForgetPwd extends React.PureComponent {

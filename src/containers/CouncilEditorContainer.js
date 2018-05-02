@@ -1,8 +1,8 @@
 import React from 'react';
-import CouncilEditorPage from "../components/councilEditor/CouncilEditorPage";
+import CouncilEditorPage from "../components/council/editor/CouncilEditorPage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { LoadingMainApp } from '../components/displayComponents';
+import { LoadingMainApp } from '../displayComponents';
 import { graphql } from 'react-apollo';
 import { council } from '../queries';
 
@@ -22,7 +22,7 @@ const CouncilEditorContainer = ({ main, company, user, match, translate, data })
             councilID={match.params.id}
         />
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     translate: state.translate,

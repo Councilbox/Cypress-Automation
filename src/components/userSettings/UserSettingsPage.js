@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CardPageLayout, LoadingSection } from '../displayComponents';
+import { CardPageLayout, LoadingSection } from '../../displayComponents';
 import ChangePasswordForm from './ChangePasswordForm';
 import UpdateUserForm from './UpdateUserForm';
 import { graphql } from 'react-apollo';

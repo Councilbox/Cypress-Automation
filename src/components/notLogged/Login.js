@@ -7,7 +7,7 @@ import { graphql } from 'react-apollo';
 import { login } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { BasicButton, ButtonIcon, TextInput, Link } from '../displayComponents/index';
+import { BasicButton, ButtonIcon, TextInput, Link } from '../../displayComponents';
 import background from '../../assets/img/signup3.jpg';
 
 class Login extends React.PureComponent {

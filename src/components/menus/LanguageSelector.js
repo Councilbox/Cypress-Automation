@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { languages } from '../../queries/masters';
 import { setLanguage } from '../../actions/mainActions';
 import { MenuItem } from 'material-ui';
-import { Icon, DropDownMenu, LoadingSection } from '../displayComponents';
+import { Icon, DropDownMenu, LoadingSection } from '../../displayComponents';
 import { store } from '../../containers/App';
 const secondary = getSecondary();
 
@@ -38,11 +38,11 @@ const LanguageSelector = ({ selectedLanguage, data }) => {
         />
     )
 
-}
+};
 
 const changeLanguage = (language) => {
     store.dispatch(setLanguage(language));
-}
+};
 
 
 export default graphql(languages)(LanguageSelector);

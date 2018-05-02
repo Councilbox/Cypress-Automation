@@ -8,9 +8,8 @@ import { compose, graphql } from 'react-apollo';
 import { changePwd, checkExpiration } from '../../queries/restorePwd';
 import { getPrimary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { BasicButton, ButtonIcon, TextInput } from '../displayComponents/index';
+import { BasicButton, ButtonIcon, TextInput, Link } from '../../displayComponents';
 import background from '../../assets/img/signup3.jpg';
-import {Link} from "../displayComponents";
 
 const DEFAULT_ERRORS = {
     pwd: '',

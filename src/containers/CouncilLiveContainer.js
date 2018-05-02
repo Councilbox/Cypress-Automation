@@ -1,7 +1,7 @@
 import React from 'react';
-import CouncilLivePage from "../components/councilLive/CouncilLivePage";
+import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from 'react-redux';
-import { LoadingMainApp } from '../components/displayComponents';
+import { LoadingMainApp } from '../displayComponents';
 import { withRouter, Redirect } from 'react-router-dom';
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
@@ -23,7 +23,7 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
             councilID={match.params.id}
         />
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     translate: state.translate,

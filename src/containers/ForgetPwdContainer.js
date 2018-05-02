@@ -2,7 +2,7 @@ import React from 'react';
 import ForgetPdw from '../components/notLogged/ForgetPwd';
 import Header from '../components/Header';
 import { connect } from 'react-redux';
-import { LoadingMainApp } from '../components/displayComponents';
+import { LoadingMainApp } from '../displayComponents';
 
 class ForgetPwdContainer extends React.PureComponent {
 

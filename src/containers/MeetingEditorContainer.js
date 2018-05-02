@@ -1,5 +1,5 @@
 import React from 'react';
-import MeetingEditorPage from "../components/meetingEditor/MeetingEditorPage";
+import MeetingEditorPage from "../components/meeting/editor/MeetingEditorPage";
 import {connect} from 'react-redux';
 import { withRouter } from 'react-router-dom';
 

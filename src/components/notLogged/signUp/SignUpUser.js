@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BasicButton, ButtonIcon, Grid, GridItem, TextInput, SelectInput, MenuItem } from '../../displayComponents/index';
+import { BasicButton, ButtonIcon, Grid, GridItem, TextInput, SelectInput, MenuItem } from '../../../displayComponents';
 import { checkValidEmail } from '../../../utils/index';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import CouncilboxApi from "../../../api/CouncilboxApi";

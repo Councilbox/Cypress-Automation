@@ -9,7 +9,7 @@ import { printPrettyFilesize, downloadFile } from '../../utils/CBX';
 
 class AttachmentDownload extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             downloading: false
@@ -25,11 +25,11 @@ class AttachmentDownload extends React.Component {
             query: downloadCouncilAttachment,
             variables: {
                 attachmentId: this.props.attachment.id
-            }  
+            }
         });
 
-        if(response){
-            if(response.data.councilAttachment.base64){
+        if (response) {
+            if (response.data.councilAttachment.base64) {
                 const file = response.data.councilAttachment;
                 downloadFile(file.base64, file.filetype, file.filename);
             }
@@ -37,13 +37,12 @@ class AttachmentDownload extends React.Component {
                 downloading: false
             });
         }
-    }
+    };
 
     render() {
         const { attachment, spacing = 0 } = this.props;
 
-        return(
-            <div 
+        return (<div
                 style={{
                     display: 'inline',
                     cursor: 'pointer',
@@ -54,18 +53,18 @@ class AttachmentDownload extends React.Component {
                 }}
                 onClick={() => this.downloadAttachment(attachment.filename)}
             >
-                {this.state.downloading?
-                    <CircularProgress size={14} color={'secondary'} style={{marginRight: '0.8em'}} />
-                :
-                    <FontAwesome
+                {this.state.downloading ?
+                    <CircularProgress size={14} color={'secondary'} style={{ marginRight: '0.8em' }}/> : <FontAwesome
                         name={'download'}
-                        style={{fontSize: '0.9em', color: getSecondary(), marginRight: '0.8em'}}
-                    /> 
-                }
+                        style={{
+                            fontSize: '0.9em',
+                            color: getSecondary(),
+                            marginRight: '0.8em'
+                        }}
+                    />}
 
                 {`${attachment.filename} (${printPrettyFilesize(attachment.filesize)})`}
-            </div>
-        )
+            </div>)
     }
 }
 

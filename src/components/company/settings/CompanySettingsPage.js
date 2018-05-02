@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
     CardPageLayout, TextInput, SelectInput, FileUploadButton, LoadingSection, ButtonIcon, BasicButton, Grid, GridItem
-} from '../../displayComponents/index';
+} from '../../../displayComponents';
 import { Typography, MenuItem } from 'material-ui';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { provinces } from '../../../queries/masters';
