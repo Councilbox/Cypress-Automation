@@ -7,7 +7,7 @@ class LiveUtil {
     }
 
     static parsePercentaje(number, divisor) {
-        var zero = 0;
+        let zero = 0;
         if (!divisor) {
             return zero.toFixed(3);
         } else {
@@ -17,7 +17,7 @@ class LiveUtil {
 
     static calculateMayorityAgenda(agenda, council, recount) {
         const company = store.getState().company;
-        var specialSL = false;
+        let specialSL = false;
         if (company.type === 1 && council.quorum_prototype === 1) {
             specialSL = true;
         }
@@ -63,9 +63,9 @@ class LiveUtil {
             case 0:
                 return Math.ceil(total_votes * majority / 100);
             case 1:
-                var positiveNeeded = against_votes + 1;
+                let positiveNeeded = against_votes + 1;
                 if (quorum_prototype === 1) { //ACCIONES
-                    var minimumNeeded = Math.ceil(total_votes * 1 / 3);
+                    let minimumNeeded = Math.ceil(total_votes * 1 / 3);
                     return positiveNeeded > minimumNeeded ? positiveNeeded : minimumNeeded;
                 } else {
                     return positiveNeeded;

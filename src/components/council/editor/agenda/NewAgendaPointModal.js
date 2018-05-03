@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
+import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
-import LoadDraft from './LoadDraft';
-import { addAgenda } from '../../../queries';
-import * as CBX from '../../../utils/CBX';
+import LoadDraft from '../LoadDraft';
+import { addAgenda } from '../../../../queries';
+import * as CBX from '../../../../utils/CBX';
 
 class NewAgendaPointModal extends Component {
 

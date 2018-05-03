@@ -50,7 +50,9 @@ class ReorderPointsModal extends Component {
     _renderNewPointBody = () => {
                 
         return(
-            <SortableList items={this.state.agendas} onSortEnd={this.onSortEnd} helperClass="draggable" />
+            <SortableList items={this.state.agendas}
+                          onSortEnd={this.onSortEnd}
+                          helperClass="draggable" />
         );
     };
 
@@ -59,7 +61,8 @@ class ReorderPointsModal extends Component {
  
         return(
             <Fragment>
-                <div onClick={() => this.setState({reorderModal: true})} style={this.props.style}>
+                <div onClick={() => this.setState({reorderModal: true})}
+                     style={this.props.style}>
                     {this.props.children}
                 </div>
                 <AlertConfirm

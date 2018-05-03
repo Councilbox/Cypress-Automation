@@ -200,53 +200,27 @@ class CouncilEditorPreview extends Component {
 
         return (<div style={{
                 width: '100%',
-                height: '100%',
-                padding: '2em'
+                height: '100%'
             }}>
                 <Grid>
                     <GridItem xs={12} lg={12} md={12}>
-                        <BasicButton
-                            text={translate.previous}
-                            color={secondary}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            textPosition="after"
-                            onClick={this.props.previousStep}
-                        />
-                        <BasicButton
-                            text={translate.new_save_and_send}
-                            color={primary}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                marginLeft: '0.3em',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            textPosition="after"
-                            onClick={this.conveneCouncil}
-                        />
                         <div style={{
-                            display: 'inline-block',
-                            width: '5em',
-                            marginTop: '5px'
+                            float: 'right'
                         }}>
                             <DropDownMenu
                                 color="transparent"
                                 buttonStyle={{
                                     boxSizing: 'border-box',
-                                    border: `1px solid ${secondary}`
+                                    padding: '0',
+                                    border: `1px solid ${secondary}`,
+                                    marginLeft: '0.3em'
                                 }}
                                 text={<FontAwesome
                                     name={'bars'}
                                     style={{
                                         cursor: 'pointer',
-                                        fontSize: '0.9em',
-                                        height: '0.9em',
+                                        fontSize: '0.8em',
+                                        height: '0.8em',
                                         color: secondary
                                     }}
                                 />}
@@ -264,6 +238,33 @@ class CouncilEditorPreview extends Component {
                                 </Fragment>}
                             />
                         </div>
+                        <BasicButton
+                            text={translate.new_save_and_send}
+                            color={primary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700',
+                                marginLeft: '0.3em',
+                                fontSize: '0.9em',
+                                textTransform: 'none'
+                            }}
+                            floatRight
+                            textPosition="after"
+                            onClick={this.conveneCouncil}
+                        />
+                        <BasicButton
+                            text={translate.previous}
+                            color={secondary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '700',
+                                fontSize: '0.9em',
+                                textTransform: 'none'
+                            }}
+                            floatRight
+                            textPosition="after"
+                            onClick={this.props.previousStep}
+                        />
                     </GridItem>
                 </Grid>
                 <Paper style={{ marginTop: '1.5em' }}>

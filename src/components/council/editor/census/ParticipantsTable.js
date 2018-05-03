@@ -3,7 +3,7 @@ import { TableRow, TableCell } from 'material-ui/Table';
 
 import { getPrimary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
-import { EnhancedTable, DeleteIcon } from '../../../../displayComponents/index';
+import { EnhancedTable, CloseIcon } from '../../../../displayComponents';
 import { graphql, compose } from "react-apollo";
 import { councilParticipants, deleteParticipant } from '../../../../queries';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
@@ -25,7 +25,7 @@ class ParticipantsTable extends Component {
         const primary = getPrimary();
 
         return(
-            <DeleteIcon
+            <CloseIcon
                 style={{color: primary}}
                 onClick={(event) => {
                     event.stopPropagation();
@@ -197,6 +197,8 @@ class ParticipantsTable extends Component {
                                                     <div style={{fontSize: '0.9em', width: '100%'}}>
                                                         {participant.representative.position}
                                                     </div>
+                                                </TableCell>
+                                                <TableCell>
                                                 </TableCell>
                                                 <TableCell>
                                                 </TableCell>

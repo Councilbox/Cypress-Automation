@@ -368,3 +368,15 @@ export const checkRequiredFields = (translate, draft, updateErrors) => {
 
     return hasError;
 };
+
+export const formatSize = (size) => {
+    let mb = Math.pow(1024, 2);
+    let kb = 1024;
+
+    if (size >= 1024^2)
+        return Math.ceil((size / mb)*100) / 100 + ' MB';
+    else if (size >= 1024)
+        return Math.ceil((size / kb)*100) / 100 + ' KB';
+    else
+        return size + ' Bytes';
+};

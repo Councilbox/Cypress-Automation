@@ -8,6 +8,7 @@ import { Typography } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 
 let primary = getPrimary();
+let secondary = getSecondary();
 
 class CouncilEditorOptions extends Component {
 
@@ -171,12 +172,12 @@ class CouncilEditorOptions extends Component {
         
 
         return(
-            <div style={{width: '100%', height: '100%', padding: '2em'}}>
+            <div style={{width: '100%', height: '100%'}}>
                 <Typography variant="title">
                     {translate.new_options}
                 </Typography>
 
-                <Typography variant="subheading" style={{marginTop: '2em'}}>
+                <Typography variant="subheading" style={{marginTop: '1em'}}>
                     {translate.confirm_assistance}
                 </Typography>
                 <Checkbox
@@ -188,7 +189,7 @@ class CouncilEditorOptions extends Component {
                     }
                 />
 
-                <Typography variant="subheading" style={{marginTop: '2em'}}>
+                <Typography variant="subheading" style={{marginTop: '1em'}}>
                     {translate.video}
                 </Typography>
                 <Checkbox
@@ -220,7 +221,7 @@ class CouncilEditorOptions extends Component {
                     />
                 }
                 
-                <Typography variant="subheading" style={{marginTop: '2em'}}>
+                <Typography variant="subheading" style={{marginTop: '1em'}}>
                     {translate.security}
                 </Typography>
                 {this._renderSecurityForm()}
@@ -228,7 +229,7 @@ class CouncilEditorOptions extends Component {
 
                 {CBX.hasAct(statute) &&
                     <Fragment>
-                        <Typography variant="subheading" style={{marginTop: '2em'}}>
+                        <Typography variant="subheading" style={{marginTop: '1em'}}>
                             {translate.approve_act_draft_at_end}
                         </Typography>
                         <Checkbox
@@ -285,14 +286,14 @@ class CouncilEditorOptions extends Component {
                         <div style={{float: 'right'}}>
                             <BasicButton
                                 text={translate.previous}
-                                color={getSecondary()}
+                                color={secondary}
                                 textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                 textPosition="after"
                                 onClick={this.previousPage}
                             />
                             <BasicButton
                                 text={translate.save}
-                                color={primary}
+                                color={secondary}
                                 textStyle={{color: 'white', fontWeight: '700', marginLeft: '0.5em', marginRight: '0.5em', fontSize: '0.9em', textTransform: 'none'}}
                                 icon={<ButtonIcon type="save" color='white' />}
                                 textPosition="after"
