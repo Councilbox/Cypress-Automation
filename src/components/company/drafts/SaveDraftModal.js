@@ -3,7 +3,7 @@ import { AlertConfirm } from '../../../displayComponents';
 import CompanyDraftForm from './CompanyDraftForm';
 import withTranslations from '../../../HOCs/withTranslations';
 import { graphql } from 'react-apollo';
-import { createCompanyDraft } from '../../../queries';
+import { createCompanyDraft } from '../../../queries/companyDrafts';
 import { checkRequiredFields } from '../../../utils/CBX';
 
 

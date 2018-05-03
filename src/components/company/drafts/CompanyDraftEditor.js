@@ -3,53 +3,13 @@ import { CardPageLayout, BasicButton, ButtonIcon } from '../../../displayCompone
 import CompanyDraftForm from './CompanyDraftForm';
 import withTranslations from '../../../HOCs/withTranslations';
 import { graphql } from 'react-apollo';
-import { createCompanyDraft } from '../../../queries';
+import { getCompanyDraftData, updateCompanyDraft } from '../../../queries/companyDrafts';
 import gql from "graphql-tag";
 import { compose } from "react-apollo/index";
 import { checkRequiredFields } from "../../../utils/CBX";
 import { withRouter } from "react-router-dom";
 import { getPrimary } from "../../../styles/colors";
 
-const getData = gql`
-  query getData($companyId: Int!, $id: Int!){
-    companyDraft(id: $id){
-      id
-      userId
-      companyId
-      title
-      description
-      text
-      type
-      votationType
-      majorityType
-      majority
-      statuteId
-      companyType
-      language
-      draftId
-      creationDate
-      lastModificationDate
-      corporationId
-      majorityDivider
-    }
-    companyStatutes(companyId: $companyId){
-      id
-      title
-    }
-    majorityTypes{
-      label
-      value
-    }
-    draftTypes {
-      label
-      value
-    }
-    votingTypes {
-      label
-      value
-    }
-  }
-`;
 
 class CompanyDraftEditor extends Component {
 
@@ -72,7 +32,8 @@ class CompanyDraftEditor extends Component {
             data: {
                 ...this.state.data,
                 ...object
-            }
+            },
+            success: false
         })
     };
 
@@ -91,6 +52,7 @@ class CompanyDraftEditor extends Component {
             const response = await this.props.updateCompanyDraft({
                 variables: {
                     draft: {
+                        id: data.id,
                         title: data.title,
                         statuteId: data.statuteId,
                         type: data.type,
@@ -100,14 +62,13 @@ class CompanyDraftEditor extends Component {
                         majorityType: data.majorityType,
                         majority: data.majority,
                         majorityDivider: data.majorityDivider,
-                        companyId: this.props.company.id
+                        companyId: this.props.match.params.company
                     }
                 }
             });
 
             if (!response.errors) {
-                this.setState({ success: true });
-                this.props.requestClose();
+                this.setState({ success: true, loading: false });
             }
         }
     };
@@ -155,7 +116,7 @@ class CompanyDraftEditor extends Component {
     }
 }
 
-export default compose(graphql(getData, {
+export default compose(graphql(getCompanyDraftData, {
     name: "data",
     options: (props) => ({
         variables: {
@@ -164,4 +125,4 @@ export default compose(graphql(getData, {
         },
         notifyOnNetworkStatusChange: true
     })
-}), graphql(createCompanyDraft, { name: 'updateCompanyDraft' }))(withRouter(withTranslations()(CompanyDraftEditor)));
+}), graphql(updateCompanyDraft, { name: 'updateCompanyDraft' }))(withRouter(withTranslations()(CompanyDraftEditor)));

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { LoadingSection, BasicButton, ButtonIcon, CardPageLayout } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
-import { createCompanyDraft, draftData } from '../../../queries';
+import { createCompanyDraft, draftData } from '../../../queries/companyDrafts';
 import { getPrimary } from "../../../styles/colors";
 import { checkRequiredFields } from '../../../utils/CBX';
 import CompanyDraftForm from './CompanyDraftForm';

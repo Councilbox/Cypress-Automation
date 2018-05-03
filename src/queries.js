@@ -424,28 +424,6 @@ export const createCensus = gql`
   }
 `;
 
-export const draftData = gql`
-  query statutes($companyId: Int!){
-    companyStatutes(companyId: $companyId){
-      title
-      id
-    }
-    draftTypes{
-      id
-      label
-      value
-    }
-    votingTypes{
-      value
-      label
-    }
-    majorityTypes{
-      label
-      value
-    }
-  }
-`;
-
 export const platformDrafts = gql`
   query platformDrafts($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
     platformDrafts(filters: $filters, options: $options){
@@ -479,14 +457,6 @@ export const platformDrafts = gql`
       id
       label
       value
-    }
-  }
-`;
-
-export const createCompanyDraft = gql`
-  mutation createCompanyDraft($draft: CompanyDraftInput!){
-    createCompanyDraft(draft: $draft){
-      id
     }
   }
 `;

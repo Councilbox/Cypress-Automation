@@ -4,10 +4,13 @@
     <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="close #41">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/corporation/drafts/PlatformDrafts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/corporation/drafts/PlatformDrafts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/CBX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/CBX.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/queries/companyDrafts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/companyDrafts.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,66 +34,10 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="SaveDraftModal.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="580">
-              <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CompanyDraftEditor.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="88" column="48" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CompanyDraftNew.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CBX.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/utils/CBX.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1622">
-              <caret line="298" column="64" selection-start-line="298" selection-start-column="64" selection-end-line="298" selection-end-column="64" />
-              <folding>
-                <element signature="e#0#78#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>countries</find>
-      <find>addParticipant</find>
-      <find>languages</find>
-      <find>componentWillReceiveProps</find>
-      <find>graphql</find>
-      <find>data.countries</find>
-      <find>step</find>
       <find>provinces</find>
       <find>province</find>
       <find>success</find>
@@ -114,6 +61,13 @@
       <find>_setState</find>
       <find>chec</find>
       <find>checkRequiredFields</find>
+      <find>updateState</find>
+      <find>createCom</find>
+      <find>companyDraft</find>
+      <find>update</find>
+      <find>updateCompanyDraft</find>
+      <find>createCompanyDraft</find>
+      <find>draftData</find>
     </findStrings>
     <replaceStrings>
       <replace>pwd</replace>
@@ -150,8 +104,8 @@
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/src/containers</dir>
-      <dir>$PROJECT_DIR$/src</dir>
       <dir>$PROJECT_DIR$/src/components</dir>
+      <dir>$PROJECT_DIR$/src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -171,10 +125,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPage.js" />
-        <option value="$PROJECT_DIR$/src/components/notLogged/signUp/TermsModal.js" />
-        <option value="$PROJECT_DIR$/src/components/displayComponents/MajorityInput.js" />
-        <option value="$PROJECT_DIR$/src/components/displayComponents/QuorumInput.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/DeleteIcon.js" />
         <option value="$PROJECT_DIR$/src/HOCs/withWindowSize.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/CardPageLayout.js" />
@@ -193,7 +143,6 @@
         <option value="$PROJECT_DIR$/src/components/signature/Signature.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/BasicButton.js" />
         <option value="$PROJECT_DIR$/src/queries/company.js" />
-        <option value="$PROJECT_DIR$/src/queries.js" />
         <option value="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" />
         <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" />
         <option value="$PROJECT_DIR$/src/queries/masters.js" />
@@ -219,7 +168,12 @@
         <option value="$PROJECT_DIR$/src/containers/AppRouter.js" />
         <option value="$PROJECT_DIR$/src/components/corporation/drafts/PlatformDrafts.js" />
         <option value="$PROJECT_DIR$/src/utils/CBX.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" />
+        <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" />
         <option value="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" />
+        <option value="$PROJECT_DIR$/src/queries.js" />
+        <option value="$PROJECT_DIR$/src/queries/companyDrafts.js" />
         <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" />
         <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" />
       </list>
@@ -286,16 +240,7 @@
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
               <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="corporation" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="corporation" type="462c0819:PsiDirectoryNode" />
-              <item name="drafts" type="462c0819:PsiDirectoryNode" />
+              <item name="queries" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
@@ -307,7 +252,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
@@ -329,6 +273,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
     </panes>
   </component>
@@ -343,11 +288,6 @@
     <property name="settings.editor.selected.configurable" value="debugger.dataViews" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/company" />
-      <recent name="$PROJECT_DIR$/src/components/signature" />
-      <recent name="$PROJECT_DIR$/src/components/notLogged" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/company/drafts" />
       <recent name="$PROJECT_DIR$/src/components/signature" />
@@ -355,399 +295,12 @@
       <recent name="$PROJECT_DIR$/src/queries" />
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.idea/workspace.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/CreateCouncil.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/CreateMeeting.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/Header.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/NotFound.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/Welcome.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/attachments/AttachmentDownload.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/attachments/AttachmentList.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/ConvenedParticipantsTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/TopSectionBlocks.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/menus/CompanySelector.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/menus/LanguageSelector.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/menus/UserMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/ChangePwd.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/ForgetPwd.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/Login.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/signUp/SignUpStepper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/signUp/SignUpUser.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/notLogged/signUp/TermsModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/participantScreen/ParticipantPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sideMenu/CompanyMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sideMenu/SideBar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/sideMenu/SideMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/App.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/AppRouter.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/ChangePwdContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/CompanyCensusContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/CouncilContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/CouncilEditorContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/CouncilLiveContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/CouncilPrepareContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/ForgetPwdContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/LoginContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/MeetingEditorContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/MeetingLiveContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/MeetingsContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/containers/SignatureContainer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/index.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/queries.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/utils/CBX.js</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/.eslintrc.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/AddCensusButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/CloneCensusModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/CompanyCensusPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/censusEditor/AddCensusParticipantButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/censusEditor/CensusEditorPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/census/censusEditor/RepresentativeForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/drafts/CompanyDraftList.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/corporation/drafts/PlatformDraftDetails.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/corporation/drafts/PlatformDrafts.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/ChangeCensusMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorAgenda.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorAttachments.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorCensus.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorNotice.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/CouncilEditorPreview.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/LoadDraft.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/NewAgendaPointModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/NewParticipantForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/PlaceModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/editor/PointEditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/ActAgreements.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/AgendaAttachmentsManager.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/AgendaDetailsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/AgendaManager.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/AgendaSelector.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/CommentsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/CouncilLivePage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/EndCouncilButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/LiveHeader.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/OpenRoomButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/ParticipantSelector.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/ParticipantsLive.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/RecountSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/ReorderPointsModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/StartCouncilButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/ToggleAgendaButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/ToggleVotingsButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/VotesTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/live/VotingsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/participants/ParticipantForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/participants/RepresentativeForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/CancelModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantEditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/CouncilPreparePage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/DateHeader.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/EditParticipantModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/NotificationFilters.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/ReminderModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/council/prepare/RescheduleModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilDrafts.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsConvened.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsLive.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsTrash.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsWriting.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsLive.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsTrash.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/dashboard/signatures/Signatures.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorConfig.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meeting/live/MeetingLivePage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/AgendaNumber.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/AlertConfirm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/BasicButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/ButtonIcon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/CardPageLayout.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/CheckBox.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/CloseIcon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/CollapsibleSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/DateTimePicker.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/DateWrapper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/DeleteIcon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/DraggableBlock.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/DropDownMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/EditorStepper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/EnhancedTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/ErrorAlert.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/ErrorWrapper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/FileUploadButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Grid.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/GridItem.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Icon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/LinkWithoutStyling.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/LoadingMainApp.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/LoadingSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/MajorityInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/MenuItem.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/MobileStepper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Popover.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/ProgressBar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/QuorumInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Radio.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/RadioGroup.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/RegularCard.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/RichTextInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/SectionTitle.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/SelectInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Snackbar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/SortableList.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Table.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/TableEnhancer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/TabsScreen.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/TextInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/ThemeProvider.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/Tooltip.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/VTabs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/displayComponents/index.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/styles/table.js</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/AddCensusButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/CloneCensusModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/CompanyCensusPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/censusEditor/CensusEditorPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/censusEditor/CensusParticipants.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyCensus/censusEditor/RepresentativeForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyDraft/CompanyDraftForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyDraft/CompanyDraftList.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyDraft/CompanyDraftNew.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyDraft/PlatformDraftDetails.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyDraft/PlatformDrafts.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/companyDraft/SaveDraftModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/ChangeCensusMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorAgenda.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorAttachments.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorCensus.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorOptions.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPreview.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/LoadDraft.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/NewAgendaPointModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/ParticipantsTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/PlaceModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilEditor/PointEditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/ActAgreements.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/AgendaAttachmentsManager.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/AgendaDetailsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/AgendaManager.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/AgendaSelector.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/CommentsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/CouncilLivePage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/EndCouncilButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/LiveHeader.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/OpenRoomButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/ParticipantSelector.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/ParticipantsLive.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/RecountSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/ReorderPointsModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/StartCouncilButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/ToggleAgendaButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/ToggleVotingsButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/VotesTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilLive/VotingsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilParticipants/ParticipantEditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilParticipants/ParticipantForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilParticipants/RepresentativeForm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/CancelModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/CouncilPreparePage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/DateHeader.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/NotificationFilters.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/ParticipantsSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/ReminderModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilPrepare/RescheduleModal.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilSections/CouncilDrafts.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilSections/CouncilsConvened.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilSections/CouncilsLive.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilSections/CouncilsTrash.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/councilSections/CouncilsWriting.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/AgendaNumber.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/AlertConfirm.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/BasicButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/ButtonIcon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/CardPageLayout.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/CheckBox.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/CloseIcon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/CollapsibleSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/DateTimePicker.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/DateWrapper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/DeleteIcon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/DraggableBlock.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/DropDownMenu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/EditorStepper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/EnhancedTable.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/ErrorAlert.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/ErrorWrapper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/FileUploadButton.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Grid.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/GridItem.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Icon.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/LinkWithoutStyling.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/LoadingMainApp.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/LoadingSection.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/MajorityInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/MenuItem.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Popover.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/ProgressBar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/QuorumInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Radio.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/RadioGroup.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/RegularCard.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/RichTextInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/SectionTitle.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/SelectInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Snackbar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/SortableList.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Table.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/TableEnhancer.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/TabsScreen.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/TextInput.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/ThemeProvider.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/Tooltip.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/VTabs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/displayComponents/index.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorCensus.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorConfig.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorPage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingLive/MeetingLivePage.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingSections/MeetingDrafts.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingSections/MeetingsLive.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/meetingSections/MeetingsTrash.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/signature/Signature.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/components/signature/Signatures.js</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/queries/company" />
+      <recent name="$PROJECT_DIR$/src/components/company" />
+      <recent name="$PROJECT_DIR$/src/components/signature" />
+      <recent name="$PROJECT_DIR$/src/components/notLogged" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -861,6 +414,7 @@
       <workItem from="1524644921455" duration="11964000" />
       <workItem from="1524727024546" duration="8067000" />
       <workItem from="1524737161073" duration="14315000" />
+      <workItem from="1525330434651" duration="3363000" />
     </task>
     <task id="LOCAL-00001" summary="close #35">
       <created>1523896925018</created>
@@ -1014,7 +568,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="174420000" />
+    <option name="totallyTimeSpent" value="177783000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1027,86 +581,38 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="32" width="1920" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
-      <window_info anchor="bottom" id="Messages" order="6" weight="0.32928178" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="right" id="Run" order="10" weight="0.23529412" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
+      <window_info anchor="right" id="Run" order="10" weight="0.23689839" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32928178" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32928178" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20427808" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2" />
       <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info id="Designer" order="2" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="right" id="Palette" order="0" />
-      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
-      <window_info id="Image Layers" order="2" />
-      <window_info anchor="bottom" id="TypeScript" order="10" />
+      <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="7" show_stripe_button="false" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="UI Designer" order="2" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
-      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
-      <window_info anchor="right" id="Capture Analysis" order="2" />
-      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
-      <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
-      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
-      <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
-      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="6" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
-      <window_info anchor="right" id="Palette&#9;" order="1" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Designer" order="2" />
-      <window_info anchor="right" id="Palette" order="0" />
-      <window_info id="Image Layers" order="3" />
-      <window_info anchor="bottom" id="TypeScript" order="11" />
-      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
-      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="7" show_stripe_button="false" weight="0.25" />
-      <window_info id="Capture Tool" order="4" />
-      <window_info id="UI Designer" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32928178" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="UI Designer" order="4" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Capture Analysis" order="2" />
-      <window_info anchor="right" id="Commander" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32928178" />
       <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
-      <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
-      <window_info anchor="right" id="Palette&#9;" order="1" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
-      <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
-    </layout-to-restore>
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info id="Image Layers" order="5" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+    </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -1169,56 +675,11 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/actions/councilActions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="1" column="45" lean-forward="true" selection-start-line="1" selection-end-line="2" />
-          <folding>
-            <element signature="e#0#49#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorAttachments.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="47" column="3" lean-forward="true" selection-start-line="47" selection-start-column="3" selection-end-line="86" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/signature/Signatures.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="26" column="8" lean-forward="true" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/signature/Signature.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/GridItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/BasicButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="16" column="15" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/queries/companyDrafts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-253" />
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorAttachments.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/signature/Signatures.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/signature/Signature.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/GridItem.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/BasicButton.js" />
     <entry file="file://$PROJECT_DIR$/src/queries/company.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
@@ -1240,36 +701,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-321">
-          <caret line="620" column="20" selection-start-line="620" selection-start-column="6" selection-end-line="620" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/PlaceModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="6" column="8" lean-forward="true" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/PlaceModal.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js" />
     <entry file="file://$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="8" column="62" selection-start-line="8" selection-start-column="62" selection-end-line="8" selection-end-column="62" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/containers/CompanySettingsContainer.js">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/queries/masters.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -1278,13 +718,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/TextInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="30" column="23" lean-forward="true" selection-start-line="30" selection-start-column="23" selection-end-line="30" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/TextInput.js" />
     <entry file="file://$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -1304,9 +738,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="540">
           <caret line="27" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1320,20 +751,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/Grid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="3" column="73" selection-start-line="3" selection-start-column="66" selection-end-line="3" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/SelectInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="13" column="32" selection-start-line="13" selection-start-column="32" selection-end-line="13" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/Grid.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/SelectInput.js" />
     <entry file="file://$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
@@ -1363,13 +782,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/menus/UserMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/dashboard/TopSectionBlocks.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -1399,20 +812,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/companyDraft/PlatformDrafts.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/companyDraft/CompanyDraftList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2800">
-          <caret line="148" column="20" selection-start-line="148" selection-start-column="20" selection-end-line="159" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/companyDraft/PlatformDrafts.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/companyDraft/CompanyDraftList.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/material-ui/Stepper/Stepper.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
@@ -1420,13 +821,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="68" column="86" selection-start-line="68" selection-start-column="70" selection-end-line="68" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/meetingEditor/MeetingEditorPage.js" />
     <entry file="file://$PROJECT_DIR$/node_modules/material-ui/Stepper/Step.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -1434,37 +829,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="200">
-          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1215">
-          <caret line="86" column="32" selection-start-line="86" selection-start-column="32" selection-end-line="86" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="197" column="16" lean-forward="true" selection-start-line="197" selection-start-column="16" selection-end-line="197" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/ChangeCensusMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="807">
-          <caret line="44" column="2" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/MobileStepper.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/ChangeCensusMenu.js" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -1480,13 +848,6 @@
             <element signature="e#0#26#0" expanded="true" />
             <element signature="e#6795#7177#0" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/queries.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="607" selection-start-line="607" selection-end-line="715" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -1517,16 +878,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1187">
-          <caret line="114" column="9" lean-forward="true" selection-start-line="114" selection-start-column="9" selection-end-line="114" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftList.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="634">
@@ -1550,7 +901,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/CBX.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1622">
+        <state relative-caret-position="5800">
           <caret line="298" column="64" selection-start-line="298" selection-start-column="64" selection-end-line="298" selection-end-column="64" />
           <folding>
             <element signature="e#0#78#0" expanded="true" />
@@ -1558,30 +909,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js">
+    <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
+        <state relative-caret-position="147">
+          <caret line="98" column="53" lean-forward="true" selection-start-line="98" selection-start-column="53" selection-end-line="98" selection-end-column="53" />
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/MajorityInput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="37" column="51" lean-forward="true" selection-start-line="37" selection-start-column="51" selection-end-line="37" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/QuorumInput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-113">
+          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="35" column="12" selection-start-line="35" selection-start-column="12" selection-end-line="35" selection-end-column="12" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="100">
+          <caret line="5" column="66" selection-start-line="5" selection-start-column="66" selection-end-line="5" selection-end-column="66" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/queries.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="424" column="2" selection-start-line="424" selection-start-column="2" selection-end-line="424" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="3" column="77" selection-start-line="3" selection-start-column="77" selection-end-line="3" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/queries/companyDrafts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="69" column="26" lean-forward="true" selection-start-line="69" selection-start-column="26" selection-end-line="69" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="88" column="48" selection-start-line="88" selection-start-column="48" selection-end-line="88" selection-end-column="48" />
+        <state relative-caret-position="207">
+          <caret line="55" column="42" lean-forward="true" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
