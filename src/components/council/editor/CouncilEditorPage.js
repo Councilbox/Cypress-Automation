@@ -97,7 +97,7 @@ class CouncilEditorPage extends React.Component {
                                 onClick: () => this.goToPage(1),
                                 style: pointerStep
                             } : {})}>
-                            <StepLabel classes={{ marginTop: '0' }}>
+                            <StepLabel>
                                 {translate.wizard_convene}
                             </StepLabel>
                         </Step>
