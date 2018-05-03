@@ -3,14 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="close #41">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/queries/companyDrafts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/companyDrafts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/editor/ChangeCensusMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorCensus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/CouncilEditorCensus.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/editor/NewParticipantForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayComponents/EnhancedTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/EnhancedTable.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -38,13 +39,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>provinces</find>
-      <find>province</find>
-      <find>success</find>
-      <find>resetButtonStates</find>
-      <find>handleFile</find>
-      <find>event</find>
-      <find>estatutesButton</find>
       <find>Stepper</find>
       <find>{cursor: 'pointer'}</find>
       <find>_renderDeleteIcon</find>
@@ -68,9 +62,15 @@
       <find>updateCompanyDraft</find>
       <find>createCompanyDraft</find>
       <find>draftData</find>
+      <find>ChangeC</find>
+      <find>ChangeCensusMenu</find>
+      <find>ParticipantsTa</find>
+      <find>changeCensus</find>
+      <find>councilSocialCapital</find>
+      <find>container-fluid</find>
+      <find>socialCapital</find>
     </findStrings>
     <replaceStrings>
-      <replace>pwd</replace>
       <replace>repeatPwd</replace>
       <replace>translate.field_required</replace>
       <replace>TermsModal</replace>
@@ -100,12 +100,15 @@
       <replace>data</replace>
       <replace>updateErrors</replace>
       <replace />
+      <replace>totalSocialCapital</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
       <dir>$PROJECT_DIR$/src/containers</dir>
       <dir>$PROJECT_DIR$/src/components</dir>
       <dir>$PROJECT_DIR$/src</dir>
+      <dir>$PROJECT_DIR$/src/components/council</dir>
+      <dir>$PROJECT_DIR$/src/components/council/editor/census</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -125,15 +128,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/displayComponents/DeleteIcon.js" />
-        <option value="$PROJECT_DIR$/src/HOCs/withWindowSize.js" />
-        <option value="$PROJECT_DIR$/src/components/displayComponents/CardPageLayout.js" />
-        <option value="$PROJECT_DIR$/src/components/displayComponents/index.js" />
-        <option value="$PROJECT_DIR$/src/components/displayComponents/CloseIcon.js" />
-        <option value="$PROJECT_DIR$/src/components/companyDraft/CompanyDraftList.js" />
-        <option value="$PROJECT_DIR$/src/components/displayComponents/VTabs.js" />
-        <option value="$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js" />
-        <option value="$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js" />
         <option value="$PROJECT_DIR$/src/components/signatureSections/SignatureDrafts.js" />
         <option value="$PROJECT_DIR$/src/components/displayComponents/TabsScreen.js" />
         <option value="$PROJECT_DIR$/src/containers/SignatureContainer.js" />
@@ -176,6 +170,15 @@
         <option value="$PROJECT_DIR$/src/queries/companyDrafts.js" />
         <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" />
         <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/ChangeCensusMenu.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorCensus.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/CouncilEditorCensus.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/NewParticipantForm.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/EnhancedTable.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js" />
       </list>
     </option>
   </component>
@@ -226,15 +229,24 @@
               <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
+              <item name="council" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
               <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="company" type="462c0819:PsiDirectoryNode" />
-              <item name="drafts" type="462c0819:PsiDirectoryNode" />
+              <item name="council" type="462c0819:PsiDirectoryNode" />
+              <item name="editor" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="council" type="462c0819:PsiDirectoryNode" />
+              <item name="editor" type="462c0819:PsiDirectoryNode" />
+              <item name="census" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
@@ -296,6 +308,7 @@
       <recent name="$PROJECT_DIR$/src/components" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/council/editor/census" />
       <recent name="$PROJECT_DIR$/src/queries/company" />
       <recent name="$PROJECT_DIR$/src/components/company" />
       <recent name="$PROJECT_DIR$/src/components/signature" />
@@ -414,7 +427,7 @@
       <workItem from="1524644921455" duration="11964000" />
       <workItem from="1524727024546" duration="8067000" />
       <workItem from="1524737161073" duration="14315000" />
-      <workItem from="1525330434651" duration="3363000" />
+      <workItem from="1525330434651" duration="6114000" />
     </task>
     <task id="LOCAL-00001" summary="close #35">
       <created>1523896925018</created>
@@ -556,7 +569,14 @@
       <option name="project" value="LOCAL" />
       <updated>1525274290765</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="close #41">
+      <created>1525334576371</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1525334576371</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -568,7 +588,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="177783000" />
+    <option name="totallyTimeSpent" value="180534000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -586,7 +606,7 @@
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="right" id="Run" order="10" weight="0.23689839" />
+      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32928178" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32928178" />
       <window_info id="Designer" order="2" />
@@ -657,7 +677,8 @@
     <MESSAGE value="working in #23" />
     <MESSAGE value="close #70" />
     <MESSAGE value="WIP #41" />
-    <option name="LAST_COMMIT_MESSAGE" value="WIP #41" />
+    <MESSAGE value="close #41" />
+    <option name="LAST_COMMIT_MESSAGE" value="close #41" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -675,18 +696,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/councilEditor/CouncilEditorAttachments.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/signature/Signatures.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/signature/Signature.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/GridItem.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/displayComponents/BasicButton.js" />
-    <entry file="file://$PROJECT_DIR$/src/queries/company.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="2" column="26" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/api/CouncilboxApi.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
@@ -970,6 +979,62 @@
           <caret line="55" column="42" lean-forward="true" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="156" column="56" selection-start-line="156" selection-start-column="56" selection-end-line="156" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/CouncilEditorCensus.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1387">
+          <caret line="199" column="56" selection-start-line="199" selection-start-column="56" selection-end-line="199" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/EnhancedTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="242" lean-forward="true" selection-start-line="242" selection-end-line="242" />
+          <folding>
+            <element signature="e#7422#9926#0" />
+            <element signature="e#9939#11050#0" />
+            <element signature="e#11132#11215#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1512">
+          <caret line="153" column="67" lean-forward="true" selection-start-line="153" selection-start-column="67" selection-end-line="153" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="407">
+          <caret line="35" column="59" lean-forward="true" selection-start-line="35" selection-start-column="59" selection-end-line="35" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { TableRow, TableCell } from 'material-ui/Table';
 
-import { getPrimary } from '../../../styles/colors';
-import * as CBX from '../../../utils/CBX';
-import { EnhancedTable, DeleteIcon } from '../../../displayComponents';
+import { getPrimary } from '../../../../styles/colors';
+import * as CBX from '../../../../utils/CBX';
+import { EnhancedTable, DeleteIcon } from '../../../../displayComponents/index';
 import { graphql, compose } from "react-apollo";
-import { councilParticipants, deleteParticipant } from '../../../queries';
-import { PARTICIPANTS_LIMITS } from '../../../constants';
-import ParticipantEditor from '../participants/ParticipantEditor';
-import ChangeCensusMenu from '../editor/ChangeCensusMenu';
+import { councilParticipants, deleteParticipant } from '../../../../queries';
+import { PARTICIPANTS_LIMITS } from '../../../../constants';
+import ParticipantEditor from '../../participants/ParticipantEditor';
+import ChangeCensusMenu from './ChangeCensusMenu';
 
 
 class ParticipantsTable extends Component {
@@ -53,7 +53,7 @@ class ParticipantsTable extends Component {
     };
 
     render(){
-        const { translate, totalVotes, socialCapital} = this.props;
+        const { translate, totalVotes, totalSocialCapital} = this.props;
         const { loading, councilParticipants,  } = this.props.data;
         let headers = [
             {
@@ -157,7 +157,7 @@ class ParticipantsTable extends Component {
                                             {this.props.participations &&
                                                 <TableCell>
                                                     {!CBX.isRepresentative(participant) &&
-                                                        `${participant.socialCapital} (${((participant.socialCapital / socialCapital) * 100).toFixed(2)}%)`
+                                                        `${participant.socialCapital} (${((participant.socialCapital / totalSocialCapital) * 100).toFixed(2)}%)`
                                                     }
                                                 </TableCell>
                                             }

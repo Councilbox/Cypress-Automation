@@ -9,7 +9,7 @@ import { convenedcouncilParticipants, deleteParticipant, updateNotificationsStat
 import EditParticipantModal from './EditParticipantModal';
 import { PARTICIPANTS_LIMITS } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
-import NewParticipantForm from '../editor/NewParticipantForm';
+import NewParticipantForm from '../editor/census/NewParticipantForm';
 
 class ConvenedParticipantsTable extends Component {
 

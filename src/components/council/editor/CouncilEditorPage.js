@@ -2,7 +2,7 @@ import React from 'react';
 import { CardPageLayout, MobileStepper } from '../../../displayComponents';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
 import CouncilEditorNotice from './CouncilEditorNotice';
-import CouncilEditorCensus from './CouncilEditorCensus';
+import CouncilEditorCensus from './census/CouncilEditorCensus';
 import CouncilEditorAgenda from './CouncilEditorAgenda';
 import CouncilEditorAttachments from './CouncilEditorAttachments';
 import CouncilEditorOptions from './CouncilEditorOptions';

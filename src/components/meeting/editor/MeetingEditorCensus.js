@@ -4,11 +4,11 @@ import { BasicButton, SelectInput, LoadingSection, ErrorWrapper, ButtonIcon } fr
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { getPrimary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
-import ParticipantsTable from '../../council/editor/ParticipantsTable';
+import ParticipantsTable from '../../council/editor/census/ParticipantsTable';
 import { councilStepTwo, updateCouncil } from '../../../queries';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import NewParticipantForm from '../../council/editor/NewParticipantForm';
+import NewParticipantForm from '../../council/editor/census/NewParticipantForm';
 
 
 class MeetingEditorCensus extends Component {
