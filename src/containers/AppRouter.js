@@ -27,6 +27,7 @@ import PlatformDrafts from '../components/corporation/drafts/PlatformDrafts';
 import CensusEditorPage from '../components/company/census/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../displayComponents';
 import CompanyDraftList from '../components/company/drafts/CompanyDraftList';
+import Test from '../components/tests/Test';
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
@@ -106,6 +107,7 @@ class AppRouter extends Component {
                     <Route exact path="/changePwd/:language/:token" component={ChangePwdContainer} />
                     <Route path="/welcome" component={Welcome} />
                     <Route path="/participant/:id" component={ParticipantPage} />
+                    <Route path="/test" component={Test} />
                     <Route path="*" component={NotFound}/>            
                 </Switch>
             )
