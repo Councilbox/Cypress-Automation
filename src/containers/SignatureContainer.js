@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TabsScreen from '../displayComponents/TabsScreen';
-import Signatures from '../components/dashboard/signatures/Signatures';
+import Signatures from '../components/dashboard/Signatures';
 
 const SignatureContainer = ({ match, company, translate }) => {
     const tabsIndex = {
@@ -19,6 +19,7 @@ const SignatureContainer = ({ match, company, translate }) => {
                                 translate={translate}
                                 title={translate.document_signature_drafts}
                                 desc={translate.signature_of_documents_drafts_desc}
+                                icon={'pencil-square-o'}
                                 state={0}
             />)
         }
@@ -30,6 +31,7 @@ const SignatureContainer = ({ match, company, translate }) => {
                                 translate={translate}
                                 title={translate.signature_of_documents_sent}
                                 desc={translate.signature_of_documents_desc}
+                                icon={'paper-plane-o'}
                                 state={10}
             />)
         }
@@ -41,6 +43,7 @@ const SignatureContainer = ({ match, company, translate }) => {
                                 translate={translate}
                                 title={translate.signature_of_documents_completed}
                                 desc={translate.signature_of_documents_completed_desc}
+                                icon={'check-square-o'}
                                 state={20}
             />)
         }
