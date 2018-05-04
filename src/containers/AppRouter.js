@@ -107,7 +107,7 @@ class AppRouter extends Component {
                     <Route exact path="/changePwd/:language/:token" component={ChangePwdContainer} />
                     <Route path="/welcome" component={Welcome} />
                     <Route path="/participant/:id" component={ParticipantPage} />
-                    <Route path="/test" component={Test} />
+                    <Route path="/test/:language" component={Test} />
                     <Route path="*" component={NotFound}/>            
                 </Switch>
             )
