@@ -59,6 +59,7 @@ class AppRouter extends Component {
             this.props.main.isLogged?
                 <div style={{width: '100%', height: '100vh', position: 'relative'}}>                                                      
                     <Sidebar
+                        companies={this.props.companies.list}
                         company={this.props.companies.list[this.props.companies.selected]}
                         open={this.state.mobileOpen}
                         handleDrawerToggle={this.handleDrawerToggle}
@@ -68,7 +69,12 @@ class AppRouter extends Component {
                     />
 
                     <div className={this.props.classes.mainPanel}>
-                        <Header user={this.props.user} drawerIcon={this.state.mobileOpen} translate={this.props.translate} backButton={this.props.location.pathname !== `/company/${this.props.companies.list[this.props.companies.selected].id}`} />
+                        <Header
+                            user={this.props.user}
+                            drawerIcon={this.state.mobileOpen}
+                            translate={this.props.translate}
+                            backButton={this.props.location.pathname !== `/company/${this.props.companies.list[this.props.companies.selected].id}`}
+                        />
                         <div style={{
                             height: 'calc(100vh - 3em)',
                             display: 'flex',

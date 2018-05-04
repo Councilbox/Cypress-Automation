@@ -6,8 +6,7 @@ const PopMenu = ( { anchorTo, open, requestClose, menu }) => (
         open={open}
         anchorEl={anchorTo}
         anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-        targetOrigin={{horizontal: 'left', vertical: 'top'}}
-        onRequestClose={requestClose}
+        onClose={requestClose}
         animation={PopoverAnimationVertical}
     >
         {menu}

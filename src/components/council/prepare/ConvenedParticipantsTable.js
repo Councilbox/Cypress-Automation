@@ -5,11 +5,13 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import { EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton, AlertConfirm } from '../../../displayComponents';
 import { graphql, compose } from "react-apollo";
-import { convenedcouncilParticipants, deleteParticipant, updateNotificationsStatus } from '../../../queries';
+import { convenedcouncilParticipants, deleteParticipant, updateNotificationsStatus, downloadCBXData } from '../../../queries';
 import EditParticipantModal from './EditParticipantModal';
 import { PARTICIPANTS_LIMITS } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
 import NewParticipantForm from '../editor/NewParticipantForm';
+import DownloadCBXDataButton from './DownloadCBXDataButton';
+
 
 class ConvenedParticipantsTable extends Component {
 
@@ -53,7 +55,8 @@ class ConvenedParticipantsTable extends Component {
     
     refresh = (object) => {
         this.table.refresh(object);
-    } 
+    }
+
 
     refreshEmailStates = async () => {
         const response = await this.props.updateNotificationsStatus({
@@ -96,7 +99,7 @@ class ConvenedParticipantsTable extends Component {
                 canOrder: true
             },{
                 text: translate.convene
-            }
+            },{}
             
         ];
 
@@ -200,7 +203,7 @@ class ConvenedParticipantsTable extends Component {
                                             hover={true}
                                             onClick={() => this.setState({editParticipant: true, editIndex: index})}                       
                                             key={`participant${participant.id}`} 
-                                            style={{cursor: 'pointer', fontSize: '0.5em', backgroundColor: CBX.isRepresentative(participant)? 'WhiteSmoke' : 'transparent'}}
+                                            style={{cursor: 'pointer', width: '800px', backgroundColor: CBX.isRepresentative(participant)? 'WhiteSmoke' : 'transparent'}}
                                         >
                                             <TableCell>{`${participant.name} ${participant.surname}`}</TableCell>
                                             <TableCell>{participant.dni}</TableCell>
@@ -219,18 +222,23 @@ class ConvenedParticipantsTable extends Component {
                                                 </TableCell>
                                             } 
                                             <TableCell>
-                                                {participant.notifications.length > 0?
-                                                    <Tooltip title={translate[CBX.getTranslationReqCode(participant.notifications[0].reqCode)]}>
-                                                        <img 
-                                                            style={{height: '2.1em', width: 'auto'}}
-                                                            src={CBX.getEmailIconByReqCode(participant.notifications[0].reqCode)}
-                                                            alt="email-state-icon"
-                                                        />
-                                                    </Tooltip>
-                                                :
-                                                    '-'
-                                                }
-
+                                                <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                                    {participant.notifications.length > 0?
+                                                        <Tooltip title={translate[CBX.getTranslationReqCode(participant.notifications[0].reqCode)]}>
+                                                            <img 
+                                                                style={{height: '2.1em', width: 'auto'}}
+                                                                src={CBX.getEmailIconByReqCode(participant.notifications[0].reqCode)}
+                                                                alt="email-state-icon"
+                                                            />
+                                                        </Tooltip>
+                                                    :
+                                                        '-'
+                                                    }
+                                                    <DownloadCBXDataButton
+                                                        translate={translate}
+                                                        participantId={participant.id}
+                                                    />
+                                                </div>
                                             </TableCell>
                                         </TableRow>
                                         {!!participant.representative &&
@@ -256,17 +264,23 @@ class ConvenedParticipantsTable extends Component {
                                                 </TableCell>
                                                 <TableCell>
                                                     <div style={{fontSize: '0.9em', width: '100%'}}>
-                                                        {participant.representative.phone}
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <div style={{fontSize: '0.9em', width: '100%'}}>
                                                         {participant.representative.position}
                                                     </div>
                                                 </TableCell>
                                                 <TableCell>
                                                 </TableCell>
                                                 <TableCell>
+                                                    {participant.representative.notifications.length > 0?
+                                                        <Tooltip title={translate[CBX.getTranslationReqCode(participant.representative.notifications[0].reqCode)]}>
+                                                            <img 
+                                                                style={{height: '2.1em', width: 'auto'}}
+                                                                src={CBX.getEmailIconByReqCode(participant.representative.notifications[0].reqCode)}
+                                                                alt="email-state-icon"
+                                                            />
+                                                        </Tooltip>
+                                                    :
+                                                        '-'
+                                                    }
                                                 </TableCell>
                                             </TableRow>
                                         }
@@ -293,6 +307,9 @@ export default compose(
     graphql(deleteParticipant),
     graphql(updateNotificationsStatus, {
         name: 'updateNotificationsStatus'
+    }),
+    graphql(downloadCBXData, {
+        name: 'downloadCBXData'
     }),
     graphql(convenedcouncilParticipants, {
         options: (props) => ({

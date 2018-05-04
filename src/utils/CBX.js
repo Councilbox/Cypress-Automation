@@ -1,4 +1,4 @@
-import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE } from '../constants';
+import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE, PARTICIPANT_STATES } from '../constants';
 import moment from 'moment';
 import dropped from '../assets/img/dropped.png';
 import delivered from '../assets/img/delivered.png';
@@ -259,7 +259,7 @@ export const getEmailIconByReqCode = (reqCode) => {
         case 37:
             return dropped;
         default:
-            return;
+            return dropped;
     }
 };
 
@@ -302,3 +302,42 @@ export const printSessionExpiredError = () => {
     }
     return messages['es'];
 };
+
+
+export const showVideo = (council) => {
+    return council.state === 20 && council.councilType === 0;
+}
+
+export const canAddPoints = (council) => {
+    return council.statute.canAddPoints === 1;
+}
+
+
+
+export const getParticipantStateString = (participant) => {
+    switch(participant.state){
+        case 0: 
+            return 'REMOTE';
+
+        case 1:
+            return 'PRESENT';
+            
+        case 2:
+            return 'REPRESENTATED';
+
+        case 4:
+            return 'DELEGATED';
+
+        case 5:
+            return 'PHYSICALLY_PRESENT';
+
+        case 6:
+            return 'NO_PARTICIPATE';
+
+        case 7:
+            return 'PRESENT_WITH_REMOTE_VOTE';
+
+        default:
+            return 'INVALID_STATE';
+    }
+}

@@ -4,6 +4,7 @@ import { AlertConfirm } from '../../../displayComponents';
 import { updateAgendas } from '../../../queries';
 import SortableList from '../../../displayComponents/SortableList';
 import { arrayMove } from 'react-sortable-hoc';
+import { Tooltip } from 'material-ui';
 
 
 class ReorderPointsModal extends Component {
@@ -24,7 +25,7 @@ class ReorderPointsModal extends Component {
     
     updateOrder = async () => {
         const reorderedAgenda = this.state.agendas.map((agenda, index) => {
-            const {  __typename, ...updatedAgenda } = agenda;
+            const {  __typename, attachments, ...updatedAgenda } = agenda;
             updatedAgenda.orderIndex = index + 1; 
             return updatedAgenda;
         });
@@ -59,9 +60,11 @@ class ReorderPointsModal extends Component {
  
         return(
             <Fragment>
-                <div onClick={() => this.setState({reorderModal: true})} style={this.props.style}>
-                    {this.props.children}
-                </div>
+                <Tooltip title={translate.reorder_agenda_points} placement="top-end">
+                    <div onClick={() => this.setState({reorderModal: true})} style={this.props.style}>
+                        {this.props.children}
+                    </div>
+                </Tooltip>
                 <AlertConfirm
                     requestClose={() => this.setState({reorderModal: false, agendas: this.props.agendas})}
                     open={this.state.reorderModal}

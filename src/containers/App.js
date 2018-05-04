@@ -6,7 +6,7 @@ import MeetingLiveContainer from './MeetingLiveContainer';
 import createHistory from 'history/createBrowserHistory';
 import configureStore from '../store/store';
 import { Provider } from 'react-redux';
-import { setLanguage, initUserData, loadingFinished, logout } from '../actions/mainActions';
+import { setLanguage, initUserData, loadingFinished, logout, resetStore } from '../actions/mainActions';
 import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';

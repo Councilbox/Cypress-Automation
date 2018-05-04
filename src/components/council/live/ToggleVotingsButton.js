@@ -70,7 +70,7 @@ class ToggleVotingsButton extends Component {
                         textPosition="before"
                         icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: primary }}>thumbs_up_down</Icon>}                                    
                         buttonStyle={{minWidth: '11em'}}                                    
-                        textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
+                        textStyle={{fontSize: '0.75em', fontWeight: '700', textTransform: 'none', color: primary}}
                     />
                 :
                     <BasicButton
@@ -80,7 +80,7 @@ class ToggleVotingsButton extends Component {
                         icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>lock_open</Icon>}
                         buttonStyle={{width: '15em'}}
                         onClick={this.closeAgendaVoting}
-                        textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: 'white'}}
+                        textStyle={{fontSize: '0.75em', fontWeight: '700', textTransform: 'none', color: 'white'}}
                     />
                 }                
             </Fragment>

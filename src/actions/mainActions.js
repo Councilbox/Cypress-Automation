@@ -11,7 +11,6 @@ export const loginSuccess = (token) => {
         dispatch(initUserData());
         dispatch(getCompanies());
         dispatch({type: 'LOGIN_SUCCESS'});
-
     }
 };
 

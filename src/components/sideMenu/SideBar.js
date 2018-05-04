@@ -4,6 +4,8 @@ import cx from "classnames";
 import { withStyles, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText } from "material-ui";
 import sidebarStyle from "../../styles/sidebarStyle";
 import { Dashboard, ContentPaste, BorderColor, ImportContacts } from "material-ui-icons";
+import CompanySelector from '../menus/CompanySelector';
+
 
 class Sidebar extends Component {
 
@@ -126,6 +128,15 @@ class Sidebar extends Component {
             }}>{this.props.company.businessName}</div>
         </div>
     </div>);
+
+    /*brand = () => (
+        <div className={this.props.classes.logo}>
+            <CompanySelector
+                companies={this.props.companies}
+                company={this.props.company}
+            />
+        </div>
+    )*/
 
     render() {
         const { classes, image } = this.props;
