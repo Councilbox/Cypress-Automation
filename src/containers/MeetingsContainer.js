@@ -34,7 +34,7 @@ const MeetingsContainer = ({ main, company, user, match, translate }) => {
                               link={'/live'}
                               title={translate.companies_live}
                               desc={translate.companies_live_desc}
-                              icon={'pencil-square-o'}/>)
+                              icon={'users'}/>)
         }
     }, {
         text: `${translate.dashboard_new_meeting}`,
