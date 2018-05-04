@@ -36,7 +36,7 @@ const CouncilContainer = ({ match, company, translate }) => {
                               link={'/prepare'}
                               title={translate.companies_calendar}
                               desc={translate.companies_calendar_desc}
-                              icon={'pencil-square-o'}/>)
+                              icon={'calendar-o'}/>)
         }
     }, {
         text: translate.companies_live,
@@ -48,7 +48,7 @@ const CouncilContainer = ({ match, company, translate }) => {
                               link={'/live'}
                               title={translate.companies_live}
                               desc={translate.companies_live_desc}
-                              icon={'pencil-square-o'}/>)
+                              icon={'users'}/>)
         }
     }, {
         text: translate.companies_writing,
@@ -60,7 +60,7 @@ const CouncilContainer = ({ match, company, translate }) => {
                               link={'/writing'}
                               title={translate.companies_writing}
                               desc={translate.companies_writing_desc}
-                              icon={'pencil-square-o'}/>)
+                              icon={'clipboard'}/>)
         }
     }, {
         text: `${translate.dashboard_new}`,
