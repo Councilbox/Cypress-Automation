@@ -106,7 +106,7 @@ class Test extends Component {
         if (this.state.language !== this.props.translate.selectedLanguage) {
             this.props.actions.setLanguage(this.props.match.params.language)
         }
-        DetectRTC.load(function() {
+        DetectRTC.load(() => {
             this.setState({detectRTC: DetectRTC});
         });
     }
