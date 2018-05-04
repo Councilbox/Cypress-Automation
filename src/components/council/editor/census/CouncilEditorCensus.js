@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, LoadingSection, ErrorWrapper, ButtonIcon } from '../../../displayComponents';
+import { BasicButton, LoadingSection, ErrorWrapper, ButtonIcon } from '../../../../displayComponents/index';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
-import * as CBX from '../../../utils/CBX';
-import { councilStepTwo, updateCouncil } from '../../../queries';
+import * as CBX from '../../../../utils/CBX';
+import { councilStepTwo, updateCouncil } from '../../../../queries';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import NewParticipantForm from './NewParticipantForm';
@@ -157,8 +157,7 @@ class CouncilEditorCensus extends Component {
 
         return (<div style={{
                 width: '100%',
-                height: '100%',
-                padding: '2em'
+                height: '100%'
             }}>
                 {this.state.addParticipant ? <NewParticipantForm
                     translate={translate}
@@ -198,7 +197,7 @@ class CouncilEditorCensus extends Component {
                                     />
                                     <BasicButton
                                         text={translate.save}
-                                        color={primary}
+                                        color={secondary}
                                         textStyle={{
                                             color: 'white',
                                             fontWeight: '700',

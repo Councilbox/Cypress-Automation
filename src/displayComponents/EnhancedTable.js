@@ -221,19 +221,17 @@ class EnhancedTable extends Component {
         });
     };
 
-    showPages = (numPages, active, changePage) =>{
+    showPages = (numPages, active, changePage) => {
         let pages = [];
         for (let i = 1; i <= numPages; i++) {
-            pages.push(
-                <span onClick={()=> changePage(i)}
-                    style={{
-                    ...paginationButtonStyle,
-                    borderColor: (active=== i ? primary : secondary),
-                    color: (active=== i ? primary : secondary)
-                }}>
+            pages.push(<span onClick={() => changePage(i)}
+                             style={{
+                                 ...paginationButtonStyle,
+                                 borderColor: (active === i ? primary : secondary),
+                                 color: (active === i ? primary : secondary)
+                             }}>
                     {i}
-                </span>
-            )
+                </span>)
         }
         return pages
     };
@@ -243,7 +241,7 @@ class EnhancedTable extends Component {
         const { filterText, filterField, categoryValue, limit, page } = this.state;
         const totalPages = Math.ceil(total / limit);
 
-        return (<div className="container-fluid">
+        return (<div>
             <Grid>
                 {limits &&
 
@@ -301,9 +299,7 @@ class EnhancedTable extends Component {
                 }
                 <GridItem xs={12} md={3} lg={3}>
                     <TextInput
-                        adornment={
-                            <Icon>search</Icon>
-                        }
+                        adornment={<Icon>search</Icon>}
                         floatingText={' '}
                         type="text"
                         value={filterText}
@@ -314,7 +310,7 @@ class EnhancedTable extends Component {
                 </GridItem>
 
             </Grid>
-            <Table style={{maxWidth: '100%'}}>
+            <Table style={{ maxWidth: '100%' }}>
                 <TableHead>
                     <TableRow>
                         {headers.map((header, index) => {
@@ -360,7 +356,8 @@ class EnhancedTable extends Component {
                                         <span onClick={() => this.changePage(page + 1)} style={paginationButtonStyle}>
                                             {translate.table_button_next}
                                         </span>
-                            <span onClick={() => this.changePage(Math.ceil(total / limit))} style={paginationButtonStyle}>
+                            <span onClick={() => this.changePage(Math.ceil(total / limit))}
+                                  style={paginationButtonStyle}>
                                             {translate.table_button_last}
                                         </span>
                         </React.Fragment>}

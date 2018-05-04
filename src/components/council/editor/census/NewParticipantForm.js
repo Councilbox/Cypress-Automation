@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { Typography, Paper } from 'material-ui';
-import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio } from '../../../../displayComponents/index';
+import { getPrimary } from '../../../../styles/colors';
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { updateConvenedParticipant } from '../../../queries';
-import { checkValidEmail, errorHandler } from '../../../utils';
-import CouncilBoxApi from '../../../api/CouncilboxApi';
-import ParticipantForm from '../participants/ParticipantForm';
-import RepresentativeForm from '../participants/RepresentativeForm';
+import { updateConvenedParticipant } from '../../../../queries';
+import { checkValidEmail, errorHandler } from '../../../../utils/index';
+import CouncilBoxApi from '../../../../api/CouncilboxApi';
+import ParticipantForm from '../../participants/ParticipantForm';
+import RepresentativeForm from '../../participants/RepresentativeForm';
 
 let primary = getPrimary();
 

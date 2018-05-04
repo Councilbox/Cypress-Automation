@@ -1,21 +1,28 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
-import { MenuItem } from 'material-ui';
-import { updateAgenda } from '../../../queries';
-import * as CBX from '../../../utils/CBX';
-import LoadDraft from './LoadDraft';
 
-class PointEditor extends Component {
+import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../../displayComponents/index';
+import { MenuItem } from 'material-ui';
+import LoadDraft from '../LoadDraft';
+import { addAgenda } from '../../../../queries';
+import * as CBX from '../../../../utils/CBX';
+
+class NewAgendaPointModal extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            data: {
+            newPoint: {
                 agendaSubject: '',
                 subjectType: '',
-                description: ''
+                description: '',
+                majority: null,
+                majorityType: 1,
+                majorityDivider: null,
             },
+
+            newPointModal: false,
+            saveAsDraft: false,
 
             errors: {
                 agendaSubject: '',
@@ -24,14 +31,53 @@ class PointEditor extends Component {
             }
         }
     }
-
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            data: {
-                ...nextProps.agenda
+    
+    addAgenda = async () => {
+        if(this.checkRequiredFields()){
+            const { newPoint } = this.state;
+            const response = await this.props.addAgenda({
+                variables: {
+                    agenda: {
+                        councilId: this.props.council.id,
+                        ...newPoint,
+                        sortable: 1,
+                        orderIndex: this.props.agendas.length + 1
+                    }
+                }
+            });
+            if(response){
+                this.props.refetch();
+                this.close();
             }
-        })
+        }
+    };
+
+    close = () => {
+        this.setState({
+            newPoint: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            },
+
+            newPointModal: false,
+
+            errors: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            }
+        });
     }
+
+    updateState = (object) => {
+        this.setState({
+            newPoint: {
+                ...this.state.newPoint,
+                ...object
+            }
+        });
+    };
 
     loadDraft = (draft) => {
         const correctedText = CBX.changeVariablesToValues(draft.text, {
@@ -49,49 +95,22 @@ class PointEditor extends Component {
         this.editor.setValue(correctedText);
     };
 
-    saveChanges = async () => {
-        if(this.checkRequiredFields()){
-            const { __typename, ...data } = this.state.data;
-            const response = await this.props.updateAgenda({
-                variables: {
-                    agenda: {
-                        ...data
-                    }
-                }
-            });
-            if(response){
-                this.props.refetch();
-                this.props.requestClose();
-            }
-        }
-    };
-
-    updateState = (object) => {
-        this.setState({
-            data: {
-                ...this.state.data,
-                ...object
-            }
-        });
-    };
-
-    checkRequiredFields() {
+    checkRequiredFields(){
         return true;
     }
 
-    _renderModalBody = () => {
+    _renderNewPointBody = () => {
         const { translate, votingTypes, statute, draftTypes, council, company, companyStatutes } = this.props;
         const errors = this.state.errors;
-        const agenda = this.state.data;
-
+        const agenda = this.state.newPoint;
         const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
         
         return(
-            <div style={{width: '850px'}}>
-                <div className="row"> 
+            <Fragment>
+                <div className="row" style={{width: '90vw', maxWidth: '850px'}}> 
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <TextInput
-                            floatingText={translate.convene_header}
+                            floatingText={translate.title}
                             type="text"
                             errorText={errors.agendaSubject}
                             value={agenda.agendaSubject}
@@ -103,13 +122,13 @@ class PointEditor extends Component {
                     <div className="col-lg-6 col-md-6 col-xs-12">
                         <SelectInput
                             floatingText={translate.type}
-                            value={agenda.subjectType}
+                            value={''+agenda.subjectType}
                             onChange={(event) => this.updateState({
-                                subjectType: event.target.value
+                                subjectType: +event.target.value
                             })}
                         >
                             {filteredTypes.map((voting) => {
-                                    return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
+                                    return <MenuItem value={''+voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
                                 })
                             }
                         </SelectInput>
@@ -133,7 +152,7 @@ class PointEditor extends Component {
                             </SelectInput>
                         </GridItem>
                         <GridItem xs={6} lg={3} md={3}>
-                            {CBX.majorityNeedsInput(agenda.majorityType) && (
+                            {CBX.majorityNeedsInput(agenda.majorityType) && 
                                 <MajorityInput
                                     type={agenda.majorityType}
                                     style={{marginLeft: '1em'}}
@@ -148,18 +167,18 @@ class PointEditor extends Component {
                                         majorityDivider: +value
                                     })}
                                 />
-                            )}
+                            }
                         </GridItem>
                     </Grid>
                 }
-                
+
                 <LoadDraft
                     translate={translate}
                     company={company}
                     loadDraft={this.loadDraft}
                     councilType={statute}
                     statutes={companyStatutes}
-                    draftType={draftTypes.filter((draft => draft.label === 'agenda'))[0].value}
+                    draftType={1}
                 />
 
                 <RichTextInput
@@ -176,33 +195,39 @@ class PointEditor extends Component {
                     },{
                         value: company.city,
                         label: translate.company_new_locality
-                    },
-                     ]}
+                    }]}
                     errorText={errors.description}
                     value={agenda.description}
                     onChange={(value) => this.updateState({
                         description: value
                     })}
                 />
-            </div>
+            </Fragment>
         );
     };
 
     render(){
-        const { open, translate, requestClose } = this.props;
+        const { translate, children } = this.props;
  
         return(
-            <AlertConfirm
-                requestClose={requestClose}
-                open={open}
-                acceptAction={this.saveChanges}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderModalBody()}
-                title={translate.edit}
-            />
+            <Fragment>
+                <div onClick={() => this.setState({newPointModal: true})}>
+                    {children}
+                </div>
+                <AlertConfirm
+                    requestClose={() => this.close()}
+                    open={this.state.newPointModal}
+                    acceptAction={this.addAgenda}
+                    buttonAccept={translate.accept}
+                    buttonCancel={translate.cancel}
+                    bodyText={this._renderNewPointBody()}
+                    title={translate.new_point}
+                />
+            </Fragment>
         );
     }
 }
 
-export default graphql(updateAgenda, {name: 'updateAgenda'})(PointEditor);
+export default graphql(addAgenda, {
+    name: 'addAgenda' 
+})(NewAgendaPointModal);

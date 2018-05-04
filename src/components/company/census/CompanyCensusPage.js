@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardPageLayout, LoadingSection, EnhancedTable, DeleteIcon, DateWrapper, AlertConfirm, Grid, GridItem } from '../../../displayComponents';
+import { CardPageLayout, LoadingSection, EnhancedTable, CloseIcon, DateWrapper, AlertConfirm, Grid, GridItem } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import { censuses, deleteCensus, setDefaultCensus } from '../../../queries';
 import { TableRow, TableCell } from 'material-ui/Table';
@@ -146,7 +146,8 @@ class CompanyCensusPage extends React.Component {
                                                 }}
                                             />
                                         </CloneCensusModal>                                     
-                                        <DeleteIcon
+                                        <CloseIcon
+                                            style={{color: primary, marginTop:'-10px'}}
                                             onClick={(event) => {
                                                 event.stopPropagation();
                                                 this.setState({
@@ -154,7 +155,6 @@ class CompanyCensusPage extends React.Component {
                                                     deleteCensus: census.id
                                                 })
                                             }}
-                                            style={{color: 'red'}}
                                         />
                                     </TableCell>                  
                                 </TableRow>

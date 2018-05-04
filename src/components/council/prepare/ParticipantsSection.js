@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as CBX from '../../../utils/CBX';
 import { Card } from 'material-ui';
-import NewParticipantForm from '../editor/NewParticipantForm';
+import NewParticipantForm from '../editor/census/NewParticipantForm';
 import ConvenedParticipantsTable from './ConvenedParticipantsTable';
 import { AlertConfirm } from "../../../displayComponents";
 

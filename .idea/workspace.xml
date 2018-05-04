@@ -1,136 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="structure project">
-      <change afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/corporation/drafts/PlatformDraftDetails.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/corporation/drafts/PlatformDrafts.js" afterDir="false" />
+    <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CreateCouncil.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateCouncil.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/CreateMeeting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CreateMeeting.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/NotFound.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NotFound.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Welcome.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Welcome.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/attachments/AttachmentDownload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/attachments/AttachmentDownload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/attachments/AttachmentList.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/attachments/AttachmentList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/AddCensusButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/AddCensusButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/CloneCensusModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/CloneCensusModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/CompanyCensusPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/CompanyCensusPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/AddCensusParticipantButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/AddCensusParticipantButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusEditorPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusEditorPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/RepresentativeForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/RepresentativeForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/settings/CompanySettingsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyCensus/AddCensusButton.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyCensus/censusEditor/AddCensusParticipantButton.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyCensus/censusEditor/CensusEditorPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyCensus/censusEditor/CensusParticipants.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyCensus/censusEditor/RepresentativeForm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyDraft/CompanyDraftForm.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyDraft/CompanyDraftList.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyDraft/CompanyDraftNew.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyDraft/PlatformDraftDetails.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyDraft/PlatformDrafts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/companyDraft/SaveDraftModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorAttachments.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorAttachments.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/LoadDraft.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/LoadDraft.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/NewAgendaPointModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/NewAgendaPointModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/PlaceModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/PlaceModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/PointEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/PointEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/ActAgreements.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/ActAgreements.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/AgendaAttachmentsManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/AgendaAttachmentsManager.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/CommentsSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/CommentsSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/CouncilLivePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/CouncilLivePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/EndCouncilButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/EndCouncilButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/LiveHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/LiveHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/OpenRoomButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/OpenRoomButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/ParticipantsLive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/ParticipantsLive.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/RecountSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/RecountSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/ReorderPointsModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/ReorderPointsModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/StartCouncilButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/StartCouncilButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/ToggleAgendaButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/ToggleAgendaButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/ToggleVotingsButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/ToggleVotingsButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/VotesTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/VotesTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/VotingsSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/VotingsSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/participants/ParticipantForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/participants/ParticipantForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/participants/RepresentativeForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/participants/RepresentativeForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/NotificationFilters.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/NotificationFilters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorAgenda.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorAgenda.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorCensus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorCensus.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorNotice.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/CouncilEditorPreview.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilEditor/NewParticipantForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/NewParticipantForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/CancelModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/CancelModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/ConvenedParticipantsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/CouncilPreparePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/CouncilPreparePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/DateHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/DateHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/ParticipantsSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/ReminderModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/ReminderModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilPrepare/RescheduleModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/RescheduleModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilSections/CouncilDrafts.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilSections/CouncilsConvened.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilSections/CouncilsLive.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilSections/CouncilsTrash.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/councilSections/CouncilsWriting.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/TopSectionBlocks.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/TopSectionBlocks.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsLive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsLive.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorConfig.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/meeting/live/MeetingLivePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meeting/live/MeetingLivePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/meetingSections/MeetingsTrash.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsTrash.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/menus/CompanySelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/menus/CompanySelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/menus/UserMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/menus/UserMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/ChangePwd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/ChangePwd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/ForgetPwd.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/ForgetPwd.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpStepper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpStepper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpUser.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/notLogged/signUp/TermsModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/notLogged/signUp/TermsModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/participantScreen/ParticipantPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/participantScreen/ParticipantPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sideMenu/CompanyMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sideMenu/CompanyMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sideMenu/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sideMenu/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/sideMenu/SideMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/sideMenu/SideMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/signature/Signature.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/signature/Signatures.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/signatures/Signatures.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/userSettings/ChangePasswordForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/userSettings/UpdateUserForm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/userSettings/UserSettingsPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/AppRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/AppRouter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/CouncilEditorContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CouncilEditorContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/CouncilLiveContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CouncilLiveContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/CouncilPrepareContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CouncilPrepareContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/containers/MeetingLiveContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/MeetingLiveContainer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/AlertConfirm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/AlertConfirm.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/BasicButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/BasicButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/ButtonIcon.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/ButtonIcon.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/CardPageLayout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/CardPageLayout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/CollapsibleSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/CollapsibleSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/ErrorAlert.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/ErrorAlert.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/ErrorWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/ErrorWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/ProgressBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/ProgressBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/RichTextInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/RichTextInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/TextInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/TextInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/Tooltip.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/Tooltip.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/displayComponents/VTabs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/VTabs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/CBX.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/CBX.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/HOCs/withSharedProps.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/HOCs/withSharedProps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilDrafts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Councils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsConvened.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsLive.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsTrash.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsWriting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsLive.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Meetings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsTrash.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/dashboard/signatures/Signatures.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/dashboard/Signatures.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/CouncilContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/CouncilContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/MeetingsContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/MeetingsContainer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/SignatureContainer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/SignatureContainer.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -154,154 +39,48 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="CloneCensusModal.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/company/census/CloneCensusModal.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="111" column="44" selection-start-line="111" selection-start-column="44" selection-end-line="111" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CouncilEditorOptions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddCensusButton.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/company/census/AddCensusButton.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="88" column="44" selection-start-line="88" selection-start-column="44" selection-end-line="88" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MeetingEditorCensus.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="50" column="28" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PointEditor.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/council/editor/PointEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="106" column="44" selection-start-line="106" selection-start-column="44" selection-end-line="106" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CouncilEditorPage.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="59" column="8" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SignUpEnterprise.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="63" selection-start-line="63" selection-end-line="63" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ParticipantEditor.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="200" column="6" selection-start-line="200" selection-start-column="6" selection-end-line="200" selection-end-column="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CouncilEditorNotice.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorNotice.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="102" column="28" selection-start-line="102" selection-start-column="28" selection-end-line="102" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StatuteEditor.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="293" column="44" selection-start-line="293" selection-start-column="44" selection-end-line="293" selection-end-column="44" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>languages</find>
-      <find>componentWillReceiveProps</find>
-      <find>graphql</find>
-      <find>data.countries</find>
-      <find>step</find>
-      <find>provinces</find>
-      <find>province</find>
-      <find>success</find>
-      <find>resetButtonStates</find>
-      <find>handleFile</find>
-      <find>event</find>
-      <find>estatutesButton</find>
-      <find>Stepper</find>
-      <find>{cursor: 'pointer'}</find>
-      <find>updateStatute</find>
-      <find>TableCell</find>
-      <find>TableWrapper</find>
-      <find>THStyle</find>
-      <find>bHistory</find>
-      <find>ador</find>
-      <find>TableStyles</find>
-      <find>councilLive</find>
-      <find>displayComponents</find>
-      <find>SortableList</find>
-      <find>'../../displayComponents</find>
-      <find>../../displayComponents/</find>
-      <find>QuorumInput</find>
-      <find>'../../displayComponents/index'</find>
-      <find>../displayComponents/</find>
-      <find>user</find>
+      <find>createCompanyDraft</find>
+      <find>draftData</find>
+      <find>ChangeC</find>
+      <find>ChangeCensusMenu</find>
+      <find>ParticipantsTa</find>
+      <find>changeCensus</find>
+      <find>councilSocialCapital</find>
+      <find>container-fluid</find>
+      <find>socialCapital</find>
+      <find>DeleteIcon</find>
+      <find>Paper</find>
+      <find>PA</find>
+      <find>dangerouslySetInnerHTML</find>
+      <find>IconButton</find>
+      <find>Save</find>
+      <find>VotesTable</find>
+      <find>Reorder</find>
+      <find>buttonStyle</find>
+      <find>style={{marginTop: '2em'}}</find>
+      <find>AttachmentLi</find>
+      <find>formatSize</find>
+      <find>AttachmentList</find>
+      <find>AgendaItem</find>
+      <find>size</find>
+      <find>CouncilDrafts</find>
+      <find>CouncilsLive</find>
+      <find>council</find>
+      <find>error</find>
+      <find>meetings</find>
+      <find>meetingId</find>
     </findStrings>
     <replaceStrings>
-      <replace>changePdw</replace>
-      <replace>Change</replace>
-      <replace>ForgetPwd</replace>
-      <replace>pwd</replace>
-      <replace>repeatPwd</replace>
-      <replace>translate.field_required</replace>
-      <replace>TermsModal</replace>
-      <replace>Int</replace>
-      <replace>$zipCode</replace>
-      <replace>zipCode</replace>
-      <replace>Vtabs</replace>
       <replace>$primary</replace>
       <replace>xs={12} md={12} lg={12}</replace>
       <replace>quorum</replace>
       <replace>Quorum</replace>
       <replace>QuorumInput</replace>
       <replace>secondCall</replace>
-      <replace>CloseIcon</replace>
       <replace>deleteID</replace>
       <replace>signatureId</replace>
       <replace>SignatureContainer</replace>
@@ -312,24 +91,36 @@
       <replace>info.countries</replace>
       <replace>stepClass</replace>
       <replace>pointerClass</replace>
-      <replace>TH</replace>
-      <replace>TableStyles.TH</replace>
+      <replace>Closeicon</replace>
+      <replace>CompanyDraftEditor</replace>
+      <replace>data</replace>
+      <replace>updateErrors</replace>
+      <replace />
+      <replace>totalSocialCapital</replace>
+      <replace>CloseIcon</replace>
+      <replace>AgendaItem</replace>
+      <replace>style={{marginTop: '1em'}}</replace>
+      <replace>AttachmentItem</replace>
+      <replace>Meetings</replace>
+      <replace>meeting</replace>
+      <replace>councils</replace>
+      <replace>councilId</replace>
     </replaceStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
-      <dir>$PROJECT_DIR$/src/components</dir>
-      <dir>$PROJECT_DIR$/src/components/notLogged</dir>
-      <dir>$PROJECT_DIR$/src/components/dashboard</dir>
-      <dir>$PROJECT_DIR$/src/components/company/statutes</dir>
+      <dir>$PROJECT_DIR$/src/containers</dir>
       <dir>$PROJECT_DIR$/src</dir>
+      <dir>$PROJECT_DIR$/src/components/council/editor/census</dir>
+      <dir>$PROJECT_DIR$/src/components/council/prepare</dir>
       <dir>$PROJECT_DIR$/src/components/council</dir>
+      <dir>$PROJECT_DIR$/src/components</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="jose" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RESET_MODE" value="HARD" />
@@ -342,57 +133,57 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/containers/MeetingLiveContainer.js" />
-        <option value="$PROJECT_DIR$/src/containers/CouncilEditorContainer.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/ReorderPointsModal.js" />
+        <option value="$PROJECT_DIR$/src/components/councilEditor/CouncilEditorNotice.js" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/components/company/census/CompanyCensusPage.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/RichTextInput.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/EndCouncilButton.js" />
-        <option value="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorPage.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/ToggleAgendaButton.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/ActAgreements.js" />
-        <option value="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingsLive.js" />
-        <option value="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js" />
-        <option value="$PROJECT_DIR$/src/components/company/census/censusEditor/AddCensusParticipantButton.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/ErrorAlert.js" />
-        <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/ToggleVotingsButton.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/StartCouncilButton.js" />
-        <option value="$PROJECT_DIR$/src/components/meeting/live/MeetingLivePage.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/CouncilLivePage.js" />
-        <option value="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusEditorPage.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/OpenRoomButton.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/CommentsSection.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/BasicButton.js" />
-        <option value="$PROJECT_DIR$/src/components/menus/LanguageSelector.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/VotingsSection.js" />
-        <option value="$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js" />
-        <option value="$PROJECT_DIR$/src/components/council/editor/NewAgendaPointModal.js" />
-        <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/AgendaAttachmentsManager.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/AlertConfirm.js" />
-        <option value="$PROJECT_DIR$/src/components/attachments/AttachmentList.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" />
+        <option value="$PROJECT_DIR$/src/containers/AppRouter.js" />
+        <option value="$PROJECT_DIR$/src/components/corporation/drafts/PlatformDrafts.js" />
         <option value="$PROJECT_DIR$/src/displayComponents/QuorumInput.js" />
-        <option value="$PROJECT_DIR$/src/components/council/prepare/NotificationFilters.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/VTabs.js" />
-        <option value="$PROJECT_DIR$/src/components/council/participants/RepresentativeForm.js" />
+        <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/MajorityInput.js" />
+        <option value="$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js" />
+        <option value="$PROJECT_DIR$/src/queries.js" />
+        <option value="$PROJECT_DIR$/src/queries/companyDrafts.js" />
+        <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js" />
+        <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftEditor.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/ChangeCensusMenu.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorCensus.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/CouncilEditorCensus.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/NewParticipantForm.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/EnhancedTable.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/CloseIcon.js" />
+        <option value="$PROJECT_DIR$/src/components/council/agendas/ReorderPointsModal.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/AlertConfirm.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/SortableList.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/DraggableBlock.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/FileUploadButton.js" />
         <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorAttachments.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/VotesTable.js" />
-        <option value="$PROJECT_DIR$/src/components/company/census/censusEditor/RepresentativeForm.js" />
-        <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js" />
-        <option value="$PROJECT_DIR$/src/components/council/editor/PlaceModal.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/ProgressBar.js" />
-        <option value="$PROJECT_DIR$/src/components/council/live/RecountSection.js" />
-        <option value="$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js" />
-        <option value="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorConfig.js" />
-        <option value="$PROJECT_DIR$/src/components/company/census/CloneCensusModal.js" />
-        <option value="$PROJECT_DIR$/src/components/company/census/AddCensusButton.js" />
-        <option value="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" />
-        <option value="$PROJECT_DIR$/src/components/council/editor/PointEditor.js" />
-        <option value="$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js" />
-        <option value="$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js" />
-        <option value="$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js" />
+        <option value="$PROJECT_DIR$/src/utils/urlParser.js" />
+        <option value="$PROJECT_DIR$/src/utils/validation.js" />
+        <option value="$PROJECT_DIR$/src/utils/pagination.js" />
+        <option value="$PROJECT_DIR$/src/utils/live.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/agenda/AgendaItem.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/attachments/AttachmentItem.js" />
+        <option value="$PROJECT_DIR$/src/components/attachments/AttachmentItem.js" />
+        <option value="$PROJECT_DIR$/src/utils/CBX.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/attachments/CouncilEditorAttachments.js" />
+        <option value="$PROJECT_DIR$/src/components/attachments/AttachmentList.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/DropDownMenu.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorPreview.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js" />
+        <option value="$PROJECT_DIR$/src/components/council/editor/agenda/CouncilEditorAgenda.js" />
+        <option value="$PROJECT_DIR$/src/HOCs/withSharedProps.js" />
+        <option value="$PROJECT_DIR$/src/containers/SignatureContainer.js" />
+        <option value="$PROJECT_DIR$/src/components/dashboard/Signatures.js" />
+        <option value="$PROJECT_DIR$/src/components/dashboard/Councils.js" />
+        <option value="$PROJECT_DIR$/src/components/dashboard/Meetings.js" />
+        <option value="$PROJECT_DIR$/src/containers/CouncilContainer.js" />
+        <option value="$PROJECT_DIR$/src/containers/MeetingsContainer.js" />
       </list>
     </option>
   </component>
@@ -430,12 +221,44 @@
             <path>
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
               <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
               <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
-              <item name=".vscode" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="dashboard" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="containers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="HOCs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="queries" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="utils" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -478,16 +301,18 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/company" />
-      <recent name="$PROJECT_DIR$/src/components/signature" />
-      <recent name="$PROJECT_DIR$/src/components/notLogged" />
+      <recent name="$PROJECT_DIR$/src/components/dashboard" />
+      <recent name="$PROJECT_DIR$/src/components/attachments" />
+      <recent name="$PROJECT_DIR$/src/components/council/editor/attachments" />
+      <recent name="$PROJECT_DIR$/src/components/council/agendas" />
+      <recent name="$PROJECT_DIR$/src/components/council/editor/agenda" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/corporation" />
+      <recent name="$PROJECT_DIR$/src/components/dashboard" />
+      <recent name="$PROJECT_DIR$/src/components/council/editor/attachments" />
+      <recent name="$PROJECT_DIR$/src/components/company/drafts" />
       <recent name="$PROJECT_DIR$/src/components/signature" />
       <recent name="$PROJECT_DIR$/src/containers" />
-      <recent name="$PROJECT_DIR$/src/queries" />
-      <recent name="$PROJECT_DIR$/src/components" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -601,8 +426,9 @@
       <workItem from="1524555097886" duration="23607000" />
       <workItem from="1524644921455" duration="11964000" />
       <workItem from="1524727024546" duration="8067000" />
-      <workItem from="1524737161073" duration="15792000" />
-      <workItem from="1524812900235" duration="8477000" />
+      <workItem from="1524737161073" duration="14315000" />
+      <workItem from="1525330434651" duration="24602000" />
+      <workItem from="1525417030562" duration="6298000" />
     </task>
     <task id="LOCAL-00001" summary="close #35">
       <created>1523896925018</created>
@@ -737,14 +563,35 @@
       <option name="project" value="LOCAL" />
       <updated>1524745992023</updated>
     </task>
-    <task id="LOCAL-00020" summary="close #70">
-      <created>1524759711677</created>
+    <task id="LOCAL-00020" summary="WIP #41">
+      <created>1525274290765</created>
       <option name="number" value="00020" />
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1524759711677</updated>
+      <updated>1525274290765</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="close #41">
+      <created>1525334576371</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1525334576371</updated>
+    </task>
+    <task id="LOCAL-00022" summary="working in council editor">
+      <created>1525338400126</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1525338400126</updated>
+    </task>
+    <task id="LOCAL-00023" summary="working in council editor">
+      <created>1525366660296</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1525366660296</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -756,7 +603,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165530000" />
+    <option name="totallyTimeSpent" value="205320000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -771,63 +618,48 @@
     <frame x="0" y="32" width="1920" height="1048" extended-state="6" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
-      <window_info active="true" anchor="bottom" id="Messages" order="6" visible="true" weight="0.32928178" />
       <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23529412" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
+      <window_info anchor="right" id="Run" order="10" weight="0.23689839" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32928178" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32928178" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20427808" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2026738" />
       <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
       <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info id="Designer" order="2" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="right" id="Palette" order="0" />
-      <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
-      <window_info id="Image Layers" order="2" />
-      <window_info anchor="bottom" id="TypeScript" order="10" />
+      <window_info id="Image Layers" order="5" />
+      <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Commander" order="6" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="7" show_stripe_button="false" weight="0.25" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="UI Designer" order="2" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32928178" />
-      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Capture Analysis" order="2" />
-      <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
-      <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
-      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32928178" />
       <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32928178" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Messages" order="6" weight="0.32928178" />
+      <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
-      <window_info anchor="right" id="Palette&#9;" order="1" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
     </layout>
     <layout-to-restore>
       <window_info id="Designer" order="2" />
       <window_info anchor="right" id="Palette" order="0" />
-      <window_info id="Image Layers" order="3" />
+      <window_info id="Image Layers" order="5" />
       <window_info anchor="bottom" id="TypeScript" order="11" />
       <window_info anchor="right" id="Run" order="10" visible="true" weight="0.23689839" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="7" show_stripe_button="false" weight="0.25" />
-      <window_info id="Capture Tool" order="4" />
-      <window_info id="UI Designer" order="5" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="UI Designer" order="4" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="9" weight="0.33030647" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.32928178" />
       <window_info anchor="bottom" id="Docker" order="10" show_stripe_button="false" />
       <window_info anchor="right" id="Capture Analysis" order="2" />
       <window_info anchor="right" id="Commander" order="6" weight="0.4" />
@@ -837,7 +669,7 @@
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32928178" />
       <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19786096" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2026738" />
       <window_info anchor="right" id="Database" order="4" weight="0.21657754" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
@@ -891,8 +723,10 @@
     <MESSAGE value="close #38" />
     <MESSAGE value="working in #23" />
     <MESSAGE value="close #70" />
-    <MESSAGE value="structure project" />
-    <option name="LAST_COMMIT_MESSAGE" value="structure project" />
+    <MESSAGE value="WIP #41" />
+    <MESSAGE value="close #41" />
+    <MESSAGE value="working in council editor" />
+    <option name="LAST_COMMIT_MESSAGE" value="working in council editor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -901,8 +735,14 @@
           <url>file://$PROJECT_DIR$/src/components/CompanyList.js</url>
           <line>4</line>
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/dashboard/Meetings.js</url>
+          <line>79</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="18" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="16" />
+      <option name="time" value="19" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -910,369 +750,426 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/CouncilEditorCensus.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="35" column="6" selection-start-line="35" selection-start-column="6" selection-end-line="35" selection-end-column="6" />
+        <state relative-caret-position="1387">
+          <caret line="199" column="56" selection-start-line="199" selection-start-column="56" selection-end-line="199" selection-end-column="56" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/census/censusEditor/AddCensusParticipantButton.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="409" column="2" selection-start-line="409" selection-start-column="2" selection-end-line="409" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/ErrorAlert.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="38" column="2" selection-start-line="38" selection-start-column="2" selection-end-line="38" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftNew.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="90" column="9" selection-start-line="90" selection-start-column="9" selection-end-line="90" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/ToggleVotingsButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="56" column="6" selection-start-line="56" selection-start-column="6" selection-end-line="56" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/StartCouncilButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="105" column="6" selection-start-line="105" selection-start-column="6" selection-end-line="105" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/meeting/live/MeetingLivePage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="91" column="70" selection-start-line="91" selection-start-column="70" selection-end-line="91" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/CouncilLivePage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/census/censusEditor/CensusEditorPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="73" column="44" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/OpenRoomButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="43" column="6" selection-start-line="43" selection-start-column="6" selection-end-line="43" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/CommentsSection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="53" column="6" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/BasicButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="43" column="2" selection-start-line="43" selection-start-column="2" selection-end-line="43" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/menus/LanguageSelector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="44" column="2" selection-start-line="44" selection-start-column="2" selection-end-line="44" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/ParticipantsTable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="52" column="6" selection-start-line="52" selection-start-column="6" selection-end-line="52" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/NewAgendaPointModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="203" column="6" selection-start-line="203" selection-start-column="6" selection-end-line="203" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="28" column="9" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/AgendaAttachmentsManager.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="108" column="6" selection-start-line="108" selection-start-column="6" selection-end-line="108" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/AlertConfirm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="50" column="26" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/Snackbar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="64" selection-start-line="64" selection-end-line="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/attachments/AttachmentList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="71" column="6" selection-start-line="71" selection-start-column="6" selection-end-line="71" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/MajorityInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="68" column="2" selection-start-line="68" selection-start-column="2" selection-end-line="68" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/QuorumInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="66" lean-forward="true" selection-start-line="66" selection-end-line="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/NotificationFilters.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="77" column="64" selection-start-line="77" selection-start-column="64" selection-end-line="77" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/VTabs.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="80" column="36" selection-start-line="80" selection-start-column="36" selection-end-line="80" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/participants/RepresentativeForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="87" column="2" selection-start-line="87" selection-start-column="2" selection-end-line="87" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorAttachments.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="144" column="37" selection-start-line="144" selection-start-column="37" selection-end-line="144" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/VotesTable.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="95" column="2" selection-start-line="95" selection-start-column="2" selection-end-line="95" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/census/censusEditor/RepresentativeForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="104" column="2" selection-start-line="104" selection-start-column="2" selection-end-line="104" selection-end-column="2" />
+        <state relative-caret-position="400">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/displayComponents/EnhancedTable.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="193" column="4" selection-start-line="193" selection-start-column="4" selection-end-line="193" selection-end-column="4" />
+        <state relative-caret-position="175">
+          <caret line="242" lean-forward="true" selection-start-line="242" selection-end-line="242" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/notLogged/signUp/SignUpPay.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="245" column="34" selection-start-line="245" selection-start-column="34" selection-end-line="245" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/PlaceModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="222" column="27" lean-forward="true" selection-start-line="222" selection-start-column="27" selection-end-line="222" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/ProgressBar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="3" column="35" selection-start-line="3" selection-start-column="35" selection-end-line="3" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/sideMenu/SideMenu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        <state relative-caret-position="407">
+          <caret line="35" column="59" lean-forward="true" selection-start-line="35" selection-start-column="59" selection-end-line="35" selection-end-column="59" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/RecountSection.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/agenda/PointEditor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="123" column="6" selection-start-line="123" selection-start-column="6" selection-end-line="123" selection-end-column="6" />
+        <state relative-caret-position="807">
+          <caret line="207" column="15" selection-start-line="207" selection-start-column="15" selection-end-line="207" selection-end-column="15" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/drafts/SaveDraftModal.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="60" column="4" selection-start-line="60" selection-start-column="4" selection-end-line="60" selection-end-column="4" />
+        <state relative-caret-position="40">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/ReorderPointsModal.js">
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/CloseIcon.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="26" column="21" selection-start-line="26" selection-start-column="21" selection-end-line="26" selection-end-column="21" />
+        <state relative-caret-position="220">
+          <caret line="13" column="30" selection-start-line="13" selection-start-column="30" selection-end-line="13" selection-end-column="30" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js">
+    <entry file="file://$PROJECT_DIR$/src/components/menus/CompanySelector.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="492">
-          <caret line="45" column="6" selection-start-line="45" selection-start-column="6" selection-end-line="45" selection-end-column="6" />
+        <state relative-caret-position="600">
+          <caret line="30" column="39" lean-forward="true" selection-start-line="30" selection-start-column="39" selection-end-line="30" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorConfig.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/live/ParticipantsLive.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="59" column="6" selection-start-line="59" selection-start-column="6" selection-end-line="59" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/RichTextInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="40" column="12" selection-start-line="40" selection-start-column="12" selection-end-line="40" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/live/VotingsSection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="35" column="4" selection-start-line="35" selection-start-column="4" selection-end-line="35" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/census/CloneCensusModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="111" column="44" selection-start-line="111" selection-start-column="44" selection-end-line="111" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="65" column="8" selection-start-line="65" selection-start-column="8" selection-end-line="65" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/census/AddCensusButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="88" column="44" selection-start-line="88" selection-start-column="44" selection-end-line="88" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="50" column="28" selection-start-line="50" selection-start-column="28" selection-end-line="50" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/PointEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="106" column="44" selection-start-line="106" selection-start-column="44" selection-end-line="106" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="59" column="8" selection-start-line="59" selection-start-column="8" selection-end-line="59" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/notLogged/signUp/SignUpEnterprise.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="200" column="6" selection-start-line="200" selection-start-column="6" selection-end-line="200" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorNotice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="102" column="28" selection-start-line="102" selection-start-column="28" selection-end-line="102" selection-end-column="28" />
+        <state>
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/live/ActAgreements.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-313" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/live/VotesTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="6" column="9" lean-forward="true" selection-start-line="6" selection-start-column="9" selection-end-line="6" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/CouncilPreparePage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="34" column="9" selection-start-line="34" selection-start-column="9" selection-end-line="34" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantEditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="48" lean-forward="true" selection-start-line="4" selection-end-line="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/agenda/NewAgendaPointModal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="213" column="24" lean-forward="true" selection-start-line="213" selection-start-column="24" selection-end-line="213" selection-end-column="24" />
+          <folding>
+            <element signature="e#3192#4564#0" />
+            <element signature="e#4641#6609#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/AlertConfirm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="52" column="42" lean-forward="true" selection-start-line="52" selection-start-column="42" selection-end-line="52" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/DraggableBlock.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/agendas/ReorderPointsModal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="222">
+          <caret line="52" column="22" lean-forward="true" selection-start-line="52" selection-start-column="22" selection-end-line="52" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/SortableList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="11" column="4" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorOptions.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="293" column="44" selection-start-line="293" selection-start-column="44" selection-end-line="293" selection-end-column="44" />
+        <state relative-caret-position="-7620" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="218" column="60" lean-forward="true" selection-start-line="218" selection-end-line="219" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/FileUploadButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="17" column="38" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/live.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1300">
+          <caret line="56" column="25" lean-forward="true" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/pagination.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="2" selection-start-line="2" selection-start-column="2" selection-end-line="2" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/validation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="3" column="2" selection-start-line="3" selection-start-column="2" selection-end-line="3" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/urlParser.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/agenda/AgendaItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1027">
+          <caret line="54" column="16" lean-forward="true" selection-start-line="54" selection-start-column="16" selection-end-line="64" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/attachments/AttachmentItem.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="12" column="72" lean-forward="true" selection-start-line="12" selection-start-column="72" selection-end-line="12" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/constants.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="13" selection-start-column="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/CBX.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="375" column="23" lean-forward="true" selection-start-line="375" selection-start-column="23" selection-end-line="375" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/attachments/CouncilEditorAttachments.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="567">
+          <caret line="151" column="46" lean-forward="true" selection-start-line="150" selection-start-column="22" selection-end-line="151" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/attachments/AttachmentList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="87" selection-start-line="87" selection-end-line="87" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/BasicButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="21" column="33" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/DropDownMenu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="26" column="61" selection-start-line="26" selection-start-column="61" selection-end-line="26" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorPreview.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3800">
+          <caret line="215" column="52" selection-start-line="215" selection-start-column="52" selection-end-line="215" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1720">
+          <caret line="97" column="50" selection-start-line="97" selection-start-column="50" selection-end-line="97" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/agenda/CouncilEditorAgenda.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2452">
+          <caret line="335" column="39" lean-forward="true" selection-start-line="335" selection-start-column="39" selection-end-line="335" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/Dashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-327">
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/Councils.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsConvened.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="94" column="133" selection-start-line="94" selection-start-column="133" selection-end-line="94" selection-end-column="141" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsLive.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="92" column="138" lean-forward="true" selection-start-line="92" selection-start-column="133" selection-end-line="92" selection-end-column="138" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/councilSections/CouncilsWriting.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="87" column="133" selection-start-line="87" selection-start-column="125" selection-end-line="87" selection-end-column="133" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/meetingSections/MeetingDrafts.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="2" column="17" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/HOCs/withTranslations.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="4" column="55" lean-forward="true" selection-start-line="4" selection-start-column="43" selection-end-line="4" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/HOCs/withSharedProps.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="7" column="33" lean-forward="true" selection-start-line="7" selection-start-column="33" selection-end-line="7" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/Signatures.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="73" column="24" lean-forward="true" selection-start-line="73" selection-start-column="24" selection-end-line="75" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/Councils.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="320">
+          <caret line="76" column="50" selection-start-line="76" selection-start-column="50" selection-end-line="76" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/dashboard/Meetings.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="72" column="54" selection-start-line="72" selection-start-column="54" selection-end-line="72" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/SignatureContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="19" column="32" lean-forward="true" selection-start-line="19" selection-start-column="32" selection-end-line="21" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/CouncilContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="61" column="68" selection-start-line="61" selection-start-column="68" selection-end-line="61" selection-end-column="68" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/containers/MeetingsContainer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="27" column="39" lean-forward="true" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

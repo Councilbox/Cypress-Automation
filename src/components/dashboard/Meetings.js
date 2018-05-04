@@ -1,20 +1,21 @@
 import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { councils, deleteCouncil } from '../../../queries.js';
-import { graphql, compose } from 'react-apollo';
-import { LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, DeleteIcon } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
-import { TableRow, TableCell } from 'material-ui/Table';
+import { councils, deleteCouncil } from '../../queries.js';
+import { graphql } from 'react-apollo';
+import { LoadingSection, Table, DateWrapper, SectionTitle, AlertConfirm, ErrorWrapper, DeleteIcon } from '../../displayComponents/index';
+import { compose } from 'react-apollo';
+import { getPrimary } from '../../styles/colors';
+import { TableCell, TableRow } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import TableStyles from "../../styles/table";
+import { bHistory } from "../../containers/App";
+import CloseIcon from "../../displayComponents/CloseIcon";
 
 
-class CouncilsConvened extends Component {
-
+class Meetings extends Component {
     constructor(props){
         super(props);
         this.state = {
-            councilToDelete: '',
             deleteModal: false
         }
     }
@@ -23,57 +24,59 @@ class CouncilsConvened extends Component {
         this.props.data.refetch();
     }
 
-    openDeleteModal = (councilID) => {
+    _renderDeleteIcon = (meetingID) => {
+        const primary = getPrimary();
+        return(
+            <CloseIcon
+                style={{color: primary}}
+                onClick={(event) => {
+                    event.stopPropagation();
+                    this.openDeleteModal(meetingID)
+                }}
+            />
+        );
+    };
+
+    openDeleteModal = (meetingID) => {
         this.setState({
             deleteModal: true,
-            councilToDelete: councilID
+            meetingToDelete: meetingID
         })
-    }
+    };
 
     deleteCouncil = async () => {
         this.props.data.loading = true;
         const response = await this.props.mutate({
             variables: {
-                councilId: this.state.councilToDelete
+                councilId: this.state.meetingToDelete
             }
-        })
+        });
         if(response){
             this.props.data.refetch();
             this.setState({
                 deleteModal: false
             });
         }
-    }
-
-    _renderDeleteIcon(councilID) {
-        const primary = getPrimary();
-
-        return(
-            <DeleteIcon 
-                style={{color: primary}}
-                onClick={() => this.openDeleteModal(councilID)}
-            />
-        );
-    }
+    };
 
     render(){
         const { translate } = this.props;
-        const { loading, error, councils } = this.props.data;
+        const { councils, loading, error } = this.props.data;
 
         return(
             <div style={{height: '100%', overflow: 'hidden', position: 'relative'}}>
                 <Scrollbar>
                     <div style={{padding: '2em'}}>
                         <SectionTitle
-                            icon="calendar-o"
-                            title={translate.companies_calendar}
-                            subtitle={translate.companies_calendar_desc}
+                            icon={this.props.icon}
+                            title={this.props.title}
+                            subtitle={this.props.desc}
                         />
-                        {loading? 
+                        {loading?
                             <LoadingSection />
                         :
                         <Fragment>
-                                {error?
+                                {error ?
                                     <div>
                                         {error.graphQLErrors.map((error) => {
                                             return <ErrorWrapper error={error} translate={translate} />
@@ -86,16 +89,26 @@ class CouncilsConvened extends Component {
                                             action={this._renderDeleteIcon}
                                             companyID={this.props.company.id}
                                         >
-                                            {councils.map((council) => {
-                                                return(
-                                                    <TableRow
-                                                        key={`participant${council.id}`}  
-                                                    >
-                                                        <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={council.dateStart}/></TableCell>
-                                                        <TableCell><Link to={`/company/${this.props.company.id}/council/${council.id}/prepare`}>{council.name}</Link></TableCell>
-                                                        <TableCell>{this._renderDeleteIcon(council.id)}</TableCell>
-                                                    </TableRow>
-                                                )
+                                            {councils.map((meeting) => {
+                                                return (<TableRow hover style={TableStyles.ROW}
+                                                                  key={`meeting${meeting.id}`}
+                                                                  onClick={() => {
+                                                                      bHistory.push(`/company/${this.props.company.id}/meeting/${meeting.id}${this.props.link}`)
+                                                                  }}
+                                                >
+                                                    <TableCell style={TableStyles.TD}>
+                                                        <DateWrapper format="DD/MM/YYYY HH:mm" date={meeting.dateStart}/>
+                                                    </TableCell>
+                                                    <TableCell style={{
+                                                        ...TableStyles.TD,
+                                                        width: '65%'
+                                                    }}>
+                                                        {meeting.name || translate.dashboard_new}
+                                                    </TableCell>
+                                                    <TableCell style={TableStyles.TD}>
+                                                        {this._renderDeleteIcon(meeting.id)}
+                                                    </TableCell>
+                                                </TableRow>)
                                             })}
                                             </Table>
                                     :
@@ -122,13 +135,15 @@ class CouncilsConvened extends Component {
 
 }
 
+
 export default compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            state: [10, 5],
+            state: props.state,
             companyId: props.company.id,
-            isMeeting: false
+            isMeeting: true,
+            active: 1
         }
     })
-}))(CouncilsConvened);
+}))(Meetings);

@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const withSharedProps = () => WrappedComponent => {
-    const WithSharedProps = ({ company, translate }) => (
+    const WithSharedProps = ({ company, translate, ...restProps }) => (
         <WrappedComponent
             company={company}
             translate={translate}
+            {...restProps}
         />
     );
 
