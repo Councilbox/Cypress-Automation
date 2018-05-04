@@ -12,6 +12,7 @@ import ParticipantsSection from './ParticipantsSection';
 import ReminderModal from './ReminderModal';
 import FontAwesome from 'react-fontawesome';
 import RescheduleModal from './RescheduleModal';
+import SendConveneModal from './SendConveneModal';
 import CancelModal from './CancelModal';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 
@@ -23,6 +24,7 @@ class CouncilPreparePage extends Component {
         this.state = { 
             participants: false,
             sendReminder: false,
+            sendConvene: false,
             cancel: false,
             rescheduleCouncil: false
         }
@@ -114,7 +116,7 @@ class CouncilPreparePage extends Component {
                                                 {translate.send_reminder}
                                             </MenuItem>
                                         :
-                                            <MenuItem onClick={() => alert('hola')}>
+                                            <MenuItem onClick={() => this.setState({sendConvene: true})}>
                                                 <Icon className="material-icons" style={{color: secondary, marginRight: '0.4em'}}>notifications</Icon>
                                                 {translate.new_send}
                                             </MenuItem>
@@ -189,6 +191,13 @@ class CouncilPreparePage extends Component {
                     show={this.state.cancel}
                     council={council}
                     requestClose={() => this.setState({cancel: false})}
+                    translate={translate}
+                />
+                <SendConveneModal
+                    show={this.state.sendConvene}
+                    council={council}
+                    refetch={this.props.data.refetch}
+                    requestClose={() => this.setState({sendConvene: false})}
                     translate={translate}
                 />
                 <RescheduleModal

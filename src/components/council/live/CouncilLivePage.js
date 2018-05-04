@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { LoadingMainApp, Icon } from "../../../displayComponents";
+import { LoadingMainApp, Icon, BasicButton } from "../../../displayComponents";
 import LiveHeader from './LiveHeader';
-import { lightGrey, darkGrey } from '../../../styles/colors';
+import { lightGrey, darkGrey, getSecondary } from '../../../styles/colors';
 import { graphql, compose } from 'react-apollo';
 import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes } from '../../../queries';
 import AgendaManager from './AgendaManager';
 import ParticipantsLive from './ParticipantsLive';
+import ParticipantsManager from './ParticipantsManager';
+import { showVideo } from '../../../utils/CBX';
 
 const minVideoWidth = 30;
 const minVideoHeight = '50%';
@@ -15,7 +17,7 @@ class CouncilLivePage extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            participants: false,
+            participants: true,
             confirmModal: false,
             selectedPoint: 0,
             addParticipantModal: false,
@@ -44,18 +46,12 @@ class CouncilLivePage extends Component {
         });
     };
 
-    checkVideoFlags = () => {
-        const council = this.props.data.council;
-        return council.state === 20 && council.councilType === 0;
-
-    };
-
     checkLoadingComplete = () => {
         return this.props.data.loading && this.props.companies.list;
     };
 
     render(){
-        const council = this.props.data.council;
+        const { council } = this.props.data;
         const { translate } = this.props;
 
         if(this.checkLoadingComplete()){
@@ -76,7 +72,7 @@ class CouncilLivePage extends Component {
                 />
                 
                 <div style={{display: 'flex', width: '100%', height: '100%', flexDirection: 'row'}}>
-                    {this.checkVideoFlags() &&
+                    {showVideo(council) &&
                         <div style={{display: 'flex', flexDirection: this.state.fullScreen? 'row' : 'column', width: `${this.state.videoWidth}%`, height: '100%', position: 'relative'}}>
                             {this.state.fullScreen && 
                                 <div style={{height: '95vh', width: '7%', overflow: 'hidden', backgroundColor: darkGrey}}>
@@ -113,18 +109,30 @@ class CouncilLivePage extends Component {
                         </div>
                     }
 
-                    <div style={{width:`${this.checkVideoFlags()? 100 - this.state.videoWidth : 100}%`, height: '100%'}}>
-                        <AgendaManager 
-                            council={council}
-                            translate={translate}
-                            votingTypes={this.props.votations.votingTypes}
-                            majorities={this.props.majorities.majorities}
-                            fullScreen={this.state.fullScreen}
-                            refetch={this.props.data.refetch}
-                            participants={this.props.data.council.participants}
-                            openMenu={() => this.setState({ videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}
+                    <div style={{width:`${showVideo(council)? 100 - this.state.videoWidth : 100}%`, height: '100%'}}>
+                        <BasicButton
+                            text={this.state.participants? translate.agenda : translate.participants}
+                            color={getSecondary()}
+                            onClick={() => this.setState({ participants: !this.state.participants})}                                                                    
+                            textStyle={{color: 'white', fontSize: '0.75em', fontWeight: '700', textTransform: 'none'}}
                         />
-    
+                        {this.state.participants?
+                            <ParticipantsManager
+                                translate={translate}
+                                participants={this.props.data.council.participants}
+                                council={council}
+                            />
+                        :
+                            <AgendaManager 
+                                council={council}
+                                company={company}
+                                translate={translate}
+                                fullScreen={this.state.fullScreen}
+                                refetch={this.props.data.refetch}
+                                participants={this.props.data.council.participants}
+                                openMenu={() => this.setState({ videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}
+                            />
+                        }    
                     </div>
                 </div>
             </div>
@@ -132,27 +140,11 @@ class CouncilLivePage extends Component {
     }
 }
 
-export default  compose(
-
-    graphql(majorityTypes, {
-        name: 'majorities'
-    }),
-
-    graphql(votingTypes, {
-        name: 'votations'
-    }),
-
-    graphql(quorumTypes, {
-        name: 'quorum'
-    }),
-
-
-    graphql(councilLiveQuery, {
-        name: "data",
-        options: (props) => ({
-            variables: {
-                councilID: props.councilID,
-            }
-        })
+export default  graphql(councilLiveQuery, {
+    name: "data",
+    options: (props) => ({
+        variables: {
+            councilID: props.councilID,
+        }
     })
-)(CouncilLivePage);
+})(CouncilLivePage);

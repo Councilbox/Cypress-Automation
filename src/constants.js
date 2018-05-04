@@ -36,3 +36,12 @@ export const EMAIL_STATES_FILTERS = {
     DELIVERED: 22,
     OPENED: 25
 };
+
+export const PARTICIPANT_STATES = {
+    'REMOTE': 0,
+    'PRESENT': 1,
+    'REPRESENTATED': 2,
+    'DELEGATED': 4,
+    'PHYSICALLY_PRESENT': 5,
+    'NO_PARTICIPATE': 6
+}

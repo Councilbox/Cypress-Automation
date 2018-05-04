@@ -63,7 +63,7 @@ class ToggleAgendaButton extends Component {
                             icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: primary }}>lock_open</Icon>}
                             buttonStyle={{width: '11em'}}
                             onClick={this.openAgenda}
-                            textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: primary}}
+                            textStyle={{fontSize: '0.75em', fontWeight: '700', textTransform: 'none', color: primary}}
                         />
                     :
                         <span>{translate.warning_unclosed_agenda}</span>
@@ -75,7 +75,7 @@ class ToggleAgendaButton extends Component {
                         icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>lock_open</Icon>}
                         buttonStyle={{width: '11em'}}
                         onClick={this.closeAgenda}
-                        textStyle={{fontSize: '0.65em', fontWeight: '700', textTransform: 'none', color: 'white'}}
+                        textStyle={{fontSize: '0.75em', fontWeight: '700', textTransform: 'none', color: 'white'}}
                     />
                 }                
             </Fragment>

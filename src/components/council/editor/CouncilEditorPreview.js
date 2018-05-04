@@ -11,13 +11,7 @@ import {
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { graphql, compose } from 'react-apollo';
-import {
-    councilStepSix,
-    conveneCouncil,
-    sendConveneTest,
-    conveneWithoutNotice,
-    sendPreConvene
-} from '../../../queries';
+import { councilStepSix, conveneCouncil, sendConveneTest, conveneWithoutNotice, sendPreConvene } from '../../../queries';
 import { Paper, Icon, MenuItem, Typography } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { bHistory } from '../../../containers/App';
@@ -114,7 +108,7 @@ class CouncilEditorPreview extends Component {
         this.updateState({ conveneTestEmail: '' });
     };
 
-    send0PreConvene = async () => {
+    sendPreConvene = async () => {
         const response = await this.props.sendPreConvene({
             variables: {
                 councilId: this.props.data.council.id
@@ -134,11 +128,14 @@ class CouncilEditorPreview extends Component {
                 councilId: this.props.data.council.id
             }
         });
-        console.log(response);
         if (!response.errors) {
             this.setState({
                 conveneWithoutNoticeSuccess: true
             });
+            if (response.data.conveneWithoutNotice.success) {
+                toast.success(this.props.translate.changes_saved);
+                bHistory.push('/');
+            }
         }
     };
 
@@ -357,7 +354,7 @@ export default compose(graphql(conveneCouncil, {
         options: (props) => ({
             variables: {
                 id: props.councilID,
-                companyId: props.companyID
+                companyId: props.company.id
             },
             notifyOnNetworkStatusChange: true
         })

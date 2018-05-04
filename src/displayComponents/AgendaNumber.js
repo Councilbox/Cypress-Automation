@@ -11,6 +11,7 @@ const AgendaNumber = ({ index, active, activeColor = getPrimary(), secondaryColo
             filter: open && !active? 'opacity(50%)' : '',
             width: '2em',
             fontSize: '1.1em',
+            cursor: 'pointer',
             margin: 0,
             color: active || open? 'white' : secondaryColor,
             borderRadius: '1em',

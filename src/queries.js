@@ -312,6 +312,10 @@ export const convenedcouncilParticipants = gql`
           phone
           position
           language
+          notifications{
+            reqCode
+            refreshDate
+          }
         }
         city
         personOrEntity
@@ -321,6 +325,46 @@ export const convenedcouncilParticipants = gql`
         }
       }
       total
+    }
+  }
+`;
+
+export const downloadCBXData = gql`
+  mutation cbxData($participantId: Int!){
+    cbxData(participantId: $participantId)
+  }
+`;
+
+export const agendaManager = gql`
+  query AgendaManagerFields($companyId: Int!){
+    languages{
+      desc
+      columnName
+    }
+
+    companyStatutes(companyId: $companyId){
+      title
+      id
+    }
+
+    majorityTypes {
+      value
+      label
+    }
+
+    quorumTypes{
+      label
+      value
+    }
+
+    votingTypes {
+      label
+      value
+    }
+
+    draftTypes{
+      id
+      label
     }
   }
 `;
@@ -719,6 +763,14 @@ export const addAgenda = gql `
   mutation addAgenda($agenda: AgendaInput) {
       addAgenda(agenda: $agenda) {
         id
+      }
+  }
+`
+
+export const sendConvene = gql `
+  mutation sendConvene($councilId: Int!) {
+    sendConvene(councilId: $councilId) {
+        success
       }
   }
 `
@@ -1167,26 +1219,6 @@ export const councilLiveQuery =  gql`
       name
       neededQuorum
       noCelebrateComment
-      participants{
-        id
-        councilId
-        name
-        surname
-        position
-        email
-        phone
-        dni
-        type
-        delegateId
-        numParticipations
-        socialCapital
-        uuid
-        delegateUuid
-        position
-        language
-        city
-        personOrEntity
-      }
       president
       proposedActSent
       prototype
@@ -1260,6 +1292,7 @@ export const councilLiveQuery =  gql`
     }
   }
 `;
+
 
 export const downloadCouncilAttachment = gql`
   query downloadCouncilAttachment($attachmentId: Int!){
@@ -1466,47 +1499,54 @@ export const openCouncilRoom = gql `
 `;
 
 export const liveParticipants = gql `
-  query liveParticipants($councilId: Int!){
-    liveParticipants(councilId: $councilId){
-      id
-      delegateId
-      state
-      audio
-      video
-      councilId
-      name
-      position
-      email
-      phone
-      dni
-      date
-      type
-      participantId
-      online
-      requestWord
-      numParticipations
-      surname
-      uuid
-      assistanceComment
-      assistanceLastDateConfirmed
-      assistanceIntention
-      videoPassword
-      blocked
-      lastDateConnection
-      videoMode
-      firstLoginDate
-      firstLoginCurrentPointId
-      language
-      signed
-      socialCapital
-      address
-      city
-      country
-      countryState
-      zipcode
-      delegateUuid
-      actived
-      personOrEntity
+  query liveParticipants($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput){
+    liveParticipants(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+      list{
+        id
+        delegateId
+        state
+        audio
+        video
+        councilId
+        name
+        position
+        email
+        phone
+        dni
+        date
+        type
+        participantId
+        online
+        requestWord
+        numParticipations
+        surname
+        uuid
+        assistanceComment
+        assistanceLastDateConfirmed
+        assistanceIntention
+        videoPassword
+        blocked
+        lastDateConnection
+        videoMode
+        notifications{
+          reqCode
+          refreshDate
+        }
+        firstLoginDate
+        firstLoginCurrentPointId
+        language
+        signed
+        socialCapital
+        address
+        city
+        country
+        countryState
+        zipcode
+        delegateUuid
+        actived
+        personOrEntity
+      }
+      total
     }
   }
 
@@ -1626,14 +1666,7 @@ export const saveCouncilData = gql `
   }
 `
 
-export const sendConvene = gql `
-  mutation sendConvene($data: String!) {
-      sendConvene(data: $data) {
-        code
-        msg
-      }
-  }
-`
+
 
 export const saveAttachmentMutation = gql `
   mutation saveAttachmentM($data: String!) {

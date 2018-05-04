@@ -47,25 +47,28 @@ class NewAgendaPointModal extends Component {
             });
             if(response){
                 this.props.refetch();
-                this.setState({
-                    newPoint: {
-                        agendaSubject: '',
-                        subjectType: '',
-                        description: ''
-                    },
-        
-                    newPointModal: false,
-        
-                    errors: {
-                        agendaSubject: '',
-                        subjectType: '',
-                        description: ''
-                    }
-    
-                })
+                this.close();
             }
         }
     };
+
+    close = () => {
+        this.setState({
+            newPoint: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            },
+
+            newPointModal: false,
+
+            errors: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            }
+        });
+    }
 
     updateState = (object) => {
         this.setState({
@@ -175,7 +178,7 @@ class NewAgendaPointModal extends Component {
                     loadDraft={this.loadDraft}
                     councilType={statute}
                     statutes={companyStatutes}
-                    draftType={draftTypes.filter((draft => draft.label === 'agenda'))[0].value}
+                    draftType={1}
                 />
 
                 <RichTextInput
@@ -212,7 +215,7 @@ class NewAgendaPointModal extends Component {
                     {children}
                 </div>
                 <AlertConfirm
-                    requestClose={() => this.setState({newPointModal: false})}
+                    requestClose={() => this.close()}
                     open={this.state.newPointModal}
                     acceptAction={this.addAgenda}
                     buttonAccept={translate.accept}
