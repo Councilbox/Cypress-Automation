@@ -18,8 +18,6 @@ export const checkIsWebRTCCompatibleBrowser = (detectRTC) => {
     return isCompatible;
 };
 
-
-
 export const checkIsCompatibleBrowser = (detectRTC) => {
     let isCompatible = false;
     let isUnsupportedWindowsVersion = checkIsUnsupportedWindowsVersion(detectRTC);
@@ -41,4 +39,14 @@ export const checkIsCompatibleBrowser = (detectRTC) => {
         isCompatible = false;
         return isCompatible;
     }
+};
+
+export const checkIsiOSDevice = (detectRTC) => {
+    const isiOSDevice = (detectRTC.isMobileDevice && detectRTC.osName == 'iOS')? true : false;
+    return isiOSDevice;
+};
+
+export const checkIsMobileDevice = (detectRTC) => {
+    const isMobileDevice = (detectRTC.isMobileDevice)? true : false;
+    return isMobileDevice;
 };

@@ -212,8 +212,9 @@ class Test extends Component {
     _renderThisDeviceItem = () => {
         const { detectRTC } = this.state;
         const status = this.checkDevice();
-        const text = detectRTC.osName + "<br />" + detectRTC.osVersion + "<br />" + detectRTC.browser.name + " " + detectRTC.browser.version;
-        return this._renderDeviceItem(status, "laptop", text);
+        const icon = (webRTCUtils.checkIsMobileDevice(detectRTC))? "mobile" : "laptop";
+        const text = `${detectRTC.osName} <br /> ${detectRTC.osVersion} <br /> ${detectRTC.browser.name} ${detectRTC.browser.version}`;
+        return this._renderDeviceItem(status, icon, text);
     }
 
     // CHECK SPEAKERS
