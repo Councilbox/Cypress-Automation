@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
 import {
-    CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, ButtonIcon
+    CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, Grid, GridItem
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { MenuItem, Card, Divider, Typography } from 'material-ui';
@@ -188,24 +188,23 @@ class CouncilPreparePage extends Component {
                 </TabList>
                 <TabPanel style={panelStyle}>
                     <Scrollbar>
-                        {council.attachments.length > 0 && <Card style={{
-                            paddingTop: '1.5em',
-                            marginTop: '0.4em',
-                            paddingBottom: '1.5em',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center'
+                        {council.attachments.length > 0 && <div style={{
+                            paddingTop: '1em 0',
+                            width: '98%'
                         }}>
                             <Typography variant="title" style={{ color: getPrimary() }}>
                                 {translate.new_files_title}
                             </Typography>
                             <div style={{ marginTop: '1em' }}>
-                                {council.attachments.map((attachment) => {
-                                    return (<AttachmentDownload attachment={attachment} loading={this.state.downloading}
-                                                                spacing={1}/>)
-                                })}
+                                <Grid>
+                                    {council.attachments.map((attachment) => {
+                                        return (<GridItem key={`attachment${attachment.id}`}>
+                                            <AttachmentDownload attachment={attachment} loading={this.state.downloading} spacing={0.5}/>
+                                        </GridItem>)
+                                    })}
+                                </Grid>
                             </div>
-                        </Card>}
+                        </div>}
                         <BasicButton
                             text={translate.export_convene}
                             color={secondary}

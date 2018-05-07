@@ -87,26 +87,26 @@ class ConvenedParticipantsTable extends Component {
             text: translate.dni,
             name: 'dni',
             canOrder: true
-        }, {
-            text: translate.email,
-            name: 'email',
-            canOrder: true
-        }, { text: translate.position }, {
-            text: translate.votes,
-            name: 'numParticipations',
-            canOrder: true
-        }, {
-            text: translate.convene
-        }, {}
-
-        ];
-
-        if (this.props.participations) {
-            headers.push({
+        }, //     {
+            //     text: translate.email,
+            //     name: 'email',
+            //     canOrder: true
+            // },
+            { text: translate.position }, {
+                text: translate.votes,
+                name: 'numParticipations',
+                canOrder: true
+            }, {
                 text: translate.census_type_social_capital,
                 name: 'socialCapital',
                 canOrder: true
-            });
+            }, {
+                text: translate.convene
+            }
+        ];
+
+        if (!this.props.participations) {
+            headers.splice(3,1);
         }
 
         if (this.state.editParticipant && this.props.editable) {
@@ -118,7 +118,7 @@ class ConvenedParticipantsTable extends Component {
 
         return (<div style={{ width: '100%' }}>
             {!!councilParticipants && <React.Fragment>
-                <Grid style={{margin: '0.5em 0'}}>
+                <Grid style={{ margin: '0.5em 0' }}>
                     <GridItem xs={12} lg={6} md={6}>
                         <NotificationFilters
                             translate={translate}
@@ -204,17 +204,18 @@ class ConvenedParticipantsTable extends Component {
                     }, {
                         value: 'dni',
                         translation: translate.dni
-                    }, {
-                        value: 'email',
-                        translation: translate.email
-                    }, {
-                        value: 'position',
-                        translation: translate.position
-                    } ]}
+                    }, //     {
+                        //     value: 'email',
+                        //     translation: translate.email
+                        // },
+                        {
+                            value: 'position',
+                            translation: translate.position
+                        } ]}
                     headers={headers}
                 >
                     {councilParticipants.list.map((participant, index) => {
-                        return (<Fragment                                 key={`participant${participant.id}`}>
+                        return (<Fragment key={`participant${participant.id}`}>
                             <TableRow
                                 hover={true}
                                 onClick={() => this.setState({
@@ -233,12 +234,12 @@ class ConvenedParticipantsTable extends Component {
                                 <TableCell>
                                     {participant.dni}
                                 </TableCell>
-                                <TableCell>
-                                    {participant.email}
-                                </TableCell>
+                                {/*<TableCell>*/}
+                                {/*{participant.email}*/}
+                                {/*</TableCell>*/}
                                 <TableCell>
                                     {participant.position}
-                                    </TableCell>
+                                </TableCell>
                                 <TableCell>
                                     {!CBX.isRepresentative(participant) && `${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`}
                                 </TableCell>
