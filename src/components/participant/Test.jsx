@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import { Grid, Typography } from 'material-ui';
 import Header from '../Header';
 import { LoadingMainApp } from '../../displayComponents';
-import { green, red, darkGrey, lightGrey } from '../../styles/colors';
+import { secondary, green, red, darkGrey, lightGrey } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import withTranslations from '../../HOCs/withTranslations';
 import * as mainActions from '../../actions/mainActions';
@@ -96,7 +96,7 @@ const styles = {
     }
 }
 
-const DeviceItem = ({windowSize, status, icon, iconText, text, color}) => {
+const DeviceItem = ({windowSize, status, icon, iconText, text, color, secondaryText}) => {
     return(
         <Fragment>
             <Grid item xs={(windowSize === 'xs')? 12 : 6} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
@@ -125,6 +125,12 @@ const DeviceItem = ({windowSize, status, icon, iconText, text, color}) => {
             {windowSize !== 'xs' &&
                 <Grid item xs={6} style={styles.landscape.actionBarItemText}>
                     { text }
+                </Grid>
+            }
+
+            {secondaryText &&
+                <Grid item xs={12} style={styles.landscape.actionBarItemText}>
+                    { secondaryText }
                 </Grid>
             }
         </Fragment>
@@ -162,42 +168,42 @@ class Test extends Component {
     }
 
     // RENDER DEVICE ITEMS
-    _renderDeviceItem = (status, icon, text) => {
+    _renderDeviceItem = (status, icon, text, secondaryText) => {
         const { windowSize, translate } = this.props;
         switch(status){
             case AVAILABLE:
                 return(
-                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.available} color={green} text={text}/>
+                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.available} color={green} text={text} secondaryText={secondaryText}/>
                 )
                 break;
 
             case NOT_AVAILABLE:
                 return(
-                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.not_available} color={red} text={text}/>
+                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.not_available} color={red} text={text} secondaryText={secondaryText}/>
                 )
                 break;
 
             case PERMISSION_DENIED:
                 return(
-                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.no_access} color={red} text={text}/>
+                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.no_access} color={red} text={text} secondaryText={secondaryText}/>
                 )
                 break;
 
             case NOT_FOUND:
                 return(
-                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.does_not_have} color={red} text={text}/>
+                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.does_not_have} color={red} text={text} secondaryText={secondaryText}/>
                 )
                 break;
 
             case COMPATIBLE:
                 return(
-                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.compatible} color={green} text={text}/>
+                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.compatible} color={green} text={text} secondaryText={secondaryText}/>
                 )
                 break;
 
             case INCOMPATIBLE:
                 return(
-                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.incompatible} color={red} text={text}/>
+                    <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.incompatible} color={red} text={text} secondaryText={secondaryText}/>
                 )
                 break;
         }
@@ -216,8 +222,9 @@ class Test extends Component {
         const icon = (webRTCUtils.checkIsMobileDevice(detectRTC))? "mobile" : "laptop";
 
         const text = this.buildDeviceText(detectRTC, deviceStatus);
+        const secondaryText = this.buildDeviceSecondaryText(detectRTC, deviceStatus);
 
-        return this._renderDeviceItem(status, icon, text);
+        return this._renderDeviceItem(status, icon, text, secondaryText);
     }
 
     buildDeviceText = (detectRTC, deviceStatus) => {
@@ -228,6 +235,31 @@ class Test extends Component {
                 <span style={(deviceStatus === webRTCUtils.NOT_COMPATIBLE_BROWSER)? {color: red} : {}}>{`${detectRTC.browser.name} ${detectRTC.browser.version}`}</span>
             </div>
         );
+    }
+
+    buildDeviceSecondaryText = (detectRTC, deviceStatus) => {
+        const { translate } = this.props;
+        switch (deviceStatus) {
+            case webRTCUtils.UNSUPORTED_WINDOWS_VERSION:
+                return(<div style={{textAlign: 'center', paddingLeft: '5px', paddingRight: '5px'}}>
+                            <span>
+                                {translate.windows_minimum_version}
+                            </span>
+                        </div>);
+                break;
+
+            case webRTCUtils.NOT_COMPATIBLE_BROWSER:
+                return(<div style={{textAlign: 'center', paddingLeft: '5px', paddingRight: '5px'}}>
+                            <a href="https://www.google.com/chrome/" target="_blank" style={{color: secondary}}>
+                                {translate.we_recommend_google_chrome}
+                            </a>
+                        </div>);
+                break;
+        
+            default:
+                return(<div></div>);
+                break;
+        }
     }
 
     // CHECK SPEAKERS
