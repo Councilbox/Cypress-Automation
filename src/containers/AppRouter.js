@@ -27,7 +27,7 @@ import PlatformDrafts from '../components/corporation/drafts/PlatformDrafts';
 import CensusEditorPage from '../components/company/census/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../displayComponents';
 import CompanyDraftList from '../components/company/drafts/CompanyDraftList';
-import Test from '../components/tests/Test';
+import Test from '../components/participant/Test';
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
