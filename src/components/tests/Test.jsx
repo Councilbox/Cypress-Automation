@@ -5,10 +5,11 @@ import FontAwesome from 'react-fontawesome';
 import { Grid, Typography } from 'material-ui';
 import Header from '../Header';
 import { LoadingMainApp } from '../../displayComponents';
-import { darkGrey, lightGrey } from '../../styles/colors';
+import { green, red, darkGrey, lightGrey } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import withTranslations from '../../HOCs/withTranslations';
 import * as mainActions from '../../actions/mainActions';
+import DetectRTC from 'detectrtc';
 
 const styles = {
     viewContainer: {
@@ -36,8 +37,15 @@ const styles = {
         },
         actionsBarItem: {
             width: '25%',
-            height: '100%',
-            border: '2px solid white'
+            height: '100%'
+        },
+        actionBarItemIcon: {
+            fontSize: '2em',
+            color: 'white'
+        },
+        actionBarItemIconText: {
+            fontSize: '12px',
+            color: 'white'
         }
     },
     landscape: {
@@ -61,8 +69,14 @@ const styles = {
         },
         actionsBarItem: {
             width: '100%',
-            height: '25%',
-            border: '2px solid white'
+            height: '25%'
+        },
+        actionBarItemIcon: {
+            fontSize: '4em',
+            color: 'white'
+        },
+        actionBarItemIconText: {
+            color: 'white'
         }
     }
 }
@@ -73,7 +87,8 @@ class Test extends Component {
         super(props);
         this.state = {
             loading: true,
-            language: this.props.match.params.language
+            language: this.props.match.params.language,
+            detectRTC: DetectRTC
         }
     }
 
@@ -91,6 +106,9 @@ class Test extends Component {
         if (this.state.language !== this.props.translate.selectedLanguage) {
             this.props.actions.setLanguage(this.props.match.params.language)
         }
+        DetectRTC.load(() => {
+            this.setState({detectRTC: DetectRTC});
+        });
     }
 
     render() {
@@ -103,14 +121,17 @@ class Test extends Component {
                 <Header />
                 <div style={(windowSize === 'xs')? styles.portrait.mainContainer : styles.landscape.mainContainer}>
                     <div style={(windowSize === 'xs')? styles.portrait.actionsBar : styles.landscape.actionsBar}>
-                        <div style={(windowSize === 'xs')? styles.portrait.actionsBarItem : styles.landscape.actionsBarItem}>
+                        <div style={{...(windowSize === 'xs'? styles.portrait.actionsBarItem : styles.landscape.actionsBarItem), backgroundColor:'#333333'}}>
                             <Grid container spacing={0} style={{height: '100%'}}>
                                 <Grid item xs={(windowSize === 'xs')? 12 : 6} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                                     <FontAwesome 
                                         name={"laptop"}
-                                        style={{fontSize: '3.5em', color: 'white'}}
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIcon : styles.landscape.actionBarItemIcon}
                                     />
-                                    <Typography variant="subheading" style={{color: 'white'}}>
+                                    <Typography 
+                                        variant="subheading" 
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIconText : styles.landscape.actionBarItemIconText}
+                                    >
                                         {translate.compatible}
                                     </Typography>
                                 </Grid>
@@ -128,9 +149,12 @@ class Test extends Component {
                                 <Grid item xs={(windowSize === 'xs')? 12 : 6} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                                     <FontAwesome 
                                         name={"headphones"}
-                                        style={{fontSize: '3.5em', color: 'white'}}
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIcon : styles.landscape.actionBarItemIcon}
                                     />
-                                    <Typography variant="subheading" style={{color: 'white'}}>
+                                    <Typography 
+                                        variant="subheading" 
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIconText : styles.landscape.actionBarItemIconText}
+                                    >
                                         {translate.compatible}
                                     </Typography>
                                 </Grid>
@@ -142,14 +166,17 @@ class Test extends Component {
                             </Grid>
                         </div>
 
-                        <div style={(windowSize === 'xs')? styles.portrait.actionsBarItem : styles.landscape.actionsBarItem}>
+                        <div style={{...(windowSize === 'xs'? styles.portrait.actionsBarItem : styles.landscape.actionsBarItem), backgroundColor:'#333333'}}>
                             <Grid container spacing={0} style={{height: '100%'}}>
                                 <Grid item xs={(windowSize === 'xs')? 12 : 6} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                                     <FontAwesome 
                                         name={"camera"}
-                                        style={{fontSize: '3.5em', color: 'white'}}
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIcon : styles.landscape.actionBarItemIcon}
                                     />
-                                    <Typography variant="subheading" style={{color: 'white'}}>
+                                    <Typography 
+                                        variant="subheading" 
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIconText : styles.landscape.actionBarItemIconText}
+                                    >
                                         {translate.compatible}
                                     </Typography>
                                 </Grid>
@@ -166,9 +193,12 @@ class Test extends Component {
                                 <Grid item xs={(windowSize === 'xs')? 12 : 6} style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'}}>
                                     <FontAwesome 
                                         name={"microphone"}
-                                        style={{fontSize: '3.5em', color: 'white'}}
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIcon : styles.landscape.actionBarItemIcon}
                                     />
-                                    <Typography variant="subheading" style={{color: 'white'}}>
+                                    <Typography 
+                                        variant="subheading" 
+                                        style={(windowSize === 'xs')? styles.portrait.actionBarItemIconText : styles.landscape.actionBarItemIconText}
+                                    >
                                         {translate.compatible}
                                     </Typography>
                                 </Grid>
