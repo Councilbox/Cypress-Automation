@@ -115,7 +115,7 @@ const DeviceItem = ({windowSize, status, icon, iconText, text, color}) => {
                 <div>
                     <Typography 
                         variant="subheading" 
-                        style={{...(windowSize === 'xs'? styles.portrait.actionBarItemIconText : styles.landscape.actionBarItemIconText), color:color}}
+                        style={{...(windowSize === 'xs'? styles.portrait.actionBarItemIconText : styles.landscape.actionBarItemIconText), color:color, fontWeight: 'bold'}}
                     >
                         {iconText}
                     </Typography>
@@ -124,7 +124,7 @@ const DeviceItem = ({windowSize, status, icon, iconText, text, color}) => {
 
             {windowSize !== 'xs' &&
                 <Grid item xs={6} style={styles.landscape.actionBarItemText}>
-                    <div dangerouslySetInnerHTML={{ __html: text }} />
+                    { text }
                 </Grid>
             }
         </Fragment>
@@ -206,14 +206,28 @@ class Test extends Component {
     // CHECK DEVICE
     checkDevice = () => {
         const { detectRTC } = this.state;
-        const deviceStatus = (webRTCUtils.checkIsCompatibleBrowser(detectRTC)) ? COMPATIBLE : INCOMPATIBLE;
+        const deviceStatus = webRTCUtils.checkIsCompatibleBrowser(detectRTC);
         return deviceStatus;
     }
     _renderThisDeviceItem = () => {
         const { detectRTC } = this.state;
-        const status = this.checkDevice();
-        const text = detectRTC.osName + "<br />" + detectRTC.osVersion + "<br />" + detectRTC.browser.name + " " + detectRTC.browser.version;
-        return this._renderDeviceItem(status, "laptop", text);
+        const deviceStatus = this.checkDevice();
+        const status = (webRTCUtils.checkIsCompatibleBrowser(detectRTC) === webRTCUtils.COMPATIBLE) ? COMPATIBLE : INCOMPATIBLE ;
+        const icon = (webRTCUtils.checkIsMobileDevice(detectRTC))? "mobile" : "laptop";
+
+        const text = this.buildDeviceText(detectRTC, deviceStatus);
+
+        return this._renderDeviceItem(status, icon, text);
+    }
+
+    buildDeviceText = (detectRTC, deviceStatus) => {
+        return (
+            <div>
+                <span style={(deviceStatus === webRTCUtils.iOS_DEVICE) ? {color: red} : {}}>{detectRTC.osName}</span> <br /> 
+                <span style={(deviceStatus === webRTCUtils.UNSUPORTED_WINDOWS_VERSION)? {color: red} : {}}>{detectRTC.osVersion}</span> <br /> 
+                <span style={(deviceStatus === webRTCUtils.NOT_COMPATIBLE_BROWSER)? {color: red} : {}}>{`${detectRTC.browser.name} ${detectRTC.browser.version}`}</span>
+            </div>
+        );
     }
 
     // CHECK SPEAKERS
