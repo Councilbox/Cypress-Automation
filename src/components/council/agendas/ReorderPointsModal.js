@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm } from '../../../displayComponents';
-import { updateAgendas } from '../../../queries';
+import { updateAgendas } from '../../../queries/agenda';
 import SortableList from '../../../displayComponents/SortableList';
 import { arrayMove } from 'react-sortable-hoc';
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
-import { updateAgenda } from '../../../../queries';
+import { updateAgenda } from '../../../../queries/agenda';
 import * as CBX from '../../../../utils/CBX';
-import LoadDraft from '../LoadDraft';
+import LoadDraft from '../../../company/drafts/LoadDraft';
 
 class PointEditor extends Component {
 

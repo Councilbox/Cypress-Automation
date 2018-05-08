@@ -32,6 +32,7 @@ import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
 import CompanyDraftEditor from '../components/company/drafts/CompanyDraftEditor'
+import CouncilWritingContainer from "./CouncilWritingContainer";
 
 class AppRouter extends Component {
     constructor(props){
@@ -90,6 +91,7 @@ class AppRouter extends Component {
                                 <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
                                 <Route exact path="/company/:company/council/:id" component={CouncilEditorContainer} />                           
                                 <Route path="/company/:company/councils/:section" component={CouncilContainer} />
+                                <Route exact path="/company/:company/council/:council/writing" component={CouncilWritingContainer} />
                                 <Route path="/company/:company/signatures/:section" component={SignatureContainer} />
                                 <Route exact path="/company/:company/meetings/new" component={() => <div>Nueva conferencia</div>} />                            
                                 <Route path="/company/:company/meetings/:section" component={MeetingsContainer} />
@@ -99,7 +101,7 @@ class AppRouter extends Component {
                                 <Route exact path="/company/:company/draft/:id?" component={CompanyDraftEditor} />
                                 <Route exact path="/company/:company/platform/drafts" component={PlatformDrafts} />                            
                                 <Route exact path="/company/:company/censuses" component={CompanyCensusContainer} />
-                                <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />  
+                                <Route exact path="/company/:company/census/:id" component={CensusEditorPage} />
                                 <Route exact path="/company/:company/statutes" component={StatutesPage} />                                                        
                                 <Route exact path="/user/:id" component={UserSettingsContainer} />                        
                                 <Route path="*" component={NotFound}/>

@@ -298,14 +298,14 @@ class ConvenedParticipantsTable extends Component {
                                         {participant.representative.dni}
                                     </div>
                                 </TableCell>
-                                <TableCell>
-                                    <div style={{
-                                        fontSize: '0.9em',
-                                        width: '100%'
-                                    }}>
-                                        {participant.representative.email}
-                                    </div>
-                                </TableCell>
+                                {/*<TableCell>*/}
+                                    {/*<div style={{*/}
+                                        {/*fontSize: '0.9em',*/}
+                                        {/*width: '100%'*/}
+                                    {/*}}>*/}
+                                        {/*{participant.representative.email}*/}
+                                    {/*</div>*/}
+                                {/*</TableCell>*/}
                                 <TableCell>
                                     <div style={{
                                         fontSize: '0.9em',

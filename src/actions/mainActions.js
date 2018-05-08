@@ -44,7 +44,7 @@ export const setUserData = (user) => {
 
 const resetStore = () => {
     client.resetStore();
-}
+};
 
 
 export const logout = () => {
