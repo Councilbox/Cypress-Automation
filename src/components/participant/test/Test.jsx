@@ -139,7 +139,7 @@ const DeviceItem = ({windowSize, status, icon, iconText, text, color, secondaryT
                 </Grid>
             }
 
-            {secondaryText &&
+            {windowSize !== 'xs' && secondaryText &&
                 <Grid item xs={12} style={styles.landscape.actionBarItemTextSecondary}>
                     { secondaryText }
                 </Grid>
@@ -256,7 +256,6 @@ class Test extends Component {
                                 {translate.windows_minimum_version}
                             </span>
                         </div>);
-                break;
 
             case webRTCUtils.NOT_COMPATIBLE_BROWSER:
                 return(<div style={{textAlign: 'center', paddingLeft: '5px', paddingRight: '5px'}}>
@@ -264,11 +263,9 @@ class Test extends Component {
                                 {translate.we_recommend_google_chrome}
                             </a>
                         </div>);
-                break;
         
             default:
-                return(<div></div>);
-                break;
+                return;
         }
     }
 
