@@ -91,7 +91,9 @@ const styles = {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: 'white'
+            color: 'white',
+            textAlign: 'right',
+            paddingRight: '15px'
         }
     }
 }
@@ -103,12 +105,18 @@ const DeviceItem = ({windowSize, status, icon, iconText, text, color, secondaryT
                 <div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '5px'}}>
                     <FontAwesome 
                         name={icon}
-                        style={{...(windowSize === 'xs'? styles.portrait.actionBarItemIcon : styles.landscape.actionBarItemIcon), ...((status !== AVAILABLE && status !== COMPATIBLE) && {color:red})}}
+                        style={{...(windowSize === 'xs'? styles.portrait.actionBarItemIcon : styles.landscape.actionBarItemIcon), ...((status !== AVAILABLE && status !== COMPATIBLE && status !== PERMISSION_DENIED) && {color:red})}}
                     />
                     {(status === AVAILABLE || status === COMPATIBLE) &&
                         <FontAwesome 
                             name={"check-circle"}
                             style={{position: 'absolute', fontSize: '20px', right: '-5px', top: '-5px', color: green}}
+                        />
+                    }
+                    {(status === PERMISSION_DENIED) &&
+                        <FontAwesome 
+                            name={"minus-circle"}
+                            style={{position: 'absolute', fontSize: '20px', right: '-5px', top: '-5px', color: red}}
                         />
                     }
                 </div>
@@ -129,7 +137,7 @@ const DeviceItem = ({windowSize, status, icon, iconText, text, color, secondaryT
             }
 
             {secondaryText &&
-                <Grid item xs={12} style={styles.landscape.actionBarItemText}>
+                <Grid item xs={12} style={styles.landscape.actionBarItemTextSecondary}>
                     { secondaryText }
                 </Grid>
             }
@@ -226,17 +234,15 @@ class Test extends Component {
 
         return this._renderDeviceItem(status, icon, text, secondaryText);
     }
-
     buildDeviceText = (detectRTC, deviceStatus) => {
         return (
-            <div>
+            <div style={{width: '100%'}}>
                 <span style={(deviceStatus === webRTCUtils.iOS_DEVICE) ? {color: red} : {}}>{detectRTC.osName}</span> <br /> 
                 <span style={(deviceStatus === webRTCUtils.UNSUPORTED_WINDOWS_VERSION)? {color: red} : {}}>{detectRTC.osVersion}</span> <br /> 
                 <span style={(deviceStatus === webRTCUtils.NOT_COMPATIBLE_BROWSER)? {color: red} : {}}>{`${detectRTC.browser.name} ${detectRTC.browser.version}`}</span>
             </div>
         );
     }
-
     buildDeviceSecondaryText = (detectRTC, deviceStatus) => {
         const { translate } = this.props;
         switch (deviceStatus) {
@@ -278,7 +284,28 @@ class Test extends Component {
     }
     _renderSpeakersItem = () => {
         const status = this.checkSpeakers();
-        return this._renderDeviceItem(status, "headphones");
+        const text = this.buildSpeakersText(status);
+        const icon = "headphones";
+        return this._renderDeviceItem(status, icon, text);
+    }
+    buildSpeakersText = (speakersStatus) => {
+        const { translate } = this.props;
+
+        if(speakersStatus === AVAILABLE){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.able_to_listen_without_difficulty}</span>
+                </div>
+            );
+        }
+
+        if(speakersStatus === NOT_FOUND){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.connect_headphones_speakers}</span>
+                </div>
+            );
+        }
     }
 
     // CHECK WEBCAM
@@ -301,8 +328,38 @@ class Test extends Component {
     }
     _renderWebcamItem = () => {
         const status = this.checkWebcam();
-        return this._renderDeviceItem(status, "camera");
+        const text = this.buildWebcamText(status);
+        const icon = "camera";
+        return this._renderDeviceItem(status, icon, text);
     }
+    buildWebcamText = (webcamStatus) => {
+        const { translate } = this.props;
+
+        if(webcamStatus === AVAILABLE){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.able_to_see_without_difficulty}</span>
+                </div>
+            );
+        }
+
+        if(webcamStatus === PERMISSION_DENIED){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.allow_access_to_your_camera}</span>
+                </div>
+            );
+        }
+
+        if(webcamStatus === NOT_FOUND){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.they_can_see_you_choose_other_device_with_camera}</span>
+                </div>
+            );
+        }
+    }
+
 
     // CHECK MICRO
     checkMicro = () => {
@@ -324,7 +381,36 @@ class Test extends Component {
     }
     _renderMicroItem = () => {
         const status = this.checkMicro();
-        return this._renderDeviceItem(status, "microphone");
+        const text = this.buildMicroText(status);
+        const icon = "microphone";
+        return this._renderDeviceItem(status, icon, text);
+    }
+    buildMicroText = (microStatus) => {
+        const { translate } = this.props;
+
+        if(microStatus === AVAILABLE){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.able_to_hear_you_without_difficulty}</span>
+                </div>
+            );
+        }
+
+        if(microStatus === PERMISSION_DENIED){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.allow_access_to_micro}</span>
+                </div>
+            );
+        }
+
+        if(microStatus === NOT_FOUND){
+            return (
+                <div style={{width: '100%'}}>
+                    <span>{translate.they_can_hear_you_choose_other_device_with_camera}</span>
+                </div>
+            );
+        }
     }
 
     render() {
