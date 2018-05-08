@@ -418,6 +418,12 @@ class Test extends Component {
     }
 
     // MODAL
+    openModal = () => {
+        this.setState({
+            modal: true
+        });
+    }
+
     closeModal = () => {
         this.setState({
             modal: false
@@ -432,7 +438,7 @@ class Test extends Component {
 
         return (
             <div style={styles.viewContainer}>
-                <Header />
+                <Header helpModal={true} helpModalAction={this.openModal}/>
                 <div style={(windowSize === 'xs')? styles.portrait.mainContainer : styles.landscape.mainContainer}>
                     <div style={(windowSize === 'xs')? styles.portrait.actionsBar : styles.landscape.actionsBar}>
 
@@ -462,24 +468,28 @@ class Test extends Component {
                     </div>
 
                     <div style={(windowSize === 'xs')? styles.portrait.container : styles.landscape.container}>
-                        <BasicButton
-                            text={translate.need_help}
-                            color={'white'}
-                            textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                            textPosition="after"
-                            icon={<ButtonIcon type="message" color={primary} style={{marginLeft: '15px'}}/>}
-                            onClick={() => this.setState({modal: true})}
-                            buttonStyle={{
-                                marginRight: '1em', 
-                                border: `2px solid ${primary}`, 
-                                boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-                                position: 'absolute', 
-                                bottom: '40px',
-                                right: '40px'
-                            }}
-                        /> 
+
+                        {windowSize !== 'xs' &&
+                            <BasicButton
+                                text={translate.need_help}
+                                color={'white'}
+                                textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                textPosition="after"
+                                icon={<ButtonIcon type="message" color={primary} style={{marginLeft: '15px'}}/>}
+                                onClick={() => this.setState({modal: true})}
+                                buttonStyle={{
+                                    marginRight: '1em', 
+                                    border: `2px solid ${primary}`, 
+                                    boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+                                    position: 'absolute', 
+                                    bottom: '40px',
+                                    right: '40px'
+                                }}
+                            /> 
+                        }
                     </div>
                 </div>
+                
                 <NeedHelpModal 
                     show = { this.state.modal } 
                     translate = { translate }

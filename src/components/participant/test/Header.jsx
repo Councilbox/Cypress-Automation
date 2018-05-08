@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import logo from '../../../assets/img/logo.png';
 import icono from '../../../assets/img/logo-icono.png';
 import { Link } from 'react-router-dom';
-import LanguageSelector from '../../menus/LanguageSelector';
-import UserMenu from '../../menus/UserMenu';
 import { Icon } from '../../../displayComponents';
 import { bHistory } from '../../../containers/App';
 import withWindowSize from '../../../HOCs/withWindowSize';
-import { getSecondary } from '../../../styles/colors';
-import { Tooltip } from 'material-ui';
+import { ButtonIcon } from '../../../displayComponents';
+import { primary, getSecondary } from '../../../styles/colors';
+import { Tooltip, IconButton } from 'material-ui';
 
 class Header extends Component {
 
@@ -22,7 +21,7 @@ class Header extends Component {
 
     render() {
         const language = this.props.translate && this.props.translate.selectedLanguage;
-        const { backButton, windowSize, languageSelector, drawerIcon } = this.props;
+        const { backButton, windowSize, helpModal, helpModalAction } = this.props;
 
         return (<header className="App-header" style={{
                 height: '3em',
@@ -66,14 +65,11 @@ class Header extends Component {
                     flexDirection: 'row',
                     alignItems: 'center'
                 }}>
-                    {languageSelector && <LanguageSelector
-                        selectedLanguage={language}
-                    />}
-                    {this.props.user && <UserMenu
-                        user={this.props.user}
-                        translate={this.props.translate}
-                    />}
-                    {drawerIcon && 'DRAWER'}
+                    {(helpModal && (windowSize === 'xs')) && 
+                        <IconButton style={{marginRight: '0.5em', outline: '0'}} aria-label="help" onClick={helpModalAction}>
+                            <Icon className="material-icons" style={{color: primary, fontSize: '1.2em'}}>live_help</Icon>
+                        </IconButton>
+                    }
                 </div>
             </header>);
     }
