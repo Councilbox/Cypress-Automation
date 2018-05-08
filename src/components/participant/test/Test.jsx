@@ -484,6 +484,7 @@ class Test extends Component {
                     show = { this.state.modal } 
                     translate = { translate }
                     requestClose = { this.closeModal }    
+                    detectRTC = { detectRTC }
                 />
             </div>            
         );

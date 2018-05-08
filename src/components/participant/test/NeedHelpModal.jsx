@@ -40,7 +40,7 @@ class NeedHelpModal extends Component {
                     "email": this.state.email,
                     "phone": this.state.phone,
                     "message": this.state.message,
-                    "rtcData": JSON.stringify({test: 'test'}),
+                    "rtcData": JSON.stringify(this.props.detectRTC),
                     "councilInfo": ""
                 }
             }
