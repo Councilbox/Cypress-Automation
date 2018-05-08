@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FontAwesome from 'react-fontawesome';
 import { Grid, Typography } from 'material-ui';
-import Header from '../Header';
-import { LoadingMainApp } from '../../displayComponents';
-import { secondary, green, red, darkGrey, lightGrey } from '../../styles/colors';
-import withWindowSize from '../../HOCs/withWindowSize';
-import withTranslations from '../../HOCs/withTranslations';
-import * as mainActions from '../../actions/mainActions';
-import * as webRTCUtils from '../../utils/webRTC';
+import Header from './Header.jsx';
+import NeedHelpModal from './NeedHelpModal.jsx';
+import { LoadingMainApp, BasicButton, ButtonIcon } from '../../../displayComponents';
+import { primary, secondary, green, red, darkGrey, lightGrey } from '../../../styles/colors';
+import withWindowSize from '../../../HOCs/withWindowSize';
+import withTranslations from '../../../HOCs/withTranslations';
+import * as mainActions from '../../../actions/mainActions';
+import * as webRTCUtils from '../../../utils/webRTC';
 import DetectRTC from 'detectrtc';
 const NOT_FOUND = 'NOT_FOUND';
 const PERMISSION_DENIED = 'PERMISSION_DENIED';
@@ -40,7 +41,8 @@ const styles = {
         container: {
             width: '100%',
             height: '100%',
-            backgroundColor: lightGrey
+            backgroundColor: lightGrey,
+            position: 'relative'
         },
         actionsBarItem: {
             width: '25%',
@@ -73,7 +75,8 @@ const styles = {
         container: {
             width: '100%',
             height: '100%',
-            backgroundColor: lightGrey
+            backgroundColor: lightGrey,
+            position: 'relative'
         },
         actionsBarItem: {
             width: '100%',
@@ -152,7 +155,8 @@ class Test extends Component {
         this.state = {
             loading: true,
             language: this.props.match.params.language,
-            detectRTC: DetectRTC
+            detectRTC: DetectRTC,
+            modal: false
         }
     }
 
@@ -413,6 +417,13 @@ class Test extends Component {
         }
     }
 
+    // MODAL
+    closeModal = () => {
+        this.setState({
+            modal: false
+        });
+    }
+
     render() {
         const { translate, windowSize } = this.props;
         const { detectRTC } = this.state;
@@ -451,9 +462,29 @@ class Test extends Component {
                     </div>
 
                     <div style={(windowSize === 'xs')? styles.portrait.container : styles.landscape.container}>
-                    
+                        <BasicButton
+                            text={translate.need_help}
+                            color={'white'}
+                            textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                            textPosition="after"
+                            icon={<ButtonIcon type="message" color={primary} style={{marginLeft: '15px'}}/>}
+                            onClick={() => this.setState({modal: true})}
+                            buttonStyle={{
+                                marginRight: '1em', 
+                                border: `2px solid ${primary}`, 
+                                boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+                                position: 'absolute', 
+                                bottom: '40px',
+                                right: '40px'
+                            }}
+                        /> 
                     </div>
                 </div>
+                <NeedHelpModal 
+                    show = { this.state.modal } 
+                    translate = { translate }
+                    requestClose = { this.closeModal }    
+                />
             </div>            
         );
     }
