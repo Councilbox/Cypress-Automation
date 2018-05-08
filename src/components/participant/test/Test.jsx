@@ -42,7 +42,10 @@ const styles = {
             width: '100%',
             height: '100%',
             backgroundColor: lightGrey,
-            position: 'relative'
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
         },
         actionsBarItem: {
             width: '25%',
@@ -56,6 +59,41 @@ const styles = {
             fontSize: '12px',
             color: 'white',
             textAlign: 'center'
+        },
+        videoContainer: {
+            width: '100%',
+            height: '90%',
+            // backgroundColor: 'blue',
+            position: 'relative',
+            padding: '5px',
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        videoTitles: {
+            width: '100%',
+            height: '50px',
+            // backgroundColor: 'yellow',
+            display: 'flex',
+            flexDirection: 'row'
+        },
+        videosIframeContainer: {
+            width: '100%',
+            height: '100%',
+            // backgroundColor: 'red'
+        },
+        videoTitleLeft: {
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+        },
+        videoTitleRight: {
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
         }
     },
     landscape: {
@@ -76,7 +114,10 @@ const styles = {
             width: '100%',
             height: '100%',
             backgroundColor: lightGrey,
-            position: 'relative'
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
         },
         actionsBarItem: {
             width: '100%',
@@ -97,6 +138,41 @@ const styles = {
             color: 'white',
             textAlign: 'right',
             paddingRight: '15px'
+        },
+        videoContainer: {
+            width: '100%',
+            height: '70%',
+            // backgroundColor: 'blue',
+            position: 'relative',
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        videoTitles: {
+            width: '100%',
+            height: '60px',
+            // backgroundColor: 'yellow',
+            display: 'flex',
+            flexDirection: 'row'
+        },
+        videosIframeContainer: {
+            width: '100%',
+            height: '100%',
+            // backgroundColor: 'red'
+        },
+        videoTitleLeft: {
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+        },
+        videoTitleRight: {
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end'
         }
     }
 }
@@ -156,7 +232,8 @@ class Test extends Component {
             loading: true,
             language: this.props.match.params.language,
             detectRTC: DetectRTC,
-            modal: false
+            modal: false,
+            isiOSDevice: false
         }
     }
 
@@ -175,7 +252,11 @@ class Test extends Component {
             this.props.actions.setLanguage(this.props.match.params.language)
         }
         DetectRTC.load(() => {
-            this.setState({detectRTC: DetectRTC});
+            const isiOSDevice = (DetectRTC.isMobileDevice && DetectRTC.osName == 'iOS') ? true : false;
+            this.setState({
+                detectRTC: DetectRTC,
+                isiOSDevice: isiOSDevice
+            });
         });
     }
 
@@ -429,7 +510,7 @@ class Test extends Component {
 
     render() {
         const { translate, windowSize } = this.props;
-        const { detectRTC } = this.state;
+        const { detectRTC, isiOSDevice } = this.state;
 
         if(this.state.loading) return(<LoadingMainApp/>);
 
@@ -465,6 +546,48 @@ class Test extends Component {
                     </div>
 
                     <div style={(windowSize === 'xs')? styles.portrait.container : styles.landscape.container}>
+                        {isiOSDevice ? 
+                            <div style={{padding: '20px'}}>
+                                <div style={{textAlign: 'center'}}>
+                                    <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{fontSize: '40px'}}></i>
+                                    <h4 style={{marginTop: '0px'}}>{translate.app_required}</h4>
+                                </div>
+
+                                <p>
+                                    {translate.app_required_msg}
+                                </p>
+
+                                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                    <a 
+                                        href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8" 
+                                        style={{
+                                            display: 'inline-block', 
+                                            overflow: 'hidden', 
+                                            background: 'url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat',
+                                            width: '135px',
+                                            height: '40px',
+                                            backgroundSize: 'contain'
+                                        }}
+                                    >
+                                    </a>
+                                </div>
+                            </div>
+                            :
+                            <div style={(windowSize === 'xs')? styles.portrait.videoContainer : styles.landscape.videoContainer}>
+                                <div style={(windowSize === 'xs')? styles.portrait.videoTitles : styles.landscape.videoTitles}>
+                                    <div style={(windowSize === 'xs')? styles.portrait.videoTitleLeft : styles.landscape.videoTitleLeft}>
+                                        <span style={{textTransform: 'uppercase'}}>{translate.own_video}</span>
+                                    </div>
+                                    <div style={(windowSize === 'xs')? styles.portrait.videoTitleRight : styles.landscape.videoTitleRight}>
+                                        <span style={{textTransform: 'uppercase'}}>{translate.remote_video}</span>
+                                    </div>
+                                </div>
+
+                                <div style={(windowSize === 'xs')? styles.portrait.videosIframeContainer : styles.landscape.videosIframeContainer}>
+
+                                </div>
+                            </div>
+                        }
 
                         {windowSize !== 'xs' &&
                             <BasicButton

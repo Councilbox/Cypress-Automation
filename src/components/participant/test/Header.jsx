@@ -67,7 +67,7 @@ class Header extends Component {
                 }}>
                     {(helpModal && (windowSize === 'xs')) && 
                         <IconButton style={{marginRight: '0.5em', outline: '0'}} aria-label="help" onClick={helpModalAction}>
-                            <Icon className="material-icons" style={{color: primary, fontSize: '1.2em'}}>live_help</Icon>
+                            <Icon className="material-icons" style={{color: primary, fontSize: '0.9em'}}>live_help</Icon>
                         </IconButton>
                     }
                 </div>
