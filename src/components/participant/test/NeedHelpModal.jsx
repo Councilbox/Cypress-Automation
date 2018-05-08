@@ -13,6 +13,7 @@ class NeedHelpModal extends Component {
             success: '',
             error: '',
             email: '',
+            phone: '',
             message: ''
         };
     }
@@ -24,6 +25,7 @@ class NeedHelpModal extends Component {
             sending: false,
             error: false,
             email: '',
+            phone: '',
             message: ''
         });
     };
@@ -34,8 +36,13 @@ class NeedHelpModal extends Component {
         });
         const response = await this.props.sendHelp({
             variables: {
-                email: this.state.email,
-                message: this.state.message
+                sendHelpInfo: {
+                    "email": this.state.email,
+                    "phone": this.state.phone,
+                    "message": this.state.message,
+                    "rtcData": JSON.stringify({test: 'test'}),
+                    "councilInfo": ""
+                }
             }
         });
         if(response.data.sendHelp.success){
@@ -80,6 +87,14 @@ class NeedHelpModal extends Component {
                         fullWidth={true}
                     />
                     <TextField
+                        id="phone"
+                        label={translate.phone}
+                        value={this.state.phone}
+                        onChange={(event) => this.setState({phone: event.target.value})}
+                        margin="normal"
+                        fullWidth={true}
+                    />
+                    <TextField
                         id="message"
                         label={translate.message}
                         value={this.state.message}
@@ -111,27 +126,11 @@ class NeedHelpModal extends Component {
 }
 
 const sendHelp = gql`
-    mutation sendHelp($company: CompanyInput){
-      updateCompany(company: $company){
-        alias
-        tin
-        logo
-        id
-        businessName
-        address
-        city
-        zipcode
-        country
-        countryState
-        linkKey
-        creatorId
-        domain
-        demo
-        type
-        language
-        creationDate
-        corporationId
-      }
+    mutation sendHelp($sendHelpInfo: SendHelpInput){
+        sendHelp(sendHelpInfo: $sendHelpInfo){
+            success,
+            message
+        }
     }
 `;
 
