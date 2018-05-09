@@ -13,6 +13,7 @@ export const AGENDA_TYPE = {
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
 export const CENSUS_LIMITS = [25, 50, 100, 250];
 export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];
+export const DELEGATION_USERS_LOAD = 25;
 
 
 export const EMAIL_TRACK_STATES = {
@@ -43,5 +44,16 @@ export const PARTICIPANT_STATES = {
     'REPRESENTATED': 2,
     'DELEGATED': 4,
     'PHYSICALLY_PRESENT': 5,
-    'NO_PARTICIPATE': 6
+    'NO_PARTICIPATE': 6,
+    'PRESENT_WITH_REMOTE_VOTE': 7
 }
+
+export const SEND_TYPES = [
+    'convene',
+    'reminder',
+    'rescheduled',
+    'cancellation',
+    'room_access',
+    'security',
+    'act'
+]

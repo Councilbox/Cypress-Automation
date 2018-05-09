@@ -1225,7 +1225,7 @@ export const councilLiveQuery =  gql`
         secondCallQuorum
         secondCallQuorumDivider
         existsDelegatedVote
-        delegatedVoteWay
+        existsPresentWithRemoteVote
         existMaxNumDelegatedVotes
         maxNumDelegatedVotes
         existsLimitedAccessRoom
@@ -1259,6 +1259,15 @@ export const councilLiveQuery =  gql`
       votationType
       weightedVoting
       zipcode
+    }
+  }
+`;
+
+export const addRepresentative = gql`
+  mutation addRepresentative($representative: LiveRepresentativeInput, $participantId: Int!){
+    addRepresentative(representative: $representative, participantId: $participantId){
+      success
+      message
     }
   }
 `;
@@ -1490,15 +1499,20 @@ export const liveParticipants = gql `
         requestWord
         numParticipations
         surname
-        uuid
         assistanceComment
         assistanceLastDateConfirmed
         assistanceIntention
         videoPassword
+        representative{
+          id
+          name
+          surname
+        }
         blocked
         lastDateConnection
         videoMode
         notifications{
+          participantId
           reqCode
           refreshDate
         }
@@ -1519,8 +1533,127 @@ export const liveParticipants = gql `
       total
     }
   }
-
 `;
+
+export const participantsToDelegate = gql`
+  query liveParticipantsToDelegate($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    liveParticipantsToDelegate(councilId: $councilId, filters: $filters, options: $options){
+      list{
+        id
+        name
+        surname
+        phone
+        email
+        dni
+        position
+      }
+      total
+    }
+  }
+`;
+
+export const participantsWhoCanDelegate = gql`
+query liveParticipantsToDelegate($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+  liveParticipantsWhoCanDelegate(councilId: $councilId, filters: $filters, options: $options){
+    list{
+      id
+      name
+      surname
+      phone
+      email
+      dni
+      position
+    }
+    total
+  }
+}
+`;
+
+export const liveParticipant = gql`
+  query liveParticipant($participantId: Int!){
+    liveParticipant(liveId: $participantId){
+      id
+      delegateId
+      state
+      audio
+      video
+      councilId
+      name
+      position
+      email
+      phone
+      dni
+      date
+      type
+      participantId
+      online
+      requestWord
+      numParticipations
+      surname
+      assistanceComment
+      assistanceLastDateConfirmed
+      assistanceIntention
+      videoPassword
+      blocked
+      lastDateConnection
+      videoMode
+      notifications{
+        participantId
+        reqCode
+        refreshDate
+        sendDate
+        sendType
+      }
+      firstLoginDate
+      firstLoginCurrentPointId
+      language
+      signed
+      socialCapital
+      address
+      city
+      representative {
+        id
+        name
+        surname
+        dni
+        email
+        phone
+        position
+        language
+        numParticipations
+        socialCapital
+      }
+      delegatedVotes {
+        id
+        name
+        surname
+        dni
+        email
+        phone
+        position
+        language
+        numParticipations
+        socialCapital
+      }
+      country
+      countryState
+      zipcode
+      delegateUuid
+      actived
+      personOrEntity
+    }
+  }
+`;
+
+export const updateLiveParticipant = gql`
+  mutation updateLiveParticipant($participant: LiveParticipantInput, $representative: LiveRepresentativeInput){
+    updateLiveParticipant(participant: $participant, representative: $representative){
+      success
+      message
+    }
+  }
+`;
+
 
 export const iframeURLTEMP = gql`
   query councilRoomTEMP($councilId: Int!, $participantId: String!){

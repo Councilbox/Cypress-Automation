@@ -1,4 +1,4 @@
-import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE, PARTICIPANT_STATES } from '../constants';
+import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE, PARTICIPANT_STATES, SEND_TYPES } from '../constants';
 import moment from 'moment';
 import dropped from '../assets/img/dropped.png';
 import delivered from '../assets/img/delivered.png';
@@ -73,6 +73,22 @@ export const hasAct = (statute) => {
     return statute.existsAct === 1;
 };
 
+export const canDelegateVotes = (statute, participant) => {
+    return statute.existsDelegatedVote === 1 && participant.state !== 3 && participant.type === 0;
+}
+
+export const canHaveRepresentative = (participant) => {
+    return participant.type === 0 && participant.state !== 3;
+}
+
+export const delegatedVotesLimitReached = (statute, length) => {
+    return statute.existMaxNumDelegatedVotes === 1 && length >= statute.maxNumDelegatedVotes;
+}
+
+export const canBePresentWithRemoteVote = (statute) => {
+    return statute.existsPresentWithRemoteVote === 1;
+}
+
 export const filterAgendaVotingTypes = (votingTypes, statute) => {
     if(statute.existsPresentWithRemoteVote === 1){
         return votingTypes.filter((type) => type.label === 'text' || type.label === 'public_votation');
@@ -124,6 +140,14 @@ export const hasParticipations = (statute = {}) => {
 export const isRepresentative = (participant) => {
     return participant.type === 2;
 };
+
+export const isRepresented = (participant) => {
+    return participant.state === 2;
+};
+
+export const getSendType = (value) => {
+    return SEND_TYPES[value];
+}
 
 export const removeHTMLTags = (string) => {
     return string.replace(/<(?:.|\n)*?>/gm, '');
@@ -230,6 +254,10 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
     }
 };
 
+export const participantIsGuest = (participant) => {
+    return participant.type === 1;
+}
+
 export const getEmailIconByReqCode = (reqCode) => {
     switch(reqCode){
 
@@ -312,7 +340,9 @@ export const canAddPoints = (council) => {
     return council.statute.canAddPoints === 1;
 }
 
-
+export const hasHisVoteDelegated = (participant) => {
+    return participant.state === 4;
+}
 
 export const getParticipantStateString = (participant) => {
     switch(participant.state){
@@ -341,6 +371,36 @@ export const getParticipantStateString = (participant) => {
             return 'INVALID_STATE';
     }
 }
+
+export const getParticipantStateField = (participant) => {
+    switch(participant.state){
+        case 0: 
+            return 'remote_assistance';
+
+        case 1:
+            return 'physically_present_assistance';
+            
+        case 2:
+            return 'representated';
+
+        case 4:
+            return 'delegated';
+
+        case 5:
+            return 'physically_present_assistance';
+
+        case 6:
+            return 'no_assist_assistance';
+
+        case 7:
+            return 'physically_present_with_remote_vote';
+
+        default:
+            return 'remote_assistance';
+    }
+}
+
+
 
 export const checkRequiredFields = (translate, draft, updateErrors) => {
     let errors = {
