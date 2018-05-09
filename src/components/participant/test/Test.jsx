@@ -590,7 +590,7 @@ class Test extends Component {
                                         title="testIframe" 
                                         allow="geolocation; microphone; camera" 
                                         scrolling="no"  
-                                        src={`http://${getTestIframe.participantTestIframe}?rand=${Math.round(Math.random() * 10000000)}`} 
+                                        src={`https://${getTestIframe.participantTestIframe}?rand=${Math.round(Math.random() * 10000000)}`} 
                                         allowFullScreen="true" 
                                         style={{border:'none', width: '100%', height: 'calc(100% - 60px)'}}
                                     >
