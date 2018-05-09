@@ -14,7 +14,7 @@ import {
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import PlaceModal from './PlaceModal';
-import LoadDraft from './LoadDraft';
+import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { compose, graphql } from 'react-apollo';
 import { changeStatute, councilStepOne, updateCouncil } from '../../../queries';
 import * as CBX from '../../../utils/CBX';
@@ -296,18 +296,18 @@ class CouncilEditorNotice extends Component {
                     />
                 </GridItem>
                 <GridItem xs={12} md={12} lg={12}>
-                    <LoadDraft
-                        translate={translate}
-                        company={company}
-                        loadDraft={this.loadDraft}
-                        councilType={statute}
-                        statutes={companyStatutes}
-                        draftType={draftTypes.filter((draft => draft.label === 'convene_header'))[ 0 ].value}
-                    />
                     <RichTextInput
                         ref='editor'
                         errorText={errors.convene_header}
                         required
+                        loadDraft={<LoadDraftModal
+                            translate={translate}
+                            company={company}
+                            loadDraft={this.loadDraft}
+                            councilType={statute}
+                            statutes={companyStatutes}
+                            draftType={draftTypes.filter((draft => draft.label === 'convene_header'))[ 0 ].value}
+                        />}
                         tags={[ {
                             value: moment(council.dateStart).format('LLL'),
                             label: translate.date

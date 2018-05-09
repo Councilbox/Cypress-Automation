@@ -40,31 +40,30 @@ class AttachmentDownload extends React.Component {
     };
 
     render() {
-        const { attachment, spacing = 0 } = this.props;
+        const { attachment } = this.props;
+        const secondary = getSecondary();
 
         return (<div
-                style={{
-                    display: 'inline',
-                    cursor: 'pointer',
-                    padding: '0.6em',
-                    border: `1px solid ${getSecondary()}`,
-                    color: getSecondary(),
-                    margin: `${spacing}em`
-                }}
-                onClick={() => this.downloadAttachment(attachment.filename)}
-            >
-                {this.state.downloading ?
-                    <CircularProgress size={14} color={'secondary'} style={{ marginRight: '0.8em' }}/> : <FontAwesome
-                        name={'download'}
-                        style={{
-                            fontSize: '0.9em',
-                            color: getSecondary(),
-                            marginRight: '0.8em'
-                        }}
-                    />}
+            style={{
+                cursor: 'pointer',
+                padding: '0.2em 0.5em',
+                border: `1px solid ${secondary}`,
+                borderRadius: '3px',
+                color: secondary,
+            }}
+            onClick={() => this.downloadAttachment(attachment.filename)}
+        >
+            {this.state.downloading ?
+                <CircularProgress size={14} color={'secondary'} style={{ marginRight: '0.8em' }}/> : <FontAwesome
+                    name={'download'}
+                    style={{
+                        fontSize: '0.9em',
+                        color: secondary,
+                    }}
+                />}
 
-                {`${attachment.filename} (${printPrettyFilesize(attachment.filesize)})`}
-            </div>)
+            {`${attachment.filename} (${printPrettyFilesize(attachment.filesize)})`}
+        </div>)
     }
 }
 

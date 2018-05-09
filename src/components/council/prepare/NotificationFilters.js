@@ -8,7 +8,7 @@ import * as CBX from '../../../utils/CBX';
 
 class NotificationFilters extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             selectedFilter: ''
@@ -19,14 +19,14 @@ class NotificationFilters extends Component {
         const { refetch } = this.props;
         const { selectedFilter } = this.state;
 
-        if(selectedFilter === code){
+        if (selectedFilter === code) {
             this.setState({
                 selectedFilter: ''
             });
             refetch({
                 notificationStatus: null
             });
-        }else{
+        } else {
             refetch({
                 notificationStatus: code
             });
@@ -40,47 +40,46 @@ class NotificationFilters extends Component {
         const { selectedFilter } = this.state;
         const { translate } = this.props;
 
-        return(
-            <GridItem
-                xs={1} lg={1} md={1}
+        return (<div
                 key={`emailFilter_${value}`}
                 onClick={() => this.changeFilter(value)}
                 style={{
                     cursor: 'pointer',
                     border: `1px solid ${getSecondary()}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: selectedFilter === value? '#dfeef1' : 'transparent'
+                    backgroundColor: selectedFilter === value ? '#dfeef1' : 'transparent',
+                    padding: '0.2em 0.3em',
+                    margin: '0.1em',
+                    borderRadius: '3px'
                 }}
             >
-                <Tooltip title={translate[CBX.getTranslationReqCode(value)]} placement="top">
+                <Tooltip title={translate[ CBX.getTranslationReqCode(value) ]} placement="top">
                     <img
                         src={CBX.getEmailIconByReqCode(value)}
-                        alt="icon-email-dropped"
+                        alt={value}
                         style={{
-                            width: '80%',
+                            width: '25px',
                             height: 'auto'
                         }}
                     />
                 </Tooltip>
-            </GridItem>
-        )
+            </div>)
     };
 
-    render(){
+    render() {
         const { translate } = this.props;
 
-        return(
-            <Grid style={{display: 'flex', marginTop: '0.6em', justifyContent: 'center', alignItems: 'center'}}>
-                {`${translate.filter_by}: `}
-                <GridItem xs={10} lg={10} md={10} style={{display: 'flex', flexDirection: 'row', marginLeft: '0.7em'}}>
-                    {Object.keys(EMAIL_STATES_FILTERS).map((code) => (
-                        this._renderFilterIcon(EMAIL_STATES_FILTERS[code])
-                    ))}
+        return (<Grid>
+                <GridItem xs={4} md={9} lg={3}
+                          style={{ paddingTop: '0.6em' }}>
+                    {`${translate.filter_by}: `}
                 </GridItem>
-            </Grid>
-        );
+                <GridItem xs={8} md={9} lg={9} style={{
+                    display: 'flex',
+                    flexDirection: 'row'
+                }}>
+                    {Object.keys(EMAIL_STATES_FILTERS).map((code) => (this._renderFilterIcon(EMAIL_STATES_FILTERS[ code ])))}
+                </GridItem>
+            </Grid>);
     }
 }
 
