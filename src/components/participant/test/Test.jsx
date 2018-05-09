@@ -254,7 +254,7 @@ class Test extends Component {
             this.props.actions.setLanguage(this.props.match.params.language)
         }
         DetectRTC.load(() => {
-            const isiOSDevice = (DetectRTC.isMobileDevice && DetectRTC.osName == 'iOS') ? true : false;
+            const isiOSDevice = (DetectRTC.isMobileDevice && DetectRTC.osName === 'iOS') ? true : false;
             this.setState({
                 detectRTC: DetectRTC,
                 isiOSDevice: isiOSDevice
@@ -270,37 +270,31 @@ class Test extends Component {
                 return(
                     <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.available} color={green} text={text} secondaryText={secondaryText}/>
                 )
-                break;
 
             case NOT_AVAILABLE:
                 return(
                     <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.not_available} color={red} text={text} secondaryText={secondaryText}/>
                 )
-                break;
 
             case PERMISSION_DENIED:
                 return(
                     <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.no_access} color={red} text={text} secondaryText={secondaryText}/>
                 )
-                break;
 
             case NOT_FOUND:
                 return(
                     <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.does_not_have} color={red} text={text} secondaryText={secondaryText}/>
                 )
-                break;
 
             case COMPATIBLE:
                 return(
                     <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.compatible} color={green} text={text} secondaryText={secondaryText}/>
                 )
-                break;
 
             case INCOMPATIBLE:
                 return(
                     <DeviceItem windowSize={windowSize} status={status} icon={icon} iconText={translate.incompatible} color={red} text={text} secondaryText={secondaryText}/>
                 )
-                break;
         }
     }
 
