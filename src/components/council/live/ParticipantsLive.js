@@ -55,13 +55,13 @@ class ParticipantsLive extends Component {
 
     _button = () => {
         const { participants } = this.props;
-        const liveParticipants = this.props.data.loading? [] : this.props.data.liveParticipants;
+        const liveParticipants = this.props.data.loading? [] : this.props.data.liveParticipants.list;
 
         return(
             <div style={{height: '3em', display: 'flex', backgroundColor: mediumGrey, alignItems: 'center'}} className="withShadow">
                 <div style={{marginLeft: '1em', marginRight: '0.5em', height: '100%', display: 'flex', alignItems: 'center'}}>
                     <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: lightGrey }} >person</Icon>
-                    <span style={{fontWeight: '700', color: 'white', fontSize: '0.8em'}}>{participants.length}</span>
+
                 </div>
                 <div style={{marginLeft: '1em', marginRight: '0.5em', height: '100%', display: 'flex', alignItems: 'center'}}>
                     <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: getSecondary() }}>language</Icon>
@@ -82,7 +82,7 @@ class ParticipantsLive extends Component {
 
         return(
             <div style={{backgroundColor: darkGrey, width: '100%', height: '30em', padding: '0.75em'}}>
-                {liveParticipants.map((participant) => {
+                {liveParticipants.list.map((participant) => {
                     return this._participantEntry(participant)
                 })}
             </div>

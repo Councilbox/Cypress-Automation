@@ -4,7 +4,7 @@ import { MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../../styles/colors';
 import { addCensusParticipant } from '../../../../queries';
-import { languages } from '../../../../queries/masters'
+import { languages } from '../../../../queries/masters';
 import { censusHasParticipations } from '../../../../utils/CBX';
 import RepresentativeForm from './RepresentativeForm';
 
@@ -59,9 +59,6 @@ class AddCensusParticipantButton extends Component {
         }
     };
 
-    addParticipantRepresentative = () => {
-
-    };
 
     checkRequiredFields(){
         return false;

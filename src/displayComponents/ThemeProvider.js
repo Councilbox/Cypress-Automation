@@ -4,8 +4,8 @@ import { getPrimary, getSecondary } from '../styles/colors';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import moment from 'moment';
-import 'moment/locale/fr';
-moment.updateLocale('fr');
+import 'moment/locale/es';
+moment.updateLocale('es');
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -60,7 +60,7 @@ export default ({ children }) => (
         <MuiPickersUtilsProvider
             utils={MomentUtils}
             moment={moment}
-            locale="fr"
+            locale="es"
         >
             {children}
         </MuiPickersUtilsProvider>

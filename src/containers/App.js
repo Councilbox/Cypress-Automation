@@ -16,6 +16,10 @@ import { onError } from 'apollo-link-error';
 import { API_URL } from '../config';
 import { ToastContainer, toast } from 'react-toastify';
 import { printSessionExpiredError } from '../utils/CBX'; 
+import moment from 'moment';
+import 'moment/locale/es';
+moment.updateLocale('es');
+
 
 const httpLink = new HttpLink({
     uri: API_URL

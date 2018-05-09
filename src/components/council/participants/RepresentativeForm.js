@@ -79,7 +79,7 @@ const RepresentativeForm = ({ representative, errors, updateState, translate, la
                 })}
             >
                 {languages.map((language) => {
-                    return <MenuItem value={language.column_name}
+                    return <MenuItem value={language.columnName}
                                         key={`language${language.id}`}>{language.desc}</MenuItem>
                 })}
             </SelectInput>

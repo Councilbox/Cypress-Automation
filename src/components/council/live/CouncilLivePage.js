@@ -50,6 +50,23 @@ class CouncilLivePage extends Component {
         return this.props.data.loading && this.props.companies.list;
     };
 
+    handlePageChange = (event) => {
+        switch(event.nativeEvent.keyCode){
+            case 39:
+                this.setState({
+                    participants: true
+                });
+                break;
+            case 37:
+                this.setState({
+                    participants: false
+                });
+                break;
+            default:
+                return;
+        }
+    }
+
     render(){
         const { council } = this.props.data;
         const { translate } = this.props;
@@ -63,7 +80,11 @@ class CouncilLivePage extends Component {
         const company = this.props.companies.list[this.props.companies.selected];        
 
         return(
-            <div style={{height: '100vh', overflow: 'hidden', backgroundColor: lightGrey, fontSize: '1em'}}>
+            <div 
+                style={{height: '100vh', overflow: 'hidden', backgroundColor: lightGrey, fontSize: '1em'}}
+                onKeyUp={this.handlePageChange}
+                tabIndex="0"
+            >
                 <LiveHeader
                     logo={company.logo}
                     companyName={company.businessName}
@@ -71,7 +92,7 @@ class CouncilLivePage extends Component {
                     translate={translate}
                 />
                 
-                <div style={{display: 'flex', width: '100%', height: '100%', flexDirection: 'row'}}>
+                <div style={{display: 'flex', width: '100%', height: 'calc(100vh - 3em)', flexDirection: 'row', overflow: 'hidden'}}>
                     {showVideo(council) &&
                         <div style={{display: 'flex', flexDirection: this.state.fullScreen? 'row' : 'column', width: `${this.state.videoWidth}%`, height: '100%', position: 'relative'}}>
                             {this.state.fullScreen && 
@@ -110,18 +131,22 @@ class CouncilLivePage extends Component {
                     }
 
                     <div style={{width:`${showVideo(council)? 100 - this.state.videoWidth : 100}%`, height: '100%'}}>
-                        <BasicButton
-                            text={this.state.participants? translate.agenda : translate.participants}
-                            color={getSecondary()}
-                            onClick={() => this.setState({ participants: !this.state.participants})}                                                                    
-                            textStyle={{color: 'white', fontSize: '0.75em', fontWeight: '700', textTransform: 'none'}}
-                        />
-                        {this.state.participants?
-                            <ParticipantsManager
-                                translate={translate}
-                                participants={this.props.data.council.participants}
-                                council={council}
+                        {/*<div style={{height: '3em'}}>
+                            <BasicButton
+                                text={this.state.participants? translate.agenda : translate.participants}
+                                color={getSecondary()}
+                                onClick={() => this.setState({ participants: !this.state.participants})}                                                                    
+                                textStyle={{color: 'white', fontSize: '0.75em', fontWeight: '700', textTransform: 'none'}}
                             />
+                        </div>*/}
+                        {this.state.participants?
+                            <div style={{height: 'calc(100vh - 6em)', marginTop: '1.5em'}}>
+                                <ParticipantsManager
+                                    translate={translate}
+                                    participants={this.props.data.council.participants}
+                                    council={council}
+                                />
+                            </div>
                         :
                             <AgendaManager 
                                 council={council}

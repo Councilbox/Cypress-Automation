@@ -40,16 +40,16 @@ class LiveHeader extends Component  {
                 <div style={{width: '50%', display: 'flex', justifyContent: 'center', marginRight: '10%'}}>
                     <span style={{alignSelf: 'center'}}>{councilName}</span>
                 </div>
-                <div style={{width: '10%', display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingRight: '2em'}}>
-                    <Icon 
+                <div style={{width: '10%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', paddingRight: '2em'}}>
+                    {/*<Icon 
                         className="material-icons"
                         style={{fontSize: '1.5em', color: 'white'}}
                     >
                         help
-                    </Icon>
+                    </Icon>*/}
                     <Icon 
                         className="material-icons"
-                        style={{fontSize: '1.5em', color: 'white'}}
+                        style={{fontSize: '1.5em', color: 'white', cursor: 'pointer'}}
                         onClick={() => this.setState({
                             showConfirm: true
                         })}
