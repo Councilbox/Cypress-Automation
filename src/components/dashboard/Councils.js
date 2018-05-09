@@ -1,19 +1,19 @@
 import React, { Component, Fragment } from 'react';
-import { councils, deleteCouncil } from '../../../queries.js';
+import { councils, deleteCouncil } from '../../queries.js';
 import { graphql, compose } from 'react-apollo';
-import withSharedProps from '../../../HOCs/withSharedProps';
+import withSharedProps from '../../HOCs/withSharedProps';
 import {
     LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, CloseIcon
-} from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+} from '../../displayComponents/index';
+import { getPrimary } from '../../styles/colors';
 import { TableRow, TableCell } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import TableStyles from '../../../styles/table';
-import { bHistory } from "../../../containers/App";
+import TableStyles from '../../styles/table';
+import { bHistory } from "../../containers/App";
 
 
-class CouncilDrafts extends Component {
+class Councils extends Component {
 
     constructor(props) {
         super(props);
@@ -72,9 +72,9 @@ class CouncilDrafts extends Component {
             <Scrollbar>
                 <div style={{ padding: '2em' }}>
                     <SectionTitle
-                        icon="pencil-square-o"
-                        title={translate.companies_draft}
-                        subtitle={translate.companies_draft_desc}
+                        icon={this.props.icon}
+                        title={this.props.title}
+                        subtitle={this.props.desc}
                     />
                     {loading ?
 
@@ -100,7 +100,7 @@ class CouncilDrafts extends Component {
                                             return (<TableRow hover style={TableStyles.ROW}
                                                               key={`council${council.id}`}
                                                               onClick={() => {
-                                                                  bHistory.push(`/company/${this.props.company.id}/council/${council.id}`)
+                                                                  bHistory.push(`/company/${this.props.company.id}/council/${council.id}${this.props.link}`)
                                                               }}
                                             >
                                                 <TableCell style={TableStyles.TD}>
@@ -141,14 +141,14 @@ class CouncilDrafts extends Component {
 }
 
 
-export default withSharedProps()(compose(graphql(deleteCouncil), graphql(councils, {
+export default compose(graphql(deleteCouncil), graphql(councils, {
     name: "data",
     options: (props) => ({
         variables: {
-            state: [ 0 ],
+            state: props.state,
             companyId: props.company.id,
             isMeeting: false,
             active: 1
         }
     })
-}))(CouncilDrafts));
+}))(Councils);

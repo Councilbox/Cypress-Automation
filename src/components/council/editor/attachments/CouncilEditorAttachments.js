@@ -1,13 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, ButtonIcon, Grid, GridItem } from '../../../displayComponents';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { BasicButton, LoadingSection, FileUploadButton, ProgressBar, ErrorAlert, ButtonIcon, Grid, GridItem } from '../../../../displayComponents/index';
+import { getPrimary, getSecondary, secondary } from '../../../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { MAX_FILE_SIZE } from '../../../constants';
+import { MAX_FILE_SIZE } from '../../../../constants';
 import { Typography } from "material-ui";
-import AttachmentList from '../../attachments/AttachmentList';
-import { showAddCouncilAttachment } from '../../../utils/CBX';
-import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../../queries';
-
+import AttachmentList from '../../../attachments/AttachmentList';
+import { formatSize, showAddCouncilAttachment } from '../../../../utils/CBX';
+import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../../../queries';
 
 class CouncilEditorAttachments extends Component {
 
@@ -145,45 +144,41 @@ class CouncilEditorAttachments extends Component {
         const primary = getPrimary();
 
         return(
-            <div style={{width: '100%', height: '100%', padding: '2em'}}>
+            <div style={{width: '100%', height: '100%'}}>
+                {/*<Typography variant="title">*/}
+                    {/*{translate.attachment_files}*/}
+                {/*</Typography>*/}
                 <Grid>
-                    <GridItem xs={12} lg={12} md={12}>
-                        <Typography variant="title">
-                            {translate.attachment_files}
+                    <GridItem xs={12} md={10}>
+                        <Typography variant="subheading" style={{marginTop: '1.5em'}}>
+                            {translate.new_files_desc}
+                        </Typography>
+
+                        <ProgressBar
+                            value={this.state.totalSize > 0 ? (this.state.totalSize / MAX_FILE_SIZE ) * 100 : 0}
+                            color={getSecondary()}
+                            style={{height: '1.2em'}}
+                        />
+
+                        <Typography variant="caption">
+                            {formatSize(this.state.totalSize * 1000)}
                         </Typography>
                     </GridItem>
-                    <GridItem xs={12} md={12} lg={12} style={{display: 'flex', flexDirection: 'row'}}>
+                    <GridItem xs={12} md={2}>
                         {showAddCouncilAttachment(attachments) &&
-                            <Fragment>
-                                <FileUploadButton 
-                                    text={translate.new_add}
-                                    color={primary}
-                                    textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                                    icon={<ButtonIcon type="publish" color='white' />}
-                                    onChange={this.handleFile}
-                                />
-                                <div style={{width: '3em'}}>
-                                    {this.state.uploading && 
-                                        <LoadingSection size={25} /> 
-                                    }
-                                </div>
-                            </Fragment>
+                            <FileUploadButton
+                                text={translate.new_add}
+                                style={{marginTop: '2em', width: '100%'}}
+                                buttonStyle={{width: '100%'}}
+                                color={primary}
+                                textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                loading={this.state.uploading}
+                                icon={<ButtonIcon type="publish" color='white' />}
+                                onChange={this.handleFile}
+                            />
                         }
                     </GridItem>
-                </Grid>             
-                <Typography variant="subheading" style={{marginTop: '1.5em'}}>
-                    {translate.new_files_desc}
-                </Typography>
-
-                <ProgressBar 
-                    value={this.state.totalSize > 0 ? (this.state.totalSize / MAX_FILE_SIZE ) * 100 : 0} 
-                    color={getSecondary()}
-                    style={{height: '1.2em'}}
-                />
-
-                <Typography variant="caption">
-                    {(this.state.totalSize / 1024).toFixed(2)}/Mb
-                </Typography>
+                </Grid>
 
                 {attachments.length > 0 &&
                     <AttachmentList
@@ -205,7 +200,7 @@ class CouncilEditorAttachments extends Component {
                             />
                             <BasicButton
                                 text={translate.save}
-                                color={primary}
+                                color={secondary}
                                 textStyle={{color: 'white', fontWeight: '700', marginLeft: '0.5em', marginRight: '0.5em', fontSize: '0.9em', textTransform: 'none'}}
                                 icon={<ButtonIcon color='white' type="save" />}
                                 textPosition="after"

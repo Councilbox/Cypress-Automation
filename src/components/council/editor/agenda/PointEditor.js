@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
+import { AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput, BasicButton } from '../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
-import { updateAgenda } from '../../../queries';
-import * as CBX from '../../../utils/CBX';
-import LoadDraft from './LoadDraft';
+import { updateAgenda } from '../../../../queries/agenda';
+import * as CBX from '../../../../utils/CBX';
+import LoadDraft from '../../../company/drafts/LoadDraft';
+import { getSecondary } from "../../../../styles/colors";
 
 class PointEditor extends Component {
 
@@ -80,6 +81,7 @@ class PointEditor extends Component {
     }
 
     _renderModalBody = () => {
+        const secondary = getSecondary();
         const { translate, votingTypes, statute, draftTypes, council, company, companyStatutes } = this.props;
         const errors = this.state.errors;
         const agenda = this.state.data;
@@ -87,35 +89,50 @@ class PointEditor extends Component {
         const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
         
         return(
-            <div style={{width: '850px'}}>
-                <div className="row"> 
-                    <div className="col-lg-6 col-md-6 col-xs-12">
-                        <TextInput
-                            floatingText={translate.convene_header}
-                            type="text"
-                            errorText={errors.agendaSubject}
-                            value={agenda.agendaSubject}
-                            onChange={(event) => this.updateState({
-                                agendaSubject: event.target.value
-                            })}
-                        />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12">
-                        <SelectInput
-                            floatingText={translate.type}
-                            value={agenda.subjectType}
-                            onChange={(event) => this.updateState({
-                                subjectType: event.target.value
-                            })}
-                        >
-                            {filteredTypes.map((voting) => {
+            <div style={{
+                width: '90vw',
+                maxWidth: '1000px'
+            }}>
+                {this.state.loadDraft &&
+
+                <LoadDraft
+                    translate={translate}
+                    company={company}
+                    loadDraft={this.loadDraft}
+                    councilType={statute}
+                    statutes={companyStatutes}
+                    draftType={1}
+                />}
+
+                <div style={{ display: this.state.loadDraft && 'none' }}>
+                    <div className="row">
+                        <div className="col-lg-6 col-md-6 col-xs-12">
+                            <TextInput
+                                floatingText={translate.convene_header}
+                                type="text"
+                                errorText={errors.agendaSubject}
+                                value={agenda.agendaSubject}
+                                onChange={(event) => this.updateState({
+                                    agendaSubject: event.target.value
+                                })}
+                            />
+                        </div>
+                        <div className="col-lg-6 col-md-6 col-xs-12">
+                            <SelectInput
+                                floatingText={translate.type}
+                                value={agenda.subjectType}
+                                onChange={(event) => this.updateState({
+                                    subjectType: event.target.value
+                                })}
+                            >
+                                {filteredTypes.map((voting) => {
                                     return <MenuItem value={voting.value} key={`voting${voting.value}`}>{translate[voting.label]}</MenuItem>
                                 })
-                            }
-                        </SelectInput>
+                                }
+                            </SelectInput>
+                        </div>
                     </div>
-                </div>
-                {CBX.hasVotation(agenda.subjectType) &&
+                    {CBX.hasVotation(agenda.subjectType) &&
                     <Grid>
                         <GridItem xs={6} lg={3} md={3}>
                             <SelectInput
@@ -127,8 +144,8 @@ class PointEditor extends Component {
                                 })}
                             >
                                 {this.props.majorityTypes.map((majority) => {
-                                        return <MenuItem value={''+majority.value} key={`majorityType_${majority.value}`}>{translate[majority.label]}</MenuItem>
-                                    })
+                                    return <MenuItem value={''+majority.value} key={`majorityType_${majority.value}`}>{translate[majority.label]}</MenuItem>
+                                })
                                 }
                             </SelectInput>
                         </GridItem>
@@ -151,40 +168,48 @@ class PointEditor extends Component {
                             )}
                         </GridItem>
                     </Grid>
-                }
-                
-                <LoadDraft
-                    translate={translate}
-                    company={company}
-                    loadDraft={this.loadDraft}
-                    councilType={statute}
-                    statutes={companyStatutes}
-                    draftType={draftTypes.filter((draft => draft.label === 'agenda'))[0].value}
-                />
+                    }
 
-                <RichTextInput
-                    ref={(editor) => this.editor = editor}
-                    floatingText={translate.description}
-                    type="text"
-                    tags={[
-                    {
-                        value: `${council.street}, ${council.country}`,
-                        label: translate.new_location_of_celebrate
-                    }, {
-                        value: company.countryState,
-                        label: translate.company_new_country_state
-                    },{
-                        value: company.city,
-                        label: translate.company_new_locality
-                    },
-                     ]}
-                    errorText={errors.description}
-                    value={agenda.description}
-                    onChange={(value) => this.updateState({
-                        description: value
-                    })}
-                />
+                    <RichTextInput
+                        ref={(editor) => this.editor = editor}
+                        floatingText={translate.description}
+                        type="text"
+                        loadDraft={<BasicButton
+                            text={translate.load_draft}
+                            color={secondary}
+                            textStyle={{
+                                color: 'white',
+                                fontWeight: '600',
+                                fontSize: '0.8em',
+                                textTransform: 'none',
+                                marginLeft: '0.4em',
+                                minHeight: 0,
+                                lineHeight: '1em'
+                            }}
+                            textPosition="after"
+                            onClick={() => this.setState({ loadDraft: true })}
+                        />}
+                        tags={[
+                            {
+                                value: `${council.street}, ${council.country}`,
+                                label: translate.new_location_of_celebrate
+                            }, {
+                                value: company.countryState,
+                                label: translate.company_new_country_state
+                            },{
+                                value: company.city,
+                                label: translate.company_new_locality
+                            },
+                        ]}
+                        errorText={errors.description}
+                        value={agenda.description}
+                        onChange={(value) => this.updateState({
+                            description: value
+                        })}
+                    />
+                </div>
             </div>
+
         );
     };
 

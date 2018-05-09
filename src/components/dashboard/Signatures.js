@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { signatures, deleteSignature } from '../../../queries/signature';
+import { signatures, deleteSignature } from '../../queries/signature';
 import { graphql, compose } from 'react-apollo';
 import {
     LoadingSection, AlertConfirm, SectionTitle, Table, ErrorWrapper, CloseIcon
-} from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+} from '../../displayComponents/index';
+import { getPrimary } from '../../styles/colors';
 import { TableRow, TableCell } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import { bHistory } from '../../../containers/App';
+import { bHistory } from '../../containers/App';
 
 
 
@@ -71,9 +71,9 @@ class Signatures extends Component {
             <Scrollbar>
                 <div style={{ padding: '2em' }}>
                     <SectionTitle
-                        icon="pencil-square-o"
-                        title={translate.document_signature_drafts}
-                        subtitle={translate.signature_of_documents_drafts_desc}
+                        icon={this.props.icon}
+                        title={this.props.title}
+                        subtitle={this.props.desc}
                     />
                     {loading ? <LoadingSection/> : <Fragment>
                         {error ? <div>

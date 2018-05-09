@@ -4,7 +4,7 @@ import { MenuItem } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 
 const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatutes, draftTypes, votingTypes, majorityTypes }) => (
-    <Grid>
+    <Grid spacing={16}>
         <GridItem xs={12} lg={3} md={3}>
             <TextInput
                 floatingText={translate.title}
@@ -97,7 +97,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
                     {CBX.majorityNeedsInput(draft.majorityType) &&
                         <MajorityInput
                             type={draft.majorityType}
-                            style={{marginLeft: '1em'}}
+                            style={{paddingTop: '16px'}}
                             value={draft.majority}
                             divider={draft.majorityDivider}
                             majorityError={errors.majority}

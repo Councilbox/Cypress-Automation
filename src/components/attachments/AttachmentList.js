@@ -4,6 +4,8 @@ import { TableRow, TableCell } from 'material-ui/Table';
 import { Table, DeleteIcon, TextInput, AlertConfirm, LoadingSection } from '../../displayComponents';
 import { graphql } from 'react-apollo';
 import { updateCouncilAttachment } from '../../queries';
+import AttachmentItem from "./AttachmentItem";
+
 
 class AttachmentList extends Component {
 
@@ -33,16 +35,16 @@ class AttachmentList extends Component {
         const { errors } = this.state;
 
         return (<div style={{ width: '650px' }}>
-                <TextInput
-                    floatingText={translate.name}
-                    type="text"
-                    errorText={errors.name}
-                    value={this.state.data.name}
-                    onChange={(event) => this.updateState({
-                        name: event.target.value
-                    })}
-                />
-            </div>)
+            <TextInput
+                floatingText={translate.name}
+                type="text"
+                errorText={errors.name}
+                value={this.state.data.name}
+                onChange={(event) => this.updateState({
+                    name: event.target.value
+                })}
+            />
+        </div>)
     };
 
     editIndex = (index) => {
@@ -83,46 +85,31 @@ class AttachmentList extends Component {
         const { attachments, translate, loadingId } = this.props;
 
         return (<div style={{
-                display: 'flex',
-                width: '100%'
-            }}>
-                <Table
-                    headers={[ { name: translate.name }, { name: '' }, ]}
-                    action={this._renderDeleteIcon}
-                >
-                    {attachments.map((attachment, index) => {
-                        return (<TableRow
-                                key={`attachment${attachment.id}`}
-                                onClick={() => this.editIndex(index)}
-                                hover
-                            >
-                                <TableCell>{attachment.filename}</TableCell>
-                                <TableCell>
-                                    <div style={{ width: '4em' }}>
-                                        {attachment.id === this.state.deletingId ? (
-                                            <LoadingSection size={20}/>) : (attachment.state !== 2 ? (<DeleteIcon
-                                                    loading={loadingId === attachment.id}
-                                                    style={{ color: getPrimary() }}
-                                                    onClick={(event) => {
-                                                        event.stopPropagation();
-                                                        this.deleteAttachment(attachment.id)
-                                                    }}
-                                                />) : (` ${translate.deleted}`))}
-                                    </div>
-                                </TableCell>
-                            </TableRow>);
-                    })}
-                </Table>
-                <AlertConfirm
-                    requestClose={() => this.setState({ showModal: false })}
-                    open={this.state.showModal}
-                    acceptAction={this.updateAttachment}
-                    buttonAccept={translate.accept}
-                    buttonCancel={translate.cancel}
-                    bodyText={this._renderModalBody()}
-                    title={translate.edit}
-                />
-            </div>)
+            width: '100%'
+        }}>
+            {attachments.map((attachment, index) => {
+                return (
+
+                    <AttachmentItem key={`attachment${index}`}
+                                    attachment={attachment}
+                                    removeAttachment={this.deleteAttachment}
+                                    editName={() => {
+                                        this.editIndex(index)
+                                    }}
+                    />
+
+                );
+            })}
+            <AlertConfirm
+                requestClose={() => this.setState({ showModal: false })}
+                open={this.state.showModal}
+                acceptAction={this.updateAttachment}
+                buttonAccept={translate.accept}
+                buttonCancel={translate.cancel}
+                bodyText={this._renderModalBody()}
+                title={translate.edit}
+            />
+        </div>)
     }
 }
 

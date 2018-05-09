@@ -20,6 +20,7 @@ const BasicButton = ({ color, error, text, resetDelay = 2700, textStyle, reset, 
                 ...textStyle,
                 backgroundColor: success? 'green' : error? 'red' : color,
                 float: floatRight && 'right',
+                outline: '0',
             }}
             variant={type}
             onClick={onClick}

@@ -67,7 +67,7 @@ class PlatformDrafts extends Component {
         const { selectedIndex } = this.state;
 
         return (
-            <CardPageLayout title={translate.drafts}>
+            <CardPageLayout title={translate.general_drafts}>
                 {selectedIndex >= 0 ?
                     <PlatformDraftDetails
                         close={() => this.setState({selectedIndex: -1})}

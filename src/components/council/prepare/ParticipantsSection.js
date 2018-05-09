@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import * as CBX from '../../../utils/CBX';
 import { Card } from 'material-ui';
-import NewParticipantForm from '../editor/NewParticipantForm';
+import NewParticipantForm from '../editor/census/NewParticipantForm';
 import ConvenedParticipantsTable from './ConvenedParticipantsTable';
 import { AlertConfirm } from "../../../displayComponents";
 
@@ -26,18 +26,16 @@ class ParticipantsSection extends Component{
         const { translate, council, refetch, totalVotes, socialCapital } = this.props;
     
         return (
-            <Card style={{marginTop: '1em', padding: '1.5em'}}>
-                <ConvenedParticipantsTable
-                    participants={council.participants}
-                    councilId={council.id}
-                    council={council}
-                    totalVotes={totalVotes}
-                    socialCapital={socialCapital}
-                    participations={CBX.hasParticipations(council)}
-                    translate={translate}
-                    refetch={refetch}
-                />    
-            </Card>
+            <ConvenedParticipantsTable
+                participants={council.participants}
+                councilId={council.id}
+                council={council}
+                totalVotes={totalVotes}
+                socialCapital={socialCapital}
+                participations={CBX.hasParticipations(council)}
+                translate={translate}
+                refetch={refetch}
+            />
         );
     }
 }

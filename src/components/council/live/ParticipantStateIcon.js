@@ -1,51 +1,36 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { getParticipantStateString } from '../../../utils/CBX';
+import { getParticipantStateString, participantIsGuest, isRepresentative } from '../../../utils/CBX';
 import { Tooltip } from 'material-ui';
 const mainIconSize = 1.75;
 const subIconSize = 1;
 
 
-const DoubleIcon = ({ main, sub, subSize = subIconSize }) => {
-    const primary = getPrimary();
-    const secondary = getSecondary();
+const DoubleIcon = ({ main, sub, subSize = subIconSize, subColor = getPrimary(), mainColor = getPrimary() }) => {
 
     return(
         <div style={{position: 'relative', height: '2.5em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <FontAwesome
                 name={main}
-                style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
+                style={{margin: '0.5em', color: mainColor, fontSize: `${mainIconSize}em`}}
             />
             <FontAwesome
                 name={sub}
-                style={{margin: '0.5em', color: primary, fontSize: `${subSize}em`, position: 'absolute', top: `${mainIconSize - 0.25 - subSize}em`, right: 0}}
+                style={{margin: '0.5em', color: subColor, fontSize: `${subSize}em`, position: 'absolute', top: `${mainIconSize - 0.25 - subSize}em`, right: 0}}
             />
         </div>
     )
 }
 
-
-
-
-const ParticipantStateIcon = ({ participant, translate }) => {
+const IconSwitch = ({ participant, translate, tooltip, representative }) => {
     const state = getParticipantStateString(participant);
     const primary = getPrimary();
-
-    if(participant.type === 1){
-        return(
-            <Tooltip title={translate.guest}>
-                <div>
-                    <DoubleIcon main={'user-o'} sub={'eye'} />
-                </div>
-            </Tooltip>
-        )
-    }
-
+    
     switch(state){
         case 'REMOTE': 
             return(
-                <Tooltip title={translate.remote_assistance}>
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change'? translate.change_to_remote : translate.remote_assistance}`}>
                     <div>
                         <FontAwesome
                             name={'globe'}
@@ -57,40 +42,45 @@ const ParticipantStateIcon = ({ participant, translate }) => {
 
         case 'PRESENT':
             return (
-                <FontAwesome
-                    name={'user'}
-                    style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
-                />
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change'? translate.change_to_present : translate.physically_present_assistance}`}>
+                    <FontAwesome
+                        name={'user'}
+                        style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
+                    />
+                </Tooltip>
             )
             
         case 'REPRESENTATED':
             return (
-                <Tooltip title={translate.delegated}>
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change'? translate.add_representative : translate.representated}`}>
                     <div>
-                        <DoubleIcon main={'user-o'} sub={'user-o'} />
+                        <DoubleIcon main={'user-o'} sub={'user'} />
                     </div>
                 </Tooltip>
             )
 
         case 'DELEGATED':
             return (
-                <FontAwesome
-                    name={'user-times'}
-                    style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
-                />
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change'? translate.to_delegate_vote : translate.delegated}`}>
+                    <div>
+                        <DoubleIcon main={'user'} sub={'user'} mainColor={getSecondary()} />
+                    </div>
+                </Tooltip>
             )
 
         case 'PHYSICALLY_PRESENT':
             return (
-                <FontAwesome
-                    name={'user-times'}
-                    style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
-                />
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change'? translate.change_to_present : translate.physically_present_assistance}`}>
+                    <FontAwesome
+                        name={'user'}
+                        style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
+                    />
+                </Tooltip>
             )
 
         case 'NO_PARTICIPATE':
             return (
-                <Tooltip title={translate.no_assist_assistance}>
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change'? translate.change_to_no_participate : translate.no_assist_assistance}`}>
                     <div>
                         <DoubleIcon main={'user-o'} sub={'times'} />
                     </div>
@@ -99,7 +89,7 @@ const ParticipantStateIcon = ({ participant, translate }) => {
 
         case 'PRESENT_WITH_REMOTE_VOTE':
             return (
-                <Tooltip title={translate.physically_present_with_remote_vote}>
+                <Tooltip title={`${representative? translate.representative + ' - ' : ''}${tooltip === 'change' ? translate.change_to_present_with_remote_vote : translate.physically_present_with_remote_vote}`}>
                     <div>
                         <DoubleIcon main={'user-o'} sub={'mobile'} subSize={1.75} />
                     </div>
@@ -109,11 +99,42 @@ const ParticipantStateIcon = ({ participant, translate }) => {
         default:
             return (
                 <FontAwesome
-                    name={'user-times'}
+                    name={'user'}
                     style={{margin: '0.5em', color: primary, fontSize: `${mainIconSize}em`}}
                 />
             )
     }
+}
+
+
+
+
+const ParticipantStateIcon = ({ participant, translate, tooltip }) => {
+
+    if(participantIsGuest(participant)){
+        return(
+            <Tooltip title={translate.guest}>
+                <div>
+                    <DoubleIcon main={'user-o'} sub={'eye'} />
+                </div>
+            </Tooltip>
+        )
+    }
+
+    if(isRepresentative(participant)){
+        return(
+            <IconSwitch
+                participant={participant}
+                translate={translate}
+                tooltip={tooltip}
+                representative
+            />
+        )
+    }
+
+    return <IconSwitch participant={participant} translate={translate} tooltip={tooltip} />
+
+
 }
 
 export default ParticipantStateIcon;

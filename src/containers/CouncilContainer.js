@@ -2,11 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import TabsScreen from '../displayComponents/TabsScreen';
-import CouncilDrafts from '../components/dashboard/councilSections/CouncilDrafts';
-import CouncilsConvened from '../components/dashboard/councilSections/CouncilsConvened';
-import CouncilsLive from '../components/dashboard/councilSections/CouncilsLive';
-import CouncilsWriting from '../components/dashboard/councilSections/CouncilsWriting';
-import CouncilsTrash from '../components/dashboard/councilSections/CouncilsTrash';
+import Councils from '../components/dashboard/Councils';
 
 const CouncilContainer = ({ match, company, translate }) => {
     const tabsIndex = {
@@ -21,31 +17,50 @@ const CouncilContainer = ({ match, company, translate }) => {
         text: translate.companies_draft,
         link: `/company/${company.id}/councils/drafts`,
         component: () => {
-            return (<CouncilDrafts/>)
+            return (<Councils company={company}
+                              translate={translate}
+                              state={[ 0 ]}
+                              link={''}
+                              title={translate.companies_draft}
+                              desc={translate.companies_draft_desc}
+                              icon={'pencil-square-o'}
+            />)
         }
     }, {
         text: translate.companies_calendar,
         link: `/company/${company.id}/councils/calendar`,
         component: () => {
-            return (<CouncilsConvened company={company} translate={translate}/>)
+            return (<Councils company={company}
+                              translate={translate}
+                              state={[ 10, 5 ]}
+                              link={'/prepare'}
+                              title={translate.companies_calendar}
+                              desc={translate.companies_calendar_desc}
+                              icon={'calendar-o'}/>)
         }
     }, {
         text: translate.companies_live,
         link: `/company/${company.id}/councils/live`,
         component: () => {
-            return (<CouncilsLive company={company} translate={translate}/>)
+            return (<Councils company={company}
+                              translate={translate}
+                              state={[ 20 ]}
+                              link={'/live'}
+                              title={translate.companies_live}
+                              desc={translate.companies_live_desc}
+                              icon={'users'}/>)
         }
     }, {
         text: translate.companies_writing,
         link: `/company/${company.id}/councils/writing`,
         component: () => {
-            return (<CouncilsWriting company={company} translate={translate}/>)
-        }
-    }, {
-        text: translate.signature_trash,
-        link: `/company/${company.id}/councils/trash`,
-        component: () => {
-            return (<CouncilsTrash company={company} translate={translate}/>)
+            return (<Councils company={company}
+                              translate={translate}
+                              state={[ 40 ]}
+                              link={'/writing'}
+                              title={translate.companies_writing}
+                              desc={translate.companies_writing_desc}
+                              icon={'clipboard'}/>)
         }
     }, {
         text: `${translate.dashboard_new}`,
