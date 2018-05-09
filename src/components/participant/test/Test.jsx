@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import FontAwesome from 'react-fontawesome';
@@ -509,7 +511,7 @@ class Test extends Component {
     }
 
     render() {
-        const { translate, windowSize } = this.props;
+        const { translate, windowSize, getTestIframe } = this.props;
         const { detectRTC, isiOSDevice } = this.state;
 
         if(this.state.loading) return(<LoadingMainApp/>);
@@ -584,7 +586,16 @@ class Test extends Component {
                                 </div>
 
                                 <div style={(windowSize === 'xs')? styles.portrait.videosIframeContainer : styles.landscape.videosIframeContainer}>
-
+                                    <iframe 
+                                        title="testIframe" 
+                                        allow="geolocation; microphone; camera" 
+                                        scrolling="no"  
+                                        src={`http://${getTestIframe.participantTestIframe}?rand=${Math.round(Math.random() * 10000000)}`} 
+                                        allowFullScreen="true" 
+                                        style={{border:'none', width: '100%', height: 'calc(100% - 60px)'}}
+                                    >
+                                            Something wrong...
+                                    </iframe>
                                 </div>
                             </div>
                         }
@@ -626,4 +637,12 @@ const mapDispatchToProps = (dispatch) => ({
     actions: bindActionCreators(mainActions, dispatch)
 });
 
-export default connect(null, mapDispatchToProps)(withTranslations()(withWindowSize(Test)));
+const getTestIframe = gql`
+    query{
+        participantTestIframe
+    }
+`;
+
+export default graphql(getTestIframe, {
+    name: 'getTestIframe'
+})(connect(null, mapDispatchToProps)(withTranslations()(withWindowSize(Test))));
