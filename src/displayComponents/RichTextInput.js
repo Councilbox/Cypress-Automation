@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import RichTextEditor from 'react-rte';
 import { Grid, GridItem } from './index';
 import { Typography } from 'material-ui';
+import { getPrimary, getSecondary } from "../styles/colors";
 
 
 class RichTextField extends Component {
@@ -45,7 +46,9 @@ class RichTextField extends Component {
     };
 
     render(){
-        const { tags, errorText, required } = this.props;
+        const { tags, loadDraft, errorText, required } = this.props;
+        const primary = getPrimary();
+        const secondary = getSecondary();
 
         return(
             <Fragment>
@@ -53,7 +56,21 @@ class RichTextField extends Component {
                     {this.props.floatingText}{!!required && '*'}
                 </Typography>
                 <Grid>
-                    <GridItem xs={12} lg={!!tags? 10 : 12} md={!!tags? 10 : 12}>
+                    <GridItem xs={12}>
+                        <div style={{marginTop: '0.7em', marginBottom: '-0.7em', paddingRight: '0.8em'}}>
+                            {!!tags &&
+                                <div style={{display: 'flex', float: 'right'}}>
+                                    {tags.map((tag) => {
+                                    return(
+                                    <div key={`tag_${tag.label}`} onClick={() => this.paste(tag.value)} style={{ padding: '0.1em 0.25em', border: `1px solid ${secondary}`, cursor: 'pointer', marginLeft: '0.2em', borderRadius: '2px', color: secondary}}>
+                                    {tag.label}
+                                    </div>
+                                    )
+                                })}
+                                    {!!loadDraft && loadDraft}
+                                </div>
+                            }
+                        </div>
                         <RichTextEditor
                             ref={'rtEditor'}
                             className={'text-editor'}
@@ -62,17 +79,7 @@ class RichTextField extends Component {
                             toolbarConfig={toolbarConfig}
                         />
                     </GridItem>
-                    {!!tags &&
-                        <GridItem xs={12} lg={2} md={2}>
-                            {tags.map((tag) => {
-                                return(
-                                    <div key={`tag_${tag.label}`} onClick={() => this.paste(tag.value)} style={{width: '100%', padding: '0.2em', border: '1px solid Gainsboro', cursor: 'pointer'}}>
-                                        <span>{tag.label}</span>
-                                    </div>
-                                )
-                            })} 
-                        </GridItem>
-                    }
+
                 </Grid>
             </Fragment>
         )

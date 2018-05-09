@@ -11,8 +11,6 @@ const primary = getPrimary();
 const secondary = getSecondary();
 
 
-
-
 const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize, deleteAction }) => (
 
     <Fragment>
@@ -75,50 +73,53 @@ const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize, deleteAct
 
         }
 
-        {windowSize === 'xs' && <Grid style={{ height: '100%' }}>
-            <GridItem xs={6}>
-                <SelectInput
-                    onChange={(event) => changeTab(event.target.value)}>
-                    {tabs.map((tab, index) => {
-                        return <MenuItem value={index}
-                                         key={`statute_${index}`}>{tab.title}</MenuItem>
-                    })}
-                </SelectInput>
-            </GridItem>
-            <GridItem xs={6}>
-                {additionalTab && <button
-                    style={{
-                        width: '20%',
-                        backgroundColor: secondary,
-                        color: 'white',
-                        fontWeight: '700',
-                        cursor: 'pointer',
-                        float: 'right'
-                    }}
-                    onClick={additionalTab.action}>
-                    <i className="fa fa-plus"/>
-                    {/*{additionalTab.title}*/}
-                </button>}
-                {deleteAction &&
+        {windowSize === 'xs' && <div className='container-fluid' style={{height: '100%'}}>
+            <Grid>
+                <GridItem xs={6}>
+                    <SelectInput
+                        noLabel
+                        style={{ margin: '-16px' }}
+                        onChange={(event) => changeTab(event.target.value)}>
+                        {tabs.map((tab, index) => {
+                            return <MenuItem value={index}
+                                             key={`statute_${index}`}>{tab.title}</MenuItem>
+                        })}
+                    </SelectInput>
+                </GridItem>
+                <GridItem xs={6}>
+                    {additionalTab && <button
+                        style={{
+                            width: '20%',
+                            backgroundColor: secondary,
+                            color: 'white',
+                            fontWeight: '700',
+                            cursor: 'pointer',
+                            float: 'right'
+                        }}
+                        onClick={additionalTab.action}>
+                        <i className="fa fa-plus"/>
+                        {/*{additionalTab.title}*/}
+                    </button>}
+                    {deleteAction &&
 
-                <CloseIcon style={{ float: 'right' }}
-                           onClick={() => {
-                               for (let i = 0; i < tabs.length; i++) {
-                                   const tab = tabs[ i ];
-                                   if (tab.active) {
-                                       return deleteAction(tab.data.id);
+                    <CloseIcon onClick={() => {
+                                   for (let i = 0; i < tabs.length; i++) {
+                                       const tab = tabs[ i ];
+                                       if (tab.active) {
+                                           return deleteAction(tab.data.id);
+                                       }
                                    }
-                               }
-                           }}
-                />}
+                               }}
+                    />}
 
-            </GridItem>
-            <GridItem xs={12} style={{ height: 'calc(100% - 6em)' }}>
-                <Scrollbar>
+                </GridItem>
+            </Grid>
+            <div style={{ height: 'calc(100% - 4em)', marginTop: '0.5em' }}>
+                <Scrollbar >
                     {children}
                 </Scrollbar>
-            </GridItem>
-        </Grid>}
+            </div>
+        </div>}
     </Fragment>
 
 );

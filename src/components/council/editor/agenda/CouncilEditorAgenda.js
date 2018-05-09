@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import {
-    BasicButton, Table, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem
+    BasicButton, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem
 } from "../../../../displayComponents/index";
 import { graphql, compose } from 'react-apollo';
 import { Typography, Tooltip } from 'material-ui';
-import { councilStepThree, updateCouncil, removeAgenda } from '../../../../queries';
+import { councilStepThree, updateCouncil } from '../../../../queries';
+import { removeAgenda } from '../../../../queries/agenda';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import NewAgendaPointModal from './NewAgendaPointModal';
 import PointEditor from './PointEditor';
@@ -143,9 +144,9 @@ class CouncilEditorAgenda extends Component {
 
             <Grid>
                 {/*<GridItem xs={12} lg={12} md={12}>*/}
-                    {/*<Typography variant="title" gutterBottom>*/}
-                        {/*{translate.agenda}*/}
-                    {/*</Typography>*/}
+                {/*<Typography variant="title" gutterBottom>*/}
+                {/*{translate.agenda}*/}
+                {/*</Typography>*/}
                 {/*</GridItem>*/}
                 <GridItem xs={12} lg={12} md={12} style={{
                     display: 'flex',
@@ -244,6 +245,7 @@ class CouncilEditorAgenda extends Component {
                         >
                             <BasicButton
                                 type="raised"
+                                buttonStyle={buttonStyle}
                                 text={translate.add_agenda_point}
                                 color={primary}
                                 icon={<ButtonIcon type="add" color="white"/>}

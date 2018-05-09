@@ -19,6 +19,7 @@ import CancelModal from './CancelModal';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Scrollbar from 'react-perfect-scrollbar';
+import Convene from '../convene/Convene';
 
 const panelStyle = {
     height: '77vh',
@@ -187,52 +188,8 @@ class CouncilPreparePage extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel style={panelStyle}>
-                    <Scrollbar>
-                        {council.attachments.length > 0 && <div style={{
-                            paddingTop: '1em 0',
-                            width: '98%'
-                        }}>
-                            <Typography variant="title" style={{ color: getPrimary() }}>
-                                {translate.new_files_title}
-                            </Typography>
-                            <div style={{ marginTop: '1em' }}>
-                                <Grid>
-                                    {council.attachments.map((attachment) => {
-                                        return (<GridItem key={`attachment${attachment.id}`}>
-                                            <AttachmentDownload attachment={attachment} loading={this.state.downloading} spacing={0.5}/>
-                                        </GridItem>)
-                                    })}
-                                </Grid>
-                            </div>
-                        </div>}
-                        <BasicButton
-                            text={translate.export_convene}
-                            color={secondary}
-                            buttonStyle={{ marginTop: '0.5em' }}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            icon={<FontAwesome
-                                name={'file-pdf-o'}
-                                style={{
-                                    fontSize: '1em',
-                                    color: 'white',
-                                    marginLeft: '0.3em'
-                                }}
-                            />}
-                            textPosition="after"
-                            onClick={this.downloadPDF}
-                        />
-                        <div
-                            dangerouslySetInnerHTML={{ __html: council.emailText }}
-                            style={{
-                                padding: '2em',
-                                margin: '0 auto'
-                            }}/>
-                    </Scrollbar>
+                    <Convene councilID={this.props.councilID}
+                             translate={translate}/>
                 </TabPanel>
 
                 <TabPanel style={panelStyle}>
