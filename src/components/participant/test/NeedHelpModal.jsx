@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Checkbox, AlertConfirm, Icon } from "../../../displayComponents";
+import { AlertConfirm, Icon } from "../../../displayComponents";
 import { Typography, TextField } from 'material-ui';
 import { graphql } from 'react-apollo';
 import gql from "graphql-tag";
