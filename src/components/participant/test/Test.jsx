@@ -127,7 +127,7 @@ class Test extends Component {
                         </iframe>
                     }
 
-                    {windowSize !== 'xs' &&
+                    {/* {windowSize !== 'xs' &&
                         <BasicButton
                             text={translate.need_help}
                             color={'white'}
@@ -144,7 +144,7 @@ class Test extends Component {
                                 right: '40px'
                             }}
                         /> 
-                    }
+                    } */}
                 </div>
 
                 <NeedHelpModal 
