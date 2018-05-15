@@ -28,6 +28,7 @@ import CensusEditorPage from '../components/company/census/censusEditor/CensusEd
 import { LoadingMainApp } from '../displayComponents';
 import CompanyDraftList from '../components/company/drafts/CompanyDraftList';
 import Test from '../components/participant/test/Test';
+import ParticipantTokenContainer from './ParticipantTokenContainer';
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from 'material-ui';
@@ -116,8 +117,9 @@ class AppRouter extends Component {
                     <Route path="/forgetPwd" component={ForgetPwdContainer}/>
                     <Route exact path="/changePwd/:language/:token" component={ChangePwdContainer} />
                     <Route path="/welcome" component={Welcome} />
-                    <Route path="/participant/:id" component={ParticipantPage} />
-                    <Route path="/test/:language" component={Test} />
+                    <Route exact path="/participant/:id" component={ParticipantPage} />
+                    <Route exact path="/participant/login/:token" component={ParticipantTokenContainer} />
+                    <Route exact path="/test/:language" component={Test} />
                     <Route path="*" component={NotFound}/>            
                 </Switch>
             )
