@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import cx from "classnames";
-import { withStyles, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText } from "material-ui";
+import { withStyles, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, MenuItem } from "material-ui";
 import sidebarStyle from "../../styles/sidebarStyle";
 import { Dashboard, ContentPaste, BorderColor, ImportContacts } from "material-ui-icons";
 import CompanySelector from '../menus/CompanySelector';
+import { getPrimary } from '../../styles/colors';
+import { store, bHistory } from '../../containers/App';
+import { changeCompany } from '../../actions/companyActions';
+import { DropDownMenu, Icon } from '../../displayComponents';
 
 
 class Sidebar extends Component {
@@ -54,6 +58,12 @@ class Sidebar extends Component {
             });
         }
     }
+
+    changeCompany = (index) => {
+        const { companies } = this.props;
+        store.dispatch(changeCompany(index));
+        bHistory.push(`/company/${companies[index].id}`);
+    };
 
 
     findActiveRoute = (pathname) => {
@@ -113,21 +123,63 @@ class Sidebar extends Component {
     </List>);
 
 
-    brand = () => (<div className={this.props.classes.logo}>
-        <div className={this.props.classes.logoLink} style={{
-            display: 'flex',
-            flexDirection: 'row'
-        }}>
-            <div className={this.props.classes.logoImage}>
-                <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
-            </div>
+    brand = () => (
+        <DropDownMenu
+            color="transparent"
+            buttonStyle={{
+                boxSizing: 'border-box',
+                padding: '0',
+                border: `1px solid ${getPrimary()}`,
+                marginLeft: '0.3em'
+            }}
+            text={
+                <div className={this.props.classes.logo}>
+                    <div className={this.props.classes.logoLink} style={{
+                        display: 'flex',
+                        flexDirection: 'row'
+                    }}>
+                        <div className={this.props.classes.logoImage}>
+                            <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
+                        </div>
 
-            <div style={{
-                fontSize: '0.85em',
-                fontWeight: '700'
-            }}>{this.props.company.businessName}</div>
-        </div>
-    </div>);
+                        <div style={{
+                            fontSize: '0.85em',
+                            fontWeight: '700'
+                        }}>{this.props.company.businessName}</div>
+                    </div>
+                </div>
+            }
+            textStyle={{ color: getPrimary() }}
+            type="flat"
+            icon={
+                <Icon className="material-icons" style={{ color: getPrimary() }}>
+                    keyboard_arrow_down
+                </Icon>
+            }
+            items={
+                <React.Fragment>
+                    {this.props.companies.map((company, index) => {
+                        if(company.id !== this.props.company.id){
+                            return(
+                                <MenuItem onClick={() => this.changeCompany(index)}>
+                                    <div className={this.props.classes.logoImage}>
+                                        <img src={company.logo} alt="logo" className={this.props.classes.img}/>
+                                    </div>
+
+                                    <div style={{
+                                        fontSize: '0.85em',
+                                        fontWeight: '700'
+                                    }}>{company.businessName}</div>
+                                </MenuItem>
+                            )
+                        }
+
+                    })}
+                </React.Fragment>
+            }
+        />
+
+    );
 
     /*brand = () => (
         <div className={this.props.classes.logo}>

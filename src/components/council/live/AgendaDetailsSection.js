@@ -8,6 +8,7 @@ import ToggleAgendaButton from './ToggleAgendaButton';
 import ToggleVotingsButton from './ToggleVotingsButton';
 import RecountSection from './RecountSection';
 import CommentsSection from './CommentsSection';
+import CouncilMenu from './councilMenu/CouncilMenu';
 import VotingsSection from './VotingsSection';
 
 
@@ -89,7 +90,6 @@ class AgendaDetailsSection extends Component {
                                     council={council}
                                     refetch={refetch}
                                 />
-
                             }
                             {council.councilStarted === 1 && agenda.subjectType !== 0 && agenda.votingState !== 2 &&
                                 <div className="col-lg-6 col-md-12 col-xs-12" style={{marginTop: '0.6em'}}>
