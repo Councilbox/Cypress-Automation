@@ -2,7 +2,7 @@ import React from 'react';
 import { TextInput, SelectInput, Grid, GridItem } from '../../../displayComponents';
 import { MenuItem } from 'material-ui';
 
-const RepresentativeForm = ({ representative, errors, updateState, translate, languages }) => (
+const RepresentativeForm = ({ representative, errors, updateState, translate, languages, guest }) => (
     <Grid>
         <GridItem xs={6} lg={4} md={4}>
             <TextInput
@@ -37,17 +37,19 @@ const RepresentativeForm = ({ representative, errors, updateState, translate, la
                 })}
             />
         </GridItem>
-        <GridItem xs={6} lg={4} md={4}>
-            <TextInput
-                floatingText={translate.position}
-                type="text"
-                errorText={errors.position}
-                value={representative.position}
-                onChange={(event) => updateState({
-                    position: event.nativeEvent.target.value
-                })}
-            />
-        </GridItem>
+        {!guest &&
+            <GridItem xs={6} lg={4} md={4}>
+                <TextInput
+                    floatingText={translate.position}
+                    type="text"
+                    errorText={errors.position}
+                    value={representative.position}
+                    onChange={(event) => updateState({
+                        position: event.nativeEvent.target.value
+                    })}
+                />
+            </GridItem>
+        }
         <GridItem xs={6} lg={4} md={4}>
             <TextInput
                 floatingText={translate.email}

@@ -531,12 +531,9 @@ export const statutes = gql`
       existsQualityVote
       qualityVoteOption
       canAddPoints
-      whoCanVote
       canReorderPoints
       existsAct
-      existsWhoWasSentAct
       includedInActBook
-      whoWasSentActWay
       canUnblock
       includeParticipantsList
       existsWhoSignTheAct
@@ -705,7 +702,6 @@ export const councilStepThree = gql`
         prototype
         statuteId
         title
-        whoCanVote
       }
     }
 
@@ -826,7 +822,6 @@ export const councilStepFive = gql`
         prototype
         statuteId
         title
-        whoCanVote
       }
     }
     majorityTypes{
@@ -1039,12 +1034,8 @@ export const councilDetails = gql `
         qualityVoteOption
         canUnblock
         canAddPoints
-        whoCanVote
         canReorderPoints
         existsAct
-        existsWhoWasSentAct
-        whoWasSentActWay
-        whoWasSentAct
         existsWhoSignTheAct
         includedInActBook
         includeParticipantsList
@@ -1218,12 +1209,8 @@ export const councilLiveQuery =  gql`
         qualityVoteOption
         canUnblock
         canAddPoints
-        whoCanVote
         canReorderPoints
         existsAct
-        existsWhoWasSentAct
-        whoWasSentActWay
-        whoWasSentAct
         existsWhoSignTheAct
         includedInActBook
         includeParticipantsList
@@ -1397,6 +1384,32 @@ export const openCouncilRoom = gql `
   }
 `;
 
+export const refreshLiveEmails = gql`
+  mutation refreshLiveEmails($councilId: Int!){
+    refreshLiveEmails(councilId: $councilId){
+      success
+      message
+    }
+  }
+`;
+
+export const wallComments = gql`
+  query councilRoomMessages($councilId: Int!){
+    councilRoomMessages(councilId: $councilId){
+      id
+      participantId
+      text
+      date
+      author{
+        name
+        surname
+        position
+        id
+      }
+    }
+  }
+`;
+
 export const liveParticipants = gql `
   query liveParticipants($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput){
     liveParticipants(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
@@ -1452,6 +1465,46 @@ export const liveParticipants = gql `
       }
       total
     }
+    liveParticipantsStateCount(councilId: $councilId){
+      state
+      count
+    }
+  }
+`;
+
+export const addGuest = gql`
+  mutation addGuest($guest: LiveParticipantInput){
+    addGuest(guest: $guest){
+      success
+      message
+    }
+  }
+`;
+
+export const sendVideoEmails = gql`
+  mutation sendVideoEmails($councilId: Int!){
+    sendVideoEmails(councilId: $councilId){
+      success
+      message
+    }
+  }
+`;
+
+export const sendVideoEmailTest = gql`
+  mutation sendVideoEmailTest($councilId: Int!, $email: String!){
+    sendVideoEmailTest(councilId: $councilId, email: $email){
+      success
+      message
+    }
+  }
+`;
+
+export const noCelebrateCouncil = gql`
+  mutation noCelebrateCouncil($councilId: Int!, $comment: String){
+    noCelebrateCouncil(councilId: $councilId, comment: $comment){
+      success
+      message
+    }
   }
 `;
 
@@ -1487,6 +1540,15 @@ query liveParticipantsToDelegate($councilId: Int!, $filters: [FilterInput], $opt
     total
   }
 }
+`;
+
+export const liveParticipantsCount = gql`
+  query liveParticipantsCount($councilId: Int!){
+    liveParticipantsCount(councilId: $councilId){
+      state
+      count
+    }
+  }
 `;
 
 export const liveParticipant = gql`

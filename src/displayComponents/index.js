@@ -13,6 +13,7 @@ export { default as DropDownMenu } from './DropDownMenu';
 export { default as EnhancedTable } from './EnhancedTable';
 export { default as ErrorAlert } from './ErrorAlert';
 export { default as ErrorWrapper } from './ErrorWrapper';
+export { default as FabButton } from './FabButton';
 export { default as FileUploadButton } from './FileUploadButton';
 export { default as Grid } from './Grid';
 export { default as GridItem } from './GridItem';

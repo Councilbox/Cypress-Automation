@@ -55,7 +55,7 @@ const theme = createMuiTheme({
 
 });
 
-export default ({ children }) => (
+const ThemeProvider = ({ children }) => (
     <MuiThemeProvider theme={theme}>
         <MuiPickersUtilsProvider
             utils={MomentUtils}
@@ -66,5 +66,7 @@ export default ({ children }) => (
         </MuiPickersUtilsProvider>
     </MuiThemeProvider>
 );
+
+export default ThemeProvider;
 
 
