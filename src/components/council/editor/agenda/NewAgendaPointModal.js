@@ -2,14 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 
 import {
-    AlertConfirm,
-    SelectInput,
-    TextInput,
-    RichTextInput,
-    Grid,
-    GridItem,
-    MajorityInput,
-    BasicButton
+    AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput, BasicButton
 } from '../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
 import LoadDraft from '../../../company/drafts/LoadDraft';
@@ -55,7 +48,7 @@ class NewAgendaPointModal extends Component {
                 }
             });
             if (response) {
-                this.setState({loadDraft: false});
+                this.setState({ loadDraft: false });
                 this.props.refetch();
                 this.close();
             }
@@ -135,8 +128,8 @@ class NewAgendaPointModal extends Component {
                 />}
 
                 <div style={{ display: this.state.loadDraft && 'none' }}>
-                    <div className="row">
-                        <div className="col-lg-6 col-md-6 col-xs-12">
+                    <Grid>
+                        <GridItem xs={12} md={9} lg={9}>
                             <TextInput
                                 floatingText={translate.title}
                                 type="text"
@@ -146,8 +139,8 @@ class NewAgendaPointModal extends Component {
                                     agendaSubject: event.target.value
                                 })}
                             />
-                        </div>
-                        <div className="col-lg-6 col-md-6 col-xs-12">
+                        </GridItem>
+                        <GridItem xs={12} md={3} lg={3}>
                             <SelectInput
                                 floatingText={translate.type}
                                 value={'' + agenda.subjectType}
@@ -160,8 +153,8 @@ class NewAgendaPointModal extends Component {
                                                      key={`voting${voting.value}`}>{translate[ voting.label ]}</MenuItem>
                                 })}
                             </SelectInput>
-                        </div>
-                    </div>
+                        </GridItem>
+                    </Grid>
                     {CBX.hasVotation(agenda.subjectType) && <Grid>
                         <GridItem xs={6} lg={3} md={3}>
                             <SelectInput
@@ -181,7 +174,9 @@ class NewAgendaPointModal extends Component {
                         <GridItem xs={6} lg={3} md={3}>
                             {CBX.majorityNeedsInput(agenda.majorityType) && <MajorityInput
                                 type={agenda.majorityType}
-                                style={{ marginLeft: '1em' }}
+                                style={{
+                                    marginTop: '1em'
+                                }}
                                 value={agenda.majority}
                                 divider={agenda.majorityDivider}
                                 majorityError={errors.majority}
@@ -240,19 +235,19 @@ class NewAgendaPointModal extends Component {
         const { translate, children } = this.props;
 
         return (<Fragment>
-                <div onClick={() => this.setState({ newPointModal: true })}>
-                    {children}
-                </div>
-                <AlertConfirm
-                    requestClose={() => this.close()}
-                    open={this.state.newPointModal}
-                    acceptAction={this.addAgenda}
-                    buttonAccept={translate.accept}
-                    buttonCancel={translate.cancel}
-                    bodyText={this._renderNewPointBody()}
-                    title={translate.new_point}
-                />
-            </Fragment>);
+            <div onClick={() => this.setState({ newPointModal: true })}>
+                {children}
+            </div>
+            <AlertConfirm
+                requestClose={() => this.close()}
+                open={this.state.newPointModal}
+                acceptAction={this.addAgenda}
+                buttonAccept={translate.accept}
+                buttonCancel={translate.cancel}
+                bodyText={this._renderNewPointBody()}
+                title={translate.new_point}
+            />
+        </Fragment>);
     }
 }
 

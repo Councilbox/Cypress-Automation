@@ -365,7 +365,7 @@ class AddCensusParticipantButton extends Component {
                 <AlertConfirm
                     requestClose={() => this.setState({modal: false})}
                     open={this.state.modal}
-                    fullWidth={true}
+                    fullWidth={false}
                     acceptAction={this.addCensusParticipant}
                     buttonAccept={translate.accept}
                     buttonCancel={translate.cancel}
