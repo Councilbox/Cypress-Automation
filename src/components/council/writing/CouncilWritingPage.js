@@ -9,6 +9,7 @@ import ParticipantsSection from '../prepare/ParticipantsSection';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import Scrollbar from 'react-perfect-scrollbar';
 import Convene from '../convene/Convene';
+import ActEditor from './actEditor/ActEditor';
 import gql from "graphql-tag";
 
 export const councilDetails = gql `
@@ -118,7 +119,13 @@ class CouncilWritingPage extends Component {
                     width: '100%',
                     margin: '0'
                 }}>
+
                 <TabList>
+                    <Tab onClick={() => this.setState({
+                        page: !this.state.page
+                    })}>
+                        {translate.act}
+                    </Tab>
                     <Tab onClick={() => this.setState({
                         page: !this.state.page
                     })}>
@@ -130,6 +137,11 @@ class CouncilWritingPage extends Component {
                         {translate.new_list_called}
                     </Tab>
                 </TabList>
+                <TabPanel style={panelStyle}>
+                    <ActEditor councilID={this.props.councilID}
+                               companyID={this.props.companyID}
+                             translate={translate}/>
+                </TabPanel>
                 <TabPanel style={panelStyle}>
                     <Convene councilID={this.props.councilID}
                              translate={translate}/>

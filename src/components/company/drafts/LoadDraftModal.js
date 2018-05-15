@@ -14,7 +14,7 @@ class LoadDraftModal extends React.Component {
     }
 
     render(){
-        const { company, councilType, draftType, translate, statutes } = this.props;
+        const { companyId, councilType, draftType, translate, statutes } = this.props;
         const secondary = getSecondary();
 
         return(
@@ -32,10 +32,10 @@ class LoadDraftModal extends React.Component {
                     onClose={() => this.setState({loadDraft: false})}
                 >
                     <DialogTitle>
-                        {translate.new_location_of_celebrate}
+                        {translate.load_draft}
                     </DialogTitle>
                     <DialogContent style={{width: '800px'}}>
-                        <LoadDraft company={company}
+                        <LoadDraft companyId={companyId}
                                    councilType={councilType}
                                    draftType={draftType}
                                    translate={translate}

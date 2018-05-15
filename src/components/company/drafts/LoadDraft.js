@@ -22,8 +22,15 @@ class LoadDraft extends React.Component {
     }
 
     render(){
-        const { translate, statutes } = this.props;
+        const { translate, statutes, statute } = this.props;
         const { companyDrafts, loading } = this.props.data;
+
+        // if (!!statute){
+        //     for (let i = 0; i < statutes.length; i++) {
+        //         const loadingElement = loading[ i ];
+        //
+        //     }
+        // }
 
         return(
             <React.Fragment>
@@ -90,7 +97,7 @@ class LoadDraft extends React.Component {
 export default graphql(companyDrafts, {
     options: (props) => ({
         variables: {
-            companyId: props.company.id,
+            companyId: props.companyId,
             filters: [
                 {field: 'type', text: props.draftType},
                 {field: 'statuteId', text: props.councilType.statuteId}

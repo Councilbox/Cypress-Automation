@@ -97,7 +97,7 @@ class PointEditor extends Component {
 
                 <LoadDraft
                     translate={translate}
-                    company={company}
+                    companyId={company.id}
                     loadDraft={this.loadDraft}
                     councilType={statute}
                     statutes={companyStatutes}

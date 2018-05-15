@@ -1,8 +1,10 @@
 import React from 'react';
-import { CardPageLayout, LoadingSection, EnhancedTable, CloseIcon, DateWrapper, AlertConfirm, Grid, GridItem } from '../../../displayComponents';
-import { graphql, compose } from 'react-apollo';
+import {
+    AlertConfirm, CardPageLayout, CloseIcon, DateWrapper, EnhancedTable, Grid, GridItem, LoadingSection
+} from '../../../displayComponents';
+import { compose, graphql } from 'react-apollo';
 import { censuses, deleteCensus, setDefaultCensus } from '../../../queries';
-import { TableRow, TableCell } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 import FontAwesome from 'react-fontawesome';
 import { getPrimary } from '../../../styles/colors';
 import CloneCensusModal from './CloneCensusModal';
@@ -12,7 +14,7 @@ import { CENSUS_LIMITS } from '../../../constants';
 
 class CompanyCensusPage extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             deleteModal: false,
@@ -28,7 +30,7 @@ class CompanyCensusPage extends React.Component {
                 censusId: this.state.deleteCensus
             }
         });
-        if(response){
+        if (response) {
             this.setState({
                 deleteModal: false,
                 deleteCensus: -1
@@ -46,12 +48,12 @@ class CompanyCensusPage extends React.Component {
                 censusId: censusId
             }
         });
-        if(response){
+        if (response) {
             this.setState({
                 changingDefault: -1
             });
             this.props.data.refetch();
-        }  
+        }
     };
 
     openCensusEdit = (censusId) => {
@@ -59,95 +61,110 @@ class CompanyCensusPage extends React.Component {
     };
 
 
-    render(){
+    render() {
         const { translate, company } = this.props;
         const { loading, censuses } = this.props.data;
         const primary = getPrimary();
 
-        return(
-            <CardPageLayout title={translate.censuses_list}>
+        return (<CardPageLayout title={translate.censuses_list}>
                 <Grid>
                     <GridItem xs={6} lg={3} md={3}>
                         <AddCensusButton
-                            translate={translate}      
+                            translate={translate}
                             company={company}
-                            refetch={this.props.data.refetch}  
+                            refetch={this.props.data.refetch}
                         />
                     </GridItem>
                 </Grid>
-                {!!censuses &&
-                    <EnhancedTable
-                        translate={translate}
-                        defaultLimit={CENSUS_LIMITS[0]}
-                        defaultFilter={'censusName'}
-                        limits={CENSUS_LIMITS}
-                        page={1}
-                        loading={loading}
-                        length={censuses.list.length}
-                        total={censuses.total}
-                        refetch={this.props.data.refetch}
-                        action={this._renderDeleteIcon}
-                        headers={[
-                            {
-                                text: translate.name,
-                                name: 'censusName',
-                                canOrder: true,
-                            },
-                            {
-                                text: translate.creation_date,
-                                name: 'creationDate',
-                                canOrder: true,
-                            },
-                            {
-                                name: 'lastEdit',
-                                text: translate.last_edit,
-                                canOrder: true,
-                            },                 
-                            {name: ''},                 
-                        ]}
-                    >
-                        {censuses.list.map((census, index) => {
-                            return(
-                                <TableRow                         
-                                    key={`census_${census.id}`}
-                                    onClick={() => this.openCensusEdit(census.id)}
-                                    style={{cursor: 'pointer'}}
-                                >
-                                    <TableCell>{census.censusName}</TableCell>
-                                    <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={census.creationDate} /></TableCell>
-                                    <TableCell><DateWrapper format="DD/MM/YYYY HH:mm" date={census.lastEdit} /></TableCell>
-                                    <TableCell>
+                {!!censuses && <EnhancedTable
+                    translate={translate}
+                    defaultLimit={CENSUS_LIMITS[ 0 ]}
+                    defaultFilter={'censusName'}
+                    limits={CENSUS_LIMITS}
+                    page={1}
+                    loading={loading}
+                    length={censuses.list.length}
+                    total={censuses.total}
+                    refetch={this.props.data.refetch}
+                    action={this._renderDeleteIcon}
+                    headers={[ {
+                        text: translate.name,
+                        name: 'censusName',
+                        canOrder: true,
+                    }, {
+                        text: translate.creation_date,
+                        name: 'creationDate',
+                        canOrder: true,
+                    }, {
+                        name: 'lastEdit',
+                        text: translate.last_edit,
+                        canOrder: true,
+                    }, { name: '' }, ]}
+                >
+                    {censuses.list.map((census, index) => {
+                        return (<TableRow
+                                hover
+                                key={`census_${census.id}`}
+                                onClick={() => this.openCensusEdit(census.id)}
+                                style={{ cursor: 'pointer' }}
+                            >
+                                <TableCell>
+                                    {census.censusName}
+                                </TableCell>
+                                <TableCell>
+                                    <DateWrapper format="DD/MM/YYYY HH:mm"
+                                                 date={census.creationDate}/>
+                                </TableCell>
+                                <TableCell>
+                                    <DateWrapper format="DD/MM/YYYY HH:mm"
+                                                 date={census.lastEdit}/>
+                                </TableCell>
+                                <TableCell>
+                                    <div style={{float: 'right'}}>
                                         {census.id === this.state.changingDefault ?
-                                            <div style={{display: 'inline-block'}}>
-                                                <LoadingSection size={20} />
-                                            </div>
-                                        : 
-                                            <FontAwesome
-                                                name={census.defaultCensus === 1? 'star' : 'star-o'}
-                                                style={{cursor: 'pointer', fontSize: '2em', color: primary}}
+                                            <div style={{ display: 'inline-block' }}>
+                                                <LoadingSection size={20}/>
+                                            </div> : <FontAwesome
+                                                name={census.defaultCensus === 1 ? 'star' : 'star-o'}
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    fontSize: '2em',
+                                                    color: primary
+                                                }}
                                                 onClick={(event) => {
                                                     event.stopPropagation();
                                                     this.setDefaultCensus(census.id)
                                                 }}
-                                            /> 
-                                        }
-                                          
+                                            />}
+
                                         <CloneCensusModal
                                             translate={translate}
                                             open={this.state.cloneModal}
-                                            census={censuses.list[this.state.cloneIndex]}
+                                            census={censuses.list[ this.state.cloneIndex ]}
                                         >
-                                            <FontAwesome 
+                                            <FontAwesome
                                                 name={'clone'}
-                                                style={{cursor: 'pointer', fontSize: '1.8em', marginLeft: '0.2em', color: primary}}
+                                                style={{
+                                                    cursor: 'pointer',
+                                                    fontSize: '1.8em',
+                                                    marginLeft: '0.2em',
+                                                    color: primary
+                                                }}
                                                 onClick={(event) => {
                                                     event.stopPropagation();
-                                                    this.setState({cloneModal: true, cloneIndex: index})
+                                                    this.setState({
+                                                        cloneModal: true,
+                                                        cloneIndex: index
+                                                    })
                                                 }}
                                             />
-                                        </CloneCensusModal>                                     
+                                        </CloneCensusModal>
+
                                         <CloseIcon
-                                            style={{color: primary, marginTop:'-10px'}}
+                                            style={{
+                                                color: primary,
+                                                marginTop: '-10px'
+                                            }}
                                             onClick={(event) => {
                                                 event.stopPropagation();
                                                 this.setState({
@@ -156,13 +173,12 @@ class CompanyCensusPage extends React.Component {
                                                 })
                                             }}
                                         />
-                                    </TableCell>                  
-                                </TableRow>
-                            );
-                        })}
-                    </EnhancedTable>
-                }  
-                <AlertConfirm 
+                                    </div>
+                                </TableCell>
+                            </TableRow>);
+                    })}
+                </EnhancedTable>}
+                <AlertConfirm
                     title={translate.send_to_trash}
                     bodyText={translate.send_to_trash_desc}
                     open={this.state.deleteModal}
@@ -170,30 +186,25 @@ class CompanyCensusPage extends React.Component {
                     buttonCancel={translate.cancel}
                     modal={true}
                     acceptAction={this.deleteCensus}
-                    requestClose={() => this.setState({ deleteModal: false})}
+                    requestClose={() => this.setState({ deleteModal: false })}
                 />
-            </CardPageLayout>
-        );
+            </CardPageLayout>);
     }
 }
 
-export default compose(
-    graphql(censuses, {
-        name: "data",
-        options: (props) => ({
-            variables: {
-                companyId: props.company.id,
-                options: {
-                    limit: CENSUS_LIMITS[0],
-                    offset: 0
-                }
+export default compose(graphql(censuses, {
+    name: "data",
+    options: (props) => ({
+        variables: {
+            companyId: props.company.id,
+            options: {
+                limit: CENSUS_LIMITS[ 0 ],
+                offset: 0
             }
-        })
-    }),
-    graphql(deleteCensus, {
-        name: 'deleteCensus'
-    }),
-    graphql(setDefaultCensus, {
-        name: 'setDefaultCensus'
+        }
     })
-)(CompanyCensusPage);
+}), graphql(deleteCensus, {
+    name: 'deleteCensus'
+}), graphql(setDefaultCensus, {
+    name: 'setDefaultCensus'
+}))(CompanyCensusPage);

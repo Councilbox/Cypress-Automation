@@ -302,7 +302,7 @@ class CouncilEditorNotice extends Component {
                         required
                         loadDraft={<LoadDraftModal
                             translate={translate}
-                            company={company}
+                            companyId={company.id}
                             loadDraft={this.loadDraft}
                             councilType={statute}
                             statutes={companyStatutes}
