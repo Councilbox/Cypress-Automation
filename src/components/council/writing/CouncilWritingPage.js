@@ -48,10 +48,8 @@ export const councilDetails = gql `
         qualityVoteOption
         canUnblock
         canAddPoints
-        whoCanVote
         canReorderPoints
         existsAct
-        whoWasSentActWay
         includedInActBook
         includeParticipantsList
         existsComments
