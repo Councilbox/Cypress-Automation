@@ -317,7 +317,7 @@ class ActEditor extends Component {
                     <LoadDraft translate={translate}
                                companyId={this.props.companyID}
                                loadDraft={this.state.loadDraft}
-                               councilType={council.statute}
+                               statute={council.statute}
                                statutes={companyStatutes}
                                draftType={this.state.draftType}
                     />

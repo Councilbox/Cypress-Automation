@@ -304,7 +304,7 @@ class CouncilEditorNotice extends Component {
                             translate={translate}
                             companyId={company.id}
                             loadDraft={this.loadDraft}
-                            councilType={statute}
+                            statute={statute}
                             statutes={companyStatutes}
                             draftType={draftTypes.filter((draft => draft.label === 'convene_header'))[ 0 ].value}
                         />}

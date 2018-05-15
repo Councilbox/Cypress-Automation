@@ -129,7 +129,7 @@ class NewAgendaPointModal extends Component {
                     translate={translate}
                     companyId={company.id}
                     loadDraft={this.loadDraft}
-                    councilType={statute}
+                    statute={statute}
                     statutes={companyStatutes}
                     draftType={1}
                 />}

@@ -14,7 +14,7 @@ class LoadDraftModal extends React.Component {
     }
 
     render(){
-        const { companyId, councilType, draftType, translate, statutes } = this.props;
+        const { companyId, councilType, draftType, translate, statutes, statute } = this.props;
         const secondary = getSecondary();
 
         return(
@@ -40,6 +40,7 @@ class LoadDraftModal extends React.Component {
                                    draftType={draftType}
                                    translate={translate}
                                    statutes={statutes}
+                                   statute={statute}
                         />
                     </DialogContent>
                 </Dialog>

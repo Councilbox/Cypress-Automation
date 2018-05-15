@@ -17,7 +17,7 @@ class PointEditor extends Component {
                 subjectType: '',
                 description: ''
             },
-
+            loadDraft: false,
             errors: {
                 agendaSubject: '',
                 subjectType: '',
@@ -45,7 +45,7 @@ class PointEditor extends Component {
             majorityType: draft.majorityType,
             majorityDivider: draft.majorityDivider,
             subjectType: draft.type,
-            agendaSubject: draft.title
+            agendaSubject: draft.title,
         });
         this.editor.setValue(correctedText);
     };
@@ -72,7 +72,8 @@ class PointEditor extends Component {
             data: {
                 ...this.state.data,
                 ...object
-            }
+            },
+            loadDraft: false
         });
     };
 
@@ -99,8 +100,9 @@ class PointEditor extends Component {
                     translate={translate}
                     companyId={company.id}
                     loadDraft={this.loadDraft}
-                    councilType={statute}
+                    statute={statute}
                     statutes={companyStatutes}
+                    draftTypes={draftTypes}
                     draftType={1}
                 />}
 
