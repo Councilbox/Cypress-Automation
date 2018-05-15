@@ -183,7 +183,7 @@ class CouncilEditorPreview extends Component {
     }
 
     _renderSendConveneWithoutNoticeBody = () => {
-        return (<div>Enviar convocatoria sin notificar</div>);
+        return (<div>{this.props.translate.new_save_convene}</div>);
     };
 
     render() {
