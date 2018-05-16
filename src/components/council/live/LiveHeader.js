@@ -29,6 +29,7 @@ class LiveHeader extends Component  {
                         color: 'white',
                         display: 'flex',
                         width: '100%',
+                        userSelect: 'none',
                         position: 'absolute',
                         zIndex: 100000,
                         minHeight: '3em',

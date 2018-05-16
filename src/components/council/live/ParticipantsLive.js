@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { darkGrey, mediumGrey, getSecondary, lightGrey, getPrimary } from '../../../styles/colors';
 import { CollapsibleSection, LoadingSection, Icon } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
-import { liveParticipants, changeRequestWord } from '../../../queries';
+import { videoParticipants, changeRequestWord } from '../../../queries';
+import Scrollbar from 'react-perfect-scrollbar';
  
 class ParticipantsLive extends Component {
 
@@ -43,7 +44,7 @@ class ParticipantsLive extends Component {
                     </div>
 
                 }
-                {participant.request_word === 1 &&
+                {participant.requestWord === 1 &&
                     <div onClick={() => this.changeWordState(participant.id, 2)} style={{width: '1.6em', height: '1.6em', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getSecondary()}}>
                         <Icon className="material-icons" style={{fontSize: '0.92em', marginRight: '0.3em', color: 'white' }} >pan_tool</Icon>
                     </div>
@@ -55,24 +56,23 @@ class ParticipantsLive extends Component {
 
     _button = () => {
         const { participants } = this.props;
-        const liveParticipants = this.props.data.loading? [] : this.props.data.liveParticipants.list;
+        const videoParticipants = this.props.data.loading? [] : this.props.data.videoParticipants.list;
 
         return(
             <div style={{height: '3em', display: 'flex', backgroundColor: mediumGrey, alignItems: 'center'}} className="withShadow">
                 <div style={{marginLeft: '1em', marginRight: '0.5em', height: '100%', display: 'flex', alignItems: 'center'}}>
                     <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: lightGrey }} >person</Icon>
-
                 </div>
                 <div style={{marginLeft: '1em', marginRight: '0.5em', height: '100%', display: 'flex', alignItems: 'center'}}>
                     <Icon className="material-icons" style={{fontSize: '1.1em', marginRight: '0.3em', color: getSecondary() }}>language</Icon>
-                    <span style={{fontWeight: '700', color: 'white', fontSize: '0.8em'}}>{liveParticipants.length}</span>
+                    <span style={{fontWeight: '700', color: 'white', fontSize: '0.8em'}}>{videoParticipants.length}</span>
                 </div>
             </div>
         )
     };
 
     _section = () => {
-        const { liveParticipants } = this.props.data;
+        const { videoParticipants } = this.props.data;
 
         if(this.props.data.loading){
             return(
@@ -81,10 +81,12 @@ class ParticipantsLive extends Component {
         }
 
         return(
-            <div style={{backgroundColor: darkGrey, width: '100%', height: '30em', padding: '0.75em'}}>
-                {liveParticipants.list.map((participant) => {
-                    return this._participantEntry(participant)
-                })}
+            <div style={{backgroundColor: darkGrey, width: '100%', height: 'calc(100vh - 45vh - 6em)', padding: '0.75em', position: 'relative', overflow: 'hidden'}}>
+                <Scrollbar option={{suppressScrollX: true}}>
+                    {videoParticipants.list.map((participant) => {
+                        return this._participantEntry(participant)
+                    })}
+                </Scrollbar>
             </div>
         );
     };
@@ -100,7 +102,7 @@ class ParticipantsLive extends Component {
 }
 
 export default compose(
-    graphql(liveParticipants, {
+    graphql(videoParticipants, {
         name: "data",
         options: (props) => ({
             variables: {

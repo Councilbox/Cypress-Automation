@@ -46,7 +46,7 @@ class AgendaDetailsSection extends Component {
         const agenda = agendas[this.props.selectedPoint];
         
         return(
-            <div style={{width: '100%', height: '100%', margin: 0, overflow: 'auto'}}>
+            <div style={{width: '100%', height: '100%', margin: 0, overflow: 'auto', outline: 0}}>
                 <div className="row" style={{width: '100%', padding: '2em'}}>
                     <div className="col-lg-6 col-md-5 col-xs-5">
                         {agenda.agendaSubject}<br />

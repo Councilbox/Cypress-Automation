@@ -15,7 +15,7 @@ class AgendaSelector extends Component {
 
         return(
             <div style={{width: '100%', paddingBottom: '5em', flexDirection: 'column', display: 'flex', alignItems: 'center', paddingTop: '1.2em'}}>
-                <div style={{marginBottom: '0.8em'}}>
+                <div style={{marginBottom: '0.8em', flexDirection: 'column', display: 'flex', alignItems: 'center'}}>
                     {agendas.map((agenda, index) => {
                         return(
                             <Fragment key={`agendaSelector${agenda.id}`}>

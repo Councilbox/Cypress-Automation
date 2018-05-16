@@ -10,12 +10,11 @@ import Scrollbar from 'react-perfect-scrollbar';
 const CommentWall = ({ data, translate, open, requestClose }) => {
 
     return(
-        <Drawer style={{zIndex: -1}} anchor="right" variant="persistent" open={open} onClose={requestClose}>
+        <Drawer style={{zIndex: -1, width: '300px'}} anchor="right" variant="persistent" open={open} onClose={requestClose}>
             <div
                 style={{
-                    width: '30%',
                     height: '100%',
-                    minWidth: '300px',
+                    width: '300px',
                     paddingTop: '3em',
                     overflow: 'hidden'
                 }}
