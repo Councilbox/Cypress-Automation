@@ -1472,6 +1472,47 @@ export const liveParticipants = gql `
   }
 `;
 
+export const videoParticipants = gql`
+  query videoParticipants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    videoParticipants(councilId: $councilId, filters: $filters, options: $options){
+      list{
+        id
+        delegateId
+        state
+        audio
+        video
+        councilId
+        name
+        position
+        email
+        phone
+        dni
+        date
+        type
+        participantId
+        online
+        requestWord
+        surname
+        videoPassword
+        blocked
+        lastDateConnection
+        videoMode
+        firstLoginDate
+        firstLoginCurrentPointId
+        language
+        signed
+        address
+        actived
+      }
+      total
+    }
+    liveParticipantsStateCount(councilId: $councilId){
+      state
+      count
+    }
+  }
+`;
+
 export const addGuest = gql`
   mutation addGuest($guest: LiveParticipantInput){
     addGuest(guest: $guest){

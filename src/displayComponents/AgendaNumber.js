@@ -12,6 +12,7 @@ const AgendaNumber = ({ index, active, activeColor = getPrimary(), secondaryColo
             width: '2em',
             fontSize: '1.1em',
             cursor: 'pointer',
+            userSelect: 'none',
             margin: 0,
             color: active || open? 'white' : secondaryColor,
             borderRadius: '1em',
