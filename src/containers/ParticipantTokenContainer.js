@@ -12,7 +12,7 @@ class ParticipantTokenContainer extends React.Component {
         this.state = {
             loading:true,
             error: false,
-            participantId: null
+            participant: null
         }
     }
 
@@ -32,7 +32,7 @@ class ParticipantTokenContainer extends React.Component {
                     });
                     const participant = responseQueryMe.data.participantMe;
 
-                    this.setState({token: token, loading: false, participantId: participant.id});
+                    this.setState({token: token, loading: false, participant: participant});
                 }
                 else{
                     throw new Error('Error getting participant token');
@@ -46,7 +46,7 @@ class ParticipantTokenContainer extends React.Component {
     }
 
     render(){
-        const { loading, error, participantId } = this.state;
+        const { loading, error, participant } = this.state;
         const { translate } = this.props;
         if(Object.keys(translate).length === 0 && loading){
             return <LoadingMainApp />
@@ -58,8 +58,8 @@ class ParticipantTokenContainer extends React.Component {
 
         return(
             <React.Fragment>
-                {participantId &&
-                    <Redirect to={`/participant/${participantId}/login`} />
+                {participant &&
+                    <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
                 }
             </React.Fragment>
         );
@@ -80,12 +80,8 @@ const participantToken = gql`
 const getMe = gql`
     query participantMe{
         participantMe {
-            name
-            surname
             id
-            phone
-            email
-            language
+            councilId
         }
     }
 `;
