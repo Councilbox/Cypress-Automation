@@ -27,11 +27,12 @@ const httpLink = new HttpLink({
 
 const authLink = setContext((_, { headers }) => {
   const token = sessionStorage.getItem('token');
+  const participantToken = sessionStorage.getItem('participantToken');
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : "",
-      "x-jwt-token": token
+      authorization: token ? `Bearer ${token}` : `Bearer ${participantToken}`,
+      "x-jwt-token": token? token : participantToken
     }
   }
 });
