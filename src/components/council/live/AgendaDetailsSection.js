@@ -10,6 +10,7 @@ import RecountSection from './RecountSection';
 import CommentsSection from './CommentsSection';
 import CouncilMenu from './councilMenu/CouncilMenu';
 import VotingsSection from './VotingsSection';
+import * as CBX from '../../../utils/CBX';
 
 
 class AgendaDetailsSection extends Component {
@@ -57,7 +58,7 @@ class AgendaDetailsSection extends Component {
                     </div>
                     <div className="col-lg-6 col-md-5 col-xs-5">
                         <div className="row">
-                            {council.councilStarted === 1 && agenda.pointState !== 2 &&
+                            {CBX.councilStarted(council) && !CBX.agendaClosed(agenda) &&
                                 <div className="col-lg-6 col-md-12 col-xs-12" style={{marginTop: '0.6em'}}>
                                     <ToggleAgendaButton
                                         agenda={agenda}
@@ -68,7 +69,7 @@ class AgendaDetailsSection extends Component {
                                 </div>
                             }
                             {council.state === 20?
-                                council.councilStarted === 0?
+                                !CBX.councilStarted(council)?
                                     <div className="col-lg-6 col-md-12 col-xs-12" style={{marginTop: '0.6em'}}>
                                         <StartCouncilButton 
                                             council={council}
@@ -91,7 +92,7 @@ class AgendaDetailsSection extends Component {
                                     refetch={refetch}
                                 />
                             }
-                            {council.councilStarted === 1 && agenda.subjectType !== 0 && agenda.votingState !== 2 &&
+                            {CBX.showAgendaVotingsToggle(council, agenda) &&
                                 <div className="col-lg-6 col-md-12 col-xs-12" style={{marginTop: '0.6em'}}>
                                     <ToggleVotingsButton 
                                         council={council}
@@ -113,9 +114,9 @@ class AgendaDetailsSection extends Component {
                         agendaID={agenda.id}
                     />
                 </div>
-                {council.councilStarted !== 0 && agenda.votingState !== 0 && 
+                {CBX.councilStarted(council) && CBX.agendaVotingsOpened(agenda) && 
                     <Fragment>
-                        <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
+                        {/*<div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
                             <RecountSection
                                 agenda={agenda}
                                 council={council}
@@ -125,8 +126,8 @@ class AgendaDetailsSection extends Component {
                                 refetch={this.props.refetch}
                                 agendaID={agenda.id}
                             />
-                        </div>
-                        {council.statute.existsComments &&
+                        </div>*/}
+                        {CBX.councilHasComments(council.statute) &&
                             <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
                                 <CommentsSection
                                     agenda={agenda}

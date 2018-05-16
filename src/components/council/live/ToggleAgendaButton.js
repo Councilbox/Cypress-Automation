@@ -43,6 +43,7 @@ class ToggleAgendaButton extends Component {
                 councilId: agenda.councilId
             }
         });
+        console.log(response);
         if(response){
             this.props.refetch();
         }

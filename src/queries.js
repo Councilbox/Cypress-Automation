@@ -1377,8 +1377,8 @@ export const endCouncil = gql `
 `;
 
 export const openCouncilRoom = gql `
-  mutation openCouncilRoom($council: CouncilInput) {
-      openCouncilRoom(council: $council) {
+  mutation openCouncilRoom($council: CouncilInput, $noVideoEmails: Boolean, $timezone: String) {
+      openCouncilRoom(council: $council, noVideoEmails: $noVideoEmails, timezone: $timezone) {
         id
       }
   }
@@ -1506,9 +1506,42 @@ export const videoParticipants = gql`
       }
       total
     }
-    liveParticipantsStateCount(councilId: $councilId){
-      state
-      count
+  }
+`;
+
+export const councilOfficials = gql`
+  query councilOfficials($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    councilOfficials(councilId: $councilId, filters: $filters, options: $options){
+      list{
+        id
+        delegateId
+        state
+        audio
+        video
+        councilId
+        name
+        position
+        email
+        phone
+        dni
+        date
+        type
+        participantId
+        online
+        requestWord
+        surname
+        videoPassword
+        blocked
+        lastDateConnection
+        videoMode
+        firstLoginDate
+        firstLoginCurrentPointId
+        language
+        signed
+        address
+        actived
+      }
+      total
     }
   }
 `;
@@ -1735,10 +1768,12 @@ export const agendaComments = gql`
   query agendaVotings($agendaId: Int!){
     agendaVotings(agendaId: $agendaId){
       comment
-      name
-      surname
-      email
-      position
+      author{
+        name
+        surname
+        email
+        position
+      }
     }
   }
 `;
@@ -1922,10 +1957,10 @@ export const getVotings = gql `
 
 
 export const changeRequestWord = gql `
-  mutation changeRequestWord($wordState: WordState) {
-      changeRequestWord(wordState: $wordState) {
-        code
-        msg
+  mutation changeRequestWord($participantId: Int!, $requestWord: Int!) {
+      changeRequestWord(participantId: $participantId, requestWord: $requestWord) {
+        success
+        message
       }
   }
 `

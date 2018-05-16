@@ -24,6 +24,7 @@ export { default as LoadingSection } from './LoadingSection';
 export { default as MajorityInput } from './MajorityInput';
 export { default as MenuItem } from './MenuItem';
 export { default as MobileStepper } from './MobileStepper';
+export { default as ParticipantRow } from './ParticipantRow';
 export { default as Popover } from './Popover';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Radio } from './Radio';
