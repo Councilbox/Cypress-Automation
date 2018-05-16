@@ -11,16 +11,17 @@ import Scrollbar from 'react-perfect-scrollbar';
 
 export const conveneDetails = gql `
   query CouncilDetails($councilID: Int!) {
-    council(id: $councilID) {    
-      attachments {
-        councilId
-        filename
-        filesize
-        filetype
-        id
-      }
-      emailText
-    }
+        council(id: $councilID) {
+            id
+            attachments {
+                councilId
+                filename
+                filesize
+                filetype
+                id
+            }
+            emailText
+        }
   }
 `;
 

@@ -9,21 +9,10 @@ class ParticipantsLive extends Component {
 
     changeWordState = async (id, value) => {
         this.props.data.loading = true;
-        const object = {
-            wordState: {
-                councilId: this.props.councilID,
-                requestWord: value,
-                id: id
-            } 
-        };
-        console.log(object);
         const response = await this.props.changeRequestWord({
             variables: {
-                wordState: {
-                    councilId: this.props.councilID,
-                    requestWord: value,
-                    id: id
-                }
+                requestWord: value,
+                participantId: id
             }
         });
 
@@ -39,13 +28,13 @@ class ParticipantsLive extends Component {
                 <div style={{color: 'white', fontSize: '0.85em', marginLeft: '0.5em', width: '45%'}} className="truncate">{`${participant.name} ${participant.surname}`}</div>
                 <div style={{width: '20%', color: lightGrey, marginLeft: '1em', fontSize: '0.8em'}} className="truncate">{participant.position}</div>
                 {participant.requestWord === 2 &&
-                    <div onClick={() => this.changeWordState(participant.id, 0)} style={{width: '1.6em', height: '1.6em', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getPrimary()}}>
+                    <div onClick={() => this.changeWordState(participant.id, 0)} style={{width: '1.6em', height: '1.6em', display: 'flex', cursor: 'pointer', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getPrimary()}}>
                         <Icon className="material-icons" style={{fontSize: '0.9em', marginRight: '0.3em', color: 'white' }}>pan_tool</Icon>
                     </div>
 
                 }
                 {participant.requestWord === 1 &&
-                    <div onClick={() => this.changeWordState(participant.id, 2)} style={{width: '1.6em', height: '1.6em', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getSecondary()}}>
+                    <div onClick={() => this.changeWordState(participant.id, 2)} style={{width: '1.6em', height: '1.6em', display: 'flex', cursor: 'pointer', alignItems: 'center', justifyContent: 'center', borderRadius: '0.1em', backgroundColor: getSecondary()}}>
                         <Icon className="material-icons" style={{fontSize: '0.92em', marginRight: '0.3em', color: 'white' }} >pan_tool</Icon>
                     </div>
 
@@ -108,6 +97,7 @@ export default compose(
             variables: {
                 councilId: props.councilID
             },
+            pollInterval: 5000
         })
     }),
 

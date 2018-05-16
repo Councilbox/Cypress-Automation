@@ -127,7 +127,11 @@ class ParticipantsManager extends Component {
         }
 
         if(value !== 'all'){
-            return this.props.data.liveParticipantsStateCount.find((item) => (item.state === value)).count;
+            const data = this.props.data.liveParticipantsStateCount.find((item) => (item.state === value));
+            if(data){
+                return data.count;
+            }
+            return '0';
         }
 
         return(this.props.data.liveParticipantsStateCount.reduce((a, b) => a + b.count, 0));

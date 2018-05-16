@@ -2,9 +2,9 @@ import gql from "graphql-tag";
 
 export const addAgenda = gql `
   mutation addAgenda($agenda: AgendaInput) {
-      addAgenda(agenda: $agenda) {
-        id
-      }
+    addAgenda(agenda: $agenda) {
+      id
+    }
   }
 `;
 
