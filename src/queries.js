@@ -1,5 +1,14 @@
 import gql from 'graphql-tag';
 
+export const setCompanyAsSelected = gql`
+  mutation setCompanyAsSelected($userId: Int!, $companyId: Int!){
+    setCompanyAsSelected(companyId: $companyId, userId: $userId){
+      success
+      message
+    }
+  }
+`;
+
 export const login = gql `
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password){
@@ -56,6 +65,7 @@ export const getTranslations = gql`
 export const companies = gql`
     query UserCompanies($userId: Int!){
         userCompanies(userId: $userId){
+            actived
             company{
                 alias
                 tin
