@@ -161,7 +161,7 @@ class Sidebar extends Component {
                     {this.props.companies.map((company, index) => {
                         if(company.id !== this.props.company.id){
                             return(
-                                <MenuItem onClick={() => this.changeCompany(index)}>
+                                <MenuItem key={`company_${company.id}`} onClick={() => this.changeCompany(index)}>
                                     <div className={this.props.classes.logoImage}>
                                         <img src={company.logo} alt="logo" className={this.props.classes.img}/>
                                     </div>
