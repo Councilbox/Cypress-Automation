@@ -275,11 +275,13 @@ class CompanySettingsPage extends Component {
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3} style={{ textAlign: 'center' }}>
                         <GridItem xs={12} md={12} lg={12}>
-                            <img src={data.logo} alt="logo" style={{
-                                marginBottom: '0.6em',
-                                maxHeight: '4em',
-                                maxWidth: '100%'
-                            }}/>
+                            {!!data.logo &&
+                                <img src={data.logo} alt="logo" style={{
+                                    marginBottom: '0.6em',
+                                    maxHeight: '4em',
+                                    maxWidth: '100%'
+                                }}/>
+                            }
                         </GridItem>
                         <GridItem xs={12} md={12} lg={12}>                        
                             <FileUploadButton
@@ -366,7 +368,7 @@ class CompanySettingsPage extends Component {
                             floatingText={translate.language}
                             value={data.language}
                             onChange={(event) => this.updateState({
-                                preferred_language: event.target.value
+                                language: event.target.value
                             })}
                             errorText={errors.language}>
                             {this.props.info.languages && this.props.info.languages.map((language) => <MenuItem

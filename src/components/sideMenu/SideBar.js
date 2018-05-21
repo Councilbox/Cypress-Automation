@@ -9,6 +9,7 @@ import { getPrimary } from '../../styles/colors';
 import { store, bHistory } from '../../containers/App';
 import { changeCompany } from '../../actions/companyActions';
 import { DropDownMenu, Icon } from '../../displayComponents';
+import FontAwesome from 'react-fontawesome';
 
 
 class Sidebar extends Component {
@@ -139,7 +140,15 @@ class Sidebar extends Component {
                         flexDirection: 'row'
                     }}>
                         <div className={this.props.classes.logoImage}>
-                            <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
+                            {!!this.props.company.logo? 
+                                <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
+                            :
+                                <FontAwesome
+                                    name={'building-o'}
+                                    className={this.props.classes.img}
+                                />
+
+                            }
                         </div>
 
                         <div style={{
@@ -162,13 +171,20 @@ class Sidebar extends Component {
                         if(company.id !== this.props.company.id){
                             return(
                                 <MenuItem key={`company_${company.id}`} onClick={() => this.changeCompany(index)}>
-                                    <div className={this.props.classes.logoImage}>
-                                        <img src={company.logo} alt="logo" className={this.props.classes.img}/>
-                                    </div>
+                                    {!!company.logo? 
+                                        <img src={company.logo} alt="logo" className={this.props.classes.img} />
+                                    :
+                                        <FontAwesome
+                                            name={'building-o'}
+                                            className={this.props.classes.img}
+                                        />
+
+                                    }
 
                                     <div style={{
                                         fontSize: '0.85em',
-                                        fontWeight: '700'
+                                        fontWeight: '700',
+                                        marginLeft: '0.3em'
                                     }}>{company.businessName}</div>
                                 </MenuItem>
                             )

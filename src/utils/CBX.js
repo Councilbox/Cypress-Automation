@@ -366,6 +366,22 @@ export const printSessionExpiredError = () => {
     return messages['es'];
 };
 
+export const printCifAlreadyUsed = () => {
+    //vat_previosly_save
+    const messages = {
+        'pt': 'Este NIF já foi previamente guardado',
+        'es': "Este CIF ha sido guardado previamente",
+        'en':' This VAT has been previously saved',
+        'cat': 'Aquest CIF ha estat guardat prèviament',
+        'gal': 'Este CIF foi gardado previamente'
+    }
+    const selectedLanguage = sessionStorage.getItem('language');
+    if(selectedLanguage){
+        return messages[selectedLanguage];
+    }
+    return messages['es'];
+}
+
 
 export const showVideo = (council) => {
     return council.state === 20 && council.councilType === 0;
