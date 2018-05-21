@@ -5,7 +5,7 @@ import { getPrimary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import { EnhancedTable, CloseIcon } from '../../../../displayComponents';
 import { graphql, compose } from "react-apollo";
-import { councilParticipants, deleteParticipant } from '../../../../queries';
+import { councilParticipants, deleteParticipant } from '../../../../queries/councilParticipant';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import ParticipantEditor from '../../participants/ParticipantEditor';
 import ChangeCensusMenu from './ChangeCensusMenu';

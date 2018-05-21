@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, TextInput, RichTextInput } from '../../../displayComponents';
 import { MenuItem } from 'material-ui';
-import { cloneCensus } from '../../../queries';
+import { cloneCensus } from '../../../queries/census';
 
 
 class CloneCensusModal extends Component {

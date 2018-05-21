@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { census } from '../../../../queries';
+import { census } from '../../../../queries/census';
 import { LoadingSection, CardPageLayout, TextInput, SelectInput, Grid, GridItem } from '../../../../displayComponents';
 import { MenuItem } from 'material-ui';
 import withSharedProps from '../../../../HOCs/withSharedProps';

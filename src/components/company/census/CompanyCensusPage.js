@@ -3,7 +3,7 @@ import {
     AlertConfirm, CardPageLayout, CloseIcon, DateWrapper, EnhancedTable, Grid, GridItem, LoadingSection
 } from '../../../displayComponents';
 import { compose, graphql } from 'react-apollo';
-import { censuses, deleteCensus, setDefaultCensus } from '../../../queries';
+import { censuses, deleteCensus, setDefaultCensus } from '../../../queries/census';
 import { TableCell, TableRow } from 'material-ui/Table';
 import FontAwesome from 'react-fontawesome';
 import { getPrimary } from '../../../styles/colors';
