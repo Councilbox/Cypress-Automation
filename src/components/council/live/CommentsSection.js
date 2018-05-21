@@ -32,23 +32,25 @@ class CommentsSection extends Component {
     };
 
     _section = () => {
-        //const comments = this.props.data.agendaVotings;
         if(this.props.data.loading){
             return(
                 <LoadingSection />
             )
         }
+        const comments = this.props.data.agendaVotings;        
 
         return(
             <div style={{width: '100%', padding: '2em'}}>
-                {/*comments.map((comment) => {
-                    return(
-                        <div key={`comment${comment.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
-                            {comment.comment}<br />
-                            {`${comment.name} ${comment.surname} - ${comment.position}`}
-                        </div>
-                    )
-                })*/}
+                {comments.map((comment) => {
+                    if(comment.comment){
+                        return(
+                            <div key={`comment${comment.author.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
+                                {comment.comment}<br />
+                                {`${comment.author.name} ${comment.author.surname} - ${comment.author.position}`}
+                            </div>
+                        )
+                    }
+                })}
             </div>
         );
     };
@@ -73,6 +75,7 @@ export default graphql(agendaComments, {
     options: (props) => ({
         variables: {
             agendaId: props.agenda.id
-        }
+        },
+        pollInterval: 5000
     })
 })(CommentsSection);

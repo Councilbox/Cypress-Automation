@@ -16,6 +16,7 @@ export const councilDetails = gql `
   query CouncilDetails($councilID: Int!) {
     council(id: $councilID) {
       dateEnd
+      id
       dateRealStart
       dateStart
       dateStart2NdCall
