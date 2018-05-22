@@ -195,6 +195,11 @@ export const showUserUniqueKeyMessage = (council) => {
 export const councilIsNotified = (council) => {
     return council.state === 10;
 };
+
+export const councilIsStarted = (council) => {
+    return council.state >= 20;
+};
+
 export const councilHasAssistanceConfirmation = (council) => {
     return council.confirmAssistance === 1;
 };
