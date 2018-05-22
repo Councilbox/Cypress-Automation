@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './Header.jsx';
+import Iframe from '../../Iframe';
 import NeedHelpModal from './NeedHelpModal.jsx';
 import { LoadingMainApp, BasicButton, ButtonIcon } from '../../../displayComponents';
 import { primary } from '../../../styles/colors';
@@ -37,7 +38,8 @@ class Test extends Component {
             language: this.props.match.params.language,
             detectRTC: DetectRTC,
             modal: false,
-            isiOSDevice: false
+            isiOSDevice: false,
+            iframeRandomValue: Math.round(Math.random() * 10000000)
         }
     }
 
@@ -79,7 +81,7 @@ class Test extends Component {
 
     render() {
         const { translate, windowSize, getTestIframe } = this.props;
-        const { detectRTC, isiOSDevice } = this.state;
+        const { detectRTC, isiOSDevice, iframeRandomValue } = this.state;
 
         if(this.state.loading) return(<LoadingMainApp/>);
 
@@ -115,19 +117,10 @@ class Test extends Component {
                             </div>
                         </div>
                         :
-                        <iframe 
-                            title="testIframe" 
-                            allow="geolocation; microphone; camera" 
-                            scrolling="no"  
-                            src={`https://${getTestIframe.participantTestIframe}?rand=${Math.round(Math.random() * 10000000)}`} 
-                            allowFullScreen="true" 
-                            style={{border:'none', width: '100%', height: '100%'}}
-                        >
-                                Something wrong...
-                        </iframe>
+                        <Iframe src={`https://${getTestIframe.participantTestIframe}?rand=${iframeRandomValue}`} />
                     }
 
-                    {/* {windowSize !== 'xs' &&
+                    {windowSize !== 'xs' &&
                         <BasicButton
                             text={translate.need_help}
                             color={'white'}
@@ -144,7 +137,7 @@ class Test extends Component {
                                 right: '40px'
                             }}
                         /> 
-                    } */}
+                    }
                 </div>
 
                 <NeedHelpModal 

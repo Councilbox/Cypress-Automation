@@ -157,17 +157,17 @@ class CompanySettingsPage extends Component {
         const data = this.state.data;
         let hasError = false;
 
-        if (!data.businessName.length > 0) {
+        if (!data.businessName) {
             hasError = true;
             errors.businessName = translate.field_required;
         }
 
-        if (!data.alias.length > 0) {
+        if (!data.alias) {
             hasError = true;
             errors.alias = translate.field_required;
         }
 
-        if (!data.tin.length > 0) {
+        if (!data.tin) {
             hasError = true;
             errors.tin = translate.field_required;
         }
@@ -274,24 +274,30 @@ class CompanySettingsPage extends Component {
                         </Grid>
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3} style={{ textAlign: 'center' }}>
-                        <img src={data.logo} alt="logo" style={{
-                            marginBottom: '0.6em',
-                            maxHeight: '4em',
-                            maxWidth: '100%'
-                        }}/>
-                        <FileUploadButton
-                            text={translate.company_logotype}
-                            image
-                            color={secondary}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            icon={<ButtonIcon type="publish" color='white'/>}
-                            onChange={this.handleFile}
-                        />
+                        <GridItem xs={12} md={12} lg={12}>
+                            {!!data.logo &&
+                                <img src={data.logo} alt="logo" style={{
+                                    marginBottom: '0.6em',
+                                    maxHeight: '4em',
+                                    maxWidth: '100%'
+                                }}/>
+                            }
+                        </GridItem>
+                        <GridItem xs={12} md={12} lg={12}>                        
+                            <FileUploadButton
+                                text={translate.company_logotype}
+                                image
+                                color={secondary}
+                                textStyle={{
+                                    color: 'white',
+                                    fontWeight: '700',
+                                    fontSize: '0.9em',
+                                    textTransform: 'none'
+                                }}
+                                icon={<ButtonIcon type="publish" color='white'/>}
+                                onChange={this.handleFile}
+                            />
+                        </GridItem>
                     </GridItem>
                 </Grid>
                 <br/>
@@ -362,7 +368,7 @@ class CompanySettingsPage extends Component {
                             floatingText={translate.language}
                             value={data.language}
                             onChange={(event) => this.updateState({
-                                preferred_language: event.target.value
+                                language: event.target.value
                             })}
                             errorText={errors.language}>
                             {this.props.info.languages && this.props.info.languages.map((language) => <MenuItem

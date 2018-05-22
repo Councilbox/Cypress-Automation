@@ -1,7 +1,8 @@
 import React from 'react';
-import { TextField, FormControl, InputAdornment } from 'material-ui';
+import { TextField, FormControl, InputAdornment, IconButton } from 'material-ui';
+import { VisibilityOff, Visibility } from 'material-ui-icons';
 
-const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorText, classes, onKeyUp, placeholder, required, min, max, disabled }) => (
+const TextInput = ({ floatingText = '', type, passwordToggler, showPassword, adornment, value, onChange, errorText, classes, onKeyUp, placeholder, required, min, max, disabled }) => (
     <FormControl style={{
         width: '100%',
         marginTop: 0
@@ -19,8 +20,23 @@ const TextInput = ({ floatingText = '', type, adornment, value, onChange, errorT
             }}
             InputProps={{
                 startAdornment: adornment ? <InputAdornment position="start">{adornment}</InputAdornment> : '',
-                min: min,
-                max: max
+                inputProps: { min: min, max: max },
+                endAdornment: passwordToggler? 
+                    <InputAdornment position="end">
+                        <IconButton
+                            aria-label="Toggle password visibility"
+                            style={{
+                                outline: 0
+                            }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                passwordToggler()
+                            }}
+                        >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                : ''
             }}
             FormHelperTextProps={{
                 error: !!errorText

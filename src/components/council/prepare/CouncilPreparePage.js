@@ -193,7 +193,7 @@ class CouncilPreparePage extends Component {
                 </TabPanel>
 
                 <TabPanel style={panelStyle}>
-                    <Scrollbar>
+                    <Scrollbar  option={{suppressScrollX: true}}>
                         <ParticipantsSection
                             translate={translate}
                             council={council}

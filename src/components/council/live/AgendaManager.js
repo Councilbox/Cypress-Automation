@@ -21,6 +21,30 @@ class AgendaManager extends Component {
         })
     }
 
+    handleKeyPress = (event) => {
+        const key = event.nativeEvent;
+        const { selectedPoint } = this.state;
+
+        if(key.altKey){
+            
+        }else{
+            switch(key.keyCode){
+                case 38:
+                    if(selectedPoint > 0){
+                        this.changeSelectedPoint(selectedPoint - 1);
+                    }
+                    break;
+                case 40:
+                    if(selectedPoint < this.props.council.agendas.length - 1){
+                        this.changeSelectedPoint(selectedPoint + 1);
+                    }
+                    break;
+                default:
+                    return;
+            }
+        }
+    }
+
     render(){
         const { council, translate, company } = this.props;
         const { agendas } = this.props.council;
@@ -65,7 +89,11 @@ class AgendaManager extends Component {
                         refetch={this.props.refetch}
                     />
                 </Card>
-                <div style={{width: '94%', height: '92vh', padding: '0', display: 'flex', flexDirection: 'row'}}>
+                <div
+                    style={{width: '94%', height: 'calc(100vh - 3em)', padding: '0', display: 'flex', flexDirection: 'row', outline: 0}}
+                    tabIndex="0"
+                    onKeyUp={this.handleKeyPress}
+                >
                     <AgendaDetailsSection
                         council={council}
                         agendas={agendas}

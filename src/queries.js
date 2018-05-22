@@ -1,5 +1,14 @@
 import gql from 'graphql-tag';
 
+export const setCompanyAsSelected = gql`
+  mutation setCompanyAsSelected($userId: Int!, $companyId: Int!){
+    setCompanyAsSelected(companyId: $companyId, userId: $userId){
+      success
+      message
+    }
+  }
+`;
+
 export const login = gql `
   mutation Login($email: String!, $password: String!) {
     login(email: $email, password: $password){
@@ -56,6 +65,7 @@ export const getTranslations = gql`
 export const companies = gql`
     query UserCompanies($userId: Int!){
         userCompanies(userId: $userId){
+            actived
             company{
                 alias
                 tin
@@ -223,111 +233,6 @@ export const councilStepTwo = gql`
   }
 `;
 
-export const deleteParticipant = gql `
-    mutation DeleteParticipant($participantId: Int!, $councilId: Int!) {
-        deleteParticipant(participantId: $participantId, councilId: $councilId)
-    }
-`;
-
-export const councilParticipants = gql`
-  query participants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
-    councilParticipants(councilId: $councilId, filters: $filters, options: $options){
-      list{
-        id
-        councilId
-        name
-        surname
-        position
-        email
-        phone
-        dni
-        type
-        numParticipations
-        socialCapital
-        uuid
-        delegateUuid
-        delegateId
-        representative {
-          id
-          name
-          surname
-          dni
-          email
-          phone
-          position
-          language
-        }
-        position
-        language
-        city
-        personOrEntity
-      }
-      total
-    }
-  }
-`;
-
-export const updateParticipant = gql `
-  mutation updateParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
-    updateCouncilParticipant(participant: $participant, representative: $representative){
-      success
-    }
-  }
-`;
-
-export const updateConvenedParticipant = gql `
-  mutation updateConvenedParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
-    updateConvenedParticipant(participant: $participant, representative: $representative){
-      success
-    }
-  }
-`;
-
-export const convenedcouncilParticipants = gql`
-  query participants($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput){
-    councilParticipantsWithNotifications(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
-      list{
-        id
-        councilId
-        name
-        surname
-        position
-        email
-        phone
-        dni
-        type
-        numParticipations
-        socialCapital
-        uuid
-        delegateUuid
-        delegateId
-        position
-        language
-        representative {
-          id
-          name
-          surname
-          dni
-          email
-          phone
-          position
-          language
-          notifications{
-            reqCode
-            refreshDate
-          }
-        }
-        city
-        personOrEntity
-        notifications{
-          reqCode
-          refreshDate
-        }
-      }
-      total
-    }
-  }
-`;
 
 export const downloadCBXData = gql`
   mutation cbxData($participantId: Int!){
@@ -374,96 +279,6 @@ export const updateNotificationsStatus = gql`
     updateNotificationsStatus(councilId: $councilId){
       success
       message
-    }
-  }
-`;
-
-export const censuses = gql`
-  query censuses($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
-    censuses(companyId: $companyId, filters: $filters, options: $options){
-      list{
-        id
-        companyId
-        censusName
-        censusDescription
-        defaultCensus
-        quorumPrototype
-        state
-        creatorId
-        creationDate
-        lastEdit
-      }
-      total
-    }
-  }
-`;
-
-export const deleteCensus = gql`
-  mutation deleteCensus($censusId: Int!){
-    deleteCensus(censusId: $censusId){
-      id
-    }
-  }
-`;
-
-export const census = gql`
-  query census($id: Int!){
-    census(id: $id){
-      id
-      companyId
-      censusName
-      censusDescription
-      defaultCensus
-      quorumPrototype
-      state
-      creatorId
-      creationDate
-      lastEdit
-    }
-  }
-`;
-
-export const censusParticipants = gql`
-  query censusParticipants($censusId: Int!, $filters: [FilterInput], $options: OptionsInput){
-    censusParticipants(censusId: $censusId, filters: $filters, options: $options){
-      list{
-        id
-        name
-        surname
-        position
-        email
-        phone
-        dni
-        type
-        delegateId
-        numParticipations
-        socialCapital
-        uuid
-        delegateUuid
-        position
-        language
-        city
-        personOrEntity
-      }
-      total
-
-    }
-  }
-`;
-
-
-export const addCensusParticipant = gql`
-  mutation addCensusParticipant($participant: CensusParticipantInput!, $representative: CensusParticipantInput){
-    addCensusParticipant(participant: $participant, representative: $representative){
-      id
-    }
-  }
-`;
-
-export const createCensus = gql`
-  mutation createCensus($census: CensusInput!){
-    createCensus(census: $census){
-      id
     }
   }
 `;
@@ -531,12 +346,9 @@ export const statutes = gql`
       existsQualityVote
       qualityVoteOption
       canAddPoints
-      whoCanVote
       canReorderPoints
       existsAct
-      existsWhoWasSentAct
       includedInActBook
-      whoWasSentActWay
       canUnblock
       includeParticipantsList
       existsWhoSignTheAct
@@ -574,22 +386,6 @@ export const deleteStatute = gql`
 export const createStatute = gql`
   mutation createCompanyStatute($statute: StatuteInput!){
     createCompanyStatute(statute: $statute){
-      id
-    }
-  }
-`;
-
-export const setDefaultCensus = gql`
-  mutation setDefaultCensus($censusId: Int!){
-    setDefaultCensus(censusId: $censusId){
-      id
-    }
-  }
-`;
-
-export const cloneCensus = gql`
-  mutation cloneCensus($census: CensusInput!){
-    cloneCensus(census: $census){
       id
     }
   }
@@ -705,7 +501,6 @@ export const councilStepThree = gql`
         prototype
         statuteId
         title
-        whoCanVote
       }
     }
 
@@ -826,7 +621,6 @@ export const councilStepFive = gql`
         prototype
         statuteId
         title
-        whoCanVote
       }
     }
     majorityTypes{
@@ -1039,12 +833,8 @@ export const councilDetails = gql `
         qualityVoteOption
         canUnblock
         canAddPoints
-        whoCanVote
         canReorderPoints
         existsAct
-        existsWhoWasSentAct
-        whoWasSentActWay
-        whoWasSentAct
         existsWhoSignTheAct
         includedInActBook
         includeParticipantsList
@@ -1218,12 +1008,8 @@ export const councilLiveQuery =  gql`
         qualityVoteOption
         canUnblock
         canAddPoints
-        whoCanVote
         canReorderPoints
         existsAct
-        existsWhoWasSentAct
-        whoWasSentActWay
-        whoWasSentAct
         existsWhoSignTheAct
         includedInActBook
         includeParticipantsList
@@ -1390,10 +1176,36 @@ export const endCouncil = gql `
 `;
 
 export const openCouncilRoom = gql `
-  mutation openCouncilRoom($council: CouncilInput) {
-      openCouncilRoom(council: $council) {
+  mutation openCouncilRoom($council: CouncilInput, $noVideoEmails: Boolean, $timezone: String) {
+      openCouncilRoom(council: $council, noVideoEmails: $noVideoEmails, timezone: $timezone) {
         id
       }
+  }
+`;
+
+export const refreshLiveEmails = gql`
+  mutation refreshLiveEmails($councilId: Int!){
+    refreshLiveEmails(councilId: $councilId){
+      success
+      message
+    }
+  }
+`;
+
+export const wallComments = gql`
+  query councilRoomMessages($councilId: Int!){
+    councilRoomMessages(councilId: $councilId){
+      id
+      participantId
+      text
+      date
+      author{
+        name
+        surname
+        position
+        id
+      }
+    }
   }
 `;
 
@@ -1452,6 +1264,120 @@ export const liveParticipants = gql `
       }
       total
     }
+    liveParticipantsStateCount(councilId: $councilId){
+      state
+      count
+    }
+  }
+`;
+
+export const videoParticipants = gql`
+  query videoParticipants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    videoParticipants(councilId: $councilId, filters: $filters, options: $options){
+      list{
+        id
+        delegateId
+        state
+        audio
+        video
+        councilId
+        name
+        position
+        email
+        phone
+        dni
+        date
+        type
+        participantId
+        online
+        requestWord
+        surname
+        videoPassword
+        blocked
+        lastDateConnection
+        videoMode
+        firstLoginDate
+        firstLoginCurrentPointId
+        language
+        signed
+        address
+        actived
+      }
+      total
+    }
+  }
+`;
+
+export const councilOfficials = gql`
+  query councilOfficials($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    councilOfficials(councilId: $councilId, filters: $filters, options: $options){
+      list{
+        id
+        delegateId
+        state
+        audio
+        video
+        councilId
+        name
+        position
+        email
+        phone
+        dni
+        date
+        type
+        participantId
+        online
+        requestWord
+        surname
+        videoPassword
+        blocked
+        lastDateConnection
+        videoMode
+        firstLoginDate
+        firstLoginCurrentPointId
+        language
+        signed
+        address
+        actived
+      }
+      total
+    }
+  }
+`;
+
+export const addGuest = gql`
+  mutation addGuest($guest: LiveParticipantInput){
+    addGuest(guest: $guest){
+      success
+      message
+    }
+  }
+`;
+
+export const sendVideoEmails = gql`
+  mutation sendVideoEmails($councilId: Int!){
+    sendVideoEmails(councilId: $councilId){
+      success
+      message
+    }
+  }
+`;
+
+export const sendVideoEmailTest = gql`
+  mutation sendVideoEmailTest($councilId: Int!, $email: String!){
+    sendVideoEmailTest(councilId: $councilId, email: $email){
+      success
+      message
+    }
+  }
+`;
+
+export const noCelebrateCouncil = gql`
+  mutation noCelebrateCouncil($councilId: Int!, $comment: String){
+    noCelebrateCouncil(councilId: $councilId, comment: $comment){
+      success
+      message
+    }
   }
 `;
 
@@ -1487,6 +1413,15 @@ query liveParticipantsToDelegate($councilId: Int!, $filters: [FilterInput], $opt
     total
   }
 }
+`;
+
+export const liveParticipantsCount = gql`
+  query liveParticipantsCount($councilId: Int!){
+    liveParticipantsCount(councilId: $councilId){
+      state
+      count
+    }
+  }
 `;
 
 export const liveParticipant = gql`
@@ -1632,10 +1567,12 @@ export const agendaComments = gql`
   query agendaVotings($agendaId: Int!){
     agendaVotings(agendaId: $agendaId){
       comment
-      name
-      surname
-      email
-      position
+      author{
+        name
+        surname
+        email
+        position
+      }
     }
   }
 `;
@@ -1819,10 +1756,10 @@ export const getVotings = gql `
 
 
 export const changeRequestWord = gql `
-  mutation changeRequestWord($wordState: WordState) {
-      changeRequestWord(wordState: $wordState) {
-        code
-        msg
+  mutation changeRequestWord($participantId: Int!, $requestWord: Int!) {
+      changeRequestWord(participantId: $participantId, requestWord: $requestWord) {
+        success
+        message
       }
   }
 `

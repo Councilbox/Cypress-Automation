@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { census } from '../../../../queries';
+import { census } from '../../../../queries/census';
 import { LoadingSection, CardPageLayout, TextInput, SelectInput, Grid, GridItem } from '../../../../displayComponents';
 import { MenuItem } from 'material-ui';
 import withSharedProps from '../../../../HOCs/withSharedProps';
@@ -20,6 +20,10 @@ class CensusEditorPage extends Component {
             errors: {},
             filterBy: ''
         }
+    }
+
+    componentDidMount(){
+        this.props.data.refetch();
     }
 
     componentWillReceiveProps(nextProps){
@@ -81,7 +85,7 @@ class CensusEditorPage extends Component {
                             <MenuItem value={1}>{translate.social_capital}</MenuItem>    
                         </SelectInput>
                     </GridItem>
-                    <GridItem xs={12} md={6} lg={6}>
+                    <GridItem xs={12} md={12} lg={12}>
                         <TextInput
                             floatingText={translate.description}
                             required
@@ -110,10 +114,11 @@ class CensusEditorPage extends Component {
     }
 }
 
-export default withSharedProps()(withRouter(graphql(census, {
+export default withSharedProps()(graphql(census, {
     options: (props) => ({
         variables: {
             id: props.match.params.id
-        }
+        },
+        notifyOnNetworkStatusChange: true
     })
-})(CensusEditorPage)));
+})(withRouter(CensusEditorPage)));

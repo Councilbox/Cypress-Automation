@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import { openCouncilRoom } from '../../../queries';
 import { BasicButton, AlertConfirm, Checkbox, Icon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
+import CouncilMenu from './councilMenu/CouncilMenu';
 
 class openCouncilRoomButton extends Component {
 
@@ -58,6 +59,10 @@ class openCouncilRoomButton extends Component {
                         icon={<Icon className="material-icons" style={{fontSize: '1.1em', color: 'white' }}>play_arrow</Icon>}                                    
                         buttonStyle={{width: '11em'}}                                    
                         textStyle={{color: 'white', fontSize: '0.75em', fontWeight: '700', textTransform: 'none'}}
+                    />
+                    <CouncilMenu 
+                        council={this.props.council}
+                        translate={translate}
                     />
                 </div>
                 <AlertConfirm 

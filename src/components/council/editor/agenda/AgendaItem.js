@@ -19,50 +19,58 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
            onClick={(event) => {
                selectAgenda(agenda.orderIndex)
            }}>
-        <Grid spacing={16}>
-            <GridItem xs={1}>
-                <div style={{
-                    color: primary,
-                    width: '30px',
-                    margin: '-0.25em 0',
-                    fontWeight: '700',
-                    fontSize: '1.5em'
-                }}>
-                    {agenda.orderIndex}
-                </div>
+        <Grid spacing={8}>
+            <GridItem xs={12} md={9}>
+                <Grid spacing={0}>
+                    <GridItem xs={1}>
+                        <div style={{
+                            color: primary,
+                            width: '30px',
+                            margin: '-0.25em 0',
+                            fontWeight: '700',
+                            fontSize: '1.5em'
+                        }}>
+                            {agenda.orderIndex}
+                        </div>
+                    </GridItem>
+                    <GridItem xs={11}>
+                        <div style={{
+                            fontWeight: '600',
+                            fontSize: '1em'
+                        }}>
+                            {agenda.agendaSubject}
+                        </div>
+                    </GridItem>
+                </Grid>
             </GridItem>
-            <GridItem xs={8}>
-                <div style={{
-                    fontWeight: '600',
-                    fontSize: '1em'
-                }}>
-                    {agenda.agendaSubject}
-                </div>
-            </GridItem>
-            <GridItem xs={1}>
-                {typeText}
-            </GridItem>
-            <GridItem xs={2}>
-                <CloseIcon
-                    style={{
-                        float: 'right',
-                        color: primary
-                    }}
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        removeAgenda(agenda.id)
-                    }}/>
-                <IconButton
-                    style={{
-                        float: 'right',
-                        height: '28px'
-                    }}
-                    onClick={(event) => {
-                        event.stopPropagation();
-                        saveAsDraft(agenda.orderIndex)
-                    }}>
-                    <i className="fa fa-save" style={{ color: secondary }}/>
-                </IconButton>
+            <GridItem xs={12} md={3}>
+                <Grid spacing={0}>
+                    <GridItem xs={6} style={{color: secondary, fontWeight:800}}>
+                        {typeText}
+                    </GridItem>
+                    <GridItem xs={6}>
+                        <CloseIcon
+                            style={{
+                                float: 'right',
+                                color: primary
+                            }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                removeAgenda(agenda.id)
+                            }}/>
+                        <IconButton
+                            style={{
+                                float: 'right',
+                                height: '28px'
+                            }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                saveAsDraft(agenda.orderIndex)
+                            }}>
+                            <i className="fa fa-save" style={{ color: secondary }}/>
+                        </IconButton>
+                    </GridItem>
+                </Grid>
             </GridItem>
         </Grid>
         {agenda.description && <div style={{

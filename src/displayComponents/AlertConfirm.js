@@ -58,7 +58,7 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
         }}>
             {title}
         </DialogTitle>}
-        <DialogContent>
+        <DialogContent style={{maxWidth: '1000px'}}>
             {bodyText}
         </DialogContent>
         <DialogActions style={{

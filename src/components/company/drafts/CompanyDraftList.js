@@ -3,7 +3,15 @@ import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../../queries/companyDrafts.js";
 import { graphql, compose } from "react-apollo";
 import CompanyDraftNew from './CompanyDraftNew';
-import { EnhancedTable, AlertConfirm, ErrorWrapper, CloseIcon, BasicButton, ButtonIcon, CardPageLayout } from "../../../displayComponents";
+import {
+    EnhancedTable,
+    AlertConfirm,
+    ErrorWrapper,
+    CloseIcon,
+    BasicButton,
+    ButtonIcon,
+    CardPageLayout
+} from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -28,15 +36,13 @@ class CompanyDraftList extends Component {
 
     _renderDeleteIcon = draftID => {
         const primary = getPrimary();
-        return (
-            <CloseIcon
+        return (<CloseIcon
                 style={{ color: primary }}
                 onClick={(event) => {
                     this.openDeleteModal(draftID);
                     event.stopPropagation();
                 }}
-            />
-        );
+            />);
     };
 
     openDeleteModal = draftID => {
@@ -63,100 +69,99 @@ class CompanyDraftList extends Component {
 
     render() {
         const { translate, company } = this.props;
-        const { companyDrafts, loading, error } = this.props.data;
+        const { companyDrafts, draftTypes, loading, error } = this.props.data;
 
-        if(this.state.newForm){
-            return (
-                <CompanyDraftNew
+        if (this.state.newForm) {
+            return (<CompanyDraftNew
                     translate={translate}
                     closeForm={() => {
-                        this.setState({newForm: false});
+                        this.setState({ newForm: false });
                         this.props.data.refetch();
                     }}
                     company={company}
-                />
-            );
+                />);
         }
 
-        return (
-            <CardPageLayout title={translate.drafts}>
+        return (<CardPageLayout title={translate.drafts}>
                 <BasicButton
                     text={translate.drafts_new}
                     color={getPrimary()}
-                    textStyle={{color: 'white', fontWeight: '700'}}
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
                     onClick={() => this.setState({
                         newForm: true
                     })}
-                    icon={<ButtonIcon type="add" color='white' />}
+                    icon={<ButtonIcon type="add" color='white'/>}
                 />
                 <Link to={`/company/${company.id}/platform/drafts/`}
-                style={{marginLeft: '1em'}}>
+                      style={{ marginLeft: '1em' }}>
                     <BasicButton
                         text={translate.general_drafts}
                         color={getSecondary()}
-                        textStyle={{color: 'white', fontWeight: '700'}}
-                        icon={<ButtonIcon type="add" color='white' />}
+                        textStyle={{
+                            color: 'white',
+                            fontWeight: '700'
+                        }}
+                        icon={<ButtonIcon type="add" color='white'/>}
                     />
                 </Link>
                 <br/>
                 <br/>
                 <Fragment>
-                    {error ? (
-                        <div>
+                    {error ? (<div>
                             {error.graphQLErrors.map(error => {
-                                return (
-                                    <ErrorWrapper
+                                return (<ErrorWrapper
                                         error={error}
                                         translate={translate}
-                                    />
-                                );
+                                    />);
                             })}
-                        </div>
-                    ) : !!companyDrafts &&
-                        <Fragment>
-                            <EnhancedTable
-                                translate={translate}
-                                defaultLimit={DRAFTS_LIMITS[0]}
-                                defaultFilter={'title'}
-                                limits={DRAFTS_LIMITS}
-                                page={1}
-                                loading={loading}
-                                length={companyDrafts.list.length}
-                                total={companyDrafts.total}
-                                refetch={this.props.data.refetch}
-                                headers={[
-                                    {
-                                        text: translate.name,
-                                        name: 'title',
-                                        canOrder: true
-                                    },
-                                    {
-                                        name: translate.delete,
-                                        text: translate.delete
-                                    }
-                                ]}
-                                action={this._renderDeleteIcon}
-                                companyID={this.props.company.id}
-                            >
-                                {companyDrafts.list.map(draft => {
-                                    return (
-                                        <TableRow hover key={`draft${draft.id}`}
+                        </div>) : !!companyDrafts && <Fragment>
+                        <EnhancedTable
+                            translate={translate}
+                            defaultLimit={DRAFTS_LIMITS[ 0 ]}
+                            defaultFilter={'title'}
+                            limits={DRAFTS_LIMITS}
+                            page={1}
+                            loading={loading}
+                            length={companyDrafts.list.length}
+                            total={companyDrafts.total}
+                            refetch={this.props.data.refetch}
+                            headers={[ {
+                                text: translate.name,
+                                name: 'title',
+                                canOrder: true
+                            }, {
+                                name: 'type',
+                                text: translate.type,
+                                canOrder: true
+                            }, {
+                                name: translate.delete,
+                                text: translate.delete
+                            } ]}
+                            action={this._renderDeleteIcon}
+                            companyID={this.props.company.id}
+                        >
+                            {companyDrafts.list.map(draft => {
+                                return (<TableRow hover key={`draft${draft.id}`}
                                                   style={TableStyles.ROW}
-                                                  onClick={()=> {
+                                                  onClick={() => {
                                                       bHistory.push(`/company/${ this.props.company.id }/draft/${ draft.id }`)
                                                   }}>
-                                            <TableCell style={TableStyles.TD}>
-                                                    {draft.title}
-                                            </TableCell>
-                                            <TableCell>
-                                                {this._renderDeleteIcon( draft.id )}
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                            </EnhancedTable>
-                        </Fragment>
-                    }
+                                        <TableCell style={TableStyles.TD}>
+                                            {draft.title}
+                                        </TableCell>
+                                        <TableCell>
+                                            {translate[ draftTypes[ draft.type ].label ]}
+                                        </TableCell>
+                                        <TableCell>
+                                            {this._renderDeleteIcon(draft.id)}
+                                        </TableCell>
+                                    </TableRow>);
+                            })}
+                        </EnhancedTable>
+                    </Fragment>}
 
                     <AlertConfirm
                         title={translate.attention}
@@ -166,34 +171,28 @@ class CompanyDraftList extends Component {
                         buttonCancel={translate.cancel}
                         modal={true}
                         acceptAction={this.deleteDraft}
-                        requestClose={() =>
-                            this.setState({ deleteModal: false })
-                        }
+                        requestClose={() => this.setState({ deleteModal: false })}
                     />
                 </Fragment>
-            </CardPageLayout>
-        );
+            </CardPageLayout>);
     }
 }
 
-export default withSharedProps()(compose(
-    graphql(deleteDraft, {
-        name: 'deleteDraft',
-        options: {
-            errorPolicy: 'all'
-        }
-    }),
-    graphql(companyDrafts, {
-        name: "data",
-        options: props => ({
-            variables: {
-                companyId: props.company.id,
-                options: {
-                    limit: DRAFTS_LIMITS[0],
-                    offset: 0
-                }
-            },
-            notifyOnNetworkStatusChange: true
-        })
+export default withSharedProps()(compose(graphql(deleteDraft, {
+    name: 'deleteDraft',
+    options: {
+        errorPolicy: 'all'
+    }
+}), graphql(companyDrafts, {
+    name: "data",
+    options: props => ({
+        variables: {
+            companyId: props.company.id,
+            options: {
+                limit: DRAFTS_LIMITS[ 0 ],
+                offset: 0
+            }
+        },
+        notifyOnNetworkStatusChange: true
     })
-)(CompanyDraftList));
+}))(CompanyDraftList));

@@ -7,7 +7,7 @@ import RepresentativeForm from './RepresentativeForm';
 import ParticipantForm from './ParticipantForm';
 import CouncilBoxApi from '../../../api/CouncilboxApi';
 import { checkValidEmail, errorHandler } from '../../../utils';
-import { updateParticipant } from '../../../queries';
+import { updateCouncilParticipant } from '../../../queries/councilParticipant';
 
 
 
@@ -76,8 +76,7 @@ class ParticipantEditor extends Component {
 
     updateParticipant = async () => {
         if (!this.checkRequiredFields()) {
-            const { __typename, representative, ...participant } = this.state.data;
-            //const { representative } = this.state.data;
+            const { __typename, ...participant } = this.state.data;
             const { translate } = this.props;
 
             let variables = {
@@ -87,12 +86,9 @@ class ParticipantEditor extends Component {
             };
 
             if (this.state.addRepresentative) {
-                variables.representative = {
-                    ...representative
-                }
+                let { __typename, ...representative } = this.state.data;
+                variables.representative = representative;
             }
-
-            console.log(variables);
 
             const response = await this.props.updateParticipant({
                 variables: variables
@@ -293,7 +289,7 @@ class ParticipantEditor extends Component {
     }
 }
 
-export default graphql(updateParticipant, {name: 'updateParticipant'})(ParticipantEditor);
+export default graphql(updateCouncilParticipant, {name: 'updateCouncilParticipant'})(ParticipantEditor);
 
 const newRepresentativeInitialValues = {
     language: 'es',

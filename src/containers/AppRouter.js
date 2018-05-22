@@ -23,6 +23,8 @@ import CreateCouncil from '../components/CreateCouncil';
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import CreateMeeting from '../components/CreateMeeting';
 import StatutesPage from '../components/company/statutes/StatutesPage';
+import NewCompanyPage from '../components/company/new/NewCompanyPage';
+import LinkCompanyPage from '../components/company/link/LinkCompanyPage';
 import PlatformDrafts from '../components/corporation/drafts/PlatformDrafts';
 import CensusEditorPage from '../components/company/census/censusEditor/CensusEditorPage';
 import { LoadingMainApp } from '../displayComponents';
@@ -86,7 +88,9 @@ class AppRouter extends Component {
                             <Switch>
                                 <Route exact path="/" component={() => {return <Redirect to={`/company/${this.props.companies.list[this.props.companies.selected].id}`} />}} />
                                 <Route exact path="/company/:company" component={DashboardContainer} />
-                                <Route exact path="/company/:company/settings" component={CompanySettingsContainer} />                            
+                                <Route exact path="/company/:company/settings" component={CompanySettingsContainer} />
+                                <Route exact path="/company/:company/create" component={NewCompanyPage} /> 
+                                <Route exact path="/company/:company/link" component={LinkCompanyPage} />                                                                                               
                                 <Route exact path="/company/:company/council/new" component={CreateCouncil} />
                                 <Route exact path="/company/:company/council/:id/prepare" component={CouncilPrepareContainer} />                                                           
                                 <Route exact path="/company/:company/council/:id" component={CouncilEditorContainer} />                           
