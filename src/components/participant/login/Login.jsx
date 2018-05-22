@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
-import { ButtonIcon } from '../../../displayComponents';
+import withTranslations from '../../../HOCs/withTranslations';
+import { ButtonIcon, TextInput } from '../../../displayComponents';
 import { primary, getSecondary } from '../../../styles/colors';
-import { Tooltip, IconButton } from 'material-ui';
-import { FormGroup, ControlLabel, FormControl, HelpBlock } from 'react-bootstrap';
+import { Tooltip, IconButton, TextField } from 'material-ui';
+import { checkValidEmail } from '../../../utils/validation';
 import moment from 'moment';
 import Header from '../Header';
 
@@ -66,24 +67,46 @@ class ParticipantLogin extends Component {
         super(props);        
         this.state = {
             urlToken: null,
-            email: '',
-            password: ''
+            email: props.participant.email,
+            password: '',
+            errors: {
+                email: '',
+                password: ''
+            }
         }
     }
 
-    getEmailInputValidationState(){
-        var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return (regex.test(this.state.email) ? 'success' : 'error');
+    checkFieldsValidationState(){
+        const { translate } = this.props;
+
+        let errors = {
+            email: '',
+            password: ''
+        };
+
+        //CHECK REQUIRED
+        errors.email = (!this.state.email.length > 0) ? translate.field_required : '';
+
+        errors.password = (!this.state.password.length > 0) ? translate.field_required : '';
+
+        // CHECK VALID EMAIL
+        const validEmail = checkValidEmail(this.state.email);
+        errors.email = (!validEmail) ? translate.tooltip_invalid_email_address : ''
+
+        this.setState({
+            ...this.state,
+            errors: errors
+        });
     }
 
     handleChange(field, event) {
         const newState = {};
         newState[field] = event.target.value;
-        this.setState(newState);
+        this.setState(newState, this.checkFieldsValidationState);
     }
 
     render() {
-        const { participant, council, company, windowSize, windowOrientation } = this.props;
+        const { participant, council, company, windowSize, windowOrientation, translate } = this.props;
         return (
             <div style={styles.viewContainer}>
                 <Header/>
@@ -97,7 +120,16 @@ class ParticipantLogin extends Component {
 
                         <div style={styles.loginFormContainer}>
                             <form>
-                                <FormGroup
+                                <TextInput
+                                    onKeyUp={this.handleKeyUp}
+                                    floatingText={translate.email}
+                                    type="email"
+                                    errorText={this.state.errors.email}
+                                    value={this.state.email}
+                                    onChange={(event) => this.handleChange('email', event)}
+                                    required={true}
+                                />
+                                {/* <FormGroup
                                     controlId="formBasicText"
                                     validationState={this.getEmailInputValidationState()}
                                 >
@@ -109,7 +141,7 @@ class ParticipantLogin extends Component {
                                         onChange={(event) => this.handleChange('email', event)}
                                     />
                                     <HelpBlock>Validation is based on is valid email.</HelpBlock>
-                                </FormGroup>
+                                </FormGroup> */}
                             </form>
                         </div>
                     </div>
@@ -119,4 +151,4 @@ class ParticipantLogin extends Component {
     }
 }
 
-export default withWindowOrientation(withWindowSize(ParticipantLogin));
+export default withTranslations()(withWindowOrientation(withWindowSize(ParticipantLogin)));
