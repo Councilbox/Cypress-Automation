@@ -23,9 +23,7 @@ const BasicButton = ({ color, error, text, resetDelay = 2700, loadingColor = 'wh
                 outline: '0',
             }}
             variant={type}
-            onClick={()=>{
-                !success && onClick();
-            }}
+            onClick={!success && onClick}
             fullWidth={fullWidth}
         >
             {text}
