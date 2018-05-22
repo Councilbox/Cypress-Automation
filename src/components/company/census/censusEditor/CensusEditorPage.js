@@ -22,6 +22,10 @@ class CensusEditorPage extends Component {
         }
     }
 
+    componentDidMount(){
+        this.props.data.refetch();
+    }
+
     componentWillReceiveProps(nextProps){
         if(!nextProps.data.loading){
             if(this.state.data.id !== nextProps.data.census.id){
@@ -110,10 +114,11 @@ class CensusEditorPage extends Component {
     }
 }
 
-export default withSharedProps()(withRouter(graphql(census, {
+export default withSharedProps()(graphql(census, {
     options: (props) => ({
         variables: {
             id: props.match.params.id
-        }
+        },
+        notifyOnNetworkStatusChange: true
     })
-})(CensusEditorPage)));
+})(withRouter(CensusEditorPage)));
