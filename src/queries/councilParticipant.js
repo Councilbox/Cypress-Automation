@@ -93,6 +93,14 @@ export const convenedcouncilParticipants = gql`
             reqCode
             refreshDate
           }
+          live {
+            assistanceComment
+            assistanceIntention
+          }
+        }
+        live {
+          assistanceComment
+          assistanceIntention
         }
         city
         personOrEntity

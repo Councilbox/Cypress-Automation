@@ -40,6 +40,11 @@ query companyDrafts($companyId: Int!, $filters: [FilterInput], $options: Options
         }
         total
     }
+    draftTypes{
+      id
+      label
+      value
+    }
 }
 `;
 
