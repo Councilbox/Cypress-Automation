@@ -25,8 +25,13 @@ const TextInput = ({ floatingText = '', type, passwordToggler, showPassword, ado
                     <InputAdornment position="end">
                         <IconButton
                             aria-label="Toggle password visibility"
-                            onClick={passwordToggler}
-                            onMouseDown={passwordToggler}
+                            style={{
+                                outline: 0
+                            }}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                passwordToggler()
+                            }}
                         >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>

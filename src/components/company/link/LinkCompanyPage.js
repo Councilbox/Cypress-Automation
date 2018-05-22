@@ -116,7 +116,7 @@ class LinkCompanyPage extends React.Component {
 }
 
 const linkCompany = gql`
-    mutation linkCompany($userId: Int!, $companyTin: String!, $linkKey: Int!){
+    mutation linkCompany($userId: Int!, $companyTin: String!, $linkKey: String!){
         linkCompany(userId: $userId, companyTin: $companyTin, linkKey: $linkKey){
             success
             message
