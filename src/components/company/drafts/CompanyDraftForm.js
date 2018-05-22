@@ -126,3 +126,16 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 );
 
 export default CompanyDraftForm;
+
+
+{/*<button className="btn btn-cbx-white-small"*/}
+        {/*ng-click="addToText(' {{positiveVotings}} ')">*/}
+    {/*{{ 'positive_votings' | translate}}*/}
+{/*</button> < button*/}
+{/*className = "btn btn-cbx-white-small"*/}
+{/*ng - click = "addToText(' {{negativeVotings}} ')" > {*/}
+{/*{*/}
+    {/*'negative_votings' | translate*/}
+{/*}*/}
+{/*}*/}
+{/*</button>*/}

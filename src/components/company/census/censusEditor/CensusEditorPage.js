@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { census } from '../../../../queries';
+import { census } from '../../../../queries/census';
 import { LoadingSection, CardPageLayout, TextInput, SelectInput, Grid, GridItem } from '../../../../displayComponents';
 import { MenuItem } from 'material-ui';
 import withSharedProps from '../../../../HOCs/withSharedProps';
@@ -81,7 +81,7 @@ class CensusEditorPage extends Component {
                             <MenuItem value={1}>{translate.social_capital}</MenuItem>    
                         </SelectInput>
                     </GridItem>
-                    <GridItem xs={12} md={6} lg={6}>
+                    <GridItem xs={12} md={12} lg={12}>
                         <TextInput
                             floatingText={translate.description}
                             required

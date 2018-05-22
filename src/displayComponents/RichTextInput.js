@@ -20,6 +20,12 @@ class RichTextField extends Component {
         });
     }
 
+    changeShowTags = () =>{
+        this.setState({
+            showTags: !this.state.showTags
+        });
+    };
+
     onChange = (value) => {
         this.setState({value});
         if(this.props.onChange) {
@@ -42,7 +48,6 @@ class RichTextField extends Component {
             preventDefault : () => {this.refs.rtEditor.refs.editor.focus();},
             clipboardData  : cd
         });
-        //this.refs.rtEditor.refs.editor.focus();
     };
 
     render(){
@@ -59,16 +64,18 @@ class RichTextField extends Component {
                     <GridItem xs={12}>
                         <div style={{marginTop: '0.7em', marginBottom: '-0.7em', paddingRight: '0.8em'}}>
                             {!!tags &&
-                                <div style={{display: 'flex', float: 'right'}}>
-                                    {tags.map((tag) => {
-                                    return(
-                                    <div key={`tag_${tag.label}`} onClick={() => this.paste(tag.value)} style={{ padding: '0.1em 0.25em', border: `1px solid ${secondary}`, cursor: 'pointer', marginLeft: '0.2em', borderRadius: '2px', color: secondary}}>
-                                    {tag.label}
+                                <Fragment>
+                                    <div style={{display: 'flex', float: 'right'}}>
+                                        {tags.map((tag) => {
+                                            return(
+                                                <div key={`tag_${tag.label}`} onClick={() => this.paste(tag.value)} style={{ padding: '0.1em 0.25em', border: `1px solid ${secondary}`, cursor: 'pointer', marginLeft: '0.2em', borderRadius: '2px', color: secondary}}>
+                                                    {tag.label}
+                                                </div>
+                                            )
+                                        })}
+                                        {!!loadDraft && loadDraft}
                                     </div>
-                                    )
-                                })}
-                                    {!!loadDraft && loadDraft}
-                                </div>
+                                </Fragment>
                             }
                         </div>
                         <RichTextEditor
@@ -79,7 +86,6 @@ class RichTextField extends Component {
                             toolbarConfig={toolbarConfig}
                         />
                     </GridItem>
-
                 </Grid>
             </Fragment>
         )
