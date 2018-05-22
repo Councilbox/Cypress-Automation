@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import { SelectInput, Grid, GridItem, Checkbox, TextInput, RichTextInput } from '../../../displayComponents';
 import { Typography, MenuItem } from 'material-ui';
-import { quorumTypes, censuses } from '../../../queries';
+import { quorumTypes } from '../../../queries';
+import { censuses } from '../../../queries/census';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
 import * as CBX from "../../../utils/CBX";

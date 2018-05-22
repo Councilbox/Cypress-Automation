@@ -8,8 +8,11 @@ import {
 } from '../../../displayComponents';
 import { graphql, compose } from "react-apollo";
 import {
-    convenedcouncilParticipants, deleteParticipant, updateNotificationsStatus, downloadCBXData
+ updateNotificationsStatus, downloadCBXData
 } from '../../../queries';
+import {
+    convenedcouncilParticipants, deleteParticipant,
+} from '../../../queries/councilParticipant';
 import EditParticipantModal from './EditParticipantModal';
 import { PARTICIPANTS_LIMITS } from '../../../constants';
 import NotificationFilters from './NotificationFilters';

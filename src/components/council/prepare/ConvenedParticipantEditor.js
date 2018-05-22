@@ -7,7 +7,7 @@ import RepresentativeForm from '../participants/RepresentativeForm';
 import ParticipantForm from '../participants/ParticipantForm';
 import CouncilBoxApi from '../../../api/CouncilboxApi';
 import { checkValidEmail, errorHandler } from '../../../utils';
-import { updateConvenedParticipant } from '../../../queries';
+import { updateConvenedParticipant } from '../../../queries/councilParticipant';
 
 
 

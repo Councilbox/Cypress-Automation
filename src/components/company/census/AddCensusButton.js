@@ -3,7 +3,7 @@ import { BasicButton, ButtonIcon, AlertConfirm, TextInput, SelectInput } from '.
 import { MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
-import { createCensus } from '../../../queries';
+import { createCensus } from '../../../queries/census';
 
 class AddCensusButton extends Component {
 

@@ -18,29 +18,29 @@ const RepresentativeForm = ({ updateState, translate, state, errors, languages }
             </GridItem>
             {state.hasRepresentative &&
                 <Fragment>
-                    <GridItem xs={8} lg={4} md={4}>
+                    <GridItem xs={6} md={4} lg={3}>
                         <TextInput
                             floatingText={translate.name}
                             type="text"
-                            required
+                            errorText={errors.name}
                             value={representative.name}
                             onChange={(event) => updateState({
                                 name: event.nativeEvent.target.value
                             })}
                         />
                     </GridItem>
-                    <GridItem xs={8} lg={4} md={4}>
+                    <GridItem xs={6} md={4} lg={3}>
                         <TextInput
                             floatingText={translate.surname}
                             type="text"
-                            required
+                            errorText={errors.surname}
                             value={representative.surname}
                             onChange={(event) => updateState({
                                 surname: event.nativeEvent.target.value
                             })}
                         />
                     </GridItem>
-                    <GridItem xs={8} lg={4} md={4}>
+                    <GridItem xs={6} md={4} lg={3}>
                         <TextInput
                             floatingText={translate.new_dni}
                             type="text"
@@ -62,7 +62,7 @@ const RepresentativeForm = ({ updateState, translate, state, errors, languages }
                             })}
                         />
                     </GridItem>
-                    <GridItem xs={8} lg={4} md={4}>
+                    <GridItem xs={6} md={4} lg={3}>
                         <TextInput
                             floatingText={translate.email}
                             type="text"
@@ -73,7 +73,7 @@ const RepresentativeForm = ({ updateState, translate, state, errors, languages }
                             })}
                         />
                     </GridItem>
-                    <GridItem xs={8} lg={3} md={4}>
+                    <GridItem xs={6} md={4} lg={3}>
                         <TextInput
                             floatingText={translate.phone}
                             type="text"
@@ -84,7 +84,7 @@ const RepresentativeForm = ({ updateState, translate, state, errors, languages }
                             })}
                         />
                     </GridItem>
-                    <GridItem xs={4} lg={3} md={3}>
+                    <GridItem xs={6} md={4} lg={3}>
                         <SelectInput
                             floatingText={translate.language}
                             value={representative.language}
@@ -93,7 +93,7 @@ const RepresentativeForm = ({ updateState, translate, state, errors, languages }
                             })}
                         >
                             {languages.map((language) => {
-                                    return <MenuItem value={language.columnName} key={`language_${language.columnName}`}>{language.desc}</MenuItem>
+                                    return <MenuItem value={language.columnName} key={`languagerepresentative_${language.columnName}`}>{language.desc}</MenuItem>
                                 })
                             }
                         </SelectInput>

@@ -16,13 +16,23 @@ class LinkCompanyPage extends React.Component {
         super(props);
         this.state = {
             data: {
-                'key': ''
+                key: '',
+                cif: ''
             },
             errors: {},
             success: false,
             request: false,
             requestError: false
         }
+    }
+
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data,
+                ...object
+            }
+        });
     }
 
 
@@ -34,7 +44,46 @@ class LinkCompanyPage extends React.Component {
 
         return(
             <CardPageLayout title={translate.companies_link}>
-                
+                <Grid>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <TextInput
+                            floatingText={translate.company_new_cif}
+                            type="text"
+                            value={data.cif}
+                            errorText={errors.cif}
+                            onChange={(event) => this.updateState({
+                                cif: event.target.value
+                            })}
+                        />
+                    </GridItem>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <div style={{width: '300px', margin: 'auto'}}>
+                            <TextInput
+                                floatingText={translate.company_new_key}
+                                type="text"
+                                value={data.linkKey}
+                                errorText={errors.linkKey}
+                                onChange={(event) => this.updateState({
+                                    linkKey: event.target.value
+                                })}
+                            />
+                        </div>
+                    </GridItem>
+                </Grid>
+                <BasicButton
+                    text={translate.link}
+                    color={getPrimary()}
+                    error={requestError}
+                    success={success}
+                    loading={request}
+                    floatRight
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
+                    onClick={this.linkCompanyToUser}
+                    icon={<ButtonIcon type="add" color='white'/>}
+                />
             </CardPageLayout>
         )
     }

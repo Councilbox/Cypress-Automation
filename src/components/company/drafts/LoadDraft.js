@@ -2,9 +2,21 @@ import React from 'react';
 import { EnhancedTable } from "../../../displayComponents/index";
 import { graphql } from 'react-apollo';
 
-import { companyDrafts } from '../../../queries/companyDrafts';
+import { companyDrafts, getCompanyDraftData, updateCompanyDraft } from '../../../queries/companyDrafts';
 import { DRAFTS_LIMITS } from '../../../constants';
 import { TableRow, TableCell } from 'material-ui/Table';
+import { compose } from "react-apollo/index";
+import gql from "graphql-tag";
+
+export const draftTypes = gql`
+  query draftTypes{
+    draftTypes{
+      id
+      label
+      value
+    }
+  }
+`;
 
 class LoadDraft extends React.Component {
 
@@ -15,15 +27,16 @@ class LoadDraft extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.councilType.statuteId !== this.props.councilType.statuteId){
-            this.props.data.refetch();
-        }
-    }
-
     render(){
-        const { translate, statutes } = this.props;
+        const { translate, statutes, statute } = this.props;
         const { companyDrafts, loading } = this.props.data;
+
+        // if (!!statute){
+        //     for (let i = 0; i < statutes.length; i++) {
+        //         const loadingElement = loading[ i ];
+        //
+        //     }
+        // }
 
         return(
             <React.Fragment>
@@ -44,8 +57,8 @@ class LoadDraft extends React.Component {
                     action={this._renderDeleteIcon}
                     selectedCategory={{
                         field: 'statuteId',
-                        value: '',
-                        label: translate.all_plural
+                        value: statute.statuteId,
+                        label: translate[statute.title] || statute.title
                     }}
                     categories={statutes.map(statute => {return({
                         field: 'statuteId',
@@ -70,13 +83,9 @@ class LoadDraft extends React.Component {
                                 style={{cursor: 'pointer'}}
                                 onClick={() => {
                                     this.props.loadDraft(draft);
-                                    this.setState({
-                                        loadDraft: false
-                                    })
-                                }}
-                            >
+                                }}>
                                 <TableCell>{draft.title}</TableCell>
-                                <TableCell>{draft.type}</TableCell>
+                                <TableCell>{translate[this.props.info.draftTypes[draft.type].label]}</TableCell>
                             </TableRow>
                         )
                     })}
@@ -87,13 +96,14 @@ class LoadDraft extends React.Component {
     }
 }
 
-export default graphql(companyDrafts, {
+export default compose(graphql(companyDrafts, {
+    name: 'data',
     options: (props) => ({
         variables: {
-            companyId: props.company.id,
+            companyId: props.companyId,
             filters: [
                 {field: 'type', text: props.draftType},
-                {field: 'statuteId', text: props.councilType.statuteId}
+                {field: 'statuteId', text: props.statute.statuteId}
             ],
             options: {
                 limit: DRAFTS_LIMITS[0],
@@ -101,4 +111,4 @@ export default graphql(companyDrafts, {
             }
         }
     })
-})(LoadDraft);
+}), graphql(draftTypes, { name: 'info' }))(LoadDraft);
