@@ -2,7 +2,7 @@ export const MAX_FILE_SIZE = 10240;
 export const MAX_COUNCIL_FILE_SIZE = 10240;
 export const MAX_COUNCIL_ATTACHMENTS = 5;
 
-export const agendaTypes = ['text', 'public_voting', 'public_act', 'fake_public_votation', 'private_act', 'private_voting'];
+export const agendaTypes = [ 'text', 'public_voting', 'public_act', 'fake_public_votation', 'private_act', 'private_voting' ];
 
 export const AGENDA_TYPE = {
     'INFORMATIVE': 0,
@@ -13,9 +13,9 @@ export const AGENDA_TYPE = {
     'REAL_PRIVATE_VOTING': 5
 };
 
-export const DRAFTS_LIMITS = [25, 50, 100, 250];
-export const CENSUS_LIMITS = [25, 50, 100, 250];
-export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];
+export const DRAFTS_LIMITS = [ 25, 50, 100, 250 ];
+export const CENSUS_LIMITS = [ 25, 50, 100, 250 ];
+export const PARTICIPANTS_LIMITS = [ 25, 50, 100, 250 ];
 export const DELEGATION_USERS_LOAD = 25;
 
 
@@ -60,12 +60,20 @@ export const DRAFT_TYPES = {
     COMMENTS_AND_AGREEMENTS: 5
 };
 
-export const SEND_TYPES = [
-    'convene',
-    'reminder',
-    'rescheduled',
-    'cancellation',
-    'room_access',
-    'security',
-    'act'
-];
+export const SEND_TYPES = [ 'convene', 'reminder', 'rescheduled', 'cancellation', 'room_access', 'security', 'act' ];
+
+export const COUNCIL_STATES = {
+    CANCELED: -1,
+    DRAFT: 0,
+    PRECONVENE: 3,
+    SAVED: 5,
+    PREPARING: 10,
+    ROOM_OPENED: 20,
+    APPROVING_ACT_DRAFT: 30,
+    FINISHED: 40,
+    APPROVED: 60,
+    FINAL_ACT_SENT: 70,
+    NOT_CELEBRATED: 80,
+    FINISHED_WITHOUT_ACT: 90,
+    MEETING_FINISHED: 100
+};

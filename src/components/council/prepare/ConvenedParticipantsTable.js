@@ -8,16 +8,17 @@ import {
 } from '../../../displayComponents';
 import { graphql, compose } from "react-apollo";
 import {
- updateNotificationsStatus, downloadCBXData
+    updateNotificationsStatus, downloadCBXData
 } from '../../../queries';
 import {
     convenedcouncilParticipants, deleteParticipant,
 } from '../../../queries/councilParticipant';
 import EditParticipantModal from './EditParticipantModal';
-import { PARTICIPANTS_LIMITS } from '../../../constants';
+import { PARTICIPANTS_LIMITS, COUNCIL_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
 import NewParticipantForm from '../editor/census/NewParticipantForm';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
+import ParticipantStateIcon from "../live/ParticipantStateIcon";
 
 
 class ConvenedParticipantsTable extends Component {
@@ -78,7 +79,7 @@ class ConvenedParticipantsTable extends Component {
 
 
     render() {
-        const { translate, totalVotes, socialCapital } = this.props;
+        const { translate, totalVotes, socialCapital, council } = this.props;
         const { loading } = this.props.data;
         const councilParticipants = this.props.data.councilParticipantsWithNotifications;
 
@@ -103,13 +104,22 @@ class ConvenedParticipantsTable extends Component {
                 text: translate.census_type_social_capital,
                 name: 'socialCapital',
                 canOrder: true
-            }, {
-                text: translate.convene
-            }
-        ];
+            } ];
 
         if (!this.props.participations) {
-            headers.splice(3,1);
+            headers.splice(3, 1);
+        }
+
+        if (CBX.councilIsNotified(council)) {
+            headers.push({
+                text: translate.convene
+            });
+            if (CBX.councilHasAssistanceConfirmation(council)) {
+                headers.push({
+                    text: translate.assistance_intention
+                });
+            }
+            headers.push({});
         }
 
         if (this.state.editParticipant && this.props.editable) {
@@ -237,9 +247,6 @@ class ConvenedParticipantsTable extends Component {
                                 <TableCell>
                                     {participant.dni}
                                 </TableCell>
-                                {/*<TableCell>*/}
-                                {/*{participant.email}*/}
-                                {/*</TableCell>*/}
                                 <TableCell>
                                     {participant.position}
                                 </TableCell>
@@ -250,28 +257,31 @@ class ConvenedParticipantsTable extends Component {
                                     {!CBX.isRepresentative(participant) && `${participant.socialCapital} (${((participant.socialCapital / socialCapital) * 100).toFixed(2)}%)`}
                                 </TableCell>}
                                 <TableCell>
-                                    <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                        {participant.notifications.length > 0 ? <Tooltip
-                                            title={translate[ CBX.getTranslationReqCode(participant.notifications[ 0 ].reqCode) ]}>
-                                            <img
-                                                style={{
-                                                    height: '2.1em',
-                                                    width: 'auto'
-                                                }}
-                                                src={CBX.getEmailIconByReqCode(participant.notifications[ 0 ].reqCode)}
-                                                alt="email-state-icon"
-                                            />
-                                        </Tooltip> : '-'}
-                                        <DownloadCBXDataButton
-                                            translate={translate}
-                                            participantId={participant.id}
+                                    {participant.notifications.length > 0 ? <Tooltip
+                                        title={translate[ CBX.getTranslationReqCode(participant.notifications[ 0 ].reqCode) ]}>
+                                        <img
+                                            style={{
+                                                height: '2.1em',
+                                                width: 'auto'
+                                            }}
+                                            src={CBX.getEmailIconByReqCode(participant.notifications[ 0 ].reqCode)}
+                                            alt="email-state-icon"
                                         />
-                                    </div>
+                                    </Tooltip> : ''}
+                                </TableCell>
+                                {CBX.councilHasAssistanceConfirmation(council) &&
+
+                                <TableCell>
+                                    <ParticipantStateIcon
+                                        translate={translate}
+                                        participant={participant}
+                                        isIntention/>
+                                </TableCell>}
+                                <TableCell>
+                                    <DownloadCBXDataButton
+                                        translate={translate}
+                                        participantId={participant.id}
+                                    />
                                 </TableCell>
                             </TableRow>
                             {!!participant.representative && <TableRow
@@ -301,14 +311,6 @@ class ConvenedParticipantsTable extends Component {
                                         {participant.representative.dni}
                                     </div>
                                 </TableCell>
-                                {/*<TableCell>*/}
-                                    {/*<div style={{*/}
-                                        {/*fontSize: '0.9em',*/}
-                                        {/*width: '100%'*/}
-                                    {/*}}>*/}
-                                        {/*{participant.representative.email}*/}
-                                    {/*</div>*/}
-                                {/*</TableCell>*/}
                                 <TableCell>
                                     <div style={{
                                         fontSize: '0.9em',
@@ -319,6 +321,8 @@ class ConvenedParticipantsTable extends Component {
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
+                                {this.props.participations && <TableCell>
+                                </TableCell>}
                                 <TableCell>
                                     {participant.representative.notifications.length > 0 ? <Tooltip
                                         title={translate[ CBX.getTranslationReqCode(participant.representative.notifications[ 0 ].reqCode) ]}>
@@ -330,7 +334,22 @@ class ConvenedParticipantsTable extends Component {
                                             src={CBX.getEmailIconByReqCode(participant.representative.notifications[ 0 ].reqCode)}
                                             alt="email-state-icon"
                                         />
-                                    </Tooltip> : '-'}
+                                    </Tooltip> : ''}
+                                </TableCell>
+                                {CBX.councilHasAssistanceConfirmation(council) &&
+
+                                <TableCell>
+                                    <ParticipantStateIcon
+                                        translate={translate}
+                                        participant={participant.representative}
+                                        isIntention/>
+                                </TableCell>}
+
+                                <TableCell>
+                                    <DownloadCBXDataButton
+                                        translate={translate}
+                                        participantId={participant.representative.id}
+                                    />
                                 </TableCell>
                             </TableRow>}
                         </Fragment>)

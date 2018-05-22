@@ -195,6 +195,9 @@ export const showUserUniqueKeyMessage = (council) => {
 export const councilIsNotified = (council) => {
     return council.state === 10;
 };
+export const councilHasAssistanceConfirmation = (council) => {
+    return council.confirmAssistance === 1;
+};
 
 export const printPrettyFilesize = (filesize) => {
     if(filesize < 1024) {
@@ -379,8 +382,8 @@ export const hasHisVoteDelegated = (participant) => {
     return participant.state === 4;
 }
 
-export const getParticipantStateString = (participant) => {
-    switch(participant.state){
+export const getParticipantStateString = (participantState) => {
+    switch(participantState){
         case 0: 
             return 'REMOTE';
 
