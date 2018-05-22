@@ -21,9 +21,25 @@ export const canAddCouncilAttachment = (council, filesize) => {
     return council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) + filesize < MAX_COUNCIL_FILE_SIZE;
 };
 
+export const councilStarted = (council) => {
+    return council.councilStarted === 1;
+}
+
+export const existsQualityVote = (statute) => {
+    return statute.existsQualityVote === 1;
+}
+
+
 export const showAgendaVotingsToggle = (council, agenda) => {
     return council.councilStarted === 1 && agenda.subjectType !== 0 && agenda.votingState !== 2;
 };
+
+export const agendaVotingsOpened = (agenda) => {
+    return agenda.votingState !== 0;
+}
+export const agendaClosed = (agenda) => {
+    return agenda.pointState === 2;
+}
 
 export const councilHasVideo = (council) => {
     return council.councilType === 0;
@@ -35,6 +51,13 @@ export const censusHasParticipations = (census) => {
 
 export const hasVotation = (pointType) => {
     return pointType === 1 || pointType === 3 || pointType === 5;
+};
+
+export const pointIsClosed = (agendaPoint) => {
+    if(hasVotation(agendaPoint.subjectType)){
+        return agendaPoint.votingState === 2 && agendaPoint.pointState === 2;
+    }
+    return agendaPoint.pointState === 2;
 };
 
 export const majorityNeedsInput = (majorityType) => {
@@ -72,6 +95,10 @@ export const isQuorumNumber = (quorumType) => {
 export const hasAct = (statute) => {
     return statute.existsAct === 1;
 };
+
+export const councilHasComments = (statute) => {
+    return statute.existsComments === 1
+}
 
 export const canDelegateVotes = (statute, participant) => {
     return statute.existsDelegatedVote === 1 && participant.state !== 3 && participant.type === 0;
@@ -291,6 +318,14 @@ export const getEmailIconByReqCode = (reqCode) => {
     }
 };
 
+export const agendaPointOpened = (agenda) => {
+    return agenda.pointState !== 2;
+}
+
+export const agendaPointNotOpened = (agenda) => {
+    return agenda.pointState === 0;
+}
+
 export const getTranslationReqCode = (reqCode) => {
     switch(reqCode){
         case -1: 
@@ -330,6 +365,22 @@ export const printSessionExpiredError = () => {
     }
     return messages['es'];
 };
+
+export const printCifAlreadyUsed = () => {
+    //vat_previosly_save
+    const messages = {
+        'pt': 'Este NIF já foi previamente guardado',
+        'es': "Este CIF ha sido guardado previamente",
+        'en':' This VAT has been previously saved',
+        'cat': 'Aquest CIF ha estat guardat prèviament',
+        'gal': 'Este CIF foi gardado previamente'
+    }
+    const selectedLanguage = sessionStorage.getItem('language');
+    if(selectedLanguage){
+        return messages[selectedLanguage];
+    }
+    return messages['es'];
+}
 
 
 export const showVideo = (council) => {

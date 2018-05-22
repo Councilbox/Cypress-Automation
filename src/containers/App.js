@@ -15,7 +15,7 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { API_URL } from '../config';
 import { ToastContainer, toast } from 'react-toastify';
-import { printSessionExpiredError } from '../utils/CBX'; 
+import { graphQLErrorHandler } from '../utils'; 
 import moment from 'moment';
 import 'moment/locale/es';
 moment.updateLocale('es');
@@ -41,12 +41,7 @@ const logoutLink = onError(({ graphQLErrors, networkError }) => {
     console.log(graphQLErrors);
     console.log(networkError);
     if(graphQLErrors){
-        if(graphQLErrors[0].code === 440){
-            toast.error(printSessionExpiredError());
-            store.dispatch(logout());
-        }else{
-            //toast.error(graphQLErrors[0].message);
-        }
+        graphQLErrorHandler(graphQLErrors, toast, store);
     }
 });
 

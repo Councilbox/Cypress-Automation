@@ -13,7 +13,7 @@ import { showVideo } from '../../../utils/CBX';
 import { Tooltip, Drawer } from 'material-ui';
 
 const minVideoWidth = 30;
-const minVideoHeight = '50%';
+const minVideoHeight = '45vh';
 
 class CouncilLivePage extends Component {
 
@@ -52,6 +52,9 @@ class CouncilLivePage extends Component {
             if(key.code === "KeyW"){
                 this.setState({wall: !this.state.wall});
             }
+            if(key.code === "KeyT"){
+                this.toggleFullScreen();
+            }
         }else{
             switch(key.keyCode){
                 case 39:
@@ -68,6 +71,14 @@ class CouncilLivePage extends Component {
                 default:
                     return;
             }
+        }
+    }
+
+    toggleFullScreen = () => {
+        if(this.state.fullScreen){
+            this.setState({videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false});
+        }else{
+            this.setState({videoWidth: 94, videoHeight: '90vh', fullScreen: true}) 
         }
     }
 
@@ -111,7 +122,12 @@ class CouncilLivePage extends Component {
                     <Tooltip title={this.state.participants? translate.agenda : translate.participants}>
                         <div>
                             <FabButton
-                                icon={<Icon className='material-icons'>{this.state.participants? 'keyboard_arrow_left' : 'keyboard_arrow_right'}</Icon>}
+                                icon={
+                                    <Fragment>
+                                        <Icon className='material-icons'>{this.state.participants? 'developer_board' : 'group'}</Icon>
+                                        <Icon className='material-icons'>{this.state.participants? 'keyboard_arrow_left' : 'keyboard_arrow_right'}</Icon>
+                                    </Fragment>
+                                }
                                 onClick={() => this.setState({
                                     participants: !this.state.participants
                                 })}
@@ -145,11 +161,19 @@ class CouncilLivePage extends Component {
                                     <div style={{height: this.state.videoHeight, width: '100%', position: 'relative'}}>
                                         <div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}/>
                                         
-                                        {!this.state.fullScreen?
-                                            <Icon className="material-icons" style={{position: 'absolute', right: '10%', bottom: '7%', color: lightGrey}} onClick={() => this.setState({videoWidth: 94, videoHeight: '90vh', fullScreen: true})}>zoom_in</Icon>
-                                        :
-                                            <Icon className="material-icons" style={{position: 'absolute', right: '10%', bottom: '7%', color: lightGrey}} onClick={() => this.setState({videoWidth: minVideoWidth, videoHeight: minVideoHeight, fullScreen: false})}>zoom_out</Icon>
-                                        }
+                                        <Tooltip title={`ALT + T`}>
+                                            <div
+                                                style={{borderRadius: '5px', cursor: 'pointer', position: 'absolute', right: '5%', bottom: '7%', backgroundColor: 'rgba(0, 0, 0, 0.5)', width: '2.5em', height: '2.5em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}
+                                                onClick={this.toggleFullScreen}
+                                            >
+                                                <Icon
+                                                    className="material-icons"
+                                                    style={{color: lightGrey}}
+                                                >
+                                                    {this.state.fullScreen? 'zoom_out' : 'zoom_in'}
+                                                </Icon>
+                                            </div>
+                                        </Tooltip>
                                     </div>
                                 </Fragment>
                             }

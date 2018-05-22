@@ -127,7 +127,11 @@ class ParticipantsManager extends Component {
         }
 
         if(value !== 'all'){
-            return this.props.data.liveParticipantsStateCount.find((item) => (item.state === value)).count;
+            const data = this.props.data.liveParticipantsStateCount.find((item) => (item.state === value));
+            if(data){
+                return data.count;
+            }
+            return '0';
         }
 
         return(this.props.data.liveParticipantsStateCount.reduce((a, b) => a + b.count, 0));
@@ -205,9 +209,9 @@ class ParticipantsManager extends Component {
                                             <React.Fragment>
                                                 {this.props.data.liveParticipants.list.map((participant) => (
                                                     <GridItem
-                                                        xs={4}
-                                                        md={4}
-                                                        lg={4}
+                                                        xs={CBX.showVideo(this.props.council)? 6 : 4}
+                                                        md={CBX.showVideo(this.props.council)? 6 : 4}
+                                                        lg={CBX.showVideo(this.props.council)? 6 : 4}
                                                         key={`liveParticipant_${participant.id}`}
                                                         style={{display: 'flex', alignItem: 'center', justifyContent: 'center', marginBottom: '1.2em', cursor: 'pointer'}}
                                                     >

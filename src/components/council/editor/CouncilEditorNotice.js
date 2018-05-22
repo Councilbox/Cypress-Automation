@@ -27,10 +27,12 @@ class CouncilEditorNotice extends Component {
         this.state = {
             placeModal: false,
             alert: false,
-            data: {},
+            data: {
+                dateStart: new Date().toISOString()
+            },
             errors: {
                 name: '',
-                dateStart: "",
+                dateStart: '',
                 dateStart2NdCall: "",
                 country: '',
                 countryState: '',
@@ -258,6 +260,7 @@ class CouncilEditorNotice extends Component {
                             this.updateDate(dateString);
                         }}
                         minDateMessage={''}
+                        errorText={errors.dateStart}
                         acceptText={translate.accept}
                         cancelText={translate.cancel}
                         label={translate[ "1st_call_date" ]}
@@ -298,13 +301,13 @@ class CouncilEditorNotice extends Component {
                 <GridItem xs={12} md={12} lg={12}>
                     <RichTextInput
                         ref='editor'
-                        errorText={errors.convene_header}
+                        errorText={errors.conveneText}
                         required
                         loadDraft={<LoadDraftModal
                             translate={translate}
-                            company={company}
+                            companyId={company.id}
                             loadDraft={this.loadDraft}
-                            councilType={statute}
+                            statute={statute}
                             statutes={companyStatutes}
                             draftType={draftTypes.filter((draft => draft.label === 'convene_header'))[ 0 ].value}
                         />}

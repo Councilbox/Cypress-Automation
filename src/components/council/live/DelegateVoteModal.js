@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Checkbox, AlertConfirm, Icon, LoadingSection, TextInput } from "../../../displayComponents";
+import { Checkbox, AlertConfirm, Icon, LoadingSection, TextInput, ParticipantRow } from "../../../displayComponents";
 import { Typography } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import { graphql, compose } from 'react-apollo';
@@ -142,13 +142,6 @@ class DelegateVoteModal extends Component {
         );
     }
 }
-
-const ParticipantRow = ({ participant, onClick }) => (
-    <div onClick={onClick} style={{width: '100%', padding: '0.4em', paddingLeft: '0.8em', border: `1px solid ${getSecondary()}`, display: 'flex', flexDirection: 'column'}}>
-        <div style={{fontWeight: '700', fontSize: '0.9rem'}}>{`${participant.name} ${participant.surname} - ${participant.dni}`}</div>
-        <div style={{fontSize: '0.8rem'}}>{`${participant.position} - ${participant.email} - ${participant.phone}`}</div>
-    </div>
-)
 
 export default compose(
     graphql(participantsWhoCanDelegate, {

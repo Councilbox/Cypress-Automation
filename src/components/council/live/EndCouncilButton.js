@@ -4,6 +4,8 @@ import { endCouncil } from '../../../queries';
 import { BasicButton, AlertConfirm, Icon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { bHistory } from '../../../containers/App';
+import { pointIsClosed } from '../../../utils/CBX';
+import { toast } from 'react-toastify';
 
 class EndCouncilButton extends Component {
 
@@ -23,7 +25,7 @@ class EndCouncilButton extends Component {
         });
         if(response){
             if(response.data.endCouncil.id){
-                bHistory.push(`/company/${council.companyId}/council/${council.id}/writing-act`);
+                bHistory.push(`/company/${council.companyId}/council/${council.id}/writing`);
                 //this.props.refetch();
             }
         }
@@ -31,7 +33,7 @@ class EndCouncilButton extends Component {
 
     getUnclosedPoints = () => {
         const { agendas } = this.props.council;
-        return agendas.filter((agenda) => agenda.votingState !== 2 || agenda.pointState !== 2);
+        return agendas.filter((agenda) => !pointIsClosed(agenda));
     };
 
     render(){

@@ -4,7 +4,7 @@ import { BasicButton, ButtonIcon, Checkbox, Grid, GridItem, Radio } from '../../
 import { getPrimary } from '../../../../styles/colors';
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { updateConvenedParticipant } from '../../../../queries';
+import { updateConvenedParticipant } from '../../../../queries/councilParticipant';
 import { checkValidEmail, errorHandler } from '../../../../utils/index';
 import CouncilBoxApi from '../../../../api/CouncilboxApi';
 import ParticipantForm from '../../participants/ParticipantForm';
