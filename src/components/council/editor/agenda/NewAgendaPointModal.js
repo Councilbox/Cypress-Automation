@@ -9,6 +9,7 @@ import LoadDraft from '../../../company/drafts/LoadDraft';
 import { addAgenda } from '../../../../queries/agenda';
 import * as CBX from '../../../../utils/CBX';
 import { getSecondary } from "../../../../styles/colors";
+import { checkRequiredFieldsAgenda } from "../../../../utils/validation";
 
 class NewAgendaPointModal extends Component {
 
@@ -17,7 +18,7 @@ class NewAgendaPointModal extends Component {
         this.state = {
             newPoint: {
                 agendaSubject: '',
-                subjectType: '',
+                subjectType: 0,
                 description: '',
                 majority: null,
                 majorityType: 1,
@@ -36,7 +37,7 @@ class NewAgendaPointModal extends Component {
     }
 
     addAgenda = async () => {
-        if (this.checkRequiredFields()) {
+        if (!this.checkRequiredFields()) {
             const { newPoint } = this.state;
             const response = await this.props.addAgenda({
                 variables: {
@@ -100,7 +101,13 @@ class NewAgendaPointModal extends Component {
     };
 
     checkRequiredFields() {
-        return true;
+        const { translate } = this.props;
+        const agenda = this.state.newPoint;
+        let errors = checkRequiredFieldsAgenda(agenda, translate);
+        this.setState({
+            errors: errors.errors,
+        });
+        return errors.hasError;
     }
 
     _renderNewPointBody = () => {
@@ -138,6 +145,7 @@ class NewAgendaPointModal extends Component {
                                 onChange={(event) => this.updateState({
                                     agendaSubject: event.target.value
                                 })}
+                                required
                             />
                         </GridItem>
                         <GridItem xs={12} md={3} lg={3}>
@@ -147,6 +155,7 @@ class NewAgendaPointModal extends Component {
                                 onChange={(event) => this.updateState({
                                     subjectType: +event.target.value
                                 })}
+                                required
                             >
                                 {filteredTypes.map((voting) => {
                                     return <MenuItem value={'' + voting.value}
@@ -164,6 +173,7 @@ class NewAgendaPointModal extends Component {
                                 onChange={(event) => this.updateState({
                                     majorityType: +event.target.value
                                 })}
+                                required
                             >
                                 {this.props.majorityTypes.map((majority) => {
                                     return <MenuItem value={'' + majority.value}

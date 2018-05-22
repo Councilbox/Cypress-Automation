@@ -15,6 +15,8 @@ import { updateAgenda } from '../../../../queries/agenda';
 import * as CBX from '../../../../utils/CBX';
 import LoadDraft from '../../../company/drafts/LoadDraft';
 import { getSecondary } from "../../../../styles/colors";
+import { checkRequiredFieldsAgenda } from "../../../../utils/validation";
+import { censusHasParticipations } from "../../../../utils/CBX";
 
 class PointEditor extends Component {
 
@@ -30,7 +32,10 @@ class PointEditor extends Component {
             errors: {
                 agendaSubject: '',
                 subjectType: '',
-                description: ''
+                description: '',
+                majorityType: '',
+                majority: '',
+                majorityDivider: '',
             }
         }
     }
@@ -60,7 +65,7 @@ class PointEditor extends Component {
     };
 
     saveChanges = async () => {
-        if (this.checkRequiredFields()) {
+        if (!this.checkRequiredFields()) {
             const { __typename, ...data } = this.state.data;
             const response = await this.props.updateAgenda({
                 variables: {
@@ -79,14 +84,21 @@ class PointEditor extends Component {
     updateState = (object) => {
         this.setState({
             data: {
-                ...this.state.data, ...object
+                ...this.state.data,
+                ...object
             },
             loadDraft: false
         });
     };
 
     checkRequiredFields() {
-        return true;
+        const { translate } = this.props;
+        const agenda = this.state.data;
+        let errors = checkRequiredFieldsAgenda(agenda, translate);
+        this.setState({
+            errors: errors.errors,
+        });
+        return errors.hasError;
     }
 
     _renderModalBody = () => {
@@ -98,8 +110,7 @@ class PointEditor extends Component {
         const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
 
         return (<div style={{
-                width: '90vw',
-                maxWidth: '1000px'
+                width: '80vw'
             }}>
                 {this.state.loadDraft &&
 
@@ -124,15 +135,18 @@ class PointEditor extends Component {
                                 onChange={(event) => this.updateState({
                                     agendaSubject: event.target.value
                                 })}
+                                required
                             />
                         </GridItem>
                         <GridItem xs={12} md={3} lg={3}>
                             <SelectInput
                                 floatingText={translate.type}
                                 value={agenda.subjectType}
+                                errorText={errors.subjectType}
                                 onChange={(event) => this.updateState({
                                     subjectType: event.target.value
                                 })}
+                                required
                             >
                                 {filteredTypes.map((voting) => {
                                     return <MenuItem value={voting.value}
@@ -151,6 +165,7 @@ class PointEditor extends Component {
                                 onChange={(event) => this.updateState({
                                     majorityType: +event.target.value
                                 })}
+                                required
                             >
                                 {this.props.majorityTypes.map((majority) => {
                                     return <MenuItem value={'' + majority.value}
