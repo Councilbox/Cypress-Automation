@@ -167,8 +167,7 @@ class StatutesPage extends Component {
     render() {
         const { loading, companyStatutes } = this.props.data;
         const { translate } = this.props;
-        const { statute, errors } = this.state;
-        const { success } = this.state.success;
+        const { statute, errors, success } = this.state;
 
         if (loading) {
             return <LoadingSection/>
