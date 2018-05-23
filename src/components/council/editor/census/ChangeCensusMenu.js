@@ -3,7 +3,7 @@ import { Grid, GridItem, SelectInput, BasicButton, ButtonIcon } from '../../../.
 import { Typography, MenuItem } from 'material-ui';
 import * as CBX from '../../../../utils/CBX';
 import { getPrimary } from '../../../../styles/colors';
-import AddCouncilParticipantButton from "./AddCouncilParticipantButton";
+import AddCouncilParticipantButton from "./modals/AddCouncilParticipantButton";
 
 const ChangeCensusMenu = ({ showAddModal, handleCensusChange, council, translate, censuses, totalVotes, totalSocialCapital, participations, refetch }) => (
     <Grid>

@@ -5,9 +5,9 @@ import { CloseIcon, Grid, GridItem, EnhancedTable } from '../../../../displayCom
 import { graphql, compose } from "react-apollo";
 import { censusParticipants } from '../../../../queries/census';
 import gql from "graphql-tag";
-import AddCensusParticipantButton from './AddCensusParticipantButton';
+import AddCensusParticipantButton from './modals/AddCensusParticipantButton';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
-import CensusParticipantEditor from "../../../company/census/censusEditor/CensusParticipantEditor";
+import CensusParticipantEditor from "./modals/CensusParticipantEditor";
 
 
 class CensusParticipants extends Component {

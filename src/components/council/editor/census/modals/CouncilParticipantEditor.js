@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../displayComponents/index';
+import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../../displayComponents/index';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../../../styles/colors';
-import { languages } from '../../../../queries/masters';
-import ParticipantForm from "../../participants/ParticipantForm";
-import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../utils/validation";
-import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
-import { updateConvenedParticipant } from "../../../../queries/councilParticipant";
+import { getPrimary } from '../../../../../styles/colors';
+import { updateCouncilParticipant } from '../../../../../queries/councilParticipant';
+import { languages } from '../../../../../queries/masters';
+import ParticipantForm from "../../../participants/ParticipantForm";
+import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../../utils/validation";
+import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 
-class ConvenedParticipantEditor extends Component {
+class CouncilParticipantEditor extends Component {
 
     constructor(props) {
         super(props);
@@ -23,25 +23,19 @@ class ConvenedParticipantEditor extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState){
         let { representative, ...participant} = extractTypeName(nextProps.participant);
-
-
         representative = representative ? {
             hasRepresentative: true,
             ...extractTypeName(representative)
         } : initialRepresentative;
-
-        delete representative.live;
-        delete representative.notifications;
-        delete participant.live;
-        delete participant.notifications;
-
         return {
             data: participant,
             representative: representative
         }
     }
+    
+    
 
-    updateConvenedParticipant = async () => {
+    updateCouncilParticipant = async () => {
         const { hasRepresentative, ...data } = this.state.representative;
         const representative = this.state.representative.hasRepresentative ? {
             ...data,
@@ -49,7 +43,7 @@ class ConvenedParticipantEditor extends Component {
         } : null;
 
         if (!this.checkRequiredFields()) {
-            const response = await this.props.updateConvenedParticipant({
+            const response = await this.props.updateCouncilParticipant({
                 variables: {
                     participant: {
                         ...this.state.data,
@@ -141,7 +135,7 @@ class ConvenedParticipantEditor extends Component {
                 requestClose={() => this.props.close()}
                 open={this.props.opened}
                 fullWidth={false}
-                acceptAction={this.updateConvenedParticipant}
+                acceptAction={this.updateCouncilParticipant}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderBody()}
@@ -151,12 +145,12 @@ class ConvenedParticipantEditor extends Component {
     }
 }
 
-export default compose(graphql(updateConvenedParticipant, {
-    name: 'updateConvenedParticipant',
+export default compose(graphql(updateCouncilParticipant, {
+    name: 'updateCouncilParticipant',
     options: {
         errorPolicy: 'all'
     }
-}), graphql(languages))(ConvenedParticipantEditor);
+}), graphql(languages))(CouncilParticipantEditor);
 
 const initialRepresentative = {
     hasRepresentative: false,

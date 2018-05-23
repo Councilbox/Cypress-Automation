@@ -119,5 +119,7 @@ export const convenedcouncilParticipants = gql`
       }
       total
     }
+    councilTotalVotes(councilId: $councilId)
+    councilSocialCapital(councilId: $councilId)
   }
 `;

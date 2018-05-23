@@ -10,7 +10,7 @@ import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import ParticipantEditor from '../../participants/ParticipantEditor';
 import ChangeCensusMenu from './ChangeCensusMenu';
 import ParticipantStateIcon from "../../live/ParticipantStateIcon";
-import CouncilParticipantEditor from "./CouncilParticipantEditor";
+import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
 
 
 class ParticipantsTable extends Component {
