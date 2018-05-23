@@ -20,7 +20,7 @@ import { changeStatute, councilStepOne, updateCouncil } from '../../../queries';
 import * as CBX from '../../../utils/CBX';
 import moment from 'moment';
 
-class CouncilEditorNotice extends Component {
+class StepNotice extends Component {
 
     constructor(props) {
         super(props);
@@ -403,4 +403,4 @@ export default compose(
     graphql(updateCouncil, {
         name: "updateCouncil"
     })
-)(CouncilEditorNotice);
+)(StepNotice);

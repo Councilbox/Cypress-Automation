@@ -7,8 +7,8 @@ import { Typography, Tooltip } from 'material-ui';
 import { councilStepThree, updateCouncil } from '../../../../queries';
 import { removeAgenda } from '../../../../queries/agenda';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
-import NewAgendaPointModal from './NewAgendaPointModal';
-import PointEditor from './PointEditor';
+import NewAgendaPointModal from './modals/NewAgendaPointModal';
+import PointEditor from './modals/PointEditor';
 import * as CBX from '../../../../utils/CBX';
 import ReorderPointsModal from '../../agendas/ReorderPointsModal';
 import SaveDraftModal from '../../../company/drafts/SaveDraftModal';
@@ -22,7 +22,7 @@ const buttonStyle = {
 };
 
 
-class CouncilEditorAgenda extends Component {
+class StepAgenda extends Component {
 
     constructor(props) {
         super(props);
@@ -352,4 +352,4 @@ export default compose(graphql(councilStepThree, {
         },
         notifyOnNetworkStatusChange: true
     })
-}), graphql(removeAgenda, { name: 'removeAgenda' }), graphql(updateCouncil, { name: 'updateCouncil' }))(CouncilEditorAgenda);
+}), graphql(removeAgenda, { name: 'removeAgenda' }), graphql(updateCouncil, { name: 'updateCouncil' }))(StepAgenda);

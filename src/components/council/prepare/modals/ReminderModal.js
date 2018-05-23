@@ -1,51 +1,46 @@
 import React, { Component } from 'react';
-import { AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../../../displayComponents";
+import { Checkbox, AlertConfirm, Icon } from "../../../../displayComponents/index";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { sendConvene } from '../../../queries';
-import * as CBX from '../../../utils/CBX';
+import { sendConveneReminder } from '../../../../queries';
 
 
-class RescheduleModal extends Component {
+class ReminderModal extends Component {
 
     constructor(props){
         super(props);
         this.state = {
             success: '',
             error: '',
-            sendAgenda: false,
-            dateStart: this.props.council.dateStart,
-            dateStart2NdCall: this.props.council.dateStart2NdCall || null,
-            error2NdCall: ''
+            sendAgenda: false
         };
     }
 
     close = () => {
+        this.props.requestClose();
         this.setState({
             success: false,
             sending: false,
             error: false,
-            unsavedChanges: false,
-            error2NdCall: ''
+            sendAgenda: false
         });
-        this.props.refetch();
-        this.props.requestClose();
     };
 
-    sendConvene = async () => {
+    sendReminder = async () => {
         this.setState({
             sending: true
         });
-        const response = await this.props.sendConvene({
+        const response = await this.props.sendConveneReminder({
             variables: {
-                councilId: this.props.council.id
+                councilId: this.props.council.id,
+                includeAgenda: this.state.sendAgenda? 1 : 0,
+                confirmAssistance: this.props.council.confirmAssistance
             }
         });
-        if(response.data.sendConvene.success){
+        if(response.data.sendConveneReminder.success){
             this.setState({
                 sending: false,
-                success: true,
-                unsavedChanges: false
+                success: true
             });
         }else{
             this.setState({
@@ -55,36 +50,34 @@ class RescheduleModal extends Component {
         }
     };
 
-    updateState = (object) => {
-        this.setState({
-            ...object,
-            unsavedChanges: true
-        });
-    };
-
-    _sendConveneBody(){
-        const { translate, council } = this.props;
+    _renderReminderBody(){
+        const { translate } = this.props;
 
         if(this.state.sending){
             return(
                 <div>
-                    {translate.new_sending_convene}
+                    {translate.sending_convene_reminder}
                 </div>
             )
         }
 
         if(this.state.success){
             return(
-                <SuccessMessage message={translate.council_sended} />
+                <SuccessMessage message={translate.sent} />
             )
         }
 
         return(
-            <Grid style={{width: '450px'}}>
-                <GridItem xs={12} md={12} lg={12}>
-                    {translate.proceed_send_convene}
-                </GridItem>
-            </Grid>
+            <div>
+                <Checkbox
+                    label={translate.include_agenda_points}
+                    value={this.state.sendAgenda}
+                    onChange={(event, isInputChecked) => this.setState({
+                            sendAgenda: isInputChecked
+                        })
+                    }
+                />
+            </div>
         )
     }
 
@@ -95,21 +88,21 @@ class RescheduleModal extends Component {
             <AlertConfirm
                 requestClose={this.close}
                 open={this.props.show}
-                acceptAction={this.state.success? () => this.close() : this.sendConvene}
+                acceptAction={this.state.success? () => this.close() : this.sendReminder}
                 buttonAccept={this.state.success? translate.accept : translate.send}
                 buttonCancel={translate.close}
-                bodyText={this._sendConveneBody()}
-                title={translate.reschedule_council}
+                bodyText={this._renderReminderBody()}
+                title={translate.send_convene_reminder}
             />
         );
     }
 }
 
 export default graphql(
-    sendConvene, {
-        name: 'sendConvene' 
+    sendConveneReminder, {
+        name: 'sendConveneReminder' 
     }
-)(RescheduleModal);
+)(ReminderModal);
 
 const SuccessMessage = ({ message }) => (
     <div style={{width: '500px', display: 'flex', alignItems: 'center', alignContent: 'center', flexDirection: 'column'}}>

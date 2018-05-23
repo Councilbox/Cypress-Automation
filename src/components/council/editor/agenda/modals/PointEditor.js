@@ -9,14 +9,14 @@ import {
     GridItem,
     MajorityInput,
     BasicButton
-} from '../../../../displayComponents/index';
+} from '../../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
-import { updateAgenda } from '../../../../queries/agenda';
-import * as CBX from '../../../../utils/CBX';
-import LoadDraft from '../../../company/drafts/LoadDraft';
-import { getSecondary } from "../../../../styles/colors";
-import { checkRequiredFieldsAgenda } from "../../../../utils/validation";
-import { censusHasParticipations } from "../../../../utils/CBX";
+import { updateAgenda } from '../../../../../queries/agenda';
+import * as CBX from '../../../../../utils/CBX';
+import LoadDraft from '../../../../company/drafts/LoadDraft';
+import { getSecondary } from "../../../../../styles/colors";
+import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
+import { censusHasParticipations } from "../../../../../utils/CBX";
 
 class PointEditor extends Component {
 

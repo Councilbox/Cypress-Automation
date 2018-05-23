@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../displayComponents';
+import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../../displayComponents/index';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../../../styles/colors';
-import { updateCensusParticipant } from '../../../../queries/census';
-import { languages } from '../../../../queries/masters';
-import { censusHasParticipations } from '../../../../utils/CBX';
-import RepresentativeForm from './RepresentativeForm';
-import ParticipantForm from "../../../council/participants/ParticipantForm";
-import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../utils/validation";
+import { getPrimary } from '../../../../../styles/colors';
+import { updateCensusParticipant } from '../../../../../queries/census';
+import { languages } from '../../../../../queries/masters';
+import { censusHasParticipations } from '../../../../../utils/CBX';
+import RepresentativeForm from '../RepresentativeForm';
+import ParticipantForm from "../../../../council/participants/ParticipantForm";
+import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../../utils/validation";
 
 class CensusParticipantEditor extends Component {
 
@@ -23,7 +23,6 @@ class CensusParticipantEditor extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-
         let { representative, ...participant} = extractTypeName(nextProps.participant);
         representative = representative ? {
             hasRepresentative: true,
@@ -143,7 +142,7 @@ class CensusParticipantEditor extends Component {
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderBody()}
-                title={translate.add_participant}
+                title={translate.edit_participant}
             />
         </Fragment>)
     }

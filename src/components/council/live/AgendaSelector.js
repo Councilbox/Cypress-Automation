@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { AgendaNumber } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import NewAgendaPointModal from '../editor/agenda/NewAgendaPointModal';
+import NewAgendaPointModal from '../editor/agenda/modals/NewAgendaPointModal';
 import ReorderPointsModal from '../agendas/ReorderPointsModal';
 import * as CBX from '../../../utils/CBX';
 import icon from '../../../assets/img/reorder.PNG';

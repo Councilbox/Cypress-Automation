@@ -20,7 +20,7 @@ import { checkValidEmail } from '../../../utils/validation';
 import { toast } from 'react-toastify';
 
 
-class CouncilEditorPreview extends Component {
+class StepPreview extends Component {
 
     constructor(props) {
         super(props);
@@ -378,4 +378,4 @@ export default compose(graphql(conveneCouncil, {
             notifyOnNetworkStatusChange: true
         })
     })
-)(withRouter(CouncilEditorPreview));
+)(withRouter(StepPreview));

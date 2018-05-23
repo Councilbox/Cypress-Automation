@@ -3,13 +3,13 @@ import { graphql } from 'react-apollo';
 
 import {
     AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput, BasicButton
-} from '../../../../displayComponents/index';
+} from '../../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
-import LoadDraft from '../../../company/drafts/LoadDraft';
-import { addAgenda } from '../../../../queries/agenda';
-import * as CBX from '../../../../utils/CBX';
-import { getSecondary } from "../../../../styles/colors";
-import { checkRequiredFieldsAgenda } from "../../../../utils/validation";
+import LoadDraft from '../../../../company/drafts/LoadDraft';
+import { addAgenda } from '../../../../../queries/agenda';
+import * as CBX from '../../../../../utils/CBX';
+import { getSecondary } from "../../../../../styles/colors";
+import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 
 class NewAgendaPointModal extends Component {
 

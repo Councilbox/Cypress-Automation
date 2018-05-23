@@ -1,12 +1,12 @@
 import React from 'react';
 import { CardPageLayout, MobileStepper } from '../../../displayComponents';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
-import CouncilEditorNotice from './CouncilEditorNotice';
-import CouncilEditorCensus from './census/CouncilEditorCensus';
-import CouncilEditorAgenda from './agenda/CouncilEditorAgenda';
-import CouncilEditorAttachments from './attachments/CouncilEditorAttachments';
-import CouncilEditorOptions from './CouncilEditorOptions';
-import CouncilEditorPreview from './CouncilEditorPreview';
+import CouncilEditorNotice from './StepNotice';
+import CouncilEditorCensus from './census/StepCensus';
+import CouncilEditorAgenda from './agenda/StepAgenda';
+import CouncilEditorAttachments from './attachments/StepAttachments';
+import CouncilEditorOptions from './StepOptions';
+import CouncilEditorPreview from './StepPreview';
 import { bHistory } from '../../../containers/App';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { checkCouncilState } from '../../../utils/CBX';
