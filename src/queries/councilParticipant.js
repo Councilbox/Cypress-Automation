@@ -44,6 +44,14 @@ export const councilParticipants = gql`
   }
 `;
 
+export const addParticipant = gql `
+    mutation addParticipant($participant: NewParticipant, $representative: NewRepresentative) {
+        addCouncilParticipant(participant: $participant, representative: $representative){
+            id
+        }
+    }
+`;
+
 export const updateCouncilParticipant = gql `
   mutation updateParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
     updateCouncilParticipant(participant: $participant, representative: $representative){

@@ -10,27 +10,33 @@ import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import ParticipantEditor from '../../participants/ParticipantEditor';
 import ChangeCensusMenu from './ChangeCensusMenu';
 import ParticipantStateIcon from "../../live/ParticipantStateIcon";
+import CouncilParticipantEditor from "./CouncilParticipantEditor";
+
 
 class ParticipantsTable extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            editParticipant: false,
-            editIndex: null
+            editingParticipant: false,
+            participant: {}
         }
+    }
+
+    closeParticipantEditor = () => {
+        this.setState({ editingParticipant: false })
     }
 
     _renderDeleteIcon(participantID) {
         const primary = getPrimary();
 
         return (<CloseIcon
-                style={{ color: primary }}
-                onClick={(event) => {
-                    event.stopPropagation();
-                    this.deleteParticipant(participantID)
-                }}
-            />);
+            style={{ color: primary }}
+            onClick={(event) => {
+                event.stopPropagation();
+                this.deleteParticipant(participantID)
+            }}
+        />);
     }
 
     componentDidMount() {
@@ -51,8 +57,9 @@ class ParticipantsTable extends Component {
     };
 
     render() {
-        const { translate, totalVotes, totalSocialCapital } = this.props;
-        const { loading, councilParticipants, } = this.props.data;
+        const { translate, totalVotes, totalSocialCapital, participations, council } = this.props;
+        const { editingParticipant, participant } = this.state;
+        const { loading, councilParticipants, refetch } = this.props.data;
         let headers = [ {
             text: translate.name,
             name: 'name',
@@ -62,20 +69,16 @@ class ParticipantsTable extends Component {
             name: 'dni',
             canOrder: true
         }, {
-            text: translate.email,
-            name: 'email',
+            text: translate.position,
+            name: 'position',
             canOrder: true
         }, {
-            text: translate.phone
-        }, { text: translate.position }, {
             text: translate.votes,
             name: 'numParticipations',
             canOrder: true
-        },
+        } ];
 
-        ];
-
-        if (this.props.participations) {
+        if (participations) {
             headers.push({
                 text: translate.census_type_social_capital,
                 name: 'socialCapital',
@@ -84,166 +87,135 @@ class ParticipantsTable extends Component {
         }
         headers.push({ text: translate.delete });
 
-        if (this.state.editParticipant && this.props.editable) {
-            return (<ParticipantEditor
-                    translate={translate}
-                    participant={councilParticipants.list[ this.state.editIndex ]}
-                    requestClose={() => {
-                        this.props.data.refetch();
-                        this.setState({
-                            editParticipant: false
-                        })
-                    }}
-                />)
-        }
-
         return (<div style={{ width: '100%' }}>
-                <ChangeCensusMenu
+            <ChangeCensusMenu
+                translate={translate}
+                council={council}
+                participations={participations}
+                refetch={refetch}
+                handleCensusChange={this.props.handleCensusChange}
+                showAddModal={this.props.showAddModal}
+                censuses={this.props.censuses}
+                totalVotes={this.props.totalVotes}
+                totalSocialCapital={this.props.totalSocialCapital}
+            />
+            <CouncilParticipantEditor
+                translate={translate}
+                close={this.closeParticipantEditor}
+                councilId={council.id}
+                participations={participations}
+                participant={participant}
+                opened={editingParticipant}
+                refetch={refetch}
+            />
+            {!!councilParticipants && <React.Fragment>
+                <EnhancedTable
+                    ref={(table) => this.table = table}
                     translate={translate}
-                    council={this.props.council}
-                    handleCensusChange={this.props.handleCensusChange}
-                    showAddModal={this.props.showAddModal}
-                    censuses={this.props.censuses}
-                    totalVotes={this.props.totalVotes}
-                    totalSocialCapital={this.props.totalSocialCapital}
-                />
-                {!!councilParticipants && <React.Fragment>
-                    <EnhancedTable
-                        ref={(table) => this.table = table}
-                        translate={translate}
-                        defaultLimit={PARTICIPANTS_LIMITS[ 0 ]}
-                        defaultFilter={'fullName'}
-                        defaultOrder={[ 'name', 'asc' ]}
-                        limits={PARTICIPANTS_LIMITS}
-                        page={1}
-                        loading={loading}
-                        length={councilParticipants.list.length}
-                        total={councilParticipants.total}
-                        refetch={this.props.data.refetch}
-                        action={this._renderDeleteIcon}
-                        fields={[ {
-                            value: 'fullName',
-                            translation: translate.participant_data
-                        }, {
-                            value: 'dni',
-                            translation: translate.dni
-                        }, {
-                            value: 'email',
-                            translation: translate.email
-                        }, {
-                            value: 'position',
-                            translation: translate.position
-                        } ]}
-                        headers={headers}
-                    >
-                        {councilParticipants.list.map((participant, index) => {
-                            return (<Fragment key={`participant${participant.id}`}>
-                                    <TableRow
-                                        hover={true}
-                                        onClick={() => this.setState({
-                                            editParticipant: true,
-                                            editIndex: index
-                                        })}
-                                        style={{
-                                            cursor: 'pointer',
-                                            fontSize: '0.5em'
-                                        }}
-                                    >
-                                        <TableCell>
-                                            {`${participant.name} ${participant.surname}`}
-                                        </TableCell>
-                                        <TableCell>
-                                            {participant.dni}
-                                        </TableCell>
-                                        <TableCell>
-                                            {participant.email}
-                                            </TableCell>
-                                        <TableCell>
-                                            {participant.phone}
-                                            </TableCell>
-                                        <TableCell>
-                                            {participant.position}
-                                            </TableCell>
-                                        <TableCell>
-                                            {!CBX.isRepresentative(participant) && `${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`}
-                                        </TableCell>
-                                        {this.props.participations && <TableCell>
-                                            {!CBX.isRepresentative(participant) && `${participant.socialCapital} (${((participant.socialCapital / totalSocialCapital) * 100).toFixed(2)}%)`}
-                                        </TableCell>}
-                                        <TableCell>
-                                            {!CBX.isRepresentative(participant) && this._renderDeleteIcon(participant.id)}
-                                        </TableCell>
-                                    </TableRow>
+                    defaultLimit={PARTICIPANTS_LIMITS[ 0 ]}
+                    defaultFilter={'fullName'}
+                    defaultOrder={[ 'name', 'asc' ]}
+                    limits={PARTICIPANTS_LIMITS}
+                    page={1}
+                    loading={loading}
+                    length={councilParticipants.list.length}
+                    total={councilParticipants.total}
+                    refetch={this.props.data.refetch}
+                    action={this._renderDeleteIcon}
+                    fields={[ {
+                        value: 'fullName',
+                        translation: translate.participant_data
+                    }, {
+                        value: 'dni',
+                        translation: translate.dni
+                    }, {
+                        value: 'position',
+                        translation: translate.position
+                    } ]}
+                    headers={headers}
+                >
+                    {councilParticipants.list.map((participant, index) => {
+                        return (<Fragment key={`participant${participant.id}`}>
+                            <TableRow
+                                hover={true}
+                                onClick={() => this.setState({
+                                    editingParticipant: true,
+                                    participant: participant
+                                })}
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: '0.5em'
+                                }}
+                            >
+                                <TableCell>
+                                    {`${participant.name} ${participant.surname}`}
+                                </TableCell>
+                                <TableCell>
+                                    {participant.dni}
+                                </TableCell>
+                                <TableCell>
+                                    {participant.position}
+                                </TableCell>
+                                <TableCell>
+                                    {!CBX.isRepresentative(participant) && `${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`}
+                                </TableCell>
+                                {this.props.participations && <TableCell>
+                                    {!CBX.isRepresentative(participant) && `${participant.socialCapital} (${((participant.socialCapital / totalSocialCapital) * 100).toFixed(2)}%)`}
+                                </TableCell>}
+                                <TableCell>
+                                    {!CBX.isRepresentative(participant) && this._renderDeleteIcon(participant.id)}
+                                </TableCell>
+                            </TableRow>
 
-                                    {!!participant.representative &&
+                            {!!participant.representative &&
 
-                                    <TableRow
-                                        hover={true}
-                                        style={{
-                                            cursor: 'pointer',
-                                            backgroundColor: 'WhiteSmoke'
-                                        }}
-                                        onClick={() => this.setState({
-                                            editParticipant: true,
-                                            editIndex: index
-                                        })}
-                                    >
-                                        <TableCell>
-                                            <div style={{
-                                                fontSize: '0.9em',
-                                                width: '100%'
-                                            }}>
-                                                {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div style={{
-                                                fontSize: '0.9em',
-                                                width: '100%'
-                                            }}>
-                                                {participant.representative.dni}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div style={{
-                                                fontSize: '0.9em',
-                                                width: '100%'
-                                            }}>
-                                                {participant.representative.email}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div style={{
-                                                fontSize: '0.9em',
-                                                width: '100%'
-                                            }}>
-                                                {participant.representative.phone}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                            <div style={{
-                                                fontSize: '0.9em',
-                                                width: '100%'
-                                            }}>
-                                                {participant.representative.position}
-                                            </div>
-                                        </TableCell>
-                                        <TableCell>
-                                        </TableCell>
-                                        <TableCell>
-                                        </TableCell>
-                                        <TableCell>
-                                        </TableCell>
-                                    </TableRow>
-
-                                    }
-
-                                </Fragment>)
-                        })}
-                    </EnhancedTable>
-                </React.Fragment>}
-                {this.props.children}
-            </div>);
+                            <TableRow
+                                hover={true}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: 'WhiteSmoke'
+                                }}
+                                onClick={() => this.setState({
+                                    editParticipant: true,
+                                    editIndex: index
+                                })}
+                            >
+                                <TableCell>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        width: '100%'
+                                    }}>
+                                        {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        width: '100%'
+                                    }}>
+                                        {participant.representative.dni}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        width: '100%'
+                                    }}>
+                                        {participant.representative.position}
+                                    </div>
+                                </TableCell>
+                                {participations && <TableCell></TableCell>}
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                            </TableRow>}
+                        </Fragment>)
+                    })}
+                </EnhancedTable>
+            </React.Fragment>}
+            {this.props.children}
+        </div>);
     }
 }
 

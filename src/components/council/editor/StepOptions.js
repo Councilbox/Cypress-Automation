@@ -10,7 +10,7 @@ import * as CBX from '../../../utils/CBX';
 let primary = getPrimary();
 let secondary = getSecondary();
 
-class CouncilEditorOptions extends Component {
+class StepOptions extends Component {
 
     constructor(props){
         super(props);
@@ -328,4 +328,4 @@ export default compose(
     graphql(updateCouncil, {
         name: 'updateCouncil'
     })
-)(CouncilEditorOptions);
+)(StepOptions);

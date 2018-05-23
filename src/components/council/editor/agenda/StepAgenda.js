@@ -22,7 +22,7 @@ const buttonStyle = {
 };
 
 
-class CouncilEditorAgenda extends Component {
+class StepAgenda extends Component {
 
     constructor(props) {
         super(props);
@@ -352,4 +352,4 @@ export default compose(graphql(councilStepThree, {
         },
         notifyOnNetworkStatusChange: true
     })
-}), graphql(removeAgenda, { name: 'removeAgenda' }), graphql(updateCouncil, { name: 'updateCouncil' }))(CouncilEditorAgenda);
+}), graphql(removeAgenda, { name: 'removeAgenda' }), graphql(updateCouncil, { name: 'updateCouncil' }))(StepAgenda);

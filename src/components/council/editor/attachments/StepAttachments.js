@@ -8,7 +8,7 @@ import AttachmentList from '../../../attachments/AttachmentList';
 import { formatSize, showAddCouncilAttachment } from '../../../../utils/CBX';
 import { councilStepFour, addCouncilAttachment, removeCouncilAttachment, updateCouncil } from '../../../../queries';
 
-class CouncilEditorAttachments extends Component {
+class StepAttachments extends Component {
 
     constructor(props){
         super(props);
@@ -251,4 +251,4 @@ export default compose(
     graphql(removeCouncilAttachment, {
         name: 'removeCouncilAttachment'
     })
-)(CouncilEditorAttachments);
+)(StepAttachments);

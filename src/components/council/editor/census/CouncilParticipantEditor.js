@@ -2,14 +2,13 @@ import React, { Component, Fragment } from 'react';
 import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import { getPrimary } from '../../../../styles/colors';
-import { updateCensusParticipant } from '../../../../queries/census';
+import { updateCouncilParticipant } from '../../../../queries/councilParticipant';
 import { languages } from '../../../../queries/masters';
-import { censusHasParticipations } from '../../../../utils/CBX';
-import RepresentativeForm from './RepresentativeForm';
 import ParticipantForm from "../../../council/participants/ParticipantForm";
 import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../utils/validation";
+import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 
-class CensusParticipantEditor extends Component {
+class CouncilParticipantEditor extends Component {
 
     constructor(props) {
         super(props);
@@ -36,21 +35,19 @@ class CensusParticipantEditor extends Component {
     
     
 
-    updateCensusParticipant = async () => {
+    updateCouncilParticipant = async () => {
         const { hasRepresentative, ...data } = this.state.representative;
         const representative = this.state.representative.hasRepresentative ? {
             ...data,
-            companyId: this.props.census.companyId,
-            censusId: this.props.census.id
+            councilId: this.props.councilId
         } : null;
 
         if (!this.checkRequiredFields()) {
-            const response = await this.props.updateCensusParticipant({
+            const response = await this.props.updateCouncilParticipant({
                 variables: {
                     participant: {
                         ...this.state.data,
-                        companyId: this.props.census.companyId,
-                        censusId: this.props.census.id
+                        councilId: this.props.councilId
                     },
                     representative: representative
                 }
@@ -65,8 +62,8 @@ class CensusParticipantEditor extends Component {
     checkRequiredFields() {
         const participant = this.state.data;
         const representative = this.state.representative;
-        const { translate } = this.props;
-        let hasSocialCapital = censusHasParticipations(this.props.census);
+        const { translate, participations } = this.props;
+        let hasSocialCapital = participations;
         let errorsParticipant = checkRequiredFieldsParticipant(participant, translate, hasSocialCapital);
 
         let errorsRepresentative = {
@@ -106,25 +103,25 @@ class CensusParticipantEditor extends Component {
 
     _renderBody() {
         const participant = this.state.data;
-        const errors = this.state.errors;
-        const { translate } = this.props;
+        const { representative, errors, representativeErrors } = this.state;
+        const { translate, participations } = this.props;
         const { languages } = this.props.data;
         return (<Fragment>
             <ParticipantForm
                 type={participant.personOrEntity}
                 participant={participant}
-                participations={censusHasParticipations(this.props.census)}
+                participations={participations}
                 translate={translate}
                 languages={languages}
                 errors={errors}
                 updateState={this.updateState}
             />
             <RepresentativeForm
-                translate={this.props.translate}
-                state={this.state.representative}
+                translate={translate}
+                state={representative}
                 updateState={this.updateRepresentative}
-                errors={this.state.representativeErrors}
-                languages={this.props.data.languages}
+                errors={representativeErrors}
+                languages={languages}
             />
         </Fragment>)
     }
@@ -138,7 +135,7 @@ class CensusParticipantEditor extends Component {
                 requestClose={() => this.props.close()}
                 open={this.props.opened}
                 fullWidth={false}
-                acceptAction={this.updateCensusParticipant}
+                acceptAction={this.updateCouncilParticipant}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderBody()}
@@ -148,12 +145,12 @@ class CensusParticipantEditor extends Component {
     }
 }
 
-export default compose(graphql(updateCensusParticipant, {
-    name: 'updateCensusParticipant',
+export default compose(graphql(updateCouncilParticipant, {
+    name: 'updateCouncilParticipant',
     options: {
         errorPolicy: 'all'
     }
-}), graphql(languages))(CensusParticipantEditor);
+}), graphql(languages))(CouncilParticipantEditor);
 
 const initialRepresentative = {
     hasRepresentative: false,

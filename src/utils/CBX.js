@@ -49,6 +49,10 @@ export const censusHasParticipations = (census) => {
     return census.quorumPrototype === 1
 };
 
+export const councilHasParticipations = (council) => {
+    return council.statute.quorumPrototype === 1
+};
+
 export const hasVotation = (pointType) => {
     return pointType === 1 || pointType === 3 || pointType === 5;
 };

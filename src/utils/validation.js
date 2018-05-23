@@ -145,30 +145,27 @@ export const checkRequiredFieldsAgenda = (agenda, translate) =>{
         errors.agendaSubject = translate.field_required;
     }
 
-    if (!agenda.subjectType || agenda.subjectType === 0) {
+    if (!agenda.subjectType && agenda.subjectType !== 0) {
         hasError = true;
         errors.subjectType = translate.field_required;
     }
 
-    // if (!agenda.description) {
-    //     hasError = true;
-    //     errors.description = translate.field_required;
-    // }
-
     if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
-        if (!agenda.majorityType || agenda.majorityType === 0) {
+        if (!agenda.majorityType && agenda.majorityType !== 0) {
             hasError = true;
             errors.majorityType = translate.field_required;
         }
-
-        if (!agenda.majority) {
-            hasError = true;
-            errors.majority = translate.field_required;
-        }
-
-        if (!agenda.majorityDivider) {
-            hasError = true;
-            errors.majorityDivider = translate.field_required;
+        if(agenda.majorityType === 0 || agenda.majorityType === 5 || agenda.majorityType === 6){
+            if (!agenda.majority) {
+                hasError = true;
+                errors.majority = translate.field_required;
+            }
+            if(agenda.majorityType === 5){
+                if (!agenda.majorityDivider) {
+                    hasError = true;
+                    errors.majorityDivider = translate.field_required;
+                }
+            }
         }
     }
 

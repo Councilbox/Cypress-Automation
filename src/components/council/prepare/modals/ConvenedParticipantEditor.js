@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { BasicButton, ButtonIcon, Grid, GridItem, Checkbox } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+import { BasicButton, ButtonIcon, Grid, GridItem, Checkbox } from '../../../../displayComponents/index';
+import { getPrimary } from '../../../../styles/colors';
 import { Typography, Paper } from 'material-ui';
-import RepresentativeForm from '../participants/RepresentativeForm';
-import ParticipantForm from '../participants/ParticipantForm';
-import CouncilBoxApi from '../../../api/CouncilboxApi';
-import { checkValidEmail, errorHandler } from '../../../utils';
-import { updateConvenedParticipant } from '../../../queries/councilParticipant';
+import RepresentativeForm from '../../participants/RepresentativeForm';
+import ParticipantForm from '../../participants/ParticipantForm';
+import CouncilBoxApi from '../../../../api/CouncilboxApi';
+import { checkValidEmail, errorHandler } from '../../../../utils/index';
+import { updateConvenedParticipant } from '../../../../queries/councilParticipant';
 
 
 
