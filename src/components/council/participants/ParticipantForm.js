@@ -119,7 +119,7 @@ const ParticipantForm = ({ type, participant, errors, updateState, participation
                     })}
                 >
                     {languages.map((language) => {
-                        return <MenuItem value={language.columnName} key={`language_${language.columnName}`}>
+                        return <MenuItem value={language.columnName? language.columnName : language.column_name} key={`language_${language.columnName? language.columnName : language.column_name}`}>
                             {language.desc}
                         </MenuItem>
                     })

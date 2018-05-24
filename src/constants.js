@@ -10,6 +10,14 @@ export const PARTICIPANTS_LIMITS = [ 25, 50, 100, 250 ];
 export const DELEGATION_USERS_LOAD = 25;
 
 
+export const VOTE_VALUES = {
+    NO_VOTE: -1,
+    NEGATIVE: 0,
+    POSITIVE: 1,
+    ABSTENTION: 2
+}
+
+
 export const EMAIL_TRACK_STATES = {
     FAILED: -1,
     NOT_SENT: 0,

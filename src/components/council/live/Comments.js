@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { CollapsibleSection, LoadingSection, Icon } from '../../../displayComponents';
 import { darkGrey } from '../../../styles/colors';
-import { agendaComments } from '../../../queries';
+import { agendaVotings } from '../../../queries/agenda';
+import { LIVE_COLLAPSIBLE_HEIGHT } from '../../../styles/constants';
+
 
 class CommentsSection extends Component {
 
@@ -17,8 +19,8 @@ class CommentsSection extends Component {
         const { translate, council } = this.props;
 
         return(
-            <div style={{height: '3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
+            <div style={{height: LIVE_COLLAPSIBLE_HEIGHT, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <div style={{width: '25%', height: LIVE_COLLAPSIBLE_HEIGHT, display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
                     <Icon className="material-icons" style={{color: 'grey'}}>assignment</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>
                         {council.statute.existsAct? translate.act_comments : translate.council_comments}
@@ -35,18 +37,18 @@ class CommentsSection extends Component {
         if(this.props.data.loading){
             return(
                 <LoadingSection />
-            )
+            );
         }
-        const comments = this.props.data.agendaVotings;        
+
 
         return(
             <div style={{width: '100%', padding: '2em'}}>
-                {comments.map((comment) => {
-                    if(comment.comment){
+                {this.props.data.agendaVotings.list.map((voting) => {
+                    if(voting.comment){
                         return(
-                            <div key={`comment${comment.author.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
-                                {comment.comment}<br />
-                                {`${comment.author.name} ${comment.author.surname} - ${comment.author.position}`}
+                            <div key={`voting_${voting.author.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
+                                {voting.comment}<br />
+                                {`${voting.author.name} - ${voting.author.position}`}
                             </div>
                         )
                     }
@@ -71,11 +73,15 @@ class CommentsSection extends Component {
     }
 }
 
-export default graphql(agendaComments, {
+export default graphql(agendaVotings, {
     options: (props) => ({
         variables: {
-            agendaId: props.agenda.id
+            agendaId: props.agenda.id,
+            options: {
+                limit: 10,
+                offset: 0
+            }
         },
-        pollInterval: 5000
+        pollInterval: 4000
     })
 })(CommentsSection);

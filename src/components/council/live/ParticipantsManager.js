@@ -87,7 +87,6 @@ class ParticipantsManager extends Component {
             ]
         }
         this.props.data.refetch(variables);
-
     }
 
     updateParticipantState = (value) => {
@@ -192,7 +191,7 @@ class ParticipantsManager extends Component {
                                     refetch={this.props.data.refetch}
                                     id={this.state.editParticipant}
                                     requestClose={() => {
-                                        this.refresh();
+                                        //this.refresh();
                                         this.setState({editParticipant: undefined})
                                     }}
                                 />

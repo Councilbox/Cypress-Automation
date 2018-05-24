@@ -4,7 +4,7 @@ import { LoadingMainApp, Icon, FabButton, ButtonIcon } from "../../../displayCom
 import LiveHeader from './LiveHeader';
 import { lightGrey, darkGrey, getSecondary } from '../../../styles/colors';
 import { graphql, compose } from 'react-apollo';
-import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes } from '../../../queries';
+import { councilLiveQuery, majorityTypes, quorumTypes, votingTypes, agendaManager } from '../../../queries';
 import AgendaManager from './AgendaManager';
 import ParticipantsLive from './ParticipantsLive';
 import ParticipantsManager from './ParticipantsManager';
@@ -97,8 +97,8 @@ class CouncilLivePage extends Component {
         return(
             <div 
                 style={{height: '100vh', overflow: 'hidden', backgroundColor: lightGrey, fontSize: '1em', position: 'relative'}}
-                onKeyUp={this.handleKeyPress}
                 tabIndex="0"
+                onKeyUp={this.handleKeyPress}
                 ref={(ref) => this.div = ref}
             >
                 <LiveHeader
@@ -159,7 +159,7 @@ class CouncilLivePage extends Component {
                             {council.room.htmlVideoCouncil &&
                                 <Fragment>
                                     <div style={{height: this.state.videoHeight, width: '100%', position: 'relative'}}>
-                                        <div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}/>
+                                        {/*<div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}/>*/}
                                         
                                         <Tooltip title={`ALT + T`}>
                                             <div
@@ -208,6 +208,7 @@ class CouncilLivePage extends Component {
                             </div>
                         :
                             <AgendaManager 
+                                ref={(agendaManager) => this.agendaManager = agendaManager}
                                 council={council}
                                 company={company}
                                 translate={translate}

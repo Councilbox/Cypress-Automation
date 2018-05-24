@@ -7,9 +7,9 @@ import EndCouncilButton from './EndCouncilButton';
 import ToggleAgendaButton from './ToggleAgendaButton';
 import ToggleVotingsButton from './ToggleVotingsButton';
 import RecountSection from './RecountSection';
-import CommentsSection from './CommentsSection';
+import Comments from './Comments';
 import CouncilMenu from './councilMenu/CouncilMenu';
-import VotingsSection from './VotingsSection';
+import Votings from './Votings';
 import * as CBX from '../../../utils/CBX';
 
 
@@ -41,14 +41,14 @@ class AgendaDetailsSection extends Component {
         const { translate, council, agendas, participants, refetch } = this.props;
         if(!this.props.council.agendas){
             return(
-                <div>Nada hay puntos del día</div>
+                <div>{translate.no_results}</div>
             )
         }
         const agenda = agendas[this.props.selectedPoint];
         
         return(
-            <div style={{width: '100%', height: '100%', margin: 0, overflow: 'auto', outline: 0}}>
-                <div className="row" style={{width: '100%', padding: '2em'}}>
+            <div style={{width: '100%', height: '100%', margin: 0, paddingLeft: '1px', overflow: 'auto', outline: 0}} tabIndex="0" onKeyUp={this.handleKeyPress}>
+                <div className="row" style={{width: '100%', padding: '2em', height: '10em'}}>
                     <div className="col-lg-6 col-md-5 col-xs-5">
                         {agenda.agendaSubject}<br />
                         <div
@@ -59,7 +59,7 @@ class AgendaDetailsSection extends Component {
                     <div className="col-lg-6 col-md-5 col-xs-5">
                         <div className="row">
                             {CBX.councilStarted(council) && !CBX.agendaClosed(agenda) &&
-                                <div className="col-lg-6 col-md-12 col-xs-12" style={{marginTop: '0.6em'}}>
+                                <div className="col-lg-6 col-md-12 col-xs-12" style={{marginTop: '0.6em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                                     <ToggleAgendaButton
                                         agenda={agenda}
                                         translate={translate}
@@ -109,9 +109,9 @@ class AgendaDetailsSection extends Component {
                     <ActAgreements
                         agenda={agenda}
                         translate={translate}
-                        councilID={this.props.council.id}
+                        council={this.props.council}
                         refetch={this.props.refetch}
-                        agendaID={agenda.id}
+                        data={this.props.data}
                     />
                 </div>
                 {CBX.councilStarted(council) && CBX.agendaVotingsOpened(agenda) && 
@@ -129,25 +129,19 @@ class AgendaDetailsSection extends Component {
                         </div>*/}
                         {CBX.councilHasComments(council.statute) &&
                             <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
-                                <CommentsSection
+                                <Comments
                                     agenda={agenda}
                                     council={council}
                                     translate={translate}
-                                    councilID={this.props.council.id}
-                                    refetch={this.props.refetch}
-                                    agendaID={agenda.id}
                                 />
                             </div>
                         }
                         <div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
-                            <VotingsSection
+                            <Votings
+                                ref={(votings) => this.votings = votings}
                                 agenda={agenda}
-                                council={council}
-                                majorities={this.props.majorities}
+                                majorities={this.props.data.majorities}
                                 translate={translate}
-                                councilID={this.props.council.id}
-                                refetch={this.props.refetch}
-                                agendaID={agenda.id}
                             />
                         </div>
                     </Fragment>

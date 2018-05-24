@@ -5,6 +5,7 @@ import AttachmentList from '../../attachments/AttachmentList';
 import { darkGrey } from '../../../styles/colors';
 import { addAgendaAttachment, removeAgendaAttachment } from '../../../queries';
 import { MAX_FILE_SIZE } from '../../../constants';
+import { LIVE_COLLAPSIBLE_HEIGHT } from '../../../styles/constants';
 
 class AgendaAttachmentsManager extends Component {
 
@@ -83,8 +84,8 @@ class AgendaAttachmentsManager extends Component {
         const { attachments } = this.props;
 
         return(
-            <div style={{height: '3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <div style={{width: '25%', height: '3em', display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
+            <div style={{height: LIVE_COLLAPSIBLE_HEIGHT, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <div style={{width: '25%', height: LIVE_COLLAPSIBLE_HEIGHT, display: 'flex', alignItems: 'center', paddingLeft: '1.5em'}}>
                     <Icon className="material-icons" style={{color: 'grey'}}>description</Icon>
                     <span style={{marginLeft: '0.7em', color: darkGrey, fontWeight: '700'}}>{`${attachments.length}` }</span>
                 </div>
@@ -119,11 +120,11 @@ class AgendaAttachmentsManager extends Component {
                 }}
             >
                 <CollapsibleSection trigger={this._button} collapse={this._section} />
-                <div style={{overflow: 'hidden', height: '3em', position: 'absolute', top: '5px', left: '5em', margin: 0, padding: 0}}>
+                <div style={{overflow: 'hidden', height: '30px', position: 'absolute', top: '5px', left: '5em', margin: 0, padding: 0, display: 'flex', alignItems: 'center', justfiyContent: 'center'}}>
                     <FileUploadButton 
                         color={'lightgrey'}
                         textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                        buttonStyle={{maxWidth: '1em', height: '3em'}}
+                        buttonStyle={{maxWidth: '1em', height: '100%', marginTop: '5px'}}
                         flat
                         icon={<Icon className="material-icons" style={{fontSize: '1.5em', color: 'grey'}}>control_point</Icon>}
                         onChange={this.handleFile}

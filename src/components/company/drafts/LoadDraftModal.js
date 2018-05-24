@@ -13,6 +13,12 @@ class LoadDraftModal extends React.Component {
         }
     }
 
+    close = () => {
+        this.setState({
+            loadDraft: false
+        });
+    }
+
     render(){
         const { companyId, councilType, draftType, translate, statutes, statute } = this.props;
         const secondary = getSecondary();
@@ -41,6 +47,7 @@ class LoadDraftModal extends React.Component {
                                    translate={translate}
                                    statutes={statutes}
                                    statute={statute}
+                                   loadDraft={this.props.loadDraft}
                         />
                     </DialogContent>
                 </Dialog>

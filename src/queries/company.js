@@ -24,3 +24,12 @@ export const updateCompany = gql`
       }
     }
 `;
+
+export const unlinkCompany = gql`
+  mutation unlinkCompany($userId: Int!, $companyTin: String!){
+    unlinkCompany(userId: $userId, companyTin: $companyTin){
+      success
+      message
+    }
+  }
+`;
