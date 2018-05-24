@@ -50,7 +50,7 @@ class CouncilState extends React.Component {
         const secondaryColor = getSecondary();
         return (
             <div style={(windowSize === 'xs' && windowOrientation === "portrait") ?  styles.container : styles.splittedContainer}>
-                <div style={styles.textContainer}>
+                <div style={{...styles.textContainer, ...(windowSize === 'xs' && windowOrientation === "portrait") ? {} : {maxWidth: '50%'}}}>
                     <h3 style={{color: primaryColor}}>{translate.we_are_sorry}</h3>
                     <p>
                         askljglkasgj kl jsklajg klasj glkjsd gkl sjdgkl sdfjklglsdfjg lkdfslkgj sfldkj glksdjfgkl jsdfg sdgsdgsd gsdgsd gsdgsd gsdgsdg sdgsdgsd gsdgsd gsdgsdg sdgsdgsd gsdgsdgsd gsdgsdgsd gsdgsdgsdg sdgsdgsdgsdgsd gsdgsdg sdgsdgsd gsdgsdgsd
