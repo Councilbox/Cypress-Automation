@@ -37,7 +37,27 @@ class LinkCompanyPage extends React.Component {
     }
 
     checkRequiredFields = () => {
-        return false;
+        let hasError = false;
+        let errors = {
+            cif: '',
+            linkKey: ''
+        }
+
+        if(!this.state.data.cif){
+            hasError = true;
+            errors.cif = this.props.translate.required_field;
+        }
+
+        if(!this.state.data.linkKey){
+            hasError = true;
+            errors.linkKey = this.props.translate.required_field;
+        }
+
+        this.setState({
+            errors
+        });
+
+        return hasError;
     }
 
     linkCompany = async () => {
@@ -48,7 +68,42 @@ class LinkCompanyPage extends React.Component {
                     companyTin: this.state.data.cif,
                     linkKey: this.state.data.linkKey
                 }
-            })
+            });
+
+            if(response.errors){
+                if(response.errors[0].message === 'Tin-noExists'){
+                    this.setState({
+                        errors: {
+                            cif: 'COMPAÑIA NO EXISTE'
+                        }
+                    });
+                    return;
+                }
+            }
+
+            if(response.data.linkCompany.success){
+                toast.success(this.props.translate.company_link_success_title);
+                store.dispatch(getCompanies(this.props.user.id));
+                bHistory.push('/');
+            }else{
+                switch(response.data.linkCompany.message){
+                    case 'Wrong linkKey':
+                        this.setState({
+                            errors: {
+                                linkKey: 'CLAVE MAESTRA INCORRECTA'
+                            }
+                        })
+                        break;
+                    case 'Already Linked':
+                        this.setState({
+                            errors: {
+                                cif: 'ESTA COMPAÑIA YA ESTÁ VINCULADA A TU CUENTA'
+                            }
+                        })
+                        break;
+                }
+            }
+
         }
     }
 
@@ -126,5 +181,8 @@ const linkCompany = gql`
 
 
 export default graphql(linkCompany, {
-    name: 'linkCompany'
+    name: 'linkCompany',
+    options: {
+        errorPolicy: 'all'
+    }
 })(withSharedProps()(withApollo(LinkCompanyPage)));

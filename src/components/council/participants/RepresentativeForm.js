@@ -81,8 +81,8 @@ const RepresentativeForm = ({ representative, errors, updateState, translate, la
                 })}
             >
                 {languages.map((language) => {
-                    return <MenuItem value={language.columnName}
-                                        key={`language${language.id}`}>{language.desc}</MenuItem>
+                    return <MenuItem value={language.columnName? language.columnName : language.column_name}
+                                        key={`language${language.columnName? language.columnName : language.column_name}`}>{language.desc}</MenuItem>
                 })}
             </SelectInput>
         </GridItem>

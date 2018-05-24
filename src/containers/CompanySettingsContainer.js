@@ -10,6 +10,7 @@ class CompanySettingsContainer extends Component {
                 main={this.props.main}
                 translate={this.props.translate}
                 company={this.props.company}
+                user={this.props.user}
             />
         );
     }
@@ -18,6 +19,7 @@ class CompanySettingsContainer extends Component {
 const mapStateToProps = (state) => ({
     main: state.main,
     translate: state.translate,
+    user: state.user,
     company: state.companies.list[state.companies.selected]
 });
 

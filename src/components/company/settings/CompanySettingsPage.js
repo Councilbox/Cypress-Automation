@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import {
-    CardPageLayout, TextInput, SelectInput, FileUploadButton, LoadingSection, ButtonIcon, BasicButton, Grid, GridItem
+    CardPageLayout, TextInput, SelectInput, AlertConfirm, FileUploadButton, LoadingSection, ButtonIcon, BasicButton, Grid, GridItem
 } from '../../../displayComponents';
 import { Typography, MenuItem } from 'material-ui';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { provinces } from '../../../queries/masters';
-import { updateCompany } from '../../../queries/company';
+import { updateCompany, unlinkCompany } from '../../../queries/company';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { store } from '../../../containers/App';
-import { setCompany } from '../../../actions/companyActions';
+import { store, bHistory } from '../../../containers/App';
+import { setCompany, getCompanies } from '../../../actions/companyActions';
 import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 
 export const info = gql `
   query info {
@@ -36,6 +37,7 @@ class CompanySettingsPage extends Component {
             data: this.props.company,
             success: false,
             error: false,
+            unlinkModal: false,
             request: false,
             provinces: [],
             errors: {}
@@ -176,6 +178,23 @@ class CompanySettingsPage extends Component {
             errors: errors
         });
         return hasError;
+    }
+
+    unlinkCompany = async () => {
+        const response = await this.props.unlinkCompany({
+            variables: {
+                userId: this.props.user.id,
+                companyTin: this.props.company.tin
+            }
+        });
+
+        if(!response.errors){
+            if(response.data.unlinkCompany.success){
+                store.dispatch(getCompanies(this.props.user.id));
+                toast.success(this.props.translate.company_link_unliked_title);
+                bHistory.push('/');
+            }
+        }
     }
 
     render() {
@@ -393,15 +412,46 @@ class CompanySettingsPage extends Component {
                     onClick={this.saveCompany}
                     icon={<ButtonIcon type="save" color='white'/>}
                 />
+                <BasicButton
+                    text={translate.unlink}
+                    color={getPrimary()}
+                    floatRight
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
+                    buttonStyle={{marginRight: '1.2em'}}
+                    onClick={() => this.setState({
+                        unlinkModal: true
+                    })}
+                    icon={<ButtonIcon type="link_off" color='white'/>}
+                />
+                <AlertConfirm
+                    requestClose={() => this.setState({ unlinkModal: false })}
+                    open={this.state.unlinkModal}
+                    acceptAction={this.unlinkCompany}
+                    buttonAccept={translate.accept}
+                    buttonCancel={translate.cancel}
+                    bodyText={<div>
+                        {translate.companies_unlink}
+                    </div>}
+                    title={translate.edit}
+                />
             </CardPageLayout>
 
         );
     }
 }
 
-export default compose(graphql(info, { name: 'info' }), graphql(updateCompany, {
-    name: 'updateCompany',
-    options: {
-        errorPolicy: 'all'
-    }
-}))(withApollo(CompanySettingsPage));
+export default compose(
+    graphql(info, { name: 'info' }),
+    graphql(updateCompany, {
+        name: 'updateCompany',
+        options: {
+            errorPolicy: 'all'
+        }
+    }),
+    graphql(unlinkCompany, {
+        name: 'unlinkCompany'
+    })
+)(withApollo(CompanySettingsPage));

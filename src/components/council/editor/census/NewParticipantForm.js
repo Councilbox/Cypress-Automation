@@ -100,7 +100,7 @@ class NewParticipantForm extends Component {
                 console.log(response);
                 if (response) {
                     if (response.errors) {
-                        const errorField = errorHandler(response.errors[ 0 ].code);
+                        const errorField = errorHandler(response.errors[0].code);
                         this.setState({
                             errors: {
                                 ...this.state.errors,
@@ -360,7 +360,6 @@ class NewParticipantForm extends Component {
                         </Typography>
                     </GridItem>
                     <Paper style={{padding: '2em', paddingTop: '1em', marginTop: '1em', marginBottom: '1em'}}>
-                        {this._renderAddParticipantTypeSelector()}
                         {this._renderAddParticipantForm()}
                     </Paper>
                     {this._renderRepresentativeCheckbox()}

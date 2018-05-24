@@ -7,6 +7,7 @@ import notSent from '../assets/img/not_sent.png';
 import opened from '../assets/img/opened.png';
 import pendingShipping from '../assets/img/pending_shipping.png';
 import spam from '../assets/img/spam.png';
+import { DEFAULT_DEPRECATION_REASON } from 'graphql';
 
 
 export const canReorderPoints = (council) => {
@@ -156,6 +157,8 @@ export const changeVariablesToValues = (text, data) => {
     text = text.replace('{{city}}', data.council.city);
     text = text.replace('{{street}}', data.council.street);
     text = text.replace('{{country_state}}', data.council.countryState);
+    text = text.replace('{{positiveVotings}}', data.votings.positive);
+    text = text.replace('{{negativeVotings}}', data.votings.negative);
     
     return text;
 };
@@ -201,15 +204,19 @@ export const printPrettyFilesize = (filesize) => {
         return `${filesize} Bytes`;
     }
     if(filesize < 1048576){
-        return `${addTwoDecimals(filesize / 1024, 2)} KBs`;
+        return `${addDecimals(filesize / 1024, 2)} KBs`;
     }
     if(filesize < 1073741824){
-        return `${addTwoDecimals(filesize / 1048576, 2)} MBs`;
+        return `${addDecimals(filesize / 1048576, 2)} MBs`;
     }
-    return `${addTwoDecimals(filesize / 1073741824, 2)} GBs`;
+    return `${addDecimals(filesize / 1073741824, 2)} GBs`;
 };
 
-export const addTwoDecimals = (num, fixed) => {
+export const isPresentVote = (vote) => {
+    return vote.presentVote === 1;
+}
+
+export const addDecimals = (num, fixed) => {
     num = num.toString();
     return num.slice(0, (num.indexOf(".")) + fixed + 1);
 };
@@ -397,25 +404,25 @@ export const hasHisVoteDelegated = (participant) => {
 
 export const getParticipantStateString = (participant) => {
     switch(participant.state){
-        case 0: 
+        case PARTICIPANT_STATES.REMOTE: 
             return 'REMOTE';
 
-        case 1:
+        case PARTICIPANT_STATES.PRESENT:
             return 'PRESENT';
             
-        case 2:
+        case PARTICIPANT_STATES.REPRESENTATED:
             return 'REPRESENTATED';
 
-        case 4:
+        case PARTICIPANT_STATES.DELEGATED:
             return 'DELEGATED';
 
-        case 5:
+        case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
             return 'PHYSICALLY_PRESENT';
 
-        case 6:
+        case PARTICIPANT_STATES.NO_PARTICIPATE:
             return 'NO_PARTICIPATE';
 
-        case 7:
+        case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
             return 'PRESENT_WITH_REMOTE_VOTE';
 
         default:

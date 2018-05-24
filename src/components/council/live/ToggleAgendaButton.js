@@ -2,7 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { openAgenda, closeAgenda } from '../../../queries';
 import { BasicButton, Icon } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import FontAwesome from 'react-fontawesome';
+import { Tooltip } from 'material-ui';
+
 
 class ToggleAgendaButton extends Component {
 
@@ -67,7 +70,12 @@ class ToggleAgendaButton extends Component {
                             textStyle={{fontSize: '0.75em', fontWeight: '700', textTransform: 'none', color: primary}}
                         />
                     :
-                        <span>{translate.warning_unclosed_agenda}</span>
+                        <Tooltip title={translate.warning_unclosed_agenda}>
+                            <FontAwesome
+                                name='lock'
+                                style={{color: getSecondary(), fontSize: '2em'}}
+                            />
+                        </Tooltip>
                 :
                     <BasicButton
                         text={translate.close_point}

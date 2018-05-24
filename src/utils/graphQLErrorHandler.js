@@ -8,7 +8,7 @@ export const graphQLErrorHandler = (graphQLErrors, toast, store) => {
         store.dispatch(logout());
     }
 
-    if(graphQLErrors[0].message = "Validation error"){
+    if(graphQLErrors[0].message === "Validation error"){
         if(graphQLErrors[0].originalError){
             if(graphQLErrors[0].originalError.fields){
                 if(graphQLErrors[0].originalError.fields.tin){

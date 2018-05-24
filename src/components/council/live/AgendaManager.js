@@ -95,9 +95,10 @@ class AgendaManager extends Component {
                     onKeyUp={this.handleKeyPress}
                 >
                     <AgendaDetailsSection
+                        ref={(agendaDetails) => this.agendaDetails = agendaDetails}
                         council={council}
                         agendas={agendas}
-                        majorities={this.props.data.majorityTypes}
+                        data={this.props.data}
                         selectedPoint={this.state.selectedPoint}
                         attachments={council.agenda_attachments}
                         participants={this.props.participants}

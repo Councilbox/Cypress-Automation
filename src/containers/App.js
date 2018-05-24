@@ -36,7 +36,7 @@ const authLink = setContext((_, { headers }) => {
   }
 });
 
-const logoutLink = onError(({ graphQLErrors, networkError }) => {
+const logoutLink = onError(({ graphQLErrors, networkError, response }) => {
     console.log(graphQLErrors);
     console.log(networkError);
     if(graphQLErrors){
@@ -46,7 +46,16 @@ const logoutLink = onError(({ graphQLErrors, networkError }) => {
 
 export const client = new ApolloClient({
     link: logoutLink.concat(authLink.concat(httpLink)),
-    cache: new InMemoryCache()
+    cache: new InMemoryCache(),
+    defaultOptions: {
+        query: {
+            fetchPolicy: 'network-only',
+            errorPolicy: 'all',
+        },
+        mutate: {
+            errorPolicy: 'all'
+        }
+    }
 });
 
 export const store = configureStore();

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import { liveParticipant, updateNotificationsStatus, updateLiveParticipant } from '../../../queries';
+import { liveParticipant, updateLiveParticipantSends, updateLiveParticipant } from '../../../queries';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { Typography, Table, TableRow, TableCell, TableHead, TableBody, Tooltip } from 'material-ui';
 import { LoadingSection, BasicButton, Grid, GridItem, CloseIcon } from '../../../displayComponents';
@@ -10,19 +10,32 @@ import moment from 'moment';
 
 class LiveParticipantEditor extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            loadingSends: false
+        }
+    }
+
     componentDidMount(){
         this.props.data.refetch();
     }
 
     refreshEmailStates = async () => {
-        const response = await this.props.updateNotificationsStatus({
+        this.setState({
+            loadingSends: true
+        });
+        const response = await this.props.updateLiveParticipantSends({
             variables: {
-                councilId: this.props.council.id
+                participantId: this.props.data.liveParticipant.id
             }
         });
 
-        if(response.data.updateNotificationsStatus.success){
+        if(response.data.updateLiveParticipantSends.success){
             this.props.data.refetch();
+            this.setState({
+                loadingSends: false
+            });
         }
     }
 
@@ -54,6 +67,7 @@ class LiveParticipantEditor extends Component {
         }
 
         const participant = this.props.data.liveParticipant;
+        const secondary = getSecondary();
 
         return(
             <Grid style={{height: '100%', padding: '2em'}}>
@@ -61,10 +75,10 @@ class LiveParticipantEditor extends Component {
                     <BasicButton
                         text={translate.back_list}
                         color={'white'}
-                        textStyle={{color: getSecondary(), fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                        textStyle={{color: secondary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                         textPosition="after"
                         onClick={this.props.requestClose}
-                        buttonStyle={{marginRight: '1em', border: `2px solid ${getSecondary()}`}}
+                        buttonStyle={{marginRight: '1em', border: `2px solid ${secondary}`}}
                     />
                 </GridItem>
                 <GridItem xs={12} lg={12} md={12}>
@@ -182,10 +196,12 @@ class LiveParticipantEditor extends Component {
                             <BasicButton
                                 text={translate.refresh_emails}
                                 color={'white'}
-                                textStyle={{color: getSecondary(), fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+                                loading={this.state.loadingSends}
+                                loadingColor={secondary}
+                                textStyle={{color: secondary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
                                 textPosition="after"
                                 onClick={this.refreshEmailStates}
-                                buttonStyle={{marginRight: '1em', border: `2px solid ${getSecondary()}`}}
+                                buttonStyle={{marginRight: '1em', border: `2px solid ${secondary}`}}
                             />
                         </GridItem>
                         <GridItem xs={12} lg={12} md={12}>
@@ -202,7 +218,6 @@ class LiveParticipantEditor extends Component {
         )
     }
 }
-
 
 const ParticipantTable = ({ participant, translate, council, delegate }) => (
     <Table>
@@ -391,7 +406,7 @@ export default compose(
     graphql(updateLiveParticipant, {
         name: 'updateLiveParticipant'
     }),
-    graphql(updateNotificationsStatus, {
-        name: 'updateNotificationsStatus'
+    graphql(updateLiveParticipantSends, {
+        name: 'updateLiveParticipantSends'
     })
 )(LiveParticipantEditor);

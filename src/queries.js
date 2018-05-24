@@ -117,6 +117,7 @@ export const cancelCouncil = gql`
   }
 `;
 
+
 export const rescheduleCouncil = gql`
   mutation rescheduleCouncil($councilId: Int!, $dateStart: String, $dateStart2NdCall: String){
     rescheduleCouncil(councilId: $councilId, dateStart: $dateStart, dateStart2NdCall: $dateStart2NdCall){
@@ -277,6 +278,15 @@ export const agendaManager = gql`
 export const updateNotificationsStatus = gql`
   mutation updateNotificationsStatus($councilId: Int!){
     updateNotificationsStatus(councilId: $councilId){
+      success
+      message
+    }
+  }
+`;
+
+export const updateLiveParticipantSends = gql`
+  mutation updateLiveParticipantSends($participantId: Int!){
+    updateLiveParticipantSends(participantId: $participantId){
       success
       message
     }
@@ -518,6 +528,19 @@ export const councilStepThree = gql`
       value
     }
     votingTypes {
+      label
+      value
+    }
+  }
+`;
+
+export const loadDraftInfo = gql`
+  query LoadDraftInfo($companyId: Int!){
+    companyStatutes(companyId: $companyId){
+      id
+      title
+    }
+    draftTypes {
       label
       value
     }

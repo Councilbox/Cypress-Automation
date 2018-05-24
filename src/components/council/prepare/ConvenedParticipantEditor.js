@@ -257,11 +257,6 @@ class ParticipantEditor extends Component {
         return(
             <Fragment>
                 <Grid>
-                    <GridItem xs={12} lg={12} md={12}>
-                        <Typography variant="title">
-                            {translate.edit_participant}
-                        </Typography>
-                    </GridItem>
                     <Paper style={{padding: '2em', paddingTop: '1em', marginTop: '1em', marginBottom: '1em'}}>
                         {<ParticipantForm
                             type={this.state.participantType}
