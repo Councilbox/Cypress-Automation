@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../../../displayComponents";
+import { AlertConfirm, Icon, DateTimePicker, Grid, GridItem } from "../../../../displayComponents/index";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { rescheduleCouncil } from '../../../queries';
-import * as CBX from '../../../utils/CBX';
+import { rescheduleCouncil } from '../../../../queries';
+import * as CBX from '../../../../utils/CBX';
 
 
 class RescheduleModal extends Component {

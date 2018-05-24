@@ -50,6 +50,10 @@ export const censusHasParticipations = (census) => {
     return census.quorumPrototype === 1
 };
 
+export const councilHasParticipations = (council) => {
+    return council.statute.quorumPrototype === 1
+};
+
 export const hasVotation = (pointType) => {
     return pointType === 1 || pointType === 3 || pointType === 5;
 };
@@ -197,6 +201,9 @@ export const showUserUniqueKeyMessage = (council) => {
 
 export const councilIsNotified = (council) => {
     return council.state === 10;
+};
+export const councilHasAssistanceConfirmation = (council) => {
+    return council.confirmAssistance === 1;
 };
 
 export const printPrettyFilesize = (filesize) => {

@@ -294,8 +294,8 @@ export const updateLiveParticipantSends = gql`
 `;
 
 export const platformDrafts = gql`
-  query platformDrafts($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
-    platformDrafts(filters: $filters, options: $options){
+  query platformDrafts($companyId: Int!, $filters: [FilterInput], $options: OptionsInput, $companyType: Int){
+    platformDrafts(filters: $filters, options: $options, companyType: $companyType){
       list{
         categories
         companyType

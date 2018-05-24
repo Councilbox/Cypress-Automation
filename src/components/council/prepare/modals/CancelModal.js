@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
 
-import { AlertConfirm, Icon } from "../../../displayComponents";
+import { AlertConfirm, Icon } from "../../../../displayComponents/index";
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { cancelCouncil } from '../../../queries';
-import { bHistory } from '../../../containers/App';
+import { cancelCouncil } from '../../../../queries';
+import { bHistory } from '../../../../containers/App';
 
 
 class CancelModal extends Component {

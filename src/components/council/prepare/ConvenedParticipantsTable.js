@@ -8,56 +8,35 @@ import {
 } from '../../../displayComponents';
 import { graphql, compose } from "react-apollo";
 import {
- updateNotificationsStatus, downloadCBXData
+    updateNotificationsStatus, downloadCBXData
 } from '../../../queries';
-import {
-    convenedcouncilParticipants, deleteParticipant,
-} from '../../../queries/councilParticipant';
-import EditParticipantModal from './EditParticipantModal';
-import { PARTICIPANTS_LIMITS } from '../../../constants';
+import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
+import { PARTICIPANTS_LIMITS, COUNCIL_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
-import NewParticipantForm from '../editor/census/NewParticipantForm';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
+import ParticipantStateIcon from "../live/ParticipantStateIcon";
+import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
+import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 
 
 class ConvenedParticipantsTable extends Component {
 
+    closeParticipantEditor = () => {
+        this.setState({ editingParticipant: false })
+    }
+
     constructor(props) {
         super(props);
         this.state = {
-            editParticipant: false,
-            addParticipant: false,
-            showModal: false,
-            editIndex: null,
+            editingParticipant: false,
+            participant: {},
             activeStatusFilter: ''
         }
-    }
-
-    _renderDeleteIcon(participantID) {
-        const primary = getPrimary();
-
-        return (<DeleteIcon
-            style={{ color: primary }}
-            onClick={() => this.deleteParticipant(participantID)}
-        />);
     }
 
     componentDidUpdate() {
         this.props.data.refetch();
     }
-
-    deleteParticipant = async (id) => {
-        const response = await this.props.mutate({
-            variables: {
-                participantId: id,
-                councilId: this.props.councilId
-            }
-        });
-
-        if (response) {
-            this.table.refresh();
-        }
-    };
 
     refresh = (object) => {
         this.table.refresh(object);
@@ -67,7 +46,7 @@ class ConvenedParticipantsTable extends Component {
     refreshEmailStates = async () => {
         const response = await this.props.updateNotificationsStatus({
             variables: {
-                councilId: this.props.councilId
+                councilId: this.props.council.id
             }
         });
 
@@ -78,9 +57,12 @@ class ConvenedParticipantsTable extends Component {
 
 
     render() {
-        const { translate, totalVotes, socialCapital } = this.props;
-        const { loading } = this.props.data;
+        const { translate, council, participations } = this.props;
+        const { loading, refetch } = this.props.data;
+        const totalVotes = this.props.data.councilTotalVotes;
+        const socialCapital = this.props.data.councilSocialCapital;
         const councilParticipants = this.props.data.councilParticipantsWithNotifications;
+        const { participant, editingParticipant } = this.state;
 
         let headers = [ {
             text: translate.name,
@@ -90,33 +72,30 @@ class ConvenedParticipantsTable extends Component {
             text: translate.dni,
             name: 'dni',
             canOrder: true
-        }, //     {
-            //     text: translate.email,
-            //     name: 'email',
-            //     canOrder: true
-            // },
-            { text: translate.position }, {
-                text: translate.votes,
-                name: 'numParticipations',
-                canOrder: true
-            }, {
+        }, { text: translate.position }, {
+            text: translate.votes,
+            name: 'numParticipations',
+            canOrder: true
+        } ];
+
+        if (participations) {
+            headers.push({
                 text: translate.census_type_social_capital,
                 name: 'socialCapital',
                 canOrder: true
-            }, {
-                text: translate.convene
-            }
-        ];
-
-        if (!this.props.participations) {
-            headers.splice(3,1);
+            });
         }
 
-        if (this.state.editParticipant && this.props.editable) {
-            return (<Grid>
-
-                {councilParticipants.list[ this.state.editIndex ].name}
-            </Grid>)
+        if (CBX.councilIsNotified(council)) {
+            headers.push({
+                text: translate.convene
+            });
+            if (CBX.councilHasAssistanceConfirmation(council)) {
+                headers.push({
+                    text: translate.assistance_intention
+                });
+            }
+            headers.push({});
         }
 
         return (<div style={{ width: '100%' }}>
@@ -148,43 +127,11 @@ class ConvenedParticipantsTable extends Component {
                                 onClick={() => this.refreshEmailStates()}
                             />
                         </Tooltip>
-                        <BasicButton
-                            floatRight
-                            text={translate.add_participant}
-                            color={getPrimary()}
-                            buttonStyle={{
-                                margin: '0',
-                                marginRight: '0.2em'
-                            }}
-                            textStyle={{
-                                color: 'white',
-                                fontWeight: '700',
-                                fontSize: '0.9em',
-                                textTransform: 'none'
-                            }}
-                            icon={<ButtonIcon color='white' type="add"/>}
-                            textPosition="after"
-                            onClick={() => this.setState({
-                                showModal: true
-                            })}
-                        />
-                        <AlertConfirm
-                            requestClose={() => this.setState({ showModal: false })}
-                            open={this.state.showModal}
-                            bodyText={<div style={{
-                                maxWidth: '850px',
-                                padding: '1em'
-                            }}>
-                                <NewParticipantForm
-                                    translate={translate}
-                                    requestClose={() => this.setState({
-                                        showModal: false
-                                    })}
-                                    convened={true}
-                                    participations={CBX.hasParticipations(this.props.council)}
-                                    councilID={this.props.councilId}
-                                />
-                            </div>}
+                        <AddConvenedParticipantButton
+                            participations={participations}
+                            translate={translate}
+                            councilId={council.id}
+                            refetch={refetch}
                         />
                     </GridItem>
                 </Grid>
@@ -207,28 +154,22 @@ class ConvenedParticipantsTable extends Component {
                     }, {
                         value: 'dni',
                         translation: translate.dni
-                    }, //     {
-                        //     value: 'email',
-                        //     translation: translate.email
-                        // },
-                        {
-                            value: 'position',
-                            translation: translate.position
-                        } ]}
+                    }, {
+                        value: 'position',
+                        translation: translate.position
+                    } ]}
                     headers={headers}
                 >
                     {councilParticipants.list.map((participant, index) => {
                         return (<Fragment key={`participant${participant.id}`}>
                             <TableRow
-                                hover={true}
+                                hover
                                 onClick={() => this.setState({
-                                    editParticipant: true,
-                                    editIndex: index
+                                    editingParticipant: true,
+                                    participant: participant
                                 })}
                                 style={{
                                     cursor: 'pointer',
-                                    width: '800px',
-                                    backgroundColor: CBX.isRepresentative(participant) ? 'WhiteSmoke' : 'transparent'
                                 }}
                             >
                                 <TableCell>
@@ -237,41 +178,41 @@ class ConvenedParticipantsTable extends Component {
                                 <TableCell>
                                     {participant.dni}
                                 </TableCell>
-                                {/*<TableCell>*/}
-                                {/*{participant.email}*/}
-                                {/*</TableCell>*/}
                                 <TableCell>
                                     {participant.position}
                                 </TableCell>
                                 <TableCell>
-                                    {!CBX.isRepresentative(participant) && `${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`}
+                                    {`${participant.numParticipations} (${((participant.numParticipations / totalVotes) * 100).toFixed(2)}%)`}
                                 </TableCell>
                                 {this.props.participations && <TableCell>
-                                    {!CBX.isRepresentative(participant) && `${participant.socialCapital} (${((participant.socialCapital / socialCapital) * 100).toFixed(2)}%)`}
+                                    {`${participant.socialCapital} (${((participant.socialCapital / socialCapital) * 100).toFixed(2)}%)`}
                                 </TableCell>}
                                 <TableCell>
-                                    <div style={{
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'center'
-                                    }}>
-                                        {participant.notifications.length > 0 ? <Tooltip
-                                            title={translate[ CBX.getTranslationReqCode(participant.notifications[ 0 ].reqCode) ]}>
-                                            <img
-                                                style={{
-                                                    height: '2.1em',
-                                                    width: 'auto'
-                                                }}
-                                                src={CBX.getEmailIconByReqCode(participant.notifications[ 0 ].reqCode)}
-                                                alt="email-state-icon"
-                                            />
-                                        </Tooltip> : '-'}
-                                        <DownloadCBXDataButton
-                                            translate={translate}
-                                            participantId={participant.id}
+                                    {participant.notifications.length > 0 ? <Tooltip
+                                        title={translate[ CBX.getTranslationReqCode(participant.notifications[ 0 ].reqCode) ]}>
+                                        <img
+                                            style={{
+                                                height: '2.1em',
+                                                width: 'auto'
+                                            }}
+                                            src={CBX.getEmailIconByReqCode(participant.notifications[ 0 ].reqCode)}
+                                            alt="email-state-icon"
                                         />
-                                    </div>
+                                    </Tooltip> : ''}
+                                </TableCell>
+                                {CBX.councilHasAssistanceConfirmation(council) &&
+
+                                <TableCell>
+                                    <ParticipantStateIcon
+                                        translate={translate}
+                                        participant={participant}
+                                        isIntention/>
+                                </TableCell>}
+                                <TableCell>
+                                    <DownloadCBXDataButton
+                                        translate={translate}
+                                        participantId={participant.id}
+                                    />
                                 </TableCell>
                             </TableRow>
                             {!!participant.representative && <TableRow
@@ -301,14 +242,6 @@ class ConvenedParticipantsTable extends Component {
                                         {participant.representative.dni}
                                     </div>
                                 </TableCell>
-                                {/*<TableCell>*/}
-                                    {/*<div style={{*/}
-                                        {/*fontSize: '0.9em',*/}
-                                        {/*width: '100%'*/}
-                                    {/*}}>*/}
-                                        {/*{participant.representative.email}*/}
-                                    {/*</div>*/}
-                                {/*</TableCell>*/}
                                 <TableCell>
                                     <div style={{
                                         fontSize: '0.9em',
@@ -319,6 +252,8 @@ class ConvenedParticipantsTable extends Component {
                                 </TableCell>
                                 <TableCell>
                                 </TableCell>
+                                {this.props.participations && <TableCell>
+                                </TableCell>}
                                 <TableCell>
                                     {participant.representative.notifications.length > 0 ? <Tooltip
                                         title={translate[ CBX.getTranslationReqCode(participant.representative.notifications[ 0 ].reqCode) ]}>
@@ -330,18 +265,35 @@ class ConvenedParticipantsTable extends Component {
                                             src={CBX.getEmailIconByReqCode(participant.representative.notifications[ 0 ].reqCode)}
                                             alt="email-state-icon"
                                         />
-                                    </Tooltip> : '-'}
+                                    </Tooltip> : ''}
+                                </TableCell>
+                                {CBX.councilHasAssistanceConfirmation(council) &&
+
+                                <TableCell>
+                                    <ParticipantStateIcon
+                                        translate={translate}
+                                        participant={participant.representative}
+                                        isIntention/>
+                                </TableCell>}
+
+                                <TableCell>
+                                    <DownloadCBXDataButton
+                                        translate={translate}
+                                        participantId={participant.representative.id}
+                                    />
                                 </TableCell>
                             </TableRow>}
                         </Fragment>)
                     })}
                 </EnhancedTable>
-                <EditParticipantModal
-                    requestClose={() => this.setState({ editParticipant: false })}
-                    open={this.state.editParticipant}
-                    participations={CBX.hasParticipations(this.props.council)}
-                    participant={councilParticipants.list[ this.state.editIndex ]}
+                <ConvenedParticipantEditor
                     translate={translate}
+                    close={this.closeParticipantEditor}
+                    councilId={council.id}
+                    participations={participations}
+                    participant={participant}
+                    opened={editingParticipant}
+                    refetch={refetch}
                 />
             </React.Fragment>}
             {this.props.children}
@@ -349,14 +301,14 @@ class ConvenedParticipantsTable extends Component {
     }
 }
 
-export default compose(graphql(deleteParticipant), graphql(updateNotificationsStatus, {
+export default compose(graphql(updateNotificationsStatus, {
     name: 'updateNotificationsStatus'
 }), graphql(downloadCBXData, {
     name: 'downloadCBXData'
 }), graphql(convenedcouncilParticipants, {
     options: (props) => ({
         variables: {
-            councilId: props.councilId,
+            councilId: props.council.id,
             options: {
                 limit: PARTICIPANTS_LIMITS[ 0 ],
                 offset: 0

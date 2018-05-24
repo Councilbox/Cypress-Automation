@@ -5,9 +5,9 @@ import { CloseIcon, Grid, GridItem, EnhancedTable } from '../../../../displayCom
 import { graphql, compose } from "react-apollo";
 import { censusParticipants } from '../../../../queries/census';
 import gql from "graphql-tag";
-import AddCensusParticipantButton from './AddCensusParticipantButton';
+import AddCensusParticipantButton from './modals/AddCensusParticipantButton';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
-import CensusParticipantEditor from "../../../company/census/censusEditor/CensusParticipantEditor";
+import CensusParticipantEditor from "./modals/CensusParticipantEditor";
 
 
 class CensusParticipants extends Component {
@@ -20,11 +20,11 @@ class CensusParticipants extends Component {
         }
     }
 
-    closeParticipantEditor = () =>{
-        this.setState({editingParticipant: false})
+    closeParticipantEditor = () => {
+        this.setState({ editingParticipant: false })
     }
 
-    editParticipant = (participant) =>{
+    editParticipant = (participant) => {
         this.setState({
             editingParticipant: true,
             participant
@@ -65,25 +65,15 @@ class CensusParticipants extends Component {
             name: 'dni',
             text: translate.dni,
             canOrder: true
-        }, // {
-            //     name: 'email',
-            //     text: translate.email,
-            //     canOrder: true
-            // },
-            // {
-            //     name: 'phone',
-            //     text: translate.phone_number,
-            //     canOrder: true
-            // },
-            {
-                name: 'position',
-                text: translate.position,
-                canOrder: true
-            }, {
-                name: 'numParticipations',
-                text: translate.votes,
-                canOrder: true
-            }
+        }, {
+            name: 'position',
+            text: translate.position,
+            canOrder: true
+        }, {
+            name: 'numParticipations',
+            text: translate.votes,
+            canOrder: true
+        }
 
         ];
         if (census.quorumPrototype === 1) {
@@ -112,109 +102,117 @@ class CensusParticipants extends Component {
             </Grid>
             {!!censusParticipants &&
 
-                <EnhancedTable
-                    headers={headers}
-                    translate={translate}
-                    defaultFilter={'fullName'}
-                    defaultLimit={PARTICIPANTS_LIMITS[ 0 ]}
-                    limits={PARTICIPANTS_LIMITS}
-                    page={1}
-                    loading={loading}
-                    length={censusParticipants.list.length}
-                    total={censusParticipants.total}
-                    fields={[ {
-                        value: 'fullName',
-                        translation: translate.participant_data
-                    }, {
-                        value: 'dni',
-                        translation: translate.dni
-                    }, {
-                        value: 'position',
-                        translation: translate.position
-                    } ]}
-                    refetch={this.props.data.refetch}
-                    action={this._renderDeleteIcon}
-                >
-                    {censusParticipants.list.map((participant) => {
-                        return (
-                            <Fragment>
-                                <TableRow
-                                    onClick={()=> this.editParticipant(participant)}
-                                    style={{cursor: 'pointer'}}
-                                    key={`censusParticipant_${participant.id}`}>
-                                    <TableCell>
-                                        {`${participant.name} ${participant.surname}`}
-                                    </TableCell>
-                                    <TableCell>
-                                        {participant.dni}
-                                    </TableCell>
-                                    {/*<TableCell>{participant.email}</TableCell>*/}
-                                    {/*<TableCell>{participant.phone}</TableCell>*/}
-                                    <TableCell>
-                                        {participant.position}
-                                    </TableCell>
-                                    <TableCell>
-                                        {participant.numParticipations}
-                                    </TableCell>
-                                    {census.quorumPrototype === 1 &&
+            <EnhancedTable
+                headers={headers}
+                translate={translate}
+                defaultFilter={'fullName'}
+                defaultLimit={PARTICIPANTS_LIMITS[ 0 ]}
+                limits={PARTICIPANTS_LIMITS}
+                page={1}
+                loading={loading}
+                length={censusParticipants.list.length}
+                total={censusParticipants.total}
+                fields={[ {
+                    value: 'fullName',
+                    translation: translate.participant_data
+                }, {
+                    value: 'dni',
+                    translation: translate.dni
+                }, {
+                    value: 'position',
+                    translation: translate.position
+                } ]}
+                refetch={this.props.data.refetch}
+                action={this._renderDeleteIcon}
+            >
+                {censusParticipants.list.map((participant) => {
+                    return (<Fragment>
+                            <TableRow
+                                onClick={() => this.editParticipant(participant)}
+                                style={{ cursor: 'pointer' }}
+                                key={`censusParticipant_${participant.id}`}>
+                                <TableCell>
+                                    {`${participant.name} ${participant.surname}`}
+                                </TableCell>
+                                <TableCell>
+                                    {participant.dni}
+                                </TableCell>
+                                {/*<TableCell>{participant.email}</TableCell>*/}
+                                {/*<TableCell>{participant.phone}</TableCell>*/}
+                                <TableCell>
+                                    {participant.position}
+                                </TableCell>
+                                <TableCell>
+                                    {participant.numParticipations}
+                                </TableCell>
+                                {census.quorumPrototype === 1 &&
 
-                                    <TableCell>
-                                        {participant.socialCapital}
-                                    </TableCell>
-
-                                    }
-                                    <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>
-                                </TableRow>
-                                {!!participant.representative &&
-                                <TableRow
-                                    hover={true}
-                                    style={{cursor: 'pointer', backgroundColor: 'WhiteSmoke'}}
-                                    // onClick={() => this.setState({editParticipant: true, editIndex: index})}
-                                >
-                                    <TableCell>
-                                        <div style={{fontSize: '0.9em', width: '100%'}}>
-                                            {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                        <div style={{fontSize: '0.9em', width: '100%'}}>
-                                            {participant.representative.dni}
-                                        </div>
-                                    </TableCell>
-                                    {/*<TableCell>*/}
-                                        {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
-                                            {/*{participant.representative.email}*/}
-                                        {/*</div>*/}
-                                    {/*</TableCell>*/}
-                                    {/*<TableCell>*/}
-                                        {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
-                                            {/*{participant.representative.phone}*/}
-                                        {/*</div>*/}
-                                    {/*</TableCell>*/}
-                                    <TableCell>
-                                        <div style={{fontSize: '0.9em', width: '100%'}}>
-                                            {participant.representative.position}
-                                        </div>
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                    <TableCell>
-                                    </TableCell>
-                                    {census.quorumPrototype === 1 &&
-
-                                    <TableCell>
-                                    </TableCell>
-
-                                    }
-
-                                </TableRow>
+                                <TableCell>
+                                    {participant.socialCapital}
+                                </TableCell>
 
                                 }
-                            </Fragment>
-                            )
-                    })}
-                </EnhancedTable>
-            }
+                                <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>
+                            </TableRow>
+                            {!!participant.representative && <TableRow
+                                hover={true}
+                                style={{
+                                    cursor: 'pointer',
+                                    backgroundColor: 'WhiteSmoke'
+                                }}
+                                // onClick={() => this.setState({editParticipant: true, editIndex: index})}
+                            >
+                                <TableCell>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        width: '100%'
+                                    }}>
+                                        {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        width: '100%'
+                                    }}>
+                                        {participant.representative.dni}
+                                    </div>
+                                </TableCell>
+                                {/*<TableCell>*/}
+                                {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
+                                {/*{participant.representative.email}*/}
+                                {/*</div>*/}
+                                {/*</TableCell>*/}
+                                {/*<TableCell>*/}
+                                {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
+                                {/*{participant.representative.phone}*/}
+                                {/*</div>*/}
+                                {/*</TableCell>*/}
+                                <TableCell>
+                                    <div style={{
+                                        fontSize: '0.9em',
+                                        width: '100%'
+                                    }}>
+                                        {participant.representative.position}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                <TableCell>
+                                </TableCell>
+                                {census.quorumPrototype === 1 &&
+
+                                <TableCell>
+                                </TableCell>
+
+                                }
+
+                            </TableRow>
+
+                            }
+                        </Fragment>)
+                })}
+            </EnhancedTable>}
             <CensusParticipantEditor
                 translate={translate}
                 close={this.closeParticipantEditor}

@@ -159,17 +159,17 @@ class CompanySettingsPage extends Component {
         const data = this.state.data;
         let hasError = false;
 
-        if (!data.businessName.length > 0) {
+        if (!data.businessName) {
             hasError = true;
             errors.businessName = translate.field_required;
         }
 
-        if (!data.alias.length > 0) {
+        if (!data.alias) {
             hasError = true;
             errors.alias = translate.field_required;
         }
 
-        if (!data.tin.length > 0) {
+        if (!data.tin) {
             hasError = true;
             errors.tin = translate.field_required;
         }

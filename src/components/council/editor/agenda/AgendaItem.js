@@ -65,7 +65,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
                             }}
                             onClick={(event) => {
                                 event.stopPropagation();
-                                saveAsDraft(agenda.orderIndex)
+                                saveAsDraft(agenda.id)
                             }}>
                             <i className="fa fa-save" style={{ color: secondary }}/>
                         </IconButton>

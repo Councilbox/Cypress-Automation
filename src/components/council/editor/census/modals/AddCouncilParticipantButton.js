@@ -1,15 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../displayComponents';
+import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../../displayComponents/index';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../../../styles/colors';
-import { addCensusParticipant } from '../../../../queries/census';
-import { languages } from '../../../../queries/masters';
-import { censusHasParticipations } from '../../../../utils/CBX';
-import RepresentativeForm from './RepresentativeForm';
-import ParticipantForm from "../../../council/participants/ParticipantForm";
-import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../utils/validation";
+import { getPrimary } from '../../../../../styles/colors';
+import { addParticipant } from '../../../../../queries/councilParticipant';
+import { languages } from '../../../../../queries/masters';
+import ParticipantForm from "../../../participants/ParticipantForm";
+import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../../utils/validation";
+import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 
-class AddCensusParticipantButton extends Component {
+class AddCouncilParticipantButton extends Component {
 
     constructor(props) {
         super(props);
@@ -22,21 +21,19 @@ class AddCensusParticipantButton extends Component {
         }
     }
 
-    addCensusParticipant = async () => {
+    addParticipant = async () => {
         const { hasRepresentative, ...data } = this.state.representative;
         const representative = this.state.representative.hasRepresentative ? {
             ...data,
-            companyId: this.props.census.companyId,
-            censusId: this.props.census.id
+            councilId: this.props.councilId
         } : null;
 
         if (!this.checkRequiredFields()) {
-            const response = await this.props.addCensusParticipant({
+            const response = await this.props.addParticipant({
                 variables: {
                     participant: {
                         ...this.state.data,
-                        companyId: this.props.census.companyId,
-                        censusId: this.props.census.id
+                        councilId: this.props.councilId
                     },
                     representative: representative
                 }
@@ -58,8 +55,8 @@ class AddCensusParticipantButton extends Component {
     checkRequiredFields() {
         const participant = this.state.data;
         const representative = this.state.representative;
-        const { translate } = this.props;
-        let hasSocialCapital = censusHasParticipations(this.props.census);
+        const { translate, participations } = this.props;
+        let hasSocialCapital = participations;
         let errorsParticipant = checkRequiredFieldsParticipant(participant, translate, hasSocialCapital);
 
         let errorsRepresentative = {
@@ -100,13 +97,13 @@ class AddCensusParticipantButton extends Component {
     _renderBody() {
         const participant = this.state.data;
         const errors = this.state.errors;
-        const { translate } = this.props;
+        const { translate, participations } = this.props;
         const { languages } = this.props.data;
         return (<Fragment>
             <ParticipantForm
                 type={participant.personOrEntity}
                 participant={participant}
-                participations={censusHasParticipations(this.props.census)}
+                participations={participations}
                 translate={translate}
                 languages={languages}
                 errors={errors}
@@ -148,7 +145,7 @@ class AddCensusParticipantButton extends Component {
                 requestClose={() => this.setState({ modal: false })}
                 open={this.state.modal}
                 fullWidth={false}
-                acceptAction={this.addCensusParticipant}
+                acceptAction={this.addParticipant}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderBody()}
@@ -159,12 +156,12 @@ class AddCensusParticipantButton extends Component {
 
 }
 
-export default compose(graphql(addCensusParticipant, {
-    name: 'addCensusParticipant',
+export default compose(graphql(addParticipant, {
+    name: 'addParticipant',
     options: {
         errorPolicy: 'all'
     }
-}), graphql(languages))(AddCensusParticipantButton);
+}), graphql(languages))(AddCouncilParticipantButton);
 
 const initialParticipant = {
     name: '',

@@ -243,6 +243,7 @@ export default withSharedProps()(compose(graphql(platformDrafts, {
     options: props => ({
         variables: {
             companyId: props.company.id,
+            companyType: props.company.type,
             options: {
                 limit: DRAFTS_LIMITS[ 0 ],
                 offset: 0

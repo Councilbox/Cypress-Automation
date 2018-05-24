@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm, TextInput, SelectInput } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, AlertConfirm, TextInput, SelectInput, Grid, GridItem } from '../../../displayComponents';
 import { MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { getPrimary } from '../../../styles/colors';
@@ -66,9 +66,9 @@ class AddCensusButton extends Component {
         const census = this.state.data;
         
         return(
-            <Fragment>
-                <div className="row"> 
-                    <div className="col-lg-6 col-md-6 col-xs-12">
+            <div style={{minWidth: '800px'}}>
+                <Grid>
+                    <GridItem xs={6}>
                         <TextInput
                             floatingText={translate.name}
                             required
@@ -81,36 +81,37 @@ class AddCensusButton extends Component {
                                 })
                             }}
                         />
-                    </div>
-                    <div className="col-lg-6 col-md-6 col-xs-12">
+                    </GridItem>
+                    <GridItem xs={6}>
                         <SelectInput
                             floatingText={translate.census_type}
                             value={census.quorumPrototype}
                             onChange={(event) => {
                                 this.updateState({
                                     quorumPrototype: event.target.value
-                                }) 
+                                })
                             }}
                         >
                             <MenuItem value={0}>{translate.census_type_assistants}</MenuItem>
-                            <MenuItem value={1}>{translate.social_capital}</MenuItem>    
+                            <MenuItem value={1}>{translate.social_capital}</MenuItem>
                         </SelectInput>
-                    </div>
-                </div>
-
-                <TextInput
-                    floatingText={translate.description}
-                    required
-                    type="text"
-                    errorText={errors.censusDescription}
-                    value={census.censusDescription}
-                    onChange={(event) => {
-                        this.updateState({
-                            censusDescription: event.target.value
-                        })
-                    }}
-                />
-            </Fragment>
+                    </GridItem>
+                    <GridItem xs={12}>
+                        <TextInput
+                            floatingText={translate.description}
+                            required
+                            type="text"
+                            errorText={errors.censusDescription}
+                            value={census.censusDescription}
+                            onChange={(event) => {
+                                this.updateState({
+                                    censusDescription: event.target.value
+                                })
+                            }}
+                        />
+                    </GridItem>
+                </Grid>
+            </div>
         );
     };
 

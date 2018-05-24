@@ -5,35 +5,9 @@ import { getPrimary, getSecondary } from '../styles/colors';
 import FontAwesome from 'react-fontawesome';
 
 
-const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel, scrollable = false, modal, open, requestClose, acceptAction, bodyText, hideAccept }) => {
-    const primary = getPrimary();
-    const buttons = <Fragment>
-        {!!buttonCancel && <BasicButton
-            text={buttonCancel}
-            textStyle={{
-                textTransform: 'none',
-                fontWeight: '700'
-            }}
-            primary={true}
-            onClick={requestClose}
-        />}
-
-        {!hideAccept && !!buttonAccept && <BasicButton
-            text={buttonAccept}
-            textStyle={{
-                color: 'white',
-                textTransform: 'none',
-                fontWeight: '700'
-            }}
-            buttonStyle={{ marginLeft: '1em' }}
-            color={primary}
-            onClick={acceptAction}
-        />}
-
-    </Fragment>;
-
+const CustomDialog = ({ title, fullWidth = false, fullScreen = false, requestClose, scrollable = false, disableBackdropClick = false, open, actions, children, ...restProps}) => {
     return (<Dialog
-        disableBackdropClick={modal}
+        disableBackdropClick={disableBackdropClick}
         fullWidth={fullWidth}
         fullScreen={fullScreen}
         maxWidth={false}
@@ -62,14 +36,15 @@ const AlertConfirm = ({ title, fullWidth, fullScreen, buttonAccept, buttonCancel
             minWidth: '40vw',
             maxWidth: '95vw'
         }}>
-            {bodyText}
+            {children}
         </DialogContent>
         <DialogActions style={{
             paddingRight: '0.6em',
+            textAlign: 'right'
         }}>
-            {buttons}
+            {actions}
         </DialogActions>
     </Dialog>);
 };
 
-export default AlertConfirm;
+export default CustomDialog;
