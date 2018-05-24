@@ -1,12 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../displayComponents/index';
+import { BasicButton, ButtonIcon, CustomDialog } from '../../../../displayComponents/index';
 import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../../../styles/colors';
+import { getPrimary, secondary } from '../../../../styles/colors';
 import { languages } from '../../../../queries/masters';
 import ParticipantForm from "../../participants/ParticipantForm";
 import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
-import { updateConvenedParticipant } from "../../../../queries/councilParticipant";
+import { upsertConvenedParticipant } from "../../../../queries/councilParticipant";
+
 
 class ConvenedParticipantEditor extends Component {
 
@@ -41,7 +42,7 @@ class ConvenedParticipantEditor extends Component {
         }
     }
 
-    updateConvenedParticipant = async () => {
+    updateConvenedParticipant = async (sendConvene) => {
         const { hasRepresentative, ...data } = this.state.representative;
         const representative = this.state.representative.hasRepresentative ? {
             ...data,
@@ -55,7 +56,8 @@ class ConvenedParticipantEditor extends Component {
                         ...this.state.data,
                         councilId: this.props.councilId
                     },
-                    representative: representative
+                    representative: representative,
+                    sendConvene: sendConvene
                 }
             });
             if (!response.errors) {
@@ -107,51 +109,70 @@ class ConvenedParticipantEditor extends Component {
         })
     };
 
-    _renderBody() {
+    render() {
+        const primary = getPrimary();
         const participant = this.state.data;
         const { representative, errors, representativeErrors } = this.state;
         const { translate, participations } = this.props;
         const { languages } = this.props.data;
-        return (<Fragment>
-            <ParticipantForm
-                type={participant.personOrEntity}
-                participant={participant}
-                participations={participations}
-                translate={translate}
-                languages={languages}
-                errors={errors}
-                updateState={this.updateState}
-            />
-            <RepresentativeForm
-                translate={translate}
-                state={representative}
-                updateState={this.updateRepresentative}
-                errors={representativeErrors}
-                languages={languages}
-            />
-        </Fragment>)
-    }
 
-    render() {
-        const { translate } = this.props;
-        const primary = getPrimary();
-
-        return (<Fragment>
-            <AlertConfirm
+        return (<CustomDialog
+                title={translate.edit_participant}
                 requestClose={() => this.props.close()}
                 open={this.props.opened}
-                fullWidth={false}
-                acceptAction={this.updateConvenedParticipant}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderBody()}
-                title={translate.edit_participant}
-            />
-        </Fragment>)
+                actions = {<Fragment>
+                    <BasicButton
+                        text={translate.cancel}
+                        textStyle={{
+                            textTransform: 'none',
+                            fontWeight: '700'
+                        }}
+                        onClick={this.props.close}
+                    />
+                    <BasicButton
+                        text={translate.save_changes_and_send}
+                        textStyle={{
+                            color: 'white',
+                            textTransform: 'none',
+                            fontWeight: '700'
+                        }}
+                        buttonStyle={{ marginLeft: '1em' }}
+                        color={secondary}
+                        onClick={()=>{this.updateConvenedParticipant(true)}}
+                    />
+                    <BasicButton
+                        text={translate.save_changes}
+                        textStyle={{
+                            color: 'white',
+                            textTransform: 'none',
+                            fontWeight: '700'
+                        }}
+                        buttonStyle={{ marginLeft: '1em' }}
+                        color={primary}
+                        onClick={()=>{this.updateConvenedParticipant(false)}}
+                    />
+                </Fragment>}>
+                <ParticipantForm
+                    type={participant.personOrEntity}
+                    participant={participant}
+                    participations={participations}
+                    translate={translate}
+                    languages={languages}
+                    errors={errors}
+                    updateState={this.updateState}
+                />
+                <RepresentativeForm
+                    translate={translate}
+                    state={representative}
+                    updateState={this.updateRepresentative}
+                    errors={representativeErrors}
+                    languages={languages}
+                />
+            </CustomDialog>)
     }
 }
 
-export default compose(graphql(updateConvenedParticipant, {
+export default compose(graphql(upsertConvenedParticipant, {
     name: 'updateConvenedParticipant',
     options: {
         errorPolicy: 'all'

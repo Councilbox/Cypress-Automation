@@ -42,3 +42,4 @@ export { default as ThemeProvider } from './ThemeProvider';
 export { default as Tooltip } from './Tooltip';
 export { default as VTabs } from './VTabs';
 export { default as AllSelector } from './AllSelector';
+export { default as CustomDialog } from './CustomDialog';
