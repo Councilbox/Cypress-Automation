@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, CustomDialog } from '../../../../displayComponents/index';
-import { graphql, compose } from 'react-apollo';
+import { BasicButton, CustomDialog } from '../../../../displayComponents/index';
+import { compose, graphql } from 'react-apollo';
 import { getPrimary, secondary } from '../../../../styles/colors';
 import { languages } from '../../../../queries/masters';
 import ParticipantForm from "../../participants/ParticipantForm";
@@ -10,37 +10,6 @@ import { upsertConvenedParticipant } from "../../../../queries/councilParticipan
 
 
 class ConvenedParticipantEditor extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false,
-            data: {},
-            representative: {},
-            errors: {},
-            representativeErrors: {}
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState){
-        let { representative, ...participant} = extractTypeName(nextProps.participant);
-
-
-        representative = representative ? {
-            hasRepresentative: true,
-            ...extractTypeName(representative)
-        } : initialRepresentative;
-
-        delete representative.live;
-        delete representative.notifications;
-        delete participant.live;
-        delete participant.notifications;
-
-        return {
-            data: participant,
-            representative: representative
-        }
-    }
 
     updateConvenedParticipant = async (sendConvene) => {
         const { hasRepresentative, ...data } = this.state.representative;
@@ -66,6 +35,50 @@ class ConvenedParticipantEditor extends Component {
             }
         }
     };
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data, ...object
+            }
+        });
+    };
+    updateRepresentative = (object) => {
+        this.setState({
+            representative: {
+                ...this.state.representative, ...object
+            }
+        })
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            modal: false,
+            data: {},
+            representative: {},
+            errors: {},
+            representativeErrors: {}
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let { representative, ...participant } = extractTypeName(nextProps.participant);
+
+
+        representative = representative ? {
+            hasRepresentative: true, ...extractTypeName(representative)
+        } : initialRepresentative;
+
+        delete representative.live;
+        delete representative.notifications;
+        delete participant.live;
+        delete participant.notifications;
+
+        return {
+            data: participant,
+            representative: representative
+        }
+    }
 
     checkRequiredFields() {
         const participant = this.state.data;
@@ -78,7 +91,7 @@ class ConvenedParticipantEditor extends Component {
             errors: {},
             hasError: false
         };
-        if(representative.hasRepresentative){
+        if (representative.hasRepresentative) {
             errorsRepresentative = checkRequiredFieldsRepresentative(representative, translate);
         }
 
@@ -91,24 +104,6 @@ class ConvenedParticipantEditor extends Component {
         return (errorsParticipant.hasError || errorsRepresentative.hasError);
     }
 
-    updateState = (object) => {
-        this.setState({
-            data: {
-                ...this.state.data,
-                ...object
-            }
-        });
-    };
-
-    updateRepresentative = (object) => {
-        this.setState({
-            representative: {
-                ...this.state.representative,
-                ...object
-            }
-        })
-    };
-
     render() {
         const primary = getPrimary();
         const participant = this.state.data;
@@ -117,58 +112,62 @@ class ConvenedParticipantEditor extends Component {
         const { languages } = this.props.data;
 
         return (<CustomDialog
-                title={translate.edit_participant}
-                requestClose={() => this.props.close()}
-                open={this.props.opened}
-                actions = {<Fragment>
-                    <BasicButton
-                        text={translate.cancel}
-                        textStyle={{
-                            textTransform: 'none',
-                            fontWeight: '700'
-                        }}
-                        onClick={this.props.close}
-                    />
-                    <BasicButton
-                        text={translate.save_changes_and_send}
-                        textStyle={{
-                            color: 'white',
-                            textTransform: 'none',
-                            fontWeight: '700'
-                        }}
-                        buttonStyle={{ marginLeft: '1em' }}
-                        color={secondary}
-                        onClick={()=>{this.updateConvenedParticipant(true)}}
-                    />
-                    <BasicButton
-                        text={translate.save_changes}
-                        textStyle={{
-                            color: 'white',
-                            textTransform: 'none',
-                            fontWeight: '700'
-                        }}
-                        buttonStyle={{ marginLeft: '1em' }}
-                        color={primary}
-                        onClick={()=>{this.updateConvenedParticipant(false)}}
-                    />
-                </Fragment>}>
-                <ParticipantForm
-                    type={participant.personOrEntity}
-                    participant={participant}
-                    participations={participations}
-                    translate={translate}
-                    languages={languages}
-                    errors={errors}
-                    updateState={this.updateState}
+            title={translate.edit_participant}
+            requestClose={() => this.props.close()}
+            open={this.props.opened}
+            actions={<Fragment>
+                <BasicButton
+                    text={translate.cancel}
+                    textStyle={{
+                        textTransform: 'none',
+                        fontWeight: '700'
+                    }}
+                    onClick={this.props.close}
                 />
-                <RepresentativeForm
-                    translate={translate}
-                    state={representative}
-                    updateState={this.updateRepresentative}
-                    errors={representativeErrors}
-                    languages={languages}
+                <BasicButton
+                    text={translate.save_changes_and_send}
+                    textStyle={{
+                        color: 'white',
+                        textTransform: 'none',
+                        fontWeight: '700'
+                    }}
+                    buttonStyle={{ marginLeft: '1em' }}
+                    color={secondary}
+                    onClick={() => {
+                        this.updateConvenedParticipant(true)
+                    }}
                 />
-            </CustomDialog>)
+                <BasicButton
+                    text={translate.save_changes}
+                    textStyle={{
+                        color: 'white',
+                        textTransform: 'none',
+                        fontWeight: '700'
+                    }}
+                    buttonStyle={{ marginLeft: '1em' }}
+                    color={primary}
+                    onClick={() => {
+                        this.updateConvenedParticipant(false)
+                    }}
+                />
+            </Fragment>}>
+            <ParticipantForm
+                type={participant.personOrEntity}
+                participant={participant}
+                participations={participations}
+                translate={translate}
+                languages={languages}
+                errors={errors}
+                updateState={this.updateState}
+            />
+            <RepresentativeForm
+                translate={translate}
+                state={representative}
+                updateState={this.updateRepresentative}
+                errors={representativeErrors}
+                languages={languages}
+            />
+        </CustomDialog>)
     }
 }
 
@@ -191,7 +190,7 @@ const initialRepresentative = {
     dni: '',
 };
 
-function extractTypeName (object) {
-    let {__typename, ...rest} = object;
+function extractTypeName(object) {
+    let { __typename, ...rest } = object;
     return rest;
 }

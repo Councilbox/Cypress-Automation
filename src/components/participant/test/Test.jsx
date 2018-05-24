@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux';
 import Header from './Header.jsx';
 import Iframe from '../../Iframe';
 import NeedHelpModal from './NeedHelpModal.jsx';
-import { LoadingMainApp, BasicButton, ButtonIcon } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, LoadingMainApp } from '../../../displayComponents';
 import { primary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -28,8 +28,19 @@ const styles = {
 }
 
 
-
 class Test extends Component {
+
+    // MODAL
+    openModal = () => {
+        this.setState({
+            modal: true
+        });
+    }
+    closeModal = () => {
+        this.setState({
+            modal: false
+        });
+    }
 
     constructor(props) {
         super(props);
@@ -43,17 +54,17 @@ class Test extends Component {
         }
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
+    static getDerivedStateFromProps(nextProps, prevState) {
         if (prevState.language === nextProps.translate.selectedLanguage) {
             return {
-               loading : false
+                loading: false
             };
         }
 
         return null;
     }
 
-    componentDidMount(){
+    componentDidMount() {
         if (this.state.language !== this.props.translate.selectedLanguage) {
             this.props.actions.setLanguage(this.props.match.params.language)
         }
@@ -66,88 +77,79 @@ class Test extends Component {
         });
     }
 
-    // MODAL
-    openModal = () => {
-        this.setState({
-            modal: true
-        });
-    }
-
-    closeModal = () => {
-        this.setState({
-            modal: false
-        });
-    }
-
     render() {
         const { translate, windowSize, getTestIframe } = this.props;
         const { detectRTC, isiOSDevice, iframeRandomValue } = this.state;
 
-        if(this.state.loading) return(<LoadingMainApp/>);
+        if (this.state.loading) {
+            return (<LoadingMainApp/>);
+        }
 
-        return (
-            <div style={styles.viewContainer}>
-                <Header helpModal={true} helpModalAction={this.openModal}/>
-                
-                <div style={styles.container}>
-                    {isiOSDevice ? 
-                        <div style={{padding: '20px'}}>
-                            <div style={{textAlign: 'center'}}>
-                                <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{fontSize: '40px'}}></i>
-                                <h4 style={{marginTop: '0px'}}>{translate.app_required}</h4>
-                            </div>
+        return (<div style={styles.viewContainer}>
+            <Header helpModal={true} helpModalAction={this.openModal}/>
 
-                            <p>
-                                {translate.app_required_msg}
-                            </p>
+            <div style={styles.container}>
+                {isiOSDevice ? <div style={{ padding: '20px' }}>
+                    <div style={{ textAlign: 'center' }}>
+                        <i className="fa fa-exclamation-triangle" aria-hidden="true"
+                           style={{ fontSize: '40px' }}></i>
+                        <h4 style={{ marginTop: '0px' }}>{translate.app_required}</h4>
+                    </div>
 
-                            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                <a 
-                                    href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8" 
-                                    style={{
-                                        display: 'inline-block', 
-                                        overflow: 'hidden', 
-                                        background: 'url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat',
-                                        width: '135px',
-                                        height: '40px',
-                                        backgroundSize: 'contain'
-                                    }}
-                                >
-                                </a>
-                            </div>
-                        </div>
-                        :
-                        <Iframe src={`https://${getTestIframe.participantTestIframe}?rand=${iframeRandomValue}`} />
-                    }
+                    <p>
+                        {translate.app_required_msg}
+                    </p>
 
-                    {windowSize !== 'xs' &&
-                        <BasicButton
-                            text={translate.need_help}
-                            color={'white'}
-                            textStyle={{color: primary, fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
-                            textPosition="after"
-                            icon={<ButtonIcon type="message" color={primary} style={{marginLeft: '15px'}}/>}
-                            onClick={() => this.setState({modal: true})}
-                            buttonStyle={{
-                                marginRight: '1em', 
-                                border: `2px solid ${primary}`, 
-                                boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-                                position: 'absolute', 
-                                bottom: '40px',
-                                right: '40px'
+                    <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}>
+                        <a
+                            href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8"
+                            style={{
+                                display: 'inline-block',
+                                overflow: 'hidden',
+                                background: 'url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat',
+                                width: '135px',
+                                height: '40px',
+                                backgroundSize: 'contain'
                             }}
-                        /> 
-                    }
-                </div>
+                        >
+                        </a>
+                    </div>
+                </div> : <Iframe src={`https://${getTestIframe.participantTestIframe}?rand=${iframeRandomValue}`}/>}
 
-                <NeedHelpModal 
-                    show = { this.state.modal } 
-                    translate = { translate }
-                    requestClose = { this.closeModal }    
-                    detectRTC = { detectRTC }
-                />
-            </div>            
-        );
+                {windowSize !== 'xs' && <BasicButton
+                    text={translate.need_help}
+                    color={'white'}
+                    textStyle={{
+                        color: primary,
+                        fontWeight: '700',
+                        fontSize: '0.9em',
+                        textTransform: 'none'
+                    }}
+                    textPosition="after"
+                    icon={<ButtonIcon type="message" color={primary} style={{ marginLeft: '15px' }}/>}
+                    onClick={() => this.setState({ modal: true })}
+                    buttonStyle={{
+                        marginRight: '1em',
+                        border: `2px solid ${primary}`,
+                        boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+                        position: 'absolute',
+                        bottom: '40px',
+                        right: '40px'
+                    }}
+                />}
+            </div>
+
+            <NeedHelpModal
+                show={this.state.modal}
+                translate={translate}
+                requestClose={this.closeModal}
+                detectRTC={detectRTC}
+            />
+        </div>);
     }
 }
 

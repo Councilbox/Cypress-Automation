@@ -5,8 +5,7 @@ export default function userReducer(state = initialState.user, action) {
 
         case 'SET_USER_DATA':
             return {
-                ...state,
-                ...action.value
+                ...state, ...action.value
             }
 
         default:

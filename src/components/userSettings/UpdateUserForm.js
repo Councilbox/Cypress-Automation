@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { MenuItem, Typography } from 'material-ui';
 import { checkValidEmail } from '../../utils';
-import { BasicButton, ButtonIcon, SelectInput, TextInput, Grid, GridItem } from '../../displayComponents';
+import { BasicButton, ButtonIcon, Grid, GridItem, SelectInput, TextInput } from '../../displayComponents';
 import { updateUser } from '../../queries';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';
@@ -10,31 +10,6 @@ import { getPrimary } from '../../styles/colors';
 
 
 class UpdateUserForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: this.props.user,
-            error: false,
-            loading: false,
-            success: false,
-            errors: {}
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            data: nextProps.user
-        });
-    }
-
-    updateState(newValues) {
-        this.setState({
-            data: {
-                ...this.state.data, ...newValues
-            }
-        });
-    }
-
     saveUser = async () => {
         if (!this.checkRequiredFields()) {
             this.setState({
@@ -64,6 +39,38 @@ class UpdateUserForm extends React.Component {
         }
 
     };
+    resetButtonStates = () => {
+        this.setState({
+            error: false,
+            loading: false,
+            success: false
+        });
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: this.props.user,
+            error: false,
+            loading: false,
+            success: false,
+            errors: {}
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            data: nextProps.user
+        });
+    }
+
+    updateState(newValues) {
+        this.setState({
+            data: {
+                ...this.state.data, ...newValues
+            }
+        });
+    }
 
     checkRequiredFields() {
         const { translate } = this.props;
@@ -110,14 +117,6 @@ class UpdateUserForm extends React.Component {
         });
         return hasError;
     }
-
-    resetButtonStates = () => {
-        this.setState({
-            error: false,
-            loading: false,
-            success: false
-        });
-    };
 
     render() {
         const { translate } = this.props;

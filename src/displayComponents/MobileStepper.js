@@ -9,7 +9,7 @@ const MStepper = ({ active, total, handleNext, handlePrevious }) => (
         position="static"
         steps={total}
         activeStep={active}
-        classes={{margin: '0 auto'}}
+        classes={{ margin: '0 auto' }}
     />
 
 );

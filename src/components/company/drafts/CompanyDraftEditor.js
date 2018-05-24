@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { CardPageLayout, BasicButton, ButtonIcon } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, CardPageLayout } from '../../../displayComponents';
 import CompanyDraftForm from './CompanyDraftForm';
 import withTranslations from '../../../HOCs/withTranslations';
 import { graphql } from 'react-apollo';
 import { getCompanyDraftData, updateCompanyDraft } from '../../../queries/companyDrafts';
-import gql from "graphql-tag";
 import { compose } from "react-apollo/index";
 import { checkRequiredFields } from "../../../utils/CBX";
 import { withRouter } from "react-router-dom";
@@ -13,36 +12,19 @@ import { getPrimary } from "../../../styles/colors";
 
 class CompanyDraftEditor extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: {},
-            errors: {}
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState) {
-        return {
-            data: nextProps.data.companyDraft
-        }
-    }
-
     updateState = (object) => {
         this.setState({
             data: {
-                ...this.state.data,
-                ...object
+                ...this.state.data, ...object
             },
             success: false
         })
     };
-
     updateErrors = (errors) => {
         this.setState({
             errors
         });
     };
-
     updateCompanyDraft = async () => {
         const { translate } = this.props;
         const { data } = this.state;
@@ -68,10 +50,27 @@ class CompanyDraftEditor extends Component {
             });
 
             if (!response.errors) {
-                this.setState({ success: true, loading: false });
+                this.setState({
+                    success: true,
+                    loading: false
+                });
             }
         }
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {},
+            errors: {}
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+            data: nextProps.data.companyDraft
+        }
+    }
 
     render() {
         const { translate } = this.props;

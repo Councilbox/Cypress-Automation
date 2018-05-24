@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Grid, GridItem } from './index';
+import { Grid, GridItem, TextInput } from './index';
 import * as CBX from '../utils/CBX';
 
 const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style, majorityError, dividerError }) => {
@@ -67,7 +67,7 @@ const MajorityInput = ({ type, value, divider, onChange, onChangeDivider, style,
         )
     }
 
-    return (<div> </div>);
+    return (<div></div>);
 };
 
 export default MajorityInput;

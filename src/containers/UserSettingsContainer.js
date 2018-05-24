@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import UserSettingsPage from '../components/userSettings/UserSettingsPage';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 class UserSettingsContainer extends Component {
 
     render() {
-        return (
-            <UserSettingsPage
-                main={this.props.main}
-                translate={this.props.translate}
-                user={this.props.user}
-            />
-        );
+        return (<UserSettingsPage
+            main={this.props.main}
+            translate={this.props.translate}
+            user={this.props.user}
+        />);
     }
 }
 

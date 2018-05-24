@@ -1,27 +1,12 @@
 import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
-import { TextInput, BasicButton, ButtonIcon, Grid, GridItem } from '../../displayComponents';
+import { BasicButton, ButtonIcon, Grid, GridItem, TextInput } from '../../displayComponents';
 import { Typography } from 'material-ui';
 import { getPrimary } from '../../styles/colors';
 import { updatePassword } from '../../queries';
 
 
 class ChangePasswordForm extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            success: false,
-            loading: false,
-            error: false,
-            data: {
-                currentPassword: '',
-                newPassword: '',
-                newPasswordConfirm: ''
-            },
-            errors: {}
-        }
-    }
 
     updatePassword = async () => {
         const { data } = this.state;
@@ -50,6 +35,37 @@ class ChangePasswordForm extends Component {
             }
         }
     };
+    handleKeyUp = (event) => {
+        if (event.nativeEvent.keyCode === 13) {
+            this.updatePassword();
+        }
+        this.setState({
+            success: false,
+            error: false
+        });
+    };
+    resetButtonStates = () => {
+        this.setState({
+            error: false,
+            loading: false,
+            success: false
+        });
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            success: false,
+            loading: false,
+            error: false,
+            data: {
+                currentPassword: '',
+                newPassword: '',
+                newPasswordConfirm: ''
+            },
+            errors: {}
+        }
+    }
 
     checkChangePassword() {
         const { translate } = this.props;
@@ -84,16 +100,6 @@ class ChangePasswordForm extends Component {
         return hasError;
     }
 
-    handleKeyUp = (event) => {
-        if (event.nativeEvent.keyCode === 13) {
-            this.updatePassword();
-        }
-        this.setState({
-            success: false,
-            error: false
-        });
-    };
-
     updateState(newValues) {
         this.setState({
             data: {
@@ -108,14 +114,6 @@ class ChangePasswordForm extends Component {
             loading: false
         });
     }
-
-    resetButtonStates = () => {
-        this.setState({
-            error: false,
-            loading: false,
-            success: false
-        });
-    };
 
     render() {
         const { translate } = this.props;

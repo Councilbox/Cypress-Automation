@@ -78,33 +78,6 @@ class CompanyMenu extends React.Component {
             submenus: []
         } ];
     };
-
-
-    _renderMenuIcon(text, icon) {
-        return (<MenuItem style={{
-                color: 'white',
-                border: '1px solid black',
-                fontSize: '0.85em',
-                display: 'flex',
-                justifyContent: 'space-between'
-            }}>
-                {this.props.toggled && text}
-                <Tooltip text={text} position="right">
-                    <Icon
-                        className="material-icons"
-                        style={{
-                            fontSize: '2em',
-                            color: 'white',
-                            float: 'right',
-                            marginVertical: 'auto'
-                        }}
-                    >
-                        {icon}
-                    </Icon>
-                </Tooltip>
-            </MenuItem>);
-    }
-
     changeCompany = (index) => {
         this.setState({
             popover: false
@@ -112,51 +85,76 @@ class CompanyMenu extends React.Component {
         this.props.changeCompany(index);
     };
 
+    _renderMenuIcon(text, icon) {
+        return (<MenuItem style={{
+            color: 'white',
+            border: '1px solid black',
+            fontSize: '0.85em',
+            display: 'flex',
+            justifyContent: 'space-between'
+        }}>
+            {this.props.toggled && text}
+            <Tooltip text={text} position="right">
+                <Icon
+                    className="material-icons"
+                    style={{
+                        fontSize: '2em',
+                        color: 'white',
+                        float: 'right',
+                        marginVertical: 'auto'
+                    }}
+                >
+                    {icon}
+                </Icon>
+            </Tooltip>
+        </MenuItem>);
+    }
+
     render() {
         const sections = this.getSections();
         const { company, companies } = this.props;
 
         return (<div
-                onClick={!this.props.toggled ? this.props.toggle : () => {
-                }}
+            onClick={!this.props.toggled ? this.props.toggle : () => {
+            }}
+            style={{
+                width: "100%",
+                height: '100%',
+                backgroundColor: darkGrey,
+                color: 'white',
+                overflowY: 'auto',
+                overflowX: 'hidden'
+            }}
+        >
+            <CompanySelector
+                companies={companies}
+                company={company}
+            />
+            {this.props.toggled && <Icon
+                className="material-icons"
+                onClick={this.props.toggle}
                 style={{
-                    width: "100%",
-                    height: '100%',
-                    backgroundColor: darkGrey,
-                    color: 'white',
-                    overflowY: 'auto',
-                    overflowX: 'hidden'
+                    fontSize: '2em',
+                    color: 'white'
                 }}
             >
-                <CompanySelector
-                    companies={companies}
-                    company={company}
-                />
-                {this.props.toggled && <Icon
-                    className="material-icons"
-                    onClick={this.props.toggle}
-                    style={{
-                        fontSize: '2em',
-                        color: 'white'
-                    }}
+                keyboard_backspace
+            </Icon>}
+            {sections.map((section, index) => {
+                return (<Collapsible
+                    trigger={this._renderMenuIcon(section.name, section.icon)}
+                    transitionTime={200}
+                    key={`section${index}`}
                 >
-                    keyboard_backspace
-                </Icon>}
-                {sections.map((section, index) => {
-                    return (<Collapsible
-                            trigger={this._renderMenuIcon(section.name, section.icon)}
-                            transitionTime={200}
-                            key={`section${index}`}
-                        >
-                            {this.props.toggled && section.submenus.map((menu) => {
-                                return (<Link to={menu.link} key={`${menu.name}${index}`}><MenuItem style={{
-                                    color: 'white',
-                                    fontSize: '0.8em'
-                                }}>{menu.name}</MenuItem></Link>)
-                            })}
-                        </Collapsible>);
-                })}
-            </div>);
+                    {this.props.toggled && section.submenus.map((menu) => {
+                        return (<Link to={menu.link} key={`${menu.name}${index}`}><MenuItem style={{
+                            color: 'white',
+                            fontSize: '0.8em'
+                        }}>{menu.name}</MenuItem></Link>)
+                    })}
+                </Collapsible>);
+            })}
+        </div>);
     }
 }
 

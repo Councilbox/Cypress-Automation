@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Grid, GridItem } from './index';
+import { Grid, GridItem, TextInput } from './index';
 import * as CBX from '../utils/CBX';
 
 const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, quorumError, dividerError }) => {
@@ -59,7 +59,7 @@ const QuorumInput = ({ type, value, divider, onChange, onChangeDivider, style, q
         </div>)
     }
 
-    return (<div> </div>);
+    return (<div></div>);
 };
 
 export default QuorumInput;

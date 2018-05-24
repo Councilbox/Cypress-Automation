@@ -12,7 +12,6 @@ import moment from 'moment';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 
 
-
 const CouncilActData = gql `
 query CouncilActData($councilID: Int!, $companyID: Int!) {
     council(id: $councilID) { 
@@ -46,11 +45,6 @@ query CouncilActData($councilID: Int!, $companyID: Int!) {
             prototype
         }
     }
-    companyStatutes(companyId: $companyID){
-        id
-        prototype
-        title
-    }
     votingTypes {
       label
       value
@@ -59,36 +53,6 @@ query CouncilActData($councilID: Int!, $companyID: Int!) {
 `;
 
 class ActEditor extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false,
-            draftType: null,
-            loadDraft: false,
-            errors: {}
-        }
-    }
-
-
-    static getDerivedStateFromProps(nextProps) {
-        if (!nextProps.data.loading) {
-            if (nextProps.data.council) {
-                return {
-                    data: {
-                        council: {
-                            ...nextProps.data.council
-                        }
-                    }
-                }
-
-            }
-        }
-
-        return null;
-
-    }
-
 
     updateAct = (object) => {
         this.setState({
@@ -103,7 +67,6 @@ class ActEditor extends Component {
             }
         });
     };
-
     updateAgenda = (object) => {
         let modifiedAgendas = this.state.data.council.agendas.map((agenda) => {
             if (object.id === agenda.id) {
@@ -125,6 +88,34 @@ class ActEditor extends Component {
             }
         });
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            draftType: null,
+            loadDraft: false,
+            errors: {}
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps) {
+        if (!nextProps.data.loading) {
+            if (nextProps.data.council) {
+                return {
+                    data: {
+                        council: {
+                            ...nextProps.data.council
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return null;
+
+    }
 
     render() {
         const secondary = getSecondary();

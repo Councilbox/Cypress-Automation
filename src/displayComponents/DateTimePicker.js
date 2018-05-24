@@ -1,6 +1,6 @@
 import React from 'react';
 import { DateTimePicker } from 'material-ui-pickers'
-import { IconButton, Icon, InputAdornment, Typography } from 'material-ui';
+import { Icon, IconButton, InputAdornment, Typography } from 'material-ui';
 
 const DateTimePickerWrapper = ({ label, required, onChange, floatingText, format, value, minDate = new Date(), minDateMessage, acceptText, cancelText, errorText }) => (
     <React.Fragment>
@@ -13,23 +13,21 @@ const DateTimePickerWrapper = ({ label, required, onChange, floatingText, format
             cancelLabel={cancelText}
             minDate={minDate}
             InputProps={{
-                endAdornment: (
-                    <InputAdornment position="end">
+                endAdornment: (<InputAdornment position="end">
                     <IconButton>
                         <Icon color="primary">event</Icon>
                     </IconButton>
-                    </InputAdornment>
-                ),
+                </InputAdornment>),
             }}
-            value={!!value? new Date(value).toISOString() : new Date()}
+            value={!!value ? new Date(value).toISOString() : new Date()}
             onChange={onChange}
         />
-        {!!errorText &&
-            <Typography variant="caption" style={{color: 'red', marginTop: '8px'}}>
-                {errorText}
-            </Typography>
-        }
-    </React.Fragment>
-)
+        {!!errorText && <Typography variant="caption" style={{
+            color: 'red',
+            marginTop: '8px'
+        }}>
+            {errorText}
+        </Typography>}
+    </React.Fragment>)
 
 export default DateTimePickerWrapper;

@@ -8,6 +8,94 @@ import { provinces } from "../../../queries/masters";
 
 class PlaceModal extends Component {
 
+    handleCountryChange = (event) => {
+        this.setState({
+            ...this.state,
+            data: {
+                ...this.state.data,
+                council: {
+                    ...this.state.data.council,
+                    country: event.target.value
+                }
+            }
+        });
+        const selectedCountry = this.props.countries.find((country) => country.deno === event.target.value);
+        this.updateCountryStates(selectedCountry.id);
+    };
+    updateCountryStates = async (countryID) => {
+        const response = await this.props.client.query({
+            query: provinces,
+            variables: {
+                countryId: countryID
+            },
+        });
+        console.log(response);
+        this.setState({
+            country_states: response.data.provinces
+        });
+    };
+    handleProvinceChange = (event) => {
+        this.setState({
+            ...this.state,
+            data: {
+                ...this.state.data,
+                council: {
+                    ...this.state.data.council,
+                    countryState: event.target.value
+                }
+            }
+        })
+    };
+    saveAndClose = () => {
+        if (!this.checkRequiredFields()) {
+            if (!this.state.remote) {
+                this.props.saveAndClose(this.state.data.council);
+            } else {
+                this.props.saveAndClose({
+                    street: 'remote_celebration',
+                    remoteCelebration: 1,
+                    country: '',
+                    countryState: '',
+                    state: '',
+                    city: '',
+                    zipcode: ''
+                })
+            }
+        }
+    };
+    _renderActionButtons = () => {
+        const { translate } = this.props;
+        const primary = getPrimary();
+
+        return (<Fragment>
+            <BasicButton
+                text={translate.close}
+                color={'white'}
+                textStyle={{
+                    color: primary,
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none'
+                }}
+                textPosition="after"
+                onClick={this.props.close}
+            />
+            <BasicButton
+                text={translate.accept}
+                color={primary}
+                textStyle={{
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none'
+                }}
+                buttonStyle={{ marginLeft: '1em' }}
+                textPosition="after"
+                onClick={this.saveAndClose}
+            />
+        </Fragment>);
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -63,48 +151,6 @@ class PlaceModal extends Component {
         }
     }
 
-    handleCountryChange = (event) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                council: {
-                    ...this.state.data.council,
-                    country: event.target.value
-                }
-            }
-        });
-        const selectedCountry = this.props.countries.find((country) => country.deno === event.target.value);
-        this.updateCountryStates(selectedCountry.id);
-    };
-
-    updateCountryStates = async (countryID) => {
-        const response = await this.props.client.query({
-            query: provinces,
-            variables: {
-                countryId: countryID
-            },
-        });
-        console.log(response);
-        this.setState({
-            country_states: response.data.provinces
-        });
-    };
-
-
-    handleProvinceChange = (event) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                council: {
-                    ...this.state.data.council,
-                    countryState: event.target.value
-                }
-            }
-        })
-    };
-
     checkRequiredFields() {
         const { translate } = this.props;
         if (this.state.data.council.remoteCelebration) {
@@ -153,58 +199,6 @@ class PlaceModal extends Component {
 
         return hasError;
     }
-
-
-    saveAndClose = () => {
-        if (!this.checkRequiredFields()) {
-            if (!this.state.remote) {
-                this.props.saveAndClose(this.state.data.council);
-            } else {
-                this.props.saveAndClose({
-                    street: 'remote_celebration',
-                    remoteCelebration: 1,
-                    country: '',
-                    countryState: '',
-                    state: '',
-                    city: '',
-                    zipcode: ''
-                })
-            }
-        }
-    };
-
-    _renderActionButtons = () => {
-        const { translate } = this.props;
-        const primary = getPrimary();
-
-        return (<Fragment>
-            <BasicButton
-                text={translate.close}
-                color={'white'}
-                textStyle={{
-                    color: primary,
-                    fontWeight: '700',
-                    fontSize: '0.9em',
-                    textTransform: 'none'
-                }}
-                textPosition="after"
-                onClick={this.props.close}
-            />
-            <BasicButton
-                text={translate.accept}
-                color={primary}
-                textStyle={{
-                    color: 'white',
-                    fontWeight: '700',
-                    fontSize: '0.9em',
-                    textTransform: 'none'
-                }}
-                buttonStyle={{ marginLeft: '1em' }}
-                textPosition="after"
-                onClick={this.saveAndClose}
-            />
-        </Fragment>);
-    };
 
     render() {
         const { translate, countries } = this.props;

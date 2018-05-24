@@ -1,50 +1,23 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem } from '../../../../displayComponents/index';
+import {
+    BasicButton, ButtonIcon, ErrorWrapper, Grid, GridItem, LoadingSection
+} from '../../../../displayComponents/index';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import ParticipantsTable from './ParticipantsTable';
 import * as CBX from '../../../../utils/CBX';
 import { councilStepTwo, updateCouncil } from '../../../../queries';
-import { graphql, compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 class StepCensus extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            placeModal: false,
-            censusChangeAlert: false,
-            addParticipant: false,
-            censusChangeId: '',
-            data: {
-                censuses: [],
-            },
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.data.loading && !nextProps.data.loading) {
-            this.setState({
-                data: {
-                    ...this.state.data,
-                    ...nextProps.data.council
-                }
-            })
-        }
-    }
 
     closeAddParticipantModal = () => {
         this.setState({
             addParticipant: false
         });
     };
-
     saveDraft = (step) => {
         const { __typename, participants, ...council } = this.props.data.council;
         this.props.updateCouncil({
@@ -56,7 +29,6 @@ class StepCensus extends Component {
             }
         });
     };
-
     handleCensusChange = (event) => {
         if (event.target.value !== this.props.data.council.selectedCensusId) {
             this.setState({
@@ -66,17 +38,14 @@ class StepCensus extends Component {
         }
 
     };
-
     nextPage = () => {
         this.saveDraft(3);
         this.props.nextStep();
     };
-
     previousPage = () => {
         this.saveDraft(2);
         this.props.previousStep();
     };
-
     sendCensusChange = async () => {
         const response = await this.props.mutate({
             variables: {
@@ -99,6 +68,33 @@ class StepCensus extends Component {
         }
 
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            placeModal: false,
+            censusChangeAlert: false,
+            addParticipant: false,
+            censusChangeId: '',
+            data: {
+                censuses: [],
+            },
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.data.loading && !nextProps.data.loading) {
+            this.setState({
+                data: {
+                    ...this.state.data, ...nextProps.data.council
+                }
+            })
+        }
+    }
 
     _renderCensusChangeButtons() {
         const { translate } = this.props;
@@ -242,19 +238,15 @@ const changeCensus = gql `
     }
 `;
 
-export default compose(
-    graphql(councilStepTwo, {
-        name: "data",
-        options: (props) => ({
-            variables: {
-                id: props.councilID,
-                companyId: props.companyID
-            },
-            notifyOnNetworkStatusChange: true
-        })
-    }),
-    graphql(changeCensus),
-    graphql(updateCouncil, {
-        name: 'updateCouncil'
+export default compose(graphql(councilStepTwo, {
+    name: "data",
+    options: (props) => ({
+        variables: {
+            id: props.councilID,
+            companyId: props.companyID
+        },
+        notifyOnNetworkStatusChange: true
     })
-)(withRouter(StepCensus));
+}), graphql(changeCensus), graphql(updateCouncil, {
+    name: 'updateCouncil'
+}))(withRouter(StepCensus));

@@ -1,12 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
-import {
-    CardPageLayout, LoadingSection, ErrorWrapper
-} from "../../../displayComponents";
+import { CardPageLayout, ErrorWrapper, LoadingSection } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { graphql, withApollo } from 'react-apollo';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Scrollbar from 'react-perfect-scrollbar';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Convene from '../convene/Convene';
 import ActEditor from './actEditor/ActEditor';
 import gql from "graphql-tag";
@@ -133,7 +130,7 @@ class CouncilWritingPage extends Component {
                 <TabPanel style={panelStyle}>
                     <ActEditor councilID={this.props.councilID}
                                companyID={this.props.companyID}
-                             translate={translate}/>
+                               translate={translate}/>
                 </TabPanel>
                 <TabPanel style={panelStyle}>
                     <Convene councilID={this.props.councilID}

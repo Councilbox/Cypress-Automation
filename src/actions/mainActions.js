@@ -10,26 +10,30 @@ export const loginSuccess = (token) => {
         sessionStorage.setItem('token', token);
         dispatch(initUserData());
         dispatch(getCompanies());
-        dispatch({type: 'LOGIN_SUCCESS'});
+        dispatch({ type: 'LOGIN_SUCCESS' });
     }
 };
 
 
-export const loadingFinished = () => (
-    {type: 'LOADING_FINISHED'}
-);
+export const loadingFinished = () => ({ type: 'LOADING_FINISHED' });
 
 export const initUserData = () => {
     return async (dispatch) => {
-        const response = await client.query({query: getMe, errorPolicy: 'all'});
-        if(!response.errors){
-            if(response.data.me){
-                dispatch({type: 'SET_USER_DATA', value: response.data.me});
+        const response = await client.query({
+            query: getMe,
+            errorPolicy: 'all'
+        });
+        if (!response.errors) {
+            if (response.data.me) {
+                dispatch({
+                    type: 'SET_USER_DATA',
+                    value: response.data.me
+                });
                 dispatch(getCompanies(response.data.me.id));
                 dispatch(setLanguage(response.data.me.preferred_language));
             }
-        }else{
-            response.errors[0].code === 440 && sessionStorage.removeItem('token');
+        } else {
+            response.errors[ 0 ].code === 440 && sessionStorage.removeItem('token');
         }
     }
 };
@@ -37,7 +41,10 @@ export const initUserData = () => {
 export const setUserData = (user) => {
     return (dispatch) => {
         resetStore();
-        dispatch({type: 'SET_USER_DATA', value: user});
+        dispatch({
+            type: 'SET_USER_DATA',
+            value: user
+        });
         dispatch(setLanguage(user.preferred_language));
     }
 };
@@ -49,24 +56,31 @@ const resetStore = () => {
 
 export const logout = () => {
     sessionStorage.clear();
-    return({type: 'LOGOUT'});  
+    return ({ type: 'LOGOUT' });
 };
 
 export const setLanguage = (language) => {
     return async (dispatch) => {
-        const response = await client.query({query: getTranslations, variables: { language: language }});
+        const response = await client.query({
+            query: getTranslations,
+            variables: { language: language }
+        });
         const translationObject = {};
         response.data.translations.forEach(translation => {
-            translationObject[translation.label] = translation.text;
+            translationObject[ translation.label ] = translation.text;
         });
         let locale = language;
-        if(language === 'cat' || language === 'gal'){
+        if (language === 'cat' || language === 'gal') {
             locale = 'es';
         }
         moment.locale(locale, {
             months: translationObject.datepicker_months.split(','),
-            monthsShort: translationObject.datepicker_months.split(',').map(month => month.substring(0,3))
+            monthsShort: translationObject.datepicker_months.split(',').map(month => month.substring(0, 3))
         });
-        dispatch({type: 'LOADED_LANG', value: translationObject, selected: language});
+        dispatch({
+            type: 'LOADED_LANG',
+            value: translationObject,
+            selected: language
+        });
     }
 };

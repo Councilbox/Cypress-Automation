@@ -4,17 +4,10 @@ import { downloadCouncilAttachment } from '../../queries';
 import { CircularProgress } from 'material-ui';
 import { getSecondary } from '../../styles/colors';
 import FontAwesome from 'react-fontawesome';
-import { printPrettyFilesize, downloadFile } from '../../utils/CBX';
+import { downloadFile, printPrettyFilesize } from '../../utils/CBX';
 
 
 class AttachmentDownload extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            downloading: false
-        }
-    }
 
     downloadAttachment = async (id) => {
         this.setState({
@@ -38,6 +31,13 @@ class AttachmentDownload extends React.Component {
             });
         }
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            downloading: false
+        }
+    }
 
     render() {
         const { attachment } = this.props;

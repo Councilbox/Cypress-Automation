@@ -663,22 +663,22 @@ export const conveneCouncil = gql`
 `;
 
 /*
-  platforms {
-    act
-    company_id
-    council_id
-    emails
-    id
-    room
-    room_access
-    security_email
-    security_sms
-    signature
-    video
-  }
+ platforms {
+ act
+ company_id
+ council_id
+ emails
+ id
+ room
+ room_access
+ security_email
+ security_sms
+ signature
+ video
+ }
 
-  previewHtml
-}*/
+ previewHtml
+ }*/
 
 export const councilStepSix = gql`
   query CouncilStepSix($id: Int!, $companyId: Int!){
@@ -889,7 +889,7 @@ export const councilDetails = gql `
   }
 `;
 
-export const councilLiveQuery =  gql`
+export const councilLiveQuery = gql`
   query CouncilLiveQuery($councilID: Int!) {
     council(id: $councilID) {
       active
@@ -1601,10 +1601,6 @@ export const agendaComments = gql`
 `;
 
 
-
-
-
-
 //OLD VERSION
 
 export const participantsQuery = gql `
@@ -1648,7 +1644,6 @@ export const saveCouncilData = gql `
       }
   }
 `
-
 
 
 export const saveAttachmentMutation = gql `
@@ -1775,7 +1770,6 @@ export const getVotings = gql `
       }
   }
 `
-
 
 
 export const changeRequestWord = gql `

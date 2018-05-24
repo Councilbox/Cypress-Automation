@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { getPrimary } from '../../../../styles/colors';
-import { TableRow, TableCell } from 'material-ui';
-import { CloseIcon, Grid, GridItem, EnhancedTable } from '../../../../displayComponents';
-import { graphql, compose } from "react-apollo";
+import { TableCell, TableRow } from 'material-ui';
+import { CloseIcon, EnhancedTable, Grid, GridItem } from '../../../../displayComponents';
+import { compose, graphql } from "react-apollo";
 import { censusParticipants } from '../../../../queries/census';
 import gql from "graphql-tag";
 import AddCensusParticipantButton from './modals/AddCensusParticipantButton';
@@ -12,34 +12,15 @@ import CensusParticipantEditor from "./modals/CensusParticipantEditor";
 
 class CensusParticipants extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            editingParticipant: false,
-            participant: {},
-        }
-    }
-
     closeParticipantEditor = () => {
         this.setState({ editingParticipant: false })
     }
-
     editParticipant = (participant) => {
         this.setState({
             editingParticipant: true,
             participant
         })
     }
-
-    _renderDeleteIcon(participantID) {
-        const primary = getPrimary();
-
-        return (<CloseIcon
-            style={{ color: primary }}
-            onClick={() => this.deleteParticipant(participantID)}
-        />);
-    }
-
     deleteParticipant = async (id) => {
         const response = await this.props.deleteCensusParticipant({
             variables: {
@@ -52,6 +33,23 @@ class CensusParticipants extends Component {
             this.props.data.refetch();
         }
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            editingParticipant: false,
+            participant: {},
+        }
+    }
+
+    _renderDeleteIcon(participantID) {
+        const primary = getPrimary();
+
+        return (<CloseIcon
+            style={{ color: primary }}
+            onClick={() => this.deleteParticipant(participantID)}
+        />);
+    }
 
     render() {
         const { translate, census } = this.props;
@@ -127,90 +125,90 @@ class CensusParticipants extends Component {
             >
                 {censusParticipants.list.map((participant) => {
                     return (<Fragment>
-                            <TableRow
-                                onClick={() => this.editParticipant(participant)}
-                                style={{ cursor: 'pointer' }}
-                                key={`censusParticipant_${participant.id}`}>
-                                <TableCell>
-                                    {`${participant.name} ${participant.surname}`}
-                                </TableCell>
-                                <TableCell>
-                                    {participant.dni}
-                                </TableCell>
-                                {/*<TableCell>{participant.email}</TableCell>*/}
-                                {/*<TableCell>{participant.phone}</TableCell>*/}
-                                <TableCell>
-                                    {participant.position}
-                                </TableCell>
-                                <TableCell>
-                                    {participant.numParticipations}
-                                </TableCell>
-                                {census.quorumPrototype === 1 &&
+                        <TableRow
+                            onClick={() => this.editParticipant(participant)}
+                            style={{ cursor: 'pointer' }}
+                            key={`censusParticipant_${participant.id}`}>
+                            <TableCell>
+                                {`${participant.name} ${participant.surname}`}
+                            </TableCell>
+                            <TableCell>
+                                {participant.dni}
+                            </TableCell>
+                            {/*<TableCell>{participant.email}</TableCell>*/}
+                            {/*<TableCell>{participant.phone}</TableCell>*/}
+                            <TableCell>
+                                {participant.position}
+                            </TableCell>
+                            <TableCell>
+                                {participant.numParticipations}
+                            </TableCell>
+                            {census.quorumPrototype === 1 &&
 
-                                <TableCell>
-                                    {participant.socialCapital}
-                                </TableCell>
-
-                                }
-                                <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>
-                            </TableRow>
-                            {!!participant.representative && <TableRow
-                                hover={true}
-                                style={{
-                                    cursor: 'pointer',
-                                    backgroundColor: 'WhiteSmoke'
-                                }}
-                                // onClick={() => this.setState({editParticipant: true, editIndex: index})}
-                            >
-                                <TableCell>
-                                    <div style={{
-                                        fontSize: '0.9em',
-                                        width: '100%'
-                                    }}>
-                                        {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                    <div style={{
-                                        fontSize: '0.9em',
-                                        width: '100%'
-                                    }}>
-                                        {participant.representative.dni}
-                                    </div>
-                                </TableCell>
-                                {/*<TableCell>*/}
-                                {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
-                                {/*{participant.representative.email}*/}
-                                {/*</div>*/}
-                                {/*</TableCell>*/}
-                                {/*<TableCell>*/}
-                                {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
-                                {/*{participant.representative.phone}*/}
-                                {/*</div>*/}
-                                {/*</TableCell>*/}
-                                <TableCell>
-                                    <div style={{
-                                        fontSize: '0.9em',
-                                        width: '100%'
-                                    }}>
-                                        {participant.representative.position}
-                                    </div>
-                                </TableCell>
-                                <TableCell>
-                                </TableCell>
-                                <TableCell>
-                                </TableCell>
-                                {census.quorumPrototype === 1 &&
-
-                                <TableCell>
-                                </TableCell>
-
-                                }
-
-                            </TableRow>
+                            <TableCell>
+                                {participant.socialCapital}
+                            </TableCell>
 
                             }
-                        </Fragment>)
+                            <TableCell>{this._renderDeleteIcon(participant.id)}</TableCell>
+                        </TableRow>
+                        {!!participant.representative && <TableRow
+                            hover={true}
+                            style={{
+                                cursor: 'pointer',
+                                backgroundColor: 'WhiteSmoke'
+                            }}
+                            // onClick={() => this.setState({editParticipant: true, editIndex: index})}
+                        >
+                            <TableCell>
+                                <div style={{
+                                    fontSize: '0.9em',
+                                    width: '100%'
+                                }}>
+                                    {`${translate.represented_by}: ${participant.representative.name} ${participant.representative.surname}`}
+                                </div>
+                            </TableCell>
+                            <TableCell>
+                                <div style={{
+                                    fontSize: '0.9em',
+                                    width: '100%'
+                                }}>
+                                    {participant.representative.dni}
+                                </div>
+                            </TableCell>
+                            {/*<TableCell>*/}
+                            {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
+                            {/*{participant.representative.email}*/}
+                            {/*</div>*/}
+                            {/*</TableCell>*/}
+                            {/*<TableCell>*/}
+                            {/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
+                            {/*{participant.representative.phone}*/}
+                            {/*</div>*/}
+                            {/*</TableCell>*/}
+                            <TableCell>
+                                <div style={{
+                                    fontSize: '0.9em',
+                                    width: '100%'
+                                }}>
+                                    {participant.representative.position}
+                                </div>
+                            </TableCell>
+                            <TableCell>
+                            </TableCell>
+                            <TableCell>
+                            </TableCell>
+                            {census.quorumPrototype === 1 &&
+
+                            <TableCell>
+                            </TableCell>
+
+                            }
+
+                        </TableRow>
+
+                        }
+                    </Fragment>)
                 })}
             </EnhancedTable>}
             <CensusParticipantEditor

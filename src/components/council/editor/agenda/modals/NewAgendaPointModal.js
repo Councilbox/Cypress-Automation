@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { graphql } from 'react-apollo';
 
 import {
-    AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput, BasicButton
+    AlertConfirm, BasicButton, Grid, GridItem, MajorityInput, RichTextInput, SelectInput, TextInput
 } from '../../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
@@ -12,29 +12,6 @@ import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 
 class NewAgendaPointModal extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            newPoint: {
-                agendaSubject: '',
-                subjectType: 0,
-                description: '',
-                majority: null,
-                majorityType: 1,
-                majorityDivider: null,
-            },
-            loadDraft: false,
-            newPointModal: false,
-            saveAsDraft: false,
-
-            errors: {
-                agendaSubject: '',
-                subjectType: '',
-                description: ''
-            }
-        }
-    }
 
     addAgenda = async () => {
         if (!this.checkRequiredFields()) {
@@ -55,7 +32,6 @@ class NewAgendaPointModal extends Component {
             }
         }
     };
-
     close = () => {
         this.setState({
             newPoint: {
@@ -74,7 +50,6 @@ class NewAgendaPointModal extends Component {
             }
         });
     };
-
     updateState = (object) => {
         this.setState({
             newPoint: {
@@ -83,7 +58,6 @@ class NewAgendaPointModal extends Component {
             loadDraft: false
         });
     };
-
     loadDraft = (draft) => {
         const correctedText = CBX.changeVariablesToValues(draft.text, {
             company: this.props.company,
@@ -99,17 +73,6 @@ class NewAgendaPointModal extends Component {
         });
         this.editor.setValue(correctedText);
     };
-
-    checkRequiredFields() {
-        const { translate } = this.props;
-        const agenda = this.state.newPoint;
-        let errors = checkRequiredFieldsAgenda(agenda, translate);
-        this.setState({
-            errors: errors.errors,
-        });
-        return errors.hasError;
-    }
-
     _renderNewPointBody = () => {
         const { translate, votingTypes, statute, council, company, companyStatutes } = this.props;
         const errors = this.state.errors;
@@ -240,6 +203,39 @@ class NewAgendaPointModal extends Component {
 
             </div>);
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            newPoint: {
+                agendaSubject: '',
+                subjectType: 0,
+                description: '',
+                majority: null,
+                majorityType: 1,
+                majorityDivider: null,
+            },
+            loadDraft: false,
+            newPointModal: false,
+            saveAsDraft: false,
+
+            errors: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            }
+        }
+    }
+
+    checkRequiredFields() {
+        const { translate } = this.props;
+        const agenda = this.state.newPoint;
+        let errors = checkRequiredFieldsAgenda(agenda, translate);
+        this.setState({
+            errors: errors.errors,
+        });
+        return errors.hasError;
+    }
 
     render() {
         const { translate, children } = this.props;

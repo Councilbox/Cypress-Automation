@@ -2,27 +2,23 @@ import React from 'react';
 import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from 'react-redux';
 import { LoadingMainApp } from '../displayComponents';
-import { withRouter, Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
-    if(!main.isLogged){
-        return(
-            <Redirect to="/" />
-        );
+    if (!main.isLogged) {
+        return (<Redirect to="/"/>);
     }
 
-    if(!companies.list){
-        return <LoadingMainApp />
+    if (!companies.list) {
+        return <LoadingMainApp/>
     }
-    
-    return (
-        <CouncilLivePage
-            companies={companies}
-            translate={translate}
-            companyID={match.params.company}
-            councilID={match.params.id}
-        />
-    );
+
+    return (<CouncilLivePage
+        companies={companies}
+        translate={translate}
+        companyID={match.params.company}
+        councilID={match.params.id}
+    />);
 };
 
 const mapStateToProps = (state) => ({
