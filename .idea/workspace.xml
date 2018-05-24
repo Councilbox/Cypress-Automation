@@ -2,26 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5b8381cd-dc98-49a1-a98c-c41e6551f17a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/queries/council.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/displayComponents/CustomDialog.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/AddCensusParticipantButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/modals/AddCensusParticipantButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipantEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/modals/CensusParticipantEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/company/census/censusEditor/CensusParticipants.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/agenda/NewAgendaPointModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/agenda/modals/NewAgendaPointModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/agenda/PointEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/agenda/modals/PointEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/agenda/StepAgenda.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/agenda/StepAgenda.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/census/AddCouncilParticipantButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/modals/AddCouncilParticipantButton.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/census/CouncilParticipantEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/modals/CouncilParticipantEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/editor/census/ParticipantsTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/live/AgendaSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/live/AgendaSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/CouncilPreparePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/CouncilPreparePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/EditParticipantModal.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/council/writing/CouncilWritingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/council/writing/CouncilWritingPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/displayComponents/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/displayComponents/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/queries/councilParticipant.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/queries/councilParticipant.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -50,17 +38,8 @@
       <file leaf-file-name="AddConvenedParticipantButton.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-180">
-              <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ConvenedParticipantEditor.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
+            <state relative-caret-position="237">
+              <caret line="179" column="35" selection-start-line="179" selection-start-column="35" selection-end-line="179" selection-end-column="35" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
@@ -68,23 +47,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConvenedParticipantsTable.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="67" selection-start-line="67" selection-end-line="67" />
-              <folding>
-                <element signature="e#0#51#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="councilParticipant.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="councilParticipant.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/queries/councilParticipant.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-293">
-              <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
+            <state relative-caret-position="62">
+              <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ConvenedParticipantEditor.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="637">
+              <caret line="193" column="35" lean-forward="true" selection-start-line="193" selection-start-column="35" selection-end-line="193" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#51#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -93,18 +72,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>census</find>
-      <find>ChangeCensusMenu</find>
-      <find>checkRequiredFieldsAgenda</find>
-      <find>NewPartici</find>
-      <find>censusHasParticipations</find>
-      <find>this.props.council</find>
-      <find>NewParticipantForm</find>
-      <find>this.props</find>
-      <find>councilDetails</find>
-      <find>ParticipantsSection</find>
-      <find>showModal</find>
-      <find>addParticipant</find>
       <find>activeStatusFilter</find>
       <find>_renderDeleteIcon</find>
       <find>updateNotificationsStatus</find>
@@ -113,16 +80,28 @@
       <find>closeAddParticipantModal</find>
       <find>totalVotes</find>
       <find>updateParticipant</find>
-      <find>updateConvenedParticipant</find>
       <find>participations</find>
       <find>updateCouncilParticipant</find>
       <find>AddCoun</find>
       <find>editingParticipant</find>
       <find>EditParticipantModal</find>
       <find>&quot;</find>
-      <find>closeParticipantEditor</find>
       <find>maste</find>
       <find>../</find>
+      <find>closeParticipantEditor</find>
+      <find>primar</find>
+      <find>requestClose</find>
+      <find>primary</find>
+      <find>buttons</find>
+      <find>children</find>
+      <find>Alert</find>
+      <find>_renderBody</find>
+      <find>modal</find>
+      <find>upsertConvenedParticipant</find>
+      <find>NewParticipantForm</find>
+      <find>sendConvene</find>
+      <find>updateConvenedParticipant</find>
+      <find>addParticipant</find>
     </findStrings>
     <replaceStrings>
       <replace>updateErrors</replace>
@@ -164,6 +143,7 @@
       <dir>$PROJECT_DIR$/src/components/council/prepare</dir>
       <dir>$PROJECT_DIR$/src/components/council/editor/census</dir>
       <dir>$PROJECT_DIR$/src/components</dir>
+      <dir>$PROJECT_DIR$/src/displayComponents</dir>
       <dir>$PROJECT_DIR$/src</dir>
     </dirStrings>
   </component>
@@ -184,8 +164,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/council/writing/actEditor/AgendaEditor.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/EnhancedTable.js" />
         <option value="$PROJECT_DIR$/src/queries/agenda.js" />
         <option value="$PROJECT_DIR$/src/components/council/writing/actEditor/ActEditor.js" />
         <option value="$PROJECT_DIR$/src/components/council/editor/CouncilEditorNotice.js" />
@@ -196,7 +174,6 @@
         <option value="$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js" />
         <option value="$PROJECT_DIR$/src/components/council/participants/ParticipantForm.js" />
         <option value="$PROJECT_DIR$/src/queries/census.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/index.js" />
         <option value="$PROJECT_DIR$/src/displayComponents/AllSelector.js" />
         <option value="$PROJECT_DIR$/src/queries/companyDrafts.js" />
         <option value="$PROJECT_DIR$/src/components/company/drafts/CompanyDraftList.js" />
@@ -207,7 +184,6 @@
         <option value="$PROJECT_DIR$/src/queries.js" />
         <option value="$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js" />
         <option value="$PROJECT_DIR$/src/displayComponents/BasicButton.js" />
-        <option value="$PROJECT_DIR$/src/displayComponents/AlertConfirm.js" />
         <option value="$PROJECT_DIR$/src/constants.js" />
         <option value="$PROJECT_DIR$/src/utils/live.js" />
         <option value="$PROJECT_DIR$/src/components/council/editor/agenda/PointEditor.js" />
@@ -229,12 +205,16 @@
         <option value="$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js" />
         <option value="$PROJECT_DIR$/src/components/council/writing/CouncilWritingPage.js" />
         <option value="$PROJECT_DIR$/src/queries/council.js" />
-        <option value="$PROJECT_DIR$/src/queries/councilParticipant.js" />
         <option value="$PROJECT_DIR$/src/components/council/prepare/modals/company/new/NewCompanyPage.js" />
         <option value="$PROJECT_DIR$/src/components/council/prepare/CouncilPreparePage.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/AlertConfirm.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/CustomDialog.js" />
+        <option value="$PROJECT_DIR$/src/displayComponents/index.js" />
         <option value="$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js" />
-        <option value="$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js" />
+        <option value="$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js" />
         <option value="$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js" />
+        <option value="$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js" />
+        <option value="$PROJECT_DIR$/src/queries/councilParticipant.js" />
       </list>
     </option>
   </component>
@@ -263,7 +243,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope">
         <subPane subId="Project Files">
           <expand>
@@ -285,6 +264,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -333,16 +313,6 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="council" type="462c0819:PsiDirectoryNode" />
-              <item name="editor" type="462c0819:PsiDirectoryNode" />
-              <item name="census" type="462c0819:PsiDirectoryNode" />
-              <item name="modals" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="councilbox_client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="councilbox_client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="council" type="462c0819:PsiDirectoryNode" />
               <item name="prepare" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -372,19 +342,19 @@
     <property name="settings.editor.selected.configurable" value="debugger.dataViews" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/displayComponents" />
+      <recent name="$PROJECT_DIR$/src/components/council/prepare/modals" />
+      <recent name="$PROJECT_DIR$/src/queries" />
+      <recent name="$PROJECT_DIR$/src/components/council/editor/census" />
+      <recent name="$PROJECT_DIR$/src/components/council/writing/actEditor" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/company/census/censusEditor/modals" />
       <recent name="$PROJECT_DIR$/src/components/council/editor/census/modals" />
       <recent name="$PROJECT_DIR$/src/components/council/editor/agenda/modals" />
       <recent name="$PROJECT_DIR$/src/components/council/prepare/modals" />
       <recent name="$PROJECT_DIR$/src/components/company/drafts" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/components/council/prepare/modals" />
-      <recent name="$PROJECT_DIR$/src/queries" />
-      <recent name="$PROJECT_DIR$/src/components/council/editor/census" />
-      <recent name="$PROJECT_DIR$/src/displayComponents" />
-      <recent name="$PROJECT_DIR$/src/components/council/writing/actEditor" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -399,7 +369,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JavaScript Debug.Debug">
+  <component name="RunManager" selected="npm.Launch client">
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
@@ -512,7 +482,9 @@
       <workItem from="1526998789060" duration="8179000" />
       <workItem from="1527058894623" duration="1234000" />
       <workItem from="1527060784528" duration="8177000" />
-      <workItem from="1527074252346" duration="11920000" />
+      <workItem from="1527074252346" duration="12622000" />
+      <workItem from="1527145329922" duration="8916000" />
+      <workItem from="1527171297504" duration="1927000" />
     </task>
     <task id="LOCAL-00001" summary="close #35">
       <created>1523896925018</created>
@@ -766,7 +738,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527084938650</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="council prepare add &amp; edit participants">
+      <created>1527093513613</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1527093513613</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -778,7 +757,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="345190000" />
+    <option name="totallyTimeSpent" value="356735000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -798,12 +777,11 @@
       <window_info anchor="bottom" id="Event Log" order="6" side_tool="true" weight="0.32928178" />
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3291714" />
-      <window_info anchor="right" id="Run" order="10" weight="0.2604278" />
+      <window_info active="true" anchor="right" id="Run" order="10" visible="true" weight="0.2604278" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.32928178" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23048128" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1513369" />
       <window_info anchor="right" id="Database" order="4" weight="0.21219513" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.3281768" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="right" id="Debug" order="9" weight="0.386631" />
@@ -820,6 +798,7 @@
       <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.32928178" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
       <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Find" order="2" weight="0.3281768" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
       <window_info anchor="bottom" id="Messages" order="7" />
       <window_info anchor="bottom" id="Message" order="1" />
@@ -847,7 +826,7 @@
       <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3291714" />
       <window_info anchor="right" id="Maven Projects" order="3" show_stripe_button="false" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23048128" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23315509" />
       <window_info anchor="right" id="Database" order="4" weight="0.21219513" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32928178" />
@@ -914,7 +893,8 @@
     <MESSAGE value="select all platform drafts" />
     <MESSAGE value="bugs fixed" />
     <MESSAGE value="council editor add &amp; edit participants" />
-    <option name="LAST_COMMIT_MESSAGE" value="council editor add &amp; edit participants" />
+    <MESSAGE value="council prepare add &amp; edit participants" />
+    <option name="LAST_COMMIT_MESSAGE" value="council prepare add &amp; edit participants" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -955,12 +935,11 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js</url>
-          <line>24</line>
-          <properties lambdaOrdinal="-1" />
+          <line>25</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="35" />
+      <option name="time" value="36" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -968,68 +947,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/AlertConfirm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="61" column="24" selection-end-line="74" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/BasicButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="23" column="14" lean-forward="true" selection-start-line="23" selection-start-column="14" selection-end-line="23" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/statutes/StatutesPage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="20">
-          <caret line="170" selection-start-line="170" selection-end-line="170" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/company/statutes/StatuteEditor.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/SelectInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="40">
-          <caret line="5" column="6" selection-start-line="5" selection-start-column="6" selection-end-line="5" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/constants.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="71" column="25" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/live.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="5" column="102" selection-start-line="5" selection-start-column="91" selection-end-line="5" selection-end-column="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/displayComponents/MajorityInput.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-97">
-          <caret line="34" column="90" lean-forward="true" selection-start-line="34" selection-start-column="90" selection-end-line="34" selection-end-column="90" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/agenda/AgendaItem.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1280">
-          <caret line="67" column="51" selection-start-line="67" selection-start-column="51" selection-end-line="67" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/drafts/CompanyDraftForm.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-860">
@@ -1055,13 +972,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/CancelModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/ReminderModal.js">
       <provider selected="true" editor-type-id="text-editor" />
@@ -1092,21 +1003,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/participant/test/Header.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-480">
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-535">
-          <caret line="83" column="20" lean-forward="true" selection-start-line="83" selection-start-column="20" selection-end-line="83" selection-end-column="51" />
-          <folding>
-            <element signature="n#!!block;n#checkRequiredFields#0;n#NewParticipantForm#0" />
-          </folding>
-        </state>
+        <state relative-caret-position="-480" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/council/participants/ParticipantEditor.js">
@@ -1118,39 +1015,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/council/editor/CouncilEditorPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2460">
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-2460" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/council/editor/StepNotice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/census/censusEditor/CensusEditorPage.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1647">
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
+        <state relative-caret-position="-1647" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/company/census/CompanyCensusPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1121">
           <caret line="189" column="18" lean-forward="true" selection-start-line="189" selection-start-column="18" selection-end-line="189" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-            <element signature="e#8064#8534#0" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1172,9 +1051,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="400">
           <caret line="98" column="33" selection-start-line="98" selection-start-column="33" selection-end-line="98" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1189,28 +1065,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="61">
           <caret line="7" column="49" lean-forward="true" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
-          <folding>
-            <element signature="n#!!block;n#componentWillReceiveProps#0;n#StepCensus#0" />
-            <element signature="e#1398#1475#0" />
-            <element signature="e#1504#1787#0" />
-            <element signature="e#1826#2059#0" />
-            <element signature="e#2283#2884#0" />
-            <element signature="n#!!block;n#_renderCensusChangeButtons#0;n#StepCensus#0" />
-            <element signature="n#!!block;n#render#0;n#StepCensus#0" />
-            <element signature="e#4237#4288#0" />
-            <element signature="e#4309#4553#0" />
-            <element signature="e#5369#7404#0" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="17" column="17" selection-start-line="17" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/ParticipantsSection.js" />
     <entry file="file://$PROJECT_DIR$/src/queries.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="682">
@@ -1247,19 +1105,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
           <caret line="27" column="43" selection-start-line="27" selection-start-column="43" selection-end-line="27" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/modals/CouncilParticipantEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="106" column="41" selection-start-line="106" selection-start-column="27" selection-end-line="106" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1274,22 +1119,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="121" column="26" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/company/new/NewCompanyPage.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/company/new/NewCompanyPage.js" />
     <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/ChangeCensusMenu.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="253">
           <caret line="55" column="12" lean-forward="true" selection-start-line="55" selection-start-column="12" selection-end-line="60" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1304,38 +1141,15 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="452">
           <caret line="197" column="38" selection-start-line="197" selection-start-column="24" selection-end-line="197" selection-end-column="38" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/1ConvenedParticipantEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="294" column="49" selection-start-line="294" selection-start-column="24" selection-end-line="294" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/EditParticipantModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-253">
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/1ConvenedParticipantEditor.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/EditParticipantModal.js" />
     <entry file="file://$PROJECT_DIR$/src/components/council/writing/CouncilWritingPage.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="20" column="22" lean-forward="true" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1343,16 +1157,100 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
           <caret line="25" column="3" selection-start-line="25" selection-start-column="3" selection-end-line="27" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/modals/CouncilParticipantEditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2447">
+          <caret line="147" column="41" selection-start-line="147" selection-start-column="41" selection-end-line="147" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/BasicButton.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="6" column="126" selection-start-line="6" selection-start-column="126" selection-end-line="6" selection-end-column="126" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/AlertConfirm.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="767">
+          <caret line="68" column="11" lean-forward="true" selection-start-line="68" selection-start-column="11" selection-end-line="68" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/Tooltip.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="40">
+          <caret line="3" column="19" selection-start-line="3" selection-start-column="19" selection-end-line="3" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/TableEnhancer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="150" column="37" selection-start-line="150" selection-end-line="151" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/CustomDialog.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="45" column="22" selection-start-line="45" selection-start-column="22" selection-end-line="45" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/errorHandler.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/graphQLErrorHandler.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="13" column="58" selection-start-line="13" selection-start-column="58" selection-end-line="13" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/displayComponents/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="747">
+          <caret line="42" column="55" selection-start-line="42" selection-start-column="55" selection-end-line="42" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/editor/census/NewParticipantForm.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="15" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/meeting/editor/MeetingEditorCensus.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="637">
+          <caret line="193" column="35" lean-forward="true" selection-start-line="193" selection-start-column="35" selection-end-line="193" selection-end-column="35" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/ConvenedParticipantsTable.js">
+    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="67" selection-start-line="67" selection-end-line="67" />
+        <state relative-caret-position="237">
+          <caret line="179" column="35" selection-start-line="179" selection-start-column="35" selection-end-line="179" selection-end-column="35" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>
@@ -1361,25 +1259,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/queries/councilParticipant.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-293">
-          <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/AddConvenedParticipantButton.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-180">
-          <caret line="5" column="30" lean-forward="true" selection-start-line="5" selection-start-column="30" selection-end-line="5" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/council/prepare/modals/ConvenedParticipantEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="36" column="8" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="62">
+          <caret line="53" lean-forward="true" selection-start-line="53" selection-end-line="53" />
         </state>
       </provider>
     </entry>

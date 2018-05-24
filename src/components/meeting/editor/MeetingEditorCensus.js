@@ -8,7 +8,6 @@ import ParticipantsTable from '../../council/editor/census/ParticipantsTable';
 import { councilStepTwo, updateCouncil } from '../../../queries';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import NewParticipantForm from '../../council/editor/census/NewParticipantForm';
 
 
 class MeetingEditorCensus extends Component {
@@ -218,16 +217,6 @@ class MeetingEditorCensus extends Component {
                         {this._renderCensusChangeButtons()}
                     </DialogActions>
                 </Dialog>
-                <NewParticipantForm
-                    translate={translate}
-                    requestClose={() => this.setState({
-                        addParticipantModal: false
-                    })}
-                    show={this.state.addParticipantModal}
-                    close={this.closeAddParticipantModal}
-                    councilID={this.props.councilID}
-                    refetch={this.props.data.refetch}
-                />
             </div>
         );
     }

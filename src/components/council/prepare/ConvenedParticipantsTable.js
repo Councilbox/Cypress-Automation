@@ -13,7 +13,6 @@ import {
 import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
 import { PARTICIPANTS_LIMITS, COUNCIL_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
-import NewParticipantForm from '../editor/census/NewParticipantForm';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
 import ParticipantStateIcon from "../live/ParticipantStateIcon";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";

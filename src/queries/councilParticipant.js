@@ -60,9 +60,9 @@ export const updateCouncilParticipant = gql `
   }
 `;
 
-export const updateConvenedParticipant = gql `
-  mutation updateConvenedParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
-    updateConvenedParticipant(participant: $participant, representative: $representative){
+export const upsertConvenedParticipant = gql `
+  mutation upsertConvenedParticipant($participant: ParticipantInput, $representative: RepresentativeInput, $sendConvene: Boolean) {
+    upsertConvenedParticipant(participant: $participant, representative: $representative, sendConvene: $sendConvene){
       success
     }
   }
