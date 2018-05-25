@@ -90,7 +90,30 @@ export const agendaVotings = gql`
           name
           surname
           numParticipations
+          socialCapital
           position
+          delegatedVotes{
+            name
+            surname
+            dni
+            position
+            socialCapital
+            numParticipations
+          }
+        }
+        authorRepresentative{
+          name
+          surname
+          position
+          dni
+          delegatedVotes{
+            name
+            surname
+            dni
+            position
+            socialCapital
+            numParticipations
+          }
         }
         presentVote
         numParticipations
@@ -101,6 +124,7 @@ export const agendaVotings = gql`
     }
   }
 `;
+
 
 export const updateAgendaVoting = gql`
   mutation updateAgendaVoting($agendaVoting: AgendaVotingInput){
