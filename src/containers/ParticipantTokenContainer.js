@@ -22,7 +22,7 @@ class ParticipantTokenContainer extends React.Component {
 
             try {
                 const response = await this.props.participantToken();
-                if (response) {
+                if (response && !response.errors) {
                     const token = response.data.participantToken;
                     sessionStorage.setItem('participantToken', token);
                     const responseQueryMe = await this.props.client.query({

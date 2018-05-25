@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card } from 'material-ui';
 import withTranslations from '../../../HOCs/withTranslations';
-import { councilIsStarted } from '../../../utils/CBX'; 
+import { councilIsStarted } from '../../../utils/CBX';
 import Header from '../Header';
 import LoginForm from './LoginForm';
 import CouncilState from './CouncilState';
@@ -30,8 +30,8 @@ const styles = {
 };
 
 class ParticipantLogin extends Component {
-    constructor(props){
-        super(props);        
+    constructor(props) {
+        super(props);
         this.state = {
             urlToken: null
         }
@@ -41,13 +41,13 @@ class ParticipantLogin extends Component {
         const { participant, council, company, translate } = this.props;
         return (
             <div style={styles.viewContainer}>
-                <Header/>
+                <Header />
                 <div style={styles.mainContainer}>
                     <Card style={styles.cardContainer}>
                         {councilIsStarted(council) ?
-                            <LoginForm participant={participant} council={council} company={company}/>
+                            <LoginForm participant={participant} council={council} company={company} />
                             :
-                            <CouncilState council={council}/>
+                            <CouncilState council={council} />
                         }
                     </Card>
                 </div>
