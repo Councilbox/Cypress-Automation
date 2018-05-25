@@ -215,8 +215,8 @@ describe('Takes a string a returns the same string with all HTML tags stripped',
 
 describe('Return if a council have act point', () => {
     it('Should return true when approveActPoint === 1', () => {
-        assert.equal(CBX.councilHasActPoint({approveActDraft: 1}), true);
-        assert.equal(CBX.councilHasActPoint({approveActDraft: 2}), false);
+        assert.equal(CBX.councilHasActPoint({ approveActDraft: 1 }), true);
+        assert.equal(CBX.councilHasActPoint({ approveActDraft: 2 }), false);
         assert.equal(CBX.councilHasActPoint({}), false);
     });
 });
@@ -229,8 +229,8 @@ describe('Return Formatted filesize to byte, kb, mb or gb', () => {
         assert.equal(CBX.printPrettyFilesize(1048576), '1 MBs');
         assert.equal(CBX.printPrettyFilesize(1073741823), '1023.99 MBs');
         assert.equal(CBX.printPrettyFilesize(1073741824), '1 GBs');
-        
-        
+
+
     })
 });
 
@@ -250,10 +250,10 @@ const votingTypes = [ {
 
 describe('Check if the security type needs to show extra info to the user', () => {
     it('should return true when the securityType is either 1 or 2', () => {
-        assert.equal(CBX.showUserUniqueKeyMessage({securityType: 1}), true);
-        assert.equal(CBX.showUserUniqueKeyMessage({securityType: 2}), true);
-        assert.equal(CBX.showUserUniqueKeyMessage({securityType: 0}), false);
-        assert.equal(CBX.showUserUniqueKeyMessage({securityType: null}), false);
+        assert.equal(CBX.showUserUniqueKeyMessage({ securityType: 1 }), true);
+        assert.equal(CBX.showUserUniqueKeyMessage({ securityType: 2 }), true);
+        assert.equal(CBX.showUserUniqueKeyMessage({ securityType: 0 }), false);
+        assert.equal(CBX.showUserUniqueKeyMessage({ securityType: null }), false);
     });
 });
 

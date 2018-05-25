@@ -9,24 +9,13 @@ import { bHistory } from '../../../../containers/App';
 
 class CancelModal extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            success: false,
-            sending: false,
-            error: '',
-        };
-    }
-
     close = () => {
         this.props.requestClose();
         bHistory.push('/');
     };
-
     hide = () => {
         this.props.requestClose();
     };
-
     cancelCouncil = async () => {
         this.setState({
             sending: true
@@ -49,6 +38,14 @@ class CancelModal extends Component {
         }
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            success: false,
+            sending: false,
+            error: '',
+        };
+    }
 
     _renderCancelBody() {
         const { translate } = this.props;

@@ -1,17 +1,13 @@
 import React, { Component, Fragment } from "react";
-import { TableRow, TableCell } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 import { Tooltip } from 'material-ui';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
-import {
-    EnhancedTable, DeleteIcon, Grid, GridItem, ButtonIcon, BasicButton, AlertConfirm
-} from '../../../displayComponents';
-import { graphql, compose } from "react-apollo";
-import {
-    updateNotificationsStatus, downloadCBXData
-} from '../../../queries';
+import { BasicButton, ButtonIcon, EnhancedTable, Grid, GridItem } from '../../../displayComponents';
+import { compose, graphql } from "react-apollo";
+import { downloadCBXData, updateNotificationsStatus } from '../../../queries';
 import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
-import { PARTICIPANTS_LIMITS, COUNCIL_STATES } from '../../../constants';
+import { PARTICIPANTS_LIMITS } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
 import ParticipantStateIcon from "../live/ParticipantStateIcon";
@@ -24,6 +20,20 @@ class ConvenedParticipantsTable extends Component {
     closeParticipantEditor = () => {
         this.setState({ editingParticipant: false })
     }
+    refresh = (object) => {
+        this.table.refresh(object);
+    };
+    refreshEmailStates = async () => {
+        const response = await this.props.updateNotificationsStatus({
+            variables: {
+                councilId: this.props.council.id
+            }
+        });
+
+        if (response.data.updateNotificationsStatus.success) {
+            this.table.refresh();
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -37,24 +47,6 @@ class ConvenedParticipantsTable extends Component {
     componentDidUpdate() {
         this.props.data.refetch();
     }
-
-    refresh = (object) => {
-        this.table.refresh(object);
-    };
-
-
-    refreshEmailStates = async () => {
-        const response = await this.props.updateNotificationsStatus({
-            variables: {
-                councilId: this.props.council.id
-            }
-        });
-
-        if (response.data.updateNotificationsStatus.success) {
-            this.table.refresh();
-        }
-    };
-
 
     render() {
         const { translate, council, participations } = this.props;

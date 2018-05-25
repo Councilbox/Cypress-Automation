@@ -1,11 +1,11 @@
-import {AGENDA_TYPES} from "../constants";
+import { AGENDA_TYPES } from "../constants";
 
 export const checkValidEmail = (email) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
 };
 
-export const checkRequiredFieldsParticipant = (participant, translate, hasSocialCapital) =>{
+export const checkRequiredFieldsParticipant = (participant, translate, hasSocialCapital) => {
 
     let errors = {
         name: '',
@@ -72,7 +72,7 @@ export const checkRequiredFieldsParticipant = (participant, translate, hasSocial
     };
 };
 
-export const checkRequiredFieldsRepresentative = (participant, translate) =>{
+export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
     let errors = {
         name: '',
@@ -127,7 +127,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) =>{
     };
 };
 
-export const checkRequiredFieldsAgenda = (agenda, translate) =>{
+export const checkRequiredFieldsAgenda = (agenda, translate) => {
 
     let errors = {
         agendaSubject: '',
@@ -150,17 +150,17 @@ export const checkRequiredFieldsAgenda = (agenda, translate) =>{
         errors.subjectType = translate.field_required;
     }
 
-    if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
+    if (agenda.subjectType !== AGENDA_TYPES.INFORMATIVE) {
         if (!agenda.majorityType && agenda.majorityType !== 0) {
             hasError = true;
             errors.majorityType = translate.field_required;
         }
-        if(agenda.majorityType === 0 || agenda.majorityType === 5 || agenda.majorityType === 6){
+        if (agenda.majorityType === 0 || agenda.majorityType === 5 || agenda.majorityType === 6) {
             if (!agenda.majority) {
                 hasError = true;
                 errors.majority = translate.field_required;
             }
-            if(agenda.majorityType === 5){
+            if (agenda.majorityType === 5) {
                 if (!agenda.majorityDivider) {
                     hasError = true;
                     errors.majorityDivider = translate.field_required;

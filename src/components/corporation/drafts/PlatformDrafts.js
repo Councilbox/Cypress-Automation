@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import {
-    CardPageLayout, Checkbox, ErrorWrapper, EnhancedTable, AllSelector, BasicButton, ButtonIcon
+    AllSelector, BasicButton, ButtonIcon, CardPageLayout, Checkbox, EnhancedTable, ErrorWrapper
 } from '../../../displayComponents';
-import { graphql, compose, withApollo } from 'react-apollo';
-import { platformDrafts, cloneDrafts } from '../../../queries';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { cloneDrafts, platformDrafts } from '../../../queries';
 import { TableCell, TableRow } from "material-ui/Table";
 import FontAwesome from 'react-fontawesome';
 import { getPrimary, getSecondary } from '../../../styles/colors';
@@ -16,24 +16,11 @@ import TableStyles from "../../../styles/table";
 
 class PlatformDrafts extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedIndex: -1,
-            selectedValues: [],
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
-
     alreadySaved = (id) => {
         const { companyDrafts } = this.props.data;
         const item = companyDrafts.list.find((draft) => draft.draftId === id);
         return !!item;
     };
-
     anySelected = () => {
         const { platformDrafts } = this.props.data;
         const { selectedValues } = this.state;
@@ -46,7 +33,6 @@ class PlatformDrafts extends Component {
         }
         return false;
     };
-
     allSelected = () => {
         const { platformDrafts } = this.props.data;
         const { selectedValues } = this.state;
@@ -60,12 +46,10 @@ class PlatformDrafts extends Component {
         }
         return true;
     }
-
     isChecked = (id) => {
         let item = this.state.selectedValues.find((selectedValue) => selectedValue === id)
         return !!item;
     }
-
     cloneDrafts = async () => {
         const { selectedValues } = this.state;
 
@@ -84,7 +68,6 @@ class PlatformDrafts extends Component {
             }
         }
     };
-
     selectAll = () => {
         const { list } = this.props.data.platformDrafts;
         const { selectedValues } = this.state;
@@ -103,7 +86,6 @@ class PlatformDrafts extends Component {
             data: { ...this.state.data }
         });
     }
-
     deselectAll = () => {
         const { list } = this.props.data.platformDrafts;
         let values = this.state.selectedValues;
@@ -119,7 +101,6 @@ class PlatformDrafts extends Component {
             data: { ...this.state.data }
         });
     }
-
     updateSelectedValues = (id) => {
         let { selectedValues } = this.state;
         const item = selectedValues.find((selectedValue) => id === selectedValue);
@@ -133,6 +114,18 @@ class PlatformDrafts extends Component {
             selectedValues: [ ...selectedValues ]
         });
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedIndex: -1,
+            selectedValues: [],
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
 
     render() {
         const { translate } = this.props;

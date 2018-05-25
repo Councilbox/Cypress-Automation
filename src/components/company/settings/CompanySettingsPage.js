@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import {
-    CardPageLayout, TextInput, SelectInput, AlertConfirm, FileUploadButton, LoadingSection, ButtonIcon, BasicButton, Grid, GridItem
+    AlertConfirm,
+    BasicButton,
+    ButtonIcon,
+    CardPageLayout,
+    FileUploadButton,
+    Grid,
+    GridItem,
+    LoadingSection,
+    SelectInput,
+    TextInput
 } from '../../../displayComponents';
-import { Typography, MenuItem } from 'material-ui';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { MenuItem, Typography } from 'material-ui';
+import { compose, graphql, withApollo } from 'react-apollo';
 import { provinces } from '../../../queries/masters';
-import { updateCompany, unlinkCompany } from '../../../queries/company';
+import { unlinkCompany, updateCompany } from '../../../queries/company';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { store, bHistory } from '../../../containers/App';
-import { setCompany, getCompanies } from '../../../actions/companyActions';
+import { bHistory, store } from '../../../containers/App';
+import { getCompanies, setCompany } from '../../../actions/companyActions';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 
@@ -30,6 +39,99 @@ export const info = gql `
 `;
 
 class CompanySettingsPage extends Component {
+
+    handleCountryChange = (event) => {
+        this.updateState({ country: event.target.value });
+        const selectedCountry = this.props.info.countries.find((country) => country.deno === event.target.value);
+        this.updateProvinces(selectedCountry.id);
+    };
+    updateProvinces = async (countryID) => {
+        const response = await this.props.client.query({
+            query: provinces,
+            variables: {
+                countryId: countryID
+            },
+        });
+
+        if (response) {
+            this.setState({
+                provinces: response.data.provinces
+            })
+        }
+    };
+    handleFile = (event) => {
+        const file = event.nativeEvent.target.files[ 0 ];
+        if (!file) {
+            return;
+        }
+
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+
+
+        reader.onload = async () => {
+            let fileInfo = {
+                filename: file.name,
+                filetype: file.type,
+                filesize: Math.round(file.size / 1000),
+                base64: reader.result,
+                councilId: this.props.councilID
+            };
+
+            this.setState({
+                uploading: true,
+                data: {
+                    ...this.state.data,
+                    logo: fileInfo.base64
+                },
+                success: false
+            });
+        }
+    };
+    saveCompany = async () => {
+        if (!this.checkRequiredFields()) {
+            this.setState({
+                loading: true
+            });
+            const { __typename, ...data } = this.state.data;
+
+            const response = await this.props.updateCompany({
+                variables: {
+                    company: data
+                }
+            });
+            if (response.errors) {
+                this.setState({
+                    error: true,
+                    loading: false,
+                    success: false
+                });
+            } else {
+                store.dispatch(setCompany(response.data.updateCompany));
+                this.setState({
+                    error: false,
+                    loading: false,
+                    success: true
+                });
+            }
+        }
+    };
+    unlinkCompany = async () => {
+        const response = await this.props.unlinkCompany({
+            variables: {
+                userId: this.props.user.id,
+                companyTin: this.props.company.tin
+            }
+        });
+
+        if (!response.errors) {
+            if (response.data.unlinkCompany.success) {
+                store.dispatch(getCompanies(this.props.user.id));
+                toast.success(this.props.translate.company_link_unliked_title);
+                bHistory.push('/');
+            }
+        }
+    }
 
     constructor(props) {
         super(props);
@@ -60,92 +162,11 @@ class CompanySettingsPage extends Component {
     updateState(newValues) {
         this.setState({
             data: {
-                ...this.state.data,
-                ...newValues
+                ...this.state.data, ...newValues
             },
             success: false
         });
     }
-
-    handleCountryChange = (event) => {
-        this.updateState({country: event.target.value});
-        const selectedCountry = this.props.info.countries.find((country) => country.deno === event.target.value);
-        this.updateProvinces(selectedCountry.id);
-    };
-
-    updateProvinces = async (countryID) => {
-        const response = await this.props.client.query({
-            query: provinces,
-            variables: {
-                countryId: countryID
-            },
-        });
-
-        if (response) {
-            this.setState({
-                provinces: response.data.provinces
-            })
-        }
-    };
-
-    handleFile = (event) => {
-        const file = event.nativeEvent.target.files[ 0 ];
-        if (!file) {
-            return;
-        }
-
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-
-
-        reader.onload = async () => {
-            let fileInfo = {
-                filename: file.name,
-                filetype: file.type,
-                filesize: Math.round(file.size / 1000),
-                base64: reader.result,
-                councilId: this.props.councilID
-            };
-
-            this.setState({
-                uploading: true,
-                data: {
-                    ...this.state.data,
-                    logo: fileInfo.base64
-                },
-                success: false
-            });
-        }
-    };
-
-    saveCompany = async () => {
-        if (!this.checkRequiredFields()) {
-            this.setState({
-                loading: true
-            });
-            const { __typename, ...data } = this.state.data;
-
-            const response = await this.props.updateCompany({
-                variables: {
-                    company: data
-                }
-            });
-            if (response.errors) {
-                this.setState({
-                    error: true,
-                    loading: false,
-                    success: false
-                });
-            } else {
-                store.dispatch(setCompany(response.data.updateCompany));
-                this.setState({
-                    error: false,
-                    loading: false,
-                    success: true
-                });
-            }
-        }
-    };
 
     checkRequiredFields() {
         const { translate } = this.props;
@@ -178,23 +199,6 @@ class CompanySettingsPage extends Component {
             errors: errors
         });
         return hasError;
-    }
-
-    unlinkCompany = async () => {
-        const response = await this.props.unlinkCompany({
-            variables: {
-                userId: this.props.user.id,
-                companyTin: this.props.company.tin
-            }
-        });
-
-        if(!response.errors){
-            if(response.data.unlinkCompany.success){
-                store.dispatch(getCompanies(this.props.user.id));
-                toast.success(this.props.translate.company_link_unliked_title);
-                bHistory.push('/');
-            }
-        }
     }
 
     render() {
@@ -248,11 +252,12 @@ class CompanySettingsPage extends Component {
                                     floatingText={translate.company_type}
                                     value={data.type}
                                     disabled
-                                    onChange={(event)=>this.updateState({ type: event.target.value })}
+                                    onChange={(event) => this.updateState({ type: event.target.value })}
                                     errorText={errors.type}
                                 >
                                     {this.props.info.companyTypes.map((companyType) => {
-                                        return <MenuItem key={companyType.label} value={companyType.value}>{translate[companyType.label]}</MenuItem>
+                                        return <MenuItem key={companyType.label}
+                                                         value={companyType.value}>{translate[ companyType.label ]}</MenuItem>
                                     })}
                                 </SelectInput>
                             </GridItem>
@@ -294,15 +299,13 @@ class CompanySettingsPage extends Component {
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3} style={{ textAlign: 'center' }}>
                         <GridItem xs={12} md={12} lg={12}>
-                            {!!data.logo &&
-                                <img src={data.logo} alt="logo" style={{
-                                    marginBottom: '0.6em',
-                                    maxHeight: '4em',
-                                    maxWidth: '100%'
-                                }}/>
-                            }
+                            {!!data.logo && <img src={data.logo} alt="logo" style={{
+                                marginBottom: '0.6em',
+                                maxHeight: '4em',
+                                maxWidth: '100%'
+                            }}/>}
                         </GridItem>
-                        <GridItem xs={12} md={12} lg={12}>                        
+                        <GridItem xs={12} md={12} lg={12}>
                             <FileUploadButton
                                 text={translate.company_logotype}
                                 image
@@ -420,7 +423,7 @@ class CompanySettingsPage extends Component {
                         color: 'white',
                         fontWeight: '700'
                     }}
-                    buttonStyle={{marginRight: '1.2em'}}
+                    buttonStyle={{ marginRight: '1.2em' }}
                     onClick={() => this.setState({
                         unlinkModal: true
                     })}
@@ -443,15 +446,11 @@ class CompanySettingsPage extends Component {
     }
 }
 
-export default compose(
-    graphql(info, { name: 'info' }),
-    graphql(updateCompany, {
-        name: 'updateCompany',
-        options: {
-            errorPolicy: 'all'
-        }
-    }),
-    graphql(unlinkCompany, {
-        name: 'unlinkCompany'
-    })
-)(withApollo(CompanySettingsPage));
+export default compose(graphql(info, { name: 'info' }), graphql(updateCompany, {
+    name: 'updateCompany',
+    options: {
+        errorPolicy: 'all'
+    }
+}), graphql(unlinkCompany, {
+    name: 'unlinkCompany'
+}))(withApollo(CompanySettingsPage));

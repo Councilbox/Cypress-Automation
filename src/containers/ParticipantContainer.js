@@ -7,44 +7,53 @@ import ParticipantLogin from '../components/participant/login/Login';
 
 
 class ParticipantContainer extends React.PureComponent {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props);
         this.state = {
-            loading:true,
+            loading: true,
             error: false,
             company: null
         }
     }
 
-    async componentDidUpdate(prevProps){
-        if(prevProps.data.loading && !this.props.data.loading){
+    async componentDidUpdate(prevProps) {
+        if (prevProps.data.loading && !this.props.data.loading) {
             try {
-                this.setState({loading: true});
+                this.setState({ loading: true });
                 const responseQueryCompany = await this.props.client.query({
                     query: companyQuery,
-                    variables: {companyId: this.props.data.council.companyId},
+                    variables: { companyId: this.props.data.council.companyId },
                     fetchPolicy: 'network-only'
                 });
-                this.setState({loading: false, company: responseQueryCompany.data.company});
+                this.setState({
+                    loading: false,
+                    company: responseQueryCompany.data.company
+                });
             } catch (error) {
-                
+
             }
         }
     }
 
-    render(){
+    render() {
         const { data } = this.props;
         const { loading, company } = this.state;
-        if(data.loading || loading){
-            return <LoadingMainApp />
+        if (data.loading || loading) {
+            return <LoadingMainApp/>
         }
 
-        return(
-            <div style={{display: 'flex', flex: 1, flexDirection: 'column', height: '100vh', overflow: 'auto', padding: 0, margin: 0}}>
-                <ParticipantLogin participant={data.participant} council={data.council} company={company}/>
-            </div>
-        );
+        return (<div style={{
+            display: 'flex',
+            flex: 1,
+            flexDirection: 'column',
+            height: '100vh',
+            overflow: 'auto',
+            padding: 0,
+            margin: 0
+        }}>
+            <ParticipantLogin participant={data.participant} council={data.council} company={company}/>
+        </div>);
     }
 }
 

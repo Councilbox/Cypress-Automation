@@ -12,36 +12,6 @@ import background from '../../assets/img/signup3.jpg';
 
 class ForgetPwd extends React.PureComponent {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            user: '',
-            errors: {
-                user: '',
-            },
-            sent: false
-        }
-    }
-
-    checkRequiredFields() {
-        let errors = {
-            user: ''
-        };
-        let hasError = false;
-
-        if (!this.state.user.length > 0) {
-            hasError = true;
-            errors.user = 'Por favor introduce un email'
-        }
-
-        this.setState({
-            ...this.state,
-            errors: errors
-        });
-
-        return hasError;
-    }
-
     restorePdw = async () => {
         const { translate } = this.props;
         const { user } = this.state;
@@ -73,16 +43,44 @@ class ForgetPwd extends React.PureComponent {
             }
         }
     };
-
     logout = () => {
         this.props.actions.logout();
     };
-
     handleKeyUp = (event) => {
         if (event.nativeEvent.keyCode === 13) {
             this.restorePdw();
         }
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: '',
+            errors: {
+                user: '',
+            },
+            sent: false
+        }
+    }
+
+    checkRequiredFields() {
+        let errors = {
+            user: ''
+        };
+        let hasError = false;
+
+        if (!this.state.user.length > 0) {
+            hasError = true;
+            errors.user = 'Por favor introduce un email'
+        }
+
+        this.setState({
+            ...this.state,
+            errors: errors
+        });
+
+        return hasError;
+    }
 
     render() {
         const { translate, windowSize } = this.props;

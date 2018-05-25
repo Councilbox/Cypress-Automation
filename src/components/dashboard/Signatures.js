@@ -1,30 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import { signatures, deleteSignature } from '../../queries/signature';
-import { graphql, compose } from 'react-apollo';
+import { deleteSignature, signatures } from '../../queries/signature';
+import { compose, graphql } from 'react-apollo';
 import {
-    LoadingSection, AlertConfirm, SectionTitle, Table, ErrorWrapper, CloseIcon
+    AlertConfirm, CloseIcon, ErrorWrapper, LoadingSection, SectionTitle, Table
 } from '../../displayComponents/index';
 import { getPrimary } from '../../styles/colors';
-import { TableRow, TableCell } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import { bHistory } from '../../containers/App';
 
 
-
 class Signatures extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            deleteID: '',
-            deleteModal: false
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
 
     openDeleteModal = (ID) => {
         this.setState({
@@ -32,7 +19,6 @@ class Signatures extends Component {
             deleteID: ID
         })
     };
-
     delete = async () => {
         this.props.data.loading = true;
         const response = await this.props.mutate({
@@ -47,6 +33,18 @@ class Signatures extends Component {
             this.props.data.refetch();
         }
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            deleteID: '',
+            deleteModal: false
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
 
     _renderDeleteIcon(signatureID) {
         const primary = getPrimary();
@@ -86,19 +84,18 @@ class Signatures extends Component {
                             companyID={this.props.company.id}
                         >
                             {signatures.map((signature) => {
-                                return (
-                                    <TableRow style={{cursor: 'pointer'}}
-                                        onClick={()=> {
-                                        bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`)
-                                    }}
-                                        key={`signature${signature.id}`}>
-                                        <TableCell>
-                                            {signature.title}
-                                        </TableCell>
-                                        <TableCell>
-                                            {this._renderDeleteIcon(signature.id)}
-                                        </TableCell>
-                                    </TableRow>)
+                                return (<TableRow style={{ cursor: 'pointer' }}
+                                                  onClick={() => {
+                                                      bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`)
+                                                  }}
+                                                  key={`signature${signature.id}`}>
+                                    <TableCell>
+                                        {signature.title}
+                                    </TableCell>
+                                    <TableCell>
+                                        {this._renderDeleteIcon(signature.id)}
+                                    </TableCell>
+                                </TableRow>)
                             })}
                         </Table> : <span>{translate.no_results}</span>}
                         <AlertConfirm

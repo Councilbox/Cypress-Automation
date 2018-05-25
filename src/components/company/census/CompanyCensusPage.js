@@ -14,15 +14,6 @@ import { CENSUS_LIMITS } from '../../../constants';
 
 class CompanyCensusPage extends React.Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            deleteModal: false,
-            cloneModal: false,
-            cloneIndex: 0
-        }
-    }
-
     deleteCensus = async () => {
         this.props.data.loading = true;
         const response = await this.props.deleteCensus({
@@ -38,7 +29,6 @@ class CompanyCensusPage extends React.Component {
             this.props.data.refetch();
         }
     };
-
     setDefaultCensus = async (censusId) => {
         this.setState({
             changingDefault: censusId
@@ -55,18 +45,27 @@ class CompanyCensusPage extends React.Component {
             this.props.data.refetch();
         }
     };
-
     openCensusEdit = (censusId) => {
         bHistory.push(`/company/${this.props.company.id}/census/${censusId}`);
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            deleteModal: false,
+            cloneModal: false,
+            cloneIndex: 0
+        }
+    }
 
     render() {
         const { translate, company } = this.props;
         const { loading, censuses } = this.props.data;
         const primary = getPrimary();
 
-        return (<CardPageLayout title={translate.censuses_list}>
+        return (
+
+            <CardPageLayout title={translate.censuses_list}>
                 <Grid>
                     <GridItem xs={6} lg={3} md={3}>
                         <AddCensusButton
@@ -103,79 +102,79 @@ class CompanyCensusPage extends React.Component {
                 >
                     {censuses.list.map((census, index) => {
                         return (<TableRow
-                                hover
-                                key={`census_${census.id}`}
-                                onClick={() => this.openCensusEdit(census.id)}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                <TableCell>
-                                    {census.censusName}
-                                </TableCell>
-                                <TableCell>
-                                    <DateWrapper format="DD/MM/YYYY HH:mm"
-                                                 date={census.creationDate}/>
-                                </TableCell>
-                                <TableCell>
-                                    <DateWrapper format="DD/MM/YYYY HH:mm"
-                                                 date={census.lastEdit}/>
-                                </TableCell>
-                                <TableCell>
-                                    <div style={{float: 'right'}}>
-                                        {census.id === this.state.changingDefault ?
-                                            <div style={{ display: 'inline-block' }}>
-                                                <LoadingSection size={20}/>
-                                            </div> : <FontAwesome
-                                                name={census.defaultCensus === 1 ? 'star' : 'star-o'}
-                                                style={{
-                                                    cursor: 'pointer',
-                                                    fontSize: '2em',
-                                                    color: primary
-                                                }}
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    this.setDefaultCensus(census.id)
-                                                }}
-                                            />}
-
-                                        <CloneCensusModal
-                                            translate={translate}
-                                            open={this.state.cloneModal}
-                                            census={censuses.list[ this.state.cloneIndex ]}
-                                        >
-                                            <FontAwesome
-                                                name={'clone'}
-                                                style={{
-                                                    cursor: 'pointer',
-                                                    fontSize: '1.8em',
-                                                    marginLeft: '0.2em',
-                                                    color: primary
-                                                }}
-                                                onClick={(event) => {
-                                                    event.stopPropagation();
-                                                    this.setState({
-                                                        cloneModal: true,
-                                                        cloneIndex: index
-                                                    })
-                                                }}
-                                            />
-                                        </CloneCensusModal>
-
-                                        <CloseIcon
+                            hover
+                            key={`census_${census.id}`}
+                            onClick={() => this.openCensusEdit(census.id)}
+                            style={{ cursor: 'pointer' }}
+                        >
+                            <TableCell>
+                                {census.censusName}
+                            </TableCell>
+                            <TableCell>
+                                <DateWrapper format="DD/MM/YYYY HH:mm"
+                                             date={census.creationDate}/>
+                            </TableCell>
+                            <TableCell>
+                                <DateWrapper format="DD/MM/YYYY HH:mm"
+                                             date={census.lastEdit}/>
+                            </TableCell>
+                            <TableCell>
+                                <div style={{ float: 'right' }}>
+                                    {census.id === this.state.changingDefault ?
+                                        <div style={{ display: 'inline-block' }}>
+                                            <LoadingSection size={20}/>
+                                        </div> : <FontAwesome
+                                            name={census.defaultCensus === 1 ? 'star' : 'star-o'}
                                             style={{
-                                                color: primary,
-                                                marginTop: '-10px'
+                                                cursor: 'pointer',
+                                                fontSize: '2em',
+                                                color: primary
+                                            }}
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                                this.setDefaultCensus(census.id)
+                                            }}
+                                        />}
+
+                                    <CloneCensusModal
+                                        translate={translate}
+                                        open={this.state.cloneModal}
+                                        census={censuses.list[ this.state.cloneIndex ]}
+                                    >
+                                        <FontAwesome
+                                            name={'clone'}
+                                            style={{
+                                                cursor: 'pointer',
+                                                fontSize: '1.8em',
+                                                marginLeft: '0.2em',
+                                                color: primary
                                             }}
                                             onClick={(event) => {
                                                 event.stopPropagation();
                                                 this.setState({
-                                                    deleteModal: true,
-                                                    deleteCensus: census.id
+                                                    cloneModal: true,
+                                                    cloneIndex: index
                                                 })
                                             }}
                                         />
-                                    </div>
-                                </TableCell>
-                            </TableRow>);
+                                    </CloneCensusModal>
+
+                                    <CloseIcon
+                                        style={{
+                                            color: primary,
+                                            marginTop: '-10px'
+                                        }}
+                                        onClick={(event) => {
+                                            event.stopPropagation();
+                                            this.setState({
+                                                deleteModal: true,
+                                                deleteCensus: census.id
+                                            })
+                                        }}
+                                    />
+                                </div>
+                            </TableCell>
+                        </TableRow>);
                     })}
                 </EnhancedTable>}
                 <AlertConfirm
@@ -188,7 +187,9 @@ class CompanyCensusPage extends React.Component {
                     acceptAction={this.deleteCensus}
                     requestClose={() => this.setState({ deleteModal: false })}
                 />
-            </CardPageLayout>);
+            </CardPageLayout>
+
+        );
     }
 }
 

@@ -1,9 +1,8 @@
 import React from 'react';
-import { Grid, GridItem, CloseIcon,  } from "../../displayComponents/index";
+import { CloseIcon, Grid, GridItem, } from "../../displayComponents/index";
 import { getPrimary, getSecondary } from "../../styles/colors";
-import { Paper } from 'material-ui';
+import { IconButton, Paper } from 'material-ui';
 import { formatSize } from "../../utils/CBX";
-import { IconButton }  from "material-ui";
 
 
 const primary = getPrimary();

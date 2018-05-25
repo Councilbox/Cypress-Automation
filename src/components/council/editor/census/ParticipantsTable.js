@@ -1,19 +1,33 @@
 import React, { Component, Fragment } from "react";
-import { TableRow, TableCell } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 
 import { getPrimary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
-import { EnhancedTable, CloseIcon } from '../../../../displayComponents';
-import { graphql, compose } from "react-apollo";
+import { CloseIcon, EnhancedTable } from '../../../../displayComponents';
+import { compose, graphql } from "react-apollo";
 import { councilParticipants, deleteParticipant } from '../../../../queries/councilParticipant';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
-import ParticipantEditor from '../../participants/ParticipantEditor';
 import ChangeCensusMenu from './ChangeCensusMenu';
-import ParticipantStateIcon from "../../live/ParticipantStateIcon";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
 
 
 class ParticipantsTable extends Component {
+
+    closeParticipantEditor = () => {
+        this.setState({ editingParticipant: false })
+    }
+    deleteParticipant = async (id) => {
+        const response = await this.props.mutate({
+            variables: {
+                participantId: id,
+                councilId: this.props.council.id
+            }
+        });
+
+        if (response) {
+            this.table.refresh();
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -21,10 +35,6 @@ class ParticipantsTable extends Component {
             editingParticipant: false,
             participant: {}
         }
-    }
-
-    closeParticipantEditor = () => {
-        this.setState({ editingParticipant: false })
     }
 
     _renderDeleteIcon(participantID) {
@@ -42,19 +52,6 @@ class ParticipantsTable extends Component {
     componentDidMount() {
         this.props.data.refetch();
     }
-
-    deleteParticipant = async (id) => {
-        const response = await this.props.mutate({
-            variables: {
-                participantId: id,
-                councilId: this.props.council.id
-            }
-        });
-
-        if (response) {
-            this.table.refresh();
-        }
-    };
 
     render() {
         const { translate, totalVotes, totalSocialCapital, participations, council } = this.props;

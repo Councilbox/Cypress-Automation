@@ -47,7 +47,7 @@ const SignatureContainer = ({ match, company, translate }) => {
                                 state={20}
             />)
         }
-    }];
+    } ];
 
 
     return (<TabsScreen tabsIndex={tabsIndex} tabsInfo={tabsInfo} selected={match.params.section}/>);

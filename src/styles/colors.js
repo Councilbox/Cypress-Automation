@@ -13,17 +13,17 @@ export const primary = '#9C27B0';
 export const secondary = turquoise;
 
 export const getPrimary = () => {
-    if(store) {
+    if (store) {
         const color = store.getState().companies.primary;
-        return color? color : primary;
+        return color ? color : primary;
     }
     return primary;
 };
 
 export const getSecondary = () => {
-    if(store) {
+    if (store) {
         const color = store.getState().companies.secondary;
-        return color? color : secondary;
+        return color ? color : secondary;
     }
     return secondary;
 };

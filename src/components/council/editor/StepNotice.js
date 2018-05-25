@@ -5,12 +5,12 @@ import {
     ButtonIcon,
     DateTimePicker,
     ErrorAlert,
+    Grid,
+    GridItem,
     LoadingSection,
     RichTextInput,
     SelectInput,
-    TextInput,
-    Grid,
-    GridItem
+    TextInput
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import PlaceModal from './PlaceModal';
@@ -21,6 +21,91 @@ import * as CBX from '../../../utils/CBX';
 import moment from 'moment';
 
 class StepNotice extends Component {
+
+    nextPage = () => {
+        if (!this.checkRequiredFields()) {
+            this.updateCouncil(2);
+            this.props.nextStep();
+        }
+    };
+    updateCouncil = (step) => {
+        const { __typename, statute, ...council } = this.state.data;
+        this.props.updateCouncil({
+            variables: {
+                council: {
+                    ...council,
+                    step: step
+                }
+            }
+        });
+    };
+    savePlaceAndClose = (council) => {
+        this.setState({
+            placeModal: false,
+            data: {
+                ...this.state.data, ...council
+            }
+        })
+    };
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data, ...object
+            }
+        });
+    };
+    updateError = (object) => {
+        this.setState({
+            errors: {
+                ...this.state.errors, ...object
+            }
+        });
+    };
+    changeStatute = async (statuteId) => {
+        const response = await this.props.changeStatute({
+            variables: {
+                councilId: this.props.councilID,
+                statuteId: statuteId
+            }
+        });
+
+        if (response) {
+            this.props.data.refetch();
+            this.updateDate();
+        }
+    };
+    updateDate = (firstDate = this.state.data.dateStart, secondDate = this.state.data.dateStart2NdCall) => {
+        const { translate } = this.props;
+        this.updateState({
+            dateStart: firstDate,
+            dateStart2NdCall: secondDate
+        });
+        if (!CBX.checkSecondDateAfterFirst(firstDate, secondDate)) {
+            this.updateError({
+                dateStart2NdCall: translate[ '2nd_call_date_changed' ]
+            });
+            this.updateState({
+                dateStart: firstDate,
+                dateStart2NdCall: CBX.addMinimunDistance(firstDate, this.props.data.council.statute)
+            });
+        } else {
+            if (!CBX.checkMinimunDistanceBetweenCalls(firstDate, secondDate, this.props.data.council.statute)) {
+                this.updateError({
+                    dateStart2NdCall: translate.new_statutes_hours_warning.replace('{{hours}}', this.props.data.council.statute.minimumSeparationBetweenCall)
+                });
+            }
+        }
+    };
+    loadDraft = (draft) => {
+        const correctedText = CBX.changeVariablesToValues(draft.text, {
+            company: this.props.company,
+            council: this.state.data
+        });
+        this.updateState({
+            conveneText: correctedText
+        });
+        this.refs.editor.setValue(correctedText);
+    };
 
     constructor(props) {
         super(props);
@@ -56,13 +141,6 @@ class StepNotice extends Component {
             })
         }
     }
-
-    nextPage = () => {
-        if (!this.checkRequiredFields()) {
-            this.updateCouncil(2);
-            this.props.nextStep();
-        }
-    };
 
     checkRequiredFields() {
 
@@ -100,91 +178,6 @@ class StepNotice extends Component {
 
         return hasError;
     }
-
-    updateCouncil = (step) => {
-        const { __typename, statute, ...council } = this.state.data;
-        this.props.updateCouncil({
-            variables: {
-                council: {
-                    ...council,
-                    step: step
-                }
-            }
-        });
-    };
-
-    savePlaceAndClose = (council) => {
-        this.setState({
-            placeModal: false,
-            data: {
-                ...this.state.data, ...council
-            }
-        })
-    };
-
-    updateState = (object) => {
-        this.setState({
-            data: {
-                ...this.state.data, ...object
-            }
-        });
-    };
-
-    updateError = (object) => {
-        this.setState({
-            errors: {
-                ...this.state.errors, ...object
-            }
-        });
-    };
-
-    changeStatute = async (statuteId) => {
-        const response = await this.props.changeStatute({
-            variables: {
-                councilId: this.props.councilID,
-                statuteId: statuteId
-            }
-        });
-
-        if (response) {
-            this.props.data.refetch();
-            this.updateDate();
-        }
-    };
-
-    updateDate = (firstDate = this.state.data.dateStart, secondDate = this.state.data.dateStart2NdCall) => {
-        const { translate } = this.props;
-        this.updateState({
-            dateStart: firstDate,
-            dateStart2NdCall: secondDate
-        });
-        if (!CBX.checkSecondDateAfterFirst(firstDate, secondDate)) {
-            this.updateError({
-                dateStart2NdCall: translate[ '2nd_call_date_changed' ]
-            });
-            this.updateState({
-                dateStart: firstDate,
-                dateStart2NdCall: CBX.addMinimunDistance(firstDate, this.props.data.council.statute)
-            });
-        } else {
-            if (!CBX.checkMinimunDistanceBetweenCalls(firstDate, secondDate, this.props.data.council.statute)) {
-                this.updateError({
-                    dateStart2NdCall: translate.new_statutes_hours_warning.replace('{{hours}}', this.props.data.council.statute.minimumSeparationBetweenCall)
-                });
-            }
-        }
-    };
-
-    loadDraft = (draft) => {
-        const correctedText = CBX.changeVariablesToValues(draft.text, {
-            company: this.props.company,
-            council: this.state.data
-        });
-        this.updateState({
-            conveneText: correctedText
-        });
-        this.refs.editor.setValue(correctedText);
-    };
 
     render() {
         const { translate, company } = this.props;

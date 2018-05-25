@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import {
-    BasicButton, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem
+    BasicButton, ButtonIcon, ErrorWrapper, Grid, GridItem, LoadingSection
 } from "../../../../displayComponents/index";
-import { graphql, compose } from 'react-apollo';
-import { Typography, Tooltip } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
+import { Typography } from 'material-ui';
 import { councilStepThree, updateCouncil } from '../../../../queries';
 import { removeAgenda } from '../../../../queries/agenda';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
@@ -23,6 +23,69 @@ const buttonStyle = {
 
 
 class StepAgenda extends Component {
+
+    updateCouncil = (step) => {
+        const { ...council } = this.props.data.council;
+
+        this.props.updateCouncil({
+            variables: {
+                council: {
+                    ...council,
+                    step: step
+                }
+            }
+        })
+    };
+    removeAgenda = async (agendaId) => {
+        const response = await this.props.removeAgenda({
+            variables: {
+                agendaId: agendaId,
+                councilId: this.props.councilID
+            }
+        });
+
+        if (response) {
+            this.props.data.refetch();
+        }
+    };
+    selectAgenda = (index) => {
+        this.setState({
+            edit: true,
+            editIndex: index
+        })
+    };
+    nextPage = () => {
+        if (this.checkConditions()) {
+            this.updateCouncil(4);
+            this.props.nextStep();
+        }
+    };
+    checkConditions = () => {
+        const { agendas, errors } = this.state;
+        if (agendas.length !== 0) {
+            return true;
+        } else {
+            this.setState({
+                errors: {
+                    ...errors,
+                    emptyAgendas: this.props.translate.required_agendas
+                }
+            });
+            return false;
+        }
+    };
+    previousPage = () => {
+        if (true) {
+            this.updateCouncil(3);
+            this.props.previousStep();
+        }
+    };
+    saveAsDraft = (id) => {
+        this.setState({
+            saveAsDraft: true,
+            saveAsDraftId: id
+        });
+    };
 
     constructor(props) {
         super(props);
@@ -52,75 +115,6 @@ class StepAgenda extends Component {
             });
         }
     }
-
-    updateCouncil = (step) => {
-        const { ...council } = this.props.data.council;
-
-        this.props.updateCouncil({
-            variables: {
-                council: {
-                    ...council,
-                    step: step
-                }
-            }
-        })
-    };
-
-    removeAgenda = async (agendaId) => {
-        const response = await this.props.removeAgenda({
-            variables: {
-                agendaId: agendaId,
-                councilId: this.props.councilID
-            }
-        });
-
-        if (response) {
-            this.props.data.refetch();
-        }
-    };
-
-    selectAgenda = (index) => {
-        this.setState({
-            edit: true,
-            editIndex: index
-        })
-    };
-
-    nextPage = () => {
-        if (this.checkConditions()) {
-            this.updateCouncil(4);
-            this.props.nextStep();
-        }
-    };
-
-    checkConditions = () => {
-        const {agendas, errors} = this.state;
-        if (agendas.length !== 0) {
-            return true;
-        } else {
-            this.setState({
-                errors: {
-                    ...errors,
-                    emptyAgendas: this.props.translate.required_agendas
-                }
-            });
-            return false;
-        }
-    };
-
-    previousPage = () => {
-        if (true) {
-            this.updateCouncil(3);
-            this.props.previousStep();
-        }
-    };
-
-    saveAsDraft = (id) => {
-        this.setState({
-            saveAsDraft: true,
-            saveAsDraftId: id
-        });
-    };
 
     render() {
         const { translate } = this.props;
@@ -320,14 +314,14 @@ class StepAgenda extends Component {
                 refetch={this.props.data.refetch}
                 requestClose={() => this.setState({ edit: false })}
             />
-            {saveAsDraft &&  newDraft && <SaveDraftModal
+            {saveAsDraft && newDraft && <SaveDraftModal
                 open={saveAsDraft}
                 statute={council.statute}
                 data={{
                     ...newDraft,
                     text: newDraft.description,
                     description: '',
-                    title:newDraft.agendaSubject,
+                    title: newDraft.agendaSubject,
                     votationType: newDraft.subjectType,
                     type: draftTypes.filter((draft => draft.label === 'agenda'))[ 0 ].value,
                     statuteId: council.statute.statuteId

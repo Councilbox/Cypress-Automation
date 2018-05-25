@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { BasicButton, ButtonIcon, CustomDialog } from '../../../../displayComponents';
-import { graphql, compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import { getPrimary, secondary } from '../../../../styles/colors';
 import { upsertConvenedParticipant } from '../../../../queries/councilParticipant';
 import { languages } from '../../../../queries/masters';
@@ -9,17 +9,6 @@ import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } fro
 import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
 
 class AddConvenedParticipantButton extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false,
-            data: { ...initialParticipant },
-            representative: {...initialRepresentative},
-            errors: {},
-            representativeErrors: {}
-        }
-    }
 
     addParticipant = async (sendConvene) => {
         const { hasRepresentative, ...data } = this.state.representative;
@@ -44,14 +33,38 @@ class AddConvenedParticipantButton extends Component {
                 this.setState({
                     modal: false,
                     data: { ...initialParticipant },
-                    representative: {...initialRepresentative},
+                    representative: { ...initialRepresentative },
                     errors: {},
                     representativeErrors: {}
                 });
             }
         }
     };
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data, ...object
+            }
+        });
+    };
+    updateRepresentative = (object) => {
+        this.setState({
+            representative: {
+                ...this.state.representative, ...object
+            }
+        })
+    };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            modal: false,
+            data: { ...initialParticipant },
+            representative: { ...initialRepresentative },
+            errors: {},
+            representativeErrors: {}
+        }
+    }
 
     checkRequiredFields() {
         const participant = this.state.data;
@@ -64,7 +77,7 @@ class AddConvenedParticipantButton extends Component {
             errors: {},
             hasError: false
         };
-        if(representative.hasRepresentative){
+        if (representative.hasRepresentative) {
             errorsRepresentative = checkRequiredFieldsRepresentative(representative, translate);
         }
 
@@ -77,27 +90,9 @@ class AddConvenedParticipantButton extends Component {
         return (errorsParticipant.hasError || errorsRepresentative.hasError);
     }
 
-    updateState = (object) => {
-        this.setState({
-            data: {
-                ...this.state.data,
-                ...object
-            }
-        });
-    };
-
-    updateRepresentative = (object) => {
-        this.setState({
-            representative: {
-                ...this.state.representative,
-                ...object
-            }
-        })
-    };
-
     render() {
         const primary = getPrimary();
-        const {data: participant, errors, representativeErrors, representative} = this.state;
+        const { data: participant, errors, representativeErrors, representative } = this.state;
         const { translate, participations } = this.props;
         const { languages } = this.props.data;
 
@@ -123,7 +118,7 @@ class AddConvenedParticipantButton extends Component {
                 title={translate.add_participant}
                 requestClose={() => this.setState({ modal: false })}
                 open={this.state.modal}
-                actions = {<Fragment>
+                actions={<Fragment>
                     <BasicButton
                         text={translate.cancel}
                         textStyle={{
@@ -141,7 +136,9 @@ class AddConvenedParticipantButton extends Component {
                         }}
                         buttonStyle={{ marginLeft: '1em' }}
                         color={secondary}
-                        onClick={()=>{this.addParticipant(true)}}
+                        onClick={() => {
+                            this.addParticipant(true)
+                        }}
                     />
                     <BasicButton
                         text={translate.save_changes}
@@ -152,7 +149,9 @@ class AddConvenedParticipantButton extends Component {
                         }}
                         buttonStyle={{ marginLeft: '1em' }}
                         color={primary}
-                        onClick={()=>{this.addParticipant(false)}}
+                        onClick={() => {
+                            this.addParticipant(false)
+                        }}
                     />
                 </Fragment>}>
                 <ParticipantForm

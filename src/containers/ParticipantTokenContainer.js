@@ -7,22 +7,22 @@ import { LoadingMainApp } from '../displayComponents';
 import InvalidUrl from '../components/participant/InvalidUrl.jsx';
 
 class ParticipantTokenContainer extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            loading:true,
+            loading: true,
             error: false,
             participant: null
         }
     }
 
-    async componentDidUpdate(prevProps){
-        if(!prevProps.translate.send && this.props.translate.send){
-            this.setState({loading: true});
+    async componentDidUpdate(prevProps) {
+        if (!prevProps.translate.send && this.props.translate.send) {
+            this.setState({ loading: true });
 
             try {
                 const response = await this.props.participantToken();
-                if(response){
+                if (response) {
                     const token = response.data.participantToken;
                     sessionStorage.setItem('participantToken', token);
                     const responseQueryMe = await this.props.client.query({
@@ -32,37 +32,39 @@ class ParticipantTokenContainer extends React.Component {
                     });
                     const participant = responseQueryMe.data.participantMe;
 
-                    this.setState({token: token, loading: false, participant: participant});
-                }
-                else{
+                    this.setState({
+                        token: token,
+                        loading: false,
+                        participant: participant
+                    });
+                } else {
                     throw new Error('Error getting participant token');
                 }
             } catch (error) {
                 console.log(error);
                 //TODO ADD TOAST OR LOAD MESSAGE VIEW
-                this.setState({error: true, loading: false});
+                this.setState({
+                    error: true,
+                    loading: false
+                });
             }
         }
     }
 
-    render(){
+    render() {
         const { loading, error, participant } = this.state;
         const { translate } = this.props;
-        if(Object.keys(translate).length === 0 && loading){
-            return <LoadingMainApp />
+        if (Object.keys(translate).length === 0 && loading) {
+            return <LoadingMainApp/>
         }
 
-        if(error){
-            return(<InvalidUrl />)
+        if (error) {
+            return (<InvalidUrl/>)
         }
 
-        return(
-            <React.Fragment>
-                {participant &&
-                    <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
-                }
-            </React.Fragment>
-        );
+        return (<React.Fragment>
+            {participant && <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`}/>}
+        </React.Fragment>);
     }
 }
 

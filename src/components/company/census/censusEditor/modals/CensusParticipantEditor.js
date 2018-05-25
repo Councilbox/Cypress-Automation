@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../../displayComponents/index';
-import { graphql, compose } from 'react-apollo';
+import { AlertConfirm } from '../../../../../displayComponents/index';
+import { compose, graphql } from 'react-apollo';
 import { getPrimary } from '../../../../../styles/colors';
 import { updateCensusParticipant } from '../../../../../queries/census';
 import { languages } from '../../../../../queries/masters';
@@ -10,31 +10,6 @@ import ParticipantForm from "../../../../council/participants/ParticipantForm";
 import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../../utils/validation";
 
 class CensusParticipantEditor extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false,
-            data: {},
-            representative: {},
-            errors: {},
-            representativeErrors: {}
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState){
-        let { representative, ...participant} = extractTypeName(nextProps.participant);
-        representative = representative ? {
-            hasRepresentative: true,
-            ...extractTypeName(representative)
-        } : initialRepresentative;
-        return {
-            data: participant,
-            representative: representative
-        }
-    }
-    
-    
 
     updateCensusParticipant = async () => {
         const { hasRepresentative, ...data } = this.state.representative;
@@ -61,6 +36,42 @@ class CensusParticipantEditor extends Component {
             }
         }
     };
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data, ...object
+            }
+        });
+    };
+    updateRepresentative = (object) => {
+        this.setState({
+            representative: {
+                ...this.state.representative, ...object
+            }
+        })
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            modal: false,
+            data: {},
+            representative: {},
+            errors: {},
+            representativeErrors: {}
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let { representative, ...participant } = extractTypeName(nextProps.participant);
+        representative = representative ? {
+            hasRepresentative: true, ...extractTypeName(representative)
+        } : initialRepresentative;
+        return {
+            data: participant,
+            representative: representative
+        }
+    }
 
     checkRequiredFields() {
         const participant = this.state.data;
@@ -73,7 +84,7 @@ class CensusParticipantEditor extends Component {
             errors: {},
             hasError: false
         };
-        if(representative.hasRepresentative){
+        if (representative.hasRepresentative) {
             errorsRepresentative = checkRequiredFieldsRepresentative(representative, translate);
         }
 
@@ -85,24 +96,6 @@ class CensusParticipantEditor extends Component {
 
         return (errorsParticipant.hasError || errorsRepresentative.hasError);
     }
-
-    updateState = (object) => {
-        this.setState({
-            data: {
-                ...this.state.data,
-                ...object
-            }
-        });
-    };
-
-    updateRepresentative = (object) => {
-        this.setState({
-            representative: {
-                ...this.state.representative,
-                ...object
-            }
-        })
-    };
 
     _renderBody() {
         const participant = this.state.data;
@@ -167,7 +160,7 @@ const initialRepresentative = {
     dni: '',
 };
 
-function extractTypeName (object) {
-    let {__typename, ...rest} = object;
+function extractTypeName(object) {
+    let { __typename, ...rest } = object;
     return rest;
 }
