@@ -52,7 +52,7 @@ class ParticipantLogin extends Component {
                     </Card>
                 </div>
             </div>
-        </div>);
+        );
     }
 }
 
