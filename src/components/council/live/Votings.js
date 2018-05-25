@@ -104,7 +104,6 @@ class VotingsSection extends Component {
 				return this.props.translate.no_vote;
 			case VOTE_VALUES.NEGATIVE:
 				return this.props.translate.against_btn;
-
 			case VOTE_VALUES.POSITIVE:
 				return this.props.in_favor_btn;
 
@@ -379,7 +378,17 @@ class VotingsSection extends Component {
 													</Tooltip>
 												</div>
 											</TableCell>
-											<TableCell>{`${vote.author.name}`}</TableCell>
+											<TableCell>
+												{vote.authorRepresentative?
+                                                    <React.Fragment>
+                                                        {`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname}`}
+                                                        <br/>
+                                                        {`${translate.delegated_vote_from} - ${vote.author.name} ${vote.author.surname}`}
+                                                    </React.Fragment>
+											: 
+                                                `${vote.author.name} ${vote.author.surname}`}<br/>
+                                                
+											</TableCell>
 											<TableCell>{`${vote.author.position}`}</TableCell>
 											<TableCell>
 												{`${vote.author.numParticipations} (${(

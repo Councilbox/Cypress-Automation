@@ -114,7 +114,11 @@ class CommentsSection extends Component {
                         <React.Fragment>
                             {this.props.data.agendaComments.list.map((voting) => {
                                 return(
-                                    <GridItem xs={6} lg={6} md={6} key={`voting_${voting.author.email}`} style={{paddingBottom: '0.5em', paddingLeft: '2em', paddingRight: '2em'}}>
+                                    <GridItem
+                                        xs={6} lg={6} md={6}
+                                        key={`voting_${voting.author.email}`}
+                                        style={{paddingBottom: '0.5em', paddingLeft: '2em', paddingRight: '2em'}}
+                                    >
                                         <div style={{borderBottom: '1px solid black'}}>
                                             <span style={{fontStyle: 'italic', fontSize: '0.85em'}}>{`"${voting.comment}"`}</span><br />
                                             <span style={{fontSize: '0.73rem'}}>{`${voting.author.name} - ${voting.author.position}`}</span>
