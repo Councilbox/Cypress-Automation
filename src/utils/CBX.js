@@ -1,4 +1,4 @@
-import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE, PARTICIPANT_STATES, SEND_TYPES } from '../constants';
+import { MAX_COUNCIL_ATTACHMENTS, MAX_COUNCIL_FILE_SIZE, PARTICIPANT_STATES, SEND_TYPES, COUNCIL_STATES } from '../constants';
 import moment from 'moment';
 import dropped from '../assets/img/dropped.png';
 import delivered from '../assets/img/delivered.png';
@@ -207,8 +207,24 @@ export const councilIsNotified = (council) => {
     return council.state === 10;
 };
 
-export const councilIsStarted = (council) => {
-    return council.state >= 20;
+export const councilIsInTrash = (council) => {
+    return council.state === COUNCIL_STATES.CANCELED;
+};
+
+export const councilIsNotLiveYet = (council) => {
+    return (council.state < COUNCIL_STATES.ROOM_OPENED && council.state > COUNCIL_STATES.CANCELED);
+};
+
+export const councilIsLive = (council) => {
+    return (council.state >= COUNCIL_STATES.ROOM_OPENED && council.state < COUNCIL_STATES.FINISHED);
+};
+
+export const councilIsFinished = (council) => {
+    return (council.state >= COUNCIL_STATES.FINISHED && council.state !== COUNCIL_STATES.NOT_CELEBRATED);
+};
+
+export const councilIsNotCelebrated = (council) => {
+    return council.state === COUNCIL_STATES.NOT_CELEBRATED;
 };
 
 export const councilHasAssistanceConfirmation = (council) => {
