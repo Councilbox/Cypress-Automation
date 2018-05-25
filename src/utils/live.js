@@ -1,9 +1,9 @@
 import { store } from '../containers/App';
-import { AGENDA_TYPE } from '../constants';
+import { AGENDA_TYPES } from '../constants';
 
 class LiveUtil {
-    static qualityVoteRequirements(agenda, council){
-        return (agenda.subject_type === AGENDA_TYPE.PUBLIC_ACT || agenda.subject_type === AGENDA_TYPE.PUBLIC_VOTING) && (agenda.majority_type === 1) && (agenda.positive_votings + agenda.positive_manual) === (agenda.negative_votings + agenda.negative_manual) && council.statutes[0].exists_quality_vote;
+    static qualityVoteRequirements(agenda, council) {
+        return (agenda.subject_type === AGENDA_TYPES.PUBLIC_ACT || agenda.subject_type === AGENDA_TYPES.PUBLIC_VOTING) && (agenda.majority_type === 1) && (agenda.positive_votings + agenda.positive_manual) === (agenda.negative_votings + agenda.negative_manual) && council.statutes[ 0 ].exists_quality_vote;
     }
 
     static parsePercentaje(number, divisor) {

@@ -1,15 +1,25 @@
 import React, { Component } from 'react';
 import {
-    CardPageLayout, TextInput, SelectInput, FileUploadButton, LoadingSection, ButtonIcon, BasicButton, Grid, GridItem
+    AlertConfirm,
+    BasicButton,
+    ButtonIcon,
+    CardPageLayout,
+    FileUploadButton,
+    Grid,
+    GridItem,
+    LoadingSection,
+    SelectInput,
+    TextInput
 } from '../../../displayComponents';
-import { Typography, MenuItem } from 'material-ui';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { MenuItem, Typography } from 'material-ui';
+import { compose, graphql, withApollo } from 'react-apollo';
 import { provinces } from '../../../queries/masters';
-import { updateCompany } from '../../../queries/company';
+import { unlinkCompany, updateCompany } from '../../../queries/company';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { store } from '../../../containers/App';
-import { setCompany } from '../../../actions/companyActions';
+import { bHistory, store } from '../../../containers/App';
+import { getCompanies, setCompany } from '../../../actions/companyActions';
 import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 
 export const info = gql `
   query info {
@@ -30,47 +40,11 @@ export const info = gql `
 
 class CompanySettingsPage extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: this.props.company,
-            success: false,
-            error: false,
-            request: false,
-            provinces: [],
-            errors: {}
-        }
-    }
-
-    async componentWillReceiveProps(nextProps) {
-
-        this.setState({
-            data: nextProps.company
-        });
-
-        if (!nextProps.info.loading) {
-            const selectedCountry = nextProps.info.countries.find((country) => country.deno === this.props.company.country);
-
-            this.updateProvinces(selectedCountry.id);
-        }
-    }
-
-    updateState(newValues) {
-        this.setState({
-            data: {
-                ...this.state.data,
-                ...newValues
-            },
-            success: false
-        });
-    }
-
     handleCountryChange = (event) => {
-        this.updateState({country: event.target.value});
+        this.updateState({ country: event.target.value });
         const selectedCountry = this.props.info.countries.find((country) => country.deno === event.target.value);
         this.updateProvinces(selectedCountry.id);
     };
-
     updateProvinces = async (countryID) => {
         const response = await this.props.client.query({
             query: provinces,
@@ -85,7 +59,6 @@ class CompanySettingsPage extends Component {
             })
         }
     };
-
     handleFile = (event) => {
         const file = event.nativeEvent.target.files[ 0 ];
         if (!file) {
@@ -115,7 +88,6 @@ class CompanySettingsPage extends Component {
             });
         }
     };
-
     saveCompany = async () => {
         if (!this.checkRequiredFields()) {
             this.setState({
@@ -144,6 +116,57 @@ class CompanySettingsPage extends Component {
             }
         }
     };
+    unlinkCompany = async () => {
+        const response = await this.props.unlinkCompany({
+            variables: {
+                userId: this.props.user.id,
+                companyTin: this.props.company.tin
+            }
+        });
+
+        if (!response.errors) {
+            if (response.data.unlinkCompany.success) {
+                store.dispatch(getCompanies(this.props.user.id));
+                toast.success(this.props.translate.company_link_unliked_title);
+                bHistory.push('/');
+            }
+        }
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: this.props.company,
+            success: false,
+            error: false,
+            unlinkModal: false,
+            request: false,
+            provinces: [],
+            errors: {}
+        }
+    }
+
+    async componentWillReceiveProps(nextProps) {
+
+        this.setState({
+            data: nextProps.company
+        });
+
+        if (!nextProps.info.loading) {
+            const selectedCountry = nextProps.info.countries.find((country) => country.deno === this.props.company.country);
+
+            this.updateProvinces(selectedCountry.id);
+        }
+    }
+
+    updateState(newValues) {
+        this.setState({
+            data: {
+                ...this.state.data, ...newValues
+            },
+            success: false
+        });
+    }
 
     checkRequiredFields() {
         const { translate } = this.props;
@@ -229,11 +252,12 @@ class CompanySettingsPage extends Component {
                                     floatingText={translate.company_type}
                                     value={data.type}
                                     disabled
-                                    onChange={(event)=>this.updateState({ type: event.target.value })}
+                                    onChange={(event) => this.updateState({ type: event.target.value })}
                                     errorText={errors.type}
                                 >
                                     {this.props.info.companyTypes.map((companyType) => {
-                                        return <MenuItem key={companyType.label} value={companyType.value}>{translate[companyType.label]}</MenuItem>
+                                        return <MenuItem key={companyType.label}
+                                                         value={companyType.value}>{translate[ companyType.label ]}</MenuItem>
                                     })}
                                 </SelectInput>
                             </GridItem>
@@ -275,15 +299,13 @@ class CompanySettingsPage extends Component {
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3} style={{ textAlign: 'center' }}>
                         <GridItem xs={12} md={12} lg={12}>
-                            {!!data.logo &&
-                                <img src={data.logo} alt="logo" style={{
-                                    marginBottom: '0.6em',
-                                    maxHeight: '4em',
-                                    maxWidth: '100%'
-                                }}/>
-                            }
+                            {!!data.logo && <img src={data.logo} alt="logo" style={{
+                                marginBottom: '0.6em',
+                                maxHeight: '4em',
+                                maxWidth: '100%'
+                            }}/>}
                         </GridItem>
-                        <GridItem xs={12} md={12} lg={12}>                        
+                        <GridItem xs={12} md={12} lg={12}>
                             <FileUploadButton
                                 text={translate.company_logotype}
                                 image
@@ -393,6 +415,31 @@ class CompanySettingsPage extends Component {
                     onClick={this.saveCompany}
                     icon={<ButtonIcon type="save" color='white'/>}
                 />
+                <BasicButton
+                    text={translate.unlink}
+                    color={getPrimary()}
+                    floatRight
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
+                    buttonStyle={{ marginRight: '1.2em' }}
+                    onClick={() => this.setState({
+                        unlinkModal: true
+                    })}
+                    icon={<ButtonIcon type="link_off" color='white'/>}
+                />
+                <AlertConfirm
+                    requestClose={() => this.setState({ unlinkModal: false })}
+                    open={this.state.unlinkModal}
+                    acceptAction={this.unlinkCompany}
+                    buttonAccept={translate.accept}
+                    buttonCancel={translate.cancel}
+                    bodyText={<div>
+                        {translate.companies_unlink}
+                    </div>}
+                    title={translate.edit}
+                />
             </CardPageLayout>
 
         );
@@ -404,4 +451,6 @@ export default compose(graphql(info, { name: 'info' }), graphql(updateCompany, {
     options: {
         errorPolicy: 'all'
     }
+}), graphql(unlinkCompany, {
+    name: 'unlinkCompany'
 }))(withApollo(CompanySettingsPage));

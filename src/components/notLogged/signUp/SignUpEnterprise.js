@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import {
-    BasicButton,
-    ButtonIcon,
-    LoadingSection,
-    SelectInput,
-    TextInput,
-    Grid,
-    GridItem
+    BasicButton, ButtonIcon, Grid, GridItem, LoadingSection, SelectInput, TextInput
 } from '../../../displayComponents';
 import { MenuItem } from 'material-ui/Menu';
 import { graphql } from 'react-apollo';
@@ -17,11 +11,16 @@ import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 
 class SignUpEnterprise extends Component {
 
-     nextPage = async () => {
+    nextPage = async () => {
         let isSuccess = await this.checkRequiredFields();
         if (!isSuccess) {
             this.props.nextPage();
         }
+    };
+    handleTypeChange = (event) => {
+        this.props.updateState({
+            type: event.target.value
+        });
     };
 
     async checkRequiredFields() {
@@ -64,12 +63,6 @@ class SignUpEnterprise extends Component {
 
         return response.data.checkCifExists.success;
     }
-
-    handleTypeChange = (event) => {
-        this.props.updateState({
-            type: event.target.value
-        });
-    };
 
     render() {
         if (this.props.data.loading) {

@@ -10,10 +10,10 @@ import background from '../../../assets/img/signup3.jpg';
 const styles = {
     viewContainer: {
         width: '100vw',
-        height: '100vh', 
+        height: '100vh',
         position: 'relative'
     },
-    mainContainer:{
+    mainContainer: {
         width: '100%',
         height: 'calc(100% - 48px)',
         display: 'flex',
@@ -52,7 +52,7 @@ class ParticipantLogin extends Component {
                     </Card>
                 </div>
             </div>
-        );
+        </div>);
     }
 }
 

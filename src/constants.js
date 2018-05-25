@@ -4,20 +4,18 @@ export const MAX_COUNCIL_ATTACHMENTS = 5;
 
 export const agendaTypes = [ 'text', 'public_voting', 'public_act', 'fake_public_votation', 'private_act', 'private_voting' ];
 
-export const AGENDA_TYPE = {
-    'INFORMATIVE': 0,
-    'PUBLIC_VOTING': 1,
-    'PUBLIC_ACT': 2,
-    'PRIVATE_VOTING': 3,
-    'PRIVATE_ACT': 4,
-    'REAL_PRIVATE_VOTING': 5
-};
-
 export const DRAFTS_LIMITS = [ 25, 50, 100, 250 ];
 export const CENSUS_LIMITS = [ 25, 50, 100, 250 ];
 export const PARTICIPANTS_LIMITS = [ 25, 50, 100, 250 ];
 export const DELEGATION_USERS_LOAD = 25;
 
+
+export const VOTE_VALUES = {
+    NO_VOTE: -1,
+    NEGATIVE: 0,
+    POSITIVE: 1,
+    ABSTENTION: 2
+}
 
 
 export const EMAIL_TRACK_STATES = {
@@ -78,3 +76,12 @@ export const COUNCIL_STATES = {
     FINISHED_WITHOUT_ACT: 90,
     MEETING_FINISHED: 100
 };
+
+export const AGENDA_TYPES = {
+    INFORMATIVE: 0,
+    PUBLIC_VOTING: 1,
+    PUBLIC_ACT: 2,
+    FAKE_PUBLIC_VOTING: 3,
+    PRIVATE_ACT: 4,
+    PRIVATE_VOTING: 5
+}

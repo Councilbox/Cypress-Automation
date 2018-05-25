@@ -4,13 +4,12 @@ export default function companyReducer(state = initialState.company, action) {
     switch (action.type) {
 
         case 'SIGN_UP_INFO':
-            return{
-                ...state,
-                ...action.value
+            return {
+                ...state, ...action.value
             }
 
         case 'COMPANIES':
-            return{
+            return {
                 ...state,
                 list: action.value,
                 selected: action.selected || 0

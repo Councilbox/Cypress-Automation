@@ -1,87 +1,16 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-
 import {
-    AlertConfirm, SelectInput, TextInput, RichTextInput, Grid, GridItem, MajorityInput, BasicButton
-} from '../../../../displayComponents/index';
+    AlertConfirm, BasicButton, Grid, GridItem, MajorityInput, RichTextInput, SelectInput, TextInput
+} from '../../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
-import LoadDraft from '../../../company/drafts/LoadDraft';
-import { addAgenda } from '../../../../queries/agenda';
-import * as CBX from '../../../../utils/CBX';
-import { getSecondary } from "../../../../styles/colors";
+import { updateAgenda } from '../../../../../queries/agenda';
+import * as CBX from '../../../../../utils/CBX';
+import LoadDraft from '../../../../company/drafts/LoadDraft';
+import { getSecondary } from "../../../../../styles/colors";
+import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 
-class NewAgendaPointModal extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            newPoint: {
-                agendaSubject: '',
-                subjectType: '',
-                description: '',
-                majority: null,
-                majorityType: 1,
-                majorityDivider: null,
-            },
-            loadDraft: false,
-            newPointModal: false,
-            saveAsDraft: false,
-
-            errors: {
-                agendaSubject: '',
-                subjectType: '',
-                description: ''
-            }
-        }
-    }
-
-    addAgenda = async () => {
-        if (this.checkRequiredFields()) {
-            const { newPoint } = this.state;
-            const response = await this.props.addAgenda({
-                variables: {
-                    agenda: {
-                        councilId: this.props.council.id, ...newPoint,
-                        sortable: 1,
-                        orderIndex: this.props.agendas.length + 1
-                    }
-                }
-            });
-            if (response) {
-                this.setState({ loadDraft: false });
-                this.props.refetch();
-                this.close();
-            }
-        }
-    };
-
-    close = () => {
-        this.setState({
-            newPoint: {
-                agendaSubject: '',
-                subjectType: '',
-                description: ''
-            },
-
-            newPointModal: false,
-            loadDraft: false,
-
-            errors: {
-                agendaSubject: '',
-                subjectType: '',
-                description: ''
-            }
-        });
-    };
-
-    updateState = (object) => {
-        this.setState({
-            newPoint: {
-                ...this.state.newPoint, ...object
-            },
-            loadDraft: false
-        });
-    };
+class PointEditor extends Component {
 
     loadDraft = (draft) => {
         const correctedText = CBX.changeVariablesToValues(draft.text, {
@@ -94,27 +23,44 @@ class NewAgendaPointModal extends Component {
             majorityType: draft.majorityType,
             majorityDivider: draft.majorityDivider,
             subjectType: draft.type,
-            agendaSubject: draft.title
+            agendaSubject: draft.title,
         });
         this.editor.setValue(correctedText);
     };
-
-    checkRequiredFields() {
-        return true;
-    }
-
-    _renderNewPointBody = () => {
-        const { translate, votingTypes, statute, council, company, companyStatutes } = this.props;
-        const errors = this.state.errors;
-        const agenda = this.state.newPoint;
-        const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
+    saveChanges = async () => {
+        if (!this.checkRequiredFields()) {
+            const { __typename, ...data } = this.state.data;
+            const response = await this.props.updateAgenda({
+                variables: {
+                    agenda: {
+                        ...data
+                    }
+                }
+            });
+            if (response) {
+                this.props.refetch();
+                this.props.requestClose();
+            }
+        }
+    };
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data, ...object
+            },
+            loadDraft: false
+        });
+    };
+    _renderModalBody = () => {
         const secondary = getSecondary();
+        const { translate, votingTypes, statute, draftTypes, council, company, companyStatutes } = this.props;
+        const errors = this.state.errors;
+        const agenda = this.state.data;
 
-        return (
+        const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
 
-            <div style={{
-                width: '90vw',
-                maxWidth: '1000px'
+        return (<div style={{
+                width: '80vw'
             }}>
                 {this.state.loadDraft &&
 
@@ -124,6 +70,7 @@ class NewAgendaPointModal extends Component {
                     loadDraft={this.loadDraft}
                     statute={statute}
                     statutes={companyStatutes}
+                    draftTypes={draftTypes}
                     draftType={1}
                 />}
 
@@ -131,30 +78,34 @@ class NewAgendaPointModal extends Component {
                     <Grid>
                         <GridItem xs={12} md={9} lg={9}>
                             <TextInput
-                                floatingText={translate.title}
+                                floatingText={translate.convene_header}
                                 type="text"
                                 errorText={errors.agendaSubject}
                                 value={agenda.agendaSubject}
                                 onChange={(event) => this.updateState({
                                     agendaSubject: event.target.value
                                 })}
+                                required
                             />
                         </GridItem>
                         <GridItem xs={12} md={3} lg={3}>
                             <SelectInput
                                 floatingText={translate.type}
-                                value={'' + agenda.subjectType}
+                                value={agenda.subjectType}
+                                errorText={errors.subjectType}
                                 onChange={(event) => this.updateState({
-                                    subjectType: +event.target.value
+                                    subjectType: event.target.value
                                 })}
+                                required
                             >
                                 {filteredTypes.map((voting) => {
-                                    return <MenuItem value={'' + voting.value}
+                                    return <MenuItem value={voting.value}
                                                      key={`voting${voting.value}`}>{translate[ voting.label ]}</MenuItem>
                                 })}
                             </SelectInput>
                         </GridItem>
                     </Grid>
+
                     {CBX.hasVotation(agenda.subjectType) && <Grid>
                         <GridItem xs={6} lg={3} md={3}>
                             <SelectInput
@@ -164,6 +115,7 @@ class NewAgendaPointModal extends Component {
                                 onChange={(event) => this.updateState({
                                     majorityType: +event.target.value
                                 })}
+                                required
                             >
                                 {this.props.majorityTypes.map((majority) => {
                                     return <MenuItem value={'' + majority.value}
@@ -172,7 +124,7 @@ class NewAgendaPointModal extends Component {
                             </SelectInput>
                         </GridItem>
                         <GridItem xs={6} lg={3} md={3}>
-                            {CBX.majorityNeedsInput(agenda.majorityType) && <MajorityInput
+                            {CBX.majorityNeedsInput(agenda.majorityType) && (<MajorityInput
                                 type={agenda.majorityType}
                                 style={{
                                     marginTop: '1em'
@@ -187,7 +139,7 @@ class NewAgendaPointModal extends Component {
                                 onChangeDivider={(value) => this.updateState({
                                     majorityDivider: +value
                                 })}
-                            />}
+                            />)}
                         </GridItem>
                     </Grid>}
 
@@ -219,7 +171,7 @@ class NewAgendaPointModal extends Component {
                         }, {
                             value: company.city,
                             label: translate.company_new_locality
-                        } ]}
+                        }, ]}
                         errorText={errors.description}
                         value={agenda.description}
                         onChange={(value) => this.updateState({
@@ -227,30 +179,62 @@ class NewAgendaPointModal extends Component {
                         })}
                     />
                 </div>
+            </div>
 
-            </div>);
+        );
     };
 
-    render() {
-        const { translate, children } = this.props;
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            },
+            loadDraft: false,
+            errors: {
+                agendaSubject: '',
+                subjectType: '',
+                description: '',
+                majorityType: '',
+                majority: '',
+                majorityDivider: '',
+            }
+        }
+    }
 
-        return (<Fragment>
-            <div onClick={() => this.setState({ newPointModal: true })}>
-                {children}
-            </div>
-            <AlertConfirm
-                requestClose={() => this.close()}
-                open={this.state.newPointModal}
-                acceptAction={this.addAgenda}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderNewPointBody()}
-                title={translate.new_point}
-            />
-        </Fragment>);
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            data: {
+                ...nextProps.agenda
+            }
+        })
+    }
+
+    checkRequiredFields() {
+        const { translate } = this.props;
+        const agenda = this.state.data;
+        let errors = checkRequiredFieldsAgenda(agenda, translate);
+        this.setState({
+            errors: errors.errors,
+        });
+        return errors.hasError;
+    }
+
+    render() {
+        const { open, translate, requestClose } = this.props;
+
+        return (<AlertConfirm
+            requestClose={requestClose}
+            open={open}
+            acceptAction={this.saveChanges}
+            buttonAccept={translate.accept}
+            buttonCancel={translate.cancel}
+            bodyText={this._renderModalBody()}
+            title={translate.edit}
+        />);
     }
 }
 
-export default graphql(addAgenda, {
-    name: 'addAgenda'
-})(NewAgendaPointModal);
+export default graphql(updateAgenda, { name: 'updateAgenda' })(PointEditor);

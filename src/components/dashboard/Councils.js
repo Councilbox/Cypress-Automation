@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { councils, deleteCouncil } from '../../queries.js';
-import { graphql, compose } from 'react-apollo';
-import withSharedProps from '../../HOCs/withSharedProps';
+import { compose, graphql } from 'react-apollo';
 import {
-    LoadingSection, DateWrapper, AlertConfirm, SectionTitle, Table, ErrorWrapper, CloseIcon
+    AlertConfirm, CloseIcon, DateWrapper, ErrorWrapper, LoadingSection, SectionTitle, Table
 } from '../../displayComponents/index';
 import { getPrimary } from '../../styles/colors';
-import { TableRow, TableCell } from 'material-ui/Table';
+import { TableCell, TableRow } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import TableStyles from '../../styles/table';
@@ -15,25 +14,12 @@ import { bHistory } from "../../containers/App";
 
 class Councils extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            councilToDelete: '',
-            deleteModal: false
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
-
     openDeleteModal = (councilID) => {
         this.setState({
             deleteModal: true,
             councilToDelete: councilID
         })
     };
-
     deleteCouncil = async () => {
         this.props.data.loading = true;
         const response = await this.props.mutate({
@@ -48,6 +34,18 @@ class Councils extends Component {
             this.props.data.refetch();
         }
     };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            councilToDelete: '',
+            deleteModal: false
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
 
     _renderDeleteIcon(councilID) {
         const primary = getPrimary();

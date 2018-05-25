@@ -3,26 +3,28 @@ import { client } from '../containers/App';
 import * as queries from '../queries';
 
 /*const apiURLs = {
-    prod: {
-        url: 'https://video.councilbox.com/#/login/',
-        api: 'https://app.councilbox.com/server/api/'
-    },
+ prod: {
+ url: 'https://video.councilbox.com/#/login/',
+ api: 'https://app.councilbox.com/server/api/'
+ },
 
-    beta: {
-        url: 'https://videobeta.councilbox.com/#/login/',
-        api: 'https://beta.councilbox.com/server/api/'
-    }
-}*/
+ beta: {
+ url: 'https://videobeta.councilbox.com/#/login/',
+ api: 'https://beta.councilbox.com/server/api/'
+ }
+ }*/
 
 class CouncilboxApi {
     static login(userData) {
         const request = new Request(`https://beta.councilbox.com/server/api/login?where=%7B"user":"${userData.user}","password":"${userData.password}"%7D`, {
             method: 'GET'
         });
-        return fetch(request).then(response => {return response.json()});
+        return fetch(request).then(response => {
+            return response.json()
+        });
     }
 
-    static async getCompanyTypes(){
+    static async getCompanyTypes() {
         const request = new Request(`https://beta.councilbox.com/server/api/company_types`, {
             method: 'GET'
         });
@@ -31,7 +33,7 @@ class CouncilboxApi {
         return data.result;
     }
 
-    static async getCountries(){
+    static async getCountries() {
         const request = new Request(`https://beta.councilbox.com/server/api/countries`, {
             method: 'GET'
         });
@@ -40,7 +42,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getLanguageList(){
+    static async getLanguageList() {
         const request = new Request(`https://beta.councilbox.com/server/api/languages`, {
             method: 'GET'
         });
@@ -49,7 +51,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getProvinces(countryID){
+    static async getProvinces(countryID) {
         const request = new Request(`https://beta.councilbox.com/server/api/provinces?where=%7B"country_id":${countryID}%7D`, {
             method: 'GET'
         });
@@ -58,7 +60,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getVotingTypes(){
+    static async getVotingTypes() {
         const request = new Request(`https://beta.councilbox.com/server/api/votation_types`, {
             method: 'GET',
             headers: new Headers({
@@ -71,7 +73,7 @@ class CouncilboxApi {
         return data.result;
     }
 
-    static async getMajorities(){
+    static async getMajorities() {
         const request = new Request(`https://beta.councilbox.com/server/api/majorities`, {
             method: 'GET',
             headers: new Headers({
@@ -84,7 +86,7 @@ class CouncilboxApi {
         return data.result;
     }
 
-    static async getCouncils(info){
+    static async getCouncils(info) {
         const request = new Request(`https://beta.councilbox.com/server/api/dashboard/getCouncils?data=%7B%22company_id%22:%22${info.company_id}%22,%22view%22:%22${info.view}%22,%22isMeeting%22:${info.isMeeting}%7D`, {
             method: 'GET',
             headers: new Headers({
@@ -97,22 +99,11 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getSubscriptions(){
-        return Promise.resolve([
-            'LITE - 25 €/mes',
-            'LITE - 240 €/año',
-            'BASIC - 50 €/mes',
-            'BASIC - 480 €/año', 
-            'PRO - 100 €/mes',
-            'PRO - 960 €/año',
-            'BUSINESS - 180 €/mes',
-            'BUSINESS - 1.800 €/año',
-            'TARIFA PAGO POR USO *consultar condiciones',
-            'Otra'
-        ]);
+    static async getSubscriptions() {
+        return Promise.resolve([ 'LITE - 25 €/mes', 'LITE - 240 €/año', 'BASIC - 50 €/mes', 'BASIC - 480 €/año', 'PRO - 100 €/mes', 'PRO - 960 €/año', 'BUSINESS - 180 €/mes', 'BUSINESS - 1.800 €/año', 'TARIFA PAGO POR USO *consultar condiciones', 'Otra' ]);
     }
 
-    static createCompany(company){
+    static createCompany(company) {
         const body = {
             "preferred_language": 'es',
             "type": company.type,
@@ -140,20 +131,20 @@ class CouncilboxApi {
 
         const request = new Request('https://beta.councilbox.com/server/api/societyUp', {
             method: 'POST',
-            headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
+            headers: new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' }),
             body: data
         });
 
         return fetch(request).then(response => {
             return response.json();
-        }).catch( error => {
+        }).catch(error => {
             throw error;
         });
         //return Promise.resolve({code: 200});
         //return Promise.reject({code: 602})
     }
 
-    static async getTranslations(language){
+    static async getTranslations(language) {
         const request = new Request(`https://beta.councilbox.com/server/api/translations?language=${language}`, {
             method: 'GET'
         });
@@ -162,7 +153,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getCompany(){
+    static async getCompany() {
         const request = new Request(`https://beta.councilbox.com/server/api/dashboard/getCompanies`, {
             method: 'GET',
             headers: new Headers({
@@ -176,7 +167,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getRecount(companyID){
+    static async getRecount(companyID) {
         const request = new Request(`https://beta.councilbox.com/server/api/dashboard/getRecount?data=%7B%22company_id%22:%22${companyID}%22%7D`, {
             method: 'GET',
             headers: new Headers({
@@ -189,7 +180,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getData(councilInfo){
+    static async getData(councilInfo) {
         const request = new Request(`https://beta.councilbox.com/server/api/new/getData?data=%7B%22company_id%22:%22${councilInfo.companyID}%22,%22council_id%22:%22${councilInfo.councilID}%22,%22step%22:%22${councilInfo.step}%22%7D`, {
             method: 'GET',
             headers: new Headers({
@@ -202,8 +193,8 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async saveCouncilData(councilInfo){
-        
+    static async saveCouncilData(councilInfo) {
+
         const urlEncondedInfo = urlParser(councilInfo);
 
         const request = new Request('https://beta.councilbox.com/server/api/new/saveData', {
@@ -221,7 +212,7 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async getParticipants(councilID){
+    static async getParticipants(councilID) {
         const request = new Request(`https://beta.councilbox.com/server/api/new/getParticipants?data=%7B%22council_id%22:%22${councilID}%22,%22order_by%22:%7B%22name%22:%22+ASC%22%7D,%22limit%22:25,%22page%22:1%7D`, {
             method: 'GET',
             headers: new Headers({
@@ -234,20 +225,20 @@ class CouncilboxApi {
         return data.result.data;
     }
 
-    static async createCouncil(companyId){
+    static async createCouncil(companyId) {
         const response = await client.mutate({
             mutation: queries.createCouncil,
             variables: {
-              companyId: companyId
+                companyId: companyId
             },
         });
         console.log(response);
         return response.data.createCouncil.id;
     }
 
-    static async deleteParticipant(participantInfo){
+    static async deleteParticipant(participantInfo) {
         const urlEncondedInfo = urlParser(participantInfo);
-        
+
         const request = new Request('https://beta.councilbox.com/server/api/new/deleteParticipant', {
             method: 'POST',
             headers: new Headers({
@@ -263,7 +254,7 @@ class CouncilboxApi {
         return data;
     }
 
-    static async sendNewParticipant(participant){
+    static async sendNewParticipant(participant) {
         const urlEncondedInfo = urlParser(participant);
 
         const request = new Request('https://beta.councilbox.com/server/api/new/saveParticipant', {
@@ -281,7 +272,7 @@ class CouncilboxApi {
         return data;
     }
 
-    static async sendCensusChange(info){
+    static async sendCensusChange(info) {
         const request = new Request(`https://beta.councilbox.com/server/api/new/changeCensus?data=%7B%22council_id%22:%22${info.council_id}%22,%22census_id%22:%22${info.census_id}%22,%22company_id%22:%22${info.company_id}%22%7D`, {
             method: 'GET',
             headers: new Headers({
@@ -294,7 +285,7 @@ class CouncilboxApi {
         return data;
     }
 
-    static async saveAttachment(file){
+    static async saveAttachment(file) {
         const urlEncondedInfo = urlParser(file);
 
         const request = new Request('https://beta.councilbox.com/server/api/new/saveAttachment', {

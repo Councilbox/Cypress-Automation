@@ -44,6 +44,14 @@ export const councilParticipants = gql`
   }
 `;
 
+export const addParticipant = gql `
+    mutation addParticipant($participant: NewParticipant, $representative: NewRepresentative) {
+        addCouncilParticipant(participant: $participant, representative: $representative){
+            id
+        }
+    }
+`;
+
 export const updateCouncilParticipant = gql `
   mutation updateParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
     updateCouncilParticipant(participant: $participant, representative: $representative){
@@ -52,9 +60,9 @@ export const updateCouncilParticipant = gql `
   }
 `;
 
-export const updateConvenedParticipant = gql `
-  mutation updateConvenedParticipant($participant: ParticipantInput, $representative: RepresentativeInput) {
-    updateConvenedParticipant(participant: $participant, representative: $representative){
+export const upsertConvenedParticipant = gql `
+  mutation upsertConvenedParticipant($participant: ParticipantInput, $representative: RepresentativeInput, $sendConvene: Boolean) {
+    upsertConvenedParticipant(participant: $participant, representative: $representative, sendConvene: $sendConvene){
       success
     }
   }
@@ -111,5 +119,7 @@ export const convenedcouncilParticipants = gql`
       }
       total
     }
+    councilTotalVotes(councilId: $councilId)
+    councilSocialCapital(councilId: $councilId)
   }
 `;

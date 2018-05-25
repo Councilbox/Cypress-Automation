@@ -1,8 +1,6 @@
 import React from 'react';
-import { Grid, GridItem, BasicButton, RichTextInput } from "../../../../displayComponents";
+import { Grid, GridItem, RichTextInput } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { Paper, IconButton } from 'material-ui';
-import { DRAFT_TYPES } from "../../../../constants";
 
 const primary = getPrimary();
 const secondary = getSecondary();

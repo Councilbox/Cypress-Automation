@@ -4,8 +4,13 @@ import { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 
 const SelectInput = ({ floatingText, id, value = 0, onChange, errorText, children, required, disabled, noLabel }) => (
-    <FormControl style={{width: '100%', marginTop: '0', marginBottom: '8px'}} >
-        {!noLabel && <InputLabel htmlFor={id}>{`${!!floatingText? floatingText : ''}${required? '*' : ''}`}</InputLabel>}
+    <FormControl style={{
+        width: '100%',
+        marginTop: '0',
+        marginBottom: '8px'
+    }}>
+        {!noLabel &&
+        <InputLabel htmlFor={id}>{`${!!floatingText ? floatingText : ''}${required ? '*' : ''}`}</InputLabel>}
         <Select
             inputProps={{
                 name: floatingText,
@@ -18,7 +23,6 @@ const SelectInput = ({ floatingText, id, value = 0, onChange, errorText, childre
         >
             {children}
         </Select>
-    </FormControl>
-);
+    </FormControl>);
 
 export default SelectInput;

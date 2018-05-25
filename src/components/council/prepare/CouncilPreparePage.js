@@ -1,25 +1,22 @@
 import React, { Component, Fragment } from 'react';
 
 import {
-    CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, Grid, GridItem
+    BasicButton, CardPageLayout, DropDownMenu, ErrorWrapper, Icon, LoadingSection
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { MenuItem, Card, Divider, Typography } from 'material-ui';
-import DateHeader from './DateHeader';
+import { Divider, MenuItem } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import { bHistory } from '../../../containers/App';
 import { councilDetails, downloadConvenePDF } from '../../../queries';
 import * as CBX from '../../../utils/CBX';
-import ParticipantsSection from './ParticipantsSection';
-import ReminderModal from './ReminderModal';
+import ReminderModal from './modals/ReminderModal';
 import FontAwesome from 'react-fontawesome';
-import RescheduleModal from './RescheduleModal';
-import SendConveneModal from './SendConveneModal';
-import CancelModal from './CancelModal';
-import AttachmentDownload from '../../attachments/AttachmentDownload';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Scrollbar from 'react-perfect-scrollbar';
+import RescheduleModal from './modals/RescheduleModal';
+import SendConveneModal from './modals/SendConveneModal';
+import CancelModal from './modals/CancelModal';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Convene from '../convene/Convene';
+import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
 
 const panelStyle = {
     height: '77vh',
@@ -32,25 +29,9 @@ const panelStyle = {
 
 class CouncilPreparePage extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            participants: false,
-            sendReminder: false,
-            sendConvene: false,
-            cancel: false,
-            rescheduleCouncil: false
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
-
     goToPrepareRoom = () => {
         bHistory.push(`/company/${this.props.companyID}/council/${this.props.councilID}/live`);
     };
-
     downloadPDF = async () => {
         const response = await this.props.client.query({
             query: downloadConvenePDF,
@@ -67,10 +48,24 @@ class CouncilPreparePage extends Component {
         console.log(response);
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            participants: false,
+            sendReminder: false,
+            sendConvene: false,
+            cancel: false,
+            rescheduleCouncil: false
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
 
     render() {
-        const { council, error, loading } = this.props.data;
-        const { translate } = this.props;
+        const { council, error, loading, councilSocialCapital, councilTotalVotes, refetch } = this.props.data;
+        const { translate, councilID } = this.props;
         const primary = getPrimary();
         const secondary = getSecondary();
 
@@ -188,20 +183,17 @@ class CouncilPreparePage extends Component {
                     </Tab>
                 </TabList>
                 <TabPanel style={panelStyle}>
-                    <Convene councilID={this.props.councilID}
+                    <Convene councilID={councilID}
                              translate={translate}/>
                 </TabPanel>
 
                 <TabPanel style={panelStyle}>
-                    <Scrollbar  option={{suppressScrollX: true}}>
-                        <ParticipantsSection
-                            translate={translate}
-                            council={council}
-                            totalVotes={this.props.data.councilTotalVotes}
-                            socialCapital={this.props.data.councilSocialCapital}
-                            refetch={this.props.data.refetch}
-                        />
-                    </Scrollbar>
+                    <ConvenedParticipantsTable
+                        council={council}
+                        participations={CBX.hasParticipations(this.props.council)}
+                        translate={translate}
+                        refetch={refetch}
+                    />
                 </TabPanel>
             </Tabs>
 
@@ -220,7 +212,7 @@ class CouncilPreparePage extends Component {
             <SendConveneModal
                 show={this.state.sendConvene}
                 council={council}
-                refetch={this.props.data.refetch}
+                refetch={refetch}
                 requestClose={() => this.setState({ sendConvene: false })}
                 translate={translate}
             />

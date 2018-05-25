@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import {
-    BasicButton, LoadingSection, ErrorWrapper, ButtonIcon, Grid, GridItem
+    BasicButton, ButtonIcon, ErrorWrapper, Grid, GridItem, LoadingSection
 } from "../../../../displayComponents/index";
-import { graphql, compose } from 'react-apollo';
-import { Typography, Tooltip } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
+import { Typography } from 'material-ui';
 import { councilStepThree, updateCouncil } from '../../../../queries';
 import { removeAgenda } from '../../../../queries/agenda';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
-import NewAgendaPointModal from './NewAgendaPointModal';
-import PointEditor from './PointEditor';
+import NewAgendaPointModal from './modals/NewAgendaPointModal';
+import PointEditor from './modals/PointEditor';
 import * as CBX from '../../../../utils/CBX';
 import ReorderPointsModal from '../../agendas/ReorderPointsModal';
 import SaveDraftModal from '../../../company/drafts/SaveDraftModal';
@@ -22,7 +22,70 @@ const buttonStyle = {
 };
 
 
-class CouncilEditorAgenda extends Component {
+class StepAgenda extends Component {
+
+    updateCouncil = (step) => {
+        const { ...council } = this.props.data.council;
+
+        this.props.updateCouncil({
+            variables: {
+                council: {
+                    ...council,
+                    step: step
+                }
+            }
+        })
+    };
+    removeAgenda = async (agendaId) => {
+        const response = await this.props.removeAgenda({
+            variables: {
+                agendaId: agendaId,
+                councilId: this.props.councilID
+            }
+        });
+
+        if (response) {
+            this.props.data.refetch();
+        }
+    };
+    selectAgenda = (index) => {
+        this.setState({
+            edit: true,
+            editIndex: index
+        })
+    };
+    nextPage = () => {
+        if (this.checkConditions()) {
+            this.updateCouncil(4);
+            this.props.nextStep();
+        }
+    };
+    checkConditions = () => {
+        const { agendas, errors } = this.state;
+        if (agendas.length !== 0) {
+            return true;
+        } else {
+            this.setState({
+                errors: {
+                    ...errors,
+                    emptyAgendas: this.props.translate.required_agendas
+                }
+            });
+            return false;
+        }
+    };
+    previousPage = () => {
+        if (true) {
+            this.updateCouncil(3);
+            this.props.previousStep();
+        }
+    };
+    saveAsDraft = (id) => {
+        this.setState({
+            saveAsDraft: true,
+            saveAsDraftId: id
+        });
+    };
 
     constructor(props) {
         super(props);
@@ -31,7 +94,7 @@ class CouncilEditorAgenda extends Component {
             edit: false,
             editIndex: 0,
             saveAsDraft: false,
-            saveIndex: 0,
+            saveAsDraftId: 0,
             agendas: [],
             errors: {
                 agendaSubject: '',
@@ -53,85 +116,19 @@ class CouncilEditorAgenda extends Component {
         }
     }
 
-    updateCouncil = (step) => {
-        const { ...council } = this.props.data.council;
-
-        this.props.updateCouncil({
-            variables: {
-                council: {
-                    ...council,
-                    step: step
-                }
-            }
-        })
-    };
-
-    removeAgenda = async (agendaId) => {
-        const response = await this.props.removeAgenda({
-            variables: {
-                agendaId: agendaId,
-                councilId: this.props.councilID
-            }
-        });
-
-        if (response) {
-            this.props.data.refetch();
-        }
-    };
-
-    selectAgenda = (index) => {
-        this.setState({
-            edit: true,
-            editIndex: index
-        })
-    };
-
-    nextPage = () => {
-        if (this.checkConditions()) {
-            this.updateCouncil(4);
-            this.props.nextStep();
-        }
-    };
-
-    checkConditions = () => {
-        if (this.state.agendas.length !== 0) {
-            return true;
-        } else {
-            this.setState({
-                errors: {
-                    ...this.state.errors,
-                    emptyAgendas: this.props.translate.required_agendas
-                }
-            });
-            return false;
-        }
-    };
-
-    previousPage = () => {
-        if (true) {
-            this.updateCouncil(3);
-            this.props.previousStep();
-        }
-    };
-
-    saveAsDraft = (index) => {
-        this.setState({
-            saveAsDraft: true,
-            saveIndex: index
-        });
-    };
-
     render() {
         const { translate } = this.props;
-        const { votingTypes, errors, council, majorityTypes, draftTypes } = this.props.data;
+        const { agendas, errors, edit, editIndex, saveAsDraft, saveAsDraftId } = this.state;
+        const { votingTypes, council, majorityTypes, draftTypes } = this.props.data;
         const primary = getPrimary();
         const secondary = getSecondary();
+        let newDraft = (agendas.find((item) => item.id === saveAsDraftId));
 
         if (this.props.data.loading) {
             return (<LoadingSection/>);
         }
 
-        if (errors) {
+        if (this.props.data.errors) {
             return (<ErrorWrapper error={this.props.data.errors.graph}/>)
         }
 
@@ -140,7 +137,7 @@ class CouncilEditorAgenda extends Component {
             height: '100%',
         }}>
 
-            {this.state.agendas.length > 0 &&
+            {agendas.length > 0 &&
 
             <Grid>
                 {/*<GridItem xs={12} lg={12} md={12}>*/}
@@ -196,12 +193,12 @@ class CouncilEditorAgenda extends Component {
                 </GridItem>
             </Grid>}
 
-            {this.state.agendas.length > 0 ?
+            {agendas.length > 0 ?
 
                 <div style={{
                     width: '100%',
                 }}>
-                    {this.state.agendas.map((agenda, index) => {
+                    {agendas.map((agenda, index) => {
                         return (
 
                             <AgendaItem agenda={agenda}
@@ -257,7 +254,7 @@ class CouncilEditorAgenda extends Component {
                         </NewAgendaPointModal>
                     </div>
                     <Typography variant="body1" style={{ color: 'red' }}>
-                        {this.state.errors.emptyAgendas}
+                        {errors.emptyAgendas}
                     </Typography>
                 </div>
 
@@ -310,23 +307,22 @@ class CouncilEditorAgenda extends Component {
                 company={this.props.company}
                 council={council}
                 companyStatutes={this.props.data.companyStatutes}
-                open={this.state.edit}
-                agenda={council.agendas.find((item) => item.orderIndex === this.state.editIndex)}
+                open={edit}
+                agenda={council.agendas.find((item) => item.orderIndex === editIndex)}
                 votingTypes={votingTypes}
                 majorityTypes={majorityTypes}
                 refetch={this.props.data.refetch}
                 requestClose={() => this.setState({ edit: false })}
             />
-
-            {council.agendas.length > 0 && <SaveDraftModal
-                open={this.state.saveAsDraft}
+            {saveAsDraft && newDraft && <SaveDraftModal
+                open={saveAsDraft}
                 statute={council.statute}
                 data={{
-                    ...council.agendas[ this.state.saveIndex ],
-                    text: council.agendas[ this.state.saveIndex ].description,
+                    ...newDraft,
+                    text: newDraft.description,
                     description: '',
-                    title: council.agendas[ this.state.saveIndex ].agendaSubject,
-                    votationType: council.agendas[ this.state.saveIndex ].subjectType,
+                    title: newDraft.agendaSubject,
+                    votationType: newDraft.subjectType,
                     type: draftTypes.filter((draft => draft.label === 'agenda'))[ 0 ].value,
                     statuteId: council.statute.statuteId
                 }}
@@ -350,4 +346,4 @@ export default compose(graphql(councilStepThree, {
         },
         notifyOnNetworkStatusChange: true
     })
-}), graphql(removeAgenda, { name: 'removeAgenda' }), graphql(updateCouncil, { name: 'updateCouncil' }))(CouncilEditorAgenda);
+}), graphql(removeAgenda, { name: 'removeAgenda' }), graphql(updateCouncil, { name: 'updateCouncil' }))(StepAgenda);

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import cx from "classnames";
-import { withStyles, Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, MenuItem } from "material-ui";
+import { Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, MenuItem, withStyles } from "material-ui";
 import sidebarStyle from "../../styles/sidebarStyle";
-import { Dashboard, ContentPaste, BorderColor, ImportContacts } from "material-ui-icons";
-import CompanySelector from '../menus/CompanySelector';
+import { BorderColor, ContentPaste, Dashboard, ImportContacts } from "material-ui-icons";
 import { getPrimary } from '../../styles/colors';
-import { store, bHistory } from '../../containers/App';
+import { bHistory, store } from '../../containers/App';
 import { changeCompany } from '../../actions/companyActions';
 import { DropDownMenu, Icon } from '../../displayComponents';
 import FontAwesome from 'react-fontawesome';
@@ -14,59 +13,11 @@ import FontAwesome from 'react-fontawesome';
 
 class Sidebar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedRoute: 0
-        };
-
-
-        this.routes = [ {
-            path: `/company/${props.company.id}`,
-            sidebarName: props.translate.dashboard,
-            icon: Dashboard,
-        }, {
-            path: `/company/${props.company.id}/councils/drafts`,
-            name: 'council',
-            sidebarName: props.translate.councils,
-            icon: ImportContacts,
-        }, {
-            path: `/company/${props.company.id}/meetings/drafts`,
-            name: 'meeting',
-            sidebarName: props.translate.meetings,
-            icon: ContentPaste,
-        }, {
-            path: `/company/${props.company.id}/signatures/drafts`,
-            name: 'signature',
-            sidebarName: props.translate.signatures,
-            icon: BorderColor,
-        } ];
-    }
-
-
-    componentDidMount() {
-        const index = this.findActiveRoute(this.props.location.pathname);
-        console.log(index);
-        this.setState({
-            selectedRoute: index
-        });
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.location.pathname !== nextProps.location.pathname) {
-            this.setState({
-                selectedRoute: this.findActiveRoute(nextProps.location.pathname)
-            });
-        }
-    }
-
     changeCompany = (index) => {
         const { companies } = this.props;
         store.dispatch(changeCompany(index));
-        bHistory.push(`/company/${companies[index].id}`);
+        bHistory.push(`/company/${companies[ index ].id}`);
     };
-
-
     findActiveRoute = (pathname) => {
         let routeIndex = 0;
         this.routes.forEach((route, index) => {
@@ -76,12 +27,6 @@ class Sidebar extends Component {
         });
         return routeIndex;
     };
-
-    activeRoute(index) {
-        return index === this.state.selectedRoute;
-    }
-
-
     links = () => (<List className={this.props.classes.list}>
         {this.routes.map((route, key) => {
             if (route.redirect) {
@@ -122,10 +67,7 @@ class Sidebar extends Component {
             </NavLink>);
         })}
     </List>);
-
-
-    brand = () => (
-        <DropDownMenu
+    brand = () => (<DropDownMenu
             color="transparent"
             buttonStyle={{
                 boxSizing: 'border-box',
@@ -133,78 +75,116 @@ class Sidebar extends Component {
                 border: `1px solid ${getPrimary()}`,
                 marginLeft: '0.3em'
             }}
-            text={
-                <div className={this.props.classes.logo}>
-                    <div className={this.props.classes.logoLink} style={{
-                        display: 'flex',
-                        flexDirection: 'row'
-                    }}>
-                        <div className={this.props.classes.logoImage}>
-                            {!!this.props.company.logo? 
-                                <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/>
-                            :
+            text={<div className={this.props.classes.logo}>
+                <div className={this.props.classes.logoLink} style={{
+                    display: 'flex',
+                    flexDirection: 'row'
+                }}>
+                    <div className={this.props.classes.logoImage}>
+                        {!!this.props.company.logo ?
+                            <img src={this.props.company.logo} alt="logo" className={this.props.classes.img}/> :
+                            <FontAwesome
+                                name={'building-o'}
+                                className={this.props.classes.img}
+                            />
+
+                        }
+                    </div>
+
+                    <div style={{
+                        fontSize: '0.85em',
+                        fontWeight: '700'
+                    }}>{this.props.company.businessName}</div>
+                </div>
+            </div>}
+            textStyle={{ color: getPrimary() }}
+            type="flat"
+            icon={<Icon className="material-icons" style={{ color: getPrimary() }}>
+                keyboard_arrow_down
+            </Icon>}
+            items={<React.Fragment>
+                {this.props.companies.map((company, index) => {
+                    if (company.id !== this.props.company.id) {
+                        return (<MenuItem key={`company_${company.id}`} onClick={() => this.changeCompany(index)}>
+                            {!!company.logo ? <img src={company.logo} alt="logo" className={this.props.classes.img}/> :
                                 <FontAwesome
                                     name={'building-o'}
                                     className={this.props.classes.img}
                                 />
 
                             }
-                        </div>
 
-                        <div style={{
-                            fontSize: '0.85em',
-                            fontWeight: '700'
-                        }}>{this.props.company.businessName}</div>
-                    </div>
-                </div>
-            }
-            textStyle={{ color: getPrimary() }}
-            type="flat"
-            icon={
-                <Icon className="material-icons" style={{ color: getPrimary() }}>
-                    keyboard_arrow_down
-                </Icon>
-            }
-            items={
-                <React.Fragment>
-                    {this.props.companies.map((company, index) => {
-                        if(company.id !== this.props.company.id){
-                            return(
-                                <MenuItem key={`company_${company.id}`} onClick={() => this.changeCompany(index)}>
-                                    {!!company.logo? 
-                                        <img src={company.logo} alt="logo" className={this.props.classes.img} />
-                                    :
-                                        <FontAwesome
-                                            name={'building-o'}
-                                            className={this.props.classes.img}
-                                        />
+                            <div style={{
+                                fontSize: '0.85em',
+                                fontWeight: '700',
+                                marginLeft: '0.3em'
+                            }}>{company.businessName}</div>
+                        </MenuItem>)
+                    }
 
-                                    }
-
-                                    <div style={{
-                                        fontSize: '0.85em',
-                                        fontWeight: '700',
-                                        marginLeft: '0.3em'
-                                    }}>{company.businessName}</div>
-                                </MenuItem>
-                            )
-                        }
-
-                    })}
-                </React.Fragment>
-            }
+                })}
+            </React.Fragment>}
         />
 
     );
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedRoute: 0
+        };
+
+
+        this.routes = [ {
+            path: `/company/${props.company.id}`,
+            sidebarName: props.translate.dashboard,
+            icon: Dashboard,
+        }, {
+            path: `/company/${props.company.id}/councils/drafts`,
+            name: 'council',
+            sidebarName: props.translate.councils,
+            icon: ImportContacts,
+        }, {
+            path: `/company/${props.company.id}/meetings/drafts`,
+            name: 'meeting',
+            sidebarName: props.translate.meetings,
+            icon: ContentPaste,
+        }, {
+            path: `/company/${props.company.id}/signatures/drafts`,
+            name: 'signature',
+            sidebarName: props.translate.signatures,
+            icon: BorderColor,
+        } ];
+    }
+
+    componentDidMount() {
+        const index = this.findActiveRoute(this.props.location.pathname);
+        console.log(index);
+        this.setState({
+            selectedRoute: index
+        });
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.location.pathname !== nextProps.location.pathname) {
+            this.setState({
+                selectedRoute: this.findActiveRoute(nextProps.location.pathname)
+            });
+        }
+    }
+
+    activeRoute(index) {
+        return index === this.state.selectedRoute;
+    }
+
     /*brand = () => (
-        <div className={this.props.classes.logo}>
-            <CompanySelector
-                companies={this.props.companies}
-                company={this.props.company}
-            />
-        </div>
-    )*/
+     <div className={this.props.classes.logo}>
+     <CompanySelector
+     companies={this.props.companies}
+     company={this.props.company}
+     />
+     </div>
+     )*/
 
     render() {
         const { classes, image } = this.props;

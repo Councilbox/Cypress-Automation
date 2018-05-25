@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import { combineReducers } from 'redux';
 import main from './main';
 import companies from './companies';
 import council from './council';

@@ -1,28 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import { BasicButton, ButtonIcon, AlertConfirm } from '../../../../displayComponents';
-import { graphql, compose } from 'react-apollo';
-import { getPrimary } from '../../../../styles/colors';
-import { addCensusParticipant } from '../../../../queries/census';
-import { languages } from '../../../../queries/masters';
-import { censusHasParticipations } from '../../../../utils/CBX';
-import RepresentativeForm from './RepresentativeForm';
-import ParticipantForm from "../../../council/participants/ParticipantForm";
-import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../utils/validation";
+import { AlertConfirm } from '../../../../../displayComponents/index';
+import { compose, graphql } from 'react-apollo';
+import { getPrimary } from '../../../../../styles/colors';
+import { updateCensusParticipant } from '../../../../../queries/census';
+import { languages } from '../../../../../queries/masters';
+import { censusHasParticipations } from '../../../../../utils/CBX';
+import RepresentativeForm from '../RepresentativeForm';
+import ParticipantForm from "../../../../council/participants/ParticipantForm";
+import { checkRequiredFieldsParticipant, checkRequiredFieldsRepresentative } from "../../../../../utils/validation";
 
-class AddCensusParticipantButton extends Component {
+class CensusParticipantEditor extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            modal: false,
-            data: { ...initialParticipant },
-            representative: {...initialRepresentative},
-            errors: {},
-            representativeErrors: {}
-        }
-    }
-
-    addCensusParticipant = async () => {
+    updateCensusParticipant = async () => {
         const { hasRepresentative, ...data } = this.state.representative;
         const representative = this.state.representative.hasRepresentative ? {
             ...data,
@@ -31,7 +20,7 @@ class AddCensusParticipantButton extends Component {
         } : null;
 
         if (!this.checkRequiredFields()) {
-            const response = await this.props.addCensusParticipant({
+            const response = await this.props.updateCensusParticipant({
                 variables: {
                     participant: {
                         ...this.state.data,
@@ -43,17 +32,46 @@ class AddCensusParticipantButton extends Component {
             });
             if (!response.errors) {
                 this.props.refetch();
-                this.setState({
-                    modal: false,
-                    data: { ...initialParticipant },
-                    representative: {...initialRepresentative},
-                    errors: {},
-                    representativeErrors: {}
-                });
+                this.props.close();
             }
         }
     };
+    updateState = (object) => {
+        this.setState({
+            data: {
+                ...this.state.data, ...object
+            }
+        });
+    };
+    updateRepresentative = (object) => {
+        this.setState({
+            representative: {
+                ...this.state.representative, ...object
+            }
+        })
+    };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            modal: false,
+            data: {},
+            representative: {},
+            errors: {},
+            representativeErrors: {}
+        }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        let { representative, ...participant } = extractTypeName(nextProps.participant);
+        representative = representative ? {
+            hasRepresentative: true, ...extractTypeName(representative)
+        } : initialRepresentative;
+        return {
+            data: participant,
+            representative: representative
+        }
+    }
 
     checkRequiredFields() {
         const participant = this.state.data;
@@ -66,7 +84,7 @@ class AddCensusParticipantButton extends Component {
             errors: {},
             hasError: false
         };
-        if(representative.hasRepresentative){
+        if (representative.hasRepresentative) {
             errorsRepresentative = checkRequiredFieldsRepresentative(representative, translate);
         }
 
@@ -78,24 +96,6 @@ class AddCensusParticipantButton extends Component {
 
         return (errorsParticipant.hasError || errorsRepresentative.hasError);
     }
-
-    updateState = (object) => {
-        this.setState({
-            data: {
-                ...this.state.data,
-                ...object
-            }
-        });
-    };
-
-    updateRepresentative = (object) => {
-        this.setState({
-            representative: {
-                ...this.state.representative,
-                ...object
-            }
-        })
-    };
 
     _renderBody() {
         const participant = this.state.data;
@@ -127,62 +127,26 @@ class AddCensusParticipantButton extends Component {
         const primary = getPrimary();
 
         return (<Fragment>
-            <BasicButton
-                text={translate.add_participant}
-                color={'white'}
-                textStyle={{
-                    color: primary,
-                    fontWeight: '700',
-                    fontSize: '0.9em',
-                    textTransform: 'none'
-                }}
-                textPosition="after"
-                icon={<ButtonIcon type="add" color={primary}/>}
-                onClick={() => this.setState({ modal: true })}
-                buttonStyle={{
-                    marginRight: '1em',
-                    border: `2px solid ${primary}`
-                }}
-            />
             <AlertConfirm
-                requestClose={() => this.setState({ modal: false })}
-                open={this.state.modal}
+                requestClose={() => this.props.close()}
+                open={this.props.opened}
                 fullWidth={false}
-                acceptAction={this.addCensusParticipant}
+                acceptAction={this.updateCensusParticipant}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderBody()}
-                title={translate.add_participant}
+                title={translate.edit_participant}
             />
         </Fragment>)
     }
-
 }
 
-export default compose(graphql(addCensusParticipant, {
-    name: 'addCensusParticipant',
+export default compose(graphql(updateCensusParticipant, {
+    name: 'updateCensusParticipant',
     options: {
         errorPolicy: 'all'
     }
-}), graphql(languages))(AddCensusParticipantButton);
-
-const initialParticipant = {
-    name: '',
-    surname: '',
-    position: '',
-    email: '',
-    phone: '',
-    dni: '',
-    type: 0,
-    delegateId: null,
-    numParticipations: 1,
-    socialCapital: 1,
-    uuid: null,
-    delegateUuid: null,
-    language: 'es',
-    city: '',
-    personOrEntity: 0
-};
+}), graphql(languages))(CensusParticipantEditor);
 
 const initialRepresentative = {
     hasRepresentative: false,
@@ -195,3 +159,8 @@ const initialRepresentative = {
     phone: '',
     dni: '',
 };
+
+function extractTypeName(object) {
+    let { __typename, ...rest } = object;
+    return rest;
+}

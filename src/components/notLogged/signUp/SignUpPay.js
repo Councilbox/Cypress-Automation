@@ -10,24 +10,12 @@ import { countries, provinces } from '../../../queries/masters';
 import TermsModal from './TermsModal'
 
 class SignUpPay extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            provinces: [],
-            subscriptions: [],
-            termsCheck: false,
-            termsAlert: false,
-            showTermsModal: false
-        }
-    }
-
     componentDidMount = async () => {
         const subscriptions = await CouncilboxApi.getSubscriptions();
         this.setState({
             subscriptions: subscriptions
         });
     };
-
     componentWillReceiveProps = async (nextProps) => {
         const data = nextProps.formData;
         const selectedCountry = (this.props.data.countries ? this.props.data.countries.find((country) => country.deno === data.country) : {
@@ -48,16 +36,30 @@ class SignUpPay extends Component {
             })
         }
     };
-
     previousPage = () => {
         this.props.previousPage();
     };
-
     endForm = async () => {
         if (!this.checkRequiredFields()) {
             this.props.send();
         }
     };
+    handleCountryChange = async (event) => {
+        this.props.updateState({
+            country: event.target.value
+        })
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            provinces: [],
+            subscriptions: [],
+            termsCheck: false,
+            termsAlert: false,
+            showTermsModal: false
+        }
+    }
 
     checkRequiredFields() {
         const { translate } = this.props;
@@ -106,12 +108,6 @@ class SignUpPay extends Component {
 
         return hasError;
     }
-
-    handleCountryChange = async (event) => {
-        this.props.updateState({
-            country: event.target.value
-        })
-    };
 
     render() {
         if (this.props.data.loading) {
@@ -230,7 +226,7 @@ class SignUpPay extends Component {
                     <Checkbox
                         label={<Fragment>
                             {translate.login_read_terms}
-                            <a style={{color: primary}} onClick={(event)=>{
+                            <a style={{ color: primary }} onClick={(event) => {
                                 event.stopPropagation();
                                 this.setState({
                                     showTermsModal: true
@@ -243,18 +239,15 @@ class SignUpPay extends Component {
                         onChange={(event, isInputChecked) => this.setState({
                             termsCheck: isInputChecked
                         })}
-                        onClick={()=>{
+                        onClick={() => {
                             this.setState({
                                 termsCheck: true
                             })
                         }}
                     />
-                    {
-                        this.props.errors.termsCheck &&
-                        <div style={{color:'red'}}>
-                            {this.props.errors.termsCheck}
-                        </div>
-                    }
+                    {this.props.errors.termsCheck && <div style={{ color: 'red' }}>
+                        {this.props.errors.termsCheck}
+                    </div>}
 
                 </GridItem>
                 <GridItem xs={12} md={6} lg={6}>
@@ -285,7 +278,7 @@ class SignUpPay extends Component {
             <TermsModal
                 open={this.state.showTermsModal}
                 translate={translate}
-                close={()=>{
+                close={() => {
                     this.setState({
                         showTermsModal: false
                     })

@@ -1,7 +1,7 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { getParticipantStateString, participantIsGuest, isRepresentative } from '../../../utils/CBX';
+import { getParticipantStateString, isRepresentative, participantIsGuest } from '../../../utils/CBX';
 import { Tooltip } from 'material-ui';
 
 const mainIconSize = 1.75;
@@ -42,9 +42,9 @@ const DoubleIcon = ({ main, sub, subSize = subIconSize, subColor = getPrimary(),
 const IconSwitch = ({ participant, translate, tooltip, isIntention, representative }) => {
 
     let state;
-    if (!isIntention){
+    if (!isIntention) {
         state = getParticipantStateString(participant.state);
-    }else{
+    } else {
         state = getParticipantStateString(participant.live.assistanceIntention);
     }
     const primary = getPrimary();

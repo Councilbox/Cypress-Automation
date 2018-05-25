@@ -6,9 +6,8 @@ import './styles/index.css';
 import { ThemeProvider } from './displayComponents';
 import 'react-toastify/dist/ReactToastify.css';
 
-ReactDOM.render(
-    <ThemeProvider>
-        <App />
-    </ThemeProvider>, document.getElementById('root'));
+ReactDOM.render(<ThemeProvider>
+    <App/>
+</ThemeProvider>, document.getElementById('root'));
 //registerServiceWorker();
 unregister();

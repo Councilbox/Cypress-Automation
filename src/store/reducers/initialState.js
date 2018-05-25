@@ -1,9 +1,9 @@
 export default {
-	main: {
-	    isLogged: false,
+    main: {
+        isLogged: false,
         selectedLanguage: 'es',
         loading: true
-	},
+    },
     user: {},
     companies: [],
     translate: [],

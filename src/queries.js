@@ -117,6 +117,7 @@ export const cancelCouncil = gql`
   }
 `;
 
+
 export const rescheduleCouncil = gql`
   mutation rescheduleCouncil($councilId: Int!, $dateStart: String, $dateStart2NdCall: String){
     rescheduleCouncil(councilId: $councilId, dateStart: $dateStart, dateStart2NdCall: $dateStart2NdCall){
@@ -283,9 +284,18 @@ export const updateNotificationsStatus = gql`
   }
 `;
 
+export const updateLiveParticipantSends = gql`
+  mutation updateLiveParticipantSends($participantId: Int!){
+    updateLiveParticipantSends(participantId: $participantId){
+      success
+      message
+    }
+  }
+`;
+
 export const platformDrafts = gql`
-  query platformDrafts($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
-    platformDrafts(filters: $filters, options: $options){
+  query platformDrafts($companyId: Int!, $filters: [FilterInput], $options: OptionsInput, $companyType: Int){
+    platformDrafts(filters: $filters, options: $options, companyType: $companyType){
       list{
         categories
         companyType
@@ -524,6 +534,19 @@ export const councilStepThree = gql`
   }
 `;
 
+export const loadDraftInfo = gql`
+  query LoadDraftInfo($companyId: Int!){
+    companyStatutes(companyId: $companyId){
+      id
+      title
+    }
+    draftTypes {
+      label
+      value
+    }
+  }
+`;
+
 export const sendConvene = gql `
   mutation sendConvene($councilId: Int!) {
     sendConvene(councilId: $councilId) {
@@ -640,22 +663,22 @@ export const conveneCouncil = gql`
 `;
 
 /*
-  platforms {
-    act
-    company_id
-    council_id
-    emails
-    id
-    room
-    room_access
-    security_email
-    security_sms
-    signature
-    video
-  }
+ platforms {
+ act
+ company_id
+ council_id
+ emails
+ id
+ room
+ room_access
+ security_email
+ security_sms
+ signature
+ video
+ }
 
-  previewHtml
-}*/
+ previewHtml
+ }*/
 
 export const councilStepSix = gql`
   query CouncilStepSix($id: Int!, $companyId: Int!){
@@ -866,7 +889,7 @@ export const councilDetails = gql `
   }
 `;
 
-export const councilLiveQuery =  gql`
+export const councilLiveQuery = gql`
   query CouncilLiveQuery($councilID: Int!) {
     council(id: $councilID) {
       active
@@ -1578,10 +1601,6 @@ export const agendaComments = gql`
 `;
 
 
-
-
-
-
 //OLD VERSION
 
 export const participantsQuery = gql `
@@ -1625,7 +1644,6 @@ export const saveCouncilData = gql `
       }
   }
 `
-
 
 
 export const saveAttachmentMutation = gql `
@@ -1752,7 +1770,6 @@ export const getVotings = gql `
       }
   }
 `
-
 
 
 export const changeRequestWord = gql `

@@ -2,10 +2,7 @@ import React, { Fragment } from 'react';
 import Scrollbar from 'react-perfect-scrollbar';
 import withWindowSize from '../HOCs/withWindowSize';
 import { getPrimary, getSecondary, lightTurquoise } from '../styles/colors';
-import {
-    Grid, GridItem, SelectInput, MenuItem
-} from './index';
-import { CloseIcon } from './index';
+import { CloseIcon, Grid, GridItem, MenuItem, SelectInput } from './index';
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -73,7 +70,7 @@ const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize, deleteAct
 
         }
 
-        {windowSize === 'xs' && <div className='container-fluid' style={{height: '100%'}}>
+        {windowSize === 'xs' && <div className='container-fluid' style={{ height: '100%' }}>
             <Grid>
                 <GridItem xs={6}>
                     <SelectInput
@@ -103,19 +100,22 @@ const Vtabs = ({ children, tabs, changeTab, additionalTab, windowSize, deleteAct
                     {deleteAction &&
 
                     <CloseIcon onClick={() => {
-                                   for (let i = 0; i < tabs.length; i++) {
-                                       const tab = tabs[ i ];
-                                       if (tab.active) {
-                                           return deleteAction(tab.data.id);
-                                       }
-                                   }
-                               }}
+                        for (let i = 0; i < tabs.length; i++) {
+                            const tab = tabs[ i ];
+                            if (tab.active) {
+                                return deleteAction(tab.data.id);
+                            }
+                        }
+                    }}
                     />}
 
                 </GridItem>
             </Grid>
-            <div style={{ height: 'calc(100% - 4em)', marginTop: '0.5em' }}>
-                <Scrollbar >
+            <div style={{
+                height: 'calc(100% - 4em)',
+                marginTop: '0.5em'
+            }}>
+                <Scrollbar>
                     {children}
                 </Scrollbar>
             </div>

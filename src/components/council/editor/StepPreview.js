@@ -1,18 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import {
-    BasicButton, LoadingSection, DropDownMenu, Grid, GridItem, AlertConfirm, TextInput
+    AlertConfirm, BasicButton, DropDownMenu, Grid, GridItem, LoadingSection, TextInput
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
-import { graphql, compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 import {
-    councilStepSix,
-    conveneCouncil,
-    sendConveneTest,
-    conveneWithoutNotice,
-    sendPreConvene
+    conveneCouncil, conveneWithoutNotice, councilStepSix, sendConveneTest, sendPreConvene
 } from '../../../queries';
-import { Paper, Icon, MenuItem, Typography } from 'material-ui';
+import { Icon, MenuItem, Paper, Typography } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { bHistory } from '../../../containers/App';
 import * as CBX from '../../../utils/CBX';
@@ -20,30 +16,7 @@ import { checkValidEmail } from '../../../utils/validation';
 import { toast } from 'react-toastify';
 
 
-class CouncilEditorPreview extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            conveneTestModal: false,
-            conveneTestSuccess: false,
-            preConveneModal: false,
-            preConveneSuccess: false,
-            sendConveneWithoutNoticeModal: false,
-            conveneWithoutNoticeSuccess: false,
-            data: {
-                conveneTestEmail: ''
-            },
-
-            errors: {
-                conveneTestEmail: ''
-            }
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
+class StepPreview extends Component {
 
     conveneCouncil = async () => {
         const { __typename, ...council } = this.props.data.council;
@@ -59,7 +32,6 @@ class CouncilEditorPreview extends Component {
             bHistory.push('/');
         }
     };
-
     sendConveneTest = async () => {
         if (checkValidEmail(this.state.data.conveneTestEmail)) {
             const response = await this.props.sendConveneTest({
@@ -84,13 +56,11 @@ class CouncilEditorPreview extends Component {
         }
 
     };
-
     conveneTestKeyUp = (event) => {
         if (event.nativeEvent.keyCode === 13) {
             this.sendConveneTest();
         }
     };
-
     updateState = (object) => {
         this.setState({
             data: {
@@ -98,7 +68,6 @@ class CouncilEditorPreview extends Component {
             }
         });
     };
-
     resetConveneTestValues = () => {
         this.setState({
             conveneTestModal: false,
@@ -107,7 +76,6 @@ class CouncilEditorPreview extends Component {
         });
         this.updateState({ conveneTestEmail: '' });
     };
-
     sendPreConvene = async () => {
         const response = await this.props.sendPreConvene({
             variables: {
@@ -121,7 +89,6 @@ class CouncilEditorPreview extends Component {
             });
         }
     };
-
     sendConveneWithoutNotice = async () => {
         const response = await this.props.conveneWithoutNotice({
             variables: {
@@ -138,7 +105,6 @@ class CouncilEditorPreview extends Component {
             }
         }
     };
-
     _renderPreConveneModalBody = () => {
         if (this.state.preConveneSuccess) {
             return (<SuccessMessage message={this.props.translate.sent}/>);
@@ -148,6 +114,32 @@ class CouncilEditorPreview extends Component {
             {this.props.translate.send_preconvene_desc}
         </div>);
     };
+    _renderSendConveneWithoutNoticeBody = () => {
+        return (<div>{this.props.translate.new_save_convene}</div>);
+    };
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            conveneTestModal: false,
+            conveneTestSuccess: false,
+            preConveneModal: false,
+            preConveneSuccess: false,
+            sendConveneWithoutNoticeModal: false,
+            conveneWithoutNoticeSuccess: false,
+            data: {
+                conveneTestEmail: ''
+            },
+
+            errors: {
+                conveneTestEmail: ''
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
 
     _renderConveneTestModalBody() {
         const { translate } = this.props;
@@ -181,10 +173,6 @@ class CouncilEditorPreview extends Component {
             </div>
         </div>);
     }
-
-    _renderSendConveneWithoutNoticeBody = () => {
-        return (<div>{this.props.translate.new_save_convene}</div>);
-    };
 
     render() {
         const { translate } = this.props;
@@ -378,4 +366,4 @@ export default compose(graphql(conveneCouncil, {
             notifyOnNetworkStatusChange: true
         })
     })
-)(withRouter(CouncilEditorPreview));
+)(withRouter(StepPreview));

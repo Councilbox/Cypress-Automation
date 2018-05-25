@@ -1,13 +1,9 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
-import {
-    CardPageLayout, LoadingSection, ErrorWrapper
-} from "../../../displayComponents";
+import { CardPageLayout, ErrorWrapper, LoadingSection } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { graphql, withApollo } from 'react-apollo';
-import ParticipantsSection from '../prepare/ParticipantsSection';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Scrollbar from 'react-perfect-scrollbar';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Convene from '../convene/Convene';
 import ActEditor from './actEditor/ActEditor';
 import gql from "graphql-tag";
@@ -130,32 +126,15 @@ class CouncilWritingPage extends Component {
                     })}>
                         {translate.convene}
                     </Tab>
-                    <Tab onClick={() => this.setState({
-                        page: !this.state.page
-                    })}>
-                        {translate.new_list_called}
-                    </Tab>
                 </TabList>
                 <TabPanel style={panelStyle}>
                     <ActEditor councilID={this.props.councilID}
                                companyID={this.props.companyID}
-                             translate={translate}/>
+                               translate={translate}/>
                 </TabPanel>
                 <TabPanel style={panelStyle}>
                     <Convene councilID={this.props.councilID}
                              translate={translate}/>
-                </TabPanel>
-
-                <TabPanel style={panelStyle}>
-                    <Scrollbar>
-                        <ParticipantsSection
-                            translate={translate}
-                            council={council}
-                            totalVotes={this.props.data.councilTotalVotes}
-                            socialCapital={this.props.data.councilSocialCapital}
-                            refetch={this.props.data.refetch}
-                        />
-                    </Scrollbar>
                 </TabPanel>
             </Tabs>
         </CardPageLayout>);

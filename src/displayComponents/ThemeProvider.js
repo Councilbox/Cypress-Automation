@@ -1,10 +1,11 @@
 import React from 'react';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import { getPrimary, getSecondary } from '../styles/colors';
 import MomentUtils from 'material-ui-pickers/utils/moment-utils';
 import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
 import moment from 'moment';
 import 'moment/locale/es';
+
 moment.updateLocale('es');
 
 const primary = getPrimary();
@@ -39,10 +40,16 @@ const theme = createMuiTheme({
             underline: {
                 '&:hover:not($disabled):before': { //underline color when hovered 
                     backgroundColor: secondary,
-              },
+                },
                 '&:after': {
-                     backgroundColor: secondary
+                    backgroundColor: secondary
                 }
+            }
+        },
+
+        MuiTooltip: {
+            tooltip: {
+                fontSize: '0.7rem'
             }
         },
 
@@ -55,17 +62,15 @@ const theme = createMuiTheme({
 
 });
 
-const ThemeProvider = ({ children }) => (
-    <MuiThemeProvider theme={theme}>
-        <MuiPickersUtilsProvider
-            utils={MomentUtils}
-            moment={moment}
-            locale="es"
-        >
-            {children}
-        </MuiPickersUtilsProvider>
-    </MuiThemeProvider>
-);
+const ThemeProvider = ({ children }) => (<MuiThemeProvider theme={theme}>
+    <MuiPickersUtilsProvider
+        utils={MomentUtils}
+        moment={moment}
+        locale="es"
+    >
+        {children}
+    </MuiPickersUtilsProvider>
+</MuiThemeProvider>);
 
 export default ThemeProvider;
 

@@ -1,18 +1,16 @@
 import React from 'react';
 import MeetingEditorPage from "../components/meeting/editor/MeetingEditorPage";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-const MeetingEditorContainer = ({translate, council, match}) => {
-    return (
-        <MeetingEditorPage
-            council={council}
-            step={match.params.step}
-            translate={translate}
-            companyID={match.params.company}
-            councilID={match.params.id}
-        />
-    );
+const MeetingEditorContainer = ({ translate, council, match }) => {
+    return (<MeetingEditorPage
+        council={council}
+        step={match.params.step}
+        translate={translate}
+        companyID={match.params.company}
+        councilID={match.params.id}
+    />);
 };
 
 const mapStateToProps = (state) => ({

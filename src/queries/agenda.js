@@ -80,3 +80,54 @@ export const updateAgenda = gql`
     }
   }
 `;
+
+export const agendaVotings = gql`
+  query agendaVotings($agendaId: Int!, $filters: [FilterInput], $authorFilters: AuthorFilter, $options: OptionsInput){
+    agendaVotings(agendaId: $agendaId, filters: $filters, authorFilters: $authorFilters, options: $options){
+      list{
+        id
+        author{
+          name
+          surname
+          numParticipations
+          position
+        }
+        presentVote
+        numParticipations
+        comment
+        vote
+      }
+      total
+    }
+  }
+`;
+
+export const updateAgendaVoting = gql`
+  mutation updateAgendaVoting($agendaVoting: AgendaVotingInput){
+    updateAgendaVoting(agendaVoting: $agendaVoting){
+      success
+      message
+    }
+  }
+`;
+
+export const agendaComments = gql`
+query agendaComments($agendaId: Int!, $filters: [FilterInput], $authorFilters: AuthorFilter, $options: OptionsInput){
+  agendaComments(agendaId: $agendaId, filters: $filters, authorFilters: $authorFilters, options: $options){
+    list{
+      id
+      author{
+        name
+        surname
+        numParticipations
+        position
+      }
+      presentVote
+      numParticipations
+      comment
+      vote
+    }
+    total
+  }
+}
+`;

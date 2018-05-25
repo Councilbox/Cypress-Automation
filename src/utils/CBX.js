@@ -49,12 +49,16 @@ export const censusHasParticipations = (census) => {
     return census.quorumPrototype === 1
 };
 
+export const councilHasParticipations = (council) => {
+    return council.statute.quorumPrototype === 1
+};
+
 export const hasVotation = (pointType) => {
     return pointType === 1 || pointType === 3 || pointType === 5;
 };
 
 export const pointIsClosed = (agendaPoint) => {
-    if(hasVotation(agendaPoint.subjectType)){
+    if (hasVotation(agendaPoint.subjectType)) {
         return agendaPoint.votingState === 2 && agendaPoint.pointState === 2;
     }
     return agendaPoint.pointState === 2;
@@ -117,10 +121,10 @@ export const canBePresentWithRemoteVote = (statute) => {
 }
 
 export const filterAgendaVotingTypes = (votingTypes, statute) => {
-    if(statute.existsPresentWithRemoteVote === 1){
+    if (statute.existsPresentWithRemoteVote === 1) {
         return votingTypes.filter((type) => type.label === 'text' || type.label === 'public_votation');
     }
-    return votingTypes; 
+    return votingTypes;
 };
 
 export const hasSecondCall = (statute) => {
@@ -147,7 +151,7 @@ export const addMinimunDistance = (date, statute) => {
 };
 
 export const changeVariablesToValues = (text, data) => {
-    if(!data || !data.company || !data.council){
+    if (!data || !data.company || !data.council) {
         throw new Error('Missing data');
     }
 
@@ -156,7 +160,9 @@ export const changeVariablesToValues = (text, data) => {
     text = text.replace('{{city}}', data.council.city);
     text = text.replace('{{street}}', data.council.street);
     text = text.replace('{{country_state}}', data.council.countryState);
-    
+    text = text.replace('{{positiveVotings}}', data.votings.positive);
+    text = text.replace('{{negativeVotings}}', data.votings.negative);
+
     return text;
 };
 
@@ -173,7 +179,7 @@ export const isRepresented = (participant) => {
 };
 
 export const getSendType = (value) => {
-    return SEND_TYPES[value];
+    return SEND_TYPES[ value ];
 }
 
 export const removeHTMLTags = (string) => {
@@ -205,19 +211,23 @@ export const councilHasAssistanceConfirmation = (council) => {
 };
 
 export const printPrettyFilesize = (filesize) => {
-    if(filesize < 1024) {
+    if (filesize < 1024) {
         return `${filesize} Bytes`;
     }
-    if(filesize < 1048576){
-        return `${addTwoDecimals(filesize / 1024, 2)} KBs`;
+    if (filesize < 1048576) {
+        return `${addDecimals(filesize / 1024, 2)} KBs`;
     }
-    if(filesize < 1073741824){
-        return `${addTwoDecimals(filesize / 1048576, 2)} MBs`;
+    if (filesize < 1073741824) {
+        return `${addDecimals(filesize / 1048576, 2)} MBs`;
     }
-    return `${addTwoDecimals(filesize / 1073741824, 2)} GBs`;
+    return `${addDecimals(filesize / 1073741824, 2)} GBs`;
 };
 
-export const addTwoDecimals = (num, fixed) => {
+export const isPresentVote = (vote) => {
+    return vote.presentVote === 1;
+}
+
+export const addDecimals = (num, fixed) => {
     num = num.toString();
     return num.slice(0, (num.indexOf(".")) + fixed + 1);
 };
@@ -226,13 +236,13 @@ export const downloadFile = (base64, filetype, filename) => {
     let bufferArray = dataURItoBlob(base64);
 
     if (window.navigator.msSaveOrOpenBlob) {
-        let fileData = [bufferArray];
+        let fileData = [ bufferArray ];
         let blobObject = new Blob(fileData, {
             type: 'data:application/stream;base64'
         });
         return window.navigator.msSaveOrOpenBlob(blobObject, filename);
     } else {
-        let blob = new Blob([bufferArray], {
+        let blob = new Blob([ bufferArray ], {
             type: filetype
         });
         let objectUrl = URL.createObjectURL(blob);
@@ -255,7 +265,7 @@ function dataURItoBlob(dataURI) {
     let arrayBuffer = new ArrayBuffer(byteString.length);
     let ia = new Uint8Array(arrayBuffer);
     for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+        ia[ i ] = byteString.charCodeAt(i);
     }
 
     return arrayBuffer;
@@ -263,24 +273,24 @@ function dataURItoBlob(dataURI) {
 
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
-    switch(council.state){
-        case 0: 
-            if(expected !== 'draft'){
+    switch (council.state) {
+        case 0:
+            if (expected !== 'draft') {
                 bHistory.push(`/company/${company.id}/council/${council.id}`);
             }
             break;
         case 5:
-            if(expected !== 'convened'){
+            if (expected !== 'convened') {
                 bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
             }
             break;
         case 10:
-            if(expected !== 'convened'){
+            if (expected !== 'convened') {
                 bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
             }
             break;
-        case 20: 
-            if(expected !== 'live'){
+        case 20:
+            if (expected !== 'live') {
                 bHistory.push(`/company/${company.id}/council/${council.id}/live`);
             }
             break;
@@ -294,9 +304,9 @@ export const participantIsGuest = (participant) => {
 }
 
 export const getEmailIconByReqCode = (reqCode) => {
-    switch(reqCode){
+    switch (reqCode) {
 
-        case -1: 
+        case -1:
             return notSent;
         case 0:
             return notSent;
@@ -335,8 +345,8 @@ export const agendaPointNotOpened = (agenda) => {
 }
 
 export const getTranslationReqCode = (reqCode) => {
-    switch(reqCode){
-        case -1: 
+    switch (reqCode) {
+        case -1:
             return 'tooltip_failed_shipping';
         case 0:
             return 'tooltip_not_sent';
@@ -354,7 +364,7 @@ export const getTranslationReqCode = (reqCode) => {
             return 'tooltip_invalid_email_address';
         case 37:
             return 'tooltip_dropped';
-        default: 
+        default:
             return;
     }
 };
@@ -368,10 +378,10 @@ export const printSessionExpiredError = () => {
         'pt': 'A sua sessão expirou',
     };
     const selectedLanguage = sessionStorage.getItem('language');
-    if(selectedLanguage){
-        return messages[selectedLanguage];
+    if (selectedLanguage) {
+        return messages[ selectedLanguage ];
     }
-    return messages['es'];
+    return messages[ 'es' ];
 };
 
 export const printCifAlreadyUsed = () => {
@@ -379,15 +389,15 @@ export const printCifAlreadyUsed = () => {
     const messages = {
         'pt': 'Este NIF já foi previamente guardado',
         'es': "Este CIF ha sido guardado previamente",
-        'en':' This VAT has been previously saved',
+        'en': ' This VAT has been previously saved',
         'cat': 'Aquest CIF ha estat guardat prèviament',
         'gal': 'Este CIF foi gardado previamente'
     }
     const selectedLanguage = sessionStorage.getItem('language');
-    if(selectedLanguage){
-        return messages[selectedLanguage];
+    if (selectedLanguage) {
+        return messages[ selectedLanguage ];
     }
-    return messages['es'];
+    return messages[ 'es' ];
 }
 
 
@@ -403,27 +413,27 @@ export const hasHisVoteDelegated = (participant) => {
     return participant.state === 4;
 }
 
-export const getParticipantStateString = (participantState) => {
-    switch(participantState){
-        case 0: 
+export const getParticipantStateString = (participant) => {
+    switch (participant.state) {
+        case PARTICIPANT_STATES.REMOTE:
             return 'REMOTE';
 
-        case 1:
+        case PARTICIPANT_STATES.PRESENT:
             return 'PRESENT';
-            
-        case 2:
+
+        case PARTICIPANT_STATES.REPRESENTATED:
             return 'REPRESENTATED';
 
-        case 4:
+        case PARTICIPANT_STATES.DELEGATED:
             return 'DELEGATED';
 
-        case 5:
+        case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
             return 'PHYSICALLY_PRESENT';
 
-        case 6:
+        case PARTICIPANT_STATES.NO_PARTICIPATE:
             return 'NO_PARTICIPATE';
 
-        case 7:
+        case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
             return 'PRESENT_WITH_REMOTE_VOTE';
 
         default:
@@ -432,13 +442,13 @@ export const getParticipantStateString = (participantState) => {
 }
 
 export const getParticipantStateField = (participant) => {
-    switch(participant.state){
-        case 0: 
+    switch (participant.state) {
+        case 0:
             return 'remote_assistance';
 
         case 1:
             return 'physically_present_assistance';
-            
+
         case 2:
             return 'representated';
 
@@ -460,7 +470,6 @@ export const getParticipantStateField = (participant) => {
 }
 
 
-
 export const checkRequiredFields = (translate, draft, updateErrors) => {
     let errors = {
         title: '',
@@ -475,54 +484,52 @@ export const checkRequiredFields = (translate, draft, updateErrors) => {
     };
     let hasError = false;
 
-    if(!draft.title){
+    if (!draft.title) {
         hasError = true;
         errors.title = translate.required_field;
     }
 
-    if(!draft.description){
+    if (!draft.description) {
         hasError = true;
         errors.description = translate.required_field;
     }
 
-    if(!draft.text){
+    if (!draft.text) {
         hasError = true;
         errors.text = translate.required_field;
     }
 
-    if(draft.type === -1){
+    if (draft.type === -1) {
         hasError = true;
         errors.type = translate.required_field;
     }
 
-    if(draft.statuteId === -1){
+    if (draft.statuteId === -1) {
         hasError = true;
         errors.statuteId = translate.required_field;
     }
 
-    if(draft.type === 1 && draft.votationType === -1){
+    if (draft.type === 1 && draft.votationType === -1) {
         hasError = true;
         errors.votationType = translate.required_field;
     }
 
-    if(hasVotation(draft.votationType) && draft.majorityType === -1){
+    if (hasVotation(draft.votationType) && draft.majorityType === -1) {
         hasError = true;
         errors.majorityType = translate.required_field;
     }
 
-    if(majorityNeedsInput(draft.majorityType) && !draft.majority){
+    if (majorityNeedsInput(draft.majorityType) && !draft.majority) {
         hasError = true;
         errors.majority = translate.required_field;
     }
 
-    if(isMajorityFraction(draft.majorityType) && !draft.majorityDivider){
+    if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
         hasError = true;
         errors.majorityDivider = translate.required_field;
     }
 
-    updateErrors(
-        errors
-    );
+    updateErrors(errors);
 
     return hasError;
 };
@@ -531,10 +538,11 @@ export const formatSize = (size) => {
     let mb = Math.pow(1024, 2);
     let kb = 1024;
 
-    if (size >= 1024^2)
-        return Math.ceil((size / mb)*100) / 100 + ' MB';
-    else if (size >= 1024)
-        return Math.ceil((size / kb)*100) / 100 + ' KB';
-    else
+    if (size >= 1024 ^ 2) {
+        return Math.ceil((size / mb) * 100) / 100 + ' MB';
+    } else if (size >= 1024) {
+        return Math.ceil((size / kb) * 100) / 100 + ' KB';
+    } else {
         return size + ' Bytes';
+    }
 };

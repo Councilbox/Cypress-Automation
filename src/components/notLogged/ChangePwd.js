@@ -8,7 +8,7 @@ import { compose, graphql } from 'react-apollo';
 import { changePwd, checkExpiration } from '../../queries/restorePwd';
 import { getPrimary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { BasicButton, ButtonIcon, TextInput, Link } from '../../displayComponents';
+import { BasicButton, ButtonIcon, Link, TextInput } from '../../displayComponents';
 import background from '../../assets/img/signup3.jpg';
 
 const DEFAULT_ERRORS = {
@@ -17,6 +17,58 @@ const DEFAULT_ERRORS = {
 };
 
 class ChangePwd extends React.PureComponent {
+
+    changePwd = async () => {
+        if (!this.checkRequiredFields()) {
+            const response = await this.props.changePwd({
+                variables: {
+                    token: this.props.match.params.token,
+                    pwd: this.state.pwd,
+                }
+            });
+            if (response.errors) {
+                switch (response.errors[ 0 ].code) {
+                    case 402:
+                        this.setState({
+                            linkExpired: true
+                        });
+                        break;
+
+                    default:
+                        return;
+                }
+            }
+            if (response.data.changePwd.success) {
+                this.setState({
+                    changed: true
+                });
+            }
+        }
+    };
+    checkExpiration = async () => {
+        const response = await this.props.checkExpiration({
+            variables: {
+                token: this.props.match.params.token
+            }
+        });
+        if (response.errors) {
+            switch (response.errors[ 0 ].code) {
+                case 440:
+                    this.setState({
+                        linkExpired: true
+                    });
+                    break;
+
+                default:
+                    return;
+            }
+        }
+    };
+    handleKeyUp = (event) => {
+        if (event.nativeEvent.keyCode === 13) {
+            this.changePwd();
+        }
+    };
 
     constructor(props) {
         super(props);
@@ -56,60 +108,6 @@ class ChangePwd extends React.PureComponent {
 
         return hasError;
     }
-
-    changePwd = async () => {
-        if (!this.checkRequiredFields()) {
-            const response = await this.props.changePwd({
-                variables: {
-                    token: this.props.match.params.token,
-                    pwd: this.state.pwd,
-                }
-            });
-            if (response.errors) {
-                switch (response.errors[ 0 ].code) {
-                    case 402:
-                        this.setState({
-                            linkExpired: true
-                        });
-                        break;
-
-                    default:
-                        return;
-                }
-            }
-            if (response.data.changePwd.success) {
-                this.setState({
-                    changed: true
-                });
-            }
-        }
-    };
-
-    checkExpiration = async () => {
-        const response = await this.props.checkExpiration({
-            variables: {
-                token: this.props.match.params.token
-            }
-        });
-        if (response.errors) {
-            switch (response.errors[ 0 ].code) {
-                case 440:
-                    this.setState({
-                        linkExpired: true
-                    });
-                    break;
-
-                default:
-                    return;
-            }
-        }
-    };
-
-    handleKeyUp = (event) => {
-        if (event.nativeEvent.keyCode === 13) {
-            this.changePwd();
-        }
-    };
 
     render() {
         const { translate, windowSize } = this.props;

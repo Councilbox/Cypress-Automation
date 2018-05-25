@@ -1,12 +1,12 @@
 import React from 'react';
 import { CardPageLayout, MobileStepper } from '../../../displayComponents';
 import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
-import CouncilEditorNotice from './CouncilEditorNotice';
-import CouncilEditorCensus from './census/CouncilEditorCensus';
-import CouncilEditorAgenda from './agenda/CouncilEditorAgenda';
-import CouncilEditorAttachments from './attachments/CouncilEditorAttachments';
-import CouncilEditorOptions from './CouncilEditorOptions';
-import CouncilEditorPreview from './CouncilEditorPreview';
+import CouncilEditorNotice from './StepNotice';
+import CouncilEditorCensus from './census/StepCensus';
+import CouncilEditorAgenda from './agenda/StepAgenda';
+import CouncilEditorAttachments from './attachments/StepAttachments';
+import CouncilEditorOptions from './StepOptions';
+import CouncilEditorPreview from './StepPreview';
 import { bHistory } from '../../../containers/App';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { checkCouncilState } from '../../../utils/CBX';
@@ -16,6 +16,37 @@ const pointerStep = {
 };
 
 class CouncilEditorPage extends React.Component {
+
+    nextStep = () => {
+        const index = this.state.step + 1;
+        this.props.updateStep();
+        this.setState({ step: index });
+    };
+    goToPage = (page) => {
+        if (page < this.props.step) {
+            this.setState({
+                step: page
+            });
+        }
+    };
+    previousStep = () => {
+        const index = this.state.step - 1;
+        this.setState({ step: index });
+    };
+    send = () => {
+        if (true) {
+            this.setState({ success: true });
+        }
+    };
+    setDate = (dateTime) => {
+        this.setState({
+            ...this.state,
+            data: {
+                ...this.state.data,
+                date: dateTime
+            }
+        })
+    };
 
     constructor(props) {
         super(props);
@@ -36,42 +67,6 @@ class CouncilEditorPage extends React.Component {
             id: this.props.councilID
         }, this.props.company, bHistory, 'draft');
     }
-
-    nextStep = () => {
-        const index = this.state.step + 1;
-        this.props.updateStep();
-        this.setState({ step: index });
-    };
-
-    goToPage = (page) => {
-        if (page < this.props.step) {
-            this.setState({
-                step: page
-            });
-        }
-    };
-
-    previousStep = () => {
-        const index = this.state.step - 1;
-        this.setState({ step: index });
-    };
-
-    send = () => {
-        if (true) {
-            this.setState({ success: true });
-        }
-    };
-
-    setDate = (dateTime) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data,
-                date: dateTime
-            }
-        })
-    };
-
 
     render() {
         const { translate, windowSize } = this.props;

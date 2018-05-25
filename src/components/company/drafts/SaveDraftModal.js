@@ -9,40 +9,24 @@ import { checkRequiredFields } from '../../../utils/CBX';
 
 class SaveDraftModal extends Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            data: {}
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps, prevState){
-        return {
-            data: nextProps.data
-        }
-    }
-
     updateState = (object) => {
         this.setState({
             data: {
-                ...this.state.data,
-                ...object
+                ...this.state.data, ...object
             }
         })
     };
-
     updateErrors = (errors) => {
         this.setState({
             errors
         });
     };
-
     createCompanyDraft = async () => {
         const { translate } = this.props;
         const { draft } = this.state;
-        if(!checkRequiredFields(translate, draft, this.updateErrors)){
+        if (!checkRequiredFields(translate, draft, this.updateErrors)) {
             const { data } = this.state;
-            this.setState({loading: true});
+            this.setState({ loading: true });
             const response = await this.props.createCompanyDraft({
                 variables: {
                     draft: {
@@ -59,51 +43,59 @@ class SaveDraftModal extends Component {
                     }
                 }
             });
-    
-            if(!response.errors){
-                this.setState({success: true});
+
+            if (!response.errors) {
+                this.setState({ success: true });
                 this.props.requestClose();
             }
         }
     };
-
     _renderNewPointBody = () => {
         console.log(this.props);
         const { translate } = this.props;
-        const { data = {} } = this.state;       
+        const { data = {} } = this.state;
 
-        return(
-            <div style={{width: '800px'}}>
-                <CompanyDraftForm
-                    translate={translate}
-                    errors={{}}
-                    updateState={this.updateState}
-                    draft={data}
-                    companyStatutes={this.props.companyStatutes}
-                    draftTypes={this.props.draftTypes}
-                    votingTypes={this.props.votingTypes}
-                    majorityTypes={this.props.majorityTypes}        
-                />
-            </div>
-        )
+        return (<div style={{ width: '800px' }}>
+            <CompanyDraftForm
+                translate={translate}
+                errors={{}}
+                updateState={this.updateState}
+                draft={data}
+                companyStatutes={this.props.companyStatutes}
+                draftTypes={this.props.draftTypes}
+                votingTypes={this.props.votingTypes}
+                majorityTypes={this.props.majorityTypes}
+            />
+        </div>)
     };
 
-    render(){
-        const { translate } = this.props;                
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {}
+        }
+    }
 
-        return(
-            <AlertConfirm
-                requestClose={this.props.requestClose}
-                open={this.props.open}
-                acceptAction={this.createCompanyDraft}
-                cancelAction={this.props.requestClose}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderNewPointBody()}
-                title={translate.new_point}
-            />
-        );
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+            data: nextProps.data
+        }
+    }
+
+    render() {
+        const { translate } = this.props;
+
+        return (<AlertConfirm
+            requestClose={this.props.requestClose}
+            open={this.props.open}
+            acceptAction={this.createCompanyDraft}
+            cancelAction={this.props.requestClose}
+            buttonAccept={translate.accept}
+            buttonCancel={translate.cancel}
+            bodyText={this._renderNewPointBody()}
+            title={translate.new_point}
+        />);
     }
 }
 
-export default graphql(createCompanyDraft, {name: 'createCompanyDraft'})(withTranslations()(SaveDraftModal));
+export default graphql(createCompanyDraft, { name: 'createCompanyDraft' })(withTranslations()(SaveDraftModal));
