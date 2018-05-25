@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card } from 'material-ui';
 import withTranslations from '../../../HOCs/withTranslations';
-import { councilIsStarted } from '../../../utils/CBX';
+import { councilIsLive } from '../../../utils/CBX';
 import Header from '../Header';
 import LoginForm from './LoginForm';
 import CouncilState from './CouncilState';
@@ -44,10 +44,10 @@ class ParticipantLogin extends Component {
                 <Header />
                 <div style={styles.mainContainer}>
                     <Card style={styles.cardContainer}>
-                        {councilIsStarted(council) ?
+                        {councilIsLive(council) ?
                             <LoginForm participant={participant} council={council} company={company} />
                             :
-                            <CouncilState council={council} />
+                            <CouncilState council={council} company={company}/>
                         }
                     </Card>
                 </div>
