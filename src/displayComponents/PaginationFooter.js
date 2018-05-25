@@ -53,7 +53,7 @@ const PaginationFooter = ({ page, translate, length, total, limit, changePage })
 const showPages = (numPages, active, changePage) => {
     let pages = [];
     for (let i = 1; i <= numPages; i++) {
-        pages.push(<span key={`page_${i}`} onClick={() => changePage(i)}
+        pages.push(<span key={`page_${i}`} onClick={active !== i? () => changePage(i) : () => {}}
                          style={{
                              ...paginationButtonStyle,
                              borderColor: (active === i ? primary : secondary),

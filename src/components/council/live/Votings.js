@@ -248,7 +248,7 @@ class VotingsSection extends Component {
                         }}
                     />
                 </GridItem>
-                <GridItem xs={12} md={12} lg={12}>
+                <div style={{width: '100%'}}>
                     {this.props.data.loading? 
                         <LoadingSection />
                     :
@@ -297,7 +297,15 @@ class VotingsSection extends Component {
                                         )
                                     })}
                                 </Table>
-                                <div style={{width: '10=%'}}>
+                                <div style={{
+                                    width: '90%',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    marginTop: '1em',
+                                    paddinRight: '10em'
+                                }}>
                                     <PaginationFooter
                                         page={this.state.page}
                                         translate={translate}
@@ -312,7 +320,7 @@ class VotingsSection extends Component {
                         :
                             translate.no_results
                     }
-                </GridItem>
+                </div>
             </Grid>
         );
     };
