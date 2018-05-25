@@ -110,3 +110,24 @@ export const updateAgendaVoting = gql`
     }
   }
 `;
+
+export const agendaComments = gql`
+query agendaComments($agendaId: Int!, $filters: [FilterInput], $authorFilters: AuthorFilter, $options: OptionsInput){
+  agendaComments(agendaId: $agendaId, filters: $filters, authorFilters: $authorFilters, options: $options){
+    list{
+      id
+      author{
+        name
+        surname
+        numParticipations
+        position
+      }
+      presentVote
+      numParticipations
+      comment
+      vote
+    }
+    total
+  }
+}
+`;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
-import { CollapsibleSection, LoadingSection, Icon } from '../../../displayComponents';
+import { CollapsibleSection, LoadingSection, Icon, Grid, GridItem, TextInput } from '../../../displayComponents';
 import { darkGrey } from '../../../styles/colors';
-import { agendaVotings } from '../../../queries/agenda';
+import { agendaComments } from '../../../queries/agenda';
 import { LIVE_COLLAPSIBLE_HEIGHT } from '../../../styles/constants';
 
 
@@ -11,8 +11,20 @@ class CommentsSection extends Component {
     constructor(props){
         super(props);
         this.state = {
-            open: false
+            open: false,
+            agendaId: this.props.agenda.id,
+            filterText: ''
         }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.agenda.id !== prevState.agendaId){
+            return {
+                filterText: '',
+                agendaId: nextProps.agenda.id
+            }
+        }
+        return null;
     }
 
     _button = () => {
@@ -40,20 +52,40 @@ class CommentsSection extends Component {
             );
         }
 
-
         return(
-            <div style={{width: '100%', padding: '2em'}}>
-                {this.props.data.agendaVotings.list.map((voting) => {
-                    if(voting.comment){
-                        return(
-                            <div key={`voting_${voting.author.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
-                                {voting.comment}<br />
-                                {`${voting.author.name} - ${voting.author.position}`}
-                            </div>
-                        )
-                    }
-                })}
-            </div>
+            <Grid style={{width: '100%', padding: '2em', backgroundColor: 'white', }}>
+                <GridItem xs={8} md={8} lg={8}>
+                    
+                </GridItem>
+                <GridItem xs={4} md={4} lg={4}>
+                    <TextInput
+                        adornment={
+                            <Icon>search</Icon>
+                        }
+                        floatingText={' '}
+                        type="text"
+                        value={this.state.filterText}
+                        onChange={(event) => {
+                            this.updateFilterText(event.target.value)
+                        }}
+                    />
+                </GridItem>
+                
+                {this.props.data.agendaComments.length > 0?
+                    this.props.data.agendaComments.list.map((voting) => {
+                        if(voting.comment){
+                            return(
+                                <div key={`voting_${voting.author.email}`} style={{paddingBottom: '0.5em', borderBottom: '1px solid black'}}>
+                                    {voting.comment}<br />
+                                    {`${voting.author.name} - ${voting.author.position}`}
+                                </div>
+                            )
+                        }
+                    })
+                :
+                    this.props.translate.no_results
+                }
+            </Grid>
         );
     };
 
@@ -73,7 +105,7 @@ class CommentsSection extends Component {
     }
 }
 
-export default graphql(agendaVotings, {
+export default graphql(agendaComments, {
     options: (props) => ({
         variables: {
             agendaId: props.agenda.id,

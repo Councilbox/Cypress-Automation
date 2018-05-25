@@ -46,6 +46,12 @@ const theme = createMuiTheme({
             }
         },
 
+        MuiTooltip: {
+            tooltip: {
+                fontSize: '0.7rem'
+            }
+        },
+
         MuiStepper: {
             root: {
                 backgroundColor: 'transparent'
