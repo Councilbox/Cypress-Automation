@@ -155,14 +155,19 @@ export const changeVariablesToValues = (text, data) => {
         throw new Error('Missing data');
     }
 
+    if(!text){
+        return '';
+    }
+    
     text = text.replace('{{dateFirstCall}}', moment(new Date(data.council.dateStart).toISOString(), moment.ISO_8601).format('LLL'));
     text = text.replace('{{business_name}}', data.company.businessName);
     text = text.replace('{{city}}', data.council.city);
     text = text.replace('{{street}}', data.council.street);
     text = text.replace('{{country_state}}', data.council.countryState);
-    text = text.replace('{{positiveVotings}}', data.votings.positive);
-    text = text.replace('{{negativeVotings}}', data.votings.negative);
-
+    if(data.votings){
+        text = text.replace('{{positiveVotings}}', data.votings.positive);
+        text = text.replace('{{negativeVotings}}', data.votings.negative);
+    }
     return text;
 };
 
@@ -408,8 +413,8 @@ export const hasHisVoteDelegated = (participant) => {
     return participant.state === 4;
 }
 
-export const getParticipantStateString = (participant) => {
-    switch (participant.state) {
+export const getParticipantStateString = (state) => {
+    switch (state) {
         case PARTICIPANT_STATES.REMOTE:
             return 'REMOTE';
 
