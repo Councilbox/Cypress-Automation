@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react';
 
 import {
-    CardPageLayout, BasicButton, LoadingSection, Icon, DropDownMenu, ErrorWrapper, Grid, GridItem
+    BasicButton, CardPageLayout, DropDownMenu, ErrorWrapper, Icon, LoadingSection
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { MenuItem, Card, Divider, Typography } from 'material-ui';
-import DateHeader from './DateHeader';
+import { Divider, MenuItem } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import { bHistory } from '../../../containers/App';
 import { councilDetails, downloadConvenePDF } from '../../../queries';
@@ -15,9 +14,7 @@ import FontAwesome from 'react-fontawesome';
 import RescheduleModal from './modals/RescheduleModal';
 import SendConveneModal from './modals/SendConveneModal';
 import CancelModal from './modals/CancelModal';
-import AttachmentDownload from '../../attachments/AttachmentDownload';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Scrollbar from 'react-perfect-scrollbar';
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import Convene from '../convene/Convene';
 import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
 
@@ -32,25 +29,9 @@ const panelStyle = {
 
 class CouncilPreparePage extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            participants: false,
-            sendReminder: false,
-            sendConvene: false,
-            cancel: false,
-            rescheduleCouncil: false
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
-
     goToPrepareRoom = () => {
         bHistory.push(`/company/${this.props.companyID}/council/${this.props.councilID}/live`);
     };
-
     downloadPDF = async () => {
         const response = await this.props.client.query({
             query: downloadConvenePDF,
@@ -67,6 +48,20 @@ class CouncilPreparePage extends Component {
         console.log(response);
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            participants: false,
+            sendReminder: false,
+            sendConvene: false,
+            cancel: false,
+            rescheduleCouncil: false
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
 
     render() {
         const { council, error, loading, councilSocialCapital, councilTotalVotes, refetch } = this.props.data;

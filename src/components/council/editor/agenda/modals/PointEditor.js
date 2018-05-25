@@ -1,14 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import {
-    AlertConfirm,
-    SelectInput,
-    TextInput,
-    RichTextInput,
-    Grid,
-    GridItem,
-    MajorityInput,
-    BasicButton
+    AlertConfirm, BasicButton, Grid, GridItem, MajorityInput, RichTextInput, SelectInput, TextInput
 } from '../../../../../displayComponents/index';
 import { MenuItem } from 'material-ui';
 import { updateAgenda } from '../../../../../queries/agenda';
@@ -16,37 +9,8 @@ import * as CBX from '../../../../../utils/CBX';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
-import { censusHasParticipations } from "../../../../../utils/CBX";
 
 class PointEditor extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            data: {
-                agendaSubject: '',
-                subjectType: '',
-                description: ''
-            },
-            loadDraft: false,
-            errors: {
-                agendaSubject: '',
-                subjectType: '',
-                description: '',
-                majorityType: '',
-                majority: '',
-                majorityDivider: '',
-            }
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            data: {
-                ...nextProps.agenda
-            }
-        })
-    }
 
     loadDraft = (draft) => {
         const correctedText = CBX.changeVariablesToValues(draft.text, {
@@ -63,7 +27,6 @@ class PointEditor extends Component {
         });
         this.editor.setValue(correctedText);
     };
-
     saveChanges = async () => {
         if (!this.checkRequiredFields()) {
             const { __typename, ...data } = this.state.data;
@@ -80,27 +43,14 @@ class PointEditor extends Component {
             }
         }
     };
-
     updateState = (object) => {
         this.setState({
             data: {
-                ...this.state.data,
-                ...object
+                ...this.state.data, ...object
             },
             loadDraft: false
         });
     };
-
-    checkRequiredFields() {
-        const { translate } = this.props;
-        const agenda = this.state.data;
-        let errors = checkRequiredFieldsAgenda(agenda, translate);
-        this.setState({
-            errors: errors.errors,
-        });
-        return errors.hasError;
-    }
-
     _renderModalBody = () => {
         const secondary = getSecondary();
         const { translate, votingTypes, statute, draftTypes, council, company, companyStatutes } = this.props;
@@ -175,21 +125,21 @@ class PointEditor extends Component {
                         </GridItem>
                         <GridItem xs={6} lg={3} md={3}>
                             {CBX.majorityNeedsInput(agenda.majorityType) && (<MajorityInput
-                                    type={agenda.majorityType}
-                                    style={{
-                                        marginTop: '1em'
-                                    }}
-                                    value={agenda.majority}
-                                    divider={agenda.majorityDivider}
-                                    majorityError={errors.majority}
-                                    dividerError={errors.majorityDivider}
-                                    onChange={(value) => this.updateState({
-                                        majority: +value
-                                    })}
-                                    onChangeDivider={(value) => this.updateState({
-                                        majorityDivider: +value
-                                    })}
-                                />)}
+                                type={agenda.majorityType}
+                                style={{
+                                    marginTop: '1em'
+                                }}
+                                value={agenda.majority}
+                                divider={agenda.majorityDivider}
+                                majorityError={errors.majority}
+                                dividerError={errors.majorityDivider}
+                                onChange={(value) => this.updateState({
+                                    majority: +value
+                                })}
+                                onChangeDivider={(value) => this.updateState({
+                                    majorityDivider: +value
+                                })}
+                            />)}
                         </GridItem>
                     </Grid>}
 
@@ -234,18 +184,56 @@ class PointEditor extends Component {
         );
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: {
+                agendaSubject: '',
+                subjectType: '',
+                description: ''
+            },
+            loadDraft: false,
+            errors: {
+                agendaSubject: '',
+                subjectType: '',
+                description: '',
+                majorityType: '',
+                majority: '',
+                majorityDivider: '',
+            }
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            data: {
+                ...nextProps.agenda
+            }
+        })
+    }
+
+    checkRequiredFields() {
+        const { translate } = this.props;
+        const agenda = this.state.data;
+        let errors = checkRequiredFieldsAgenda(agenda, translate);
+        this.setState({
+            errors: errors.errors,
+        });
+        return errors.hasError;
+    }
+
     render() {
         const { open, translate, requestClose } = this.props;
 
         return (<AlertConfirm
-                requestClose={requestClose}
-                open={open}
-                acceptAction={this.saveChanges}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderModalBody()}
-                title={translate.edit}
-            />);
+            requestClose={requestClose}
+            open={open}
+            acceptAction={this.saveChanges}
+            buttonAccept={translate.accept}
+            buttonCancel={translate.cancel}
+            bodyText={this._renderModalBody()}
+            title={translate.edit}
+        />);
     }
 }
 

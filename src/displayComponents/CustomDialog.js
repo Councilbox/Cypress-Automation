@@ -1,11 +1,10 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
-import BasicButton from './BasicButton';
-import { getPrimary, getSecondary } from '../styles/colors';
+import { getSecondary } from '../styles/colors';
 import FontAwesome from 'react-fontawesome';
 
 
-const CustomDialog = ({ title, fullWidth = false, fullScreen = false, requestClose, scrollable = false, disableBackdropClick = false, open, actions, children, ...restProps}) => {
+const CustomDialog = ({ title, fullWidth = false, fullScreen = false, requestClose, scrollable = false, disableBackdropClick = false, open, actions, children, ...restProps }) => {
     return (<Dialog
         disableBackdropClick={disableBackdropClick}
         fullWidth={fullWidth}

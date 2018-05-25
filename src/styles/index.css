@@ -1,41 +1,41 @@
-:root{
-  --font-family: 'Lato';
+:root {
+    --font-family: 'Lato';
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
 }
 
-a:hover{
-  text-decoration: none !important;
+a:hover {
+    text-decoration: none !important;
 }
 
 .temp_video {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 .withShadow {
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
 .truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .draggable {
-  z-index: 10000 !important;
+    z-index: 10000 !important;
 }
 
 .public-DraftEditor-content {
-  min-height: 120px;
-  overflow: auto;
+    min-height: 120px;
+    overflow: auto;
 }
 
 .text-editor {
-  font-family: var(--font-family);
+    font-family: var(--font-family);
 }

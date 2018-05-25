@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { graphql, compose } from 'react-apollo';
+import { compose, graphql } from 'react-apollo';
 
-import { LoadingSection, CardPageLayout, TextInput, AlertConfirm, VTabs, BasicButton, ButtonIcon } from '../../../displayComponents';
-import { statutes, updateStatute, deleteStatute, createStatute } from '../../../queries';
+import {
+    AlertConfirm, BasicButton, ButtonIcon, CardPageLayout, LoadingSection, TextInput, VTabs
+} from '../../../displayComponents';
+import { createStatute, deleteStatute, statutes, updateStatute } from '../../../queries';
 import { withRouter } from 'react-router-dom';
 import StatuteEditor from './StatuteEditor';
 import { getPrimary } from "../../../styles/colors";
@@ -11,45 +13,12 @@ import { getPrimary } from "../../../styles/colors";
 
 class StatutesPage extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedStatute: 0,
-            newStatute: false,
-            newStatuteName: '',
-            statute: {},
-            success: false,
-            requestError: false,
-            requesting: false,
-            unsavedChanges: false,
-            errors: {},
-            deleteModal: false
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (this.props.data.loading && !nextProps.data.loading) {
-            if (nextProps.data.companyStatutes[ this.state.selectedStatute ]){
-                this.setState({
-                    statute: {
-                        ...nextProps.data.companyStatutes[ this.state.selectedStatute ]
-                    }
-                });
-            }
-        }
-    }
-
-    componentDidMount() {
-        this.props.data.refetch();
-    }
-
     openDeleteModal = ID => {
         this.setState({
             deleteModal: true,
             deleteID: ID
         });
     };
-
     resetButtonStates = () => {
         this.setState({
             error: false,
@@ -57,7 +26,6 @@ class StatutesPage extends Component {
             success: false
         });
     };
-
     updateStatute = async () => {
         if (!this.checkRequiredFields()) {
             this.setState({
@@ -86,7 +54,6 @@ class StatutesPage extends Component {
             }
         }
     };
-
     deleteStatute = async () => {
         const response = await this.props.deleteStatute({
             variables: {
@@ -102,11 +69,6 @@ class StatutesPage extends Component {
             })
         }
     };
-
-    checkRequiredFields() {
-        return false;
-    }
-
     createStatute = async () => {
         if (this.state.newStatuteName) {
             const statute = {
@@ -136,17 +98,14 @@ class StatutesPage extends Component {
             })
         }
     };
-
     updateState = (object) => {
         this.setState({
             statute: {
-                ...this.state.statute,
-                ...object
+                ...this.state.statute, ...object
             },
             unsavedChanges: true
         });
     };
-
     handleStatuteChange = (index) => {
         if (!this.state.unsavedChanges) {
             this.setState({
@@ -161,8 +120,43 @@ class StatutesPage extends Component {
             alert('tienes cambios sin guardar');
         }
     };
-
     showNewStatute = () => this.setState({ newStatute: true });
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedStatute: 0,
+            newStatute: false,
+            newStatuteName: '',
+            statute: {},
+            success: false,
+            requestError: false,
+            requesting: false,
+            unsavedChanges: false,
+            errors: {},
+            deleteModal: false
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (this.props.data.loading && !nextProps.data.loading) {
+            if (nextProps.data.companyStatutes[ this.state.selectedStatute ]) {
+                this.setState({
+                    statute: {
+                        ...nextProps.data.companyStatutes[ this.state.selectedStatute ]
+                    }
+                });
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.props.data.refetch();
+    }
+
+    checkRequiredFields() {
+        return false;
+    }
 
     render() {
         const { loading, companyStatutes } = this.props.data;
@@ -249,9 +243,7 @@ class StatutesPage extends Component {
                     buttonCancel={translate.cancel}
                     modal={true}
                     acceptAction={this.deleteStatute}
-                    requestClose={() =>
-                        this.setState({ deleteModal: false })
-                    }
+                    requestClose={() => this.setState({ deleteModal: false })}
                 />
             </CardPageLayout>
 

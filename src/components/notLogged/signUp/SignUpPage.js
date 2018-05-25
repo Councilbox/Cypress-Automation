@@ -13,6 +13,63 @@ import { graphql } from "react-apollo/index";
 
 class SignUpPage extends React.Component {
 
+    nextPage = () => {
+        const index = this.state.page + 1;
+        if (index <= 3) {
+            this.setState({
+                page: index
+            })
+        }
+    };
+    previousPage = () => {
+        const index = this.state.page - 1;
+        if (index <= 3) {
+            this.setState({
+                page: index
+            })
+        }
+    };
+    goToPage = (index) => {
+        if (index < this.state.page) {
+            this.setState({
+                page: index
+            })
+        }
+    };
+    send = async () => {
+        const response = await this.props.mutate({
+            variables: this.state.data
+        });
+        console.log(response.errors);
+        if (response.errors) {
+            switch (response.errors[ 0 ].message) {
+                default:
+                    return;
+            }
+        }
+        if (response.data.userAndCompanySignUp.success) {
+            this.setState({
+                success: true
+            });
+        }
+    };
+    updateState = (object) => {
+        this.setState({
+            ...this.state,
+            data: {
+                ...this.state.data, ...object
+            }
+        })
+    };
+    updateErrors = (object) => {
+        this.setState({
+            ...this.state,
+            errors: {
+                ...this.state.errors, ...object
+            }
+        })
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -40,68 +97,6 @@ class SignUpPage extends React.Component {
             errors: {}
         };
     }
-
-    nextPage = () => {
-        const index = this.state.page + 1;
-        if (index <= 3) {
-            this.setState({
-                page: index
-            })
-        }
-    };
-
-    previousPage = () => {
-        const index = this.state.page - 1;
-        if (index <= 3) {
-            this.setState({
-                page: index
-            })
-        }
-    };
-
-    goToPage = (index) => {
-        if (index < this.state.page) {
-            this.setState({
-                page: index
-            })
-        }
-    };
-
-    send = async () => {
-        const response = await this.props.mutate({
-            variables: this.state.data
-        });
-        console.log(response.errors);
-        if (response.errors) {
-            switch (response.errors[ 0 ].message) {
-                default:
-                    return;
-            }
-        }
-        if (response.data.userAndCompanySignUp.success) {
-            this.setState({
-                success: true
-            });
-        }
-    };
-
-    updateState = (object) => {
-        this.setState({
-            ...this.state,
-            data: {
-                ...this.state.data, ...object
-            }
-        })
-    };
-
-    updateErrors = (object) => {
-        this.setState({
-            ...this.state,
-            errors: {
-                ...this.state.errors, ...object
-            }
-        })
-    };
 
     render() {
         const { translate, windowSize } = this.props;

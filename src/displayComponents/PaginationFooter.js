@@ -1,7 +1,8 @@
 import React from 'react';
-import { Grid, GridItem } from './';
+import { GridItem } from './';
 import { hasMorePages } from '../utils/pagination';
 import { getPrimary, getSecondary } from '../styles/colors';
+
 const primary = getPrimary();
 const secondary = getSecondary();
 const paginationButtonStyle = {
@@ -19,35 +20,33 @@ const paginationButtonStyle = {
 const PaginationFooter = ({ page, translate, length, total, limit, changePage }) => {
     const totalPages = Math.ceil(total / limit);
 
-    return(
-        <React.Fragment>
-            <GridItem xs={6} lg={6} md={6}>
-                {length > 0 ? `${translate.table_showing_part1} ${(page - 1) * limit + 1} ${translate.table_showing_part2} ${(page - 1) * limit + length} ${translate.table_showing_part3} ${total} ${translate.table_showing_part4}` : translate.table_no_results}
-            </GridItem>
-            <GridItem xs={6} lg={6} md={6}>
-                <div style={{ float: 'right' }}>
-                    {page > 1 && <React.Fragment>
+    return (<React.Fragment>
+        <GridItem xs={6} lg={6} md={6}>
+            {length > 0 ? `${translate.table_showing_part1} ${(page - 1) * limit + 1} ${translate.table_showing_part2} ${(page - 1) * limit + length} ${translate.table_showing_part3} ${total} ${translate.table_showing_part4}` : translate.table_no_results}
+        </GridItem>
+        <GridItem xs={6} lg={6} md={6}>
+            <div style={{ float: 'right' }}>
+                {page > 1 && <React.Fragment>
                                     <span onClick={() => changePage(1)} style={paginationButtonStyle}>
                                         {translate.table_button_first}
                                     </span>
-                        <span onClick={() => changePage(page - 1)} style={paginationButtonStyle}>
+                    <span onClick={() => changePage(page - 1)} style={paginationButtonStyle}>
                                         {translate.table_button_previous}
                                     </span>
-                    </React.Fragment>}
-                    {showPages(totalPages, page, changePage)}
-                    {hasMorePages(page, total, limit) && <React.Fragment>
+                </React.Fragment>}
+                {showPages(totalPages, page, changePage)}
+                {hasMorePages(page, total, limit) && <React.Fragment>
                                     <span onClick={() => changePage(page + 1)} style={paginationButtonStyle}>
                                         {translate.table_button_next}
                                     </span>
-                        <span onClick={() => changePage(Math.ceil(total / limit))}
-                                style={paginationButtonStyle}>
+                    <span onClick={() => changePage(Math.ceil(total / limit))}
+                          style={paginationButtonStyle}>
                                         {translate.table_button_last}
                                     </span>
-                    </React.Fragment>}
-                </div>
-            </GridItem>
-        </React.Fragment>
-    );
+                </React.Fragment>}
+            </div>
+        </GridItem>
+    </React.Fragment>);
 }
 
 const showPages = (numPages, active, changePage) => {

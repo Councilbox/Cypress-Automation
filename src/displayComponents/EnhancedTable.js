@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { LoadingSection, TextInput, Grid, GridItem, SelectInput } from './index';
-import { MenuItem, Icon } from 'material-ui';
+import { Grid, GridItem, LoadingSection, SelectInput, TextInput } from './index';
+import { Icon, MenuItem } from 'material-ui';
 import Table, { TableBody, TableCell, TableHead, TableRow, TableSortLabel } from 'material-ui/Table';
-import { hasMorePages } from '../utils/pagination';
 import TableStyles from '../styles/table';
 import { getPrimary, getSecondary } from '../styles/colors';
 import PaginationFooter from './PaginationFooter';
@@ -22,21 +21,6 @@ const paginationButtonStyle = {
 };
 
 class EnhancedTable extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            filterText: '',
-            filterField: this.props.defaultFilter,
-            limit: this.props.defaultLimit,
-            page: 1,
-            orderBy: this.props.defaultOrder ? this.props.defaultOrder[ 0 ] : '',
-            orderDirection: this.props.defaultOrder ? this.props.defaultOrder[ 1 ] : 'asc',
-            selectedCategory: this.props.selectedCategory ? this.props.selectedCategory.field : '',
-            categoryValue: this.props.selectedCategory ? this.props.selectedCategory.value : '',
-        };
-        this.timeout = null;
-    }
 
     updateFilterText = async (value) => {
         const { refetch, addedFilters } = this.props;
@@ -66,7 +50,6 @@ class EnhancedTable extends Component {
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => refetch(variables), 450);
     };
-
     updateFilterField = async (value) => {
         const { refetch } = this.props;
 
@@ -85,7 +68,6 @@ class EnhancedTable extends Component {
             refetch(newVariables);
         }
     };
-
     updateLimit = async (limit) => {
         const { refetch } = this.props;
 
@@ -111,7 +93,6 @@ class EnhancedTable extends Component {
             });
         }
     };
-
     changePage = async (page, object = {}) => {
         const { refetch } = this.props;
 
@@ -148,7 +129,6 @@ class EnhancedTable extends Component {
             });
         }
     };
-
     orderBy = async (field) => {
         const { orderBy } = this.state;
         const { refetch } = this.props;
@@ -191,11 +171,9 @@ class EnhancedTable extends Component {
         });
 
     };
-
     refresh = (object) => {
         this.changePage(1, object);
     };
-
     updateCategory = (event, field) => {
         const { refetch } = this.props;
 
@@ -222,6 +200,20 @@ class EnhancedTable extends Component {
         });
     };
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            filterText: '',
+            filterField: this.props.defaultFilter,
+            limit: this.props.defaultLimit,
+            page: 1,
+            orderBy: this.props.defaultOrder ? this.props.defaultOrder[ 0 ] : '',
+            orderDirection: this.props.defaultOrder ? this.props.defaultOrder[ 1 ] : 'asc',
+            selectedCategory: this.props.selectedCategory ? this.props.selectedCategory.field : '',
+            categoryValue: this.props.selectedCategory ? this.props.selectedCategory.value : '',
+        };
+        this.timeout = null;
+    }
 
     render() {
         const { fields, limits, translate, total, length, loading, headers, children, categories } = this.props;

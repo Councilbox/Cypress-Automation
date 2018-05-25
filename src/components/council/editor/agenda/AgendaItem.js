@@ -1,7 +1,7 @@
 import React from 'react';
-import { Grid, GridItem, CloseIcon, } from "../../../../displayComponents";
+import { CloseIcon, Grid, GridItem, } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { Paper, IconButton } from 'material-ui';
+import { IconButton, Paper } from 'material-ui';
 
 
 const primary = getPrimary();
@@ -45,7 +45,10 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
             </GridItem>
             <GridItem xs={12} md={3}>
                 <Grid spacing={0}>
-                    <GridItem xs={6} style={{color: secondary, fontWeight:800}}>
+                    <GridItem xs={6} style={{
+                        color: secondary,
+                        fontWeight: 800
+                    }}>
                         {typeText}
                     </GridItem>
                     <GridItem xs={6}>
