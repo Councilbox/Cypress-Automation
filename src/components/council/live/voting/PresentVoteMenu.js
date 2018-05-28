@@ -6,16 +6,13 @@ import { updateAgendaVoting } from '../../../../queries/agenda';
 import { MenuItem } from 'material-ui';
 
 class PresentVoteMenu extends React.Component {
-	updateAgendaVoting = async value => {
-		const { author, __typename, ...agendaVoting } = this.props.agendaVoting;
-		const response = await this.props.updateAgendaVoting({
-			variables: {
-				agendaVoting: {
-					...agendaVoting,
-					vote: value
-				}
-			}
-		});
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false
+        }
+    }
 
     updateAgendaVoting = async (value) => {
         const { author, authorRepresentative, __typename, ...agendaVoting } = this.props.agendaVoting;
@@ -31,6 +28,7 @@ class PresentVoteMenu extends React.Component {
         console.log(response);
         this.props.refetch();
     }
+
     _block = (value, active) => {
         return (
             <div
@@ -52,13 +50,6 @@ class PresentVoteMenu extends React.Component {
                 </MenuItem>
             </div>
         )
-    }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false
-        }
     }
 
     render() {
