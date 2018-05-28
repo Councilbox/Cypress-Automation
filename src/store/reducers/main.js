@@ -1,30 +1,29 @@
-import initialState from './initialState';
+import initialState from "./initialState";
 
 export default function mainReducer(state = initialState.main, action) {
-    switch (action.type) {
+	switch (action.type) {
+		case "LOGIN_SUCCESS":
+			return {
+				...state,
+				isLogged: true
+			};
 
-        case 'LOGIN_SUCCESS':
-            return {
-                ...state,
-                isLogged: true
-            }
+		case "LOGOUT":
+			return {
+				...state,
+				isLogged: false,
+				loading: false
+			};
 
-        case 'LOGOUT':
-            return {
-                ...state,
-                isLogged: false,
-                loading: false
-            }
+		case "LOADING_FINISHED":
+			return {
+				...state,
+				loading: false
+			};
 
-        case 'LOADING_FINISHED':
-            return {
-                ...state,
-                loading: false
-            }
-
-        default:
-            return {
-                ...state
-            };
-    }
+		default:
+			return {
+				...state
+			};
+	}
 }

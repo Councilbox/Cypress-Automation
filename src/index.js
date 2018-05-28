@@ -1,13 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './containers/App';
-import { unregister } from './registerServiceWorker';
-import './styles/index.css';
-import { ThemeProvider } from './displayComponents';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./containers/App";
+import { unregister } from "./registerServiceWorker";
+import "./styles/index.css";
+import { ThemeProvider } from "./displayComponents";
+import "react-toastify/dist/ReactToastify.css";
 
-ReactDOM.render(<ThemeProvider>
-    <App/>
-</ThemeProvider>, document.getElementById('root'));
+ReactDOM.render(
+	<ThemeProvider>
+		<App />
+	</ThemeProvider>,
+	document.getElementById("root")
+);
 //registerServiceWorker();
 unregister();

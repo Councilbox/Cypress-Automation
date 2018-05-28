@@ -54,9 +54,8 @@ class RecountSection extends Component {
 				</div>
 			</div>
 		);
-    };
-    
-    
+	};
+
 	_section = () => {
 		if (this.props.data.loading) {
 			return <LoadingSection />;
@@ -84,8 +83,10 @@ class RecountSection extends Component {
 						}}
 					>
 						<div>{translate.convene_census}</div>
-						<div>{`${translate.participants}: ${recount.num_total || 0}`}</div>
-						<div>{`${translate.votes}: ${recount.part_total || 0}`}</div>
+						<div>{`${translate.participants}: ${recount.num_total ||
+							0}`}</div>
+						<div>{`${translate.votes}: ${recount.part_total ||
+							0}`}</div>
 						{council.quorum_prototype === 1 && (
 							<div>{`${
 								translate.social_capital
@@ -101,9 +102,11 @@ class RecountSection extends Component {
 						}}
 					>
 						<div>{translate.present_census}</div>
-						<div>{`${translate.participants}: ${recount.num_present ||
+						<div>{`${
+							translate.participants
+						}: ${recount.num_present || 0}`}</div>
+						<div>{`${translate.votes}: ${recount.part_present ||
 							0}`}</div>
-						<div>{`${translate.votes}: ${recount.part_present || 0}`}</div>
 						{council.quorum_prototype === 1 && (
 							<Fragment>
 								<div>
@@ -113,8 +116,8 @@ class RecountSection extends Component {
 								<div>
 									{translate.percentage}:{" "}
 									{(
-										recount.social_capital_present /
-										recount.social_capital_total *
+										(recount.social_capital_present /
+											recount.social_capital_total) *
 										100
 									).toFixed(3)}%
 								</div>
@@ -130,10 +133,12 @@ class RecountSection extends Component {
 						}}
 					>
 						<div>{translate.remote_census}</div>
-						<div>{`${translate.participants}: ${recount.num_current_remote ||
-							0}`}</div>
-						<div>{`${translate.votes}: ${recount.part_current_remote ||
-							0}`}</div>
+						<div>{`${
+							translate.participants
+						}: ${recount.num_current_remote || 0}`}</div>
+						<div>{`${
+							translate.votes
+						}: ${recount.part_current_remote || 0}`}</div>
 						{council.quorum_prototype === 1 && (
 							<Fragment>
 								<div>
@@ -143,8 +148,8 @@ class RecountSection extends Component {
 								<div>
 									{translate.percentage}:{" "}
 									{(
-										recount.social_capital_current_remote /
-										recount.social_capital_total *
+										(recount.social_capital_current_remote /
+											recount.social_capital_total) *
 										100
 									).toFixed(3)}%
 								</div>
@@ -160,9 +165,12 @@ class RecountSection extends Component {
 						}}
 					>
 						<div>{translate.voting_rights_census}</div>
-						<div>{`${translate.participants}: ${recount.num_right_voting ||
-							0}`}</div>
-						<div>{`${translate.votes}: ${recount.part_right_voting || 0}`}</div>
+						<div>{`${
+							translate.participants
+						}: ${recount.num_right_voting || 0}`}</div>
+						<div>{`${
+							translate.votes
+						}: ${recount.part_right_voting || 0}`}</div>
 						{council.quorum_prototype === 1 && (
 							<Fragment>
 								<div>
@@ -172,8 +180,8 @@ class RecountSection extends Component {
 								<div>
 									{translate.percentage}:{" "}
 									{(
-										recount.social_capital_right_voting /
-										recount.social_capital_total *
+										(recount.social_capital_right_voting /
+											recount.social_capital_total) *
 										100
 									).toFixed(3)}%
 								</div>
@@ -206,8 +214,16 @@ class RecountSection extends Component {
 					>
 						{`${
 							translate.votes_in_favor_for_approve
-						}: ${LiveUtil.calculateMayorityAgenda(agenda, council, recount)}`}
-						{LiveUtil.calculateMayorityAgenda(agenda, council, recount) >
+						}: ${LiveUtil.calculateMayorityAgenda(
+							agenda,
+							council,
+							recount
+						)}`}
+						{LiveUtil.calculateMayorityAgenda(
+							agenda,
+							council,
+							recount
+						) >
 						agenda.positive_votings + agenda.positive_manual ? (
 							<FontAwesome
 								name={"times"}
@@ -234,8 +250,12 @@ class RecountSection extends Component {
 							style={{ alignText: "center" }}
 						>
 							{agenda.quality_vote_sense === 1
-								? `${translate.approved} ${translate.by_quality_vote}`
-								: `${translate.not_approved} ${translate.by_quality_vote}`}
+								? `${translate.approved} ${
+										translate.by_quality_vote
+								  }`
+								: `${translate.not_approved} ${
+										translate.by_quality_vote
+								  }`}
 						</div>
 					)}
 				</div>
