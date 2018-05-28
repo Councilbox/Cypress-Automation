@@ -419,46 +419,45 @@ class VotingsSection extends Component {
 																vote.presentVote
 															)}
 														</Tooltip>
-													</div>
-												</TableCell>
-												<TableCell>
-													{vote.authorRepresentative ? (
-														<React.Fragment>
-															{`${
-																vote
-																	.authorRepresentative
-																	.name
-															} ${
-																vote
-																	.authorRepresentative
-																	.surname
-															}`}
-															<br />
-															{`${
-																translate.delegated_vote_from
-															} - ${
-																vote.author.name
-															} ${
-																vote.author
-																	.surname
-															}`}
-														</React.Fragment>
-													) : (
-														`${vote.author.name} ${
-															vote.author.surname
-														}`
-													)}
-
-													<Tooltip
-														title={
-															vote.presentVote === 1
-																? translate.customer_present
-																: translate.customer_initial
-														}
-													>
-														{this.getStateIcon(vote.presentVote)}
-													</Tooltip>
 												</div>
+											</TableCell>
+											<TableCell>
+												{vote.authorRepresentative ? (
+													<React.Fragment>
+														{`${
+															vote
+																.authorRepresentative
+																.name
+														} ${
+															vote
+																.authorRepresentative
+																.surname
+														}`}
+														<br />
+														{`${
+															translate.delegated_vote_from
+														} - ${
+															vote.author.name
+														} ${
+															vote.author
+																.surname
+														}`}
+													</React.Fragment>
+												) : (
+													`${vote.author.name} ${
+														vote.author.surname
+													}`
+												)}
+
+												<Tooltip
+													title={
+														vote.presentVote === 1
+															? translate.customer_present
+															: translate.customer_initial
+													}
+												>
+													{this.getStateIcon(vote.presentVote)}
+												</Tooltip>
 											</TableCell>
 											<TableCell>
 												{vote.authorRepresentative?
