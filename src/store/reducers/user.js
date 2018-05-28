@@ -1,16 +1,16 @@
-import initialState from './initialState';
+import initialState from "./initialState";
 
 export default function userReducer(state = initialState.user, action) {
-    switch (action.type) {
+	switch (action.type) {
+		case "SET_USER_DATA":
+			return {
+				...state,
+				...action.value
+			};
 
-        case 'SET_USER_DATA':
-            return {
-                ...state, ...action.value
-            }
-
-        default:
-            return {
-                ...state
-            };
-    }
+		default:
+			return {
+				...state
+			};
+	}
 }

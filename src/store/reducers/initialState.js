@@ -1,11 +1,11 @@
 export default {
-    main: {
-        isLogged: false,
-        selectedLanguage: 'es',
-        loading: true
-    },
-    user: {},
-    companies: [],
-    translate: [],
-    council: {}
-}
+	main: {
+		isLogged: false,
+		selectedLanguage: "es",
+		loading: true
+	},
+	user: {},
+	companies: [],
+	translate: [],
+	council: {}
+};

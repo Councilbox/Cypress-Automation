@@ -1,81 +1,94 @@
-import React, { Component, Fragment } from 'react';
-import { graphql } from 'react-apollo';
-import { AlertConfirm } from '../../../displayComponents';
-import { updateAgendas } from '../../../queries';
-import SortableList from '../../../displayComponents/SortableList';
-import { arrayMove } from 'react-sortable-hoc';
-import { Tooltip } from 'material-ui';
-
+import React, { Component, Fragment } from "react";
+import { graphql } from "react-apollo";
+import { AlertConfirm } from "../../../displayComponents";
+import { updateAgendas } from "../../../queries";
+import SortableList from "../../../displayComponents/SortableList";
+import { arrayMove } from "react-sortable-hoc";
+import { Tooltip } from "material-ui";
 
 class ReorderPointsModal extends Component {
+	updateOrder = async () => {
+		const reorderedAgenda = this.state.agendas.map((agenda, index) => {
+			const { __typename, attachments, ...updatedAgenda } = agenda;
+			updatedAgenda.orderIndex = index + 1;
+			return updatedAgenda;
+		});
 
-    updateOrder = async () => {
-        const reorderedAgenda = this.state.agendas.map((agenda, index) => {
-            const { __typename, attachments, ...updatedAgenda } = agenda;
-            updatedAgenda.orderIndex = index + 1;
-            return updatedAgenda;
-        });
+		const response = await this.props.updateAgendas({
+			variables: {
+				agendaList: [...reorderedAgenda]
+			}
+		});
+		if (response) {
+			this.props.refetch();
+			this.setState({ reorderModal: false });
+		}
+	};
+	onSortEnd = ({ oldIndex, newIndex }) => {
+		this.setState({
+			agendas: arrayMove(this.state.agendas, oldIndex, newIndex)
+		});
+	};
+	_renderNewPointBody = () => {
+		return (
+			<SortableList
+				items={this.state.agendas}
+				onSortEnd={this.onSortEnd}
+				helperClass="draggable"
+			/>
+		);
+	};
 
-        const response = await this.props.updateAgendas({
-            variables: {
-                agendaList: [ ...reorderedAgenda ]
-            }
-        });
-        if (response) {
-            this.props.refetch();
-            this.setState({ reorderModal: false });
-        }
-    };
-    onSortEnd = ({ oldIndex, newIndex }) => {
-        this.setState({
-            agendas: arrayMove(this.state.agendas, oldIndex, newIndex),
-        });
-    };
-    _renderNewPointBody = () => {
+	constructor(props) {
+		super(props);
+		this.state = {
+			reorderModal: false,
+			agendas: this.props.agendas
+		};
+	}
 
-        return (<SortableList items={this.state.agendas} onSortEnd={this.onSortEnd} helperClass="draggable"/>);
-    };
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			agendas: nextProps.agendas
+		});
+	}
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            reorderModal: false,
-            agendas: this.props.agendas,
-        }
-    }
+	render() {
+		const { translate } = this.props;
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({
-            agendas: nextProps.agendas
-        })
-    }
-
-    render() {
-        const { translate } = this.props;
-
-        return (<Fragment>
-            <Tooltip title={translate.reorder_agenda_points} placement="top-end">
-                <div onClick={() => this.setState({ reorderModal: true })} style={this.props.style}>
-                    {this.props.children}
-                </div>
-            </Tooltip>
-            <AlertConfirm
-                requestClose={() => this.setState({
-                    reorderModal: false,
-                    agendas: this.props.agendas
-                })}
-                open={this.state.reorderModal}
-                acceptAction={this.updateOrder}
-                buttonAccept={translate.save}
-                scrollable={true}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderNewPointBody()}
-                title={translate.reorder_agenda_points}
-            />
-        </Fragment>);
-    }
+		return (
+			<Fragment>
+				<Tooltip
+					title={translate.reorder_agenda_points}
+					placement="top-end"
+				>
+					<div
+						onClick={() => this.setState({ reorderModal: true })}
+						style={this.props.style}
+					>
+						{this.props.children}
+					</div>
+				</Tooltip>
+				<AlertConfirm
+					requestClose={() =>
+						this.setState({
+							reorderModal: false,
+							agendas: this.props.agendas
+						})
+					}
+					open={this.state.reorderModal}
+					acceptAction={this.updateOrder}
+					buttonAccept={translate.save}
+					scrollable={true}
+					buttonCancel={translate.cancel}
+					bodyText={this._renderNewPointBody()}
+					title={translate.reorder_agenda_points}
+				/>
+			</Fragment>
+		);
+	}
 }
 
 export default graphql(updateAgendas, {
-    name: 'updateAgendas'
+	name: "updateAgendas"
 })(ReorderPointsModal);
