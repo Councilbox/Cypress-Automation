@@ -28,7 +28,7 @@ class ParticipantContainer extends React.PureComponent {
 					loading: false,
 					company: responseQueryCompany.data.company
 				});
-			} catch (error) { }
+			} catch (error) {}
 		}
 	}
 
