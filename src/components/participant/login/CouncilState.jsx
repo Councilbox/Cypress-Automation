@@ -48,14 +48,6 @@ const styles = {
 
 class CouncilState extends React.Component {
 
-    /*
-    CASOS A CONTEMPLAR
-    - JUNTA EN PAPELERA = CANCELED
-    - JUNTA FINALIZADA = STATE > 20
-    - JUNTA SIN EMPEZAR = STATE < 20
-    - JUNTA NO CELEBRADA = NOT_CELEBRATED
-    */
-
     render(){
         const { translate, council, company, windowSize, windowOrientation } = this.props;
         
