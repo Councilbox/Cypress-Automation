@@ -105,13 +105,11 @@ class VotingsSection extends Component {
 			case VOTE_VALUES.NEGATIVE:
 				return this.props.translate.against_btn;
 			case VOTE_VALUES.POSITIVE:
-				return this.props.in_favor_btn;
-
+				return this.props.translate.in_favor_btn;
 			case VOTE_VALUES.ABSTENTION:
-				return this.props.abstention;
-
+				return this.props.translate.abstention;
 			default:
-				return "";
+				return "-";
 		}
 	};
 
@@ -346,7 +344,7 @@ class VotingsSection extends Component {
 							>
 								{this.props.data.agendaVotings.list.map(vote => {
 									return (
-										<TableRow key={`vote_${vote.email}`}>
+										<TableRow key={`vote_${vote.id}`}>
 											<TableCell>
 												<div
 													style={{
@@ -381,9 +379,9 @@ class VotingsSection extends Component {
 											<TableCell>
 												{vote.authorRepresentative?
                                                     <React.Fragment>
-                                                        {`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname}`}
-                                                        <br/>
-                                                        {`${translate.delegated_vote_from} - ${vote.author.name} ${vote.author.surname}`}
+														{`${vote.author.name} ${vote.author.surname}`}
+                                                        <br/>														
+                                                        {`${translate.voting_delegate} - ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname}`}
                                                     </React.Fragment>
 											: 
                                                 `${vote.author.name} ${vote.author.surname}`}<br/>

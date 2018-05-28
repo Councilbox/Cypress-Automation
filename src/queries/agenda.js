@@ -115,6 +115,8 @@ export const agendaVotings = gql`
             numParticipations
           }
         }
+        participantId
+        agendaId
         presentVote
         numParticipations
         comment
