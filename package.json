@@ -55,7 +55,7 @@
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test": "mocha --require babel-register ./src/tests",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*"
+    "format": "prettier --write 'src/**/*'"
   },
   "devDependencies": {
     "css-loader": "^0.28.8",
