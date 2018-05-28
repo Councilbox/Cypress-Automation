@@ -1,41 +1,41 @@
-import initialState from './initialState';
+import initialState from "./initialState";
 
 export default function companyReducer(state = initialState.company, action) {
-    switch (action.type) {
+	switch (action.type) {
+		case "SIGN_UP_INFO":
+			return {
+				...state,
+				...action.value
+			};
 
-        case 'SIGN_UP_INFO':
-            return {
-                ...state, ...action.value
-            }
+		case "COMPANIES":
+			return {
+				...state,
+				list: action.value,
+				selected: action.selected || 0
+			};
 
-        case 'COMPANIES':
-            return {
-                ...state,
-                list: action.value,
-                selected: action.selected || 0
-            }
+		case "CHANGE_SELECTED":
+			return {
+				...state,
+				selected: action.value
+			};
 
-        case 'CHANGE_SELECTED':
-            return {
-                ...state,
-                selected: action.value
-            }
+		case "RECOUNTS":
+			return {
+				...state,
+				recounts: action.value
+			};
 
-        case 'RECOUNTS':
-            return {
-                ...state,
-                recounts: action.value
-            }
+		case "DRAFTS":
+			return {
+				...state,
+				drafts: action.value
+			};
 
-        case 'DRAFTS':
-            return {
-                ...state,
-                drafts: action.value
-            }
-
-        default:
-            return {
-                ...state
-            };
-    }
+		default:
+			return {
+				...state
+			};
+	}
 }
