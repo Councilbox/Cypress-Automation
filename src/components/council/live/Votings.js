@@ -74,7 +74,11 @@ class VotingsSection extends Component {
 						thumbs_up_down
 					</Icon>
 					<span
-						style={{ marginLeft: "0.7em", color: darkGrey, fontWeight: "700" }}
+						style={{
+							marginLeft: "0.7em",
+							color: darkGrey,
+							fontWeight: "700"
+						}}
 					>
 						{this.props.translate.voting}
 					</span>
@@ -263,30 +267,54 @@ class VotingsSection extends Component {
 				>
 					<div style={{ display: "flex", flexDirection: "row" }}>
 						<FilterButton
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.NO_VOTE)}
-							active={this.state.voteFilter === VOTE_VALUES.NO_VOTE}
-							tooltip={`${translate.filter_by} - ${translate.no_vote}`}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.NO_VOTE)
+							}
+							active={
+								this.state.voteFilter === VOTE_VALUES.NO_VOTE
+							}
+							tooltip={`${translate.filter_by} - ${
+								translate.no_vote
+							}`}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
 						</FilterButton>
 						<FilterButton
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.POSITIVE)}
-							active={this.state.voteFilter === VOTE_VALUES.POSITIVE}
-							tooltip={`${translate.filter_by} - ${translate.positive_votings}`}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.POSITIVE)
+							}
+							active={
+								this.state.voteFilter === VOTE_VALUES.POSITIVE
+							}
+							tooltip={`${translate.filter_by} - ${
+								translate.positive_votings
+							}`}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
 						</FilterButton>
 						<FilterButton
-							tooltip={`${translate.filter_by} - ${translate.negative_votings}`}
-							active={this.state.voteFilter === VOTE_VALUES.NEGATIVE}
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
+							tooltip={`${translate.filter_by} - ${
+								translate.negative_votings
+							}`}
+							active={
+								this.state.voteFilter === VOTE_VALUES.NEGATIVE
+							}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.NEGATIVE)
+							}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
 						</FilterButton>
 						<FilterButton
-							tooltip={`${translate.filter_by} - ${translate.abstention}`}
-							active={this.state.voteFilter === VOTE_VALUES.ABSTENTION}
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.ABSTENTION)}
+							tooltip={`${translate.filter_by} - ${
+								translate.abstention
+							}`}
+							active={
+								this.state.voteFilter === VOTE_VALUES.ABSTENTION
+							}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.ABSTENTION)
+							}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
 						</FilterButton>
@@ -305,14 +333,18 @@ class VotingsSection extends Component {
 						<FilterButton
 							onClick={() => this.changeStateFilter(1)}
 							active={this.state.stateFilter === 1}
-							tooltip={`${translate.filter_by} - ${translate.present_vote}`}
+							tooltip={`${translate.filter_by} - ${
+								translate.present_vote
+							}`}
 						>
 							{this.getStateIcon(1)}
 						</FilterButton>
 						<FilterButton
 							onClick={() => this.changeStateFilter(0)}
 							active={this.state.stateFilter === 0}
-							tooltip={`${translate.filter_by} - ${translate.remote_vote}`}
+							tooltip={`${translate.filter_by} - ${
+								translate.remote_vote
+							}`}
 						>
 							{this.getStateIcon(0)}
 						</FilterButton>
@@ -357,12 +389,64 @@ class VotingsSection extends Component {
 														<VotingValueIcon vote={vote.vote} />
 													</Tooltip>
 
-													{isPresentVote(vote) && (
-														<PresentVoteMenu
-															agendaVoting={vote}
-															active={vote.vote}
-															refetch={this.props.data.refetch}
-														/>
+														{isPresentVote(
+															vote
+														) && (
+															<PresentVoteMenu
+																agendaVoting={
+																	vote
+																}
+																active={
+																	vote.vote
+																}
+																refetch={
+																	this.props
+																		.data
+																		.refetch
+																}
+															/>
+														)}
+
+														<Tooltip
+															title={
+																vote.presentVote ===
+																1
+																	? translate.customer_present
+																	: translate.customer_initial
+															}
+														>
+															{this.getStateIcon(
+																vote.presentVote
+															)}
+														</Tooltip>
+													</div>
+												</TableCell>
+												<TableCell>
+													{vote.authorRepresentative ? (
+														<React.Fragment>
+															{`${
+																vote
+																	.authorRepresentative
+																	.name
+															} ${
+																vote
+																	.authorRepresentative
+																	.surname
+															}`}
+															<br />
+															{`${
+																translate.delegated_vote_from
+															} - ${
+																vote.author.name
+															} ${
+																vote.author
+																	.surname
+															}`}
+														</React.Fragment>
+													) : (
+														`${vote.author.name} ${
+															vote.author.surname
+														}`
 													)}
 
 													<Tooltip
@@ -413,7 +497,10 @@ class VotingsSection extends Component {
 								<PaginationFooter
 									page={this.state.page}
 									translate={translate}
-									length={this.props.data.agendaVotings.list.length}
+									length={
+										this.props.data.agendaVotings.list
+											.length
+									}
 									total={this.props.data.agendaVotings.total}
 									limit={10}
 									changePage={this.changePage}

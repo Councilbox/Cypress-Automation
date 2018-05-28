@@ -55,12 +55,13 @@
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test": "mocha --require babel-register ./src/tests",
     "eject": "react-scripts eject",
-    "format": "prettier --write src/**/*"
+    "format": "prettier --write 'src/**/*'"
   },
   "devDependencies": {
     "css-loader": "^0.28.8",
+    "eslint-plugin-prettier": "^2.6.0",
     "node-sass": "^4.7.2",
-    "prettier": "1.12.1",
+    "prettier": "1.13.0",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
     "webpack": "^3.10.0"

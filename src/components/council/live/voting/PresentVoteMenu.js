@@ -6,6 +6,16 @@ import { updateAgendaVoting } from '../../../../queries/agenda';
 import { MenuItem } from 'material-ui';
 
 class PresentVoteMenu extends React.Component {
+	updateAgendaVoting = async value => {
+		const { author, __typename, ...agendaVoting } = this.props.agendaVoting;
+		const response = await this.props.updateAgendaVoting({
+			variables: {
+				agendaVoting: {
+					...agendaVoting,
+					vote: value
+				}
+			}
+		});
 
     updateAgendaVoting = async (value) => {
         const { author, authorRepresentative, __typename, ...agendaVoting } = this.props.agendaVoting;
@@ -67,5 +77,5 @@ class PresentVoteMenu extends React.Component {
 }
 
 export default graphql(updateAgendaVoting, {
-    name: 'updateAgendaVoting'
+	name: "updateAgendaVoting"
 })(PresentVoteMenu);
