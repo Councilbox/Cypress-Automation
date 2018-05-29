@@ -1618,6 +1618,24 @@ export const updateLiveParticipant = gql`
 	}
 `;
 
+export const banParticipant = gql`
+	mutation banParticipant($participantId: Int!){
+		banParticipant(participantId: $participantId){
+			success
+			message
+		}
+	}
+`;
+
+export const unbanParticipant = gql`
+	mutation unbanParticipant($participantId: Int!){
+		unbanParticipant(participantId: $participantId){
+			success
+			message
+		}
+	}
+`;
+
 export const iframeURLTEMP = gql`
 	query councilRoomTEMP($councilId: Int!, $participantId: String!) {
 		roomVideoURL(councilId: $councilId, participantId: $participantId)

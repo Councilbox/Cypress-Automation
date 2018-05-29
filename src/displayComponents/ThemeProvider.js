@@ -21,19 +21,9 @@ const theme = createMuiTheme({
 	},
 
 	overrides: {
-		MuiTable: {
+		MuiDialog: {
 			root: {
-				maxWidth: "90%"
-			}
-		},
-		MuiTableRow: {
-			root: {
-				width: "50%"
-			}
-		},
-		MuiInputLabel: {
-			root: {
-				color: secondary
+				zIndex: 99999
 			}
 		},
 		MuiInput: {
@@ -47,18 +37,31 @@ const theme = createMuiTheme({
 				}
 			}
 		},
-
+		MuiInputLabel: {
+			root: {
+				color: secondary
+			}
+		},
+		MuiStepper: {
+			root: {
+				backgroundColor: "transparent"
+			}
+		},
+		MuiTable: {
+			root: {
+				maxWidth: "90%"
+			}
+		},
+		MuiTableRow: {
+			root: {
+				width: "50%"
+			}
+		},
 		MuiTooltip: {
 			tooltip: {
 				fontSize: "0.7rem"
 			}
 		},
-
-		MuiStepper: {
-			root: {
-				backgroundColor: "transparent"
-			}
-		}
 	}
 });
 
