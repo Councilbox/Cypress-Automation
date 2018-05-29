@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import FontAwesome from 'react-fontawesome';
+import { secondary } from '../styles/colors';
 
 function isTextOverflow (element) {
   return element.clientWidth < element.scrollWidth
@@ -46,10 +47,16 @@ export default class OverflowText extends React.Component {
   }
 
   render () {
+    const { icon, action } = this.props;
     return (
       <React.Fragment>
         {this.state.overflow &&
-          <FontAwesome name='info-circle' />
+          <FontAwesome 
+            name={icon} 
+            style={{position: 'absolute', right: '0px', bottom: '20px', cursor: 'pointer', color: secondary}}
+            onClick={action}
+          />
+          
         }
         {this.props.children}
       </React.Fragment>
@@ -59,6 +66,7 @@ export default class OverflowText extends React.Component {
 
 OverflowText.displayName = 'OverflowText'
 OverflowText.propTypes = {
-  title: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  action: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired
 }

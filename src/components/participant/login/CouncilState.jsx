@@ -1,6 +1,7 @@
 import React from "react";
-import { Card, CardHeader, Avatar, CardContent } from "material-ui";
+import { Card, CardHeader, Avatar, CardContent, Dialog, DialogTitle, DialogContent } from "material-ui";
 import moment from "moment";
+import FontAwesome from 'react-fontawesome';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -15,7 +16,8 @@ import {
     getPrimary,
     getSecondary,
     lightGrey,
-    lightTurquoise
+    lightTurquoise,
+    secondary
 } from "../../../styles/colors";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
@@ -58,6 +60,7 @@ const styles = {
 };
 
 class CouncilState extends React.Component {
+
     render() {
         const {
             translate,
@@ -80,7 +83,7 @@ class CouncilState extends React.Component {
                         ...styles.textContainer,
                         ...(windowSize === "xs" &&
                             windowOrientation === "portrait"
-                            ? {}
+                            ? { maxWidth: '100%' }
                             : { maxWidth: "50%" })
                     }}
                 >
@@ -134,6 +137,21 @@ class CouncilState extends React.Component {
 }
 
 class TextRender extends React.PureComponent {
+    constructor(props){
+        super(props);
+        this.state = {
+            dialogOpen: false
+        }
+    }
+
+    handleOpenDialog = () => {
+        this.setState({ dialogOpen: true });
+    };
+
+    handleCloseDialog = () => {
+        this.setState({ dialogOpen: false });
+    };
+
     render() {
         const {
             title,
@@ -160,15 +178,17 @@ class TextRender extends React.PureComponent {
                 }
 
                 {(council.noCelebrateComment && council.noCelebrateComment.trim() !== '') &&
-                    <React.Fragment>
+                    <div style={{maxWidth: '100%', position: 'relative'}}>
                         <p style={{marginBottom: '0px'}}>{translate.reason_not_held_council}:</p> 
-                        <OverFlowText title={council.noCelebrateComment}>
+                        <OverFlowText icon={'info-circle'} action={this.handleOpenDialog}>
                             <p style={{ maxWidth: '100%', marginBottom: '8px', textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>{council.noCelebrateComment}</p>
                         </OverFlowText>
-                    </React.Fragment>
+                    </div>
                 }
 
                 <CouncilInfoCardRender council={council} company={company} />
+
+                <TextDialog handleClose={this.handleCloseDialog} text={council.noCelebrateComment} open={this.state.dialogOpen}/>
             </React.Fragment>
         );
     }
@@ -206,6 +226,23 @@ class CouncilInfoCardRender extends React.PureComponent {
 					</CardContent> */}
                 </div>
             </React.Fragment>
+        );
+    }
+}
+
+class TextDialog extends React.Component{
+    render(){
+        const { open, handleClose, title, text } = this.props;
+        return (
+            <Dialog open={open} onClose={handleClose} aria-labelledby="simple-dialog-title">
+                {title && 
+                    <DialogTitle id="simple-dialog-title">Set backup account</DialogTitle>
+                }
+                <DialogContent>
+                    <FontAwesome name={'close'} style={{position: 'absolute', right: '10px', top: '5px', cursor: 'pointer', color: secondary}} onClick={handleClose}/>
+                    {text}
+                </DialogContent>
+            </Dialog>
         );
     }
 }
