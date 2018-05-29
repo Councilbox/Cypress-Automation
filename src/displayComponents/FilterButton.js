@@ -1,6 +1,6 @@
-import React from "react";
-import { getSecondary } from "../styles/colors";
-import { Tooltip } from "material-ui";
+import React from 'react';
+import { getSecondary } from '../styles/colors';
+import { Tooltip, MenuItem } from 'material-ui';
 
 const FilterButton = ({ onClick, children, active, tooltip }) => (
 	<Tooltip title={tooltip}>
@@ -8,8 +8,8 @@ const FilterButton = ({ onClick, children, active, tooltip }) => (
 			style={{
 				display: "flex",
 				alignItems: "center",
-				justifyContent: "center",
 				width: "2em",
+				justifyContent: "center",
 				cursor: "pointer",
 				height: "2em",
 				border: `2px solid ${getSecondary()}`,
@@ -18,7 +18,9 @@ const FilterButton = ({ onClick, children, active, tooltip }) => (
 			}}
 			onClick={onClick}
 		>
-			{children}
+        <MenuItem selected={active} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            {children}
+        </MenuItem>
 		</div>
 	</Tooltip>
 );

@@ -109,13 +109,11 @@ class VotingsSection extends Component {
 			case VOTE_VALUES.NEGATIVE:
 				return this.props.translate.against_btn;
 			case VOTE_VALUES.POSITIVE:
-				return this.props.in_favor_btn;
-
+				return this.props.translate.in_favor_btn;
 			case VOTE_VALUES.ABSTENTION:
-				return this.props.abstention;
-
+				return this.props.translate.abstention;
 			default:
-				return "";
+				return "-";
 		}
 	};
 
@@ -376,30 +374,20 @@ class VotingsSection extends Component {
 									{ name: translate.votes }
 								]}
 							>
-								{this.props.data.agendaVotings.list.map(
-									vote => {
-										return (
-											<TableRow
-												key={`vote_${vote.email}`}
-											>
-												<TableCell>
-													<div
-														style={{
-															display: "flex",
-															flexDirection:
-																"row",
-															alignItems: "center"
-														}}
-													>
-														<Tooltip
-															title={this.getTooltip(
-																vote.vote
-															)}
-														>
-															<VotingValueIcon
-																vote={vote.vote}
-															/>
-														</Tooltip>
+								{this.props.data.agendaVotings.list.map(vote => {
+									return (
+										<TableRow key={`vote_${vote.id}`}>
+											<TableCell>
+												<div
+													style={{
+														display: "flex",
+														flexDirection: "row",
+														alignItems: "center"
+													}}
+												>
+													<Tooltip title={this.getTooltip(vote.vote)}>
+														<VotingValueIcon vote={vote.vote} />
+													</Tooltip>
 
 														{isPresentVote(
 															vote
@@ -431,56 +419,68 @@ class VotingsSection extends Component {
 																vote.presentVote
 															)}
 														</Tooltip>
-													</div>
-												</TableCell>
-												<TableCell>
-													{vote.authorRepresentative ? (
-														<React.Fragment>
-															{`${
-																vote
-																	.authorRepresentative
-																	.name
-															} ${
-																vote
-																	.authorRepresentative
-																	.surname
-															}`}
-															<br />
-															{`${
-																translate.delegated_vote_from
-															} - ${
-																vote.author.name
-															} ${
-																vote.author
-																	.surname
-															}`}
-														</React.Fragment>
-													) : (
-														`${vote.author.name} ${
-															vote.author.surname
-														}`
-													)}
-													<br />
-												</TableCell>
-												<TableCell>{`${
-													vote.author.position
-												}`}</TableCell>
-												<TableCell>
-													{`${
-														vote.author
-															.numParticipations
-													} (${(
-														(vote.author
-															.numParticipations /
-															this.props.agenda
-																.currentRemoteCensus) *
-														100
-													).toFixed(2)}%)`}
-												</TableCell>
-											</TableRow>
-										);
-									}
-								)}
+												</div>
+											</TableCell>
+											<TableCell>
+												{vote.authorRepresentative ? (
+													<React.Fragment>
+														{`${
+															vote
+																.authorRepresentative
+																.name
+														} ${
+															vote
+																.authorRepresentative
+																.surname
+														}`}
+														<br />
+														{`${
+															translate.delegated_vote_from
+														} - ${
+															vote.author.name
+														} ${
+															vote.author
+																.surname
+														}`}
+													</React.Fragment>
+												) : (
+													`${vote.author.name} ${
+														vote.author.surname
+													}`
+												)}
+
+												<Tooltip
+													title={
+														vote.presentVote === 1
+															? translate.customer_present
+															: translate.customer_initial
+													}
+												>
+													{this.getStateIcon(vote.presentVote)}
+												</Tooltip>
+											</TableCell>
+											<TableCell>
+												{vote.authorRepresentative?
+                                                    <React.Fragment>
+														{`${vote.author.name} ${vote.author.surname}`}
+                                                        <br/>														
+                                                        {`${translate.voting_delegate} - ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname}`}
+                                                    </React.Fragment>
+											: 
+                                                `${vote.author.name} ${vote.author.surname}`}<br/>
+                                                
+											</TableCell>
+											<TableCell>{`${vote.author.position}`}</TableCell>
+											<TableCell>
+												{`${vote.author.numParticipations} (${(
+													vote.author.numParticipations /
+													this.props.agenda.currentRemoteCensus *
+													100
+												).toFixed(2)}%)`}
+											</TableCell>
+										</TableRow>
+									);
+								})}
 							</Table>
 							<div
 								style={{
