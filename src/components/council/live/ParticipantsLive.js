@@ -1,38 +1,132 @@
 import React, { Component } from "react";
-import {
-	darkGrey,
-	getPrimary,
-	getSecondary,
-	lightGrey,
-	mediumGrey
-} from "../../../styles/colors";
-import {
-	CollapsibleSection,
-	Icon,
-	LoadingSection
-} from "../../../displayComponents";
+import { darkGrey, getPrimary, getSecondary, lightGrey, mediumGrey } from "../../../styles/colors";
+import { CollapsibleSection, Icon, LoadingSection, Grid, GridItem, AlertConfirm } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
-import { changeRequestWord, videoParticipants } from "../../../queries";
+import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import Scrollbar from "react-perfect-scrollbar";
+import { Tooltip, Card, MenuItem } from 'material-ui';
+import moment from 'moment';
+import { haveWorGranted, exceedsOnlineTimeout, participantIsBlocked } from '../../../utils/CBX';
+import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
+import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
+import VideoParticipantsStats from './videoParticipants/VideoParticipantsStats';
+import ParticipantHistoryModal from './videoParticipants/ParticipantHistoryModal';
+
 
 class ParticipantsLive extends Component {
-	changeWordState = async (id, value) => {
-		this.props.data.loading = true;
-		const response = await this.props.changeRequestWord({
+
+	constructor(props){
+		super(props);
+		this.state = {
+			online: '-',
+			offline: '-',
+			broadcasting: '-',
+			banned: '-',
+			banParticipant: false
+		}
+	}
+
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			if(nextProps.data.videoParticipants){
+				if(nextProps.data.videoParticipants.list.length > 0){
+					let online = 0;
+					let offline = 0;
+					let broadcasting = 0;
+					let banned = 0;
+					nextProps.data.videoParticipants.list.forEach((participant) => {
+						if(participantIsBlocked(participant)){
+							banned++;
+						}
+						if(exceedsOnlineTimeout(participant.lastDateConnection)){
+							offline++;
+						}else{
+							if(participant.requestWord === 2){
+								broadcasting++;
+							}
+							online++;
+						}
+					});
+					return {
+						online,
+						offline,
+						broadcasting,
+						banned
+					}
+				}
+			}
+		}
+		return {
+			online: '-',
+			offline: '-'
+		}
+	}
+
+	banParticipant = async () => {
+		const response = await this.props.banParticipant({
 			variables: {
-				requestWord: value,
-				participantId: id
+				participantId: this.state.banParticipant.id
 			}
 		});
 
-		if (response) {
-			this.props.data.refetch();
+		if(response){
+			if(response.data.banParticipant.success){
+				this.props.data.refetch();
+				this.setState({
+					banParticipant: false
+				});
+			}
 		}
-	};
+	}
+
+	_participantVideoIcon = participant => {
+		if(participantIsBlocked(participant)){
+			return(
+				<Icon
+					className="material-icons"
+					style={{
+						fontSize: "1.1em",
+						marginRight: "0.3em",
+						color: 'crimson'
+					}}
+				>
+					block
+				</Icon>
+			)				
+		}
+
+		if(participant.requestWord !== 2){
+			return(
+				<Icon
+					className="material-icons"
+					style={{
+						fontSize: "1.1em",
+						marginRight: "0.3em",
+						color: this.participantLiveColor(participant.lastDateConnection)
+					}}
+				>
+					language
+				</Icon>
+			)
+		}
+		return(
+			<Icon
+				className="material-icons"
+				style={{
+					fontSize: "1.1em",
+					marginRight: "0.3em",
+					color: this.participantLiveColor(participant.lastDateConnection)
+				}}
+			>
+				videocam
+			</Icon>
+		);
+	}
 
 	_participantEntry = participant => {
 		return (
-			<div
+			<Grid
 				key={`participant${participant.id}`}
 				style={{
 					display: "flex",
@@ -42,158 +136,75 @@ class ParticipantsLive extends Component {
 					alignItems: "center"
 				}}
 			>
-				<Icon
-					className="material-icons"
-					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
-						color: getSecondary()
-					}}
-				>
-					language
-				</Icon>
-				<div
-					style={{
-						color: "white",
-						fontSize: "0.85em",
-						marginLeft: "0.5em",
-						width: "45%"
-					}}
-					className="truncate"
-				>{`${participant.name} ${participant.surname}`}</div>
-				<div
-					style={{
-						width: "20%",
-						color: lightGrey,
-						marginLeft: "1em",
-						fontSize: "0.8em"
-					}}
-					className="truncate"
-				>
-					{participant.position}
-				</div>
-				{participant.requestWord === 2 && (
-					<div
-						onClick={() => this.changeWordState(participant.id, 0)}
-						style={{
-							width: "1.6em",
-							height: "1.6em",
-							display: "flex",
-							cursor: "pointer",
-							alignItems: "center",
-							justifyContent: "center",
-							borderRadius: "0.1em",
-							backgroundColor: getPrimary()
-						}}
-					>
-						<Icon
-							className="material-icons"
+				<GridItem xs={6} lg={6} md={6} style={{display: 'flex', flexDirection: 'row'}}>
+					{this._participantVideoIcon(participant)}
+					<Tooltip title={`${participant.name} ${participant.surname}`}>
+						<div
 							style={{
-								fontSize: "0.9em",
-								marginRight: "0.3em",
-								color: "white"
+								color: "white",
+								fontSize: "0.85em",
+								marginLeft: "0.5em",
+								width: '80%'
 							}}
+							className="truncate"
 						>
-							pan_tool
-						</Icon>
-					</div>
-				)}
-				{participant.requestWord === 1 && (
+							{`${participant.name} ${participant.surname}`}
+						</div>
+					</Tooltip>
+				</GridItem>
+				<GridItem xs={4} lg={4} md={4}>
 					<div
-						onClick={() => this.changeWordState(participant.id, 2)}
 						style={{
-							width: "1.6em",
-							height: "1.6em",
-							display: "flex",
-							cursor: "pointer",
-							alignItems: "center",
-							justifyContent: "center",
-							borderRadius: "0.1em",
-							backgroundColor: getSecondary()
+							color: lightGrey,
+							marginLeft: "1em",
+							fontSize: "0.8em"
 						}}
+						className="truncate"
 					>
-						<Icon
-							className="material-icons"
-							style={{
-								fontSize: "0.92em",
-								marginRight: "0.3em",
-								color: "white"
-							}}
-						>
-							pan_tool
-						</Icon>
+						{participant.position}
 					</div>
-				)}
-			</div>
+				</GridItem>
+				<GridItem xs={2} lg={2} md={2} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+					<ChangeRequestWordButton
+						translate={this.props.translate}
+						participant={participant}
+						refetch={this.props.data.refetch}
+					/>
+					<VideoParticipantMenu
+						council={this.props.council}
+						participant={participant}
+						refetch={this.props.data.refetch}						
+						setBanParticipant={() => this.setState({banParticipant: participant})}
+						setParticipantHistory={() => this.setState({participantHistory: participant})}
+						translate={this.props.translate}
+					/>
+				</GridItem>
+			</Grid>
 		);
 	};
 
+	participantLiveColor = (date) => {
+		if(exceedsOnlineTimeout(date)){
+			return 'crimson';
+		}
+		return getSecondary();
+
+	}
+
 	_button = () => {
-		const { participants } = this.props;
-		const videoParticipants = this.props.data.loading
-			? []
-			: this.props.data.videoParticipants.list;
+		const videoParticipants = this.props.data.loading? [] : this.props.data.videoParticipants.list;
 
 		return (
-			<div
-				style={{
-					height: "3em",
-					display: "flex",
-					backgroundColor: mediumGrey,
-					alignItems: "center"
+			<VideoParticipantsStats
+				videoFullScreen={this.props.videoFullScreen}
+				translate={this.props.translate}
+				stats={{
+					...this.state,
+					total: videoParticipants.length
 				}}
-				className="withShadow"
-			>
-				<div
-					style={{
-						marginLeft: "1em",
-						marginRight: "0.5em",
-						height: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<Icon
-						className="material-icons"
-						style={{
-							fontSize: "1.1em",
-							marginRight: "0.3em",
-							color: lightGrey
-						}}
-					>
-						person
-					</Icon>
-				</div>
-				<div
-					style={{
-						marginLeft: "1em",
-						marginRight: "0.5em",
-						height: "100%",
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					<Icon
-						className="material-icons"
-						style={{
-							fontSize: "1.1em",
-							marginRight: "0.3em",
-							color: getSecondary()
-						}}
-					>
-						language
-					</Icon>
-					<span
-						style={{
-							fontWeight: "700",
-							color: "white",
-							fontSize: "0.8em"
-						}}
-					>
-						{videoParticipants.length}
-					</span>
-				</div>
-			</div>
+				toggleFullScreen={this.props.toggleFullScreen}
+
+			/>
 		);
 	};
 
@@ -225,6 +236,15 @@ class ParticipantsLive extends Component {
 	};
 
 	render() {
+		const { videoFullScreen, translate } = this.props;
+
+		if(videoFullScreen){
+			return (
+				<div style={{height: '100%'}}>
+					{this._button()}
+				</div>
+			);
+		}
 		return (
 			<div>
 				<CollapsibleSection
@@ -232,6 +252,29 @@ class ParticipantsLive extends Component {
 					collapse={this._section}
 					open={true}
 				/>
+				<AlertConfirm
+					requestClose={() => this.setState({ banParticipant: false })}
+					open={this.state.banParticipant}
+					acceptAction={this.banParticipant}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={
+						<div>
+							{!!this.state.banParticipant &&
+								`${translate.want_eject} ${this.state.banParticipant.name} ${this.state.banParticipant.surname} ${translate.from_room}?`
+							}
+						</div>
+					}
+					title={translate.attention}
+				/>
+				{!!this.state.participantHistory &&
+					<ParticipantHistoryModal
+						requestClose={() => this.setState({ participantHistory: false })}
+						participant={this.state.participantHistory}
+						translate={translate}
+					/>
+				}
+				
 			</div>
 		);
 	}
@@ -242,7 +285,7 @@ export default compose(
 		name: "data",
 		options: props => ({
 			variables: {
-				councilId: props.councilID
+				councilId: props.councilId
 			},
 			pollInterval: 5000
 		})
@@ -250,5 +293,9 @@ export default compose(
 
 	graphql(changeRequestWord, {
 		name: "changeRequestWord"
+	}),
+
+	graphql(banParticipant, {
+		name: 'banParticipant'
 	})
 )(ParticipantsLive);

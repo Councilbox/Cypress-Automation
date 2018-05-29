@@ -241,8 +241,20 @@ class VotingsSection extends Component {
 		this.setState({ open: !this.state.open });
 	};
 
+	sumTotalVotings = () => {
+		if(this.props.data.agendaVotings){
+			if(this.props.data.agendaVotings.list){
+				return this.props.data.agendaVotings.list.reduce((a, b) => a + b.author.numParticipations, 0)
+			}
+		}
+
+		return 0;
+	}
+
 	_section = () => {
 		const { translate } = this.props;
+		const total = this.sumTotalVotings();
+
 		return (
 			<Grid
 				style={{
@@ -393,17 +405,9 @@ class VotingsSection extends Component {
 															vote
 														) && (
 															<PresentVoteMenu
-																agendaVoting={
-																	vote
-																}
-																active={
-																	vote.vote
-																}
-																refetch={
-																	this.props
-																		.data
-																		.refetch
-																}
+																agendaVoting={vote}
+																active={vote.vote}
+																refetch={this.props.data.refetch}
 															/>
 														)}
 
@@ -425,22 +429,17 @@ class VotingsSection extends Component {
 												{vote.authorRepresentative ? (
 													<React.Fragment>
 														{`${
-															vote
-																.authorRepresentative
-																.name
+															vote.author.name
 														} ${
-															vote
-																.authorRepresentative
-																.surname
+															vote.author.surname
 														}`}
 														<br />
 														{`${
-															translate.delegated_vote_from
+															translate.voting_delegate
 														} - ${
-															vote.author.name
+															vote.authorRepresentative.name
 														} ${
-															vote.author
-																.surname
+															vote.authorRepresentative.surname
 														}`}
 													</React.Fragment>
 												) : (
@@ -448,33 +447,14 @@ class VotingsSection extends Component {
 														vote.author.surname
 													}`
 												)}
-
-												<Tooltip
-													title={
-														vote.presentVote === 1
-															? translate.customer_present
-															: translate.customer_initial
-													}
-												>
-													{this.getStateIcon(vote.presentVote)}
-												</Tooltip>
 											</TableCell>
 											<TableCell>
-												{vote.authorRepresentative?
-                                                    <React.Fragment>
-														{`${vote.author.name} ${vote.author.surname}`}
-                                                        <br/>														
-                                                        {`${translate.voting_delegate} - ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname}`}
-                                                    </React.Fragment>
-											: 
-                                                `${vote.author.name} ${vote.author.surname}`}<br/>
-                                                
+												{vote.author.position}
 											</TableCell>
-											<TableCell>{`${vote.author.position}`}</TableCell>
 											<TableCell>
 												{`${vote.author.numParticipations} (${(
 													vote.author.numParticipations /
-													this.props.agenda.currentRemoteCensus *
+													total *
 													100
 												).toFixed(2)}%)`}
 											</TableCell>
