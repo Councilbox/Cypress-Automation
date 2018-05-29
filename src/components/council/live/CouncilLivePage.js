@@ -16,14 +16,36 @@ const minVideoWidth = 30;
 const minVideoHeight = "45vh";
 
 class CouncilLivePage extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			participants: false,
+			confirmModal: false,
+			selectedPoint: 0,
+			wall: false,
+			addParticipantModal: false,
+			showParticipants: false,
+			videoWidth: minVideoWidth,
+			videoHeight: minVideoHeight,
+			fullScreen: false
+		};
+	}
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipantModal: false
 		});
 	};
+
 	checkLoadingComplete = () => {
 		return this.props.data.loading && this.props.companies.list;
 	};
+
 	handleKeyPress = event => {
 		const key = event.nativeEvent;
 		if (key.altKey) {
@@ -51,12 +73,14 @@ class CouncilLivePage extends Component {
 			}
 		}
 	};
+
 	toggleFullScreen = () => {
 		if (this.state.fullScreen) {
 			this.setState({
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
-				fullScreen: false
+				fullScreen: false,
+				participants: false,
 			});
 		} else {
 			this.setState({
@@ -67,24 +91,6 @@ class CouncilLivePage extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			confirmModal: false,
-			selectedPoint: 0,
-			wall: false,
-			addParticipantModal: false,
-			showParticipants: false,
-			videoWidth: minVideoWidth,
-			videoHeight: minVideoHeight,
-			fullScreen: false
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
 
 	render() {
 		const { council } = this.props.data;
@@ -102,6 +108,7 @@ class CouncilLivePage extends Component {
 			<div
 				style={{
 					height: "100vh",
+					width: '100vw',
 					overflow: "hidden",
 					backgroundColor: lightGrey,
 					fontSize: "1em",
@@ -165,11 +172,14 @@ class CouncilLivePage extends Component {
 										</Icon>
 									</Fragment>
 								}
-								onClick={() =>
+								onClick={() => {
 									this.setState({
-										participants: !this.state.participants
+										participants: !this.state.participants,
+										videoWidth: minVideoWidth,
+										videoHeight: minVideoHeight,
+										fullScreen: false
 									})
-								}
+								}}
 							/>
 						</div>
 					</Tooltip>
@@ -206,18 +216,18 @@ class CouncilLivePage extends Component {
 							{this.state.fullScreen && (
 								<div
 									style={{
-										height: "95vh",
-										width: "7%",
+										height: "calc(100vh - 3em)",
+										width: "5%",
 										overflow: "hidden",
 										backgroundColor: darkGrey
 									}}
 								>
 									<ParticipantsLive
+										councilId={this.props.councilID}
+										council={council}
 										translate={translate}
-										participants={
-											this.props.data.council.participants
-										}
-										councilID={this.props.councilID}
+										videoFullScreen={this.state.fullScreen}
+										toggleFullScreen={this.toggleFullScreen}
 									/>
 								</div>
 							)}
@@ -267,18 +277,18 @@ class CouncilLivePage extends Component {
 							{!this.state.fullScreen && (
 								<div
 									style={{
-										height: "95vh",
+										height: "calc(100vh - 3em)",
 										width: "100%",
 										overflow: "hidden",
 										backgroundColor: darkGrey
 									}}
 								>
 									<ParticipantsLive
+										councilId={this.props.councilID}
+										council={council}
 										translate={translate}
-										participants={
-											this.props.data.council.participants
-										}
-										councilID={this.props.councilID}
+										videoFullScreen={this.state.fullScreen}
+										toggleFullScreen={this.toggleFullScreen}
 									/>
 								</div>
 							)}
@@ -295,14 +305,6 @@ class CouncilLivePage extends Component {
 							height: "100%"
 						}}
 					>
-						{/*<div style={{height: '3em'}}>
-                     <BasicButton
-                     text={this.state.participants? translate.agenda : translate.participants}
-                     color={getSecondary()}
-                     onClick={() => this.setState({ participants: !this.state.participants})}
-                     textStyle={{color: 'white', fontSize: '0.75em', fontWeight: '700', textTransform: 'none'}}
-                     />
-                     </div>*/}
 						{this.state.participants ? (
 							<div
 								style={{
@@ -328,9 +330,6 @@ class CouncilLivePage extends Component {
 								translate={translate}
 								fullScreen={this.state.fullScreen}
 								refetch={this.props.data.refetch}
-								participants={
-									this.props.data.council.participants
-								}
 								openMenu={() =>
 									this.setState({
 										videoWidth: minVideoWidth,

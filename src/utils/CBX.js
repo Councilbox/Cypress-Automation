@@ -539,6 +539,27 @@ export const getParticipantStateField = participant => {
 	}
 };
 
+export const isAskingForWord = participant => {
+	return participant.requestWord === 1;
+}
+
+export const participantIsBlocked = participant => {
+	return participant.blocked === 1;
+}
+
+export const canUnblockParticipant = council => {
+	return council.statute.canUnblock === 1;
+}
+
+export const haveGrantedWord = participant => {
+	return participant.requestWord === 2;
+}
+
+export const exceedsOnlineTimeout = (date) => {
+	const timeout = -moment(new Date(date)).diff(moment(), 'seconds');
+	return timeout > 15;
+}
+
 export const checkRequiredFields = (translate, draft, updateErrors) => {
 	let errors = {
 		title: "",

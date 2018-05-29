@@ -11,6 +11,7 @@ const FilterButton = ({ onClick, children, active, tooltip }) => (
 				width: "2em",
 				justifyContent: "center",
 				cursor: "pointer",
+                overflow: 'hidden',
 				height: "2em",
 				border: `2px solid ${getSecondary()}`,
 				borderRadius: "3px",
