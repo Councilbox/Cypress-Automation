@@ -21,7 +21,7 @@ class ParticipantContainer extends React.PureComponent {
 				this.setState({ loading: true });
 				const responseQueryCompany = await this.props.client.query({
 					query: companyQuery,
-					variables: { companyId: this.props.data.council.companyId },
+					variables: { companyId: this.props.data.councilVideo.companyId },
 					fetchPolicy: "network-only"
 				});
 				this.setState({
@@ -53,7 +53,7 @@ class ParticipantContainer extends React.PureComponent {
 			>
 				<ParticipantLogin
 					participant={data.participant}
-					council={data.council}
+					council={data.councilVideo}
 					company={company}
 				/>
 			</div>
@@ -76,7 +76,7 @@ const participantQuery = gql`
 			email
 			language
 		}
-		council(id: $councilId) {
+		councilVideo(id: $councilId) {
 			active
 			agendas {
 				agendaSubject
