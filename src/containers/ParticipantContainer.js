@@ -3,39 +3,40 @@ import { connect } from "react-redux";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { LoadingMainApp } from "../displayComponents";
+import InvalidUrl from '../components/participant/InvalidUrl';
 import ParticipantLogin from "../components/participant/login/Login";
+import ErrorState from "../components/participant/login/ErrorState";
 
 class ParticipantContainer extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: true,
-			error: false,
-			company: null
+			error: false
 		};
-	}
-
-	async componentDidUpdate(prevProps) {
-		if (prevProps.data.loading && !this.props.data.loading) {
-			try {
-				this.setState({ loading: true });
-				const responseQueryCompany = await this.props.client.query({
-					query: companyQuery,
-					variables: { companyId: this.props.data.councilVideo.companyId },
-					fetchPolicy: "network-only"
-				});
-				this.setState({
-					loading: false,
-					company: responseQueryCompany.data.company
-				});
-			} catch (error) {}
-		}
 	}
 
 	render() {
 		const { data } = this.props;
-		const { loading, company } = this.state;
-		if (data.loading || loading) {
+		const { company } = this.state;
+
+		if(data.error && data.error.graphQLErrors["0"]){
+			const code = data.error.graphQLErrors["0"].code;
+			if(code === 470){
+				return (
+					<ErrorState 
+						code={code}
+						participant={data.error.graphQLErrors["0"].data}
+						council={data.councilVideo}
+						company={company}
+					/>
+				)
+			}
+			else{
+				return <InvalidUrl />
+			}		
+		}
+
+		if (data.loading) {
 			return <LoadingMainApp />;
 		}
 
@@ -54,7 +55,7 @@ class ParticipantContainer extends React.PureComponent {
 				<ParticipantLogin
 					participant={data.participant}
 					council={data.councilVideo}
-					company={company}
+					company={data.councilVideo.company}
 				/>
 			</div>
 		);
@@ -110,6 +111,9 @@ const participantQuery = gql`
 			businessName
 			city
 			companyId
+			company{
+				logo
+			}
 			conveneText
 			councilStarted
 			councilType

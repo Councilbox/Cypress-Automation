@@ -84,7 +84,7 @@ class CouncilState extends React.Component {
                         ...(windowSize === "xs" &&
                             windowOrientation === "portrait"
                             ? { maxWidth: '100%' }
-                            : { maxWidth: "50%" })
+                            : { maxWidth: "50%", minWidth: '50%' })
                     }}
                 >
                     {councilIsInTrash(council) && (
