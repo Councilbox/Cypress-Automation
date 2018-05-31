@@ -19,6 +19,7 @@ import {
     lightTurquoise,
     secondary
 } from "../../../styles/colors";
+import { PARTICIPANT_ERRORS } from '../../../constants';
 import background from "../../../assets/img/signup3.jpg";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
