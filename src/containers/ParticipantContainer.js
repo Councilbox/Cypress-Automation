@@ -3,31 +3,22 @@ import { connect } from "react-redux";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { LoadingMainApp } from "../displayComponents";
+import { PARTICIPANT_ERRORS } from '../constants';
 import InvalidUrl from '../components/participant/InvalidUrl';
 import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
 
 class ParticipantContainer extends React.PureComponent {
-	constructor(props) {
-		super(props);
-		this.state = {
-			error: false
-		};
-	}
-
 	render() {
 		const { data } = this.props;
-		const { company } = this.state;
 
 		if(data.error && data.error.graphQLErrors["0"]){
 			const code = data.error.graphQLErrors["0"].code;
-			if(code === 470){
+			if(code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED || code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE || code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED){
 				return (
 					<ErrorState 
 						code={code}
-						participant={data.error.graphQLErrors["0"].data}
-						council={data.councilVideo}
-						company={company}
+						data={data.error.graphQLErrors["0"].data}
 					/>
 				)
 			}

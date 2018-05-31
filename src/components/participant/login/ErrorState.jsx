@@ -24,10 +24,10 @@ import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
     cardContainer: {
-		margin: "20px",
-		padding: "20px",
-		maxWidth: '100%'
-	},
+        margin: "20px",
+        padding: "20px",
+        maxWidth: '100%'
+    },
     container: {
         width: "100%",
         height: "100%",
@@ -71,8 +71,7 @@ class ErrorState extends React.Component {
         const {
             translate,
             code,
-            council,
-            company,
+            data,
             windowSize,
             windowOrientation
         } = this.props;
@@ -118,16 +117,24 @@ class ErrorState extends React.Component {
                             <div style={styles.imageContainer}>
                                 <div style={{
                                     backgroundColor: lightTurquoise,
-                                    borderRadius: "4px"
+                                    padding: '5px',
+                                    borderRadius: "4px",
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    textAlign: 'center'
                                 }}>
-                                    {/* <Avatar
-                                        src={company.logo}
+                                    <Avatar
+                                        src={data.council.company.logo}
                                         aria-label="CouncilLogo"
-                                    />   
-                                    <h1>{council.name}</h1>  
-                                    <h3>{moment(new Date(council.dateStart)).format(
-                                        "LLL"
-                                    )}</h3> */}                      
+                                    />
+                                    <h3>{data.council.name}</h3>
+                                    <span>
+                                        {moment(new Date(data.council.dateStart)).format(
+                                            "LLL"
+                                        )}
+                                    </span>
                                 </div>
                             </div>
                         </div>
