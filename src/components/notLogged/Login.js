@@ -52,9 +52,11 @@ class Login extends React.PureComponent {
 			}
 		}
 	};
+	
 	logout = () => {
 		this.props.actions.logout();
 	};
+
 	handleKeyUp = event => {
 		if (event.nativeEvent.keyCode === 13) {
 			this.login();

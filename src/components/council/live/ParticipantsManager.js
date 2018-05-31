@@ -1,23 +1,44 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import {
-    BasicButton, ButtonIcon, Grid, GridItem, Icon, LoadingSection, Radio, TextInput
-} from '../../../displayComponents';
-import { getSecondary } from '../../../styles/colors';
+import { BasicButton, ButtonIcon, Grid, GridItem, Icon, LoadingSection, Radio, TextInput, FilterButton, LoadMoreButton } from '../../../displayComponents';
+import { getSecondary, getPrimary } from '../../../styles/colors';
 import { Card, MenuItem, Tooltip, Typography } from 'material-ui';
 import { liveParticipants, refreshLiveEmails } from '../../../queries';
 import { compose, graphql } from 'react-apollo';
 import * as CBX from '../../../utils/CBX';
 import ParticipantStateIcon from './ParticipantStateIcon';
-import LiveParticipantEditor from './LiveParticipantEditor';
+import LiveParticipantEditor from './participants/LiveParticipantEditor';
 import Scrollbar from 'react-perfect-scrollbar';
 import Chip from 'material-ui/Chip';
 import AddGuestModal from './AddGuestModal';
 import { toast } from 'react-toastify';
 import ParticipantItem from './participants/ParticipantItem';
+import ParticipantStatsBanner from './participants/ParticipantStatsBanner';
+import FilterMenu from './participants/FilterMenu';
+import FontAwesome from 'react-fontawesome';
 
 
 class ParticipantsManager extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			filterText: "",
+			participantType: "all",
+			participantState: "all",
+            addGuest: false,
+            loadingMore: false,
+			refreshing: false,
+			tableType: "participantState",
+			editParticipant: undefined
+		};
+	}
+
+	componentDidMount() {
+		this.props.data.refetch();
+		ReactDOM.findDOMNode(this.div).focus();
+	}
+
 	updateFilterText = async value => {
 		this.setState({
 			filterText: value
@@ -25,24 +46,27 @@ class ParticipantsManager extends Component {
 
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => this.refresh(), 450);
-	};
+    };
+    
 	editParticipant = id => {
 		this.setState({
 			editParticipant: id
 		});
-	};
+    };
+    
 	updateParticipantType = value => {
-		this.setState(
-			{
-				participantType: value
-			},
-			() => this.refresh()
-		);
+        if(value === this.state.participantType){
+            value = 'all';
+        }
+		this.setState({
+			participantType: value
+		},() => this.refresh());
 
 		let variables = {
 			filters: []
 		};
-	};
+    };
+    
 	refresh = () => {
 		let variables = {
 			filters: []
@@ -70,23 +94,27 @@ class ParticipantsManager extends Component {
 		if (this.state.filterText) {
 			variables.filters = [
 				...variables.filters,
-				{
-					field: "fullName",
-					text: this.state.filterText
-				}
+				{ field: "fullName", text: this.state.filterText }
 			];
 		}
 		this.props.data.refetch(variables);
-	};
+    };
+    
 	updateParticipantState = value => {
-		this.setState(
-			{
+        if(value === this.state.participantState){
+            value = 'all';
+        }
+		this.setState({
 				participantState: value
-			},
+		},
 			() => this.refresh()
 		);
-	};
+    };
+    
 	loadMore = () => {
+        this.setState({
+            loadingMore: true
+        });
 		this.props.data.fetchMore({
 			variables: {
 				options: {
@@ -97,7 +125,11 @@ class ParticipantsManager extends Component {
 			updateQuery: (prev, { fetchMoreResult }) => {
 				if (!fetchMoreResult) {
 					return prev;
-				}
+                }
+                this.setState({
+                    loadingMore: false
+                });
+
 				return {
 					...prev,
 					liveParticipants: {
@@ -110,27 +142,9 @@ class ParticipantsManager extends Component {
 				};
 			}
 		});
-	};
-	getCount = value => {
-		if (this.props.data.loading) {
-			return "...";
-		}
-
-		if (value !== "all") {
-			const data = this.props.data.liveParticipantsStateCount.find(
-				item => item.state === value
-			);
-			if (data) {
-				return data.count;
-			}
-			return "0";
-		}
-
-		return this.props.data.liveParticipantsStateCount.reduce(
-			(a, b) => a + b.count,
-			0
-		);
-	};
+    };
+    
+    
 	handleKeyPress = event => {
 		const key = event.nativeEvent;
 		if (key.altKey) {
@@ -140,8 +154,15 @@ class ParticipantsManager extends Component {
 			if (key.code === "KeyR") {
 				this.refreshEmailStates();
 			}
-		}
-	};
+        }
+    };
+
+    updateState = (object) => {
+        this.setState({
+            ...object
+        });
+    }
+    
 	refreshEmailStates = async () => {
 		this.setState({
 			refreshing: true
@@ -162,31 +183,11 @@ class ParticipantsManager extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			filterText: "",
-			participantType: "all",
-			participantState: "all",
-			addGuest: false,
-			refreshing: false,
-			tableType: "participantState",
-			editParticipant: undefined
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-		ReactDOM.findDOMNode(this.div).focus();
-	}
-
-	componentDidUpdate() {
-		ReactDOM.findDOMNode(this.div).focus();
-	}
-
 	render() {
 		const { translate } = this.props;
-		const columnSize = this.state.editParticipant ? 12 : 9;
+        const columnSize = this.state.editParticipant ? 12 : 9;
+        const secondary = getSecondary();
+        const primary = getPrimary();
 
         return (
             <div
@@ -201,10 +202,7 @@ class ParticipantsManager extends Component {
                 onKeyDown={this.handleKeyPress}
                 ref={(ref) => this.div = ref}
             >
-                <Grid style={{
-                    height: '100%',
-                    overflow: 'hidden'
-                }}>
+                <Grid style={{ height: '100%', overflow: 'hidden'}}>
                     <GridItem xs={columnSize} md={columnSize} lg={columnSize} style={{
                         padding: '3em',
                         paddingTop: 0,
@@ -229,45 +227,39 @@ class ParticipantsManager extends Component {
                                         }}
                                     />
 
-                                    : <Grid style={{ paddingTop: '2em' }}>
-                                        <GridItem xs={12} md={12} lg={12} style={{
-                                            height: '2.8em',
-                                            backgroundColor: 'WhiteSmoke',
-                                            marginBottom: '3em'
-                                        }}>
-
-                                        </GridItem>
-                                        {this.props.data.loading ?
-                                            <LoadingSection/> : this.props.data.liveParticipants.list.length > 0 ? (
-                                                <React.Fragment>
-                                                    {this.props.data.liveParticipants.list.map((participant) => (
-                                                        <ParticipantItem
-                                                            participant={participant}
-                                                            translate={translate}
-                                                            mode={this.state.tableType}
-                                                            editParticipant={this.editParticipant}
-                                                            council={this.props.council}
-                                                        />
-                                                    ))}
-                                                    {this.props.data.liveParticipants.list.length < this.props.data.liveParticipants.total &&
-                                                    <GridItem
-                                                        xs={10} md={10} lg={10}
-                                                        style={{
-                                                            border: '2px solid grey',
-                                                            margin: 'auto',
-                                                            cursor: 'pointer',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center'
-                                                        }}
-                                                        onClick={() => this.loadMore()}
-                                                    >
-                                                        LOAD MORE
-                                                    </GridItem>}
-                                                </React.Fragment>) : (<div style={{ marginLeft: '2em' }}>
-                                                {translate.no_results}
-                                            </div>)}
-                                    </Grid>}
+                                    : (
+                                        <Grid style={{ paddingTop: '2em' }}>
+                                            <ParticipantStatsBanner
+                                                council={this.props.council}
+                                                translate={translate}
+                                            />
+                                            {this.props.data.loading ?
+                                                <div style={{marginTop: '5em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                                                    <LoadingSection/> 
+                                                </div>
+                                            : this.props.data.liveParticipants.list.length > 0 ? (
+                                                    <React.Fragment>
+                                                        {this.props.data.liveParticipants.list.map((participant) => (
+                                                            <ParticipantItem
+                                                                key={`participant_${participant.id}`}
+                                                                participant={participant}
+                                                                translate={translate}
+                                                                mode={this.state.tableType}
+                                                                editParticipant={this.editParticipant}
+                                                                council={this.props.council}
+                                                            />
+                                                        ))}
+                                                        {this.props.data.liveParticipants.list.length < this.props.data.liveParticipants.total &&
+                                                        <LoadMoreButton 
+                                                            onClick={this.loadMore}
+                                                            loading={this.state.loadingMore}
+                                                        />}
+                                                    </React.Fragment>) : (<div style={{ marginLeft: '2em' }}>
+                                                    {translate.no_results}
+                                                </div>
+                                            )}
+                                    </Grid>
+                                    )}
                             </Scrollbar>
                         </Card>
                     </GridItem>
@@ -276,172 +268,15 @@ class ParticipantsManager extends Component {
                         padding: '2em',
                         position: 'relative'
                     }}>
-                        <Scrollbar option={{ suppressScrollX: true }}>
-                            <TextInput
-                                adornment={<Icon>search</Icon>}
-                                floatingText={' '}
-                                type="text"
-                                value={this.state.filterText}
-                                onChange={(event) => {
-                                    this.updateFilterText(event.target.value)
-                                }}
-                            />
-
-                            <Tooltip title="ALT + G">
-                                <div>
-                                    <BasicButton
-                                        text={translate.add_guest}
-                                        color={'white'}
-                                        textStyle={{
-                                            color: getSecondary(),
-                                            fontWeight: '700',
-                                            fontSize: '0.9em',
-                                            textTransform: 'none'
-                                        }}
-                                        textPosition="after"
-                                        icon={<ButtonIcon type="add" color={getSecondary()}/>}
-                                        onClick={() => this.setState({ addGuest: true })}
-                                        buttonStyle={{
-                                            marginRight: '1em',
-                                            border: `2px solid ${getSecondary()}`
-                                        }}
-                                    />
-                                </div>
-                            </Tooltip>
-                            <Tooltip title={`${translate.tooltip_refresh_convene_email_state_assistance} (ALT + R)`}>
-                                <div>
-                                    <BasicButton
-                                        text={translate.refresh_convened}
-                                        color={'white'}
-                                        loading={this.state.refreshing}
-                                        loadingColor={getSecondary()}
-                                        textStyle={{
-                                            color: getSecondary(),
-                                            fontWeight: '700',
-                                            fontSize: '0.9em',
-                                            textTransform: 'none'
-                                        }}
-                                        textPosition="after"
-                                        icon={<ButtonIcon type="cached" color={getSecondary()}/>}
-                                        onClick={this.refreshEmailStates}
-                                        buttonStyle={{
-                                            marginRight: '1em',
-                                            border: `2px solid ${getSecondary()}`
-                                        }}
-                                    />
-                                </div>
-                            </Tooltip>
-                            <Typography variant="subheading" style={{
-                                textTransform: 'uppercase',
-                                color: 'grey',
-                                marginTop: '1.2em',
-                                fontWeight: '700'
-                            }}>
-                                VER:
-                            </Typography>
-                            <Radio
-                                checked={this.state.tableType === 'participantState'}
-                                label={translate.current_state}
-                                onChange={(event) => {
-                                    this.setState({ tableType: 'participantState' })
-                                }}
-                                name="tableType"
-                            />
-                            <Radio
-                                checked={this.state.tableType === 'participantSend'}
-                                label={translate.sends}
-                                onChange={(event) => {
-                                    this.setState({ tableType: 'participantSend' })
-                                }}
-                                name="tableType"
-                            />
-
-                            <Typography variant="subheading" style={{
-                                textTransform: 'uppercase',
-                                color: 'grey',
-                                marginTop: '1.2em',
-                                fontWeight: '700'
-                            }}>
-                                {translate.participant}
-                            </Typography>
-                            <Radio
-                                checked={this.state.participantType === '0'}
-                                label={translate.participant}
-                                onChange={(event) => {
-                                    this.updateParticipantType('0')
-                                }}
-                                name="participantType"
-                            />
-                            <Radio
-                                checked={this.state.participantType === 1}
-                                onChange={(event) => {
-                                    this.updateParticipantType(1)
-                                }}
-                                name="participantType"
-                                label={translate.guest}
-                            />
-                            <Radio
-                                checked={this.state.participantType === 2}
-                                onChange={(event) => {
-                                    this.updateParticipantType(2)
-                                }}
-                                name="participantType"
-                                label={translate.representative}
-                            />
-                            <Radio
-                                checked={this.state.participantType === 'all'}
-                                onChange={(event) => {
-                                    this.updateParticipantType('all')
-                                }}
-                                name="participantType"
-                                label={translate.all_plural}
-                            />
-
-                            <Typography variant="subheading" style={{
-                                textTransform: 'uppercase',
-                                color: 'grey',
-                                marginTop: '1.2em',
-                                fontWeight: '700'
-                            }}>
-                                {translate.participant}
-                            </Typography>
-                            <Grid>
-                                <GridItem xs={12} lg={12} md={12}>
-                                    <Radio
-                                        checked={this.state.participantState === '0'}
-                                        label={translate.customer_initial}
-                                        onChange={(event) => {
-                                            this.updateParticipantState('0')
-                                        }}
-                                        name="participantState"
-                                    />
-                                    <Chip label={this.getCount(0)}/>
-                                </GridItem>
-                                <GridItem xs={12} lg={12} md={12}>
-                                    <Radio
-                                        checked={this.state.participantState === 5}
-                                        onChange={(event) => {
-                                            this.updateParticipantState(5)
-                                        }}
-                                        name="participantState"
-                                        label={translate.customer_present}
-                                    />
-                                    <Chip label={this.getCount(5)}/>
-                                </GridItem>
-                                <GridItem xs={12} lg={12} md={12}>
-                                    <Radio
-                                        checked={this.state.participantState === 'all'}
-                                        onChange={(event) => {
-                                            this.updateParticipantState('all')
-                                        }}
-                                        name="participantState"
-                                        label={translate.all_plural}
-                                    />
-                                    <Chip label={this.getCount('all')}/>
-                                </GridItem>
-                            </Grid>
-                        </Scrollbar>
-
+                        <FilterMenu
+                            state={this.state}
+                            translate={translate}
+                            updateFilterText={this.updateFilterText}
+                            updateParticipantState={this.updateParticipantState}
+                            updateParticipantType={this.updateParticipantType}
+                            refreshEmailStates={this.refreshEmailStates}
+                            updateState={this.updateState}
+                        />
                     </GridItem>}
                     <AddGuestModal
                         show={this.state.addGuest}

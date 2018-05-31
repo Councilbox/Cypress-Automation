@@ -140,11 +140,17 @@ export const convenedcouncilParticipants = gql`
 						refreshDate
 					}
 					live {
+						name
+						id
+						surname
 						assistanceComment
 						assistanceIntention
 					}
 				}
 				live {
+					name
+					id
+					surname
 					assistanceComment
 					assistanceIntention
 				}

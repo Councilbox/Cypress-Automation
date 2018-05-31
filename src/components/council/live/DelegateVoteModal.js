@@ -20,8 +20,7 @@ class DelegateVoteModal extends Component {
 		this.props.data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.liveParticipantsWhoCanDelegate.list
-						.length,
+					offset: this.props.data.liveParticipantsWhoCanDelegate.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -111,12 +110,10 @@ class DelegateVoteModal extends Component {
 							{participants.length > 0 ? (
 								<React.Fragment>
 									{participants.map(participant => {
-										if (
-											participant.id !==
-											this.props.participant.id
-										) {
+										if (participant.id !== this.props.participant.id) {
 											return (
 												<ParticipantRow
+													key={`delegateParticipant_${participant.id}`}
 													participant={participant}
 													onClick={() =>
 														this.delegateVote(
