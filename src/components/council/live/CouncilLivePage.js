@@ -10,7 +10,7 @@ import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./ParticipantsManager";
 import CommentWall from "./CommentWall";
 import { showVideo } from "../../../utils/CBX";
-import { Tooltip } from "material-ui";
+import { Tooltip, Badge } from "material-ui";
 
 const minVideoWidth = 30;
 const minVideoHeight = "45vh";
@@ -20,12 +20,12 @@ class CouncilLivePage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			participants: false,
+			participants: true,
 			confirmModal: false,
 			selectedPoint: 0,
 			wall: false,
+			unreadComments: 0,
 			addParticipantModal: false,
-			showParticipants: false,
 			videoWidth: minVideoWidth,
 			videoHeight: minVideoHeight,
 			fullScreen: false
@@ -41,6 +41,12 @@ class CouncilLivePage extends Component {
 			addParticipantModal: false
 		});
 	};
+
+	updateState = (object) => {
+		this.setState({
+			...object
+		})
+	}
 
 	checkLoadingComplete = () => {
 		return this.props.data.loading && this.props.companies.list;
@@ -85,7 +91,7 @@ class CouncilLivePage extends Component {
 		} else {
 			this.setState({
 				videoWidth: 94,
-				videoHeight: "90vh",
+				videoHeight: "calc(100vh - 3em)",
 				fullScreen: true
 			});
 		}
@@ -95,6 +101,7 @@ class CouncilLivePage extends Component {
 	render() {
 		const { council } = this.props.data;
 		const { translate } = this.props;
+		console.log(this.state.unreadComments);
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
@@ -136,18 +143,21 @@ class CouncilLivePage extends Component {
 					}}
 				>
 					<Tooltip title={`${translate.wall} - (ALT + W)`}>
-						<div style={{ marginBottom: "0.3em" }}>
-							<FabButton
-								icon={
-									<Icon className="material-icons">chat</Icon>
-								}
-								onClick={() =>
-									this.setState({
-										wall: true
-									})
-								}
-							/>
-						</div>
+						<Badge badgeContent={<span style={{color: 'white', fontWeight: '700'}}>{this.state.unreadComments}</span>} color="secondary">
+							<div style={{ marginBottom: "0.3em" }}>
+								<FabButton
+									icon={
+										<Icon className="material-icons">chat</Icon>
+									}
+									updateState={this.updateState}
+									onClick={() =>
+										this.setState({
+											wall: true
+										})
+									}
+								/>
+							</div>
+						</Badge>
 					</Tooltip>
 					<Tooltip
 						title={
@@ -189,6 +199,8 @@ class CouncilLivePage extends Component {
 					translate={translate}
 					open={this.state.wall}
 					council={council}
+					unreadComments={this.state.unreadComments}
+					updateState={this.updateState}
 					requestClose={() => this.setState({ wall: false })}
 				/>
 
@@ -209,7 +221,8 @@ class CouncilLivePage extends Component {
 									? "row"
 									: "column",
 								width: `${this.state.videoWidth}%`,
-								height: "100%",
+								height: "calc(100vh - 3em)",
+								overflow: 'hidden',
 								position: "relative"
 							}}
 						>
@@ -302,7 +315,8 @@ class CouncilLivePage extends Component {
 									? 100 - this.state.videoWidth
 									: 100
 							}%`,
-							height: "100%"
+							overflow: 'hidden',
+							height: "calc(100vh - 3em)"
 						}}
 					>
 						{this.state.participants ? (

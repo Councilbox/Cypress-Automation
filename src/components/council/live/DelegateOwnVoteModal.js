@@ -12,7 +12,7 @@ import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
 
-class DelegateVoteModal extends Component {
+class DelegateOwnVoteModal extends Component {
 	loadMore = () => {
 		this.props.data.fetchMore({
 			variables: {
@@ -119,6 +119,7 @@ class DelegateVoteModal extends Component {
 										) {
 											return (
 												<ParticipantRow
+													key={`delegateVote_${participant.id}`}
 													participant={participant}
 													onClick={() =>
 														this.delegateVote(
@@ -174,4 +175,4 @@ export default compose(
 			}
 		})
 	})
-)(DelegateVoteModal);
+)(DelegateOwnVoteModal);
