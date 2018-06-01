@@ -48,6 +48,7 @@ class AddCensusParticipantButton extends Component {
 					representativeErrors: {}
 				});
 			}
+			console.log(response);
 		}
 	};
 	updateState = object => {

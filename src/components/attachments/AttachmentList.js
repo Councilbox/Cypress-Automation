@@ -91,6 +91,7 @@ class AttachmentList extends Component {
 						<AttachmentItem
 							key={`attachment${index}`}
 							attachment={attachment}
+							translate={translate}
 							removeAttachment={this.deleteAttachment}
 							editName={() => {
 								this.editIndex(index);

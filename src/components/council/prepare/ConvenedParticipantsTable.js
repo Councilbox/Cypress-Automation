@@ -263,7 +263,7 @@ class ConvenedParticipantsTable extends Component {
 													<TableCell>
 
 														<AttendIntentionIcon
-															participant={participant}
+															participant={participant.live}
 															translate={translate}
 															size="2em"
 														/>
@@ -391,7 +391,7 @@ class ConvenedParticipantsTable extends Component {
 													) && (
 														<TableCell>
 															<AttendIntentionIcon
-																participant={participant}
+																participant={participant.representative.live}
 																translate={translate}
 																size="2em"
 															/>

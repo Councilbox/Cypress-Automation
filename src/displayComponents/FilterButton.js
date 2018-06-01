@@ -30,7 +30,7 @@ const FilterButton = ({ onClick, children, active, tooltip, size = '2em', loadin
 					borderRadius: "3px",
 					backgroundColor: active ? "gainsboro" : "transparent"
 				}}
-				{...(active? {elevation: 0} : {})}
+				elevation={active? 0 : 1}
 				tabIndex="0"
 				ref={ref => element = ref}
 				onKeyUp={onKeyUp}

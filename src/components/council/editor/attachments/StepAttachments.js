@@ -23,92 +23,6 @@ import {
 } from "../../../../queries";
 
 class StepAttachments extends Component {
-	handleFile = async event => {
-		const file = event.nativeEvent.target.files[0];
-		console.log(file);
-		if (!file) {
-			return;
-		}
-		if (
-			file.size / 1000 + parseInt(this.state.totalSize, 10) >
-			MAX_FILE_SIZE
-		) {
-			this.setState({
-				alert: true
-			});
-			return;
-		}
-		let reader = new FileReader();
-		reader.readAsBinaryString(file);
-
-		reader.onload = async event => {
-			console.log(event);
-			let fileInfo = {
-				filename: file.name,
-				filetype: file.type,
-				filesize: event.loaded,
-				base64: btoa(event.target.result),
-				councilId: this.props.councilID
-			};
-
-			console.log(fileInfo);
-
-			this.setState({
-				uploading: true
-			});
-			const response = await this.props.addAttachment({
-				variables: {
-					attachment: fileInfo
-				}
-			});
-			if (response) {
-				this.props.data.refetch();
-				this.setState({
-					uploading: false
-				});
-			}
-		};
-	};
-	removeCouncilAttachment = async attachmentID => {
-		this.props.removeCouncilAttachment({
-			variables: {
-				attachmentId: attachmentID,
-				councilId: this.props.councilID
-			},
-			refetchQueries: [
-				{
-					query: councilStepFour,
-					name: "data",
-					variables: {
-						id: this.props.councilID
-					}
-				}
-			]
-		});
-	};
-	updateCouncil = step => {
-		const { attachments, __typename, ...council } = this.props.data.council;
-		this.props.updateCouncil({
-			variables: {
-				council: {
-					...council,
-					step: step
-				}
-			}
-		});
-	};
-	nextPage = () => {
-		if (true) {
-			this.updateCouncil(5);
-			this.props.nextStep();
-		}
-	};
-	previousPage = () => {
-		if (true) {
-			this.updateCouncil(4);
-			this.props.previousStep();
-		}
-	};
 
 	constructor(props) {
 		super(props);
@@ -121,7 +35,7 @@ class StepAttachments extends Component {
 
 	static getDerivedStateFromProps(nextProps) {
 		if (!nextProps.data.council) {
-			return;
+			return null;
 		}
 		const { attachments } = nextProps.data.council;
 		let totalSize = 0;
@@ -141,20 +55,107 @@ class StepAttachments extends Component {
 				totalSize: totalSize
 			};
 		}
+
+		return null;
 	}
 
 	componentDidMount() {
 		this.props.data.refetch();
 	}
 
+	handleFile = async event => {
+		const file = event.nativeEvent.target.files[0];
+		if (!file) {
+			return;
+		}
+		if (
+			file.size / 1000 + parseInt(this.state.totalSize, 10) >
+			MAX_FILE_SIZE
+		) {
+			this.setState({
+				alert: true
+			});
+			return;
+		}
+		let reader = new FileReader();
+		reader.readAsBinaryString(file);
+
+		reader.onload = async event => {
+			let fileInfo = {
+				filename: file.name,
+				filetype: file.type,
+				filesize: event.loaded,
+				base64: btoa(event.target.result),
+				councilId: this.props.councilID
+			};
+
+			this.setState({
+				uploading: true
+			});
+			const response = await this.props.addAttachment({
+				variables: {
+					attachment: fileInfo
+				}
+			});
+			if (response) {
+				this.props.data.refetch();
+				this.setState({
+					uploading: false
+				});
+			}
+		};
+	};
+
+	removeCouncilAttachment = async attachmentID => {
+		this.props.removeCouncilAttachment({
+			variables: {
+				attachmentId: attachmentID,
+				councilId: this.props.councilID
+			},
+			refetchQueries: [
+				{
+					query: councilStepFour,
+					name: "data",
+					variables: {
+						id: this.props.councilID
+					}
+				}
+			]
+		});
+	};
+
+	updateCouncil = step => {
+		const { attachments, __typename, ...council } = this.props.data.council;
+		this.props.updateCouncil({
+			variables: {
+				council: {
+					...council,
+					step: step
+				}
+			}
+		});
+	};
+
+	nextPage = () => {
+		if (true) {
+			this.updateCouncil(5);
+			this.props.nextStep();
+		}
+	};
+
+	previousPage = () => {
+		if (true) {
+			this.updateCouncil(4);
+			this.props.previousStep();
+		}
+	};
+
 	render() {
 		const { translate } = this.props;
-
-		if (this.props.data.loading) {
-			return <LoadingSection />;
+		let attachments = [];
+		if(!this.props.data.loading){
+			attachments = this.props.data.council.attachments;
 		}
-
-		const { attachments } = this.props.data.council;
 		const primary = getPrimary();
 
 		return (
@@ -164,9 +165,6 @@ class StepAttachments extends Component {
 					height: "100%"
 				}}
 			>
-				{/*<Typography variant="title">*/}
-				{/*{translate.attachment_files}*/}
-				{/*</Typography>*/}
 				<Grid>
 					<GridItem xs={12} md={10}>
 						<Typography
@@ -217,14 +215,19 @@ class StepAttachments extends Component {
 					</GridItem>
 				</Grid>
 
-				{attachments.length > 0 && (
-					<AttachmentList
-						attachments={attachments}
-						refetch={this.props.data.refetch}
-						deleteAction={this.removeCouncilAttachment}
-						translate={translate}
-					/>
-				)}
+				{this.props.data.loading?
+						<LoadingSection />
+					:
+					attachments.length > 0 && (
+						<AttachmentList
+							attachments={attachments}
+							refetch={this.props.data.refetch}
+							deleteAction={this.removeCouncilAttachment}
+							translate={translate}
+						/>
+					)	
+				}
+
 				<Grid style={{ marginTop: "3em" }}>
 					<GridItem xs={12} md={12} lg={12}>
 						<div style={{ float: "right" }}>

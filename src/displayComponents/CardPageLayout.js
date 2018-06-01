@@ -7,6 +7,7 @@ import { Paper } from "material-ui";
 const CardPageLayout = ({
 	children,
 	title,
+	footer,
 	windowSize,
 	disableScroll = false
 }) => (
@@ -106,6 +107,19 @@ const CardPageLayout = ({
 						</div>
 					)}
 				</div>
+				{!!footer &&
+					<div
+						style={{
+							width: '100%',
+							height: '2.5em',
+							position: 'absolute',
+							bottom: 0,
+							right: 0,
+						}}
+					>
+						{footer}
+					</div>
+				}
 			</Paper>
 		</div>
 	</div>

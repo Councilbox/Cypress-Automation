@@ -16,8 +16,9 @@ import moment from "moment";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 
 const CouncilActData = gql`
-	query CouncilActData($councilID: Int!, $companyID: Int!) {
+	query CouncilActData($councilID: Int!) {
 		council(id: $councilID) {
+			id
 			businessName
 			country
 			countryState
@@ -41,6 +42,11 @@ const CouncilActData = gql`
 				agendaSubject
 				subjectType
 				description
+				majorityType
+				numPresentCensus
+				presentCensus
+				numCurrentRemoteCensus
+				currentRemoteCensus
 				comment
 			}
 			statute {
@@ -48,7 +54,18 @@ const CouncilActData = gql`
 				prototype
 			}
 		}
+		councilRecount(councilId: $councilID){
+			id
+			socialCapitalTotal
+			partTotal
+			numTotal
+		}
 		votingTypes {
+			label
+			value
+		}
+
+		majorityTypes {
 			label
 			value
 		}
@@ -141,234 +158,241 @@ class ActEditor extends Component {
 		return (
 			<div style={{ height: "100%" }}>
 				<Scrollbar option={{ suppressScrollX: true }}>
-					<RichTextInput
-						ref={editor => (this.editorIntro = editor)}
-						floatingText={translate.intro}
-						type="text"
-						loadDraft={
-							<BasicButton
-								text={translate.load_draft}
-								color={secondary}
-								textStyle={{
-									color: "white",
-									fontWeight: "600",
-									fontSize: "0.8em",
-									textTransform: "none",
-									marginLeft: "0.4em",
-									minHeight: 0,
-									lineHeight: "1em"
-								}}
-								textPosition="after"
-								onClick={() =>
-									this.setState({
-										loadDraft: true,
-										draftType: DRAFT_TYPES.INTRO
-									})
-								}
-							/>
-						}
-						tags={[
-							{
-								value: `${council.businessName} `,
-								label: translate.business_name
-							},
-							{
-								value: `${moment(council.dateRealStart).format(
-									"LLLL"
-								)} `,
-								label: translate.date_real_start
-							},
-							{
-								value: `${
-									council.firstOrSecondConvene
-										? translate.first
-										: translate.second
-								} `,
-								label: translate.first_or_second_call
-							},
-							{
-								value: council.street,
-								label: translate.new_location_of_celebrate
-							},
-							{
-								value: council.city,
-								label: translate.company_new_locality
+					<div style={{padding: '1.5em'}}>
+						<RichTextInput
+							ref={editor => (this.editorIntro = editor)}
+							floatingText={translate.intro}
+							type="text"
+							loadDraft={
+								<BasicButton
+									text={translate.load_draft}
+									color={secondary}
+									textStyle={{
+										color: "white",
+										fontWeight: "600",
+										fontSize: "0.8em",
+										textTransform: "none",
+										marginLeft: "0.4em",
+										minHeight: 0,
+										lineHeight: "1em"
+									}}
+									textPosition="after"
+									onClick={() =>
+										this.setState({
+											loadDraft: true,
+											draftType: DRAFT_TYPES.INTRO
+										})
+									}
+								/>
 							}
-						]}
-						errorText={errors.intro}
-						value={data.council.act.intro}
-						onChange={value =>
-							this.updateAct({
-								intro: value
-							})
-						}
-					/>
-					<RichTextInput
-						ref={editor => (this.editorConstitution = editor)}
-						floatingText={translate.constitution}
-						type="text"
-						loadDraft={
-							<BasicButton
-								text={translate.load_draft}
-								color={secondary}
-								textStyle={{
-									color: "white",
-									fontWeight: "600",
-									fontSize: "0.8em",
-									textTransform: "none",
-									marginLeft: "0.4em",
-									minHeight: 0,
-									lineHeight: "1em"
-								}}
-								textPosition="after"
-								onClick={() =>
-									this.setState({
-										loadDraft: true,
-										draftType: DRAFT_TYPES.CONSTITUTION
-									})
+							tags={[
+								{
+									value: `${council.businessName} `,
+									label: translate.business_name
+								},
+								{
+									value: `${moment(council.dateRealStart).format(
+										"LLLL"
+									)} `,
+									label: translate.date_real_start
+								},
+								{
+									value: `${
+										council.firstOrSecondConvene
+											? translate.first
+											: translate.second
+									} `,
+									label: translate.first_or_second_call
+								},
+								{
+									value: council.street,
+									label: translate.new_location_of_celebrate
+								},
+								{
+									value: council.city,
+									label: translate.company_new_locality
 								}
-							/>
-						}
-						tags={[
-							{
-								value: `${council.businessName} `,
-								label: translate.business_name
-							},
-							{
-								value: `${council.president} `,
-								label: translate.president
-							},
-							{
-								value: `${council.secretary} `,
-								label: translate.secretary
-							},
-							{
-								value: `${moment(council.dateRealStart).format(
-									"LLLL"
-								)} `,
-								label: translate.date_real_start
-							},
-							{
-								value: `${
-									council.firstOrSecondConvene
-										? translate.first
-										: translate.second
-								} `,
-								label: translate.first_or_second_call
-							},
-							{
-								value: council.street,
-								label: translate.new_location_of_celebrate
-							},
-							{
-								value: council.city,
-								label: translate.company_new_locality
+							]}
+							errorText={errors.intro}
+							value={data.council.act.intro}
+							onChange={value =>
+								this.updateAct({
+									intro: value
+								})
 							}
-						]}
-						errorText={errors.constitution}
-						value={data.council.act.constitution}
-						onChange={value =>
-							this.updateAct({
-								constitution: value
-							})
-						}
-					/>
-					{!!council.agendas && (
-						<Fragment>
-							{council.agendas.map(agenda => {
-								return (
-									<AgendaEditor
-										key={`agenda${agenda.id}`}
-										agenda={agenda}
-										loadDraft={
-											<BasicButton
-												text={translate.load_draft}
-												color={secondary}
-												textStyle={{
-													color: "white",
-													fontWeight: "600",
-													fontSize: "0.8em",
-													textTransform: "none",
-													marginLeft: "0.4em",
-													minHeight: 0,
-													lineHeight: "1em"
-												}}
-												textPosition="after"
-												onClick={() =>
-													this.setState({
-														loadDraft: true,
-														draftType:
-															DRAFT_TYPES.AGENDA
-													})
-												}
-											/>
-										}
-										updateAgenda={this.updateAgenda}
-										translate={translate}
-										typeText={
-											translate[
-												votingTypes.find(
-													item =>
-														item.value ===
-														agenda.subjectType
-												).label
-											]
+						/>
+						<div style={{marginTop: '1em'}}>
+							<RichTextInput
+								ref={editor => (this.editorConstitution = editor)}
+								floatingText={translate.constitution}
+								type="text"
+								loadDraft={
+									<BasicButton
+										text={translate.load_draft}
+										color={secondary}
+										textStyle={{
+											color: "white",
+											fontWeight: "600",
+											fontSize: "0.8em",
+											textTransform: "none",
+											marginLeft: "0.4em",
+											minHeight: 0,
+											lineHeight: "1em"
+										}}
+										textPosition="after"
+										onClick={() =>
+											this.setState({
+												loadDraft: true,
+												draftType: DRAFT_TYPES.CONSTITUTION
+											})
 										}
 									/>
-								);
-							})}
-						</Fragment>
-					)}
-					<RichTextInput
-						ref={editor => (this.editorConclusion = editor)}
-						floatingText={translate.conclusion}
-						type="text"
-						loadDraft={
-							<BasicButton
-								text={translate.load_draft}
-								color={secondary}
-								textStyle={{
-									color: "white",
-									fontWeight: "600",
-									fontSize: "0.8em",
-									textTransform: "none",
-									marginLeft: "0.4em",
-									minHeight: 0,
-									lineHeight: "1em"
-								}}
-								textPosition="after"
-								onClick={() =>
-									this.setState({
-										loadDraft: true,
-										draftType: DRAFT_TYPES.CONCLUSION
+								}
+								tags={[
+									{
+										value: `${council.businessName} `,
+										label: translate.business_name
+									},
+									{
+										value: `${council.president} `,
+										label: translate.president
+									},
+									{
+										value: `${council.secretary} `,
+										label: translate.secretary
+									},
+									{
+										value: `${moment(council.dateRealStart).format(
+											"LLLL"
+										)} `,
+										label: translate.date_real_start
+									},
+									{
+										value: `${
+											council.firstOrSecondConvene
+												? translate.first
+												: translate.second
+										} `,
+										label: translate.first_or_second_call
+									},
+									{
+										value: council.street,
+										label: translate.new_location_of_celebrate
+									},
+									{
+										value: council.city,
+										label: translate.company_new_locality
+									}
+								]}
+								errorText={errors.constitution}
+								value={data.council.act.constitution}
+								onChange={value =>
+									this.updateAct({
+										constitution: value
 									})
 								}
 							/>
-						}
-						tags={[
-							{
-								value: `${council.president} `,
-								label: translate.president
-							},
-							{
-								value: `${council.secretary} `,
-								label: translate.secretary
-							},
-							{
-								value: `${moment(council.dateEnd).format(
-									"LLLL"
-								)} `,
-								label: translate.date_end
+						</div>
+						{!!council.agendas && (
+							<Fragment>
+								{council.agendas.map(agenda => {
+									return (
+										<div style={{marginTop: '2.5em'}} key={`agenda${agenda.id}`}>
+											<AgendaEditor
+												agenda={agenda}
+												recount={this.props.data.councilRecount}
+												loadDraft={
+													<BasicButton
+														text={translate.load_draft}
+														color={secondary}
+														textStyle={{
+															color: "white",
+															fontWeight: "600",
+															fontSize: "0.8em",
+															textTransform: "none",
+															marginLeft: "0.4em",
+															minHeight: 0,
+															lineHeight: "1em"
+														}}
+														textPosition="after"
+														onClick={() =>
+															this.setState({
+																loadDraft: true,
+																draftType:
+																	DRAFT_TYPES.AGENDA
+															})
+														}
+													/>
+												}
+												updateAgenda={this.updateAgenda}
+												translate={translate}
+												majorityTypes={this.props.data.majorityTypes}
+												typeText={
+													translate[
+														votingTypes.find(
+															item =>
+																item.value ===
+																agenda.subjectType
+														).label
+													]
+												}
+											/>
+										</div>
+									);
+								})}
+							</Fragment>
+						)}
+						<RichTextInput
+							ref={editor => (this.editorConclusion = editor)}
+							floatingText={translate.conclusion}
+							type="text"
+							loadDraft={
+								<BasicButton
+									text={translate.load_draft}
+									color={secondary}
+									textStyle={{
+										color: "white",
+										fontWeight: "600",
+										fontSize: "0.8em",
+										textTransform: "none",
+										marginLeft: "0.4em",
+										minHeight: 0,
+										lineHeight: "1em"
+									}}
+									textPosition="after"
+									onClick={() =>
+										this.setState({
+											loadDraft: true,
+											draftType: DRAFT_TYPES.CONCLUSION
+										})
+									}
+								/>
 							}
-						]}
-						errorText={errors.conclusion}
-						value={data.council.act.conclusion}
-						onChange={value =>
-							this.updateAct({
-								conclusion: value
-							})
-						}
-					/>
+							tags={[
+								{
+									value: `${council.president} `,
+									label: translate.president
+								},
+								{
+									value: `${council.secretary} `,
+									label: translate.secretary
+								},
+								{
+									value: `${moment(council.dateEnd).format(
+										"LLLL"
+									)} `,
+									label: translate.date_end
+								}
+							]}
+							errorText={errors.conclusion}
+							value={data.council.act.conclusion}
+							onChange={value =>
+								this.updateAct({
+									conclusion: value
+								})
+							}
+						/>
+					</div>
 				</Scrollbar>
 				<Dialog
 					open={this.state.loadDraft}

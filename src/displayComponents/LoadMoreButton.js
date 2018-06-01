@@ -18,6 +18,7 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
                 alignItems: 'center',
                 justifyContent: 'center'
             }}
+            elevation={1}
             onClick={onClick}
         >
             <MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
