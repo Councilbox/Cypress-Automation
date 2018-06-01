@@ -74,9 +74,9 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, translate }) => {
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
                         {`${translate.majority_label}: ${translate[majorityTypes.find(item => agenda.majorityType === item.value).label]}`}
-                        {majorityNeedsInput(agenda.majorityType) && agenda.majority}
+                        {CBX.majorityNeedsInput(agenda.majorityType) && agenda.majority}
                         {agenda.majorityType === 0 && '%'}
-                        {agenda.majorityType === 5 && {`/ ${agenda.majorityDivider}`}}
+                        {agenda.majorityType === 5 && `/ ${agenda.majorityDivider}`}
                     </div>
                 </GridItem>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
