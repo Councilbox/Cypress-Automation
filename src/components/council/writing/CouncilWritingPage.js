@@ -70,11 +70,11 @@ export const councilDetails = gql`
 `;
 
 const panelStyle = {
-	height: "77vh",
+	height: "100%",
 	overflow: "hidden",
 	boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
 	borderRadius: "0px 5px 5px 5px",
-	padding: "1vw"
+	padding: "0"
 };
 
 class CouncilWritingPage extends Component {
@@ -108,13 +108,14 @@ class CouncilWritingPage extends Component {
 		}
 
 		return (
-			<CardPageLayout title={translate.companies_writing}>
+			<CardPageLayout title={translate.companies_writing} disableScroll={true}>
 				<Tabs
 					selectedIndex={this.state.selectedTab}
 					style={{
 						padding: "0",
-						width: "100%",
-						margin: "0"
+						width: "calc(100% - 2em)",
+						margin: 'auto',
+						height: '100%'
 					}}
 				>
 					<TabList>
