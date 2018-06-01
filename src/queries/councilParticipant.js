@@ -144,6 +144,7 @@ export const convenedcouncilParticipants = gql`
 						id
 						surname
 						assistanceComment
+						assistanceLastDateConfirmed
 						assistanceIntention
 					}
 				}
@@ -152,6 +153,7 @@ export const convenedcouncilParticipants = gql`
 					id
 					surname
 					assistanceComment
+					assistanceLastDateConfirmed
 					assistanceIntention
 				}
 				city

@@ -23,7 +23,15 @@ const theme = createMuiTheme({
 	overrides: {
 		MuiDialog: {
 			root: {
-				zIndex: 99999
+				zIndex: 1001
+			}
+		},
+		MuiDrawer: {
+			paper: {
+				zIndex: 999
+			},
+			modal: {
+				zIndex: 999
 			}
 		},
 		MuiInput: {
@@ -44,7 +52,9 @@ const theme = createMuiTheme({
 		},
 		MuiStepper: {
 			root: {
-				backgroundColor: "transparent"
+				backgroundColor: "transparent",
+				height: '6em',
+				overflow: 'hidden'
 			}
 		},
 		MuiTable: {

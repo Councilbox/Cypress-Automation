@@ -21,12 +21,50 @@ import * as CBX from "../../../utils/CBX";
 import moment from "moment";
 
 class StepNotice extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			placeModal: false,
+			alert: false,
+			data: {
+
+				dateStart: new Date().toISOString()
+			},
+			errors: {
+				name: "",
+				dateStart: "",
+				dateStart2NdCall: "",
+				country: "",
+				countryState: "",
+				city: "",
+				zipcode: "",
+				conveneText: "",
+				street: ""
+			}
+		};
+	}
+
+	componentDidMount() {
+		this.props.data.loading = true;
+		this.props.data.refetch();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.data.loading && !nextProps.data.loading) {
+			this.setState({
+				data: nextProps.data.council
+			});
+		}
+	}
+
 	nextPage = () => {
 		if (!this.checkRequiredFields()) {
 			this.updateCouncil(2);
 			this.props.nextStep();
 		}
 	};
+
 	updateCouncil = step => {
 		const { __typename, statute, ...council } = this.state.data;
 		this.props.updateCouncil({
@@ -38,6 +76,7 @@ class StepNotice extends Component {
 			}
 		});
 	};
+
 	savePlaceAndClose = council => {
 		this.setState({
 			placeModal: false,
@@ -47,6 +86,7 @@ class StepNotice extends Component {
 			}
 		});
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -55,6 +95,7 @@ class StepNotice extends Component {
 			}
 		});
 	};
+
 	updateError = object => {
 		this.setState({
 			errors: {
@@ -63,6 +104,7 @@ class StepNotice extends Component {
 			}
 		});
 	};
+
 	changeStatute = async statuteId => {
 		const response = await this.props.changeStatute({
 			variables: {
@@ -124,41 +166,6 @@ class StepNotice extends Component {
 		});
 		this.refs.editor.setValue(correctedText);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			placeModal: false,
-			alert: false,
-			data: {
-				dateStart: new Date().toISOString()
-			},
-			errors: {
-				name: "",
-				dateStart: "",
-				dateStart2NdCall: "",
-				country: "",
-				countryState: "",
-				city: "",
-				zipcode: "",
-				conveneText: "",
-				street: ""
-			}
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.loading = true;
-		this.props.data.refetch();
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: nextProps.data.council
-			});
-		}
-	}
 
 	checkRequiredFields() {
 		const { translate } = this.props;
@@ -233,7 +240,7 @@ class StepNotice extends Component {
 				}}
 			>
 				<Grid>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em'}}>
 						<SelectInput
 							required
 							floatingText={translate.council_type}
@@ -257,14 +264,11 @@ class StepNotice extends Component {
 							})}
 						</SelectInput>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						{" "}
-					</GridItem>
 					<GridItem
 						xs={12}
-						md={3}
-						lg={3}
-						style={{ display: "flex-inline" }}
+						md={8}
+						lg={8}
+						style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}
 					>
 						<BasicButton
 							text={translate.change_location}
@@ -281,25 +285,15 @@ class StepNotice extends Component {
 								<ButtonIcon type="location_on" color="white" />
 							}
 						/>
-					</GridItem>
-					<GridItem
-						xs={12}
-						md={9}
-						lg={9}
-						style={{
-							display: "flex-inline",
-							verticalAlign: "middle",
-							alignItems: "center"
-						}}
-					>
-						<h6 style={{ paddingTop: "0.8em" }}>
+						<h6 style={{ paddingTop: "0.8em", marginLeft: '1em' }}>
 							<b>{`${translate.new_location_of_celebrate}: `}</b>
 							{council.remoteCelebration === 1
 								? translate.remote_celebration
 								: `${council.street}, ${council.country}`}
 						</h6>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+
+					<GridItem xs={12} md={4} lg={4}>
 						<DateTimePicker
 							required
 							onChange={date => {
@@ -315,32 +309,30 @@ class StepNotice extends Component {
 							value={council.dateStart}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4}>
 						{CBX.hasSecondCall(statute) && (
-							<div className="col-lg-6 col-md-6 col-xs-12">
-								<DateTimePicker
-									required
-									minDate={
-										!!council.dateStart
-											? new Date(council.dateStart)
-											: new Date()
-									}
-									errorText={errors.dateStart2NdCall}
-									onChange={date => {
-										const newDate = new Date(date);
-										const dateString = newDate.toISOString();
-										this.updateDate(undefined, dateString);
-									}}
-									minDateMessage={""}
-									acceptText={translate.accept}
-									cancelText={translate.cancel}
-									label={translate["2nd_call_date"]}
-									value={council.dateStart2NdCall}
-								/>
-							</div>
+							<DateTimePicker
+								required
+								minDate={
+									!!council.dateStart
+										? new Date(council.dateStart)
+										: new Date()
+								}
+								errorText={errors.dateStart2NdCall}
+								onChange={date => {
+									const newDate = new Date(date);
+									const dateString = newDate.toISOString();
+									this.updateDate(undefined, dateString);
+								}}
+								minDateMessage={""}
+								acceptText={translate.accept}
+								cancelText={translate.cancel}
+								label={translate["2nd_call_date"]}
+								value={council.dateStart2NdCall}
+							/>
 						)}
 					</GridItem>
-					<GridItem xs={12} md={12} lg={12}>
+					<GridItem xs={12} md={10} lg={10} style={{marginTop: '0.8em'}}>
 						<TextInput
 							required
 							floatingText={translate.table_councils_name}

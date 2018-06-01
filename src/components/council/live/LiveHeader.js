@@ -37,7 +37,7 @@ class LiveHeader extends Component {
 						width: "100%",
 						userSelect: "none",
 						position: "absolute",
-						zIndex: 9500,
+						zIndex: 1000,
 						minHeight: "3em",
 						alignItems: "center",
 						justifyContent: "space-between"
