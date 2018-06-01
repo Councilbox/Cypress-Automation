@@ -9,6 +9,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
     <AlertConfirm
         requestClose={requestClose}
         open={participant}
+        acceptAction={requestClose}
         buttonAccept={translate.accept}
         bodyText={
             <div>
@@ -29,23 +30,22 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
                                 ]}
                             >
                                 {data.participantHistory.map(history => {
-                                    console.log(history);
                                     return(
-                                        <TableRow>
+                                        <TableRow key={`history_${history.id}`}>
                                             <TableCell>
                                                 {moment(new Date(history.date)).format('LLL')}
                                             </TableCell>
                                             <TableCell>
-
+                                                {history.typeText}
                                             </TableCell>
                                             <TableCell>
-
+                                                {`${history.trackInfo.ua.browser.name || '-'} ${history.trackInfo.ua.browser.version || '-'}`}
                                             </TableCell>
                                             <TableCell>
-
+                                                {`${history.trackInfo.ua.os.name || '-'} ${history.trackInfo.ua.os.version || '-'}`}
                                             </TableCell>
                                             <TableCell>
-
+                                                {history.trackInfo.ip}
                                             </TableCell>
                                         </TableRow>
                                     )

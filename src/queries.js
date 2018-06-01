@@ -1335,11 +1335,22 @@ export const liveParticipants = gql`
 			}
 			total
 		}
+	}
+`;
+
+export const liveParticipantsStats = gql`
+	query liveParticipantsStats($councilId: Int!){
 		liveParticipantsStateCount(councilId: $councilId) {
 			state
 			count
 		}
+		
+		liveParticipantsTypeCount(councilId: $councilId) {
+			type
+			count
+		}	
 	}
+
 `;
 
 export const videoParticipants = gql`

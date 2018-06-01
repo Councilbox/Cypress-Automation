@@ -1,11 +1,19 @@
 import React, { Component } from "react";
-import { Grid, GridItem } from "../../../displayComponents";
+import { Grid, GridItem, FilterButton } from "../../../displayComponents";
 import { getSecondary } from "../../../styles/colors";
 import { Tooltip } from "material-ui";
 import { EMAIL_STATES_FILTERS } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
 
 class NotificationFilters extends Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			selectedFilter: ""
+		};
+	}
+
 	changeFilter = code => {
 		const { refetch } = this.props;
 		const { selectedFilter } = this.state;
@@ -31,42 +39,25 @@ class NotificationFilters extends Component {
 		const { translate } = this.props;
 
 		return (
-			<div
+			<FilterButton
 				key={`emailFilter_${value}`}
 				onClick={() => this.changeFilter(value)}
-				style={{
-					cursor: "pointer",
-					border: `1px solid ${getSecondary()}`,
-					backgroundColor:
-						selectedFilter === value ? "#dfeef1" : "transparent",
-					padding: "0.2em 0.3em",
-					margin: "0.1em",
-					borderRadius: "3px"
-				}}
+				active={selectedFilter === value}
+				tooltip={translate[CBX.getTranslationReqCode(value)]}		
 			>
-				<Tooltip
-					title={translate[CBX.getTranslationReqCode(value)]}
-					placement="top"
-				>
-					<img
-						src={CBX.getEmailIconByReqCode(value)}
-						alt={value}
-						style={{
-							width: "25px",
-							height: "auto"
-						}}
-					/>
-				</Tooltip>
-			</div>
+				<img
+					src={CBX.getEmailIconByReqCode(value)}
+					alt={value}
+					style={{
+						width: "25px",
+						height: "auto"
+					}}
+				/>
+			</FilterButton>
+			
 		);
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedFilter: ""
-		};
-	}
 
 	render() {
 		const { translate } = this.props;

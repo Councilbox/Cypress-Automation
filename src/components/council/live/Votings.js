@@ -24,7 +24,7 @@ import { Tooltip } from "material-ui";
 import PresentVoteMenu from "./voting/PresentVoteMenu";
 import VotingValueIcon from "./voting/VotingValueIcon";
 
-class VotingsSection extends Component {
+class Votings extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -527,4 +527,4 @@ export default graphql(agendaVotings, {
 		},
 		pollInterval: 4000
 	})
-})(VotingsSection);
+})(Votings);

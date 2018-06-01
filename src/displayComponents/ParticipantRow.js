@@ -1,7 +1,7 @@
 import React from "react";
 import { getSecondary } from "../styles/colors";
 
-const ParticipantRow = ({ participant, onClick }) => (
+const ParticipantRow = ({ participant, onClick, key }) => (
 	<div
 		onClick={onClick}
 		style={{
@@ -13,18 +13,17 @@ const ParticipantRow = ({ participant, onClick }) => (
 			display: "flex",
 			flexDirection: "column"
 		}}
+		key={key}
 	>
 		<div
 			style={{
 				fontWeight: "700",
 				fontSize: "0.9rem"
 			}}
-		>{`${participant.name} ${participant.surname} - ${
-			participant.dni
-		}`}</div>
-		<div style={{ fontSize: "0.8rem" }}>{`${participant.position} - ${
-			participant.email
-		} - ${participant.phone}`}</div>
+		>
+			{`${participant.name} ${participant.surname} - ${participant.dni}`}
+		</div>
+		<div style={{ fontSize: "0.8rem" }}>{`${participant.position} - ${participant.email} - ${participant.phone}`}</div>
 	</div>
 );
 
