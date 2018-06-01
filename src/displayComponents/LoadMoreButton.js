@@ -1,11 +1,11 @@
-import React from 'react';
-import { Card, MenuItem } from 'material-ui';
-import { LoadingSection } from './';
-import withTranslations from '../HOCs/withTranslations';
-import { getSecondary } from '../styles/colors';
+import React from "react";
+import { Card, MenuItem } from "material-ui";
+import { LoadingSection } from "./";
+import withTranslations from "../HOCs/withTranslations";
+import { getSecondary } from "../styles/colors";
 
 const LoadMoreButton = ({ loading, onClick, translate }) => {
-    const secondary = getSecondary();
+	const secondary = getSecondary();
 
     return(
         <Card
@@ -34,4 +34,3 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
 }
 
 export default withTranslations()(LoadMoreButton);
-

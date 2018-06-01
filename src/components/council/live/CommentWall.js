@@ -1,41 +1,51 @@
 import React from "react";
 import { Drawer } from "material-ui";
 import { graphql } from "react-apollo";
-import { darkGrey, getPrimary, getSecondary, lightGrey } from "../../../styles/colors";
+import {
+	darkGrey,
+	getPrimary,
+	getSecondary,
+	lightGrey
+} from "../../../styles/colors";
 import { wallComments } from "../../../queries";
 import { Icon, LoadingSection } from "../../../displayComponents";
 import moment from "moment";
 import Scrollbar from "react-perfect-scrollbar";
 
 class CommentWall extends React.Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			commentsRead: 0
-		}
+		};
 	}
 
-	static getDerivedStateFromProps(nextProps){
-		if(nextProps.open && !nextProps.data.loading){
+	static getDerivedStateFromProps(nextProps) {
+		if (nextProps.open && !nextProps.data.loading) {
 			return {
 				commentsRead: nextProps.data.councilRoomMessages.length
-			}
+			};
 		}
 
 		return null;
 	}
 
-	componentDidUpdate(){
-		if(!this.props.data.loading && this.props.unreadComments !== (this.props.data.councilRoomMessages.length - this.state.commentsRead)){
+	componentDidUpdate() {
+		if (
+			!this.props.data.loading &&
+			this.props.unreadComments !==
+				this.props.data.councilRoomMessages.length -
+					this.state.commentsRead
+		) {
 			this.props.updateState({
-				unreadComments: this.props.data.councilRoomMessages.length - this.state.commentsRead
+				unreadComments:
+					this.props.data.councilRoomMessages.length -
+					this.state.commentsRead
 			});
 		}
-
 	}
 
-	render(){
+	render() {
 		const { data, translate, open, requestClose } = this.props;
 		return (
 			<Drawer
@@ -154,7 +164,7 @@ class CommentWall extends React.Component {
 			</Drawer>
 		);
 	}
-};
+}
 
 export default graphql(wallComments, {
 	options: props => ({

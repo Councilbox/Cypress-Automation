@@ -51,7 +51,14 @@ const DoubleIcon = ({
 	);
 };
 
-const IconSwitch = ({ participant, translate, tooltip, isIntention, representative, noTooltip }) => {
+const IconSwitch = ({
+	participant,
+	translate,
+	tooltip,
+	isIntention,
+	representative,
+	noTooltip
+}) => {
 	let state;
 	if (!isIntention) {
 		state = getParticipantStateString(participant.state);
@@ -64,8 +71,14 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 
 	switch (state) {
 		case "REMOTE":
-			tooltipValue = `${representative ? translate.representative + " - " : "" }${tooltip === "change" ? translate.change_to_remote : translate.remote_assistance}`
-			icon = 
+			tooltipValue = `${
+				representative ? translate.representative + " - " : ""
+			}${
+				tooltip === "change"
+					? translate.change_to_remote
+					: translate.remote_assistance
+			}`;
+			icon = (
 				<FontAwesome
 					name={"globe"}
 					style={{
@@ -73,7 +86,8 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 						color: primary,
 						fontSize: `${mainIconSize}em`
 					}}
-				/>;
+				/>
+			);
 			break;
 
 		case "PRESENT":
@@ -84,14 +98,16 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 					? translate.change_to_present
 					: translate.physically_present_assistance
 			}`;
-			icon =	<FontAwesome
-						name={"user"}
-						style={{
-							margin: "0.5em",
-							color: primary,
-							fontSize: `${mainIconSize}em`
-						}}
-					/>
+			icon = (
+				<FontAwesome
+					name={"user"}
+					style={{
+						margin: "0.5em",
+						color: primary,
+						fontSize: `${mainIconSize}em`
+					}}
+				/>
+			);
 			break;
 
 		case "REPRESENTATED":
@@ -104,7 +120,6 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 			}`;
 			icon = <DoubleIcon main={"user-o"} sub={"user"} />;
 			break;
-
 
 		case "DELEGATED":
 			tooltipValue = `${
@@ -144,7 +159,6 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 			);
 			break;
 
-
 		case "NO_PARTICIPATE":
 			tooltipValue = `${
 				representative ? translate.representative + " - " : ""
@@ -166,13 +180,7 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 					: translate.physically_present_with_remote_vote
 			}`;
 
-			icon = (
-				<DoubleIcon
-					main={"user-o"}
-					sub={"mobile"}
-					subSize={1.75}
-				/>
-			);
+			icon = <DoubleIcon main={"user-o"} sub={"mobile"} subSize={1.75} />;
 
 			break;
 
@@ -190,16 +198,12 @@ const IconSwitch = ({ participant, translate, tooltip, isIntention, representati
 			);
 	}
 
-	if(noTooltip){
-		return(icon);
+	if (noTooltip) {
+		return icon;
 	}
 	return (
-		<Tooltip
-			title={tooltipValue}
-		>
-			<div>
-				{icon}
-			</div>
+		<Tooltip title={tooltipValue}>
+			<div>{icon}</div>
 		</Tooltip>
 	);
 };

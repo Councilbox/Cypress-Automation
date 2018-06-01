@@ -1,66 +1,90 @@
 import React, { Component } from "react";
-import { darkGrey, getPrimary, getSecondary, lightGrey, mediumGrey } from "../../../styles/colors";
-import { CollapsibleSection, Icon, LoadingSection, Grid, GridItem, AlertConfirm } from "../../../displayComponents";
+import {
+	darkGrey,
+	getPrimary,
+	getSecondary,
+	lightGrey,
+	mediumGrey
+} from "../../../styles/colors";
+import {
+	CollapsibleSection,
+	Icon,
+	LoadingSection,
+	Grid,
+	GridItem,
+	AlertConfirm
+} from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
-import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
+import {
+	changeRequestWord,
+	videoParticipants,
+	banParticipant
+} from "../../../queries";
 import Scrollbar from "react-perfect-scrollbar";
-import { Tooltip, Card, MenuItem } from 'material-ui';
-import moment from 'moment';
-import { haveWorGranted, exceedsOnlineTimeout, participantIsBlocked } from '../../../utils/CBX';
-import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
-import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
-import VideoParticipantsStats from './videoParticipants/VideoParticipantsStats';
-import ParticipantHistoryModal from './videoParticipants/ParticipantHistoryModal';
-
+import { Tooltip, Card, MenuItem } from "material-ui";
+import moment from "moment";
+import {
+	haveWorGranted,
+	exceedsOnlineTimeout,
+	participantIsBlocked
+} from "../../../utils/CBX";
+import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
+import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
+import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
+import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
 
 class ParticipantsLive extends Component {
-
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
-			online: '-',
-			offline: '-',
-			broadcasting: '-',
-			banned: '-',
+			online: "-",
+			offline: "-",
+			broadcasting: "-",
+			banned: "-",
 			banParticipant: false
-		}
+		};
 	}
 
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(!nextProps.data.loading){
-			if(nextProps.data.videoParticipants){
-				if(nextProps.data.videoParticipants.list.length > 0){
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (!nextProps.data.loading) {
+			if (nextProps.data.videoParticipants) {
+				if (nextProps.data.videoParticipants.list.length > 0) {
 					let online = 0;
 					let offline = 0;
 					let broadcasting = 0;
 					let banned = 0;
-					nextProps.data.videoParticipants.list.forEach((participant) => {
-						if(participantIsBlocked(participant)){
-							banned++;
-						}
-						if(exceedsOnlineTimeout(participant.lastDateConnection)){
-							offline++;
-						}else{
-							if(participant.requestWord === 2){
-								broadcasting++;
+					nextProps.data.videoParticipants.list.forEach(
+						participant => {
+							if (participantIsBlocked(participant)) {
+								banned++;
 							}
-							online++;
+							if (
+								exceedsOnlineTimeout(
+									participant.lastDateConnection
+								)
+							) {
+								offline++;
+							} else {
+								if (participant.requestWord === 2) {
+									broadcasting++;
+								}
+								online++;
+							}
 						}
-					});
+					);
 					return {
 						online,
 						offline,
 						broadcasting,
 						banned
-					}
+					};
 				}
 			}
 		}
 		return {
-			online: '-',
-			offline: '-'
-		}
+			online: "-",
+			offline: "-"
+		};
 	}
 
 	banParticipant = async () => {
@@ -70,59 +94,63 @@ class ParticipantsLive extends Component {
 			}
 		});
 
-		if(response){
-			if(response.data.banParticipant.success){
+		if (response) {
+			if (response.data.banParticipant.success) {
 				this.props.data.refetch();
 				this.setState({
 					banParticipant: false
 				});
 			}
 		}
-	}
+	};
 
 	_participantVideoIcon = participant => {
-		if(participantIsBlocked(participant)){
-			return(
+		if (participantIsBlocked(participant)) {
+			return (
 				<Icon
 					className="material-icons"
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: 'crimson'
+						color: "crimson"
 					}}
 				>
 					block
 				</Icon>
-			)				
+			);
 		}
 
-		if(participant.requestWord !== 2){
-			return(
+		if (participant.requestWord !== 2) {
+			return (
 				<Icon
 					className="material-icons"
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: this.participantLiveColor(participant.lastDateConnection)
+						color: this.participantLiveColor(
+							participant.lastDateConnection
+						)
 					}}
 				>
 					language
 				</Icon>
-			)
+			);
 		}
-		return(
+		return (
 			<Icon
 				className="material-icons"
 				style={{
 					fontSize: "1.1em",
 					marginRight: "0.3em",
-					color: this.participantLiveColor(participant.lastDateConnection)
+					color: this.participantLiveColor(
+						participant.lastDateConnection
+					)
 				}}
 			>
 				videocam
 			</Icon>
 		);
-	}
+	};
 
 	_participantEntry = participant => {
 		return (
@@ -136,15 +164,22 @@ class ParticipantsLive extends Component {
 					alignItems: "center"
 				}}
 			>
-				<GridItem xs={6} lg={6} md={6} style={{display: 'flex', flexDirection: 'row'}}>
+				<GridItem
+					xs={6}
+					lg={6}
+					md={6}
+					style={{ display: "flex", flexDirection: "row" }}
+				>
 					{this._participantVideoIcon(participant)}
-					<Tooltip title={`${participant.name} ${participant.surname}`}>
+					<Tooltip
+						title={`${participant.name} ${participant.surname}`}
+					>
 						<div
 							style={{
 								color: "white",
 								fontSize: "0.85em",
 								marginLeft: "0.5em",
-								width: '80%'
+								width: "80%"
 							}}
 							className="truncate"
 						>
@@ -164,7 +199,16 @@ class ParticipantsLive extends Component {
 						{participant.position}
 					</div>
 				</GridItem>
-				<GridItem xs={2} lg={2} md={2} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+				<GridItem
+					xs={2}
+					lg={2}
+					md={2}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between"
+					}}
+				>
 					<ChangeRequestWordButton
 						translate={this.props.translate}
 						participant={participant}
@@ -173,9 +217,13 @@ class ParticipantsLive extends Component {
 					<VideoParticipantMenu
 						council={this.props.council}
 						participant={participant}
-						refetch={this.props.data.refetch}						
-						setBanParticipant={() => this.setState({banParticipant: participant})}
-						setParticipantHistory={() => this.setState({participantHistory: participant})}
+						refetch={this.props.data.refetch}
+						setBanParticipant={() =>
+							this.setState({ banParticipant: participant })
+						}
+						setParticipantHistory={() =>
+							this.setState({ participantHistory: participant })
+						}
 						translate={this.props.translate}
 					/>
 				</GridItem>
@@ -183,16 +231,17 @@ class ParticipantsLive extends Component {
 		);
 	};
 
-	participantLiveColor = (date) => {
-		if(exceedsOnlineTimeout(date)){
-			return 'crimson';
+	participantLiveColor = date => {
+		if (exceedsOnlineTimeout(date)) {
+			return "crimson";
 		}
 		return getSecondary();
-
-	}
+	};
 
 	_button = () => {
-		const videoParticipants = this.props.data.loading? [] : this.props.data.videoParticipants.list;
+		const videoParticipants = this.props.data.loading
+			? []
+			: this.props.data.videoParticipants.list;
 
 		return (
 			<VideoParticipantsStats
@@ -203,7 +252,6 @@ class ParticipantsLive extends Component {
 					total: videoParticipants.length
 				}}
 				toggleFullScreen={this.props.toggleFullScreen}
-
 			/>
 		);
 	};
@@ -238,12 +286,8 @@ class ParticipantsLive extends Component {
 	render() {
 		const { videoFullScreen, translate } = this.props;
 
-		if(videoFullScreen){
-			return (
-				<div style={{height: '100%'}}>
-					{this._button()}
-				</div>
-			);
+		if (videoFullScreen) {
+			return <div style={{ height: "100%" }}>{this._button()}</div>;
 		}
 		return (
 			<div>
@@ -253,7 +297,9 @@ class ParticipantsLive extends Component {
 					open={true}
 				/>
 				<AlertConfirm
-					requestClose={() => this.setState({ banParticipant: false })}
+					requestClose={() =>
+						this.setState({ banParticipant: false })
+					}
 					open={this.state.banParticipant}
 					acceptAction={this.banParticipant}
 					buttonAccept={translate.accept}
@@ -261,20 +307,24 @@ class ParticipantsLive extends Component {
 					bodyText={
 						<div>
 							{!!this.state.banParticipant &&
-								`${translate.want_eject} ${this.state.banParticipant.name} ${this.state.banParticipant.surname} ${translate.from_room}?`
-							}
+								`${translate.want_eject} ${
+									this.state.banParticipant.name
+								} ${this.state.banParticipant.surname} ${
+									translate.from_room
+								}?`}
 						</div>
 					}
 					title={translate.attention}
 				/>
-				{!!this.state.participantHistory &&
+				{!!this.state.participantHistory && (
 					<ParticipantHistoryModal
-						requestClose={() => this.setState({ participantHistory: false })}
+						requestClose={() =>
+							this.setState({ participantHistory: false })
+						}
 						participant={this.state.participantHistory}
 						translate={translate}
 					/>
-				}
-				
+				)}
 			</div>
 		);
 	}
@@ -296,6 +346,6 @@ export default compose(
 	}),
 
 	graphql(banParticipant, {
-		name: 'banParticipant'
+		name: "banParticipant"
 	})
 )(ParticipantsLive);

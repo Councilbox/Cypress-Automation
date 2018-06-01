@@ -3,7 +3,13 @@ import { TableCell, TableRow } from "material-ui/Table";
 import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
-import { BasicButton, ButtonIcon, EnhancedTable, Grid, GridItem } from "../../../displayComponents";
+import {
+	BasicButton,
+	ButtonIcon,
+	EnhancedTable,
+	Grid,
+	GridItem
+} from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { downloadCBXData, updateNotificationsStatus } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
@@ -13,8 +19,7 @@ import DownloadCBXDataButton from "./DownloadCBXDataButton";
 import ParticipantStateIcon from "../live/ParticipantStateIcon";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
-import AttendIntentionIcon from '../live/participants/AttendIntentionIcon';
-
+import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 
 class ConvenedParticipantsTable extends Component {
 	closeParticipantEditor = () => {
@@ -261,7 +266,6 @@ class ConvenedParticipantsTable extends Component {
 													council
 												) && (
 													<TableCell>
-
 														<AttendIntentionIcon
 															participant={participant.live}
 															translate={translate}

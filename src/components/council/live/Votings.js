@@ -242,14 +242,17 @@ class Votings extends Component {
 	};
 
 	sumTotalVotings = () => {
-		if(this.props.data.agendaVotings){
-			if(this.props.data.agendaVotings.list){
-				return this.props.data.agendaVotings.list.reduce((a, b) => a + b.author.numParticipations, 0)
+		if (this.props.data.agendaVotings) {
+			if (this.props.data.agendaVotings.list) {
+				return this.props.data.agendaVotings.list.reduce(
+					(a, b) => a + b.author.numParticipations,
+					0
+				);
 			}
 		}
 
 		return 0;
-	}
+	};
 
 	_section = () => {
 		const { translate } = this.props;
@@ -386,28 +389,44 @@ class Votings extends Component {
 									{ name: translate.votes }
 								]}
 							>
-								{this.props.data.agendaVotings.list.map(vote => {
-									return (
-										<TableRow key={`vote_${vote.id}`}>
-											<TableCell>
-												<div
-													style={{
-														display: "flex",
-														flexDirection: "row",
-														alignItems: "center"
-													}}
-												>
-													<Tooltip title={this.getTooltip(vote.vote)}>
-														<VotingValueIcon vote={vote.vote} />
-													</Tooltip>
+								{this.props.data.agendaVotings.list.map(
+									vote => {
+										return (
+											<TableRow key={`vote_${vote.id}`}>
+												<TableCell>
+													<div
+														style={{
+															display: "flex",
+															flexDirection:
+																"row",
+															alignItems: "center"
+														}}
+													>
+														<Tooltip
+															title={this.getTooltip(
+																vote.vote
+															)}
+														>
+															<VotingValueIcon
+																vote={vote.vote}
+															/>
+														</Tooltip>
 
 														{isPresentVote(
 															vote
 														) && (
 															<PresentVoteMenu
-																agendaVoting={vote}
-																active={vote.vote}
-																refetch={this.props.data.refetch}
+																agendaVoting={
+																	vote
+																}
+																active={
+																	vote.vote
+																}
+																refetch={
+																	this.props
+																		.data
+																		.refetch
+																}
 															/>
 														)}
 
@@ -423,44 +442,54 @@ class Votings extends Component {
 																vote.presentVote
 															)}
 														</Tooltip>
-												</div>
-											</TableCell>
-											<TableCell>
-												{vote.authorRepresentative ? (
-													<React.Fragment>
-														{`${
-															vote.author.name
-														} ${
+													</div>
+												</TableCell>
+												<TableCell>
+													{vote.authorRepresentative ? (
+														<React.Fragment>
+															{`${
+																vote.author.name
+															} ${
+																vote.author
+																	.surname
+															}`}
+															<br />
+															{`${
+																translate.voting_delegate
+															} - ${
+																vote
+																	.authorRepresentative
+																	.name
+															} ${
+																vote
+																	.authorRepresentative
+																	.surname
+															}`}
+														</React.Fragment>
+													) : (
+														`${vote.author.name} ${
 															vote.author.surname
-														}`}
-														<br />
-														{`${
-															translate.voting_delegate
-														} - ${
-															vote.authorRepresentative.name
-														} ${
-															vote.authorRepresentative.surname
-														}`}
-													</React.Fragment>
-												) : (
-													`${vote.author.name} ${
-														vote.author.surname
-													}`
-												)}
-											</TableCell>
-											<TableCell>
-												{vote.author.position}
-											</TableCell>
-											<TableCell>
-												{`${vote.author.numParticipations} (${(
-													vote.author.numParticipations /
-													total *
-													100
-												).toFixed(2)}%)`}
-											</TableCell>
-										</TableRow>
-									);
-								})}
+														}`
+													)}
+												</TableCell>
+												<TableCell>
+													{vote.author.position}
+												</TableCell>
+												<TableCell>
+													{`${
+														vote.author
+															.numParticipations
+													} (${(
+														(vote.author
+															.numParticipations /
+															total) *
+														100
+													).toFixed(2)}%)`}
+												</TableCell>
+											</TableRow>
+										);
+									}
+								)}
 							</Table>
 							<div
 								style={{

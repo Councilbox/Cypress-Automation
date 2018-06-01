@@ -119,7 +119,9 @@ class DelegateOwnVoteModal extends Component {
 										) {
 											return (
 												<ParticipantRow
-													key={`delegateVote_${participant.id}`}
+													key={`delegateVote_${
+														participant.id
+													}`}
 													participant={participant}
 													onClick={() =>
 														this.delegateVote(

@@ -132,7 +132,14 @@ class CommentsSection extends Component {
 
 	_section = () => {
 		return (
-			<Grid style={{ width: "100%", backgroundColor: "white", paddingBottom: '1em', paddingLeft: '1em' }}>
+			<Grid
+				style={{
+					width: "100%",
+					backgroundColor: "white",
+					paddingBottom: "1em",
+					paddingLeft: "1em"
+				}}
+			>
 				<GridItem xs={8} md={8} lg={8} />
 				<GridItem
 					xs={4}

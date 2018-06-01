@@ -5,13 +5,16 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 import ParticipantStateIcon from "../ParticipantStateIcon";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { updateLiveParticipant } from "../../../../queries";
-import { BasicButton, LoadingSection, FilterButton } from "../../../../displayComponents";
+import {
+	BasicButton,
+	LoadingSection,
+	FilterButton
+} from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
-import { Typography } from 'material-ui';
-import FontAwesome from 'react-fontawesome';
-
+import { Typography } from "material-ui";
+import FontAwesome from "react-fontawesome";
 
 const StateIconButton = ({ loading, action, icon, active }) => (
 	<div
@@ -88,17 +91,26 @@ class ParticipantStateSelector extends Component {
 					width: "100%",
 					display: "flex",
 					flexDirection: "row",
-					alignItems: 'center'
+					alignItems: "center"
 				}}
 			>
 				<FilterButton
-                    tooltip={translate.change_to_no_participate}
+					tooltip={translate.change_to_no_participate}
 					loading={loading === 0}
 					size="2.8em"
-                    onClick={() => this.updateLiveParticipant(6, 0, null)}
-                    active={participant.state === PARTICIPANT_STATES.NO_PARTICIPATE}
-                >
-                    <div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					onClick={() => this.updateLiveParticipant(6, 0, null)}
+					active={
+						participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
+					}
+				>
+					<div
+						style={{
+							position: "relative",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center"
+						}}
+					>
 						<ParticipantStateIcon
 							noTooltip={true}
 							participant={{
@@ -106,16 +118,23 @@ class ParticipantStateSelector extends Component {
 							}}
 							translate={translate}
 						/>
-                    </div>
-                </FilterButton>
+					</div>
+				</FilterButton>
 				<FilterButton
-                    tooltip={translate.change_to_remote}
+					tooltip={translate.change_to_remote}
 					loading={loading === 1}
 					size="2.8em"
-                    onClick={() => this.updateLiveParticipant(0, 1, null)}
-                    active={participant.state === PARTICIPANT_STATES.REMOTE}
-                >
-                    <div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					onClick={() => this.updateLiveParticipant(0, 1, null)}
+					active={participant.state === PARTICIPANT_STATES.REMOTE}
+				>
+					<div
+						style={{
+							position: "relative",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center"
+						}}
+					>
 						<ParticipantStateIcon
 							noTooltip={true}
 							participant={{
@@ -123,16 +142,26 @@ class ParticipantStateSelector extends Component {
 							}}
 							translate={translate}
 						/>
-                    </div>
-                </FilterButton>
+					</div>
+				</FilterButton>
 				<FilterButton
-                    tooltip={translate.physically_present_assistance}
+					tooltip={translate.physically_present_assistance}
 					loading={loading === 2}
 					size="2.8em"
-                    onClick={() => this.updateLiveParticipant(5, 2, null)}
-                    active={participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-                >
-                    <div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					onClick={() => this.updateLiveParticipant(5, 2, null)}
+					active={
+						participant.state ===
+						PARTICIPANT_STATES.PHYSICALLY_PRESENT
+					}
+				>
+					<div
+						style={{
+							position: "relative",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center"
+						}}
+					>
 						<ParticipantStateIcon
 							noTooltip={true}
 							participant={{
@@ -140,21 +169,32 @@ class ParticipantStateSelector extends Component {
 							}}
 							translate={translate}
 						/>
-                    </div>
-                </FilterButton>
+					</div>
+				</FilterButton>
 				{CBX.canBePresentWithRemoteVote(council.statute) && (
 					<FilterButton
 						tooltip={translate.change_to_present_with_remote_vote}
 						loading={loading === 3}
 						size="2.8em"
 						onClick={() => this.updateLiveParticipant(7, 3, null)}
-						active={participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
+						active={
+							participant.state ===
+							PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+						}
 					>
-						<div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<div
+							style={{
+								position: "relative",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center"
+							}}
+						>
 							<ParticipantStateIcon
 								noTooltip={true}
 								participant={{
-									state: PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+									state:
+										PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 								}}
 								translate={translate}
 							/>
@@ -168,12 +208,24 @@ class ParticipantStateSelector extends Component {
 							tooltip={translate.add_representative}
 							loading={loading === 4}
 							size="2.8em"
-							onClick={() => this.setState({
-								addRepresentative: true
-							})}
-							active={participant.state === PARTICIPANT_STATES.REPRESENTATED}
+							onClick={() =>
+								this.setState({
+									addRepresentative: true
+								})
+							}
+							active={
+								participant.state ===
+								PARTICIPANT_STATES.REPRESENTATED
+							}
 						>
-							<div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+							<div
+								style={{
+									position: "relative",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center"
+								}}
+							>
 								<ParticipantStateIcon
 									noTooltip={true}
 									participant={{
@@ -190,12 +242,24 @@ class ParticipantStateSelector extends Component {
 							tooltip={translate.to_delegate_vote}
 							loading={loading === 5}
 							size="2.8em"
-							onClick={() => this.setState({
-								delegateOwnVote: true
-							})}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
+							onClick={() =>
+								this.setState({
+									delegateOwnVote: true
+								})
+							}
+							active={
+								participant.state ===
+								PARTICIPANT_STATES.DELEGATED
+							}
 						>
-							<div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+							<div
+								style={{
+									position: "relative",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center"
+								}}
+							>
 								<ParticipantStateIcon
 									noTooltip={true}
 									participant={{
@@ -212,38 +276,49 @@ class ParticipantStateSelector extends Component {
 						) &&
 							participant.state !==
 								PARTICIPANT_STATES.DELEGATED && (
-									<FilterButton
-										tooltip={translate.add_delegated}
-										loading={loading === 6}
-										size="2.8em"
-										onClick={() => this.setState({
+								<FilterButton
+									tooltip={translate.add_delegated}
+									loading={loading === 6}
+									size="2.8em"
+									onClick={() =>
+										this.setState({
 											delegateVote: true
-										})}
-										active={participant.state === PARTICIPANT_STATES.DELEGATED}
+										})
+									}
+									active={
+										participant.state ===
+										PARTICIPANT_STATES.DELEGATED
+									}
+								>
+									<div
+										style={{
+											position: "relative",
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center"
+										}}
 									>
-										<div style={{position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-											<FontAwesome
-												name={"user"}
-												style={{
-													position: 'absolute',
-													color: secondary,
-													fontSize: "1.75em"
-												}}
-											/>
-											<FontAwesome
-												name={"mail-reply"}
-												style={{
-													position: 'absolute',
-													color: primary,
-													right: '-0.8em',
-													fontSize: "1em"
-												}}
-												onClick={this.props.requestClose}
-											/>
-										</div>
-									</FilterButton>
-								)
-							}
+										<FontAwesome
+											name={"user"}
+											style={{
+												position: "absolute",
+												color: secondary,
+												fontSize: "1.75em"
+											}}
+										/>
+										<FontAwesome
+											name={"mail-reply"}
+											style={{
+												position: "absolute",
+												color: primary,
+												right: "-0.8em",
+												fontSize: "1em"
+											}}
+											onClick={this.props.requestClose}
+										/>
+									</div>
+								</FilterButton>
+							)}
 					</React.Fragment>
 				)}
 				<AddRepresentativeModal

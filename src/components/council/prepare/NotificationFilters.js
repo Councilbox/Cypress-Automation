@@ -6,7 +6,6 @@ import { EMAIL_STATES_FILTERS } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
 
 class NotificationFilters extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -43,7 +42,7 @@ class NotificationFilters extends Component {
 				key={`emailFilter_${value}`}
 				onClick={() => this.changeFilter(value)}
 				active={selectedFilter === value}
-				tooltip={translate[CBX.getTranslationReqCode(value)]}		
+				tooltip={translate[CBX.getTranslationReqCode(value)]}
 			>
 				<img
 					src={CBX.getEmailIconByReqCode(value)}
@@ -54,10 +53,8 @@ class NotificationFilters extends Component {
 					}}
 				/>
 			</FilterButton>
-			
 		);
 	};
-
 
 	render() {
 		const { translate } = this.props;

@@ -81,49 +81,59 @@ export const updateAgenda = gql`
 `;
 
 export const agendaVotings = gql`
-  query agendaVotings($agendaId: Int!, $filters: [FilterInput], $authorFilters: AuthorFilter, $options: OptionsInput){
-    agendaVotings(agendaId: $agendaId, filters: $filters, authorFilters: $authorFilters, options: $options){
-      list{
-        id
-        author{
-          name
-          surname
-          numParticipations
-          socialCapital
-          position
-          delegatedVotes{
-            name
-            surname
-            dni
-            position
-            socialCapital
-            numParticipations
-          }
-        }
-        authorRepresentative{
-          name
-          surname
-          position
-          dni
-          delegatedVotes{
-            name
-            surname
-            dni
-            position
-            socialCapital
-            numParticipations
-          }
-        }
-        participantId
-        agendaId
-        presentVote
-        numParticipations
-        comment
-        vote
-      }
-      total
-    }
-  }
+	query agendaVotings(
+		$agendaId: Int!
+		$filters: [FilterInput]
+		$authorFilters: AuthorFilter
+		$options: OptionsInput
+	) {
+		agendaVotings(
+			agendaId: $agendaId
+			filters: $filters
+			authorFilters: $authorFilters
+			options: $options
+		) {
+			list {
+				id
+				author {
+					name
+					surname
+					numParticipations
+					socialCapital
+					position
+					delegatedVotes {
+						name
+						surname
+						dni
+						position
+						socialCapital
+						numParticipations
+					}
+				}
+				authorRepresentative {
+					name
+					surname
+					position
+					dni
+					delegatedVotes {
+						name
+						surname
+						dni
+						position
+						socialCapital
+						numParticipations
+					}
+				}
+				participantId
+				agendaId
+				presentVote
+				numParticipations
+				comment
+				vote
+			}
+			total
+		}
+	}
 `;
 
 export const updateAgendaVoting = gql`
