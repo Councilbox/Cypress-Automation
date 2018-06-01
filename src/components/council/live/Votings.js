@@ -24,7 +24,7 @@ import { Tooltip } from "material-ui";
 import PresentVoteMenu from "./voting/PresentVoteMenu";
 import VotingValueIcon from "./voting/VotingValueIcon";
 
-class VotingsSection extends Component {
+class Votings extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -74,7 +74,11 @@ class VotingsSection extends Component {
 						thumbs_up_down
 					</Icon>
 					<span
-						style={{ marginLeft: "0.7em", color: darkGrey, fontWeight: "700" }}
+						style={{
+							marginLeft: "0.7em",
+							color: darkGrey,
+							fontWeight: "700"
+						}}
 					>
 						{this.props.translate.voting}
 					</span>
@@ -105,13 +109,11 @@ class VotingsSection extends Component {
 			case VOTE_VALUES.NEGATIVE:
 				return this.props.translate.against_btn;
 			case VOTE_VALUES.POSITIVE:
-				return this.props.in_favor_btn;
-
+				return this.props.translate.in_favor_btn;
 			case VOTE_VALUES.ABSTENTION:
-				return this.props.abstention;
-
+				return this.props.translate.abstention;
 			default:
-				return "";
+				return "-";
 		}
 	};
 
@@ -239,8 +241,20 @@ class VotingsSection extends Component {
 		this.setState({ open: !this.state.open });
 	};
 
+	sumTotalVotings = () => {
+		if(this.props.data.agendaVotings){
+			if(this.props.data.agendaVotings.list){
+				return this.props.data.agendaVotings.list.reduce((a, b) => a + b.author.numParticipations, 0)
+			}
+		}
+
+		return 0;
+	}
+
 	_section = () => {
 		const { translate } = this.props;
+		const total = this.sumTotalVotings();
+
 		return (
 			<Grid
 				style={{
@@ -265,30 +279,54 @@ class VotingsSection extends Component {
 				>
 					<div style={{ display: "flex", flexDirection: "row" }}>
 						<FilterButton
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.NO_VOTE)}
-							active={this.state.voteFilter === VOTE_VALUES.NO_VOTE}
-							tooltip={`${translate.filter_by} - ${translate.no_vote}`}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.NO_VOTE)
+							}
+							active={
+								this.state.voteFilter === VOTE_VALUES.NO_VOTE
+							}
+							tooltip={`${translate.filter_by} - ${
+								translate.no_vote
+							}`}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
 						</FilterButton>
 						<FilterButton
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.POSITIVE)}
-							active={this.state.voteFilter === VOTE_VALUES.POSITIVE}
-							tooltip={`${translate.filter_by} - ${translate.positive_votings}`}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.POSITIVE)
+							}
+							active={
+								this.state.voteFilter === VOTE_VALUES.POSITIVE
+							}
+							tooltip={`${translate.filter_by} - ${
+								translate.positive_votings
+							}`}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
 						</FilterButton>
 						<FilterButton
-							tooltip={`${translate.filter_by} - ${translate.negative_votings}`}
-							active={this.state.voteFilter === VOTE_VALUES.NEGATIVE}
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
+							tooltip={`${translate.filter_by} - ${
+								translate.negative_votings
+							}`}
+							active={
+								this.state.voteFilter === VOTE_VALUES.NEGATIVE
+							}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.NEGATIVE)
+							}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
 						</FilterButton>
 						<FilterButton
-							tooltip={`${translate.filter_by} - ${translate.abstention}`}
-							active={this.state.voteFilter === VOTE_VALUES.ABSTENTION}
-							onClick={() => this.changeVoteFilter(VOTE_VALUES.ABSTENTION)}
+							tooltip={`${translate.filter_by} - ${
+								translate.abstention
+							}`}
+							active={
+								this.state.voteFilter === VOTE_VALUES.ABSTENTION
+							}
+							onClick={() =>
+								this.changeVoteFilter(VOTE_VALUES.ABSTENTION)
+							}
 						>
 							<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
 						</FilterButton>
@@ -307,14 +345,18 @@ class VotingsSection extends Component {
 						<FilterButton
 							onClick={() => this.changeStateFilter(1)}
 							active={this.state.stateFilter === 1}
-							tooltip={`${translate.filter_by} - ${translate.present_vote}`}
+							tooltip={`${translate.filter_by} - ${
+								translate.present_vote
+							}`}
 						>
 							{this.getStateIcon(1)}
 						</FilterButton>
 						<FilterButton
 							onClick={() => this.changeStateFilter(0)}
 							active={this.state.stateFilter === 0}
-							tooltip={`${translate.filter_by} - ${translate.remote_vote}`}
+							tooltip={`${translate.filter_by} - ${
+								translate.remote_vote
+							}`}
 						>
 							{this.getStateIcon(0)}
 						</FilterButton>
@@ -346,7 +388,7 @@ class VotingsSection extends Component {
 							>
 								{this.props.data.agendaVotings.list.map(vote => {
 									return (
-										<TableRow key={`vote_${vote.email}`}>
+										<TableRow key={`vote_${vote.id}`}>
 											<TableCell>
 												<div
 													style={{
@@ -359,41 +401,60 @@ class VotingsSection extends Component {
 														<VotingValueIcon vote={vote.vote} />
 													</Tooltip>
 
-													{isPresentVote(vote) && (
-														<PresentVoteMenu
-															agendaVoting={vote}
-															active={vote.vote}
-															refetch={this.props.data.refetch}
-														/>
-													)}
+														{isPresentVote(
+															vote
+														) && (
+															<PresentVoteMenu
+																agendaVoting={vote}
+																active={vote.vote}
+																refetch={this.props.data.refetch}
+															/>
+														)}
 
-													<Tooltip
-														title={
-															vote.presentVote === 1
-																? translate.customer_present
-																: translate.customer_initial
-														}
-													>
-														{this.getStateIcon(vote.presentVote)}
-													</Tooltip>
+														<Tooltip
+															title={
+																vote.presentVote ===
+																1
+																	? translate.customer_present
+																	: translate.customer_initial
+															}
+														>
+															{this.getStateIcon(
+																vote.presentVote
+															)}
+														</Tooltip>
 												</div>
 											</TableCell>
 											<TableCell>
-												{vote.authorRepresentative?
-                                                    <React.Fragment>
-                                                        {`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname}`}
-                                                        <br/>
-                                                        {`${translate.delegated_vote_from} - ${vote.author.name} ${vote.author.surname}`}
-                                                    </React.Fragment>
-											: 
-                                                `${vote.author.name} ${vote.author.surname}`}<br/>
-                                                
+												{vote.authorRepresentative ? (
+													<React.Fragment>
+														{`${
+															vote.author.name
+														} ${
+															vote.author.surname
+														}`}
+														<br />
+														{`${
+															translate.voting_delegate
+														} - ${
+															vote.authorRepresentative.name
+														} ${
+															vote.authorRepresentative.surname
+														}`}
+													</React.Fragment>
+												) : (
+													`${vote.author.name} ${
+														vote.author.surname
+													}`
+												)}
 											</TableCell>
-											<TableCell>{`${vote.author.position}`}</TableCell>
+											<TableCell>
+												{vote.author.position}
+											</TableCell>
 											<TableCell>
 												{`${vote.author.numParticipations} (${(
 													vote.author.numParticipations /
-													this.props.agenda.currentRemoteCensus *
+													total *
 													100
 												).toFixed(2)}%)`}
 											</TableCell>
@@ -415,7 +476,10 @@ class VotingsSection extends Component {
 								<PaginationFooter
 									page={this.state.page}
 									translate={translate}
-									length={this.props.data.agendaVotings.list.length}
+									length={
+										this.props.data.agendaVotings.list
+											.length
+									}
 									total={this.props.data.agendaVotings.total}
 									limit={10}
 									changePage={this.changePage}
@@ -463,4 +527,4 @@ export default graphql(agendaVotings, {
 		},
 		pollInterval: 4000
 	})
-})(VotingsSection);
+})(Votings);
