@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { LoadingMainApp } from "../displayComponents";
-import { PARTICIPANT_ERRORS } from '../constants';
-import InvalidUrl from '../components/participant/InvalidUrl';
+import { PARTICIPANT_ERRORS } from "../constants";
+import InvalidUrl from "../components/participant/InvalidUrl";
 import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
 
@@ -12,19 +12,22 @@ class ParticipantContainer extends React.PureComponent {
 	render() {
 		const { data } = this.props;
 
-		if(data.error && data.error.graphQLErrors["0"]){
+		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
-			if(code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED || code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE || code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED){
+			if (
+				code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
+				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
+				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
+			) {
 				return (
-					<ErrorState 
+					<ErrorState
 						code={code}
 						data={data.error.graphQLErrors["0"].data}
 					/>
-				)
+				);
+			} else {
+				return <InvalidUrl />;
 			}
-			else{
-				return <InvalidUrl />
-			}		
 		}
 
 		if (data.loading) {
@@ -102,7 +105,7 @@ const participantQuery = gql`
 			businessName
 			city
 			companyId
-			company{
+			company {
 				logo
 			}
 			conveneText

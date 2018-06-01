@@ -22,12 +22,12 @@ const styles = {
 		justifyContent: "center",
 		position: "relative",
 		backgroundImage: `url(${background})`,
-		padding: '10px'
+		padding: "10px"
 	},
 	cardContainer: {
 		margin: "20px",
 		padding: "20px",
-		maxWidth: '100%'
+		maxWidth: "100%"
 	}
 };
 
