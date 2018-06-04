@@ -547,6 +547,10 @@ export const participantIsBlocked = participant => {
 	return participant.blocked === 1;
 };
 
+export const participantNeverConnected = participant => {
+	return participant.online === 0;
+}
+
 export const canUnblockParticipant = council => {
 	return council.statute.canUnblock === 1;
 };

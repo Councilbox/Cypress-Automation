@@ -74,6 +74,7 @@ const participantQuery = gql`
 			phone
 			email
 			language
+			online
 		}
 		councilVideo(id: $councilId) {
 			active

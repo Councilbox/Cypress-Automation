@@ -97,8 +97,6 @@ class ErrorState extends React.Component {
 			windowOrientation
 		} = this.props;
 
-		const councilInfo = (code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED) ? data : data.council;
-
 		return (
 			<div
 				style={{
@@ -152,25 +150,25 @@ class ErrorState extends React.Component {
 									}}
 								>
 									<Avatar
-										src={councilInfo.company.logo}
+										src={data.council.company.logo}
 										aria-label="CouncilLogo"
 									/>
-									<h3>{councilInfo.name}</h3>
+									<h3>{data.council.name}</h3>
 									<span>
 										{moment(
-											new Date(councilInfo.dateStart)
+											new Date(data.council.dateStart)
 										).format("LLL")}
 									</span>
 
-									{(councilInfo.statute.existsLimitedAccessRoom === 1) &&
+									{(data.council.statute.existsLimitedAccessRoom === 1) &&
 										<p>
 											{translate.room_access_closed_at}
 											<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
 												{
 													moment(
-														new Date(councilInfo.dateRealStart)
+														new Date(data.council.dateRealStart)
 													)
-													.add(councilInfo.statute.limitedAccessRoomMinutes, 'm')
+													.add(data.council.statute.limitedAccessRoomMinutes, 'm')
 													.format("HH:mm")
 												}
 											</span>
