@@ -64,14 +64,12 @@ const styles = {
 		padding: "15px",
 		textAlign: "center"
 	},
-	imageContainer: {
+	councilInfoContainer: {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		padding: "15px"
-	},
-	image: {
-		maxWidth: "60%"
+		padding: "15px",
+		width: '100%'
 	}
 };
 
@@ -138,7 +136,7 @@ class ErrorState extends React.Component {
 								{this.handleError(code)}
 							</div>
 
-							<div style={styles.imageContainer}>
+							<div style={styles.councilInfoContainer}>
 								<div
 									style={{
 										backgroundColor: lightTurquoise,
@@ -161,6 +159,21 @@ class ErrorState extends React.Component {
 											new Date(data.council.dateStart)
 										).format("LLL")}
 									</span>
+
+									{(data.council.statute.existsLimitedAccessRoom === 1) &&
+										<p>
+											{translate.room_access_closed_at}
+											<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
+												{
+													moment(
+														new Date(data.council.dateRealStart)
+													)
+													.add(data.council.statute.limitedAccessRoomMinutes, 'm')
+													.format("HH:mm")
+												}
+											</span>
+										</p>
+									}
 								</div>
 							</div>
 						</div>
