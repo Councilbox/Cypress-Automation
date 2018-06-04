@@ -221,74 +221,64 @@ class TextRender extends React.PureComponent {
 	}
 }
 
-class CouncilInfoCardRender extends React.PureComponent {
-	render() {
-		const { council, company } = this.props;
-		return (
-			<React.Fragment>
-				<div
-					style={{
-						backgroundColor: lightTurquoise,
-						borderRadius: "4px"
-					}}
-				>
-					<CardHeader
-						avatar={
-							<Avatar
-								src={company.logo}
-								aria-label="CouncilLogo"
-							/>
-						}
-						title={<b>{council.name}</b>}
-						subheader={moment(new Date(council.dateStart)).format(
-							"LLL"
-						)}
+const CouncilInfoCardRender = ({ council, company }) => (
+	<React.Fragment>
+		<div
+			style={{
+				backgroundColor: lightTurquoise,
+				borderRadius: "4px"
+			}}
+		>
+			<CardHeader
+				avatar={
+					<Avatar
+						src={company.logo}
+						aria-label="CouncilLogo"
 					/>
-					{/* <CardContent style={{ paddingBottom: "16px" }}>
+				}
+				title={<b>{council.name}</b>}
+				subheader={moment(new Date(council.dateStart)).format(
+					"LLL"
+				)}
+			/>
+			{/* <CardContent style={{ paddingBottom: "16px" }}>
 						<p
 							dangerouslySetInnerHTML={{
 								__html: council.conveneText
 							}}
 						/>
 					</CardContent> */}
-				</div>
-			</React.Fragment>
-		);
-	}
-}
+		</div>
+	</React.Fragment>
+);
 
-class TextDialog extends React.Component {
-	render() {
-		const { open, handleClose, title, text } = this.props;
-		return (
-			<Dialog
-				open={open}
-				onClose={handleClose}
-				aria-labelledby="simple-dialog-title"
-			>
-				{title && (
-					<DialogTitle id="simple-dialog-title">
-						Set backup account
+const TextDialog = ({ open, handleClose, title, text }) => (
+	<Dialog
+		open={open}
+		onClose={handleClose}
+		aria-labelledby="simple-dialog-title"
+	>
+		{title && (
+			<DialogTitle id="simple-dialog-title">
+				Set backup account
 					</DialogTitle>
-				)}
-				<DialogContent>
-					<FontAwesome
-						name={"close"}
-						style={{
-							position: "absolute",
-							right: "10px",
-							top: "5px",
-							cursor: "pointer",
-							color: secondary
-						}}
-						onClick={handleClose}
-					/>
-					{text}
-				</DialogContent>
-			</Dialog>
-		);
-	}
-}
+		)}
+		<DialogContent>
+			<FontAwesome
+				name={"close"}
+				style={{
+					position: "absolute",
+					right: "10px",
+					top: "5px",
+					cursor: "pointer",
+					color: secondary
+				}}
+				onClick={handleClose}
+			/>
+			{text}
+		</DialogContent>
+	</Dialog>
+);
 
 export default withTranslations()(
 	withWindowOrientation(withWindowSize(CouncilState))

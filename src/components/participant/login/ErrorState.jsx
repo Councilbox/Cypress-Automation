@@ -184,84 +184,69 @@ class ErrorState extends React.Component {
 	}
 }
 
-class ParticipantBlocked extends React.Component {
-	render() {
-		const { translate } = this.props;
-		return (
-			<React.Fragment>
-				<h5 style={{ color: primary, fontWeight: "bold" }}>
-					{translate.we_are_sorry}
-				</h5>
+const ParticipantBlocked = ({ translate }) => (
+	<React.Fragment>
+		<h5 style={{ color: primary, fontWeight: "bold" }}>
+			{translate.we_are_sorry}
+		</h5>
 
-				<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
-					<FontAwesome
-						name={"user"}
-						stack={"1x"}
-						style={{ color: primary }}
-					/>
-					<FontAwesome
-						name={"ban"}
-						stack={"2x"}
-						style={{ color: secondary }}
-					/>
-				</div>
+		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+			<FontAwesome
+				name={"user"}
+				stack={"1x"}
+				style={{ color: primary }}
+			/>
+			<FontAwesome
+				name={"ban"}
+				stack={"2x"}
+				style={{ color: secondary }}
+			/>
+		</div>
 
-				{translate.cant_access_video_room_expelled}
-			</React.Fragment>
-		);
-	}
-}
+		{translate.cant_access_video_room_expelled}
+	</React.Fragment>
+);
 
-class ParticipantNotInRemoteState extends React.Component {
-	render() {
-		const { translate } = this.props;
-		return (
-			<React.Fragment>
-				<h5 style={{ color: primary, fontWeight: "bold" }}>
-					{translate.we_are_sorry}
-				</h5>
+const ParticipantNotInRemoteState = ({ translate }) => (
+	<React.Fragment>
+		<h5 style={{ color: primary, fontWeight: "bold" }}>
+			{translate.we_are_sorry}
+		</h5>
 
-				<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
-					<FontAwesome
-						name={"globe"}
-						stack={"2x"}
-						style={{ color: secondary }}
-					/>
-					<FontAwesome
-						name={"times"}
-						stack={"1x"}
-						style={{ color: primary }}
-					/>
-				</div>
+		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+			<FontAwesome
+				name={"globe"}
+				stack={"2x"}
+				style={{ color: secondary }}
+			/>
+			<FontAwesome
+				name={"times"}
+				stack={"1x"}
+				style={{ color: primary }}
+			/>
+		</div>
 
-				{translate.cant_access_video_room_no_remote_assistance}
-			</React.Fragment>
-		);
-	}
-}
+		{translate.cant_access_video_room_no_remote_assistance}
+	</React.Fragment>
+);
 
-class TimeLimitExceeded extends React.Component {
-	render() {
-		const { translate } = this.props;
-		return (
-			<React.Fragment>
-				<h5 style={{ color: primary, fontWeight: "bold" }}>
-					{translate.we_are_sorry}
-				</h5>
+const TimeLimitExceeded = ({ translate }) => (
+	<React.Fragment>
+		<h5 style={{ color: primary, fontWeight: "bold" }}>
+			{translate.we_are_sorry}
+		</h5>
 
-				<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
-					<FontAwesome
-						name={"clock-o"}
-						stack={"2x"}
-						style={{ color: primary }}
-					/>
-				</div>
+		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+			<FontAwesome
+				name={"clock-o"}
+				stack={"2x"}
+				style={{ color: primary }}
+			/>
+		</div>
 
-				{translate.cant_access_time_exceeded}
-			</React.Fragment>
-		);
-	}
-}
+		{translate.cant_access_time_exceeded}
+	</React.Fragment>
+);
 
 export default withTranslations()(
 	withWindowOrientation(withWindowSize(ErrorState))
