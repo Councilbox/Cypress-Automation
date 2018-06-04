@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
+import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { councilIsLive } from "../../../utils/CBX";
+import { checkIsCompatible, COMPATIBLE, UNSUPORTED_WINDOWS_VERSION, NOT_COMPATIBLE_BROWSER, iOS_DEVICE } from '../../../utils/webRTC';
 import Header from "../Header";
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
+import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
 import background from "../../../assets/img/signup3.jpg";
 
 const styles = {
@@ -35,26 +38,38 @@ class ParticipantLogin extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			urlToken: null
+			isCompatible: null
 		};
+	}
+
+	static getDerivedStateFromProps(props, state){
+		const isCompatible = checkIsCompatible(props.detectRTC);
+		return {isCompatible: isCompatible}
 	}
 
 	render() {
 		const { participant, council, company, translate } = this.props;
+		const { isCompatible } = this.state;
 		return (
 			<div style={styles.viewContainer}>
 				<Header />
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer}>
-						{councilIsLive(council) ? (
-							<LoginForm
-								participant={participant}
-								council={council}
-								company={company}
-							/>
-						) : (
-							<CouncilState council={council} company={company} />
-						)}
+						{(isCompatible === COMPATIBLE) ?
+								<React.Fragment>
+									{councilIsLive(council) ? (
+										<LoginForm
+											participant={participant}
+											council={council}
+											company={company}
+										/>
+									) : (
+										<CouncilState council={council} company={company} />
+									)}
+								</React.Fragment>
+							:
+								<IncompatibleDeviceBrowser status={isCompatible} />
+						}
 					</Card>
 				</div>
 			</div>
@@ -62,4 +77,4 @@ class ParticipantLogin extends Component {
 	}
 }
 
-export default withTranslations()(ParticipantLogin);
+export default withTranslations()(withDetectRTC()(ParticipantLogin));

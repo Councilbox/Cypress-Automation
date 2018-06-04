@@ -7,5 +7,6 @@ export default {
 	user: {},
 	companies: [],
 	translate: [],
-	council: {}
+	council: {},
+	detectRTC: {}
 };
