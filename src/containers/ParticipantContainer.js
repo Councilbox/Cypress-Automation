@@ -7,10 +7,19 @@ import { PARTICIPANT_ERRORS } from "../constants";
 import InvalidUrl from "../components/participant/InvalidUrl";
 import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
+import withTranslations from "../HOCs/withTranslations";
+import withDetectRTC from '../HOCs/withDetectRTC';
+import { store } from './App';
+import { setDetectRTC } from '../actions/mainActions';
 
 class ParticipantContainer extends React.PureComponent {
+
+	componentDidMount(){
+		store.dispatch(setDetectRTC());
+	}
+
 	render() {
-		const { data } = this.props;
+		const { data, detectRTC } = this.props;
 
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
@@ -30,7 +39,7 @@ class ParticipantContainer extends React.PureComponent {
 			}
 		}
 
-		if (data.loading) {
+		if (data.loading || Object.keys(detectRTC).length === 0) {
 			return <LoadingMainApp />;
 		}
 
@@ -55,11 +64,6 @@ class ParticipantContainer extends React.PureComponent {
 		);
 	}
 }
-
-const mapStateToProps = state => ({
-	main: state.main,
-	translate: state.translate
-});
 
 const participantQuery = gql`
 	query info($councilId: Int!) {
@@ -191,13 +195,6 @@ const participantQuery = gql`
 	}
 `;
 
-const companyQuery = gql`
-	query info($companyId: Int!) {
-		company(id: $companyId) {
-			logo
-		}
-	}
-`;
 
 export default graphql(participantQuery, {
 	options: props => ({
@@ -206,4 +203,4 @@ export default graphql(participantQuery, {
 		},
 		fetchPolicy: "network-only"
 	})
-})(withApollo(connect(mapStateToProps)(ParticipantContainer)));
+})(withApollo(withDetectRTC()(withTranslations()(ParticipantContainer))));

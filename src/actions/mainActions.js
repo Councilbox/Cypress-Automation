@@ -2,6 +2,7 @@ import { getCompanies } from "./companyActions";
 import { client } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import moment from "moment";
+import DetectRTC from "detectrtc";
 
 export let language = "es";
 
@@ -82,6 +83,17 @@ export const setLanguage = language => {
 			type: "LOADED_LANG",
 			value: translationObject,
 			selected: language
+		});
+	};
+};
+
+export const setDetectRTC = () => {
+	return  dispatch => {
+		DetectRTC.load(() => {
+			dispatch({
+				type: "LOADED_DETECTRTC",
+				detectRTC: DetectRTC
+			});
 		});
 	};
 };

@@ -4,6 +4,7 @@ import companies from "./companies";
 import council from "./council";
 import user from "./user";
 import translate from "./translate";
+import detectRTC from './detectRTC';
 import { i18nReducer } from "react-redux-i18n";
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
 	user,
 	council,
 	translate,
+	detectRTC,
 	i18nReducer
 });
 

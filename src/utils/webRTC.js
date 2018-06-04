@@ -37,7 +37,7 @@ export const checkIsMobileDevice = detectRTC => {
 	return isMobileDevice;
 };
 
-export const checkIsCompatibleBrowser = detectRTC => {
+export const checkIsCompatible = detectRTC => {
 	let isCompatible = NOT_COMPATIBLE_BROWSER;
 	let isUnsupportedWindowsVersion = checkIsUnsupportedWindowsVersion(
 		detectRTC
