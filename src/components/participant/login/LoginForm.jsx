@@ -7,6 +7,7 @@ import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton } from "../../../displayComponents";
+import { councilStarted } from '../../../utils/CBX';
 
 const styles = {
 	loginContainer: {
@@ -146,6 +147,21 @@ class CouncilState extends React.Component {
 					<span>
 						{moment(new Date(council.dateStart)).format("LLL")}
 					</span>
+
+					{(councilStarted(council) && (council.statute.existsLimitedAccessRoom === 1)) &&
+						<p>
+							{translate.room_access_close_at}
+							<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
+								{
+									moment(
+										new Date(council.dateRealStart)
+									)
+									.add(council.statute.limitedAccessRoomMinutes, 'm')
+									.format("HH:mm")
+								}
+							</span>
+						</p>
+					}
 				</div>
 
 				<div style={styles.loginFormContainer}>

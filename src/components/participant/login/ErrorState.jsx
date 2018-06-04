@@ -64,14 +64,12 @@ const styles = {
 		padding: "15px",
 		textAlign: "center"
 	},
-	imageContainer: {
+	councilInfoContainer: {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		padding: "15px"
-	},
-	image: {
-		maxWidth: "60%"
+		padding: "15px",
+		width: '100%'
 	}
 };
 
@@ -98,6 +96,8 @@ class ErrorState extends React.Component {
 			windowSize,
 			windowOrientation
 		} = this.props;
+
+		const councilInfo = (code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED) ? data : data.council;
 
 		return (
 			<div
@@ -138,7 +138,7 @@ class ErrorState extends React.Component {
 								{this.handleError(code)}
 							</div>
 
-							<div style={styles.imageContainer}>
+							<div style={styles.councilInfoContainer}>
 								<div
 									style={{
 										backgroundColor: lightTurquoise,
@@ -152,15 +152,30 @@ class ErrorState extends React.Component {
 									}}
 								>
 									<Avatar
-										src={data.council.company.logo}
+										src={councilInfo.company.logo}
 										aria-label="CouncilLogo"
 									/>
-									<h3>{data.council.name}</h3>
+									<h3>{councilInfo.name}</h3>
 									<span>
 										{moment(
-											new Date(data.council.dateStart)
+											new Date(councilInfo.dateStart)
 										).format("LLL")}
 									</span>
+
+									{(councilInfo.statute.existsLimitedAccessRoom === 1) &&
+										<p>
+											{translate.room_access_closed_at}
+											<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
+												{
+													moment(
+														new Date(councilInfo.dateRealStart)
+													)
+													.add(councilInfo.statute.limitedAccessRoomMinutes, 'm')
+													.format("HH:mm")
+												}
+											</span>
+										</p>
+									}
 								</div>
 							</div>
 						</div>
