@@ -9,7 +9,7 @@ class DropDownMenu extends React.Component {
 
 	close = () => {
 		this.handleClose();
-	}
+	};
 
 	handleClick = event => {
 		this.setState({ anchorEl: event.currentTarget });
@@ -21,15 +21,25 @@ class DropDownMenu extends React.Component {
 
 	render() {
 		const { anchorEl } = this.state;
-		const { text, Component, items, id, textStyle, buttonStyle, color, type, icon } = this.props;
+		const {
+			text,
+			Component,
+			items,
+			id,
+			textStyle,
+			buttonStyle,
+			color,
+			type,
+			icon
+		} = this.props;
 
 		return (
 			<Fragment>
-				{!!Component?
+				{!!Component ? (
 					<div onClick={this.handleClick}>
-						<Component/>
+						<Component />
 					</div>
-				:
+				) : (
 					<BasicButton
 						type={type}
 						onClick={this.handleClick}
@@ -42,7 +52,7 @@ class DropDownMenu extends React.Component {
 						buttonStyle={buttonStyle}
 						text={text}
 					/>
-				}
+				)}
 
 				<Menu
 					id={id}

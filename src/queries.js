@@ -1339,18 +1339,17 @@ export const liveParticipants = gql`
 `;
 
 export const liveParticipantsStats = gql`
-	query liveParticipantsStats($councilId: Int!){
+	query liveParticipantsStats($councilId: Int!) {
 		liveParticipantsStateCount(councilId: $councilId) {
 			state
 			count
 		}
-		
+
 		liveParticipantsTypeCount(councilId: $councilId) {
 			type
 			count
-		}	
+		}
 	}
-
 `;
 
 export const videoParticipants = gql`
@@ -1630,8 +1629,8 @@ export const updateLiveParticipant = gql`
 `;
 
 export const banParticipant = gql`
-	mutation banParticipant($participantId: Int!){
-		banParticipant(participantId: $participantId){
+	mutation banParticipant($participantId: Int!) {
+		banParticipant(participantId: $participantId) {
 			success
 			message
 		}
@@ -1639,8 +1638,8 @@ export const banParticipant = gql`
 `;
 
 export const unbanParticipant = gql`
-	mutation unbanParticipant($participantId: Int!){
-		unbanParticipant(participantId: $participantId){
+	mutation unbanParticipant($participantId: Int!) {
+		unbanParticipant(participantId: $participantId) {
 			success
 			message
 		}

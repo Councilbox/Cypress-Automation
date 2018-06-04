@@ -16,7 +16,6 @@ const minVideoWidth = 30;
 const minVideoHeight = "45vh";
 
 class CouncilLivePage extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -42,11 +41,11 @@ class CouncilLivePage extends Component {
 		});
 	};
 
-	updateState = (object) => {
+	updateState = object => {
 		this.setState({
 			...object
-		})
-	}
+		});
+	};
 
 	checkLoadingComplete = () => {
 		return this.props.data.loading && this.props.companies.list;
@@ -86,7 +85,7 @@ class CouncilLivePage extends Component {
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
 				fullScreen: false,
-				participants: false,
+				participants: false
 			});
 		} else {
 			this.setState({
@@ -96,7 +95,6 @@ class CouncilLivePage extends Component {
 			});
 		}
 	};
-
 
 	render() {
 		const { council } = this.props.data;
@@ -115,7 +113,7 @@ class CouncilLivePage extends Component {
 			<div
 				style={{
 					height: "100vh",
-					width: '100vw',
+					width: "100vw",
 					overflow: "hidden",
 					backgroundColor: lightGrey,
 					fontSize: "1em",
@@ -143,11 +141,25 @@ class CouncilLivePage extends Component {
 					}}
 				>
 					<Tooltip title={`${translate.wall} - (ALT + W)`}>
-						<Badge badgeContent={<span style={{color: 'white', fontWeight: '700'}}>{this.state.unreadComments}</span>} color="secondary">
+						<Badge
+							badgeContent={
+								<span
+									style={{
+										color: "white",
+										fontWeight: "700"
+									}}
+								>
+									{this.state.unreadComments}
+								</span>
+							}
+							color="secondary"
+						>
 							<div style={{ marginBottom: "0.3em" }}>
 								<FabButton
 									icon={
-										<Icon className="material-icons">chat</Icon>
+										<Icon className="material-icons">
+											chat
+										</Icon>
 									}
 									updateState={this.updateState}
 									onClick={() =>
@@ -188,7 +200,7 @@ class CouncilLivePage extends Component {
 										videoWidth: minVideoWidth,
 										videoHeight: minVideoHeight,
 										fullScreen: false
-									})
+									});
 								}}
 							/>
 						</div>
@@ -222,7 +234,7 @@ class CouncilLivePage extends Component {
 									: "column",
 								width: `${this.state.videoWidth}%`,
 								height: "calc(100vh - 3em)",
-								overflow: 'hidden',
+								overflow: "hidden",
 								position: "relative"
 							}}
 						>
@@ -315,7 +327,7 @@ class CouncilLivePage extends Component {
 									? 100 - this.state.videoWidth
 									: 100
 							}%`,
-							overflow: 'hidden',
+							overflow: "hidden",
 							height: "calc(100vh - 3em)"
 						}}
 					>

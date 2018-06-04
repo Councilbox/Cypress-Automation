@@ -23,7 +23,9 @@ const ParticipantRow = ({ participant, onClick, key }) => (
 		>
 			{`${participant.name} ${participant.surname} - ${participant.dni}`}
 		</div>
-		<div style={{ fontSize: "0.8rem" }}>{`${participant.position} - ${participant.email} - ${participant.phone}`}</div>
+		<div style={{ fontSize: "0.8rem" }}>{`${participant.position} - ${
+			participant.email
+		} - ${participant.phone}`}</div>
 	</div>
 );
 

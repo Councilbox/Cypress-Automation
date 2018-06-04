@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { compose, graphql } from "react-apollo";
-import { liveParticipant, updateLiveParticipant, updateLiveParticipantSends } from "../../../../queries";
+import {
+	liveParticipant,
+	updateLiveParticipant,
+	updateLiveParticipantSends
+} from "../../../../queries";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	Table,
@@ -19,15 +23,14 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
-	FilterButton, 
+	FilterButton,
 	ParticipantDisplay,
 	RefreshButton
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
 import ParticipantStateSelector from "./ParticipantStateSelector";
 import moment from "moment";
-import FontAwesome from 'react-fontawesome';
-
+import FontAwesome from "react-fontawesome";
 
 class LiveParticipantEditor extends Component {
 	refreshEmailStates = async () => {
@@ -90,30 +93,39 @@ class LiveParticipantEditor extends Component {
 			<Grid
 				style={{
 					padding: "2em",
-					position: 'relative',
-					minHeight: '60%'
+					position: "relative",
+					minHeight: "60%"
 				}}
-			>	
+			>
 				<FontAwesome
 					name={"times"}
 					style={{
-						position: 'absolute',
-						right: '25px',
-						top: '20px',
-						cursor: 'pointer',
+						position: "absolute",
+						right: "25px",
+						top: "20px",
+						cursor: "pointer",
 						color: secondary,
 						fontSize: "2em"
 					}}
 					onClick={this.props.requestClose}
 				/>
-				<GridItem xs={6} lg={6} md={6} style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
-					<div style={{width: '4em'}}>
+				<GridItem
+					xs={6}
+					lg={6}
+					md={6}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
+					<div style={{ width: "4em" }}>
 						<FontAwesome
 							name={"info-circle"}
 							style={{
 								color: secondary,
 								fontSize: "2.2em",
-								marginRight: '1.2em'
+								marginRight: "1.2em"
 							}}
 						/>
 					</div>
@@ -123,7 +135,12 @@ class LiveParticipantEditor extends Component {
 						council={this.props.council}
 					/>
 				</GridItem>
-				<GridItem xs={6} lg={6} md={6} style={{display: 'flex', flexDirection: 'column'}}>
+				<GridItem
+					xs={6}
+					lg={6}
+					md={6}
+					style={{ display: "flex", flexDirection: "column" }}
+				>
 					<Typography variant="body2">
 						<div style={{ fontWeight: "700" }}>
 							{`${translate.current_status}:  `}
@@ -138,38 +155,48 @@ class LiveParticipantEditor extends Component {
 					/>
 				</GridItem>
 				{CBX.isRepresented(participant) && (
-					<div style={{marginTop: "1.2em", marginBottom: '0.4'}}>
+					<div style={{ marginTop: "1.2em", marginBottom: "0.4" }}>
 						{translate.represented_by}
-						<GridItem xs={12} lg={12} md={12} style={{ display: "flex", flexDirection: "row"}}>
+						<GridItem
+							xs={12}
+							lg={12}
+							md={12}
+							style={{ display: "flex", flexDirection: "row" }}
+						>
 							<Tooltip title={translate.represented_by}>
 								<div
 									style={{
 										position: "relative",
-										width: '4em',
+										width: "4em",
 										display: "flex",
 										alignItems: "center"
 									}}
 								>
 									<FontAwesome
-										name={'user-o'}
+										name={"user-o"}
 										style={{
 											color: secondary,
-											fontSize: `2.2em`,
+											fontSize: `2.2em`
 										}}
 									/>
 									<FontAwesome
-										name={'user'}
+										name={"user"}
 										style={{
 											color: primary,
 											fontSize: `1.5em`,
 											position: "absolute",
-											top: '0.5em',
-											right: '1.2em'
+											top: "0.5em",
+											right: "1.2em"
 										}}
 									/>
 								</div>
 							</Tooltip>
-							<div style={{display: 'flex', flexDirection: 'column'}}>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column"
+								}}
+							>
 								<ParticipantDisplay
 									participant={participant.representative}
 									translate={translate}
@@ -182,38 +209,48 @@ class LiveParticipantEditor extends Component {
 				)}
 
 				{CBX.hasHisVoteDelegated(participant) && (
-					<div style={{marginTop: "1.2em", marginBottom: '0.4'}}>
+					<div style={{ marginTop: "1.2em", marginBottom: "0.4" }}>
 						{translate.voting_delegate}
-						<GridItem xs={12} lg={12} md={12} style={{ display: "flex", flexDirection: "row"}}>
+						<GridItem
+							xs={12}
+							lg={12}
+							md={12}
+							style={{ display: "flex", flexDirection: "row" }}
+						>
 							<Tooltip title={translate.voting_delegate}>
 								<div
 									style={{
 										position: "relative",
-										width: '4em',
+										width: "4em",
 										display: "flex",
 										alignItems: "center"
 									}}
 								>
 									<FontAwesome
-										name={'user'}
+										name={"user"}
 										style={{
 											color: secondary,
-											fontSize: `2.2em`,
+											fontSize: `2.2em`
 										}}
 									/>
 									<FontAwesome
-										name={'user'}
+										name={"user"}
 										style={{
 											color: primary,
 											fontSize: `1.5em`,
 											position: "absolute",
-											top: '0.5em',
-											right: '1.2em'
+											top: "0.5em",
+											right: "1.2em"
 										}}
 									/>
 								</div>
 							</Tooltip>
-							<div style={{display: 'flex', flexDirection: 'column'}}>
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "column"
+								}}
+							>
 								<ParticipantDisplay
 									participant={participant.representative}
 									translate={translate}
@@ -227,7 +264,10 @@ class LiveParticipantEditor extends Component {
 
 				{participant.delegatedVotes.length > 0 && (
 					<React.Fragment>
-						<GridItem xs={12} lg={12} md={12} 
+						<GridItem
+							xs={12}
+							lg={12}
+							md={12}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -237,7 +277,12 @@ class LiveParticipantEditor extends Component {
 							{translate.delegated_votes}
 						</GridItem>
 						{participant.delegatedVotes.map(participant => (
-							<GridItem xs={12} md={6} lg={6} key={`delegateVote_${participant.id}`}>
+							<GridItem
+								xs={12}
+								md={6}
+								lg={6}
+								key={`delegateVote_${participant.id}`}
+							>
 								<ParticipantDisplay
 									participant={participant}
 									translate={translate}
@@ -245,7 +290,6 @@ class LiveParticipantEditor extends Component {
 								/>
 							</GridItem>
 						))}
-
 					</React.Fragment>
 				)}
 				{participant.notifications.length > 0 && (
@@ -254,9 +298,17 @@ class LiveParticipantEditor extends Component {
 							xs={12}
 							lg={12}
 							md={12}
-							style={{ marginTop: "1.7em", display: 'flex', flexDirection: 'row', alignItems: 'center'}}
+							style={{
+								marginTop: "1.7em",
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center"
+							}}
 						>
-							<Typography variant="subheading" style={{marginRight: '1.6em'}}>
+							<Typography
+								variant="subheading"
+								style={{ marginRight: "1.6em" }}
+							>
 								{translate.sends}
 							</Typography>
 							<RefreshButton
@@ -278,7 +330,12 @@ class LiveParticipantEditor extends Component {
 	}
 }
 
-const DelegatedTable = ({ participants = [], translate, council, removeDelegatedVote }) => (
+const DelegatedTable = ({
+	participants = [],
+	translate,
+	council,
+	removeDelegatedVote
+}) =>
 	participants.map(participant => (
 		<React.Fragment>
 			<ParticipantDisplay
@@ -287,9 +344,7 @@ const DelegatedTable = ({ participants = [], translate, council, removeDelegated
 				council={council}
 			/>
 		</React.Fragment>
-	))
-);
-
+	));
 
 const NotificationsTable = ({ notifications, translate }) => (
 	<Table>

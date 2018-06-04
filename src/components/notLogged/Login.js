@@ -52,7 +52,7 @@ class Login extends React.PureComponent {
 			}
 		}
 	};
-	
+
 	logout = () => {
 		this.props.actions.logout();
 	};

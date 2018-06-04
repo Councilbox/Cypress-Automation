@@ -21,11 +21,13 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		backgroundImage: `url(${background})`
+		backgroundImage: `url(${background})`,
+		padding: "10px"
 	},
 	cardContainer: {
 		margin: "20px",
-		padding: "20px"
+		padding: "20px",
+		maxWidth: "100%"
 	}
 };
 

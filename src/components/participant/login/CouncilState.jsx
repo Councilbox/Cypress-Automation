@@ -1,9 +1,19 @@
 import React from "react";
-import { Card, CardHeader, Avatar, CardContent } from "material-ui";
+import {
+	Card,
+	CardHeader,
+	Avatar,
+	CardContent,
+	Dialog,
+	DialogTitle,
+	DialogContent
+} from "material-ui";
 import moment from "moment";
+import FontAwesome from "react-fontawesome";
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
+import OverFlowText from "../../../displayComponents/OverFlowText";
 import {
 	councilIsInTrash,
 	councilIsNotLiveYet,
@@ -14,7 +24,8 @@ import {
 	getPrimary,
 	getSecondary,
 	lightGrey,
-	lightTurquoise
+	lightTurquoise,
+	secondary
 } from "../../../styles/colors";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
@@ -79,8 +90,8 @@ class CouncilState extends React.Component {
 						...styles.textContainer,
 						...(windowSize === "xs" &&
 						windowOrientation === "portrait"
-							? {}
-							: { maxWidth: "50%" })
+							? { maxWidth: "100%" }
+							: { maxWidth: "50%", minWidth: "50%" })
 					}}
 				>
 					{councilIsInTrash(council) && (
@@ -89,6 +100,7 @@ class CouncilState extends React.Component {
 							text={translate.not_held_council}
 							council={council}
 							company={company}
+							translate={translate}
 						/>
 					)}
 
@@ -99,6 +111,7 @@ class CouncilState extends React.Component {
 							isHtmlText={true}
 							council={council}
 							company={company}
+							translate={translate}
 						/>
 					)}
 
@@ -108,15 +121,16 @@ class CouncilState extends React.Component {
 							text={translate.not_held_council}
 							council={council}
 							company={company}
+							translate={translate}
 						/>
 					)}
 
 					{councilIsFinished(council) && (
 						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.concil_finished}
+							title={translate.concil_finished}
 							council={council}
 							company={company}
+							translate={translate}
 						/>
 					)}
 				</div>
@@ -130,6 +144,21 @@ class CouncilState extends React.Component {
 }
 
 class TextRender extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.state = {
+			dialogOpen: false
+		};
+	}
+
+	handleOpenDialog = () => {
+		this.setState({ dialogOpen: true });
+	};
+
+	handleCloseDialog = () => {
+		this.setState({ dialogOpen: false });
+	};
+
 	render() {
 		const {
 			title,
@@ -137,22 +166,56 @@ class TextRender extends React.PureComponent {
 			isHtmlText,
 			hasCouncilInfo,
 			council,
-			company
+			company,
+			translate
 		} = this.props;
 		const primaryColor = getPrimary();
 		return (
 			<React.Fragment>
 				<h3 style={{ color: primaryColor }}>{title}</h3>
 
-				<p>
-					{isHtmlText ? (
-						<span dangerouslySetInnerHTML={{ __html: text }} />
-					) : (
-						text
+				{text && (
+					<p style={{ marginBottom: "8px" }}>
+						{isHtmlText ? (
+							<span dangerouslySetInnerHTML={{ __html: text }} />
+						) : (
+							text
+						)}
+					</p>
+				)}
+
+				{council.noCelebrateComment &&
+					council.noCelebrateComment.trim() !== "" && (
+						<div style={{ maxWidth: "100%", position: "relative" }}>
+							<p style={{ marginBottom: "0px" }}>
+								{translate.reason_not_held_council}:
+							</p>
+							<OverFlowText
+								icon={"info-circle"}
+								action={this.handleOpenDialog}
+							>
+								<p
+									style={{
+										maxWidth: "100%",
+										marginBottom: "8px",
+										textOverflow: "ellipsis",
+										whiteSpace: "nowrap",
+										overflow: "hidden"
+									}}
+								>
+									{council.noCelebrateComment}
+								</p>
+							</OverFlowText>
+						</div>
 					)}
-				</p>
 
 				<CouncilInfoCardRender council={council} company={company} />
+
+				<TextDialog
+					handleClose={this.handleCloseDialog}
+					text={council.noCelebrateComment}
+					open={this.state.dialogOpen}
+				/>
 			</React.Fragment>
 		);
 	}
@@ -176,21 +239,53 @@ class CouncilInfoCardRender extends React.PureComponent {
 								aria-label="CouncilLogo"
 							/>
 						}
-						title={council.name}
+						title={<b>{council.name}</b>}
 						subheader={moment(new Date(council.dateStart)).format(
 							"LLL"
 						)}
-						style={{ paddingBottom: "0px" }}
 					/>
-					<CardContent style={{ paddingBottom: "16px" }}>
+					{/* <CardContent style={{ paddingBottom: "16px" }}>
 						<p
 							dangerouslySetInnerHTML={{
 								__html: council.conveneText
 							}}
 						/>
-					</CardContent>
+					</CardContent> */}
 				</div>
 			</React.Fragment>
+		);
+	}
+}
+
+class TextDialog extends React.Component {
+	render() {
+		const { open, handleClose, title, text } = this.props;
+		return (
+			<Dialog
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="simple-dialog-title"
+			>
+				{title && (
+					<DialogTitle id="simple-dialog-title">
+						Set backup account
+					</DialogTitle>
+				)}
+				<DialogContent>
+					<FontAwesome
+						name={"close"}
+						style={{
+							position: "absolute",
+							right: "10px",
+							top: "5px",
+							cursor: "pointer",
+							color: secondary
+						}}
+						onClick={handleClose}
+					/>
+					{text}
+				</DialogContent>
+			</Dialog>
 		);
 	}
 }

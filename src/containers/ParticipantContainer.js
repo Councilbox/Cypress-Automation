@@ -3,39 +3,34 @@ import { connect } from "react-redux";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { LoadingMainApp } from "../displayComponents";
+import { PARTICIPANT_ERRORS } from "../constants";
+import InvalidUrl from "../components/participant/InvalidUrl";
 import ParticipantLogin from "../components/participant/login/Login";
+import ErrorState from "../components/participant/login/ErrorState";
 
 class ParticipantContainer extends React.PureComponent {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: true,
-			error: false,
-			company: null
-		};
-	}
-
-	async componentDidUpdate(prevProps) {
-		if (prevProps.data.loading && !this.props.data.loading) {
-			try {
-				this.setState({ loading: true });
-				const responseQueryCompany = await this.props.client.query({
-					query: companyQuery,
-					variables: { companyId: this.props.data.council.companyId },
-					fetchPolicy: "network-only"
-				});
-				this.setState({
-					loading: false,
-					company: responseQueryCompany.data.company
-				});
-			} catch (error) {}
-		}
-	}
-
 	render() {
 		const { data } = this.props;
-		const { loading, company } = this.state;
-		if (data.loading || loading) {
+
+		if (data.error && data.error.graphQLErrors["0"]) {
+			const code = data.error.graphQLErrors["0"].code;
+			if (
+				code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
+				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
+				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
+			) {
+				return (
+					<ErrorState
+						code={code}
+						data={data.error.graphQLErrors["0"].data}
+					/>
+				);
+			} else {
+				return <InvalidUrl />;
+			}
+		}
+
+		if (data.loading) {
 			return <LoadingMainApp />;
 		}
 
@@ -53,8 +48,8 @@ class ParticipantContainer extends React.PureComponent {
 			>
 				<ParticipantLogin
 					participant={data.participant}
-					council={data.council}
-					company={company}
+					council={data.councilVideo}
+					company={data.councilVideo.company}
 				/>
 			</div>
 		);
@@ -76,7 +71,7 @@ const participantQuery = gql`
 			email
 			language
 		}
-		council(id: $councilId) {
+		councilVideo(id: $councilId) {
 			active
 			agendas {
 				agendaSubject
@@ -110,6 +105,9 @@ const participantQuery = gql`
 			businessName
 			city
 			companyId
+			company {
+				logo
+			}
 			conveneText
 			councilStarted
 			councilType
