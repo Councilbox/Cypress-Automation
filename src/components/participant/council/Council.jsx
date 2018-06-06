@@ -18,7 +18,7 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		backgroundImage: `url(${background})`,
+		backgroundImage: 'red',
 		padding: "10px"
 	},
 	cardContainer: {
@@ -41,7 +41,7 @@ class ParticipantCouncil extends Component {
 		const { participantId } = this.state;
 		return (
 			<div style={styles.viewContainer}>
-				<Header />
+				<Header logoutButton={true} participant={participant} council={council} />
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer}>
                         COUNCIL

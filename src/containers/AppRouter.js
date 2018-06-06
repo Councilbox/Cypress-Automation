@@ -234,21 +234,37 @@ class AppRouter extends Component {
 				<Route path="/welcome" component={Welcome} />
 				<Route
 					exact
-					path="/participant/token/:token"
-					component={ParticipantTokenContainer}
-				/>
-				<Route
-					exact
-					path="/participant/:id/council/:councilId/:segment?"
-					component={ParticipantContainer}
-				/>
-				<Route
-					exact
 					path="/jibiri/:id"
 					component={ParticipantPage}
 				/>
 
 				<Route exact path="/test/:language" component={Test} />
+				{this.props.main.isParticipantLogged &&
+						[<Route
+							key='route_participant_meet'
+							exact
+							path="/participant/:id/council/:councilId/meet"
+							component={ParticipantContainer}
+						/>,
+						<Route
+							key='route_participant_council'
+							exact
+							path="/participant/:id/council/:councilId/council"
+							component={ParticipantContainer}
+						/>]
+				}
+				<Route
+					exact
+					path="/participant/token/:token"
+					component={ParticipantTokenContainer}
+				/>
+				<Route
+					exact
+					path="/participant/:id/council/:councilId/login"
+					component={ParticipantContainer}
+				/>
+
+
 				<Route path="*" component={NotFound} />
 			</Switch>
 		);

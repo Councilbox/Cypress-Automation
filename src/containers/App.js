@@ -76,6 +76,10 @@ if (sessionStorage.getItem("token")) {
 	store.dispatch(loadingFinished());
 }
 
+if(sessionStorage.getItem("participantLoginSuccess")){
+	store.dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
+}
+
 class App extends Component {
 	render() {
 		return (
