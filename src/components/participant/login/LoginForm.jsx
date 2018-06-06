@@ -1,9 +1,11 @@
 import React from "react";
 import { Tooltip } from "material-ui";
 import moment from "moment";
+import { Redirect } from "react-router-dom";
 import * as mainActions from "../../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
+import { bHistory } from "../../../containers/App";
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -53,7 +55,7 @@ const styles = {
 	}
 };
 
-class CouncilState extends React.Component {
+class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -107,7 +109,13 @@ class CouncilState extends React.Component {
 	};
 
 	login = () => {
+		const { participant, council } = this.props;
 		const isValidForm = this.checkFieldsValidationState();
+		if(isValidForm) {
+			this.props.actions.participantLoginSuccess();
+			bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+		}
+
 	};
 
 	handleKeyUp = event => {
@@ -238,4 +246,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	null,
 	mapDispatchToProps
-)(withTranslations()(withWindowOrientation(withWindowSize(CouncilState))));
+)(withTranslations()(withWindowOrientation(withWindowSize(LoginForm))));

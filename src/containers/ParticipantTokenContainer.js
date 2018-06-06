@@ -66,9 +66,7 @@ class ParticipantTokenContainer extends React.Component {
 			<React.Fragment>
 				{participant && (
 					<Redirect
-						to={`/participant/${participant.id}/council/${
-							participant.councilId
-						}/login`}
+						to={`/participant/${participant.id}/council/${participant.councilId}/login`}
 					/>
 				)}
 			</React.Fragment>
