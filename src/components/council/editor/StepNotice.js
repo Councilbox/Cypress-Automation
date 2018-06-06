@@ -28,7 +28,6 @@ class StepNotice extends Component {
 			placeModal: false,
 			alert: false,
 			data: {
-
 				dateStart: new Date().toISOString()
 			},
 			errors: {

@@ -295,11 +295,12 @@ class CouncilboxApi {
 		return data.result.data;
 	}
 
-	static async createCouncil(companyId) {
+	static async createCouncil(companyId, type) {
 		const response = await client.mutate({
 			mutation: queries.createCouncil,
 			variables: {
-				companyId: companyId
+				companyId: companyId,
+				type: type
 			}
 		});
 		console.log(response);

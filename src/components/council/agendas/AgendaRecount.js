@@ -1,7 +1,9 @@
 import React from 'react';
-import { Grid, GridItem } from '../../../displayComponents';
+import { Grid, GridItem, Table } from '../../../displayComponents';
+import { TableRow, TableCell } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
+import withSharedProps from '../../../HOCs/withSharedProps';
 
 const columnStyle = {
     display: 'flex',
@@ -16,12 +18,15 @@ const columnStyle = {
 const itemStyle = {
     width: '100%',
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
 }
 
 
 
-const AgendaRecount = ({ agenda, recount, majorityTypes, translate }) => {
+const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, translate }) => {
+    const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
+
     return(
         <React.Fragment>
             <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em'}}>
@@ -80,19 +85,91 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, translate }) => {
                     </div>
                 </GridItem>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
-                    <div style={itemStyle}>
-                        {`${translate.majority_label}: ${translate[majorityTypes.find(item => agenda.majorityType === item.value).label]}`}
-                    </div>
+                    {CBX.haveQualityVoteConditions(agenda, council) &&
+                        <div style={itemStyle}>
+                            {CBX.approvedByQualityVote(agenda, council.qualityVoteId)? 
+                                `${translate.approved} ${translate.by_quality_vote}`
+                            :
+                                `${translate.not_approved} ${translate.by_quality_vote}`
+                            }
+                        </div>
+                    }
                 </GridItem>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
-                        {`${translate.majority_label}: ${translate[majorityTypes.find(item => agenda.majorityType === item.value).label]}`}
+                        {`${translate.votes_in_favor_for_approve} ${agendaNeededMajority}`}
+                        {agendaNeededMajority > agenda.positiveVotings + agenda.positiveManual? 
+                            <i class="fa fa-times" style={{color: 'red', marginLeft: '0.3em'}}/>
+                        :
+                            <i class="fa fa-check" style={{color: 'green', marginLeft: '0.3em'}}/>
+                        }
                     </div>
                 </GridItem>
             </Grid>
+            <Table
+                headers={[
+                    {name: translate.voting},
+                    {name: translate.in_favor},
+                    {name: translate.against},
+                    {name: translate.abstentions},
+                    {name: translate.no_vote}
+                ]}
+            >
+                <TableRow>
+                    <TableCell>
+                        {translate.remote_vote}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.positiveVotings}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.negativeVotings}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.abstentionVotings}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.noVoteVotings}
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell>
+                        {translate.present_vote}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.positiveManual}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.negativeManual}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.abstentionManual}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.noVoteManual}
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    <TableCell>
+                        Total
+                    </TableCell>
+                    <TableCell>
+                        {agenda.positiveVotings + agenda.positiveManual}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.negativeVotings + agenda.negativeManual}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.abstentionVotings + agenda.abstentionManual}
+                    </TableCell>
+                    <TableCell>
+                        {agenda.noVoteVotings + agenda.noVoteManual}
+                    </TableCell>
+                </TableRow>
+            </Table>
         </React.Fragment>
     )
 }
 
 
-export default AgendaRecount;
+export default withSharedProps()(AgendaRecount);

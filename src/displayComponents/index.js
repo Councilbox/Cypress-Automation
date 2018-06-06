@@ -37,6 +37,7 @@ export { default as RefreshButton } from "./RefreshButton";
 export { default as RichTextInput } from "./RichTextInput";
 export { default as SectionTitle } from "./SectionTitle";
 export { default as SelectInput } from "./SelectInput";
+export { default as SuccessMessage } from './SuccessMessage';
 export { default as Table } from "./Table";
 export { default as TableEnhancer } from "./TableEnhancer";
 export { default as TabsScreen } from "./TabsScreen";

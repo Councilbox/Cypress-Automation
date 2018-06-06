@@ -3,12 +3,17 @@ import { Grid, GridItem, RichTextInput } from "../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import AgendaRecount from '../../agendas/AgendaRecount';
+import { AGENDA_TYPES } from '../../../../constants';
+import VotingsTable from '../../../council/live/voting/VotingsTable';
+import { Card } from 'material-ui';
+import CommentsTable from "../../live/comments/CommentsTable";
 
 const primary = getPrimary();
 const secondary = getSecondary();
 
 const AgendaEditor = ({
 	agenda,
+	council,
 	typeText,
 	translate,
 	updateAgenda,
@@ -65,45 +70,76 @@ const AgendaEditor = ({
 					{translate.comments_and_agreements}
 				</Tab>
 				<Tab>
-					{translate.recount}
+					{translate.act_comments}
 				</Tab>
+				{agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
+					<React.Fragment>
+						<Tab>
+							{translate.recount}
+						</Tab>
+						<Tab>
+							{translate.voting}
+						</Tab>
+					</React.Fragment>
+				}
 			</TabList>
 			<TabPanel>
-				<RichTextInput
-					ref={editor => (this.editorAgenda = editor)}
-					floatingText={translate.comments_and_agreements}
-					type="text"
-					loadDraft={loadDraft}
-					tags={[
-						{
-							value: `${agenda.positiveVotings} `,
-							label: translate.positive_votings
-						},
-						{
-							value: `${agenda.negativeVotings} `,
-							label: translate.negative_votings
+				<Card style={{padding: '1em'}}>
+					<RichTextInput
+						ref={editor => (this.editorAgenda = editor)}
+						type="text"
+						loadDraft={loadDraft}
+						tags={[
+							{
+								value: `${agenda.positiveVotings} `,
+								label: translate.positive_votings
+							},
+							{
+								value: `${agenda.negativeVotings} `,
+								label: translate.negative_votings
+							}
+						]}
+						value={agenda.comment || ''}
+						onChange={value =>
+							updateAgenda({
+								id: agenda.id,
+								comment: value
+							})
 						}
-					]}
-					value={agenda.comment || ''}
-					onChange={value =>
-						updateAgenda({
-							id: agenda.id,
-							comment: value
-						})
-					}
-				/>
+					/>
+				</Card>
 			</TabPanel>
 			<TabPanel>
-				<div style={{minHeight: '8em'}}>
-					<AgendaRecount
-						agenda={agenda}
+				<Card style={{minHeight: '8em', padding: '1em', paddingBottom: '1.4em'}}>
+					<CommentsTable
 						translate={translate}
-						recount={recount}
-						majorityTypes={majorityTypes}
+						agenda={agenda}
 					/>
-				</div>
+				</Card>
 			</TabPanel>
-
+			{agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
+				<React.Fragment>
+					<TabPanel>
+						<Card style={{minHeight: '8em', padding: '1em'}}>
+							<AgendaRecount
+								agenda={agenda}
+								council={council}
+								translate={translate}
+								recount={recount}
+								majorityTypes={majorityTypes}
+							/>
+						</Card>
+					</TabPanel>	
+					<TabPanel>
+						<Card>
+							<VotingsTable
+								translate={translate}
+								agenda={agenda}
+							/>
+						</Card>
+					</TabPanel>	
+				</React.Fragment>
+			}
 		</Tabs>
 	</div>
 );

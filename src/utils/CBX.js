@@ -3,7 +3,9 @@ import {
 	MAX_COUNCIL_FILE_SIZE,
 	PARTICIPANT_STATES,
 	SEND_TYPES,
-	COUNCIL_STATES
+	COUNCIL_STATES,
+	AGENDA_TYPES,
+	VOTE_VALUES
 } from "../constants";
 import moment from "moment";
 import dropped from "../assets/img/dropped.png";
@@ -13,6 +15,7 @@ import notSent from "../assets/img/not_sent.png";
 import opened from "../assets/img/opened.png";
 import pendingShipping from "../assets/img/pending_shipping.png";
 import spam from "../assets/img/spam.png";
+import LiveUtil from './live';
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
@@ -79,6 +82,24 @@ export const pointIsClosed = agendaPoint => {
 export const majorityNeedsInput = majorityType => {
 	return majorityType === 0 || majorityType === 5 || majorityType === 6;
 };
+
+export const haveQualityVoteConditions = (agenda, council) => {
+	return (agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
+			(agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings +
+			agenda.negativeManual) && council.statute.existsQualityVote;
+};
+
+export const approvedByQualityVote = (agenda, qualityVoteId) => {
+	if(agenda.votings && qualityVoteId){
+		const qualityVote = agenda.votings.find(item => item.participantId === qualityVoteId);
+		if(qualityVote){
+			if(qualityVote.vote === VOTE_VALUES.POSITIVE){
+				return true;
+			}
+		}
+	}
+	return false;
+}
 
 export const isMajorityPercentage = majorityType => {
 	return majorityType === 0;
@@ -636,3 +657,11 @@ export const formatSize = size => {
 		return size + " Bytes";
 	}
 };
+
+export const calculateMajorityAgenda = (agenda, company, council, recount) => {
+	let specialSL = false;
+	if(company.type === 1 && council.quorumPrototype === 1){
+		specialSL = true;
+	}
+	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.quorumPrototype);
+}

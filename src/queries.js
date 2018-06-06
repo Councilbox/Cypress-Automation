@@ -152,9 +152,27 @@ export const council = gql`
 `;
 
 export const createCouncil = gql`
-	mutation CreateCouncil($companyId: Int!) {
-		createCouncil(companyId: $companyId) {
+	mutation CreateCouncil($companyId: Int!, $type: String) {
+		createCouncil(companyId: $companyId, type: $type) {
 			id
+		}
+	}
+`;
+
+export const sendActDraft = gql`
+	mutation SendActDraft($councilId: Int!, $emailList: [String]){
+		sendCouncilActDraft(councilId: $councilId, emailList: $emailList){
+			success
+			message
+		}
+	}
+`;
+
+export const updateCouncilAct = gql`
+	mutation updateCouncilAct($councilAct: CouncilActInput){
+		updateCouncilAct(councilAct: $councilAct){
+			success
+			message
 		}
 	}
 `;
@@ -205,6 +223,53 @@ export const councilStepOne = gql`
 		draftTypes {
 			label
 			value
+		}
+	}
+`;
+
+export const meetingStepOne = gql`
+	query CouncilStepOne($id: Int!) {
+		council(id: $id) {
+			id
+			councilType
+			conveneText
+			name
+			street
+			fullVideoRecord
+			remoteCelebration
+			country
+			countryState
+			zipcode
+			city
+			dateStart
+			dateStart2NdCall
+		}
+	}
+`;
+
+export const meetingStepTwo = gql`
+	query CouncilStepTwo($id: Int!, $companyId: Int!) {
+		council(id: $id) {
+			companyId
+			id
+			quorumPrototype
+			selectedCensusId
+		}
+		languages {
+			desc
+			columnName
+		}
+		censuses(companyId: $companyId) {
+			list {
+				id
+				companyId
+				censusName
+				censusDescription
+				defaultCensus
+				quorumPrototype
+				state
+			}
+			total
 		}
 	}
 `;

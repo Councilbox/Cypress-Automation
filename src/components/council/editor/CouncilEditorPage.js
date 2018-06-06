@@ -16,36 +16,6 @@ const pointerStep = {
 };
 
 class CouncilEditorPage extends React.Component {
-	nextStep = () => {
-		const index = this.state.step + 1;
-		this.props.updateStep();
-		this.setState({ step: index });
-	};
-	goToPage = page => {
-		if (page < this.props.step) {
-			this.setState({
-				step: page
-			});
-		}
-	};
-	previousStep = () => {
-		const index = this.state.step - 1;
-		this.setState({ step: index });
-	};
-	send = () => {
-		if (true) {
-			this.setState({ success: true });
-		}
-	};
-	setDate = dateTime => {
-		this.setState({
-			...this.state,
-			data: {
-				...this.state.data,
-				date: dateTime
-			}
-		});
-	};
 
 	constructor(props) {
 		super(props);
@@ -71,6 +41,41 @@ class CouncilEditorPage extends React.Component {
 			"draft"
 		);
 	}
+
+	nextStep = () => {
+		const index = this.state.step + 1;
+		this.props.updateStep();
+		this.setState({ step: index });
+	};
+
+	goToPage = page => {
+		if (page < this.props.step) {
+			this.setState({
+				step: page
+			});
+		}
+	};
+
+	previousStep = () => {
+		const index = this.state.step - 1;
+		this.setState({ step: index });
+	};
+
+	send = () => {
+		if (true) {
+			this.setState({ success: true });
+		}
+	};
+	
+	setDate = dateTime => {
+		this.setState({
+			...this.state,
+			data: {
+				...this.state.data,
+				date: dateTime
+			}
+		});
+	};
 
 	render() {
 		const { translate, windowSize } = this.props;

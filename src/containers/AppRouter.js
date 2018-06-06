@@ -30,6 +30,7 @@ import { LoadingMainApp } from "../displayComponents";
 import CompanyDraftList from "../components/company/drafts/CompanyDraftList";
 import Test from "../components/participant/test/Test";
 import ParticipantTokenContainer from "./ParticipantTokenContainer";
+import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import ParticipantContainer from "./ParticipantContainer";
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
@@ -168,22 +169,17 @@ class AppRouter extends Component {
 							/>
 							<Route
 								exact
-								path="/company/:company/meetings/new"
-								component={() => <div>Nueva conferencia</div>}
-							/>
-							<Route
-								path="/company/:company/meetings/:section"
-								component={MeetingsContainer}
-							/>
-							<Route
-								exact
 								path="/company/:company/meeting/new"
 								component={CreateMeeting}
 							/>
 							<Route
 								exact
-								path="/company/:company/meeting/:id/:step"
+								path="/company/:company/meeting/:id/"
 								component={MeetingEditorContainer}
+							/>
+							<Route
+								path="/company/:company/meetings/:section"
+								component={MeetingsContainer}
 							/>
 							<Route
 								exact
@@ -246,6 +242,12 @@ class AppRouter extends Component {
 					path="/participant/:id/council/:councilId/:segment?"
 					component={ParticipantContainer}
 				/>
+				<Route
+					exact
+					path="/jibiri/:id"
+					component={ParticipantPage}
+				/>
+
 				<Route exact path="/test/:language" component={Test} />
 				<Route path="*" component={NotFound} />
 			</Switch>

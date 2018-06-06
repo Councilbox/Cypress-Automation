@@ -13,43 +13,17 @@ import {
 import { Typography } from "material-ui";
 import { getPrimary } from "../../../styles/colors";
 import { compose, graphql } from "react-apollo";
-import { councilStepOne, updateCouncil } from "../../../queries";
+import { meetingStepOne, updateCouncil } from "../../../queries";
 
 class MeetingEditorConfig extends Component {
-	nextPage = () => {
-		if (!this.checkRequiredFields()) {
-			this.updateCouncil();
-			this.props.nextStep();
-		}
-	};
-	updateCouncil = () => {
-		const { __typename, ...council } = this.state.data;
-		console.log(council);
-		this.props.updateCouncil({
-			variables: {
-				council: {
-					...council,
-					step: this.props.actualStep > 1 ? this.props.actualStep : 1
-				}
-			}
-		});
-	};
-	savePlaceAndClose = council => {
-		this.setState({
-			placeModal: false,
-			data: {
-				...this.state.data,
-				...council
-			}
-		});
-	};
-
 	constructor(props) {
 		super(props);
 		this.state = {
 			placeModal: false,
 			alert: false,
-			data: {},
+			data: {
+				dateStart: new Date().toISOString()
+			},
 			errors: {
 				name: "",
 				dateStart: "",
@@ -62,16 +36,46 @@ class MeetingEditorConfig extends Component {
 		this.props.data.refetch();
 	}
 
-	checkRequiredFields() {
-		return false;
-	}
-
 	componentWillReceiveProps(nextProps) {
 		if (this.props.data.loading && !nextProps.data.loading) {
 			this.setState({
 				data: nextProps.data.council
 			});
 		}
+	}
+	nextPage = () => {
+		if (!this.checkRequiredFields()) {
+			this.updateCouncil();
+			this.props.nextStep();
+		}
+	};
+
+	updateCouncil = () => {
+		const { __typename, ...council } = this.state.data;
+		console.log(council);
+		this.props.updateCouncil({
+			variables: {
+				council: {
+					...council,
+					step: this.props.actualStep > 1 ? this.props.actualStep : 1
+				}
+			}
+		});
+	};
+
+	savePlaceAndClose = council => {
+		this.setState({
+			placeModal: false,
+			data: {
+				...this.state.data,
+				...council
+			}
+		});
+	};
+
+
+	checkRequiredFields() {
+		return false;
 	}
 
 	updateCouncilData(data) {
@@ -131,6 +135,7 @@ class MeetingEditorConfig extends Component {
 		const { translate } = this.props;
 		const { loading } = this.props.data;
 		const council = this.state.data;
+		const { errors } = this.state;
 
 		if (loading) {
 			return <LoadingSection />;
@@ -146,17 +151,17 @@ class MeetingEditorConfig extends Component {
 			>
 				<div className="row">
 					<div className="col-lg-4 col-md-4 col-xs-6">
-						<DateTimePicker
+					<DateTimePicker
+							required
 							onChange={date => {
 								const newDate = new Date(date);
-								this.setState({
-									...this.state,
-									data: {
-										...this.state.data,
-										dateStart: newDate.toISOString()
-									}
-								});
+								const dateString = newDate.toISOString();
+								this.updateDate(dateString);
 							}}
+							minDateMessage={""}
+							errorText={errors.dateStart}
+							acceptText={translate.accept}
+							cancelText={translate.cancel}
 							label={translate["1st_call_date"]}
 							value={council.dateStart}
 						/>
@@ -273,7 +278,7 @@ class MeetingEditorConfig extends Component {
 }
 
 export default compose(
-	graphql(councilStepOne, {
+	graphql(meetingStepOne, {
 		name: "data",
 		options: props => ({
 			variables: {

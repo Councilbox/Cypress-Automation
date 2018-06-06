@@ -110,13 +110,6 @@ class MeetingLivePage extends Component {
 									backgroundColor: darkGrey
 								}}
 							>
-								<ParticipantsLive
-									translate={translate}
-									participants={
-										this.props.data.council.participants
-									}
-									councilID={this.props.councilID}
-								/>
 							</div>
 
 							{council.room.htmlVideoCouncil && (

@@ -19,6 +19,7 @@ const AlertConfirm = ({
 	open,
 	requestClose,
 	acceptAction,
+	cancelAction,
 	bodyText,
 	hideAccept
 }) => {
@@ -33,7 +34,7 @@ const AlertConfirm = ({
 						fontWeight: "700"
 					}}
 					primary={true}
-					onClick={requestClose}
+					onClick={!!cancelAction? cancelAction : requestClose}
 				/>
 			)}
 

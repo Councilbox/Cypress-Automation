@@ -20,11 +20,13 @@ import { compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
 
 class MeetingEditorCensus extends Component {
+
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipantModal: false
 		});
 	};
+
 	saveDraft = () => {
 		const {
 			__typename,
@@ -40,6 +42,7 @@ class MeetingEditorCensus extends Component {
 			}
 		});
 	};
+
 	handleCensusChange = event => {
 		if (event.target.value !== this.props.data.council.selectedCensusId) {
 			this.setState({
@@ -48,14 +51,17 @@ class MeetingEditorCensus extends Component {
 			});
 		}
 	};
+
 	nextPage = () => {
 		this.saveDraft();
 		this.props.nextStep();
 	};
+
 	previousPage = () => {
 		this.saveDraft();
 		this.props.previousStep();
 	};
+
 	sendCensusChange = async () => {
 		const response = await this.props.mutate({
 			variables: {
@@ -172,59 +178,10 @@ class MeetingEditorCensus extends Component {
 					padding: "2em"
 				}}
 			>
-				<div className="row">
-					<div
-						className="col-lg-3 col-md-3 col-xs-6"
-						style={{
-							height: "4em",
-							verticalAlign: "middle"
-						}}
-					>
-						<SelectInput
-							floatingText={translate.current_census}
-							value={council.selectedCensusId}
-							onChange={this.handleCensusChange}
-						>
-							{censuses.map(census => {
-								return (
-									<MenuItem
-										value={parseInt(census.id, 10)}
-										key={`census${census.id}`}
-									>
-										{census.censusName}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</div>
-					<div
-						className="col-lg-3 col-md-3 col-xs-6"
-						style={{
-							height: "4em",
-							display: "flex",
-							alignItems: "center"
-						}}
-					>
-						<BasicButton
-							text={translate.add_participant}
-							color={getPrimary()}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							icon={<ButtonIcon type="add" color="white" />}
-							textPosition="after"
-							onClick={() =>
-								this.setState({ addParticipantModal: true })
-							}
-						/>
-					</div>
-				</div>
 				<ParticipantsTable
-					participants={council.participants}
-					councilID={this.props.councilID}
+					censuses={this.props.data.censuses}
+					handleCensusChange={this.handleCensusChange}
+					council={this.props.data.council}
 					translate={translate}
 					refetch={this.props.data.refetch}
 				/>
@@ -304,7 +261,8 @@ export default compose(
 			variables: {
 				id: props.councilID,
 				companyId: props.companyID
-			}
+			},
+			notifyOnNetworkStatusChange: true
 		})
 	}),
 

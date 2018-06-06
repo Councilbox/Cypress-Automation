@@ -8,36 +8,47 @@ import {
 	Icon,
 	Link
 } from "../../displayComponents";
-import { MenuItem } from "material-ui";
+import { MenuItem, Card } from "material-ui";
 
 const Block = ({ children, button, link }) => (
 	<React.Fragment>
 		<Link to={link}>
-			<BasicButton
-				text={
+			<Card
+				style={{
+					height: "10em",
+					backgroundColor: darkGrey,
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}
+			>
+				<MenuItem
+					style={{
+						width: '100%',
+						height: '10em',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+				>
 					<div
 						style={{
 							display: "flex",
 							flexDirection: "row",
 							alignItems: "center",
 							justifyContent: "space-between",
-							width: "70%"
+							width: "100%",
+							paddingRight: '20%',
+							paddingLeft: '5%',
+							color: getSecondary(),
+							fontWeight: "700",
+							fontSize: "0.9em"
 						}}
 					>
 						{children}
 					</div>
-				}
-				fullWidth={true}
-				color={darkGrey}
-				buttonStyle={{ height: "10em" }}
-				textStyle={{
-					color: getSecondary(),
-					fontWeight: "700",
-					textTransform: "none",
-					fontSize: "0.9em"
-				}}
-				textPosition="after"
-			/>
+				</MenuItem>
+			</Card>
 		</Link>
 		{button && (
 			<div
@@ -61,8 +72,8 @@ const CompaniesManagerButton = ({ translate, company }) => (
 			width: "100%",
 			padding: 0
 		}}
-		text={
-			<BasicButton
+		Component={
+			() => <BasicButton
 				text={translate.link_companies}
 				fullWidth={true}
 				color={getSecondary()}

@@ -49,14 +49,17 @@ class StepCensus extends Component {
 			});
 		}
 	};
+	
 	nextPage = () => {
 		this.saveDraft(3);
 		this.props.nextStep();
 	};
+
 	previousPage = () => {
 		this.saveDraft(2);
 		this.props.previousStep();
 	};
+
 	sendCensusChange = async () => {
 		const response = await this.props.mutate({
 			variables: {
