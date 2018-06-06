@@ -37,6 +37,9 @@ import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from "material-ui";
 import CompanyDraftEditor from "../components/company/drafts/CompanyDraftEditor";
 import CouncilWritingContainer from "./CouncilWritingContainer";
+import AssistanceTokenContainer from "./AssistanceTokenContainer";
+import AssistanceContainer from "./AssistanceContainer";
+
 
 class AppRouter extends Component {
 	handleDrawerToggle = () => {
@@ -89,9 +92,9 @@ class AppRouter extends Component {
 						backButton={
 							this.props.location.pathname !==
 							`/company/${
-								this.props.companies.list[
-									this.props.companies.selected
-								].id
+							this.props.companies.list[
+								this.props.companies.selected
+							].id
 							}`
 						}
 					/>
@@ -114,7 +117,7 @@ class AppRouter extends Component {
 													this.props.companies
 														.selected
 												].id
-											}`}
+												}`}
 										/>
 									);
 								}}
@@ -222,24 +225,24 @@ class AppRouter extends Component {
 				</div>
 			</div>
 		) : (
-			<Switch>
-				<Route exact path="/" component={LoginContainer} />
-				<Route path="/signup" component={SignUpContainer} />
-				<Route path="/forgetPwd" component={ForgetPwdContainer} />
-				<Route
-					exact
-					path="/changePwd/:language/:token"
-					component={ChangePwdContainer}
-				/>
-				<Route path="/welcome" component={Welcome} />
-				<Route
-					exact
-					path="/jibiri/:id"
-					component={ParticipantPage}
-				/>
+				<Switch>
+					<Route exact path="/" component={LoginContainer} />
+					<Route path="/signup" component={SignUpContainer} />
+					<Route path="/forgetPwd" component={ForgetPwdContainer} />
+					<Route
+						exact
+						path="/changePwd/:language/:token"
+						component={ChangePwdContainer}
+					/>
+					<Route path="/welcome" component={Welcome} />
+					<Route
+						exact
+						path="/jibiri/:id"
+						component={ParticipantPage}
+					/>
 
-				<Route exact path="/test/:language" component={Test} />
-				{this.props.main.isParticipantLogged &&
+					<Route exact path="/test/:language" component={Test} />
+					{this.props.main.isParticipantLogged &&
 						[<Route
 							key='route_participant_meet'
 							exact
@@ -252,22 +255,33 @@ class AppRouter extends Component {
 							path="/participant/:id/council/:councilId/council"
 							component={ParticipantContainer}
 						/>]
-				}
-				<Route
-					exact
-					path="/participant/token/:token"
-					component={ParticipantTokenContainer}
-				/>
-				<Route
-					exact
-					path="/participant/:id/council/:councilId/login"
-					component={ParticipantContainer}
-				/>
+					}
+					<Route
+						exact
+						path="/participant/token/:token"
+						component={ParticipantTokenContainer}
+					/>
+					<Route
+						exact
+						path="/assistance/token/:token/"
+						component={AssistanceTokenContainer}
+					/>
+
+					<Route
+						exact
+						path="/participant/:id/council/:councilId/:segment?"
+						component={ParticipantContainer}
+					/>
+					<Route
+						exact
+						path="/assistance/participant/:participantId/council/:councilId"
+						component={AssistanceContainer}
+					/>
 
 
-				<Route path="*" component={NotFound} />
-			</Switch>
-		);
+					<Route path="*" component={NotFound} />
+				</Switch>
+			);
 	}
 }
 

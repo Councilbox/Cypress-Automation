@@ -7,6 +7,7 @@ import { PARTICIPANT_ERRORS } from "../constants";
 import InvalidUrl from "../components/participant/InvalidUrl";
 import ErrorState from "../components/participant/login/ErrorState";
 import { Divider } from "material-ui";
+import Assistance from "../components/participant/assistance/Assistance";
 
 class AssistanceContainer extends React.PureComponent {
 	render() {
@@ -21,7 +22,11 @@ class AssistanceContainer extends React.PureComponent {
 		}
 
 		return (
-			<div> Meus juevos</div>
+			<Assistance
+				participant={data.participant}
+				council={data.councilVideo}
+				company={data.councilVideo.company}
+			/>
 		);
 	}
 }
@@ -69,14 +74,6 @@ const participantQuery = gql`
 			street
 			tin
 			zipcode
-		}
-	}
-`;
-
-const companyQuery = gql`
-	query info($companyId: Int!) {
-		company(id: $companyId) {
-			logo
 		}
 	}
 `;

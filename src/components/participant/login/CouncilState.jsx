@@ -18,7 +18,8 @@ import {
 	councilIsInTrash,
 	councilIsNotLiveYet,
 	councilIsNotCelebrated,
-	councilIsFinished
+	councilIsFinished,
+	councilIsLive
 } from "../../../utils/CBX";
 import {
 	getPrimary,
@@ -74,7 +75,8 @@ class CouncilState extends React.Component {
 			council,
 			company,
 			windowSize,
-			windowOrientation
+			windowOrientation,
+			isAssistance
 		} = this.props;
 
 		return (
@@ -104,7 +106,18 @@ class CouncilState extends React.Component {
 						/>
 					)}
 
-					{councilIsNotLiveYet(council) && (
+					{isAssistance && councilIsLive(council) && (
+						<TextRender
+							title={translate.we_are_sorry}
+							text={translate.council_not_started_yet_retry_later}
+							isHtmlText={true}
+							council={council}
+							company={company}
+							translate={translate}
+						/>
+					)}
+
+					{!isAssistance && councilIsNotLiveYet(council) && (
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.council_not_started_yet_retry_later}

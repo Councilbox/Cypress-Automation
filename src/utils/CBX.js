@@ -276,6 +276,12 @@ export const councilIsNotLiveYet = council => {
 	);
 };
 
+export const councilIsPreparing = council => {
+	return (
+		council.state === COUNCIL_STATES.PREPARING 
+	);
+};
+
 export const councilIsLive = council => {
 	return (
 		council.state >= COUNCIL_STATES.ROOM_OPENED &&

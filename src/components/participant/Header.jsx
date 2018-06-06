@@ -19,6 +19,8 @@ class Header extends Component {
 	render() {
 		const language = this.props.translate && this.props.translate.selectedLanguage;
 		const { logoutButton, windowSize } = this.props;
+		const { participant, council } = this.props;
+
 
 		return (
 			<header
@@ -41,17 +43,29 @@ class Header extends Component {
 						alignItems: "center"
 					}}
 				>
-					<Link to="/">
+					{
+						council ? 
 						<img
-							src={windowSize !== "xs" ? logo : icono}
+							src={council.company.logo ? council.company.logo : windowSize !== "xs" ? logo : icono}
 							className="App-logo"
 							style={{
-								height: "1.5em",
+								height: "2.2em",
 								marginLeft: "2em"
 							}}
 							alt="logo"
 						/>
-					</Link>
+						: 
+
+						<img
+							src={windowSize !== "xs" ? logo : icono}
+							className="App-logo"
+							style={{
+								height: "2.2em",
+								marginLeft: "2em"
+							}}
+							alt="logo"
+						/>
+					}	
 				</div>
 
 				<div
