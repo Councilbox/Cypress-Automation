@@ -14,6 +14,7 @@ const BasicButton = ({
 	buttonStyle,
 	icon,
 	type,
+	disabled,
 	textPosition,
 	onClick,
 	fullWidth,
@@ -37,6 +38,7 @@ const BasicButton = ({
 				float: floatRight && "right",
 				outline: "0"
 			}}
+			disable={disabled}
 			variant={type}
 			onClick={!success && onClick}
 			fullWidth={fullWidth}

@@ -26,6 +26,11 @@ const theme = createMuiTheme({
 				zIndex: 1001
 			}
 		},
+		MuiDialogTitle: {
+			root: {
+				fontSize: '0.8em'
+			}
+		},
 		MuiDrawer: {
 			paper: {
 				zIndex: 999

@@ -13,6 +13,22 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
 
 class DelegateVoteModal extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			success: "",
+			loading: false,
+			errors: {}
+		};
+	}
+
+	componentDidUpdate(prevProps) {
+		if (!prevProps.show && this.props.show) {
+			this.props.data.refetch();
+		}
+	}
+
+
 	close = () => {
 		this.props.requestClose();
 	};
@@ -57,21 +73,6 @@ class DelegateVoteModal extends Component {
 			]
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			loading: false,
-			errors: {}
-		};
-	}
-
-	componentDidUpdate(prevProps) {
-		if (!prevProps.show && this.props.show) {
-			this.props.data.refetch();
-		}
-	}
 
 	_modalBody() {
 		const { translate } = this.props;

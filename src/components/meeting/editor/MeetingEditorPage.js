@@ -5,31 +5,61 @@ import { bHistory } from "../../../containers/App";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import MeetingEditorConfig from "./MeetingEditorConfig";
 import MeetingEditorCensus from "./MeetingEditorCensus";
+import { checkCouncilState } from "../../../utils/CBX";
 
 class MeetingEditorPage extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			step: this.props.step,
+			actualStep: this.props.step
+		};
+	}
+
+	componentDidMount() {
+		if (this.state.step !== this.props.step) {
+			this.setState({
+				step: this.props.step
+			});
+		}
+		checkCouncilState(
+			{
+				state: this.props.councilState,
+				id: this.props.councilID
+			},
+			this.props.company,
+			bHistory,
+			"draft"
+		);
+	}
+
+
 	nextStep = () => {
 		const index = this.state.step + 1;
-		bHistory.push(
-			`/company/${this.props.companyID}/meeting/${
-				this.props.councilID
-			}/${index}`
-		);
+		this.props.updateStep();
 		this.setState({ step: index });
 	};
+
+	goToPage = page => {
+		if (page < this.props.step) {
+			this.setState({
+				step: page
+			});
+		}
+	};
+
 	previousStep = () => {
 		const index = this.state.step - 1;
-		bHistory.push(
-			`/company/${this.props.companyID}/meeting/${
-				this.props.councilID
-			}/${index}`
-		);
 		this.setState({ step: index });
 	};
+
 	send = () => {
 		if (true) {
 			this.setState({ success: true });
 		}
 	};
+	
 	setDate = dateTime => {
 		this.setState({
 			...this.state,
@@ -40,19 +70,6 @@ class MeetingEditorPage extends React.Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			step: +this.props.step || 1,
-			actualStep: 1
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			step: +nextProps.step
-		});
-	}
 
 	render() {
 		const { translate, windowSize } = this.props;
@@ -86,7 +103,6 @@ class MeetingEditorPage extends React.Component {
 						) : (
 							<Stepper
 								activeStep={this.state.step - 1}
-								alternativeLabel
 								orientation="horizontal"
 							>
 								<Step>
@@ -106,7 +122,7 @@ class MeetingEditorPage extends React.Component {
 								nextStep={this.nextStep}
 								actualStep={this.state.actualStep}
 								councilID={this.props.councilID}
-								companyID={this.props.companyID}
+								companyID={this.props.company.id}
 								translate={translate}
 							/>
 						)}
@@ -116,7 +132,7 @@ class MeetingEditorPage extends React.Component {
 								previousStep={this.previousStep}
 								actualStep={this.state.actualStep}
 								councilID={this.props.councilID}
-								companyID={this.props.companyID}
+								companyID={this.props.company.id}
 								translate={translate}
 							/>
 						)}

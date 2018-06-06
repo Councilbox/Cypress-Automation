@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
-import { graphql } from "react-apollo";
-import { getSecondary } from "../../../../styles/colors";
+import { graphql, compose } from "react-apollo";
+import { getSecondary, getPrimary } from "../../../../styles/colors";
 import gql from "graphql-tag";
 import {
 	BasicButton,
@@ -14,6 +14,8 @@ import AgendaEditor from "./AgendaEditor";
 import { DRAFT_TYPES } from "../../../../constants";
 import moment from "moment";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
+import SendActDraftModal from './SendActDraftModal';
+import { updateCouncilAct } from '../../../../queries';
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!) {
@@ -29,6 +31,7 @@ const CouncilActData = gql`
 			city
 			dateRealStart
 			dateEnd
+			qualityVoteId
 			firstOrSecondConvene
 			act {
 				id
@@ -41,8 +44,24 @@ const CouncilActData = gql`
 				orderIndex
 				agendaSubject
 				subjectType
+				abstentionVotings
+				abstentionManual
+				noVoteVotings
+				noVoteManual
+				positiveVotings
+				positiveManual
+				negativeVotings
+				negativeManual
 				description
 				majorityType
+				majority
+				majorityDivider
+				votings {
+					id
+					participantId
+					comment
+					vote
+				}
 				numPresentCensus
 				presentCensus
 				numCurrentRemoteCensus
@@ -52,6 +71,7 @@ const CouncilActData = gql`
 			statute {
 				id
 				prototype
+				existsQualityVote
 			}
 		}
 		councilRecount(councilId: $councilID){
@@ -73,7 +93,35 @@ const CouncilActData = gql`
 `;
 
 class ActEditor extends Component {
-	updateAct = object => {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			loading: false,
+			draftType: null,
+			sendActDraft: false,
+			loadDraft: false,
+			errors: {}
+		};
+	}
+
+	static getDerivedStateFromProps(nextProps) {
+		if (!nextProps.data.loading) {
+			if (nextProps.data.council) {
+				return {
+					data: {
+						council: {
+							...nextProps.data.council
+						}
+					}
+				};
+			}
+		}
+
+		return null;
+	};
+
+	updateAct = async object => {
 		this.setState({
 			data: {
 				...this.state.data,
@@ -85,8 +133,23 @@ class ActEditor extends Component {
 					}
 				}
 			}
+		}, async () => {
+			const { __typename, ...act } = this.state.data.council.act;
+
+			const response = await this.props.updateCouncilAct({
+				variables: {
+					councilAct: {
+						...act,
+						councilId: this.state.data.council.id
+					}
+				}
+			});
+	
+			console.log(response);
 		});
+
 	};
+
 	updateAgenda = object => {
 		let modifiedAgendas = this.state.data.council.agendas.map(agenda => {
 			if (object.id === agenda.id) {
@@ -109,34 +172,14 @@ class ActEditor extends Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false,
-			draftType: null,
-			loadDraft: false,
-			errors: {}
-		};
-	}
-
-	static getDerivedStateFromProps(nextProps) {
-		if (!nextProps.data.loading) {
-			if (nextProps.data.council) {
-				return {
-					data: {
-						council: {
-							...nextProps.data.council
-						}
-					}
-				};
-			}
-		}
-
-		return null;
+	getTypeText = (subjectType) => {
+		const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
+		return !!votingType? this.props.translate[votingType.label] : '';
 	}
 
 	render() {
 		const secondary = getSecondary();
+		const primary = getPrimary();
 		const { translate } = this.props;
 		const {
 			error,
@@ -156,71 +199,73 @@ class ActEditor extends Component {
 		}
 
 		return (
-			<div style={{ height: "100%" }}>
+			<div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
 				<Scrollbar option={{ suppressScrollX: true }}>
-					<div style={{padding: '1.5em'}}>
-						<RichTextInput
-							ref={editor => (this.editorIntro = editor)}
-							floatingText={translate.intro}
-							type="text"
-							loadDraft={
-								<BasicButton
-									text={translate.load_draft}
-									color={secondary}
-									textStyle={{
-										color: "white",
-										fontWeight: "600",
-										fontSize: "0.8em",
-										textTransform: "none",
-										marginLeft: "0.4em",
-										minHeight: 0,
-										lineHeight: "1em"
-									}}
-									textPosition="after"
-									onClick={() =>
-										this.setState({
-											loadDraft: true,
-											draftType: DRAFT_TYPES.INTRO
-										})
-									}
-								/>
-							}
-							tags={[
-								{
-									value: `${council.businessName} `,
-									label: translate.business_name
-								},
-								{
-									value: `${moment(council.dateRealStart).format(
-										"LLLL"
-									)} `,
-									label: translate.date_real_start
-								},
-								{
-									value: `${
-										council.firstOrSecondConvene
-											? translate.first
-											: translate.second
-									} `,
-									label: translate.first_or_second_call
-								},
-								{
-									value: council.street,
-									label: translate.new_location_of_celebrate
-								},
-								{
-									value: council.city,
-									label: translate.company_new_locality
+					<div style={{padding: '1.5em', overflow: 'hidden'}}>
+						{!!data.council.act &&
+							<RichTextInput
+								ref={editor => (this.editorIntro = editor)}
+								floatingText={translate.intro}
+								type="text"
+								loadDraft={
+									<BasicButton
+										text={translate.load_draft}
+										color={secondary}
+										textStyle={{
+											color: "white",
+											fontWeight: "600",
+											fontSize: "0.8em",
+											textTransform: "none",
+											marginLeft: "0.4em",
+											minHeight: 0,
+											lineHeight: "1em"
+										}}
+										textPosition="after"
+										onClick={() =>
+											this.setState({
+												loadDraft: true,
+												draftType: DRAFT_TYPES.INTRO
+											})
+										}
+									/>
 								}
-							]}
-							errorText={errors.intro}
-							value={data.council.act.intro}
-							onChange={value =>
-								this.updateAct({
-									intro: value
-								})
-							}
-						/>
+								tags={[
+									{
+										value: `${council.businessName} `,
+										label: translate.business_name
+									},
+									{
+										value: `${moment(council.dateRealStart).format(
+											"LLLL"
+										)} `,
+										label: translate.date_real_start
+									},
+									{
+										value: `${
+											council.firstOrSecondConvene
+												? translate.first
+												: translate.second
+										} `,
+										label: translate.first_or_second_call
+									},
+									{
+										value: council.street,
+										label: translate.new_location_of_celebrate
+									},
+									{
+										value: council.city,
+										label: translate.company_new_locality
+									}
+								]}
+								errorText={errors.intro}
+								value={data.council.act.intro}
+								onChange={value =>
+									this.updateAct({
+										intro: value
+									})
+								}
+							/>
+						}
 						<div style={{marginTop: '1em'}}>
 							<RichTextInput
 								ref={editor => (this.editorConstitution = editor)}
@@ -295,11 +340,12 @@ class ActEditor extends Component {
 						</div>
 						{!!council.agendas && (
 							<Fragment>
-								{council.agendas.map(agenda => {
+								{council.agendas.map((agenda, index) => {
 									return (
-										<div style={{marginTop: '2.5em'}} key={`agenda${agenda.id}`}>
+										<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
 											<AgendaEditor
 												agenda={agenda}
+												council={council}
 												recount={this.props.data.councilRecount}
 												loadDraft={
 													<BasicButton
@@ -327,16 +373,11 @@ class ActEditor extends Component {
 												updateAgenda={this.updateAgenda}
 												translate={translate}
 												majorityTypes={this.props.data.majorityTypes}
-												typeText={
-													translate[
-														votingTypes.find(
-															item =>
-																item.value ===
-																agenda.subjectType
-														).label
-													]
-												}
+												typeText={this.getTypeText(agenda.subjectType)}
 											/>
+											{index <= council.agendas.length -1 &&
+												<hr style={{marginTop: '2.5em'}} />
+											}
 										</div>
 									);
 								})}
@@ -392,6 +433,53 @@ class ActEditor extends Component {
 								})
 							}
 						/>
+						<div style={{padding: '1em', paddingTop: '1.8em', width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+							<BasicButton
+								text={translate.new_save}
+								color={"white"}
+								textStyle={{
+									color: primary,
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								buttonStyle={{
+									marginRight: "1em",
+									border: `2px solid ${primary}`
+								}}
+							/>
+							<BasicButton
+								text={translate.send_draft_act_review}
+								color={"white"}
+								textStyle={{
+									color: primary,
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								onClick={() => this.setState({
+									sendActDraft: true
+								})}
+								buttonStyle={{
+									marginRight: "1em",
+									border: `2px solid ${primary}`
+								}}
+							/>
+							<BasicButton
+								text={translate.end_writing_act}
+								color={"white"}
+								textStyle={{
+									color: primary,
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								buttonStyle={{
+									marginRight: "1em",
+									border: `2px solid ${primary}`
+								}}
+							/>
+						</div>
 					</div>
 				</Scrollbar>
 				<Dialog
@@ -411,17 +499,28 @@ class ActEditor extends Component {
 						/>
 					</DialogContent>
 				</Dialog>
+				<SendActDraftModal
+					council={council}
+					translate={translate}
+					show={this.state.sendActDraft}
+					requestClose={() => this.setState({ sendActDraft: false })}
+				/>
 			</div>
 		);
 	}
 }
 
-export default graphql(CouncilActData, {
-	name: "data",
-	options: props => ({
-		variables: {
-			councilID: props.councilID,
-			companyID: props.companyID
-		}
+export default compose(
+	graphql(CouncilActData, {
+		name: "data",
+		options: props => ({
+			variables: {
+				councilID: props.councilID,
+				companyID: props.companyID
+			}
+		})
+	}),
+	graphql(updateCouncilAct, {
+		name: 'updateCouncilAct'
 	})
-})(ActEditor);
+)(ActEditor);

@@ -6,7 +6,8 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
-	TextInput
+	TextInput,
+	SuccessMessage
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { withRouter } from "react-router-dom";
@@ -58,7 +59,7 @@ class StepPreview extends Component {
 			this.setState({
 				errors: {
 					...this.state.errors,
-					conveneTestEmail: "EMAIL NO VÁLIDO"
+					conveneTestEmail: this.props.translate.tooltip_invalid_email_address
 				}
 			});
 		}
@@ -414,28 +415,6 @@ class StepPreview extends Component {
 	}
 }
 
-const SuccessMessage = ({ message }) => (
-	<div
-		style={{
-			width: "500px",
-			display: "flex",
-			alignItems: "center",
-			alignContent: "center",
-			flexDirection: "column"
-		}}
-	>
-		<Icon
-			className="material-icons"
-			style={{
-				fontSize: "6em",
-				color: "green"
-			}}
-		>
-			check_circle
-		</Icon>
-		<Typography variant="subheading">{message}</Typography>
-	</div>
-);
 
 export default compose(
 	graphql(conveneCouncil, {

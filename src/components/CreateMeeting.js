@@ -15,18 +15,14 @@ class CreateMeeting extends Component {
 
 	componentDidMount() {
 		if (
-			this.props.match.url ===
-				`/company/${this.props.match.params.company}/meeting/new` &&
+			this.props.match.url === `/company/${this.props.match.params.company}/meeting/new` &&
 			!this.state.creating
 		) {
 			console.log("create");
 			this.setState({
 				creating: true
 			});
-			this.props.actions.create(
-				this.props.match.params.company,
-				"meeting"
-			);
+			this.props.actions.create(this.props.match.params.company, "meeting");
 		}
 	}
 

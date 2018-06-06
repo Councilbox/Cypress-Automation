@@ -30,13 +30,13 @@ class DropDownMenu extends React.Component {
 			buttonStyle,
 			color,
 			type,
-			icon
+			icon,
 		} = this.props;
 
 		return (
 			<Fragment>
 				{!!Component ? (
-					<div onClick={this.handleClick}>
+					<div onClick={this.handleClick} style={{width: '100%'}}>
 						<Component />
 					</div>
 				) : (
