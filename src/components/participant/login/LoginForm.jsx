@@ -1,6 +1,9 @@
 import React from "react";
 import { Tooltip } from "material-ui";
 import moment from "moment";
+import * as mainActions from "../../../actions/mainActions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -151,13 +154,13 @@ class CouncilState extends React.Component {
 					{(councilStarted(council) && (council.statute.existsLimitedAccessRoom === 1) && participantNeverConnected(participant)) &&
 						<p>
 							{translate.room_access_close_at}
-							<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
+							<span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
 								{
 									moment(
 										new Date(council.dateRealStart)
 									)
-									.add(council.statute.limitedAccessRoomMinutes, 'm')
-									.format("HH:mm")
+										.add(council.statute.limitedAccessRoomMinutes, 'm')
+										.format("HH:mm")
 								}
 							</span>
 						</p>
@@ -225,6 +228,14 @@ class CouncilState extends React.Component {
 	}
 }
 
-export default withTranslations()(
-	withWindowOrientation(withWindowSize(CouncilState))
-);
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(mainActions, dispatch)
+	};
+}
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(withTranslations()(withWindowOrientation(withWindowSize(CouncilState))));

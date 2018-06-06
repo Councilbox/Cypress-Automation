@@ -15,6 +15,12 @@ export const loginSuccess = token => {
 	};
 };
 
+export const participantLoginSuccess = token => {
+	return dispatch => {
+		dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
+	};
+};
+
 export const loadingFinished = () => ({ type: "LOADING_FINISHED" });
 
 export const initUserData = () => {

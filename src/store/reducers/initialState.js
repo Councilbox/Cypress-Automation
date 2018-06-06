@@ -2,7 +2,8 @@ export default {
 	main: {
 		isLogged: false,
 		selectedLanguage: "es",
-		loading: true
+		loading: true,
+		isParticipantLogged: false
 	},
 	user: {},
 	companies: [],

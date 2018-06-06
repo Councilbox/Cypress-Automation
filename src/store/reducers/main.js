@@ -21,6 +21,18 @@ export default function mainReducer(state = initialState.main, action) {
 				loading: false
 			};
 
+		case "PARTICIPANT_LOGIN_SUCCESS":
+			return {
+				...state,
+				isParticipantLogged: true
+			};
+
+		case "PARTICIPANT_LOGOUT":
+			return {
+				...state,
+				isParticipantLogged: false
+			};
+
 		default:
 			return {
 				...state
