@@ -6,21 +6,18 @@ import MeetingLiveContainer from "./MeetingLiveContainer";
 import createHistory from "history/createBrowserHistory";
 import configureStore from "../store/store";
 import { Provider } from "react-redux";
-import {
-	initUserData,
-	loadingFinished,
-	resetStore,
-	setLanguage
-} from "../actions/mainActions";
+import { initUserData, loadingFinished, resetStore, setLanguage} from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
+//import { RetryLink } from 'apollo-link-retry';
 import { HttpLink } from "apollo-link-http";
+import { ApolloLink } from 'apollo-link';
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import { setContext } from "apollo-link-context";
 import { onError } from "apollo-link-error";
 import { API_URL } from "../config";
 import { toast, ToastContainer } from "react-toastify";
-import { graphQLErrorHandler } from "../utils";
+import { graphQLErrorHandler, networkErrorHandler } from "../utils";
 import moment from "moment";
 import "moment/locale/es";
 
@@ -44,16 +41,41 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 
+/*const retryLink = new RetryLink({
+	delay: {
+		initial: 500,
+		max: Infinity,
+		jitter: true
+	},
+	attempts: {
+		max: 10,
+		retryIf: (error, _operation) => {
+			console.log(error);
+			networkErrorHandler(error, toast, store);
+			return !!error
+		}
+	}
+});*/
+
+const addStatusLink = new ApolloLink((operation, forward) => {
+	return forward(operation).map((response) => {
+		networkErrorHandler(null, toast, store);
+		response.data.status = 'SUCCESS';
+		return response;
+	})
+  })
+
 const logoutLink = onError(({ graphQLErrors, networkError, response }) => {
 	console.log(graphQLErrors);
 	console.log(networkError);
 	if (graphQLErrors) {
 		graphQLErrorHandler(graphQLErrors, toast, store);
 	}
+	//networkErrorHandler(networkError, toast, store);
 });
 
 export const client = new ApolloClient({
-	link: logoutLink.concat(authLink.concat(httpLink)),
+	link: logoutLink.concat(authLink.concat(addStatusLink.concat(httpLink))),
 	cache: new InMemoryCache(),
 	defaultOptions: {
 		query: {

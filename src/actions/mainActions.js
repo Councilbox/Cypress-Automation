@@ -54,6 +54,14 @@ const resetStore = () => {
 	client.resetStore();
 };
 
+export const noServerResponse = () => {
+	return { type: 'NO_SERVER_RESPONSE' };
+}
+
+export const serverRestored = () => {
+	return { type: 'SERVER_RESTORED' };
+}
+
 export const logout = () => {
 	sessionStorage.clear();
 	return { type: "LOGOUT" };

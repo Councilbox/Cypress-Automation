@@ -53,6 +53,11 @@ class AppRouter extends Component {
 
 	render() {
 		const { translate } = this.props;
+
+		if(!this.props.main.serverStatus){
+			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR. REINTENTANDO..." />
+		}
+
 		if (this.props.main.loading || !this.props.translate) {
 			return <LoadingMainApp />;
 		}
@@ -160,7 +165,7 @@ class AppRouter extends Component {
 							/>
 							<Route
 								exact
-								path="/company/:company/council/:council/writing"
+								path="/company/:company/council/:council/act"
 								component={CouncilWritingContainer}
 							/>
 							<Route

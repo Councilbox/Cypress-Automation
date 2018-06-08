@@ -7,7 +7,7 @@ import { formatSize } from "../../utils/CBX";
 const primary = getPrimary();
 const secondary = getSecondary();
 
-const AttachmentItem = ({ attachment, removeAttachment, editName, translate }) => (
+const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translate }) => (
 	<Paper
 		style={{
 			width: "100%",
@@ -26,40 +26,45 @@ const AttachmentItem = ({ attachment, removeAttachment, editName, translate }) =
 					}}
 				>
 					{attachment.filename}
-					<Tooltip title={translate.edit}>
-						<div>
-							<IconButton
-								style={{
-									height: "28px",
-									outline: 0,
-									marginLeft: '0.3em'
-								}}
-								onClick={event => {
-									event.stopPropagation();
-									editName(attachment.orderIndex);
-								}}
-							>
-								<i
-									className="fa fa-pencil"
-									style={{ color: secondary, fontSize: '1.4rem' }}
-								/>
-							</IconButton>
-						</div>
-					</Tooltip>
+					{edit &&
+						<Tooltip title={translate.edit}>
+							<div>
+								<IconButton
+									style={{
+										height: "28px",
+										outline: 0,
+										marginLeft: '0.3em'
+									}}
+									onClick={event => {
+										event.stopPropagation();
+										editName(attachment.orderIndex);
+									}}
+								>
+									<i
+										className="fa fa-pencil"
+										style={{ color: secondary, fontSize: '1.4rem' }}
+									/>
+								</IconButton>
+							</div>
+						</Tooltip>
+					}
+
 				</div>
 			</GridItem>
 			<GridItem xs={2}>{formatSize(attachment.filesize)}</GridItem>
 			<GridItem xs={1}>
-				<CloseIcon
-					style={{
-						float: "right",
-						color: primary
-					}}
-					onClick={event => {
-						event.stopPropagation();
-						removeAttachment(attachment.id);
-					}}
-				/>
+				{edit &&
+					<CloseIcon
+						style={{
+							float: "right",
+							color: primary
+						}}
+						onClick={event => {
+							event.stopPropagation();
+							removeAttachment(attachment.id);
+						}}
+					/>
+				}
 			</GridItem>
 		</Grid>
 	</Paper>

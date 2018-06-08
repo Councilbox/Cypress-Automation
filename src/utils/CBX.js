@@ -320,6 +320,13 @@ export const addDecimals = (num, fixed) => {
 	return num.slice(0, num.indexOf(".") + fixed + 1);
 };
 
+function s2ab(s) {
+	var buf = new ArrayBuffer(s.length);
+	var view = new Uint8Array(buf);
+	for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+	return buf;
+  }
+
 export const downloadFile = (base64, filetype, filename) => {
 	let bufferArray = dataURItoBlob(base64);
 
@@ -330,9 +337,17 @@ export const downloadFile = (base64, filetype, filename) => {
 		});
 		return window.navigator.msSaveOrOpenBlob(blobObject, filename);
 	} else {
-		let blob = new Blob([bufferArray], {
-			type: filetype
-		});
+		let blob;
+		if(filetype === 'excel'){
+			blob = new Blob([s2ab(atob(bufferArray))], {
+				type: ''
+			});
+		}else{
+			blob = new Blob([bufferArray], {
+				type: filetype
+			});
+		}
+
 		let objectUrl = URL.createObjectURL(blob);
 
 		let a = document.createElement("a");

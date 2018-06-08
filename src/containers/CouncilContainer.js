@@ -9,8 +9,8 @@ const CouncilContainer = ({ match, company, translate }) => {
 		drafts: 0,
 		calendar: 1,
 		live: 2,
-		writing: 3,
-		trash: 4
+		act: 3,
+		confirmed: 4
 	};
 
 	const tabsInfo = [
@@ -67,16 +67,33 @@ const CouncilContainer = ({ match, company, translate }) => {
 		},
 		{
 			text: translate.companies_writing,
-			link: `/company/${company.id}/councils/writing`,
+			link: `/company/${company.id}/councils/act`,
 			component: () => {
 				return (
 					<Councils
 						company={company}
 						translate={translate}
 						state={[40]}
-						link={"/writing"}
+						link={"/act"}
 						title={translate.companies_writing}
 						desc={translate.companies_writing_desc}
+						icon={"clipboard"}
+					/>
+				);
+			}
+		},
+		{
+			text: 'ACTAS FINALIZADAS',
+			link: `/company/${company.id}/councils/confirmed`,
+			component: () => {
+				return (
+					<Councils
+						company={company}
+						translate={translate}
+						state={[60, 70]}
+						link={"/act"}
+						title={translate.companies_docu}
+						desc={translate.companies_docu_desc}
 						icon={"clipboard"}
 					/>
 				);
