@@ -22,6 +22,7 @@ import UserSettingsContainer from "./UserSettingsContainer";
 import CreateCouncil from "../components/CreateCouncil";
 import CreateMeeting from "../components/CreateMeeting";
 import StatutesPage from "../components/company/statutes/StatutesPage";
+import CouncilCertificatesPage from "../components/council/certificates/CouncilCertificatesPage";
 import NewCompanyPage from "../components/company/new/NewCompanyPage";
 import LinkCompanyPage from "../components/company/link/LinkCompanyPage";
 import PlatformDrafts from "../components/corporation/drafts/PlatformDrafts";
@@ -165,8 +166,13 @@ class AppRouter extends Component {
 							/>
 							<Route
 								exact
-								path="/company/:company/council/:council/act"
+								path="/company/:company/council/:council/finished"
 								component={CouncilWritingContainer}
+							/>
+							<Route
+								exact
+								path="/company/:company/council/:council/certificates"
+								component={CouncilCertificatesPage}
 							/>
 							<Route
 								path="/company/:company/signatures/:section"

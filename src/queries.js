@@ -95,8 +95,40 @@ export const councils = gql`
 		councils(companyId: $companyId, state: $state, isMeeting: $isMeeting) {
 			id
 			dateStart
+			dateRealStart
+			dateEnd
 			name
 			step
+		}
+	}
+`;
+
+export const downloadCertificate = gql`
+	mutation DownloadCertificate($id: Int!){
+		downloadCertificate(id: $id)
+	}
+`;
+
+export const councilCertificates = gql`
+	query CouncilCertificates($councilId: Int!){
+		councilCertificates(councilId: $councilId){
+			id
+			councilId
+			title
+			header
+			content
+			footer
+			date
+		}
+
+		council(id: $councilId){
+			name
+			dateStart
+			agendas{
+				id
+				agendaSubject
+				description
+			}
 		}
 	}
 `;

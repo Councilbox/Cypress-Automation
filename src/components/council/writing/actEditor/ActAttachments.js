@@ -6,7 +6,7 @@ import AttachmentDownload from '../../../attachments/AttachmentDownload';
 import { Typography } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
 
-class ActAttachments extends React.Component{
+class ActAttachments extends React.PureComponent{
 
     render(){
 
@@ -16,6 +16,7 @@ class ActAttachments extends React.Component{
             )
         }
         const { translate } = this.props;
+
         return(
             <div style={{padding: '1.2em'}}>
                 <Grid>
@@ -25,15 +26,18 @@ class ActAttachments extends React.Component{
                         </Typography>
                     </GridItem>
                     {this.props.data.council && 
-                        this.props.data.council.attachments.map((attachment) => 
-                            <GridItem>
-                                <AttachmentDownload
-                                    attachment={attachment}
-                                    translate={translate}
-                                    council={this.props.council}
-                                />
-                            </GridItem>
-                        )
+                        this.props.data.council.attachments.length > 0?
+                            this.props.data.council.attachments.map((attachment) => 
+                                <GridItem>
+                                    <AttachmentDownload
+                                        attachment={attachment}
+                                        translate={translate}
+                                        council={this.props.council}
+                                    />
+                                </GridItem>
+                            )
+                        :
+                            '-'
                     }
                 </Grid>
                 <Grid style={{marginTop: '1.4em'}}>
