@@ -42,7 +42,7 @@ class FinishActModal extends Component {
 				this.setState({
 					success: true
 				});
-				this.props.refech();
+				this.props.refetch();
 			}
 		}
 	}

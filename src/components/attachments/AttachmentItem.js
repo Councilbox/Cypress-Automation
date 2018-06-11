@@ -12,21 +12,23 @@ const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translat
 		style={{
 			width: "100%",
 			padding: "1vw",
-			marginTop: "0.6em"
+			marginTop: "0.6em",
+			...(attachment.state === 2? { backgroundColor: 'whiteSmoke'} : {})
 		}}
 	>
 		<Grid spacing={16}>
-			<GridItem xs={9}>
+			<GridItem xs={7}>
 				<div
 					style={{
 						fontWeight: "600",
 						fontSize: "1em",
 						display: 'flex',
-						flexDirection: 'row'
+						alignItems: 'center',
+						flexDirection: 'row',
 					}}
 				>
 					{attachment.filename}
-					{edit &&
+					{edit && attachment.state !== 2 &&
 						<Tooltip title={translate.edit}>
 							<div>
 								<IconButton
@@ -51,21 +53,23 @@ const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translat
 
 				</div>
 			</GridItem>
-			<GridItem xs={2}>{formatSize(attachment.filesize)}</GridItem>
-			<GridItem xs={1}>
-				{edit &&
-					<CloseIcon
-						style={{
-							float: "right",
-							color: primary
-						}}
-						onClick={event => {
-							event.stopPropagation();
-							removeAttachment(attachment.id);
-						}}
-					/>
-				}
-			</GridItem>
+			<GridItem xs={4} style={{fontSize: '0.8em'}}>{attachment.state === 2? translate.deleted : formatSize(attachment.filesize)}</GridItem>
+			{attachment.state !== 2 &&
+				<GridItem xs={1}>
+					{edit &&
+						<CloseIcon
+							style={{
+								float: "right",
+								color: primary
+							}}
+							onClick={event => {
+								event.stopPropagation();
+								removeAttachment(attachment.id);
+							}}
+						/>
+					}
+				</GridItem>
+			}
 		</Grid>
 	</Paper>
 );

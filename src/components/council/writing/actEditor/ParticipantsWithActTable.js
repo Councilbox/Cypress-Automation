@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { councilParticipantsActSends } from '../../../../queries';
+import { councilParticipantsWithActSends } from '../../../../queries';
 import { LoadingSection, EnhancedTable } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import { TableRow, TableCell, Tooltip } from 'material-ui';
@@ -43,12 +43,13 @@ class ParticipantsWithActTable extends React.Component {
                     translate={translate}
                     defaultLimit={PARTICIPANTS_LIMITS[0]}
                     defaultFilter={"fullName"}
+                    hideTextFilter={true}
                     defaultOrder={["name", "asc"]}
                     limits={PARTICIPANTS_LIMITS}
                     page={1}
                     loading={this.props.data.loading}
-                    length={this.props.data.loading? [] : this.props.data.councilParticipantsActSends.list.length}
-                    total={this.props.data.loading? [] : this.props.data.councilParticipantsActSends.total}
+                    length={this.props.data.loading? [] : this.props.data.councilParticipantsWithActSends.list.length}
+                    total={this.props.data.loading? [] : this.props.data.councilParticipantsWithActSends.total}
                     refetch={this.props.data.refetch}
                     action={this._renderDeleteIcon}
                     headers={[]}
@@ -56,7 +57,7 @@ class ParticipantsWithActTable extends React.Component {
                     {this.props.data.loading?
                         <LoadingSection />
                     : (
-                        this.props.data.councilParticipantsActSends.list.map(
+                        this.props.data.councilParticipantsWithActSends.list.map(
                             (participant, index) => {
                                 return (
                                     <React.Fragment
@@ -75,9 +76,7 @@ class ParticipantsWithActTable extends React.Component {
                                             }}
                                         >
                                             <TableCell>
-                                                {`${participant.name} ${
-                                                    participant.surname
-                                                }`}
+                                                {`${participant.name}`}
                                             </TableCell>
                                             <TableCell>
                                                 {participant.dni}
@@ -152,7 +151,7 @@ class ParticipantsWithActTable extends React.Component {
 
 
 export default compose(
-    graphql(councilParticipantsActSends, {
+    graphql(councilParticipantsWithActSends, {
         options: props => ({
             variables: {
                 councilId: props.council.id,

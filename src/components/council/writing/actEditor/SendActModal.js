@@ -21,11 +21,10 @@ class SendActModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			checked: [],
 			newEmail: '',
 			step: 1,
 			success: false,
-			emailList: [],
+			participants: [],
 			loading: false,
 			errors: {}
 		};
@@ -42,10 +41,9 @@ class SendActModal extends Component {
 		this.setState({
 			success: false,
 			loading: false,
-			emailList: [],
+			participants: [],
 			errors: {},
 			step: 1,
-			checked: []
 		});
 
 	};
@@ -78,22 +76,23 @@ class SendActModal extends Component {
 		});
 	};
 
-	checkRow = (email, check) => {
-		let checked = [...this.state.checked];
+	checkRow = (participant, check) => {
+		let participants = [...this.state.participants];
 		if(check){
-			checked = [...checked, email];
+			const { __typename, ...data } = participant;
+			participants = [...participants, data];
 		}else{
-			const index = checked.findIndex(item => item === email);
-			checked.splice(index, 1);
-			console.log(checked);
+			const index = participants.findIndex(item => item.id === participant.id);
+			participants.splice(index, 1);
+			console.log(participants);
 		}
 		this.setState({
-			checked: checked
+			participants: participants
 		});
 	};
 
 	isChecked = id => {
-		const item = this.state.checked.find(item => item === id);
+		const item = this.state.participants.find(item => item.id === id);
 		return !!item;
 	}
 
@@ -110,9 +109,9 @@ class SendActModal extends Component {
 
 	addEmail = () => {
 		if(checkValidEmail(this.state.newEmail)){
-			if(this.state.emailList.findIndex(item => item === this.state.newEmail) === -1){
+			if(this.state.participants.findIndex(item => item === this.state.newEmail) === -1){
 				this.setState({
-					emailList: [...this.state.emailList, this.state.newEmail],
+					participants: [...this.state.participants, this.state.newEmail],
 					newEmail: ''
 				});
 			}else{
@@ -131,23 +130,20 @@ class SendActModal extends Component {
 		}
 	};
 
-	deleteEmailFromList = (email) => {
-		const list = this.state.emailList;
-		const checked = this.state.checked;
-		const index = list.find(item => email === item);
+	deleteEmailFromList = id => {
+		const list = this.state.participants;
+		const index = list.find(item => id === item.id);
 		list.splice(index, 1);
-		checked.splice(index, 1);
 		this.setState({
-			emailList: [...list],
-			checked: [...checked]
+			participants: [...list],
 		});
 	}
 
 	_renderEmails = () => {
 		return(
 			<div style={{width: '100%'}}>
-				{this.state.emailList.length > 0?
-					this.state.emailList.map((email, index) => (
+				{this.state.participants.length > 0?
+					this.state.participants.map((participant, index) => (
 						<Card
 							style={{
 								width: '98%',
@@ -159,10 +155,10 @@ class SendActModal extends Component {
 								alignItems: 'center',
 								flexDirection: 'row'
 							}}
-							key={`emailList_${email}`}
+							key={`participants_${participant.id}`}
 							elevation={2}
 						>
-							{email}
+							{participant.email}
 							<FontAwesome
 								name={"times"}
 								style={{
@@ -170,7 +166,7 @@ class SendActModal extends Component {
 									color: 'red',
 									cursor: 'pointer'
 								}}
-								onClick={() => this.deleteEmailFromList(email)}
+								onClick={() => this.deleteEmailFromList(participant.id)}
 							/>
 						</Card>
 					))
@@ -189,10 +185,11 @@ class SendActModal extends Component {
 		const response = await this.props.sendAct({
 			variables: {
 				councilId: this.props.council.id,
-				emailList: this.state.emailList
+				participants: this.state.participants
 			}
 		});
 
+		console.log(response);
 		if(response){
 			if(!response.data.errors){
 				this.setState({
@@ -206,15 +203,7 @@ class SendActModal extends Component {
 	}
 
 	secondStep = () => {
-		const filteredEmails = this.state.checked.filter(item => {
-			const index = this.state.emailList.findIndex(email => email === item);
-			if(index){
-				return item;
-			}
-		});
-		const emails = [...this.state.emailList, ...filteredEmails];
 		this.setState({
-			emailList: emails,
 			step: 2
 		});
 	}
@@ -262,9 +251,9 @@ class SendActModal extends Component {
 												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>
 													<ParticipantRow
 														checkBox={true}
-														selected={this.isChecked(participant.email)}
+														selected={this.isChecked(participant.id)}
 														onChange={(event, isInputChecked) =>
-															this.checkRow(participant.email, isInputChecked)
+															this.checkRow(participant, isInputChecked)
 														}
 														participant={participant}
 													/>
@@ -314,7 +303,7 @@ class SendActModal extends Component {
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={this.state.step === 1? this.secondStep : this.sendAct}
-				hideAccept={this.state.success || this.state.step === 2 && this.state.emailList.length < 1}
+				hideAccept={this.state.success || this.state.step === 2 && this.state.participants.length < 1}
 				buttonAccept={this.state.step === 1? translate.continue : translate.send}
 				cancelAction={this.state.success?
 					this.close

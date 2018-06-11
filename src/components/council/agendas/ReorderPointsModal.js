@@ -1,11 +1,22 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { graphql } from "react-apollo";
 import { AlertConfirm } from "../../../displayComponents";
 import { updateAgendas } from "../../../queries/agenda";
 import SortableList from "../../../displayComponents/SortableList";
 import { arrayMove } from "react-sortable-hoc";
+import * as CBX from '../../../utils/CBX';
 
-class ReorderPointsModal extends Component {
+class ReorderPointsModal extends React.PureComponent {
+	static getDerivedStateFromProps(nextProps){
+		if(nextProps.agendas){
+			return {
+				agendas: nextProps.agendas
+			}
+		}
+
+		return null;
+	}
+
 	updateOrder = async () => {
 		const reorderedAgenda = this.state.agendas.map((agenda, index) => {
 			const { __typename, attachments, ...updatedAgenda } = agenda;
@@ -23,18 +34,53 @@ class ReorderPointsModal extends Component {
 			this.setState({ reorderModal: false });
 		}
 	};
+
 	onSortEnd = ({ oldIndex, newIndex }) => {
 		this.setState({
 			agendas: arrayMove(this.state.agendas, oldIndex, newIndex)
 		});
 	};
+
 	_renderNewPointBody = () => {
+		let opened = [];
+		let unOpened = [];
+		const filteredAgendas = this.state.agendas.forEach((agenda) => {
+			if(CBX.agendaPointNotOpened(agenda)){
+				unOpened.push(agenda);
+			} else {
+				opened.push(agenda);
+			}
+		});
 		return (
-			<SortableList
-				items={this.state.agendas}
-				onSortEnd={this.onSortEnd}
-				helperClass="draggable"
-			/>
+			<React.Fragment>
+				{opened.map((agenda) => (
+					<li
+						style={{
+							opacity: 1,
+							width: "100%",
+							color: 'lightgrey',
+							display: "flex",
+							alignItems: "center",
+							padding: "0.5em",
+							height: "3em",
+							border: `2px solid lightgrey`,
+							listStyleType: "none",
+							borderRadius: "3px",
+							marginTop: "0.5em"
+						}}
+						className="draggable"
+					>
+						{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
+					</li>
+				))}
+				<SortableList
+					items={unOpened}
+					offset={opened.length}
+					onSortEnd={this.onSortEnd}
+					helperClass="draggable"
+				/>
+			</React.Fragment>
+			
 		);
 	};
 
@@ -46,17 +92,13 @@ class ReorderPointsModal extends Component {
 		};
 	}
 
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			agendas: nextProps.agendas
-		});
-	}
+
 
 	render() {
 		const { translate } = this.props;
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<div
 					onClick={() => this.setState({ reorderModal: true })}
 					style={this.props.style}
@@ -78,7 +120,7 @@ class ReorderPointsModal extends Component {
 					bodyText={this._renderNewPointBody()}
 					title={translate.reorder_agenda_points}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

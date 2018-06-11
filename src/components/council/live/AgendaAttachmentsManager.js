@@ -12,7 +12,8 @@ import { MAX_FILE_SIZE } from "../../../constants";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 
 class AgendaAttachmentsManager extends Component {
-	handleFile = event => {
+
+	handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
 			return;
@@ -24,14 +25,14 @@ class AgendaAttachmentsManager extends Component {
 			return;
 		}
 		let reader = new FileReader();
-		reader.readAsDataURL(file);
+		reader.readAsBinaryString(file);
 
-		reader.onload = async () => {
+		reader.onload = async event => {
 			let fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: Math.round(file.size / 1000),
-				base64: reader.result,
+				filesize: event.loaded,
+				base64: btoa(event.target.result),
 				state: 0,
 				agendaId: this.props.agendaID,
 				councilId: this.props.councilID

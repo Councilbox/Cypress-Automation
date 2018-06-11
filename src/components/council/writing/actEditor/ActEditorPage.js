@@ -12,7 +12,7 @@ import Convene from '../../convene/Convene';
 import ActHTML from '../actViewer/ActHTML';
 import Scrollbar from 'react-perfect-scrollbar';
 import SendActPage from './SendActPage';
-
+import ActAttachments from './ActAttachments';
 
 const panelStyle = {
 	height: "100%",
@@ -65,6 +65,9 @@ class ActEditorPage extends React.Component {
                             {translate.show_assistants_list}
                         </Tab>
                         <Tab>
+                            {translate.attachment_files}
+                        </Tab>
+                        <Tab>
                             {translate.convene}
                         </Tab>
                     </TabList>
@@ -104,6 +107,12 @@ class ActEditorPage extends React.Component {
                     </TabPanel>
                     <TabPanel style={panelStyle}>
                         <ActAttendantsTable
+                            council={council}
+                            translate={translate}
+                        />
+                    </TabPanel>
+                    <TabPanel style={panelStyle}>
+                        <ActAttachments
                             council={council}
                             translate={translate}
                         />

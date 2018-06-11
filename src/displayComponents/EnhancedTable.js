@@ -351,17 +351,19 @@ class EnhancedTable extends Component {
 							{" "}
 						</GridItem>
 					)}
-					<GridItem xs={12} md={3} lg={3}>
-						<TextInput
-							adornment={<Icon>search</Icon>}
-							floatingText={" "}
-							type="text"
-							value={filterText}
-							onChange={event => {
-								this.updateFilterText(event.target.value);
-							}}
-						/>
-					</GridItem>
+					{!this.props.hideTextFilter && 
+						<GridItem xs={12} md={3} lg={3}>
+							<TextInput
+								adornment={<Icon>search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={filterText}
+								onChange={event => {
+									this.updateFilterText(event.target.value);
+								}}
+							/>
+						</GridItem>
+					}
 				</Grid>
 				<Table style={{ maxWidth: "100%" }}>
 					<TableHead>

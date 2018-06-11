@@ -186,13 +186,44 @@ export const sendActDraft = gql`
 `;
 
 export const sendAct = gql`
-	mutation SendActDraft($councilId: Int!, $emailList: [String]){
-		sendCouncilAct(councilId: $councilId, emailList: $emailList){
+	mutation SendActDraft($councilId: Int!, $participants: [LiveParticipantInput]){
+		sendCouncilAct(councilId: $councilId, participants: $participants){
 			success
 			message
 		}
 	}
 `;
+
+export const councilParticipantsWithActSends = gql`
+query councilParticipantsWithActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
+	councilParticipantsWithActSends(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+		list {
+			id
+			councilId
+			name
+			surname
+			position
+			email
+			phone
+			dni
+			type
+			numParticipations
+			socialCapital
+			position
+			language
+			city
+			personOrEntity
+			actNotifications{
+				reqCode
+				sendType
+			}
+		}
+		total
+	}
+}
+`;
+
+
 
 export const councilParticipantsActSends = gql`
 	query councilParticipantsActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
@@ -214,19 +245,9 @@ export const councilParticipantsActSends = gql`
 				participantId
 				city
 				personOrEntity
-				actNotifications{
-					participantId
-					reqCode
-					sendType
-				}
 			}
 			total
 		}
-
-		councilTotalVotes(councilId: $councilId)
-		councilSocialCapital(councilId: $councilId)
-
-
 	}
 `;
 
@@ -1033,6 +1054,33 @@ export const councilDetails = gql`
 	}
 `;
 
+export const councilAndAgendaAttachments = gql`
+	query council($councilId: Int!){
+		council(id: $councilId){
+			id
+			attachments{
+				id
+				filename
+				filesize
+				filetype
+			}
+			agendas{
+				id
+				agendaSubject
+				orderIndex
+				description
+				attachments {
+					id
+					filename
+					agendaId
+					filetype
+					filesize
+				}
+			}
+		}
+	}
+`;
+
 export const councilLiveQuery = gql`
 	query CouncilLiveQuery($councilID: Int!) {
 		council(id: $councilID) {
@@ -1218,6 +1266,16 @@ export const addRepresentative = gql`
 export const downloadCouncilAttachment = gql`
 	query downloadCouncilAttachment($attachmentId: Int!) {
 		councilAttachment(id: $attachmentId) {
+			base64
+			filename
+			filetype
+		}
+	}
+`;
+
+export const downloadAgendaAttachment = gql`
+	query downloadAgendaAttachment($attachmentId: Int!) {
+		agendaAttachment(id: $attachmentId) {
 			base64
 			filename
 			filetype

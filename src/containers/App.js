@@ -60,7 +60,6 @@ const authLink = setContext((_, { headers }) => {
 const addStatusLink = new ApolloLink((operation, forward) => {
 	return forward(operation).map((response) => {
 		networkErrorHandler(null, toast, store);
-		response.data.status = 'SUCCESS';
 		return response;
 	})
   })

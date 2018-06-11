@@ -312,7 +312,7 @@ class ActEditor extends Component {
 									}
 								]}
 								errorText={errors.intro}
-								value={data.council.act.intro}
+								value={data.council.act.intro || ''}
 								onChange={value => {
 									if(value !== data.council.act.intro){
 										this.updateActState({
@@ -386,7 +386,7 @@ class ActEditor extends Component {
 									}
 								]}
 								errorText={errors.constitution}
-								value={data.council.act.constitution}
+								value={data.council.act.constitution || ''}
 								onChange={value => {
 									if(value !== data.council.act.constitution){
 										this.updateActState({
@@ -484,7 +484,7 @@ class ActEditor extends Component {
 								}
 							]}
 							errorText={errors.conclusion}
-							value={data.council.act.conclusion}
+							value={data.council.act.conclusion || ''}
 							onChange={value =>
 								this.updateActState({
 									conclusion: value
