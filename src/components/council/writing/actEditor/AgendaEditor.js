@@ -100,12 +100,14 @@ const AgendaEditor = ({
 							}
 						]}
 						value={agenda.comment || ''}
-						onChange={value =>
-							updateAgenda({
-								id: agenda.id,
-								comment: value
-							})
-						}
+						onChange={value =>{
+							if(value !== agenda.comment){
+								updateAgenda({
+									id: agenda.id,
+									comment: value
+								})
+							}
+						}}
 					/>
 				</Card>
 			</TabPanel>

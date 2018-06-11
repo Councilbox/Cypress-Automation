@@ -10,11 +10,13 @@ import {
 import Scrollbar from "react-perfect-scrollbar";
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
+import { updateAgenda } from "../../../../queries/agenda";
 import AgendaEditor from "./AgendaEditor";
 import { DRAFT_TYPES } from "../../../../constants";
 import moment from "moment";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
+import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
 
 const CouncilActData = gql`
@@ -29,6 +31,7 @@ const CouncilActData = gql`
 			president
 			street
 			city
+			name
 			dateRealStart
 			dateEnd
 			qualityVoteId
@@ -98,12 +101,17 @@ class ActEditor extends Component {
 		super(props);
 		this.state = {
 			loading: false,
+			data: {},
+			updating: false,
 			draftType: null,
 			sendActDraft: false,
+			finishActModal: false,
 			loadDraft: false,
 			errors: {}
 		};
 	}
+
+	timeout = null;
 
 	static getDerivedStateFromProps(nextProps) {
 		if (!nextProps.data.loading) {
@@ -121,7 +129,19 @@ class ActEditor extends Component {
 		return null;
 	};
 
-	updateAct = async object => {
+	componentDidUpdate(prevProps, prevState){
+		if(!this.props.data.loading){
+			if(prevState.data.council){
+				if(prevState.data.council.id !== this.state.data.council.id){
+					this.updateCouncilAct();
+				}
+			}else{
+				this.updateCouncilAct();
+			}
+		}
+	}
+
+	updateActState = async object => {
 		this.setState({
 			data: {
 				...this.state.data,
@@ -134,23 +154,34 @@ class ActEditor extends Component {
 				}
 			}
 		}, async () => {
-			const { __typename, ...act } = this.state.data.council.act;
-
-			const response = await this.props.updateCouncilAct({
-				variables: {
-					councilAct: {
-						...act,
-						councilId: this.state.data.council.id
-					}
-				}
-			});
-	
-			console.log(response);
+			clearTimeout(this.timeout);
+			this.timeout = setTimeout(() => this.updateCouncilAct(), 450);
 		});
-
 	};
 
-	updateAgenda = object => {
+	updateCouncilAct = async () => {
+		const { __typename, ...act } = this.state.data.council.act;
+		this.setState({
+			updating: true
+		});
+
+		const response = await this.props.updateCouncilAct({
+			variables: {
+				councilAct: {
+					...act,
+					councilId: this.state.data.council.id
+				}
+			}
+		});
+
+		if(response){
+			this.setState({
+				updating: false
+			});
+		}
+	}
+
+	updateAgendaState = object => {
 		let modifiedAgendas = this.state.data.council.agendas.map(agenda => {
 			if (object.id === agenda.id) {
 				return {
@@ -169,8 +200,31 @@ class ActEditor extends Component {
 					agendas: modifiedAgendas
 				}
 			}
+		}, async () => {
+			clearTimeout(this.timeout);
+			this.timeout = setTimeout(() => this.updateAgenda(), 450);
 		});
 	};
+
+	updateAgenda = async () => {
+		const { agendas } = this.state.data.council;
+		this.setState({
+			updating: true
+		});
+
+		await Promise.all(agendas.map(async item => {
+			const { __typename, votings, ...agenda } = item;
+			const response = await this.props.updateAgenda({
+				variables: {
+					agenda: {
+						...agenda,
+						councilId: this.state.data.council.id
+					}
+				}
+			});
+		}));
+		this.updateCouncilAct();
+	}
 
 	getTypeText = (subjectType) => {
 		const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
@@ -258,12 +312,14 @@ class ActEditor extends Component {
 									}
 								]}
 								errorText={errors.intro}
-								value={data.council.act.intro}
-								onChange={value =>
-									this.updateAct({
-										intro: value
-									})
-								}
+								value={data.council.act.intro || ''}
+								onChange={value => {
+									if(value !== data.council.act.intro){
+										this.updateActState({
+											intro: value
+										})
+									}
+								}}
 							/>
 						}
 						<div style={{marginTop: '1em'}}>
@@ -330,12 +386,14 @@ class ActEditor extends Component {
 									}
 								]}
 								errorText={errors.constitution}
-								value={data.council.act.constitution}
-								onChange={value =>
-									this.updateAct({
-										constitution: value
-									})
-								}
+								value={data.council.act.constitution || ''}
+								onChange={value => {
+									if(value !== data.council.act.constitution){
+										this.updateActState({
+											constitution: value
+										})
+									}
+								}}
 							/>
 						</div>
 						{!!council.agendas && (
@@ -370,7 +428,7 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												updateAgenda={this.updateAgenda}
+												updateAgenda={this.updateAgendaState}
 												translate={translate}
 												majorityTypes={this.props.data.majorityTypes}
 												typeText={this.getTypeText(agenda.subjectType)}
@@ -426,9 +484,9 @@ class ActEditor extends Component {
 								}
 							]}
 							errorText={errors.conclusion}
-							value={data.council.act.conclusion}
+							value={data.council.act.conclusion || ''}
 							onChange={value =>
-								this.updateAct({
+								this.updateActState({
 									conclusion: value
 								})
 							}
@@ -467,6 +525,9 @@ class ActEditor extends Component {
 							/>
 							<BasicButton
 								text={translate.end_writing_act}
+								loading={this.state.updating}
+								loadingColor={primary}
+								disabled={this.state.updating}
 								color={"white"}
 								textStyle={{
 									color: primary,
@@ -474,6 +535,9 @@ class ActEditor extends Component {
 									fontSize: "0.9em",
 									textTransform: "none"
 								}}
+								onClick={() => this.setState({
+									finishActModal: true
+								})}
 								buttonStyle={{
 									marginRight: "1em",
 									border: `2px solid ${primary}`
@@ -505,6 +569,13 @@ class ActEditor extends Component {
 					show={this.state.sendActDraft}
 					requestClose={() => this.setState({ sendActDraft: false })}
 				/>
+				<FinishActModal
+					refetch={this.props.refetch}
+					council={council}
+					translate={translate}
+					show={this.state.finishActModal}
+					requestClose={() => this.setState({ finishActModal: false })}
+				/>
 			</div>
 		);
 	}
@@ -522,5 +593,8 @@ export default compose(
 	}),
 	graphql(updateCouncilAct, {
 		name: 'updateCouncilAct'
+	}),
+	graphql(updateAgenda, {
+		name: 'updateAgenda'
 	})
 )(ActEditor);

@@ -38,7 +38,7 @@ const BasicButton = ({
 				float: floatRight && "right",
 				outline: "0"
 			}}
-			disable={disabled}
+			disabled={disabled}
 			variant={type}
 			onClick={!success && onClick}
 			fullWidth={fullWidth}

@@ -4,33 +4,27 @@ import {
 	Icon,
 	LoadingSection,
 	ParticipantRow,
-	Checkbox,
 	TextInput,
-	BasicButton,
-	ButtonIcon,
-	CollapsibleSection,
 	SuccessMessage
 } from "../../../../displayComponents";
 import { Typography, Card } from "material-ui";
 import { compose, graphql } from "react-apollo";
-import { councilParticipants, deleteParticipant } from "../../../../queries/councilParticipant";
+import { councilParticipantsActSends } from "../../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
-import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
-import { sendActDraft } from '../../../../queries';
+import { sendAct } from '../../../../queries';
 
 
-class SendActDraftModal extends Component {
+class SendActModal extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			checked: [],
 			newEmail: '',
 			step: 1,
 			success: false,
-			emailList: [],
+			participants: [],
 			loading: false,
 			errors: {}
 		};
@@ -47,10 +41,9 @@ class SendActDraftModal extends Component {
 		this.setState({
 			success: false,
 			loading: false,
-			emailList: [],
+			participants: [],
 			errors: {},
 			step: 1,
-			checked: []
 		});
 
 	};
@@ -83,22 +76,23 @@ class SendActDraftModal extends Component {
 		});
 	};
 
-	checkRow = (email, check) => {
-		let checked = [...this.state.checked];
+	checkRow = (participant, check) => {
+		let participants = [...this.state.participants];
 		if(check){
-			checked = [...checked, email];
+			const { __typename, ...data } = participant;
+			participants = [...participants, data];
 		}else{
-			const index = checked.findIndex(item => item === email);
-			checked.splice(index, 1);
-			console.log(checked);
+			const index = participants.findIndex(item => item.id === participant.id);
+			participants.splice(index, 1);
+			console.log(participants);
 		}
 		this.setState({
-			checked: checked
+			participants: participants
 		});
 	};
 
 	isChecked = id => {
-		const item = this.state.checked.find(item => item === id);
+		const item = this.state.participants.find(item => item.id === id);
 		return !!item;
 	}
 
@@ -115,9 +109,9 @@ class SendActDraftModal extends Component {
 
 	addEmail = () => {
 		if(checkValidEmail(this.state.newEmail)){
-			if(this.state.emailList.findIndex(item => item === this.state.newEmail) === -1){
+			if(this.state.participants.findIndex(item => item === this.state.newEmail) === -1){
 				this.setState({
-					emailList: [...this.state.emailList, this.state.newEmail],
+					participants: [...this.state.participants, this.state.newEmail],
 					newEmail: ''
 				});
 			}else{
@@ -136,52 +130,20 @@ class SendActDraftModal extends Component {
 		}
 	};
 
-	deleteEmailFromList = (email) => {
-		const list = this.state.emailList;
-		const checked = this.state.checked;
-		const index = list.find(item => email === item);
-		const checkedIndex = checked.find(item => item === email);
+	deleteEmailFromList = id => {
+		const list = this.state.participants;
+		const index = list.find(item => id === item.id);
 		list.splice(index, 1);
-		checked.splice(index, 1);
 		this.setState({
-			emailList: [...list],
-			checked: [...checked]
+			participants: [...list],
 		});
-	}
-
-	_section = () => {
-		return(
-			<div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
-				<div style={{width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row'}}>
-					<div style={{width: '75%', marginRight: '0.8em'}}>
-						<TextInput
-							value={this.state.newEmail}
-							onChange={(event) => this.setState({
-								newEmail: event.nativeEvent.target.value
-							})}
-							errorText={this.state.errors.newEmail}
-						/>
-					</div>
-					<BasicButton
-						text={this.props.translate.add_email}
-						textStyle={{textTransform: 'none', color: 'white', fontSize: '700'}}
-						color={getPrimary()}
-						onClick={() => this.addEmail()}
-					/>
-				</div>
-				<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-					{this._renderEmails()}
-				</div>
-			</div>
-
-		)
 	}
 
 	_renderEmails = () => {
 		return(
 			<div style={{width: '100%'}}>
-				{this.state.emailList.length > 0?
-					this.state.emailList.map((email, index) => (
+				{this.state.participants.length > 0?
+					this.state.participants.map((participant, index) => (
 						<Card
 							style={{
 								width: '98%',
@@ -193,10 +155,10 @@ class SendActDraftModal extends Component {
 								alignItems: 'center',
 								flexDirection: 'row'
 							}}
-							key={`emailList_${email}`}
+							key={`participants_${participant.id}`}
 							elevation={2}
 						>
-							{email}
+							{participant.email}
 							<FontAwesome
 								name={"times"}
 								style={{
@@ -204,7 +166,7 @@ class SendActDraftModal extends Component {
 									color: 'red',
 									cursor: 'pointer'
 								}}
-								onClick={() => this.deleteEmailFromList(email)}
+								onClick={() => this.deleteEmailFromList(participant.id)}
 							/>
 						</Card>
 					))
@@ -218,38 +180,16 @@ class SendActDraftModal extends Component {
 		)
 	}
 
-	_button = () => {
-		const primary = getPrimary();
 
-		return(
-			<BasicButton
-				text={this.props.translate.add_email}
-				color={"white"}
-				textStyle={{
-					color: primary,
-					fontWeight: "700",
-					fontSize: "0.9em",
-					textTransform: "none"
-				}}
-				textPosition="after"
-				icon={<ButtonIcon type="add" color={primary} />}
-				onClick={() => this.setState({ modal: true })}
-				buttonStyle={{
-					marginRight: "1em",
-					border: `2px solid ${primary}`
-				}}
-			/>
-		)
-	}
-
-	sendActDraft = async () => {
-		const response = await this.props.sendActDraft({
+	sendAct = async () => {
+		const response = await this.props.sendAct({
 			variables: {
 				councilId: this.props.council.id,
-				emailList: this.state.emailList
+				participants: this.state.participants
 			}
 		});
 
+		console.log(response);
 		if(response){
 			if(!response.data.errors){
 				this.setState({
@@ -257,20 +197,13 @@ class SendActDraftModal extends Component {
 				});
 
 			}
+			this.props.refetch();
 			this.props.data.refetch();
 		}
 	}
 
 	secondStep = () => {
-		const filteredEmails = this.state.checked.filter(item => {
-			const index = this.state.emailList.findIndex(email => email === item);
-			if(index){
-				return item;
-			}
-		});
-		const emails = [...this.state.emailList, ...filteredEmails];
 		this.setState({
-			emailList: emails,
 			step: 2
 		});
 	}
@@ -281,19 +214,15 @@ class SendActDraftModal extends Component {
 
 		const participants = loading
 			? []
-			: this.props.data.councilParticipants.list;
+			: this.props.data.councilParticipantsActSends.list;
 		const { total } = loading
 			? 0
-			: this.props.data.councilParticipants;
+			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 
 		if(this.state.step === 1){
 			return (
 				<div style={{ width: "600px" }}>
-					<CollapsibleSection
-						trigger={this._button}
-						collapse={this._section}
-					/>
 					<TextInput
 						adornment={<Icon>search</Icon>}
 						floatingText={" "}
@@ -322,9 +251,9 @@ class SendActDraftModal extends Component {
 												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>
 													<ParticipantRow
 														checkBox={true}
-														selected={this.isChecked(participant.email)}
+														selected={this.isChecked(participant.id)}
 														onChange={(event, isInputChecked) =>
-															this.checkRow(participant.email, isInputChecked)
+															this.checkRow(participant, isInputChecked)
 														}
 														participant={participant}
 													/>
@@ -373,20 +302,30 @@ class SendActDraftModal extends Component {
 			<AlertConfirm
 				requestClose={this.close}
 				open={this.props.show}
-				acceptAction={this.state.step === 1? this.secondStep : this.sendActDraft}
-				hideAccept={this.state.step === 2 && this.state.emailList.length < 1}
+				acceptAction={this.state.step === 1? this.secondStep : this.sendAct}
+				hideAccept={this.state.success || this.state.step === 2 && this.state.participants.length < 1}
 				buttonAccept={this.state.step === 1? translate.continue : translate.send}
-				cancelAction={this.state.step !== 1? () => this.setState({step: 1, success: false}): null}
-				buttonCancel={this.state.step === 1? translate.close : translate.back}
+				cancelAction={this.state.success?
+					this.close
+				:
+					this.state.step !== 1?
+							() => this.setState({step: 1, success: false})
+						:
+							null
+				}
+				buttonCancel={this.state.success? 
+					translate.close
+				:
+					this.state.step === 1? translate.close : translate.back}
 				bodyText={this._modalBody()}
-				title={translate.send_draft_act_review}
+				title={translate.sending_the_minutes}
 			/>
 		);
 	}
 }
 
 export default compose(
-	graphql(councilParticipants, {
+	graphql(councilParticipantsActSends, {
 		options: props => ({
 			variables: {
 				councilId: props.council.id,
@@ -398,7 +337,7 @@ export default compose(
 		})
 	}),
 
-	graphql(sendActDraft, {
-		name: 'sendActDraft'
+	graphql(sendAct, {
+		name: 'sendAct'
 	})
-)(SendActDraftModal);
+)(SendActModal);
