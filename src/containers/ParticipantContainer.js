@@ -1,16 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
-import { LoadingMainApp } from "../displayComponents";
+import { store } from './App';
+import { setDetectRTC } from '../actions/mainActions';
+import withTranslations from "../HOCs/withTranslations";
+import withDetectRTC from '../HOCs/withDetectRTC';
 import { PARTICIPANT_ERRORS } from "../constants";
+import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl";
 import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
-import withTranslations from "../HOCs/withTranslations";
-import withDetectRTC from '../HOCs/withDetectRTC';
-import { store } from './App';
-import { setDetectRTC } from '../actions/mainActions';
+import Council from '../components/participant/council/Council';
+import Meet from '../components/participant/meet/Meet';
+
+
 
 class ParticipantContainer extends React.PureComponent {
 
@@ -19,7 +24,7 @@ class ParticipantContainer extends React.PureComponent {
 	}
 
 	render() {
-		const { data, detectRTC } = this.props;
+		const { data, detectRTC, main, match } = this.props;
 
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
@@ -55,11 +60,37 @@ class ParticipantContainer extends React.PureComponent {
 					margin: 0
 				}}
 			>
-				<ParticipantLogin
-					participant={data.participant}
-					council={data.councilVideo}
-					company={data.councilVideo.company}
-				/>
+				{match.path.includes('login') ?
+						<ParticipantLogin
+							participant={data.participant}
+							council={data.councilVideo}
+							company={data.councilVideo.company}
+						/>
+					:
+						<React.Fragment>
+							{main.isParticipantLogged ? 
+									<React.Fragment>
+										{match.path.includes('meet') ?
+												<Meet 
+													participant={data.participant}
+													council={data.councilVideo}
+													company={data.councilVideo.company}
+												/>
+											:
+												<Council 
+													participant={data.participant}
+													council={data.councilVideo}
+													company={data.councilVideo.company}
+												/>
+										}
+									</React.Fragment>
+								:
+									<Redirect
+										to={`/participant/${match.params.id}/council/${match.params.councilId}/login`}
+									/>	
+							}
+						</React.Fragment>
+				}
 			</div>
 		);
 	}
@@ -75,6 +106,7 @@ const participantQuery = gql`
 			email
 			language
 			online
+			roomType
 		}
 		councilVideo(id: $councilId) {
 			active
@@ -196,6 +228,9 @@ const participantQuery = gql`
 	}
 `;
 
+const mapStateToProps = state => ({
+	main: state.main
+});
 
 export default graphql(participantQuery, {
 	options: props => ({
@@ -204,4 +239,4 @@ export default graphql(participantQuery, {
 		},
 		fetchPolicy: "network-only"
 	})
-})(withApollo(withDetectRTC()(withTranslations()(ParticipantContainer))));
+})(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps)(ParticipantContainer)))));

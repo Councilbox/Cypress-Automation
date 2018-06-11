@@ -1,5 +1,5 @@
 import { getCompanies } from "./companyActions";
-import { client } from "../containers/App";
+import { client, bHistory } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import moment from "moment";
 import DetectRTC from "detectrtc";
@@ -12,6 +12,13 @@ export const loginSuccess = token => {
 		dispatch(initUserData());
 		dispatch(getCompanies());
 		dispatch({ type: "LOGIN_SUCCESS" });
+	};
+};
+
+export const participantLoginSuccess = () => {
+	return dispatch => {
+		sessionStorage.setItem("participantLoginSuccess", true);
+		dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
 	};
 };
 
@@ -65,6 +72,12 @@ export const serverRestored = () => {
 export const logout = () => {
 	sessionStorage.clear();
 	return { type: "LOGOUT" };
+};
+
+export const logoutParticipant = (participant, council) => {
+	sessionStorage.removeItem('participantLoginSuccess');
+	bHistory.push(`/participant/${participant.id}/council/${council.id}/login`);
+	return { type: "PARTICIPANT_LOGOUT" };
 };
 
 export const setLanguage = language => {

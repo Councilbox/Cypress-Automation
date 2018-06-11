@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as mainActions from "../../actions/mainActions";
 import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
 import { Link } from "react-router-dom";
@@ -9,13 +12,15 @@ import { IconButton } from "material-ui";
 
 class Header extends Component {
 	logout = () => {
-		// this.props.actions.logout();
+		const { participant, council } = this.props;
+		this.props.actions.logoutParticipant(participant, council);
 	};
 
 	render() {
-		const language =
-			this.props.translate && this.props.translate.selectedLanguage;
+		const language = this.props.translate && this.props.translate.selectedLanguage;
 		const { logoutButton, windowSize } = this.props;
+		const { participant, council } = this.props;
+
 
 		return (
 			<header
@@ -38,17 +43,29 @@ class Header extends Component {
 						alignItems: "center"
 					}}
 				>
-					<Link to="/">
+					{
+						council ? 
 						<img
-							src={windowSize !== "xs" ? logo : icono}
+							src={council.company.logo ? council.company.logo : windowSize !== "xs" ? logo : icono}
 							className="App-logo"
 							style={{
-								height: "1.5em",
+								height: "2.2em",
 								marginLeft: "2em"
 							}}
 							alt="logo"
 						/>
-					</Link>
+						: 
+
+						<img
+							src={windowSize !== "xs" ? logo : icono}
+							className="App-logo"
+							style={{
+								height: "2.2em",
+								marginLeft: "2em"
+							}}
+							alt="logo"
+						/>
+					}	
 				</div>
 
 				<div
@@ -84,4 +101,17 @@ class Header extends Component {
 	}
 }
 
-export default withWindowSize(Header);
+const mapStateToProps = state => ({
+	main: state.main
+});
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(mainActions, dispatch)
+	};
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withWindowSize(Header));

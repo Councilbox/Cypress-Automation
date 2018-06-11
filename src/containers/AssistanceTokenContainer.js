@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
 
-class ParticipantTokenContainer extends React.Component {
+class AssistanceTokenContainer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -66,7 +66,9 @@ class ParticipantTokenContainer extends React.Component {
 			<React.Fragment>
 				{participant && (
 					<Redirect
-						to={`/participant/${participant.id}/council/${participant.councilId}/login`}
+						to={`/assistance/participant/${participant.id}/council/${
+							participant.councilId
+						}`}
 					/>
 				)}
 			</React.Fragment>
@@ -102,4 +104,4 @@ export default graphql(participantToken, {
 		},
 		errorPolicy: "all"
 	})
-})(withApollo(connect(mapStateToProps)(ParticipantTokenContainer)));
+})(withApollo(connect(mapStateToProps)(AssistanceTokenContainer)));

@@ -1,6 +1,11 @@
 import React from "react";
 import { Tooltip } from "material-ui";
 import moment from "moment";
+import { Redirect } from "react-router-dom";
+import * as mainActions from "../../../actions/mainActions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { bHistory } from "../../../containers/App";
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
@@ -50,7 +55,7 @@ const styles = {
 	}
 };
 
-class CouncilState extends React.Component {
+class LoginForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -104,7 +109,13 @@ class CouncilState extends React.Component {
 	};
 
 	login = () => {
+		const { participant, council } = this.props;
 		const isValidForm = this.checkFieldsValidationState();
+		if(isValidForm) {
+			this.props.actions.participantLoginSuccess();
+			bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
+		}
+
 	};
 
 	handleKeyUp = event => {
@@ -151,13 +162,13 @@ class CouncilState extends React.Component {
 					{(councilStarted(council) && (council.statute.existsLimitedAccessRoom === 1) && participantNeverConnected(participant)) &&
 						<p>
 							{translate.room_access_close_at}
-							<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
+							<span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
 								{
 									moment(
 										new Date(council.dateRealStart)
 									)
-									.add(council.statute.limitedAccessRoomMinutes, 'm')
-									.format("HH:mm")
+										.add(council.statute.limitedAccessRoomMinutes, 'm')
+										.format("HH:mm")
 								}
 							</span>
 						</p>
@@ -225,6 +236,14 @@ class CouncilState extends React.Component {
 	}
 }
 
-export default withTranslations()(
-	withWindowOrientation(withWindowSize(CouncilState))
-);
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(mainActions, dispatch)
+	};
+}
+
+export default connect(
+	null,
+	mapDispatchToProps
+)(withTranslations()(withWindowOrientation(withWindowSize(LoginForm))));
