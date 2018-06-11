@@ -6,6 +6,8 @@ import { councilIsLive, councilIsPreparing } from "../../../utils/CBX";
 import Header from "../Header";
 import CouncilState from "../login/CouncilState";
 import background from "../../../assets/img/signup3.jpg";
+import AssistanceOption from "./AssistanceOption";
+
 
 const styles = {
 	viewContainer: {
@@ -44,7 +46,28 @@ class ParticipantLogin extends Component {
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer}>
 							{councilIsPreparing(council) ? (
-								<div> Prueba de asistencia</div>
+								<div>
+									<h3>{council.name}</h3>
+									<p>{`${council.street}, ${council.country}`}</p>
+									<p>{translate['1st_call_date']}: {council.dateStart}</p>
+									<hr/>
+									<p>{translate.welcome} {participant.fullname}</p>
+									<h4>{translate.indicate_status}:</h4>
+									<AssistanceOption
+										option={{title: translate.attend_remotely_through_cbx}}
+									/>
+									<AssistanceOption
+										option={{title: translate.attending_in_person, subtitle: translate.attending_in_person_subtitle}}
+									/>
+									<AssistanceOption
+										option={{title: translate.not_attending}}
+									/>
+									<AssistanceOption
+										option={{title: translate.want_to_delegate_in}}
+									/>
+
+
+								</div>
 							) : (
 								<CouncilState council={council} company={company} isAssistance/>
 							)}

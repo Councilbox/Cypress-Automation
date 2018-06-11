@@ -39,12 +39,25 @@ const mapStateToProps = state => ({
 const participantQuery = gql`
 	query info($councilId: Int!) {
 		participant {
-			name
-			surname
+			fullname
 			id
+			dni
+			position
 			phone
 			email
 			language
+			representative{
+				id
+				fullname
+				dni
+				position
+			}
+			delegatedVotes{
+				id
+				fullname
+				dni
+				position
+			}
 		}
 		councilVideo(id: $councilId) {
 			active
