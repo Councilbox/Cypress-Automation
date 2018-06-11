@@ -9,8 +9,9 @@ const CouncilContainer = ({ match, company, translate }) => {
 		drafts: 0,
 		calendar: 1,
 		live: 2,
-		writing: 3,
-		trash: 4
+		act: 3,
+		confirmed: 4,
+		history: 5
 	};
 
 	const tabsInfo = [
@@ -67,17 +68,50 @@ const CouncilContainer = ({ match, company, translate }) => {
 		},
 		{
 			text: translate.companies_writing,
-			link: `/company/${company.id}/councils/writing`,
+			link: `/company/${company.id}/councils/act`,
 			component: () => {
 				return (
 					<Councils
 						company={company}
 						translate={translate}
 						state={[40]}
-						link={"/writing"}
+						link={"/finished"}
 						title={translate.companies_writing}
 						desc={translate.companies_writing_desc}
 						icon={"clipboard"}
+					/>
+				);
+			}
+		},
+		{
+			text: 'ACTAS FINALIZADAS',
+			link: `/company/${company.id}/councils/confirmed`,
+			component: () => {
+				return (
+					<Councils
+						company={company}
+						translate={translate}
+						state={[60, 70]}
+						link={"/finished"}
+						title={translate.companies_docu}
+						desc={translate.companies_docu_desc}
+						icon={"clipboard"}
+					/>
+				);
+			}
+		},
+		{
+			text: translate.dashboard_historical,
+			link: `/company/${company.id}/councils/history`,
+			component: () => {
+				return (
+					<Councils
+						company={company}
+						translate={translate}
+						state={[70, 80, 100]}
+						link={"/history"}
+						title={translate.dashboard_historical}
+						icon={"history"}
 					/>
 				);
 			}

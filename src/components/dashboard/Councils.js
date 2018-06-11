@@ -11,13 +11,24 @@ import {
 	Table
 } from "../../displayComponents/index";
 import { getPrimary } from "../../styles/colors";
-import { TableCell, TableRow } from "material-ui/Table";
 import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
-import TableStyles from "../../styles/table";
-import { bHistory } from "../../containers/App";
+import CouncilsList from './CouncilsList';
+import CouncilsHistory from './CouncilsHistory';
 
 class Councils extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			councilToDelete: "",
+			deleteModal: false
+		};
+	}
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
 	openDeleteModal = councilID => {
 		this.setState({
 			deleteModal: true,
@@ -39,31 +50,6 @@ class Councils extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			councilToDelete: "",
-			deleteModal: false
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
-	_renderDeleteIcon(councilID) {
-		const primary = getPrimary();
-
-		return (
-			<CloseIcon
-				style={{ color: primary }}
-				onClick={event => {
-					this.openDeleteModal(councilID);
-					event.stopPropagation();
-				}}
-			/>
-		);
-	}
 
 	render() {
 		const { translate } = this.props;
@@ -99,62 +85,23 @@ class Councils extends Component {
 										})}
 									</div>
 								) : councils.length > 0 ? (
-									<Table
-										headers={[
-											{ name: translate.date_real_start },
-											{ name: translate.name },
-											{ name: translate.delete }
-										]}
-										action={this._renderDeleteIcon}
-										companyID={this.props.company.id}
-									>
-										{councils.map(council => {
-											return (
-												<TableRow
-													hover
-													style={TableStyles.ROW}
-													key={`council${council.id}`}
-													onClick={() => {
-														bHistory.push(
-															`/company/${
-																this.props
-																	.company.id
-															}/council/${
-																council.id
-															}${this.props.link}`
-														);
-													}}
-												>
-													<TableCell
-														style={TableStyles.TD}
-													>
-														<DateWrapper
-															format="DD/MM/YYYY HH:mm"
-															date={
-																council.dateStart
-															}
-														/>
-													</TableCell>
-													<TableCell
-														style={{
-															...TableStyles.TD,
-															width: "65%"
-														}}
-													>
-														{council.name ||
-															translate.dashboard_new}
-													</TableCell>
-													<TableCell
-														style={TableStyles.TD}
-													>
-														{this._renderDeleteIcon(
-															council.id
-														)}
-													</TableCell>
-												</TableRow>
-											);
-										})}
-									</Table>
+									this.props.link === "/history"? 
+										<CouncilsHistory
+											councils={councils}
+											openDeleteModal={this.openDeleteModal}
+											translate={translate}
+											company={this.props.company}
+										/>
+									: (
+
+										<CouncilsList
+											openDeleteModal={this.openDeleteModal}
+											translate={translate}
+											councils={councils}
+											company={this.props.company}
+											link={this.props.link}
+										/>
+									)
 								) : (
 									<span>{translate.no_results}</span>
 								)}

@@ -1,6 +1,6 @@
 import React from "react";
 import { withApollo } from "react-apollo";
-import { downloadCouncilAttachment } from "../../queries";
+import { downloadCouncilAttachment, downloadAgendaAttachment } from "../../queries";
 import { CircularProgress } from "material-ui";
 import { getSecondary } from "../../styles/colors";
 import FontAwesome from "react-fontawesome";
@@ -13,20 +13,31 @@ class AttachmentDownload extends React.Component {
 		});
 
 		const response = await this.props.client.query({
-			query: downloadCouncilAttachment,
+			query: this.props.agenda? downloadAgendaAttachment : downloadCouncilAttachment,
 			variables: {
 				attachmentId: this.props.attachment.id
 			}
 		});
 
 		if (response) {
-			if (response.data.councilAttachment.base64) {
-				const file = response.data.councilAttachment;
-				downloadFile(file.base64, file.filetype, file.filename);
+			if(this.props.agenda){
+				if (response.data.agendaAttachment.base64) {
+					const file = response.data.agendaAttachment;
+					downloadFile(file.base64, file.filetype, file.filename);
+				}
+				this.setState({
+					downloading: false
+				});
+			}else{
+				if (response.data.councilAttachment.base64) {
+					const file = response.data.councilAttachment;
+					downloadFile(file.base64, file.filetype, file.filename);
+				}
+				this.setState({
+					downloading: false
+				});
 			}
-			this.setState({
-				downloading: false
-			});
+
 		}
 	};
 

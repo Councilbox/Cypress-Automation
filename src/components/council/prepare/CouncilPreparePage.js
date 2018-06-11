@@ -32,33 +32,13 @@ const panelStyle = {
 };
 
 class CouncilPreparePage extends Component {
+
 	goToPrepareRoom = () => {
 		bHistory.push(
 			`/company/${this.props.companyID}/council/${
 				this.props.councilID
 			}/live`
 		);
-	};
-	downloadPDF = async () => {
-		const response = await this.props.client.query({
-			query: downloadConvenePDF,
-			variables: {
-				councilId: this.props.data.council.id
-			}
-		});
-
-		if (response) {
-			if (response.data.downloadConvenePDF) {
-				CBX.downloadFile(
-					response.data.downloadConvenePDF,
-					"application/pdf",
-					`${this.props.translate.convene} - ${
-						this.props.data.council.name
-					}`
-				);
-			}
-		}
-		console.log(response);
 	};
 
 	constructor(props) {
@@ -272,7 +252,10 @@ class CouncilPreparePage extends Component {
 						</Tab>
 					</TabList>
 					<TabPanel style={panelStyle}>
-						<Convene councilID={councilID} translate={translate} />
+						<Convene
+							council={council}
+							translate={translate}
+						/>
 					</TabPanel>
 
 					<TabPanel style={panelStyle}>

@@ -89,6 +89,7 @@ class AttachmentList extends Component {
 				{attachments.map((attachment, index) => {
 					return (
 						<AttachmentItem
+							edit={true}
 							key={`attachment${index}`}
 							attachment={attachment}
 							translate={translate}

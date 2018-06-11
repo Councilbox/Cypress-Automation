@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-
+import React from "react";
 import {
 	CardPageLayout,
 	ErrorWrapper,
@@ -7,10 +6,11 @@ import {
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { graphql, withApollo } from "react-apollo";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Convene from "../convene/Convene";
-import ActEditor from "./actEditor/ActEditor";
 import gql from "graphql-tag";
+import ActEditorPage from "./actEditor/ActEditorPage";
+import { COUNCIL_STATES } from '../../../constants';
+
 
 export const councilDetails = gql`
 	query CouncilDetails($councilID: Int!) {
@@ -21,6 +21,8 @@ export const councilDetails = gql`
 			dateStart
 			dateStart2NdCall
 			state
+			sendActDate
+			name
 			statute {
 				id
 				prototype
@@ -69,25 +71,9 @@ export const councilDetails = gql`
 	}
 `;
 
-const panelStyle = {
-	height: "100%",
-	overflow: "hidden",
-	boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
-	borderRadius: "0px 5px 5px 5px",
-	padding: "0"
-};
 
-class CouncilWritingPage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			sendReminder: false,
-			sendConvene: false,
-			cancel: false,
-			rescheduleCouncil: false
-		};
-	}
+
+class CouncilActPage extends React.Component {
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -96,8 +82,6 @@ class CouncilWritingPage extends Component {
 	render() {
 		const { council, error, loading } = this.props.data;
 		const { translate } = this.props;
-		const primary = getPrimary();
-		const secondary = getSecondary();
 
 		if (loading) {
 			return <LoadingSection />;
@@ -107,53 +91,27 @@ class CouncilWritingPage extends Component {
 			return <ErrorWrapper error={error} translate={translate} />;
 		}
 
-		return (
-			<CardPageLayout title={translate.companies_writing} disableScroll={true}>
-				<Tabs
-					selectedIndex={this.state.selectedTab}
-					style={{
-						padding: "0",
-						width: "calc(100% - 2em)",
-						margin: 'auto',
-						height: '100%'
-					}}
-				>
-					<TabList>
-						<Tab
-							onClick={() =>
-								this.setState({
-									page: !this.state.page
-								})
-							}
-						>
-							{translate.act}
-						</Tab>
-						<Tab
-							onClick={() =>
-								this.setState({
-									page: !this.state.page
-								})
-							}
-						>
-							{translate.convene}
-						</Tab>
-					</TabList>
-					<TabPanel style={panelStyle}>
-						<ActEditor
-							councilID={this.props.councilID}
-							companyID={this.props.companyID}
-							translate={translate}
-						/>
-					</TabPanel>
-					<TabPanel style={panelStyle}>
-						<Convene
-							councilID={this.props.councilID}
-							translate={translate}
-						/>
-					</TabPanel>
-				</Tabs>
-			</CardPageLayout>
-		);
+		if(council.state === COUNCIL_STATES.FINISHED) {
+			return (
+				<ActEditorPage
+					translate={translate}
+					council={council}
+					refetch={this.props.data.refetch}					
+				/>
+			);
+		}
+
+		if(council.state === COUNCIL_STATES.APPROVED || council.state === COUNCIL_STATES.FINAL_ACT_SENT){
+			return (
+				<ActEditorPage
+					confirmed={true}
+					refetch={this.props.data.refetch}
+					translate={translate}
+					council={council}
+				/>
+			)
+		}
+		
 	}
 }
 
@@ -164,4 +122,4 @@ export default graphql(councilDetails, {
 			councilID: props.councilID
 		}
 	})
-})(withApollo(CouncilWritingPage));
+})(withApollo(CouncilActPage));

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import gql from "graphql-tag";
@@ -13,6 +13,9 @@ import {
 import { Typography } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
 import Scrollbar from "react-perfect-scrollbar";
+import { councilDetails, downloadConvenePDF } from "../../../queries";
+import * as CBX from '../../../utils/CBX';
+
 
 export const conveneDetails = gql`
 	query CouncilDetails($councilID: Int!) {
@@ -30,13 +33,42 @@ export const conveneDetails = gql`
 	}
 `;
 
+
 class Convene extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			loading: false
+			loading: false,
+			downloadingPDF: false
 		};
 	}
+
+	downloadPDF = async () => {
+		this.setState({
+			downloadingPDF: true
+		})
+		const response = await this.props.client.query({
+			query: downloadConvenePDF,
+			variables: {
+				councilId: this.props.council.id
+			}
+		});
+
+		if (response) {
+			if (response.data.downloadConvenePDF) {
+				this.setState({
+					downloadingPDF: false
+				});
+				CBX.downloadFile(
+					response.data.downloadConvenePDF,
+					"application/pdf",
+					`${this.props.translate.convene.replace(/ /g, '_')}-${
+						this.props.council.name.replace(/ /g, '_')
+					}`
+				);
+			}
+		}
+	};
 
 	render() {
 		const secondary = getSecondary();
@@ -88,6 +120,7 @@ class Convene extends Component {
 				<BasicButton
 					text={translate.export_convene}
 					color={secondary}
+					loading={this.state.downloadingPDF}
 					buttonStyle={{ marginTop: "0.5em" }}
 					textStyle={{
 						color: "white",
@@ -124,7 +157,7 @@ export default graphql(conveneDetails, {
 	name: "data",
 	options: props => ({
 		variables: {
-			councilID: props.councilID
+			councilID: props.council.id
 		}
 	})
-})(Convene);
+})(withApollo(Convene));

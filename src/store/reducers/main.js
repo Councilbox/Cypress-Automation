@@ -33,6 +33,18 @@ export default function mainReducer(state = initialState.main, action) {
 				isParticipantLogged: false
 			};
 
+		case 'NO_SERVER_RESPONSE':
+			return {
+				...state,
+				serverStatus: false
+			}
+
+		case 'SERVER_RESTORED':
+			return {
+				...state,
+				serverStatus: true
+			}
+
 		default:
 			return {
 				...state

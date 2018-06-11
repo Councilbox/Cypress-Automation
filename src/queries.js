@@ -95,8 +95,57 @@ export const councils = gql`
 		councils(companyId: $companyId, state: $state, isMeeting: $isMeeting) {
 			id
 			dateStart
+			dateRealStart
+			dateEnd
 			name
 			step
+		}
+	}
+`;
+
+export const downloadCertificate = gql`
+	mutation DownloadCertificate($id: Int!){
+		downloadCertificate(id: $id)
+	}
+`;
+
+export const councilCertificates = gql`
+	query CouncilCertificates($councilId: Int!){
+		councilCertificates(councilId: $councilId){
+			id
+			councilId
+			title
+			header
+			content
+			footer
+			date
+		}
+
+		council(id: $councilId){
+			name
+			dateStart
+			agendas{
+				id
+				agendaSubject
+				description
+			}
+		}
+	}
+`;
+
+export const councilActEmail = gql`
+	query CouncilActEmail($councilId: String!){
+		councilAct(councilId: $councilId){
+			emailAct
+		}
+	}
+`;
+
+export const approveAct = gql`
+	mutation ApproveAct($councilId: Int!){
+		approveCouncilAct(councilId: $councilId){
+			success
+			message
 		}
 	}
 `;
@@ -164,6 +213,72 @@ export const sendActDraft = gql`
 		sendCouncilActDraft(councilId: $councilId, emailList: $emailList){
 			success
 			message
+		}
+	}
+`;
+
+export const sendAct = gql`
+	mutation SendActDraft($councilId: Int!, $participants: [LiveParticipantInput]){
+		sendCouncilAct(councilId: $councilId, participants: $participants){
+			success
+			message
+		}
+	}
+`;
+
+export const councilParticipantsWithActSends = gql`
+query councilParticipantsWithActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
+	councilParticipantsWithActSends(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+		list {
+			id
+			councilId
+			name
+			surname
+			position
+			email
+			phone
+			dni
+			type
+			numParticipations
+			socialCapital
+			position
+			language
+			city
+			personOrEntity
+			actNotifications{
+				reqCode
+				sendType
+			}
+		}
+		total
+	}
+}
+`;
+
+
+
+export const councilParticipantsActSends = gql`
+	query councilParticipantsActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
+		councilParticipantsActSends(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+			list {
+				id
+				councilId
+				name
+				surname
+				position
+				email
+				phone
+				dni
+				type
+				numParticipations
+				socialCapital
+				position
+				language
+				participantId
+				city
+				personOrEntity
+			}
+			total
 		}
 	}
 `;
@@ -971,6 +1086,33 @@ export const councilDetails = gql`
 	}
 `;
 
+export const councilAndAgendaAttachments = gql`
+	query council($councilId: Int!){
+		council(id: $councilId){
+			id
+			attachments{
+				id
+				filename
+				filesize
+				filetype
+			}
+			agendas{
+				id
+				agendaSubject
+				orderIndex
+				description
+				attachments {
+					id
+					filename
+					agendaId
+					filetype
+					filesize
+				}
+			}
+		}
+	}
+`;
+
 export const councilLiveQuery = gql`
 	query CouncilLiveQuery($councilID: Int!) {
 		council(id: $councilID) {
@@ -1163,6 +1305,16 @@ export const downloadCouncilAttachment = gql`
 	}
 `;
 
+export const downloadAgendaAttachment = gql`
+	query downloadAgendaAttachment($attachmentId: Int!) {
+		agendaAttachment(id: $attachmentId) {
+			base64
+			filename
+			filetype
+		}
+	}
+`;
+
 export const downloadConvenePDF = gql`
 	query downloadConvenePDF($councilId: Int!) {
 		downloadConvenePDF(councilId: $councilId)
@@ -1331,6 +1483,77 @@ export const wallComments = gql`
 				position
 				id
 			}
+		}
+	}
+`;
+
+export const downloadAttendPDF = gql`
+	query downloadAttendPDF($councilId: Int!) {
+		downloadAttendPDF(councilId: $councilId)
+	}
+`;
+
+export const downloadConnectionsExcel = gql`
+	query downloadConnectionsExcel($councilId: Int!){
+		downloadConnectionsExcel(councilId: $councilId)
+	}
+`;
+
+
+export const councilAttendants = gql`
+	query councilAttendants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
+		councilAttendants(councilId: $councilId, filters: $filters, options: $options){
+			list {
+				id
+				delegateId
+				state
+				audio
+				video
+				councilId
+				name
+				position
+				email
+				phone
+				dni
+				date
+				type
+				participantId
+				online
+				requestWord
+				numParticipations
+				surname
+				assistanceComment
+				assistanceLastDateConfirmed
+				assistanceIntention
+				videoPassword
+				representative {
+					id
+					name
+					surname
+				}
+				blocked
+				lastDateConnection
+				videoMode
+				notifications {
+					participantId
+					reqCode
+					refreshDate
+				}
+				firstLoginDate
+				firstLoginCurrentPointId
+				language
+				signed
+				socialCapital
+				address
+				city
+				country
+				countryState
+				zipcode
+				delegateUuid
+				actived
+				personOrEntity
+			}
+			total
 		}
 	}
 `;

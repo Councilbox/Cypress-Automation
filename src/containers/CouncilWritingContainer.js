@@ -1,5 +1,5 @@
 import React from "react";
-import CouncilWritingPage from "../components/council/writing/CouncilWritingPage";
+import CouncilActPage from "../components/council/writing/CouncilActPage";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const CouncilWritingContainer = ({
 	translate
 }) => {
 	return (
-		<CouncilWritingPage
+		<CouncilActPage
 			translate={translate}
 			companyID={match.params.company}
 			councilID={match.params.council}
