@@ -5,15 +5,10 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 import ParticipantStateIcon from "../ParticipantStateIcon";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { updateLiveParticipant } from "../../../../queries";
-import {
-	BasicButton,
-	LoadingSection,
-	FilterButton
-} from "../../../../displayComponents";
+import { LoadingSection, FilterButton } from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
-import { Typography } from "material-ui";
 import FontAwesome from "react-fontawesome";
 
 const StateIconButton = ({ loading, action, icon, active }) => (
@@ -238,87 +233,84 @@ class ParticipantStateSelector extends Component {
 					)}
 				{CBX.canDelegateVotes(council.statute, participant) && (
 					<React.Fragment>
-						<FilterButton
-							tooltip={translate.to_delegate_vote}
-							loading={loading === 5}
-							size="2.8em"
-							onClick={() =>
-								this.setState({
-									delegateOwnVote: true
-								})
-							}
-							active={
-								participant.state ===
-								PARTICIPANT_STATES.DELEGATED
-							}
-						>
-							<div
-								style={{
-									position: "relative",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center"
-								}}
+						{!participant.delegatedVotes.length > 0 &&
+							<FilterButton
+								tooltip={translate.to_delegate_vote}
+								loading={loading === 5}
+								size="2.8em"
+								onClick={() =>
+									this.setState({
+										delegateOwnVote: true
+									})
+								}
+								active={
+									participant.state ===
+									PARTICIPANT_STATES.DELEGATED
+								}
 							>
-								<ParticipantStateIcon
-									noTooltip={true}
-									participant={{
-										state: PARTICIPANT_STATES.DELEGATED
+								<div
+									style={{
+										position: "relative",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center"
 									}}
-									translate={translate}
-								/>
-							</div>
-						</FilterButton>
-
-						{!CBX.delegatedVotesLimitReached(
-							council.statute,
-							participant.delegatedVotes.length
-						) &&
-							participant.state !==
-								PARTICIPANT_STATES.DELEGATED && (
-								<FilterButton
-									tooltip={translate.add_delegated}
-									loading={loading === 6}
-									size="2.8em"
-									onClick={() =>
-										this.setState({
-											delegateVote: true
-										})
-									}
-									active={
-										participant.state ===
-										PARTICIPANT_STATES.DELEGATED
-									}
 								>
-									<div
-										style={{
-											position: "relative",
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "center"
+									<ParticipantStateIcon
+										noTooltip={true}
+										participant={{
+											state: PARTICIPANT_STATES.DELEGATED
 										}}
-									>
-										<FontAwesome
-											name={"user"}
-											style={{
-												position: "absolute",
-												color: secondary,
-												fontSize: "1.75em"
-											}}
-										/>
-										<FontAwesome
-											name={"mail-reply"}
-											style={{
-												position: "absolute",
-												color: primary,
-												right: "-0.8em",
-												fontSize: "1em"
-											}}
-											onClick={this.props.requestClose}
-										/>
-									</div>
-								</FilterButton>
-							)}
+										translate={translate}
+									/>
+								</div>
+							</FilterButton>
+
+						}
+						{participant.state !== PARTICIPANT_STATES.DELEGATED && (
+							<FilterButton
+								tooltip={translate.add_delegated}
+								loading={loading === 6}
+								size="2.8em"
+								onClick={() =>
+									this.setState({
+										delegateVote: true
+									})
+								}
+								active={
+									participant.state ===
+									PARTICIPANT_STATES.DELEGATED
+								}
+							>
+								<div
+									style={{
+										position: "relative",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center"
+									}}
+								>
+									<FontAwesome
+										name={"user"}
+										style={{
+											position: "absolute",
+											color: secondary,
+											fontSize: "1.75em"
+										}}
+									/>
+									<FontAwesome
+										name={"mail-reply"}
+										style={{
+											position: "absolute",
+											color: primary,
+											right: "-0.8em",
+											fontSize: "1em"
+										}}
+										onClick={this.props.requestClose}
+									/>
+								</div>
+							</FilterButton>
+						)}
 					</React.Fragment>
 				)}
 				<AddRepresentativeModal

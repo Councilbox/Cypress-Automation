@@ -122,6 +122,8 @@ class DelegateOwnVoteModal extends Component {
 													key={`delegateVote_${
 														participant.id
 													}`}
+													council={this.props.council}
+													toDelegate={true}
 													participant={participant}
 													onClick={() =>
 														this.delegateVote(

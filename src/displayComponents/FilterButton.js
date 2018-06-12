@@ -46,6 +46,7 @@ const FilterButton = ({
 					selected={active}
 					style={{
 						display: "flex",
+						flexGrow: 1,
 						alignItems: "center",
 						justifyContent: "center"
 					}}
