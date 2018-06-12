@@ -13,6 +13,9 @@ import ActHTML from '../actViewer/ActHTML';
 import Scrollbar from 'react-perfect-scrollbar';
 import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
+import AgendaTab from './AgendaTab';
+import CouncilHeader from '../CouncilHeader';
+
 
 const panelStyle = {
 	height: "100%",
@@ -36,7 +39,7 @@ class ActEditorPage extends React.Component {
 	}
 
     render(){
-        const { translate, council } = this.props;
+        const { translate, council, withoutAct } = this.props;
 
         return(
             <CardPageLayout title={translate.companies_writing} disableScroll={true}>
@@ -50,13 +53,21 @@ class ActEditorPage extends React.Component {
                     }}
                 >
                     <TabList>
-                        <Tab>
-                            {translate.act}
-                        </Tab>
-                        {this.props.confirmed &&
+                        {withoutAct? 
                             <Tab>
-                                {translate.sending_the_minutes}
+                                {translate.wizard_agenda}
                             </Tab>
+                        :
+                            <React.Fragment>
+                                <Tab>
+                                    {translate.act}
+                                </Tab>
+                                {this.props.confirmed &&
+                                    <Tab>
+                                        {translate.sending_the_minutes}
+                                    </Tab>
+                                }
+                            </React.Fragment>
                         }
                         <Tab>
                             {translate.new_list_called}
@@ -71,34 +82,45 @@ class ActEditorPage extends React.Component {
                             {translate.convene}
                         </Tab>
                     </TabList>
-                    <TabPanel style={panelStyle}>
-                        {this.props.confirmed? 
-                            <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
-                                <Scrollbar option={{ suppressScrollX: true }}>
-                                    <div style={{padding: '1.5em', overflow: 'hidden'}}>
-                                        <ActHTML council={council} />
-                                    </div>
-                                </Scrollbar>
-                            </div>
+                        {withoutAct? 
+                            <TabPanel style={panelStyle}>
+                                <AgendaTab
+                                    council={council}
+                                    translate={translate}
+                                />
+                            </TabPanel>
                         :
-                            <ActEditor
-                                councilID={council.id}
-                                companyID={this.props.companyID}
-                                translate={translate}
-                                refetch={this.props.refetch}
-                            />
+                            <React.Fragment>
+                                <TabPanel style={panelStyle}>
+                                    {this.props.confirmed? 
+                                        <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
+                                            <Scrollbar option={{ suppressScrollX: true }}>
+                                                <div style={{padding: '1.5em', overflow: 'hidden'}}>
+                                                    <ActHTML council={council} />
+                                                </div>
+                                            </Scrollbar>
+                                        </div>
+                                    :
+                                        <ActEditor
+                                            councilID={council.id}
+                                            companyID={this.props.companyID}
+                                            translate={translate}
+                                            refetch={this.props.refetch}
+                                        />
+                                    }
+                                
+                                </TabPanel>
+                                {this.props.confirmed &&
+                                    <TabPanel style={panelStyle}>
+                                        <SendActPage
+                                            council={council}
+                                            translate={translate}
+                                            refetch={this.props.refetch}
+                                        />
+                                    </TabPanel>
+                                }
+                            </React.Fragment>
                         }
-                       
-                    </TabPanel>
-                    {this.props.confirmed &&
-                        <TabPanel style={panelStyle}>
-                            <SendActPage
-                                council={council}
-                                translate={translate}
-                                refetch={this.props.refetch}
-                            />
-                        </TabPanel>
-                    }
                     <TabPanel style={panelStyle}>
                         <ActConvenedParticipants
                             council={council}

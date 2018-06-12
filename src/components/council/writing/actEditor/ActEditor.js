@@ -433,7 +433,7 @@ class ActEditor extends Component {
 												majorityTypes={this.props.data.majorityTypes}
 												typeText={this.getTypeText(agenda.subjectType)}
 											/>
-											{index <= council.agendas.length -1 &&
+											{index < council.agendas.length -1 &&
 												<hr style={{marginTop: '2.5em'}} />
 											}
 										</div>

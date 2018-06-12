@@ -1,9 +1,9 @@
 import React from "react";
-import CouncilActPage from "../components/council/writing/CouncilActPage";
+import CouncilFinishedPage from "../components/council/writing/CouncilFinishedPage";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-const CouncilWritingContainer = ({
+const CouncilFinishedContainer = ({
 	main,
 	company,
 	user,
@@ -12,7 +12,7 @@ const CouncilWritingContainer = ({
 	translate
 }) => {
 	return (
-		<CouncilActPage
+		<CouncilFinishedPage
 			translate={translate}
 			companyID={match.params.company}
 			councilID={match.params.council}
@@ -24,4 +24,4 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
-export default connect(mapStateToProps)(withRouter(CouncilWritingContainer));
+export default connect(mapStateToProps)(withRouter(CouncilFinishedContainer));

@@ -37,7 +37,7 @@ import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
 import { withStyles } from "material-ui";
 import CompanyDraftEditor from "../components/company/drafts/CompanyDraftEditor";
-import CouncilWritingContainer from "./CouncilWritingContainer";
+import CouncilFinishedContainer from "./CouncilFinishedContainer";
 import AssistanceTokenContainer from "./AssistanceTokenContainer";
 import AssistanceContainer from "./AssistanceContainer";
 
@@ -170,7 +170,7 @@ class AppRouter extends Component {
 							<Route
 								exact
 								path="/company/:company/council/:council/finished"
-								component={CouncilWritingContainer}
+								component={CouncilFinishedContainer}
 							/>
 							<Route
 								exact

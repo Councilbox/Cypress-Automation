@@ -10,6 +10,7 @@ import Convene from "../convene/Convene";
 import gql from "graphql-tag";
 import ActEditorPage from "./actEditor/ActEditorPage";
 import { COUNCIL_STATES } from '../../../constants';
+import CanceledCouncil from './canceled/CanceledCouncil';
 
 
 export const councilDetails = gql`
@@ -22,6 +23,10 @@ export const councilDetails = gql`
 			dateStart2NdCall
 			state
 			sendActDate
+			noCelebrateComment
+			street
+			remoteCelebration
+			country
 			name
 			statute {
 				id
@@ -73,7 +78,7 @@ export const councilDetails = gql`
 
 
 
-class CouncilActPage extends React.Component {
+class CouncilFinishedPage extends React.Component {
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -111,6 +116,27 @@ class CouncilActPage extends React.Component {
 				/>
 			)
 		}
+
+		if(council.state === COUNCIL_STATES.FINISHED_WITHOUT_ACT){
+			return(
+				<ActEditorPage
+					confirmed={true}
+					withoutAct={true}
+					refetch={this.props.data.refetch}
+					translate={translate}
+					council={council}
+				/>
+			)
+		}
+
+		if(council.state === COUNCIL_STATES.NOT_CELEBRATED){
+			return(
+				<CanceledCouncil
+					council={council}
+					translate={translate}
+				/>
+			)
+		}
 		
 	}
 }
@@ -122,4 +148,4 @@ export default graphql(councilDetails, {
 			councilID: props.councilID
 		}
 	})
-})(withApollo(CouncilActPage));
+})(withApollo(CouncilFinishedPage));
