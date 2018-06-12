@@ -17,7 +17,7 @@ class AssistanceContainer extends React.PureComponent {
 			return <InvalidUrl />;
 		}
 
-		if (data.loading) {
+		if (!this.props.translate || data.loading) {
 			return <LoadingMainApp />;
 		}
 
@@ -26,6 +26,7 @@ class AssistanceContainer extends React.PureComponent {
 				participant={data.participant}
 				council={data.councilVideo}
 				company={data.councilVideo.company}
+				refetch = {data.refetch}
 			/>
 		);
 	}
@@ -39,22 +40,28 @@ const mapStateToProps = state => ({
 const participantQuery = gql`
 	query info($councilId: Int!) {
 		participant {
-			fullname
+			name
+			surname
 			id
 			dni
 			position
 			phone
 			email
 			language
-			representative{
+			assistanceIntention
+			state
+			type
+			representative {
 				id
-				fullname
+				name
+				surname
 				dni
 				position
 			}
-			delegatedVotes{
+			delegatedVotes {
 				id
-				fullname
+				name
+				surname
 				dni
 				position
 			}
@@ -83,6 +90,8 @@ const participantQuery = gql`
 			state
 			statute {
 				id
+				councilId
+				existsDelegatedVote
 			}
 			street
 			tin

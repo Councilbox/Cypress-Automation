@@ -13,6 +13,7 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
 
 class DelegateVoteModal extends Component {
+	
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -28,10 +29,10 @@ class DelegateVoteModal extends Component {
 		}
 	}
 
-
 	close = () => {
 		this.props.requestClose();
 	};
+
 	loadMore = () => {
 		this.props.data.fetchMore({
 			variables: {
@@ -59,10 +60,12 @@ class DelegateVoteModal extends Component {
 			}
 		});
 	};
+
 	delegateVote = id => {
 		this.props.delegateVote(4, 5, this.props.participant.id, id);
 		this.close();
 	};
+
 	updateFilterText = async text => {
 		const response = await this.props.data.refetch({
 			filters: [
@@ -108,44 +111,44 @@ class DelegateVoteModal extends Component {
 					{loading ? (
 						<LoadingSection />
 					) : (
-						<Scrollbar>
-							{participants.length > 0 ? (
-								<React.Fragment>
-									{participants.map(participant => {
-										if (
-											participant.id !==
-											this.props.participant.id
-										) {
-											return (
-												<ParticipantRow
-													key={`delegateParticipant_${
-														participant.id
-													}`}
-													participant={participant}
-													onClick={() =>
-														this.delegateVote(
+							<Scrollbar>
+								{participants.length > 0 ? (
+									<React.Fragment>
+										{participants.map(participant => {
+											if (
+												participant.id !==
+												this.props.participant.id
+											) {
+												return (
+													<ParticipantRow
+														key={`delegateParticipant_${
 															participant.id
-														)
-													}
-												/>
-											);
-										}
-									})}
-									{participants.length < total - 1 && (
-										<div onClick={this.loadMore}>
-											{`DESCARGAR ${
-												rest > DELEGATION_USERS_LOAD
-													? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-													: translate.all_plural.toLowerCase()
-											}`}
-										</div>
+															}`}
+														participant={participant}
+														onClick={() =>
+															this.delegateVote(
+																participant.id
+															)
+														}
+													/>
+												);
+											}
+										})}
+										{participants.length < total - 1 && (
+											<div onClick={this.loadMore}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD
+														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+													}`}
+											</div>
+										)}
+									</React.Fragment>
+								) : (
+										<Typography>{translate.no_results}</Typography>
 									)}
-								</React.Fragment>
-							) : (
-								<Typography>{translate.no_results}</Typography>
-							)}
-						</Scrollbar>
-					)}
+							</Scrollbar>
+						)}
 				</div>
 			</div>
 		);

@@ -1,19 +1,33 @@
 import React from "react";
-import { ButtonIcon } from "../../../displayComponents";
+import { Icon } from "material-ui";
+import { getPrimary } from "../../../styles/colors";
 
-const AssistanceOption = (option) => {
+const AssistanceOption = ({ title, subtitle, selected, select }) => {
+    const primary = getPrimary();
     return (
-        <div style={{ display: 'flex' }}>
-            <div style={{ width: '50px' }}>
-                {option.selected ?
-                    <ButtonIcon type="check" color="white" />
-                    :
-                    <ButtonIcon type="square" color="white" />
-                }
+        <div style={{margin: '1em', cursor: 'pointer'}} onClick={select}>
+            <div style={{ display: 'flex' }}>
+                <div style={{ width: '50px' }}>
+                    {selected ?
+                        <Icon className="material-icons" style={{ color: primary, fontSize: '1.8em' }}>
+						check_box
+					</Icon>
+                        :
+                        <Icon className="material-icons" style={{ color: "grey", fontSize: '1.8em' }}>
+						check_box_outline_blank
+					</Icon>
+                    }
+                </div>
+                <div>
+                    <h5>{title}</h5>
+                </div>
             </div>
-            <div>
-                <h4>{option.title}</h4>
-            </div>
+            {
+                subtitle &&
+                <div>
+                    <h6>{subtitle}</h6>
+                </div>
+            }
         </div>
     )
 }
