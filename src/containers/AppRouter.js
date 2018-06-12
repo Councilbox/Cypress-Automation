@@ -70,6 +70,17 @@ class AppRouter extends Component {
 			return <LoadingMainApp />;
 		}
 
+		if(this.props.user.type === 'corporation'){
+			console.log(user);
+			return (
+				<div>
+					CORPORATION
+				</div>
+			);
+		}
+
+		console.log(user);
+
 		return this.props.main.isLogged ? (
 			<div
 				style={{

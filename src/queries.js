@@ -23,6 +23,7 @@ export const getMe = gql`
 			name
 			surname
 			id
+			type
 			roles
 			phone
 			email
