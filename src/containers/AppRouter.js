@@ -56,7 +56,7 @@ class AppRouter extends Component {
 			return <LoadingMainApp />;
 		}
 
-		if (this.props.main.isLogged && !this.props.companies.list) {
+		if (this.props.main.isLogged && !this.props.companies.list && !this.props.companies.selected) {
 			return <LoadingMainApp />;
 		}
 
@@ -70,6 +70,7 @@ class AppRouter extends Component {
 				/>
 			);
 		}
+
 
 		return this.props.main.isLogged && this.props.user.type === 'company'? (
 			<div
