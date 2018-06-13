@@ -42,6 +42,13 @@ class CouncilCertificates extends React.PureComponent {
 
     }
 
+    closeEditor = () =>  {
+        this.props.data.refetch();
+        this.setState({
+            editor: false
+        });
+    }
+
     render(){
         const { translate } = this.props;
 
@@ -56,6 +63,7 @@ class CouncilCertificates extends React.PureComponent {
                 <CertificateForm
                     council={this.props.data.council}
                     translate={translate}
+                    requestClose={this.closeEditor}
                 />
             )
         }
@@ -80,7 +88,7 @@ class CouncilCertificates extends React.PureComponent {
                             ]}
                         >
                             {this.props.data.councilCertificates.map(certificate => (
-                                <TableRow>
+                                <TableRow key={`certificate_${certificate.id}`}>
                                     <TableCell>
                                         <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
                                     </TableCell>
@@ -123,3 +131,8 @@ export default compose(
         name: 'downloadCertificate'
     })
 )(withSharedProps()(withRouter(CouncilCertificates)));
+
+
+/* 
+&&data%5Btitle%5D=Titulo%20-%20alpha&data%5Bheader%5D=%3Cp%3ECabecera%20-%20alpha%3C%2Fp%3E&data%5Bfooter%5D=%3Cp%3EPie%20-%20alpha%3C%2Fp%3E&data%5Bcouncil_id%5D=5581&data%5Bdate%5D=2018-06-12T07%3A35%3A46.830Z
+*/

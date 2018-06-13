@@ -108,8 +108,8 @@ const CouncilContainer = ({ match, company, translate }) => {
 					<Councils
 						company={company}
 						translate={translate}
-						state={[70, 80, 100]}
-						link={"/history"}
+						state={[70, 80, 90]}
+						link={"/finished"}
 						title={translate.dashboard_historical}
 						icon={"history"}
 					/>

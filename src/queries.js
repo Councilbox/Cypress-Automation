@@ -23,6 +23,7 @@ export const getMe = gql`
 			name
 			surname
 			id
+			type
 			roles
 			phone
 			email
@@ -109,6 +110,15 @@ export const downloadCertificate = gql`
 	}
 `;
 
+export const createCertificate = gql`
+	mutation CreateCertificate($certificate: CertificateInput, $points: [Int]){
+		createCertificate(certificate: $certificate, points: $points){
+			success
+			message
+		}
+	}
+`;
+
 export const councilCertificates = gql`
 	query CouncilCertificates($councilId: Int!){
 		councilCertificates(councilId: $councilId){
@@ -122,6 +132,7 @@ export const councilCertificates = gql`
 		}
 
 		council(id: $councilId){
+			id
 			name
 			dateStart
 			agendas{
@@ -1525,7 +1536,6 @@ export const councilAttendants = gql`
 				assistanceComment
 				assistanceLastDateConfirmed
 				assistanceIntention
-				videoPassword
 				representative {
 					id
 					name
@@ -1592,8 +1602,7 @@ export const liveParticipants = gql`
 				surname
 				assistanceComment
 				assistanceLastDateConfirmed
-				assistanceIntention
-				videoPassword
+				assistanceIntention				
 				representative {
 					id
 					name
@@ -1669,7 +1678,6 @@ export const videoParticipants = gql`
 				online
 				requestWord
 				surname
-				videoPassword
 				blocked
 				lastDateConnection
 				videoMode
@@ -1714,7 +1722,6 @@ export const councilOfficials = gql`
 				online
 				requestWord
 				surname
-				videoPassword
 				blocked
 				lastDateConnection
 				videoMode
@@ -1782,6 +1789,10 @@ export const participantsToDelegate = gql`
 				name
 				surname
 				phone
+				delegatedVotes {
+					id
+					name
+				}
 				email
 				dni
 				position
@@ -1849,7 +1860,6 @@ export const liveParticipant = gql`
 			assistanceComment
 			assistanceLastDateConfirmed
 			assistanceIntention
-			videoPassword
 			blocked
 			lastDateConnection
 			videoMode

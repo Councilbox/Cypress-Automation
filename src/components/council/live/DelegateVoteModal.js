@@ -11,6 +11,8 @@ import { compose, graphql } from "react-apollo";
 import { participantsWhoCanDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
+import { delegatedVotesLimitReached } from '../../../utils/CBX';
+
 
 class DelegateVoteModal extends Component {
 	
@@ -88,6 +90,14 @@ class DelegateVoteModal extends Component {
 			? 0
 			: this.props.data.liveParticipantsWhoCanDelegate;
 		const rest = total - participants.length - 1;
+
+		if(delegatedVotesLimitReached(this.props.council.statute, this.props.participant.delegatedVotes.length)) {
+			return (
+				<div>
+					ESTE PARTICIPANTE HA LLEGADO AL NÚMERO MÁXIMO DE VOTOS DELEGADOS.
+				</div>
+			)
+		}
 
 		return (
 			<div style={{ width: "600px" }}>

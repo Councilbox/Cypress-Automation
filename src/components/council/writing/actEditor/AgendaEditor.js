@@ -19,6 +19,7 @@ const AgendaEditor = ({
 	updateAgenda,
 	loadDraft,
 	recount,
+	readOnly,
 	majorityTypes
 }) => (
 	<div
@@ -66,9 +67,11 @@ const AgendaEditor = ({
 		</Grid>
 		<Tabs>
 			<TabList>
-				<Tab>
-					{translate.comments_and_agreements}
-				</Tab>
+				{!readOnly &&
+					<Tab>
+						{translate.comments_and_agreements}
+					</Tab>
+				}
 				<Tab>
 					{translate.act_comments}
 				</Tab>
@@ -83,34 +86,36 @@ const AgendaEditor = ({
 					</React.Fragment>
 				}
 			</TabList>
-			<TabPanel>
-				<Card style={{padding: '1em'}}>
-					<RichTextInput
-						ref={editor => (this.editorAgenda = editor)}
-						type="text"
-						loadDraft={loadDraft}
-						tags={[
-							{
-								value: `${agenda.positiveVotings} `,
-								label: translate.positive_votings
-							},
-							{
-								value: `${agenda.negativeVotings} `,
-								label: translate.negative_votings
-							}
-						]}
-						value={agenda.comment || ''}
-						onChange={value =>{
-							if(value !== agenda.comment){
-								updateAgenda({
-									id: agenda.id,
-									comment: value
-								})
-							}
-						}}
-					/>
-				</Card>
-			</TabPanel>
+			{!readOnly &&
+				<TabPanel>
+					<Card style={{padding: '1em'}}>
+						<RichTextInput
+							ref={editor => (this.editorAgenda = editor)}
+							type="text"
+							loadDraft={loadDraft}
+							tags={[
+								{
+									value: `${agenda.positiveVotings} `,
+									label: translate.positive_votings
+								},
+								{
+									value: `${agenda.negativeVotings} `,
+									label: translate.negative_votings
+								}
+							]}
+							value={agenda.comment || ''}
+							onChange={value =>{
+								if(value !== agenda.comment){
+									updateAgenda({
+										id: agenda.id,
+										comment: value
+									})
+								}
+							}}
+						/>
+					</Card>
+				</TabPanel>
+			}
 			<TabPanel>
 				<Card style={{minHeight: '8em', padding: '1em', paddingBottom: '1.4em'}}>
 					<CommentsTable
