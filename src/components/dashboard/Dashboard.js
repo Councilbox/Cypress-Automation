@@ -7,6 +7,9 @@ import { connect } from "react-redux";
 import { darkGrey, lightGrey } from "../../styles/colors";
 
 class Dashboard extends React.Component {
+	state = {
+		height: 10
+	}
 	componentWillReceiveProps(nextProps) {
 		if (!this.props.company.id && nextProps.company.id) {
 			this.props.companyActions.getRecount(nextProps.company.id);
