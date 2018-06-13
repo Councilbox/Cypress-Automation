@@ -17,7 +17,7 @@ class AssistanceContainer extends React.PureComponent {
 			return <InvalidUrl />;
 		}
 
-		if (data.loading) {
+		if (!this.props.translate || data.loading) {
 			return <LoadingMainApp />;
 		}
 
@@ -26,6 +26,7 @@ class AssistanceContainer extends React.PureComponent {
 				participant={data.participant}
 				council={data.councilVideo}
 				company={data.councilVideo.company}
+				refetch = {data.refetch}
 			/>
 		);
 	}
@@ -42,9 +43,28 @@ const participantQuery = gql`
 			name
 			surname
 			id
+			dni
+			position
 			phone
 			email
 			language
+			assistanceIntention
+			state
+			type
+			representative {
+				id
+				name
+				surname
+				dni
+				position
+			}
+			delegatedVotes {
+				id
+				name
+				surname
+				dni
+				position
+			}
 		}
 		councilVideo(id: $councilId) {
 			active
@@ -70,6 +90,8 @@ const participantQuery = gql`
 			state
 			statute {
 				id
+				councilId
+				existsDelegatedVote
 			}
 			street
 			tin
