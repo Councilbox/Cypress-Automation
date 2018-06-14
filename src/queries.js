@@ -561,6 +561,46 @@ export const platformDrafts = gql`
 	}
 `;
 
+export const corporationDrafts = gql`
+	query platformDrafts(
+		$filters: [FilterInput]
+		$options: OptionsInput
+		$companyType: Int
+	) {
+		platformDrafts(
+			filters: $filters
+			options: $options
+			companyType: $companyType
+		) {
+			list {
+				categories
+				companyType
+				corporationId
+				councilType
+				description
+				id
+				language
+				majority
+				majorityDivider
+				majorityType
+				prototype
+				statuteId
+				text
+				title
+				type
+				userId
+				votationType
+			}
+			total
+		}
+		draftTypes {
+			id
+			label
+			value
+		}
+	}
+`;
+
 export const statutes = gql`
 	query statutes($companyId: Int!) {
 		companyStatutes(companyId: $companyId) {

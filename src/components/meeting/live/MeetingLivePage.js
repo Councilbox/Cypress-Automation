@@ -77,6 +77,12 @@ class MeetingLivePage extends Component {
 					fontSize: "1em"
 				}}
 			>
+				<LiveHeader
+					logo={company.logo}
+					companyName={company.businessName}
+					councilName={'Meeting'}
+					translate={translate}
+				/>
 				<div
 					style={{
 						display: "flex",
