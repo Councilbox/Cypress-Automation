@@ -51,3 +51,45 @@ export const corporationDrafts = gql`
 		}
 	}
 `;
+
+export const getCorporationUsers = gql` 
+  query getCorporationUsers { 
+    corporationUsers { 
+      id 
+      usr 
+      name 
+      surname 
+      email 
+      phone 
+      lastConnectionDate 
+    } 
+  } 
+`; 
+ 
+export const getCorporationUser = gql` 
+  query getCorporationUser ( 
+    $id: Int! 
+  ) { 
+    corporationUser (id: $id){ 
+      id 
+      usr 
+      name 
+      surname 
+      email 
+      phone 
+      lastConnectionDate 
+      companies{ 
+        id 
+        businessName 
+        logo 
+      } 
+      sends{ 
+        id 
+        sendDate 
+        impositionDate 
+        sendType 
+        reqCode 
+      } 
+    } 
+  } 
+`; 
