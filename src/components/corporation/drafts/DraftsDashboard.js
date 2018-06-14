@@ -1,15 +1,18 @@
 import React from 'react';
-
+import { graphql } from 'react-apollo';
+import { corporationDrafts } from "../../../queries";
 
 class DraftsDashboard extends React.PureComponent {
 
     render(){
+        console.log(this.props.data);
+
         return(
             <div>
-                DRAFTS SECTION
+                CORPORATION DRAFTS
             </div>
         )
     }
 }
 
-export default DraftsDashboard;
+export default graphql(corporationDrafts)(DraftsDashboard);
