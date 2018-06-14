@@ -211,9 +211,9 @@ class Sidebar extends Component {
 				icon: ImportContacts
 			},
 			{
-				path: `/company/${props.company.id}/meetings/drafts`,
+				path: `/company/${props.company.id}/meeting/live`,
 				name: "meeting",
-				sidebarName: props.translate.meetings,
+				sidebarName: props.translate.dashboard_new_meeting,
 				icon: ContentPaste
 			},
 			{

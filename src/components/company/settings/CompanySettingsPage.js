@@ -39,6 +39,42 @@ export const info = gql`
 `;
 
 class CompanySettingsPage extends Component {
+
+	state = {
+		data: this.props.company,
+		success: false,
+		error: false,
+		unlinkModal: false,
+		request: false,
+		provinces: [],
+		errors: {}
+	};
+
+	componentDidMount(){
+		this.props.info.refetch();
+	}
+
+	componentDidUpdate() {
+		if (!this.props.info.loading && this.state.provinces.length === 0) {
+			const selectedCountry = this.props.info.countries.find(
+				country => country.deno === this.props.company.country
+			);
+
+			this.updateProvinces(selectedCountry.id);
+		}
+	}
+
+	updateState(newValues) {
+		this.setState({
+			data: {
+				...this.state.data,
+				...newValues
+			},
+			success: false
+		});
+	}
+
+
 	handleCountryChange = event => {
 		this.updateState({ country: event.target.value });
 		const selectedCountry = this.props.info.countries.find(
@@ -46,6 +82,7 @@ class CompanySettingsPage extends Component {
 		);
 		this.updateProvinces(selectedCountry.id);
 	};
+
 	updateProvinces = async countryID => {
 		const response = await this.props.client.query({
 			query: provinces,
@@ -53,13 +90,15 @@ class CompanySettingsPage extends Component {
 				countryId: countryID
 			}
 		});
+		
 
-		if (response) {
+		if (!response.errors) {
 			this.setState({
 				provinces: response.data.provinces
 			});
 		}
 	};
+
 	handleFile = event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -88,6 +127,7 @@ class CompanySettingsPage extends Component {
 			});
 		};
 	};
+
 	saveCompany = async () => {
 		if (!this.checkRequiredFields()) {
 			this.setState({
@@ -116,6 +156,7 @@ class CompanySettingsPage extends Component {
 			}
 		}
 	};
+
 	unlinkCompany = async () => {
 		const response = await this.props.unlinkCompany({
 			variables: {
@@ -132,43 +173,6 @@ class CompanySettingsPage extends Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: this.props.company,
-			success: false,
-			error: false,
-			unlinkModal: false,
-			request: false,
-			provinces: [],
-			errors: {}
-		};
-	}
-
-	async componentWillReceiveProps(nextProps) {
-		this.setState({
-			data: nextProps.company
-		});
-
-		if (!nextProps.info.loading) {
-			const selectedCountry = nextProps.info.countries.find(
-				country => country.deno === this.props.company.country
-			);
-
-			this.updateProvinces(selectedCountry.id);
-		}
-	}
-
-	updateState(newValues) {
-		this.setState({
-			data: {
-				...this.state.data,
-				...newValues
-			},
-			success: false
-		});
-	}
 
 	checkRequiredFields() {
 		const { translate } = this.props;
@@ -487,22 +491,24 @@ class CompanySettingsPage extends Component {
 					onClick={this.saveCompany}
 					icon={<ButtonIcon type="save" color="white" />}
 				/>
-				<BasicButton
-					text={translate.unlink}
-					color={getPrimary()}
-					floatRight
-					textStyle={{
-						color: "white",
-						fontWeight: "700"
-					}}
-					buttonStyle={{ marginRight: "1.2em" }}
-					onClick={() =>
-						this.setState({
-							unlinkModal: true
-						})
-					}
-					icon={<ButtonIcon type="link_off" color="white" />}
-				/>
+				{this.props.linkButton &&
+					<BasicButton
+						text={translate.unlink}
+						color={getPrimary()}
+						floatRight
+						textStyle={{
+							color: "white",
+							fontWeight: "700"
+						}}
+						buttonStyle={{ marginRight: "1.2em" }}
+						onClick={() =>
+							this.setState({
+								unlinkModal: true
+							})
+						}
+						icon={<ButtonIcon type="link_off" color="white" />}
+					/>
+				}
 				<AlertConfirm
 					requestClose={() => this.setState({ unlinkModal: false })}
 					open={this.state.unlinkModal}
@@ -518,7 +524,12 @@ class CompanySettingsPage extends Component {
 }
 
 export default compose(
-	graphql(info, { name: "info" }),
+	graphql(info, {
+		name: "info",
+		options: props => ({
+			notifyOnNetworkStatusChange: true
+		})
+	}),
 	graphql(updateCompany, {
 		name: "updateCompany",
 		options: {

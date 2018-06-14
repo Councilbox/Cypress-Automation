@@ -116,7 +116,7 @@ class App extends Component {
 								/>
 								<Route
 									exact
-									path="/company/:company/meeting/:id/live"
+									path="/company/:company/meeting/live"
 									component={MeetingLiveContainer}
 								/>
 								<Route path="/" component={AppRouter} />

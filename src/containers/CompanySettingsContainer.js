@@ -6,6 +6,7 @@ class CompanySettingsContainer extends Component {
 	render() {
 		return (
 			<CompanySettingsPage
+				linkButton={true}
 				main={this.props.main}
 				translate={this.props.translate}
 				company={this.props.company}
