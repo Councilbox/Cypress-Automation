@@ -87,7 +87,7 @@ class MeetingLivePage extends Component {
 					style={{
 						display: "flex",
 						width: "100%",
-						height: "100%",
+						height: "calc(100vh - 3em)",
 						flexDirection: "row"
 					}}
 				>
