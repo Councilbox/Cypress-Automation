@@ -63,6 +63,31 @@ export const getTranslations = gql`
 	}
 `;
 
+export const company = gql`
+	query company($id: Int!){
+		company(id: $id){
+			alias
+			tin
+			logo
+			id
+			businessName
+			address
+			city
+			zipcode
+			country
+			countryState
+			linkKey
+			creatorId
+			domain
+			demo
+			type
+			language
+			creationDate
+			corporationId
+		}
+	}
+`;
+
 export const companies = gql`
 	query UserCompanies($userId: Int!) {
 		userCompanies(userId: $userId) {

@@ -77,13 +77,6 @@ class MeetingLivePage extends Component {
 					fontSize: "1em"
 				}}
 			>
-				<LiveHeader
-					logo={company.logo}
-					companyName={company.businessName}
-					councilName={council.name}
-					translate={translate}
-				/>
-
 				<div
 					style={{
 						display: "flex",
@@ -92,55 +85,19 @@ class MeetingLivePage extends Component {
 						flexDirection: "row"
 					}}
 				>
-					{this.checkVideoFlags() && (
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								width: "100%",
-								height: "100%",
-								position: "relative"
-							}}
-						>
-							<div
-								style={{
-									height: "95vh",
-									width: "350px",
-									overflow: "hidden",
-									backgroundColor: darkGrey
-								}}
-							>
-							</div>
-
-							{council.room.htmlVideoCouncil && (
-								<Fragment>
-									<div
-										style={{
-											height: "calc(100% - 3em)",
-											width: "calc(100% - 350px)",
-											position: "relative"
-										}}
-									>
-										<iframe
-											title="meetingScreen"
-											allow="geolocation; microphone; camera"
-											scrolling="no"
-											className="temp_video"
-											src={`http://${roomURL}?rand=${Math.round(
-												Math.random() * 10000000
-											)}`}
-											allowFullScreen="true"
-											style={{
-												border: "none !important"
-											}}
-										>
-											Something wrong...
-										</iframe>
-									</div>
-								</Fragment>
-							)}
-						</div>
-					)}
+					<iframe
+						title="meetingScreen"
+						allow="geolocation; microphone; camera"
+						scrolling="no"
+						className="temp_video"
+						src={`https://cmp.councilbox.com/meet/public`}
+						allowFullScreen="true"
+						style={{
+							border: "none !important"
+						}}
+					>
+						Something wrong...
+					</iframe>
 				</div>
 			</div>
 		);

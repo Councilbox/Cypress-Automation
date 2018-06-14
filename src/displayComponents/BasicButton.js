@@ -40,7 +40,7 @@ const BasicButton = ({
 			}}
 			disabled={disabled}
 			variant={type}
-			onClick={!success && onClick}
+			{...(!success? {onClick: onClick} : {})}
 			fullWidth={fullWidth}
 		>
 			{text}

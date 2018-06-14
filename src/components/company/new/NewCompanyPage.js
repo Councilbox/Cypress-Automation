@@ -20,7 +20,38 @@ import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
 
-class NewCompanyPage extends React.Component {
+class NewCompanyPage extends React.PureComponent {
+	state = {
+		data: {
+			businessName: "",
+			alias: "",
+			tin: "",
+			domain: "",
+			type: 0,
+			linkKey: "",
+			address: "",
+			city: "",
+			zipcode: "",
+			country: "España",
+			language: "es"
+		},
+		step: 1,
+		errors: {},
+		provinces: [],
+		success: false,
+		request: false,
+		requestError: false
+	};
+
+	static getDerivedStateFromProps(nextProps) {
+		if (!nextProps.info.loading) {
+			return {
+				provinces: nextProps.info.provinces
+			};
+		}
+		return null;
+	}
+	
 	cbxCountryChange = event => {
 		this.updateState({ country: event.target.value });
 		const selectedCountry = this.props.info.countries.find(
@@ -28,6 +59,7 @@ class NewCompanyPage extends React.Component {
 		);
 		this.updateProvinces(selectedCountry.id);
 	};
+
 	updateProvinces = async countryID => {
 		const response = await this.props.client.query({
 			query: provinces,
@@ -42,6 +74,7 @@ class NewCompanyPage extends React.Component {
 			});
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -50,6 +83,7 @@ class NewCompanyPage extends React.Component {
 			}
 		});
 	};
+
 	cbxFile = event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -78,6 +112,7 @@ class NewCompanyPage extends React.Component {
 			});
 		};
 	};
+
 	cbx = object => {
 		this.setState({
 			errors: {
@@ -86,6 +121,7 @@ class NewCompanyPage extends React.Component {
 			}
 		});
 	};
+
 	createCompany = async () => {
 		const response = await this.props.createCompany({
 			variables: {
@@ -104,40 +140,6 @@ class NewCompanyPage extends React.Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				businessName: "",
-				alias: "",
-				tin: "",
-				domain: "",
-				type: 0,
-				linkKey: "",
-				address: "",
-				city: "",
-				zipcode: "",
-				country: "España",
-				language: "es"
-			},
-			step: 1,
-			errors: {},
-			provinces: [],
-			success: false,
-			request: false,
-			requestError: false
-		};
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!nextProps.info.loading) {
-			return {
-				provinces: nextProps.info.provinces
-			};
-		}
-		return null;
-	}
 
 	render() {
 		const { translate } = this.props;
