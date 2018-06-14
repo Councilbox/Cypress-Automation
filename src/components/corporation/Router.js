@@ -4,6 +4,7 @@ import CouncilsDashboard from './councils/CouncilsDashboard';
 import CompaniesDashboard from './companies/CompaniesDashboard';
 import DraftsDashboard from './drafts/DraftsDashboard';
 import UsersDashboard from './users/UsersDashboard';
+import CompanyEditPage from './companies/CompanyEditPage';
 import { LoadingMainApp } from '../../displayComponents';
 import Header from '../Header';
 import { graphql } from 'react-apollo';
@@ -12,14 +13,13 @@ import image from "../../assets/img/sidebar-2.jpg";
 import Sidebar from './menus/Sidebar';
 import appStyle from "../../styles/appStyle.jsx";
 import { withStyles } from 'material-ui';
+import { lightGrey } from '../../styles/colors';
 
 
 const Router = ({ user, translate, location, data, classes }) => {
     if(data.loading){
         return <LoadingMainApp />;
     }
-
-    console.log(data);
     
     return(
         <div>
@@ -29,7 +29,7 @@ const Router = ({ user, translate, location, data, classes }) => {
                 translate={translate}
                 color="blue"
             />
-            <div className={classes.mainPanel}>
+            <div className={classes.mainPanel} style={{backgroundColor: lightGrey}}>
                 <Header
                     user={user}
                     translate={translate}
@@ -38,7 +38,8 @@ const Router = ({ user, translate, location, data, classes }) => {
                 <Switch>
                     <Route exact path="/" component={() => <Redirect to="/councils" />} />
                     <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
-                    <Route path="/companies" component={() => <CompaniesDashboard />} />
+                    <Route exact path="/companies" component={() => <CompaniesDashboard />} />
+                    <Route path="/companies/edit/:id" component={CompanyEditPage} />
                     <Route path="/users" component={() => <UsersDashboard />} />
                     <Route path="/drafts" component={() => <DraftsDashboard />} />
                     <Route path="*" component={() => <Redirect to="/" />} />

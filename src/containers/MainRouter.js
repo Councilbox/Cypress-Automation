@@ -23,7 +23,6 @@ import SignatureContainer from "./SignatureContainer";
 import MeetingsContainer from "./MeetingsContainer";
 
 
-
 const MainRouter = ({ company }) => (
     <Switch>
         <Route
