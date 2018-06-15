@@ -25,3 +25,33 @@ export const setAssistanceIntention = gql`
 		}
 	}
 `;
+
+
+export const liveParticipantSignature = gql`
+	query liveParticipantSignature(
+		$participantId: Int!,
+	) {
+		liveParticipantSignature(
+			participantId: $participantId
+		) {
+			id
+			participantId
+			data
+			date
+		}
+	}
+`;
+
+export const setLiveParticipantSignature = gql`
+	mutation setLiveParticipantSignature(
+		$signature: LiveParticipantSignatureInput!,
+		$state: Int
+	) {
+		setLiveParticipantSignature(
+			signature: $signature,
+			state: $state
+		) {
+			success
+		}
+	}
+`;

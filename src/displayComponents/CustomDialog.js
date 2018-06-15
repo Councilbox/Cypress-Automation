@@ -17,6 +17,7 @@ const CustomDialog = ({
 	open,
 	actions,
 	children,
+	onEntered,
 	...restProps
 }) => {
 	return (
@@ -27,6 +28,7 @@ const CustomDialog = ({
 			maxWidth={false}
 			open={open}
 			onClose={requestClose}
+			onEntered={onEntered}
 		>
 			<FontAwesome
 				name={"close"}

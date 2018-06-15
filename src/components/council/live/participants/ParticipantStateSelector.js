@@ -10,6 +10,8 @@ import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
 import FontAwesome from "react-fontawesome";
+import SignatureModal from "./modals/SignatureModal";
+
 
 const StateIconButton = ({ loading, action, icon, active }) => (
 	<div
@@ -341,6 +343,15 @@ class ParticipantStateSelector extends Component {
 					delegateVote={this.updateLiveParticipant}
 					refetch={this.props.refetch}
 					requestClose={() => this.setState({ delegateVote: false })}
+					translate={translate}
+				/>
+				<SignatureModal
+					show={this.state.signature}
+					council={council}
+					participant={participant}
+					delegateVote={this.saveSignature}
+					refetch={this.props.refetch}
+					requestClose={() => this.setState({ signature: false })}
 					translate={translate}
 				/>
 			</div>
