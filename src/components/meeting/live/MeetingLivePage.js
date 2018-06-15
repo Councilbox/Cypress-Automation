@@ -87,7 +87,7 @@ class MeetingLivePage extends Component {
 					style={{
 						display: "flex",
 						width: "100%",
-						height: "100%",
+						height: "calc(100vh - 3em)",
 						flexDirection: "row"
 					}}
 				>
@@ -96,7 +96,7 @@ class MeetingLivePage extends Component {
 						allow="geolocation; microphone; camera"
 						scrolling="no"
 						className="temp_video"
-						src={`https://cmp.councilbox.com/meet/public`}
+						src={`https://cmp.councilbox.com/meet/public?rand=${Date.now()}`}
 						allowFullScreen="true"
 						style={{
 							border: "none !important"
