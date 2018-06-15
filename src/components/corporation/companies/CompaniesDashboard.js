@@ -3,7 +3,6 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon } from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
-import Scrollbar from 'react-perfect-scrollbar';
 import { MenuItem } from 'material-ui';
 import NewCompanyPage from '../../company/new/NewCompanyPage';
 import withTranslations from '../../../HOCs/withTranslations';

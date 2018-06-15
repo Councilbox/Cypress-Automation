@@ -1,28 +1,26 @@
-import React from 'react';
-import { graphql, compose } from 'react-apollo';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon } from '../../../displayComponents';
-import UserItem from './UserItem';
-import NewUser from './NewUser';
-import { MenuItem } from 'material-ui';
-import { corporationUsers } from '../../../queries/corporation';
+import React, { Component, Fragment } from "react"; 
+import { BasicButton, LoadingSection, TextInput, Icon, ButtonIcon } from "../../../displayComponents"; 
+import { compose, graphql, withApollo } from "react-apollo"; 
+import { corporationUsers } from "../../../queries/corporation"; 
+import { getSecondary } from "../../../styles/colors"; 
+import { withRouter } from "react-router-dom"; 
+import UserItem from "./UserItem"; 
 import withTranslations from '../../../HOCs/withTranslations';
-import { getSecondary } from '../../../styles/colors';
-
+ 
 const DEFAULT_OPTIONS = {
     limit: 10,
     offset: 0,
-    orderBy: 'lastConnectionDate',
-    orderDirection: 'DESC'
 }
-
-class UsersDashboard extends React.PureComponent {  
+ 
+class CorporationUsers extends Component { 
     state = {
         filterText: '',
-        limit: DEFAULT_OPTIONS.limit,
-        addUser: false
+        limit: DEFAULT_OPTIONS.limit
     }
-
-    timeout = null;
+ 
+    componentDidMount() { 
+        this.props.data.refetch(); 
+    } 
 
     updateFilterText = (text) => {
         this.setState({
@@ -47,14 +45,10 @@ class UsersDashboard extends React.PureComponent {
         variables.filters = [{field: 'fullName', text: this.state.filterText}];
         this.props.data.refetch(variables);
     }
-  
-    render() {
-        
-        if(this.state.addUser){
-            return <NewUser translate={this.props.translate} />
-        }
-        
-        return (  
+ 
+    render() { 
+
+        return ( 
             <div
                 style={{
                     height: 'calc(100vh - 3em)',
@@ -72,22 +66,7 @@ class UsersDashboard extends React.PureComponent {
                         borderBottom: '1px solid gainsboro'
                     }}
                 >
-                    <div>
-                        <SelectInput
-                            value={this.state.limit}
-                            onChange={event => {
-                                this.updateLimit(event.target.value);
-                            }}
-                        >
-                            <MenuItem value={10}>
-                                10
-                            </MenuItem>
-                            <MenuItem value={20}>
-                                20
-                            </MenuItem>
-                        </SelectInput>
-                    </div>
-                    <div style={{width: '600px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
+                    <div style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
                         <div>
                             <BasicButton
                                 text={this.props.translate.users_add}
@@ -122,26 +101,22 @@ class UsersDashboard extends React.PureComponent {
                         <LoadingSection />
                     :
                         this.props.data.corporationUsers.list.map(user => (
-                            <UserItem
-                                key={`user_${user.id}`}
-                                user={user}
-                                translate={this.props.translate}
-                            />
+                            <UserItem key={`user_${user.id}`} user={user} translate={this.props.translate} />
                         ))
                     }
                 </div>
             </div>
-        );  
-    }  
-}  
-  
-export default compose(  
-    graphql(corporationUsers, {  
+        ); 
+    } 
+} 
+ 
+export default compose( 
+    graphql(corporationUsers, { 
         options: props => ({
             variables: {
                 options: DEFAULT_OPTIONS
             },
-            notifyOnNetworkStatusChange: true  
-        })  
-    })  
-)(withTranslations()(UsersDashboard)); 
+            notifyOnNetworkStatusChange: true 
+        }) 
+    }) 
+)(withRouter(withApollo(withTranslations()(CorporationUsers)))); 

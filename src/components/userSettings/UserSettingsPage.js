@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { CardPageLayout, LoadingSection } from "../../displayComponents";
 import ChangePasswordForm from "./ChangePasswordForm";
-import UpdateUserForm from "./UpdateUserForm";
+import UpdateUser from "./UpdateUser";
 import { graphql } from "react-apollo";
 import { languages } from "../../queries/masters";
 
@@ -16,7 +16,7 @@ class UserSettingsPage extends Component {
 		return (
 			<CardPageLayout title={translate.settings}>
 				<br />
-				<UpdateUserForm
+				<UpdateUser
 					translate={translate}
 					user={this.props.user}
 					languages={this.props.data.languages}

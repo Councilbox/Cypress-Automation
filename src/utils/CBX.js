@@ -606,7 +606,7 @@ export const exceedsOnlineTimeout = date => {
 	return timeout > 15;
 };
 
-export const checkRequiredFields = (translate, draft, updateErrors) => {
+export const checkRequiredFields = (translate, draft, updateErrors, corporation) => {
 	let errors = {
 		title: "",
 		description: "",
@@ -640,7 +640,7 @@ export const checkRequiredFields = (translate, draft, updateErrors) => {
 		errors.type = translate.required_field;
 	}
 
-	if (draft.statuteId === -1) {
+	if (draft.statuteId === -1 && !corporation) {
 		hasError = true;
 		errors.statuteId = translate.required_field;
 	}
