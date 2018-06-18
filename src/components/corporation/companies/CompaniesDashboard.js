@@ -1,9 +1,8 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link } from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
-import Scrollbar from 'react-perfect-scrollbar';
 import { MenuItem } from 'material-ui';
 import NewCompanyPage from '../../company/new/NewCompanyPage';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -123,10 +122,12 @@ class CompaniesDashboard extends React.PureComponent {
                         <LoadingSection />
                     :
                         this.props.data.corporationCompanies.list.map(company => (
-                            <CompanyItem
-                                key={`company_${company.id}`}
-                                company={company}
-                            />
+                            <Link to={`/companies/edit/${company.id}`} >
+                                <CompanyItem
+                                    key={`company_${company.id}`}
+                                    company={company}
+                                />
+                            </Link>
                         ))
                     }
                 </div>

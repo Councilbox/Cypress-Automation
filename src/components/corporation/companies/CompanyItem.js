@@ -1,10 +1,20 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { MenuItem } from 'material-ui';
-import { Link } from '../../../displayComponents';
+import { Checkbox } from '../../../displayComponents';
 
-const CompanyItem = ({ company }) => (
-    <Link to={`/companies/edit/${company.id}`} >
+const CompanyItem = ({ company, onCheck, checkable, checked }) => (
+    <div style={{display: 'flex', flexDirection: 'row'}}>
+        {checkable &&
+            <div style={{width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                <Checkbox
+                    value={checked}
+                    onChange={(event, isInputChecked) => {
+                        onCheck(company, isInputChecked)
+                    }}  
+                />
+            </div>
+        }
         <MenuItem
             style={{
                 border: '1px solid gainsboro',
@@ -46,7 +56,7 @@ const CompanyItem = ({ company }) => (
                 <span style={{fontSize: '0.7rem'}}>{`ID: ${company.id}`}</span>
             </div>
         </MenuItem>
-    </Link>
+    </div>
 )
 
 export default CompanyItem;

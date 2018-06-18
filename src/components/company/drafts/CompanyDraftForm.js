@@ -17,8 +17,10 @@ const CompanyDraftForm = ({
 	updateState,
 	companyStatutes,
 	draftTypes,
+	languages,
 	votingTypes,
-	majorityTypes
+	majorityTypes,
+	companyTypes
 }) => (
 	<Grid spacing={16}>
 		<GridItem xs={12} lg={3} md={3}>
@@ -35,52 +37,103 @@ const CompanyDraftForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={12} lg={3} md={3}>
-			<SelectInput
-				floatingText={translate.council_type}
-				value={draft.statuteId || 0}
-				errorText={errors.statuteId}
-				onChange={event =>
-					updateState({
-						statuteId: event.target.value
-					})
-				}
-			>
-				{companyStatutes.map(council => {
-					return (
-						<MenuItem
-							value={council.id}
-							key={`counciltype_${council.id}`}
-						>
-							{translate[council.title] || council.title}
-						</MenuItem>
-					);
-				})}
-			</SelectInput>
-		</GridItem>
-		<GridItem xs={12} lg={3} md={3}>
-			<SelectInput
-				floatingText={translate.draft_type}
-				value={"" + draft.type}
-				errorText={errors.type}
-				onChange={event =>
-					updateState({
-						type: +event.target.value
-					})
-				}
-			>
-				{draftTypes.map(draft => {
-					return (
-						<MenuItem
-							value={"" + draft.value}
-							key={`draftType_${draft.value}`}
-						>
-							{translate[draft.label]}
-						</MenuItem>
-					);
-				})}
-			</SelectInput>
-		</GridItem>
+		{!!companyStatutes &&
+			<GridItem xs={12} lg={3} md={3}>
+				<SelectInput
+					floatingText={translate.council_type}
+					value={draft.statuteId || 0}
+					errorText={errors.statuteId}
+					onChange={event =>
+						updateState({
+							statuteId: event.target.value
+						})
+					}
+				>
+					{companyStatutes.map(council => {
+						return (
+							<MenuItem
+								value={council.id}
+								key={`counciltype_${council.id}`}
+							>
+								{translate[council.title] || council.title}
+							</MenuItem>
+						);
+					})}
+				</SelectInput>
+			</GridItem>	
+		}
+		{!!companyTypes &&
+			<GridItem xs={12} lg={3} md={3}>
+				<SelectInput
+					floatingText={translate.company_type}
+					value={draft.companyType || 0}
+					errorText={errors.companyType}
+					onChange={event =>
+						updateState({
+							companyType: event.target.value
+						})
+					}
+				>
+					{companyTypes.map(companyType => {
+						return (
+							<MenuItem
+								key={companyType.label}
+								value={companyType.value}
+							>
+								{translate[companyType.label]}
+							</MenuItem>
+						);
+					})}
+				</SelectInput>
+			</GridItem>	
+		}
+		{!!languages &&
+			<GridItem xs={12} lg={3} md={3}>
+				<SelectInput
+					floatingText={translate.language}
+					value={draft.language}
+					errorText={errors.language}
+					onChange={event =>
+						updateState({
+							language: event.target.value
+						})
+					}
+				>
+					{languages.map(language => {
+						return (
+							<MenuItem value={language.columnName} key={`language_${language.columnName}`}>
+								{language.desc}
+							</MenuItem>
+						);
+					})}
+				</SelectInput>
+			</GridItem>	
+		}
+		{!!draftTypes &&
+			<GridItem xs={12} lg={3} md={3}>
+				<SelectInput
+					floatingText={translate.draft_type}
+					value={"" + draft.type}
+					errorText={errors.type}
+					onChange={event =>
+						updateState({
+							type: +event.target.value
+						})
+					}
+				>
+					{draftTypes.map(draft => {
+						return (
+							<MenuItem
+								value={"" + draft.value}
+								key={`draftType_${draft.value}`}
+							>
+								{translate[draft.label]}
+							</MenuItem>
+						);
+					})}
+				</SelectInput>
+			</GridItem>
+		}
 		<GridItem xs={12} lg={3} md={3}>
 			{draft.type === 1 && (
 				<SelectInput
@@ -184,15 +237,3 @@ const CompanyDraftForm = ({
 );
 
 export default CompanyDraftForm;
-
-/*<button className="btn btn-cbx-white-small"*
- ng-click="addToText(' {{positiveVotings}} ')">
- {{ 'positive_votings' | translate}}
- </button> < button
- className = "btn btn-cbx-white-small"
- ng - click = "addToText(' {{negativeVotings}} ')" > {
- {
- 'negative_votings' | translate
- }
- }
- </button>*/

@@ -52,16 +52,19 @@ export const corporationDrafts = gql`
 	}
 `;
 
-export const getCorporationUsers = gql` 
-  query getCorporationUsers { 
-    corporationUsers { 
-      id 
-      usr 
-      name 
-      surname 
-      email 
-      phone 
-      lastConnectionDate 
+export const corporationUsers = gql` 
+  query corporationUsers($filters: [FilterInput], $options: OptionsInput) { 
+    corporationUsers(filters: $filters, options: $options) { 
+			list {
+				id 
+				usr 
+				name 
+				surname 
+				email 
+				phone 
+				lastConnectionDate 
+			}
+			total
     } 
   } 
 `; 
