@@ -1,12 +1,3 @@
-import React, { Component, Fragment } from "react"; 
-import { BasicButton, LoadingSection, TextInput, Icon, ButtonIcon } from "../../../displayComponents"; 
-import { compose, graphql } from "react-apollo"; 
-import { withRouter } from 'react-router-dom';
-import { corporationUsers } from "../../../queries/corporation"; 
-import { getSecondary } from "../../../styles/colors"; 
-import { withRouter } from "react-router-dom"; 
-import UserItem from "./UserItem"; 
-import withTranslations from '../../../HOCs/withTranslations';
 import React from 'react';
 import { CardPageLayout, ButtonIcon, BasicButton, Grid, GridItem, TextField, SelectInput, LoadingSection } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
@@ -15,6 +6,7 @@ import UserForm from '../../userSettings/UserForm';
 import { getPrimary } from '../../../styles/colors';
 import CompanyLinksManager from './CompanyLinksManager';
 import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
 
 class UserEdit extends React.PureComponent {
     state = {
@@ -97,6 +89,5 @@ const createUserWithoutPassword = gql`
 `;
 
 export default compose(
-    graphql(languages),
-    graphlq()
+    graphql(languages)
 )(withRouter(UserEdit));
