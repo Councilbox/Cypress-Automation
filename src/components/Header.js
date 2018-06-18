@@ -10,6 +10,7 @@ import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
 import { Tooltip } from "material-ui";
 
+
 class Header extends Component {
 	logout = () => {
 		this.props.actions.logout();

@@ -1,14 +1,20 @@
 import React from 'react';
-import { CardPageLayout, ButtonIcon, BasicButton, Grid, GridItem, TextField, SelectInput, LoadingSection } from '../../../displayComponents';
+import { CardPageLayout, ButtonIcon, BasicButton, LoadingSection } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
 import { graphql, compose } from 'react-apollo';
 import UserForm from '../../userSettings/UserForm';
 import { getPrimary } from '../../../styles/colors';
 import CompanyLinksManager from './CompanyLinksManager';
+import gql from 'graphql-tag';
+import { bHistory } from '../../../containers/App';
 
 class NewUser extends React.PureComponent {
     state = {
-        data: {},
+        data: {
+            preferred_language: 'es',
+            roles: 'secretary'
+        },
+        companies: [],
         errors: {}
     }
 
@@ -19,6 +25,21 @@ class NewUser extends React.PureComponent {
                 ...object
             }
         })
+    }
+
+    createUserWithoutPassword = async () => {
+        const response = await this.props.createUserWithoutPassword({
+            variables: {
+                user: this.state.data,
+                companies: this.state.companies.map(company => company.id)
+            }
+        });
+
+        if(!response.errors){
+            if(response.data.createUserWithoutPassword.id){
+
+            }
+        }
     }
 
     render() {
@@ -37,18 +58,20 @@ class NewUser extends React.PureComponent {
                         updateState={this.updateState}
                         languages={this.props.data.languages}
                     />
-                    <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <CompanyLinksManager
-                            translate={translate}
-                        />
-                    </div>
+                    <CompanyLinksManager
+                        linkedCompanies={this.state.companies}
+                        translate={translate}
+                        addCheckedCompanies={(companies) => this.setState({
+                            companies: companies
+                        })}
+                    />
                     <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
                         <BasicButton
                             text={this.props.translate.save}
                             color={getPrimary()}
                             icon={<ButtonIcon type="save" color="white" />}
                             textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
-                            onClick={() => {}}
+                            onClick={this.createUserWithoutPassword}
                         />
                     </div>
                 </CardPageLayout>
@@ -57,6 +80,19 @@ class NewUser extends React.PureComponent {
     }
 }
 
+const createUserWithoutPassword = gql`
+    mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int]){
+        createUserWithoutPassword(user: $user, companies: $companies){
+            id
+        }
+    }
+`;
+
+
+
 export default compose(
     graphql(languages),
+    graphql(createUserWithoutPassword, {
+        name: 'createUserWithoutPassword'
+    })
 )(NewUser);

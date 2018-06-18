@@ -19,7 +19,7 @@ class UsersDashboard extends React.PureComponent {
     state = {
         filterText: '',
         limit: DEFAULT_OPTIONS.limit,
-        addUser: false
+        addUser: true
     }
 
     timeout = null;

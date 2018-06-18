@@ -1,122 +1,102 @@
 import React, { Component, Fragment } from "react"; 
 import { BasicButton, LoadingSection, TextInput, Icon, ButtonIcon } from "../../../displayComponents"; 
-import { compose, graphql, withApollo } from "react-apollo"; 
+import { compose, graphql } from "react-apollo"; 
+import { withRouter } from 'react-router-dom';
 import { corporationUsers } from "../../../queries/corporation"; 
 import { getSecondary } from "../../../styles/colors"; 
 import { withRouter } from "react-router-dom"; 
 import UserItem from "./UserItem"; 
 import withTranslations from '../../../HOCs/withTranslations';
- 
-const DEFAULT_OPTIONS = {
-    limit: 10,
-    offset: 0,
-}
- 
-class CorporationUsers extends Component { 
+import React from 'react';
+import { CardPageLayout, ButtonIcon, BasicButton, Grid, GridItem, TextField, SelectInput, LoadingSection } from '../../../displayComponents';
+import { languages } from '../../../queries/masters';
+import { graphql, compose } from 'react-apollo';
+import UserForm from '../../userSettings/UserForm';
+import { getPrimary } from '../../../styles/colors';
+import CompanyLinksManager from './CompanyLinksManager';
+import gql from 'graphql-tag';
+
+class UserEdit extends React.PureComponent {
     state = {
-        filterText: '',
-        limit: DEFAULT_OPTIONS.limit
+        data: {
+            preferred_language: 'es',
+            roles: 'secretary'
+        },
+        companies: [],
+        errors: {}
     }
- 
-    componentDidMount() { 
-        this.props.data.refetch(); 
-    } 
 
-    updateFilterText = (text) => {
+    updateState = (object) => {
         this.setState({
-            filterText: text
-        }, () => {
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => this.refresh(), 450);
-        });
+            data: {
+                ...this.state.data,
+                ...object
+            }
+        })
     }
 
-    updateLimit = (value) => {
-        this.setState({
-            limit: value
-        }, () => this.refresh());
-    }
-
-    refresh = () => {
-        let variables = {
-            options: DEFAULT_OPTIONS
-        };
-        variables.options.limit = this.state.limit;
-        variables.filters = [{field: 'fullName', text: this.state.filterText}];
-        this.props.data.refetch(variables);
-    }
- 
-    render() { 
-
-        return ( 
-            <div
-                style={{
-                    height: 'calc(100vh - 3em)',
-                    position: 'relative',
-                    overflow: 'hidden'
-                }}
-            >
-                <div 
-                    style={{
-                        marginLeft: '1.4em',
-                        marginRight: '1.4em',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        borderBottom: '1px solid gainsboro'
-                    }}
-                >
-                    <div style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-                        <div>
-                            <BasicButton
-                                text={this.props.translate.users_add}
-                                color={getSecondary()}
-                                icon={<ButtonIcon type="add" color="white" />}
-                                textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
-                                onClick={() => this.setState({
-                                    addUser: true
-                                })}
-                            />
-                        </div>
-                        <div style={{marginLeft: '0.6em'}}>
-                            <TextInput
-                                adornment={<Icon>search</Icon>}
-                                floatingText={" "}
-                                type="text"
-                                value={this.state.filterText}
-                                onChange={event => {
-                                    this.updateFilterText(event.target.value);
-                                }}
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div style={{
-                    height: 'calc(100vh - 6em)',
-                    flexDirection: 'column',
-                    overflowY: 'auto',
-                    overflowX: 'hidden'
-                }}>
-                    {this.props.data.loading?
-                        <LoadingSection />
-                    :
-                        this.props.data.corporationUsers.list.map(user => (
-                            <UserItem key={`user_${user.id}`} user={user} translate={this.props.translate} />
-                        ))
-                    }
-                </div>
-            </div>
-        ); 
-    } 
-} 
- 
-export default compose( 
-    graphql(corporationUsers, { 
-        options: props => ({
+    createUserWithoutPassword = async () => {
+        const response = await this.props.createUserWithoutPassword({
             variables: {
-                options: DEFAULT_OPTIONS
-            },
-            notifyOnNetworkStatusChange: true 
-        }) 
-    }) 
-)(withRouter(withApollo(withTranslations()(CorporationUsers)))); 
+                user: this.state.data,
+                companies: this.state.companies.map(company => company.id)
+            }
+        });
+
+        if(!response.errors){
+            if(response.data.createUserWithoutPassword.id){
+
+            }
+        }
+    }
+
+    render() {
+        const { translate } = this.props;
+        if(this.props.data.loading){
+            return <LoadingSection />
+        }
+
+        return(
+            <div style={{height: 'calc(100vh - 3m)'}}>
+                <CardPageLayout title={translate.users_add}>
+                    <UserForm
+                        translate={translate}
+                        data={this.state.data}
+                        errors={this.state.errors}
+                        updateState={this.updateState}
+                        languages={this.props.data.languages}
+                    />
+                    <CompanyLinksManager
+                        linkedCompanies={this.state.companies}
+                        translate={translate}
+                        addCheckedCompanies={(companies) => this.setState({
+                            companies: companies
+                        })}
+                    />
+                    <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                        <BasicButton
+                            text={this.props.translate.save}
+                            color={getPrimary()}
+                            icon={<ButtonIcon type="save" color="white" />}
+                            textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
+                            onClick={this.createUserWithoutPassword}
+                        />
+                    </div>
+                </CardPageLayout>
+            </div>
+        )
+    }
+}
+
+const createUserWithoutPassword = gql`
+    mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int]){
+        createUserWithoutPassword(user: $user, companies: $companies){
+            id
+        }
+    }
+`;
+
+export default compose(
+    graphql(languages),
+    graphlq()
+)(withRouter(UserEdit));
