@@ -47,4 +47,4 @@ export { default as Tooltip } from "./Tooltip";
 export { default as VTabs } from "./VTabs";
 export { default as AllSelector } from "./AllSelector";
 export { default as CustomDialog } from "./CustomDialog";
-export { default as ReactSignature } from "./ReactSignature/ReactSignature";
+export { default as ReactSignature } from "./ReactSignature";

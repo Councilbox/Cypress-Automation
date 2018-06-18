@@ -76,7 +76,7 @@ class SignatureModal extends Component {
 	};
 
 	clear = () => {
-		this.signature.handleClear();
+		this.signature.clear();
 	};
 
 	setSignature = () => {
@@ -178,7 +178,7 @@ class SignatureModal extends Component {
 							<div style={{ width: "50vw", minWidth: "600px" }}>
 								<ReactSignature
 									height={248}
-									width={598}
+									width={596}
 									style={{ border: "solid 1px" }}
 									ref={ref => (this.signature = ref)}
 								/>
