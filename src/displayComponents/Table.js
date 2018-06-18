@@ -9,7 +9,7 @@ import Table, {
 import TableStyles from "../styles/table";
 
 const TableWrapper = ({ headers = [], children }) => (
-	<Table style={{ maxWidth: "100%" }}>
+	<Table style={{ maxWidth: "100%", width: '100%' }}>
 		<TableHead>
 			<TableRow>
 				{headers.map((header, index) => {

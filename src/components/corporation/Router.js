@@ -42,7 +42,7 @@ const Router = ({ user, translate, location, data, classes }) => {
                     <Route exact path="/companies" component={() => <CompaniesDashboard />} />
                     <Route path="/companies/edit/:id" component={CompanyEditPage} />
                     <Route exact path="/users" component={UsersDashboard} />
-                    <Route path="/users/edit/:id" component={() => <UserEdit />} />
+                    <Route path="/users/edit/:id" component={UserEdit} />
                     <Route exact path="/drafts" component={DraftsDashboard} />
                     <Route path="/drafts/edit/:id" component={DraftEditPage} />
                     <Route path="*" component={() => <Redirect to="/" />} />
