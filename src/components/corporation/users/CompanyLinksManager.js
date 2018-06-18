@@ -71,7 +71,15 @@ class CompanyLinksManager extends React.PureComponent {
 	isChecked = id => {
 		const item = this.state.checked.find(item => item.id === id);
 		return !!item;
-	}
+    }
+    
+    close = () => {
+        this.setState({
+            modal: false
+        }, this.setState({
+            checked: this.props.linkedCompanies
+        }));
+    }
 
 	updateFilterText = (text) => {
         this.setState({
@@ -170,7 +178,7 @@ class CompanyLinksManager extends React.PureComponent {
                     ))}
                 </div>
                 <AlertConfirm
-                    requestClose={() => this.setState({ modal: false })}
+                    requestClose={this.close}
                     open={this.state.modal}
                     acceptAction={this.state.step === 1? () => this.setState({step: 2}) : this.addCheckedCompanies}
                     buttonAccept={translate.accept}

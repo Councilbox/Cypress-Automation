@@ -71,7 +71,11 @@ export const SEND_TYPES = [
 	"cancellation",
 	"room_access",
 	"security",
-	"act"
+	"act",
+	'welcome',
+    'restore_pwd',
+    'point',
+    'welcome'
 ];
 
 export const COUNCIL_STATES = {

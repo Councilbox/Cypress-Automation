@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
 import { MenuItem } from 'material-ui';
@@ -19,7 +19,7 @@ class UsersDashboard extends React.PureComponent {
     state = {
         filterText: '',
         limit: DEFAULT_OPTIONS.limit,
-        addUser: true
+        addUser: false
     }
 
     timeout = null;
@@ -51,7 +51,7 @@ class UsersDashboard extends React.PureComponent {
     render() {
         
         if(this.state.addUser){
-            return <NewUser translate={this.props.translate} />
+            return <NewUser translate={this.props.translate} requestClose={() => this.setState({ addUser: false})} />
         }
         
         return (  
@@ -122,11 +122,14 @@ class UsersDashboard extends React.PureComponent {
                         <LoadingSection />
                     :
                         this.props.data.corporationUsers.list.map(user => (
-                            <UserItem
-                                key={`user_${user.id}`}
-                                user={user}
-                                translate={this.props.translate}
-                            />
+                            <Link to={`/users/edit/${user.id}`} >
+                                <UserItem
+                                    key={`user_${user.id}`}
+                                    user={user}
+                                    clickable={true}
+                                    translate={this.props.translate}
+                                />
+                            </Link>
                         ))
                     }
                 </div>

@@ -6,31 +6,18 @@ import {
 	updateLiveParticipantSends
 } from "../../../../queries";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableRow,
-	Tooltip,
-	Typography,
-	Card
-} from "material-ui";
-import {
-	BasicButton,
-	Icon,
-	CloseIcon,
+import { Tooltip, Typography, } from "material-ui";
+import { 
 	Grid,
 	GridItem,
 	LoadingSection,
-	FilterButton,
 	ParticipantDisplay,
 	RefreshButton
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
 import ParticipantStateSelector from "./ParticipantStateSelector";
-import moment from "moment";
 import FontAwesome from "react-fontawesome";
+import NotificationsTable from '../../../notifications/NotificationsTable';
 
 class LiveParticipantEditor extends Component {
 	refreshEmailStates = async () => {
@@ -346,60 +333,6 @@ const DelegatedTable = ({
 			/>
 		</React.Fragment>
 	));
-
-const NotificationsTable = ({ notifications, translate }) => (
-	<Table>
-		<TableHead>
-			<TableRow>
-				<TableCell>{translate.current_status}</TableCell>
-				<TableCell>{translate.send_type}</TableCell>
-				<TableCell>{translate.send_date}</TableCell>
-				<TableCell>{translate.last_date_updated}</TableCell>
-			</TableRow>
-		</TableHead>
-		<TableBody>
-			{notifications.map((notification, index) => (
-				<TableRow key={`notification_${index}`}>
-					<TableCell>
-						<Tooltip
-							title={
-								translate[
-								CBX.getTranslationReqCode(
-									notification.reqCode
-								)
-								]
-							}
-						>
-							<img
-								style={{
-									height: "2.1em",
-									width: "auto"
-								}}
-								src={CBX.getEmailIconByReqCode(
-									notification.reqCode
-								)}
-								alt="email-state-icon"
-							/>
-						</Tooltip>
-					</TableCell>
-					<TableCell>
-						{translate[CBX.getSendType(notification.sendType)]}
-					</TableCell>
-					<TableCell>
-						{moment(notification.sendDate).isValid()
-							? moment(notification.sendDate).format("LLL")
-							: "-"}
-					</TableCell>
-					<TableCell>
-						{moment(notification.refreshDate).isValid()
-							? moment(notification.refreshDate).format("LLL")
-							: "-"}
-					</TableCell>
-				</TableRow>
-			))}
-		</TableBody>
-	</Table>
-);
 
 export default compose(
 	graphql(liveParticipant, {

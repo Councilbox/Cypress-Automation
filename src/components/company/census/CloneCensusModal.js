@@ -10,6 +10,37 @@ import { MenuItem } from "material-ui";
 import { cloneCensus } from "../../../queries/census";
 
 class CloneCensusModal extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			data: {
+				censusName: "",
+				quorumPrototype: 0,
+				censusDescription: ""
+			},
+
+			errors: {
+				censusName: "",
+				quorumPrototype: "",
+				censusDescription: ""
+			}
+		};
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(nextProps.census){
+			if(nextProps.census.id !== prevState.data.id){
+				return {
+					data: {
+						...nextProps.census,
+						censusDescription: nextProps.census.censusDescription || ""
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 	cloneCensus = async () => {
 		if (this.checkRequiredFields()) {
 			const { __typename, ...census } = this.state.data;
@@ -20,15 +51,16 @@ class CloneCensusModal extends Component {
 					}
 				}
 			});
-			if (response) {
-				console.log(response);
-				this.props.refetch();
-				this.setState({
-					modal: false
-				});
+			console.log(response);
+			if (!response.errors) {
+				if(response.data.cloneCensus.sucess){
+					this.props.refetch();
+					this.props.requestClose();
+				}
 			}
 		}
 	};
+
 	_renderNewPointBody = () => {
 		const { translate } = this.props;
 		const errors = this.state.errors;
@@ -86,48 +118,6 @@ class CloneCensusModal extends Component {
 		);
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				censusName: "",
-				quorumPrototype: 0,
-				censusDescription: ""
-			},
-
-			modal: false,
-
-			errors: {
-				censusName: "",
-				quorumPrototype: "",
-				censusDescription: ""
-			}
-		};
-	}
-
-	componentDidMount() {
-		this.setState({
-			data: {
-				...this.props.census,
-				censusDescription: this.props.census.censusDescription || ""
-			}
-		});
-	}
-
-	componentWillReceiveProps(nextProps) {
-		const actualCensus = this.props.census;
-		const nextCensus = nextProps.census;
-
-		if (actualCensus.id !== nextCensus.id) {
-			this.setState({
-				data: {
-					...nextCensus,
-					censusDescription: nextCensus.censusDescription || ""
-				}
-			});
-		}
-	}
-
 	updateState(object) {
 		this.setState({
 			data: {
@@ -146,12 +136,9 @@ class CloneCensusModal extends Component {
 
 		return (
 			<Fragment>
-				<span onClick={() => this.setState({ modal: true })}>
-					{children}
-				</span>
 				<AlertConfirm
-					requestClose={() => this.setState({ modal: false })}
-					open={this.state.modal}
+					requestClose={this.props.requestClose}
+					open={this.props.open}
 					acceptAction={this.cloneCensus}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}

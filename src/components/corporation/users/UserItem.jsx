@@ -4,22 +4,14 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Link } from 'react-router-dom';
 import { MenuItem } from 'material-ui';
 import { DateWrapper } from '../../../displayComponents';
+import CloseSessionButton from './CloseSessionButton';
  
- 
-const UserItem = ({ user, translate }) => { 
+const UserItem = ({ user, translate, clickable, closeSession }) => { 
     const secondary = getSecondary(); 
-    return ( 
-        <Link to={`/users/edit/${user.id}`} >
-            <MenuItem
-                style={{
-                    border: '1px solid gainsboro',
-                    height: '3.5em',
-                    width: '100%',
-                    height: '3em',
-                    display: 'flex',
-                    flexDirection: 'row'
-                }}
-            >
+
+    const body = () => (
+        <React.Fragment>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div 
                     style={{
                         width: '5em',
@@ -83,10 +75,56 @@ const UserItem = ({ user, translate }) => {
                         :
                             '-'
                         }
-                    </div>       
+                    </div>    
                 </div>
+            </div>
+            {closeSession &&
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: '10em'
+                    }}
+                >
+                    <CloseSessionButton
+                        user={user}
+                        translate={translate}
+                    />
+                </div>
+
+            }
+        </React.Fragment>
+    )
+
+    return (
+        clickable?
+            <MenuItem
+                style={{
+                    border: '1px solid gainsboro',
+                    height: '3.5em',
+                    width: '100%',
+                    display: 'flex',
+                    flexDirection: 'row'
+                }}
+            >
+                {body()}
             </MenuItem>
-        </Link>
+        
+        :
+            <div
+                style={{
+                    border: '1px solid gainsboro',
+                    height: '3.5em',
+                    width: '100%',
+                    minHeight: '4.5em',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between'
+                }}
+            >
+                {body()} 
+            </div>    
     ) 
 } 
 

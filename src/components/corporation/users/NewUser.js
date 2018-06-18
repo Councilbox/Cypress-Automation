@@ -37,7 +37,7 @@ class NewUser extends React.PureComponent {
 
         if(!response.errors){
             if(response.data.createUserWithoutPassword.id){
-
+                bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
             }
         }
     }
@@ -66,6 +66,12 @@ class NewUser extends React.PureComponent {
                         })}
                     />
                     <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
+                        <BasicButton
+                            text={this.props.translate.back}
+                            textStyle={{textTransform: 'none', color: 'black', fontWeight: '700'}}
+                            onClick={this.props.requestClose}
+                            buttonStyle={{marginRight: '5em'}}
+                        />
                         <BasicButton
                             text={this.props.translate.save}
                             color={getPrimary()}

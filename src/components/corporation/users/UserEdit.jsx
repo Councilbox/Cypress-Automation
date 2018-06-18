@@ -1,12 +1,3 @@
-import React, { Component, Fragment } from "react"; 
-import { BasicButton, LoadingSection, TextInput, Icon, ButtonIcon } from "../../../displayComponents"; 
-import { compose, graphql } from "react-apollo"; 
-import { withRouter } from 'react-router-dom';
-import { corporationUsers } from "../../../queries/corporation"; 
-import { getSecondary } from "../../../styles/colors"; 
-import { withRouter } from "react-router-dom"; 
-import UserItem from "./UserItem"; 
-import withTranslations from '../../../HOCs/withTranslations';
 import React from 'react';
 import { CardPageLayout, ButtonIcon, BasicButton, Grid, GridItem, TextField, SelectInput, LoadingSection } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
@@ -14,7 +5,12 @@ import { graphql, compose } from 'react-apollo';
 import UserForm from '../../userSettings/UserForm';
 import { getPrimary } from '../../../styles/colors';
 import CompanyLinksManager from './CompanyLinksManager';
+import UserSendsList from './UserSendsList';
 import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
+import withTranslations from '../../../HOCs/withTranslations';
+import UserItem from './UserItem';
+
 
 class UserEdit extends React.PureComponent {
     state = {
@@ -35,17 +31,19 @@ class UserEdit extends React.PureComponent {
         })
     }
 
-    createUserWithoutPassword = async () => {
-        const response = await this.props.createUserWithoutPassword({
+    linkCompanies = async (companies) => {
+        const response = await this.props.linkCompanies({
             variables: {
-                user: this.state.data,
-                companies: this.state.companies.map(company => company.id)
+                userId: this.props.data.user.id,
+                companies: companies.map(company => company.id)
             }
-        });
+        })
+
+        console.log(response);
 
         if(!response.errors){
-            if(response.data.createUserWithoutPassword.id){
-
+            if(response.data.linkCompanies.success){
+                this.props.data.refetch();
             }
         }
     }
@@ -57,46 +55,74 @@ class UserEdit extends React.PureComponent {
         }
 
         return(
-            <div style={{height: 'calc(100vh - 3m)'}}>
-                <CardPageLayout title={translate.users_add}>
-                    <UserForm
-                        translate={translate}
-                        data={this.state.data}
-                        errors={this.state.errors}
-                        updateState={this.updateState}
-                        languages={this.props.data.languages}
-                    />
-                    <CompanyLinksManager
-                        linkedCompanies={this.state.companies}
-                        translate={translate}
-                        addCheckedCompanies={(companies) => this.setState({
-                            companies: companies
-                        })}
-                    />
-                    <div style={{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'}}>
-                        <BasicButton
-                            text={this.props.translate.save}
-                            color={getPrimary()}
-                            icon={<ButtonIcon type="save" color="white" />}
-                            textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
-                            onClick={this.createUserWithoutPassword}
-                        />
-                    </div>
-                </CardPageLayout>
+            <div style={{height: 'calc(100vh - 3m)', padding: '1.2em'}}>
+                <UserItem
+                    key={`user_${this.props.data.user.id}`}
+                    user={this.props.data.user}
+                    closeSession={true}
+                    translate={this.props.translate}
+                />
+                <CompanyLinksManager
+                    linkedCompanies={this.props.data.user.companies}
+                    translate={translate}
+                    addCheckedCompanies={this.linkCompanies}
+                />
+                <UserSendsList
+                    user={this.props.data.user}
+                    translate={this.props.translate}
+                    refetch={this.props.data.refetch}
+                />
             </div>
         )
     }
 }
 
-const createUserWithoutPassword = gql`
-    mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int]){
-        createUserWithoutPassword(user: $user, companies: $companies){
+
+const linkCompanies = gql`
+    mutation LinkCompanies($userId: Int!, $companies: [Int]){
+        linkCompanies(userId: $userId, companies: $companies){
+            success
+            message
+        }
+    }
+`;
+
+const user = gql`
+    query user($id: Int!){
+        user(id: $id){
             id
+            name
+            surname
+            email
+            lastConnectionDate
+            companies{
+                id
+                businessName
+                logo
+            }
+            sends{
+                id
+                userId
+                sendDate
+                refreshDate
+                reqCode
+                sendType
+                email
+            }
         }
     }
 `;
 
 export default compose(
     graphql(languages),
-    graphlq()
-)(withRouter(UserEdit));
+    graphql(user, {
+        options: props => ({
+           variables: {
+               id: props.match.params.id
+           } 
+        })
+    }),
+    graphql(linkCompanies, {
+        name: 'linkCompanies'
+    })
+)(withRouter(withTranslations()(UserEdit)));

@@ -141,7 +141,8 @@ export const setDefaultCensus = gql`
 export const cloneCensus = gql`
 	mutation cloneCensus($census: CensusInput!) {
 		cloneCensus(census: $census) {
-			id
+			success
+			message
 		}
 	}
 `;

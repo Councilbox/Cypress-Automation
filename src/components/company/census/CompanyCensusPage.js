@@ -10,11 +10,8 @@ import {
 	LoadingSection
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
-import {
-	censuses,
-	deleteCensus,
-	setDefaultCensus
-} from "../../../queries/census";
+import { censuses, deleteCensus, setDefaultCensus } from "../../../queries/census";
+import { Tooltip } from 'material-ui';
 import { TableCell, TableRow } from "material-ui/Table";
 import FontAwesome from "react-fontawesome";
 import { getPrimary } from "../../../styles/colors";
@@ -150,36 +147,30 @@ class CompanyCensusPage extends React.Component {
 													<LoadingSection size={20} />
 												</div>
 											) : (
-												<FontAwesome
-													name={
-														census.defaultCensus ===
-														1
-															? "star"
-															: "star-o"
-													}
-													style={{
-														cursor: "pointer",
-														fontSize: "2em",
-														color: primary
-													}}
-													onClick={event => {
-														event.stopPropagation();
-														this.setDefaultCensus(
-															census.id
-														);
-													}}
-												/>
-											)}
+												<Tooltip title={translate.change_default_census_tooltip}>
+													<FontAwesome
+														name={
+															census.defaultCensus ===
+															1
+																? "star"
+																: "star-o"
+														}
+														style={{
+															cursor: "pointer",
+															fontSize: "2em",
+															color: primary
+														}}
+														onClick={event => {
+															event.stopPropagation();
+															this.setDefaultCensus(
+																census.id
+															);
+														}}
+													/>
+												</Tooltip>
 
-											<CloneCensusModal
-												translate={translate}
-												open={this.state.cloneModal}
-												census={
-													censuses.list[
-														this.state.cloneIndex
-													]
-												}
-											>
+											)}
+											<Tooltip title={translate.clone_census}>
 												<FontAwesome
 													name={"clone"}
 													style={{
@@ -196,21 +187,24 @@ class CompanyCensusPage extends React.Component {
 														});
 													}}
 												/>
-											</CloneCensusModal>
-
-											<CloseIcon
-												style={{
-													color: primary,
-													marginTop: "-10px"
-												}}
-												onClick={event => {
-													event.stopPropagation();
-													this.setState({
-														deleteModal: true,
-														deleteCensus: census.id
-													});
-												}}
-											/>
+											</Tooltip>
+											<Tooltip title={translate.delete}>
+												<span>
+													<CloseIcon
+														style={{
+															color: primary,
+															marginTop: "-10px"
+														}}
+														onClick={event => {
+															event.stopPropagation();
+															this.setState({
+																deleteModal: true,
+																deleteCensus: census.id
+															});
+														}}
+													/>
+												</span>
+											</Tooltip>
 										</div>
 									</TableCell>
 								</TableRow>
@@ -227,6 +221,19 @@ class CompanyCensusPage extends React.Component {
 					modal={true}
 					acceptAction={this.deleteCensus}
 					requestClose={() => this.setState({ deleteModal: false })}
+				/>
+				<CloneCensusModal
+					translate={translate}
+					refetch={this.props.data.refetch}
+					requestClose={() => this.setState({ cloneModal: false, cloneIndex: null})}
+					open={this.state.cloneModal}
+					census={!!censuses? 
+						censuses.list[
+							this.state.cloneIndex
+						]
+					:
+						[]
+					}
 				/>
 			</CardPageLayout>
 		);
