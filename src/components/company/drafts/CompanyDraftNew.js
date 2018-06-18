@@ -20,11 +20,13 @@ class CompanyDraftNew extends Component {
 			}
 		});
 	};
+
 	updateErrors = errors => {
 		this.setState({
 			errors
 		});
 	};
+
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { draft } = this.state;
@@ -42,6 +44,7 @@ class CompanyDraftNew extends Component {
 			}
 		}
 	};
+	
 	resetAndClose = () => {
 		clearTimeout(this.timeout);
 		this.setState({
@@ -100,11 +103,8 @@ class CompanyDraftNew extends Component {
 						draft={draft}
 						errors={errors}
 						translate={translate}
-						companyStatutes={this.props.data.companyStatutes}
 						updateState={this.updateState}
-						draftTypes={this.props.data.draftTypes}
-						votingTypes={this.props.data.votingTypes}
-						majorityTypes={this.props.data.majorityTypes}
+						{...this.props.data}
 					/>
 					<br />
 					<BasicButton

@@ -14,6 +14,7 @@ import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
 import { setUserData } from "../../actions/mainActions";
 import { getPrimary } from "../../styles/colors";
+import UserForm from './UserForm';
 
 class UpdateUserForm extends React.Component {
 	saveUser = async () => {
@@ -135,85 +136,13 @@ class UpdateUserForm extends React.Component {
 					{translate.user_data}
 				</Typography>
 				<br />
-				<Grid>
-					<GridItem xs={12} md={6} lg={4}>
-						<TextInput
-							floatingText={translate.name}
-							type="text"
-							required
-							value={data.name}
-							errorText={errors.name}
-							onChange={event =>
-								this.updateState({
-									name: event.target.value
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={4}>
-						<TextInput
-							floatingText={translate.surname}
-							type="text"
-							value={data.surname}
-							onChange={event =>
-								this.updateState({
-									surname: event.target.value
-								})
-							}
-							errorText={errors.surname}
-							required
-						/>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={4}>
-						<TextInput
-							floatingText={translate.email}
-							type="text"
-							value={data.email}
-							onChange={event =>
-								this.updateState({
-									email: event.target.value
-								})
-							}
-							errorText={errors.email}
-							required
-						/>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={4}>
-						<TextInput
-							floatingText={translate.phone}
-							type="text"
-							value={data.phone}
-							errorText={errors.phone}
-							onChange={event =>
-								this.updateState({
-									phone: event.target.value
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={4}>
-						<SelectInput
-							floatingText={translate.language}
-							value={data.preferred_language}
-							onChange={event =>
-								this.updateState({
-									preferred_language: event.target.value
-								})
-							}
-							errorText={errors.preferred_language}
-							required
-						>
-							{this.props.languages.map(language => (
-								<MenuItem
-									key={`language_${language.columnName}`}
-									value={language.columnName}
-								>
-									{language.desc}
-								</MenuItem>
-							))}
-						</SelectInput>
-					</GridItem>
-				</Grid>
+				<UserForm
+					data={data}
+					updateState={this.updateState}
+					errors={errors}
+					languages={this.props.languages}
+					translate={translate}
+				/>
 				<br />
 				<BasicButton
 					text={translate.save}

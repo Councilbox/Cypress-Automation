@@ -593,10 +593,107 @@ export const corporationDrafts = gql`
 			}
 			total
 		}
+
+		languages {
+			desc
+			columnName
+		}
+
+		companyTypes {
+			label
+			value
+		}
+
+		votingTypes {
+			label
+			value
+		}
+
+		majorityTypes {
+			label
+			value
+		}
+
 		draftTypes {
 			id
 			label
 			value
+		}
+	}
+`;
+
+export const corporationDraft = gql`
+	query corporationDraft($id: Int!){
+		corporationDraft(id: $id){
+			categories
+			companyType
+			corporationId
+			councilType
+			description
+			id
+			language
+			majority
+			majorityDivider
+			majorityType
+			prototype
+			statuteId
+			text
+			title
+			type
+			userId
+			votationType
+		}
+
+		languages {
+			desc
+			columnName
+		}
+
+		companyTypes {
+			label
+			value
+		}
+
+		votingTypes {
+			label
+			value
+		}
+
+		majorityTypes {
+			label
+			value
+		}
+
+		draftTypes {
+			id
+			label
+			value
+		}
+	}
+`;
+
+export const createCorporationDraft = gql`
+	mutation CreateCorporationDraft($draft: CorporationDraftInput!){
+		createCorporationDraft(draft: $draft){
+			success
+			message
+		}
+	}
+`;
+
+export const deleteCorporationDraft = gql`
+	mutation deleteCorporationDraft($id: Int!){
+		deleteCorporationDraft(id: $id){
+			success
+			message
+		}
+	}
+`;
+
+export const updateCorporationDraft = gql`
+	mutation updateCorporationDraft($draft: CorporationDraftInput!){
+		updateCorporationDraft(draft: $draft){
+			id
 		}
 	}
 `;
