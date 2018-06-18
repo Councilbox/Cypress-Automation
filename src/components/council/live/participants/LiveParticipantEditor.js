@@ -50,6 +50,7 @@ class LiveParticipantEditor extends Component {
 			});
 		}
 	};
+	
 	removeDelegatedVote = async id => {
 		const response = await this.props.updateLiveParticipant({
 			variables: {
@@ -363,9 +364,9 @@ const NotificationsTable = ({ notifications, translate }) => (
 						<Tooltip
 							title={
 								translate[
-									CBX.getTranslationReqCode(
-										notification.reqCode
-									)
+								CBX.getTranslationReqCode(
+									notification.reqCode
+								)
 								]
 							}
 						>
@@ -405,7 +406,8 @@ export default compose(
 		options: props => ({
 			variables: {
 				participantId: props.id
-			}
+			},
+			notifyOnNetworkStatusChange: true
 		})
 	}),
 	graphql(updateLiveParticipant, {

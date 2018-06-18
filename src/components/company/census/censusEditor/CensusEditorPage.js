@@ -130,7 +130,6 @@ export default withSharedProps()(
 			variables: {
 				id: props.match.params.id
 			},
-			notifyOnNetworkStatusChange: true
 		})
 	})(withRouter(CensusEditorPage))
 );
