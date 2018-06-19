@@ -5,8 +5,9 @@ import {
 	GridItem,
 	RichTextInput,
 	SelectInput,
-	TextInput
+	TextInput,
 } from "../../../displayComponents";
+import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { MenuItem, Typography } from "material-ui";
 import { quorumTypes } from "../../../queries";
 import { censuses } from "../../../queries/census";
@@ -16,6 +17,43 @@ import * as CBX from "../../../utils/CBX";
 import QuorumInput from "../../../displayComponents/QuorumInput";
 
 class StatuteEditor extends React.PureComponent {
+	tags = [
+		{
+			value: '{{dateFirstCall}}',
+			label: this.props.translate['1st_call_date']
+		},
+		{
+			value: '{{dateSecondCall}}',
+			label: this.props.translate['2nd_call_date']
+		},
+		{
+			value: '{{business_name}}',
+			label: this.props.translate.business_name
+		},
+		{
+			value: '{{address}}',
+			label: this.props.translate.new_location_of_celebrate
+		},
+		{
+			value: '{{city}}',
+			label: this.props.translate.company_new_locality
+		},
+		{
+			value: '{{country_state}}',
+			label: this.props.translate.company_new_country_state
+		},
+	];
+
+	editor = null;
+
+	loadDraft = draft => {
+		this.props.updateState({
+			conveneHeader: draft.text
+		});
+		this.editor.setValue(draft.text);
+	};
+
+
 	render() {
 		const { statute, translate, updateState, errors } = this.props;
 		const { quorumTypes, loading } = this.props.data;
@@ -494,6 +532,7 @@ class StatuteEditor extends React.PureComponent {
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
 						<RichTextInput
+							ref={editor => this.editor = editor}
 							errorText=""
 							floatingText={translate.convene_header}
 							value={
@@ -505,6 +544,20 @@ class StatuteEditor extends React.PureComponent {
 								updateState({
 									conveneHeader: value
 								})
+							}
+							tags={this.tags}
+							loadDraft={
+								<LoadDraftModal
+									translate={translate}
+									companyId={this.props.company.id}
+									loadDraft={this.loadDraft}
+									statute={{
+										...statute,
+										statuteId: statute.id
+									}}
+									statutes={this.props.companyStatutes}
+									draftType={0}
+								/>
 							}
 						/>
 					</GridItem>
@@ -525,6 +578,7 @@ class StatuteEditor extends React.PureComponent {
 							<GridItem xs={12} md={12} lg={12}>
 								<RichTextInput
 									errorText=""
+									ref={intro => this.intro = intro}
 									floatingText={translate.intro}
 									value={statute.intro || ""}
 									onChange={value =>
@@ -532,18 +586,25 @@ class StatuteEditor extends React.PureComponent {
 											intro: value
 										})
 									}
-								/>
-							</GridItem>
+									tags={this.tags}
+									loadDraft={
+										<LoadDraftModal
+											translate={translate}
+											companyId={this.props.company.id}
+											loadDraft={draft => {
+												updateState({
+													intro: draft.text
+												})
+												this.intro.setValue(draft.text);
 
-							<GridItem xs={12} md={12} lg={12}>
-								<RichTextInput
-									errorText=""
-									floatingText={translate.constitution}
-									value={statute.constitution || ""}
-									onChange={value =>
-										updateState({
-											constitution: value
-										})
+											}}
+											statute={{
+												...statute,
+												statuteId: statute.id
+											}}
+											statutes={this.props.companyStatutes}
+											draftType={2}
+										/>
 									}
 								/>
 							</GridItem>
@@ -551,12 +612,67 @@ class StatuteEditor extends React.PureComponent {
 							<GridItem xs={12} md={12} lg={12}>
 								<RichTextInput
 									errorText=""
+									ref={constitution => this.constitution = constitution}
+									floatingText={translate.constitution}
+									value={statute.constitution || ""}
+									onChange={value =>
+										updateState({
+											constitution: value
+										})
+									}
+									tags={this.tags}
+									loadDraft={
+										<LoadDraftModal
+											translate={translate}
+											companyId={this.props.company.id}
+											loadDraft={draft => {
+												updateState({
+													constitution: draft.text
+												})
+												this.constitution.setValue(draft.text);
+
+											}}
+											statute={{
+												...statute,
+												statuteId: statute.id
+											}}
+											statutes={this.props.companyStatutes}
+											draftType={3}
+										/>
+									}
+								/>
+							</GridItem>
+
+							<GridItem xs={12} md={12} lg={12}>
+								<RichTextInput
+									errorText=""
+									ref={conclusion => this.conclusion = conclusion}
 									floatingText={translate.conclusion}
 									value={statute.conclusion || ""}
 									onChange={value =>
 										updateState({
 											conclusion: value
 										})
+									}
+									tags={this.tags}
+									loadDraft={
+										<LoadDraftModal
+											translate={translate}
+											companyId={this.props.company.id}
+											loadDraft={draft => {
+												updateState({
+													conclusion: draft.text
+												})
+												this.conclusion.setValue(draft.text);
+
+											}}
+											statute={{
+												...statute,
+												statuteId: statute.id
+											}}
+											statutes={this.props.companyStatutes}
+											draftType={4}
+										/>
 									}
 								/>
 							</GridItem>
@@ -574,7 +690,7 @@ export default compose(
 		name: "censusList",
 		options: props => ({
 			variables: {
-				companyId: props.companyId
+				companyId: props.company.id
 			},
 			notifyOnNetworkStatusChange: true
 		})

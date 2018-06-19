@@ -218,6 +218,13 @@ export const changeVariablesToValues = (text, data) => {
 			moment.ISO_8601
 		).format("LLL")
 	);
+	text = text.replace(
+		"{{dateSecondCall}}",
+		moment(
+			new Date(data.council.dateStart2NdCall).toISOString(),
+			moment.ISO_8601
+		).format("LLL")
+	);
 	text = text.replace("{{business_name}}", data.company.businessName);
 	text = text.replace("{{city}}", data.council.city);
 	text = text.replace("{{street}}", data.council.street);

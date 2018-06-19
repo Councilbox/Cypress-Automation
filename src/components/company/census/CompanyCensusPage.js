@@ -109,6 +109,10 @@ class CompanyCensusPage extends React.Component {
 								text: translate.last_edit,
 								canOrder: true
 							},
+							{
+								name: "creator",
+								text: translate.creator,
+							},
 							{ name: "" }
 						]}
 					>
@@ -134,6 +138,9 @@ class CompanyCensusPage extends React.Component {
 											format="DD/MM/YYYY HH:mm"
 											date={census.lastEdit}
 										/>
+									</TableCell>
+									<TableCell>
+										{`${!!census.creator? census.creator.name : ''} ${!!census.creator? census.creator.surname : ''}`}
 									</TableCell>
 									<TableCell>
 										<div style={{ float: "right" }}>

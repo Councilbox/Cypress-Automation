@@ -210,8 +210,9 @@ class StatutesPage extends Component {
 						<Fragment>
 							<div className="container-fluid">
 								<StatuteEditor
+									companyStatutes={companyStatutes}
 									statute={statute}
-									companyId={this.props.company.id}
+									company={this.props.company}
 									translate={translate}
 									updateState={this.updateState}
 									errors={this.state.errors}
