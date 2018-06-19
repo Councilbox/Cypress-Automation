@@ -114,7 +114,9 @@ class CensusEditorPage extends Component {
 					<LoadingSection />
 				) : (
 					<CensusParticipants
+						recount={this.props.data.censusRecount}
 						translate={translate}
+						refetch={this.props.data.refetch}
 						census={census}
 						company={this.props.company}
 					/>

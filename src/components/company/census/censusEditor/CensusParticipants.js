@@ -1,12 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { getPrimary } from "../../../../styles/colors";
 import { TableCell, TableRow } from "material-ui";
-import {
-	CloseIcon,
-	EnhancedTable,
-	Grid,
-	GridItem
-} from "../../../../displayComponents";
+import { CloseIcon, EnhancedTable, Grid, GridItem } from "../../../../displayComponents";
+import { hasParticipations } from '../../../../utils/CBX';
 import { compose, graphql } from "react-apollo";
 import { censusParticipants } from "../../../../queries/census";
 import gql from "graphql-tag";
@@ -98,13 +94,21 @@ class CensusParticipants extends Component {
 		return (
 			<Fragment>
 				<Grid>
-					<GridItem xs={12} md={3} lg={3}>
+					<GridItem xs={12} md={12} lg={12}>
 						<AddCensusParticipantButton
 							translate={translate}
 							company={this.props.company}
 							census={this.props.census}
 							refetch={this.props.data.refetch}
 						/>
+						<span style={{fontWeight: '700', fontSize: '0.9em'}}>
+							{`${translate.total_votes}: ${this.props.recount.numParticipations}`}
+						</span>
+						{hasParticipations({ quorumPrototype: this.props.census.quorumPrototype }) &&
+							<span style={{marginLeft: '1em', fontWeight: '700', fontSize: '0.9em'}}>
+								{`${translate.total_social_capital}: ${this.props.recount.socialCapital}`}
+							</span>
+						}
 					</GridItem>
 				</Grid>
 				{!!censusParticipants && (
@@ -137,7 +141,7 @@ class CensusParticipants extends Component {
 					>
 						{censusParticipants.list.map(participant => {
 							return (
-								<Fragment>
+								<Fragment key={`participant_${participant.id}`}>
 									<TableRow
 										onClick={() =>
 											this.editParticipant(participant)
@@ -153,8 +157,6 @@ class CensusParticipants extends Component {
 											}`}
 										</TableCell>
 										<TableCell>{participant.dni}</TableCell>
-										{/*<TableCell>{participant.email}</TableCell>*/}
-										{/*<TableCell>{participant.phone}</TableCell>*/}
 										<TableCell>
 											{participant.position}
 										</TableCell>
@@ -179,7 +181,6 @@ class CensusParticipants extends Component {
 												cursor: "pointer",
 												backgroundColor: "WhiteSmoke"
 											}}
-											// onClick={() => this.setState({editParticipant: true, editIndex: index})}
 										>
 											<TableCell>
 												<div
@@ -213,16 +214,6 @@ class CensusParticipants extends Component {
 													}
 												</div>
 											</TableCell>
-											{/*<TableCell>*/}
-											{/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
-											{/*{participant.representative.email}*/}
-											{/*</div>*/}
-											{/*</TableCell>*/}
-											{/*<TableCell>*/}
-											{/*<div style={{fontSize: '0.9em', width: '100%'}}>*/}
-											{/*{participant.representative.phone}*/}
-											{/*</div>*/}
-											{/*</TableCell>*/}
 											<TableCell>
 												<div
 													style={{
@@ -256,7 +247,10 @@ class CensusParticipants extends Component {
 					census={this.props.census}
 					participant={this.state.participant}
 					opened={this.state.editingParticipant}
-					refetch={this.props.data.refetch}
+					refetch={() => {
+						this.props.data.refetch();
+						this.props.refetch()
+					}}
 				/>
 			</Fragment>
 		);
