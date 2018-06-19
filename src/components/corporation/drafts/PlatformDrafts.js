@@ -157,7 +157,7 @@ class PlatformDrafts extends Component {
 				{selectedIndex >= 0 ? (
 					<PlatformDraftDetails
 						close={() => this.setState({ selectedIndex: -1 })}
-						draft={platformDrafts[selectedIndex]}
+						draft={platformDrafts.list[selectedIndex]}
 						translate={translate}
 					/>
 				) : (
@@ -273,17 +273,11 @@ class PlatformDrafts extends Component {
 														key={`draft${draft.id}`}
 													>
 														<TableCell
-															style={
-																TableStyles.TD
-															}
+															style={TableStyles.TD}
 														>
 															<Checkbox
-																value={
-																	isChecked
-																}
-																checked={
-																	isChecked
-																}
+																value={isChecked}
+																checked={isChecked}
 																onChange={() =>
 																	this.updateSelectedValues(
 																		draft.id
@@ -314,9 +308,7 @@ class PlatformDrafts extends Component {
 															)}
 														</TableCell>
 														<TableCell
-															style={
-																TableStyles.TD
-															}
+															style={TableStyles.TD}
 															onClick={() =>
 																this.setState({
 																	selectedIndex: index
