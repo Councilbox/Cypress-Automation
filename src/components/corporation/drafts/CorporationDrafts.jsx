@@ -1,26 +1,18 @@
-import React, { Component, Fragment } from "react";
-import {
-    CardPageLayout,
-    EnhancedTable,
-    ErrorWrapper
-} from "../../../displayComponents";
+import React from "react";
+import { CardPageLayout, EnhancedTable, ErrorWrapper } from "../../../displayComponents";
 import { compose, graphql, withApollo } from "react-apollo";
 import { corporationDrafts } from "../../../queries/corporation";
 import { TableCell, TableRow } from "material-ui/Table";
-import { getPrimary, getSecondary } from "../../../styles/colors";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
-import { DRAFTS_LIMITS } from "../../../constants";
+import { DRAFTS_LIMITS, DRAFT_TYPES } from "../../../constants";
 import TableStyles from "../../../styles/table";
 
-class CorporationDrafts extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selectedIndex: -1,
-            selectedValues: []
-        };
-    }
+class CorporationDrafts extends React.Component {
+    state = {
+        selectedIndex: -1,
+        selectedValues: []
+    };
 
     componentDidMount() {
         this.props.data.refetch();
@@ -29,7 +21,6 @@ class CorporationDrafts extends Component {
     render() {
         const { translate } = this.props;
         const { loading, error, corporationDrafts, draftTypes } = this.props.data;
-        const primary = getPrimary();
 
         return (
             <CardPageLayout title={translate.general_drafts}>
