@@ -16,6 +16,11 @@ export const censuses = gql`
 				quorumPrototype
 				state
 				creatorId
+				creator{
+					name
+					surname
+					id
+				}
 				creationDate
 				lastEdit
 			}

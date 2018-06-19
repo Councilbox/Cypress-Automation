@@ -30,13 +30,6 @@ class LoadDraft extends React.Component {
 		const { translate, statutes, statute } = this.props;
 		const { companyDrafts, loading } = this.props.data;
 
-		// if (!!statute){
-		//     for (let i = 0; i < statutes.length; i++) {
-		//         const loadingElement = loading[ i ];
-		//
-		//     }
-		// }
-
 		return (
 			<React.Fragment>
 				{!!companyDrafts && (

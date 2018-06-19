@@ -155,6 +155,7 @@ class StepNotice extends Component {
 			}
 		}
 	};
+	
 	loadDraft = draft => {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,

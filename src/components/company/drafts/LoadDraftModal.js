@@ -60,7 +60,12 @@ class LoadDraftModal extends React.Component {
 							translate={translate}
 							statutes={statutes}
 							statute={statute}
-							loadDraft={this.props.loadDraft}
+							loadDraft={(value) => {
+								this.props.loadDraft(value);
+								this.setState({
+									loadDraft: false
+								})
+							}}
 						/>
 					</DialogContent>
 				</Dialog>
