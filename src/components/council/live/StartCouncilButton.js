@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { councilOfficials, startCouncil } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import {
@@ -16,8 +16,27 @@ import Scrollbar from "react-perfect-scrollbar";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
 import { existsQualityVote } from "../../../utils/CBX";
+import ConveneSelector from './ConveneSelector';
 
-class StartCouncilButton extends Component {
+class StartCouncilButton extends React.Component {
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			alert: false,
+			selecting: 0,
+			data: {
+				president: "",
+				presidentId: ""
+			},
+			errors: {
+				president: "",
+				secretary: "",
+				qualityVote: ""
+			}
+		};
+	}
+
 	startCouncil = async () => {
 		if (!this.checkRequiredFields()) {
 			const { council } = this.props;
@@ -39,6 +58,7 @@ class StartCouncilButton extends Component {
 			}
 		}
 	};
+
 	checkRequiredFields = () => {
 		let hasError = false;
 		let errors = {
@@ -70,6 +90,7 @@ class StartCouncilButton extends Component {
 
 		return hasError;
 	};
+
 	actionSwitch = () => {
 		switch (this.state.selecting) {
 			case 1:
@@ -112,6 +133,7 @@ class StartCouncilButton extends Component {
 				return;
 		}
 	};
+
 	loadMore = () => {
 		this.props.data.fetchMore({
 			variables: {
@@ -137,6 +159,7 @@ class StartCouncilButton extends Component {
 			}
 		});
 	};
+
 	_startCouncilForm = () => {
 		const { translate } = this.props;
 		const { loading } = this.props.data;
@@ -287,26 +310,13 @@ class StartCouncilButton extends Component {
 						</GridItem>
 					</Fragment>
 				)}
+				<ConveneSelector
+					council={this.props.council}
+					translate={translate}
+				/>
 			</Grid>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			alert: false,
-			selecting: 0,
-			data: {
-				president: "",
-				presidentId: ""
-			},
-			errors: {
-				president: "",
-				secretary: "",
-				qualityVote: ""
-			}
-		};
-	}
 
 	render() {
 		const { translate } = this.props;
