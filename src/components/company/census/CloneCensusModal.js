@@ -53,7 +53,7 @@ class CloneCensusModal extends Component {
 			});
 			console.log(response);
 			if (!response.errors) {
-				if(response.data.cloneCensus.sucess){
+				if(response.data.cloneCensus.success){
 					this.props.refetch();
 					this.props.requestClose();
 				}

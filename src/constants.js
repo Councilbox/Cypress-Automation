@@ -64,6 +64,25 @@ export const DRAFT_TYPES = {
 	COMMENTS_AND_AGREEMENTS: 5
 };
 
+export const QUORUM_TYPES = [
+	{
+		value: -1,
+		label: 'none'
+	}, {
+		value: 0,
+		label: 'percentage'
+	}, {
+		value: 1,
+		label: 'middle_plus_one'
+	}, {
+		value: 2,
+		label: 'fraction'
+	}, {
+		value: 3,
+		label: 'number'
+	}
+];
+
 export const SEND_TYPES = [
 	"convene",
 	"reminder",

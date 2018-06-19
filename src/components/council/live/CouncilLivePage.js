@@ -19,7 +19,7 @@ class CouncilLivePage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			participants: true,
+			participants: false,
 			confirmModal: false,
 			selectedPoint: 0,
 			wall: false,

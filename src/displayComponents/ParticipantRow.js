@@ -5,7 +5,12 @@ import { delegatedVotesLimitReached } from '../utils/CBX';
 
 const ParticipantRow = ({ participant, onClick, key, checkBox, toDelegate, council, selected, onChange }) => {
 
-	const limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length );
+
+	let limitReached = null;
+	
+	if(toDelegate){
+		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length );
+	}
  
 	return (
 		<div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
