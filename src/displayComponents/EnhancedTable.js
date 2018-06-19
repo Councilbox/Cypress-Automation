@@ -33,6 +33,29 @@ const paginationButtonStyle = {
 };
 
 class EnhancedTable extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			filterText: "",
+			filterField: this.props.defaultFilter,
+			limit: this.props.defaultLimit,
+			page: 1,
+			orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : "",
+			orderDirection: this.props.defaultOrder
+				? this.props.defaultOrder[1]
+				: "asc",
+			selectedCategory: this.props.selectedCategory
+				? this.props.selectedCategory.field
+				: "",
+			categoryValue: this.props.selectedCategory
+				? this.props.selectedCategory.value
+				: "all"
+		};
+		this.timeout = null;
+	}
+
+
+
 	updateFilterText = async value => {
 		const { refetch, addedFilters } = this.props;
 		this.setState({
@@ -98,7 +121,6 @@ class EnhancedTable extends Component {
 			if (!!this.state.filterText) {
 				variables = {
 					...variables,
-					...this.props.addedFilters,
 					filters: [
 						{
 							field: this.state.filterField,
@@ -107,6 +129,10 @@ class EnhancedTable extends Component {
 					]
 				};
 			}
+			if(!!this.props.addedFilters){
+				variables.filters = [...variables.filters, ...this.props.addedFilters];
+			}
+
 			refetch(variables);
 			this.setState({
 				limit: limit,
@@ -125,11 +151,9 @@ class EnhancedTable extends Component {
 					offset: this.state.limit * (page - 1)
 				}
 			};
-			console.log(variables);
 			if (!!this.state.filterText) {
 				variables = {
 					...variables,
-					...this.props.addedFilters,
 					filters: [
 						{
 							field: this.state.filterField,
@@ -138,6 +162,11 @@ class EnhancedTable extends Component {
 					]
 				};
 			}
+
+			if(!!this.props.addedFilters){
+				variables.filters = [...variables.filters, ...this.props.addedFilters];
+			}
+
 			if (!!this.state.selectedCategory) {
 				variables = {
 					...variables,
@@ -175,7 +204,6 @@ class EnhancedTable extends Component {
 		};
 		if (!!this.state.filterText) {
 			variables = {
-				...this.props.addedFilters,
 				...variables,
 				filters: [
 					{
@@ -185,7 +213,12 @@ class EnhancedTable extends Component {
 				]
 			};
 		}
-		if (!!this.state.selectedCategory) {
+
+		if(!!this.props.addedFilters){
+			variables.filters = [...variables.filters, ...this.props.addedFilters];
+		}
+
+		if (this.state.selectedCategory !== 'all') {
 			variables = {
 				...variables,
 				filters: [
@@ -203,21 +236,30 @@ class EnhancedTable extends Component {
 			orderDirection: direction
 		});
 	};
+
 	refresh = object => {
 		this.changePage(1, object);
 	};
+
 	updateCategory = (event, field) => {
 		const { refetch } = this.props;
 
 		let variables = {
-			filters: [
-				...this.props.addedFilters,
+			filters: []
+		};
+
+		if(event.value !== 'all'){
+			variables.filters = [
 				{
 					field: field,
 					text: event.value
 				}
 			]
-		};
+		}
+
+		if(!!this.props.addedFilters){
+			variables.filters = [...variables.filters, ...this.props.addedFilters];
+		}
 
 		if (!!this.state.filterText) {
 			variables = {
@@ -231,33 +273,13 @@ class EnhancedTable extends Component {
 				]
 			};
 		}
+
 		refetch(variables);
 		this.setState({
 			selectedCategory: field,
 			categoryValue: event.value
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			filterText: "",
-			filterField: this.props.defaultFilter,
-			limit: this.props.defaultLimit,
-			page: 1,
-			orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : "",
-			orderDirection: this.props.defaultOrder
-				? this.props.defaultOrder[1]
-				: "asc",
-			selectedCategory: this.props.selectedCategory
-				? this.props.selectedCategory.field
-				: "",
-			categoryValue: this.props.selectedCategory
-				? this.props.selectedCategory.value
-				: ""
-		};
-		this.timeout = null;
-	}
 
 	render() {
 		const {

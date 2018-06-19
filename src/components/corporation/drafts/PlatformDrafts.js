@@ -224,6 +224,26 @@ class PlatformDrafts extends Component {
 										defaultOrder={["title", "asc"]}
 										limits={DRAFTS_LIMITS}
 										page={1}
+										selectedCategory={{
+											field: "type",
+											value: 'all',
+											label: translate.all_plural
+										}}
+										categories={[
+											{
+												field: "type",
+												value: 'all',
+												label: translate.all_plural
+											},											
+											...(draftTypes.map(draft => {
+												
+												return {
+													field: "type",
+													value: draft.value,
+													label: translate[draftTypes[draft.value].label]
+												};
+											}))
+										]}
 										loading={loading}
 										length={platformDrafts.list.length}
 										total={platformDrafts.total}
