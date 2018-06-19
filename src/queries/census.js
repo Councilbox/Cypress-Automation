@@ -43,6 +43,10 @@ export const census = gql`
 			creationDate
 			lastEdit
 		}
+		censusRecount(censusId: $id){
+			numParticipations
+			socialCapital
+		}
 	}
 `;
 
