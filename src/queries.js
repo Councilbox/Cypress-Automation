@@ -1450,6 +1450,15 @@ export const councilLiveQuery = gql`
 			weightedVoting
 			zipcode
 		}
+
+		councilRecount(councilId: $councilID){
+            id
+            socialCapitalTotal
+            partTotal
+            numTotal
+            socialCapitalRightVoting
+            numRightVoting
+        }
 	}
 `;
 
@@ -2361,31 +2370,7 @@ export const updateOrder = gql`
 	}
 `;
 
-export const liveRecount = gql`
-	query liveRecount($councilID: ID!) {
-		liveRecount(councilID: $councilID) {
-			council_id
-			num_current_remote
-			num_no_participate
-			num_present
-			num_remote
-			num_right_voting
-			num_total
-			part_current_remote
-			part_no_participate
-			part_present
-			part_remote
-			part_right_voting
-			part_total
-			social_capital_current_remote
-			social_capital_no_participate
-			social_capital_present
-			social_capital_remote
-			social_capital_right_voting
-			social_capital_total
-		}
-	}
-`;
+
 
 export const getVideoHTML = gql`
 	query getVideoHTML($councilID: ID!) {

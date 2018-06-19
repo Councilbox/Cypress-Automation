@@ -117,6 +117,7 @@ class AgendaDetailsSection extends Component {
 										style={{ marginTop: "0.6em" }}
 									>
 										<StartCouncilButton
+											recount={this.props.recount}
 											council={council}
 											translate={translate}
 											participants={participants}

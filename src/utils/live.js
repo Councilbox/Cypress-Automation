@@ -40,6 +40,21 @@ class LiveUtil {
 		);
 	}
 
+	static calculateQuorum = (base, quorum_type, quorum, quorum_divider) => {
+        switch (quorum_type) {
+            case 0:
+                return Math.ceil(base * quorum / 100);
+            case 1:
+                return Math.ceil(base * 50 / 100) + 1;
+            case 2:
+                return Math.ceil(base * quorum / quorum_divider);
+            case 3:
+                return quorum;
+            default:
+                return 0;
+        }
+    }
+
 	static calculateMajority(
 		specialSL,
 		total_votes,
