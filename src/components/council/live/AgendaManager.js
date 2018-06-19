@@ -125,6 +125,7 @@ class AgendaManager extends Component {
 						ref={agendaDetails =>
 							(this.agendaDetails = agendaDetails)
 						}
+						recount={this.props.recount}
 						council={council}
 						agendas={agendas}
 						data={this.props.data}

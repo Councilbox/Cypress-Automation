@@ -351,6 +351,7 @@ class CouncilLivePage extends Component {
 								ref={agendaManager =>
 									(this.agendaManager = agendaManager)
 								}
+								recount={this.props.data.councilRecount}
 								council={council}
 								company={company}
 								translate={translate}

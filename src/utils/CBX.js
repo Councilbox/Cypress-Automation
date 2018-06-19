@@ -690,3 +690,18 @@ export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 	}
 	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.quorumPrototype);
 }
+
+export const calculateQuorum = (council, recount) => {
+    let base;
+    if(council.quorumPrototype === 1){
+        base = !!recount? recount.socialCapitalTotal : 0;
+    }else{
+        base = !!recount? recount.numTotal : 0;
+    }
+
+    if(council.firstOrSecondConvene === 1){
+        return LiveUtil.calculateQuorum(base, council.statute.firstCallQuorumType, council.statute.firstCallQuorum, council.statute.firstCallQuorumDivider);
+    }
+
+    return LiveUtil.calculateQuorum(base, council.statute.secondCallQuorumType, council.statute.secondCallQuorum, council.statute.secondCallQuorumDivider);
+}

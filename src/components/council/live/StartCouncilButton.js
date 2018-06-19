@@ -15,8 +15,10 @@ import { getPrimary } from "../../../styles/colors";
 import Scrollbar from "react-perfect-scrollbar";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
-import { existsQualityVote } from "../../../utils/CBX";
+import { existsQualityVote, calculateQuorum } from "../../../utils/CBX";
 import ConveneSelector from './ConveneSelector';
+import LiveUtil from '../../../utils/live';
+
 
 class StartCouncilButton extends React.Component {
 
@@ -26,6 +28,8 @@ class StartCouncilButton extends React.Component {
 			alert: false,
 			selecting: 0,
 			data: {
+				firstOrSecondConvene: this.props.council.firstOrSecondConvene,
+				neededQuorum: 2,
 				president: "",
 				presidentId: ""
 			},
@@ -39,17 +43,25 @@ class StartCouncilButton extends React.Component {
 
 	startCouncil = async () => {
 		if (!this.checkRequiredFields()) {
-			const { council } = this.props;
+			const { council, recount } = this.props;
+			const currentQuorum = council.quorumPrototype? (
+				recount.socialCapitalRightVoting
+			) : (
+				recount.numRightVoting
+			);
+			const neededQuorum = calculateQuorum(council, recount);
+
+
 			const response = await this.props.startCouncil({
 				variables: {
 					council: {
 						...this.state.data,
 						id: council.id,
 						companyId: council.companyId,
-						neededQuorum: council.neededQuorum || 2,
-						currentQuorum: council.currentQuorum || 0,
-						satisfyQuorum: council.satisfyQuorum || 0,
-						firstOrSecondConvene: council.firstOrSecondConvene
+						neededQuorum: neededQuorum,
+						currentQuorum: currentQuorum,
+						satisfyQuorum: (currentQuorum >= neededQuorum ? 1 : 0),
+						firstOrSecondConvene: this.state.data.firstOrSecondConvene
 					}
 				}
 			});
@@ -133,6 +145,16 @@ class StartCouncilButton extends React.Component {
 				return;
 		}
 	};
+
+
+	changeConvene = (value) => {
+		this.setState({
+			data: {
+				...this.state.data,
+				firstOrSecondConvene: value
+			}
+		})
+	}
 
 	loadMore = () => {
 		this.props.data.fetchMore({
@@ -313,6 +335,9 @@ class StartCouncilButton extends React.Component {
 				<ConveneSelector
 					council={this.props.council}
 					translate={translate}
+					convene={this.state.data.firstOrSecondConvene}
+					changeConvene={this.changeConvene}
+					recount={this.props.recount}
 				/>
 			</Grid>
 		);
