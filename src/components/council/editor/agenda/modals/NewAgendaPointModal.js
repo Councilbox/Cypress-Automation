@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { graphql } from "react-apollo";
-
 import {
 	AlertConfirm,
 	BasicButton,
@@ -18,9 +17,38 @@ import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 
-class NewAgendaPointModal extends Component {
+
+class NewAgendaPointModal extends React.Component {
+
+	sending = false;
+
+	defaultValues = {
+		agendaSubject: "",
+		subjectType: 0,
+		description: "",
+		majority: null,
+		majorityType: 1,
+		majorityDivider: null
+	}
+
+	state = {
+		newPoint: {
+			...this.defaultValues
+		},
+		loadDraft: false,
+		newPointModal: false,
+		saveAsDraft: false,
+
+		errors: {
+			agendaSubject: "",
+			subjectType: "",
+			description: ""
+		}
+	};
+
 	addAgenda = async () => {
-		if (!this.checkRequiredFields()) {
+		if (!this.checkRequiredFields() && !this.sending) {
+			this.sending = true;
 			const { newPoint } = this.state;
 			const response = await this.props.addAgenda({
 				variables: {
@@ -32,19 +60,20 @@ class NewAgendaPointModal extends Component {
 					}
 				}
 			});
+
 			if (response) {
 				this.setState({ loadDraft: false });
+				this.sending = false;
 				this.props.refetch();
 				this.close();
 			}
 		}
 	};
+
 	close = () => {
 		this.setState({
 			newPoint: {
-				agendaSubject: "",
-				subjectType: "",
-				description: ""
+				...this.defaultValues
 			},
 
 			newPointModal: false,
@@ -56,7 +85,9 @@ class NewAgendaPointModal extends Component {
 				description: ""
 			}
 		});
+		this.sending = false;
 	};
+
 	updateState = object => {
 		this.setState({
 			newPoint: {
@@ -67,10 +98,12 @@ class NewAgendaPointModal extends Component {
 		});
 	};
 	loadDraft = draft => {
+
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council
 		});
+
 		this.updateState({
 			description: correctedText,
 			majority: draft.majority,
@@ -79,8 +112,10 @@ class NewAgendaPointModal extends Component {
 			subjectType: draft.type,
 			agendaSubject: draft.title
 		});
+
 		this.editor.setValue(correctedText);
 	};
+
 	_renderNewPointBody = () => {
 		const {
 			translate,
@@ -260,29 +295,6 @@ class NewAgendaPointModal extends Component {
 		);
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			newPoint: {
-				agendaSubject: "",
-				subjectType: 0,
-				description: "",
-				majority: null,
-				majorityType: 1,
-				majorityDivider: null
-			},
-			loadDraft: false,
-			newPointModal: false,
-			saveAsDraft: false,
-
-			errors: {
-				agendaSubject: "",
-				subjectType: "",
-				description: ""
-			}
-		};
-	}
-
 	checkRequiredFields() {
 		const { translate } = this.props;
 		const agenda = this.state.newPoint;
@@ -297,7 +309,7 @@ class NewAgendaPointModal extends Component {
 		const { translate, children } = this.props;
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<div onClick={() => this.setState({ newPointModal: true })}>
 					{children}
 				</div>
@@ -310,7 +322,7 @@ class NewAgendaPointModal extends Component {
 					bodyText={this._renderNewPointBody()}
 					title={translate.new_point}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }
