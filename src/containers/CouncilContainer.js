@@ -57,7 +57,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 					<Councils
 						company={company}
 						translate={translate}
-						state={[20]}
+						state={[20, 30]}
 						link={"/live"}
 						title={translate.companies_live}
 						desc={translate.companies_live_desc}
