@@ -35,8 +35,11 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
                                 CBX.isQuorumFraction(quorumType.value)?
                                     `(${statute.value} / ${statute.divider})`
                                 :
-                                    CBX.isQuorumNumber(quorumType.value) &&
+                                    CBX.isQuorumNumber(quorumType.value)?
                                         `(${statute.value})`
+                                    :
+                                        ''
+
                         }`}
                     </span>
                     <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>

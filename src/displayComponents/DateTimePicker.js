@@ -17,7 +17,7 @@ const DateTimePickerWrapper = ({
 }) => (
 	<React.Fragment>
 		<DateTimePicker
-			label={`${label}${required && "*"}`}
+			label={!!label? `${label}${required && "*"}` : ''}
 			ampm={false}
 			format="LLL"
 			minDateMessage={minDateMessage}

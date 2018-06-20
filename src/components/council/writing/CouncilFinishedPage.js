@@ -4,7 +4,8 @@ import {
 	ErrorWrapper,
 	LoadingSection
 } from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { bHistory } from "../../../containers/App";
+import { checkCouncilState } from "../../../utils/CBX";
 import { graphql, withApollo } from "react-apollo";
 import Convene from "../convene/Convene";
 import gql from "graphql-tag";
@@ -76,12 +77,24 @@ export const councilDetails = gql`
 	}
 `;
 
-
-
 class CouncilFinishedPage extends React.Component {
 
 	componentDidMount() {
 		this.props.data.refetch();
+	}
+
+	componentDidUpdate(){
+		if(!this.props.data.loading){
+			checkCouncilState(
+				{
+					state: this.props.data.council.state,
+					id: this.props.data.council.id
+				},
+				this.props.company,
+				bHistory,
+				"finished"
+			);
+		}
 	}
 
 	render() {
@@ -137,6 +150,8 @@ class CouncilFinishedPage extends React.Component {
 				/>
 			)
 		}
+
+		return <LoadingSection />;
 		
 	}
 }

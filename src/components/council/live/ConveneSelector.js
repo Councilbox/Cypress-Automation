@@ -21,7 +21,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                 tabIndex="0"
                 onClick={() => changeConvene(1)}
             >
-                    <span style={{fontWeight: '700'}}>{translate.first_call}</span>
+                    <span style={{fontWeight: '700'}}>{`${translate.first_call} ${' '}`}</span>
                     <DateWrapper date={council.dateStart} format="DD/MM/YYYY HH:mm" />
                     <QuorumWrapper council={council} translate={translate} recount={recount} />
             </Card>
@@ -38,7 +38,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                     tabIndex="0"
                     onClick={() => changeConvene(2)}
                 >
-                    <span style={{fontWeight: '700'}}>{translate.second_call}</span>
+                    <span style={{fontWeight: '700'}}>{`${translate.second_call} ${' '}`}</span>
                     <DateWrapper date={council.dateStart2NdCall} format="DD/MM/YYYY HH:mm" />
                     <QuorumWrapper council={council} translate={translate} recount={recount} secondCall={true} />
                 </Card>

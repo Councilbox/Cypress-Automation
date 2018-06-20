@@ -4,6 +4,7 @@ import {
 	BasicButton,
 	ButtonIcon,
 	Checkbox,
+	DateTimePicker,
 	LoadingSection,
 	MajorityInput,
 	Radio,
@@ -15,6 +16,7 @@ import { compose, graphql } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import CouncilHeader from './CouncilHeader';
+import moment from 'moment';
 let primary = getPrimary();
 let secondary = getSecondary();
 
@@ -51,6 +53,8 @@ class StepOptions extends React.Component {
 			variables: {
 				council: {
 					...council,
+					sendPointsMode: !CBX.councilHasVideo({councilType: council.councilType})? 0 : 1,
+					closeDate: !!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
 					step: step
 				}
 			}
@@ -266,6 +270,24 @@ class StepOptions extends React.Component {
 						}
 					/>
 				)}
+				{council.autoClose === 1 && 
+					<DateTimePicker
+						required
+						minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+						onChange={date => {
+							const newDate = new Date(date);
+							const dateString = newDate.toISOString();
+							this.updateCouncilData({
+								closeDate: dateString
+							})
+						}}
+						minDateMessage={""}
+						acceptText={translate.accept}
+						cancelText={translate.cancel}
+						value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+					/>
+				}
+				
 
 				<Typography variant="subheading" style={{ marginTop: "1em" }}>
 					{translate.security}

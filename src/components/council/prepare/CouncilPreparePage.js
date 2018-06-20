@@ -41,16 +41,13 @@ class CouncilPreparePage extends Component {
 		);
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			sendReminder: false,
-			sendConvene: false,
-			cancel: false,
-			rescheduleCouncil: false
-		};
-	}
+	state = {
+		participants: false,
+		sendReminder: false,
+		sendConvene: false,
+		cancel: false,
+		rescheduleCouncil: false
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -61,11 +58,9 @@ class CouncilPreparePage extends Component {
 			council,
 			error,
 			loading,
-			councilSocialCapital,
-			councilTotalVotes,
 			refetch
 		} = this.props.data;
-		const { translate, councilID } = this.props;
+		const { translate } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
