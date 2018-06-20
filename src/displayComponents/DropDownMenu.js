@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import Menu from "material-ui/Menu";
+import { Popover } from 'material-ui'; 
 import { BasicButton } from "./index";
 
 class DropDownMenu extends React.Component {
@@ -54,17 +55,28 @@ class DropDownMenu extends React.Component {
 					/>
 				)}
 
-				<Menu
+				<Popover
 					id={id}
-					anchorEl={anchorEl}
 					open={Boolean(anchorEl)}
+					anchorEl={anchorEl}
 					onClose={this.handleClose}
 				>
-					{items}
-				</Menu>
+					<div onClick={this.handleClose}>
+						{items}
+					</div>
+				</Popover>
 			</Fragment>
 		);
 	}
 }
+
+					{/* anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'center',
+					}}
+					transformOrigin={{
+						vertical: 'top',
+						horizontal: 'center',
+					}} */}
 
 export default DropDownMenu;

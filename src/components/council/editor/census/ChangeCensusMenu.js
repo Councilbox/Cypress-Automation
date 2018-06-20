@@ -67,17 +67,17 @@ const ChangeCensusMenu = ({
 				{`${translate.total_votes}: ${totalVotes}`}
 			</Typography>
 		</GridItem>
-		{CBX.hasParticipations(council) && (
-			<GridItem
-				lg={3}
-				md={3}
-				xs={6}
-				style={{
-					height: "4em",
-					display: "flex",
-					alignItems: "center"
-				}}
-			>
+		<GridItem
+			lg={3}
+			md={3}
+			xs={6}
+			style={{
+				height: "4em",
+				display: "flex",
+				alignItems: "center"
+			}}
+		>
+			{CBX.hasParticipations(council) &&
 				<Typography
 					variant="body2"
 					style={{
@@ -88,14 +88,16 @@ const ChangeCensusMenu = ({
 				>
 					{`${translate.total_social_capital}: ${totalSocialCapital}`}
 				</Typography>
-			</GridItem>
-		)}
+			}
+		</GridItem>
 		<GridItem
 			lg={3}
 			md={3}
 			xs={6}
 			style={{
-				marginTop: "1em"
+				marginTop: "1em",
+				display: 'flex',
+				justifyContent: 'flex-end'
 			}}
 		>
 			<AddCouncilParticipantButton
@@ -104,20 +106,6 @@ const ChangeCensusMenu = ({
 				councilId={council.id}
 				refetch={refetch}
 			/>
-			{/*<BasicButton*/}
-			{/*text={translate.add_participant}*/}
-			{/*color={getPrimary()}*/}
-			{/*textStyle={{*/}
-			{/*color: 'white',*/}
-			{/*fontWeight: '700',*/}
-			{/*fontSize: '0.9em',*/}
-			{/*textTransform: 'none',*/}
-			{/*width: '100%'*/}
-			{/*}}*/}
-			{/*icon={<ButtonIcon type="add" color="white"/>}*/}
-			{/*textPosition="after"*/}
-			{/*onClick={showAddModal}*/}
-			{/*/>*/}
 		</GridItem>
 	</Grid>
 );

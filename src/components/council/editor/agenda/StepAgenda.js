@@ -18,6 +18,7 @@ import * as CBX from "../../../../utils/CBX";
 import ReorderPointsModal from "../../agendas/ReorderPointsModal";
 import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
 import AgendaItem from "./AgendaItem";
+import CouncilHeader from '../CouncilHeader';
 
 const buttonStyle = {
 	color: "white",
@@ -27,33 +28,32 @@ const buttonStyle = {
 };
 
 class StepAgenda extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			votingTypes: [],
-			edit: false,
-			editIndex: 0,
-			saveAsDraft: false,
-			saveAsDraftId: 0,
-			agendas: [],
-			errors: {
-				agendaSubject: "",
-				description: "",
-				emptyAgendas: ""
-			}
-		};
-	}
+	state = {
+		votingTypes: [],
+		edit: false,
+		editIndex: 0,
+		saveAsDraft: false,
+		saveAsDraftId: 0,
+		agendas: [],
+		errors: {
+			agendaSubject: "",
+			description: "",
+			emptyAgendas: ""
+		}
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (!nextProps.data.loading) {
-			this.setState({
-				agendas: nextProps.data.council.agendas
-			});
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			return {
+				agendas: nextProps.data.council.agendas,
+			}
 		}
+
+		return null;
 	}
 
 	updateCouncil = step => {
@@ -128,11 +128,11 @@ class StepAgenda extends Component {
 	render() {
 		const { translate } = this.props;
 		const {
-			agendas,
 			errors,
 			edit,
 			editIndex,
 			saveAsDraft,
+			agendas,
 			saveAsDraftId
 		} = this.state;
 		const {
@@ -160,13 +160,12 @@ class StepAgenda extends Component {
 					height: "100%"
 				}}
 			>
+				<CouncilHeader
+					council={council}
+					translate={translate}
+				/>
 				{agendas.length > 0 && (
 					<Grid>
-						{/*<GridItem xs={12} lg={12} md={12}>*/}
-						{/*<Typography variant="title" gutterBottom>*/}
-						{/*{translate.agenda}*/}
-						{/*</Typography>*/}
-						{/*</GridItem>*/}
 						<GridItem
 							xs={12}
 							lg={12}

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -19,19 +19,18 @@ import * as CBX from "../../../../utils/CBX";
 import { councilStepTwo, updateCouncil } from "../../../../queries";
 import { compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
+import CouncilHeader from '../CouncilHeader';
 
-class StepCensus extends Component {
+
+class StepCensus extends React.Component {
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipant: false
 		});
 	};
+
 	saveDraft = step => {
-		const {
-			__typename,
-			participants,
-			...council
-		} = this.props.data.council;
+		const { __typename, participants, ...council } = this.props.data.council;
 		this.props.updateCouncil({
 			variables: {
 				council: {
@@ -100,15 +99,19 @@ class StepCensus extends Component {
 		this.props.data.refetch();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: {
-					...this.state.data,
-					...nextProps.data.council
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			if(nextProps.data.council.id !== prevState.data.id){
+				const { __typename, statute, ...council } = nextProps.data.council;
+				return {
+					data: {
+						...council
+					}
 				}
-			});
+			}
 		}
+
+		return null;
 	}
 
 	_renderCensusChangeButtons() {
@@ -116,7 +119,7 @@ class StepCensus extends Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.cancel}
 					color={"white"}
@@ -143,7 +146,7 @@ class StepCensus extends Component {
 					textPosition="after"
 					onClick={this.sendCensusChange}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 
@@ -178,7 +181,11 @@ class StepCensus extends Component {
 					height: "100%"
 				}}
 			>
-				<Fragment>
+				<React.Fragment>
+					<CouncilHeader
+						translate={translate}
+						council={council}
+					/>
 					<ParticipantsTable
 						translate={translate}
 						council={council}
@@ -225,7 +232,7 @@ class StepCensus extends Component {
 										<ButtonIcon type="save" color="white" />
 									}
 									textPosition="after"
-									onClick={this.saveDraft(2)}
+									onClick={() => this.saveDraft(2)}
 								/>
 								<BasicButton
 									text={translate.table_button_next}
@@ -260,7 +267,7 @@ class StepCensus extends Component {
 							{this._renderCensusChangeButtons()}
 						</DialogActions>
 					</Dialog>
-				</Fragment>
+				</React.Fragment>
 			</div>
 		);
 	}
@@ -287,4 +294,4 @@ export default compose(
 	graphql(updateCouncil, {
 		name: "updateCouncil"
 	})
-)(withRouter(StepCensus));
+)(StepCensus);

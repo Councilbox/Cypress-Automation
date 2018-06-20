@@ -55,6 +55,11 @@ const theme = createMuiTheme({
 				color: secondary
 			}
 		},
+		MuiMenu: {
+			paper: {
+				zIndex: 998
+			}
+		},
 		MuiStepper: {
 			root: {
 				backgroundColor: "transparent",

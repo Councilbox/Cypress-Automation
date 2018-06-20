@@ -12,7 +12,8 @@ const CloseIcon = ({ style, onClick, loading }) => (
 				style={{
 					...style,
 					height: "28px",
-					width: "45px"
+					width: "45px",
+					outline: 0
 				}}
 			>
 				<Close />

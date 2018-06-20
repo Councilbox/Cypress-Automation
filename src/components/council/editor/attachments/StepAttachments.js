@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -15,14 +15,11 @@ import { MAX_FILE_SIZE } from "../../../../constants";
 import { Typography } from "material-ui";
 import AttachmentList from "../../../attachments/AttachmentList";
 import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
-import {
-	addCouncilAttachment,
-	councilStepFour,
-	removeCouncilAttachment,
-	updateCouncil
-} from "../../../../queries";
+import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil} from "../../../../queries";
+import CouncilHeader from '../CouncilHeader'
 
-class StepAttachments extends Component {
+
+class StepAttachments extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -165,11 +162,15 @@ class StepAttachments extends Component {
 					height: "100%"
 				}}
 			>
+				<CouncilHeader
+					council={!this.props.data.loading? this.props.data.council : { name: ''}}
+					translate={translate}
+				/>
 				<Grid>
 					<GridItem xs={12} md={10}>
 						<Typography
 							variant="subheading"
-							style={{ marginTop: "1.5em" }}
+							style={{ marginTop: "0.5em" }}
 						>
 							{translate.new_files_desc}
 						</Typography>

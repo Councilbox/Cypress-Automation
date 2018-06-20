@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -25,8 +25,31 @@ import { bHistory } from "../../../containers/App";
 import * as CBX from "../../../utils/CBX";
 import { checkValidEmail } from "../../../utils/validation";
 import { toast } from "react-toastify";
+import CouncilHeader from './CouncilHeader';
 
-class StepPreview extends Component {
+class StepPreview extends React.Component {
+
+	state = {
+		conveneTestModal: false,
+		conveneTestSuccess: false,
+		preConveneModal: false,
+		preConveneSuccess: false,
+		sendConveneWithoutNoticeModal: false,
+		conveneWithoutNoticeSuccess: false,
+		data: {
+			conveneTestEmail: ""
+		},
+
+		errors: {
+			conveneTestEmail: ""
+		}
+	};
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
+
 	conveneCouncil = async () => {
 		const { __typename, ...council } = this.props.data.council;
 		this.props.data.loading = true;
@@ -38,9 +61,10 @@ class StepPreview extends Component {
 
 		if (response.data.conveneCouncil.success) {
 			toast.success(this.props.translate.council_sended);
-			bHistory.push("/");
+			bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
 		}
 	};
+
 	sendConveneTest = async () => {
 		if (checkValidEmail(this.state.data.conveneTestEmail)) {
 			const response = await this.props.sendConveneTest({
@@ -64,11 +88,13 @@ class StepPreview extends Component {
 			});
 		}
 	};
+
 	conveneTestKeyUp = event => {
 		if (event.nativeEvent.keyCode === 13) {
 			this.sendConveneTest();
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -77,6 +103,7 @@ class StepPreview extends Component {
 			}
 		});
 	};
+
 	resetConveneTestValues = () => {
 		this.setState({
 			conveneTestModal: false,
@@ -85,6 +112,7 @@ class StepPreview extends Component {
 		});
 		this.updateState({ conveneTestEmail: "" });
 	};
+
 	sendPreConvene = async () => {
 		const response = await this.props.sendPreConvene({
 			variables: {
@@ -98,6 +126,7 @@ class StepPreview extends Component {
 			});
 		}
 	};
+
 	sendConveneWithoutNotice = async () => {
 		const response = await this.props.conveneWithoutNotice({
 			variables: {
@@ -114,6 +143,7 @@ class StepPreview extends Component {
 			}
 		}
 	};
+
 	_renderPreConveneModalBody = () => {
 		if (this.state.preConveneSuccess) {
 			return <SuccessMessage message={this.props.translate.sent} />;
@@ -125,32 +155,10 @@ class StepPreview extends Component {
 			</div>
 		);
 	};
+
 	_renderSendConveneWithoutNoticeBody = () => {
 		return <div>{this.props.translate.new_save_convene}</div>;
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			conveneTestModal: false,
-			conveneTestSuccess: false,
-			preConveneModal: false,
-			preConveneSuccess: false,
-			sendConveneWithoutNoticeModal: false,
-			conveneWithoutNoticeSuccess: false,
-			data: {
-				conveneTestEmail: ""
-			},
-
-			errors: {
-				conveneTestEmail: ""
-			}
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
 
 	_renderConveneTestModalBody() {
 		const { translate } = this.props;
@@ -205,128 +213,140 @@ class StepPreview extends Component {
 				}}
 			>
 				<Grid>
-					<GridItem xs={12} lg={12} md={12}>
-						<div
-							style={{
-								float: "right"
-							}}
-						>
-							<DropDownMenu
-								color="transparent"
-								buttonStyle={{
-									boxSizing: "border-box",
-									padding: "0",
-									border: `1px solid ${primary}`,
-									marginLeft: "0.3em"
+					<GridItem
+						xs={12} lg={12} md={12}
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}
+					>
+						<div>
+
+						</div>
+						<div>
+							<div
+								style={{
+									float: "right"
 								}}
-								text={
-									<FontAwesome
-										name={"bars"}
-										style={{
-											cursor: "pointer",
-											fontSize: "0.8em",
-											height: "0.8em",
-											color: primary
-										}}
-									/>
-								}
-								textStyle={{ color: primary }}
-								type="flat"
-								icon={
-									<Icon
-										className="material-icons"
-										style={{ color: primary }}
-									>
-										keyboard_arrow_down
-									</Icon>
-								}
-								items={
-									<Fragment>
-										<MenuItem
-											onClick={() =>
-												this.setState({
-													conveneTestModal: true
-												})
-											}
+							>
+								<DropDownMenu
+									color="transparent"
+									buttonStyle={{
+										boxSizing: "border-box",
+										padding: "0",
+										border: `1px solid ${primary}`,
+										marginLeft: "0.3em"
+									}}
+									text={
+										<FontAwesome
+											name={"bars"}
+											style={{
+												cursor: "pointer",
+												fontSize: "0.8em",
+												height: "0.8em",
+												color: primary
+											}}
+										/>
+									}
+									textStyle={{ color: primary }}
+									type="flat"
+									icon={
+										<Icon
+											className="material-icons"
+											style={{ color: primary }}
 										>
-											<Icon
-												className="fa fa-flask"
-												style={{
-													color: secondary,
-													marginLeft: "0.4em"
-												}}
+											keyboard_arrow_down
+										</Icon>
+									}
+									items={
+										<React.Fragment>
+											<MenuItem
+												onClick={() =>
+													this.setState({
+														conveneTestModal: true
+													})
+												}
 											>
-												{" "}
-											</Icon>
-											{translate.send_test_convene}
-										</MenuItem>
-										<MenuItem
-											onClick={() =>
-												this.setState({
-													preConveneModal: true
-												})
-											}
-										>
-											<Icon
-												className="material-icons"
-												style={{
-													color: secondary,
-													marginLeft: "0.4em"
-												}}
+												<Icon
+													className="fa fa-flask"
+													style={{
+														color: secondary,
+														marginLeft: "0.4em"
+													}}
+												>
+													{" "}
+												</Icon>
+												{translate.send_test_convene}
+											</MenuItem>
+											<MenuItem
+												onClick={() =>
+													this.setState({
+														preConveneModal: true
+													})
+												}
 											>
-												query_builder
-											</Icon>
-											{translate.send_preconvene}
-										</MenuItem>
-										<MenuItem
-											onClick={() =>
-												this.setState({
-													sendConveneWithoutNoticeModal: true
-												})
-											}
-										>
-											<Icon
-												className="material-icons"
-												style={{
-													color: secondary,
-													marginLeft: "0.4em"
-												}}
+												<Icon
+													className="material-icons"
+													style={{
+														color: secondary,
+														marginLeft: "0.4em"
+													}}
+												>
+													query_builder
+												</Icon>
+												{translate.send_preconvene}
+											</MenuItem>
+											<MenuItem
+												onClick={() =>
+													this.setState({
+														sendConveneWithoutNoticeModal: true
+													})
+												}
 											>
-												notifications_off
-											</Icon>
-											{translate.new_save_convene}
-										</MenuItem>
-									</Fragment>
-								}
+												<Icon
+													className="material-icons"
+													style={{
+														color: secondary,
+														marginLeft: "0.4em"
+													}}
+												>
+													notifications_off
+												</Icon>
+												{translate.new_save_convene}
+											</MenuItem>
+										</React.Fragment>
+									}
+								/>
+							</div>
+							<BasicButton
+								text={translate.new_save_and_send}
+								color={primary}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									marginLeft: "0.3em",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								floatRight
+								textPosition="after"
+								onClick={this.conveneCouncil}
+							/>
+							<BasicButton
+								text={translate.previous}
+								color={secondary}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								floatRight
+								textPosition="after"
+								onClick={this.props.previousStep}
 							/>
 						</div>
-						<BasicButton
-							text={translate.new_save_and_send}
-							color={primary}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								marginLeft: "0.3em",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							floatRight
-							textPosition="after"
-							onClick={this.conveneCouncil}
-						/>
-						<BasicButton
-							text={translate.previous}
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							floatRight
-							textPosition="after"
-							onClick={this.props.previousStep}
-						/>
 					</GridItem>
 				</Grid>
 				<Paper style={{ marginTop: "1.5em" }}>
