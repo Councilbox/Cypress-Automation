@@ -17,13 +17,10 @@ const pointerStep = {
 
 class CouncilEditorPage extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			step: this.props.step,
-			actualStep: this.props.step
-		};
-	}
+	state = {
+		step: this.props.step,
+		actualStep: this.props.step
+	};
 
 	componentDidMount() {
 		if (this.state.step !== this.props.step) {
@@ -222,7 +219,6 @@ class CouncilEditorPage extends React.Component {
 						/>
 					)}
 				</div>
-				{/*</div>*/}
 			</CardPageLayout>
 		);
 	}

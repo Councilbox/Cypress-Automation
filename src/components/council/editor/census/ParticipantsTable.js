@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
 
 import { getPrimary } from "../../../../styles/colors";
@@ -13,7 +13,13 @@ import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
 
-class ParticipantsTable extends Component {
+class ParticipantsTable extends React.Component {
+	state = {
+		editingParticipant: false,
+		participant: {}
+	};
+
+
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
@@ -30,13 +36,6 @@ class ParticipantsTable extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			editingParticipant: false,
-			participant: {}
-		};
-	}
 
 	_renderDeleteIcon(participantID) {
 		const primary = getPrimary();
@@ -154,7 +153,7 @@ class ParticipantsTable extends Component {
 							{councilParticipants.list.map(
 								(participant, index) => {
 									return (
-										<Fragment
+										<React.Fragment
 											key={`participant${participant.id}`}
 										>
 											<TableRow
@@ -290,7 +289,7 @@ class ParticipantsTable extends Component {
 													<TableCell />
 												</TableRow>
 											)}
-										</Fragment>
+										</React.Fragment>
 									);
 								}
 							)}

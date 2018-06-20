@@ -77,7 +77,7 @@ class PointEditor extends Component {
 		return (
 			<div
 				style={{
-					width: "80vw"
+					width: "70vw"
 				}}
 			>
 				{this.state.loadDraft && (

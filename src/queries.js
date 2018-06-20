@@ -432,6 +432,9 @@ export const councilStepTwo = gql`
 			id
 			quorumPrototype
 			selectedCensusId
+			name
+			dateStart
+			dateStart2NdCall
 		}
 
 		languages {
@@ -798,6 +801,7 @@ export const councilStepThree = gql`
 		council(id: $id) {
 			businessName
 			city
+			name
 			country
 			companyId
 			countryState
@@ -927,6 +931,7 @@ export const councilStepFour = gql`
 	query CouncilStepFour($id: Int!) {
 		council(id: $id) {
 			id
+			name
 			companyId
 			attachments {
 				filename
@@ -966,6 +971,7 @@ export const removeCouncilAttachment = gql`
 export const councilStepFive = gql`
 	query CouncilStepFive($id: Int!) {
 		council(id: $id) {
+			name
 			actPointMajority
 			actPointMajorityDivider
 			actPointMajorityType
