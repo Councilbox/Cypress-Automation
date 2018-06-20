@@ -58,6 +58,8 @@ const theme = createMuiTheme({
 		MuiStepper: {
 			root: {
 				backgroundColor: "transparent",
+			},
+			horizontal: {
 				height: '6em',
 				overflow: 'hidden'
 			}
