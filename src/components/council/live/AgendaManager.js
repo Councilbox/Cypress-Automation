@@ -1,12 +1,18 @@
-import React, { Component } from "react";
+import React from "react";
 import AgendaDetailsSection from "./AgendaDetailsSection";
 import AgendaSelector from "./AgendaSelector";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { agendaManager } from "../../../queries";
 import { LoadingSection } from "../../../displayComponents";
+import { checkCouncilState } from '../../../utils/CBX';
 
-class AgendaManager extends Component {
+class AgendaManager extends React.Component {
+
+	state = {
+		selectedPoint: 0
+	};
+
 	changeSelectedPoint = index => {
 		this.setState({
 			selectedPoint: index
@@ -35,13 +41,6 @@ class AgendaManager extends Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedPoint: 0
-		};
-	}
 
 	render() {
 		const { council, translate, company } = this.props;

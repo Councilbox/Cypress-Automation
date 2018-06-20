@@ -389,32 +389,69 @@ function dataURItoBlob(dataURI) {
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
 	switch (council.state) {
-		case 0:
+		case COUNCIL_STATES.DRAFT:
 			if (expected !== "draft") {
 				bHistory.push(`/company/${company.id}/council/${council.id}`);
 			}
 			break;
-		case 5:
-			if (expected !== "convened") {
+		case COUNCIL_STATES.SAVED:
+			if (expected !== "convened" && expected !== "live") {
 				bHistory.push(
 					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
-		case 10:
-			if (expected !== "convened") {
+		case COUNCIL_STATES.PREPARING:
+			if (expected !== "convened" && expected !== "live") {
 				bHistory.push(
 					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
-		case 20:
+
+			
+		case COUNCIL_STATES.ROOM_OPENED:
 			if (expected !== "live") {
 				bHistory.push(
 					`/company/${company.id}/council/${council.id}/live`
 				);
 			}
 			break;
+		case COUNCIL_STATES.FINISHED:
+			if (expected !== "finished") {
+				bHistory.push(
+					`/company/${company.id}/council/${council.id}/finished`
+				);
+			}
+			break;
+		case COUNCIL_STATES.APPROVED:
+			if (expected !== "finished") {
+				bHistory.push(
+					`/company/${company.id}/council/${council.id}/finished`
+				);
+			}
+			break;
+		case COUNCIL_STATES.FINAL_ACT_SENT:
+			if (expected !== "finished") {
+				bHistory.push(
+					`/company/${company.id}/council/${council.id}/finished`
+				);
+			}
+			break;
+		case COUNCIL_STATES.NOT_CELEBRATED:
+			if (expected !== "finished") {
+				bHistory.push(
+					`/company/${company.id}/council/${council.id}/finished`
+				);
+			}
+			break;	
+		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
+			if (expected !== "finished") {
+				bHistory.push(
+					`/company/${company.id}/council/${council.id}/finished`
+				);
+			}
+			break;	
 		default:
 			return;
 	}

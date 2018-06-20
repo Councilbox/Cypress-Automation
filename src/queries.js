@@ -980,6 +980,7 @@ export const councilStepFive = gql`
 			actPointQuorumType
 			approveActDraft
 			autoClose
+			dateStart
 			closeDate
 			companyId
 			confirmAssistance
@@ -1069,6 +1070,7 @@ export const councilStepSix = gql`
 			autoClose
 			closeDate
 			companyId
+			sendPointsMode
 			confirmAssistance
 			councilType
 			fullVideoRecord
@@ -1296,6 +1298,7 @@ export const councilLiveQuery = gql`
 	query CouncilLiveQuery($councilID: Int!) {
 		council(id: $councilID) {
 			active
+			autoClose
 			agendas {
 				abstentionManual
 				abstentionVotings

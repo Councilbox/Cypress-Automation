@@ -11,28 +11,43 @@ import ParticipantsManager from "./ParticipantsManager";
 import CommentWall from "./CommentWall";
 import { showVideo } from "../../../utils/CBX";
 import { Tooltip, Badge } from "material-ui";
-
+import { bHistory } from '../../../containers/App';
+import { checkCouncilState } from '../../../utils/CBX';
 const minVideoWidth = 30;
 const minVideoHeight = "45vh";
 
 class CouncilLivePage extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			confirmModal: false,
-			selectedPoint: 0,
-			wall: false,
-			unreadComments: 0,
-			addParticipantModal: false,
-			videoWidth: minVideoWidth,
-			videoHeight: minVideoHeight,
-			fullScreen: false
-		};
-	}
+	state = {
+		participants: false,
+		confirmModal: false,
+		selectedPoint: 0,
+		wall: false,
+		unreadComments: 0,
+		addParticipantModal: false,
+		videoWidth: minVideoWidth,
+		videoHeight: minVideoHeight,
+		fullScreen: false
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
+	}
+
+	componentDidUpdate(){
+		if(!this.props.data.loading){
+			const company = this.props.companies.list[
+				this.props.companies.selected
+			];
+			checkCouncilState(
+				{
+					state: this.props.data.council.state,
+					id: this.props.data.council.id
+				},
+				company,
+				bHistory,
+				"live"
+			);
+		}
 	}
 
 	closeAddParticipantModal = () => {
@@ -378,6 +393,7 @@ export default graphql(councilLiveQuery, {
 	options: props => ({
 		variables: {
 			councilID: props.councilID
-		}
+		},
+		pollInterval: 10000
 	})
 })(CouncilLivePage);
