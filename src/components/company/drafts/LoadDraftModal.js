@@ -1,32 +1,52 @@
 import React from "react";
-import { BasicButton } from "../../../displayComponents/index";
+import { BasicButton, AlertConfirm } from "../../../displayComponents";
 import { getSecondary } from "../../../styles/colors";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import LoadDraft from "./LoadDraft";
 
 class LoadDraftModal extends React.Component {
+
+	state = {
+		loadDraft: false
+	};
+
 	close = () => {
 		this.setState({
 			loadDraft: false
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			loadDraft: false
-		};
-	}
-
-	render() {
+	_renderModalBody = () => {
 		const {
 			companyId,
 			councilType,
 			draftType,
-			translate,
 			statutes,
 			statute
 		} = this.props;
+
+		return(
+			<div style={{width: '800px'}}>
+				<LoadDraft
+					companyId={companyId}
+					councilType={councilType}
+					draftType={draftType}
+					translate={this.props.translate}
+					statutes={statutes}
+					statute={statute}
+					loadDraft={(value) => {
+						this.props.loadDraft(value);
+						this.setState({
+							loadDraft: false
+						})
+					}}
+				/>
+			</div>
+		)
+	}
+
+	render() {
+		const translate = this.props.translate;
 		const secondary = getSecondary();
 
 		return (
@@ -46,29 +66,13 @@ class LoadDraftModal extends React.Component {
 					textPosition="after"
 					onClick={() => this.setState({ loadDraft: true })}
 				/>
-				<Dialog
+				<AlertConfirm
+					requestClose={this.close}
 					open={this.state.loadDraft}
-					maxWidth={false}
-					onClose={() => this.setState({ loadDraft: false })}
-				>
-					<DialogTitle>{translate.load_draft}</DialogTitle>
-					<DialogContent style={{ width: "800px" }}>
-						<LoadDraft
-							companyId={companyId}
-							councilType={councilType}
-							draftType={draftType}
-							translate={translate}
-							statutes={statutes}
-							statute={statute}
-							loadDraft={(value) => {
-								this.props.loadDraft(value);
-								this.setState({
-									loadDraft: false
-								})
-							}}
-						/>
-					</DialogContent>
-				</Dialog>
+					buttonCancel={translate.close}
+					bodyText={this._renderModalBody()}
+					title={translate.load_draft}
+				/>
 			</React.Fragment>
 		);
 	}

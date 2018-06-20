@@ -55,13 +55,20 @@ class LoadDraft extends React.Component {
 							value: statute.statuteId,
 							label: translate[statute.title] || statute.title
 						}}
-						categories={statutes.map(statute => {
-							return {
+						categories={[						
+							...statutes.map(statute => {
+								return {
+									field: "statuteId",
+									value: statute.id,
+									label: translate[statute.title] || statute.title
+								}
+							}),
+							{
 								field: "statuteId",
-								value: statute.id,
-								label: translate[statute.title] || statute.title
-							};
-						})}
+								value: 'all',
+								label: translate.all_plural
+							},	
+						]}
 						headers={[
 							{
 								text: translate.title,

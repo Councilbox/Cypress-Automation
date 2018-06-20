@@ -305,7 +305,7 @@ class EnhancedTable extends Component {
 			<div>
 				<Grid>
 					{limits && (
-						<GridItem xs={3} md={3} lg={3}>
+						<GridItem xs={2} md={2} lg={2}>
 							<SelectInput
 								value={limit}
 								onChange={event =>
@@ -348,7 +348,7 @@ class EnhancedTable extends Component {
 						</GridItem>
 					)}
 					{categories ? (
-						<GridItem xs={12} md={3} lg={3}>
+						<GridItem xs={12} md={4} lg={4}>
 							<SelectInput
 								value={categoryValue}
 								onChange={event =>
