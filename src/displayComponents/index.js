@@ -33,6 +33,7 @@ export { default as Popover } from "./Popover";
 export { default as ProgressBar } from "./ProgressBar";
 export { default as Radio } from "./Radio";
 export { default as RadioGroup } from "./RadioGroup";
+export { default as ReadMore } from './ReadMore';
 export { default as RefreshButton } from "./RefreshButton";
 export { default as RichTextInput } from "./RichTextInput";
 export { default as SectionTitle } from "./SectionTitle";

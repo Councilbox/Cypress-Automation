@@ -49,6 +49,13 @@ export const showAgendaVotingsToggle = (council, agenda) => {
 	);
 };
 
+export const showAgendaVotingsTable = (agenda) => {
+	return (
+		agenda.votingState > 0 &&
+		agenda.subjectType !== 0
+	)
+}
+
 export const agendaVotingsOpened = agenda => {
 	return agenda.votingState !== 0;
 };
@@ -202,7 +209,7 @@ export const addMinimunDistance = (date, statute) => {
 	return momentDate.add(statute.minimumSeparationBetweenCall, "minutes");
 };
 
-export const changeVariablesToValues = (text, data) => {
+export const changeVariablesToValues = (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
 	}
@@ -225,6 +232,17 @@ export const changeVariablesToValues = (text, data) => {
 			moment.ISO_8601
 		).format("LLL")
 	);
+	text = text.replace("{{dateRealStart}}", !!data.council.dateRealStart? data.council.dateRealStart : '');
+	text = text.replace("{{firstOrSecondCall}}", data.council.firstOrSecondCall === 1? 
+		translate.first_call
+	:
+		data.council.firstOrSecondCall === 2?
+			translate.second_call
+		:
+			''
+	);
+
+	text = text.replace("{{address}}", `${data.council.street} ${data.council.country}`)
 	text = text.replace("{{business_name}}", data.company.businessName);
 	text = text.replace("{{city}}", data.council.city);
 	text = text.replace("{{street}}", data.council.street);
@@ -558,7 +576,7 @@ export const printCifAlreadyUsed = () => {
 };
 
 export const showVideo = council => {
-	return council.state === 20 && council.councilType === 0;
+	return (council.state === 20 || council.state === 30) && council.councilType === 0;
 };
 
 export const canAddPoints = council => {

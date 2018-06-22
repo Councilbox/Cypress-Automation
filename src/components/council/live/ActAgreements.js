@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	CollapsibleSection,
 	Icon,
@@ -14,19 +14,28 @@ import moment from "moment";
 import { changeVariablesToValues } from "../../../utils/CBX";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 
-class ActAgreements extends Component {
+class ActAgreements extends React.Component {
+
+	state = {
+		loading: false
+	};
+	
+	timeout = null;
+
 	startUpdateTimeout = value => {
-		const { refetch, addedFilters } = this.props;
 		clearTimeout(this.timeout);
+
 		this.timeout = setTimeout(() => {
 			this.updateAgreement(value);
 		}, 450);
 	};
+
 	componentDidUpdate = prevProps => {
 		if (prevProps.agenda.id !== this.props.agenda.id) {
 			this.editor.setValue(this.props.agenda.comment);
 		}
 	};
+
 	updateAgreement = async value => {
 		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
 			this.setState({ loading: true });
@@ -44,6 +53,7 @@ class ActAgreements extends Component {
 			console.log(response);
 		}
 	};
+
 	_button = () => {
 		const { translate } = this.props;
 
@@ -92,6 +102,7 @@ class ActAgreements extends Component {
 			</div>
 		);
 	};
+
 	loadDraft = draft => {
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
@@ -105,13 +116,12 @@ class ActAgreements extends Component {
 		this.updateAgreement(correctedText);
 		this.modal.close();
 	};
+	
 	_section = () => {
 		const { agenda, council, translate, company } = this.props;
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}
-
-		const { companyStatutes, draftTypes } = this.props.data;
 
 		return (
 			<div
@@ -159,14 +169,6 @@ class ActAgreements extends Component {
 			</div>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false
-		};
-		this.timeout = null;
-	}
 
 	render() {
 		return (

@@ -1,10 +1,6 @@
 import React from 'react';
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import {
-	CardPageLayout,
-	ErrorWrapper,
-	LoadingSection
-} from "../../../../displayComponents";
+import { CardPageLayout } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
 import ActEditor from "./ActEditor";
@@ -14,8 +10,6 @@ import Scrollbar from 'react-perfect-scrollbar';
 import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
-import CouncilHeader from '../CouncilHeader';
-
 
 const panelStyle = {
 	height: "100%",
@@ -25,18 +19,15 @@ const panelStyle = {
     padding: "0",
     paddingTop: '0.6em'
 };
-class ActEditorPage extends React.Component {
 
-    constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			sendReminder: false,
-			sendConvene: false,
-			cancel: false,
-			rescheduleCouncil: false
-		};
-	}
+class ActEditorPage extends React.Component {
+    state = {
+        participants: false,
+        sendReminder: false,
+        sendConvene: false,
+        cancel: false,
+        rescheduleCouncil: false
+    };
 
     render(){
         const { translate, council, withoutAct } = this.props;

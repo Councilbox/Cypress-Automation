@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { councilStepTwo } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
 import gql from 'graphql-tag';
 import AgendaEditor from './AgendaEditor';

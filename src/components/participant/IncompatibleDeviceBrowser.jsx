@@ -1,8 +1,5 @@
 import React from "react";
-import { Button } from "material-ui";
 import { BasicButton } from '../../displayComponents';
-import moment from "moment";
-import FontAwesome from "react-fontawesome";
 import withTranslations from "../../HOCs/withTranslations";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withWindowOrientation from "../../HOCs/withWindowOrientation";
@@ -60,14 +57,14 @@ class ErrorState extends React.Component {
 
 			case NOT_COMPATIBLE_BROWSER:
 				return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+			default: 
+				return <div />
 		}
 	};
 
 	render() {
 		const {
-			translate,
 			status,
-			data,
 			windowSize,
 			windowOrientation
 		} = this.props;
@@ -110,7 +107,7 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser}/>
 		</div>
 	</React.Fragment>
 );
@@ -242,7 +239,7 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 					</div>
 
 					<div style={styles.imageContainer}>
-						<img src={notCompatiblePhoneIcon} />
+						<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} />
 					</div>
 				</React.Fragment>
 			}
@@ -271,7 +268,7 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 				{translate.incompatible_browser_msg_clean}
 			</p>
 
-			<a href="https://www.google.com.mx/chrome/browser/desktop/?brand=CHBD&gclid=Cj0KCQjw09zOBRCqARIsAH8XF1YGCu-kSPzW6nLfK0qUZQBvhiX_3hAluYZEw0wDtzrfzdej17_xkREaArJPEALw_wcB" target="_blank">
+			<a href="https://www.google.com.mx/chrome/browser/desktop/?brand=CHBD&gclid=Cj0KCQjw09zOBRCqARIsAH8XF1YGCu-kSPzW6nLfK0qUZQBvhiX_3hAluYZEw0wDtzrfzdej17_xkREaArJPEALw_wcB" target="_blank" rel="noopener noreferrer">
 				<BasicButton
 					color={secondary}
 					textStyle={{
@@ -288,7 +285,7 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} />
 		</div>
 	</React.Fragment>
 );

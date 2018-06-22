@@ -1,10 +1,11 @@
 import React from "react";
 import { SortableElement } from "react-sortable-hoc";
 import { getPrimary } from "../styles/colors";
+import { Card, MenuItem } from 'material-ui';
 
-const DraggableBlock = SortableElement(({ value }) => {
+const DraggableBlock = SortableElement((props) => {
 	return (
-		<li
+		<Card
 			style={{
 				opacity: 1,
 				width: "100%",
@@ -21,8 +22,8 @@ const DraggableBlock = SortableElement(({ value }) => {
 			}}
 			className="draggable"
 		>
-			{value}
-		</li>
+			{props.value}
+		</Card>
 	);
 });
 

@@ -1,14 +1,10 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { MenuItem, Typography } from "material-ui";
+import { Typography } from "material-ui";
 import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,
-	ButtonIcon,
-	Grid,
-	GridItem,
-	SelectInput,
-	TextInput
+	ButtonIcon
 } from "../../displayComponents";
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";

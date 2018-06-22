@@ -6,7 +6,7 @@ import ForgetPwdContainer from "./ForgetPwdContainer";
 import ChangePwdContainer from "./ChangePwdContainer";
 import Welcome from "../components/Welcome";
 import NotFound from "../components/NotFound";
-import { Redirect, Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Sidebar from "../components/sideMenu/SideBar";
 import { LoadingMainApp } from "../displayComponents";

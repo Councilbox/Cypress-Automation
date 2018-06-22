@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	Icon,
@@ -12,7 +12,18 @@ import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
 
-class DelegateOwnVoteModal extends Component {
+class DelegateOwnVoteModal extends React.Component {
+	state = {
+		success: "",
+		errors: {}
+	};
+
+	componentDidUpdate(prevProps) {
+		if (!prevProps.show && this.props.show) {
+			this.props.data.refetch();
+		}
+	}
+
 	loadMore = () => {
 		this.props.data.fetchMore({
 			variables: {
@@ -39,9 +50,11 @@ class DelegateOwnVoteModal extends Component {
 			}
 		});
 	};
+
 	close = () => {
 		this.props.requestClose();
 	};
+
 	delegateVote = id => {
 		this.props.delegateVote(
 			this.props.participant.state === 2 ? 2 : 4,
@@ -50,8 +63,9 @@ class DelegateOwnVoteModal extends Component {
 		);
 		this.close();
 	};
+
 	updateFilterText = async text => {
-		const response = await this.props.data.refetch({
+		await this.props.data.refetch({
 			filters: [
 				{
 					field: "fullName",
@@ -60,20 +74,6 @@ class DelegateOwnVoteModal extends Component {
 			]
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			errors: {}
-		};
-	}
-
-	componentDidUpdate(prevProps) {
-		if (!prevProps.show && this.props.show) {
-			this.props.data.refetch();
-		}
-	}
 
 	_renderBody() {
 		const { translate } = this.props;

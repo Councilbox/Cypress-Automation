@@ -13,7 +13,7 @@ import {
 import { Typography } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
 import Scrollbar from "react-perfect-scrollbar";
-import { councilDetails, downloadConvenePDF } from "../../../queries";
+import { downloadConvenePDF } from "../../../queries";
 import * as CBX from '../../../utils/CBX';
 
 

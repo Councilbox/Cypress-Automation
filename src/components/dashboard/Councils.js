@@ -3,14 +3,10 @@ import { councils, deleteCouncil } from "../../queries.js";
 import { compose, graphql } from "react-apollo";
 import {
 	AlertConfirm,
-	CloseIcon,
-	DateWrapper,
 	ErrorWrapper,
 	LoadingSection,
 	SectionTitle,
-	Table
 } from "../../displayComponents/index";
-import { getPrimary } from "../../styles/colors";
 import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';

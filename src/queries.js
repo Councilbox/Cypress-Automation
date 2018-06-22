@@ -262,6 +262,15 @@ export const sendAct = gql`
 	}
 `;
 
+export const sendActToVote = gql`
+	mutation SendActDraft($councilId: Int!, $participants: [LiveParticipantInput]){
+		sendCouncilAct(councilId: $councilId, participants: $participants){
+			success
+			message
+		}
+	}
+`;
+
 export const councilParticipantsWithActSends = gql`
 query councilParticipantsWithActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
 	councilParticipantsWithActSends(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
@@ -332,6 +341,7 @@ export const changeStatute = gql`
 	mutation changeCouncilStatute($councilId: Int!, $statuteId: Int!) {
 		changeCouncilStatute(councilId: $councilId, statuteId: $statuteId) {
 			id
+			conveneHeader
 		}
 	}
 `;
@@ -1297,6 +1307,12 @@ export const councilAndAgendaAttachments = gql`
 export const councilLiveQuery = gql`
 	query CouncilLiveQuery($councilID: Int!) {
 		council(id: $councilID) {
+			act{
+				id
+				intro
+				conclusion
+				constitution
+			}
 			active
 			autoClose
 			agendas {
@@ -1397,6 +1413,7 @@ export const councilLiveQuery = gql`
 			prototype
 			quorumPrototype
 			room {
+				id
 				htmlVideoCouncil
 			}
 			satisfyQuorum
@@ -1592,6 +1609,15 @@ export const removeAgendaAttachment = gql`
 export const openAgenda = gql`
 	mutation openAgenda($agendaId: Int!, $councilId: Int!) {
 		openAgenda(agendaId: $agendaId, councilId: $councilId)
+	}
+`;
+
+export const openActPoint = gql`
+	mutation OpenActPoint($councilId: Int!) {
+		openActPoint(councilId: $councilId){
+			success
+			message
+		}
 	}
 `;
 

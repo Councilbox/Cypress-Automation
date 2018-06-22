@@ -5,7 +5,6 @@ import AgendaCheckItem from './AgendaCheckItem';
 import { graphql } from 'react-apollo';
 import { createCertificate } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
-import { agendaTypes } from '../../../constants';
 
 class CertificateForm extends React.PureComponent {
 

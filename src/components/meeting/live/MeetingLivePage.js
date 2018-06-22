@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "../../council/live/LiveHeader";
-import { darkGrey, lightGrey } from "../../../styles/colors";
+import { lightGrey } from "../../../styles/colors";
 import { compose, graphql } from "react-apollo";
 import {
 	councilLiveQuery,
@@ -10,12 +10,12 @@ import {
 	quorumTypes,
 	votingTypes
 } from "../../../queries";
-import ParticipantsLive from "../../council/live/ParticipantsLive";
 
 const minVideoWidth = 30;
 const minVideoHeight = "50%";
 
-class MeetingLivePage extends Component {
+
+class MeetingLivePage extends React.Component {
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipantModal: false
@@ -56,9 +56,7 @@ class MeetingLivePage extends Component {
 	}
 
 	render() {
-		const council = this.props.data.council;
 		const { translate } = this.props;
-		const roomURL = this.props.room.roomVideoURL;
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;

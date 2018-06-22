@@ -1,5 +1,4 @@
 import React from 'react';
-import { Icon } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';

@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	Icon,
 	LoadingSection,
 	ParticipantRow,
-	Checkbox,
 	TextInput,
 	BasicButton,
 	ButtonIcon,
@@ -13,28 +12,25 @@ import {
 } from "../../../../displayComponents";
 import { Typography, Card } from "material-ui";
 import { compose, graphql } from "react-apollo";
-import { councilParticipants, deleteParticipant } from "../../../../queries/councilParticipant";
+import { councilParticipants } from "../../../../queries/councilParticipant";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendActDraft } from '../../../../queries';
 
 
-class SendActDraftModal extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			checked: [],
-			newEmail: '',
-			step: 1,
-			success: false,
-			emailList: [],
-			loading: false,
-			errors: {}
-		};
-	}
+class SendActDraftModal extends React.Component {
+	state = {
+		checked: [],
+		newEmail: '',
+		step: 1,
+		success: false,
+		emailList: [],
+		loading: false,
+		errors: {}
+	};
 
 	componentDidUpdate(prevProps) {
 		if (!prevProps.show && this.props.show) {
@@ -103,7 +99,7 @@ class SendActDraftModal extends Component {
 	}
 
 	updateFilterText = async text => {
-		const response = await this.props.data.refetch({
+		await this.props.data.refetch({
 			filters: [
 				{
 					field: "fullName",
@@ -140,7 +136,6 @@ class SendActDraftModal extends Component {
 		const list = this.state.emailList;
 		const checked = this.state.checked;
 		const index = list.find(item => email === item);
-		const checkedIndex = checked.find(item => item === email);
 		list.splice(index, 1);
 		checked.splice(index, 1);
 		this.setState({
@@ -264,9 +259,7 @@ class SendActDraftModal extends Component {
 	secondStep = () => {
 		const filteredEmails = this.state.checked.filter(item => {
 			const index = this.state.emailList.findIndex(email => email === item);
-			if(index){
-				return item;
-			}
+			return !!index;
 		});
 		const emails = [...this.state.emailList, ...filteredEmails];
 		this.setState({

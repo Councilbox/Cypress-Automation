@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { councilOfficials, startCouncil } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import {
@@ -17,29 +17,25 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
 import { existsQualityVote, calculateQuorum } from "../../../utils/CBX";
 import ConveneSelector from './ConveneSelector';
-import LiveUtil from '../../../utils/live';
 
 
 class StartCouncilButton extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			alert: false,
-			selecting: 0,
-			data: {
-				firstOrSecondConvene: this.props.council.firstOrSecondConvene,
-				neededQuorum: 2,
-				president: "",
-				presidentId: ""
-			},
-			errors: {
-				president: "",
-				secretary: "",
-				qualityVote: ""
-			}
-		};
-	}
+	state = {
+		alert: false,
+		selecting: 0,
+		data: {
+			firstOrSecondConvene: this.props.council.firstOrSecondConvene,
+			neededQuorum: 2,
+			president: "",
+			presidentId: ""
+		},
+		errors: {
+			president: "",
+			secretary: "",
+			qualityVote: ""
+		}
+	};
 
 	startCouncil = async () => {
 		if (!this.checkRequiredFields()) {
@@ -304,7 +300,7 @@ class StartCouncilButton extends React.Component {
 				</GridItem>
 
 				{existsQualityVote(this.props.council.statute) && (
-					<Fragment>
+					<React.Fragment>
 						<GridItem xs={3} md={3} lg={3}>
 							{translate.quality_vote}
 						</GridItem>
@@ -330,7 +326,7 @@ class StartCouncilButton extends React.Component {
 								</span>
 							)}
 						</GridItem>
-					</Fragment>
+					</React.Fragment>
 				)}
 				<ConveneSelector
 					council={this.props.council}
@@ -352,7 +348,7 @@ class StartCouncilButton extends React.Component {
 		}
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.start_council}
 					color={primary}
@@ -396,7 +392,7 @@ class StartCouncilButton extends React.Component {
 							: () => this.setState({ selecting: 0 })
 					}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

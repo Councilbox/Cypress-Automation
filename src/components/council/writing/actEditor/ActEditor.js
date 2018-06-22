@@ -7,12 +7,12 @@ import {
 	ErrorWrapper,
 	LoadingSection
 } from "../../../../displayComponents";
-import Scrollbar from "react-perfect-scrollbar";
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { updateAgenda } from "../../../../queries/agenda";
 import AgendaEditor from "./AgendaEditor";
 import { DRAFT_TYPES } from "../../../../constants";
+import withSharedProps from "../../../../HOCs/withSharedProps";
 import moment from "moment";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
@@ -119,7 +119,8 @@ class ActEditor extends Component {
 				return {
 					data: {
 						council: {
-							...nextProps.data.council
+							...nextProps.data.council,
+							act: nextProps.data.council.act || {}
 						}
 					}
 				};
@@ -214,7 +215,7 @@ class ActEditor extends Component {
 
 		await Promise.all(agendas.map(async item => {
 			const { __typename, votings, ...agenda } = item;
-			const response = await this.props.updateAgenda({
+			await this.props.updateAgenda({
 				variables: {
 					agenda: {
 						...agenda,
@@ -234,11 +235,10 @@ class ActEditor extends Component {
 	render() {
 		const secondary = getSecondary();
 		const primary = getPrimary();
-		const { translate } = this.props;
+		const { translate, company } = this.props;
 		const {
 			error,
 			loading,
-			votingTypes,
 			council,
 			companyStatutes
 		} = this.props.data;
@@ -253,12 +253,11 @@ class ActEditor extends Component {
 		}
 
 		return (
-			<div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
-				<Scrollbar option={{ suppressScrollX: true }}>
+			<div style={{ position: 'relative' }}>
 					<div style={{padding: '1.5em', overflow: 'hidden'}}>
 						{!!data.council.act &&
 							<RichTextInput
-								ref={editor => (this.editorIntro = editor)}
+								ref={editor => this.editorIntro = editor}
 								floatingText={translate.intro}
 								type="text"
 								loadDraft={
@@ -285,7 +284,7 @@ class ActEditor extends Component {
 								}
 								tags={[
 									{
-										value: `${council.businessName} `,
+										value: `${company.businessName} `,
 										label: translate.business_name
 									},
 									{
@@ -351,7 +350,7 @@ class ActEditor extends Component {
 								}
 								tags={[
 									{
-										value: `${council.businessName} `,
+										value: `${company.businessName} `,
 										label: translate.business_name
 									},
 									{
@@ -492,60 +491,50 @@ class ActEditor extends Component {
 							}
 						/>
 						<div style={{padding: '1em', paddingTop: '1.8em', width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
-							<BasicButton
-								text={translate.new_save}
-								color={"white"}
-								textStyle={{
-									color: primary,
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								buttonStyle={{
-									marginRight: "1em",
-									border: `2px solid ${primary}`
-								}}
-							/>
-							<BasicButton
-								text={translate.send_draft_act_review}
-								color={"white"}
-								textStyle={{
-									color: primary,
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								onClick={() => this.setState({
-									sendActDraft: true
-								})}
-								buttonStyle={{
-									marginRight: "1em",
-									border: `2px solid ${primary}`
-								}}
-							/>
-							<BasicButton
-								text={translate.end_writing_act}
-								loading={this.state.updating}
-								loadingColor={primary}
-								disabled={this.state.updating}
-								color={"white"}
-								textStyle={{
-									color: primary,
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								onClick={() => this.setState({
-									finishActModal: true
-								})}
-								buttonStyle={{
-									marginRight: "1em",
-									border: `2px solid ${primary}`
-								}}
-							/>
+							{!this.props.liveMode &&
+								<React.Fragment>
+									<BasicButton
+										text={translate.send_draft_act_review}
+										color={"white"}
+										textStyle={{
+											color: primary,
+											fontWeight: "700",
+											fontSize: "0.9em",
+											textTransform: "none"
+										}}
+										onClick={() => this.setState({
+											sendActDraft: true
+										})}
+										buttonStyle={{
+											marginRight: "1em",
+											border: `2px solid ${primary}`
+										}}
+									/>
+									<BasicButton
+										text={translate.end_writing_act}
+										loading={this.state.updating}
+										loadingColor={primary}
+										disabled={this.state.updating}
+										color={"white"}
+										textStyle={{
+											color: primary,
+											fontWeight: "700",
+											fontSize: "0.9em",
+											textTransform: "none"
+										}}
+										onClick={() => this.setState({
+											finishActModal: true
+										})}
+										buttonStyle={{
+											marginRight: "1em",
+											border: `2px solid ${primary}`
+										}}
+									/>
+								</React.Fragment>
+
+							}
 						</div>
 					</div>
-				</Scrollbar>
 				<Dialog
 					open={this.state.loadDraft}
 					maxWidth={false}
@@ -597,4 +586,4 @@ export default compose(
 	graphql(updateAgenda, {
 		name: 'updateAgenda'
 	})
-)(ActEditor);
+)(withSharedProps()(ActEditor));

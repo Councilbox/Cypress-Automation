@@ -86,7 +86,9 @@ class StepAgenda extends Component {
 	};
 
 	checkConditions = () => {
-		const { agendas, errors } = this.state;
+		const { errors } = this.state;
+		const agendas = this.props.data.council.agendas;
+		
 		if (agendas.length !== 0) {
 			return true;
 		} else {

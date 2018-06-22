@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import * as mainActions from "../../actions/mainActions";
 import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
-import { Link } from "react-router-dom";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { primary } from "../../styles/colors";
@@ -17,9 +16,8 @@ class Header extends Component {
 	};
 
 	render() {
-		const language = this.props.translate && this.props.translate.selectedLanguage;
 		const { logoutButton, windowSize } = this.props;
-		const { participant, council } = this.props;
+		const { council } = this.props;
 
 
 		return (

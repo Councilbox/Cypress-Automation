@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	Grid,
 	GridItem,
@@ -15,44 +15,28 @@ import Table, {
 	TableSortLabel
 } from "material-ui/Table";
 import TableStyles from "../styles/table";
-import { getPrimary, getSecondary } from "../styles/colors";
 import PaginationFooter from "./PaginationFooter";
 
-const primary = getPrimary();
-const secondary = getSecondary();
-const paginationButtonStyle = {
-	cursor: "pointer",
-	padding: "0.5em",
-	paddingTop: "0.2em",
-	paddingBottom: "0.2em",
-	border: "1px solid",
-	borderColor: secondary,
-	color: secondary,
-	marginLeft: "1px",
-	marginRight: "1px"
-};
+class EnhancedTable extends React.Component {
+	state = {
+		filterText: "",
+		filterField: this.props.defaultFilter,
+		limit: this.props.defaultLimit,
+		page: 1,
+		orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : "",
+		orderDirection: this.props.defaultOrder
+			? this.props.defaultOrder[1]
+			: "asc",
+		selectedCategory: this.props.selectedCategory
+			? this.props.selectedCategory.field
+			: "",
+		categoryValue: this.props.selectedCategory
+			? this.props.selectedCategory.value
+			: "all"
+	};
 
-class EnhancedTable extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			filterText: "",
-			filterField: this.props.defaultFilter,
-			limit: this.props.defaultLimit,
-			page: 1,
-			orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : "",
-			orderDirection: this.props.defaultOrder
-				? this.props.defaultOrder[1]
-				: "asc",
-			selectedCategory: this.props.selectedCategory
-				? this.props.selectedCategory.field
-				: "",
-			categoryValue: this.props.selectedCategory
-				? this.props.selectedCategory.value
-				: "all"
-		};
-		this.timeout = null;
-	}
+	timeout = null;
+	
 
 
 

@@ -5,35 +5,12 @@ import { getPrimary, getSecondary } from "../../../../styles/colors";
 import ParticipantStateIcon from "../ParticipantStateIcon";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { updateLiveParticipant } from "../../../../queries";
-import { LoadingSection, FilterButton } from "../../../../displayComponents";
+import { FilterButton } from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
 import FontAwesome from "react-fontawesome";
 import SignatureModal from "./modals/SignatureModal";
-
-
-const StateIconButton = ({ loading, action, icon, active }) => (
-	<div
-		style={{
-			border: `1px solid ${getSecondary()}`,
-			width: "3.9em",
-			backgroundColor: active ? "lightgrey" : "transparent",
-			display: "flex",
-			alignItems: "center",
-			justifyContent: "center"
-		}}
-		onClick={() => action()}
-	>
-		{loading ? (
-			<div style={{ padding: "0.3em" }}>
-				<LoadingSection size={25} />
-			</div>
-		) : (
-			icon
-		)}
-	</div>
-);
 
 class ParticipantStateSelector extends Component {
 	updateLiveParticipant = async (

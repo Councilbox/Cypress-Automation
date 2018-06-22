@@ -1,18 +1,13 @@
-import React, { Component, Fragment } from "react";
-import { graphql } from "react-apollo";
-import { CollapsibleSection, LoadingSection, Icon } from "../../../displayComponents";
-import { darkGrey, getPrimary, getSecondary } from "../../../styles/colors";
-import { agendaVotings } from "../../../queries/agenda";
+import React from "react";
+import { CollapsibleSection, Icon } from "../../../displayComponents";
+import { darkGrey } from "../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 import VotingsTable from "./voting/VotingsTable";
 
-class Votings extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			open: false
-		};
-	}
+class Votings extends React.Component {
+	state = {
+		open: false
+	};
 
 	_button = () => {
 		return (
@@ -65,7 +60,7 @@ class Votings extends Component {
 		);
 	};
 
-	toggle = event => {
+	toggle = () => {
 		this.setState({ open: !this.state.open });
 	};
 
@@ -79,8 +74,6 @@ class Votings extends Component {
 	};
 
 	render() {
-		const { translate } = this.props;
-
 		return (
 			<div
 				style={{

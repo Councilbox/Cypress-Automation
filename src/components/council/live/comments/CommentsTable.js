@@ -11,14 +11,11 @@ import {
 } from "../../../../displayComponents";
 
 class CommentsTable extends React.Component{
-	constructor(props) {
-		super(props);
-		this.state = {
-			agendaId: this.props.agenda.id,
-			filterText: "",
-			page: 1
-		};
-    }
+	state = {
+		agendaId: this.props.agenda.id,
+		filterText: "",
+		page: 1
+	};
     
     static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.agenda.id !== prevState.agendaId) {
@@ -71,11 +68,10 @@ class CommentsTable extends React.Component{
 
 	refreshTable = async () => {
 		const variables = this.buildVariables();
-		const response = await this.props.data.refetch(variables);
+		await this.props.data.refetch(variables);
 	};
 
     render(){
-        const { translate } = this.props;
 
         return (
 			<Grid
