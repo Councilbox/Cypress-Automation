@@ -34,7 +34,6 @@ class StepAgenda extends Component {
 		editIndex: 0,
 		saveAsDraft: false,
 		saveAsDraftId: 0,
-		agendas: [],
 		errors: {
 			agendaSubject: "",
 			description: "",
@@ -44,16 +43,6 @@ class StepAgenda extends Component {
 
 	componentDidMount() {
 		this.props.data.refetch();
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(!nextProps.data.loading){
-			return {
-				agendas: nextProps.data.council.agendas,
-			}
-		}
-
-		return null;
 	}
 
 	updateCouncil = step => {
@@ -132,7 +121,6 @@ class StepAgenda extends Component {
 			edit,
 			editIndex,
 			saveAsDraft,
-			agendas,
 			saveAsDraftId
 		} = this.state;
 		const {
@@ -143,11 +131,14 @@ class StepAgenda extends Component {
 		} = this.props.data;
 		const primary = getPrimary();
 		const secondary = getSecondary();
-		let newDraft = agendas.find(item => item.id === saveAsDraftId);
 
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}
+
+		const agendas = !!council.agendas? council.agendas : [];
+		let newDraft = agendas.find(item => item.id === saveAsDraftId);
+
 
 		if (this.props.data.errors) {
 			return <ErrorWrapper error={this.props.data.errors.graph} />;
@@ -184,9 +175,7 @@ class StepAgenda extends Component {
 								statute={council.statute}
 								company={this.props.company}
 								council={council}
-								companyStatutes={
-									this.props.data.companyStatutes
-								}
+								companyStatutes={this.props.data.companyStatutes}
 								refetch={this.props.data.refetch}
 							>
 								<BasicButton
