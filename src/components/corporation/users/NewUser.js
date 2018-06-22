@@ -11,7 +11,7 @@ import { bHistory } from '../../../containers/App';
 class NewUser extends React.PureComponent {
     state = {
         data: {
-            preferred_language: 'es',
+            preferredLanguage: 'es',
             roles: 'secretary'
         },
         companies: [],

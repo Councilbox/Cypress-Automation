@@ -69,13 +69,13 @@ const UserForm = ({ data, updateState, errors, languages, translate }) => (
         <GridItem xs={12} md={6} lg={4}>
             <SelectInput
                 floatingText={translate.language}
-                value={data.preferred_language}
+                value={data.preferredLanguage}
                 onChange={event =>
                     updateState({
-                        preferred_language: event.target.value
+                        preferredLanguage: event.target.value
                     })
                 }
-                errorText={errors.preferred_language}
+                errorText={errors.preferredLanguage}
                 required
             >
                 {languages.map(language => (

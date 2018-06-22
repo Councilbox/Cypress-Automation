@@ -37,7 +37,7 @@ export const initUserData = () => {
 					value: response.data.me
 				});
 				dispatch(getCompanies(response.data.me.id));
-				dispatch(setLanguage(response.data.me.preferred_language));
+				dispatch(setLanguage(response.data.me.preferredLanguage));
 			}
 		} else {
 			response.errors[0].code === 440 &&
@@ -53,7 +53,7 @@ export const setUserData = user => {
 			type: "SET_USER_DATA",
 			value: user
 		});
-		dispatch(setLanguage(user.preferred_language));
+		dispatch(setLanguage(user.preferredLanguage));
 	};
 };
 

@@ -27,7 +27,7 @@ export const getMe = gql`
 			roles
 			phone
 			email
-			preferred_language
+			preferredLanguage
 		}
 	}
 `;
@@ -41,7 +41,7 @@ export const updateUser = gql`
 			roles
 			phone
 			email
-			preferred_language
+			preferredLanguage
 		}
 	}
 `;

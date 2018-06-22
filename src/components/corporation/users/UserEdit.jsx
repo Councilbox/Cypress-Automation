@@ -15,7 +15,7 @@ import UserItem from './UserItem';
 class UserEdit extends React.PureComponent {
     state = {
         data: {
-            preferred_language: 'es',
+            preferredLanguage: 'es',
             roles: 'secretary'
         },
         companies: [],
