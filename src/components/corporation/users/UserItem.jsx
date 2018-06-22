@@ -1,7 +1,6 @@
 import React from "react"; 
 import FontAwesome from "react-fontawesome"; 
-import { getPrimary, getSecondary } from "../../../styles/colors"; 
-import { Link } from 'react-router-dom';
+import { getSecondary } from "../../../styles/colors"; 
 import { MenuItem } from 'material-ui';
 import { DateWrapper } from '../../../displayComponents';
 import CloseSessionButton from './CloseSessionButton';

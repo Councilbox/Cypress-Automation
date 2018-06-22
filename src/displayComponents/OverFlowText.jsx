@@ -9,28 +9,19 @@ function isTextOverflow(element) {
 }
 
 export default class OverflowText extends React.Component {
-	constructor(props) {
-		super(props);
-
-		this.state = {
-			overflow: false,
-			children: null
-		};
-	}
+	state = {
+		overflow: false,
+		children: null
+	};
 
 	componentDidMount() {
 		this.checkOverflow();
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		const element = ReactDOM.findDOMNode(this);
 		if (nextProps.children !== prevState.children)
 			return nextProps.children;
 	}
-
-	/* componentWillReceiveProps () {
-    this.setState({ overflow: false })
-  }*/
 
 	componentDidUpdate(prevProps, prevState) {
 		if (this.state.children !== prevState.children) {

@@ -1,13 +1,11 @@
 import React from "react";
 import {
-	CardPageLayout,
 	ErrorWrapper,
 	LoadingSection
 } from "../../../displayComponents";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
 import { graphql, withApollo } from "react-apollo";
-import Convene from "../convene/Convene";
 import gql from "graphql-tag";
 import ActEditorPage from "./actEditor/ActEditorPage";
 import { COUNCIL_STATES } from '../../../constants';

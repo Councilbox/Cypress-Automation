@@ -5,10 +5,9 @@ import {
 	isRepresented,
 	hasHisVoteDelegated
 } from "../../../../utils/CBX";
-import { MenuItem, Tooltip, IconButton, Typography } from "material-ui";
+import { MenuItem, Tooltip, Typography } from "material-ui";
 import { GridItem } from "../../../../displayComponents";
 import ParticipantStateIcon from "../ParticipantStateIcon";
-import { Add } from "material-ui-icons";
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import FontAwesome from "react-fontawesome";
 import { getSecondary } from "../../../../styles/colors";

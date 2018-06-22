@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import Menu from "material-ui/Menu";
 import { Popover } from 'material-ui'; 
 import { BasicButton } from "./index";
 
@@ -69,14 +68,5 @@ class DropDownMenu extends React.Component {
 		);
 	}
 }
-
-					{/* anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'center',
-					}}
-					transformOrigin={{
-						vertical: 'top',
-						horizontal: 'center',
-					}} */}
 
 export default DropDownMenu;

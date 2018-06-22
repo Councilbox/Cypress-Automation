@@ -6,7 +6,7 @@ import MeetingLiveContainer from "./MeetingLiveContainer";
 import createHistory from "history/createBrowserHistory";
 import configureStore from "../store/store";
 import { Provider } from "react-redux";
-import { initUserData, loadingFinished, resetStore, setLanguage} from "../actions/mainActions";
+import { initUserData, loadingFinished, setLanguage} from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 //import { RetryLink } from 'apollo-link-retry';
 import { HttpLink } from "apollo-link-http";

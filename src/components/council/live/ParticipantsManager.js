@@ -1,47 +1,33 @@
-import React, { Component } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import {
-	BasicButton,
-	ButtonIcon,
 	Grid,
 	GridItem,
-	Icon,
 	LoadingSection,
-	Radio,
-	TextInput,
-	FilterButton,
 	LoadMoreButton
 } from "../../../displayComponents";
-import { getSecondary, getPrimary } from "../../../styles/colors";
-import { Card, MenuItem, Tooltip, Typography } from "material-ui";
+import { Card } from "material-ui";
 import { liveParticipants, refreshLiveEmails } from "../../../queries";
 import { compose, graphql } from "react-apollo";
-import * as CBX from "../../../utils/CBX";
-import ParticipantStateIcon from "./ParticipantStateIcon";
 import LiveParticipantEditor from "./participants/LiveParticipantEditor";
 import Scrollbar from "react-perfect-scrollbar";
-import Chip from "material-ui/Chip";
 import AddGuestModal from "./AddGuestModal";
 import { toast } from "react-toastify";
 import ParticipantItem from "./participants/ParticipantItem";
 import ParticipantStatsBanner from "./participants/ParticipantStatsBanner";
 import FilterMenu from "./participants/FilterMenu";
-import FontAwesome from "react-fontawesome";
 
-class ParticipantsManager extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			filterText: "",
-			participantType: "all",
-			participantState: "all",
-			addGuest: false,
-			loadingMore: false,
-			refreshing: false,
-			tableType: "participantState",
-			editParticipant: undefined
-		};
-	}
+class ParticipantsManager extends React.Component {
+	state = {
+		filterText: "",
+		participantType: "all",
+		participantState: "all",
+		addGuest: false,
+		loadingMore: false,
+		refreshing: false,
+		tableType: "participantState",
+		editParticipant: undefined
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -74,9 +60,9 @@ class ParticipantsManager extends Component {
 			() => this.refresh()
 		);
 
-		let variables = {
+		/* let variables = {
 			filters: []
-		};
+		}; */
 	};
 
 	refresh = () => {
@@ -198,8 +184,6 @@ class ParticipantsManager extends Component {
 	render() {
 		const { translate } = this.props;
 		const columnSize = this.state.editParticipant ? 12 : 9;
-		const secondary = getSecondary();
-		const primary = getPrimary();
 
 		return (
 			<div

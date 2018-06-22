@@ -7,7 +7,6 @@ import {
 import {
 	CustomDialog,
 	BasicButton,
-	LoadingSection,
 	ReactSignature,
 	ParticipantDisplay,
 	Checkbox
@@ -92,7 +91,6 @@ class SignatureModal extends Component {
 	render() {
 		const { translate, council, participant } = this.props;
 		const { participantState } = this.state;
-		const { loading } = this.props.data;
 		const primary = getPrimary();
 		const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
 			council.statute

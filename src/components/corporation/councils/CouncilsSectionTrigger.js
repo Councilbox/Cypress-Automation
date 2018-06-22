@@ -1,5 +1,5 @@
 import React from 'react';
-import { lightGrey, getSecondary, getPrimary } from '../../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
 import { MenuItem } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 

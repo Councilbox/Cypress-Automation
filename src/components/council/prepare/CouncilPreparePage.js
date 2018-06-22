@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 
 import {
 	BasicButton,
@@ -12,7 +12,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Divider, MenuItem } from "material-ui";
 import { graphql, withApollo } from "react-apollo";
 import { bHistory } from "../../../containers/App";
-import { councilDetails, downloadConvenePDF } from "../../../queries";
+import { councilDetails } from "../../../queries";
 import * as CBX from "../../../utils/CBX";
 import ReminderModal from "./modals/ReminderModal";
 import FontAwesome from "react-fontawesome";
@@ -31,16 +31,7 @@ const panelStyle = {
 	padding: "1vw"
 };
 
-class CouncilPreparePage extends Component {
-
-	goToPrepareRoom = () => {
-		bHistory.push(
-			`/company/${this.props.companyID}/council/${
-				this.props.councilID
-			}/live`
-		);
-	};
-
+class CouncilPreparePage extends React.Component {
 	state = {
 		participants: false,
 		sendReminder: false,
@@ -52,6 +43,14 @@ class CouncilPreparePage extends Component {
 	componentDidMount() {
 		this.props.data.refetch();
 	}
+
+	goToPrepareRoom = () => {
+		bHistory.push(
+			`/company/${this.props.companyID}/council/${
+				this.props.councilID
+			}/live`
+		);
+	};
 
 	render() {
 		const {
@@ -110,7 +109,7 @@ class CouncilPreparePage extends Component {
 								</Icon>
 							}
 							items={
-								<Fragment>
+								<React.Fragment>
 									{CBX.councilIsNotified(council) ? (
 										<MenuItem
 											onClick={() =>
@@ -185,7 +184,7 @@ class CouncilPreparePage extends Component {
 										</Icon>
 										{translate.cancel_council}
 									</MenuItem>
-								</Fragment>
+								</React.Fragment>
 							}
 						/>
 					</div>

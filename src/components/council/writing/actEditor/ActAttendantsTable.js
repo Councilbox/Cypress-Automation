@@ -1,15 +1,13 @@
 import React from 'react';
-import ConvenedParticipantsTable from '../../prepare/ConvenedParticipantsTable';
-import { hasParticipations } from '../../../../utils/CBX';
 import { councilAttendants, downloadAttendPDF, downloadConnectionsExcel } from "../../../../queries";
 import { graphql, withApollo } from 'react-apollo';
 import { LoadingSection, EnhancedTable, BasicButton } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
-import { TableRow, TableCell, Tooltip } from 'material-ui';
+import { TableRow, TableCell } from 'material-ui';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getSecondary } from '../../../../styles/colors';
 import Scrollbar from 'react-perfect-scrollbar';
 
 

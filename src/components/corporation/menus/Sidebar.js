@@ -8,7 +8,6 @@ import {
 	ListItem,
 	ListItemIcon,
 	ListItemText,
-	MenuItem,
 	withStyles
 } from "material-ui";
 import sidebarStyle from "../../../styles/sidebarStyle";
@@ -18,10 +17,8 @@ import {
 	Dashboard,
 	ImportContacts
 } from "material-ui-icons";
-import { getPrimary } from "../../../styles/colors";
 import { bHistory, store } from "../../../containers/App";
 import { changeCompany } from "../../../actions/companyActions";
-import { DropDownMenu, Icon } from "../../../displayComponents";
 import FontAwesome from "react-fontawesome";
 
 class Sidebar extends Component {

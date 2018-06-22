@@ -2,11 +2,8 @@ import React from "react";
 import { Card, MenuItem } from "material-ui";
 import { LoadingSection } from "./";
 import withTranslations from "../HOCs/withTranslations";
-import { getSecondary } from "../styles/colors";
 
 const LoadMoreButton = ({ loading, onClick, translate }) => {
-	const secondary = getSecondary();
-
     return(
         <Card
             style={{

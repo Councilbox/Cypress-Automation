@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
@@ -28,17 +28,14 @@ const styles = {
 	}
 };
 
-class ParticipantMeet extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			participantId: null
-		};
-	}
+class ParticipantMeet extends React.Component {
+	state = {
+		participantId: null
+	};
 
 	render() {
-		const { participant, council, company, translate, detectRTC } = this.props;
-		const { participantId } = this.state;
+		const { participant, council } = this.props;
+		//const { participantId } = this.state;
 		return (
 			<div style={styles.viewContainer}>
 				<Header logoutButton={true} participant={participant} council={council}/>

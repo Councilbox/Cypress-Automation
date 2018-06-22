@@ -1,13 +1,5 @@
 import React from "react";
-import {
-	Card,
-	CardHeader,
-	Avatar,
-	CardContent,
-	Dialog,
-	DialogTitle,
-	DialogContent
-} from "material-ui";
+import { Card, Avatar } from "material-ui";
 import moment from "moment";
 import FontAwesome from "react-fontawesome";
 import Header from "../Header";
@@ -21,16 +13,13 @@ import {
 	councilIsFinished
 } from "../../../utils/CBX";
 import {
-	getPrimary,
-	getSecondary,
-	lightGrey,
 	lightTurquoise,
 	secondary,
 	primary
 } from "../../../styles/colors";
 import { PARTICIPANT_ERRORS } from "../../../constants";
 import background from "../../../assets/img/signup3.jpg";
-import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
+//import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
 	cardContainer: {
@@ -85,6 +74,8 @@ class ErrorState extends React.Component {
 
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
 				return <TimeLimitExceeded translate={translate} />;
+			default:
+				return <div />;
 		}
 	};
 

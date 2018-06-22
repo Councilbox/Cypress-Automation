@@ -5,7 +5,6 @@ import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { agendaManager } from "../../../queries";
 import { LoadingSection } from "../../../displayComponents";
-import { checkCouncilState } from '../../../utils/CBX';
 
 class AgendaManager extends React.Component {
 

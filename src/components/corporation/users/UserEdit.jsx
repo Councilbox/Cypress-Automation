@@ -1,9 +1,7 @@
 import React from 'react';
-import { CardPageLayout, ButtonIcon, BasicButton, Grid, GridItem, TextField, SelectInput, LoadingSection } from '../../../displayComponents';
+import { LoadingSection } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
 import { graphql, compose } from 'react-apollo';
-import UserForm from '../../userSettings/UserForm';
-import { getPrimary } from '../../../styles/colors';
 import CompanyLinksManager from './CompanyLinksManager';
 import UserSendsList from './UserSendsList';
 import gql from 'graphql-tag';

@@ -16,7 +16,6 @@ import { convenedcouncilParticipants } from "../../../queries/councilParticipant
 import { PARTICIPANTS_LIMITS } from "../../../constants";
 import NotificationFilters from "./NotificationFilters";
 import DownloadCBXDataButton from "./DownloadCBXDataButton";
-import ParticipantStateIcon from "../live/ParticipantStateIcon";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";

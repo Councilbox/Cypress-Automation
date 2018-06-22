@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import logo from "../../../assets/img/logo.png";
 import icono from "../../../assets/img/logo-icono.png";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import withWindowSize from "../../../HOCs/withWindowSize";
 import { getSecondary, primary } from "../../../styles/colors";
 import { IconButton, Tooltip } from "material-ui";
 
-class Header extends Component {
+class Header extends React.Component {
 	logout = () => {
 		this.props.actions.logout();
 	};
@@ -18,8 +18,6 @@ class Header extends Component {
 	};
 
 	render() {
-		const language =
-			this.props.translate && this.props.translate.selectedLanguage;
 		const {
 			backButton,
 			windowSize,

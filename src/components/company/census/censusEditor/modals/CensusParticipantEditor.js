@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { AlertConfirm } from "../../../../../displayComponents/index";
 import { compose, graphql } from "react-apollo";
 import { getPrimary } from "../../../../../styles/colors";
@@ -12,7 +12,31 @@ import {
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
 
-class CensusParticipantEditor extends Component {
+class CensusParticipantEditor extends React.Component {
+	state = {
+		modal: false,
+		data: {},
+		representative: {},
+		errors: {},
+		representativeErrors: {}
+	};
+
+	static getDerivedStateFromProps(nextProps) {
+		let { representative, ...participant } = extractTypeName(
+			nextProps.participant
+		);
+		representative = representative
+			? {
+					hasRepresentative: true,
+					...extractTypeName(representative)
+			  }
+			: initialRepresentative;
+		return {
+			data: participant,
+			representative: representative
+		};
+	}
+
 	updateCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
@@ -40,6 +64,7 @@ class CensusParticipantEditor extends Component {
 			}
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -48,6 +73,7 @@ class CensusParticipantEditor extends Component {
 			}
 		});
 	};
+
 	updateRepresentative = object => {
 		this.setState({
 			representative: {
@@ -56,33 +82,6 @@ class CensusParticipantEditor extends Component {
 			}
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false,
-			data: {},
-			representative: {},
-			errors: {},
-			representativeErrors: {}
-		};
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		let { representative, ...participant } = extractTypeName(
-			nextProps.participant
-		);
-		representative = representative
-			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
-			: initialRepresentative;
-		return {
-			data: participant,
-			representative: representative
-		};
-	}
 
 	checkRequiredFields() {
 		const participant = this.state.data;
@@ -121,7 +120,7 @@ class CensusParticipantEditor extends Component {
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<Fragment>
+			<React.Fragment>
 				<ParticipantForm
 					type={participant.personOrEntity}
 					participant={participant}
@@ -138,16 +137,15 @@ class CensusParticipantEditor extends Component {
 					errors={this.state.representativeErrors}
 					languages={this.props.data.languages}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 
 	render() {
 		const { translate } = this.props;
-		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<AlertConfirm
 					requestClose={() => this.props.close()}
 					open={this.props.opened}
@@ -158,7 +156,7 @@ class CensusParticipantEditor extends Component {
 					bodyText={this._renderBody()}
 					title={translate.edit_participant}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

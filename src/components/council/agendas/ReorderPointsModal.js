@@ -7,6 +7,12 @@ import { arrayMove } from "react-sortable-hoc";
 import * as CBX from '../../../utils/CBX';
 
 class ReorderPointsModal extends React.PureComponent {
+	state = {
+		reorderModal: false,
+		agendas: this.props.agendas
+	};
+
+
 	static getDerivedStateFromProps(nextProps){
 		if(nextProps.agendas){
 			return {
@@ -83,16 +89,6 @@ class ReorderPointsModal extends React.PureComponent {
 			
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			reorderModal: false,
-			agendas: this.props.agendas
-		};
-	}
-
-
 
 	render() {
 		const { translate } = this.props;
