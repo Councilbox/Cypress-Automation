@@ -1,10 +1,20 @@
-import React, { Component } from "react";
+import React from "react";
 import { AlertConfirm, TextInput } from "../../displayComponents";
 import { graphql } from "react-apollo";
 import { updateCouncilAttachment } from "../../queries";
 import AttachmentItem from "./AttachmentItem";
 
-class AttachmentList extends Component {
+class AttachmentList extends React.Component {
+	state = {
+		showModal: false,
+		data: {
+			name: ""
+		},
+		errors: {
+			name: ""
+		}
+	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -13,6 +23,7 @@ class AttachmentList extends Component {
 			}
 		});
 	};
+
 	_renderModalBody = () => {
 		const { translate } = this.props;
 		const { errors } = this.state;
@@ -33,6 +44,7 @@ class AttachmentList extends Component {
 			</div>
 		);
 	};
+
 	editIndex = index => {
 		this.setState({
 			showModal: true,
@@ -43,6 +55,7 @@ class AttachmentList extends Component {
 			}
 		});
 	};
+
 	updateAttachment = async () => {
 		const response = await this.props.updateAttachment({
 			variables: {
@@ -57,6 +70,7 @@ class AttachmentList extends Component {
 			this.props.refetch();
 		}
 	};
+
 	deleteAttachment = id => {
 		this.setState({
 			deletingId: id
@@ -64,21 +78,8 @@ class AttachmentList extends Component {
 		this.props.deleteAction(id);
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			showModal: false,
-			data: {
-				name: ""
-			},
-			errors: {
-				name: ""
-			}
-		};
-	}
-
 	render() {
-		const { attachments, translate, loadingId } = this.props;
+		const { attachments, translate } = this.props;
 
 		return (
 			<div

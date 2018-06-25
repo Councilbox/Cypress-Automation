@@ -1,14 +1,10 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { MenuItem, Typography } from "material-ui";
+import { Typography } from "material-ui";
 import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,
-	ButtonIcon,
-	Grid,
-	GridItem,
-	SelectInput,
-	TextInput
+	ButtonIcon
 } from "../../displayComponents";
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
@@ -17,6 +13,24 @@ import { getPrimary } from "../../styles/colors";
 import UserForm from './UserForm';
 
 class UpdateUserForm extends React.Component {
+	state = {
+		data: this.props.user,
+		error: false,
+		loading: false,
+		success: false,
+		errors: {}
+	};
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(nextProps.user.id !== prevState.data.id){
+			return {
+				data: nextProps.user
+			}
+		}
+
+		return null;
+	}
+
 	saveUser = async () => {
 		if (!this.checkRequiredFields()) {
 			this.setState({
@@ -45,6 +59,7 @@ class UpdateUserForm extends React.Component {
 			}
 		}
 	};
+
 	resetButtonStates = () => {
 		this.setState({
 			error: false,
@@ -52,23 +67,6 @@ class UpdateUserForm extends React.Component {
 			success: false
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: this.props.user,
-			error: false,
-			loading: false,
-			success: false,
-			errors: {}
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			data: nextProps.user
-		});
-	}
 
 	updateState(newValues) {
 		this.setState({

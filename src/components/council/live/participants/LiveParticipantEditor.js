@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { compose, graphql } from "react-apollo";
 import {
 	liveParticipant,
@@ -19,7 +19,7 @@ import ParticipantStateSelector from "./ParticipantStateSelector";
 import FontAwesome from "react-fontawesome";
 import NotificationsTable from '../../../notifications/NotificationsTable';
 
-class LiveParticipantEditor extends Component {
+class LiveParticipantEditor extends React.Component {
 	refreshEmailStates = async () => {
 		this.setState({
 			loadingSends: true
@@ -318,7 +318,7 @@ class LiveParticipantEditor extends Component {
 	}
 }
 
-const DelegatedTable = ({
+/*const DelegatedTable = ({
 	participants = [],
 	translate,
 	council,
@@ -332,7 +332,7 @@ const DelegatedTable = ({
 				council={council}
 			/>
 		</React.Fragment>
-	));
+	));*/
 
 export default compose(
 	graphql(liveParticipant, {

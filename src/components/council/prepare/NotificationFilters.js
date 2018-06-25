@@ -1,17 +1,12 @@
-import React, { Component } from "react";
+import React from "react";
 import { Grid, GridItem, FilterButton } from "../../../displayComponents";
-import { getSecondary } from "../../../styles/colors";
-import { Tooltip } from "material-ui";
 import { EMAIL_STATES_FILTERS } from "../../../constants";
 import * as CBX from "../../../utils/CBX";
 
-class NotificationFilters extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedFilter: ""
-		};
-	}
+class NotificationFilters extends React.Component {
+	state = {
+		selectedFilter: ""
+	};
 
 	changeFilter = code => {
 		const { refetch } = this.props;
@@ -33,6 +28,7 @@ class NotificationFilters extends Component {
 			});
 		}
 	};
+
 	_renderFilterIcon = value => {
 		const { selectedFilter } = this.state;
 		const { translate } = this.props;

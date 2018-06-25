@@ -5,17 +5,24 @@ import { connect } from "react-redux";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { login } from "../../queries";
+import Header from '../Header';
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
-import {
-	BasicButton,
-	ButtonIcon,
-	Link,
-	TextInput
-} from "../../displayComponents";
+import withTranslations from "../../HOCs/withTranslations";
+import { BasicButton, ButtonIcon, Link, TextInput } from "../../displayComponents";
 import background from "../../assets/img/signup3.jpg";
 
 class Login extends React.PureComponent {
+
+	state = {
+		user: "",
+		password: "",
+		errors: {
+			user: "",
+			password: ""
+		}
+	};
+
 	login = async () => {
 		const { translate } = this.props;
 		const { user, password } = this.state;
@@ -63,18 +70,6 @@ class Login extends React.PureComponent {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			user: "",
-			password: "",
-			errors: {
-				user: "",
-				password: ""
-			}
-		};
-	}
-
 	checkRequiredFields() {
 		const { translate } = this.props;
 
@@ -109,205 +104,218 @@ class Login extends React.PureComponent {
 		//background: `linear-gradient(to right, ${primary}, #6499B1)`
 		return (
 			<div
-				className="row"
 				style={{
-					width: "100%",
-					margin: 0,
-					backgroundImage: `url(${background})`,
-					fontSize: "0.85em",
-					height: "100%"
+					display: "flex",
+					flex: 1,
+					flexDirection: "column",
+					height: "100vh",
+					overflow: "auto",
+					padding: 0,
+					margin: 0
 				}}
 			>
+				<Header
+					translate={this.props.translate}
+					helpIcon
+					languageSelector
+				/>
 				<div
-					className="col-lg-7 col-md-7 col-xs-12"
+					className="row"
 					style={{
-						color: "white",
-						display: "flex",
-						paddingLeft: "3%",
-						flexDirection: "column",
-						alignItems: "center",
-						paddingTop: windowSize === "xs" ? "1em" : "9em"
+						width: "100%",
+						margin: 0,
+						backgroundImage: `url(${background})`,
+						fontSize: "0.85em",
+						height: "100%"
 					}}
 				>
 					<div
+						className="col-lg-7 col-md-7 col-xs-12"
 						style={{
-							width: "70%",
-							fontSize: "0.9em"
+							color: "white",
+							display: "flex",
+							paddingLeft: "3%",
+							flexDirection: "column",
+							alignItems: "center",
+							paddingTop: windowSize === "xs" ? "1em" : "9em"
 						}}
 					>
-						{/*TODO*/}
-						<h4
+						<div
 							style={{
-								fontWeigth: "300",
-								marginBottom: "1.2em",
-								fontSize: "2em"
+								width: "70%",
+								fontSize: "0.9em"
 							}}
 						>
-							{translate.welcome_title}
-						</h4>
-						<h6>
-							¿Todavía no dispones de una cuenta en CouncilBox?
-						</h6>
-						{windowSize !== "xs" && (
-							<span
+							{/*TODO*/}
+							<h4
 								style={{
-									fontSize: "0.9",
-									marginBottom: "1em",
-									marginTop: "0.7em"
+									fontWeigth: "300",
+									marginBottom: "1.2em",
+									fontSize: "2em"
 								}}
 							>
-								Lorem ipsum dolor sit amet, consectetur
-								adipiscing elit. Duis ut volutpat magna, sed
-								auctor ligula. Quisque felis ex, ultricies sit
-								amet dapibus ac, egestas ac ex. Aliquam
-								pellentesque, velit quis tristique faucibus,
-								neque sapien volutpat diam, sed aliquet sem leo
-								ornare eros. Maecenas sed urna magna. Vestibulum
-								vel arcu ac nisl laoreet molestie ut id justo.
-								Mauris sed quam eget lorem egestas pulvinar.
-							</span>
-						)}
-						<br />
-						<div
-							className="row"
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								marginTop: windowSize === "xs" ? 0 : "1em"
-							}}
-						>
+								{translate.welcome_title}
+							</h4>
+							<h6>
+								¿Todavía no dispones de una cuenta en CouncilBox?
+							</h6>
+							{windowSize !== "xs" && (
+								<span
+									style={{
+										fontSize: "0.9",
+										marginBottom: "1em",
+										marginTop: "0.7em"
+									}}
+								>
+								Active su cuenta de usuario de forma rápida y sencilla. Registre su entidad y empiece a gestionar sus reuniones al momento.
+
+								También puede probarlo sin registrarse, realizando una reunión informal y descubriendo parte del potencial de Councilbox.- FALTA TRAD
+								</span>
+							)}
+							<br />
 							<div
-								className="col-lg-6 col-md-6 col-xs-6"
-								style={{ padding: "1em" }}
+								className="row"
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									marginTop: windowSize === "xs" ? 0 : "1em"
+								}}
 							>
-								{/*<BasicButton*/}
-								{/*text="Solicitar demostración"*/}
-								{/*color={'transparent'}*/}
-								{/*fullWidth*/}
-								{/*buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}*/}
-								{/*textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}*/}
-								{/*/>*/}
-							</div>
-							<div
-								className="col-lg-6 col-md-6 col-xs-6"
-								style={{ padding: "1em" }}
-							>
-								<Link to="/signup">
-									<BasicButton
-										text={translate.login_check_in}
-										color={"white"}
-										fullWidth
-										textStyle={{
-											color: primary,
-											fontWeight: "700",
-											fontSize: "0.9em",
-											textTransform: "none"
-										}}
-										textPosition="before"
-									/>
-								</Link>
+								<div
+									className="col-lg-6 col-md-6 col-xs-6"
+									style={{ padding: "1em" }}
+								>
+									<Link to="/meeting">
+										<BasicButton
+											text={translate.dashboard_new_meeting}
+											color={'transparent'}
+											fullWidth
+											buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
+											textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+										/>
+									</Link>
+								</div>
+								<div
+									className="col-lg-6 col-md-6 col-xs-6"
+									style={{ padding: "1em" }}
+								>
+									<Link to="/signup">
+										<BasicButton
+											text={translate.login_check_in}
+											color={"white"}
+											fullWidth
+											textStyle={{
+												color: primary,
+												fontWeight: "700",
+												fontSize: "0.9em",
+												textTransform: "none"
+											}}
+											textPosition="before"
+										/>
+									</Link>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div
-					className="col-lg-5 col-md-5 col-xs-12"
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						padding: 0
-					}}
-				>
-					<Card
+					<div
+						className="col-lg-5 col-md-5 col-xs-12"
 						style={{
-							minHeight: "60%",
-							width: windowSize === "xs" ? "100%" : "70%",
-							padding: "8%",
-							marginBottom: windowSize === "xs" ? 0 : "5em",
-							marginRight: windowSize === "xs" ? 0 : "5em"
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							padding: 0
 						}}
 					>
-						<div
+						<Card
 							style={{
-								marginBottom: 0,
-								paddingBottom: 0,
-								fontWeight: "700",
-								fontSize: "1.5em",
-								color: primary
+								minHeight: "60%",
+								width: windowSize === "xs" ? "100%" : "70%",
+								padding: "8%",
+								marginBottom: windowSize === "xs" ? 0 : "5em",
+								marginRight: windowSize === "xs" ? 0 : "5em"
 							}}
 						>
-							{`${translate.login_signin_header} Councilbox`}
-						</div>
-						<div
-							style={{
-								marginTop: "2em",
-								width: "95%"
-							}}
-						>
-							<TextInput
-								onKeyUp={this.handleKeyUp}
-								floatingText={translate.login_user}
-								errorText={this.state.errors.user}
-								type="text"
-								value={this.state.user}
-								onChange={event =>
-									this.setState({
-										user: event.nativeEvent.target.value
-									})
-								}
-							/>
-						</div>
-						<div
-							style={{
-								marginTop: "1.5em",
-								width: "95%"
-							}}
-						>
-							<TextInput
-								onKeyUp={this.handleKeyUp}
-								floatingText={translate.login_password}
-								type="password"
-								errorText={this.state.errors.password}
-								value={this.state.password}
-								onChange={event =>
-									this.setState({
-										password: event.nativeEvent.target.value
-									})
-								}
-							/>
-						</div>
-						<div style={{ marginTop: "3em" }}>
-							<BasicButton
-								text={translate.dashboard_enter}
-								color={primary}
-								textStyle={{
-									color: "white",
-									fontWeight: "700"
+							<div
+								style={{
+									marginBottom: 0,
+									paddingBottom: 0,
+									fontWeight: "700",
+									fontSize: "1.5em",
+									color: primary
 								}}
-								textPosition="before"
-								onClick={this.login}
-								fullWidth={true}
-								icon={
-									<ButtonIcon
-										color="white"
-										type="arrow_forward"
-									/>
-								}
-							/>
-						</div>
-						<div
-							style={{
-								marginTop: "2em",
-								color: secondary
-							}}
-						>
-							<Link to="/forgetPwd">
-								{/*TODO*/}
-								{translate.login_forgot}
-							</Link>
-						</div>
-					</Card>
+							>
+								{`${translate.login_signin_header} Councilbox`}
+							</div>
+							<div
+								style={{
+									marginTop: "2em",
+									width: "95%"
+								}}
+							>
+								<TextInput
+									onKeyUp={this.handleKeyUp}
+									floatingText={translate.login_user}
+									errorText={this.state.errors.user}
+									type="text"
+									value={this.state.user}
+									onChange={event =>
+										this.setState({
+											user: event.nativeEvent.target.value
+										})
+									}
+								/>
+							</div>
+							<div
+								style={{
+									marginTop: "1.5em",
+									width: "95%"
+								}}
+							>
+								<TextInput
+									onKeyUp={this.handleKeyUp}
+									floatingText={translate.login_password}
+									type="password"
+									errorText={this.state.errors.password}
+									value={this.state.password}
+									onChange={event =>
+										this.setState({
+											password: event.nativeEvent.target.value
+										})
+									}
+								/>
+							</div>
+							<div style={{ marginTop: "3em" }}>
+								<BasicButton
+									text={translate.dashboard_enter}
+									color={primary}
+									textStyle={{
+										color: "white",
+										fontWeight: "700"
+									}}
+									textPosition="before"
+									onClick={this.login}
+									fullWidth={true}
+									icon={
+										<ButtonIcon
+											color="white"
+											type="arrow_forward"
+										/>
+									}
+								/>
+							</div>
+							<div
+								style={{
+									marginTop: "2em",
+									color: secondary
+								}}
+							>
+								<Link to="/forgetPwd">
+									{/*TODO*/}
+									{translate.login_forgot}
+								</Link>
+							</div>
+						</Card>
+					</div>
 				</div>
 			</div>
 		);
@@ -323,4 +331,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
 	null,
 	mapDispatchToProps
-)(graphql(login, { options: { errorPolicy: "all" } })(withWindowSize(Login)));
+)(graphql(login, { options: { errorPolicy: "all" } })(withWindowSize(withTranslations()(Login))));

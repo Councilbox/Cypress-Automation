@@ -1,10 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { AlertConfirm, Icon } from "../../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendVideoEmails } from "../../../../queries";
 
-class SendCredentialsModal extends Component {
+class SendCredentialsModal extends React.Component {
+	state = {
+		success: "",
+		error: "",
+		sendAgenda: false
+	};
+
 	close = () => {
 		this.props.requestClose();
 		this.setState({
@@ -14,6 +20,7 @@ class SendCredentialsModal extends Component {
 			sendAgenda: false
 		});
 	};
+
 	sendVideoEmails = async () => {
 		this.setState({
 			sending: true
@@ -35,15 +42,6 @@ class SendCredentialsModal extends Component {
 			});
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			error: "",
-			sendAgenda: false
-		};
-	}
 
 	_renderBody() {
 		const { translate } = this.props;

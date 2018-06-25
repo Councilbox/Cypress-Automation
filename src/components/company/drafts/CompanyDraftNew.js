@@ -88,7 +88,7 @@ class CompanyDraftNew extends Component {
 	}
 
 	render() {
-		const { translate, closeForm } = this.props;
+		const { translate } = this.props;
 		const { draft, errors } = this.state;
 		const { loading } = this.props.data;
 

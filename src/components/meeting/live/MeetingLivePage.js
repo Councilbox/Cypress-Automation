@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "../../council/live/LiveHeader";
-import { darkGrey, lightGrey } from "../../../styles/colors";
+import { lightGrey } from "../../../styles/colors";
 import { compose, graphql } from "react-apollo";
 import {
 	councilLiveQuery,
@@ -10,38 +10,24 @@ import {
 	quorumTypes,
 	votingTypes
 } from "../../../queries";
-import ParticipantsLive from "../../council/live/ParticipantsLive";
+import withSharedProps from '../../../HOCs/withSharedProps';
 
 const minVideoWidth = 30;
 const minVideoHeight = "50%";
 
-class MeetingLivePage extends Component {
-	closeAddParticipantModal = () => {
-		this.setState({
-			addParticipantModal: false
-		});
-	};
-	checkVideoFlags = () => {
-		const council = this.props.data.council;
-		return council.state === 20 && council.councilType === 0;
-	};
-	checkLoadingComplete = () => {
-		return this.props.data.loading && this.props.companies.list;
-	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			confirmModal: false,
-			selectedPoint: 0,
-			addParticipantModal: false,
-			showParticipants: false,
-			videoWidth: minVideoWidth,
-			videoHeight: minVideoHeight,
-			fullScreen: false
-		};
-	}
+class MeetingLivePage extends React.Component {
+
+	state = {
+		participants: false,
+		confirmModal: false,
+		selectedPoint: 0,
+		addParticipantModal: false,
+		showParticipants: false,
+		videoWidth: minVideoWidth,
+		videoHeight: minVideoHeight,
+		fullScreen: false
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -55,18 +41,28 @@ class MeetingLivePage extends Component {
 		//window.removeListener('beforeunload');
 	}
 
-	render() {
+	closeAddParticipantModal = () => {
+		this.setState({
+			addParticipantModal: false
+		});
+	};
+
+	checkVideoFlags = () => {
 		const council = this.props.data.council;
-		const { translate } = this.props;
-		const roomURL = this.props.room.roomVideoURL;
+		return council.state === 20 && council.councilType === 0;
+	};
+
+	checkLoadingComplete = () => {
+		return this.props.data.loading;
+	};
+
+	render() {
+		const { translate, company } = this.props;
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
 		}
-
-		const company = this.props.companies.list[
-			this.props.companies.selected
-		];
+		
 
 		return (
 			<div
@@ -78,8 +74,8 @@ class MeetingLivePage extends Component {
 				}}
 			>
 				<LiveHeader
-					logo={company.logo}
-					companyName={company.businessName}
+					logo={!!company && company.logo}
+					companyName={!!company && company.businessName}
 					councilName={'Meeting'}
 					translate={translate}
 				/>
@@ -141,4 +137,4 @@ export default compose(
 			}
 		})
 	})
-)(MeetingLivePage);
+)(withSharedProps()(MeetingLivePage));

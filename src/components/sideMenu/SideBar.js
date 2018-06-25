@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import cx from "classnames";
 import {
@@ -12,25 +12,66 @@ import {
 	withStyles
 } from "material-ui";
 import sidebarStyle from "../../styles/sidebarStyle";
-import {
-	BorderColor,
-	ContentPaste,
-	Dashboard,
-	ImportContacts
-} from "material-ui-icons";
+import BorderColor from 'material-ui-icons/BorderColor';
+import ContentPaste from 'material-ui-icons/ContentPaste';
+import Dashboard from 'material-ui-icons/Dashboard';
+import ImportContacts from 'material-ui-icons/ImportContacts';
 import { getPrimary } from "../../styles/colors";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import { DropDownMenu, Icon } from "../../displayComponents";
 import FontAwesome from "react-fontawesome";
 
-class Sidebar extends Component {
-	changeCompany = index => {
-		const { companies } = this.props;
-		store.dispatch(changeCompany(index));
-		bHistory.push(`/company/${companies[index].id}`);
+class Sidebar extends React.Component {
+
+	state = {
+		selectedRoute: 0
 	};
-	findActiveRoute = pathname => {
+
+	routes = [
+		{
+			path: `/company/${this.props.company.id}`,
+			sidebarName: this.props.translate.dashboard,
+			icon: Dashboard
+		},
+		{
+			path: `/company/${this.props.company.id}/councils/drafts`,
+			name: "council",
+			sidebarName: this.props.translate.councils,
+			icon: ImportContacts
+		},
+		{
+			path: `/company/${this.props.company.id}/meeting/live`,
+			name: "meeting",
+			sidebarName: this.props.translate.dashboard_new_meeting,
+			icon: ContentPaste
+		},
+		{
+			path: `/company/${this.props.company.id}/signatures/drafts`,
+			name: "signature",
+			sidebarName: this.props.translate.signatures,
+			icon: BorderColor
+		}
+	];
+
+	componentDidMount() {
+		const index = this.findActiveRoute(this.props.location.pathname);
+		this.setState({
+			selectedRoute: index
+		});
+	}
+
+
+	componentDidUpdate(prevProps){
+		if (this.props.location.pathname !== prevProps.location.pathname) {
+			this.setState({
+				location: this.props.location.pathname,
+				selectedRoute: this.findActiveRoute(this.props.location.pathname)
+			});
+		}
+	}
+
+	findActiveRoute = (pathname, routes) => {
 		let routeIndex = 0;
 		this.routes.forEach((route, index) => {
 			if (pathname.includes(route.name)) {
@@ -39,6 +80,13 @@ class Sidebar extends Component {
 		});
 		return routeIndex;
 	};
+
+	changeCompany = index => {
+		const { companies } = this.props;
+		store.dispatch(changeCompany(index));
+		bHistory.push(`/company/${companies[index].id}`);
+	};
+
 	links = () => (
 		<List className={this.props.classes.list}>
 			{this.routes.map((route, key) => {
@@ -98,6 +146,7 @@ class Sidebar extends Component {
 			})}
 		</List>
 	);
+
 	brand = () => (
 		<DropDownMenu
 			color="transparent"
@@ -192,67 +241,9 @@ class Sidebar extends Component {
 		/>
 	);
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedRoute: 0
-		};
-
-		this.routes = [
-			{
-				path: `/company/${props.company.id}`,
-				sidebarName: props.translate.dashboard,
-				icon: Dashboard
-			},
-			{
-				path: `/company/${props.company.id}/councils/drafts`,
-				name: "council",
-				sidebarName: props.translate.councils,
-				icon: ImportContacts
-			},
-			{
-				path: `/company/${props.company.id}/meeting/live`,
-				name: "meeting",
-				sidebarName: props.translate.dashboard_new_meeting,
-				icon: ContentPaste
-			},
-			{
-				path: `/company/${props.company.id}/signatures/drafts`,
-				name: "signature",
-				sidebarName: props.translate.signatures,
-				icon: BorderColor
-			}
-		];
-	}
-
-	componentDidMount() {
-		const index = this.findActiveRoute(this.props.location.pathname);
-		console.log(index);
-		this.setState({
-			selectedRoute: index
-		});
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.location.pathname !== nextProps.location.pathname) {
-			this.setState({
-				selectedRoute: this.findActiveRoute(nextProps.location.pathname)
-			});
-		}
-	}
-
 	activeRoute(index) {
 		return index === this.state.selectedRoute;
 	}
-
-	/*brand = () => (
-     <div className={this.props.classes.logo}>
-     <CompanySelector
-     companies={this.props.companies}
-     company={this.props.company}
-     />
-     </div>
-     )*/
 
 	render() {
 		const { classes, image } = this.props;
@@ -313,5 +304,6 @@ class Sidebar extends Component {
 		);
 	}
 }
+
 
 export default withStyles(sidebarStyle)(withRouter(Sidebar));

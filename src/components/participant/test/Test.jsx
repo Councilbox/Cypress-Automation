@@ -127,7 +127,7 @@ class Test extends Component {
 										height: "40px",
 										backgroundSize: "contain"
 									}}
-								/>
+								>Councilbox App Logo</a>
 							</div>
 						</div>
 					) : (

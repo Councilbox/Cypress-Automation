@@ -2,30 +2,27 @@ import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
 import {
 	AlertConfirm,
-	RichTextInput,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { MenuItem } from "material-ui";
 import { cloneCensus } from "../../../queries/census";
 
 class CloneCensusModal extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				censusName: "",
-				quorumPrototype: 0,
-				censusDescription: ""
-			},
+	state = {
+		data: {
+			censusName: "",
+			quorumPrototype: 0,
+			censusDescription: ""
+		},
 
-			errors: {
-				censusName: "",
-				quorumPrototype: "",
-				censusDescription: ""
-			}
-		};
-	}
+		errors: {
+			censusName: "",
+			quorumPrototype: "",
+			censusDescription: ""
+		}
+	};
 
 	static getDerivedStateFromProps(nextProps, prevState){
 		if(nextProps.census){
@@ -132,7 +129,7 @@ class CloneCensusModal extends Component {
 	}
 
 	render() {
-		const { translate, children } = this.props;
+		const { translate } = this.props;
 
 		return (
 			<Fragment>

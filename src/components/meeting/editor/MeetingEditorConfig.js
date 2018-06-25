@@ -7,9 +7,9 @@ import {
 	ErrorAlert,
 	LoadingSection,
 	Radio,
-	RichTextInput,
 	TextInput
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { Typography } from "material-ui";
 import { getPrimary } from "../../../styles/colors";
 import { compose, graphql } from "react-apollo";

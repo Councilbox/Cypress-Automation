@@ -25,7 +25,6 @@ import { bHistory } from "../../../containers/App";
 import * as CBX from "../../../utils/CBX";
 import { checkValidEmail } from "../../../utils/validation";
 import { toast } from "react-toastify";
-import CouncilHeader from './CouncilHeader';
 
 class StepPreview extends React.Component {
 
@@ -48,7 +47,6 @@ class StepPreview extends React.Component {
 	componentDidMount() {
 		this.props.data.refetch();
 	}
-
 
 	conveneCouncil = async () => {
 		const { __typename, ...council } = this.props.data.council;

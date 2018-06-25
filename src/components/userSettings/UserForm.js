@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-	BasicButton,
-	ButtonIcon,
 	Grid,
 	GridItem,
 	SelectInput,

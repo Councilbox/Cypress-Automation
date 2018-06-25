@@ -2,14 +2,20 @@ import React, { Fragment } from "react";
 import { Checkbox, Menu, MenuItem } from "material-ui";
 
 class AllSelector extends React.Component {
+	state = {
+		anchorEl: null
+	};
+
 	handleClick = event => {
 		this.setState({ anchorEl: event.currentTarget });
 	};
+
 	handleClose = () => {
 		this.setState({ anchorEl: null });
 	};
+
 	handleCheckboxClick = event => {
-		const { selectAll, deselectAll, anySelected, allSelected } = this.props;
+		const { selectAll, deselectAll, anySelected } = this.props;
 		if (anySelected) {
 			deselectAll();
 		} else {
@@ -17,13 +23,6 @@ class AllSelector extends React.Component {
 		}
 		event.stopPropagation();
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			anchorEl: null
-		};
-	}
 
 	render() {
 		const { anchorEl } = this.state;

@@ -1,15 +1,33 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import RichTextEditor from "react-rte";
 import { Grid, GridItem } from "./index";
 import { Typography } from "material-ui";
 import { getPrimary, getSecondary } from "../styles/colors";
+import FontAwesome from 'react-fontawesome';
 
-class RichTextField extends Component {
+class RichTextField extends React.Component {
+	state = {
+		value: RichTextEditor.createValueFromString(
+			this.props.value,
+			"html"
+		)
+	};
+
+	componentDidMount() {
+		this.setState({
+			value: RichTextEditor.createValueFromString(
+				this.props.value,
+				"html"
+			)
+		});
+	}
+
 	changeShowTags = () => {
 		this.setState({
 			showTags: !this.state.showTags
 		});
 	};
+
 	onChange = value => {
 		this.setState({ value });
 		if (this.props.onChange) {
@@ -18,11 +36,13 @@ class RichTextField extends Component {
 			);
 		}
 	};
+
 	setValue = value => {
 		this.setState({
 			value: RichTextEditor.createValueFromString(value, "html")
 		});
 	};
+
 	paste = text => {
 		let cd = new DataTransfer();
 		cd.setData("text/plain", text);
@@ -34,38 +54,29 @@ class RichTextField extends Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			value: RichTextEditor.createValueFromString(
-				this.props.value,
-				"html"
-			)
-		};
-	}
-
-	componentDidMount() {
-		this.setState({
-			value: RichTextEditor.createValueFromString(
-				this.props.value,
-				"html"
-			)
-		});
-	}
-
 	render() {
 		const { tags, loadDraft, errorText, required } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<Typography
 					variant="body1"
 					style={{ color: !!errorText ? "red" : "inherit" }}
 				>
 					{this.props.floatingText}
 					{!!required && "*"}
+					{!!errorText &&
+						<FontAwesome
+							name={"times"}
+							style={{
+								fontSize: "13px",
+								color: 'red',
+								marginLeft: '0.2em'
+							}}
+						/>
+					}
 				</Typography>
 				<Grid>
 					<GridItem xs={12}>
@@ -77,7 +88,7 @@ class RichTextField extends Component {
 							}}
 						>
 							{!!tags && (
-								<Fragment>
+								<React.Fragment>
 									<div
 										style={{
 											display: "flex",
@@ -106,7 +117,7 @@ class RichTextField extends Component {
 										})}
 										{!!loadDraft && loadDraft}
 									</div>
-								</Fragment>
+								</React.Fragment>
 							)}
 						</div>
 						<RichTextEditor
@@ -118,7 +129,7 @@ class RichTextField extends Component {
 						/>
 					</GridItem>
 				</Grid>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

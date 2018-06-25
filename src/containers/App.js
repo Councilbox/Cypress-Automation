@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import AppRouter from "./AppRouter";
 import { Route, Router, Switch } from "react-router-dom";
 import CouncilLiveContainer from "./CouncilLiveContainer";
-import MeetingLiveContainer from "./MeetingLiveContainer";
+import MeetingLivePage from "../components/meeting/live/MeetingLivePage";
 import createHistory from "history/createBrowserHistory";
 import configureStore from "../store/store";
 import { Provider } from "react-redux";
-import { initUserData, loadingFinished, resetStore, setLanguage} from "../actions/mainActions";
+import { initUserData, loadingFinished, setLanguage} from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 //import { RetryLink } from 'apollo-link-retry';
 import { HttpLink } from "apollo-link-http";
@@ -117,7 +117,12 @@ class App extends Component {
 								<Route
 									exact
 									path="/company/:company/meeting/live"
-									component={MeetingLiveContainer}
+									component={MeetingLivePage}
+								/>
+								<Route
+									exact
+									path="/meeting/"
+									component={MeetingLivePage}
 								/>
 								<Route path="/" component={AppRouter} />
 							</Switch>

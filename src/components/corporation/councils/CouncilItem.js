@@ -1,5 +1,5 @@
 import React from 'react';
-import { lightGrey, getSecondary, getPrimary } from '../../../styles/colors';
+import { getSecondary } from '../../../styles/colors';
 import { DateWrapper } from '../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 

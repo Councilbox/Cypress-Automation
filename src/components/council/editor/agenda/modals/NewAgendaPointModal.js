@@ -6,10 +6,10 @@ import {
 	Grid,
 	GridItem,
 	MajorityInput,
-	RichTextInput,
 	SelectInput,
 	TextInput
 } from "../../../../../displayComponents/index";
+import RichTextInput from "../../../../../displayComponents/RichTextInput";
 import { MenuItem } from "material-ui";
 import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { addAgenda } from "../../../../../queries/agenda";

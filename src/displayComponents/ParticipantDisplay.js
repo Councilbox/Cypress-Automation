@@ -6,7 +6,6 @@ import * as CBX from "../utils/CBX";
 
 const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 	const secondary = getSecondary();
-	const primary = getPrimary();
 
 	return (
 		<Card elevation={0}>

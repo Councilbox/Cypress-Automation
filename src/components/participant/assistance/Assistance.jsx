@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import { councilIsPreparing } from "../../../utils/CBX";
@@ -9,7 +9,8 @@ import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES } from "../../../constants";
-import { RichTextInput, BasicButton, ButtonIcon } from '../../../displayComponents'
+import { BasicButton, ButtonIcon } from '../../../displayComponents';
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateVoteModal from "../../council/live/DelegateVoteModal";
 import DelegationItem from "./DelegationItem";
 import {canDelegateVotes} from "../../../utils/CBX"
@@ -39,15 +40,12 @@ const styles = {
 	}
 };
 
-class Assistance extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			participant: {},
-			savingAssistanceComment: false,
-			delegationModal: false
-		};
-	}
+class Assistance extends React.Component {
+	state = {
+		participant: {},
+		savingAssistanceComment: false,
+		delegationModal: false
+	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		return {
@@ -76,7 +74,7 @@ class Assistance extends Component {
 			savingAssistanceComment: true
 		})
 
-		const response = await setAssistanceComment({
+		await setAssistanceComment({
 			variables: {
 				assistanceComment: assistanceComment
 			}

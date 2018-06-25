@@ -17,6 +17,18 @@ import { toast } from "react-toastify";
 import { linkCompany } from "../../../queries/company";
 
 class LinkCompanyPage extends React.Component {
+	state = {
+		data: {
+			linkKey: "",
+			cif: ""
+		},
+		showPassword: false,
+		errors: {},
+		success: false,
+		request: false,
+		requestError: false
+	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -25,6 +37,7 @@ class LinkCompanyPage extends React.Component {
 			}
 		});
 	};
+
 	checkRequiredFields = () => {
 		let hasError = false;
 		let errors = {
@@ -48,6 +61,7 @@ class LinkCompanyPage extends React.Component {
 
 		return hasError;
 	};
+
 	linkCompany = async () => {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.linkCompany({
@@ -90,31 +104,20 @@ class LinkCompanyPage extends React.Component {
 							}
 						});
 						break;
+					default: 
+						this.setState({
+							errors: {
+								linkKey: "CLAVE MAESTRA INCORRECTA"
+							}
+						});
 				}
 			}
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				linkKey: "",
-				cif: ""
-			},
-			showPassword: false,
-			errors: {},
-			success: false,
-			request: false,
-			requestError: false
-		};
-	}
-
 	render() {
 		const { translate } = this.props;
 		const { data, errors, requestError, success, request } = this.state;
-		const primary = getPrimary();
-		const secondary = getSecondary();
 
 		return (
 			<CardPageLayout title={translate.companies_link}>

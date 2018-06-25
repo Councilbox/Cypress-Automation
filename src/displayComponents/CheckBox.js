@@ -6,7 +6,7 @@ const CheckBox = ({ value, label, onChange, style }) => (
 	<FormControlLabel
 		control={<Checkbox checked={value} onChange={onChange} />}
 		label={label}
-		style={{ marginBottom: "0" }}
+		style={{ marginBottom: "0", marginRight: '0' }}
 	/>
 );
 

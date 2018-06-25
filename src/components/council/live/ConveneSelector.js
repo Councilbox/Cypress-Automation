@@ -1,9 +1,8 @@
 import React from 'react';
 import { DateWrapper } from '../../../displayComponents';
-import { getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import QuorumWrapper from '../quorum/QuorumWrapper';
-import { MenuItem, Card } from 'material-ui';
+import { Card } from 'material-ui';
 
 
 const ConveneSelector = ({ translate, council, recount, convene, changeConvene }) => {

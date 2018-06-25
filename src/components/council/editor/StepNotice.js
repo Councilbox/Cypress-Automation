@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { MenuItem } from "material-ui";
 import {
 	BasicButton,
@@ -8,10 +8,10 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
-	RichTextInput,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
@@ -20,41 +20,46 @@ import { changeStatute, councilStepOne, updateCouncil } from "../../../queries";
 import * as CBX from "../../../utils/CBX";
 import moment from "moment";
 
-class StepNotice extends Component {
+class StepNotice extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			placeModal: false,
-			alert: false,
-			data: {
-				dateStart: new Date().toISOString()
-			},
-			errors: {
-				name: "",
-				dateStart: "",
-				dateStart2NdCall: "",
-				country: "",
-				countryState: "",
-				city: "",
-				zipcode: "",
-				conveneText: "",
-				street: ""
-			}
-		};
-	}
+	state = {
+		placeModal: false,
+		alert: false,
+		data: {
+			dateStart: new Date().toISOString()
+		},
+		errors: {
+			name: "",
+			dateStart: "",
+			dateStart2NdCall: "",
+			country: "",
+			countryState: "",
+			city: "",
+			zipcode: "",
+			conveneText: "",
+			street: ""
+		}
+	};
+
+	editor = null;
+
 
 	componentDidMount() {
 		this.props.data.loading = true;
 		this.props.data.refetch();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: nextProps.data.council
-			});
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			return {
+				data: {
+					...nextProps.data.council,
+					...prevState.data
+				}
+			}
 		}
+
+		return null;
 	}
 
 	nextPage = () => {
@@ -113,10 +118,15 @@ class StepNotice extends Component {
 		});
 
 		if (response) {
+			console.log(response);
+			this.loadDraft({
+				text: response.data.changeCouncilStatute.conveneHeader
+			});
 			this.props.data.refetch();
 			this.updateDate();
 		}
 	};
+
 	updateDate = (
 		firstDate = this.state.data.dateStart,
 		secondDate = this.state.data.dateStart2NdCall
@@ -160,11 +170,11 @@ class StepNotice extends Component {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.state.data
-		});
+		}, this.props.translate);
 		this.updateState({
 			conveneText: correctedText
 		});
-		this.refs.editor.setValue(correctedText);
+		this.editor.setValue(correctedText);
 	};
 
 	checkRequiredFields() {
@@ -348,7 +358,7 @@ class StepNotice extends Component {
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12}>
 						<RichTextInput
-							ref="editor"
+							ref={editor => this.editor = editor}
 							errorText={errors.conveneText}
 							required
 							loadDraft={

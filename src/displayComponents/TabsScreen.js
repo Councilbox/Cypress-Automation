@@ -3,7 +3,7 @@ import { getPrimary, lightGrey } from "../styles/colors";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "../styles/react-tabs.css";
 import { Link } from "react-router-dom";
-import { Add } from "material-ui-icons";
+import Add from "material-ui-icons/Add";
 
 class TabsScreen extends React.Component {
 	changeTab = index => {

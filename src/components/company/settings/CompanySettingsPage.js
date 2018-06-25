@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -12,6 +12,7 @@ import {
 	TextInput
 } from "../../../displayComponents";
 import { MenuItem, Typography } from "material-ui";
+import withSharedProps from '../../../HOCs/withSharedProps';
 import { compose, graphql, withApollo } from "react-apollo";
 import { provinces } from "../../../queries/masters";
 import { unlinkCompany, updateCompany } from "../../../queries/company";
@@ -38,7 +39,7 @@ export const info = gql`
 	}
 `;
 
-class CompanySettingsPage extends Component {
+class CompanySettingsPage extends React.Component {
 
 	state = {
 		data: this.props.company,
@@ -541,4 +542,4 @@ export default compose(
 	graphql(unlinkCompany, {
 		name: "unlinkCompany"
 	})
-)(withApollo(CompanySettingsPage));
+)(withApollo(withSharedProps()(CompanySettingsPage)));

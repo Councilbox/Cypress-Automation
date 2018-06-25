@@ -1,9 +1,7 @@
 import React from "react";
 import {
-	Card,
 	CardHeader,
 	Avatar,
-	CardContent,
 	Dialog,
 	DialogTitle,
 	DialogContent
@@ -23,8 +21,6 @@ import {
 } from "../../../utils/CBX";
 import {
 	getPrimary,
-	getSecondary,
-	lightGrey,
 	lightTurquoise,
 	secondary
 } from "../../../styles/colors";
@@ -149,7 +145,7 @@ class CouncilState extends React.Component {
 				</div>
 
 				<div style={styles.imageContainer}>
-					<img src={emptyMeetingTable} style={styles.image} />
+					<img src={emptyMeetingTable} style={styles.image} alt="no-room-logo" />
 				</div>
 			</div>
 		);
@@ -177,7 +173,6 @@ class TextRender extends React.PureComponent {
 			title,
 			text,
 			isHtmlText,
-			hasCouncilInfo,
 			council,
 			company,
 			translate

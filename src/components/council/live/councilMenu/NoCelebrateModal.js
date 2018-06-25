@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import {
 	AlertConfirm,
-	Icon,
-	RichTextInput
+	Icon
 } from "../../../../displayComponents";
+import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { noCelebrateCouncil } from "../../../../queries";

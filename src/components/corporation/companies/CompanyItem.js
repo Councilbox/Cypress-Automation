@@ -20,7 +20,6 @@ const CompanyItem = ({ company, onCheck, checkable, checked }) => (
                 border: '1px solid gainsboro',
                 height: '3em',
                 width: '100%',
-                height: '3em',
                 display: 'flex',
                 flexDirection: 'row'
             }}

@@ -1,14 +1,14 @@
 import React from "react";
 import {
-	CardPageLayout,
 	ErrorWrapper,
 	LoadingSection
 } from "../../../displayComponents";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
 import { graphql, withApollo } from "react-apollo";
-import Convene from "../convene/Convene";
 import gql from "graphql-tag";
+import { withRouter } from 'react-router-dom'; 
+import withSharedProps from '../../../HOCs/withSharedProps';
 import ActEditorPage from "./actEditor/ActEditorPage";
 import { COUNCIL_STATES } from '../../../constants';
 import CanceledCouncil from './canceled/CanceledCouncil';
@@ -160,7 +160,7 @@ export default graphql(councilDetails, {
 	name: "data",
 	options: props => ({
 		variables: {
-			councilID: props.councilID
+			councilID: props.match.params.council
 		}
 	})
-})(withApollo(CouncilFinishedPage));
+})(withSharedProps()(withApollo(withRouter(CouncilFinishedPage))));

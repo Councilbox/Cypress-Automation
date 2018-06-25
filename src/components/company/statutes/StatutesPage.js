@@ -283,25 +283,23 @@ class StatutesPage extends Component {
 }
 
 export default withSharedProps()(
-	withRouter(
-		compose(
-			graphql(updateStatute, {
-				name: "updateStatute"
-			}),
-			graphql(deleteStatute, {
-				name: "deleteStatute"
-			}),
-			graphql(createStatute, {
-				name: "createStatute"
-			}),
-			graphql(statutes, {
-				options: props => ({
-					variables: {
-						companyId: props.match.params.company
-					},
-					notifyOnNetworkStatusChange: true
-				})
+	compose(
+		graphql(updateStatute, {
+			name: "updateStatute"
+		}),
+		graphql(deleteStatute, {
+			name: "deleteStatute"
+		}),
+		graphql(createStatute, {
+			name: "createStatute"
+		}),
+		graphql(statutes, {
+			options: props => ({
+				variables: {
+					companyId: props.match.params.company
+				},
+				notifyOnNetworkStatusChange: true
 			})
-		)(StatutesPage)
-	)
+		})
+	)(withRouter(StatutesPage))
 );

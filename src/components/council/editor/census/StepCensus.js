@@ -13,7 +13,6 @@ import Dialog, {
 	DialogTitle
 } from "material-ui/Dialog";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { withRouter } from "react-router-dom";
 import ParticipantsTable from "./ParticipantsTable";
 import * as CBX from "../../../../utils/CBX";
 import { councilStepTwo, updateCouncil } from "../../../../queries";
@@ -23,6 +22,35 @@ import CouncilHeader from '../CouncilHeader';
 
 
 class StepCensus extends React.Component {
+	state = {
+		placeModal: false,
+		censusChangeAlert: false,
+		addParticipant: false,
+		censusChangeId: "",
+		data: {
+			censuses: []
+		}
+	};
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			if(nextProps.data.council.id !== prevState.data.id){
+				const { __typename, statute, ...council } = nextProps.data.council;
+				return {
+					data: {
+						...council
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipant: false
@@ -81,38 +109,6 @@ class StepCensus extends React.Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			placeModal: false,
-			censusChangeAlert: false,
-			addParticipant: false,
-			censusChangeId: "",
-			data: {
-				censuses: []
-			}
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(!nextProps.data.loading){
-			if(nextProps.data.council.id !== prevState.data.id){
-				const { __typename, statute, ...council } = nextProps.data.council;
-				return {
-					data: {
-						...council
-					}
-				}
-			}
-		}
-
-		return null;
-	}
 
 	_renderCensusChangeButtons() {
 		const { translate } = this.props;

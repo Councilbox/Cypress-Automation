@@ -13,14 +13,23 @@ import { compose, graphql } from "react-apollo";
 import { censuses, deleteCensus, setDefaultCensus } from "../../../queries/census";
 import { Tooltip } from 'material-ui';
 import { TableCell, TableRow } from "material-ui/Table";
+import { withRouter } from 'react-router-dom';
 import FontAwesome from "react-fontawesome";
 import { getPrimary } from "../../../styles/colors";
+import withSharedProps from '../../../HOCs/withSharedProps';
 import CloneCensusModal from "./CloneCensusModal";
 import AddCensusButton from "./AddCensusButton";
 import { bHistory } from "../../../containers/App";
 import { CENSUS_LIMITS } from "../../../constants";
 
 class CompanyCensusPage extends React.Component {
+	state = {
+		deleteModal: false,
+		cloneModal: false,
+		cloneIndex: 0
+	};
+
+
 	deleteCensus = async () => {
 		this.props.data.loading = true;
 		const response = await this.props.deleteCensus({
@@ -36,6 +45,7 @@ class CompanyCensusPage extends React.Component {
 			this.props.data.refetch();
 		}
 	};
+
 	setDefaultCensus = async censusId => {
 		this.setState({
 			changingDefault: censusId
@@ -52,18 +62,10 @@ class CompanyCensusPage extends React.Component {
 			this.props.data.refetch();
 		}
 	};
+
 	openCensusEdit = censusId => {
 		bHistory.push(`/company/${this.props.company.id}/census/${censusId}`);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			deleteModal: false,
-			cloneModal: false,
-			cloneIndex: 0
-		};
-	}
 
 	render() {
 		const { translate, company } = this.props;
@@ -252,7 +254,7 @@ export default compose(
 		name: "data",
 		options: props => ({
 			variables: {
-				companyId: props.company.id,
+				companyId: props.match.params.company,
 				options: {
 					limit: CENSUS_LIMITS[0],
 					offset: 0
@@ -266,4 +268,4 @@ export default compose(
 	graphql(setDefaultCensus, {
 		name: "setDefaultCensus"
 	})
-)(CompanyCensusPage);
+)(withSharedProps()(withRouter(CompanyCensusPage)));

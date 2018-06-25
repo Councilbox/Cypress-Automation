@@ -21,7 +21,7 @@ class ChangeRequestWordButton extends React.Component {
 	};
 
 	render() {
-		const { participant, translate } = this.props;
+		const { participant } = this.props;
 
 		return (
 			<div>

@@ -1,12 +1,11 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { COUNCIL_STATES } from '../../../constants';
 import { LoadingSection, CollapsibleSection, BasicButton } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { lightGrey, getSecondary, getPrimary } from '../../../styles/colors';
+import { lightGrey, getSecondary } from '../../../styles/colors';
 import FontAwesome from 'react-fontawesome';
-import { Card, MenuItem } from 'material-ui';
+import { Card } from 'material-ui';
 import CouncilItem from './CouncilItem';
 import CouncilsSectionTrigger from './CouncilsSectionTrigger';
 

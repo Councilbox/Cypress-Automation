@@ -1,20 +1,18 @@
 import React from 'react';
 import { agendaVotings } from "../../../../queries/agenda";
 import { graphql } from 'react-apollo';
-import { VOTE_VALUES, PARTICIPANT_STATES } from "../../../../constants";
+import { VOTE_VALUES } from "../../../../constants";
 import { TableRow, TableCell } from "material-ui";
-import { darkGrey, getPrimary, getSecondary } from "../../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	LoadingSection,
 	PaginationFooter,
 	Icon,
-	ErrorWrapper,
 	FilterButton,
 	TextInput,
 	Grid,
 	Table,
-	GridItem,
-	Radio
+	GridItem
 } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
@@ -183,7 +181,7 @@ class VotingsTable extends React.Component {
 
 	refreshTable = async () => {
 		const variables = this.buildVariables();
-		const response = await this.props.data.refetch(variables);
+		await this.props.data.refetch(variables);
 	};
 
 

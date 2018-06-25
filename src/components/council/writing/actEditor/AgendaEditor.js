@@ -1,6 +1,7 @@
 import React from "react";
-import { Grid, GridItem, RichTextInput } from "../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { Grid, GridItem } from "../../../../displayComponents";
+import RichTextInput from "../../../../displayComponents/RichTextInput";
+import { getPrimary } from "../../../../styles/colors";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import AgendaRecount from '../../agendas/AgendaRecount';
 import { AGENDA_TYPES } from '../../../../constants';
@@ -9,7 +10,6 @@ import { Card } from 'material-ui';
 import CommentsTable from "../../live/comments/CommentsTable";
 
 const primary = getPrimary();
-const secondary = getSecondary();
 
 const AgendaEditor = ({
 	agenda,
@@ -87,7 +87,7 @@ const AgendaEditor = ({
 				}
 			</TabList>
 			{!readOnly &&
-				<TabPanel>
+				<TabPanel style={{width: '100%'}}>
 					<Card style={{padding: '1em'}}>
 						<RichTextInput
 							ref={editor => (this.editorAgenda = editor)}

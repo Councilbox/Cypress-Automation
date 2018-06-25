@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from "react";
-
+import React from "react";
 import {
 	BasicButton,
 	CardPageLayout,
@@ -12,7 +11,8 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { Divider, MenuItem } from "material-ui";
 import { graphql, withApollo } from "react-apollo";
 import { bHistory } from "../../../containers/App";
-import { councilDetails, downloadConvenePDF } from "../../../queries";
+import { councilDetails } from "../../../queries";
+import { withRouter } from 'react-router-dom';
 import * as CBX from "../../../utils/CBX";
 import ReminderModal from "./modals/ReminderModal";
 import FontAwesome from "react-fontawesome";
@@ -21,6 +21,7 @@ import SendConveneModal from "./modals/SendConveneModal";
 import CancelModal from "./modals/CancelModal";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Convene from "../convene/Convene";
+import withSharedProps from '../../../HOCs/withSharedProps';
 import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
 
 const panelStyle = {
@@ -31,16 +32,7 @@ const panelStyle = {
 	padding: "1vw"
 };
 
-class CouncilPreparePage extends Component {
-
-	goToPrepareRoom = () => {
-		bHistory.push(
-			`/company/${this.props.companyID}/council/${
-				this.props.councilID
-			}/live`
-		);
-	};
-
+class CouncilPreparePage extends React.Component {
 	state = {
 		participants: false,
 		sendReminder: false,
@@ -52,6 +44,14 @@ class CouncilPreparePage extends Component {
 	componentDidMount() {
 		this.props.data.refetch();
 	}
+
+	goToPrepareRoom = () => {
+		bHistory.push(
+			`/company/${this.props.company.id}/council/${
+				this.props.match.params.id
+			}/live`
+		);
+	};
 
 	render() {
 		const {
@@ -110,7 +110,7 @@ class CouncilPreparePage extends Component {
 								</Icon>
 							}
 							items={
-								<Fragment>
+								<React.Fragment>
 									{CBX.councilIsNotified(council) ? (
 										<MenuItem
 											onClick={() =>
@@ -185,7 +185,7 @@ class CouncilPreparePage extends Component {
 										</Icon>
 										{translate.cancel_council}
 									</MenuItem>
-								</Fragment>
+								</React.Fragment>
 							}
 						/>
 					</div>
@@ -301,7 +301,7 @@ export default graphql(councilDetails, {
 	name: "data",
 	options: props => ({
 		variables: {
-			councilID: props.councilID
+			councilID: props.match.params.id
 		}
 	})
-})(withApollo(CouncilPreparePage));
+})(withApollo(withSharedProps()(withRouter(CouncilPreparePage))));

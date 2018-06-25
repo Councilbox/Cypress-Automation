@@ -1,11 +1,11 @@
 import React from 'react';
-import { TextInput, BasicButton, RichTextInput, CardPageLayout } from '../../../displayComponents';
+import { TextInput, BasicButton, CardPageLayout } from '../../../displayComponents';
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { Typography } from 'material-ui';
 import AgendaCheckItem from './AgendaCheckItem';
 import { graphql } from 'react-apollo';
 import { createCertificate } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
-import { agendaTypes } from '../../../constants';
 
 class CertificateForm extends React.PureComponent {
 

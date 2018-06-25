@@ -1,11 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { MenuItem } from "material-ui";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
 	ErrorWrapper,
 	LoadingSection,
-	SelectInput
 } from "../../../displayComponents";
 import Dialog, {
 	DialogActions,
@@ -19,7 +17,7 @@ import { councilStepTwo, updateCouncil } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
 
-class MeetingEditorCensus extends Component {
+class MeetingEditorCensus extends React.Component {
 
 	closeAddParticipantModal = () => {
 		this.setState({
@@ -117,7 +115,7 @@ class MeetingEditorCensus extends Component {
 		const { translate } = this.props;
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.cancel}
 					color={"white"}
@@ -144,13 +142,13 @@ class MeetingEditorCensus extends Component {
 					textPosition="after"
 					onClick={this.sendCensusChange}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 
 	render() {
 		const { translate } = this.props;
-		const { council, loading, error, censuses } = this.props.data;
+		const { loading, error } = this.props.data;
 
 		if (loading) {
 			return <LoadingSection />;

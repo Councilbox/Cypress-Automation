@@ -1,10 +1,15 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { compose, graphql } from "react-apollo";
 import { closeAgendaVoting, openAgendaVoting } from "../../../queries";
 import { BasicButton, Icon } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
 
-class ToggleVotingsButton extends Component {
+class ToggleVotingsButton extends React.Component {
+	state = {
+		sendCredentials: true,
+		confirmModal: false
+	};
+
 	openVoting = async () => {
 		const { council, agenda } = this.props;
 		const response = await this.props.openAgendaVoting({
@@ -21,6 +26,7 @@ class ToggleVotingsButton extends Component {
 			this.props.refetch();
 		}
 	};
+
 	closeAgendaVoting = async () => {
 		const { agenda } = this.props;
 		const response = await this.props.closeAgendaVoting({
@@ -38,14 +44,6 @@ class ToggleVotingsButton extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			sendCredentials: true,
-			confirmModal: false
-		};
-	}
-
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.council) {
 			this.setState({
@@ -59,7 +57,7 @@ class ToggleVotingsButton extends Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				{agenda.votingState === 0 ? (
 					<BasicButton
 						text={translate.active_votings}
@@ -111,7 +109,7 @@ class ToggleVotingsButton extends Component {
 						}}
 					/>
 				)}
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	Grid,
@@ -9,7 +9,16 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendConvene } from "../../../../queries";
 
-class RescheduleModal extends Component {
+class RescheduleModal extends React.Component {
+	state = {
+		success: "",
+		error: "",
+		sendAgenda: false,
+		dateStart: this.props.council.dateStart,
+		dateStart2NdCall: this.props.council.dateStart2NdCall || null,
+		error2NdCall: ""
+	};
+
 	close = () => {
 		this.setState({
 			success: false,
@@ -21,6 +30,7 @@ class RescheduleModal extends Component {
 		this.props.refetch();
 		this.props.requestClose();
 	};
+
 	sendConvene = async () => {
 		this.setState({
 			sending: true
@@ -43,6 +53,7 @@ class RescheduleModal extends Component {
 			});
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			...object,
@@ -50,20 +61,8 @@ class RescheduleModal extends Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			error: "",
-			sendAgenda: false,
-			dateStart: this.props.council.dateStart,
-			dateStart2NdCall: this.props.council.dateStart2NdCall || null,
-			error2NdCall: ""
-		};
-	}
-
 	_sendConveneBody() {
-		const { translate, council } = this.props;
+		const { translate } = this.props;
 
 		if (this.state.sending) {
 			return <div>{translate.new_sending_convene}</div>;

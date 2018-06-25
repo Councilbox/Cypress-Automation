@@ -281,7 +281,10 @@ class CouncilLivePage extends Component {
 											position: "relative"
 										}}
 									>
-										{/*<div style={{height: '100%', width: '100%'}} dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}/>*/}
+										<div
+											style={{height: '100%', width: '100%'}}
+											dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}
+										/>
 
 										<Tooltip title={`ALT + T`}>
 											<div

@@ -97,7 +97,7 @@ class SendActModal extends Component {
 	}
 
 	updateFilterText = async text => {
-		const response = await this.props.data.refetch({
+		await this.props.data.refetch({
 			filters: [
 				{
 					field: "fullName",
@@ -303,7 +303,7 @@ class SendActModal extends Component {
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={this.state.step === 1? this.secondStep : this.sendAct}
-				hideAccept={this.state.success || this.state.step === 2 && this.state.participants.length < 1}
+				hideAccept={(this.state.success || this.state.step === 2) && this.state.participants.length < 1}
 				buttonAccept={this.state.step === 1? translate.continue : translate.send}
 				cancelAction={this.state.success?
 					this.close
