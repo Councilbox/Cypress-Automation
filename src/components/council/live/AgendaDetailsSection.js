@@ -6,6 +6,7 @@ import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
+import Truncate from 'react-truncate-html';
 import Comments from "./Comments";
 import Votings from "./Votings";
 import * as CBX from "../../../utils/CBX";
@@ -76,23 +77,30 @@ class AgendaDetailsSection extends React.Component {
 					<div className="col-lg-6 col-md-5 col-xs-5">
 						{agenda.agendaSubject}
 						<br />
-						<div
-							style={{
-								fontSize: "0.9em",
-								marginTop: "1em",
-								lineHeight: '1.2em',
-								width: '100%',
-								...(this.state.expanded? {} : {
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-									maxHeight: '5em',
-								})
-							}}
-							onClick={() => this.setState({ expanded: !this.state.expanded})}
-							dangerouslySetInnerHTML={{
-								__html: agenda.description
-							}}
-						/>
+						{this.state.expanded?
+							<div
+								style={{
+									fontSize: "0.9em",
+									marginTop: "1em",
+									lineHeight: '1.2em',
+									width: '100%'
+								}}
+								onClick={() => this.setState({expanded: !this.state.expanded})}
+								dangerouslySetInnerHTML={{
+									__html: agenda.description
+								}}
+							/>
+						:
+							<div onClick={() => this.setState({expanded: !this.state.expanded})}>
+								<Truncate
+									lines={4}
+									dangerouslySetInnerHTML={{
+										__html: agenda.description
+									}}
+								/>
+							</div>
+								
+						}
 					</div>
 					<div className="col-lg-6 col-md-5 col-xs-5">
 						{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT?

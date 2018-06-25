@@ -8,10 +8,10 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
-	RichTextInput,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";

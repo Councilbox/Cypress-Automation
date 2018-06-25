@@ -9,7 +9,8 @@ import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES } from "../../../constants";
-import { RichTextInput, BasicButton, ButtonIcon } from '../../../displayComponents'
+import { BasicButton, ButtonIcon } from '../../../displayComponents';
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateVoteModal from "../../council/live/DelegateVoteModal";
 import DelegationItem from "./DelegationItem";
 import {canDelegateVotes} from "../../../utils/CBX"

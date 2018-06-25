@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	Icon,
@@ -14,16 +14,13 @@ import Scrollbar from "react-perfect-scrollbar";
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
 
 
-class DelegateVoteModal extends Component {
+class DelegateVoteModal extends React.Component {
 	
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			loading: false,
-			errors: {}
-		};
-	}
+	state = {
+		success: "",
+		loading: false,
+		errors: {}
+	};
 
 	componentDidUpdate(prevProps) {
 		if (!prevProps.show && this.props.show) {
@@ -68,8 +65,8 @@ class DelegateVoteModal extends Component {
 		this.close();
 	};
 
-	updateFilterText = async text => {
-		const response = await this.props.data.refetch({
+	updateFilterText = text => {
+		this.props.data.refetch({
 			filters: [
 				{
 					field: "fullName",

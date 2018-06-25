@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import AppRouter from "./AppRouter";
 import { Route, Router, Switch } from "react-router-dom";
 import CouncilLiveContainer from "./CouncilLiveContainer";
-import MeetingLiveContainer from "./MeetingLiveContainer";
+import MeetingLivePage from "../components/meeting/live/MeetingLivePage";
 import createHistory from "history/createBrowserHistory";
 import configureStore from "../store/store";
 import { Provider } from "react-redux";
@@ -117,7 +117,12 @@ class App extends Component {
 								<Route
 									exact
 									path="/company/:company/meeting/live"
-									component={MeetingLiveContainer}
+									component={MeetingLivePage}
+								/>
+								<Route
+									exact
+									path="/meeting/"
+									component={MeetingLivePage}
 								/>
 								<Route path="/" component={AppRouter} />
 							</Switch>

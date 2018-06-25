@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import Header from "../components/Header";
-import LoginContainer from "./LoginContainer";
-import SignUpContainer from "./SignUpContainer";
+import Login from '../components/notLogged/Login';
+import SignUpPage from "../components/notLogged/signUp/SignUpPage";
 import ForgetPwdContainer from "./ForgetPwdContainer";
 import ChangePwdContainer from "./ChangePwdContainer";
 import Welcome from "../components/Welcome";
@@ -32,18 +32,15 @@ const LoadMainTree = Loadable({
 })
 
 
-class AppRouter extends Component {
+class AppRouter extends React.Component {
 	handleDrawerToggle = () => {
 		this.setState({ mobileOpen: !this.state.mobileOpen });
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			sideWidth: 5,
-			mobileOpen: false
-		};
-	}
+	state = {
+		sideWidth: 5,
+		mobileOpen: false
+	};
 
 	render() {
 		const { translate } = this.props;
@@ -60,7 +57,6 @@ class AppRouter extends Component {
 			return <LoadingMainApp />;
 		}
 
-
 		if(this.props.user.type === 'corporation'){
 			return (
 				<LoadCorporationTree
@@ -70,7 +66,6 @@ class AppRouter extends Component {
 				/>
 			);
 		}
-
 
 		return this.props.main.isLogged && this.props.user.type === 'company'? (
 			<div
@@ -82,9 +77,7 @@ class AppRouter extends Component {
 			>
 				<Sidebar
 					companies={this.props.companies.list}
-					company={
-						this.props.companies.list[this.props.companies.selected]
-					}
+					company={this.props.companies.list[this.props.companies.selected]}
 					open={this.state.mobileOpen}
 					handleDrawerToggle={this.handleDrawerToggle}
 					image={image}
@@ -119,8 +112,8 @@ class AppRouter extends Component {
 			</div>
 		) : (
 				<Switch>
-					<Route exact path="/" component={LoginContainer} />
-					<Route path="/signup" component={SignUpContainer} />
+					<Route exact path="/" component={Login} />
+					<Route path="/signup" component={SignUpPage} />
 					<Route path="/forgetPwd" component={ForgetPwdContainer} />
 					<Route
 						exact

@@ -3,10 +3,10 @@ import {
 	Checkbox,
 	Grid,
 	GridItem,
-	RichTextInput,
 	SelectInput,
 	TextInput,
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { MenuItem, Typography } from "material-ui";
 import { quorumTypes } from "../../../queries";

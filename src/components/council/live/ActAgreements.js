@@ -2,9 +2,9 @@ import React from "react";
 import {
 	CollapsibleSection,
 	Icon,
-	LoadingSection,
-	RichTextInput
+	LoadingSection
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../styles/colors";
 import { compose, graphql } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";

@@ -1,6 +1,6 @@
 import React from "react";
 import { IconButton, Snackbar as Snack, withStyles } from "material-ui";
-import { Close } from "material-ui-icons";
+import Close from "material-ui-icons/Close";
 import PropTypes from "prop-types";
 import cx from "classnames";
 

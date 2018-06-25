@@ -1,5 +1,4 @@
 import React from "react";
-
 import {
 	BasicButton,
 	CardPageLayout,
@@ -13,6 +12,7 @@ import { Divider, MenuItem } from "material-ui";
 import { graphql, withApollo } from "react-apollo";
 import { bHistory } from "../../../containers/App";
 import { councilDetails } from "../../../queries";
+import { withRouter } from 'react-router-dom';
 import * as CBX from "../../../utils/CBX";
 import ReminderModal from "./modals/ReminderModal";
 import FontAwesome from "react-fontawesome";
@@ -21,6 +21,7 @@ import SendConveneModal from "./modals/SendConveneModal";
 import CancelModal from "./modals/CancelModal";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Convene from "../convene/Convene";
+import withSharedProps from '../../../HOCs/withSharedProps';
 import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
 
 const panelStyle = {
@@ -46,8 +47,8 @@ class CouncilPreparePage extends React.Component {
 
 	goToPrepareRoom = () => {
 		bHistory.push(
-			`/company/${this.props.companyID}/council/${
-				this.props.councilID
+			`/company/${this.props.company.id}/council/${
+				this.props.match.params.id
 			}/live`
 		);
 	};
@@ -300,7 +301,7 @@ export default graphql(councilDetails, {
 	name: "data",
 	options: props => ({
 		variables: {
-			councilID: props.councilID
+			councilID: props.match.params.id
 		}
 	})
-})(withApollo(CouncilPreparePage));
+})(withApollo(withSharedProps()(withRouter(CouncilPreparePage))));

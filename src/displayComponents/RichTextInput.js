@@ -3,6 +3,7 @@ import RichTextEditor from "react-rte";
 import { Grid, GridItem } from "./index";
 import { Typography } from "material-ui";
 import { getPrimary, getSecondary } from "../styles/colors";
+import FontAwesome from 'react-fontawesome';
 
 class RichTextField extends React.Component {
 	state = {
@@ -66,6 +67,16 @@ class RichTextField extends React.Component {
 				>
 					{this.props.floatingText}
 					{!!required && "*"}
+					{!!errorText &&
+						<FontAwesome
+							name={"times"}
+							style={{
+								fontSize: "13px",
+								color: 'red',
+								marginLeft: '0.2em'
+							}}
+						/>
+					}
 				</Typography>
 				<Grid>
 					<GridItem xs={12}>

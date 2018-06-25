@@ -10,8 +10,35 @@ import withWindowSize from "../../../HOCs/withWindowSize";
 import Scrollbar from "react-perfect-scrollbar";
 import { userAndCompanySignUp } from "../../../queries/userAndCompanySignUp";
 import { graphql } from "react-apollo/index";
+import Header from '../../Header';
+import withTranslations from '../../../HOCs/withTranslations';
 
-class SignUpPage extends React.Component {
+class SignUpPage extends React.PureComponent {
+	state = {
+		page: 1,
+		success: false,
+		data: {
+			businessName: "",
+			type: 0,
+			cif: "",
+			name: "",
+			surname: "",
+			phone: "",
+			language: this.props.translate.selectedLanguage,
+			email: "",
+			pwd: "",
+			address: "",
+			city: "",
+			country: "España",
+			countryState: "",
+			zipCode: "",
+			subscriptionType: "",
+			iban: "",
+			code: ""
+		},
+		errors: {}
+	};
+
 	nextPage = () => {
 		const index = this.state.page + 1;
 		if (index <= 3) {
@@ -20,6 +47,7 @@ class SignUpPage extends React.Component {
 			});
 		}
 	};
+
 	previousPage = () => {
 		const index = this.state.page - 1;
 		if (index <= 3) {
@@ -28,6 +56,7 @@ class SignUpPage extends React.Component {
 			});
 		}
 	};
+
 	goToPage = index => {
 		if (index < this.state.page) {
 			this.setState({
@@ -35,6 +64,7 @@ class SignUpPage extends React.Component {
 			});
 		}
 	};
+
 	send = async () => {
 		const response = await this.props.mutate({
 			variables: this.state.data
@@ -52,6 +82,7 @@ class SignUpPage extends React.Component {
 			});
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			...this.state,
@@ -61,6 +92,7 @@ class SignUpPage extends React.Component {
 			}
 		});
 	};
+
 	updateErrors = object => {
 		this.setState({
 			...this.state,
@@ -71,34 +103,6 @@ class SignUpPage extends React.Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			page: 1,
-			success: false,
-			data: {
-				businessName: "",
-				type: 0,
-				cif: "",
-				name: "",
-				surname: "",
-				phone: "",
-				language: props.main.selectedLanguage,
-				email: "",
-				pwd: "",
-				address: "",
-				city: "",
-				country: "España",
-				countryState: "",
-				zipCode: "",
-				subscriptionType: "",
-				iban: "",
-				code: ""
-			},
-			errors: {}
-		};
-	}
-
 	render() {
 		const { translate, windowSize } = this.props;
 		const { page } = this.state;
@@ -107,168 +111,176 @@ class SignUpPage extends React.Component {
 		return (
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "column",
-					height: "calc(100vh - 3em)",
-					backgroundImage: `url(${image})`,
-					overflow: "auto",
-					alignItems: "center"
+					height: "100vh",
+					width: "100%"
 				}}
 			>
+				<Header translate={this.props.translate} helpIcon />
 				<div
 					style={{
-						height: "13%",
 						display: "flex",
+						flexDirection: "column",
+						height: "calc(100vh - 3em)",
+						backgroundImage: `url(${image})`,
+						overflow: "auto",
 						alignItems: "center"
 					}}
 				>
-					<h3 style={{ color: "white" }}>
-						{translate.registration_of_society}
-					</h3>
-				</div>
-				{!this.state.success ? (
-					<Card
+					<div
 						style={{
-							width: windowSize !== "xs" ? "65%" : "100%",
-							height: windowSize !== "xs" ? null : "100%",
-							padding: 0,
-							borderRadius: windowSize !== "xs" ? "0.3em" : "0",
-							overflow: "hidden"
+							height: "13%",
+							display: "flex",
+							alignItems: "center"
 						}}
 					>
-						<CardContent
+						<h3 style={{ color: "white" }}>
+							{translate.registration_of_society}
+						</h3>
+					</div>
+					{!this.state.success ? (
+						<Card
 							style={{
+								width: windowSize !== "xs" ? "65%" : "100%",
+								height: windowSize !== "xs" ? null : "100%",
 								padding: 0,
-								width: "100%"
+								borderRadius: windowSize !== "xs" ? "0.3em" : "0",
+								overflow: "hidden"
 							}}
 						>
-							<div
+							<CardContent
 								style={{
-									display: "flex",
-									flexDirection:
-										windowSize !== "xs" ? "row" : "column",
-									height:
-										windowSize !== "xs"
-											? "72vh"
-											: "calc(100vh - 3em)",
+									padding: 0,
 									width: "100%"
 								}}
 							>
 								<div
 									style={{
-										backgroundColor: "WhiteSmoke",
 										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-										paddingTop: "1em",
-										height:
-											windowSize !== "xs" ? "100%" : "5em"
-									}}
-								>
-									<SignUpStepper
-										translate={translate}
-										active={page - 1}
-										windowSize={windowSize}
-										goToPage={this.goToPage}
-									/>
-								</div>
-								<div
-									style={{
-										backgroundColor: "white",
-										width: "100%",
-										position: "relative",
-										overflowY: "hidden",
+										flexDirection:
+											windowSize !== "xs" ? "row" : "column",
 										height:
 											windowSize !== "xs"
-												? "100%"
-												: "calc(100vh - 8em - 11.5%)"
+												? "72vh"
+												: "calc(100vh - 3em)",
+										width: "100%"
 									}}
 								>
-									<Scrollbar>
-										<div style={{ paddingBottom: "6.5em" }}>
-											{page === 1 && (
-												<SignUpEnterprise
-													nextPage={this.nextPage}
-													translate={
-														this.props.translate
-													}
-													formData={this.state.data}
-													errors={this.state.errors}
-													updateState={
-														this.updateState
-													}
-													updateErrors={
-														this.updateErrors
-													}
-												/>
-											)}
+									<div
+										style={{
+											backgroundColor: "WhiteSmoke",
+											display: "flex",
+											flexDirection: "column",
+											alignItems: "center",
+											paddingTop: "1em",
+											height:
+												windowSize !== "xs" ? "100%" : "5em"
+										}}
+									>
+										<SignUpStepper
+											translate={translate}
+											active={page - 1}
+											windowSize={windowSize}
+											goToPage={this.goToPage}
+										/>
+									</div>
+									<div
+										style={{
+											backgroundColor: "white",
+											width: "100%",
+											position: "relative",
+											overflowY: "hidden",
+											height:
+												windowSize !== "xs"
+													? "100%"
+													: "calc(100vh - 8em - 11.5%)"
+										}}
+									>
+										<Scrollbar>
+											<div style={{ paddingBottom: "6.5em" }}>
+												{page === 1 && (
+													<SignUpEnterprise
+														nextPage={this.nextPage}
+														translate={
+															this.props.translate
+														}
+														formData={this.state.data}
+														errors={this.state.errors}
+														updateState={
+															this.updateState
+														}
+														updateErrors={
+															this.updateErrors
+														}
+													/>
+												)}
 
-											{page === 2 && (
-												<SignUpUser
-													nextPage={this.nextPage}
-													previousPage={
-														this.previousPage
-													}
-													formData={this.state.data}
-													errors={this.state.errors}
-													updateState={
-														this.updateState
-													}
-													updateErrors={
-														this.updateErrors
-													}
-													translate={
-														this.props.translate
-													}
-												/>
-											)}
+												{page === 2 && (
+													<SignUpUser
+														nextPage={this.nextPage}
+														previousPage={
+															this.previousPage
+														}
+														formData={this.state.data}
+														errors={this.state.errors}
+														updateState={
+															this.updateState
+														}
+														updateErrors={
+															this.updateErrors
+														}
+														translate={
+															this.props.translate
+														}
+													/>
+												)}
 
-											{page === 3 && (
-												<SignUpPay
-													nextPage={this.nextPage}
-													previousPage={
-														this.previousPage
-													}
-													formData={this.state.data}
-													errors={this.state.errors}
-													updateState={
-														this.updateState
-													}
-													updateErrors={
-														this.updateErrors
-													}
-													translate={
-														this.props.translate
-													}
-													send={this.send}
-												/>
-											)}
-										</div>
-									</Scrollbar>
+												{page === 3 && (
+													<SignUpPay
+														nextPage={this.nextPage}
+														previousPage={
+															this.previousPage
+														}
+														formData={this.state.data}
+														errors={this.state.errors}
+														updateState={
+															this.updateState
+														}
+														updateErrors={
+															this.updateErrors
+														}
+														translate={
+															this.props.translate
+														}
+														send={this.send}
+													/>
+												)}
+											</div>
+										</Scrollbar>
+									</div>
 								</div>
-							</div>
-						</CardContent>
-					</Card>
-				) : (
-					<Card
-						style={{
-							width: windowSize === "xs" ? "100%" : "70%",
-							padding: "3vw"
-						}}
-					>
-						<div
+							</CardContent>
+						</Card>
+					) : (
+						<Card
 							style={{
-								marginBottom: 0,
-								paddingBottom: 0,
-								fontWeight: "600",
-								fontSize: "1.5em",
-								color: primary
+								width: windowSize === "xs" ? "100%" : "70%",
+								padding: "3vw"
 							}}
 						>
-							{translate.register_successfully}
-						</div>
-					</Card>
-				)}
+							<div
+								style={{
+									marginBottom: 0,
+									paddingBottom: 0,
+									fontWeight: "600",
+									fontSize: "1.5em",
+									color: primary
+								}}
+							>
+								{translate.register_successfully}
+							</div>
+						</Card>
+					)}
+				</div>
 			</div>
 		);
 	}
@@ -276,4 +288,4 @@ class SignUpPage extends React.Component {
 
 export default graphql(userAndCompanySignUp, {
 	options: { errorPolicy: "all" }
-})(withWindowSize(SignUpPage));
+})(withWindowSize(withTranslations()(SignUpPage)));

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import cx from "classnames";
 import {
@@ -12,19 +12,17 @@ import {
 	withStyles
 } from "material-ui";
 import sidebarStyle from "../../styles/sidebarStyle";
-import {
-	BorderColor,
-	ContentPaste,
-	Dashboard,
-	ImportContacts
-} from "material-ui-icons";
+import BorderColor from 'material-ui-icons/BorderColor';
+import ContentPaste from 'material-ui-icons/ContentPaste';
+import Dashboard from 'material-ui-icons/Dashboard';
+import ImportContacts from 'material-ui-icons/ImportContacts';
 import { getPrimary } from "../../styles/colors";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import { DropDownMenu, Icon } from "../../displayComponents";
 import FontAwesome from "react-fontawesome";
 
-class Sidebar extends Component {
+class Sidebar extends React.Component {
 
 	state = {
 		selectedRoute: 0

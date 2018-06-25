@@ -10,38 +10,24 @@ import {
 	quorumTypes,
 	votingTypes
 } from "../../../queries";
+import withSharedProps from '../../../HOCs/withSharedProps';
 
 const minVideoWidth = 30;
 const minVideoHeight = "50%";
 
 
 class MeetingLivePage extends React.Component {
-	closeAddParticipantModal = () => {
-		this.setState({
-			addParticipantModal: false
-		});
-	};
-	checkVideoFlags = () => {
-		const council = this.props.data.council;
-		return council.state === 20 && council.councilType === 0;
-	};
-	checkLoadingComplete = () => {
-		return this.props.data.loading && this.props.companies.list;
-	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			participants: false,
-			confirmModal: false,
-			selectedPoint: 0,
-			addParticipantModal: false,
-			showParticipants: false,
-			videoWidth: minVideoWidth,
-			videoHeight: minVideoHeight,
-			fullScreen: false
-		};
-	}
+	state = {
+		participants: false,
+		confirmModal: false,
+		selectedPoint: 0,
+		addParticipantModal: false,
+		showParticipants: false,
+		videoWidth: minVideoWidth,
+		videoHeight: minVideoHeight,
+		fullScreen: false
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -55,16 +41,28 @@ class MeetingLivePage extends React.Component {
 		//window.removeListener('beforeunload');
 	}
 
+	closeAddParticipantModal = () => {
+		this.setState({
+			addParticipantModal: false
+		});
+	};
+
+	checkVideoFlags = () => {
+		const council = this.props.data.council;
+		return council.state === 20 && council.councilType === 0;
+	};
+
+	checkLoadingComplete = () => {
+		return this.props.data.loading;
+	};
+
 	render() {
-		const { translate } = this.props;
+		const { translate, company } = this.props;
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
 		}
-
-		const company = this.props.companies.list[
-			this.props.companies.selected
-		];
+		
 
 		return (
 			<div
@@ -76,8 +74,8 @@ class MeetingLivePage extends React.Component {
 				}}
 			>
 				<LiveHeader
-					logo={company.logo}
-					companyName={company.businessName}
+					logo={!!company && company.logo}
+					companyName={!!company && company.businessName}
 					councilName={'Meeting'}
 					translate={translate}
 				/>
@@ -139,4 +137,4 @@ export default compose(
 			}
 		})
 	})
-)(MeetingLivePage);
+)(withSharedProps()(MeetingLivePage));

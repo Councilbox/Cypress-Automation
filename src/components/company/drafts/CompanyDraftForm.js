@@ -3,10 +3,10 @@ import {
 	Grid,
 	GridItem,
 	MajorityInput,
-	RichTextInput,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
+import RichTextInput from "../../../displayComponents/RichTextInput";
 import { MenuItem } from "material-ui";
 import * as CBX from "../../../utils/CBX";
 

@@ -1,20 +1,24 @@
 import React from "react";
-import * as mainActions from "../../actions/mainActions";
 import * as companyActions from "../../actions/companyActions";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { darkGrey, lightGrey } from "../../styles/colors";
+import withSharedProps from '../../HOCs/withSharedProps';
 
 class Dashboard extends React.Component {
 	state = {
 		height: 10
 	}
+
+	/* static getDerivedStateFromProps(nextProps, prevState){
+		
+	}
 	componentWillReceiveProps(nextProps) {
 		if (!this.props.company.id && nextProps.company.id) {
 			this.props.companyActions.getRecount(nextProps.company.id);
 		}
-	}
+	} */
 
 	render() {
 		const { translate, company, user } = this.props;
@@ -80,12 +84,8 @@ class Dashboard extends React.Component {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		actions: bindActionCreators(mainActions, dispatch),
 		companyActions: bindActionCreators(companyActions, dispatch)
 	};
 }
 
-export default connect(
-	null,
-	mapDispatchToProps
-)(Dashboard);
+export default connect(null, mapDispatchToProps)(withSharedProps()(Dashboard));

@@ -5,7 +5,9 @@ import {
 	InputAdornment,
 	TextField
 } from "material-ui";
-import { Visibility, VisibilityOff } from "material-ui-icons";
+import Visibility from "material-ui-icons/Visibility";
+import VisibilityOff from "material-ui-icons/VisibilityOff";
+import FontAwesome from 'react-fontawesome';
 
 const TextInput = ({
 	floatingText = "",
@@ -31,7 +33,22 @@ const TextInput = ({
 		}}
 	>
 		<TextField
-			label={`${floatingText}${required ? "*" : ""}`}
+			label={
+				<React.Fragment>
+					{`${floatingText}${required ? "*" : ""}` }
+					{!!errorText &&
+						<FontAwesome
+							name={"times"}
+							style={{
+								fontSize: "17px",
+								color: 'red',
+								marginLeft: '0.2em'
+							}}
+						/>
+					}
+					
+				</React.Fragment>
+			}
 			value={value}
 			style={{
 				marginTop: 0,

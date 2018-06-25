@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import CouncilboxApi from "../../../api/CouncilboxApi";
 import {
 	BasicButton,
@@ -16,13 +16,23 @@ import { graphql, withApollo } from "react-apollo";
 import { countries, provinces } from "../../../queries/masters";
 import TermsModal from "./TermsModal";
 
-class SignUpPay extends Component {
+class SignUpPay extends React.Component {
+	state = {
+		provinces: [],
+		subscriptions: [],
+		termsCheck: false,
+		termsAlert: false,
+		showTermsModal: false
+	};
+
+
 	componentDidMount = async () => {
 		const subscriptions = await CouncilboxApi.getSubscriptions();
 		this.setState({
 			subscriptions: subscriptions
 		});
 	};
+
 	componentWillReceiveProps = async nextProps => {
 		const data = nextProps.formData;
 		const selectedCountry = this.props.data.countries
@@ -47,30 +57,22 @@ class SignUpPay extends Component {
 			});
 		}
 	};
+
 	previousPage = () => {
 		this.props.previousPage();
 	};
+
 	endForm = async () => {
 		if (!this.checkRequiredFields()) {
 			this.props.send();
 		}
 	};
+
 	handleCountryChange = async event => {
 		this.props.updateState({
 			country: event.target.value
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			provinces: [],
-			subscriptions: [],
-			termsCheck: false,
-			termsAlert: false,
-			showTermsModal: false
-		};
-	}
 
 	checkRequiredFields() {
 		const { translate } = this.props;
@@ -283,35 +285,41 @@ class SignUpPay extends Component {
 					</GridItem>
 
 					<GridItem xs={12} md={12} lg={12}>
-						<Checkbox
-							label={
-								<Fragment>
-									{translate.login_read_terms}
-									<a
-										style={{ color: primary }}
-										onClick={event => {
-											event.stopPropagation();
-											this.setState({
-												showTermsModal: true
-											});
-										}}
-									>
-										{translate.login_read_terms2}
-									</a>
-								</Fragment>
-							}
-							value={this.state.termsCheck}
-							onChange={(event, isInputChecked) =>
-								this.setState({
-									termsCheck: isInputChecked
-								})
-							}
-							onClick={() => {
-								this.setState({
-									termsCheck: true
-								});
-							}}
-						/>
+						<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+							<Checkbox
+								label={translate.login_read_terms + ' '}
+								value={this.state.termsCheck}
+								onChange={(event, isInputChecked) =>
+									this.setState({
+										termsCheck: isInputChecked
+									})
+								}
+								onClick={() => {
+									this.setState({
+										termsCheck: true
+									});
+								}}
+							/>
+							<a
+								style={{
+									color: primary,
+									fontSize: '0.9em',
+									fontWeight: '700',
+									cursor: 'pointer',
+									textTransform: 'lowerCase',
+									paddingBottom: '3px',
+									marginLeft: '0.4em'
+								 }}
+								onClick={event => {
+									event.stopPropagation();
+									this.setState({
+										showTermsModal: true,
+									});
+								}}
+							>
+								{translate.login_read_terms2}
+							</a>
+						</div>
 						{this.props.errors.termsCheck && (
 							<div style={{ color: "red" }}>
 								{this.props.errors.termsCheck}

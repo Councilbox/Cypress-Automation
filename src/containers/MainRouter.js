@@ -1,12 +1,12 @@
 import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import DashboardContainer from "./DashboardContainer";
+import Dashboard from "../components/dashboard/Dashboard";
 import CouncilEditorContainer from "./CouncilEditorContainer";
-import CouncilPrepareContainer from "./CouncilPrepareContainer";
+import CouncilPreparePage from "../components/council/prepare/CouncilPreparePage";
 import MeetingEditorContainer from "./MeetingEditorContainer";
-import CompanySettingsContainer from "./CompanySettingsContainer";
-import CompanyCensusContainer from "./CompanyCensusContainer";
-import UserSettingsContainer from "./UserSettingsContainer";
+import CompanySettingsPage from "../components/company/settings/CompanySettingsPage";
+import CompanyCensusPage from "../components/company/census/CompanyCensusPage";
+import UserSettingsPage from "../components/userSettings/UserSettingsPage";
 import CreateCouncil from "../components/CreateCouncil";
 import CreateMeeting from "../components/CreateMeeting";
 import NewCompanyPage from "../components/company/new/NewCompanyPage";
@@ -14,7 +14,7 @@ import LinkCompanyPage from "../components/company/link/LinkCompanyPage";
 import PlatformDrafts from "../components/corporation/drafts/PlatformDrafts";
 import CensusEditorPage from "../components/company/census/censusEditor/CensusEditorPage";
 import CompanyDraftEditor from "../components/company/drafts/CompanyDraftEditor";
-import CouncilFinishedContainer from "./CouncilFinishedContainer";
+import CouncilFinishedPage from "../components/council/writing/CouncilFinishedPage";
 import StatutesPage from "../components/company/statutes/StatutesPage";
 import CouncilCertificatesPage from "../components/council/certificates/CouncilCertificatesPage";
 import CompanyDraftList from "../components/company/drafts/CompanyDraftList";
@@ -39,12 +39,12 @@ const MainRouter = ({ company }) => (
         <Route
             exact
             path="/company/:company"
-            component={DashboardContainer}
+            component={Dashboard}
         />
         <Route
             exact
             path="/company/:company/settings"
-            component={CompanySettingsContainer}
+            component={() => <CompanySettingsPage linkButton={true} />}
         />
         <Route
             exact
@@ -64,7 +64,7 @@ const MainRouter = ({ company }) => (
         <Route
             exact
             path="/company/:company/council/:id/prepare"
-            component={CouncilPrepareContainer}
+            component={CouncilPreparePage}
         />
         <Route
             exact
@@ -78,7 +78,7 @@ const MainRouter = ({ company }) => (
         <Route
             exact
             path="/company/:company/council/:council/finished"
-            component={CouncilFinishedContainer}
+            component={CouncilFinishedPage}
         />
         <Route
             exact
@@ -121,7 +121,7 @@ const MainRouter = ({ company }) => (
         <Route
             exact
             path="/company/:company/censuses"
-            component={CompanyCensusContainer}
+            component={CompanyCensusPage}
         />
         <Route
             exact
@@ -136,7 +136,7 @@ const MainRouter = ({ company }) => (
         <Route
             exact
             path="/user/:id"
-            component={UserSettingsContainer}
+            component={UserSettingsPage}
         />
         <Route 
             path="*"

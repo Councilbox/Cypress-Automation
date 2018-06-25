@@ -1,5 +1,6 @@
 import React from "react";
-import { Grid, GridItem, RichTextInput } from "../../../../displayComponents";
+import { Grid, GridItem } from "../../../../displayComponents";
+import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { getPrimary } from "../../../../styles/colors";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import AgendaRecount from '../../agendas/AgendaRecount';
