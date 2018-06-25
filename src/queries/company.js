@@ -26,8 +26,24 @@ export const updateCompany = gql`
 `;
 
 export const unlinkCompany = gql`
-	mutation unlinkCompany($userId: Int!, $companyTin: String!) {
+	mutation unlinkCompany($companyTin: String!) {
 		unlinkCompany(userId: $userId, companyTin: $companyTin) {
+			success
+			message
+		}
+	}
+`;
+
+export const linkCompany = gql`
+	mutation linkCompany(
+		$companyTin: String!
+		$linkKey: String!
+	) {
+		linkCompany(
+			userId: $userId
+			companyTin: $companyTin
+			linkKey: $linkKey
+		) {
 			success
 			message
 		}
