@@ -91,7 +91,7 @@ class MeetingLivePage extends React.Component {
 						allow="geolocation; microphone; camera"
 						scrolling="no"
 						className="temp_video"
-						src={`https://${this.state.ºurl}?rand=${Date.now()}`}
+						src={`https://${this.state.url}?rand=${Date.now()}`}
 						allowFullScreen="true"
 						style={{
 							border: "none !important"
