@@ -55,7 +55,7 @@ class AgendaManager extends React.Component {
 					style={{
 						width: "100%",
 						height: "100%",
-						overflow: "auto",
+						overflow: "hidden",
 						backgroundColor: "white"
 					}}
 					onClick={this.props.openMenu}

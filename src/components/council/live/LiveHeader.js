@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
 import { AlertConfirm, Icon } from "../../../displayComponents";
 
-class LiveHeader extends Component {
+class LiveHeader extends React.Component {
+	state = {
+		showConfirm: false
+	};
+
 	exitAction = () => {
 		bHistory.push("/");
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			showConfirm: false
-		};
-	}
 
 	render() {
 		const {
@@ -38,7 +35,7 @@ class LiveHeader extends Component {
 						userSelect: "none",
 						position: "absolute",
 						zIndex: 1000,
-						minHeight: "3em",
+						height: "3em",
 						alignItems: "center",
 						justifyContent: "space-between"
 					}}

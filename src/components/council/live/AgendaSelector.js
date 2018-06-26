@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { AgendaNumber } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import NewAgendaPointModal from "../editor/agenda/modals/NewAgendaPointModal";
@@ -7,7 +7,7 @@ import * as CBX from "../../../utils/CBX";
 import icon from "../../../assets/img/reorder.PNG";
 import { Tooltip } from "material-ui";
 
-class AgendaSelector extends Component {
+class AgendaSelector extends React.Component {
 	render() {
 		const { agendas, translate, council, onClick, selected } = this.props;
 
@@ -19,12 +19,12 @@ class AgendaSelector extends Component {
 					flexDirection: "column",
 					display: "flex",
 					alignItems: "center",
-					paddingTop: "1.2em"
 				}}
 			>
 				<div
 					style={{
 						marginBottom: "0.8em",
+						marginTop: '1.2em',
 						flexDirection: "column",
 						display: "flex",
 						alignItems: "center"
@@ -32,7 +32,7 @@ class AgendaSelector extends Component {
 				>
 					{agendas.map((agenda, index) => {
 						return (
-							<Fragment key={`agendaSelector${agenda.id}`}>
+							<React.Fragment key={`agendaSelector${agenda.id}`}>
 								{index > 0 && (
 									<div
 										style={{
@@ -52,7 +52,7 @@ class AgendaSelector extends Component {
 									secondaryColor={getSecondary()}
 									onClick={() => onClick(index)}
 								/>
-							</Fragment>
+							</React.Fragment>
 						);
 					})}
 				</div>

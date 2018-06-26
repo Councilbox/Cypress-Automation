@@ -14,7 +14,8 @@ import {
 	Link,
 	TextInput
 } from "../../displayComponents";
-import background from "../../assets/img/signup3.jpg";
+let background;
+import("../../assets/img/signup3.jpg").then(data => background = data);
 
 const DEFAULT_ERRORS = {
 	pwd: "",

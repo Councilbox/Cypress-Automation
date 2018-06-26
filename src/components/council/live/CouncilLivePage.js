@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import { FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
@@ -16,9 +16,9 @@ import { checkCouncilState } from '../../../utils/CBX';
 const minVideoWidth = 30;
 const minVideoHeight = "45vh";
 
-class CouncilLivePage extends Component {
+class CouncilLivePage extends React.Component {
 	state = {
-		participants: false,
+		participants: true,
 		confirmModal: false,
 		selectedPoint: 0,
 		wall: false,
@@ -196,7 +196,7 @@ class CouncilLivePage extends Component {
 						<div>
 							<FabButton
 								icon={
-									<Fragment>
+									<React.Fragment>
 										<Icon className="material-icons">
 											{this.state.participants
 												? "developer_board"
@@ -207,7 +207,7 @@ class CouncilLivePage extends Component {
 												? "keyboard_arrow_left"
 												: "keyboard_arrow_right"}
 										</Icon>
-									</Fragment>
+									</React.Fragment>
 								}
 								onClick={() => {
 									this.setState({
@@ -273,7 +273,7 @@ class CouncilLivePage extends Component {
 							)}
 
 							{council.room.htmlVideoCouncil && (
-								<Fragment>
+								<React.Fragment>
 									<div
 										style={{
 											height: this.state.videoHeight,
@@ -315,7 +315,7 @@ class CouncilLivePage extends Component {
 											</div>
 										</Tooltip>
 									</div>
-								</Fragment>
+								</React.Fragment>
 							)}
 							{!this.state.fullScreen && (
 								<div
@@ -345,15 +345,15 @@ class CouncilLivePage extends Component {
 									? 100 - this.state.videoWidth
 									: 100
 							}%`,
-							overflow: "hidden",
+							overflowY: "scroll",
 							height: "calc(100vh - 3em)"
 						}}
 					>
 						{this.state.participants ? (
 							<div
 								style={{
-									height: "calc(100vh - 6em)",
-									marginTop: "1.5em"
+									height: "calc(100vh - 3em)",
+									marginTop: "3em"
 								}}
 							>
 								<ParticipantsManager

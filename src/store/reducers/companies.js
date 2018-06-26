@@ -1,11 +1,16 @@
 import initialState from "./initialState";
 
-export default function companyReducer(state = initialState.company, action) {
+export default function companyReducer(state = initialState.companies, action) {
 	switch (action.type) {
 		case "SIGN_UP_INFO":
 			return {
 				...state,
 				...action.value
+			};
+
+		case "LOGOUT":
+			return {
+				...initialState.companies
 			};
 
 		case "COMPANIES":

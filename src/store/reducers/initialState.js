@@ -7,7 +7,10 @@ export default {
 		loading: true,
 	},
 	user: {},
-	companies: [],
+	companies: {
+		list: [],
+		selected: ''
+	},
 	translate: [],
 	council: {},
 	detectRTC: {}

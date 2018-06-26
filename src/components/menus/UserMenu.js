@@ -3,8 +3,9 @@ import { getSecondary } from "../../styles/colors";
 import * as mainActions from "../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { MenuItem } from "material-ui";
+import { MenuItem, Divider } from "material-ui";
 import { DropDownMenu, Icon, Link } from "../../displayComponents";
+import FontAwesome from 'react-fontawesome';
 
 const secondary = getSecondary();
 
@@ -28,11 +29,50 @@ const UserMenu = ({ user, actions, translate }) => {
 				<Fragment>
 					<MenuItem>
 						<Link to={`/user/${user.id}`}>
-							{translate.settings}
+							<div
+								style={{
+									width: '100%',
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between'
+								}}
+							>
+								<FontAwesome
+									name={'edit'}
+									style={{
+										cursor: "pointer",
+										fontSize: "1.2em",
+										color: secondary
+									}}
+								/>
+								<span style={{marginLeft: '2.5em', fontSize: '0.9em', marginRight: '0.8em'}}>
+									{translate.settings}
+								</span>
+							</div>
 						</Link>
 					</MenuItem>
+					<Divider />
 					<MenuItem onClick={() => actions.logout()}>
-						{translate.logout}
+						<div
+								style={{
+									width: '100%',
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between'
+								}}
+							>
+								<FontAwesome
+									name={'external-link'}
+									style={{
+										cursor: "pointer",
+										fontSize: "1.2em",
+										color: 'red'
+									}}
+								/>
+								<span style={{marginLeft: '2.5em', fontSize: '0.9em', marginRight: '0.8em'}}>
+									{translate.logout}
+								</span>
+							</div>
 					</MenuItem>
 				</Fragment>
 			}

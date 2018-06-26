@@ -185,7 +185,7 @@ class Login extends React.PureComponent {
 									className="col-lg-6 col-md-6 col-xs-6"
 									style={{ padding: "1em" }}
 								>
-									<Link to="/meeting">
+									<Link to="/meeting/new">
 										<BasicButton
 											text={translate.dashboard_new_meeting}
 											color={'transparent'}

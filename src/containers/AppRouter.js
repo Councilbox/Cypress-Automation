@@ -53,7 +53,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
-		if (this.props.main.isLogged && !this.props.companies.list && !this.props.companies.selected) {
+		if (this.props.main.isLogged && !this.props.companies.list.length > 0 && !this.props.companies.selected) {
 			return <LoadingMainApp />;
 		}
 
@@ -87,6 +87,7 @@ class AppRouter extends React.Component {
 
 				<div className={this.props.classes.mainPanel}>
 					<Header
+						commandLine={true}
 						user={this.props.user}
 						drawerIcon={this.state.mobileOpen}
 						translate={this.props.translate}

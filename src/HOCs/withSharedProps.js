@@ -6,7 +6,7 @@ const withSharedProps = () => WrappedComponent => {
 	const WithSharedProps = ({ companies, translate, user, ...restProps }) => {
 		return(
 			<WrappedComponent
-				company={companies.list[companies.selected]}
+				company={companies.list.length > 0? companies.list[companies.selected] : null}
 				user={user}
 				translate={translate}
 				{...restProps}
@@ -18,11 +18,14 @@ const withSharedProps = () => WrappedComponent => {
 	return connect(mapStateToProps)(WithSharedProps);
 };
 
-const mapStateToProps = state => ({
-	companies: state.companies,
-	translate: state.translate,
-	user: state.user
-});
+const mapStateToProps = state => {
+	console.log(state);
+	return({
+		companies: state.companies,
+		translate: state.translate,
+		user: state.user
+	})
+};
 
 export default withSharedProps;
 

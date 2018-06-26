@@ -8,7 +8,7 @@ import CompanySettingsPage from "../components/company/settings/CompanySettingsP
 import CompanyCensusPage from "../components/company/census/CompanyCensusPage";
 import UserSettingsPage from "../components/userSettings/UserSettingsPage";
 import CreateCouncil from "../components/CreateCouncil";
-import CreateMeeting from "../components/CreateMeeting";
+import MeetingCreateContainer from "../components/meeting/MeetingCreateContainer";
 import NewCompanyPage from "../components/company/new/NewCompanyPage";
 import LinkCompanyPage from "../components/company/link/LinkCompanyPage";
 import PlatformDrafts from "../components/corporation/drafts/PlatformDrafts";
@@ -92,7 +92,7 @@ const MainRouter = ({ company }) => (
         <Route
             exact
             path="/company/:company/meeting/new"
-            component={CreateMeeting}
+            component={MeetingCreateContainer}
         />
         <Route
             exact

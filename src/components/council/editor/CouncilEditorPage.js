@@ -79,7 +79,6 @@ class CouncilEditorPage extends React.Component {
 
 		return (
 			<CardPageLayout title={translate.dashboard_new}>
-				{/*<div style={{display: 'flex', flexDirection: 'column', height: '100%'}}>*/}
 				<div
 					style={{
 						width: "100%",
@@ -102,7 +101,7 @@ class CouncilEditorPage extends React.Component {
 									  }
 									: {})}
 							>
-								<StepLabel>
+								<StepLabel style={{marginTop: 0}}>
 									{translate.wizard_convene}
 								</StepLabel>
 							</Step>
