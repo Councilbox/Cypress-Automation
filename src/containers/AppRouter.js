@@ -9,10 +9,12 @@ import NotFound from "../components/NotFound";
 import { Route, Switch, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Sidebar from "../components/sideMenu/SideBar";
+import SidebarLite from "../components/sideMenu/SideBarLite";
 import { LoadingMainApp } from "../displayComponents";
 import Test from "../components/participant/test/Test";
 import ParticipantTokenContainer from "./ParticipantTokenContainer";
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
+import ActiveUserPage from '../components/notLogged/ActiveUserPage';
 import ParticipantContainer from "./ParticipantContainer";
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
@@ -72,10 +74,13 @@ class AppRouter extends React.Component {
 				style={{
 					width: "100%",
 					height: "100vh",
-					position: "relative"
+					display: 'flex',
+					flexDirection: 'row',
+					position: "relative",
+					overflow: 'hidden'
 				}}
 			>
-				<Sidebar
+				<SidebarLite
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}
 					open={this.state.mobileOpen}
@@ -85,7 +90,7 @@ class AppRouter extends React.Component {
 					color="blue"
 				/>
 
-				<div className={this.props.classes.mainPanel}>
+				<div className={this.props.classes.mainPanelLite}>
 					<Header
 						commandLine={true}
 						user={this.props.user}
@@ -116,6 +121,7 @@ class AppRouter extends React.Component {
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
 					<Route path="/forgetPwd" component={ForgetPwdContainer} />
+					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route
 						exact
 						path="/changePwd/:language/:token"
@@ -127,11 +133,6 @@ class AppRouter extends React.Component {
 						component={ChangePwdContainer}
 					/>
 					<Route path="/welcome" component={Welcome} />
-					<Route
-						exact
-						path="/jibiri/:id"
-						component={ParticipantPage}
-					/>
 
 					<Route exact path="/test/:language" component={Test} />
 					{this.props.main.isParticipantLogged &&

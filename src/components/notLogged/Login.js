@@ -10,7 +10,8 @@ import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
 import { BasicButton, ButtonIcon, Link, TextInput } from "../../displayComponents";
-import background from "../../assets/img/signup3.jpg";
+let background;
+import("../../assets/img/signup3.jpg").then(data => background = data);
 
 class Login extends React.PureComponent {
 

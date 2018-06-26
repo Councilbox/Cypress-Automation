@@ -63,11 +63,6 @@ const theme = createMuiTheme({
 		MuiStepper: {
 			root: {
 				backgroundColor: "transparent",
-				padding: 0
-			},
-			alternativeLabel: {
-				padding: 0,
-				marginTop: 0
 			},
 			horizontal: {
 				height: '6em',

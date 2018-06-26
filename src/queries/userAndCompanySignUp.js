@@ -1,12 +1,8 @@
 import gql from "graphql-tag";
 
 export const userAndCompanySignUp = gql`
-	mutation userAndCompanySignUp(
-		$data: UserAndCompanySignUpInput!
-	) {
-		userAndCompanySignUp(
-			data: $data
-		) {
+	mutation userAndCompanySignUp($data: UserAndCompanySignUpInput){
+		userAndCompanySignUp(data: $data){
 			success
 		}
 	}
