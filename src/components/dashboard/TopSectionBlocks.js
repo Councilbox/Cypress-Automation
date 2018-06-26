@@ -6,14 +6,16 @@ import {
 	Grid,
 	GridItem,
 	Icon,
-	Link
+	Link,
+	ButtonIcon
 } from "../../displayComponents";
 import { MenuItem, Card } from "material-ui";
 
-const Block = ({ children, button, link }) => (
+const Block = ({ button, link, icon, text }) => (
 	<React.Fragment>
 		<Link to={link}>
 			<Card
+				elevation={5}
 				style={{
 					height: "10em",
 					backgroundColor: darkGrey,
@@ -34,18 +36,25 @@ const Block = ({ children, button, link }) => (
 					<div
 						style={{
 							display: "flex",
-							flexDirection: "row",
+							flexDirection: "column",
 							alignItems: "center",
-							justifyContent: "space-between",
+							justifyContent: "center",
 							width: "100%",
-							paddingRight: '20%',
-							paddingLeft: '5%',
-							color: getSecondary(),
+							color: 'white',
 							fontWeight: "700",
 							fontSize: "0.9em"
 						}}
 					>
-						{children}
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: "7em",
+								color: getSecondary()
+							}}
+						>
+							{icon}
+						</Icon>
+						{text}
 					</div>
 				</MenuItem>
 			</Card>
@@ -55,7 +64,8 @@ const Block = ({ children, button, link }) => (
 				style={{
 					display: "flex",
 					alignItems: "center",
-					fontWeight: "700"
+					fontWeight: "700",
+					marginTop: '0.8em'
 				}}
 			>
 				{button}
@@ -83,11 +93,7 @@ const CompaniesManagerButton = ({ translate, company }) => (
 					textTransform: "none"
 				}}
 				textPosition="after"
-				icon={
-					<Icon className="material-icons" style={{ color: "white" }}>
-						control_point
-					</Icon>
-				}
+				icon={<ButtonIcon type="control_point" color="white" />}
 			/>
 		}
 		type="flat"
@@ -125,63 +131,33 @@ const TopSectionBlocks = ({ translate, company }) => (
 						company={company}
 					/>
 				}
-			>
-				{translate.edit_company && translate.edit_company.toUpperCase()}
-				<Icon
-					className="material-icons"
-					style={{
-						fontSize: "1.8em",
-						color: "white"
-					}}
-				>
-					work
-				</Icon>
-			</Block>
+				icon="work"
+				text={translate.edit_company}
+			/>
 		</GridItem>
 
 		<GridItem xs={12} md={6} lg={3}>
-			<Block link={`/company/${company.id}/statutes`}>
-				{translate.statutes && translate.statutes.toUpperCase()}
-				<Icon
-					className="material-icons"
-					style={{
-						fontSize: "1.8em",
-						color: "white"
-					}}
-				>
-					gavel
-				</Icon>
-			</Block>
+			<Block
+				link={`/company/${company.id}/statutes`}
+				icon="gavel"
+				text={translate.statutes}
+			/>
 		</GridItem>
 
 		<GridItem xs={12} md={6} lg={3}>
-			<Block link={`/company/${company.id}/censuses`}>
-				{translate.censuses && translate.censuses.toUpperCase()}
-				<Icon
-					className="material-icons"
-					style={{
-						fontSize: "1.8em",
-						color: "white"
-					}}
-				>
-					person
-				</Icon>
-			</Block>
+			<Block
+				link={`/company/${company.id}/censuses`}
+				icon="person"
+				text={translate.censuses}
+			/>
 		</GridItem>
 
 		<GridItem xs={12} md={6} lg={3}>
-			<Block link={`/company/${company.id}/drafts`}>
-				{translate.drafts && translate.drafts.toUpperCase()}
-				<Icon
-					className="material-icons"
-					style={{
-						fontSize: "1.8em",
-						color: "white"
-					}}
-				>
-					class
-				</Icon>
-			</Block>
+			<Block
+				link={`/company/${company.id}/drafts`}
+				icon="class"
+				text={translate.drafts}
+			/>
 		</GridItem>
 	</Grid>
 );

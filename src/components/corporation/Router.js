@@ -11,11 +11,13 @@ import { LoadingMainApp } from '../../displayComponents';
 import Header from '../Header';
 import { graphql } from 'react-apollo';
 import { getCorporation } from '../../queries/corporation';
-import image from "../../assets/img/sidebar-2.jpg";
 import Sidebar from "./menus/Sidebar";
 import appStyle from "../../styles/appStyle.jsx";
 import { withStyles } from 'material-ui';
 import { lightGrey } from '../../styles/colors';
+let image;
+import("../../assets/img/sidebar-2.jpg").then(data => image = data);
+
 
 const Router = ({ user, translate, location, data, classes }) => {
     if(data.loading){

@@ -13,7 +13,7 @@ const BasicButton = ({
 	reset,
 	buttonStyle,
 	icon,
-	type,
+	type = 'raised',
 	disabled,
 	textPosition,
 	onClick,

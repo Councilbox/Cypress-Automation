@@ -41,7 +41,7 @@ class Sidebar extends React.Component {
 			icon: ImportContacts
 		},
 		{
-			path: `/company/${this.props.company.id}/meeting/live`,
+			path: `/company/${this.props.company.id}/meeting/new`,
 			name: "meeting",
 			sidebarName: this.props.translate.dashboard_new_meeting,
 			icon: ContentPaste

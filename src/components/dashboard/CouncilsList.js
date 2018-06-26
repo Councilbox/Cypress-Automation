@@ -9,7 +9,7 @@ import { getPrimary } from "../../styles/colors";
 const CouncilsList = ({ councils, translate, deleteCouncil, openDeleteModal, company, link }) => {
     const deleteIcon = (councilID) => {
         const primary = getPrimary();
-    
+
         return (
             <CloseIcon
                 style={{ color: primary }}

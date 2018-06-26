@@ -2,6 +2,7 @@ import React from "react";
 import { LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "../../council/live/LiveHeader";
 import { lightGrey } from "../../../styles/colors";
+import { bHistory } from '../../../containers/App';
 import { compose, graphql } from "react-apollo";
 import {
 	councilLiveQuery,
@@ -11,6 +12,8 @@ import {
 	votingTypes
 } from "../../../queries";
 import withSharedProps from '../../../HOCs/withSharedProps';
+let logo;
+import("../../../assets/img/logo-white.png").then(data => logo = data);
 
 const minVideoWidth = 30;
 const minVideoHeight = "50%";
@@ -26,11 +29,14 @@ class MeetingLivePage extends React.Component {
 		showParticipants: false,
 		videoWidth: minVideoWidth,
 		videoHeight: minVideoHeight,
-		fullScreen: false
+		fullScreen: false,
+		url: sessionStorage.getItem('meetingUrl'),
 	};
 
 	componentDidMount() {
-		this.props.data.refetch();
+		if(!this.state.url){
+			bHistory.push('/');
+		}
 		/*window.addEventListener("beforeunload", (ev) => {
          ev.preventDefault();
          return ev.returnValue = 'Are you sure you want to close?';
@@ -39,6 +45,7 @@ class MeetingLivePage extends React.Component {
 
 	componentWillUnmount() {
 		//window.removeListener('beforeunload');
+		sessionStorage.removeItem('meetingUrl');
 	}
 
 	closeAddParticipantModal = () => {
@@ -52,17 +59,8 @@ class MeetingLivePage extends React.Component {
 		return council.state === 20 && council.councilType === 0;
 	};
 
-	checkLoadingComplete = () => {
-		return this.props.data.loading;
-	};
-
 	render() {
 		const { translate, company } = this.props;
-
-		if (this.checkLoadingComplete()) {
-			return <LoadingMainApp />;
-		}
-		
 
 		return (
 			<div
@@ -74,7 +72,7 @@ class MeetingLivePage extends React.Component {
 				}}
 			>
 				<LiveHeader
-					logo={!!company && company.logo}
+					logo={!!company? company.logo : logo}
 					companyName={!!company && company.businessName}
 					councilName={'Meeting'}
 					translate={translate}
@@ -87,12 +85,13 @@ class MeetingLivePage extends React.Component {
 						flexDirection: "row"
 					}}
 				>
+				{!!this.state.url &&
 					<iframe
 						title="meetingScreen"
 						allow="geolocation; microphone; camera"
 						scrolling="no"
 						className="temp_video"
-						src={`https://cmp.councilbox.com/meet/public?rand=${Date.now()}`}
+						src={`https://${this.state.ºurl}?rand=${Date.now()}`}
 						allowFullScreen="true"
 						style={{
 							border: "none !important"
@@ -100,41 +99,31 @@ class MeetingLivePage extends React.Component {
 					>
 						Something wrong...
 					</iframe>
+				}
 				</div>
 			</div>
 		);
 	}
 }
 
-export default compose(
-	graphql(majorityTypes, {
-		name: "majorities"
-	}),
+export default (withSharedProps()(MeetingLivePage));
 
-	graphql(votingTypes, {
-		name: "votations"
-	}),
 
-	graphql(quorumTypes, {
-		name: "quorum"
-	}),
-
-	graphql(councilLiveQuery, {
-		name: "data",
-		options: props => ({
-			variables: {
-				councilID: props.councilID
-			}
-		})
-	}),
-
-	graphql(iframeURLTEMP, {
-		name: "room",
-		options: props => ({
-			variables: {
-				councilId: props.councilID,
-				participantId: "Mod"
-			}
-		})
+/* graphql(councilLiveQuery, {
+	name: "data",
+	options: props => ({
+		variables: {
+			councilID: props.councilID
+		}
 	})
-)(withSharedProps()(MeetingLivePage));
+}),
+
+graphql(iframeURLTEMP, {
+	name: "room",
+	options: props => ({
+		variables: {
+			councilId: props.councilID,
+			participantId: "Mod"
+		}
+	})
+}) */
