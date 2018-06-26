@@ -60,7 +60,9 @@ class DropDownMenu extends React.Component {
 					anchorEl={anchorEl}
 					onClose={this.handleClose}
 				>
-					<div onClick={this.handleClose}>
+					<div 
+						onClick={this.handleClose}
+					>
 						{items}
 					</div>
 				</Popover>

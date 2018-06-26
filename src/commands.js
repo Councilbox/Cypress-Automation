@@ -1,13 +1,13 @@
 export const COMMANDS = [
     {
-        section: 'council',
-        command: 'create',
+        section: 'Council',
+        command: 'Create',
         link: '/council/new'
     },
 
     {
-        section: 'council',
-        command: 'drafts',
+        section: 'Council',
+        command: 'Drafts',
         link: '/councils/drafts'
     }
 ]

@@ -33,7 +33,7 @@ class Header extends React.Component {
 
 		return (
 			<Paper
-				elevation={2}
+				elevation={0}
 				style={{
 					height: "3em",
 					display: "flex",

@@ -67,7 +67,9 @@ class SignUpPage extends React.PureComponent {
 
 	send = async () => {
 		const response = await this.props.mutate({
-			variables: this.state.data
+			variables: {
+				data: this.state.data
+			}
 		});
 		console.log(response.errors);
 		if (response.errors) {
