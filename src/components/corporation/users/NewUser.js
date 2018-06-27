@@ -89,7 +89,7 @@ class NewUser extends React.PureComponent {
 const createUserWithoutPassword = gql`
     mutation CreateUserWithoutPassword($user: UserInput!, $companies: [Int]){
         createUserWithoutPassword(user: $user, companies: $companies){
-            success
+            id
         }
     }
 `;
