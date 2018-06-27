@@ -1,79 +1,57 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import { DropDownMenu } from "../../displayComponents";
 import { MenuItem } from "material-ui";
 
-class CompanySelector extends Component {
+class CompanySelector extends React.Component {
+	tate = {
+		popover: false
+	};
+
 	changeCompany = index => {
 		const { companies } = this.props;
 		store.dispatch(changeCompany(index));
 		bHistory.push(`/company/${companies[index].id}`);
 	};
-	companyList = () => {
-		const { companies } = this.props;
-		return (
-			<Fragment>
-				{companies.map(
-					(company, index) =>
-						company.id !== this.props.company.id && (
-							<MenuItem>
-								<img
-									src={company.logo}
-									style={{
-										maxWidth: "5em"
-									}}
-									onClick={() => this.changeCompany(index)}
-									alt={"logo"}
-								/>
-							</MenuItem>
-						)
-				)}
-			</Fragment>
-		);
-	};
-	logoClick = event => {
-		this.setState({
-			popover: true,
-			anchorElement: event.currentTarget
-		});
-		event.stopPropagation();
-		event.nativeEvent.stopImmediatePropagation();
-	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			popover: false
-		};
-	}
 
 	render() {
-		const { company } = this.props;
 		return (
-			<Fragment>
-				<DropDownMenu
-					icon={
+			<React.Fragment>
+				{this.props.companies.map((company, index) => (
+					<MenuItem
+						selected={company.id === this.props.company.id}
+						onClick={() => this.changeCompany(index)}
+						style={{
+							width: '100%',
+							display: 'flex',
+							flexDirection: 'row',
+							padding: '0.4em',
+							paddingRight: '2em',
+							paddingLeft: '1.2em',
+							justifyContent: 'space-between'
+						}}
+					>
 						<img
 							src={company.logo}
+							alt="company-logo"
 							style={{
-								width: "auto",
-								height: "3em",
-								maxWidth: "5em"
+								maxHeight: '2em',
+								width: 'auto',
+								marginLeft: '1.2em'
 							}}
-							onClick={this.logoClick}
-							alt={"logo"}
 						/>
-					}
-					color={"transparent"}
-					buttonStyle={{
-						width: "3em",
-						marginLeft: "0.3em",
-						border: "none"
-					}}
-					items={this.companyList()}
-				/>
-			</Fragment>
+						<span
+							style={{
+								marginRight: '0.8em'
+							}}
+						>
+							{company.businessName}
+						</span>
+					</MenuItem>
+				))}
+			</React.Fragment>
 		);
 	}
 }

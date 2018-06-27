@@ -74,45 +74,7 @@ const Block = ({ button, link, icon, text }) => (
 	</React.Fragment>
 );
 
-const CompaniesManagerButton = ({ translate, company }) => (
-	<DropDownMenu
-		color="transparent"
-		textStyle={{
-			margin: 0,
-			width: "100%",
-			padding: 0
-		}}
-		Component={
-			() => <BasicButton
-				text={translate.link_companies}
-				fullWidth={true}
-				color={getSecondary()}
-				textStyle={{
-					color: "white",
-					fontWeight: "500",
-					textTransform: "none"
-				}}
-				textPosition="after"
-				icon={<ButtonIcon type="control_point" color="white" />}
-			/>
-		}
-		type="flat"
-		items={
-			<React.Fragment>
-				<MenuItem>
-					<Link to={`/company/${company.id}/create`}>
-						{translate.companies_add}
-					</Link>
-				</MenuItem>
-				<MenuItem>
-					<Link to={`/company/${company.id}/link`}>
-						{translate.companies_link}
-					</Link>
-				</MenuItem>
-			</React.Fragment>
-		}
-	/>
-);
+
 
 const TopSectionBlocks = ({ translate, company }) => (
 	<Grid
@@ -125,12 +87,6 @@ const TopSectionBlocks = ({ translate, company }) => (
 		<GridItem xs={12} md={6} lg={3}>
 			<Block
 				link={`/company/${company.id}/settings`}
-				button={
-					<CompaniesManagerButton
-						translate={translate}
-						company={company}
-					/>
-				}
 				icon="work"
 				text={translate.edit_company}
 			/>

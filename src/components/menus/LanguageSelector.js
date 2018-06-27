@@ -10,14 +10,11 @@ import { store } from "../../containers/App";
 const secondary = getSecondary();
 
 const LanguageSelector = ({ selectedLanguage, data }) => {
-	if (data.loading || !selectedLanguage) {
-		return <LoadingSection />;
-	}
 
 	return (
 		<DropDownMenu
 			color="transparent"
-			text={selectedLanguage.toUpperCase()}
+			text={!!selectedLanguage? selectedLanguage.toUpperCase() : 'ES'}
 			textStyle={{ color: secondary }}
 			type="flat"
 			icon={
@@ -27,14 +24,16 @@ const LanguageSelector = ({ selectedLanguage, data }) => {
 			}
 			items={
 				<Fragment>
-					{data.languages.map(language => (
-						<MenuItem
-							key={`language_${language.columnName}`}
-							onClick={() => changeLanguage(language.columnName)}
-						>
-							{language.columnName.toUpperCase()}
-						</MenuItem>
-					))}
+					{!!data.languages &&
+						data.languages.map(language => (
+							<MenuItem
+								key={`language_${language.columnName}`}
+								onClick={() => changeLanguage(language.columnName)}
+							>
+								{language.columnName.toUpperCase()}
+							</MenuItem>
+						))
+					}
 				</Fragment>
 			}
 		/>

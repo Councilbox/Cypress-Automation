@@ -7,24 +7,28 @@ import { Paper } from 'material-ui';
 import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
-import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
+import { LoadingSection, BasicButton, TextInput } from '../../displayComponents';
+let background;
+import("../../assets/img/signup3.jpg").then(data => background = data);
 
-
-class ActiveUserPage extends React.Component {
+class SetUserPasswordPage extends React.Component {
 
     state = {
+        password: '',
+        confirmPassword: '',
         loading: true,
         success: false,
         error: ''
     }
 
     async componentDidMount(){
-        const response = await this.props.activeUser({
+       /*  const response = await this.props.activeUser({
             variables: {
                 token: this.props.match.params.token
             }
         });
 
+        console.log(response);
         if(!response.errors){
             this.setState({
                 loading: false,
@@ -36,19 +40,12 @@ class ActiveUserPage extends React.Component {
                 success: false,
                 error: response.errors[0].code
             });
-        }
+        } */
     }
 
     errorWrapper = () => {
         return(
-            <div
-                style={{
-                    color: getPrimary(),
-                    fontSize: '1.3em',
-                    fontWeight: '700',
-                    marginBottom: '1.3em'
-                }}
-            >
+            <div>
                 {this.state.error === 407?
                     this.props.translate.account_actived_yet
                 :
@@ -60,31 +57,38 @@ class ActiveUserPage extends React.Component {
 
     successMessage = () => {
         return (
-            <div
-                style={{
-                    color: getPrimary(),
-                    fontSize: '1.3em',
-                    fontWeight: '700',
-                    marginBottom: '1.3em'
-                }}
-            >
+            <div>
                 {this.props.translate.account_actived}
             </div>
         )
     }
 
     render(){
+        const { translate } = this.props;
+
         return(
-            <NotLoggedLayout
-				translate={this.props.translate}
-				helpIcon={true}
-				languageSelector={true}
+            <div
+				style={{
+					display: "flex",
+					flex: 1,
+					flexDirection: "column",
+					height: "100vh",
+					overflow: "auto",
+					padding: 0,
+					margin: 0
+				}}
 			>
+                <Header
+                    translate={this.props.translate}
+                    helpIcon
+                    languageSelector
+                />
                 <div
 					className="row"
 					style={{
 						width: "100%",
 						margin: 0,
+						backgroundImage: `url(${background})`,
 						fontSize: "0.85em",
 						height: "100%",
                         display: 'flex',
@@ -95,14 +99,32 @@ class ActiveUserPage extends React.Component {
                     <Paper
                         style={{
                             width: '600px',
-                            height: '60vh',
+                            height: '85vh',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexDirection: 'column'
                         }}
                     >
-                        {this.state.loading?
+                        <TextInput
+                            floatingText={translate.login_password}
+                            value={this.state.password}
+                            onChange={(event) => this.setState({
+                                password: event.target.value
+                            })}
+                        />
+                        <TextInput
+                            floatingText={translate.login_confirm_password}
+                            value={this.state.confirmPassword}
+                            onChange={(event) => this.setState({
+                                confirmPassword: event.target.value
+                            })}
+                        />
+                        <BasicButton
+                            text={translate.set_pwd}
+                            textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
+                        />
+                        {/* {this.state.loading?
                             <LoadingSection />
                         :
                             <React.Fragment>
@@ -119,24 +141,15 @@ class ActiveUserPage extends React.Component {
                                     onClick={() => bHistory.push('/')}
                                 />
                             </React.Fragment>
-                        }
+                        } */}
+                        FORMULARIO PEDIR PASSWORD
 
                     </Paper>
                 </div>
-            </NotLoggedLayout>
+            </div>
         )
     }
 }
 
-const activeUser = gql`
-    mutation confirmEmail($token: String!){
-        confirmEmail(token: $token){
-            success
-            message
-        }
-    }
-`;
 
-export default graphql(activeUser, {
-    name: 'activeUser'
-})(withTranslations()(withRouter(ActiveUserPage)));
+export default withTranslations()(withRouter(SetUserPasswordPage));

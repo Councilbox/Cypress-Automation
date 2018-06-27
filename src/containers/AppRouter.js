@@ -15,6 +15,7 @@ import Test from "../components/participant/test/Test";
 import ParticipantTokenContainer from "./ParticipantTokenContainer";
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import ActiveUserPage from '../components/notLogged/ActiveUserPage';
+import SetUserPasswordPage from '../components/notLogged/SetUserPasswordPage';
 import ParticipantContainer from "./ParticipantContainer";
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
@@ -74,8 +75,6 @@ class AppRouter extends React.Component {
 				style={{
 					width: "100%",
 					height: "100vh",
-					display: 'flex',
-					flexDirection: 'row',
 					position: "relative",
 					overflow: 'hidden'
 				}}
@@ -122,6 +121,7 @@ class AppRouter extends React.Component {
 					<Route path="/signup" component={SignUpPage} />
 					<Route path="/forgetPwd" component={ForgetPwdContainer} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
+					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 					<Route
 						exact
 						path="/changePwd/:language/:token"

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -10,12 +10,13 @@ import {
 } from "../../../displayComponents";
 import { MenuItem } from "material-ui/Menu";
 import { graphql } from "react-apollo";
-import { getPrimary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
 import { companyTypes } from "../../../queries/masters";
 import { withApollo } from "react-apollo/index";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 
-class SignUpEnterprise extends Component {
+class SignUpEnterprise extends React.Component {
+	
 	nextPage = async () => {
 		let isSuccess = await this.checkRequiredFields();
 		if (!isSuccess) {
@@ -27,6 +28,11 @@ class SignUpEnterprise extends Component {
 			type: event.target.value
 		});
 	};
+
+	previousPage = () => {
+		this.props.previousPage();
+	};
+
 
 	async checkRequiredFields() {
 		const { translate } = this.props;
@@ -145,7 +151,19 @@ class SignUpEnterprise extends Component {
 						/>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
-						{" "}
+						<BasicButton
+							text={translate.back}
+							color={getSecondary()}
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							onClick={this.previousPage}
+							fullWidth
+							icon={
+								<ButtonIcon color="white" type="arrow_back" />
+							}
+						/>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<BasicButton

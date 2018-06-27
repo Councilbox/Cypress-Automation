@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -14,7 +14,17 @@ import CouncilboxApi from "../../../api/CouncilboxApi";
 import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
 import { withApollo } from "react-apollo/index";
 
-class SignUpUser extends Component {
+class SignUpUser extends React.Component {
+	state = {
+		name: "",
+		surname: "",
+		phone: "",
+		email: "",
+		confirmPWD: "",
+		subscriptions: [],
+		languages: []
+	};
+
 	componentDidMount = async () => {
 		const languages = await CouncilboxApi.getLanguageList();
 		this.setState({
@@ -22,27 +32,12 @@ class SignUpUser extends Component {
 		});
 		console.log(languages);
 	};
+
 	nextPage = async () => {
 		if (!(await this.checkRequiredFields())) {
 			this.props.nextPage();
 		}
 	};
-	previousPage = () => {
-		this.props.previousPage();
-	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: "",
-			surname: "",
-			phone: "",
-			email: "",
-			confirmPWD: "",
-			subscriptions: [],
-			languages: []
-		};
-	}
 
 	async checkRequiredFields() {
 		let errors = {
@@ -50,6 +45,7 @@ class SignUpUser extends Component {
 			surname: "",
 			phone: "",
 			email: "",
+			repeatEmail: '',
 			pwd: "",
 			confirmPWD: ""
 		};
@@ -78,6 +74,10 @@ class SignUpUser extends Component {
 			errors.email = translate.field_required;
 		} else {
 			let existsCif = await this.checkEmailExists();
+			if (data.email !== data.repeatEmail && data.email) {
+				hasError = true;
+				errors.repeatEmail = translate.register_unmatch_emails;
+			}
 
 			if (!checkValidEmail(data.email) || existsCif) {
 				hasError = true;
@@ -85,11 +85,6 @@ class SignUpUser extends Component {
 					? translate.register_exists_email
 					: translate.email_not_valid;
 			}
-		}
-
-		if (data.email !== data.repeatEmail) {
-			hasError = true;
-			errors.repeatEmail = translate.register_unmatch_emails;
 		}
 
 		if (!data.pwd.length > 0) {
@@ -261,19 +256,7 @@ class SignUpUser extends Component {
 						/>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
-						<BasicButton
-							text={translate.back}
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontWeight: "700"
-							}}
-							onClick={this.previousPage}
-							fullWidth
-							icon={
-								<ButtonIcon color="white" type="arrow_back" />
-							}
-						/>
+						{" "}
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<BasicButton

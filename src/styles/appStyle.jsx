@@ -28,7 +28,7 @@ const appStyle = theme => ({
 		},
 		overflow: "hidden",
 		position: "relative",
-		float: "right",
+		marginLeft: '5em',
 		...transition,
 		height: "100vh",
 		width: "100%",

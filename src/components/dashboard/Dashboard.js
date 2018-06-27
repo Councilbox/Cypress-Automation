@@ -10,19 +10,9 @@ class Dashboard extends React.Component {
 	state = {
 		height: 10
 	}
-
-	/* static getDerivedStateFromProps(nextProps, prevState){
-		
-	}
-	componentWillReceiveProps(nextProps) {
-		if (!this.props.company.id && nextProps.company.id) {
-			this.props.companyActions.getRecount(nextProps.company.id);
-		}
-	} */
-
+	
 	render() {
 		const { translate, company, user } = this.props;
-
 		return (
 			<div
 				style={{
@@ -75,7 +65,6 @@ class Dashboard extends React.Component {
 							user={user}
 						/>
 					</div>
-					{/*<BottomSection />*/}
 				</div>
 			</div>
 		);

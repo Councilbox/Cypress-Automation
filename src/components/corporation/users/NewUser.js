@@ -35,9 +35,19 @@ class NewUser extends React.PureComponent {
             }
         });
 
+        console.log(response);
+
         if(!response.errors){
             if(response.data.createUserWithoutPassword.id){
                 bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
+            }
+        }else{
+            if(response.errors[0].originalError.original.constraint === "users_email_key"){
+                this.setState({
+                    errors: {
+                        email: this.props.translate.register_exists_email
+                    }
+                })
             }
         }
     }

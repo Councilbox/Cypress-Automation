@@ -34,7 +34,7 @@ const CardPageLayout = ({
 					verticalAlign: "middle",
 					padding: windowSize !== "xs" ? "0.5em" : "0.2em",
 					height: windowSize !== "xs" ? "2.6em" : "2em",
-					zIndex: "1000",
+					zIndex: "20",
 					marginLeft:
 						windowSize !== "xs"
 							? windowSize === "xl"
