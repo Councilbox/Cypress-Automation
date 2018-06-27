@@ -14,6 +14,7 @@ import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
+import { linkCompany } from "../../../queries/company";
 
 class LinkCompanyPage extends React.Component {
 	state = {
@@ -197,22 +198,7 @@ class LinkCompanyPage extends React.Component {
 	}
 }
 
-const linkCompany = gql`
-	mutation linkCompany(
-		$userId: Int!
-		$companyTin: String!
-		$linkKey: String!
-	) {
-		linkCompany(
-			userId: $userId
-			companyTin: $companyTin
-			linkKey: $linkKey
-		) {
-			success
-			message
-		}
-	}
-`;
+
 
 export default graphql(linkCompany, {
 	name: "linkCompany",
