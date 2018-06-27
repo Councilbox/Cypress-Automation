@@ -126,18 +126,14 @@ class Login extends React.PureComponent {
 							fontSize: "0.9em"
 						}}
 					>
-						{/*TODO*/}
-						<h4
+						<h6
 							style={{
 								fontWeigth: "300",
 								marginBottom: "1.2em",
-								fontSize: "2em"
+								fontSize: "1.7em"
 							}}
 						>
-							{translate.welcome_title}
-						</h4>
-						<h6>
-							¿Todavía no dispones de una cuenta en CouncilBox?
+							¿Todavía no dispones de una cuenta en CouncilBox?{/*TRADUCCION*/}
 						</h6>
 						{windowSize !== "xs" && (
 							<span
@@ -147,9 +143,10 @@ class Login extends React.PureComponent {
 									marginTop: "0.7em"
 								}}
 							>
+							{/*TRADUCCION*/}
 							Active su cuenta de usuario de forma rápida y sencilla. Registre su entidad y empiece a gestionar sus reuniones al momento.
 
-							También puede probarlo sin registrarse, realizando una reunión informal y descubriendo parte del potencial de Councilbox.- FALTA TRAD
+							También puede probarlo sin registrarse, realizando una reunión informal y descubriendo parte del potencial de Councilbox.
 							</span>
 						)}
 						<br />

@@ -7,9 +7,9 @@ import { Paper } from 'material-ui';
 import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
-import { LoadingSection, BasicButton, TextInput } from '../../displayComponents';
-let background;
-import("../../assets/img/signup3.jpg").then(data => background = data);
+import { LoadingSection, BasicButton, TextInput, NotLoggedLayout } from '../../displayComponents';
+//let background;
+//import("../../assets/img/signup3.jpg").then(data => background = data);
 
 class SetUserPasswordPage extends React.Component {
 
@@ -67,28 +67,16 @@ class SetUserPasswordPage extends React.Component {
         const { translate } = this.props;
 
         return(
-            <div
-				style={{
-					display: "flex",
-					flex: 1,
-					flexDirection: "column",
-					height: "100vh",
-					overflow: "auto",
-					padding: 0,
-					margin: 0
-				}}
-			>
-                <Header
-                    translate={this.props.translate}
-                    helpIcon
-                    languageSelector
-                />
+            <NotLoggedLayout
+                translate={translate}
+                helpIcon={true}
+                languageSelector={true}
+            >
                 <div
 					className="row"
 					style={{
 						width: "100%",
 						margin: 0,
-						backgroundImage: `url(${background})`,
 						fontSize: "0.85em",
 						height: "100%",
                         display: 'flex',
@@ -146,7 +134,7 @@ class SetUserPasswordPage extends React.Component {
 
                     </Paper>
                 </div>
-            </div>
+            </NotLoggedLayout>
         )
     }
 }

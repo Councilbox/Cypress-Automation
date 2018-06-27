@@ -19,7 +19,6 @@ const withSharedProps = () => WrappedComponent => {
 };
 
 const mapStateToProps = state => {
-	console.log(state);
 	return({
 		companies: state.companies,
 		translate: state.translate,

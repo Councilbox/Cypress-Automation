@@ -45,7 +45,7 @@ class Dashboard extends React.Component {
 								paddingTop: "2em"
 							}}
 						>
-							{`${translate.welcome} ${this.props.user.name}`}.
+							Le damos la bienvenida.
 						</div>
 						<div
 							style={{
@@ -56,8 +56,8 @@ class Dashboard extends React.Component {
 								paddingTop: "0.5em"
 							}}
 						>
-							Te recomendamos que comiences revisando la
-							configuración de tu empresa
+							Le recomendamos que comience revisando la
+							configuración de su empresa
 						</div>
 						<TopSectionBlocks
 							translate={translate}

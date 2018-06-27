@@ -2,8 +2,8 @@ import React from "react";
 import Header from "../components/Header";
 import Login from '../components/notLogged/Login';
 import SignUpPage from "../components/notLogged/signUp/SignUpPage";
-import ForgetPwdContainer from "./ForgetPwdContainer";
-import ChangePwdContainer from "./ChangePwdContainer";
+import ChangePwd from "../components/notLogged/ChangePwd";
+import ForgetPwd from "../components/notLogged/ForgetPwd";
 import Welcome from "../components/Welcome";
 import NotFound from "../components/NotFound";
 import { Route, Switch, withRouter } from "react-router-dom";
@@ -119,18 +119,13 @@ class AppRouter extends React.Component {
 				<Switch>
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
-					<Route path="/forgetPwd" component={ForgetPwdContainer} />
+					<Route path="/forgetPwd" component={ForgetPwd} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 					<Route
 						exact
 						path="/changePwd/:language/:token"
-						component={ChangePwdContainer}
-					/>
-					<Route
-						exact
-						path="/activeUser/token/:token"
-						component={ChangePwdContainer}
+						component={ChangePwd}
 					/>
 					<Route path="/welcome" component={Welcome} />
 

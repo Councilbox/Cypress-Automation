@@ -21,6 +21,7 @@ class CompanySelector extends React.Component {
 			<React.Fragment>
 				{this.props.companies.map((company, index) => (
 					<MenuItem
+						key={company.id}
 						selected={company.id === this.props.company.id}
 						onClick={() => this.changeCompany(index)}
 						style={{
