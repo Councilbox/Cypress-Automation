@@ -61,7 +61,7 @@ class DropDownMenu extends React.Component {
 					onClose={this.handleClose}
 				>
 					<div 
-						onClick={this.handleClose}
+						onClick={this.props.persistent? () => {} : this.handleClose}
 					>
 						{items}
 					</div>

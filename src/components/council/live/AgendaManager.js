@@ -54,7 +54,7 @@ class AgendaManager extends React.Component {
 				<Card
 					style={{
 						width: "100%",
-						height: "100%",
+						height: "calc(100vh - 3em)",
 						overflow: "hidden",
 						backgroundColor: "white"
 					}}

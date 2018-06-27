@@ -114,7 +114,6 @@ class CouncilLivePage extends React.Component {
 	render() {
 		const { council } = this.props.data;
 		const { translate } = this.props;
-		console.log(this.state.unreadComments);
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
@@ -139,8 +138,8 @@ class CouncilLivePage extends React.Component {
 				ref={ref => (this.div = ref)}
 			>
 				<LiveHeader
-					logo={company.logo}
-					companyName={company.businessName}
+					logo={!!company && company.logo}
+					companyName={!!company && company.businessName}
 					councilName={council.name}
 					translate={translate}
 				/>
@@ -345,14 +344,13 @@ class CouncilLivePage extends React.Component {
 									? 100 - this.state.videoWidth
 									: 100
 							}%`,
-							overflowY: "scroll",
 							height: "calc(100vh - 3em)"
 						}}
 					>
-						{this.state.participants ? (
+						{this.state.participants && !this.state.fullScreen ? (
 							<div
 								style={{
-									height: "calc(100vh - 3em)",
+									height: "calc(100vh - 6.5em)",
 									marginTop: "3em"
 								}}
 							>

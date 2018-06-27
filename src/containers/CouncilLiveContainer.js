@@ -14,12 +14,20 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	}
 
 	return (
-		<CouncilLivePage
-			companies={companies}
-			translate={translate}
-			companyID={match.params.company}
-			councilID={match.params.id}
-		/>
+		<div
+			style={{
+				width: '100vw',
+				height: '100vh',
+				overflow: 'hidden'
+			}}
+		>
+			<CouncilLivePage
+				companies={companies}
+				translate={translate}
+				companyID={match.params.company}
+				councilID={match.params.id}
+			/>
+		</div>
 	);
 };
 
