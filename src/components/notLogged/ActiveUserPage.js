@@ -97,6 +97,7 @@ class ActiveUserPage extends React.Component {
                             width: '600px',
                             height: '60vh',
                             display: 'flex',
+                            fontSize: '1.2em',
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexDirection: 'column'

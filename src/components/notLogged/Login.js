@@ -18,6 +18,7 @@ class Login extends React.PureComponent {
 	state = {
 		user: "",
 		password: "",
+		showPassword: false,
 		errors: {
 			user: "",
 			password: ""
@@ -249,11 +250,21 @@ class Login extends React.PureComponent {
 							}}
 						>
 							<TextInput
-								onKeyUp={this.handleKeyUp}
 								floatingText={translate.login_password}
-								type="password"
-								errorText={this.state.errors.password}
+								type={
+									this.state.showPassword
+										? "text"
+										: "password"
+								}
+								passwordToggler={() =>
+									this.setState({
+										showPassword: !this.state.showPassword
+									})
+								}
+								showPassword={this.state.showPassword}
+								onKeyUp={this.handleKeyUp}
 								value={this.state.password}
+								errorText={this.state.errors.password}
 								onChange={event =>
 									this.setState({
 										password: event.nativeEvent.target.value

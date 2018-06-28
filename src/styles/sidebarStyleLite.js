@@ -203,6 +203,13 @@ const sidebarStyle = theme => ({
 	},
 	sidebarWrapper: {
 		position: "relative",
+		[theme.breakpoints.down("sm")]: {
+			height: '3.5em',
+			display: 'flex',
+			width: '100%',
+			flexDirection: 'row',
+			alignItems: 'center'
+		},
 		height: "calc(100vh - 75px)",
 		overflow: "auto",
 		width: "5em",

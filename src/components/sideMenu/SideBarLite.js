@@ -14,6 +14,7 @@ import {
 	Tooltip
 } from "material-ui";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
+import withWindowSize from '../../HOCs/withWindowSize';
 import { getPrimary, darkGrey } from "../../styles/colors";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
@@ -81,13 +82,18 @@ class Sidebar extends React.Component {
 	};
 
 	links = () => (
-		<List className={this.props.classes.list}>
+		<div className={this.props.classes.list} 
+			style={{
+				display: 'flex',
+				flexDirection: this.props.windowSize === 'xs'? 'row' : 'column'
+			}}
+		>
 			<div
 				className={this.props.classes.logoLink}
 				style={{
 					display: "flex",
 					flexDirection: "row",
-					width: '100%',
+					width: this.props.windowSize === 'xs'? '2em' : '100%',
 					justifyContent: 'center'
 				}}
 			>
@@ -171,13 +177,13 @@ class Sidebar extends React.Component {
 					</NavLink>
 				);
 			})}
-		</List>
+		</div>
 	);
 
 	brand = () => (
 		<div
 			style={{
-				width: '100%',
+				width: this.props.windowSize === 'xs'? '3em' : '100%',
 				height: '45px',
 				display: 'flex',
 				marginTop: '15px',
@@ -206,7 +212,31 @@ class Sidebar extends React.Component {
 		const { classes, image } = this.props;
 		return (
 			<div style={{float: 'left', zIndex: '0'}}>
-				<div style={{backgroundColor: darkGrey, width: '5em', height: '100vh', zIndex: '1000', position: 'absolute', top: 0, left: 0}}>
+				<div style={
+					{backgroundColor: darkGrey,
+					height: '100vh',
+					zIndex: '1000',
+					position: 'absolute',
+					display: 'flex',
+					...(this.props.windowSize === 'xs'? 
+						{
+							flexDirection: 'row',
+							bottom: 0,
+							left: 0,
+							width: '100%',
+							alignItems: 'center',
+							height: '3.5em'
+						}
+					:
+						{
+							flexDirection:  'column',
+							top: 0,
+					 		left: 0,
+							width: '5em',
+						}
+					),
+					alignItems: 'center',
+				}}>
 					{this.brand()}
 					<div className={classes.sidebarWrapper}>
 						{this.links()}
@@ -224,4 +254,4 @@ class Sidebar extends React.Component {
 }
 
 
-export default withStyles(sidebarStyleLite)(withRouter(Sidebar));
+export default withStyles(sidebarStyleLite)(withRouter(withWindowSize(Sidebar)));

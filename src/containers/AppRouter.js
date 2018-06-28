@@ -11,6 +11,7 @@ import { connect } from "react-redux";
 import Sidebar from "../components/sideMenu/SideBar";
 import SidebarLite from "../components/sideMenu/SideBarLite";
 import { LoadingMainApp } from "../displayComponents";
+import withWindowSize from '../HOCs/withWindowSize';
 import Test from "../components/participant/test/Test";
 import ParticipantTokenContainer from "./ParticipantTokenContainer";
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
@@ -180,5 +181,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps)(withStyles(appStyle)(AppRouter))
+	connect(mapStateToProps)(withStyles(appStyle)(withWindowSize(AppRouter)))
 );

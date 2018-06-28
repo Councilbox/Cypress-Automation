@@ -28,15 +28,19 @@ class CompanyMenu extends React.Component {
 						alignItems: 'center',
 					}}
 				>
-					<div style={{marginBottom: '0.8em'}}>
+					<div style={{marginBottom: '0.8em', height: '5em'}}>
 						<CompaniesManagerButton
 							translate={this.props.translate}
 							company={this.props.company}
 						/>
 					</div>
-					<CompanySelector
-						{...this.props}
-					/>
+					<div 
+						style={{width: '100%', height: 'calc(100vh - 5em)', overflowY: 'scroll', overflowX: 'hidden', paddingRight: '2em'}}
+					>
+						<CompanySelector
+							{...this.props}
+						/>
+					</div>
 				</div>
 			</Drawer>
 		);

@@ -3,6 +3,7 @@ import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import { DropDownMenu } from "../../displayComponents";
 import { MenuItem } from "material-ui";
+import FontAwesome from 'react-fontawesome';
 
 class CompanySelector extends React.Component {
 	tate = {
@@ -34,15 +35,33 @@ class CompanySelector extends React.Component {
 							justifyContent: 'space-between'
 						}}
 					>
-						<img
-							src={company.logo}
-							alt="company-logo"
+						<div
 							style={{
-								maxHeight: '2em',
-								width: 'auto',
-								marginLeft: '1.2em'
+								width: '4em',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
 							}}
-						/>
+						>
+							{!!company.logo?
+								<img
+									src={company.logo}
+									alt="company-logo"
+									style={{
+										maxHeight: '2em',
+										width: 'auto',
+									}}
+								/>
+							:
+								<FontAwesome
+									name={'building-o'}
+									style={{
+										fontSize: '2em',
+										color: 'lightgrey',
+									}}
+								/>
+							}
+						</div>
 						<span
 							style={{
 								marginRight: '0.8em'
