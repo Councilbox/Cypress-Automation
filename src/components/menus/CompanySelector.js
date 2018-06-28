@@ -57,7 +57,7 @@ class CompanySelector extends React.Component {
 									name={'building-o'}
 									style={{
 										fontSize: '2em',
-										color: 'lightgrey',
+										color: 'darkgrey',
 									}}
 								/>
 							}

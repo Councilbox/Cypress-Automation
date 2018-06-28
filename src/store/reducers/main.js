@@ -8,11 +8,24 @@ export default function mainReducer(state = initialState.main, action) {
 				isLogged: true
 			};
 
+		case "COMPANIES":
+			return {
+				...state,
+				noCompanies: false
+			}
+
+		case "NO_COMPANIES":
+			return {
+				...state,
+				noCompanies: true
+			};
+
 		case "LOGOUT":
 			return {
 				...state,
 				isLogged: false,
-				loading: false
+				loading: false,
+				noCompanies: false
 			};
 
 		case "LOADING_FINISHED":

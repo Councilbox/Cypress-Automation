@@ -66,6 +66,7 @@ class Sidebar extends React.Component {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			this.setState({
 				location: this.props.location.pathname,
+				companyMenu: false,
 				selectedRoute: this.findActiveRoute(this.props.location.pathname)
 			});
 		}
@@ -94,10 +95,19 @@ class Sidebar extends React.Component {
 					display: "flex",
 					flexDirection: "row",
 					width: this.props.windowSize === 'xs'? '2em' : '100%',
-					justifyContent: 'center'
+					justifyContent: 'center',
+					alignItems: 'center'
 				}}
 			>
-				<div className={this.props.classes.logoImage}>
+				<div
+					style={{
+						width: '100%',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						padding: '0.5em'
+					}}
+				>
 					<Tooltip title={this.props.company.businessName} placement="top-end">
 					{!!this.props.company.logo ? (
 						<img
@@ -108,7 +118,6 @@ class Sidebar extends React.Component {
 					) : (
 						<FontAwesome
 							name={"building-o"}
-							className={this.props.classes.img}
 						/>
 					)}
 					</Tooltip>
@@ -198,7 +207,7 @@ class Sidebar extends React.Component {
 				<Icon
 					style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
 				>
-					storage
+					apps
 				</Icon>
 			</div>
 		</div>

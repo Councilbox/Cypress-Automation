@@ -62,6 +62,12 @@ class SignUpPay extends React.Component {
 		this.props.previousPage();
 	};
 
+	jumpStep = () => {
+		if (!this.checkTerms()) {
+			this.props.send();
+		}
+	}
+
 	endForm = async () => {
 		if (!this.checkRequiredFields()) {
 			this.props.send();
@@ -115,6 +121,23 @@ class SignUpPay extends React.Component {
 		if (!this.state.termsCheck) {
 			hasError = true;
 			errors.termsCheck = translate.acept_terms;
+		}
+
+		this.props.updateErrors(errors);
+
+		return hasError;
+	}
+
+	checkTerms() {
+		let errors = {
+			termsCheck: ""
+		};
+
+		let hasError = false;
+
+		if (!this.state.termsCheck) {
+			hasError = true;
+			errors.termsCheck = this.props.translate.acept_terms;
 		}
 
 		this.props.updateErrors(errors);
@@ -326,7 +349,7 @@ class SignUpPay extends React.Component {
 							</div>
 						)}
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text={translate.back}
 							color={secondary}
@@ -341,9 +364,24 @@ class SignUpPay extends React.Component {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
-							text={translate.continue}
+							text="Omitir y enviar" //TRADUCCION
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							onClick={this.jumpStep}
+							fullWidth
+							icon={
+								<ButtonIcon color="white" type="eject" />
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={4} lg={4}>
+						<BasicButton
+							text={translate.send}
 							color={primary}
 							textStyle={{
 								color: "white",

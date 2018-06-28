@@ -16,13 +16,14 @@ import { withApollo } from "react-apollo/index";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 
 class SignUpEnterprise extends React.Component {
-	
+
 	nextPage = async () => {
 		let isSuccess = await this.checkRequiredFields();
 		if (!isSuccess) {
 			this.props.nextPage();
 		}
 	};
+
 	handleTypeChange = event => {
 		this.props.updateState({
 			type: event.target.value
@@ -32,6 +33,10 @@ class SignUpEnterprise extends React.Component {
 	previousPage = () => {
 		this.props.previousPage();
 	};
+
+	jumpStep = () => {
+		this.props.nextPage();
+	}
 
 
 	async checkRequiredFields() {
@@ -99,7 +104,7 @@ class SignUpEnterprise extends React.Component {
 						color: primary
 					}}
 				>
-					{translate.company_data}
+					Datos de entidad {/*TRADUCCION*/}
 				</span>
 				<Grid style={{ marginTop: "2em" }}>
 					<GridItem xs={12} md={12} lg={12}>
@@ -118,7 +123,7 @@ class SignUpEnterprise extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<SelectInput
-							floatingText={translate.company_type}
+							floatingText="Tipo de entidad"//TRADUCCION
 							value={this.props.formData.type}
 							onChange={this.handleTypeChange}
 							errorText={this.props.errors.type}
@@ -150,7 +155,7 @@ class SignUpEnterprise extends React.Component {
 							required
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text={translate.back}
 							color={getSecondary()}
@@ -165,7 +170,22 @@ class SignUpEnterprise extends React.Component {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4}>
+						<BasicButton
+							text="Omitir este paso"
+							color={getSecondary()}
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							onClick={this.jumpStep}
+							fullWidth
+							icon={
+								<ButtonIcon color="white" type="redo" />
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text={translate.continue}
 							color={primary}

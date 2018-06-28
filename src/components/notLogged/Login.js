@@ -134,7 +134,7 @@ class Login extends React.PureComponent {
 								fontSize: "1.7em"
 							}}
 						>
-							¿Todavía no dispones de una cuenta en CouncilBox?{/*TRADUCCION*/}
+							¿Todavía no dispone de una cuenta en Councilbox?{/*TRADUCCION*/}
 						</h6>
 						{windowSize !== "xs" && (
 							<span
@@ -165,7 +165,7 @@ class Login extends React.PureComponent {
 							>
 								<Link to="/meeting/new">
 									<BasicButton
-										text={translate.dashboard_new_meeting}
+										text="Conferencia de prueba"//TRADUCCION
 										color={'transparent'}
 										fullWidth
 										buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}

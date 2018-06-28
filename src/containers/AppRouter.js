@@ -33,7 +33,12 @@ const LoadCorporationTree = Loadable({
 const LoadMainTree = Loadable({
 	loader: () => import('./MainRouter'),
 	loading: LoadingMainApp
-})
+});
+
+const LoadNoCompanyTree = Loadable({
+	loader: () => import('../components/noCompany/NoCompanyRouter'),
+	loading: LoadingMainApp
+});
 
 
 class AppRouter extends React.Component {
@@ -57,8 +62,18 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
+		if(this.props.main.isLogged && this.props.main.noCompanies){
+			return (
+				<LoadNoCompanyTree
+					translate={this.props.translate}
+					user={this.props.user}
+					location={this.props.location}
+				/>
+			)
+		};
+
 		if (this.props.main.isLogged && !this.props.companies.list.length > 0 && !this.props.companies.selected) {
-			return <LoadingMainApp />;
+			return <LoadingMainApp />
 		}
 
 		if(this.props.user.type === 'corporation'){

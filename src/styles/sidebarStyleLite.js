@@ -69,7 +69,6 @@ const sidebarStyle = theme => ({
 	logoLink: {
 		...defaultFont,
 		textTransform: "uppercase",
-		textAlign: "left",
 		textDecoration: "none",
 		backgroundColor: "transparent",
 		"&,&:hover": {
@@ -78,10 +77,7 @@ const sidebarStyle = theme => ({
 	},
 	logoImage: {
 		width: "30px",
-		margin: "0.2em",
-		maxHeight: "30px",
-		marginLeft: "10px",
-		marginRight: "15px"
+		maxHeight: "30px"
 	},
 	img: {
 		width: "35px",

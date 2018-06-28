@@ -99,6 +99,25 @@ class SignUpPage extends React.PureComponent {
 		}
 	};
 
+	createUser = async () => {
+		const response = await this.props.mutate({
+			variables: {
+				data: this.state.data
+			}
+		});
+		if (response.errors) {
+			switch (response.errors[0].message) {
+				default:
+					return;
+			}
+		}
+		if (response.data.userAndCompanySignUp.success) {
+			this.setState({
+				success: true
+			});
+		}
+	}
+
 	updateState = object => {
 		this.setState({
 			...this.state,
@@ -147,7 +166,7 @@ class SignUpPage extends React.PureComponent {
 						}}
 					>
 						<h3 style={{ color: "white" }}>
-							{translate.registration_of_society}
+							Alta de usuario {/*TRADUCCION*/}
 						</h3>
 					</div>
 					{!this.state.success ? (
@@ -213,9 +232,6 @@ class SignUpPage extends React.PureComponent {
 												{page === 1 && (
 													<SignUpUser
 														nextPage={this.nextPage}
-														previousPage={
-															this.previousPage
-														}
 														formData={this.state.data}
 														errors={this.state.errors}
 														updateState={
@@ -235,6 +251,9 @@ class SignUpPage extends React.PureComponent {
 														nextPage={this.nextPage}
 														translate={
 															this.props.translate
+														}
+														previousPage={
+															this.previousPage
 														}
 														formData={this.state.data}
 														errors={this.state.errors}

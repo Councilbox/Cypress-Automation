@@ -17,7 +17,7 @@ class CompaniesManagerButton extends React.Component {
                 }}
                 Component={
                     () => <BasicButton
-                        text={this.props.translate.link_companies}
+                        text="Gestionar entidades"//TRADUCCION
                         fullWidth={true}
                         color={getSecondary()}
                         textStyle={{
@@ -34,12 +34,12 @@ class CompaniesManagerButton extends React.Component {
                     <React.Fragment>
                         <MenuItem>
                             <Link to={`/company/${this.props.company.id}/create`}>
-                                {this.props.translate.companies_add}
+                                Añadir entidad{/*TRADUCCION*/}
                             </Link>
                         </MenuItem>
                         <MenuItem>
                             <Link to={`/company/${this.props.company.id}/link`}>
-                                {this.props.translate.companies_link}
+                                Vincular entidad{/*TRADUCCION*/}
                             </Link>
                         </MenuItem>
                     </React.Fragment>
