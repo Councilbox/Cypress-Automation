@@ -24,13 +24,19 @@ export const getCompanies = userId => {
 				}
 			);
 			console.log(selectedCompany);
-			dispatch({
-				type: "COMPANIES",
-				value: response.data.userCompanies.map(item => {
-					return { ...item.company };
-				}),
-				selected: selectedCompany !== -1 ? selectedCompany : 0
-			});
+			if(response.data.userCompanies.length === 0){
+				dispatch({
+					type: 'NO_COMPANIES'
+				});
+			}else{
+				dispatch({
+					type: "COMPANIES",
+					value: response.data.userCompanies.map(item => {
+						return { ...item.company };
+					}),
+					selected: selectedCompany !== -1 ? selectedCompany : 0
+				});
+			}
 			dispatch(loadingFinished());
 		}
 	};

@@ -2,8 +2,8 @@ import React from "react";
 import Header from "../components/Header";
 import Login from '../components/notLogged/Login';
 import SignUpPage from "../components/notLogged/signUp/SignUpPage";
-import ForgetPwdContainer from "./ForgetPwdContainer";
-import ChangePwdContainer from "./ChangePwdContainer";
+import ChangePwd from "../components/notLogged/ChangePwd";
+import ForgetPwd from "../components/notLogged/ForgetPwd";
 import Welcome from "../components/Welcome";
 import NotFound from "../components/NotFound";
 import { Route, Switch, withRouter } from "react-router-dom";
@@ -11,10 +11,12 @@ import { connect } from "react-redux";
 import Sidebar from "../components/sideMenu/SideBar";
 import SidebarLite from "../components/sideMenu/SideBarLite";
 import { LoadingMainApp } from "../displayComponents";
+import withWindowSize from '../HOCs/withWindowSize';
 import Test from "../components/participant/test/Test";
 import ParticipantTokenContainer from "./ParticipantTokenContainer";
 import ParticipantPage from '../components/participantScreen/ParticipantPage';
 import ActiveUserPage from '../components/notLogged/ActiveUserPage';
+import SetUserPasswordPage from '../components/notLogged/SetUserPasswordPage';
 import ParticipantContainer from "./ParticipantContainer";
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
@@ -31,7 +33,12 @@ const LoadCorporationTree = Loadable({
 const LoadMainTree = Loadable({
 	loader: () => import('./MainRouter'),
 	loading: LoadingMainApp
-})
+});
+
+const LoadNoCompanyTree = Loadable({
+	loader: () => import('../components/noCompany/NoCompanyRouter'),
+	loading: LoadingMainApp
+});
 
 
 class AppRouter extends React.Component {
@@ -55,8 +62,18 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
+		if(this.props.main.isLogged && this.props.main.noCompanies){
+			return (
+				<LoadNoCompanyTree
+					translate={this.props.translate}
+					user={this.props.user}
+					location={this.props.location}
+				/>
+			)
+		};
+
 		if (this.props.main.isLogged && !this.props.companies.list.length > 0 && !this.props.companies.selected) {
-			return <LoadingMainApp />;
+			return <LoadingMainApp />
 		}
 
 		if(this.props.user.type === 'corporation'){
@@ -74,8 +91,6 @@ class AppRouter extends React.Component {
 				style={{
 					width: "100%",
 					height: "100vh",
-					display: 'flex',
-					flexDirection: 'row',
 					position: "relative",
 					overflow: 'hidden'
 				}}
@@ -120,17 +135,13 @@ class AppRouter extends React.Component {
 				<Switch>
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
-					<Route path="/forgetPwd" component={ForgetPwdContainer} />
+					<Route path="/forgetPwd" component={ForgetPwd} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
+					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 					<Route
 						exact
 						path="/changePwd/:language/:token"
-						component={ChangePwdContainer}
-					/>
-					<Route
-						exact
-						path="/activeUser/token/:token"
-						component={ChangePwdContainer}
+						component={ChangePwd}
 					/>
 					<Route path="/welcome" component={Welcome} />
 
@@ -185,5 +196,5 @@ const mapStateToProps = state => ({
 });
 
 export default withRouter(
-	connect(mapStateToProps)(withStyles(appStyle)(AppRouter))
+	connect(mapStateToProps)(withStyles(appStyle)(withWindowSize(AppRouter)))
 );

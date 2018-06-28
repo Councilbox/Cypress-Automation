@@ -7,16 +7,15 @@ import { Paper } from 'material-ui';
 import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
-import { LoadingSection, BasicButton } from '../../displayComponents';
-let background;
-import("../../assets/img/signup3.jpg").then(data => background = data);
+import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
+
 
 class ActiveUserPage extends React.Component {
 
     state = {
         loading: true,
         success: false,
-        error: 407
+        error: ''
     }
 
     async componentDidMount(){
@@ -26,7 +25,6 @@ class ActiveUserPage extends React.Component {
             }
         });
 
-        console.log(response);
         if(!response.errors){
             this.setState({
                 loading: false,
@@ -43,7 +41,14 @@ class ActiveUserPage extends React.Component {
 
     errorWrapper = () => {
         return(
-            <div>
+            <div
+                style={{
+                    color: getPrimary(),
+                    fontSize: '1.3em',
+                    fontWeight: '700',
+                    marginBottom: '1.3em'
+                }}
+            >
                 {this.state.error === 407?
                     this.props.translate.account_actived_yet
                 :
@@ -55,7 +60,14 @@ class ActiveUserPage extends React.Component {
 
     successMessage = () => {
         return (
-            <div>
+            <div
+                style={{
+                    color: getPrimary(),
+                    fontSize: '1.3em',
+                    fontWeight: '700',
+                    marginBottom: '1.3em'
+                }}
+            >
                 {this.props.translate.account_actived}
             </div>
         )
@@ -63,28 +75,16 @@ class ActiveUserPage extends React.Component {
 
     render(){
         return(
-            <div
-				style={{
-					display: "flex",
-					flex: 1,
-					flexDirection: "column",
-					height: "100vh",
-					overflow: "auto",
-					padding: 0,
-					margin: 0
-				}}
+            <NotLoggedLayout
+				translate={this.props.translate}
+				helpIcon={true}
+				languageSelector={true}
 			>
-                <Header
-                    translate={this.props.translate}
-                    helpIcon
-                    languageSelector
-                />
                 <div
 					className="row"
 					style={{
 						width: "100%",
 						margin: 0,
-						backgroundImage: `url(${background})`,
 						fontSize: "0.85em",
 						height: "100%",
                         display: 'flex',
@@ -95,8 +95,9 @@ class ActiveUserPage extends React.Component {
                     <Paper
                         style={{
                             width: '600px',
-                            height: '85vh',
+                            height: '60vh',
                             display: 'flex',
+                            fontSize: '1.2em',
                             alignItems: 'center',
                             justifyContent: 'center',
                             flexDirection: 'column'
@@ -123,7 +124,7 @@ class ActiveUserPage extends React.Component {
 
                     </Paper>
                 </div>
-            </div>
+            </NotLoggedLayout>
         )
     }
 }

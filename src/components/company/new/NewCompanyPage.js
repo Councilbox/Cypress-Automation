@@ -51,7 +51,7 @@ class NewCompanyPage extends React.PureComponent {
 		}
 		return null;
 	}
-	
+
 	cbxCountryChange = event => {
 		this.updateState({ country: event.target.value });
 		const selectedCountry = this.props.info.countries.find(
@@ -129,8 +129,6 @@ class NewCompanyPage extends React.PureComponent {
 				userId: this.props.user.id
 			}
 		});
-
-		console.log(response);
 
 		if (!response.errors) {
 			if (response.data.createCompany.id) {

@@ -28,6 +28,7 @@ export { default as LoadingSection } from "./LoadingSection";
 export { default as MajorityInput } from "./MajorityInput";
 export { default as MenuItem } from "./MenuItem";
 export { default as MobileStepper } from "./MobileStepper";
+export { default as NotLoggedLayout } from './NotLoggedLayout';
 export { default as OverFlowText } from './OverFlowText';
 export { default as PaginationFooter } from "./PaginationFooter";
 export { default as ParticipantDisplay } from "./ParticipantDisplay";

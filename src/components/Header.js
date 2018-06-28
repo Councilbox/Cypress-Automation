@@ -90,7 +90,7 @@ class Header extends React.Component {
 					</Link>
 				</div>
 
-				{this.props.commandLine &&
+				{this.props.commandLine && false &&
 					<CommandLine />
 				}
 

@@ -4,8 +4,9 @@ import SignUpUser from "./SignUpUser";
 import SignUpPay from "./SignUpPay";
 import { getPrimary } from "../../../styles/colors";
 import { Card, CardContent } from "material-ui";
-import image from "../../../assets/img/signup3.jpg";
 import SignUpStepper from "./SignUpStepper";
+import { BasicButton, NotLoggedLayout } from '../../../displayComponents';
+import { bHistory } from '../../../containers/App';
 import withWindowSize from "../../../HOCs/withWindowSize";
 import Scrollbar from "react-perfect-scrollbar";
 import { userAndCompanySignUp } from "../../../queries/userAndCompanySignUp";
@@ -38,6 +39,19 @@ class SignUpPage extends React.PureComponent {
 		},
 		errors: {}
 	};
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!prevState.language && !!nextProps.translate.selectedLanguage){
+			return {
+				data: {
+					...prevState.data,
+					language: nextProps.translate.selectedLanguage
+				}
+			}
+		}
+
+		return null;
+	}
 
 	nextPage = () => {
 		const index = this.state.page + 1;
@@ -85,6 +99,25 @@ class SignUpPage extends React.PureComponent {
 		}
 	};
 
+	createUser = async () => {
+		const response = await this.props.mutate({
+			variables: {
+				data: this.state.data
+			}
+		});
+		if (response.errors) {
+			switch (response.errors[0].message) {
+				default:
+					return;
+			}
+		}
+		if (response.data.userAndCompanySignUp.success) {
+			this.setState({
+				success: true
+			});
+		}
+	}
+
 	updateState = object => {
 		this.setState({
 			...this.state,
@@ -111,32 +144,29 @@ class SignUpPage extends React.PureComponent {
 		const primary = getPrimary();
 
 		return (
-			<div
-				style={{
-					height: "100vh",
-					width: "100%"
-				}}
+			<NotLoggedLayout
+				translate={translate}
+				helpIcon={true}
 			>
-				<Header translate={this.props.translate} helpIcon />
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "column",
-						height: "calc(100vh - 3em)",
-						backgroundImage: `url(${image})`,
-						overflow: "auto",
-						alignItems: "center"
+						width: '100%',
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center'
 					}}
 				>
 					<div
 						style={{
 							height: "13%",
 							display: "flex",
-							alignItems: "center"
+							alignItems: "center",
+							justifyContent: 'center'
 						}}
 					>
 						<h3 style={{ color: "white" }}>
-							{translate.registration_of_society}
+							Alta de usuario {/*TRADUCCION*/}
 						</h3>
 					</div>
 					{!this.state.success ? (
@@ -200,11 +230,8 @@ class SignUpPage extends React.PureComponent {
 										<Scrollbar>
 											<div style={{ paddingBottom: "6.5em" }}>
 												{page === 1 && (
-													<SignUpEnterprise
+													<SignUpUser
 														nextPage={this.nextPage}
-														translate={
-															this.props.translate
-														}
 														formData={this.state.data}
 														errors={this.state.errors}
 														updateState={
@@ -213,12 +240,18 @@ class SignUpPage extends React.PureComponent {
 														updateErrors={
 															this.updateErrors
 														}
+														translate={
+															this.props.translate
+														}
 													/>
 												)}
 
 												{page === 2 && (
-													<SignUpUser
+													<SignUpEnterprise
 														nextPage={this.nextPage}
+														translate={
+															this.props.translate
+														}
 														previousPage={
 															this.previousPage
 														}
@@ -229,9 +262,6 @@ class SignUpPage extends React.PureComponent {
 														}
 														updateErrors={
 															this.updateErrors
-														}
-														translate={
-															this.props.translate
 														}
 													/>
 												)}
@@ -274,16 +304,24 @@ class SignUpPage extends React.PureComponent {
 									marginBottom: 0,
 									paddingBottom: 0,
 									fontWeight: "600",
-									fontSize: "1.5em",
+									fontSize: "1.2em",
 									color: primary
 								}}
 							>
 								{translate.register_successfully}
+								<div style={{marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+									<BasicButton
+										text={translate.back}
+										textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
+										onClick={() => bHistory.push('/')}
+										color={primary}
+									/>
+								</div>
 							</div>
 						</Card>
 					)}
 				</div>
-			</div>
+			</NotLoggedLayout>
 		);
 	}
 }

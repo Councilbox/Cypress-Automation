@@ -7,10 +7,14 @@ import { getPrimary } from '../../../styles/colors';
 import CompanyLinksManager from './CompanyLinksManager';
 import gql from 'graphql-tag';
 import { bHistory } from '../../../containers/App';
+import { checkValidEmail } from '../../../utils/validation';
 
 class NewUser extends React.PureComponent {
     state = {
         data: {
+            email: '',
+            surname: '',
+            name: '',
             preferredLanguage: 'es',
             roles: 'secretary'
         },
@@ -28,18 +32,67 @@ class NewUser extends React.PureComponent {
     }
 
     createUserWithoutPassword = async () => {
-        const response = await this.props.createUserWithoutPassword({
-            variables: {
-                user: this.state.data,
-                companies: this.state.companies.map(company => company.id)
-            }
-        });
-
-        if(!response.errors){
-            if(response.data.createUserWithoutPassword.id){
-                bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
+        if(!this.checkRequiredFields()){
+            const response = await this.props.createUserWithoutPassword({
+                variables: {
+                    user: this.state.data,
+                    companies: this.state.companies.map(company => company.id)
+                }
+            });
+    
+            if(!response.errors){
+                if(response.data.createUserWithoutPassword.id){
+                    bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
+                }
+            }else{
+                if(response.errors[0].originalError.original.constraint === "users_email_key"){
+                    this.setState({
+                        errors: {
+                            email: this.props.translate.register_exists_email
+                        }
+                    })
+                }
             }
         }
+    }
+
+    checkRequiredFields() {
+        let errors = {
+            email: '',
+            name: '',
+            surname: '',
+            phone: ''
+        }
+
+        let hasError = false;
+        const { data } = this.state;
+
+        if(data.email.trim().length === 0){
+            hasError = true;
+            errors.email = this.props.translate.required_field;
+        }else{
+            if(!checkValidEmail(data.email)){
+                hasError = true;
+                errors.email = this.props.translate.tooltip_invalid_email_address;
+            }
+        }
+
+        if(data.name.trim().length === 0){
+            hasError = true;
+            errors.name = this.props.translate.required_field;
+        }
+
+        if(data.surname.trim().length === 0){
+            hasError = true;
+            errors.surname = this.props.translate.required_field;
+        }
+
+        this.setState({
+            errors
+        });
+
+        return hasError;
+
     }
 
     render() {

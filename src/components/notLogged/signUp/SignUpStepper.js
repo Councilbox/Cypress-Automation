@@ -9,18 +9,18 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 					style={{ cursor: active + 1 > 1 ? "pointer" : "inherited" }}
 					onClick={() => goToPage(1)}
 				>
-					<StepLabel>{translate.company_data}</StepLabel>
+					<StepLabel>{translate.user_data}</StepLabel>
 					<StepContent> </StepContent>
 				</Step>
 				<Step
 					style={{ cursor: active + 1 > 2 ? "pointer" : "inherited" }}
 					onClick={() => goToPage(2)}
 				>
-					<StepLabel>{translate.user_data}</StepLabel>
+					<StepLabel>{`Datos de entidad (opcional)`}</StepLabel>{/*TRADUCCION */}
 					<StepContent> </StepContent>
 				</Step>
 				<Step onClick={() => goToPage(3)}>
-					<StepLabel>{translate.billing_information}</StepLabel>
+					<StepLabel>{`${translate.billing_information} (opcional)`}</StepLabel>{/*TRADUCCION */}
 					<StepContent> </StepContent>
 				</Step>
 			</Stepper>

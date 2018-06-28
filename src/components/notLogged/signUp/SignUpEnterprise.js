@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -10,23 +10,34 @@ import {
 } from "../../../displayComponents";
 import { MenuItem } from "material-ui/Menu";
 import { graphql } from "react-apollo";
-import { getPrimary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
 import { companyTypes } from "../../../queries/masters";
 import { withApollo } from "react-apollo/index";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 
-class SignUpEnterprise extends Component {
+class SignUpEnterprise extends React.Component {
+
 	nextPage = async () => {
 		let isSuccess = await this.checkRequiredFields();
 		if (!isSuccess) {
 			this.props.nextPage();
 		}
 	};
+
 	handleTypeChange = event => {
 		this.props.updateState({
 			type: event.target.value
 		});
 	};
+
+	previousPage = () => {
+		this.props.previousPage();
+	};
+
+	jumpStep = () => {
+		this.props.nextPage();
+	}
+
 
 	async checkRequiredFields() {
 		const { translate } = this.props;
@@ -93,7 +104,7 @@ class SignUpEnterprise extends Component {
 						color: primary
 					}}
 				>
-					{translate.company_data}
+					Datos de entidad {/*TRADUCCION*/}
 				</span>
 				<Grid style={{ marginTop: "2em" }}>
 					<GridItem xs={12} md={12} lg={12}>
@@ -112,7 +123,7 @@ class SignUpEnterprise extends Component {
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<SelectInput
-							floatingText={translate.company_type}
+							floatingText="Tipo de entidad"//TRADUCCION
 							value={this.props.formData.type}
 							onChange={this.handleTypeChange}
 							errorText={this.props.errors.type}
@@ -144,10 +155,37 @@ class SignUpEnterprise extends Component {
 							required
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						{" "}
+					<GridItem xs={12} md={4} lg={4}>
+						<BasicButton
+							text={translate.back}
+							color={getSecondary()}
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							onClick={this.previousPage}
+							fullWidth
+							icon={
+								<ButtonIcon color="white" type="arrow_back" />
+							}
+						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
+					<GridItem xs={12} md={4} lg={4}>
+						<BasicButton
+							text="Omitir este paso"
+							color={getSecondary()}
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							onClick={this.jumpStep}
+							fullWidth
+							icon={
+								<ButtonIcon color="white" type="redo" />
+							}
+						/>
+					</GridItem>
+					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text={translate.continue}
 							color={primary}

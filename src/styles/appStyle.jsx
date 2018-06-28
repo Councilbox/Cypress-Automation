@@ -23,15 +23,19 @@ const appStyle = theme => ({
 		overflowScrolling: "touch"
 	},
 	mainPanelLite: {
+		width: "100%",
 		[theme.breakpoints.up("md")]: {
 			width: `calc(100% - 5em)`
 		},
+		[theme.breakpoints.down("md")]: {
+			width: '100%',
+			marginLeft: 0
+		},
 		overflow: "hidden",
 		position: "relative",
-		float: "right",
+		marginLeft: '5em',
 		...transition,
 		height: "100vh",
-		width: "100%",
 		overflowScrolling: "touch"
 	},
 	content: {

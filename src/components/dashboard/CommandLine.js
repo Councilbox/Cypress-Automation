@@ -59,7 +59,7 @@ class CommandLine extends React.Component {
 
     render(){
         const inputProps = {
-            placeholder: 'INTRODUCE UNA ACCIÓN O COMANDO',
+            placeholder: 'Introduce un comando o acción', //TRADUCCION
             value: this.state.command,
             onChange: this.updateCommand
         };

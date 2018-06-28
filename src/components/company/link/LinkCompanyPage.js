@@ -66,7 +66,6 @@ class LinkCompanyPage extends React.Component {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.linkCompany({
 				variables: {
-					userId: this.props.user.id,
 					companyTin: this.state.data.cif,
 					linkKey: this.state.data.linkKey
 				}
@@ -92,7 +91,7 @@ class LinkCompanyPage extends React.Component {
 					case "Wrong linkKey":
 						this.setState({
 							errors: {
-								linkKey: "CLAVE MAESTRA INCORRECTA"
+								linkKey: "CLAVE MAESTRA INCORRECTA"//TRADUCCION
 							}
 						});
 						break;
@@ -100,14 +99,14 @@ class LinkCompanyPage extends React.Component {
 						this.setState({
 							errors: {
 								cif:
-									"ESTA COMPAÑIA YA ESTÁ VINCULADA A TU CUENTA"
+									"ESTA COMPAÑIA YA ESTÁ VINCULADA A TU CUENTA"//TRADUCCION
 							}
 						});
 						break;
-					default: 
+					default:
 						this.setState({
 							errors: {
-								linkKey: "CLAVE MAESTRA INCORRECTA"
+								linkKey: "CLAVE MAESTRA INCORRECTA"//TRADUCCION
 							}
 						});
 				}

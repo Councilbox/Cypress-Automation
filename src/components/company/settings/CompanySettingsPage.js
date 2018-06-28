@@ -91,7 +91,6 @@ class CompanySettingsPage extends React.Component {
 				countryId: countryID
 			}
 		});
-		
 
 		if (!response.errors) {
 			this.setState({

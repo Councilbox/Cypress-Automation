@@ -22,7 +22,7 @@ const sidebarStyle = theme => ({
 		top: "0",
 		bottom: "0",
 		left: "0",
-		zIndex: "1",
+		zIndex: "1000",
 		overflow: "hidden",
 		...boxShadow,
 		width: drawerWidth,
@@ -53,8 +53,8 @@ const sidebarStyle = theme => ({
 	},
 	logo: {
 		position: "relative",
-		padding: "15px 15px",
-		zIndex: "4",
+		padding: "10px 10px",
+		zIndex: "1000",
 		"&:after": {
 			content: '""',
 			position: "absolute",
@@ -62,19 +62,13 @@ const sidebarStyle = theme => ({
 
 			height: "1px",
 			right: "15px",
-			width: "calc(100% - 30px)",
+			width: "calc(100% - 20px)",
 			backgroundColor: "rgba(180, 180, 180, 0.3)"
 		}
 	},
 	logoLink: {
 		...defaultFont,
 		textTransform: "uppercase",
-		padding: "5px 0",
-		display: "block",
-		fontSize: "18px",
-		textAlign: "left",
-		fontWeight: "400",
-		lineHeight: "30px",
 		textDecoration: "none",
 		backgroundColor: "transparent",
 		"&,&:hover": {
@@ -83,10 +77,7 @@ const sidebarStyle = theme => ({
 	},
 	logoImage: {
 		width: "30px",
-		margin: "0.2em",
-		maxHeight: "30px",
-		marginLeft: "10px",
-		marginRight: "15px"
+		maxHeight: "30px"
 	},
 	img: {
 		width: "35px",
@@ -96,7 +87,7 @@ const sidebarStyle = theme => ({
 	},
 	background: {
 		position: "absolute",
-		zIndex: "1",
+		zIndex: "1000",
 		height: "100%",
 		width: "100%",
 		display: "block",
@@ -106,7 +97,7 @@ const sidebarStyle = theme => ({
 		backgroundPosition: "center center",
 		"&:after": {
 			position: "absolute",
-			zIndex: "3",
+			zIndex: "1000",
 			width: "100%",
 			height: "100%",
 			content: '""',
@@ -116,7 +107,7 @@ const sidebarStyle = theme => ({
 		}
 	},
 	list: {
-		marginTop: "20px",
+		marginTop: "10px",
 		paddingLeft: "0",
 		paddingTop: "0",
 		paddingBottom: "0",
@@ -135,7 +126,7 @@ const sidebarStyle = theme => ({
 		borderRadius: "3px",
 		position: "relative",
 		display: "block",
-		padding: "10px 15px",
+		padding: "10px 10px",
 		backgroundColor: "transparent",
 		...defaultFont
 	},
@@ -208,10 +199,17 @@ const sidebarStyle = theme => ({
 	},
 	sidebarWrapper: {
 		position: "relative",
+		[theme.breakpoints.down("sm")]: {
+			height: '3.5em',
+			display: 'flex',
+			width: '100%',
+			flexDirection: 'row',
+			alignItems: 'center'
+		},
 		height: "calc(100vh - 75px)",
 		overflow: "auto",
 		width: "5em",
-		zIndex: "4",
+		zIndex: "1000",
 		overflowScrolling: "touch"
 	}
 });

@@ -5,52 +5,52 @@ import {
 	Drawer,
 	Hidden,
 	List,
+	Icon,
 	ListItem,
 	ListItemIcon,
 	ListItemText,
 	MenuItem,
-	withStyles
+	withStyles,
+	Tooltip
 } from "material-ui";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
-import BorderColor from 'material-ui-icons/BorderColor';
-import ContentPaste from 'material-ui-icons/ContentPaste';
-import Dashboard from 'material-ui-icons/Dashboard';
-import ImportContacts from 'material-ui-icons/ImportContacts';
+import withWindowSize from '../../HOCs/withWindowSize';
 import { getPrimary, darkGrey } from "../../styles/colors";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
-import { DropDownMenu, Icon } from "../../displayComponents";
+import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
 
 class Sidebar extends React.Component {
 
 	state = {
-		selectedRoute: 0
+		selectedRoute: 0,
+		companyMenu: false
 	};
 
 	routes = [
 		{
 			path: `/company/${this.props.company.id}`,
-			sidebarName: this.props.translate.dashboard,
-			icon: Dashboard
+			sidebarName: 'Dashboard',
+			icon: 'dashboard'
 		},
 		{
 			path: `/company/${this.props.company.id}/councils/drafts`,
 			name: "council",
-			sidebarName: this.props.translate.councils,
-			icon: ImportContacts
+			sidebarName: 'Reuniones',
+			icon: 'import_contacts'
 		},
 		{
 			path: `/company/${this.props.company.id}/meeting/new`,
 			name: "meeting",
-			sidebarName: this.props.translate.dashboard_new_meeting,
-			icon: ContentPaste
+			sidebarName: 'Conferencias',
+			icon: 'video_call'
 		},
 		{
 			path: `/company/${this.props.company.id}/signatures/drafts`,
 			name: "signature",
-			sidebarName: this.props.translate.signatures,
-			icon: BorderColor
+			sidebarName: 'Firmas',
+			icon: 'border_color'
 		}
 	];
 
@@ -66,6 +66,7 @@ class Sidebar extends React.Component {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			this.setState({
 				location: this.props.location.pathname,
+				companyMenu: false,
 				selectedRoute: this.findActiveRoute(this.props.location.pathname)
 			});
 		}
@@ -81,14 +82,47 @@ class Sidebar extends React.Component {
 		return routeIndex;
 	};
 
-	changeCompany = index => {
-		const { companies } = this.props;
-		store.dispatch(changeCompany(index));
-		bHistory.push(`/company/${companies[index].id}`);
-	};
-
 	links = () => (
-		<List className={this.props.classes.list}>
+		<div className={this.props.classes.list} 
+			style={{
+				display: 'flex',
+				flexDirection: this.props.windowSize === 'xs'? 'row' : 'column'
+			}}
+		>
+			<div
+				className={this.props.classes.logoLink}
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					width: this.props.windowSize === 'xs'? '2em' : '100%',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+			>
+				<div
+					style={{
+						width: '100%',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						padding: '0.5em'
+					}}
+				>
+					<Tooltip title={this.props.company.businessName} placement="top-end">
+					{!!this.props.company.logo ? (
+						<img
+							src={this.props.company.logo}
+							alt="logo"
+							className={this.props.classes.img}
+						/>
+					) : (
+						<FontAwesome
+							name={"building-o"}
+						/>
+					)}
+					</Tooltip>
+				</div>
+			</div>
 			{this.routes.map((route, key) => {
 				if (route.redirect) {
 					return null;
@@ -121,112 +155,62 @@ class Sidebar extends React.Component {
 							}
 							style={{
 								display: "flex",
-								flexDirection: "row"
+								flexDirection: "column",
+								alignItems: 'center',
+								justifyContent: 'center'
 							}}
 						>
-							<ListItemIcon
-								className={
-									this.props.classes.itemIcon +
-									whiteFontClasses
-								}
+							<div
+								style={{
+									width: "24px",
+									height: "30px",
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									color: "rgba(255, 255, 255, 0.8)"
+								}}
 							>
-								<route.icon />
-							</ListItemIcon>
+								<Icon>
+									{route.icon}
+								</Icon>
+							</div>
+							<span
+								style={{
+									color: 'white',
+									fontSize: '0.5em'
+								}}
+							>
+								{route.sidebarName}
+							</span>
 						</ListItem>
 					</NavLink>
 				);
 			})}
-		</List>
+		</div>
 	);
 
 	brand = () => (
-		<DropDownMenu
-			color="transparent"
-            persistent={true}
-			buttonStyle={{
-				boxSizing: "border-box",
-				padding: "0",
-				marginLeft: "0.3em"
+		<div
+			style={{
+				width: this.props.windowSize === 'xs'? '3em' : '100%',
+				height: '45px',
+				display: 'flex',
+				marginTop: '15px',
+				alignItems: 'center',
+				justifyContent: 'center'
 			}}
-			text={
-				<div className={this.props.classes.logo}>
-					<div
-						className={this.props.classes.logoLink}
-						style={{
-							display: "flex",
-							flexDirection: "row"
-						}}
-					>
-						<div className={this.props.classes.logoImage}>
-							{!!this.props.company.logo ? (
-								<img
-									src={this.props.company.logo}
-									alt="logo"
-									className={this.props.classes.img}
-								/>
-							) : (
-								<FontAwesome
-									name={"building-o"}
-									className={this.props.classes.img}
-								/>
-							)}
-						</div>
-					</div>
-				</div>
-			}
-			textStyle={{ color: getPrimary() }}
-			type="flat"
-			icon={
+			onClick={() => this.setState({
+				companyMenu: !this.state.companyMenu
+			})}
+		>
+			<div className={this.props.classes.logo}>
 				<Icon
-					className="material-icons"
-					style={{ color: getPrimary() }}
+					style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
 				>
-					keyboard_arrow_down
+					apps
 				</Icon>
-			}
-			items={
-				<div
-                    style={{
-                        width: '320px',
-                        height: '95vh'
-                    }}
-                >
-					{this.props.companies.map((company, index) => {
-						if (company.id !== this.props.company.id) {
-							return (
-								<MenuItem
-									key={`company_${company.id}`}
-									onClick={() => this.changeCompany(index)}
-								>
-									{!!company.logo ? (
-										<img
-											src={company.logo}
-											alt="logo"
-											className={this.props.classes.img}
-										/>
-									) : (
-										<FontAwesome
-											name={"building-o"}
-											className={this.props.classes.img}
-										/>
-									)}
-
-									<div
-										style={{
-											fontSize: "0.85em",
-											fontWeight: "700",
-											marginLeft: "0.3em"
-										}}
-									>
-										{company.businessName}
-									</div>
-								</MenuItem>
-							);
-						}
-					})}
-				</div>
-			}
-		/>
+			</div>
+		</div>
 	);
 
 	activeRoute(index) {
@@ -236,15 +220,47 @@ class Sidebar extends React.Component {
 	render() {
 		const { classes, image } = this.props;
 		return (
-			<div style={{backgroundColor: darkGrey, width: '5em', height: '100vh'}}>
-				{this.brand()}
-                <div className={classes.sidebarWrapper}>
-                    {this.links()}
-                </div>
+			<div style={{float: 'left', zIndex: '0'}}>
+				<div style={
+					{backgroundColor: darkGrey,
+					height: '100vh',
+					zIndex: '1000',
+					position: 'absolute',
+					display: 'flex',
+					...(this.props.windowSize === 'xs'? 
+						{
+							flexDirection: 'row',
+							bottom: 0,
+							left: 0,
+							width: '100%',
+							alignItems: 'center',
+							height: '3.5em'
+						}
+					:
+						{
+							flexDirection:  'column',
+							top: 0,
+					 		left: 0,
+							width: '5em',
+						}
+					),
+					alignItems: 'center',
+				}}>
+					{this.brand()}
+					<div className={classes.sidebarWrapper}>
+						{this.links()}
+					</div>
+				</div>
+				<CompanyMenu
+					open={this.state.companyMenu}
+					company={this.props.company}
+					companies={this.props.companies}
+					translate={this.props.translate}
+				/>
 			</div>
 		);
 	}
 }
 
 
-export default withStyles(sidebarStyleLite)(withRouter(Sidebar));
+export default withStyles(sidebarStyleLite)(withRouter(withWindowSize(Sidebar)));
