@@ -3,7 +3,7 @@ import { compose, graphql } from "react-apollo";
 import {
 	liveParticipant,
 	updateLiveParticipant,
-	updateLiveParticipantSends
+	updateParticipantSends
 } from "../../../../queries";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { Tooltip, Typography, } from "material-ui";
@@ -24,13 +24,13 @@ class LiveParticipantEditor extends React.Component {
 		this.setState({
 			loadingSends: true
 		});
-		const response = await this.props.updateLiveParticipantSends({
+		const response = await this.props.updateParticipantSends({
 			variables: {
 				participantId: this.props.data.liveParticipant.id
 			}
 		});
 
-		if (response.data.updateLiveParticipantSends.success) {
+		if (response.data.updateParticipantSends.success) {
 			this.props.data.refetch();
 			this.setState({
 				loadingSends: false
@@ -346,7 +346,7 @@ export default compose(
 	graphql(updateLiveParticipant, {
 		name: "updateLiveParticipant"
 	}),
-	graphql(updateLiveParticipantSends, {
-		name: "updateLiveParticipantSends"
+	graphql(updateParticipantSends, {
+		name: "updateParticipantSends"
 	})
 )(LiveParticipantEditor);

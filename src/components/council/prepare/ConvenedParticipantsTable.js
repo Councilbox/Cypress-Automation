@@ -11,7 +11,7 @@ import {
 	GridItem
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
-import { downloadCBXData, updateNotificationsStatus } from "../../../queries";
+import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../constants";
 import NotificationFilters from "./NotificationFilters";
@@ -28,13 +28,13 @@ class ConvenedParticipantsTable extends Component {
 		this.table.refresh(object);
 	};
 	refreshEmailStates = async () => {
-		const response = await this.props.updateNotificationsStatus({
+		const response = await this.props.updateConveneSends({
 			variables: {
 				councilId: this.props.council.id
 			}
 		});
 
-		if (response.data.updateNotificationsStatus.success) {
+		if (response.data.updateConveneSends.success) {
 			this.table.refresh();
 		}
 	};
@@ -455,8 +455,8 @@ class ConvenedParticipantsTable extends Component {
 }
 
 export default compose(
-	graphql(updateNotificationsStatus, {
-		name: "updateNotificationsStatus"
+	graphql(updateConveneSends, {
+		name: "updateConveneSends"
 	}),
 	graphql(downloadCBXData, {
 		name: "downloadCBXData"

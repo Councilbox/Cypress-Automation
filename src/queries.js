@@ -510,18 +510,18 @@ export const agendaManager = gql`
 	}
 `;
 
-export const updateNotificationsStatus = gql`
-	mutation updateNotificationsStatus($councilId: Int!) {
-		updateNotificationsStatus(councilId: $councilId) {
+export const updateConveneSends = gql`
+	mutation updateConveneSends($councilId: Int!) {
+		updateConveneSends(councilId: $councilId) {
 			success
 			message
 		}
 	}
 `;
 
-export const updateLiveParticipantSends = gql`
-	mutation updateLiveParticipantSends($participantId: Int!) {
-		updateLiveParticipantSends(participantId: $participantId) {
+export const updateParticipantSends = gql`
+	mutation updateParticipantSends($participantId: Int!) {
+		updateParticipantSends(participantId: $participantId) {
 			success
 			message
 		}
@@ -1678,9 +1678,9 @@ export const openCouncilRoom = gql`
 	}
 `;
 
-export const refreshLiveEmails = gql`
-	mutation refreshLiveEmails($councilId: Int!) {
-		refreshLiveEmails(councilId: $councilId) {
+export const updateCredentialsSends = gql`
+	mutation updateCredentialsSends($councilId: Int!) {
+		updateCredentialsSends(councilId: $councilId) {
 			success
 			message
 		}
