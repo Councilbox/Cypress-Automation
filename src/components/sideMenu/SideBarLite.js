@@ -195,6 +195,7 @@ class Sidebar extends React.Component {
 				style={{
 					width: this.props.windowSize === 'xs'? '3em' : '100%',
 					height: '3em',
+					cursor: 'pointer',
 					display: 'flex',
 					backgroundColor: this.state.companyMenu? getSecondary() : 'transparent',
 					alignItems: 'center',
@@ -204,7 +205,7 @@ class Sidebar extends React.Component {
 					companyMenu: !this.state.companyMenu
 				})}
 			>
-				<div className={this.props.classes.logo}>
+				<div className={this.props.classes.logo} style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 					<Icon
 						style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
 					>

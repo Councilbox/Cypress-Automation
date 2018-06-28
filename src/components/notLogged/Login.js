@@ -124,7 +124,8 @@ class Login extends React.PureComponent {
 					<div
 						style={{
 							width: "70%",
-							fontSize: "0.9em"
+							fontSize: "0.9em",
+							textAlign: 'center'
 						}}
 					>
 						<h6
@@ -141,7 +142,9 @@ class Login extends React.PureComponent {
 								style={{
 									fontSize: "0.9",
 									marginBottom: "1em",
-									marginTop: "0.7em"
+									marginTop: "0.7em",
+									textAlign: 'center',
+									alignSelf: 'center'
 								}}
 							>
 							{/*TRADUCCION*/}
