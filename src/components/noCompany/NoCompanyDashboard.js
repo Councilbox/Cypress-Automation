@@ -63,7 +63,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
                             <Block
                                 link={`/company/create`}
                                 icon="add"
-                                text="Crear entidad"
+                                text="Crear entidad"/*TRADUCCION*/
                             />
                         </GridItem>
 
@@ -71,7 +71,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
                             <Block
                                 link={`/company/link`}
                                 icon="link"
-                                text="Vincular entidad"
+                                text="Vincular entidad"/*TRADUCCION*/
                             />
                         </GridItem>
 
@@ -79,7 +79,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
                             <Block
                                 link={`/meeting/new`}
                                 icon="video_call"
-                                text={'Conferencia'}/*TRADUCCION*/
+                                text={'Iniciar conferencia'}/*TRADUCCION*/
                             />
                         </GridItem>
                     </Grid>

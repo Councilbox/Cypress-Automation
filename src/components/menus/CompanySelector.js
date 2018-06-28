@@ -19,7 +19,16 @@ class CompanySelector extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<div
+				style={{
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					alignItems: 'center'
+				}}
+			>
+				<span style={{fontWeight: '700', fontSize: '1.1rem'}}>Cambiar entidad</span> {/*TRADUCCION*/}
 				{this.props.companies.map((company, index) => (
 					<MenuItem
 						key={company.id}
@@ -30,7 +39,7 @@ class CompanySelector extends React.Component {
 							display: 'flex',
 							flexDirection: 'row',
 							padding: '0.4em',
-							paddingRight: '2em',
+							paddingRight: '1em',
 							paddingLeft: '1.2em',
 							justifyContent: 'space-between'
 						}}
@@ -48,8 +57,9 @@ class CompanySelector extends React.Component {
 									src={company.logo}
 									alt="company-logo"
 									style={{
-										maxHeight: '2em',
-										width: 'auto',
+										maxWidth: '4em',
+										maxHeight: '1.8em',
+										height: 'auto'
 									}}
 								/>
 							:
@@ -64,14 +74,15 @@ class CompanySelector extends React.Component {
 						</div>
 						<span
 							style={{
-								marginRight: '0.8em'
+								marginRight: '0.8em',
+								fontSize: '0.8em'
 							}}
 						>
 							{company.businessName}
 						</span>
 					</MenuItem>
 				))}
-			</React.Fragment>
+			</div>
 		);
 	}
 }

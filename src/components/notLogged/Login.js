@@ -165,7 +165,7 @@ class Login extends React.PureComponent {
 							>
 								<Link to="/meeting/new">
 									<BasicButton
-										text="Conferencia de prueba"//TRADUCCION
+										text="Iniciar conferencia de prueba"//TRADUCCION
 										color={'transparent'}
 										fullWidth
 										buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
