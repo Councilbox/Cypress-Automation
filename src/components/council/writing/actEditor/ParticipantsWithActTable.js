@@ -10,9 +10,9 @@ import DownloadCBXDataButton from '../../../council/prepare/DownloadCBXDataButto
 import gql from 'graphql-tag';
 
 
-const refreshAllSends = gql`
-    mutation refreshAllSends($councilId: Int!){
-        refreshAllSends(councilId: $councilId){
+const updateActSends = gql`
+    mutation updateActSends($councilId: Int!){
+        updateActSends(councilId: $councilId){
             success
             message
         }
@@ -23,7 +23,7 @@ const refreshAllSends = gql`
 class ParticipantsWithActTable extends React.Component {
 
     async componentDidMount(){
-        const response = await this.props.refreshAllSends({
+        const response = await this.props.updateActSends({
             variables: {
                 councilId: this.props.council.id
             }
@@ -163,7 +163,7 @@ export default compose(
             }
         })
     }),
-    graphql(refreshAllSends, {
-        name: 'refreshAllSends'
+    graphql(updateActSends, {
+        name: 'updateActSends'
     })
 )(ParticipantsWithActTable);

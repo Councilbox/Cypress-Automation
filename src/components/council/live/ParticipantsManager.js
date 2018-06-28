@@ -7,7 +7,7 @@ import {
 	LoadMoreButton
 } from "../../../displayComponents";
 import { Card } from "material-ui";
-import { liveParticipants, refreshLiveEmails } from "../../../queries";
+import { liveParticipants, updateCredentialsSends } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import LiveParticipantEditor from "./participants/LiveParticipantEditor";
 import Scrollbar from "react-perfect-scrollbar";
@@ -165,7 +165,7 @@ class ParticipantsManager extends React.Component {
 		this.setState({
 			refreshing: true
 		});
-		const response = await this.props.refreshLiveEmails({
+		const response = await this.props.updateCredentialsSends({
 			variables: {
 				councilId: this.props.council.id
 			}
@@ -175,7 +175,7 @@ class ParticipantsManager extends React.Component {
 
 		if (response) {
 			this.setState({ refreshing: false });
-			if (!response.data.refreshLiveEmails.success) {
+			if (!response.data.updateCredentialsSends.success) {
 				toast.error(this.props.translate.err_saved);
 			}
 		}
@@ -356,7 +356,7 @@ export default compose(
 			}
 		})
 	}),
-	graphql(refreshLiveEmails, {
-		name: "refreshLiveEmails"
+	graphql(updateCredentialsSends, {
+		name: "updateCredentialsSends"
 	})
 )(ParticipantsManager);
