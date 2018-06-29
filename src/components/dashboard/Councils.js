@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { councils, deleteCouncil } from "../../queries.js";
 import { compose, graphql } from "react-apollo";
 import {
@@ -12,14 +12,11 @@ import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 
-class Councils extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			councilToDelete: "",
-			deleteModal: false
-		};
-	}
+class Councils extends React.Component {
+	state = {
+		councilToDelete: "",
+		deleteModal: false
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -68,7 +65,7 @@ class Councils extends Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Fragment>
+							<React.Fragment>
 								{error ? (
 									<div>
 										{error.graphQLErrors.map(error => {
@@ -113,7 +110,7 @@ class Councils extends Component {
 										this.setState({ deleteModal: false })
 									}
 								/>
-							</Fragment>
+							</React.Fragment>
 						)}
 					</div>
 				</Scrollbar>

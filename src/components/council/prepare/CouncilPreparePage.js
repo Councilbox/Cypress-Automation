@@ -5,6 +5,7 @@ import {
 	DropDownMenu,
 	ErrorWrapper,
 	Icon,
+	TabsScreen,
 	LoadingSection
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
@@ -19,7 +20,6 @@ import FontAwesome from "react-fontawesome";
 import RescheduleModal from "./modals/RescheduleModal";
 import SendConveneModal from "./modals/SendConveneModal";
 import CancelModal from "./modals/CancelModal";
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Convene from "../convene/Convene";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
@@ -38,6 +38,7 @@ class CouncilPreparePage extends React.Component {
 		sendReminder: false,
 		sendConvene: false,
 		cancel: false,
+		selectedTab: 0,
 		rescheduleCouncil: false
 	};
 
@@ -52,6 +53,12 @@ class CouncilPreparePage extends React.Component {
 			}/live`
 		);
 	};
+
+	handleChange = tabIndex => {
+		this.setState({
+			selectedTab: tabIndex
+		})
+	}
 
 	render() {
 		const {
@@ -218,53 +225,37 @@ class CouncilPreparePage extends React.Component {
 						onClick={this.goToPrepareRoom}
 					/>
 				</div>
-				<Tabs
-					selectedIndex={this.state.selectedTab}
-					style={{
-						padding: "0",
-						width: "100%",
-						margin: "0"
-					}}
-				>
-					<TabList>
-						<Tab
-							onClick={() =>
-								this.setState({
-									page: !this.state.page
-								})
+				<TabsScreen
+					uncontrolled={true}
+					tabsInfo={[
+						{
+							text: translate.convene,
+							component: () => {
+								return (
+									<Convene
+										council={council}
+										translate={translate}
+									/>
+								);
 							}
-						>
-							{translate.convene}
-						</Tab>
-						<Tab
-							onClick={() =>
-								this.setState({
-									page: !this.state.page
-								})
+						},
+						{
+							text: translate.new_list_called,
+							component: () => {
+								return (
+									<ConvenedParticipantsTable
+										council={council}
+										participations={CBX.hasParticipations(
+											this.props.council
+										)}
+										translate={translate}
+										refetch={refetch}
+									/>
+								);
 							}
-						>
-							{translate.new_list_called}
-						</Tab>
-					</TabList>
-					<TabPanel style={panelStyle}>
-						<Convene
-							council={council}
-							translate={translate}
-						/>
-					</TabPanel>
-
-					<TabPanel style={panelStyle}>
-						<ConvenedParticipantsTable
-							council={council}
-							participations={CBX.hasParticipations(
-								this.props.council
-							)}
-							translate={translate}
-							refetch={refetch}
-						/>
-					</TabPanel>
-				</Tabs>
-
+						},
+					]}
+				/>
 				<ReminderModal
 					show={this.state.sendReminder}
 					council={council}

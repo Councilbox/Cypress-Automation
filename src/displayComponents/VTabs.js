@@ -1,8 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Scrollbar from "react-perfect-scrollbar";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getPrimary, getSecondary, lightTurquoise } from "../styles/colors";
 import { CloseIcon, Grid, GridItem, MenuItem, SelectInput } from "./index";
+import Tabs from 'antd/lib/tabs';
+import "../styles/react-tabs.css";
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -15,71 +17,37 @@ const Vtabs = ({
 	windowSize,
 	deleteAction
 }) => (
-	<Fragment>
+	<React.Fragment>
 		{windowSize !== "xs" && (
-			<Grid style={{ height: "100%" }}>
-				<GridItem xs={12} md={3} lg={3} className="nav-tabs-left">
-					{tabs.map((tab, index) => {
-						return (
-							<div
-								key={`vtab${index}`}
-								style={{
-									width: "100%",
-									backgroundColor: tab.active
-										? "white"
-										: lightTurquoise,
-									padding: "0.8vh",
-									color: tab.active ? primary : secondary,
-									fontWeight: "700",
-									borderLeft:
-										"solid 3px " +
-										(tab.active ? primary : secondary),
-									marginBottom: "0.6vh",
-									cursor: tab.active ? "" : "pointer",
-									boxShadow: tab.active
-										? "-2px 2px 6px -2px rgba(0, 0, 0, 0.2)"
-										: ""
-								}}
-								onClick={() => changeTab(index)}
-							>
-								<Grid>
-									<GridItem xs={10}>{tab.title}</GridItem>
-									<GridItem xs={2}>
-										<CloseIcon
-											style={{ float: "right" }}
-											onClick={event => {
-												deleteAction(tab.data.id);
-												event.stopPropagation();
-											}}
-										/>
-									</GridItem>
-								</Grid>
-							</div>
-						);
-					})}
-					{additionalTab && (
-						<div
-							style={{
-								width: "100%",
-								backgroundColor: secondary,
-								padding: "0.8vh",
-								color: "white",
-								fontWeight: "700",
-								cursor: "pointer"
-							}}
-							onClick={additionalTab.action}
+			<Tabs
+				tabPosition={'left'}
+				onChange={changeTab}
+			>
+				{tabs.map((tab, index) => {
+					return (
+						<Tabs.TabPane
+							key={''+index}
+							tab={
+								<div>
+									{tab.title}
+									<CloseIcon
+										style={{ float: "right" }}
+										onClick={event => {
+											deleteAction(tab.data.id);
+											event.stopPropagation();
+										}}
+									/>
+								</div>
+							}
 						>
-							<i className="fa fa-plus" />
-							{additionalTab.title}
-						</div>
-					)}
-				</GridItem>
-				<GridItem xs={12} md={9} lg={9} style={{ height: "100%" }}>
-					<Scrollbar>{children}</Scrollbar>
-				</GridItem>
-			</Grid>
+							<div style={{ height: "calc(80vh - 0.8em)", position: 'relative', overflow: 'hidden' }}>
+								<Scrollbar>{children}</Scrollbar>
+							</div>
+						</Tabs.TabPane>
+					);
+				})}
+			</Tabs>
 		)}
-
 		{windowSize === "xs" && (
 			<div className="container-fluid" style={{ height: "100%" }}>
 				<Grid>
@@ -142,7 +110,74 @@ const Vtabs = ({
 				</div>
 			</div>
 		)}
-	</Fragment>
+	</React.Fragment>
 );
 
 export default withWindowSize(Vtabs);
+
+
+/* 
+<Grid style={{ height: "100%" }}>
+				<GridItem xs={12} md={3} lg={3} className="nav-tabs-left">
+					{tabs.map((tab, index) => {
+						return (
+							<div
+								key={`vtab${index}`}
+								style={{
+									width: "100%",
+									backgroundColor: tab.active
+										? "white"
+										: lightTurquoise,
+									padding: "0.8vh",
+									color: tab.active ? primary : secondary,
+									fontWeight: "700",
+									borderLeft:
+										"solid 3px " +
+										(tab.active ? primary : secondary),
+									marginBottom: "0.6vh",
+									cursor: tab.active ? "" : "pointer",
+									boxShadow: tab.active
+										? "-2px 2px 6px -2px rgba(0, 0, 0, 0.2)"
+										: ""
+								}}
+								onClick={() => changeTab(index)}
+							>
+								<Grid>
+									<GridItem xs={10}>{tab.title}</GridItem>
+									<GridItem xs={2}>
+										<CloseIcon
+											style={{ float: "right" }}
+											onClick={event => {
+												deleteAction(tab.data.id);
+												event.stopPropagation();
+											}}
+										/>
+									</GridItem>
+								</Grid>
+							</div>
+						);
+					})}
+					{additionalTab && (
+						<div
+							style={{
+								width: "100%",
+								backgroundColor: secondary,
+								padding: "0.8vh",
+								color: "white",
+								fontWeight: "700",
+								cursor: "pointer"
+							}}
+							onClick={additionalTab.action}
+						>
+							<i className="fa fa-plus" />
+							{additionalTab.title}
+						</div>
+					)}
+				</GridItem>
+				<GridItem xs={12} md={9} lg={9} style={{ height: "100%" }}>
+					<Scrollbar>{children}</Scrollbar>
+				</GridItem>
+			</Grid>
+		)}
+
+ */
