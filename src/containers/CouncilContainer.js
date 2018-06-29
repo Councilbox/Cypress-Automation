@@ -129,6 +129,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 			style={{
 				width: '100%',
 				height: 'calc(100vh - 3em)',
+				padding: '2em',
 				backgroundColor: lightGrey
 			}}
 		>

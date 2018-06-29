@@ -1,9 +1,7 @@
 import React from "react";
 import { getPrimary, lightGrey } from "../styles/colors";
-//import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "../styles/react-tabs.css";
 import { Link } from "react-router-dom";
-import Add from "material-ui-icons/Add";
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
 
@@ -37,7 +35,6 @@ class TabsScreen extends React.Component {
 				style={{
 					overflowY: "hidden",
 					width: "100%",
-					padding: '1.2em',
 					height: "100%",
 					display: "flex",
 					alignItems: "center",
@@ -63,7 +60,7 @@ class TabsScreen extends React.Component {
 								}
 								key={''+index}
 								style={{
-									height: "80vh",
+									height: "100%",
 									overflow: "hidden",
 									border: '1px solid #e8e8e8',
 									borderTop: 'none',
@@ -72,7 +69,7 @@ class TabsScreen extends React.Component {
 									borderRadius: "0px 5px 5px 5px"
 								}}
 							>
-								<div style={{width: '90%'}}>
+								<div style={{width: '100%'}}>
 									{!!tab.component && tab.component()}
 								</div>
 							</Tabs.TabPane>

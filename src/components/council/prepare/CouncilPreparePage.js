@@ -232,10 +232,12 @@ class CouncilPreparePage extends React.Component {
 							text: translate.convene,
 							component: () => {
 								return (
-									<Convene
-										council={council}
-										translate={translate}
-									/>
+									<div style={{width: '100%', position: 'relative'}}>
+										<Convene
+											council={council}
+											translate={translate}
+										/>
+									</div>
 								);
 							}
 						},

@@ -39,6 +39,8 @@ export { default as Radio } from "./Radio";
 export { default as RadioGroup } from "./RadioGroup";
 export { default as ReactSignature } from "./ReactSignature";
 export { default as RefreshButton } from "./RefreshButton";
+export { default as Scrollbar } from './Scrollbar';
+export { default as ScrollHTMLFixer } from './ScrollHTMLFixer';
 export { default as SectionTitle } from "./SectionTitle";
 export { default as SelectInput } from "./SelectInput";
 export { default as SuccessMessage } from './SuccessMessage';

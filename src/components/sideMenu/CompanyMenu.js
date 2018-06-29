@@ -36,6 +36,7 @@ class CompanyMenu extends React.Component {
 							backgroundColor: getSecondary(),
 							color: 'white',
 							width: '100%',
+							cursor: 'pointer',
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'space-between',
@@ -45,6 +46,7 @@ class CompanyMenu extends React.Component {
 							fontWeight: '700',
 							marginBottom: '1.6em'
 						}}
+						onClick={this.props.requestClose}
 					>
 						Entidades{/*TRADUCCION*/}
 						<img
@@ -63,7 +65,7 @@ class CompanyMenu extends React.Component {
 						/>
 					</div>
 					<div 
-						style={{width: '100%', height: 'calc(100vh - 5em)', overflowY: 'scroll', overflowX: 'hidden', paddingRight: '1em'}}
+						style={{width: '100%', height: 'calc(100vh - 10em)'}}
 					>
 						<CompanySelector
 							{...this.props}

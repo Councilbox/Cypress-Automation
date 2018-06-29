@@ -4,10 +4,11 @@ import { compose, graphql } from "react-apollo";
 import {
 	AlertConfirm,
 	ErrorWrapper,
+	Scrollbar,
 	LoadingSection,
 	SectionTitle,
 } from "../../displayComponents/index";
-import Scrollbar from "react-perfect-scrollbar";
+//import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
@@ -50,13 +51,14 @@ class Councils extends React.Component {
 		return (
 			<div
 				style={{
-					height: "100%",
+					height: "78vh",
+					width: '100%',
 					overflow: "hidden",
 					position: "relative"
 				}}
 			>
 				<Scrollbar>
-					<div style={{ padding: "2em" }}>
+					<div style={{ padding: "2em", width: '100%' }}>
 						<SectionTitle
 							icon={this.props.icon}
 							title={this.props.title}

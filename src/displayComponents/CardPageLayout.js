@@ -78,7 +78,7 @@ const CardPageLayout = ({
 					}}
 				>
 					{!disableScroll && (
-						<Scrollbar>
+						<Scrollbar option={{ suppressScrollX: true }}>
 							<div
 								style={{
 									paddingTop: "2.5em",

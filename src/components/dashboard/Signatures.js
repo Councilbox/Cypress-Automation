@@ -74,7 +74,7 @@ class Signatures extends Component {
 					position: "relative"
 				}}
 			>
-				<Scrollbar>
+				<Scrollbar option={{ suppressScrollX: true }}>
 					<div style={{ padding: "2em" }}>
 						<SectionTitle
 							icon={this.props.icon}

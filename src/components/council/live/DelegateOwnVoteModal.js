@@ -109,7 +109,7 @@ class DelegateOwnVoteModal extends React.Component {
 					{loading ? (
 						<LoadingSection />
 					) : (
-						<Scrollbar>
+						<Scrollbar option={{ suppressScrollX: true }}>
 							{participants.length > 0 ? (
 								<React.Fragment>
 									{participants.map(participant => {

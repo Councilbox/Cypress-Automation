@@ -189,6 +189,12 @@ class Sidebar extends React.Component {
 		</div>
 	);
 
+	toggleCompanyMenu = () => {
+		this.setState({
+			companyMenu: !this.state.companyMenu
+		})
+	}
+
 	brand = () => (
 		<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
 			<div
@@ -201,9 +207,7 @@ class Sidebar extends React.Component {
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}
-				onClick={() => this.setState({
-					companyMenu: !this.state.companyMenu
-				})}
+				onClick={this.toggleCompanyMenu}
 			>
 				<div className={this.props.classes.logo} style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 					<Icon
@@ -259,6 +263,7 @@ class Sidebar extends React.Component {
 					company={this.props.company}
 					companies={this.props.companies}
 					translate={this.props.translate}
+					requestClose={this.toggleCompanyMenu}
 				/>
 			</div>
 		);

@@ -227,7 +227,7 @@ class SignUpPage extends React.PureComponent {
 													: "calc(100vh - 8em - 11.5%)"
 										}}
 									>
-										<Scrollbar>
+										<Scrollbar option={{ suppressScrollX: true }}>
 											<div style={{ paddingBottom: "6.5em" }}>
 												{page === 1 && (
 													<SignUpUser

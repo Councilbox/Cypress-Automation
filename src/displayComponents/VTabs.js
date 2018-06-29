@@ -41,7 +41,7 @@ const Vtabs = ({
 							}
 						>
 							<div style={{ height: "calc(80vh - 0.8em)", position: 'relative', overflow: 'hidden' }}>
-								<Scrollbar>{children}</Scrollbar>
+								<Scrollbar option={{ suppressScrollX: true }}>{children}</Scrollbar>
 							</div>
 						</Tabs.TabPane>
 					);
@@ -106,7 +106,7 @@ const Vtabs = ({
 						marginTop: "0.5em"
 					}}
 				>
-					<Scrollbar>{children}</Scrollbar>
+					<Scrollbar option={{ suppressScrollX: true }}>{children}</Scrollbar>
 				</div>
 			</div>
 		)}
