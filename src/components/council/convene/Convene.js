@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { graphql, withApollo } from "react-apollo";
 import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../styles/colors";
@@ -7,12 +7,13 @@ import {
 	BasicButton,
 	ErrorWrapper,
 	Grid,
+	ScrollHTMLFixer,
 	GridItem,
 	LoadingSection
 } from "../../../displayComponents";
+import Scrollbar from 'react-perfect-scrollbar';
 import { Typography } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
-import Scrollbar from "react-perfect-scrollbar";
 import { downloadConvenePDF } from "../../../queries";
 import * as CBX from '../../../utils/CBX';
 
@@ -34,14 +35,11 @@ export const conveneDetails = gql`
 `;
 
 
-class Convene extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false,
-			downloadingPDF: false
-		};
-	}
+class Convene extends React.Component {
+	state = {
+		loading: false,
+		downloadingPDF: false
+	};
 
 	downloadPDF = async () => {
 		this.setState({
@@ -84,7 +82,7 @@ class Convene extends Component {
 		}
 
 		return (
-			<Scrollbar>
+			<React.Fragment>
 				{council.attachments.length > 0 && (
 					<div
 						style={{
@@ -148,7 +146,7 @@ class Convene extends Component {
 						margin: "0 auto"
 					}}
 				/>
-			</Scrollbar>
+			</React.Fragment>
 		);
 	}
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BasicButton, DropDownMenu, ButtonIcon, Link } from '../../displayComponents';
+import { BasicButton, DropDownMenu, ButtonIcon, Link, Grid, GridItem } from '../../displayComponents';
 import { getSecondary } from '../../styles/colors';
 import { MenuItem } from 'material-ui';
 
@@ -8,6 +8,37 @@ class CompaniesManagerButton extends React.Component {
 
     render(){
         return(
+            <Grid>
+                <GridItem xs={12} md={6} lg={5}>
+                    <Link to={`/company/${this.props.company.id}/create`}>
+                        <BasicButton
+                            text="Crear"/*TRADUCCION*/
+                            color={getSecondary()}
+                            icon={<ButtonIcon type="add" color="white" />}
+                            textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                        />
+                    </Link>
+                </GridItem>
+                <GridItem lg={2} />
+                <GridItem xs={12} md={6} lg={5}>
+                    <Link to={`/company/${this.props.company.id}/link`}>
+                        <BasicButton
+                            text="Vincular"/*TRADUCCION*/
+                            color={getSecondary()}
+                            icon={<ButtonIcon type="link" color="white" />}
+                            textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                        />
+                    </Link>
+                </GridItem>
+            </Grid>
+        )
+    }
+}
+
+export default CompaniesManagerButton;
+
+
+/*
             <DropDownMenu
                 color="transparent"
                 textStyle={{
@@ -34,19 +65,15 @@ class CompaniesManagerButton extends React.Component {
                     <React.Fragment>
                         <MenuItem>
                             <Link to={`/company/${this.props.company.id}/create`}>
-                                Añadir entidad{/*TRADUCCION*/}
+                                Añadir entidad/*TRADUCCION
                             </Link>
                         </MenuItem>
                         <MenuItem>
                             <Link to={`/company/${this.props.company.id}/link`}>
-                                Vincular entidad{/*TRADUCCION*/}
+                                Vincular entidad{/*TRADUCCION
                             </Link>
                         </MenuItem>
                     </React.Fragment>
                 }
             />
-        )
-    }
-}
-
-export default CompaniesManagerButton;
+*/

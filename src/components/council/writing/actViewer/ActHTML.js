@@ -15,12 +15,12 @@ class ActHTML extends React.Component {
                 <LoadingSection />
             );
         }
-    
+
         return(
-            <div style={{width: '100%'}}>
+            <div style={{width: '100%', position: 'relative'}}>
                 <div dangerouslySetInnerHTML={{__html: this.props.data.councilAct.emailAct}} />
             </div>
-        )	
+        )
     }
 }
 

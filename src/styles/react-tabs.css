@@ -1,4 +1,4 @@
-.react-tabs__tab-list {
+/* .react-tabs__tab-list {
     padding: 0;
     margin-bottom: 0;
 }
@@ -58,4 +58,65 @@
 .react-tabs__tab-panel--selected {
     display: block;
     background-color: white;
+}
+ */
+
+.ant-tabs {
+    font-family: 'Lato' !important;
+}
+
+.ant-tabs-bar {
+    margin: 0 !important;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-content {
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
+    background: #fff;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-bar {
+    border-color: #fff;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
+    border-color: transparent;
+    background: transparent;
+    font-weight: 500;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab > a{
+    color: black;
+    font-weight: 500;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active > a {
+    font-weight: 700;
+    font-family: 'Lato';
+    color: var(--primary) !important;
+}
+
+.card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
+    font-weight: 500;
+    font-family: 'Lato';
+    color: var(--primary) !important;
+}
+
+.ant.tab.tabpane {
+    border: 1px solid grey
+}
+
+.ant-tabs-tab-active > div {
+    font-weight: 500;
+    font-family: 'Lato';
+    color: var(--primary) !important;
+}
+
+.ant-tabs-ink-bar {
+    background-color: var(--primary) !important;
+}
+
+.ant-tabs-vertical > .ant-tabs-bar .ant-tabs-ink-bar {
+    width: 4px !important;
 }

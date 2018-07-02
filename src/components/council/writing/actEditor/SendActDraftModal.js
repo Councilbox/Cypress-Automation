@@ -307,7 +307,7 @@ class SendActDraftModal extends React.Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Scrollbar>
+							<Scrollbar option={{ suppressScrollX: true }}>
 								{participants.length > 0 ? (
 									<div style={{marginTop: '1.2em'}}>
 										{participants.map(participant => {

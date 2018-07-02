@@ -1,25 +1,23 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { councils, deleteCouncil } from "../../queries.js";
 import { compose, graphql } from "react-apollo";
 import {
 	AlertConfirm,
 	ErrorWrapper,
+	Scrollbar,
 	LoadingSection,
 	SectionTitle,
 } from "../../displayComponents/index";
-import Scrollbar from "react-perfect-scrollbar";
+//import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 
-class Councils extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			councilToDelete: "",
-			deleteModal: false
-		};
-	}
+class Councils extends React.Component {
+	state = {
+		councilToDelete: "",
+		deleteModal: false
+	};
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -53,13 +51,14 @@ class Councils extends Component {
 		return (
 			<div
 				style={{
-					height: "100%",
+					height: "78vh",
+					width: '100%',
 					overflow: "hidden",
 					position: "relative"
 				}}
 			>
 				<Scrollbar>
-					<div style={{ padding: "2em" }}>
+					<div style={{ padding: "2em", width: '100%' }}>
 						<SectionTitle
 							icon={this.props.icon}
 							title={this.props.title}
@@ -68,7 +67,7 @@ class Councils extends Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Fragment>
+							<React.Fragment>
 								{error ? (
 									<div>
 										{error.graphQLErrors.map(error => {
@@ -113,7 +112,7 @@ class Councils extends Component {
 										this.setState({ deleteModal: false })
 									}
 								/>
-							</Fragment>
+							</React.Fragment>
 						)}
 					</div>
 				</Scrollbar>

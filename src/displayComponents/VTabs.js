@@ -1,8 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import Scrollbar from "react-perfect-scrollbar";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getPrimary, getSecondary, lightTurquoise } from "../styles/colors";
 import { CloseIcon, Grid, GridItem, MenuItem, SelectInput } from "./index";
+import Tabs from 'antd/lib/tabs';
+import "../styles/react-tabs.css";
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -15,9 +17,107 @@ const Vtabs = ({
 	windowSize,
 	deleteAction
 }) => (
-	<Fragment>
+	<React.Fragment>
 		{windowSize !== "xs" && (
-			<Grid style={{ height: "100%" }}>
+			<Tabs
+				tabPosition={'left'}
+				onChange={changeTab}
+			>
+				{tabs.map((tab, index) => {
+					return (
+						<Tabs.TabPane
+							key={''+index}
+							tab={
+								<div>
+									{tab.title}
+									<CloseIcon
+										style={{ float: "right" }}
+										onClick={event => {
+											deleteAction(tab.data.id);
+											event.stopPropagation();
+										}}
+									/>
+								</div>
+							}
+						>
+							<div style={{ height: "calc(80vh - 0.8em)", position: 'relative', overflow: 'hidden' }}>
+								<Scrollbar option={{ suppressScrollX: true }}>{children}</Scrollbar>
+							</div>
+						</Tabs.TabPane>
+					);
+				})}
+			</Tabs>
+		)}
+		{windowSize === "xs" && (
+			<div className="container-fluid" style={{ height: "100%" }}>
+				<Grid>
+					<GridItem xs={6}>
+						<SelectInput
+							noLabel
+							style={{ margin: "-16px" }}
+							onChange={event => changeTab(event.target.value)}
+						>
+							{tabs.map((tab, index) => {
+								return (
+									<MenuItem
+										value={index}
+										key={`statute_${index}`}
+									>
+										{tab.title}
+									</MenuItem>
+								);
+							})}
+						</SelectInput>
+					</GridItem>
+					<GridItem xs={6}>
+						{additionalTab && (
+							<button
+								style={{
+									width: "20%",
+									backgroundColor: secondary,
+									color: "white",
+									fontWeight: "700",
+									cursor: "pointer",
+									float: "right"
+								}}
+								onClick={additionalTab.action}
+							>
+								<i className="fa fa-plus" />
+								{/*{additionalTab.title}*/}
+							</button>
+						)}
+						{deleteAction && (
+							<CloseIcon
+								onClick={() => {
+									for (let i = 0; i < tabs.length; i++) {
+										const tab = tabs[i];
+										if (tab.active) {
+											return deleteAction(tab.data.id);
+										}
+									}
+								}}
+							/>
+						)}
+					</GridItem>
+				</Grid>
+				<div
+					style={{
+						height: "calc(100% - 4em)",
+						marginTop: "0.5em"
+					}}
+				>
+					<Scrollbar option={{ suppressScrollX: true }}>{children}</Scrollbar>
+				</div>
+			</div>
+		)}
+	</React.Fragment>
+);
+
+export default withWindowSize(Vtabs);
+
+
+/* 
+<Grid style={{ height: "100%" }}>
 				<GridItem xs={12} md={3} lg={3} className="nav-tabs-left">
 					{tabs.map((tab, index) => {
 						return (
@@ -80,69 +180,4 @@ const Vtabs = ({
 			</Grid>
 		)}
 
-		{windowSize === "xs" && (
-			<div className="container-fluid" style={{ height: "100%" }}>
-				<Grid>
-					<GridItem xs={6}>
-						<SelectInput
-							noLabel
-							style={{ margin: "-16px" }}
-							onChange={event => changeTab(event.target.value)}
-						>
-							{tabs.map((tab, index) => {
-								return (
-									<MenuItem
-										value={index}
-										key={`statute_${index}`}
-									>
-										{tab.title}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
-					<GridItem xs={6}>
-						{additionalTab && (
-							<button
-								style={{
-									width: "20%",
-									backgroundColor: secondary,
-									color: "white",
-									fontWeight: "700",
-									cursor: "pointer",
-									float: "right"
-								}}
-								onClick={additionalTab.action}
-							>
-								<i className="fa fa-plus" />
-								{/*{additionalTab.title}*/}
-							</button>
-						)}
-						{deleteAction && (
-							<CloseIcon
-								onClick={() => {
-									for (let i = 0; i < tabs.length; i++) {
-										const tab = tabs[i];
-										if (tab.active) {
-											return deleteAction(tab.data.id);
-										}
-									}
-								}}
-							/>
-						)}
-					</GridItem>
-				</Grid>
-				<div
-					style={{
-						height: "calc(100% - 4em)",
-						marginTop: "0.5em"
-					}}
-				>
-					<Scrollbar>{children}</Scrollbar>
-				</div>
-			</div>
-		)}
-	</Fragment>
-);
-
-export default withWindowSize(Vtabs);
+ */

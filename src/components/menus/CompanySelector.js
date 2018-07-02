@@ -1,9 +1,10 @@
 import React from "react";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
-import { DropDownMenu } from "../../displayComponents";
-import { MenuItem } from "material-ui";
+import { Scrollbar } from "../../displayComponents";
+import { MenuItem, Divider } from "material-ui";
 import FontAwesome from 'react-fontawesome';
+import Tooltip from 'material-ui/Tooltip';
 
 class CompanySelector extends React.Component {
 	tate = {
@@ -19,59 +20,70 @@ class CompanySelector extends React.Component {
 
 	render() {
 		return (
-			<React.Fragment>
+			<Scrollbar>
 				{this.props.companies.map((company, index) => (
-					<MenuItem
-						key={company.id}
-						selected={company.id === this.props.company.id}
-						onClick={() => this.changeCompany(index)}
-						style={{
-							width: '100%',
-							display: 'flex',
-							flexDirection: 'row',
-							padding: '0.4em',
-							paddingRight: '2em',
-							paddingLeft: '1.2em',
-							justifyContent: 'space-between'
-						}}
-					>
-						<div
+					<div style={{width: '100%'}}>
+						<MenuItem
+							selected={company.id === this.props.company.id}
+							onClick={() => this.changeCompany(index)}
 							style={{
-								width: '4em',
+								width: '300px',
+								height: '2em',
 								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center'
+								flexDirection: 'row',
+								padding: '0.7em',
+								paddingLeft: '1.2em',
+								justifyContent: 'space-between'
 							}}
 						>
-							{!!company.logo?
-								<img
-									src={company.logo}
-									alt="company-logo"
+							<div
+								style={{
+									width: '4em',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center'
+								}}
+							>
+								{!!company.logo?
+									<img
+										src={company.logo}
+										alt="company-logo"
+										style={{
+											maxWidth: '4em',
+											maxHeight: '1.8em',
+											height: 'auto'
+										}}
+									/>
+								:
+									<FontAwesome
+										name={'building-o'}
+										style={{
+											fontSize: '2em',
+											color: 'darkgrey',
+										}}
+									/>
+								}
+							</div>
+							<Tooltip title={company.businessName}>
+								<span
 									style={{
-										maxHeight: '2em',
-										width: 'auto',
+										marginRight: '0.2em',
+										fontSize: '0.8em',
+										maxWidth: '12em',
+										paddingRight: '1.5em',
+										whiteSpace: 'nowrap',
+										overflow: 'hidden',
+										textOverflow: 'ellipsis'
 									}}
-								/>
-							:
-								<FontAwesome
-									name={'building-o'}
-									style={{
-										fontSize: '2em',
-										color: 'darkgrey',
-									}}
-								/>
-							}
-						</div>
-						<span
-							style={{
-								marginRight: '0.8em'
-							}}
-						>
-							{company.businessName}
-						</span>
-					</MenuItem>
+								>
+									{company.businessName}
+								</span>
+							</Tooltip>
+						</MenuItem>
+						<Divider />
+					</div>
 				))}
-			</React.Fragment>
+			</Scrollbar>
 		);
 	}
 }

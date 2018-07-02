@@ -15,7 +15,7 @@ import {
 } from "material-ui";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
 import withWindowSize from '../../HOCs/withWindowSize';
-import { getPrimary, darkGrey } from "../../styles/colors";
+import { getPrimary, getSecondary, darkGrey } from "../../styles/colors";
 import { bHistory, store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import CompanyMenu from "../sideMenu/CompanyMenu";
@@ -189,28 +189,35 @@ class Sidebar extends React.Component {
 		</div>
 	);
 
+	toggleCompanyMenu = () => {
+		this.setState({
+			companyMenu: !this.state.companyMenu
+		})
+	}
+
 	brand = () => (
-		<div
-			style={{
-				width: this.props.windowSize === 'xs'? '3em' : '100%',
-				height: '45px',
-				display: 'flex',
-				marginTop: '15px',
-				alignItems: 'center',
-				justifyContent: 'center'
-			}}
-			onClick={() => this.setState({
-				companyMenu: !this.state.companyMenu
-			})}
-		>
-			<div className={this.props.classes.logo}>
-				<Icon
-					style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
-				>
-					apps
-				</Icon>
+		<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
+			<div
+				style={{
+					width: this.props.windowSize === 'xs'? '3em' : '100%',
+					height: '3em',
+					cursor: 'pointer',
+					display: 'flex',
+					backgroundColor: this.state.companyMenu? getSecondary() : 'transparent',
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}
+				onClick={this.toggleCompanyMenu}
+			>
+				<div className={this.props.classes.logo} style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					<Icon
+						style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
+					>
+						apps
+					</Icon>
+				</div>
 			</div>
-		</div>
+		</Tooltip>
 	);
 
 	activeRoute(index) {
@@ -256,6 +263,7 @@ class Sidebar extends React.Component {
 					company={this.props.company}
 					companies={this.props.companies}
 					translate={this.props.translate}
+					requestClose={this.toggleCompanyMenu}
 				/>
 			</div>
 		);

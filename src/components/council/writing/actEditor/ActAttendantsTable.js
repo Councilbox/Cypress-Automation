@@ -89,7 +89,7 @@ class ActAttendantsTable extends React.Component {
                                     text={translate.export_participants}
                                     color={secondary}
                                     loading={this.state.downloadingPDF}
-                                    buttonStyle={{ marginTop: "0.5em" }}
+                                    buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
                                     textStyle={{
                                         color: "white",
                                         fontWeight: "700",

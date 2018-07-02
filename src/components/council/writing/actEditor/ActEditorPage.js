@@ -1,6 +1,5 @@
 import React from 'react';
-import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
-import { CardPageLayout } from "../../../../displayComponents";
+import { CardPageLayout, TabsScreen, ScrollHTMLFixer } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
 import ActEditor from "./ActEditor";
@@ -31,117 +30,122 @@ class ActEditorPage extends React.Component {
 
     render(){
         const { translate, council, withoutAct } = this.props;
+        let tabs = [];
+        if(withoutAct){
+            tabs = [
+                {
+                    text: translate.wizard_agenda,
+                    component: () => {
+                        return (
+                            <AgendaTab
+                                council={council}
+                                translate={translate}
+                            />
+                        );
+                    }
+                }
+            ];
+        }else {
+            tabs.push({
+                text: translate.act,
+                component: () => {
+                    return (
+                        this.props.confirmed?
+                            <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
+                                <Scrollbar option={{ suppressScrollX: true }}>
+                                    <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
+                                        <ActHTML council={council} />
+                                    </div>
+                                </Scrollbar>
+                                <ScrollHTMLFixer />
+                            </div>
+                        :
+                            <ActEditor
+                                councilID={council.id}
+                                companyID={this.props.companyID}
+                                translate={translate}
+                                refetch={this.props.refetch}
+                            />
+                    );
+                }
+            })
+        }
 
-        return(
-            <CardPageLayout title={translate.companies_writing} disableScroll={true}>
-                <Tabs
-                    selectedIndex={this.state.selectedTab}
-                    style={{
-                        padding: "0",
-                        width: "calc(100% - 2em)",
-                        margin: 'auto',
-                        height: '100%'
-                    }}
-                >
-                    <TabList>
-                        {withoutAct? 
-                            <Tab>
-                                {translate.wizard_agenda}
-                            </Tab>
-                        :
-                            <React.Fragment>
-                                <Tab>
-                                    {translate.act}
-                                </Tab>
-                                {this.props.confirmed &&
-                                    <Tab>
-                                        {translate.sending_the_minutes}
-                                    </Tab>
-                                }
-                            </React.Fragment>
-                        }
-                        <Tab>
-                            {translate.new_list_called}
-                        </Tab>
-                        <Tab>
-                            {translate.show_assistants_list}
-                        </Tab>
-                        <Tab>
-                            {translate.attachment_files}
-                        </Tab>
-                        <Tab>
-                            {translate.convene}
-                        </Tab>
-                    </TabList>
-                        {withoutAct? 
-                            <TabPanel style={panelStyle}>
-                                <AgendaTab
-                                    council={council}
-                                    translate={translate}
-                                />
-                            </TabPanel>
-                        :
-                            <React.Fragment>
-                                <TabPanel style={panelStyle}>
-                                    {this.props.confirmed? 
-                                        <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
-                                            <Scrollbar option={{ suppressScrollX: true }}>
-                                                <div style={{padding: '1.5em', overflow: 'hidden'}}>
-                                                    <ActHTML council={council} />
-                                                </div>
-                                            </Scrollbar>
-                                        </div>
-                                    :
-                                        <ActEditor
-                                            councilID={council.id}
-                                            companyID={this.props.companyID}
-                                            translate={translate}
-                                            refetch={this.props.refetch}
-                                        />
-                                    }
-                                
-                                </TabPanel>
-                                {this.props.confirmed &&
-                                    <TabPanel style={panelStyle}>
-                                        <SendActPage
-                                            council={council}
-                                            translate={translate}
-                                            refetch={this.props.refetch}
-                                        />
-                                    </TabPanel>
-                                }
-                            </React.Fragment>
-                        }
-                    <TabPanel style={panelStyle}>
+        if(this.props.confirmed){
+            tabs.push({
+                text: translate.sending_the_minutes,
+                component: () => {
+                    return (
+                        <SendActPage
+                            council={council}
+                            translate={translate}
+                            refetch={this.props.refetch}
+                        />
+                    );
+                }
+            });
+        }
+
+        tabs = [...tabs, 
+            {
+                text: translate.new_list_called,
+                component: () => {
+                    return (
                         <ActConvenedParticipants
                             council={council}
                             translate={translate}
                         />
-                    </TabPanel>
-                    <TabPanel style={panelStyle}>
+                    );
+                }
+            },
+            {
+                text: translate.show_assistants_list,
+                component: () => {
+                    return (
                         <ActAttendantsTable
                             council={council}
                             translate={translate}
                         />
-                    </TabPanel>
-                    <TabPanel style={panelStyle}>
+                    );
+                }
+            },
+            {
+                text: translate.attachment_files,
+                component: () => {
+                    return (
                         <ActAttachments
                             council={council}
                             translate={translate}
                         />
-                    </TabPanel>
-                    <TabPanel style={panelStyle}>
-                        <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
+                    );
+                }
+            },
+            {
+                text: translate.convene,
+                component: () => {
+                    return (
+                        <div style={{position: 'relative', width: '100%', height: '100%'}}>
                             <Convene
                                 council={council}
                                 translate={translate}
                             />
                         </div>
-                    </TabPanel>
-                </Tabs>
+                    );
+                }
+            }
+        ];
+
+        return(
+            <CardPageLayout title={translate.companies_writing}>
+                <div style={{width: '100%', padding: '1.7em', height: '100%'}}>
+                    <TabsScreen
+                        uncontrolled={true}
+                        tabsInfo={tabs}
+                    />
+                </div>
             </CardPageLayout>
         )
     }
 }
- 
+
 export default ActEditorPage;

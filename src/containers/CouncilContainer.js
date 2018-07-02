@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import TabsScreen from "../displayComponents/TabsScreen";
 import Councils from "../components/dashboard/Councils";
+import { lightGrey } from '../styles/colors';
 
 const CouncilContainer = ({ match, company, translate }) => {
 	const tabsIndex = {
@@ -124,11 +125,22 @@ const CouncilContainer = ({ match, company, translate }) => {
 	];
 
 	return (
-		<TabsScreen
-			tabsIndex={tabsIndex}
-			tabsInfo={tabsInfo}
-			selected={match.params.section}
-		/>
+		<div
+			style={{
+				width: '100%',
+				height: 'calc(100vh - 3em)',
+				padding: '2em',
+				backgroundColor: lightGrey
+			}}
+		>
+			<TabsScreen
+				tabsIndex={tabsIndex}
+				tabsInfo={tabsInfo}
+				controlled={true}
+				linked={true}
+				selected={match.params.section}
+			/>
+		</div>
 	);
 };
 

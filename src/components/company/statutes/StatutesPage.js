@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { compose, graphql } from "react-apollo";
 
@@ -21,13 +21,49 @@ import { withRouter } from "react-router-dom";
 import StatuteEditor from "./StatuteEditor";
 import { getPrimary } from "../../../styles/colors";
 
-class StatutesPage extends Component {
+class StatutesPage extends React.Component {
+	state = {
+		selectedStatute: 0,
+		newStatute: false,
+		newStatuteName: "",
+		statute: {},
+		success: false,
+		requestError: false,
+		requesting: false,
+		unsavedChanges: false,
+		errors: {},
+		deleteModal: false
+	};
+
+	componentWillReceiveProps(nextProps) {
+		if (this.props.data.loading && !nextProps.data.loading) {
+			if (nextProps.data.companyStatutes[this.state.selectedStatute]) {
+				this.setState({
+					statute: {
+						...nextProps.data.companyStatutes[
+							this.state.selectedStatute
+						]
+					}
+				});
+			}
+		}
+	}
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
+	checkRequiredFields() {
+		return false;
+	}
+
 	openDeleteModal = ID => {
 		this.setState({
 			deleteModal: true,
 			deleteID: ID
 		});
 	};
+
 	resetButtonStates = () => {
 		this.setState({
 			error: false,
@@ -35,6 +71,7 @@ class StatutesPage extends Component {
 			success: false
 		});
 	};
+
 	updateStatute = async () => {
 		if (!this.checkRequiredFields()) {
 			this.setState({
@@ -63,6 +100,7 @@ class StatutesPage extends Component {
 			}
 		}
 	};
+
 	deleteStatute = async () => {
 		const response = await this.props.deleteStatute({
 			variables: {
@@ -78,6 +116,7 @@ class StatutesPage extends Component {
 			});
 		}
 	};
+
 	createStatute = async () => {
 		if (this.state.newStatuteName) {
 			const statute = {
@@ -109,6 +148,7 @@ class StatutesPage extends Component {
 			});
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			statute: {
@@ -118,63 +158,22 @@ class StatutesPage extends Component {
 			unsavedChanges: true
 		});
 	};
+
 	handleStatuteChange = index => {
 		if (!this.state.unsavedChanges) {
-			this.setState(
-				{
-					statute: null
-				},
-				() =>
-					this.setState({
-						selectedStatute: index,
-						statute: {
-							...this.props.data.companyStatutes[index]
-						}
-					})
-			);
+			this.setState({
+				selectedStatute: index,
+				statute: {
+					...this.props.data.companyStatutes[index]
+				}
+			})
 		} else {
-			alert("tienes cambios sin guardar");
+			alert("tienes cambios sin guardar");//TRADUCCION
 		}
 	};
+
 	showNewStatute = () => this.setState({ newStatute: true });
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedStatute: 0,
-			newStatute: false,
-			newStatuteName: "",
-			statute: {},
-			success: false,
-			requestError: false,
-			requesting: false,
-			unsavedChanges: false,
-			errors: {},
-			deleteModal: false
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			if (nextProps.data.companyStatutes[this.state.selectedStatute]) {
-				this.setState({
-					statute: {
-						...nextProps.data.companyStatutes[
-							this.state.selectedStatute
-						]
-					}
-				});
-			}
-		}
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
-	checkRequiredFields() {
-		return false;
-	}
 
 	render() {
 		const { loading, companyStatutes } = this.props.data;
@@ -207,7 +206,7 @@ class StatutesPage extends Component {
 					deleteAction={this.openDeleteModal}
 				>
 					{!!statute && (
-						<Fragment>
+						<React.Fragment>
 							<div className="container-fluid">
 								<StatuteEditor
 									companyStatutes={companyStatutes}
@@ -238,6 +237,8 @@ class StatutesPage extends Component {
 										/>
 									}
 								/>
+								<br/>
+								<br/>
 							</div>
 							<AlertConfirm
 								requestClose={() =>
@@ -264,7 +265,7 @@ class StatutesPage extends Component {
 								}
 								title={translate.add_council_type}
 							/>
-						</Fragment>
+						</React.Fragment>
 					)}
 				</VTabs>
 				<AlertConfirm
