@@ -27,7 +27,7 @@ const DateTimePickerWrapper = ({
 			InputProps={{
 				endAdornment: (
 					<InputAdornment position="end">
-						<IconButton>
+						<IconButton style={{outline: 0}}>
 							<Icon color="primary">event</Icon>
 						</IconButton>
 					</InputAdornment>

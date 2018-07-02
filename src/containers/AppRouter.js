@@ -58,7 +58,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR. REINTENTANDO..." />
 		}
 
-		if (this.props.main.loading || !this.props.translate) {
+		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
 			return <LoadingMainApp />;
 		}
 
@@ -108,6 +108,9 @@ class AppRouter extends React.Component {
 				<div className={this.props.classes.mainPanelLite}>
 					<Header
 						commandLine={true}
+						companyMenu={true}
+						company={this.props.companies.list[this.props.companies.selected]}
+						companies={this.props.companies.list}
 						user={this.props.user}
 						drawerIcon={this.state.mobileOpen}
 						translate={this.props.translate}
@@ -124,7 +127,11 @@ class AppRouter extends React.Component {
 						style={{
 							height: "calc(100vh - 3em)",
 							display: "flex",
-							width: "100%"
+							width: "100%",
+							overflow: 'hidden',
+							...(this.props.windowSize === 'xs'? {
+								paddingBottom: '3.5em'
+							}: {})
 						}}
 					>
 						<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} />

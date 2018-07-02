@@ -58,13 +58,6 @@ const FilterMenu = ({
 					</div>
 				</Tooltip>
 			</div>
-			<RefreshButton
-				tooltip={`${
-					translate.tooltip_refresh_convene_email_state_assistance
-				} (ALT + R)`}
-				loading={state.refreshing}
-				onClick={refreshEmailStates}
-			/>
 			<Typography
 				variant="subheading"
 				style={{
@@ -74,7 +67,7 @@ const FilterMenu = ({
 					fontWeight: "700"
 				}}
 			>
-				VER:
+				VER:{/*TRADUCCION*/}
 			</Typography>
 			<div
 				style={{
@@ -169,6 +162,29 @@ const FilterMenu = ({
 					</div>
 				</FilterButton>
 			</div>
+
+			{state.tableType === 'participantSend' &&
+				<React.Fragment>
+					<Typography
+						variant="subheading"
+						style={{
+							textTransform: "uppercase",
+							color: "grey",
+							marginTop: "1.2em",
+							fontWeight: "700"
+						}}
+					>
+						{translate.refresh_convened}
+					</Typography>
+					<RefreshButton
+						tooltip={`${
+							translate.tooltip_refresh_convene_email_state_assistance
+						} (ALT + R)`}
+						loading={state.refreshing}
+						onClick={refreshEmailStates}
+					/>
+				</React.Fragment>
+			}
 
 			<Typography
 				variant="subheading"

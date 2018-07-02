@@ -7,9 +7,10 @@ const Block = ({ button, link, icon, text }) => (
 	<React.Fragment>
 		<Link to={link}>
 			<Card
-				elevation={5}
+				elevation={6}
 				style={{
 					height: "10em",
+					borderRadius: '5px',
 					backgroundColor: darkGrey,
 					display: 'flex',
 					alignItems: 'center',

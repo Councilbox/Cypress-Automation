@@ -177,7 +177,7 @@ class Sidebar extends React.Component {
 							<span
 								style={{
 									color: 'white',
-									fontSize: '0.5em'
+									fontSize: '0.55em'
 								}}
 							>
 								{route.sidebarName}
@@ -196,28 +196,30 @@ class Sidebar extends React.Component {
 	}
 
 	brand = () => (
-		<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
-			<div
-				style={{
-					width: this.props.windowSize === 'xs'? '3em' : '100%',
-					height: '3em',
-					cursor: 'pointer',
-					display: 'flex',
-					backgroundColor: this.state.companyMenu? getSecondary() : 'transparent',
-					alignItems: 'center',
-					justifyContent: 'center'
-				}}
-				onClick={this.toggleCompanyMenu}
-			>
-				<div className={this.props.classes.logo} style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-					<Icon
-						style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
-					>
-						apps
-					</Icon>
+		<React.Fragment>
+			<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
+				<div
+					style={{
+						width: this.props.windowSize === 'xs'? '3em' : '100%',
+						height: '3em',
+						cursor: 'pointer',
+						display: 'flex',
+						backgroundColor: this.state.companyMenu? getSecondary() : 'transparent',
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+					onClick={this.toggleCompanyMenu}
+				>
+					<div className={this.props.classes.logo} style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<Icon
+							style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
+						>
+							apps
+						</Icon>
+					</div>
 				</div>
-			</div>
-		</Tooltip>
+			</Tooltip>
+		</React.Fragment>
 	);
 
 	activeRoute(index) {
@@ -253,18 +255,22 @@ class Sidebar extends React.Component {
 					),
 					alignItems: 'center',
 				}}>
-					{this.brand()}
+					{this.props.windowSize !== 'xs' &&
+						this.brand()
+					}
 					<div className={classes.sidebarWrapper}>
 						{this.links()}
 					</div>
 				</div>
-				<CompanyMenu
-					open={this.state.companyMenu}
-					company={this.props.company}
-					companies={this.props.companies}
-					translate={this.props.translate}
-					requestClose={this.toggleCompanyMenu}
-				/>
+				{this.props.windowSize !== 'xs' &&
+					<CompanyMenu
+						open={this.state.companyMenu}
+						company={this.props.company}
+						companies={this.props.companies}
+						translate={this.props.translate}
+						requestClose={this.toggleCompanyMenu}
+					/>
+				}
 			</div>
 		);
 	}

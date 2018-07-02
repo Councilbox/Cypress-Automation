@@ -114,7 +114,7 @@ class CouncilFinishedPage extends React.Component {
 				<ActEditorPage
 					translate={translate}
 					council={council}
-					refetch={this.props.data.refetch}					
+					refetch={this.props.data.refetch}
 				/>
 			);
 		}
@@ -152,7 +152,6 @@ class CouncilFinishedPage extends React.Component {
 		}
 
 		return <LoadingSection />;
-		
 	}
 }
 

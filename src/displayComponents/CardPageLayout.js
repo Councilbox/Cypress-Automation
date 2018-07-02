@@ -1,6 +1,7 @@
 import React from "react";
 import { lightGrey } from "../styles/colors";
-import Scrollbar from "react-perfect-scrollbar";
+//import Scrollbar from "react-perfect-scrollbar";
+import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
 import { Paper } from "material-ui";
 
@@ -78,7 +79,7 @@ const CardPageLayout = ({
 					}}
 				>
 					{!disableScroll && (
-						<Scrollbar option={{ suppressScrollX: true }}>
+						<Scrollbar>
 							<div
 								style={{
 									paddingTop: "2.5em",

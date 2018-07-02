@@ -9,7 +9,7 @@ class CompaniesManagerButton extends React.Component {
     render(){
         return(
             <Grid>
-                <GridItem xs={12} md={6} lg={5}>
+                <GridItem xs={5} md={5} lg={5}>
                     <Link to={`/company/${this.props.company.id}/create`}>
                         <BasicButton
                             text="Crear"/*TRADUCCION*/
@@ -20,7 +20,7 @@ class CompaniesManagerButton extends React.Component {
                     </Link>
                 </GridItem>
                 <GridItem lg={2} />
-                <GridItem xs={12} md={6} lg={5}>
+                <GridItem xs={5} md={5} lg={5}>
                     <Link to={`/company/${this.props.company.id}/link`}>
                         <BasicButton
                             text="Vincular"/*TRADUCCION*/

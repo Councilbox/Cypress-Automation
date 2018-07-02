@@ -22,7 +22,7 @@ class CompanySelector extends React.Component {
 		return (
 			<Scrollbar>
 				{this.props.companies.map((company, index) => (
-					<div style={{width: '100%'}}>
+					<div style={{width: '100%'}} key={`company_selector_${company.id}`}>
 						<MenuItem
 							selected={company.id === this.props.company.id}
 							onClick={() => this.changeCompany(index)}

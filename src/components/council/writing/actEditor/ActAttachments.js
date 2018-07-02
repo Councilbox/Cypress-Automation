@@ -12,7 +12,14 @@ class ActAttachments extends React.PureComponent{
 
         if(this.props.data.loading){
             return (
-                <LoadingSection />
+                <div
+                    style={{
+                        padding: '5em',
+                        width: '100%',
+                    }}
+                >
+                    <LoadingSection />
+                </div>
             )
         }
         const { translate } = this.props;
@@ -25,10 +32,10 @@ class ActAttachments extends React.PureComponent{
                             {translate.new_files_title}
                         </Typography>
                     </GridItem>
-                    {this.props.data.council && 
+                    {this.props.data.council &&
                         this.props.data.council.attachments.length > 0?
-                            this.props.data.council.attachments.map((attachment) => 
-                                <GridItem>
+                            this.props.data.council.attachments.map((attachment) =>
+                                <GridItem key={`attachment_${attachment.id}`}>
                                     <AttachmentDownload
                                         attachment={attachment}
                                         translate={translate}
@@ -42,17 +49,17 @@ class ActAttachments extends React.PureComponent{
                 </Grid>
                 <Grid style={{marginTop: '1.4em'}}>
                     {this.props.data.council &&
-                        this.props.data.council.agendas.map((agenda) => 
-                            <React.Fragment>
+                        this.props.data.council.agendas.map((agenda) =>
+                            <React.Fragment key={`agenda_${agenda.id}`}>
                                 <GridItem xs={12} lg={12} md={12} style={{display: 'flex', flexDirection: 'column'}}>
                                     <Typography variant="subheading" style={{color: getPrimary()}}>
                                         {`${agenda.orderIndex} - ${agenda.agendaSubject}`}
                                     </Typography>
-                                </GridItem>                
-                                
-                                    {agenda.attachments.length > 0? 
+                                </GridItem>
+
+                                    {agenda.attachments.length > 0?
                                         agenda.attachments.map((attachment) =>
-                                            <GridItem>
+                                            <GridItem key={`agendaAttachment_${attachment.id}`}>
                                                 <AttachmentDownload
                                                     agenda={true}
                                                     attachment={attachment}
@@ -67,7 +74,6 @@ class ActAttachments extends React.PureComponent{
                             </React.Fragment>
                         )
                     }
-                    
                 </Grid>
             </div>
         )

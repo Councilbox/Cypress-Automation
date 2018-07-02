@@ -2,6 +2,7 @@ import React from "react";
 import { Drawer } from 'material-ui';
 import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
+import withWindowSize from '../../HOCs/withWindowSize';
 import { darkGrey, getSecondary } from '../../styles/colors';
 let icon;
 import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
@@ -23,7 +24,8 @@ class CompanyMenu extends React.Component {
 						height: "100%",
 						zIndex: 100,
 						width: "400px",
-						paddingLeft: '5em',
+						marginTop: this.props.windowSize === 'xs'? '3em' : 0,
+						paddingLeft: this.props.windowSize === 'xs'? 0 : '5em',
 						overflow: "hidden",
 						display: 'flex',
 						flexDirection: 'column',
@@ -77,4 +79,4 @@ class CompanyMenu extends React.Component {
 	}
 }
 
-export default CompanyMenu;
+export default withWindowSize(CompanyMenu);

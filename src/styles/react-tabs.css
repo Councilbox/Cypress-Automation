@@ -63,6 +63,7 @@
 
 .ant-tabs {
     font-family: 'Lato' !important;
+    user-select: none,
 }
 
 .ant-tabs-bar {
@@ -88,12 +89,14 @@
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab > a{
     color: black;
+    user-select: none;
     font-weight: 500;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active > a {
     font-weight: 700;
     font-family: 'Lato';
+    user-select: none;
     color: var(--primary) !important;
 }
 

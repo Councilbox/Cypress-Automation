@@ -132,7 +132,8 @@ class Login extends React.PureComponent {
 							style={{
 								fontWeigth: "300",
 								marginBottom: "1.2em",
-								fontSize: "1.7em"
+								fontSize: "1.7em",
+								color: 'white'
 							}}
 						>
 							¿Todavía no dispone de una cuenta en Councilbox?{/*TRADUCCION*/}
@@ -140,7 +141,7 @@ class Login extends React.PureComponent {
 						{windowSize !== "xs" && (
 							<span
 								style={{
-									fontSize: "0.9",
+									fontSize: "0.95",
 									marginBottom: "1em",
 									marginTop: "0.7em",
 									textAlign: 'center',
@@ -172,7 +173,7 @@ class Login extends React.PureComponent {
 										color={'transparent'}
 										fullWidth
 										buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-										textStyle={{color: 'white', fontWeight: '700', fontSize: '0.9em', textTransform: 'none'}}
+										textStyle={{color: 'white', fontWeight: '700', fontSize: '0.95em', textTransform: 'none'}}
 									/>
 								</Link>
 							</div>
@@ -188,7 +189,7 @@ class Login extends React.PureComponent {
 										textStyle={{
 											color: primary,
 											fontWeight: "700",
-											fontSize: "0.9em",
+											fontSize: "0.95em",
 											textTransform: "none"
 										}}
 										textPosition="before"
@@ -208,6 +209,7 @@ class Login extends React.PureComponent {
 					}}
 				>
 					<Card
+						elevation={6}
 						style={{
 							minHeight: "60%",
 							width: windowSize === "xs" ? "100%" : "70%",

@@ -3,6 +3,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 const Scrollbar = ({ showX, children, style = {} }) => (
     <Scrollbars
+        autoHide
         style={{
             width: '100%',
             height: '100%',

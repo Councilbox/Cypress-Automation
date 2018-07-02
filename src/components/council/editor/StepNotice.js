@@ -165,7 +165,7 @@ class StepNotice extends React.Component {
 			}
 		}
 	};
-	
+
 	loadDraft = draft => {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
