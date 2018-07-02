@@ -5,12 +5,11 @@ import SignUpPay from "./SignUpPay";
 import { getPrimary } from "../../../styles/colors";
 import { Card, CardContent } from "material-ui";
 import SignUpStepper from "./SignUpStepper";
-import { BasicButton, NotLoggedLayout } from '../../../displayComponents';
+import { BasicButton, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { bHistory } from '../../../containers/App';
 import withWindowSize from "../../../HOCs/withWindowSize";
-import Scrollbar from "react-perfect-scrollbar";
 import { userAndCompanySignUp } from "../../../queries/userAndCompanySignUp";
-import { graphql } from "react-apollo/index";
+import { graphql } from "react-apollo";
 import Header from '../../Header';
 import withTranslations from '../../../HOCs/withTranslations';
 
@@ -146,6 +145,7 @@ class SignUpPage extends React.PureComponent {
 		return (
 			<NotLoggedLayout
 				translate={translate}
+				languageSelector={true}
 				helpIcon={true}
 			>
 				<div
@@ -165,12 +165,13 @@ class SignUpPage extends React.PureComponent {
 							justifyContent: 'center'
 						}}
 					>
-						<h3 style={{ color: "white" }}>
+						<h3 style={{ color: "white", fontWeight: '700' }}>
 							Alta de usuario {/*TRADUCCION*/}
 						</h3>
 					</div>
 					{!this.state.success ? (
 						<Card
+							elevation={8}
 							style={{
 								width: windowSize !== "xs" ? "65%" : "100%",
 								height: windowSize !== "xs" ? null : "100%",
@@ -200,10 +201,6 @@ class SignUpPage extends React.PureComponent {
 									<div
 										style={{
 											backgroundColor: "WhiteSmoke",
-											display: "flex",
-											flexDirection: "column",
-											alignItems: "center",
-											paddingTop: "1em",
 											height:
 												windowSize !== "xs" ? "100%" : "5em"
 										}}
@@ -227,8 +224,8 @@ class SignUpPage extends React.PureComponent {
 													: "calc(100vh - 8em - 11.5%)"
 										}}
 									>
-										<Scrollbar option={{ suppressScrollX: true }}>
-											<div style={{ paddingBottom: "6.5em" }}>
+										<Scrollbar>
+											<div style={{ paddingBottom: "4.5em" }}>
 												{page === 1 && (
 													<SignUpUser
 														nextPage={this.nextPage}

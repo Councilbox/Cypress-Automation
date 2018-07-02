@@ -21,6 +21,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, networkErrorHandler } from "../utils";
 import moment from "moment";
 import "moment/locale/es";
+import 'antd/dist/antd.css';
 
 moment.updateLocale("es");
 

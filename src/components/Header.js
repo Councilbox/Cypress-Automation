@@ -10,9 +10,14 @@ import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
 import { Tooltip, Paper } from "material-ui";
+import CompanyMenu from './sideMenu/CompanyMenu';
 
 
 class Header extends React.Component {
+	state = {
+		companyMenu: false
+	}
+
 	logout = () => {
 		this.props.actions.logout();
 	};
@@ -21,7 +26,14 @@ class Header extends React.Component {
 		bHistory.goBack();
 	};
 
+	toggleCompanyMenu = () => {
+		this.setState({
+			companyMenu: !this.state.companyMenu
+		});
+	}
+
 	render() {
+		const secondary = getSecondary();
 		const language =
 			this.props.translate && this.props.translate.selectedLanguage;
 		const {
@@ -36,6 +48,7 @@ class Header extends React.Component {
 				elevation={0}
 				style={{
 					height: "3em",
+					zIndex: 1000,
 					display: "flex",
 					flexDirection: "row",
 					width: "100%",
@@ -52,6 +65,40 @@ class Header extends React.Component {
 						alignItems: "center"
 					}}
 				>
+					{this.props.companyMenu && this.props.windowSize === 'xs' &&
+						<div>
+							<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
+								<div
+									style={{
+										width: this.props.windowSize === 'xs'? '3em' : '100%',
+										height: '3em',
+										cursor: 'pointer',
+										display: 'flex',
+										backgroundColor: this.state.companyMenu? secondary : 'transparent',
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}
+									onClick={this.toggleCompanyMenu}
+								>
+									<div style={{width: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+										<Icon
+											style={{color: this.state.companyMenu? 'white' : secondary, fontSize: '1.8em'}}
+										>
+											apps
+										</Icon>
+									</div>
+								</div>
+							</Tooltip>
+							<CompanyMenu
+								open={this.state.companyMenu}
+								company={this.props.company}
+								companies={this.props.companies}
+								translate={this.props.translate}
+								requestClose={this.toggleCompanyMenu}
+							/>
+						</div>
+
+					}
 					{backButton && (
 						<Tooltip
 							title={this.props.translate.back}
@@ -70,7 +117,7 @@ class Header extends React.Component {
 							>
 								<Icon
 									className="material-icons"
-									style={{ color: getSecondary() }}
+									style={{ color: secondary }}
 								>
 									keyboard_arrow_left
 								</Icon>

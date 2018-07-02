@@ -8,10 +8,10 @@ import {
 	LoadingSection,
 	SectionTitle,
 } from "../../displayComponents/index";
-//import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
+
 
 class Councils extends React.Component {
 	state = {
@@ -65,7 +65,15 @@ class Councils extends React.Component {
 							subtitle={this.props.desc}
 						/>
 						{loading ? (
-							<LoadingSection />
+							<div style={{
+								width: '100%',
+								marginTop: '8em',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
+							}}>
+								<LoadingSection />
+							</div>
 						) : (
 							<React.Fragment>
 								{error ? (

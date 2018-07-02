@@ -70,11 +70,11 @@ class SendActToVote extends React.Component {
 				{this.props.show &&
 					<ActHTML
 						ref={(ref => this.actViewer = ref)}
-						council={this.props.council} 
+						council={this.props.council}
 					/>
 				}
 			</div>
-		);	
+		);
 	}
 
 	render() {
@@ -98,7 +98,7 @@ export default compose(
 	graphql(sendActToVote, {
 		name: 'sendActToVote'
 	}),
-	
+
 	graphql(openAgendaVoting, {
 		name: 'openAgendaVoting'
 	})

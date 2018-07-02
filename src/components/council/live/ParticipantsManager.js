@@ -319,12 +319,8 @@ class ParticipantsManager extends React.Component {
 								state={this.state}
 								translate={translate}
 								updateFilterText={this.updateFilterText}
-								updateParticipantState={
-									this.updateParticipantState
-								}
-								updateParticipantType={
-									this.updateParticipantType
-								}
+								updateParticipantState={this.updateParticipantState}
+								updateParticipantType={this.updateParticipantType}
 								refreshEmailStates={this.refreshEmailStates}
 								updateState={this.updateState}
 							/>

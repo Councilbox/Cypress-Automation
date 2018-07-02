@@ -280,10 +280,10 @@ class CouncilLivePage extends React.Component {
 											position: "relative"
 										}}
 									>
-										<div
+										{/* <div
 											style={{height: '100%', width: '100%'}}
 											dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}
-										/>
+										/> */}
 
 										<Tooltip title={`ALT + T`}>
 											<div

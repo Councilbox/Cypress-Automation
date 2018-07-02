@@ -136,7 +136,7 @@ class ActEditorPage extends React.Component {
         ];
 
         return(
-            <CardPageLayout title={translate.companies_writing}>
+            <CardPageLayout title={translate.video_meeting_finished}>
                 <div style={{width: '100%', padding: '1.7em', height: '100%'}}>
                     <TabsScreen
                         uncontrolled={true}
