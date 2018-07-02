@@ -48,7 +48,7 @@ export const initUserData = () => {
 
 export const setUserData = user => {
 	return dispatch => {
-		resetStore();
+		//resetStore();
 		dispatch({
 			type: "SET_USER_DATA",
 			value: user

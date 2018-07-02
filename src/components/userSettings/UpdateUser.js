@@ -68,7 +68,7 @@ class UpdateUserForm extends React.Component {
 		});
 	};
 
-	updateState(newValues) {
+	updateState = (newValues) => {
 		this.setState({
 			data: {
 				...this.state.data,

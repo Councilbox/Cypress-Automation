@@ -150,7 +150,7 @@ class NewCompanyPage extends React.PureComponent {
 		}
 
 		return (
-			<CardPageLayout title={translate.wizard_company_info}>
+			<CardPageLayout title={"Crear entidad"}>{/*TRADUCCION*/}
 				{this.state.step === 1 ? (
 					<React.Fragment>
 						<Typography variant="title" style={{ color: primary }}>
@@ -180,7 +180,7 @@ class NewCompanyPage extends React.PureComponent {
 									<GridItem xs={12} md={6} lg={4}>
 										<TextInput
 											floatingText={
-												translate.company_new_alias
+												"Nombre de la entidad"//TRADUCCION
 											}
 											type="text"
 											value={data.alias}
@@ -196,7 +196,7 @@ class NewCompanyPage extends React.PureComponent {
 									<GridItem xs={12} md={6} lg={3}>
 										<SelectInput
 											floatingText={
-												translate.company_type
+												"Tipo de entidad"//TRADUCCION
 											}
 											value={data.type}
 											onChange={event =>
@@ -232,7 +232,7 @@ class NewCompanyPage extends React.PureComponent {
 									<GridItem xs={12} md={6} lg={4}>
 										<TextInput
 											floatingText={
-												translate.company_new_cif
+												"CIF de la entidad"//TRADUCCION
 											}
 											type="text"
 											value={data.tin}
@@ -298,7 +298,7 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 								<GridItem xs={12} md={12} lg={12}>
 									<FileUploadButton
-										text={translate.company_logotype}
+										text={'Logo de la entidad'}
 										image
 										color={secondary}
 										textStyle={{
@@ -438,7 +438,7 @@ class NewCompanyPage extends React.PureComponent {
 						</Grid>
 						<br />
 						<BasicButton
-							text={translate.companies_add}
+							text={'Añadir entidad'}//TRADUCCION
 							color={getPrimary()}
 							error={requestError}
 							success={success}

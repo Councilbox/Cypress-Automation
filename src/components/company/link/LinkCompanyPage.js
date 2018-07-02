@@ -119,7 +119,7 @@ class LinkCompanyPage extends React.Component {
 		const { data, errors, requestError, success, request } = this.state;
 
 		return (
-			<CardPageLayout title={translate.companies_link}>
+			<CardPageLayout title="Vincular entidad">{/*TRADUCCION*/}
 				<Grid style={{ marginTop: "4em" }}>
 					<GridItem xs={12} md={12} lg={12}>
 						<div
@@ -129,7 +129,7 @@ class LinkCompanyPage extends React.Component {
 							}}
 						>
 							<TextInput
-								floatingText={translate.company_new_cif}
+								floatingText={'CIF de la entidad'}//TRADUCCION
 								type="text"
 								required
 								value={data.cif}
