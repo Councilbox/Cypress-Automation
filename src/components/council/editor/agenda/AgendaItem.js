@@ -20,7 +20,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 			}}
 		>
 			<Grid spacing={8}>
-				<GridItem xs={12} md={9}>
+				<GridItem xs={9} md={9}>
 					<Grid spacing={0}>
 						<GridItem xs={1} md={1} lg={1} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 							<div
@@ -57,7 +57,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 						</GridItem>
 					</Grid>
 				</GridItem>
-				<GridItem xs={12} md={3}>
+				<GridItem xs={3} md={3}>
 					<Grid spacing={0}>
 						<GridItem
 							xs={6}

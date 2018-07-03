@@ -64,7 +64,6 @@
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test": "mocha --require babel-register ./src/tests",
     "eject": "react-scripts eject",
-    "zip": "gzip -r build",
     "analyze": "source-map-explorer build/static/js/main.*",
     "format": "prettier --write 'src/**/*'"
   },

@@ -1,7 +1,6 @@
 import React from "react";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { compose, graphql } from "react-apollo";
-
 import {
 	AlertConfirm,
 	BasicButton,
@@ -19,7 +18,8 @@ import {
 } from "../../../queries";
 import { withRouter } from "react-router-dom";
 import StatuteEditor from "./StatuteEditor";
-import { getPrimary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
+import { EMAIL_STATES_FILTERS } from "../../../constants";
 
 class StatutesPage extends React.Component {
 	state = {
@@ -31,6 +31,7 @@ class StatutesPage extends React.Component {
 		requestError: false,
 		requesting: false,
 		unsavedChanges: false,
+		unsavedAlert: false,
 		errors: {},
 		deleteModal: false
 	};
@@ -160,15 +161,19 @@ class StatutesPage extends React.Component {
 	};
 
 	handleStatuteChange = index => {
-		if (!this.state.unsavedChanges) {
-			this.setState({
-				selectedStatute: index,
-				statute: {
-					...this.props.data.companyStatutes[index]
-				}
-			})
-		} else {
-			alert("tienes cambios sin guardar");//TRADUCCION
+		if(index !== 'new'){
+			if (!this.state.unsavedChanges) {
+				this.setState({
+					selectedStatute: index,
+					statute: {
+						...this.props.data.companyStatutes[index]
+					}
+				})
+			} else{
+				this.setState({
+					unsavedAlert: true
+				});
+			}
 		}
 	};
 
@@ -179,8 +184,9 @@ class StatutesPage extends React.Component {
 		const { loading, companyStatutes } = this.props.data;
 		const { translate } = this.props;
 		const { statute, errors, success } = this.state;
+		const secondary = getSecondary();
 
-		if (loading) {
+		if (!companyStatutes) {
 			return <LoadingSection />;
 		}
 
@@ -195,81 +201,91 @@ class StatutesPage extends React.Component {
 
 		return (
 			<CardPageLayout disableScroll={true} title={translate.statutes}>
-				<VTabs
-					tabs={tabs}
-					changeTab={this.handleStatuteChange}
-					index={this.state.selectedStatute}
-					additionalTab={{
-						title: translate.add_council_type,
-						action: this.showNewStatute
-					}}
-					translate={translate}
-					saveAction={this.state.unsavedChanges? this.updateStatute : null}
-					deleteAction={this.openDeleteModal}
-				>
-					{!!statute && (
-						<React.Fragment>
-							<div className="container-fluid">
-								<StatuteEditor
-									companyStatutes={companyStatutes}
-									statute={statute}
-									company={this.props.company}
-									translate={translate}
-									updateState={this.updateState}
-									errors={this.state.errors}
-								/>
-								<br />
+				{companyStatutes.length > 0? (
+					<React.Fragment>
+						<VTabs
+							tabs={tabs}
+							changeTab={this.handleStatuteChange}
+							index={this.state.selectedStatute}
+							additionalTab={
 								<BasicButton
-									text={translate.save}
-									color={success ? "green" : getPrimary()}
-									textStyle={{
-										color: "white",
-										fontWeight: "700"
-									}}
-									floatRight
-									onClick={this.updateStatute}
-									loading={this.state.loading}
-									error={this.state.error}
-									reset={this.resetButtonStates}
-									success={success}
-									icon={
-										<ButtonIcon
-											type={"save"}
-											color="white"
-										/>
-									}
+									text={'Añadir tipo de reunión'}//TRADUCCION
+									textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
+									color={secondary}
+									icon={<ButtonIcon type="add" color="white" />}
+									onClick={this.showNewStatute}
 								/>
-								<br/>
-								<br/>
-							</div>
-							<AlertConfirm
-								requestClose={() =>
-									this.setState({ newStatute: false })
-								}
-								open={this.state.newStatute}
-								acceptAction={this.createStatute}
-								buttonAccept={translate.accept}
-								buttonCancel={translate.cancel}
-								bodyText={
-									<TextInput
-										floatingText={translate.council_type}
-										required
-										type="text"
-										errorText={errors.newStatuteName}
-										value={statute.newStatuteName}
-										onChange={event =>
-											this.setState({
-												newStatuteName:
-													event.target.value
-											})
-										}
-									/>
-								}
-								title={translate.add_council_type}
-							/>
-						</React.Fragment>
-					)}
-				</VTabs>
+							}
+							translate={translate}
+							saveAction={this.state.unsavedChanges? this.updateStatute : null}
+							deleteAction={this.openDeleteModal}
+						>
+							{!!statute && (
+								<React.Fragment>
+									<div className="container-fluid">
+										<StatuteEditor
+											companyStatutes={companyStatutes}
+											statute={statute}
+											company={this.props.company}
+											translate={translate}
+											updateState={this.updateState}
+											errors={this.state.errors}
+										/>
+										<br />
+										<BasicButton
+											text={translate.save}
+											color={success ? "green" : getPrimary()}
+											textStyle={{
+												color: "white",
+												fontWeight: "700"
+											}}
+											floatRight
+											onClick={this.updateStatute}
+											loading={this.state.loading}
+											error={this.state.error}
+											reset={this.resetButtonStates}
+											success={success}
+											icon={
+												<ButtonIcon
+													type={"save"}
+													color="white"
+												/>
+											}
+										/>
+										<br/>
+										<br/>
+									</div>
+
+								</React.Fragment>
+							)}
+						</VTabs>
+					</React.Fragment>
+				) : (
+					<div
+						style={{
+							width: '100%',
+							height: '100%',
+							display: 'flex',
+							alignItems: 'center',
+							flexDirection: 'column',
+							marginTop: '4em'
+						}}
+					>
+						<span style={{fontSize: '1.1em', fontWeight: '700', marginBottom: '1em'}}>
+							No tiene ningún tipo de reunión, pruebe a crear una pulsando este botón
+						</span> {/*TRADUCCION*/}
+						<BasicButton
+							text={'Añadir tipo de reunión'}//TRADUCCION
+							textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
+							color={secondary}
+							icon={<ButtonIcon type="add" color="white" />}
+							onClick={this.showNewStatute}
+						/>
+					</div>
+				)
+
+				}
+
 				<AlertConfirm
 					title={translate.attention}
 					bodyText={translate.question_delete}
@@ -279,6 +295,39 @@ class StatutesPage extends React.Component {
 					modal={true}
 					acceptAction={this.deleteStatute}
 					requestClose={() => this.setState({ deleteModal: false })}
+				/>
+				<AlertConfirm
+					title={translate.attention}
+					bodyText={"Tienes cambios sin guardar"}//TRADUCCION
+					open={this.state.unsavedAlert}
+					buttonCancel={translate.accept}
+					modal={true}
+					requestClose={() => this.setState({ unsavedAlert: false })}
+				/>
+				<AlertConfirm
+					requestClose={() =>
+						this.setState({ newStatute: false })
+					}
+					open={this.state.newStatute}
+					acceptAction={this.createStatute}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={
+						<TextInput
+							floatingText={translate.council_type}
+							required
+							type="text"
+							errorText={errors.newStatuteName}
+							value={statute.newStatuteName}
+							onChange={event =>
+								this.setState({
+									newStatuteName:
+										event.target.value
+								})
+							}
+						/>
+					}
+					title={translate.add_council_type}
 				/>
 			</CardPageLayout>
 		);
