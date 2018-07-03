@@ -67,8 +67,8 @@ const addStatusLink = new ApolloLink((operation, forward) => {
   })
 
 const logoutLink = onError(({ graphQLErrors, networkError, response }) => {
-	console.log(graphQLErrors);
-	console.log(networkError);
+	console.error(graphQLErrors);
+	console.error(networkError);
 	if (graphQLErrors) {
 		graphQLErrorHandler(graphQLErrors, toast, store);
 	}
