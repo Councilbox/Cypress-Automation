@@ -1,6 +1,6 @@
 ## Install
 
-Inside the project directory run the "npm install" or "yarn install"
+Inside the project directory run "npm install" or "yarn install"
 <br>
 
 ## Scripts

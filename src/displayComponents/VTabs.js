@@ -1,7 +1,7 @@
 import React from "react";
 import Scrollbar from "react-perfect-scrollbar";
 import withWindowSize from "../HOCs/withWindowSize";
-import { getPrimary, getSecondary, lightTurquoise } from "../styles/colors";
+import { getPrimary, getSecondary } from "../styles/colors";
 import { CloseIcon, Grid, GridItem, MenuItem, SelectInput } from "./index";
 import { Tooltip } from 'material-ui';
 import Tabs from 'antd/lib/tabs';
@@ -41,14 +41,21 @@ const Vtabs = ({
 							key={''+mapIndex}
 							tab={
 								<div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-									<span
-										style={{
-											color: +index === +mapIndex? primary : 'black',
+									<Tooltip title={tab.title}>
+										<span
+											style={{
+												marginRight: '0.2em',
+												maxWidth: '18em',
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												color: +index === +mapIndex? primary : 'black',
 											...(+index === +mapIndex? { fontWeight: '700'} : {})
-										}}
-									>
-										{tab.title}
-									</span>
+											}}
+										>
+											{tab.title}
+										</span>
+									</Tooltip>
 									{!!(saveAction && +index === +mapIndex)?
 										<Tooltip title={translate.save}>
 											<Icon
