@@ -65,7 +65,7 @@ class Header extends React.Component {
 						alignItems: "center"
 					}}
 				>
-					{this.props.companyMenu && this.props.windowSize === 'xs' &&
+					{this.props.companyMenu && this.props.windowSize === 'xs' && false &&
 						<div>
 							<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
 								<div

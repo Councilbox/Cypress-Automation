@@ -19,7 +19,7 @@ class NoCompanyRouter extends React.Component {
                     overflow: 'hidden',
                 }}
             >
-                <Header 
+                <Header
                     translate={this.props.translate}
                     user={this.props.user}
                     backButton={this.props.location.pathname !== `/`}
@@ -38,7 +38,7 @@ class NoCompanyRouter extends React.Component {
                         <Route exact path="/" component={() => <NoCompanyDashboard translate={this.props.translate}user={this.props.user} />} />
                         <Route exact path="/company/create" component={NewCompanyPage} />
                         <Route exact path="/company/link" component={() => (
-                            <div style={{maxWidth: '650px'}}>
+                            <div style={{maxWidth: '650px', minWidth: '550px', height: '400px'}}>
                                 <LinkCompanyPage />
                             </div>
                         )} />
