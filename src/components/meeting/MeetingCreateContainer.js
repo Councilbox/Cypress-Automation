@@ -17,7 +17,7 @@ class MeetingCreateContainer extends React.Component {
 
 	state = {
 		created: false,
-		error: true
+		error: false
 	}
 
 	async componentDidMount(){
@@ -73,7 +73,7 @@ class MeetingCreateContainer extends React.Component {
 							</div>
 							<div style={{textAlign: 'center', padding: '1.1em', fontWeight: '700', marginTop: '1em'}}>
 								<span style={{fontSize: '1.1em', color: primary}}>ERROR</span><br/>
-								 HABIDO UN PROBLEMA AL CONECTAR CON EL SERVIDOR, POR FAVOR INTÉNTELO MÁS TARDE
+								HA HABIDO UN PROBLEMA AL CONECTAR CON EL SERVIDOR, POR FAVOR INTÉNTELO MÁS TARDE
 							</div>
 						</Paper>
 					</div>

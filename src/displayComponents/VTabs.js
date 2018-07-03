@@ -3,8 +3,10 @@ import Scrollbar from "react-perfect-scrollbar";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getPrimary, getSecondary, lightTurquoise } from "../styles/colors";
 import { CloseIcon, Grid, GridItem, MenuItem, SelectInput } from "./index";
+import { Tooltip } from 'material-ui';
 import Tabs from 'antd/lib/tabs';
 import "../styles/react-tabs.css";
+import Icon from 'antd/lib/icon';
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -15,6 +17,9 @@ const Vtabs = ({
 	changeTab,
 	additionalTab,
 	windowSize,
+	saveAction,
+	translate,
+	index,
 	deleteAction
 }) => (
 	<React.Fragment>
@@ -22,14 +27,42 @@ const Vtabs = ({
 			<Tabs
 				tabPosition={'left'}
 				onChange={changeTab}
+				activeKey={''+index}
 			>
-				{tabs.map((tab, index) => {
+				{tabs.map((tab, mapIndex) => {
 					return (
 						<Tabs.TabPane
-							key={''+index}
+							key={''+mapIndex}
 							tab={
-								<div>
-									{tab.title}
+								<div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+									<span
+										style={{
+											color: +index === +mapIndex? primary : 'black',
+											...(+index === +mapIndex? { fontWeight: '700'} : {})
+										}}
+									>
+										{tab.title}
+									</span>
+									{!!(saveAction && +index === +mapIndex)?
+										<Tooltip title={translate.save}>
+											<Icon
+												type="save"
+												style={{
+													fontSize:'1.3em',
+													width: '2em',
+													color: primary
+												}}
+												onClick={event => {
+													saveAction();
+													event.stopPropagation();
+												}}
+											/>
+										</Tooltip>
+									:
+										<span style={{width: '2em'}}>
+
+										</span>
+									}
 									<CloseIcon
 										style={{ float: "right" }}
 										onClick={event => {
@@ -116,7 +149,7 @@ const Vtabs = ({
 export default withWindowSize(Vtabs);
 
 
-/* 
+/*
 <Grid style={{ height: "100%" }}>
 				<GridItem xs={12} md={3} lg={3} className="nav-tabs-left">
 					{tabs.map((tab, index) => {

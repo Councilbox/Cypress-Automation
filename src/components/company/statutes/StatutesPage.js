@@ -189,8 +189,7 @@ class StatutesPage extends React.Component {
 			const companyStatute = companyStatutes[i];
 			tabs.push({
 				title: translate[companyStatute.title] || companyStatute.title,
-				data: companyStatute,
-				active: i === this.state.selectedStatute
+				data: companyStatute
 			});
 		}
 
@@ -199,10 +198,13 @@ class StatutesPage extends React.Component {
 				<VTabs
 					tabs={tabs}
 					changeTab={this.handleStatuteChange}
+					index={this.state.selectedStatute}
 					additionalTab={{
 						title: translate.add_council_type,
 						action: this.showNewStatute
 					}}
+					translate={translate}
+					saveAction={this.state.unsavedChanges? this.updateStatute : null}
 					deleteAction={this.openDeleteModal}
 				>
 					{!!statute && (
