@@ -6,7 +6,7 @@ import {
 } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
-import { sendConveneReminder } from "../../../../queries";
+import { sendReminder } from "../../../../queries/council";
 
 class ReminderModal extends Component {
 	close = () => {
@@ -22,14 +22,12 @@ class ReminderModal extends Component {
 		this.setState({
 			sending: true
 		});
-		const response = await this.props.sendConveneReminder({
+		const response = await this.props.sendReminder({
 			variables: {
-				councilId: this.props.council.id,
-				includeAgenda: this.state.sendAgenda ? 1 : 0,
-				confirmAssistance: this.props.council.confirmAssistance
+				councilId: this.props.council.id
 			}
 		});
-		if (response.data.sendConveneReminder.success) {
+		if (response.data.sendReminder.success) {
 			this.setState({
 				sending: false,
 				success: true
@@ -64,7 +62,7 @@ class ReminderModal extends Component {
 
 		return (
 			<div>
-				<Checkbox
+				{/* <Checkbox
 					label={translate.include_agenda_points}
 					value={this.state.sendAgenda}
 					onChange={(event, isInputChecked) =>
@@ -72,7 +70,7 @@ class ReminderModal extends Component {
 							sendAgenda: isInputChecked
 						})
 					}
-				/>
+				/> */}
 			</div>
 		);
 	}
@@ -98,8 +96,8 @@ class ReminderModal extends Component {
 	}
 }
 
-export default graphql(sendConveneReminder, {
-	name: "sendConveneReminder"
+export default graphql(sendReminder, {
+	name: "sendReminder"
 })(ReminderModal);
 
 const SuccessMessage = ({ message }) => (

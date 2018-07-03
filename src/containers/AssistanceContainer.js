@@ -49,6 +49,7 @@ const participantQuery = gql`
 			email
 			language
 			assistanceIntention
+			assistanceComment
 			state
 			type
 			representative {

@@ -74,7 +74,7 @@ class Assistance extends React.Component {
 			savingAssistanceComment: true
 		})
 
-		await setAssistanceComment({
+		let response = await setAssistanceComment({
 			variables: {
 				assistanceComment: assistanceComment
 			}
@@ -163,15 +163,15 @@ class Assistance extends React.Component {
 								<RichTextInput
 									errorText=""
 									value={
-										!!participant.assintanceComment
-											? participant.assintanceComment
+										!!participant.assistanceComment
+											? participant.assistanceComment
 											: ""
 									}
 									onChange={value =>
 										this.setState({
 											participant: {
 												...this.state.participant,
-												assintanceComment: value
+												assistanceComment: value
 											}
 										})
 									}

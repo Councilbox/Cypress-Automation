@@ -86,3 +86,75 @@ export const updateAgenda = gql`
 		}
 	}
 `;
+
+
+export const sendReminder = gql`
+	mutation sendReminder(
+		$councilId: Int!
+	) {
+		sendReminder(
+			councilId: $councilId
+		) {
+			success
+		}
+	}
+`;
+
+export const rescheduleCouncil = gql`
+	mutation rescheduleCouncil(
+		$councilId: Int!
+		$dateStart: String
+		$dateStart2NdCall: String
+		$timezone: String!
+	) {
+		rescheduleCouncil(
+			councilId: $councilId
+			dateStart: $dateStart
+			dateStart2NdCall: $dateStart2NdCall
+			timezone: $timezone
+		) {
+			success
+		}
+	}
+`;
+
+export const cancelCouncil = gql`
+	mutation cancelCouncil($councilId: Int!, $timezone: String!) {
+		cancelCouncil(councilId: $councilId, timezone: $timezone) {
+			success
+		}
+	}
+`;
+
+
+export const conveneWithNotice = gql`
+	mutation conveneWithNotice($councilId: Int!, timezone: String!) {
+		conveneWithNotice(councilId: $councilId, timezone: $timezone) {
+			success
+		}
+	}
+`;
+
+export const sendConveneTest = gql`
+	mutation sendConveneTest($councilId: Int!, $email: String!, timezone: String!) {
+		sendConveneTest(councilId: $councilId, email: $email, timezone: $timezone) {
+			success
+		}
+	}
+`;
+
+export const sendPreConvene = gql`
+	mutation sendPreConvene($councilId: Int!, timezone: String!) {
+		sendPreConvene(councilId: $councilId, timezone: $timezone) {
+			success
+		}
+	}
+`;
+
+export const conveneWithoutNotice = gql`
+	mutation conveneWithoutNotice($councilId: Int!, timezone: String!) {
+		conveneWithoutNotice(councilId: $councilId, timezone: $timezone) {
+			success
+		}
+	}
+`;

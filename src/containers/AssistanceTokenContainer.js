@@ -23,7 +23,7 @@ class AssistanceTokenContainer extends React.Component {
 			try {
 				const response = await this.props.participantToken();
 				if (response && !response.errors) {
-					const token = response.data.participantToken;
+					const token = response.data.assistanceToken;
 					sessionStorage.setItem("participantToken", token);
 					const responseQueryMe = await this.props.client.query({
 						query: getMe,
@@ -83,7 +83,7 @@ const mapStateToProps = state => ({
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {
-		participantToken(token: $token)
+		assistanceToken(token: $token)
 	}
 `;
 

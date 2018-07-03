@@ -8,8 +8,9 @@ import {
 } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
-import { rescheduleCouncil } from "../../../../queries";
+import { rescheduleCouncil } from "../../../../queries/council";
 import * as CBX from "../../../../utils/CBX";
+import moment from 'moment-timezone';
 
 class RescheduleModal extends Component {
 	close = () => {
@@ -32,7 +33,8 @@ class RescheduleModal extends Component {
 				dateStart: new Date(this.state.dateStart).toISOString(),
 				dateStart2NdCall: new Date(
 					this.state.dateStart2NdCall
-				).toISOString()
+				).toISOString(),
+				timezone: moment().utcOffset()
 			}
 		});
 		if (response.data.rescheduleCouncil.success) {

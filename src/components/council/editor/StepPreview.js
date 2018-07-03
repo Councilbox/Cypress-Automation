@@ -13,18 +13,21 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { withRouter } from "react-router-dom";
 import { compose, graphql } from "react-apollo";
 import {
-	conveneCouncil,
+	councilStepSix
+} from "../../../queries";
+import {
+	conveneWithNotice,
 	conveneWithoutNotice,
-	councilStepSix,
 	sendConveneTest,
 	sendPreConvene
-} from "../../../queries";
+} from "../../../queries/council";
 import { Icon, MenuItem, Paper, Typography } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { bHistory } from "../../../containers/App";
 import * as CBX from "../../../utils/CBX";
 import { checkValidEmail } from "../../../utils/validation";
 import { toast } from "react-toastify";
+import moment from 'moment-timezone';
 
 class StepPreview extends React.Component {
 
@@ -48,16 +51,17 @@ class StepPreview extends React.Component {
 		this.props.data.refetch();
 	}
 
-	conveneCouncil = async () => {
+	conveneWithNotice = async () => {
 		const { __typename, ...council } = this.props.data.council;
 		this.props.data.loading = true;
-		const response = await this.props.conveneCouncil({
+		const response = await this.props.conveneWithNotice({
 			variables: {
-				councilId: council.id
+				councilId: council.id,
+				timezone: moment().utcOffset(),
 			}
 		});
 
-		if (response.data.conveneCouncil.success) {
+		if (response.data.conveneWithNotice.success) {
 			toast.success(this.props.translate.council_sended);
 			bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
 		}
@@ -68,7 +72,8 @@ class StepPreview extends React.Component {
 			const response = await this.props.sendConveneTest({
 				variables: {
 					councilId: this.props.data.council.id,
-					email: this.state.data.conveneTestEmail
+					email: this.state.data.conveneTestEmail,
+					timezone: moment().utcOffset(),
 				}
 			});
 
@@ -114,7 +119,8 @@ class StepPreview extends React.Component {
 	sendPreConvene = async () => {
 		const response = await this.props.sendPreConvene({
 			variables: {
-				councilId: this.props.data.council.id
+				councilId: this.props.data.council.id,
+				timezone: moment().utcOffset(),
 			}
 		});
 
@@ -128,7 +134,8 @@ class StepPreview extends React.Component {
 	sendConveneWithoutNotice = async () => {
 		const response = await this.props.conveneWithoutNotice({
 			variables: {
-				councilId: this.props.data.council.id
+				councilId: this.props.data.council.id,
+				timezone: moment().utcOffset(),
 			}
 		});
 		if (!response.errors) {
@@ -219,9 +226,6 @@ class StepPreview extends React.Component {
 							justifyContent: 'space-between'
 						}}
 					>
-						<div>
-
-						</div>
 						<div>
 							<div
 								style={{
@@ -329,7 +333,7 @@ class StepPreview extends React.Component {
 								}}
 								floatRight
 								textPosition="after"
-								onClick={this.conveneCouncil}
+								onClick={this.conveneWithNotice}
 							/>
 							<BasicButton
 								text={translate.previous}
@@ -435,8 +439,8 @@ class StepPreview extends React.Component {
 
 
 export default compose(
-	graphql(conveneCouncil, {
-		name: "conveneCouncil"
+	graphql(conveneWithNotice, {
+		name: "conveneWithNotice"
 	}),
 
 	graphql(sendConveneTest, {
