@@ -1,3 +1,8 @@
+## Install
+
+Inside the project directory run the "npm install" or "yarn install"
+<br>
+
 ## Scripts
 
 In the project directory, you can run:
@@ -28,13 +33,17 @@ After building the project you can inspect the bundle source map packages sizes 
 ### `npm run / yarn format`
 Command to format all the files in the src folder with the prettier configuration.
 
+## Project main libraries
+- React
+- Redux / Redux Thunk
+- Apollo
+- Material-ui
+- Antd
 
-### Project tools
+
+## Project tools
 
 Developed with VSCode with the following extensions.
 - Language mode: JavaScript React (Babel),
 - Import cost
 - Prettier code formatter
-- Trailing spaces
-- Sublime babel
-- Sublime Text Keymap
