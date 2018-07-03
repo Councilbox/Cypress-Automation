@@ -22,15 +22,6 @@ class CouncilEditorPage extends React.Component {
 		actualStep: this.props.step
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.step !== prevState.step){
-			return {
-				step: nextProps.step
-			}
-		}
-		return null;
-	}
-
 	componentDidMount() {
 		if (this.state.step !== this.props.step) {
 			this.setState({
@@ -50,7 +41,6 @@ class CouncilEditorPage extends React.Component {
 
 	nextStep = () => {
 		const index = this.state.step + 1;
-		this.props.updateStep();
 		this.setState({ step: index });
 	};
 

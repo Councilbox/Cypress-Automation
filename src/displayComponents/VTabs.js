@@ -29,6 +29,12 @@ const Vtabs = ({
 				onChange={changeTab}
 				activeKey={''+index}
 			>
+				<Tabs.TabPane
+					key="new"
+					tab={
+						additionalTab
+					}
+				/>
 				{tabs.map((tab, mapIndex) => {
 					return (
 						<Tabs.TabPane
@@ -48,9 +54,9 @@ const Vtabs = ({
 											<Icon
 												type="save"
 												style={{
-													fontSize:'1.3em',
+													fontSize:'1.75em',
 													width: '2em',
-													color: primary
+													color: secondary
 												}}
 												onClick={event => {
 													saveAction();

@@ -57,9 +57,9 @@ class StepCensus extends React.Component {
 		});
 	};
 
-	saveDraft = step => {
+	saveDraft = async step => {
 		const { __typename, participants, ...council } = this.props.data.council;
-		this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -76,7 +76,7 @@ class StepCensus extends React.Component {
 			});
 		}
 	};
-	
+
 	nextPage = () => {
 		this.saveDraft(3);
 		this.props.nextStep();
