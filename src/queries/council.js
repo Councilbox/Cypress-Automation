@@ -128,7 +128,7 @@ export const cancelCouncil = gql`
 
 
 export const conveneWithNotice = gql`
-	mutation conveneWithNotice($councilId: Int!, timezone: String!) {
+	mutation conveneWithNotice($councilId: Int!, $timezone: String!) {
 		conveneWithNotice(councilId: $councilId, timezone: $timezone) {
 			success
 		}
@@ -136,7 +136,7 @@ export const conveneWithNotice = gql`
 `;
 
 export const sendConveneTest = gql`
-	mutation sendConveneTest($councilId: Int!, $email: String!, timezone: String!) {
+	mutation sendConveneTest($councilId: Int!, $email: String!, $timezone: String!) {
 		sendConveneTest(councilId: $councilId, email: $email, timezone: $timezone) {
 			success
 		}
@@ -144,7 +144,7 @@ export const sendConveneTest = gql`
 `;
 
 export const sendPreConvene = gql`
-	mutation sendPreConvene($councilId: Int!, timezone: String!) {
+	mutation sendPreConvene($councilId: Int!, $timezone: String!) {
 		sendPreConvene(councilId: $councilId, timezone: $timezone) {
 			success
 		}
@@ -152,7 +152,7 @@ export const sendPreConvene = gql`
 `;
 
 export const conveneWithoutNotice = gql`
-	mutation conveneWithoutNotice($councilId: Int!, timezone: String!) {
+	mutation conveneWithoutNotice($councilId: Int!, $timezone: String!) {
 		conveneWithoutNotice(councilId: $councilId, timezone: $timezone) {
 			success
 		}

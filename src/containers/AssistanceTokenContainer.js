@@ -5,6 +5,7 @@ import gql from "graphql-tag";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
+import { SSL_OP_PKCS1_CHECK_2 } from "constants";
 
 class AssistanceTokenContainer extends React.Component {
 	constructor(props) {
@@ -53,13 +54,18 @@ class AssistanceTokenContainer extends React.Component {
 
 	render() {
 		const { loading, error, participant } = this.state;
-		const { translate } = this.props;
+		const { translate, match } = this.props;
 		if (Object.keys(translate).length === 0 && loading) {
 			return <LoadingMainApp />;
 		}
 
 		if (error) {
 			return <InvalidUrl />;
+		}
+		if (match.params.token === 'fake') {
+			return <div style={{textAlign: 'center', padding: '20vh'}}>
+				<h2>{translate.corfirm_assistance_test}</h2>
+			</div>;
 		}
 
 		return (
