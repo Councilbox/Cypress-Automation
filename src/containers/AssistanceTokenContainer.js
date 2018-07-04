@@ -23,7 +23,7 @@ class AssistanceTokenContainer extends React.Component {
 			try {
 				const response = await this.props.participantToken();
 				if (response && !response.errors) {
-					const token = response.data.participantToken;
+					const token = response.data.assistanceToken;
 					sessionStorage.setItem("participantToken", token);
 					const responseQueryMe = await this.props.client.query({
 						query: getMe,
@@ -53,13 +53,18 @@ class AssistanceTokenContainer extends React.Component {
 
 	render() {
 		const { loading, error, participant } = this.state;
-		const { translate } = this.props;
+		const { translate, match } = this.props;
 		if (Object.keys(translate).length === 0 && loading) {
 			return <LoadingMainApp />;
 		}
 
 		if (error) {
 			return <InvalidUrl />;
+		}
+		if (match.params.token === 'fake') {
+			return <div style={{textAlign: 'center', padding: '20vh'}}>
+				<h2>{translate.corfirm_assistance_test}</h2>
+			</div>;
 		}
 
 		return (
@@ -83,7 +88,7 @@ const mapStateToProps = state => ({
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {
-		participantToken(token: $token)
+		assistanceToken(token: $token)
 	}
 `;
 

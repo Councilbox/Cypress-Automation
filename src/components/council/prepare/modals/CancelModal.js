@@ -3,8 +3,10 @@ import React, { Component, Fragment } from "react";
 import { AlertConfirm, Icon } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
-import { cancelCouncil } from "../../../../queries";
+import { cancelCouncil } from "../../../../queries/council";
 import { bHistory } from "../../../../containers/App";
+import moment from 'moment-timezone';
+
 
 class CancelModal extends Component {
 	close = () => {
@@ -20,7 +22,8 @@ class CancelModal extends Component {
 		});
 		const response = await this.props.cancelCouncil({
 			variables: {
-				councilId: this.props.council.id
+				councilId: this.props.council.id,
+				timezone: moment().utcOffset()
 			}
 		});
 		if (response.data.cancelCouncil.success) {

@@ -68,6 +68,7 @@ class StepCensus extends React.Component {
 			}
 		});
 	};
+
 	handleCensusChange = event => {
 		if (event.target.value !== this.props.data.council.selectedCensusId) {
 			this.setState({
@@ -88,10 +89,10 @@ class StepCensus extends React.Component {
 	};
 
 	sendCensusChange = async () => {
-		const response = await this.props.mutate({
+		const response = await this.props.changeCensus({
 			variables: {
 				censusId: this.state.censusChangeId,
-				councilId: this.props.councilID
+				councilId: this.props.data.council.id
 			}
 		});
 		if (response) {
@@ -270,8 +271,10 @@ class StepCensus extends React.Component {
 }
 
 const changeCensus = gql`
-	mutation ChangeCensus($councilId: Int!, $censusId: Int!) {
-		changeCensus(councilId: $councilId, censusId: $censusId)
+	mutation changeCensus($councilId: Int!, $censusId: Int!) {
+		changeCensus(councilId: $councilId, censusId: $censusId){
+			success
+		}
 	}
 `;
 
@@ -286,7 +289,9 @@ export default compose(
 			notifyOnNetworkStatusChange: true
 		})
 	}),
-	graphql(changeCensus),
+	graphql(changeCensus,  {
+		name: "changeCensus"
+	}),
 	graphql(updateCouncil, {
 		name: "updateCouncil"
 	})
