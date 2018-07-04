@@ -58,20 +58,21 @@ class StepNotice extends React.Component {
 				}
 			}
 		}
-
 		return null;
 	}
 
-	nextPage = () => {
+	nextPage = async () => {
 		if (!this.checkRequiredFields()) {
-			this.updateCouncil(2);
-			this.props.nextStep();
+			const response = await this.updateCouncil(2);
+			if(!response.data.errors){
+				this.props.nextStep();
+			}
 		}
 	};
 
 	updateCouncil = step => {
 		const { __typename, statute, ...council } = this.state.data;
-		this.props.updateCouncil({
+		return this.props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -209,7 +210,7 @@ class StepNotice extends React.Component {
 		}
 
 		this.setState({
-			alert: true,
+			alert: hasError,
 			errors: errors
 		});
 

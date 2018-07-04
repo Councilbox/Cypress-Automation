@@ -66,7 +66,7 @@ class CompanyMenu extends React.Component {
 							company={this.props.company}
 						/>
 					</div>
-					<div 
+					<div
 						style={{width: '100%', height: 'calc(100vh - 10em)'}}
 					>
 						<CompanySelector

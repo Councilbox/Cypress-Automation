@@ -78,9 +78,9 @@ class StepAgenda extends Component {
 		});
 	};
 
-	nextPage = () => {
+	nextPage = async () => {
 		if (this.checkConditions()) {
-			this.updateCouncil(4);
+			await this.updateCouncil(4);
 			this.props.nextStep();
 		}
 	};
@@ -88,7 +88,7 @@ class StepAgenda extends Component {
 	checkConditions = () => {
 		const { errors } = this.state;
 		const agendas = this.props.data.council.agendas;
-		
+
 		if (agendas.length !== 0) {
 			return true;
 		} else {

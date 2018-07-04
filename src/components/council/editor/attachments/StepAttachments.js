@@ -134,14 +134,14 @@ class StepAttachments extends React.Component {
 	};
 
 	nextPage = () => {
-		if (true) {
+		if (!this.state.uploading) {
 			this.updateCouncil(5);
 			this.props.nextStep();
 		}
 	};
 
 	previousPage = () => {
-		if (true) {
+		if (!this.state.uploading) {
 			this.updateCouncil(4);
 			this.props.previousStep();
 		}
