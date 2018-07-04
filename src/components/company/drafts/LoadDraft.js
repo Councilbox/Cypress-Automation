@@ -19,12 +19,10 @@ export const draftTypes = gql`
 `;
 
 class LoadDraft extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loadDraft: false
-		};
-	}
+	state = {
+		loadDraft: false
+	};
+
 
 	render() {
 		const { translate, statutes, statute } = this.props;
@@ -55,7 +53,7 @@ class LoadDraft extends React.Component {
 							value: statute.statuteId,
 							label: translate[statute.title] || statute.title
 						}}
-						categories={[						
+						categories={[
 							...statutes.map(statute => {
 								return {
 									field: "statuteId",
@@ -67,7 +65,7 @@ class LoadDraft extends React.Component {
 								field: "statuteId",
 								value: 'all',
 								label: translate.all_plural
-							},	
+							},
 						]}
 						headers={[
 							{

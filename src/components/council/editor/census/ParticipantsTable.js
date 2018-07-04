@@ -68,7 +68,7 @@ class ParticipantsTable extends React.Component {
 		let headers = [
 			{
 				text: translate.name,
-				name: "name",
+				name: "fullName",
 				canOrder: true
 			},
 			{
@@ -126,7 +126,7 @@ class ParticipantsTable extends React.Component {
 							translate={translate}
 							defaultLimit={PARTICIPANTS_LIMITS[0]}
 							defaultFilter={"fullName"}
-							defaultOrder={["name", "asc"]}
+							defaultOrder={["fullName", "asc"]}
 							limits={PARTICIPANTS_LIMITS}
 							page={1}
 							loading={loading}
@@ -310,7 +310,9 @@ export default compose(
 				councilId: props.council.id,
 				options: {
 					limit: PARTICIPANTS_LIMITS[0],
-					offset: 0
+					offset: 0,
+					orderBy: 'fullName',
+					orderDirection: 'asc'
 				}
 			},
 			forceFetch: true,

@@ -6,6 +6,7 @@ import {
 	SelectInput,
 	TextInput
 } from "./index";
+import PropTypes from "prop-types";
 import { Icon, MenuItem } from "material-ui";
 import Table, {
 	TableBody,
@@ -37,238 +38,91 @@ class EnhancedTable extends React.Component {
 
 	timeout = null;
 
-
-
-	updateFilterText = async value => {
-		const { refetch, addedFilters } = this.props;
-		this.setState({
-			filterText: value,
-			page: 1
-		});
-
-		let variables = {
-			filters: [
-				{
-					field: this.state.filterField,
-					text: value
-				}
-			]
-		};
-		if (addedFilters) {
-			variables.filters = [...addedFilters, ...variables.filters];
-		}
-		if (this.state.categoryValue !== 'all') {
-			variables = {
-				...variables,
-				filters: [
-					...variables.filters,
-					{
-						field: this.state.selectedCategory,
-						text: this.state.categoryValue
-					}
-				]
-			};
-		}
-		clearTimeout(this.timeout);
-		this.timeout = setTimeout(() => refetch(variables), 450);
-	};
-
-	updateFilterField = async value => {
-		const { refetch } = this.props;
-
-		this.setState({
-			filterField: value,
-			page: 1
-		});
-
-		if (this.state.filterText) {
-			let newVariables = {
-				filters: [
-					{
-						field: value,
-						text: this.state.filterText
-					}
-				]
-			};
-			refetch(newVariables);
-		}
-	};
-
-	updateLimit = async limit => {
-		const { refetch } = this.props;
-
-		if (!!limit) {
-			let variables = {
-				options: {
-					limit: limit
-				}
-			};
-			if (!!this.state.filterText) {
-				variables = {
-					...variables,
-					filters: [
-						{
-							field: this.state.filterField,
-							text: this.state.filterText
-						}
-					]
-				};
-			}
-			if(!!this.props.addedFilters){
-				variables.filters = [...variables.filters, ...this.props.addedFilters];
-			}
-
-			refetch(variables);
-			this.setState({
-				limit: limit,
-				page: 1
-			});
-		}
-	};
-
-	changePage = async (page, object = {}) => {
-		const { refetch } = this.props;
-
-		if (!!page) {
-			let variables = {
-				...object,
-				options: {
-					limit: this.state.limit,
-					offset: this.state.limit * (page - 1)
-				}
-			};
-			if (!!this.state.filterText) {
-				variables = {
-					...variables,
-					filters: [
-						{
-							field: this.state.filterField,
-							text: this.state.filterText
-						}
-					]
-				};
-			}
-
-			if(!!this.props.addedFilters){
-				variables.filters = [...variables.filters, ...this.props.addedFilters];
-			}
-
-			if (this.state.categoryValue !== 'all') {
-				variables = {
-					...variables,
-					filters: [
-						...variables.filters,
-						{
-							field: this.state.selectedCategory,
-							text: this.state.categoryValue
-						}
-					]
-				};
-			}
-			refetch(variables);
-			this.setState({
-				page: page
-			});
-		}
-	};
-
-	orderBy = async field => {
-		const { orderBy } = this.state;
-		const { refetch } = this.props;
-		let direction = "asc";
-
-		if (field === orderBy) {
-			direction = this.state.orderDirection === "asc" ? "desc" : "asc";
-		}
-
+	refresh = () => {
 		let variables = {
 			options: {
 				limit: this.state.limit,
-				orderBy: field,
-				orderDirection: direction,
-				offset: 0
+				offset: this.state.limit * (this.state.page - 1),
+				orderBy: this.state.orderBy,
+				orderDirection: this.state.orderDirection
 			},
-		};
-		if (!!this.state.filterText) {
-			variables = {
-				...variables,
-				filters: [
-					{
-						field: this.state.filterField,
-						text: this.state.filterText
-					}
-				]
-			};
-		}
-
-		if(!!this.props.addedFilters){
-			variables.filters = [...variables.filters, ...this.props.addedFilters];
-		}
-
-		if (this.state.categoryValue !== 'all') {
-			if(variables.filters){
-				variables.filters.push({
-					field: this.state.selectedCategory,
-					text: this.state.categoryValue
-				});
-			}else{
-				variables.filters = [
-					{
-						field: this.state.selectedCategory,
-						text: this.state.categoryValue
-					}
-				]
-			}
-		}
-		refetch(variables);
-		this.setState({
-			orderBy: field,
-			orderDirection: direction
-		});
-	};
-
-	refresh = object => {
-		this.changePage(1, object);
-	};
-
-	updateCategory = (event, field) => {
-		const { refetch } = this.props;
-
-		let variables = {
 			filters: []
 		};
+		if(this.state.filterText){
+			variables.filters.push({
+				field: this.state.filterField,
+				text: this.state.filterText
+			});
+		};
 
-		if(event.value !== 'all'){
+		if(this.props.addedFilters){
 			variables.filters = [
-				{
-					field: field,
-					text: event.value
-				}
+				...variables.filters,
+				...this.props.addedFilters
 			]
 		}
 
-		if(!!this.props.addedFilters){
-			variables.filters = [...variables.filters, ...this.props.addedFilters];
+		if(this.state.categoryValue !== 'all'){
+			variables.filters = [
+				...variables.filters,
+				{
+					field: this.state.selectedCategory,
+					text: this.state.categoryValue
+				}
+			]
+		}
+		this.props.refetch(variables);
+	};
+
+	updateFilterText = value => {
+		this.setState({
+			filterText: value,
+			page: 1
+        }, () => {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => this.refresh(), 450);
+		});
+	};
+
+	updateFilterField = value => {
+		this.setState({
+			filterField: value,
+			page: 1
+		}, () => this.refresh());
+	};
+
+	updateLimit = limit => {
+		this.setState({
+			limit: limit,
+			page: 1
+		}, () => this.refresh());
+	};
+
+	changePage = page => {
+		this.setState({
+			page: page
+		}, () => this.refresh());
+	};
+
+	orderBy = field => {
+		let direction = "asc";
+
+		if (field === this.state.orderBy) {
+			direction = this.state.orderDirection === "asc" ? "desc" : "asc";
 		}
 
-		if (!!this.state.filterText) {
-			variables = {
-				...variables,
-				filters: [
-					...variables.filters,
-					{
-						field: this.state.filterField,
-						text: this.state.filterText
-					}
-				]
-			};
-		}
+		this.setState({
+			orderBy: field,
+			orderDirection: direction
+		}, () => this.refresh());
+	};
 
-		refetch(variables);
+	updateCategory = (event, field) => {
 		this.setState({
 			selectedCategory: field,
 			categoryValue: event.value
-		});
+		}, () => this.refresh());
+
 	};
 
 	render() {
@@ -442,5 +296,9 @@ class EnhancedTable extends React.Component {
 		);
 	}
 }
+
+EnhancedTable.propTypes = {
+	refetch: PropTypes.func.isRequired
+};
 
 export default EnhancedTable;

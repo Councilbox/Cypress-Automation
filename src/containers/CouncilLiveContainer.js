@@ -13,6 +13,10 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 		return <LoadingMainApp />;
 	}
 
+/* 	if (typeof window.orientation !== 'undefined')){
+		return <div>LO SENTIMOS, NO SE PUEDE CELEBRAR UNA REUNIÓN DESDE UN DISPOSITIVO MOVIL</div>
+	} */
+
 	return (
 		<div
 			style={{

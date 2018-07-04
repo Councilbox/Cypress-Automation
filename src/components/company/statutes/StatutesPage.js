@@ -213,7 +213,7 @@ class StatutesPage extends React.Component {
 		}
 
 		return (
-			<CardPageLayout disableScroll={true} title={translate.statutes}>
+			<CardPageLayout title={translate.statutes}>
 				{companyStatutes.length > 0? (
 					<React.Fragment>
 						<VTabs
@@ -229,6 +229,7 @@ class StatutesPage extends React.Component {
 									onClick={this.showNewStatute}
 								/>
 							}
+							additionalTabAction={this.showNewStatute}
 							translate={translate}
 							saveAction={this.state.unsavedChanges? this.updateStatute : null}
 							undoAction={() => this.setState({

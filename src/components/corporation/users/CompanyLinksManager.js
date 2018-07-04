@@ -60,7 +60,7 @@ class CompanyLinksManager extends React.PureComponent {
 		if(check){
 			checked = [...checked, email];
 		}else{
-			
+
 			console.log(checked);
 		}
 		this.setState({
@@ -72,7 +72,7 @@ class CompanyLinksManager extends React.PureComponent {
 		const item = this.state.checked.find(item => item.id === id);
 		return !!item;
     }
-    
+
     close = () => {
         this.setState({
             modal: false

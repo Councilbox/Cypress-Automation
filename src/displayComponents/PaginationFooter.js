@@ -92,7 +92,8 @@ const showPages = (numPages, active, changePage) => {
 				style={{
 					...paginationButtonStyle,
 					borderColor: active === i ? primary : secondary,
-					color: active === i ? primary : secondary
+					color: active === i ? primary : secondary,
+					cursor: active === i ? 'auto' : 'pointer'
 				}}
 			>
 				{i}

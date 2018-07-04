@@ -2,8 +2,8 @@ import React from "react";
 import Scrollbar from "react-perfect-scrollbar";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../styles/colors";
-import { CloseIcon, Grid, GridItem, MenuItem, SelectInput } from "./index";
-import { Tooltip } from 'material-ui';
+import { CloseIcon, Grid, GridItem, SelectInput, BasicButton } from "./index";
+import { Tooltip, Paper, MenuItem } from 'material-ui';
 import Tabs from 'antd/lib/tabs';
 import "../styles/react-tabs.css";
 import Icon from 'antd/lib/icon';
@@ -16,6 +16,7 @@ const Vtabs = ({
 	tabs,
 	changeTab,
 	additionalTab,
+	additionalTabAction,
 	windowSize,
 	saveAction,
 	undoAction,
@@ -103,9 +104,7 @@ const Vtabs = ({
 								</div>
 							}
 						>
-							<div style={{ height: "calc(80vh - 0.8em)", position: 'relative', overflow: 'hidden' }}>
-								<Scrollbar option={{ suppressScrollX: true }}>{children}</Scrollbar>
-							</div>
+							{children}
 						</Tabs.TabPane>
 					);
 				})}
@@ -132,23 +131,46 @@ const Vtabs = ({
 							})}
 						</SelectInput>
 					</GridItem>
-					<GridItem xs={6}>
+					<GridItem xs={6} style={{display: 'flex'}}>
 						{additionalTab && (
-							<button
-								style={{
-									width: "20%",
-									backgroundColor: secondary,
-									color: "white",
-									fontWeight: "700",
-									cursor: "pointer",
-									float: "right"
-								}}
-								onClick={additionalTab.action}
-							>
-								<i className="fa fa-plus" />
-								{/*{additionalTab.title}*/}
-							</button>
+							<Paper style={{margin: 0, padding: 0, backgroundColor: secondary, width: '2em', height: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+								<MenuItem onClick={additionalTabAction} style={{margin: 0, padding: 0, width: '2em', height: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+									<i className="fa fa-plus" style={{color: 'white'}} />
+								</MenuItem>
+							</Paper>
 						)}
+						{!!saveAction &&
+							<React.Fragment>
+								<Tooltip title={translate.save}>
+									<Icon
+										type="save"
+										style={{
+											fontSize:'1.75em',
+											width: '1.5em',
+											color: secondary
+										}}
+										onClick={event => {
+											saveAction();
+											event.stopPropagation();
+										}}
+									/>
+								</Tooltip>
+								<Tooltip title="Deshacer" /*TRADUCCION*/>
+									<Icon
+										type="rollback"
+										style={{
+											fontSize:'1.75em',
+											width: '1.5em',
+											color: secondary
+										}}
+										onClick={event => {
+											undoAction();
+											event.stopPropagation();
+										}}
+									/>
+								</Tooltip>
+							</React.Fragment>
+						}
 						{deleteAction && (
 							<CloseIcon
 								onClick={() => {
@@ -165,11 +187,10 @@ const Vtabs = ({
 				</Grid>
 				<div
 					style={{
-						height: "calc(100% - 4em)",
 						marginTop: "0.5em"
 					}}
 				>
-					<Scrollbar option={{ suppressScrollX: true }}>{children}</Scrollbar>
+					{children}
 				</div>
 			</div>
 		)}
