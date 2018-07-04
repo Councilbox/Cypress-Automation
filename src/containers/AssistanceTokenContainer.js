@@ -5,7 +5,6 @@ import gql from "graphql-tag";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
-import { SSL_OP_PKCS1_CHECK_2 } from "constants";
 
 class AssistanceTokenContainer extends React.Component {
 	constructor(props) {
