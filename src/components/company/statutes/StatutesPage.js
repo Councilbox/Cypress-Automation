@@ -31,6 +31,7 @@ class StatutesPage extends React.Component {
 		requestError: false,
 		requesting: false,
 		unsavedChanges: false,
+		rollbackAlert: false,
 		unsavedAlert: false,
 		errors: {},
 		deleteModal: false
@@ -179,6 +180,18 @@ class StatutesPage extends React.Component {
 
 	showNewStatute = () => this.setState({ newStatute: true });
 
+	restoreStatute = () => {
+		this.setState({
+			statute: {
+				...this.props.data.companyStatutes[
+					this.state.selectedStatute
+				]
+			},
+			unsavedChanges: false,
+			rollbackAlert: false
+		});
+	}
+
 
 	render() {
 		const { loading, companyStatutes } = this.props.data;
@@ -218,6 +231,9 @@ class StatutesPage extends React.Component {
 							}
 							translate={translate}
 							saveAction={this.state.unsavedChanges? this.updateStatute : null}
+							undoAction={() => this.setState({
+								rollbackAlert: true
+							})}
 							deleteAction={this.openDeleteModal}
 						>
 							{!!statute && (
@@ -298,11 +314,21 @@ class StatutesPage extends React.Component {
 				/>
 				<AlertConfirm
 					title={translate.attention}
-					bodyText={"Tienes cambios sin guardar"}//TRADUCCION
+					bodyText={"Tiene cambios sin guardar"}//TRADUCCION
 					open={this.state.unsavedAlert}
 					buttonCancel={translate.accept}
 					modal={true}
 					requestClose={() => this.setState({ unsavedAlert: false })}
+				/>
+				<AlertConfirm
+					title={translate.attention}
+					bodyText={"Está seguro que quiere deshacer los cambios?"}//TRADUCCION
+					open={this.state.rollbackAlert}
+					buttonAccept={translate.accept}
+					acceptAction={this.restoreStatute}
+					buttonCancel={translate.cancel}
+					modal={true}
+					requestClose={() => this.setState({ rollbackAlert: false })}
 				/>
 				<AlertConfirm
 					requestClose={() =>

@@ -9,10 +9,20 @@ export const setCompanyAsSelected = gql`
 	}
 `;
 
+export const refreshTokenQuery = gql`
+	mutation refreshToken($token: String!){
+		refreshToken(token: $token){
+			token
+			refreshToken
+		}
+	}
+`;
+
 export const login = gql`
 	mutation Login($email: String!, $password: String!) {
 		login(email: $email, password: $password) {
 			token
+			refreshToken
 		}
 	}
 `;

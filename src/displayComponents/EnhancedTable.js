@@ -36,7 +36,6 @@ class EnhancedTable extends React.Component {
 	};
 
 	timeout = null;
-	
 
 
 
@@ -58,7 +57,7 @@ class EnhancedTable extends React.Component {
 		if (addedFilters) {
 			variables.filters = [...addedFilters, ...variables.filters];
 		}
-		if (!!this.state.selectedCategory) {
+		if (this.state.categoryValue !== 'all') {
 			variables = {
 				...variables,
 				filters: [
@@ -73,6 +72,7 @@ class EnhancedTable extends React.Component {
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => refetch(variables), 450);
 	};
+
 	updateFilterField = async value => {
 		const { refetch } = this.props;
 
@@ -93,6 +93,7 @@ class EnhancedTable extends React.Component {
 			refetch(newVariables);
 		}
 	};
+
 	updateLimit = async limit => {
 		const { refetch } = this.props;
 
@@ -124,6 +125,7 @@ class EnhancedTable extends React.Component {
 			});
 		}
 	};
+
 	changePage = async (page, object = {}) => {
 		const { refetch } = this.props;
 
@@ -151,7 +153,7 @@ class EnhancedTable extends React.Component {
 				variables.filters = [...variables.filters, ...this.props.addedFilters];
 			}
 
-			if (!!this.state.selectedCategory) {
+			if (this.state.categoryValue !== 'all') {
 				variables = {
 					...variables,
 					filters: [
@@ -169,6 +171,7 @@ class EnhancedTable extends React.Component {
 			});
 		}
 	};
+
 	orderBy = async field => {
 		const { orderBy } = this.state;
 		const { refetch } = this.props;
@@ -184,7 +187,7 @@ class EnhancedTable extends React.Component {
 				orderBy: field,
 				orderDirection: direction,
 				offset: 0
-			}
+			},
 		};
 		if (!!this.state.filterText) {
 			variables = {
@@ -202,17 +205,20 @@ class EnhancedTable extends React.Component {
 			variables.filters = [...variables.filters, ...this.props.addedFilters];
 		}
 
-		if (this.state.selectedCategory !== 'all') {
-			variables = {
-				...variables,
-				filters: [
-					...variables.filters,
+		if (this.state.categoryValue !== 'all') {
+			if(variables.filters){
+				variables.filters.push({
+					field: this.state.selectedCategory,
+					text: this.state.categoryValue
+				});
+			}else{
+				variables.filters = [
 					{
 						field: this.state.selectedCategory,
 						text: this.state.categoryValue
 					}
 				]
-			};
+			}
 		}
 		refetch(variables);
 		this.setState({
@@ -290,21 +296,23 @@ class EnhancedTable extends React.Component {
 				<Grid>
 					{limits && (
 						<GridItem xs={2} md={2} lg={2}>
-							<SelectInput
-								value={limit}
-								onChange={event =>
-									this.updateLimit(event.target.value)
-								}
-							>
-								{limits.map(item => (
-									<MenuItem
-										key={`limit_${item}`}
-										value={item}
-									>
-										{item}
-									</MenuItem>
-								))}
-							</SelectInput>
+							<div style={{width: '5em'}}>
+								<SelectInput
+									value={limit}
+									onChange={event =>
+										this.updateLimit(event.target.value)
+									}
+								>
+									{limits.map(item => (
+										<MenuItem
+											key={`limit_${item}`}
+											value={item}
+										>
+											{item}
+										</MenuItem>
+									))}
+								</SelectInput>
+							</div>
 						</GridItem>
 					)}
 					{fields ? (
@@ -408,7 +416,11 @@ class EnhancedTable extends React.Component {
 					</TableHead>
 					<TableBody>{!loading && children}</TableBody>
 				</Table>
-				{loading && <LoadingSection />}
+				{loading &&
+					<div style={{marginTop: '3em'}}>
+						<LoadingSection />
+					</div>
+				}
 				{!loading && (
 					<Grid
 						style={{

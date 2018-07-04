@@ -48,6 +48,7 @@ class Councils extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const { loading, councils, error } = this.props.data;
+		console.log(this.props.data);
 		return (
 			<div
 				style={{
@@ -76,7 +77,7 @@ class Councils extends React.Component {
 							</div>
 						) : (
 							<React.Fragment>
-								{error ? (
+								{false ? (
 									<div>
 										{error.graphQLErrors.map(error => {
 											return (
@@ -139,7 +140,8 @@ export default compose(
 				companyId: props.company.id,
 				isMeeting: false,
 				active: 1
-			}
+			},
+			errorPolicy: 'all'
 		})
 	})
 )(Councils);

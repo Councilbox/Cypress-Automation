@@ -55,7 +55,7 @@ class AppRouter extends React.Component {
 		const { translate } = this.props;
 
 		if(!this.props.main.serverStatus){
-			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR. REINTENTANDO..." />
+			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR..." />
 		}
 
 		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {

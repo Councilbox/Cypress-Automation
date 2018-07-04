@@ -1,12 +1,30 @@
 import { printCifAlreadyUsed, printSessionExpiredError } from "./CBX";
 import { logout } from "../actions/mainActions";
+import { refreshTokenQuery } from '../queries';
 
-export const graphQLErrorHandler = (graphQLErrors, toast, store) => {
-	if (graphQLErrors[0].code === 440) {
-		toast.error(printSessionExpiredError());
-		store.dispatch(logout());
+export const refreshToken = async (apolloClient, toast, store) => {
+	const rToken = sessionStorage.getItem('refreshToken');
+	if(rToken){
+		const response = await apolloClient.mutate({
+			mutation: refreshTokenQuery,
+			variables: {
+				token: rToken
+			}
+		});
+		if(!response.errors){
+			sessionStorage.setItem('token', response.data.refreshToken.token);
+			sessionStorage.setItem('refreshToken', response.data.refreshToken.refreshToken);
+			return response;
+		}
 	}
 
+	toast.error(printSessionExpiredError());
+	store.dispatch(logout());
+
+}
+
+
+export const graphQLErrorHandler = (graphQLErrors, toast, store, apolloClient, operation) => {
 	if (graphQLErrors[0].message === "Validation error") {
 		if (graphQLErrors[0].originalError) {
 			if (graphQLErrors[0].originalError.fields) {

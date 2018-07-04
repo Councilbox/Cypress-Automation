@@ -24,7 +24,7 @@ const appStyle = theme => ({
 	},
 	mainPanelLite: {
 		width: "100%",
-		[theme.breakpoints.up("md")]: {
+		[theme.breakpoints.up("xs")]: {
 			width: `calc(100% - 5em)`
 		},
 		[theme.breakpoints.down("md")]: {

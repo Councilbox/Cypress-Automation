@@ -9,16 +9,16 @@ import configureStore from "../store/store";
 import { Provider } from "react-redux";
 import { initUserData, loadingFinished, setLanguage} from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
-//import { RetryLink } from 'apollo-link-retry';
+import { RetryLink } from 'apollo-link-retry';
 import { HttpLink } from "apollo-link-http";
-import { ApolloLink } from 'apollo-link';
+import { ApolloLink, Observable } from 'apollo-link';
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import { setContext } from "apollo-link-context";
 import { onError } from "apollo-link-error";
 import { API_URL } from "../config";
 import { toast, ToastContainer } from "react-toastify";
-import { graphQLErrorHandler, networkErrorHandler } from "../utils";
+import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
 import moment from "moment";
 import "moment/locale/es";
 import 'antd/dist/antd.css';
@@ -43,7 +43,7 @@ const authLink = setContext((_, { headers }) => {
 	};
 });
 
-/*const retryLink = new RetryLink({
+const retryLink = new RetryLink({
 	delay: {
 		initial: 500,
 		max: Infinity,
@@ -53,30 +53,58 @@ const authLink = setContext((_, { headers }) => {
 		max: 10,
 		retryIf: (error, _operation) => {
 			console.log(error);
+			console.log(_operation);
 			networkErrorHandler(error, toast, store);
 			return !!error
 		}
 	}
-});*/
+});
 
 const addStatusLink = new ApolloLink((operation, forward) => {
 	return forward(operation).map((response) => {
 		networkErrorHandler(null, toast, store);
 		return response;
-	})
-  })
+	});
+});
 
-const logoutLink = onError(({ graphQLErrors, networkError, response }) => {
+
+const logoutLink = onError(({ graphQLErrors, networkError, operation, response, forward}) => {
 	console.error(graphQLErrors);
 	console.error(networkError);
-	if (graphQLErrors) {
-		graphQLErrorHandler(graphQLErrors, toast, store);
+
+ 	if (graphQLErrors) {
+		if (graphQLErrors[0].code === 440) {
+			return new Observable(observable => {
+				let sub = null;
+				refreshToken(client, toast, store).then(() => {
+					const token = sessionStorage.getItem("token");
+					const participantToken = sessionStorage.getItem("participantToken");
+					operation.setContext({
+						headers: {
+							...operation.getContext().headers,
+							authorization: token
+								? `Bearer ${token}`
+								: `Bearer ${participantToken}`,
+							"x-jwt-token": token ? token : participantToken
+						}
+					});
+					sub = forward(operation).subscribe(observable);
+				});
+
+				return () => (sub? sub.unsubscribe() : null);
+			});
+		}
+
+		graphQLErrorHandler(graphQLErrors, toast, store, client, operation);
 	}
-	//networkErrorHandler(networkError, toast, store);
+
+	if(networkError){
+		networkErrorHandler(networkError, toast, store)
+	}
 });
 
 export const client = new ApolloClient({
-	link: logoutLink.concat(authLink.concat(addStatusLink.concat(httpLink))),
+	link: ApolloLink.from([retryLink, addStatusLink, logoutLink, authLink, httpLink]),
 	cache: new InMemoryCache(),
 	defaultOptions: {
 		query: {

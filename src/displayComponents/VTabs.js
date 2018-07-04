@@ -18,6 +18,7 @@ const Vtabs = ({
 	additionalTab,
 	windowSize,
 	saveAction,
+	undoAction,
 	translate,
 	index,
 	deleteAction
@@ -40,12 +41,12 @@ const Vtabs = ({
 						<Tabs.TabPane
 							key={''+mapIndex}
 							tab={
-								<div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+								<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}>
 									<Tooltip title={tab.title}>
 										<span
 											style={{
 												marginRight: '0.2em',
-												maxWidth: '18em',
+												maxWidth: '15em',
 												whiteSpace: 'nowrap',
 												overflow: 'hidden',
 												textOverflow: 'ellipsis',
@@ -57,20 +58,36 @@ const Vtabs = ({
 										</span>
 									</Tooltip>
 									{!!(saveAction && +index === +mapIndex)?
-										<Tooltip title={translate.save}>
-											<Icon
-												type="save"
-												style={{
-													fontSize:'1.75em',
-													width: '2em',
-													color: secondary
-												}}
-												onClick={event => {
-													saveAction();
-													event.stopPropagation();
-												}}
-											/>
-										</Tooltip>
+										<React.Fragment>
+											<Tooltip title={translate.save}>
+												<Icon
+													type="save"
+													style={{
+														fontSize:'1.75em',
+														width: '1.5em',
+														color: secondary
+													}}
+													onClick={event => {
+														saveAction();
+														event.stopPropagation();
+													}}
+												/>
+											</Tooltip>
+											<Tooltip title="Deshacer" /*TRADUCCION*/>
+												<Icon
+													type="rollback"
+													style={{
+														fontSize:'1.75em',
+														width: '1.5em',
+														color: secondary
+													}}
+													onClick={event => {
+														undoAction();
+														event.stopPropagation();
+													}}
+												/>
+											</Tooltip>
+										</React.Fragment>
 									:
 										<span style={{width: '2em'}}>
 

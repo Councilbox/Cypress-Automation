@@ -6,9 +6,10 @@ import DetectRTC from "detectrtc";
 
 export let language = "es";
 
-export const loginSuccess = token => {
+export const loginSuccess = (token, refreshToken) => {
 	return dispatch => {
 		sessionStorage.setItem("token", token);
+		sessionStorage.setItem("refreshToken", refreshToken);
 		dispatch(initUserData());
 		dispatch(getCompanies());
 		dispatch({ type: "LOGIN_SUCCESS" });

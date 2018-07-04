@@ -85,7 +85,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 			}
 		},
 		{
-			text: 'ACTAS FINALIZADAS',
+			text: 'Actas finalizadas', //TRADUCCION
 			link: `/company/${company.id}/councils/confirmed`,
 			component: () => {
 				return (
