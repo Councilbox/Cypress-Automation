@@ -204,30 +204,6 @@ export const updateCouncil = gql`
 	}
 `;
 
-export const cancelCouncil = gql`
-	mutation cancelCouncil($councilId: Int!) {
-		cancelCouncil(councilId: $councilId) {
-			success
-		}
-	}
-`;
-
-export const rescheduleCouncil = gql`
-	mutation rescheduleCouncil(
-		$councilId: Int!
-		$dateStart: String
-		$dateStart2NdCall: String
-	) {
-		rescheduleCouncil(
-			councilId: $councilId
-			dateStart: $dateStart
-			dateStart2NdCall: $dateStart2NdCall
-		) {
-			success
-		}
-	}
-`;
-
 export const deleteCouncil = gql`
 	mutation DeleteCouncil($councilId: Int!) {
 		deleteCouncil(councilId: $councilId) {
@@ -792,30 +768,6 @@ export const createStatute = gql`
 	}
 `;
 
-export const sendConveneTest = gql`
-	mutation sendConveneTest($councilId: Int!, $email: String!) {
-		sendConveneTest(councilId: $councilId, email: $email) {
-			success
-		}
-	}
-`;
-
-export const sendPreConvene = gql`
-	mutation sendPreConvene($councilId: Int!) {
-		sendPreConvene(councilId: $councilId) {
-			success
-		}
-	}
-`;
-
-export const conveneWithoutNotice = gql`
-	mutation conveneWithoutNotice($councilId: Int!) {
-		conveneWithoutNotice(councilId: $councilId) {
-			success
-		}
-	}
-`;
-
 export const councilStepThree = gql`
 	query CouncilStepThree($id: Int!, $companyId: Int!) {
 		council(id: $id) {
@@ -1047,14 +999,6 @@ export const councilStepFive = gql`
 		majorityTypes {
 			label
 			value
-		}
-	}
-`;
-
-export const conveneCouncil = gql`
-	mutation conveneCouncil($councilId: Int!) {
-		conveneCouncil(councilId: $councilId) {
-			success
 		}
 	}
 `;
@@ -1536,23 +1480,6 @@ export const downloadAgendaAttachment = gql`
 export const downloadConvenePDF = gql`
 	query downloadConvenePDF($councilId: Int!) {
 		downloadConvenePDF(councilId: $councilId)
-	}
-`;
-
-export const sendConveneReminder = gql`
-	mutation sendConveneReminder(
-		$councilId: Int!
-		$includeAgenda: Int
-		$confirmAssistance: Int
-	) {
-		sendConveneReminder(
-			councilId: $councilId
-			includeAgenda: $includeAgenda
-			confirmAssistance: $confirmAssistance
-		) {
-			success
-			message
-		}
 	}
 `;
 
