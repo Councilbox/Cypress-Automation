@@ -11,8 +11,8 @@ const CloseIcon = ({ style, onClick, loading }) => (
 				onClick={onClick}
 				style={{
 					...style,
-					height: "28px",
-					width: "45px",
+					height: "32px",
+					width: "32px",
 					outline: 0
 				}}
 			>

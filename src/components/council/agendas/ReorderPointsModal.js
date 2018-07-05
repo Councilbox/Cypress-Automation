@@ -86,7 +86,6 @@ class ReorderPointsModal extends React.PureComponent {
 					helperClass="draggable"
 				/>
 			</React.Fragment>
-			
 		);
 	};
 

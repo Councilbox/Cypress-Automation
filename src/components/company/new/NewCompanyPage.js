@@ -155,6 +155,7 @@ class NewCompanyPage extends React.PureComponent {
 			tin: "",
 			address: "",
 			city: "",
+			countryState: '',
 			country: "",
 			zipcode: '',
 		};
@@ -414,7 +415,7 @@ class NewCompanyPage extends React.PureComponent {
 							{translate.contact_data}
 						</Typography>
 						<br />
-						<Grid spacing={16}>
+						<Grid spacing={16} onKeyUp={this.handleKeyUp}>
 							<GridItem xs={12} md={6} lg={6}>
 								<TextInput
 									floatingText={translate.address}

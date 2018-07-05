@@ -14,16 +14,22 @@ export const secondary = turquoise;
 
 export const getPrimary = () => {
 	if (store) {
-		const color = store.getState().companies.primary;
-		return color ? color : primary;
+		const state = store.getState();
+		if(state.companies.list.length > 0){
+			const color = state.companies.list[state.companies.selected].primary;
+			return color ? color : primary;
+		}
 	}
 	return primary;
 };
 
 export const getSecondary = () => {
 	if (store) {
-		const color = store.getState().companies.secondary;
-		return color ? color : secondary;
+		const state = store.getState();
+		if(state.companies.list.length > 0){
+			const color = state.companies.list[state.companies.selected].secondary;
+			return color ? color : secondary;
+		}
 	}
 	return secondary;
 };

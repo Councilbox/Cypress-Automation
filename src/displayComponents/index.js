@@ -44,6 +44,7 @@ export { default as Scrollbar } from './Scrollbar';
 export { default as ScrollHTMLFixer } from './ScrollHTMLFixer';
 export { default as SectionTitle } from "./SectionTitle";
 export { default as SelectInput } from "./SelectInput";
+export { default as SortableList } from './SortableList';
 export { default as SuccessMessage } from './SuccessMessage';
 export { default as Table } from "./Table";
 export { default as TableEnhancer } from "./TableEnhancer";

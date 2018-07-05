@@ -1,9 +1,10 @@
 import React from "react";
-import { lightGrey } from "../styles/colors";
+import { lightGrey, getPrimary, getSecondary, primary, secondary } from "../styles/colors";
 //import Scrollbar from "react-perfect-scrollbar";
 import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
 import { Paper } from "material-ui";
+
 
 const CardPageLayout = ({
 	children,
@@ -27,7 +28,7 @@ const CardPageLayout = ({
 		>
 			<div
 				style={{
-					background: "linear-gradient(60deg, #ab47bc, #8e24aa)",
+					background: `linear-gradient(60deg, ${getPrimary() !== primary? getPrimary() : '#ab47bc'}, ${getSecondary() !== secondary? getSecondary() : '#8e24aa'})`, //
 					boxShadow:
 						"0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2)",
 					color: "white",
