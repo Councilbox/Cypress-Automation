@@ -18,33 +18,42 @@ class SignUpPage extends React.PureComponent {
 		page: 1,
 		success: false,
 		data: {
-			businessName: "",
-			type: 0,
-			cif: "",
-			name: "",
-			surname: "",
-			phone: "",
-			language: this.props.translate.selectedLanguage,
-			email: "",
-			pwd: "",
-			address: "",
-			city: "",
-			country: "España",
-			countryState: "",
-			zipCode: "",
-			subscriptionType: "",
-			iban: "",
-			code: ""
+			user: {
+				name: "",
+				surname: "",
+				phone: "",
+				preferredLanguage: this.props.translate.selectedLanguage,
+				email: "",
+				pwd: "",
+			},
+			company: {
+				businessName: "",
+				type: 0,
+				tin: "",
+				address: "",
+				city: "",
+				country: "España",
+				countryState: "",
+				zipcode: "",
+			},
+			subscription: {
+				subscriptionType: "",
+				iban: "",
+				code: ""
+			}
 		},
 		errors: {}
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState){
-		if(!prevState.language && !!nextProps.translate.selectedLanguage){
+		if(!prevState.data.user.preferredLanguage && !!nextProps.translate.selectedLanguage){
 			return {
 				data: {
 					...prevState.data,
-					language: nextProps.translate.selectedLanguage
+					user: {
+						...prevState.data.user,
+						preferredLanguage: nextProps.translate.selectedLanguage
+					}
 				}
 			}
 		}
@@ -81,7 +90,7 @@ class SignUpPage extends React.PureComponent {
 	send = async () => {
 		const response = await this.props.mutate({
 			variables: {
-				data: this.state.data
+				...this.state.data
 			}
 		});
 		console.log(response.errors);
@@ -101,7 +110,7 @@ class SignUpPage extends React.PureComponent {
 	createUser = async () => {
 		const response = await this.props.mutate({
 			variables: {
-				data: this.state.data
+				...this.state.data
 			}
 		});
 		if (response.errors) {
@@ -126,6 +135,45 @@ class SignUpPage extends React.PureComponent {
 			}
 		});
 	};
+
+	updateUser = object => {
+		this.setState({
+			...this.state,
+			data: {
+				...this.state.data,
+				user: {
+					...this.state.data.user,
+					...object
+				}
+			}
+		})
+	}
+
+	updateCompany = object => {
+		this.setState({
+			...this.state,
+			data: {
+				...this.state.data,
+				company: {
+					...this.state.data.company,
+					...object
+				}
+			}
+		})
+	}
+
+	updateSubscription = object => {
+		this.setState({
+			...this.state,
+			data: {
+				...this.state.data,
+				subscription: {
+					...this.state.data.subscription,
+					...object
+				}
+			}
+		})
+	}
 
 	updateErrors = object => {
 		this.setState({
@@ -229,10 +277,10 @@ class SignUpPage extends React.PureComponent {
 												{page === 1 && (
 													<SignUpUser
 														nextPage={this.nextPage}
-														formData={this.state.data}
+														formData={this.state.data.user}
 														errors={this.state.errors}
 														updateState={
-															this.updateState
+															this.updateUser
 														}
 														updateErrors={
 															this.updateErrors
@@ -252,10 +300,10 @@ class SignUpPage extends React.PureComponent {
 														previousPage={
 															this.previousPage
 														}
-														formData={this.state.data}
+														formData={this.state.data.company}
 														errors={this.state.errors}
 														updateState={
-															this.updateState
+															this.updateCompany
 														}
 														updateErrors={
 															this.updateErrors
@@ -269,10 +317,10 @@ class SignUpPage extends React.PureComponent {
 														previousPage={
 															this.previousPage
 														}
-														formData={this.state.data}
+														formData={this.state.data.subscription}
 														errors={this.state.errors}
 														updateState={
-															this.updateState
+															this.updateSubscription
 														}
 														updateErrors={
 															this.updateErrors

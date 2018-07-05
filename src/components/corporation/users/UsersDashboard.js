@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
 import { MenuItem } from 'material-ui';
@@ -15,7 +15,7 @@ const DEFAULT_OPTIONS = {
     orderDirection: 'DESC'
 }
 
-class UsersDashboard extends React.PureComponent {  
+class UsersDashboard extends React.PureComponent {
     state = {
         filterText: '',
         limit: DEFAULT_OPTIONS.limit,
@@ -47,14 +47,14 @@ class UsersDashboard extends React.PureComponent {
         variables.filters = [{field: 'fullName', text: this.state.filterText}];
         this.props.data.refetch(variables);
     }
-  
+
     render() {
-        
+
         if(this.state.addUser){
             return <NewUser translate={this.props.translate} requestClose={() => this.setState({ addUser: false})} />
         }
-        
-        return (  
+
+        return (
             <div
                 style={{
                     height: 'calc(100vh - 3em)',
@@ -62,7 +62,7 @@ class UsersDashboard extends React.PureComponent {
                     overflow: 'hidden'
                 }}
             >
-                <div 
+                <div
                     style={{
                         marginLeft: '1.4em',
                         marginRight: '1.4em',
@@ -134,11 +134,11 @@ class UsersDashboard extends React.PureComponent {
                     }
                 </div>
             </div>
-        );  
-    }  
-}  
-  
-export default compose(  
+        );
+    }
+}
+
+export default compose(
     graphql(corporationUsers, {  
         options: props => ({
             variables: {

@@ -1,5 +1,4 @@
 import React from "react";
-import CouncilboxApi from "../../../api/CouncilboxApi";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -12,50 +11,14 @@ import {
 } from "../../../displayComponents";
 import { getPrimary, secondary } from "../../../styles/colors";
 import { MenuItem } from "material-ui/Menu";
-import { graphql, withApollo } from "react-apollo";
-import { countries, provinces } from "../../../queries/masters";
 import TermsModal from "./TermsModal";
 
 class SignUpPay extends React.Component {
 	state = {
-		provinces: [],
 		subscriptions: [],
 		termsCheck: false,
 		termsAlert: false,
 		showTermsModal: false
-	};
-
-
-	componentDidMount = async () => {
-		const subscriptions = await CouncilboxApi.getSubscriptions();
-		this.setState({
-			subscriptions: subscriptions
-		});
-	};
-
-	componentWillReceiveProps = async nextProps => {
-		const data = nextProps.formData;
-		const selectedCountry = this.props.data.countries
-			? this.props.data.countries.find(
-					country => country.deno === data.country
-			  )
-			: {
-					deno: "España",
-					id: 1
-			  };
-
-		const response = await this.props.client.query({
-			query: provinces,
-			variables: {
-				countryId: selectedCountry.id
-			}
-		});
-
-		if (response) {
-			this.setState({
-				provinces: response.data.provinces
-			});
-		}
 	};
 
 	previousPage = () => {
@@ -74,49 +37,13 @@ class SignUpPay extends React.Component {
 		}
 	};
 
-	handleCountryChange = async event => {
-		this.props.updateState({
-			country: event.target.value
-		});
-	};
-
 	checkRequiredFields() {
 		const { translate } = this.props;
 
 		let errors = {
-			address: "",
-			city: "",
-			country: "",
-			zipCode: "",
 			termsCheck: ""
 		};
 		let hasError = false;
-		const data = this.props.formData;
-
-		if (!data.address.length > 0) {
-			hasError = true;
-			errors.address = translate.field_required;
-		}
-
-		if (!data.city.length > 0) {
-			hasError = true;
-			errors.city = translate.field_required;
-		}
-
-		if (data.countryState === "") {
-			hasError = true;
-			errors.countryState = translate.field_required;
-		}
-
-		if (!data.zipCode.length > 0) {
-			hasError = true;
-			errors.zipCode = translate.field_required;
-		}
-
-		if (data.type === "") {
-			hasError = true;
-			errors.province = translate.field_required;
-		}
 
 		if (!this.state.termsCheck) {
 			hasError = true;
@@ -140,15 +67,24 @@ class SignUpPay extends React.Component {
 			errors.termsCheck = this.props.translate.acept_terms;
 		}
 
-		this.props.updateErrors(errors);
+		this.props.updateErrors({
+			...errors,
+			hasError: hasError
+		});
 
 		return hasError;
 	}
 
-	render() {
-		if (this.props.data.loading) {
-			return <LoadingSection />;
+	handleKeyUp = event => {
+		if (event.nativeEvent.keyCode === 13) {
+			this.endForm();
 		}
+		if(this.props.errors.hasError){
+			this.checkRequiredFields();
+		}
+	};
+
+	render() {
 
 		const { translate, errors } = this.props;
 		const data = this.props.formData;
@@ -160,6 +96,7 @@ class SignUpPay extends React.Component {
 					width: "100%",
 					padding: "6%"
 				}}
+				onKeyUp={this.handleKeyUp}
 			>
 				<div
 					style={{
@@ -171,92 +108,6 @@ class SignUpPay extends React.Component {
 					{translate.billing_information}
 				</div>
 				<Grid style={{ marginTop: "2em" }}>
-					<GridItem xs={12} md={12} lg={12}>
-						<TextInput
-							floatingText={translate.address}
-							type="text"
-							value={data.address}
-							errorText={this.props.errors.address}
-							onChange={event =>
-								this.props.updateState({
-									address: event.target.value
-								})
-							}
-							required
-						/>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						<TextInput
-							floatingText={translate.company_new_locality}
-							type="text"
-							value={data.city}
-							onChange={event =>
-								this.props.updateState({
-									city: event.target.value
-								})
-							}
-							errorText={this.props.errors.city}
-							required
-						/>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						<SelectInput
-							floatingText={translate.company_new_country}
-							value={data.country}
-							onChange={this.handleCountryChange}
-							errorText={errors.country}
-							required
-						>
-							{this.props.data.countries.map(country => {
-								return (
-									<MenuItem
-										key={country.deno}
-										value={country.deno}
-									>
-										{country.deno}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						<SelectInput
-							floatingText={translate.company_new_country_state}
-							value={data.countryState}
-							errorText={errors.countryState}
-							onChange={event =>
-								this.props.updateState({
-									countryState: event.target.value
-								})
-							}
-							required
-						>
-							{this.state.provinces.map(province => {
-								return (
-									<MenuItem
-										key={province.deno}
-										value={province.id}
-									>
-										{province.deno}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						<TextInput
-							floatingText={translate.company_new_zipcode}
-							type="text"
-							value={data.zipCode}
-							onChange={event =>
-								this.props.updateState({
-									zipCode: event.target.value
-								})
-							}
-							errorText={this.props.errors.zipCode}
-							required
-						/>
-					</GridItem>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
 							floatingText={translate.type_of_subscription}
@@ -295,7 +146,7 @@ class SignUpPay extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={4} lg={4}>
 						<TextInput
-							floatingText="Código"
+							floatingText="Código promocional"//TRADUCCION
 							type="text"
 							value={this.state.code}
 							onChange={event =>
@@ -364,7 +215,7 @@ class SignUpPay extends React.Component {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={12} md={4} lg={4}>
+					{/* <GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text="Omitir y enviar" //TRADUCCION
 							color={secondary}
@@ -378,7 +229,7 @@ class SignUpPay extends React.Component {
 								<ButtonIcon color="white" type="eject" />
 							}
 						/>
-					</GridItem>
+					</GridItem> */}
 					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text={translate.send}
@@ -412,4 +263,4 @@ class SignUpPay extends React.Component {
 	}
 }
 
-export default graphql(countries)(withApollo(SignUpPay));
+export default SignUpPay;

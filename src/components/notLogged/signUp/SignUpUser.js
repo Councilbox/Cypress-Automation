@@ -16,10 +16,7 @@ import { withApollo } from "react-apollo/index";
 
 class SignUpUser extends React.Component {
 	state = {
-		name: "",
-		surname: "",
-		phone: "",
-		email: "",
+		repeatEmail: '',
 		confirmPWD: "",
 		subscriptions: [],
 		languages: []
@@ -39,7 +36,7 @@ class SignUpUser extends React.Component {
 		}
 	};
 
-	async checkRequiredFields() {
+	checkRequiredFields = async () => {
 		let errors = {
 			name: "",
 			surname: "",
@@ -74,7 +71,7 @@ class SignUpUser extends React.Component {
 			errors.email = translate.field_required;
 		} else {
 			let existsCif = await this.checkEmailExists();
-			if (data.email !== data.repeatEmail && data.email) {
+			if (data.email !== this.state.repeatEmail && data.email) {
 				hasError = true;
 				errors.repeatEmail = translate.register_unmatch_emails;
 			}
@@ -97,7 +94,10 @@ class SignUpUser extends React.Component {
 			errors.confirmPWD = translate.no_match_pwd;
 		}
 
-		this.props.updateErrors(errors);
+		this.props.updateErrors({
+			...errors,
+			hasError: hasError
+		});
 		return hasError;
 	}
 
@@ -109,6 +109,15 @@ class SignUpUser extends React.Component {
 
 		return response.data.checkEmailExists.success;
 	}
+
+	handleKeyUp = event => {
+		if (event.nativeEvent.keyCode === 13) {
+			this.nextPage();
+		}
+		if(this.props.errors.hasError){
+			this.checkRequiredFields();
+		}
+	};
 
 	render() {
 		const primary = getPrimary();
@@ -122,6 +131,7 @@ class SignUpUser extends React.Component {
 					width: "100%",
 					padding: "6%"
 				}}
+				onKeyUp={this.handleKeyUp}
 			>
 				<div
 					style={{
@@ -178,11 +188,11 @@ class SignUpUser extends React.Component {
 					<GridItem xs={12} md={6} lg={6}>
 						<SelectInput
 							floatingText={translate.language}
-							value={data.language}
+							value={data.preferredLanguage}
 							errorText={this.props.errors.language}
 							onChange={event =>
 								this.props.updateState({
-									language: event.target.value
+									preferredLanguage: event.target.value
 								})
 							}
 							required
@@ -217,10 +227,10 @@ class SignUpUser extends React.Component {
 						<TextInput
 							floatingText={translate.repeat_email}
 							type="text"
-							value={data.repeatEmail}
+							value={this.state.repeatEmail}
 							onChange={event =>
-								this.props.updateState({
-									repeatEmail: event.target.value.toLowerCase()
+								this.setState({
+									repeatEmail: event.target.value
 								})
 							}
 							errorText={this.props.errors.repeatEmail}

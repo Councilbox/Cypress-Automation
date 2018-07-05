@@ -15,7 +15,16 @@ import {
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 
-class AddCouncilParticipantButton extends Component {
+
+class AddCouncilParticipantButton extends React.Component {
+	state = {
+		modal: false,
+		data: { ...initialParticipant },
+		representative: { ...initialRepresentative },
+		errors: {},
+		representativeErrors: {}
+	};
+
 	addParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
@@ -47,6 +56,7 @@ class AddCouncilParticipantButton extends Component {
 			}
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -55,6 +65,7 @@ class AddCouncilParticipantButton extends Component {
 			}
 		});
 	};
+
 	updateRepresentative = object => {
 		this.setState({
 			representative: {
@@ -63,17 +74,6 @@ class AddCouncilParticipantButton extends Component {
 			}
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false,
-			data: { ...initialParticipant },
-			representative: { ...initialRepresentative },
-			errors: {},
-			representativeErrors: {}
-		};
-	}
 
 	checkRequiredFields() {
 		const participant = this.state.data;
@@ -112,7 +112,7 @@ class AddCouncilParticipantButton extends Component {
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<Fragment>
+			<div style={{width: '850px'}}>
 				<ParticipantForm
 					type={participant.personOrEntity}
 					participant={participant}
@@ -129,7 +129,7 @@ class AddCouncilParticipantButton extends Component {
 					errors={this.state.representativeErrors}
 					languages={this.props.data.languages}
 				/>
-			</Fragment>
+			</div>
 		);
 	}
 

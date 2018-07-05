@@ -122,7 +122,7 @@ class PlaceModal extends Component {
 				address: "",
 				city: "",
 				country: "",
-				zipCode: "",
+				zipcode: "",
 				region: ""
 			}
 		};

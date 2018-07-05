@@ -12,6 +12,7 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
+import { checkCifExists } from "../../../queries/userAndCompanySignUp";
 import { MenuItem, Typography } from "material-ui";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { provinces } from "../../../queries/masters";
@@ -19,6 +20,7 @@ import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
+
 
 class NewCompanyPage extends React.PureComponent {
 	state = {
@@ -33,9 +35,11 @@ class NewCompanyPage extends React.PureComponent {
 			city: "",
 			zipcode: "",
 			country: "España",
+			countryState: '',
 			language: "es"
 		},
 		step: 1,
+		hasError: false,
 		errors: {},
 		provinces: [],
 		success: false,
@@ -123,19 +127,106 @@ class NewCompanyPage extends React.PureComponent {
 	};
 
 	createCompany = async () => {
-		const response = await this.props.createCompany({
-			variables: {
-				company: this.state.data,
-				userId: this.props.user.id
+		if(!await this.checkRequiredFields()){
+			const response = await this.props.createCompany({
+				variables: {
+					company: this.state.data,
+					userId: this.props.user.id
+				}
+			});
+
+			if (!response.errors) {
+				if (response.data.createCompany.id) {
+					store.dispatch(getCompanies(this.props.user.id));
+					bHistory.push(`/company/${response.data.createCompany.id}`);
+					toast.success(this.props.translate.company_created);
+				}
 			}
+		}
+	};
+
+	checkRequiredFields = async () => {
+		const { translate } = this.props;
+
+		const { data } = this.state;
+		let errors = {
+			businessName: "",
+			type: "",
+			tin: "",
+			address: "",
+			city: "",
+			country: "",
+			zipcode: '',
+		};
+		let hasError = false;
+
+		if (!data.businessName.length > 0) {
+			hasError = true;
+			errors.businessName = translate.field_required;
+		}
+
+		if (data.type === "") {
+			hasError = true;
+			errors.type = translate.field_required;
+		}
+
+		let existsCif = await this.checkCifExists();
+
+		if (!data.tin.length > 0 || existsCif) {
+			hasError = true;
+			errors.tin = existsCif
+				? translate.vat_previosly_save
+				: translate.field_required;
+		}
+
+		if (!data.address.length > 0) {
+			hasError = true;
+			errors.address = translate.field_required;
+		}
+
+		if (!data.city.length > 0) {
+			hasError = true;
+			errors.city = translate.field_required;
+		}
+
+		if (data.countryState === "") {
+			hasError = true;
+			errors.countryState = translate.field_required;
+		}
+
+		if (!data.zipcode.length > 0) {
+			hasError = true;
+			errors.zipcode = translate.field_required;
+		}
+
+		if (data.type === "") {
+			hasError = true;
+			errors.province = translate.field_required;
+		}
+
+		this.setState({
+			errors: errors,
+			hasError: hasError
 		});
 
-		if (!response.errors) {
-			if (response.data.createCompany.id) {
-				store.dispatch(getCompanies(this.props.user.id));
-				bHistory.push(`/company/${response.data.createCompany.id}`);
-				toast.success(this.props.translate.company_created);
-			}
+		return hasError;
+	}
+
+	async checkCifExists() {
+		const response = await this.props.client.query({
+			query: checkCifExists,
+			variables: { cif: this.state.data.tin }
+		});
+
+		return response.data.checkCifExists.success;
+	}
+
+	handleKeyUp = event => {
+		if (event.nativeEvent.keyCode === 13) {
+			this.createCompany();
+		}
+		if(this.state.hasError){
+			this.checkRequiredFields();
 		}
 	};
 
@@ -157,7 +248,7 @@ class NewCompanyPage extends React.PureComponent {
 							{translate.fiscal_data}
 						</Typography>
 						<br />
-						<Grid spacing={0}>
+						<Grid spacing={0} onKeyUp={this.handleKeyUp}>
 							<GridItem xs={12} md={9} lg={9}>
 								<Grid spacing={16}>
 									<GridItem xs={12} md={6} lg={5}>
