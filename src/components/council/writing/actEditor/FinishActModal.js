@@ -58,7 +58,7 @@ class FinishActModal extends Component {
 					/>
 				}
 			</div>
-		);	
+		);
 	}
 
 	render() {

@@ -9,7 +9,10 @@ const Scrollbar = ({ showX, children, style = {} }) => (
             height: '100%',
             ...style
         }}
-        {...(!showX? {renderTrackHorizontal: () => <span style={{display: 'hidden'}} /> } : {})}
+        {...(!showX? {
+            renderTrackHorizontal: () => <span style={{display: 'hidden'}} />,
+            renderThumbHorizontal: () => <span style={{display: 'hidden'}} />
+        } : {})}
     >
         {children}
     </Scrollbars>

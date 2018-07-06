@@ -1,10 +1,5 @@
 import React from "react";
-import {
-	showVideo,
-	getEmailIconByReqCode,
-	isRepresented,
-	hasHisVoteDelegated
-} from "../../../../utils/CBX";
+import { showVideo, getEmailIconByReqCode, isRepresented, hasHisVoteDelegated } from "../../../../utils/CBX";
 import { MenuItem, Tooltip, Typography } from "material-ui";
 import { GridItem } from "../../../../displayComponents";
 import ParticipantStateIcon from "../ParticipantStateIcon";

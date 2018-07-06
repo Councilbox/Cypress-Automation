@@ -2,18 +2,19 @@ import React from "react";
 import { getSecondary } from "../styles/colors";
 import { Checkbox } from './';
 import { delegatedVotesLimitReached } from '../utils/CBX';
+import { Paper } from 'material-ui';
 
 const ParticipantRow = ({ participant, onClick, key, checkBox, toDelegate, council, selected, onChange }) => {
 
-
 	let limitReached = null;
-	
+	const secondary = getSecondary();
+
 	if(toDelegate){
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length );
 	}
- 
+
 	return (
-		<div style={{display: 'flex', flexDirection: 'row', width: '100%'}}>
+		<Paper style={{display: 'flex', flexDirection: 'row', width: '100%', marginLeft: '0.2em', marginRight: '0.2em', padding: '0.3em', paddingLeft: '0.8em'}}>
 			{checkBox &&
 				<Checkbox
 					value={selected}
@@ -25,9 +26,9 @@ const ParticipantRow = ({ participant, onClick, key, checkBox, toDelegate, counc
 				style={{
 					width: "100%",
 					padding: "0.4em",
-					...(toDelegate? !limitReached? {cursor: "pointer"} : {} : {cursor: "pointer"}), 
+					//...(toDelegate? !limitReached? {cursor: "pointer"} : {} : {cursor: "pointer"}),
 					paddingLeft: "0.8em",
-					border: `1px solid ${toDelegate? !limitReached? getSecondary() : 'gainsboro' : getSecondary()}`,
+					backgroundColor: `${toDelegate? !limitReached? 'transparent' : 'gainsboro' : 'transparent'}`,
 					display: "flex",
 					flexDirection: "column"
 				}}
@@ -45,7 +46,7 @@ const ParticipantRow = ({ participant, onClick, key, checkBox, toDelegate, counc
 					participant.email
 				} - ${participant.phone}`}</div>
 			</div>
-		</div>
+		</Paper>
 	);
 }
 

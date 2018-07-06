@@ -18,7 +18,7 @@ export const getCompanies = userId => {
 				variables: { userId: userId },
 				fetchPolicy: "network-only"
 			});
-			let selectedCompany = response.data.userCompanies.findIndex(element => 
+			let selectedCompany = response.data.userCompanies.findIndex(element =>
 				element.actived === 1
 			);
 			console.log(selectedCompany);

@@ -3,6 +3,7 @@ const LOCATION_URL =
 		? "http://localhost:5000/graphql"
 		: "https://apicbx.councilbox.com/graphql";
 
+export const CLIENT_VERSION = '1.0.0';
 export const API_URL = LOCATION_URL;
 
 // POINT CLIENT TO VPS SERVER

@@ -24,11 +24,11 @@ export const refreshToken = async (apolloClient, toast, store) => {
 }
 
 
-export const graphQLErrorHandler = (graphQLErrors, toast, store, apolloClient, operation) => {
-	if (graphQLErrors[0].message === "Validation error") {
-		if (graphQLErrors[0].originalError) {
-			if (graphQLErrors[0].originalError.fields) {
-				if (graphQLErrors[0].originalError.fields.tin) {
+export const graphQLErrorHandler = (graphQLError, toast, store, apolloClient, operation) => {
+	if (graphQLError.message === "Validation error") {
+		if (graphQLError.originalError) {
+			if (graphQLError.originalError.fields) {
+				if (graphQLError.originalError.fields.tin) {
 					toast.error(printCifAlreadyUsed());
 				}
 			}

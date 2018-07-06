@@ -29,6 +29,21 @@ export const censuses = gql`
 	}
 `;
 
+export const getCensusTemplate = gql`
+	mutation getCensusTemplate($language: String!){
+		getCensusTemplate(language: $language)
+	}
+`;
+
+export const importCensus = gql`
+  	mutation importCensus($importList: [ImportInput]){
+    	importCensus(importList: $importList){
+			success
+			message
+    	}
+  	}
+`;
+
 export const census = gql`
 	query census($id: Int!) {
 		census(id: $id) {

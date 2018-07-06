@@ -182,30 +182,34 @@ const ParticipantForm = ({
 			<GridItem xs={6} md={4} lg={2}>
 				<TextInput
 					floatingText={translate.votes}
-					type="number"
+					type="tel"
 					min={1}
 					errorText={errors.numParticipations}
 					value={participant.numParticipations}
-					onChange={event =>
-						updateState({
-							numParticipations: event.nativeEvent.target.value
-						})
-					}
+					onChange={event => {
+						if(!isNaN(event.target.value) || +event.target.value > 0){
+							updateState({
+								numParticipations: event.target.value
+							})
+						}
+					}}
 				/>
 			</GridItem>
 			<GridItem xs={6} md={4} lg={2}>
 				{participations && (
 					<TextInput
 						floatingText={translate.social_capital}
-						type="number"
+						type="tel"
 						min={1}
 						errorText={errors.socialCapital}
 						value={participant.socialCapital}
-						onChange={event =>
-							updateState({
-								socialCapital: event.nativeEvent.target.value
-							})
-						}
+						onChange={event => {
+							if(!isNaN(event.target.value) || +event.target.value > 0){
+								updateState({
+									socialCapital: event.target.value
+								})
+							}
+						}}
 					/>
 				)}
 			</GridItem>

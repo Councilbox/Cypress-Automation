@@ -8,6 +8,7 @@ import {
 	TextInput,
 	BasicButton,
 	ButtonIcon,
+	Scrollbar,
 	CollapsibleSection,
 	SuccessMessage
 } from "../../../../displayComponents";
@@ -15,7 +16,6 @@ import { Typography, Card } from "material-ui";
 import { compose, graphql } from "react-apollo";
 import { councilParticipants, deleteParticipant } from "../../../../queries/councilParticipant";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
-import Scrollbar from "react-perfect-scrollbar";
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
@@ -45,34 +45,20 @@ class SendActToVote extends React.Component {
 		if (response) {
 			this.props.refetch();
 		}
-
-		/* const response = await this.props.sendActToVote({
-			variables: {
-				councilId: this.props.council.id
-			}
-		});
-
-		if(response){
-            console.log(response);
-			if(!response.data.errors){
-				this.setState({
-					success: true
-				});
-				this.props.refetch();
-			}
-		} */
 	}
 
 
 	_modalBody() {
         return (
-			<div style={{width: '650px'}}>
-				{this.props.show &&
-					<ActHTML
-						ref={(ref => this.actViewer = ref)}
-						council={this.props.council}
-					/>
-				}
+			<div style={{width: '650px', overflow: 'hidden'}}>
+				<Scrollbar>
+					{this.props.show &&
+						<ActHTML
+							ref={(ref => this.actViewer = ref)}
+							council={this.props.council}
+						/>
+					}
+				</Scrollbar>
 			</div>
 		);
 	}

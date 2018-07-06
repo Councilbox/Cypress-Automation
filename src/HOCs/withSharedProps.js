@@ -10,7 +10,7 @@ const withSharedProps = () => WrappedComponent => {
 				user={user}
 				translate={translate}
 				{...restProps}
-			/>		
+			/>
 		);
 	}
 

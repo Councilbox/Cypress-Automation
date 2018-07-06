@@ -5,6 +5,7 @@ import Dialog, {
 	DialogTitle
 } from "material-ui/Dialog";
 import BasicButton from "./BasicButton";
+import Scrollbar from './Scrollbar';
 import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
 

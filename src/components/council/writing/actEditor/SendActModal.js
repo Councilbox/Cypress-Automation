@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	Icon,
@@ -17,18 +17,16 @@ import FontAwesome from 'react-fontawesome';
 import { sendAct } from '../../../../queries';
 
 
-class SendActModal extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			newEmail: '',
-			step: 1,
-			success: false,
-			participants: [],
-			loading: false,
-			errors: {}
-		};
-	}
+class SendActModal extends React.Component {
+	state = {
+		newEmail: '',
+		step: 1,
+		success: false,
+		participants: [],
+		loading: false,
+		errors: {}
+	};
+
 
 	componentDidUpdate(prevProps) {
 		if (!prevProps.show && this.props.show) {
@@ -176,7 +174,6 @@ class SendActModal extends Component {
 					</div>
 				}
 			</div>
-	
 		)
 	}
 

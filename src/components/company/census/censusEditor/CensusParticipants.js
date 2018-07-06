@@ -9,17 +9,25 @@ import gql from "graphql-tag";
 import AddCensusParticipantButton from "./modals/AddCensusParticipantButton";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import CensusParticipantEditor from "./modals/CensusParticipantEditor";
+import ImportCensusExcel from '../ImportCensusExcel';
 
-class CensusParticipants extends Component {
+class CensusParticipants extends React.Component {
+	state = {
+		editingParticipant: false,
+		participant: {}
+	};
+
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
+
 	editParticipant = participant => {
 		this.setState({
 			editingParticipant: true,
 			participant
 		});
 	};
+
 	deleteParticipant = async id => {
 		const response = await this.props.deleteCensusParticipant({
 			variables: {
@@ -33,13 +41,6 @@ class CensusParticipants extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			editingParticipant: false,
-			participant: {}
-		};
-	}
 
 	_renderDeleteIcon(participantID) {
 		const primary = getPrimary();
@@ -47,7 +48,10 @@ class CensusParticipants extends Component {
 		return (
 			<CloseIcon
 				style={{ color: primary }}
-				onClick={() => this.deleteParticipant(participantID)}
+				onClick={(event) => {
+					event.stopPropagation();
+					this.deleteParticipant(participantID);
+				}}
 			/>
 		);
 	}
@@ -101,6 +105,12 @@ class CensusParticipants extends Component {
 							census={this.props.census}
 							refetch={this.props.data.refetch}
 						/>
+						<ImportCensusExcel
+							translate={translate}
+							censusId={census.id}
+							companyId={this.props.company.id}
+							refetch={this.props.data.refetch}
+						/>
 						<span style={{fontWeight: '700', fontSize: '0.9em'}}>
 							{`${translate.total_votes}: ${this.props.recount.numParticipations}`}
 						</span>
@@ -143,6 +153,7 @@ class CensusParticipants extends Component {
 							return (
 								<Fragment key={`participant_${participant.id}`}>
 									<TableRow
+										hover={true}
 										onClick={() =>
 											this.editParticipant(participant)
 										}

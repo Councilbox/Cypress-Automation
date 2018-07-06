@@ -6,6 +6,7 @@ import MeetingLivePage from "../components/meeting/live/MeetingLivePage";
 import MeetingCreateContainer from '../components/meeting/MeetingCreateContainer';
 import createHistory from "history/createBrowserHistory";
 import configureStore from "../store/store";
+import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
 import { initUserData, loadingFinished, setLanguage} from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
@@ -52,10 +53,14 @@ const retryLink = new RetryLink({
 	attempts: {
 		max: 10,
 		retryIf: (error, _operation) => {
-			console.log(error);
-			console.log(_operation);
+			/* console.log(error.name);
+			console.log(error.message);
+			console.log(_operation); */
 			networkErrorHandler(error, toast, store);
-			return !!error
+			if(error.message === 'Response not successful: Received status code 400'){
+				graphQLErrorHandler({error, client, _operation});
+			}
+			return error.message === 'Failed to fetch'
 		}
 	}
 });
@@ -95,7 +100,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 			});
 		}
 
-		graphQLErrorHandler(graphQLErrors, toast, store, client, operation);
+		graphQLErrors.map(error => graphQLErrorHandler(error, toast, store, client, operation));
 	}
 
 	if(networkError){
@@ -136,34 +141,36 @@ class App extends Component {
 		return (
 			<ApolloProvider client={client}>
 				<Provider store={store}>
-					<Router history={bHistory}>
-						<React.Fragment>
-							<Switch>
-								<Route
-									exact
-									path="/company/:company/council/:id/live"
-									component={CouncilLiveContainer}
-								/>
-								<Route
-									exact
-									path="/company/:company/meeting/live"
-									component={MeetingLivePage}
-								/>
-								<Route
-									exact
-									path="/meeting/"
-									component={MeetingLivePage}
-								/>
-								<Route
-									exact
-									path="/meeting/new"
-									component={MeetingCreateContainer}
-								/>
-								<Route path="/" component={AppRouter} />
-							</Switch>
-							<ToastContainer position="top-right" />
-						</React.Fragment>
-					</Router>
+					<ErrorHandler>
+						<Router history={bHistory}>
+							<React.Fragment>
+								<Switch>
+									<Route
+										exact
+										path="/company/:company/council/:id/live"
+										component={CouncilLiveContainer}
+									/>
+									<Route
+										exact
+										path="/company/:company/meeting/live"
+										component={MeetingLivePage}
+									/>
+									<Route
+										exact
+										path="/meeting/"
+										component={MeetingLivePage}
+									/>
+									<Route
+										exact
+										path="/meeting/new"
+										component={MeetingCreateContainer}
+									/>
+									<Route path="/" component={AppRouter} />
+								</Switch>
+								<ToastContainer position="top-right" />
+							</React.Fragment>
+						</Router>
+					</ErrorHandler>
 				</Provider>
 			</ApolloProvider>
 		);

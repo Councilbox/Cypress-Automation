@@ -89,15 +89,16 @@ class StatuteEditor extends React.PureComponent {
 							<TextInput
 								floatingText={translate.input_group_days}
 								required
-								min="1"
-								type="number"
+								type="tel"
 								errorText={errors.advanceNoticeDays}
 								value={statute.advanceNoticeDays}
-								onChange={event =>
-									updateState({
-										advanceNoticeDays: event.target.value
-									})
-								}
+								onChange={event => {
+									if(!isNaN(event.target.value) || +event.target.value > 0){
+										updateState({
+											advanceNoticeDays: event.target.value
+										})
+									}
+								}}
 							/>
 						)}
 					</GridItem>
@@ -120,17 +121,17 @@ class StatuteEditor extends React.PureComponent {
 									translate.minimum_separation_between_call
 								}
 								required
-								type="number"
-								min="1"
+								type="tel"
 								adornment={translate.minutes}
 								errorText={errors.minimumSeparationBetweenCall}
 								value={statute.minimumSeparationBetweenCall}
-								onChange={event =>
-									updateState({
-										minimumSeparationBetweenCall:
-											event.target.value
-									})
-								}
+								onChange={event => {
+									if(!isNaN(event.target.value) || +event.target.value > 0){
+										updateState({
+											minimumSeparationBetweenCall: event.target.value
+										})
+									}
+								}}
 							/>
 						)}
 					</GridItem>
@@ -300,15 +301,17 @@ class StatuteEditor extends React.PureComponent {
 							<TextInput
 								floatingText={translate.votes}
 								required
-								type="number"
+								type="tel"
 								min="1"
 								errorText={errors.maxNumDelegatedVotes}
 								value={statute.maxNumDelegatedVotes}
-								onChange={event =>
-									updateState({
-										maxNumDelegatedVotes: event.target.value
-									})
-								}
+								onChange={event => {
+									if(!isNaN(event.target.value) || +event.target.value > 0){
+										updateState({
+											maxNumDelegatedVotes: event.target.value
+										})
+									}
+								}}
 							/>
 						)}
 					</GridItem>
@@ -330,16 +333,16 @@ class StatuteEditor extends React.PureComponent {
 							<TextInput
 								floatingText={translate.minutes}
 								required
-								type="number"
-								min="1"
+								type="tel"
 								errorText={errors.limitedAccessRoomMinutes}
 								value={statute.limitedAccessRoomMinutes}
-								onChange={event =>
-									updateState({
-										limitedAccessRoomMinutes:
-											event.target.value
-									})
-								}
+								onChange={event => {
+									if(!isNaN(event.target.value) || +event.target.value > 0){
+										updateState({
+											limitedAccessRoomMinutes: event.target.value
+										})
+									}
+								}}
 							/>
 						)}
 					</GridItem>

@@ -21,6 +21,7 @@ import CloneCensusModal from "./CloneCensusModal";
 import AddCensusButton from "./AddCensusButton";
 import { bHistory } from "../../../containers/App";
 import { CENSUS_LIMITS } from "../../../constants";
+import ImportCensusExcel from './ImportCensusExcel';
 
 class CompanyCensusPage extends React.Component {
 	state = {
