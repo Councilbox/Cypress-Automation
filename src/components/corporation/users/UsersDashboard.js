@@ -122,9 +122,8 @@ class UsersDashboard extends React.PureComponent {
                         <LoadingSection />
                     :
                         this.props.data.corporationUsers.list.map(user => (
-                            <Link to={`/users/edit/${user.id}`} >
+                            <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
                                 <UserItem
-                                    key={`user_${user.id}`}
                                     user={user}
                                     clickable={true}
                                     translate={this.props.translate}
@@ -139,7 +138,7 @@ class UsersDashboard extends React.PureComponent {
 }
 
 export default compose(
-    graphql(corporationUsers, {  
+    graphql(corporationUsers, {
         options: props => ({
             variables: {
                 options: DEFAULT_OPTIONS

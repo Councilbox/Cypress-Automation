@@ -26,7 +26,7 @@ class DraftEditPage extends React.PureComponent {
                 }
             }
         }
-        
+
         return null;
     }
 

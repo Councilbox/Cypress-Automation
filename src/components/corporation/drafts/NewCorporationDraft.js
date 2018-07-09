@@ -42,7 +42,7 @@ class NewCorporationDraft extends React.PureComponent {
 			errors
 		});
     };
-    
+
     resetAndClose = () => {
 		clearTimeout(this.timeout);
 		this.setState({
@@ -84,10 +84,10 @@ class NewCorporationDraft extends React.PureComponent {
 			}
 		}
     };
-    
+
 
     render(){
-        
+
         return(
             <CardPageLayout title={this.props.translate.drafts_new}>
                 <CompanyDraftForm
@@ -96,7 +96,6 @@ class NewCorporationDraft extends React.PureComponent {
                     translate={this.props.translate}
                     updateState={this.updateState}
                     {...this.props.data}
-                    
                 />
                 <div style={{marginTop: '0.8em'}}>
                     <BasicButton

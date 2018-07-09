@@ -39,7 +39,7 @@ class NewUser extends React.PureComponent {
                     companies: this.state.companies.map(company => company.id)
                 }
             });
-    
+
             if(!response.errors){
                 if(response.data.createUserWithoutPassword.id){
                     bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
@@ -102,7 +102,7 @@ class NewUser extends React.PureComponent {
         }
 
         return(
-            <div style={{height: 'calc(100vh - 3m)'}}>
+            <div style={{height: 'calc(100vh - 3em)'}}>
                 <CardPageLayout title={translate.users_add}>
                     <UserForm
                         translate={translate}

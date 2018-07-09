@@ -77,6 +77,7 @@ class CompanyLinksManager extends React.PureComponent {
         this.setState({
             modal: false
         }, this.setState({
+            step: 1,
             checked: this.props.linkedCompanies
         }));
     }

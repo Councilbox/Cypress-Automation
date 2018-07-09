@@ -298,7 +298,7 @@ class ImportCensusButton extends React.Component {
                 }
 			}
 			const participantError = this.checkRequiredFields(participant, false);
-			participant.dni = participant.dni;
+			participant.dni = participant.dni.toString(10);
 			return participantError? participantError : { participant };
 		} else {
 			//Es una entidad sin representante

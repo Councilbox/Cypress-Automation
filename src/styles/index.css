@@ -1,6 +1,15 @@
 :root {
     --font-family: 'Lato';
     --primary: #9C27B0;
+    --secondary: #61ABB7;
+}
+
+::selection {
+    background: var(--secondary);
+}
+
+::-moz-selection {
+    background: var(--secondary); 
 }
 
 body {
