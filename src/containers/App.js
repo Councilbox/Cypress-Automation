@@ -23,6 +23,7 @@ import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils
 import moment from "moment";
 import "moment/locale/es";
 import 'antd/dist/antd.css';
+import CouncilLiveTestContainer from './CouncilLiveTestContainer';
 
 moment.updateLocale("es");
 
@@ -149,6 +150,11 @@ class App extends Component {
 										exact
 										path="/company/:company/council/:id/live"
 										component={CouncilLiveContainer}
+									/>
+									<Route
+										exact
+										path="/cmp/:id"
+										component={CouncilLiveTestContainer}
 									/>
 									<Route
 										exact

@@ -112,11 +112,11 @@ class CensusParticipants extends React.Component {
 							refetch={this.props.data.refetch}
 						/>
 						<span style={{fontWeight: '700', fontSize: '0.9em'}}>
-							{`${translate.total_votes}: ${this.props.recount.numParticipations}`}
+							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
 						</span>
 						{hasParticipations({ quorumPrototype: this.props.census.quorumPrototype }) &&
 							<span style={{marginLeft: '1em', fontWeight: '700', fontSize: '0.9em'}}>
-								{`${translate.total_social_capital}: ${this.props.recount.socialCapital}`}
+								{`${translate.total_social_capital}: ${this.props.recount.socialCapital || 0}`}
 							</span>
 						}
 					</GridItem>

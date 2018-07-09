@@ -137,7 +137,7 @@ const MainRouter = ({ company }) => (
             path="/user/:id"
             component={UserSettingsPage}
         />
-        <Route 
+        <Route
             path="*"
             component={() => {
                     return (
