@@ -2,6 +2,7 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
+import { Link } from '../../displayComponents';
 
 const Dashboard = ({ translate, company, user }) => {
 	return (
@@ -37,7 +38,7 @@ const Dashboard = ({ translate, company, user }) => {
 						}}
 					>
 						{/*TRADUCCION*/}
-						Le damos la bienvenida.
+						Le damos la <Link to="/cmp/5598">bienvenida.</Link>
 					</div>
 					<div
 						style={{
