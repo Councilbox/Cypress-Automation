@@ -57,10 +57,7 @@ const retryLink = new RetryLink({
 			/* console.log(error.name);
 			console.log(error.message);
 			console.log(_operation); */
-			networkErrorHandler(error, toast, store);
-			if(error.message === 'Response not successful: Received status code 400'){
-				graphQLErrorHandler({error, client, _operation});
-			}
+			networkErrorHandler(error, toast, store, client, _operation);
 			return error.message === 'Failed to fetch'
 		}
 	}
@@ -105,7 +102,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 	}
 
 	if(networkError){
-		networkErrorHandler(networkError, toast, store)
+		networkErrorHandler(networkError, toast, store, client, operation);
 	}
 });
 

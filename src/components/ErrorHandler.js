@@ -22,7 +22,7 @@ class ErrorHandler extends React.Component {
         }, () => bHistory.push('/'));
     }
 
-    async componentDidCatch(error, info){;
+    async componentDidCatch(error, info){
 /*      console.log(error.message);
         console.log(error.name);
         console.log(error.toString());

@@ -9,6 +9,15 @@ export const setCompanyAsSelected = gql`
 	}
 `;
 
+export const sendGraphQLError = gql`
+	mutation sendGraphQLError($error: GraphQLErrorInput!){
+		sendGraphQLError(graphQLError: $error){
+			success
+			message
+		}
+	}
+`;
+
 export const refreshTokenQuery = gql`
 	mutation refreshToken($token: String!){
 		refreshToken(token: $token){

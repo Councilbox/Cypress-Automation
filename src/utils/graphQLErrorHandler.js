@@ -24,7 +24,8 @@ export const refreshToken = async (apolloClient, toast, store) => {
 }
 
 
-export const graphQLErrorHandler = (graphQLError, toast, store, apolloClient, operation) => {
+export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClient, operation) => {
+	console.log('error');
 	if (graphQLError.message === "Validation error") {
 		if (graphQLError.originalError) {
 			if (graphQLError.originalError.fields) {
