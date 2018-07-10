@@ -17,15 +17,11 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
 import { setContext } from "apollo-link-context";
 import { onError } from "apollo-link-error";
-import { API_URL } from "../config";
+import { API_URL, CLIENT_VERSION } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
-import moment from "moment";
-import "moment/locale/es";
 import 'antd/dist/antd.css';
 import CouncilLiveTestContainer from './CouncilLiveTestContainer';
-
-moment.updateLocale("es");
 
 const httpLink = new HttpLink({
 	uri: API_URL
@@ -40,7 +36,8 @@ const authLink = setContext((_, { headers }) => {
 			authorization: token
 				? `Bearer ${token}`
 				: `Bearer ${participantToken}`,
-			"x-jwt-token": token ? token : participantToken
+			"x-jwt-token": token ? token : participantToken,
+			"cbx-client-v": CLIENT_VERSION
 		}
 	};
 });
@@ -58,7 +55,7 @@ const retryLink = new RetryLink({
 			console.log(error.message);
 			console.log(_operation); */
 			networkErrorHandler(error, toast, store, client, _operation);
-			return error.message === 'Failed to fetch'
+			return error.message === 'Failed to fetch';
 		}
 	}
 });

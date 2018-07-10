@@ -2,22 +2,14 @@ import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import cx from "classnames";
 import {
-	Drawer,
-	Hidden,
-	List,
 	Icon,
 	ListItem,
-	ListItemIcon,
-	ListItemText,
-	MenuItem,
 	withStyles,
 	Tooltip
 } from "material-ui";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
 import withWindowSize from '../../HOCs/withWindowSize';
-import { getPrimary, getSecondary, darkGrey } from "../../styles/colors";
-import { bHistory, store } from "../../containers/App";
-import { changeCompany } from "../../actions/companyActions";
+import { getSecondary, darkGrey } from "../../styles/colors";
 import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
 
@@ -131,9 +123,6 @@ class Sidebar extends React.Component {
 					[" " +
 					this.props.classes[this.props.color]]: this.activeRoute(key)
 				});
-				const whiteFontClasses = cx({
-					[" " + this.props.classes.whiteFont]: this.activeRoute(key)
-				});
 				return (
 					<NavLink
 						to={route.path}
@@ -227,7 +216,7 @@ class Sidebar extends React.Component {
 	}
 
 	render() {
-		const { classes, image } = this.props;
+		const { classes } = this.props;
 		return (
 			<div style={{float: 'left', zIndex: '0'}}>
 				<div style={

@@ -10,7 +10,6 @@ import { bHistory } from '../../../containers/App';
 import withWindowSize from "../../../HOCs/withWindowSize";
 import { userAndCompanySignUp } from "../../../queries/userAndCompanySignUp";
 import { graphql } from "react-apollo";
-import Header from '../../Header';
 import withTranslations from '../../../HOCs/withTranslations';
 
 class SignUpPage extends React.PureComponent {

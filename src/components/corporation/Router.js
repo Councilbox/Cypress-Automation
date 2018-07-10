@@ -15,7 +15,6 @@ import Sidebar from "./menus/Sidebar";
 import appStyle from "../../styles/appStyle.jsx";
 import { withStyles } from 'material-ui';
 import { lightGrey } from '../../styles/colors';
-import { Scrollbar } from '../../displayComponents';
 let image;
 import("../../assets/img/sidebar-2.jpg").then(data => image = data);
 

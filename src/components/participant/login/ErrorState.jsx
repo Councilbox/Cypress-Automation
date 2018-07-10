@@ -7,12 +7,6 @@ import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import {
-	councilIsInTrash,
-	councilIsNotLiveYet,
-	councilIsNotCelebrated,
-	councilIsFinished
-} from "../../../utils/CBX";
-import {
 	lightTurquoise,
 	secondary,
 	primary

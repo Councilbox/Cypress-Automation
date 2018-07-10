@@ -1,16 +1,7 @@
 import React from "react";
-import { LoadingMainApp } from "../../../displayComponents";
 import LiveHeader from "../../council/live/LiveHeader";
 import { lightGrey } from "../../../styles/colors";
 import { bHistory } from '../../../containers/App';
-import { compose, graphql } from "react-apollo";
-import {
-	councilLiveQuery,
-	iframeURLTEMP,
-	majorityTypes,
-	quorumTypes,
-	votingTypes
-} from "../../../queries";
 import withSharedProps from '../../../HOCs/withSharedProps';
 let logo;
 import("../../../assets/img/logo-white.png").then(data => logo = data);

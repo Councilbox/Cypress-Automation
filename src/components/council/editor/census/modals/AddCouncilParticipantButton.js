@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -138,7 +138,7 @@ class AddCouncilParticipantButton extends React.Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.add_participant}
 					color={"white"}
@@ -166,7 +166,7 @@ class AddCouncilParticipantButton extends React.Component {
 					bodyText={this._renderBody()}
 					title={translate.add_participant}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

@@ -6,6 +6,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
 import { getActPointSubjectType } from '../../../utils/CBX';
+import { toast } from 'react-toastify';
 
 class ToggleAgendaButton extends React.Component {
 	state = {
@@ -37,26 +38,25 @@ class ToggleAgendaButton extends React.Component {
 		}else{
 			const response = await this.props.openAgenda({
 				variables: {
-					agendaId: agenda.id,
-					councilId: agenda.councilId
+					agendaId: agenda.id
 				}
 			});
 			if (response) {
+				if(response.errors){
+					toast.error('Ha ocurrido un error al intentar abrir el punto'); //TRADUCCION
+				}
 				this.props.refetch();
 			}
 		}
-		
 	};
 
 	closeAgenda = async () => {
 		const { agenda } = this.props;
 		const response = await this.props.closeAgenda({
 			variables: {
-				agendaId: agenda.id,
-				councilId: agenda.councilId
+				agendaId: agenda.id
 			}
 		});
-		console.log(response);
 		if (response) {
 			this.props.refetch();
 		}

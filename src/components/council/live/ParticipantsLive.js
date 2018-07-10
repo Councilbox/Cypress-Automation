@@ -1,10 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	darkGrey,
-	getPrimary,
 	getSecondary,
 	lightGrey,
-	mediumGrey
 } from "../../../styles/colors";
 import {
 	CollapsibleSection,
@@ -21,10 +19,8 @@ import {
 	banParticipant
 } from "../../../queries";
 import Scrollbar from "react-perfect-scrollbar";
-import { Tooltip, Card, MenuItem } from "material-ui";
-import moment from "moment";
+import { Tooltip } from "material-ui";
 import {
-	haveWorGranted,
 	exceedsOnlineTimeout,
 	participantIsBlocked
 } from "../../../utils/CBX";
@@ -33,17 +29,15 @@ import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
 import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
 
-class ParticipantsLive extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			online: "-",
-			offline: "-",
-			broadcasting: "-",
-			banned: "-",
-			banParticipant: false
-		};
-	}
+
+class ParticipantsLive extends React.Component {
+	state = {
+		online: "-",
+		offline: "-",
+		broadcasting: "-",
+		banned: "-",
+		banParticipant: false
+	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (!nextProps.data.loading) {

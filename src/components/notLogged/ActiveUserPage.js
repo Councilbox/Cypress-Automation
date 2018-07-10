@@ -1,6 +1,5 @@
 import React from 'react';
 import withTranslations from '../../HOCs/withTranslations';
-import Header from '../Header';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { Paper } from 'material-ui';

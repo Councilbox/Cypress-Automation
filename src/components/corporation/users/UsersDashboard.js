@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
 import { MenuItem } from 'material-ui';

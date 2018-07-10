@@ -3,7 +3,7 @@ import { Drawer } from 'material-ui';
 import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { darkGrey, getSecondary } from '../../styles/colors';
+import { getSecondary } from '../../styles/colors';
 let icon;
 import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
 

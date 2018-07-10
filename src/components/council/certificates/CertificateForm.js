@@ -108,55 +108,60 @@ class CertificateForm extends React.PureComponent {
 
         return(
             <CardPageLayout title={translate.certificate_generate}>
-                <div style={{marginBottom: '1.2em'}}>
-                    <TextInput
-                        floatingText={translate.certificate_title_of}
-                        value={data.title}
-                        errorText={this.state.errors.title}
-                        onChange={(event) => this.updateCertificateDate({
-                            title: event.target.value
-                        })}
-                    />
-                </div>
-                <div style={{marginBottom: '1.2em'}}>                
-                    <RichTextInput
-                        floatingText={translate.certificate_header}
-                        value={data.header}
-                        errorText={this.state.errors.header}
-                        onChange={value => this.updateCertificateDate({
-                            header: value
-                        })}
-                    />
-                </div>
-
-                <Typography>
-                    {translate.certificate_content}
-                </Typography>
-                <div style={{marginBottom: '1.2em'}}>
-                    {this.props.council.agendas.map(agenda => (
-                        <AgendaCheckItem
-                            key={`agenda_${agenda.id}`}
-                            agenda={agenda}
-                            updatePoints={this.updatePoints}
-                            checked={this.state.points}
+                <div style={{padding: '1.4em', paddingTop: '1em', paddingBottom: '1em'}}>
+                    <div style={{marginBottom: '1.2em'}}>
+                        <TextInput
+                            floatingText={translate.certificate_title_of}
+                            value={data.title}
+                            errorText={this.state.errors.title}
+                            onChange={(event) => this.updateCertificateDate({
+                                title: event.target.value
+                            })}
                         />
-                    ))}
-                </div>
-                <RichTextInput
-                    floatingText={translate.certificate_footer}
-                    value={data.footer}
-                    errorText={this.state.errors.footer}
-                    onChange={value => this.updateCertificateDate({
-                        footer: value
-                    })}
-                />
+                    </div>
+                    <div style={{marginBottom: '1.2em'}}>                
+                        <RichTextInput
+                            floatingText={translate.certificate_header}
+                            value={data.header}
+                            errorText={this.state.errors.header}
+                            onChange={value => this.updateCertificateDate({
+                                header: value
+                            })}
+                        />
+                    </div>
 
-                <BasicButton
-                    text={translate.certificate_generate}
-                    onClick={this.createCertificate}
-                    textStyle={{textTransform: 'none', fontWeight: '700'}}
-                    color={getSecondary()}
-                />
+                    <Typography style={{fontWeight: '700', fontSize: '14px'}}>
+                        Incluir puntos del día: {/*TRADUCCION*/}
+                    </Typography>
+                    <div style={{marginBottom: '1.2em'}}>
+                        {this.props.council.agendas.map(agenda => (
+                            <AgendaCheckItem
+                                key={`agenda_${agenda.id}`}
+                                agenda={agenda}
+                                updatePoints={this.updatePoints}
+                                checked={this.state.points}
+                            />
+                        ))}
+                    </div>
+                    <RichTextInput
+                        floatingText={translate.certificate_footer}
+                        value={data.footer}
+                        errorText={this.state.errors.footer}
+                        onChange={value => this.updateCertificateDate({
+                            footer: value
+                        })}
+                    />
+
+                    <div style={{width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
+                        <BasicButton
+                            text={translate.certificate_generate}
+                            onClick={this.createCertificate}
+                            textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                            color={getSecondary()}
+                            buttonStyle={{marginTop: '0.8em'}}
+                        />
+                    </div>
+                </div>
             </CardPageLayout>
         )
     }

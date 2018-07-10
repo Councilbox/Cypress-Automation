@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -16,7 +16,7 @@ import {
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
 
-class AddCensusParticipantButton extends Component {
+class AddCensusParticipantButton extends React.Component {
 	addCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
@@ -116,7 +116,7 @@ class AddCensusParticipantButton extends Component {
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<Fragment>
+			<React.Fragment>
 				<ParticipantForm
 					type={participant.personOrEntity}
 					participant={participant}
@@ -133,7 +133,7 @@ class AddCensusParticipantButton extends Component {
 					errors={this.state.representativeErrors}
 					languages={this.props.data.languages}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 
@@ -142,7 +142,7 @@ class AddCensusParticipantButton extends Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.add_participant}
 					color={"white"}
@@ -170,7 +170,7 @@ class AddCensusParticipantButton extends Component {
 					bodyText={this._renderBody()}
 					title={translate.add_participant}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

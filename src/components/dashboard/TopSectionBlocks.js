@@ -1,15 +1,8 @@
 import React from "react";
-import { darkGrey, getSecondary } from "../../styles/colors";
 import {
-	BasicButton,
-	DropDownMenu,
 	Grid,
-	GridItem,
-	Icon,
-	Link,
-	ButtonIcon
+	GridItem
 } from "../../displayComponents";
-import { MenuItem, Card } from "material-ui";
 import Block from './Block';
 
 const TopSectionBlocks = ({ translate, company }) => (

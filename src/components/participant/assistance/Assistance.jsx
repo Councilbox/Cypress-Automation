@@ -74,7 +74,7 @@ class Assistance extends React.Component {
 			savingAssistanceComment: true
 		})
 
-		let response = await setAssistanceComment({
+		await setAssistanceComment({
 			variables: {
 				assistanceComment: assistanceComment
 			}

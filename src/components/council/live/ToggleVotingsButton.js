@@ -11,15 +11,9 @@ class ToggleVotingsButton extends React.Component {
 	};
 
 	openVoting = async () => {
-		const { council, agenda } = this.props;
 		const response = await this.props.openAgendaVoting({
 			variables: {
-				agenda: {
-					id: agenda.id,
-					councilId: agenda.councilId,
-					subjectType: agenda.subjectType,
-					language: council.language
-				}
+				agendaId: this.props.agenda.id
 			}
 		});
 		if (response) {
@@ -31,12 +25,7 @@ class ToggleVotingsButton extends React.Component {
 		const { agenda } = this.props;
 		const response = await this.props.closeAgendaVoting({
 			variables: {
-				agenda: {
-					id: agenda.id,
-					councilId: agenda.councilId,
-					votingState: 1,
-					subjectType: agenda.subjectType
-				}
+				agendaId: agenda.id
 			}
 		});
 		if (response) {

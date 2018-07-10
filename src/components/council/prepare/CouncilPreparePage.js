@@ -24,14 +24,6 @@ import Convene from "../convene/Convene";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
 
-const panelStyle = {
-	height: "77vh",
-	overflow: "hidden",
-	boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
-	borderRadius: "0px 5px 5px 5px",
-	padding: "1vw"
-};
-
 class CouncilPreparePage extends React.Component {
 	state = {
 		participants: false,

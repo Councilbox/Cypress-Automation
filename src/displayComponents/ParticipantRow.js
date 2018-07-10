@@ -1,14 +1,11 @@
 import React from "react";
-import { getSecondary } from "../styles/colors";
 import { Checkbox } from './';
 import { delegatedVotesLimitReached } from '../utils/CBX';
 import { Paper } from 'material-ui';
 
-const ParticipantRow = ({ participant, onClick, key, checkBox, toDelegate, council, selected, onChange }) => {
+const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange }) => {
 
 	let limitReached = null;
-	const secondary = getSecondary();
-
 	if(toDelegate){
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length );
 	}
@@ -32,7 +29,6 @@ const ParticipantRow = ({ participant, onClick, key, checkBox, toDelegate, counc
 					display: "flex",
 					flexDirection: "column"
 				}}
-				key={key}
 			>
 				<div
 					style={{

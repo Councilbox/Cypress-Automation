@@ -1,5 +1,5 @@
 import React from "react";
-import { getPrimary, getSecondary } from "../styles/colors";
+import { getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { Card, Typography, Tooltip } from "material-ui";
 import * as CBX from "../utils/CBX";

@@ -1,8 +1,6 @@
 import React from 'react';
 import ConvenedParticipantsTable from '../../prepare/ConvenedParticipantsTable';
 import { hasParticipations } from '../../../../utils/CBX';
-import { councilDetails } from "../../../../queries";
-import { graphql } from 'react-apollo';
 import Scrollbar from 'react-perfect-scrollbar';
 
 const ActConvenedParticipants = ({ council, translate }) => {

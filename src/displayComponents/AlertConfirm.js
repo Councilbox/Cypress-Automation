@@ -5,7 +5,6 @@ import Dialog, {
 	DialogTitle
 } from "material-ui/Dialog";
 import BasicButton from "./BasicButton";
-import Scrollbar from './Scrollbar';
 import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
 
@@ -15,7 +14,6 @@ const AlertConfirm = ({
 	fullScreen,
 	buttonAccept,
 	buttonCancel,
-	scrollable = false,
 	modal,
 	open,
 	requestClose,

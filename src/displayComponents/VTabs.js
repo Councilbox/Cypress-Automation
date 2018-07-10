@@ -1,8 +1,7 @@
 import React from "react";
-import Scrollbar from "react-perfect-scrollbar";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../styles/colors";
-import { CloseIcon, Grid, GridItem, SelectInput, BasicButton } from "./index";
+import { CloseIcon, Grid, GridItem, SelectInput } from "./index";
 import { Tooltip, Paper, MenuItem } from 'material-ui';
 import Tabs from 'antd/lib/tabs';
 import "../styles/react-tabs.css";

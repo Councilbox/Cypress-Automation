@@ -1,5 +1,4 @@
 import React from "react";
-import { getPrimary, lightGrey } from "../styles/colors";
 import "../styles/react-tabs.css";
 import Link from './LinkWithoutStyling';
 import 'antd/lib/tabs/style/index.css';
@@ -28,7 +27,6 @@ class TabsScreen extends React.Component {
 
 	render() {
 		const tabsInfo = this.props.tabsInfo;
-		const primary = getPrimary();
 
 		return (
 			<div

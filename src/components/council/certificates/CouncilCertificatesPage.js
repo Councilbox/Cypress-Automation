@@ -5,14 +5,15 @@ import { councilCertificates, downloadCertificate } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
 import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper } from '../../../displayComponents';
-import { TableRow, TableCell } from 'material-ui';
+import { TableRow, TableCell, Typography } from 'material-ui';
 import { downloadFile } from '../../../utils/CBX';
 import CertificateForm from './CertificateForm';
 
 class CouncilCertificates extends React.PureComponent {
 
     state = {
-        downloading: false
+        downloading: false,
+        editor: true
     }
 
     downloadCertificate = async (certificate) => {
@@ -67,53 +68,69 @@ class CouncilCertificates extends React.PureComponent {
                 />
             )
         }
-        
+
         return(
             <CardPageLayout title={translate.certificates}>
-                <BasicButton
-                    text={translate.certificates_new}
-                    textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
-                    color={getSecondary()}
-                    onClick={() => this.setState({
-                        editor: true
-                    })}
-                    icon={<ButtonIcon type="add" color="white"/>}
-                />
-                <div>
-                    {councilCertificates.length > 0? 
-                        <Table
-                            headers={[
-                                { name: translate.field_date},
-                                { name: translate.certificate_title_of}
-                            ]}
-                        >
-                            {this.props.data.councilCertificates.map(certificate => (
-                                <TableRow key={`certificate_${certificate.id}`}>
-                                    <TableCell>
-                                        <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
-                                    </TableCell>
-                                    <TableCell>
-                                        {certificate.title}
-                                    </TableCell>
-                                    <TableCell>
-                                        <BasicButton
-                                            text={translate.download}
-                                            color="white"
-                                            loading={this.state.downloading === certificate.id}
-                                            loadingColor={getSecondary()}
-                                            textStyle={{textTransform: 'none'}}
-                                            buttonStyle={{border: `2px solid ${getSecondary()}`}}
-                                            onClick={() => this.downloadCertificate(certificate)}
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </Table>
-                    :
-                        'NO HAY CERTIFICADOS GENERADOS'
-                    }
+                <div
+                    style={{
+                        padding: '1em',
+                        ...(councilCertificates.length === 0? {
+                            display: 'flex',
+                            width: '100%',
+                            flexDirection: 'column',
+                            height: '15em',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        } : {})
+                    }}
+                >
+                    <BasicButton
+                        text={translate.certificates_new}
+                        textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                        color={getSecondary()}
+                        onClick={() => this.setState({
+                            editor: true
+                        })}
+                        icon={<ButtonIcon type="add" color="white"/>}
+                    />
+                    <div>
+                        {councilCertificates.length > 0? 
+                            <Table
+                                headers={[
+                                    { name: translate.field_date},
+                                    { name: translate.certificate_title_of}
+                                ]}
+                            >
+                                {this.props.data.councilCertificates.map(certificate => (
+                                    <TableRow key={`certificate_${certificate.id}`}>
+                                        <TableCell>
+                                            <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
+                                        </TableCell>
+                                        <TableCell>
+                                            {certificate.title}
+                                        </TableCell>
+                                        <TableCell>
+                                            <div>
+                                                <BasicButton
+                                                    text={translate.download}
+                                                    color={getSecondary()}
+                                                    loading={this.state.downloading === certificate.id}
+                                                    loadingColor="white"
+                                                    textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                                                    onClick={() => this.downloadCertificate(certificate)}
+                                                />
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </Table>
+                        :
+                            <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}}>
+                                NO HAY CERTIFICADOS GENERADOS
+                            </Typography>
+                        }
+                    </div>
                 </div>
-                
             </CardPageLayout>
         )
     }

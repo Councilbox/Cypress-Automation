@@ -7,11 +7,9 @@ import {
 	BasicButton,
 	ErrorWrapper,
 	Grid,
-	ScrollHTMLFixer,
 	GridItem,
 	LoadingSection
 } from "../../../displayComponents";
-import Scrollbar from 'react-perfect-scrollbar';
 import { Typography } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
 import { downloadConvenePDF } from "../../../queries";

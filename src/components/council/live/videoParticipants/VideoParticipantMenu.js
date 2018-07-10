@@ -1,7 +1,7 @@
 import React from "react";
 import { DropDownMenu, Icon } from "../../../../displayComponents";
 import { MenuItem, Card } from "material-ui";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getSecondary } from "../../../../styles/colors";
 import {
 	participantIsBlocked,
 	canUnblockParticipant

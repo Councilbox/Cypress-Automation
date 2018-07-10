@@ -69,13 +69,9 @@ const languages = {
 };
 
 function to_json(workbook) {
-	var result = {};
-	var index = 1;
-	workbook.SheetNames.forEach(function(sheetName) {
-		index++;
-		var roa = XLSX.utils.sheet_to_row_object_array(
-			workbook.Sheets[sheetName]
-		);
+	let result = {};
+	workbook.SheetNames.forEach(sheetName => {
+		let roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
 		if (roa.length > 0) {
 			result[sheetName] = roa;
 		}
@@ -180,12 +176,6 @@ class ImportCensusButton extends React.Component {
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
-			let fileInfo = {
-				filename: file.name,
-				filetype: file.type,
-				filesize: Math.round(file.size / 1000),
-				base64: reader.result,
-            };
             this.read(reader.result);
 		};
 	};
@@ -323,7 +313,6 @@ class ImportCensusButton extends React.Component {
 				};
 				const entityError = this.checkRequiredFields(entity,  true);
 				return entityError? entityError : { entity };
-				return entity;
 			}
 			return 'invalid';
 		}
@@ -343,8 +332,6 @@ class ImportCensusButton extends React.Component {
 			r_dni: '',
 			r_phone: ''
 		}
-
-		let hasError = false;
 
 		if(!isEntity){
 			if(!participant.name){

@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { corporationDrafts, deleteCorporationDraft } from "../../../queries";
-import { LoadingSection, Grid, GridItem, SelectInput, TextInput, AlertConfirm, Icon, CloseIcon, BasicButton, ButtonIcon } from '../../../displayComponents';
+import { LoadingSection, SelectInput, TextInput, AlertConfirm, Icon, CloseIcon, BasicButton, ButtonIcon } from '../../../displayComponents';
 import { MenuItem, Table, TableRow, TableHead, TableCell, TableSortLabel, TableBody } from 'material-ui';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';

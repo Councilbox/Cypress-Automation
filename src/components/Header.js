@@ -5,15 +5,14 @@ import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
-import { Icon, TextInput } from "../displayComponents";
+import { Icon } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
 import { Tooltip, Paper } from "material-ui";
 import CompanyMenu from './sideMenu/CompanyMenu';
 
-
-class Header extends React.Component {
+class Header extends React.PureComponent {
 	state = {
 		companyMenu: false
 	}

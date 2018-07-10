@@ -3,10 +3,7 @@ import { connect } from "react-redux";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { LoadingMainApp } from "../displayComponents";
-import { PARTICIPANT_ERRORS } from "../constants";
 import InvalidUrl from "../components/participant/InvalidUrl";
-import ErrorState from "../components/participant/login/ErrorState";
-import { Divider } from "material-ui";
 import Assistance from "../components/participant/assistance/Assistance";
 
 class AssistanceContainer extends React.PureComponent {
