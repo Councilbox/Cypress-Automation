@@ -412,6 +412,11 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 				bHistory.replace(`/company/${company.id}/council/${council.id}`);
 			}
 			break;
+		case COUNCIL_STATES.PRECONVENE:
+			if (expected !== "draft") {
+				bHistory.replace(`/company/${company.id}/council/${council.id}`);
+			}
+			break;
 		case COUNCIL_STATES.SAVED:
 			if (expected !== "convened" && expected !== "live") {
 				bHistory.replace(

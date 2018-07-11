@@ -7,7 +7,7 @@ import {
 } from "../../displayComponents";
 import { MenuItem } from 'material-ui';
 
-const UserForm = ({ data, updateState, errors, languages, translate }) => (
+const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate }) => (
     <Grid>
         <GridItem xs={12} md={6} lg={4}>
             <TextInput
@@ -42,6 +42,7 @@ const UserForm = ({ data, updateState, errors, languages, translate }) => (
                 floatingText={translate.email}
                 type="text"
                 value={data.email}
+                {...(!!onKeyUp? {onKeyUp: onKeyUp}: {})}
                 onChange={event =>
                     updateState({
                         email: event.target.value
