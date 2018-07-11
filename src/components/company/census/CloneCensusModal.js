@@ -46,7 +46,8 @@ class CloneCensusModal extends Component {
 				variables: {
 					census: {
 						...census,
-						censusDescription: removeHTMLTags(census.censusDescription)
+						censusDescription: removeHTMLTags(census.censusDescription),
+						creatorId: this.props.user.id
 					}
 				}
 			});
