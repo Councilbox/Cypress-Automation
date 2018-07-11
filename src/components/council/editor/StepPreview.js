@@ -223,7 +223,7 @@ class StepPreview extends React.Component {
 						style={{
 							display: 'flex',
 							flexDirection: 'row',
-							justifyContent: 'space-between'
+							justifyContent: 'flex-end'
 						}}
 					>
 						<div>
@@ -234,33 +234,52 @@ class StepPreview extends React.Component {
 							>
 								<DropDownMenu
 									color="transparent"
-									buttonStyle={{
-										boxSizing: "border-box",
-										padding: "0",
-										border: `1px solid ${primary}`,
-										marginLeft: "0.3em"
-									}}
-									text={
-										<FontAwesome
-											name={"bars"}
+									Component={() =>
+										<Paper 
+											elevation={1}
 											style={{
-												cursor: "pointer",
-												fontSize: "0.8em",
-												height: "0.8em",
-												color: primary
+												boxSizing: "border-box",
+												padding: "0",
+												width: '5em',
+												height: '36px',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												border: `1px solid ${primary}`,
+												marginLeft: "0.3em"
 											}}
-										/>
+										>
+											<MenuItem
+												style={{
+													width: '100%',
+													height: '100%',
+													margin: 0,
+													padding: 0,
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center'
+												}}
+											>
+												<FontAwesome
+													name={"bars"}
+													style={{
+														cursor: "pointer",
+														fontSize: "0.8em",
+														height: "0.8em",
+														color: primary
+													}}
+												/>
+												<Icon
+													className="material-icons"
+													style={{ color: primary }}
+												>
+													keyboard_arrow_down
+												</Icon>
+											</MenuItem>
+										</Paper>
 									}
 									textStyle={{ color: primary }}
 									type="flat"
-									icon={
-										<Icon
-											className="material-icons"
-											style={{ color: primary }}
-										>
-											keyboard_arrow_down
-										</Icon>
-									}
 									items={
 										<React.Fragment>
 											<MenuItem
@@ -274,7 +293,8 @@ class StepPreview extends React.Component {
 													className="fa fa-flask"
 													style={{
 														color: secondary,
-														marginLeft: "0.4em"
+														marginLeft: "0.4em",
+														marginRight: '0.4em'
 													}}
 												>
 													{" "}
@@ -292,7 +312,8 @@ class StepPreview extends React.Component {
 													className="material-icons"
 													style={{
 														color: secondary,
-														marginLeft: "0.4em"
+														marginLeft: "0.4em",
+														marginRight: '0.4em'
 													}}
 												>
 													query_builder
@@ -310,7 +331,8 @@ class StepPreview extends React.Component {
 													className="material-icons"
 													style={{
 														color: secondary,
-														marginLeft: "0.4em"
+														marginLeft: "0.4em",
+														marginRight: '0.4em'
 													}}
 												>
 													notifications_off
