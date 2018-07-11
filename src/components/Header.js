@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
-import { Icon } from "../displayComponents";
+import { Icon, UnsavedChangesModal } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
@@ -14,7 +14,8 @@ import FontAwesome from 'react-fontawesome';
 
 class Header extends React.PureComponent {
 	state = {
-		companyMenu: false
+		companyMenu: false,
+		unsavedChanges: false
 	}
 
 	logout = () => {
@@ -22,13 +23,23 @@ class Header extends React.PureComponent {
 	};
 
 	goBack = () => {
-		bHistory.goBack();
+		if(!this.props.main.unsavedChanges){
+			bHistory.goBack();
+		} else {
+			this.setState({
+				unsavedChanges: true
+			})
+		}
 	};
 
 	toggleCompanyMenu = () => {
 		this.setState({
 			companyMenu: !this.state.companyMenu
 		});
+	}
+
+	closeUnsavedModal = () => {
+		this.setState({unsavedChanges: false});
 	}
 
 	render() {
@@ -134,6 +145,10 @@ class Header extends React.PureComponent {
 					)}
 					{drawerIcon && "DRAWER"}
 				</div>
+				<UnsavedChangesModal 
+					open={this.state.unsavedChanges}
+					requestClose={this.closeUnsavedModal}
+				/>
 			</Paper>
 		);
 	}

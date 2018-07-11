@@ -15,6 +15,10 @@ export const loginSuccess = (token, refreshToken) => {
 	};
 };
 
+export const setUnsavedChanges = value => (
+	{ type: 'UNSAVED_CHANGES', value: value }
+)
+
 export const participantLoginSuccess = () => {
 	return dispatch => {
 		sessionStorage.setItem("participantLoginSuccess", true);

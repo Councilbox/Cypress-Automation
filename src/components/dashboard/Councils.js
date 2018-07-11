@@ -58,7 +58,7 @@ class Councils extends React.Component {
 				}}
 			>
 				<Scrollbar>
-					<div style={{ padding: "2em", width: '100%' }}>
+					<div style={{ padding: "2em", paddingBottom: '5em', width: '100%' }}>
 						<SectionTitle
 							icon={this.props.icon}
 							title={this.props.title}

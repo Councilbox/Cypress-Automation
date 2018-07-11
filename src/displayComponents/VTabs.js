@@ -60,18 +60,22 @@ const Vtabs = ({
 									{!!(saveAction && +index === +mapIndex)?
 										<React.Fragment>
 											<Tooltip title={translate.save}>
-												<Icon
-													type="save"
-													style={{
-														fontSize:'1.75em',
-														width: '1.5em',
-														color: secondary
-													}}
-													onClick={event => {
-														saveAction();
-														event.stopPropagation();
-													}}
-												/>
+												<Paper style={{margin: 0, padding: 0, width: '2.5em', height: '2em', overflow: 'hidden'}}>
+													<Icon
+														type="save"
+														style={{
+															fontSize:'1.75em',
+															width: '100%',
+															height: '100%',
+															backgroundColor: primary,
+															color: 'white'
+														}}
+														onClick={event => {
+															saveAction();
+															event.stopPropagation();
+														}}
+													/>
+												</Paper>
 											</Tooltip>
 											<Tooltip title="Deshacer" /*TRADUCCION*/>
 												<Icon

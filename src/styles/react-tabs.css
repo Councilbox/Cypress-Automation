@@ -63,7 +63,8 @@
 
 .ant-tabs {
     font-family: 'Lato' !important;
-    user-select: none,
+    user-select: none;
+    height: 100%;
 }
 
 .ant-tabs-bar {
@@ -106,8 +107,8 @@
     color: var(--primary) !important;
 }
 
-.ant.tab.tabpane {
-    border: 1px solid grey
+.ant-tabs-tabpane {
+    height: 100%;
 }
 
 .ant-tabs-tab-active > div {
@@ -118,7 +119,6 @@
 
 .ant-tabs-content {
     height: 100%;
-    padding-bottom: 3em;
     overflow: hidden;
 }
 

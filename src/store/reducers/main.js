@@ -58,6 +58,12 @@ export default function mainReducer(state = initialState.main, action) {
 				serverStatus: true
 			}
 
+		case 'UNSAVED_CHANGES':
+			return {
+				...state,
+				unsavedChanges: action.value
+			}
+
 		default:
 			return {
 				...state

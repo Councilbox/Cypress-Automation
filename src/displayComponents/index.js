@@ -52,4 +52,5 @@ export { default as TabsScreen } from "./TabsScreen";
 export { default as TextInput } from "./TextInput";
 export { default as ThemeProvider } from "./ThemeProvider";
 export { default as Tooltip } from "./Tooltip";
+export { default as UnsavedChangesModal } from './UnsavedChangesModal';
 export { default as VTabs } from "./VTabs";

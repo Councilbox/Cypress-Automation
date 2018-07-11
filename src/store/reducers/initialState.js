@@ -5,6 +5,7 @@ export default {
 		serverStatus: true,
 		isParticipantLogged: false,
 		loading: true,
+		unsavedChanges: false
 	},
 	user: {},
 	companies: {
