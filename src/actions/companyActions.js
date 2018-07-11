@@ -51,14 +51,14 @@ export const setCompany = company => {
 	};
 };
 
-export const changeCompany = index => {
+export const changeCompany = (index, id) => {
 	return async dispatch => {
 		const companies = [...store.getState().companies.list];
 		await client.mutate({
 			mutation: setCompanyAsSelected,
 			variables: {
 				userId: store.getState().user.id,
-				companyId: companies[index].id
+				companyId: !!id? id: companies[index].id
 			}
 		});
 		dispatch({

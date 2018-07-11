@@ -17,7 +17,6 @@ class CompanySelector extends React.Component {
 		bHistory.push(`/company/${companies[index].id}`);
 	};
 
-
 	render() {
 		return (
 			<Scrollbar>
