@@ -186,7 +186,7 @@ class ImportCensusButton extends React.Component {
 		let invalidEmails = [];
 
 		if (participants) {
-			for (var i = 1; i < participants.length; i++) {
+			for (var i = 0; i < participants.length; i++) {
 				let participant = this.prepareParticipant(participants[i]);
 				console.log(participant);
 				if(participant.hasError){

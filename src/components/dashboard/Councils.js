@@ -51,7 +51,7 @@ class Councils extends React.Component {
 		return (
 			<div
 				style={{
-					height: "78vh",
+					height: '100%',
 					width: '100%',
 					overflow: "hidden",
 					position: "relative"

@@ -3,7 +3,7 @@ import SendActModal from './SendActModal';
 import ParticipantsWithActTable from './ParticipantsWithActTable';
 import { getPrimary } from '../../../../styles/colors';
 import { BasicButton } from '../../../../displayComponents';
-import moment from 'moment';
+import { moment } from '../../../../containers/App';
 import { Typography } from 'material-ui';
 
 class SendActPage extends React.Component {

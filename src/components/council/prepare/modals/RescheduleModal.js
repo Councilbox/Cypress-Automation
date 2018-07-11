@@ -10,7 +10,8 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { rescheduleCouncil } from "../../../../queries/council";
 import * as CBX from "../../../../utils/CBX";
-import moment from 'moment-timezone';
+import { moment } from '../../../../containers/App';
+
 
 class RescheduleModal extends Component {
 	close = () => {

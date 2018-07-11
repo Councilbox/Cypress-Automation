@@ -7,7 +7,7 @@ import {
 import { TableRow, TableCell } from "material-ui";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import moment from "moment";
+import { moment } from '../../../../containers/App';
 
 const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 	<AlertConfirm

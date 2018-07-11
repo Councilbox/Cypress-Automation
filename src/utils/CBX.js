@@ -7,7 +7,7 @@ import {
 	AGENDA_TYPES,
 	VOTE_VALUES
 } from "../constants";
-import moment from "moment";
+import { moment } from '../containers/App';
 import dropped from "../assets/img/dropped.png";
 import delivered from "../assets/img/delivered.png";
 import invalidEmailAddress from "../assets/img/invalid_email_address.png";

@@ -18,7 +18,7 @@ import LoadDraftModal from "../../company/drafts/LoadDraftModal";
 import { compose, graphql } from "react-apollo";
 import { changeStatute, councilStepOne, updateCouncil } from "../../../queries";
 import * as CBX from "../../../utils/CBX";
-import moment from "moment";
+import { moment } from '../../../containers/App';
 
 class StepNotice extends React.Component {
 
@@ -162,6 +162,10 @@ class StepNotice extends React.Component {
 						this.props.data.council.statute
 							.minimumSeparationBetweenCall
 					)
+				});
+			} else {
+				this.updateError({
+					dateStart2NdCall: ''
 				});
 			}
 		}

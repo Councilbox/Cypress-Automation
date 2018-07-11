@@ -1,5 +1,6 @@
 import React from "react";
 import CouncilLivePage from "../components/council/live/CouncilLivePage";
+import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
@@ -12,9 +13,15 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	if (!companies.list.length > 0) {
 		return <LoadingMainApp />;
 	}
-
-/* 	if (typeof window.orientation !== 'undefined')){
-		return <div>LO SENTIMOS, NO SE PUEDE CELEBRAR UNA REUNIÓN DESDE UN DISPOSITIVO MOVIL</div>
+/* 
+	if (/Mobi|Android/i.test(navigator.userAgent)){
+		return (
+			<CouncilLiveMobilePage 
+				companies={companies}
+				translate={translate}
+				councilID={match.params.id}
+			/>
+		);
 	} */
 
 	return (
@@ -28,7 +35,6 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 			<CouncilLivePage
 				companies={companies}
 				translate={translate}
-				companyID={match.params.company}
 				councilID={match.params.id}
 			/>
 		</div>

@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 	DialogContent
 } from "material-ui";
-import moment from "moment";
+import { moment } from '../../../containers/App';
 import FontAwesome from "react-fontawesome";
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";

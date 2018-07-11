@@ -123,7 +123,7 @@ class AppRouter extends React.Component {
 					/>
 					<div
 						style={{
-							height: "calc(100vh - 3em)",
+							height: `calc(100vh - 3em)`,
 							display: "flex",
 							width: "100%",
 							overflow: 'hidden',

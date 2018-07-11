@@ -5,7 +5,7 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { cancelCouncil } from "../../../../queries/council";
 import { bHistory } from "../../../../containers/App";
-import moment from 'moment-timezone';
+import { moment } from '../../../../containers/App';
 
 
 class CancelModal extends Component {

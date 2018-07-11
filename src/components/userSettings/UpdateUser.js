@@ -152,7 +152,7 @@ class UpdateUserForm extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div style={{padding: '0.8em', paddingTop: 0}}>
+				<div style={{padding: '0.8em', paddingTop: 0}} {...(error? {onKeyUp: this.onKeyUp} : {})}>
 					<Typography variant="title" style={{ color: primary }}>
 						{translate.user_data}
 					</Typography>

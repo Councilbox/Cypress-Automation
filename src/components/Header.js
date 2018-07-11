@@ -10,7 +10,7 @@ import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
 import { Tooltip, Paper } from "material-ui";
-import CompanyMenu from './sideMenu/CompanyMenu';
+import FontAwesome from 'react-fontawesome';
 
 class Header extends React.PureComponent {
 	state = {
@@ -64,39 +64,15 @@ class Header extends React.PureComponent {
 						alignItems: "center"
 					}}
 				>
-					{this.props.companyMenu && this.props.windowSize === 'xs' && false &&
-						<div>
-							<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
-								<div
-									style={{
-										width: this.props.windowSize === 'xs'? '3em' : '100%',
-										height: '3em',
-										cursor: 'pointer',
-										display: 'flex',
-										backgroundColor: this.state.companyMenu? secondary : 'transparent',
-										alignItems: 'center',
-										justifyContent: 'center'
-									}}
-									onClick={this.toggleCompanyMenu}
-								>
-									<div style={{width: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-										<Icon
-											style={{color: this.state.companyMenu? 'white' : secondary, fontSize: '1.8em'}}
-										>
-											apps
-										</Icon>
-									</div>
-								</div>
-							</Tooltip>
-							<CompanyMenu
-								open={this.state.companyMenu}
-								company={this.props.company}
-								companies={this.props.companies}
-								translate={this.props.translate}
-								requestClose={this.toggleCompanyMenu}
-							/>
-						</div>
-
+					{(this.props.companyMenu && this.props.windowSize === 'xs') &&
+						<React.Fragment>
+							{!!this.props.company.logo?
+								<img src={this.props.company.logo} style={{maxWidth: '4em', height: '1.8em'}} alt="company-logo" />
+							:
+								<FontAwesome
+									name={"building-o"}
+								/>}
+						</React.Fragment>
 					}
 					{backButton && (
 						<Tooltip

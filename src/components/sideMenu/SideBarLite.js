@@ -75,106 +75,195 @@ class Sidebar extends React.Component {
 	};
 
 	links = () => (
-		<div className={this.props.classes.list} 
+		<div className={this.props.classes.list}
 			style={{
 				display: 'flex',
-				flexDirection: this.props.windowSize === 'xs'? 'row' : 'column'
+				flexDirection:  'column',
+				...(this.props.windowSize === 'xs'? { margin: 0 } : {}),
 			}}
 		>
-			<div
-				className={this.props.classes.logoLink}
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					width: this.props.windowSize === 'xs'? '2em' : '100%',
-					justifyContent: 'center',
-					alignItems: 'center'
-				}}
-			>
-				<div
-					style={{
-						width: '100%',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						padding: '0.5em'
-					}}
-				>
-					<Tooltip title={this.props.company.businessName} placement="top-end">
-					{!!this.props.company.logo ? (
-						<img
-							src={this.props.company.logo}
-							alt="logo"
-							className={this.props.classes.img}
-						/>
-					) : (
-						<FontAwesome
-							name={"building-o"}
-						/>
-					)}
-					</Tooltip>
-				</div>
-			</div>
-			{this.routes.map((route, key) => {
-				if (route.redirect) {
-					return null;
-				}
-				const listItemClasses = cx({
-					[" " +
-					this.props.classes[this.props.color]]: this.activeRoute(key)
-				});
-				return (
-					<NavLink
-						to={route.path}
-						className={this.props.classes.item}
-						activeClassName="active"
-						key={key}
+			{this.props.windowSize !== 'xs'?
+				<React.Fragment>
+					<div
+						className={this.props.classes.logoLink}
 						style={{
-							":hover": {
-								textDecoration: "none",
-								color: "red"
-							}
+							display: "flex",
+							flexDirection: "row",
+							width: '100%',
+							justifyContent: 'center',
+							alignItems: 'center'
 						}}
-						onClick={() => this.setState({ selectedRoute: key })}
 					>
-						<ListItem
-							button
-							className={
-								this.props.classes.itemLink + listItemClasses
-							}
+						<div
 							style={{
-								display: "flex",
-								flexDirection: "column",
+								width: '100%',
+								display: 'flex',
 								alignItems: 'center',
-								justifyContent: 'center'
+								justifyContent: 'center',
+								padding: '0.5em'
 							}}
 						>
-							<div
+							<Tooltip title={this.props.company.businessName} placement="top-end">
+							{!!this.props.company.logo ? (
+								<img
+									src={this.props.company.logo}
+									alt="logo"
+									className={this.props.classes.img}
+								/>
+							) : (
+								<FontAwesome
+									name={"building-o"}
+								/>
+							)}
+							</Tooltip>
+						</div>
+					</div>
+					{this.routes.map((route, key) => {
+						if (route.redirect) {
+							return null;
+						}
+						const listItemClasses = cx({
+							[" " +
+							this.props.classes[this.props.color]]: this.activeRoute(key)
+						});
+						return (
+							<NavLink
+								to={route.path}
+								className={this.props.classes.item}
+								activeClassName="active"
+								key={key}
 								style={{
-									width: "24px",
-									height: "30px",
 									display: 'flex',
 									alignItems: 'center',
-									justifyContent: 'center',
-									color: "rgba(255, 255, 255, 0.8)"
+									justifyContent: 'center'
 								}}
+								onClick={() => this.setState({ selectedRoute: key })}
 							>
-								<Icon>
-									{route.icon}
-								</Icon>
-							</div>
-							<span
+								<ListItem
+									button
+									className={
+										this.props.classes.itemLink + listItemClasses
+									}
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}
+								>
+									<div
+										style={{
+											width: "24px",
+											height: "30px",
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											color: "rgba(255, 255, 255, 0.8)"
+										}}
+									>
+										<Icon>
+											{route.icon}
+										</Icon>
+									</div>
+									<span
+										style={{
+											color: 'white',
+											fontSize: '0.55em'
+										}}
+									>
+										{route.sidebarName}
+									</span>
+								</ListItem>
+							</NavLink>
+						);
+					})}
+				</React.Fragment>
+			:
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						width: '100vw',
+						height: '100%'
+					}}
+				>
+					<div
+						style={{
+							width: '20%',
+							height: '100%',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center'
+						}}
+					>
+						{this.brand()}
+					</div>
+					{this.routes.map((route, key) => {
+						if (route.redirect) {
+							return null;
+						}
+						const listItemClasses = cx({
+							[" " +
+							this.props.classes[this.props.color]]: this.activeRoute(key)
+						});
+						return (
+							<NavLink
+								to={route.path}
+								className={this.props.classes.item}
+								activeClassName="active"
+								key={key}
 								style={{
-									color: 'white',
-									fontSize: '0.55em'
+									":hover": {
+										textDecoration: "none",
+										color: "red"
+									},
+									width: '20%',
+									marginTop: 0
 								}}
+								onClick={() => this.setState({ selectedRoute: key })}
 							>
-								{route.sidebarName}
-							</span>
-						</ListItem>
-					</NavLink>
-				);
-			})}
+								<ListItem
+									button
+									className={
+										this.props.classes.itemLink + listItemClasses
+									}
+									style={{
+										display: "flex",
+										flexDirection: "column",
+										alignItems: 'center',
+										margin: 0,
+										height: '100%',
+										justifyContent: 'center',
+									}}
+								>
+									<div
+										style={{
+											width: "24px",
+											height: "30px",
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											color: "rgba(255, 255, 255, 0.8)"
+										}}
+									>
+										<Icon>
+											{route.icon}
+										</Icon>
+									</div>
+									<span
+										style={{
+											color: 'white',
+											fontSize: '0.55em'
+										}}
+									>
+										{route.sidebarName}
+									</span>
+								</ListItem>
+							</NavLink>
+						);
+					})}
+				</div>
+			}
 		</div>
 	);
 
@@ -225,7 +314,7 @@ class Sidebar extends React.Component {
 					zIndex: '1000',
 					position: 'absolute',
 					display: 'flex',
-					...(this.props.windowSize === 'xs'? 
+					...(this.props.windowSize === 'xs'?
 						{
 							flexDirection: 'row',
 							bottom: 0,

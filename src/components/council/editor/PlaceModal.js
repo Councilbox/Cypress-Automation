@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { MenuItem } from "material-ui";
 import Dialog, {
 	DialogActions,
@@ -16,7 +16,8 @@ import { getPrimary } from "../../../styles/colors";
 import { withApollo } from "react-apollo";
 import { provinces } from "../../../queries/masters";
 
-class PlaceModal extends Component {
+
+class PlaceModal extends React.Component {
 	handleCountryChange = event => {
 		this.setState({
 			...this.state,
@@ -33,6 +34,7 @@ class PlaceModal extends Component {
 		);
 		this.updateCountryStates(selectedCountry.id);
 	};
+
 	updateCountryStates = async countryID => {
 		const response = await this.props.client.query({
 			query: provinces,
@@ -40,11 +42,11 @@ class PlaceModal extends Component {
 				countryId: countryID
 			}
 		});
-		console.log(response);
 		this.setState({
 			country_states: response.data.provinces
 		});
 	};
+
 	handleProvinceChange = event => {
 		this.setState({
 			...this.state,
@@ -79,7 +81,7 @@ class PlaceModal extends Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.close}
 					color={"white"}
@@ -105,7 +107,7 @@ class PlaceModal extends Component {
 					textPosition="after"
 					onClick={this.saveAndClose}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	};
 

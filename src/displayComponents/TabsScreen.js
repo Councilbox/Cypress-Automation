@@ -4,6 +4,7 @@ import Link from './LinkWithoutStyling';
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
 
+
 class TabsScreen extends React.Component {
 	state = {
 		selectedTab: 0
@@ -35,6 +36,7 @@ class TabsScreen extends React.Component {
 					width: "100%",
 					height: "100%",
 					display: "flex",
+					...(this.props.windowSize === 'xs'? { paddingBottom: '3.5em' } : {}),
 					alignItems: "center",
 					flexDirection: "column"
 				}}
@@ -44,7 +46,7 @@ class TabsScreen extends React.Component {
 				<Tabs
 					activeKey={''+this.state.selectedTab}
 					type="card"
-					style={{ width: '100%' }}
+					style={{ width: '100%', height: '100%' }}
 					onChange={this.handleChange}
 				>
 					{tabsInfo.map((tab, index) => {
@@ -67,7 +69,7 @@ class TabsScreen extends React.Component {
 									borderRadius: "0px 5px 5px 5px"
 								}}
 							>
-								<div style={{width: '100%'}}>
+								<div style={{width: '100%', height: '100%'}}>
 									{!!tab.component && tab.component()}
 								</div>
 							</Tabs.TabPane>

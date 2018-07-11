@@ -121,7 +121,7 @@ class RichTextInput extends React.Component {
 						</div>
 						<RichTextEditor
 							ref={"rtEditor"}
-							className={"text-editor"}
+							className={`text-editor ${!!errorText? 'text-editor-error' : ''}`}
 							value={this.state.value}
 							onChange={this.onChange}
 							toolbarConfig={toolbarConfig}

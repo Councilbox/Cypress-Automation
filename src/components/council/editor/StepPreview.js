@@ -27,7 +27,8 @@ import { bHistory } from "../../../containers/App";
 import * as CBX from "../../../utils/CBX";
 import { checkValidEmail } from "../../../utils/validation";
 import { toast } from "react-toastify";
-import moment from 'moment-timezone';
+import { moment } from '../../../containers/App';
+
 
 class StepPreview extends React.Component {
 
