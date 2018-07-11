@@ -37,8 +37,6 @@ class UserEdit extends React.PureComponent {
             }
         })
 
-        console.log(response);
-
         if(!response.errors){
             if(response.data.linkCompanies.success){
                 this.props.data.refetch();
