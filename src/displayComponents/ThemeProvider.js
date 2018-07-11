@@ -5,7 +5,6 @@ import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
 import moment from "moment";
 import "moment/locale/es";
-
 moment.updateLocale("es");
 
 const primary = getPrimary();

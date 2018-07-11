@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp } from '../displayComponents';
 
 const withSharedProps = () => WrappedComponent => {
 	const WithSharedProps = ({ companies, translate, user, ...restProps }) => {

@@ -50,7 +50,7 @@ class ReorderPointsModal extends React.PureComponent {
 	_renderNewPointBody = () => {
 		let opened = [];
 		let unOpened = [];
-		const filteredAgendas = this.state.agendas.forEach((agenda) => {
+		this.state.agendas.forEach((agenda) => {
 			if(CBX.agendaPointNotOpened(agenda)){
 				unOpened.push(agenda);
 			} else {
@@ -61,6 +61,7 @@ class ReorderPointsModal extends React.PureComponent {
 			<React.Fragment>
 				{opened.map((agenda) => (
 					<li
+						key={`reorderAgenda_${agenda.id}`}
 						style={{
 							opacity: 1,
 							width: "100%",

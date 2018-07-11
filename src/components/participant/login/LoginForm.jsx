@@ -1,7 +1,6 @@
 import React from "react";
 import { Tooltip } from "material-ui";
 import moment from "moment";
-import { Redirect } from "react-router-dom";
 import * as mainActions from "../../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";

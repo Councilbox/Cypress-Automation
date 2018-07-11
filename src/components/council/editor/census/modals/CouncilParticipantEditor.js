@@ -1,7 +1,6 @@
 import React from "react";
 import { AlertConfirm } from "../../../../../displayComponents/index";
 import { compose, graphql } from "react-apollo";
-import { getPrimary } from "../../../../../styles/colors";
 import { updateCouncilParticipant } from "../../../../../queries/councilParticipant";
 import { languages } from "../../../../../queries/masters";
 import ParticipantForm from "../../../participants/ParticipantForm";

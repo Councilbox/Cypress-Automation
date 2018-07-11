@@ -1,12 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 import { AlertConfirm, Icon, TextInput } from "../../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendVideoEmailTest } from "../../../../queries";
 import { checkValidEmail } from "../../../../utils/validation";
-import * as CBX from "../../../../utils/CBX";
 
-class SendCredentialsTestModal extends Component {
+class SendCredentialsTestModal extends React.Component {
+	state = {
+		success: "",
+		emailError: "",
+		email: ""
+	};
+
 	close = () => {
 		this.props.requestClose();
 		this.setState({
@@ -17,6 +22,7 @@ class SendCredentialsTestModal extends Component {
 			sendAgenda: false
 		});
 	};
+
 	sendVideoEmailTest = async () => {
 		this.setState({
 			sending: true
@@ -39,6 +45,7 @@ class SendCredentialsTestModal extends Component {
 			});
 		}
 	};
+
 	onKeyUp = event => {
 		if (!checkValidEmail(this.state.email)) {
 			this.setState({
@@ -54,21 +61,8 @@ class SendCredentialsTestModal extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			emailError: "",
-			email: ""
-		};
-	}
-
 	_renderBody() {
 		const { translate } = this.props;
-		const { data, errors } = this.state;
-		const texts = CBX.removeHTMLTags(
-			translate.send_convene_test_email_modal_text
-		).split(".");
 
 		if (this.state.success) {
 			return <SuccessMessage message={translate.sent} />;

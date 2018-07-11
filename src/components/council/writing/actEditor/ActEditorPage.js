@@ -10,15 +10,6 @@ import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
 
-const panelStyle = {
-	height: "100%",
-	overflow: "hidden",
-	boxShadow: "0 1px 4px 0 rgba(0, 0, 0, 0.14)",
-	borderRadius: "0px 5px 5px 5px",
-    padding: "0",
-    paddingTop: '0.6em'
-};
-
 class ActEditorPage extends React.Component {
     state = {
         participants: false,

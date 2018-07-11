@@ -133,6 +133,7 @@ class DelegateOwnVoteModal extends React.Component {
 												/>
 											);
 										}
+										return false;
 									})}
 									{participants.length < total - 1 && (
 										<div onClick={this.loadMore}>

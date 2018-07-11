@@ -1,7 +1,6 @@
 import React from 'react';
-import { BasicButton, DropDownMenu, ButtonIcon, Link, Grid, GridItem } from '../../displayComponents';
+import { BasicButton, ButtonIcon, Link, Grid, GridItem } from '../../displayComponents';
 import { getSecondary } from '../../styles/colors';
-import { MenuItem } from 'material-ui';
 
 
 class CompaniesManagerButton extends React.Component {

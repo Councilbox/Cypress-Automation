@@ -9,8 +9,7 @@ import {
 	GridItem,
 	TextInput
 } from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import gql from "graphql-tag";
+import { getPrimary } from "../../../styles/colors";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";

@@ -4,14 +4,12 @@ import {
 	Grid,
 	GridItem,
 	SelectInput,
-	HelpPopover,
 	TextInput,
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { MenuItem, Typography } from "material-ui";
 import { quorumTypes } from "../../../queries";
-import { Popover } from 'antd';
 import { censuses } from "../../../queries/census";
 import { compose, graphql } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";

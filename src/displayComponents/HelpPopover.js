@@ -24,12 +24,8 @@ class HelpPopover extends React.Component {
 
     render(){
         const {
-            trigger = "hover",
-            translate,
             title = 'title',
             content = 'content',
-            children,
-            visible = true,
             TriggerComponent = DefaultTrigger,
         } = this.props;
 

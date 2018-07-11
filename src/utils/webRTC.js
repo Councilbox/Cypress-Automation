@@ -28,7 +28,7 @@ export const checkIsWebRTCCompatibleBrowser = detectRTC => {
 
 export const checkIsiOSDevice = detectRTC => {
 	const isiOSDevice =
-		detectRTC.isMobileDevice && detectRTC.osName == "iOS" ? true : false;
+		detectRTC.isMobileDevice && detectRTC.osName === "iOS" ? true : false;
 	return isiOSDevice;
 };
 

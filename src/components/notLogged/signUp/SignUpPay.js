@@ -5,7 +5,6 @@ import {
 	Checkbox,
 	Grid,
 	GridItem,
-	LoadingSection,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";

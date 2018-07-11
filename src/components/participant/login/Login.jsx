@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import { Card } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { councilIsLive } from "../../../utils/CBX";
-import { checkIsCompatible, COMPATIBLE, UNSUPORTED_WINDOWS_VERSION, NOT_COMPATIBLE_BROWSER, iOS_DEVICE } from '../../../utils/webRTC';
+import { checkIsCompatible, COMPATIBLE } from '../../../utils/webRTC';
 import Header from "../Header";
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
@@ -34,13 +34,10 @@ const styles = {
 	}
 };
 
-class ParticipantLogin extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			isCompatible: null
-		};
-	}
+class ParticipantLogin extends React.Component {
+	state = {
+		isCompatible: null
+	};
 
 	static getDerivedStateFromProps(props, state){
 		const isCompatible = checkIsCompatible(props.detectRTC);
@@ -48,7 +45,7 @@ class ParticipantLogin extends Component {
 	}
 
 	render() {
-		const { participant, council, company, translate } = this.props;
+		const { participant, council, company } = this.props;
 		const { isCompatible } = this.state;
 		return (
 			<div style={styles.viewContainer}>

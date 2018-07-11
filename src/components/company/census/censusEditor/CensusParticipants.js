@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { getPrimary } from "../../../../styles/colors";
 import { TableCell, TableRow } from "material-ui";
 import { CloseIcon, EnhancedTable, Grid, GridItem } from "../../../../displayComponents";
@@ -96,7 +96,7 @@ class CensusParticipants extends React.Component {
 		});
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
 						<AddCensusParticipantButton
@@ -151,7 +151,7 @@ class CensusParticipants extends React.Component {
 					>
 						{censusParticipants.list.map(participant => {
 							return (
-								<Fragment key={`participant_${participant.id}`}>
+								<React.Fragment key={`participant_${participant.id}`}>
 									<TableRow
 										hover={true}
 										onClick={() =>
@@ -246,7 +246,7 @@ class CensusParticipants extends React.Component {
 											)}
 										</TableRow>
 									)}
-								</Fragment>
+								</React.Fragment>
 							);
 						})}
 					</EnhancedTable>
@@ -263,7 +263,7 @@ class CensusParticipants extends React.Component {
 						this.props.refetch()
 					}}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

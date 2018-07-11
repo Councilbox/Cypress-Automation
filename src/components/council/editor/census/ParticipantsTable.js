@@ -26,8 +26,7 @@ class ParticipantsTable extends React.Component {
 	deleteParticipant = async id => {
 		const response = await this.props.mutate({
 			variables: {
-				participantId: id,
-				councilId: this.props.council.id
+				participantId: id
 			}
 		});
 

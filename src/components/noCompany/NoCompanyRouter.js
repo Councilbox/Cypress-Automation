@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from '../Header';
-import withSharedProps from '../../HOCs/withSharedProps'
 import { lightGrey } from '../../styles/colors';
 import NoCompanyDashboard from './NoCompanyDashboard';
 import { Route, Redirect, Switch } from 'react-router-dom';

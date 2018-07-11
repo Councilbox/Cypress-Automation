@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as mainActions from "../../actions/mainActions";
@@ -9,7 +9,7 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import { primary } from "../../styles/colors";
 import { IconButton } from "material-ui";
 
-class Header extends Component {
+class Header extends React.PureComponent {
 	logout = () => {
 		const { participant, council } = this.props;
 		this.props.actions.logoutParticipant(participant, council);
@@ -42,7 +42,7 @@ class Header extends Component {
 					}}
 				>
 					{
-						council ? 
+						council ?
 						<img
 							src={council.company.logo ? council.company.logo : windowSize !== "xs" ? logo : icono}
 							className="App-logo"
@@ -52,7 +52,7 @@ class Header extends Component {
 							}}
 							alt="logo"
 						/>
-						: 
+						:
 
 						<img
 							src={windowSize !== "xs" ? logo : icono}
@@ -63,7 +63,7 @@ class Header extends Component {
 							}}
 							alt="logo"
 						/>
-					}	
+					}
 				</div>
 
 				<div

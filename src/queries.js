@@ -136,8 +136,8 @@ export const companies = gql`
 `;
 
 export const councils = gql`
-	query Councils($companyId: Int!, $state: [Int], $isMeeting: Boolean) {
-		councils(companyId: $companyId, state: $state, isMeeting: $isMeeting) {
+	query Councils($companyId: Int!, $state: [Int]) {
+		councils(companyId: $companyId, state: $state) {
 			id
 			dateStart
 			dateRealStart
@@ -216,8 +216,8 @@ export const updateCouncil = gql`
 export const deleteCouncil = gql`
 	mutation DeleteCouncil($councilId: Int!) {
 		deleteCouncil(councilId: $councilId) {
-			id
-			name
+			success
+			message
 		}
 	}
 `;
@@ -765,7 +765,9 @@ export const updateStatute = gql`
 
 export const deleteStatute = gql`
 	mutation deleteStatute($statuteId: Int!) {
-		deleteCompanyStatute(statuteId: $statuteId)
+		deleteCompanyStatute(statuteId: $statuteId){
+			success
+		}
 	}
 `;
 
@@ -945,7 +947,9 @@ export const removeCouncilAttachment = gql`
 		removeCouncilAttachment(
 			councilId: $councilId
 			attachmentId: $attachmentId
-		)
+		){
+			success
+		}
 	}
 `;
 
@@ -1031,7 +1035,7 @@ export const councilStepFive = gql`
  }*/
 
 export const councilStepSix = gql`
-	query CouncilStepSix($id: Int!, $companyId: Int!) {
+	query CouncilStepSix($id: Int!) {
 		council(id: $id) {
 			actPointMajority
 			actPointMajorityDivider
@@ -1053,7 +1057,7 @@ export const councilStepSix = gql`
 			state
 			step
 		}
-		councilPreviewHTML(id: $id, companyId: $companyId)
+		councilPreviewHTML(id: $id)
 	}
 `;
 
@@ -1548,13 +1552,19 @@ export const addAgendaAttachment = gql`
 
 export const removeAgendaAttachment = gql`
 	mutation removeAgendaAttachment($attachmentId: Int!, $agendaId: Int!) {
-		removeAgendaAttachment(attachmentId: $attachmentId, agendaId: $agendaId)
+		removeAgendaAttachment(attachmentId: $attachmentId, agendaId: $agendaId){
+			success
+			message
+		}
 	}
 `;
 
 export const openAgenda = gql`
-	mutation openAgenda($agendaId: Int!, $councilId: Int!) {
-		openAgenda(agendaId: $agendaId, councilId: $councilId)
+	mutation openAgendaPoint($agendaId: Int!) {
+		openAgendaPoint(agendaId: $agendaId){
+			success
+			message
+		}
 	}
 `;
 
@@ -1568,26 +1578,28 @@ export const openActPoint = gql`
 `;
 
 export const closeAgenda = gql`
-	mutation closeAgenda($agendaId: Int!, $councilId: Int!) {
-		closeAgenda(agendaId: $agendaId, councilId: $councilId) {
-			id
-			pointState
+	mutation closeAgenda($agendaId: Int!) {
+		closeAgendaPoint(agendaId: $agendaId) {
+			success
+			message
 		}
 	}
 `;
 
 export const openAgendaVoting = gql`
-	mutation openAgendaVoting($agenda: AgendaInput) {
-		openAgendaVoting(agenda: $agenda) {
-			id
+	mutation openAgendaVoting($agendaId: Int!) {
+		openAgendaVoting(agendaId: $agendaId) {
+			success
+			message
 		}
 	}
 `;
 
 export const closeAgendaVoting = gql`
-	mutation closeAgendaVoting($agenda: AgendaInput) {
-		closeAgendaVoting(agenda: $agenda) {
-			id
+	mutation closeAgendaVoting($agendaId: Int!) {
+		closeAgendaVoting(agendaId: $agendaId) {
+			success
+			message
 		}
 	}
 `;
@@ -1595,7 +1607,8 @@ export const closeAgendaVoting = gql`
 export const startCouncil = gql`
 	mutation startCouncil($council: CouncilInput) {
 		startCouncil(council: $council) {
-			id
+			success
+			message
 		}
 	}
 `;

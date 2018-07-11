@@ -15,7 +15,7 @@ import { delegatedVotesLimitReached } from '../../../utils/CBX';
 
 
 class DelegateVoteModal extends React.Component {
-	
+
 	state = {
 		success: "",
 		loading: false,
@@ -140,6 +140,7 @@ class DelegateVoteModal extends React.Component {
 													/>
 												);
 											}
+											return false;
 										})}
 										{participants.length < total - 1 && (
 											<div onClick={this.loadMore}>

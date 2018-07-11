@@ -2,7 +2,7 @@ import React from 'react';
 import CouncilLiveTest from "../components/CouncilLiveTest";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const CouncilLiveContainer = ({ main, companies, user, match, translate }) => {
 /* 	if (!main.isLogged) {

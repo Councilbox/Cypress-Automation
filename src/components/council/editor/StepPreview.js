@@ -461,8 +461,7 @@ export default compose(
 		name: "data",
 		options: props => ({
 			variables: {
-				id: props.councilID,
-				companyId: props.company.id
+				id: props.councilID
 			},
 			notifyOnNetworkStatusChange: true
 		})

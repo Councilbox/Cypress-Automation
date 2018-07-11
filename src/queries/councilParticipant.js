@@ -1,8 +1,10 @@
 import gql from "graphql-tag";
 
 export const deleteParticipant = gql`
-	mutation DeleteParticipant($participantId: Int!, $councilId: Int!) {
-		deleteParticipant(participantId: $participantId, councilId: $councilId)
+	mutation DeleteParticipant($participantId: Int!) {
+		deleteParticipant(participantId: $participantId){
+			success
+		}
 	}
 `;
 

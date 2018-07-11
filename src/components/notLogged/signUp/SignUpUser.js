@@ -9,7 +9,7 @@ import {
 	TextInput
 } from "../../../displayComponents";
 import { checkValidEmail } from "../../../utils/index";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import CouncilboxApi from "../../../api/CouncilboxApi";
 import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
 import { withApollo } from "react-apollo/index";
@@ -121,7 +121,6 @@ class SignUpUser extends React.Component {
 
 	render() {
 		const primary = getPrimary();
-		const secondary = getSecondary();
 		const { translate } = this.props;
 		const data = this.props.formData;
 

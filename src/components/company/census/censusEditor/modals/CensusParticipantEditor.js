@@ -1,7 +1,6 @@
 import React from "react";
 import { AlertConfirm } from "../../../../../displayComponents/index";
 import { compose, graphql } from "react-apollo";
-import { getPrimary } from "../../../../../styles/colors";
 import { updateCensusParticipant } from "../../../../../queries/census";
 import { languages } from "../../../../../queries/masters";
 import { censusHasParticipations } from "../../../../../utils/CBX";

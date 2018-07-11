@@ -1,12 +1,8 @@
 import React from 'react';
-import { TextInput, DropDownMenu } from '../../displayComponents';
 import { COMMANDS } from '../../commands'; 
 import Autosuggest from 'react-autosuggest';
-import { MenuItem } from 'material-ui';
-import autoSuggest from '../../styles/autoSuggest.css';
 import { bHistory } from '../../containers/App';
 import withSharedProps from '../../HOCs/withSharedProps';
-
 
 
 const renderSuggestion = suggestion => (

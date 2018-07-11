@@ -1,12 +1,8 @@
 import React from 'react';
 import { BasicButton } from '../../../../displayComponents';
 import { AGENDA_STATES } from '../../../../constants';
-import * as CBX from '../../../../utils/CBX';
-import ActAgreements from '../ActAgreements';
 import { getPrimary } from '../../../../styles/colors';
-import AgendaAttachmentsManager from '../AgendaAttachmentsManager';
 import ApproveActButton from './ApproveActButton';
-import ActEditor from '../../writing/actEditor/ActEditor';
 import SendActToVote from './SendActToVote';
 import ToggleAgendaButton from '../ToggleAgendaButton';
 import ToggleVotingsButton from '../ToggleVotingsButton';

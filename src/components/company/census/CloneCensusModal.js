@@ -8,6 +8,7 @@ import {
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { MenuItem } from "material-ui";
 import { cloneCensus } from "../../../queries/census";
+import { removeHTMLTags } from '../../../utils/CBX';
 
 class CloneCensusModal extends Component {
 	state = {
@@ -40,15 +41,17 @@ class CloneCensusModal extends Component {
 
 	cloneCensus = async () => {
 		if (this.checkRequiredFields()) {
-			const { __typename, ...census } = this.state.data;
+			const { __typename, creator, ...census } = this.state.data;
 			const response = await this.props.cloneCensus({
 				variables: {
 					census: {
-						...census
+						...census,
+						censusDescription: removeHTMLTags(census.censusDescription),
+						creatorId: this.props.user.id
 					}
 				}
 			});
-			console.log(response);
+
 			if (!response.errors) {
 				if(response.data.cloneCensus.success){
 					this.props.refetch();

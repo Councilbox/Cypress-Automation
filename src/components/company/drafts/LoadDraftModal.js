@@ -1,7 +1,6 @@
 import React from "react";
 import { BasicButton, AlertConfirm } from "../../../displayComponents";
 import { getSecondary } from "../../../styles/colors";
-import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import LoadDraft from "./LoadDraft";
 
 class LoadDraftModal extends React.Component {

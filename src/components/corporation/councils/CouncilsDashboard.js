@@ -34,6 +34,7 @@ class CouncilsDashboard extends React.PureComponent {
                             />
                         )
                     }
+                    return false;
                 })}
             </div>
         )
@@ -61,6 +62,7 @@ class CouncilsDashboard extends React.PureComponent {
                             />
                         )
                     }
+                    return false;
                 })}
             </div>
         )
@@ -87,7 +89,7 @@ class CouncilsDashboard extends React.PureComponent {
                 >
                     <span>
                         {!this.props.data.loading &&
-                            `${this.props.translate.active_rooms}: ${this.props.data.activeCouncils.length}`
+                            `${this.props.translate.active_rooms}: ${this.props.data.activeCouncilRooms.length}`
                         }
                     </span>
                     <BasicButton
@@ -137,7 +139,7 @@ const corporationCouncils = gql`
             }
         }
 
-        activeCouncils
+        activeCouncilRooms
     }
 `;
 

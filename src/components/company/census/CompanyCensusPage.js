@@ -21,7 +21,6 @@ import CloneCensusModal from "./CloneCensusModal";
 import AddCensusButton from "./AddCensusButton";
 import { bHistory } from "../../../containers/App";
 import { CENSUS_LIMITS } from "../../../constants";
-import ImportCensusExcel from './ImportCensusExcel';
 
 class CompanyCensusPage extends React.Component {
 	state = {
@@ -234,13 +233,12 @@ class CompanyCensusPage extends React.Component {
 				/>
 				<CloneCensusModal
 					translate={translate}
+					user={this.props.user}
 					refetch={this.props.data.refetch}
 					requestClose={() => this.setState({ cloneModal: false, cloneIndex: null})}
 					open={this.state.cloneModal}
 					census={!!censuses? 
-						censuses.list[
-							this.state.cloneIndex
-						]
+						censuses.list[this.state.cloneIndex]
 					:
 						[]
 					}

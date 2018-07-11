@@ -1,14 +1,19 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
-	Checkbox,
 	Icon
 } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendReminder } from "../../../../queries/council";
 
-class ReminderModal extends Component {
+class ReminderModal extends React.Component {
+	state = {
+		success: "",
+		error: "",
+		sendAgenda: false
+	};
+
 	close = () => {
 		this.props.requestClose();
 		this.setState({
@@ -39,15 +44,6 @@ class ReminderModal extends Component {
 			});
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			error: "",
-			sendAgenda: false
-		};
-	}
 
 	_renderReminderBody() {
 		const { translate } = this.props;

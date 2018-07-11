@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
 	CollapsibleSection,
-	LoadingSection,
 	Icon
 } from "../../../displayComponents";
 import { darkGrey } from "../../../styles/colors";

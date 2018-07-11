@@ -354,7 +354,7 @@ export const addDecimals = (num, fixed) => {
 function s2ab(s) {
 	var buf = new ArrayBuffer(s.length);
 	var view = new Uint8Array(buf);
-	for (var i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+	for (let i=0; i!==s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
 	return buf;
   }
 
@@ -409,67 +409,66 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 	switch (council.state) {
 		case COUNCIL_STATES.DRAFT:
 			if (expected !== "draft") {
-				bHistory.push(`/company/${company.id}/council/${council.id}`);
+				bHistory.replace(`/company/${company.id}/council/${council.id}`);
 			}
 			break;
 		case COUNCIL_STATES.SAVED:
 			if (expected !== "convened" && expected !== "live") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
 		case COUNCIL_STATES.PREPARING:
 			if (expected !== "convened" && expected !== "live") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
 
-			
 		case COUNCIL_STATES.ROOM_OPENED:
 			if (expected !== "live") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/live`
 				);
 			}
 			break;
 		case COUNCIL_STATES.FINISHED:
 			if (expected !== "finished") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/finished`
 				);
 			}
 			break;
 		case COUNCIL_STATES.APPROVED:
 			if (expected !== "finished") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/finished`
 				);
 			}
 			break;
 		case COUNCIL_STATES.FINAL_ACT_SENT:
 			if (expected !== "finished") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/finished`
 				);
 			}
 			break;
 		case COUNCIL_STATES.NOT_CELEBRATED:
 			if (expected !== "finished") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/finished`
 				);
 			}
-			break;	
+			break;
 		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
 			if (expected !== "finished") {
-				bHistory.push(
+				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/finished`
 				);
 			}
-			break;	
+			break;
 		default:
 			return;
 	}

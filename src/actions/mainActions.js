@@ -49,17 +49,12 @@ export const initUserData = () => {
 
 export const setUserData = user => {
 	return dispatch => {
-		//resetStore();
 		dispatch({
 			type: "SET_USER_DATA",
 			value: user
 		});
 		dispatch(setLanguage(user.preferredLanguage));
 	};
-};
-
-const resetStore = () => {
-	client.resetStore();
 };
 
 export const noServerResponse = () => {

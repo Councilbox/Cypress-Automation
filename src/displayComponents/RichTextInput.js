@@ -2,10 +2,10 @@ import React from "react";
 import RichTextEditor from "react-rte";
 import { Grid, GridItem } from "./index";
 import { Typography } from "material-ui";
-import { getPrimary, getSecondary } from "../styles/colors";
+import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 
-class RichTextField extends React.Component {
+class RichTextInput extends React.Component {
 	state = {
 		value: RichTextEditor.createValueFromString(
 			this.props.value,
@@ -56,7 +56,6 @@ class RichTextField extends React.Component {
 
 	render() {
 		const { tags, loadDraft, errorText, required } = this.props;
-		const primary = getPrimary();
 		const secondary = getSecondary();
 
 		return (
@@ -189,4 +188,4 @@ const toolbarConfig = {
 	]
 };
 
-export default RichTextField;
+export default RichTextInput;

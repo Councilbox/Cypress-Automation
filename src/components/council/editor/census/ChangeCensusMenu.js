@@ -29,6 +29,7 @@ const ChangeCensusMenu = ({
 				verticalAlign: "middle"
 			}}
 		>
+		{censuses.list.length > 0?
 			<SelectInput
 				floatingText={translate.current_census}
 				value={council.selectedCensusId}
@@ -45,6 +46,10 @@ const ChangeCensusMenu = ({
 					);
 				})}
 			</SelectInput>
+		:
+			<span>La entidad no tiene ningún censo</span>
+		}
+
 		</GridItem>
 		<GridItem
 			lg={3}
@@ -64,7 +69,7 @@ const ChangeCensusMenu = ({
 					fontSize: "1em"
 				}}
 			>
-				{`${translate.total_votes}: ${totalVotes}`}
+				{`${translate.total_votes}: ${totalVotes? totalVotes : 0}`}
 			</Typography>
 		</GridItem>
 		<GridItem

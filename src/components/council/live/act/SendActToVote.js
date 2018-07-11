@@ -1,24 +1,9 @@
 import React from "react";
 import {
 	AlertConfirm,
-	Icon,
-	LoadingSection,
-	ParticipantRow,
-	Checkbox,
-	TextInput,
-	BasicButton,
-	ButtonIcon,
 	Scrollbar,
-	CollapsibleSection,
-	SuccessMessage
 } from "../../../../displayComponents";
-import { Typography, Card } from "material-ui";
 import { compose, graphql } from "react-apollo";
-import { councilParticipants, deleteParticipant } from "../../../../queries/councilParticipant";
-import { DELEGATION_USERS_LOAD } from "../../../../constants";
-import { getPrimary, getSecondary } from '../../../../styles/colors';
-import { checkValidEmail } from '../../../../utils/validation';
-import FontAwesome from 'react-fontawesome';
 import { sendActToVote, openAgendaVoting } from '../../../../queries';
 import ActHTML from "../../writing/actViewer/ActHTML";
 

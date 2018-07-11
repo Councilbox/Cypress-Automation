@@ -9,7 +9,7 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 		return <Redirect to="/" />;
 	}
 
-	if (!companies.list) {
+	if (!companies.list.length > 0) {
 		return <LoadingMainApp />;
 	}
 

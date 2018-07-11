@@ -1,5 +1,5 @@
 import React from "react";
-import { CardPageLayout, MobileStepper } from "../../../displayComponents";
+import { CardPageLayout } from "../../../displayComponents";
 import CouncilEditorNotice from "./StepNotice";
 import CouncilEditorCensus from "./census/StepCensus";
 import CouncilEditorAgenda from "./agenda/StepAgenda";
@@ -7,13 +7,8 @@ import CouncilEditorAttachments from "./attachments/StepAttachments";
 import CouncilEditorOptions from "./StepOptions";
 import CouncilEditorPreview from "./StepPreview";
 import { bHistory } from "../../../containers/App";
-import withWindowSize from "../../../HOCs/withWindowSize";
 import { checkCouncilState } from "../../../utils/CBX";
 import EditorStepper from './EditorStepper';
-
-const pointerStep = {
-	cursor: "pointer"
-};
 
 
 class CouncilEditorPage extends React.Component {
@@ -74,7 +69,7 @@ class CouncilEditorPage extends React.Component {
 	};
 
 	render() {
-		const { translate, windowSize } = this.props;
+		const { translate } = this.props;
 
 		return (
 			<CardPageLayout title={translate.dashboard_new}>
@@ -158,4 +153,4 @@ class CouncilEditorPage extends React.Component {
 	}
 }
 
-export default withWindowSize(CouncilEditorPage);
+export default CouncilEditorPage;

@@ -1,7 +1,7 @@
 import React from "react";
 import { SortableElement } from "react-sortable-hoc";
 import { getPrimary } from "../styles/colors";
-import { Card, MenuItem } from 'material-ui';
+import { Card } from 'material-ui';
 
 const DraggableBlock = SortableElement((props) => {
 	return (

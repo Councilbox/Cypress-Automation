@@ -5,13 +5,11 @@ import { connect } from "react-redux";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { login } from "../../queries";
-import Header from '../Header';
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
 import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout } from "../../displayComponents";
-//let background;
-//import("../../assets/img/signup3.jpg").then(data => background = data);
+
 
 class Login extends React.PureComponent {
 

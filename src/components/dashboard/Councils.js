@@ -48,7 +48,6 @@ class Councils extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const { loading, councils, error } = this.props.data;
-		console.log(this.props.data);
 		return (
 			<div
 				style={{

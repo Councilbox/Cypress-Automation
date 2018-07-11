@@ -19,7 +19,7 @@ import {
 import { withRouter } from "react-router-dom";
 import StatuteEditor from "./StatuteEditor";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { EMAIL_STATES_FILTERS } from "../../../constants";
+
 
 class StatutesPage extends React.Component {
 	state = {
@@ -194,7 +194,7 @@ class StatutesPage extends React.Component {
 
 
 	render() {
-		const { loading, companyStatutes } = this.props.data;
+		const { companyStatutes } = this.props.data;
 		const { translate } = this.props;
 		const { statute, errors, success } = this.state;
 		const secondary = getSecondary();
