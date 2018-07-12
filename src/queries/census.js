@@ -170,3 +170,12 @@ export const cloneCensus = gql`
 		}
 	}
 `;
+
+export const checkUniqueCensusEmails = gql`
+	query checkUniqueCensusEmails($emailList: [String], $censusId: Int!){
+		checkUniqueCensusEmails(emailList: $emailList, censusId: $censusId){
+			success
+			message
+		}
+	}
+`;

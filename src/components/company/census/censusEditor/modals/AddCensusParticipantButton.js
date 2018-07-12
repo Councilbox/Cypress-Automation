@@ -4,9 +4,9 @@ import {
 	BasicButton,
 	ButtonIcon
 } from "../../../../../displayComponents/index";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary } from "../../../../../styles/colors";
-import { addCensusParticipant } from "../../../../../queries/census";
+import { addCensusParticipant, checkUniqueCensusEmails } from "../../../../../queries/census";
 import { languages } from "../../../../../queries/masters";
 import { censusHasParticipations } from "../../../../../utils/CBX";
 import RepresentativeForm from "../RepresentativeForm";
@@ -16,7 +16,16 @@ import {
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
 
+
 class AddCensusParticipantButton extends React.Component {
+	state = {
+		modal: false,
+		data: { ...initialParticipant },
+		representative: { ...initialRepresentative },
+		errors: {},
+		representativeErrors: {}
+	};
+
 	addCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
@@ -27,7 +36,7 @@ class AddCensusParticipantButton extends React.Component {
 			  }
 			: null;
 
-		if (!this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.addCensusParticipant({
 				variables: {
 					participant: {
@@ -51,6 +60,7 @@ class AddCensusParticipantButton extends React.Component {
 			console.log(response);
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -59,6 +69,7 @@ class AddCensusParticipantButton extends React.Component {
 			}
 		});
 	};
+
 	updateRepresentative = object => {
 		this.setState({
 			representative: {
@@ -68,18 +79,7 @@ class AddCensusParticipantButton extends React.Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false,
-			data: { ...initialParticipant },
-			representative: { ...initialRepresentative },
-			errors: {},
-			representativeErrors: {}
-		};
-	}
-
-	checkRequiredFields() {
+	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate } = this.props;
@@ -90,6 +90,8 @@ class AddCensusParticipantButton extends React.Component {
 			hasSocialCapital
 		);
 
+		const emailsToCheck = [participant.email];
+
 		let errorsRepresentative = {
 			errors: {},
 			hasError: false
@@ -99,6 +101,37 @@ class AddCensusParticipantButton extends React.Component {
 				representative,
 				translate
 			);
+
+			emailsToCheck.push(representative.email);
+		}
+
+		const response = await this.props.client.query({
+			query: checkUniqueCensusEmails,
+			variables: {
+				censusId: this.props.census.id,
+				emailList: emailsToCheck
+			}
+		});
+
+		console.log(response);
+		if(!response.data.checkUniqueCensusEmails.success){
+			const data = JSON.parse(response.data.checkUniqueCensusEmails.message);
+			data.duplicatedEmails.forEach(email => {
+				if(participant.email === email){
+					errorsParticipant.errors.email = translate.register_exists_email;
+					errorsParticipant.hasError = true;
+				}
+				if(representative.email === email){
+					errorsRepresentative.errors.email = translate.register_exists_email;
+					errorsRepresentative.hasError = true;
+				}
+			})
+		}
+
+		if(participant.email === representative.email){
+			errorsRepresentative.errors.email = translate.repeated_email;
+			errorsParticipant.errors.email = translate.repeated_email;
+			errorsParticipant.hasError = true;
 		}
 
 		this.setState({
@@ -183,7 +216,7 @@ export default compose(
 		}
 	}),
 	graphql(languages)
-)(AddCensusParticipantButton);
+)(withApollo(AddCensusParticipantButton));
 
 const initialParticipant = {
 	name: "",

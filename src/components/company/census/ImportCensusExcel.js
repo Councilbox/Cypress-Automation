@@ -9,7 +9,7 @@ import {
 import { Paper } from 'material-ui';
 import { graphql, compose, withApollo } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { importCensus, getCensusTemplate } from "../../../queries/census";
+import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../../queries/census";
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
 import FontAwesome from 'react-fontawesome';
@@ -683,14 +683,6 @@ class ImportCensusButton extends React.Component {
 	}
 }
 
-const checkUniqueCensusEmails = gql`
-	query checkUniqueCensusEmails($emailList: [String], $censusId: Int!){
-		checkUniqueCensusEmails(emailList: $emailList, censusId: $censusId){
-			success
-			message
-		}
-	}
-`;
 export default compose(
 	graphql(getCensusTemplate, {
 		name: "getCensusTemplate"
