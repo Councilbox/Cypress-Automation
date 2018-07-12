@@ -141,6 +141,7 @@ class AddCouncilParticipantButton extends React.Component {
 			<React.Fragment>
 				<BasicButton
 					text={translate.add_participant}
+					floatRight
 					color={"white"}
 					textStyle={{
 						color: primary,
@@ -152,7 +153,6 @@ class AddCouncilParticipantButton extends React.Component {
 					icon={<ButtonIcon type="add" color={primary} />}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
-						marginRight: "1em",
 						border: `2px solid ${primary}`
 					}}
 				/>

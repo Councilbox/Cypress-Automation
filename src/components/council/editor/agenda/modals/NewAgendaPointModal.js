@@ -222,9 +222,6 @@ class NewAgendaPointModal extends React.Component {
 								) && (
 									<MajorityInput
 										type={agenda.majorityType}
-										style={{
-											marginTop: "1em"
-										}}
 										value={agenda.majority}
 										divider={agenda.majorityDivider}
 										majorityError={errors.majority}

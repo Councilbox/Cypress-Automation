@@ -78,6 +78,13 @@ class StepCensus extends React.Component {
 		}
 	};
 
+	reloadCensus = () => {
+		this.setState({
+			censusChangeAlert: true,
+			censusChangeId: this.props.data.council.selectedCensusId
+		});
+	};
+
 	nextPage = () => {
 		this.saveDraft(3);
 		this.props.nextStep();
@@ -187,6 +194,7 @@ class StepCensus extends React.Component {
 						translate={translate}
 						council={council}
 						handleCensusChange={this.handleCensusChange}
+						reloadCensus={this.reloadCensus}
 						showAddModal={() =>
 							this.setState({ addParticipant: true })
 						}
