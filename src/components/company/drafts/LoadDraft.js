@@ -48,12 +48,12 @@ class LoadDraft extends React.Component {
 						]}
 						refetch={this.props.data.refetch}
 						action={this._renderDeleteIcon}
-						selectedCategory={{
+						selectedCategories={[{
 							field: "statuteId",
 							value: statute.statuteId,
 							label: translate[statute.title] || statute.title
-						}}
-						categories={[
+						}]}
+						categories={[[
 							...statutes.map(statute => {
 								return {
 									field: "statuteId",
@@ -66,7 +66,7 @@ class LoadDraft extends React.Component {
 								value: 'all',
 								label: translate.all_plural
 							},
-						]}
+						]]}
 						headers={[
 							{
 								text: translate.title,

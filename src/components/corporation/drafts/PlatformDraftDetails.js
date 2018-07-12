@@ -14,8 +14,6 @@ import { hasVotation } from "../../../utils/CBX";
 
 const PlatformDraftDetails = ({ translate, draft, close, data }) => {
 
-	console.log(draft);
-	
 	if (data.loading) {
 		return <LoadingSection />;
 	}

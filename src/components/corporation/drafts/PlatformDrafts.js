@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	AllSelector,
 	BasicButton,
@@ -19,8 +19,17 @@ import PlatformDraftDetails from "./PlatformDraftDetails";
 import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 
-class PlatformDrafts extends Component {
-	
+class PlatformDrafts extends React.Component {
+
+	state = {
+		selectedIndex: -1,
+		selectedValues: []
+	};
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
 	alreadySaved = id => {
 		const { companyDrafts } = this.props.data;
 		const item = companyDrafts.list.find(draft => draft.draftId === id);
@@ -134,18 +143,6 @@ class PlatformDrafts extends Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			selectedIndex: -1,
-			selectedValues: []
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
 	render() {
 		const { translate } = this.props;
 		const { loading, error, platformDrafts, draftTypes } = this.props.data;
@@ -161,7 +158,7 @@ class PlatformDrafts extends Component {
 						translate={translate}
 					/>
 				) : (
-					<Fragment>
+					<React.Fragment>
 						{error ? (
 							<div>
 								{error.graphQLErrors.map(error => {
@@ -175,7 +172,7 @@ class PlatformDrafts extends Component {
 							</div>
 						) : (
 							!!platformDrafts && (
-								<Fragment>
+								<React.Fragment>
 									<div style={{ display: "inline-block" }}>
 										<AllSelector
 											selectAll={this.selectAll}
@@ -224,25 +221,41 @@ class PlatformDrafts extends Component {
 										defaultOrder={["title", "asc"]}
 										limits={DRAFTS_LIMITS}
 										page={1}
-										selectedCategory={{
+										selectedCategories={[{
 											field: "type",
 											value: 'all',
 											label: translate.all_plural
-										}}
-										categories={[
+										},{
+											field: "companyType",
+											value: 'all',
+											label: translate.all_plural
+										}]}
+										categories={[[
 											{
 												field: "type",
 												value: 'all',
 												label: translate.all_plural
-											},											
+											},
 											...(draftTypes.map(draft => {
-												
 												return {
 													field: "type",
 													value: draft.value,
 													label: translate[draftTypes[draft.value].label]
 												};
 											}))
+										], [{
+												field: 'companyType',
+												value: 'all',
+												label: translate.all_plural
+											},
+											...(this.props.data.companyTypes.map(type => {
+												return {
+													field: 'companyType',
+													value: type.value,
+													label: translate[this.props.data.companyTypes[type.value].label]
+												}
+											}))
+											]
 										]}
 										loading={loading}
 										length={platformDrafts.list.length}
@@ -332,10 +345,10 @@ class PlatformDrafts extends Component {
 											}
 										)}
 									</EnhancedTable>
-								</Fragment>
+								</React.Fragment>
 							)
 						)}
-					</Fragment>
+					</React.Fragment>
 				)}
 			</CardPageLayout>
 		);
@@ -348,7 +361,6 @@ export default withSharedProps()(
 			options: props => ({
 				variables: {
 					companyId: props.company.id,
-					companyType: props.company.type,
 					options: {
 						limit: DRAFTS_LIMITS[0],
 						offset: 0

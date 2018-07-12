@@ -28,12 +28,7 @@ class EnhancedTable extends React.Component {
 		orderDirection: this.props.defaultOrder
 			? this.props.defaultOrder[1]
 			: "asc",
-		selectedCategory: this.props.selectedCategory
-			? this.props.selectedCategory.field
-			: "",
-		categoryValue: this.props.selectedCategory
-			? this.props.selectedCategory.value
-			: "all"
+		selectedCategories: this.props.selectedCategories
 	};
 
 	timeout = null;
@@ -62,14 +57,20 @@ class EnhancedTable extends React.Component {
 			]
 		}
 
-		if(this.state.categoryValue !== 'all'){
-			variables.filters = [
-				...variables.filters,
-				{
-					field: this.state.selectedCategory,
-					text: this.state.categoryValue
-				}
-			]
+		if(this.props.categories){
+			if(this.props.categories.length > 0){
+				this.state.selectedCategories.forEach(category => {
+					if(category.value !== 'all'){
+						variables.filters = [
+							...variables.filters,
+							{
+								field: category.field,
+								text: category.value
+							}
+						]
+					}
+				})
+			}
 		}
 		this.props.refetch(variables);
 	};
@@ -117,10 +118,11 @@ class EnhancedTable extends React.Component {
 		}, () => this.refresh());
 	};
 
-	updateCategory = (event, field) => {
+	updateCategory = (index, event, field) => {
+		let { selectedCategories } = this.state;
+		selectedCategories[index].value = event.value;
 		this.setState({
-			selectedCategory: field,
-			categoryValue: event.value
+			selectedCategories: [...selectedCategories],
 		}, () => this.refresh());
 
 	};
@@ -147,30 +149,29 @@ class EnhancedTable extends React.Component {
 
 		return (
 			<div>
-				<Grid>
+				<Grid style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
 					{limits && (
-						<GridItem xs={2} md={2} lg={2}>
-							<div style={{width: '5em'}}>
-								<SelectInput
-									value={limit}
-									onChange={event =>
-										this.updateLimit(event.target.value)
-									}
-								>
-									{limits.map(item => (
-										<MenuItem
-											key={`limit_${item}`}
-											value={item}
-										>
-											{item}
-										</MenuItem>
-									))}
-								</SelectInput>
-							</div>
-						</GridItem>
+						<div style={{width: '5em'}}>
+							<SelectInput
+								value={limit}
+								onChange={event =>
+									this.updateLimit(event.target.value)
+								}
+							>
+								{limits.map(item => (
+									<MenuItem
+										key={`limit_${item}`}
+										value={item}
+									>
+										{item}
+									</MenuItem>
+								))}
+							</SelectInput>
+						</div>
 					)}
-					{fields ? (
-						<GridItem xs={12} md={3} lg={3}>
+					<div style={{display: 'flex', flexDirection: 'row'}}>
+					{fields && (
+						<div style={{minWidth: '12em', marginRight: '0.8em'}}>
 							<SelectInput
 								floatingText={translate.filter_by}
 								value={filterField}
@@ -187,40 +188,34 @@ class EnhancedTable extends React.Component {
 									</MenuItem>
 								))}
 							</SelectInput>
-						</GridItem>
-					) : (
-						<GridItem xs={12} md={3} lg={3}>
-							{" "}
-						</GridItem>
+						</div>
 					)}
-					{categories ? (
-						<GridItem xs={12} md={4} lg={4}>
-							<SelectInput
-								value={categoryValue}
-								onChange={event =>
-									this.updateCategory(
-										event.target,
-										categories[0].field
-									)
-								}
-							>
-								{categories.map(category => (
-									<MenuItem
-										key={`category_${category.value}`}
-										value={category.value}
-									>
-										{category.label}
-									</MenuItem>
-								))}
-							</SelectInput>
-						</GridItem>
-					) : (
-						<GridItem xs={12} md={3} lg={3}>
-							{" "}
-						</GridItem>
+					{categories && (
+						categories.map((category, index) => (
+							<div key={`category_${index}`} style={{minWidth: '12em', marginRight: '0.8em'}}>
+								<SelectInput
+									value={this.state.selectedCategories[index].value}
+									onChange={event =>
+										this.updateCategory(index,
+											event.target,
+											categories[0].field
+										)
+									}
+								>
+									{category.map(fields => (
+										<MenuItem
+											key={`category_${index}${fields.value}`}
+											value={fields.value}
+										>
+											{fields.label}
+										</MenuItem>
+									))}
+								</SelectInput>
+							</div>
+						))
 					)}
 					{!this.props.hideTextFilter && 
-						<GridItem xs={12} md={3} lg={3}>
+						<div style={{width: '16em'}}>
 							<TextInput
 								adornment={<Icon>search</Icon>}
 								floatingText={" "}
@@ -230,8 +225,9 @@ class EnhancedTable extends React.Component {
 									this.updateFilterText(event.target.value);
 								}}
 							/>
-						</GridItem>
+						</div>
 					}
+					</div>
 				</Grid>
 				<Table style={{ maxWidth: "100%" }}>
 					<TableHead>

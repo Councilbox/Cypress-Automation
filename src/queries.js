@@ -566,6 +566,11 @@ export const platformDrafts = gql`
 			label
 			value
 		}
+
+		companyTypes {
+			label
+			value
+		}
 	}
 `;
 
