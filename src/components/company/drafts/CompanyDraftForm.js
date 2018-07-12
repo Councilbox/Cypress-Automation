@@ -202,7 +202,6 @@ const CompanyDraftForm = ({
 					{CBX.majorityNeedsInput(draft.majorityType) && (
 						<MajorityInput
 							type={draft.majorityType}
-							style={{ paddingTop: "16px" }}
 							value={draft.majority}
 							divider={draft.majorityDivider}
 							majorityError={errors.majority}

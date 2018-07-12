@@ -104,6 +104,7 @@ class ParticipantsTable extends React.Component {
 					participations={participations}
 					refetch={refetch}
 					handleCensusChange={this.props.handleCensusChange}
+					reloadCensus={this.props.reloadCensus}
 					showAddModal={this.props.showAddModal}
 					censuses={this.props.censuses}
 					totalVotes={this.props.totalVotes}

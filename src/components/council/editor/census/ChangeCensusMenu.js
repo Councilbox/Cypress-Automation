@@ -2,15 +2,19 @@ import React from "react";
 import {
 	Grid,
 	GridItem,
-	SelectInput
+	SelectInput,
+	ButtonIcon,
+	BasicButton
 } from "../../../../displayComponents/index";
 import { MenuItem, Typography } from "material-ui";
 import * as CBX from "../../../../utils/CBX";
 import AddCouncilParticipantButton from "./modals/AddCouncilParticipantButton";
+import { getSecondary } from "../../../../styles/colors";
 
 const ChangeCensusMenu = ({
 	showAddModal,
 	handleCensusChange,
+	reloadCensus,
 	council,
 	translate,
 	censuses,
@@ -46,14 +50,42 @@ const ChangeCensusMenu = ({
 					);
 				})}
 			</SelectInput>
+			
 		:
 			<span>La entidad no tiene ningún censo</span>
 		}
 
 		</GridItem>
 		<GridItem
-			lg={3}
-			md={3}
+			lg={1}
+			md={1}
+			xs={6}
+			style={{
+				height: "4em",
+				display: "flex",
+				alignItems: "center"
+			}}
+		>
+			<BasicButton
+				color={getSecondary()}
+				buttonStyle={{
+					margin: "0"
+				}}
+				icon={
+					<ButtonIcon
+						color="white"
+						type="refresh"
+					/>
+				}
+				textPosition="after"
+				onClick={() =>
+					reloadCensus()
+				}
+			/>
+		</GridItem>
+		<GridItem
+			lg={5}
+			md={5}
 			xs={6}
 			style={{
 				height: "4em",
@@ -71,17 +103,6 @@ const ChangeCensusMenu = ({
 			>
 				{`${translate.total_votes}: ${totalVotes? totalVotes : 0}`}
 			</Typography>
-		</GridItem>
-		<GridItem
-			lg={3}
-			md={3}
-			xs={6}
-			style={{
-				height: "4em",
-				display: "flex",
-				alignItems: "center"
-			}}
-		>
 			{CBX.hasParticipations(council) &&
 				<Typography
 					variant="body2"
@@ -100,9 +121,8 @@ const ChangeCensusMenu = ({
 			md={3}
 			xs={6}
 			style={{
-				marginTop: "1em",
-				display: 'flex',
-				justifyContent: 'flex-end'
+				height: "4em",
+				alignItems: "center"
 			}}
 		>
 			<AddCouncilParticipantButton
