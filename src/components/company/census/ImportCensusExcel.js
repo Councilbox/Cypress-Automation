@@ -7,12 +7,13 @@ import {
 	FileUploadButton
 } from "../../../displayComponents";
 import { Paper } from 'material-ui';
-import { graphql, compose } from "react-apollo";
+import { graphql, compose, withApollo } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { importCensus, getCensusTemplate } from "../../../queries/census";
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
 import FontAwesome from 'react-fontawesome';
+import gql from 'graphql-tag';
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
@@ -115,7 +116,7 @@ class ImportCensusButton extends React.Component {
 		}
 	};
 
-	read = (workbook) => {
+	read = async (workbook) => {
         const wb = XLSX.read(workbook, {type:'binary'});
         const participantsData = to_json(wb);
         console.log(participantsData);
@@ -124,7 +125,7 @@ class ImportCensusButton extends React.Component {
 			processing: participantsData.census.length
 		});
 		if (pages.length >= 1) {
-			const participants = this.prepareParticipants(
+			const participants = await this.prepareParticipants(
 				participantsData["census"]
 			);
 			if(participants){
@@ -135,11 +136,66 @@ class ImportCensusButton extends React.Component {
 					step: 3
 				});
 			}
+
 		} else {
 			//console.error(workbook);
 			//console.error(participantsData);
 		}
 	};
+
+	checkUniqueEmails = async (participants) => {
+		let uniqueEmails = new Map();
+		let duplicatedEmails = new Map();
+		participants.forEach((censusP, index) => {
+			if(uniqueEmails.get(censusP.participant.email)){
+				duplicatedEmails.set(censusP.participant.email, [index + 2]);
+			}else{
+				uniqueEmails.set(censusP.participant.email, index + 2);
+			}
+
+			if(censusP.representative){
+				if(uniqueEmails.get(censusP.representative.email)){
+					duplicatedEmails.set(censusP.representative.email, index + 2);
+				}else{
+					uniqueEmails.set(censusP.representative.email, index + 2 );
+				}
+			}
+		});
+
+		if(duplicatedEmails.size > 0){
+			const emails = [];
+			duplicatedEmails.forEach((value, key) => emails.push([key, value]));
+			return {
+				emails,
+				type: 'File'
+			};
+		}
+
+		const emails = [];
+		uniqueEmails.forEach((value, key, map) => emails.push(key));
+
+		const response = await this.props.client.query({
+			query: checkUniqueCensusEmails,
+			variables: {
+				censusId: this.props.censusId,
+				emailList: emails
+			}
+		});
+
+		if(!response.data.checkUniqueCensusEmails.success){
+			const json = JSON.parse(response.data.checkUniqueCensusEmails.message);
+			console.log(JSON);
+			const dEmails = [];
+			json.duplicatedEmails.forEach(email => dEmails.push([email, uniqueEmails.get(email)]));
+			dEmails.sort((a, b) => a[1] - b[1]);
+			return {
+				emails: dEmails,
+				type: 'DB'
+			};
+		}
+
+		return false;
+	}
 
 	sendImportedParticipants = async () => {
 		const response = await this.props.importCensus({
@@ -149,7 +205,6 @@ class ImportCensusButton extends React.Component {
 		});
 
 		if (response) {
-			console.log(response);
 			this.props.refetch();
 			this.setState({
 				modal: false,
@@ -161,7 +216,7 @@ class ImportCensusButton extends React.Component {
 	}
 
 
-    handleFile = event => {
+    handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
 			return;
@@ -176,12 +231,11 @@ class ImportCensusButton extends React.Component {
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
-            this.read(reader.result);
+            await this.read(reader.result);
 		};
 	};
 
-	prepareParticipants = participants => {
-		//let { numInvalidEmails, validParticipants } = this.state;
+	prepareParticipants = async participants => {
 		let preparedParticipants = [];
 		let invalidEmails = [];
 
@@ -190,16 +244,11 @@ class ImportCensusButton extends React.Component {
 				let participant = this.prepareParticipant(participants[i]);
 				console.log(participant);
 				if(participant.hasError){
-					participant.line = i;
+					participant.line = i+1;
 					invalidEmails.push(participant);
 				}else{
 					preparedParticipants.push(participant);
 				}
-			}
-		}
-		if(preparedParticipants.length > 0){
-			if (preparedParticipants[0].email === "example@councilbox.com") {
-				preparedParticipants.splice(0, 1);
 			}
 		}
 
@@ -210,7 +259,24 @@ class ImportCensusButton extends React.Component {
 			});
 			return;
 		}
-		return preparedParticipants;
+
+		const duplicatedEmails = await this.checkUniqueEmails(preparedParticipants);
+		console.log(duplicatedEmails);
+
+		if(!duplicatedEmails){
+			if(preparedParticipants.length > 0){
+				if (preparedParticipants[0].participant.email === "example@councilbox.com") {
+					preparedParticipants.splice(0, 1);
+				}
+			}
+			return preparedParticipants;
+		}else{
+			this.setState({
+				step: 5,
+				invalidEmails: duplicatedEmails.emails,
+				duplicatedType: duplicatedEmails.type
+			});
+		}
 	};
 
 	prepareParticipant = _participant => {
@@ -258,7 +324,7 @@ class ImportCensusButton extends React.Component {
 							companyId: this.props.companyId,
 							censusId: this.props.censusId,
 							name: participant.r_name,
-                            email: participant.r_email,
+                            email: participant.r_email.toLowerCase(),
                             dni: participant.r_dni,
                             phone: participant.r_phone,
                             personOrEntity: 1,
@@ -272,7 +338,7 @@ class ImportCensusButton extends React.Component {
 							censusId: this.props.censusId,
 							name: participant.name,
 							surname: participant.surname,
-                            email: participant.email,
+                            email: participant.email.toLowerCase(),
                             dni: participant.dni,
                             phone: participant.phone,
                             language: participant.language,
@@ -288,8 +354,7 @@ class ImportCensusButton extends React.Component {
                 }
 			}
 			const participantError = this.checkRequiredFields(participant, false);
-			participant.dni = participant.dni.toString(10);
-			return participantError? participantError : { participant };
+			return participantError? participantError : { participant: { ...participant, email: participant.email.toLowerCase() }};
 		} else {
 			//Es una entidad sin representante
 			if(!!participant.r_email){
@@ -301,7 +366,7 @@ class ImportCensusButton extends React.Component {
 						companyId: this.props.companyId,
 						censusId: this.props.censusId,
 						name: participant.r_name,
-						email: participant.r_email,
+						email: participant.r_email.toLowerCase(),
 						dni: participant.r_dni,
 						phone: participant.r_phone,
 						personOrEntity: 1,
@@ -390,7 +455,7 @@ class ImportCensusButton extends React.Component {
 	buildErrorString = (errors) => {
 		const translate = this.props.translate;
 
-		let string = `Linea: ${
+		let string = `Entrada: ${
 			errors.line}: ${
 			errors.name? `${translate.name}, ` : ''}${
 			errors.surname? `${translate.new_surname}, ` : ''}${
@@ -548,8 +613,11 @@ class ImportCensusButton extends React.Component {
 													marginRight: '0.3em'
 												}}
 											/>{`${item.participant.email}`}<br />
-											{!!item.representative && [
-												`${translate.represented_by}: ${item.representative.name} ${item.representative.surname}`, <br />]
+											{!!item.representative &&
+												<React.Fragment>
+													{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname}`}
+													<br />
+												</React.Fragment>
 											}
 										</Paper>
 									))}
@@ -581,12 +649,48 @@ class ImportCensusButton extends React.Component {
 								</div>
 						</div>
 					)}
+					{step === 5 && (
+						<div style={{minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px'}}>
+							<div
+								style={{
+									fontSize: '1.2em',
+									color: primary,
+									fontWeight: '700',
+								}}
+							>
+								{translate.attention}
+							</div>
+							No se puede realizar la importación.<br/>
+							{this.state.duplicatedType === 'DB'?
+								'Los siguientes emails ya están presentes en el censo actual:'
+							:
+								'Los siguientes emails están duplicados en el archivo enviado:' /*TRADUCCION*/
+							}
+								<div
+									style={{width: '100%'}}
+								>
+									{this.state.invalidEmails.map((item, index) => (
+										<React.Fragment key={`invalidEmails_${item[0]}`}>
+											{`Entrada ${item[1]}: ${item[0]}`}<br />
+										</React.Fragment>
+									))}
+								</div>
+						</div>
+					)}
 				</CustomDialog>
 			</React.Fragment>
 		);
 	}
 }
 
+const checkUniqueCensusEmails = gql`
+	query checkUniqueCensusEmails($emailList: [String], $censusId: Int!){
+		checkUniqueCensusEmails(emailList: $emailList, censusId: $censusId){
+			success
+			message
+		}
+	}
+`;
 export default compose(
 	graphql(getCensusTemplate, {
 		name: "getCensusTemplate"
@@ -594,4 +698,4 @@ export default compose(
 	graphql(importCensus, {
 		name: "importCensus"
 	})
-)(ImportCensusButton);
+)(withApollo(ImportCensusButton));
