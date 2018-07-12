@@ -4,8 +4,9 @@ import { withRouter } from "react-router-dom";
 import TabsScreen from "../displayComponents/TabsScreen";
 import Councils from "../components/dashboard/Councils";
 import { lightGrey } from '../styles/colors';
+import withWindowSize from '../HOCs/withWindowSize';
 
-const CouncilContainer = ({ match, company, translate }) => {
+const CouncilContainer = ({ match, company, translate, windowSize }) => {
 	const tabsIndex = {
 		drafts: 0,
 		calendar: 1,
@@ -24,7 +25,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 					<Councils
 						company={company}
 						translate={translate}
-						state={[0]}
+						state={[0, 3]}
 						link={""}
 						title={translate.companies_draft}
 						desc={translate.companies_draft_desc}
@@ -130,6 +131,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 				width: '100%',
 				height: 'calc(100vh - 3em)',
 				padding: '2em',
+				...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
 				backgroundColor: lightGrey
 			}}
 		>
@@ -149,4 +151,4 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
-export default connect(mapStateToProps)(withRouter(CouncilContainer));
+export default connect(mapStateToProps)(withRouter(withWindowSize(CouncilContainer)));

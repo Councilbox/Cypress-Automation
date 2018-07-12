@@ -22,6 +22,9 @@ import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
 import 'antd/dist/antd.css';
 import CouncilLiveTestContainer from './CouncilLiveTestContainer';
+import moment from "moment/min/moment-with-locales";
+moment.locale("es");
+export { moment as moment };
 
 const httpLink = new HttpLink({
 	uri: API_URL

@@ -18,7 +18,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { provinces } from "../../../queries/masters";
 import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
-import { getCompanies } from "../../../actions/companyActions";
+import { getCompanies, changeCompany } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
 
 
@@ -79,13 +79,13 @@ class NewCompanyPage extends React.PureComponent {
 		}
 	};
 
-	updateState = object => {
+	updateState = (object, cb) => {
 		this.setState({
 			data: {
 				...this.state.data,
 				...object
 			}
-		});
+		}, () => !!cb? cb() : {});
 	};
 
 	cbxFile = event => {
@@ -137,8 +137,8 @@ class NewCompanyPage extends React.PureComponent {
 
 			if (!response.errors) {
 				if (response.data.createCompany.id) {
-					store.dispatch(getCompanies(this.props.user.id));
-					bHistory.push(`/company/${response.data.createCompany.id}`);
+					await store.dispatch(getCompanies(this.props.user.id));
+					bHistory.push(`/`);
 					toast.success(this.props.translate.company_created);
 				}
 			}
@@ -152,6 +152,7 @@ class NewCompanyPage extends React.PureComponent {
 		let errors = {
 			businessName: "",
 			type: "",
+			alias: '',
 			tin: "",
 			address: "",
 			city: "",
@@ -164,6 +165,11 @@ class NewCompanyPage extends React.PureComponent {
 		if (!data.businessName.length > 0) {
 			hasError = true;
 			errors.businessName = translate.field_required;
+		}
+
+		if(!data.alias.length > 0){
+			hasError = true;
+			errors.alias = translate.field_required;
 		}
 
 		if (data.type === "") {
@@ -470,11 +476,11 @@ class NewCompanyPage extends React.PureComponent {
 									}
 									value={data.countryState}
 									errorText={errors.countryState}
-									onChange={event =>
+									onChange={event => {
 										this.updateState({
 											countryState: event.target.value
-										})
-									}
+										}, () => this.handleKeyUp(event))
+									}}
 								>
 									{this.state.provinces.map(province => {
 										return (

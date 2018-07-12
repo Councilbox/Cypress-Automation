@@ -6,6 +6,8 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CardPageLayout,
+	Scrollbar,
+	UnsavedChangesModal,
 	LoadingSection,
 	TextInput,
 	VTabs
@@ -17,6 +19,8 @@ import {
 	updateStatute
 } from "../../../queries";
 import { withRouter } from "react-router-dom";
+import { store } from '../../../containers/App';
+import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 
@@ -99,6 +103,7 @@ class StatutesPage extends React.Component {
 					success: true,
 					unsavedChanges: false
 				});
+				store.dispatch(setUnsavedChanges(false));
 			}
 		}
 	};
@@ -159,6 +164,7 @@ class StatutesPage extends React.Component {
 			},
 			unsavedChanges: true
 		});
+		store.dispatch(setUnsavedChanges(true));
 	};
 
 	handleStatuteChange = index => {
@@ -190,6 +196,7 @@ class StatutesPage extends React.Component {
 			unsavedChanges: false,
 			rollbackAlert: false
 		});
+		store.dispatch(setUnsavedChanges(false));
 	}
 
 
@@ -213,7 +220,7 @@ class StatutesPage extends React.Component {
 		}
 
 		return (
-			<CardPageLayout title={translate.statutes}>
+			<CardPageLayout title={translate.statutes} disableScroll={true}>
 				{companyStatutes.length > 0? (
 					<React.Fragment>
 						<VTabs
@@ -238,42 +245,41 @@ class StatutesPage extends React.Component {
 							deleteAction={this.openDeleteModal}
 						>
 							{!!statute && (
-								<React.Fragment>
-									<div className="container-fluid">
-										<StatuteEditor
-											companyStatutes={companyStatutes}
-											statute={statute}
-											company={this.props.company}
-											translate={translate}
-											updateState={this.updateState}
-											errors={this.state.errors}
-										/>
-										<br />
-										<BasicButton
-											text={translate.save}
-											color={success ? "green" : getPrimary()}
-											textStyle={{
-												color: "white",
-												fontWeight: "700"
-											}}
-											floatRight
-											onClick={this.updateStatute}
-											loading={this.state.loading}
-											error={this.state.error}
-											reset={this.resetButtonStates}
-											success={success}
-											icon={
-												<ButtonIcon
-													type={"save"}
-													color="white"
-												/>
-											}
-										/>
-										<br/>
-										<br/>
-									</div>
-
-								</React.Fragment>
+								<div style={{height: '100%', position: 'relative', overflow: 'hidden'}}>
+									<Scrollbar>
+										<div className="container-fluid">
+											<StatuteEditor
+												companyStatutes={companyStatutes}
+												statute={statute}
+												company={this.props.company}
+												translate={translate}
+												updateState={this.updateState}
+												errors={this.state.errors}
+											/>
+											<br />
+											<BasicButton
+												text={translate.save}
+												color={success ? "green" : getPrimary()}
+												textStyle={{
+													color: "white",
+													fontWeight: "700"
+												}}
+												floatRight
+												onClick={this.updateStatute}
+												loading={this.state.loading}
+												error={this.state.error}
+												reset={this.resetButtonStates}
+												success={success}
+												icon={
+													<ButtonIcon
+														type={"save"}
+														color="white"
+													/>
+												}
+											/>
+										</div>
+									</Scrollbar>
+								</div>
 							)}
 						</VTabs>
 					</React.Fragment>
@@ -313,13 +319,9 @@ class StatutesPage extends React.Component {
 					acceptAction={this.deleteStatute}
 					requestClose={() => this.setState({ deleteModal: false })}
 				/>
-				<AlertConfirm
-					title={translate.attention}
-					bodyText={"Tiene cambios sin guardar"}//TRADUCCION
-					open={this.state.unsavedAlert}
-					buttonCancel={translate.accept}
-					modal={true}
+				<UnsavedChangesModal
 					requestClose={() => this.setState({ unsavedAlert: false })}
+					open={this.state.unsavedAlert}
 				/>
 				<AlertConfirm
 					title={translate.attention}

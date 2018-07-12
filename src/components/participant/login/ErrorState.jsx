@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Avatar } from "material-ui";
-import moment from "moment";
+import { moment } from '../../../containers/App';
 import FontAwesome from "react-fontawesome";
 import Header from "../Header";
 import withTranslations from "../../../HOCs/withTranslations";

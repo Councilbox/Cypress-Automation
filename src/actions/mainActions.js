@@ -1,9 +1,8 @@
 import { getCompanies } from "./companyActions";
 import { client, bHistory } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
-import moment from "moment";
 import DetectRTC from "detectrtc";
-
+import { moment } from '../containers/App';
 export let language = "es";
 
 export const loginSuccess = (token, refreshToken) => {
@@ -15,6 +14,10 @@ export const loginSuccess = (token, refreshToken) => {
 		dispatch({ type: "LOGIN_SUCCESS" });
 	};
 };
+
+export const setUnsavedChanges = value => (
+	{ type: 'UNSAVED_CHANGES', value: value }
+)
 
 export const participantLoginSuccess = () => {
 	return dispatch => {
@@ -82,25 +85,27 @@ export const setLanguage = language => {
 			query: getTranslations,
 			variables: { language: language }
 		});
-		const translationObject = {};
-		response.data.translations.forEach(translation => {
-			translationObject[translation.label] = translation.text;
-		});
-		let locale = language;
-		if (language === "cat" || language === "gal") {
-			locale = "es";
+		if(!response.errors){
+			const translationObject = {};
+			response.data.translations.forEach(translation => {
+				translationObject[translation.label] = translation.text;
+			});
+			let locale = language;
+			if (language === "cat" || language === "gal") {
+				locale = "es";
+			}
+			moment.locale(locale, {
+				months: translationObject.datepicker_months.split(","),
+				monthsShort: translationObject.datepicker_months
+					.split(",")
+					.map(month => month.substring(0, 3))
+			});
+			dispatch({
+				type: "LOADED_LANG",
+				value: translationObject,
+				selected: language
+			});
 		}
-		moment.locale(locale, {
-			months: translationObject.datepicker_months.split(","),
-			monthsShort: translationObject.datepicker_months
-				.split(",")
-				.map(month => month.substring(0, 3))
-		});
-		dispatch({
-			type: "LOADED_LANG",
-			value: translationObject,
-			selected: language
-		});
 	};
 };
 

@@ -10,7 +10,7 @@ import { compose, graphql } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import moment from "moment";
+import { moment } from '../../../containers/App';
 import { changeVariablesToValues } from "../../../utils/CBX";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 
@@ -19,7 +19,7 @@ class ActAgreements extends React.Component {
 	state = {
 		loading: false
 	};
-	
+
 	timeout = null;
 
 	startUpdateTimeout = value => {

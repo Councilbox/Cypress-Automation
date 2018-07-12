@@ -16,7 +16,7 @@ import { compose, graphql } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import CouncilHeader from './CouncilHeader';
-import moment from 'moment';
+import { moment } from '../../../containers/App';
 let primary = getPrimary();
 let secondary = getSecondary();
 

@@ -1,7 +1,8 @@
 import React from "react";
 import { hasSecondCall } from "../../../utils/CBX";
 import { Paper } from "material-ui";
-import moment from "moment";
+import { moment } from '../../../containers/App';
+
 
 const DateHeader = ({ council, button, translate }) => (
 	<Paper

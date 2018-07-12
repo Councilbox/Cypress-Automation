@@ -7,7 +7,7 @@ import {
 	AGENDA_TYPES,
 	VOTE_VALUES
 } from "../constants";
-import moment from "moment";
+import { moment } from '../containers/App';
 import dropped from "../assets/img/dropped.png";
 import delivered from "../assets/img/delivered.png";
 import invalidEmailAddress from "../assets/img/invalid_email_address.png";
@@ -408,6 +408,11 @@ function dataURItoBlob(dataURI) {
 export const checkCouncilState = (council, company, bHistory, expected) => {
 	switch (council.state) {
 		case COUNCIL_STATES.DRAFT:
+			if (expected !== "draft") {
+				bHistory.replace(`/company/${company.id}/council/${council.id}`);
+			}
+			break;
+		case COUNCIL_STATES.PRECONVENE:
 			if (expected !== "draft") {
 				bHistory.replace(`/company/${company.id}/council/${council.id}`);
 			}

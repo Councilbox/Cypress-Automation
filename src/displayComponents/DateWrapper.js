@@ -1,9 +1,7 @@
 import React from "react";
-import moment from "moment/min/moment-with-locales";
+import { moment } from '../containers/App';
 import Moment from "react-moment";
-
 Moment.globalMoment = moment;
-moment.locale("es");
 
 const DateWrapper = ({ date, format, style }) => {
 	if (!date) {

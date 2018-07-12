@@ -14,9 +14,7 @@ class CompanySelector extends React.Component {
 	changeCompany = index => {
 		const { companies } = this.props;
 		store.dispatch(changeCompany(index));
-		bHistory.push(`/company/${companies[index].id}`);
 	};
-
 
 	render() {
 		return (

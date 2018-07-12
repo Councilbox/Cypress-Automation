@@ -9,7 +9,7 @@ import {
 } from "../../../styles/colors";
 import { wallComments } from "../../../queries";
 import { Icon, LoadingSection } from "../../../displayComponents";
-import moment from "moment";
+import { moment } from '../../../containers/App';
 import Scrollbar from "react-perfect-scrollbar";
 
 class CommentWall extends React.Component {

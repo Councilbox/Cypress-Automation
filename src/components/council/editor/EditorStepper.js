@@ -11,6 +11,22 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
     const secondary = getSecondary();
     const primary = getPrimary();
 
+    const XsIcon = ({ icon, page }) => (
+        <Icon
+            type={icon}
+            style={{
+                color: active === page - 1? primary : secondary,
+                cursor: active > page - 1? 'pointer' : 'inherit',
+                userSelect: 'none'
+            }}
+
+            {...(active > page - 1? {
+                onClick: () => goToPage(page),
+            }: {})}
+
+        />
+    );
+
     if(windowSize === 'xs'){
         return(
             <div
@@ -25,22 +41,22 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
                 }}
             >
                 <Tooltip title={translate.wizard_convene}>
-                    <Icon type="schedule" style={{color: active === 0? primary : secondary}} />
+                    <XsIcon icon='schedule' page={1} />
                 </Tooltip>
                 <Tooltip title={translate.census}>
-                    <Icon type="team" style={{color: active === 0? primary : secondary}} />
+                    <XsIcon icon='team' page={2} />
                 </Tooltip>
                 <Tooltip title={translate.wizard_agenda}>
-                    <Icon type="profile" style={{color: active === 0? primary : secondary}} />
+                    <XsIcon icon='profile' page={3} />
                 </Tooltip>
                 <Tooltip title={translate.wizard_attached_documentation}>
-                    <Icon type="link" style={{color: active === 0? primary : secondary}} />
+                    <XsIcon icon='link' page={4} />
                 </Tooltip>
                 <Tooltip title={translate.wizard_options}>
-                    <Icon type="bars" style={{color: active === 0? primary : secondary}} />
+                    <XsIcon icon='bars' page={5} />
                 </Tooltip>
                 <Tooltip title={translate.wizard_preview}>
-                    <Icon type="copy" style={{color: active === 0? primary : secondary}} />
+                    <XsIcon icon='copy' page={6} />
                 </Tooltip>
             </div>
         )

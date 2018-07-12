@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import { Typography } from "material-ui";
 import { checkValidEmail } from "../../utils";
 import {
@@ -11,6 +11,8 @@ import { store } from "../../containers/App";
 import { setUserData } from "../../actions/mainActions";
 import { getPrimary } from "../../styles/colors";
 import UserForm from './UserForm';
+import { checkEmailExists } from "../../queries/userAndCompanySignUp";
+
 
 class UpdateUserForm extends React.Component {
 	state = {
@@ -32,7 +34,7 @@ class UpdateUserForm extends React.Component {
 	}
 
 	saveUser = async () => {
-		if (!this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields()) {
 			this.setState({
 				loading: true
 			});
@@ -77,7 +79,7 @@ class UpdateUserForm extends React.Component {
 		});
 	}
 
-	checkRequiredFields() {
+	async checkRequiredFields() {
 		const { translate } = this.props;
 
 		let errors = {
@@ -99,7 +101,13 @@ class UpdateUserForm extends React.Component {
 
 		if (!checkValidEmail(data.email.toLowerCase())) {
 			hasError = true;
-			errors.email = "Por favor introduce un email válido";
+			errors.email = translate.email_not_valid;
+		}else{
+			if(data.email.toLowerCase() !== this.props.user.email.toLowerCase()){
+				if(await this.checkEmailExists()){
+					errors.email = translate.register_exists_email
+				}
+			}
 		}
 
 		if (!data.surname.length > 0) {
@@ -118,9 +126,23 @@ class UpdateUserForm extends React.Component {
 		}
 
 		this.setState({
-			errors: errors
+			errors: errors,
+			error: hasError
 		});
 		return hasError;
+	}
+
+	onKeyUp = () => {
+		this.checkRequiredFields();
+	}
+
+	async checkEmailExists() {
+		const response = await this.props.client.query({
+			query: checkEmailExists,
+			variables: { email: this.state.data.email }
+		});
+
+		return response.data.checkEmailExists.success;
 	}
 
 	render() {
@@ -130,33 +152,36 @@ class UpdateUserForm extends React.Component {
 
 		return (
 			<React.Fragment>
-				<Typography variant="title" style={{ color: primary }}>
-					{translate.user_data}
-				</Typography>
-				<br />
-				<UserForm
-					data={data}
-					updateState={this.updateState}
-					errors={errors}
-					languages={this.props.languages}
-					translate={translate}
-				/>
-				<br />
-				<BasicButton
-					text={translate.save}
-					color={getPrimary()}
-					error={error}
-					reset={this.resetButtonStates}
-					success={success}
-					loading={loading}
-					floatRight
-					textStyle={{
-						color: "white",
-						fontWeight: "700"
-					}}
-					onClick={this.saveUser}
-					icon={<ButtonIcon type="save" color="white" />}
-				/>
+				<div style={{padding: '0.8em', paddingTop: 0}} {...(error? {onKeyUp: this.onKeyUp} : {})}>
+					<Typography variant="title" style={{ color: primary }}>
+						{translate.user_data}
+					</Typography>
+					<br />
+					<UserForm
+						data={data}
+						updateState={this.updateState}
+						errors={errors}
+						onKeyUp={this.onKeyUp}
+						languages={this.props.languages}
+						translate={translate}
+					/>
+					<br />
+					<BasicButton
+						text={translate.save}
+						color={getPrimary()}
+						error={error}
+						reset={this.resetButtonStates}
+						success={success}
+						loading={loading}
+						floatRight
+						textStyle={{
+							color: "white",
+							fontWeight: "700"
+						}}
+						onClick={error? () => {} : this.saveUser}
+						icon={<ButtonIcon type="save" color="white" />}
+					/>
+				</div>
 			</React.Fragment>
 		);
 	}
@@ -164,4 +189,4 @@ class UpdateUserForm extends React.Component {
 
 export default graphql(updateUser, {
 	name: "updateUser"
-})(UpdateUserForm);
+})(withApollo(UpdateUserForm));

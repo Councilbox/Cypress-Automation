@@ -110,6 +110,7 @@ class AppRouter extends React.Component {
 						company={this.props.companies.list[this.props.companies.selected]}
 						companies={this.props.companies.list}
 						user={this.props.user}
+						main={this.props.main}
 						drawerIcon={this.state.mobileOpen}
 						translate={this.props.translate}
 						backButton={
@@ -123,7 +124,7 @@ class AppRouter extends React.Component {
 					/>
 					<div
 						style={{
-							height: "calc(100vh - 3em)",
+							height: `calc(100vh - 3em)`,
 							display: "flex",
 							width: "100%",
 							overflow: 'hidden',
