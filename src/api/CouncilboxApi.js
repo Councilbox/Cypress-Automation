@@ -295,18 +295,6 @@ class CouncilboxApi {
 		return data.result.data;
 	}
 
-	static async createCouncil(companyId, type) {
-		const response = await client.mutate({
-			mutation: queries.createCouncil,
-			variables: {
-				companyId: companyId,
-				type: type
-			}
-		});
-		console.log(response);
-		return response.data.createCouncil.id;
-	}
-
 	static async deleteParticipant(participantInfo) {
 		const urlEncondedInfo = urlParser(participantInfo);
 

@@ -128,10 +128,10 @@ export const sendCensusChange = info => {
 
 export const create = (companyID, type) => {
 	return dispatch => {
-		return CouncilboxApi.createCouncil(companyID, type)
+		return CouncilboxApi.createCouncil(companyID)
 			.then(councilId => {
 				//dispatch({type: 'COUNCIL_DATA', value: response});
-				bHistory.push(`/company/${companyID}/${type}/${councilId}`);
+				bHistory.push(`/company/${companyID}/council/${councilId}`);
 			})
 			.catch(error => {
 				console.log(error);
