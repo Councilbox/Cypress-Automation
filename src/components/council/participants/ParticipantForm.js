@@ -99,7 +99,7 @@ const ParticipantForm = ({
 
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
-					floatingText={translate.cif}
+					floatingText={participant.personOrEntity === 1? translate.cif : translate.dni}
 					type="text"
 					errorText={errors.dni}
 					value={participant.dni}
