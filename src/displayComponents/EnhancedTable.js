@@ -123,6 +123,7 @@ class EnhancedTable extends React.Component {
 		selectedCategories[index].value = event.value;
 		this.setState({
 			selectedCategories: [...selectedCategories],
+			page: 1
 		}, () => this.refresh());
 
 	};
