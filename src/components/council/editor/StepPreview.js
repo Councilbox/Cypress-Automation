@@ -62,9 +62,11 @@ class StepPreview extends React.Component {
 			}
 		});
 
-		if (response.data.conveneWithNotice.success) {
-			toast.success(this.props.translate.council_sended);
-			bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
+		if(!response.errors){
+			if (response.data.conveneWithNotice.success) {
+				toast.success(this.props.translate.council_sended);
+				bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
+			}
 		}
 	};
 

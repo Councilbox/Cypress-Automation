@@ -45,6 +45,7 @@ class CompanySettingsPage extends React.Component {
 		data: this.props.company,
 		success: false,
 		error: false,
+		fileSizeError: false,
 		unlinkModal: false,
 		request: false,
 		provinces: [],
@@ -117,14 +118,20 @@ class CompanySettingsPage extends React.Component {
 				councilId: this.props.councilID
 			};
 
-			this.setState({
-				uploading: true,
-				data: {
-					...this.state.data,
-					logo: fileInfo.base64
-				},
-				success: false
-			});
+			if(fileInfo.filesize > 2000){
+				this.setState({
+					fileSizeError: true
+				});
+			}else{
+				this.setState({
+					uploading: true,
+					data: {
+						...this.state.data,
+						logo: fileInfo.base64
+					},
+					success: false
+				});
+			}
 		};
 	};
 
@@ -518,6 +525,13 @@ class CompanySettingsPage extends React.Component {
 						buttonCancel={translate.cancel}
 						bodyText={<div>{translate.companies_unlink}</div>}
 						title={translate.edit}
+					/>
+					<AlertConfirm
+						requestClose={() => this.setState({ fileSizeError: false })}
+						open={this.state.fileSizeError}
+						buttonCancel={translate.accept}
+						bodyText={<div>{translate.file_exceeds}</div>}
+						title={translate.error}
 					/>
 				</div>
 			</CardPageLayout>
