@@ -4,6 +4,7 @@ import {
 	BasicButton,
 	DropDownMenu,
 	Grid,
+	Scrollbar,
 	GridItem,
 	LoadingSection,
 	TextInput,
@@ -217,7 +218,9 @@ class StepPreview extends React.Component {
 			<div
 				style={{
 					width: "100%",
-					height: "100%"
+					height: "100%",
+					padding: '1.2em',
+					paddingTop: '0.8em'
 				}}
 			>
 				<Grid>
@@ -376,14 +379,18 @@ class StepPreview extends React.Component {
 						</div>
 					</GridItem>
 				</Grid>
-				<Paper style={{ marginTop: "1.5em" }}>
-					<div
-						dangerouslySetInnerHTML={{
-							__html: this.props.data.councilPreviewHTML
-						}}
-						style={{ padding: "2em" }}
-					/>
-				</Paper>
+				<div style={{width: 'calc(100% + 2.4em)', margin: '-1.2em', marginTop: '1em', borderTop: '1px solid gainsboro', height: '100%'}}>
+					<Scrollbar>
+						<Paper style={{ marginTop: "1.5em", margin: '1em' }}>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: this.props.data.councilPreviewHTML
+								}}
+								style={{ padding: "2em" }}
+							/>
+						</Paper>
+					</Scrollbar>
+				</div>
 				<AlertConfirm
 					requestClose={this.resetConveneTestValues}
 					open={this.state.conveneTestModal}

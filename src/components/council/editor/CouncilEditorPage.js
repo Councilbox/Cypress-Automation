@@ -72,14 +72,14 @@ class CouncilEditorPage extends React.Component {
 		const { translate } = this.props;
 
 		return (
-			<CardPageLayout title={translate.dashboard_new}>
+			<CardPageLayout title={translate.dashboard_new} disableScroll={true}>
 				<div
 					style={{
 						width: "100%",
 						textAlign: "center"
 					}}
 				>
-					<div style={{marginBottom: '2em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em'}}>
+					<div style={{marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em'}}>
 						<EditorStepper
 							translate={translate}
 							active={this.state.step - 1}
@@ -87,7 +87,7 @@ class CouncilEditorPage extends React.Component {
 						/>
 					</div>
 				</div>
-				<div style={{ width: "100%", padding: '1em' }}>
+				<div style={{width: '100%', height: 'calc(100% - 3em)'}}>
 					{this.state.step === 1 && (
 						<CouncilEditorNotice
 							nextStep={this.nextStep}

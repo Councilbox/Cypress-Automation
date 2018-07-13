@@ -19,6 +19,7 @@ import { councilStepTwo, updateCouncil } from "../../../../queries";
 import { compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
 import CouncilHeader from '../CouncilHeader';
+import EditorStepLayout from '../EditorStepLayout';
 
 
 class StepCensus extends React.Component {
@@ -179,101 +180,95 @@ class StepCensus extends React.Component {
 		}
 
 		return (
-			<div
-				style={{
-					width: "100%",
-					height: "100%"
-				}}
-			>
-				<React.Fragment>
-					<CouncilHeader
-						translate={translate}
-						council={council}
-					/>
-					<ParticipantsTable
-						translate={translate}
-						council={council}
-						handleCensusChange={this.handleCensusChange}
-						reloadCensus={this.reloadCensus}
-						showAddModal={() =>
-							this.setState({ addParticipant: true })
-						}
-						censuses={this.props.data.censuses}
-						editable={true}
-						totalVotes={this.props.data.councilTotalVotes}
-						totalSocialCapital={
-							this.props.data.councilSocialCapital
-						}
-						participations={CBX.hasParticipations(council)}
-					/>
-					<br />
-					<Grid>
-						<GridItem xs={12}>
-							<div style={{ float: "right" }}>
-								<BasicButton
-									text={translate.previous}
-									color={secondary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									textPosition="after"
-									onClick={this.previousPage}
-								/>
-								<BasicButton
-									text={translate.save}
-									color={secondary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										marginLeft: "0.5em",
-										marginRight: "0.5em",
-										textTransform: "none"
-									}}
-									icon={
-										<ButtonIcon type="save" color="white" />
-									}
-									textPosition="after"
-									onClick={() => this.saveDraft(2)}
-								/>
-								<BasicButton
-									text={translate.table_button_next}
-									color={primary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									textPosition="after"
-									onClick={this.nextPage}
-								/>
-							</div>
-						</GridItem>
-					</Grid>
-					<Dialog
-						disableBackdropClick={false}
-						open={this.state.censusChangeAlert}
-						onClose={() =>
-							this.setState({ censusChangeAlert: false })
-						}
-					>
-						<DialogTitle>{translate.census_change}</DialogTitle>
-						<DialogContent>
-							{translate.census_change_warning.replace(
-								"<br/>",
-								""
-							)}
-						</DialogContent>
-						<DialogActions>
-							{this._renderCensusChangeButtons()}
-						</DialogActions>
-					</Dialog>
-				</React.Fragment>
-			</div>
+			<EditorStepLayout
+				body={
+					<React.Fragment>
+						<CouncilHeader
+							translate={translate}
+							council={council}
+						/>
+						<ParticipantsTable
+							translate={translate}
+							council={council}
+							handleCensusChange={this.handleCensusChange}
+							reloadCensus={this.reloadCensus}
+							showAddModal={() =>
+								this.setState({ addParticipant: true })
+							}
+							censuses={this.props.data.censuses}
+							editable={true}
+							totalVotes={this.props.data.councilTotalVotes}
+							totalSocialCapital={
+								this.props.data.councilSocialCapital
+							}
+							participations={CBX.hasParticipations(council)}
+						/>
+						<Dialog
+							disableBackdropClick={false}
+							open={this.state.censusChangeAlert}
+							onClose={() =>
+								this.setState({ censusChangeAlert: false })
+							}
+						>
+							<DialogTitle>{translate.census_change}</DialogTitle>
+							<DialogContent>
+								{translate.census_change_warning.replace(
+									"<br/>",
+									""
+								)}
+							</DialogContent>
+							<DialogActions>
+								{this._renderCensusChangeButtons()}
+							</DialogActions>
+						</Dialog>
+					</React.Fragment>
+				}
+				buttons={
+					<React.Fragment>
+						<BasicButton
+							text={translate.previous}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							onClick={this.previousPage}
+						/>
+						<BasicButton
+							text={translate.save}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								marginLeft: "0.5em",
+								marginRight: "0.5em",
+								textTransform: "none"
+							}}
+							icon={
+								<ButtonIcon type="save" color="white" />
+							}
+							textPosition="after"
+							onClick={() => this.saveDraft(2)}
+						/>
+						<BasicButton
+							text={translate.table_button_next}
+							color={primary}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							onClick={this.nextPage}
+						/>
+					</React.Fragment>
+				}
+			/>
 		);
 	}
 }

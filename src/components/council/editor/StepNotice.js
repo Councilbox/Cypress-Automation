@@ -6,6 +6,7 @@ import {
 	DateTimePicker,
 	ErrorAlert,
 	Grid,
+	Scrollbar,
 	GridItem,
 	LoadingSection,
 	SelectInput,
@@ -19,6 +20,7 @@ import { compose, graphql } from "react-apollo";
 import { changeStatute, councilStepOne, updateCouncil } from "../../../queries";
 import * as CBX from "../../../utils/CBX";
 import { moment } from '../../../containers/App';
+import EditorStepLayout from './EditorStepLayout';
 
 class StepNotice extends React.Component {
 
@@ -248,212 +250,208 @@ class StepNotice extends React.Component {
 		const { statute } = this.props.data.council;
 
 		return (
-			<div
-				style={{
-					width: "100%",
-					height: "100%"
-				}}
-			>
-				<Grid>
-					<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em'}}>
-						<SelectInput
-							required
-							floatingText={translate.council_type}
-							value={
-								this.props.data.council.statute.statuteId || ""
-							}
-							onChange={event =>
-								this.changeStatute(+event.target.value)
-							}
-						>
-							{companyStatutes.map(statute => {
-								return (
-									<MenuItem
-										value={+statute.id}
-										key={`statutes_${statute.id}`}
-									>
-										{translate[statute.title] ||
-											statute.title}
-									</MenuItem>
-								);
-							})}
-						</SelectInput>
-					</GridItem>
-					<GridItem
-						xs={12}
-						md={8}
-						lg={8}
-						style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}
-					>
-						<BasicButton
-							text={translate.change_location}
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontWeight: "600",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={() => this.setState({ placeModal: true })}
-							icon={
-								<ButtonIcon type="location_on" color="white" />
-							}
-						/>
-						<h6 style={{ paddingTop: "0.8em", marginLeft: '1em' }}>
-							<b>{`${translate.new_location_of_celebrate}: `}</b>
-							{council.remoteCelebration === 1
-								? translate.remote_celebration
-								: `${council.street}, ${council.country}`}
-						</h6>
-					</GridItem>
-
-					<GridItem xs={12} md={4} lg={4}>
-						<DateTimePicker
-							required
-							onChange={date => {
-								const newDate = new Date(date);
-								const dateString = newDate.toISOString();
-								this.updateDate(dateString);
-							}}
-							minDateMessage={""}
-							errorText={errors.dateStart}
-							acceptText={translate.accept}
-							cancelText={translate.cancel}
-							label={translate["1st_call_date"]}
-							value={council.dateStart}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={4} lg={4}>
-						{CBX.hasSecondCall(statute) && (
-							<DateTimePicker
-								required
-								minDate={
-									!!council.dateStart
-										? new Date(council.dateStart)
-										: new Date()
-								}
-								errorText={errors.dateStart2NdCall}
-								onChange={date => {
-									const newDate = new Date(date);
-									const dateString = newDate.toISOString();
-									this.updateDate(undefined, dateString);
-								}}
-								minDateMessage={""}
-								acceptText={translate.accept}
-								cancelText={translate.cancel}
-								label={translate["2nd_call_date"]}
-								value={council.dateStart2NdCall}
-							/>
-						)}
-					</GridItem>
-					<GridItem xs={12} md={10} lg={10} style={{marginTop: '0.8em'}}>
-						<TextInput
-							required
-							floatingText={translate.table_councils_name}
-							type="text"
-							errorText={errors.name}
-							value={council.name || ""}
-							onChange={event =>
-								this.updateState({
-									name: event.nativeEvent.target.value
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={12} md={12} lg={12}>
-						<RichTextInput
-							ref={editor => this.editor = editor}
-							errorText={errors.conveneText}
-							required
-							loadDraft={
-								<LoadDraftModal
-									translate={translate}
-									companyId={company.id}
-									loadDraft={this.loadDraft}
-									statute={statute}
-									statutes={companyStatutes}
-									draftType={
-										draftTypes.filter(
-											draft =>
-												draft.label === "convene_header"
-										)[0].value
+			<React.Fragment>
+				<EditorStepLayout
+					body={
+						<Grid>
+							<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em'}}>
+								<SelectInput
+									required
+									floatingText={translate.council_type}
+									value={
+										this.props.data.council.statute.statuteId || ""
+									}
+									onChange={event =>
+										this.changeStatute(+event.target.value)
+									}
+								>
+									{companyStatutes.map(statute => {
+										return (
+											<MenuItem
+												value={+statute.id}
+												key={`statutes_${statute.id}`}
+											>
+												{translate[statute.title] ||
+													statute.title}
+											</MenuItem>
+										);
+									})}
+								</SelectInput>
+							</GridItem>
+							<GridItem
+								xs={12}
+								md={8}
+								lg={8}
+								style={{ display: "flex", flexDirection: 'row', alignItems: 'center' }}
+							>
+								<BasicButton
+									text={translate.change_location}
+									color={secondary}
+									textStyle={{
+										color: "white",
+										fontWeight: "600",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									textPosition="after"
+									onClick={() => this.setState({ placeModal: true })}
+									icon={
+										<ButtonIcon type="location_on" color="white" />
 									}
 								/>
-							}
-							tags={[
-								{
-									value: moment(council.dateStart).format(
-										"LLL"
-									),
-									label: translate.date
-								},
-								{
-									value: company.businessName,
-									label: translate.business_name
-								},
-								{
-									value: `${council.street}, ${
-										council.country
-									}`,
-									label: translate.new_location_of_celebrate
-								},
-								{
-									value: company.country,
-									label: translate.company_new_country
-								}
-							]}
-							floatingText={translate.convene_info}
-							value={council.conveneText || ""}
-							onChange={value =>
-								this.updateState({
-									conveneText: value
-								})
-							}
-						/>
-					</GridItem>
-					<GridItem
-						xs={12}
-						md={12}
-						lg={12}
-						style={{ marginTop: "1em" }}
-					>
-						<BasicButton
-							floatRight
-							text={translate.next}
-							color={primary}
-							icon={
-								<ButtonIcon
-									type="arrow_forward"
-									color="white"
+								<h6 style={{ paddingTop: "0.8em", marginLeft: '1em' }}>
+									<b>{`${translate.new_location_of_celebrate}: `}</b>
+									{council.remoteCelebration === 1
+										? translate.remote_celebration
+										: `${council.street}, ${council.country}`}
+								</h6>
+							</GridItem>
+
+							<GridItem xs={12} md={4} lg={4}>
+								<DateTimePicker
+									required
+									onChange={date => {
+										const newDate = new Date(date);
+										const dateString = newDate.toISOString();
+										this.updateDate(dateString);
+									}}
+									minDateMessage={""}
+									errorText={errors.dateStart}
+									acceptText={translate.accept}
+									cancelText={translate.cancel}
+									label={translate["1st_call_date"]}
+									value={council.dateStart}
 								/>
-							}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={this.nextPage}
-						/>
-						<BasicButton
-							floatRight
-							text={translate.save}
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none",
-								marginRight: "0.6em"
-							}}
-							icon={<ButtonIcon type="save" color="white" />}
-							textPosition="after"
-							onClick={() => this.updateCouncil(1)}
-						/>
-					</GridItem>
-				</Grid>
+							</GridItem>
+							<GridItem xs={12} md={4} lg={4}>
+								{CBX.hasSecondCall(statute) && (
+									<DateTimePicker
+										required
+										minDate={
+											!!council.dateStart
+												? new Date(council.dateStart)
+												: new Date()
+										}
+										errorText={errors.dateStart2NdCall}
+										onChange={date => {
+											const newDate = new Date(date);
+											const dateString = newDate.toISOString();
+											this.updateDate(undefined, dateString);
+										}}
+										minDateMessage={""}
+										acceptText={translate.accept}
+										cancelText={translate.cancel}
+										label={translate["2nd_call_date"]}
+										value={council.dateStart2NdCall}
+									/>
+								)}
+							</GridItem>
+							<GridItem xs={12} md={10} lg={10} style={{marginTop: '0.8em'}}>
+								<TextInput
+									required
+									floatingText={translate.table_councils_name}
+									type="text"
+									errorText={errors.name}
+									value={council.name || ""}
+									onChange={event =>
+										this.updateState({
+											name: event.nativeEvent.target.value
+										})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={12} lg={12}>
+								<RichTextInput
+									ref={editor => this.editor = editor}
+									errorText={errors.conveneText}
+									required
+									loadDraft={
+										<LoadDraftModal
+											translate={translate}
+											companyId={company.id}
+											loadDraft={this.loadDraft}
+											statute={statute}
+											statutes={companyStatutes}
+											draftType={
+												draftTypes.filter(
+													draft =>
+														draft.label === "convene_header"
+												)[0].value
+											}
+										/>
+									}
+									tags={[
+										{
+											value: moment(council.dateStart).format(
+												"LLL"
+											),
+											label: translate.date
+										},
+										{
+											value: company.businessName,
+											label: translate.business_name
+										},
+										{
+											value: `${council.street}, ${
+												council.country
+											}`,
+											label: translate.new_location_of_celebrate
+										},
+										{
+											value: company.country,
+											label: translate.company_new_country
+										}
+									]}
+									floatingText={translate.convene_info}
+									value={council.conveneText || ""}
+									onChange={value =>
+										this.updateState({
+											conveneText: value
+										})
+									}
+								/>
+							</GridItem>
+						</Grid>
+					}
+					buttons={
+						<React.Fragment>
+							<BasicButton
+								floatRight
+								text={translate.save}
+								color={secondary}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none",
+									marginRight: "0.6em"
+								}}
+								icon={<ButtonIcon type="save" color="white" />}
+								textPosition="after"
+								onClick={() => this.updateCouncil(1)}
+							/>
+							<BasicButton
+								floatRight
+								text={translate.next}
+								color={primary}
+								icon={
+									<ButtonIcon
+										type="arrow_forward"
+										color="white"
+									/>
+								}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								textPosition="after"
+								onClick={this.nextPage}
+							/>
+						</React.Fragment>
+					}
+				/>
 				<PlaceModal
 					open={this.state.placeModal}
 					close={() => this.setState({ placeModal: false })}
@@ -470,7 +468,7 @@ class StepNotice extends React.Component {
 					open={this.state.alert}
 					requestClose={() => this.setState({ alert: false })}
 				/>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

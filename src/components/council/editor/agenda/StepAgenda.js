@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -19,6 +19,7 @@ import ReorderPointsModal from "../../agendas/ReorderPointsModal";
 import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
 import AgendaItem from "./AgendaItem";
 import CouncilHeader from '../CouncilHeader';
+import EditorStepLayout from '../EditorStepLayout';
 
 const buttonStyle = {
 	color: "white",
@@ -27,7 +28,7 @@ const buttonStyle = {
 	textTransform: "none"
 };
 
-class StepAgenda extends Component {
+class StepAgenda extends React.Component {
 	state = {
 		votingTypes: [],
 		edit: false,
@@ -147,157 +148,155 @@ class StepAgenda extends Component {
 		}
 
 		return (
-			<div
-				style={{
-					width: "100%",
-					height: "100%"
-				}}
-			>
-				<CouncilHeader
-					council={council}
-					translate={translate}
-				/>
-				{agendas.length > 0 && (
-					<Grid>
-						<GridItem
-							xs={12}
-							lg={12}
-							md={12}
-							style={{
-								display: "flex",
-								flexDirection: "row"
-							}}
-						>
-							<NewAgendaPointModal
-								translate={translate}
-								agendas={council.agendas}
-								votingTypes={votingTypes}
-								majorityTypes={majorityTypes}
-								draftTypes={draftTypes}
-								statute={council.statute}
-								company={this.props.company}
+			<React.Fragment>
+				<EditorStepLayout
+					body={
+						<React.Fragment>
+							<CouncilHeader
 								council={council}
-								companyStatutes={this.props.data.companyStatutes}
-								refetch={this.props.data.refetch}
-							>
-								<BasicButton
-									text={translate.add_agenda_point}
-									color={primary}
-									textStyle={buttonStyle}
-									icon={
-										<ButtonIcon type="add" color="white" />
-									}
-									textPosition="after"
-								/>
-							</NewAgendaPointModal>
-
-							{CBX.canReorderPoints(council) && (
-								<ReorderPointsModal
-									translate={translate}
-									agendas={council.agendas}
-									councilID={this.props.councilID}
-									refetch={this.props.data.refetch}
-									style={{ marginLeft: "0.8em" }}
-								>
-									<BasicButton
-										text={translate.reorder_agenda_points}
-										color={secondary}
-										textStyle={buttonStyle}
-										icon={
-											<ButtonIcon
-												type="cached"
-												color="white"
+								translate={translate}
+							/>
+							{agendas.length > 0 && (
+								<Grid>
+									<GridItem
+										xs={12}
+										lg={12}
+										md={12}
+										style={{
+											display: "flex",
+											flexDirection: "row"
+										}}
+									>
+										<NewAgendaPointModal
+											translate={translate}
+											agendas={council.agendas}
+											votingTypes={votingTypes}
+											majorityTypes={majorityTypes}
+											draftTypes={draftTypes}
+											statute={council.statute}
+											company={this.props.company}
+											council={council}
+											companyStatutes={this.props.data.companyStatutes}
+											refetch={this.props.data.refetch}
+										>
+											<BasicButton
+												text={translate.add_agenda_point}
+												color={primary}
+												textStyle={buttonStyle}
+												icon={
+													<ButtonIcon type="add" color="white" />
+												}
+												textPosition="after"
 											/>
-										}
-										textPosition="after"
-									/>
-								</ReorderPointsModal>
+										</NewAgendaPointModal>
+
+										{CBX.canReorderPoints(council) && (
+											<ReorderPointsModal
+												translate={translate}
+												agendas={council.agendas}
+												councilID={this.props.councilID}
+												refetch={this.props.data.refetch}
+												style={{ marginLeft: "0.8em" }}
+											>
+												<BasicButton
+													text={translate.reorder_agenda_points}
+													color={secondary}
+													textStyle={buttonStyle}
+													icon={
+														<ButtonIcon
+															type="cached"
+															color="white"
+														/>
+													}
+													textPosition="after"
+												/>
+											</ReorderPointsModal>
+										)}
+									</GridItem>
+								</Grid>
 							)}
-						</GridItem>
-					</Grid>
-				)}
 
-				{agendas.length > 0 ? (
-					<div
-						style={{
-							width: "100%"
-						}}
-					>
-						{agendas.map((agenda, index) => {
-							return (
-								<AgendaItem
-									agenda={agenda}
-									key={`agenda${index}`}
-									typeText={
-										translate[
-											votingTypes.find(
-												item =>
-													item.value ===
-													agenda.subjectType
-											).label
-										]
-									}
-									removeAgenda={this.removeAgenda}
-									selectAgenda={this.selectAgenda}
-									saveAsDraft={this.saveAsDraft}
-								/>
-							);
-						})}
-					</div>
-				) : (
-					<div
-						style={{
-							width: "100%",
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							marginTop: "2em",
-							marginBottom: "3em"
-						}}
-					>
-						<Typography variant="subheading">
-							{translate.empty_agendas}
-						</Typography>
-						<br />
-						<div>
-							<NewAgendaPointModal
-								translate={translate}
-								agendas={council.agendas}
-								votingTypes={votingTypes}
-								majorityTypes={majorityTypes}
-								draftTypes={draftTypes}
-								statute={council.statute}
-								company={this.props.company}
-								council={council}
-								companyStatutes={
-									this.props.data.companyStatutes
-								}
-								refetch={this.props.data.refetch}
-							>
-								<BasicButton
-									type="raised"
-									buttonStyle={buttonStyle}
-									text={translate.add_agenda_point}
-									color={primary}
-									icon={
-										<ButtonIcon type="add" color="white" />
-									}
-									textStyle={{
-										color: "white",
-										textTransform: "none"
+							{agendas.length > 0 ? (
+								<div
+									style={{
+										width: "100%"
 									}}
-								/>
-							</NewAgendaPointModal>
-						</div>
-						<Typography variant="body1" style={{ color: "red" }}>
-							{errors.emptyAgendas}
-						</Typography>
-					</div>
-				)}
-
-				<div className="row" style={{ marginTop: "2em" }}>
-					<div className="col-lg-12 col-md-12 col-xs-12">
-						<div style={{ float: "right" }}>
+								>
+									{agendas.map((agenda, index) => {
+										return (
+											<AgendaItem
+												agenda={agenda}
+												key={`agenda${index}`}
+												typeText={
+													translate[
+														votingTypes.find(
+															item =>
+																item.value ===
+																agenda.subjectType
+														).label
+													]
+												}
+												removeAgenda={this.removeAgenda}
+												selectAgenda={this.selectAgenda}
+												saveAsDraft={this.saveAsDraft}
+											/>
+										);
+									})}
+								</div>
+							) : (
+								<div
+									style={{
+										width: "100%",
+										display: "flex",
+										flexDirection: "column",
+										alignItems: "center",
+										marginTop: "2em",
+										marginBottom: "3em"
+									}}
+								>
+									<Typography variant="subheading">
+										{translate.empty_agendas}
+									</Typography>
+									<br />
+									<div>
+										<NewAgendaPointModal
+											translate={translate}
+											agendas={council.agendas}
+											votingTypes={votingTypes}
+											majorityTypes={majorityTypes}
+											draftTypes={draftTypes}
+											statute={council.statute}
+											company={this.props.company}
+											council={council}
+											companyStatutes={
+												this.props.data.companyStatutes
+											}
+											refetch={this.props.data.refetch}
+										>
+											<BasicButton
+												type="raised"
+												buttonStyle={buttonStyle}
+												text={translate.add_agenda_point}
+												color={primary}
+												icon={
+													<ButtonIcon type="add" color="white" />
+												}
+												textStyle={{
+													color: "white",
+													textTransform: "none"
+												}}
+											/>
+										</NewAgendaPointModal>
+									</div>
+									<Typography variant="body1" style={{ color: "red" }}>
+										{errors.emptyAgendas}
+									</Typography>
+								</div>
+							)}
+						</React.Fragment>
+					}
+					buttons={
+						<React.Fragment>
 							<BasicButton
 								text={translate.previous}
 								color={secondary}
@@ -332,9 +331,9 @@ class StepAgenda extends Component {
 								textPosition="after"
 								onClick={this.nextPage}
 							/>
-						</div>
-					</div>
-				</div>
+						</React.Fragment>
+					}
+				/>
 				<PointEditor
 					translate={translate}
 					draftTypes={draftTypes}
@@ -377,7 +376,7 @@ class StepAgenda extends Component {
 							draftTypes={draftTypes}
 						/>
 					)}
-			</div>
+			</React.Fragment>
 		);
 	}
 }
