@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { withRouter } from "react-router-dom";
-import * as councilActions from "../actions/councilActions";
-import { bindActionCreators } from "redux";
+import { createCouncil } from "../queries";
+import { graphql } from 'react-apollo';
+import { bHistory } from "../containers/App";
 
 class CreateCouncil extends Component {
 	constructor(props) {
@@ -13,20 +14,29 @@ class CreateCouncil extends Component {
 		};
 	}
 
-	componentDidMount() {
+	createCouncil = async (companyId) => {
+		const response = await this.props.createCouncil({
+			variables: {
+				companyId: companyId
+			}
+		});
+		return response.data.createCouncil.id;
+	}
+
+	async componentDidMount() {
 		if (
 			this.props.match.url ===
-				`/company/${this.props.match.params.company}/council/new` &&
+			`/company/${this.props.match.params.company}/council/new` &&
 			!this.state.creating
 		) {
 			console.log("create");
 			this.setState({
 				creating: true
 			});
-			this.props.actions.create(
-				this.props.match.params.company,
-				"council"
+			let newCouncilId = await this.createCouncil(
+				this.props.match.params.company
 			);
+			bHistory.push(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
 		}
 	}
 
@@ -42,11 +52,8 @@ const mapStateToProps = state => ({
 	council: state.council
 });
 
-const mapDispatchToProps = dispatch => ({
-	actions: bindActionCreators(councilActions, dispatch)
-});
 
-export default connect(
-	mapStateToProps,
-	mapDispatchToProps
-)(withRouter(CreateCouncil));
+
+export default graphql(createCouncil, { name: 'createCouncil' })(connect(
+	mapStateToProps
+)(withRouter(CreateCouncil)));

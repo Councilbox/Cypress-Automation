@@ -152,6 +152,7 @@ class AppRouter extends React.Component {
 					<Route path="/welcome" component={Welcome} />
 
 					<Route exact path="/test/:language" component={Test} />
+					<Route exact path="/test/:language/:token" component={Test} />
 					{this.props.main.isParticipantLogged &&
 						[<Route
 							key='route_participant_meet'

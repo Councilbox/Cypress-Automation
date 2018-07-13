@@ -232,8 +232,8 @@ export const council = gql`
 `;
 
 export const createCouncil = gql`
-	mutation CreateCouncil($companyId: Int!, $type: String) {
-		createCouncil(companyId: $companyId, type: $type) {
+	mutation CreateCouncil($companyId: Int!) {
+		createCouncil(companyId: $companyId) {
 			id
 		}
 	}
