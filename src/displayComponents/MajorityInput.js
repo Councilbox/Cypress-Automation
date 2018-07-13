@@ -32,7 +32,7 @@ const MajorityInput = ({
 		return (
 			<div style={{ width: "100%", ...style }}>
 				<Grid>
-					<GridItem xs={6} lg={6} md={6}>
+					<div style={{width: '5em'}}>
 						<TextInput
 							type={"number"}
 							value={value}
@@ -42,8 +42,8 @@ const MajorityInput = ({
 								onChange(event.nativeEvent.target.value)
 							}
 						/>
-					</GridItem>
-					<GridItem xs={6} lg={6} md={6}>
+					</div>
+					<div style={{width: '5em', marginLeft: '0.8em'}}>
 						<TextInput
 							type={"number"}
 							value={divider}
@@ -54,7 +54,7 @@ const MajorityInput = ({
 								onChangeDivider(event.nativeEvent.target.value)
 							}
 						/>
-					</GridItem>
+					</div>
 				</Grid>
 			</div>
 		);
@@ -62,7 +62,7 @@ const MajorityInput = ({
 
 	if (CBX.isMajorityNumber(type)) {
 		return (
-			<div style={{ width: "100%", ...style }}>
+			<div style={{ width: '6em', ...style }}>
 				<TextInput
 					type={"number"}
 					min="1"

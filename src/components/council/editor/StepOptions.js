@@ -346,7 +346,7 @@ class StepOptions extends React.Component {
 										)}
 									</SelectInput>
 								</div>
-								<div className="col-lg-8 col-md-8 col-xs-8">
+								<div>
 									{CBX.majorityNeedsInput(
 										council.actPointMajorityType
 									) && (
