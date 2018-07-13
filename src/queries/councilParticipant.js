@@ -68,6 +68,15 @@ export const addParticipant = gql`
 	}
 `;
 
+export const checkUniqueCouncilEmails = gql`
+query checkUniqueCouncilEmails($emailList: [String], $councilId: Int!){
+	checkUniqueCouncilEmails(emailList: $emailList, councilId: $councilId){
+		success
+		message
+	}
+}
+`;
+
 export const updateCouncilParticipant = gql`
 	mutation updateParticipant(
 		$participant: ParticipantInput

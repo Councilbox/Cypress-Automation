@@ -33,12 +33,6 @@ class Sidebar extends React.Component {
 			icon: 'import_contacts'
 		},
 		{
-			path: `/company/${this.props.company.id}/meeting/new`,
-			name: "meeting",
-			sidebarName: 'Conferencias',
-			icon: 'video_call'
-		},
-		{
 			path: `/company/${this.props.company.id}/signatures/drafts`,
 			name: "signature",
 			sidebarName: 'Firmas',

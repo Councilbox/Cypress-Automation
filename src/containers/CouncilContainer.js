@@ -117,11 +117,6 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 					/>
 				);
 			}
-		},
-		{
-			text: `${translate.dashboard_new}`,
-			link: `/company/${company.id}/council/new`,
-			add: true
 		}
 	];
 

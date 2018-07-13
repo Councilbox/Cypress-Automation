@@ -4,14 +4,15 @@ import {
 	BasicButton,
 	ButtonIcon
 } from "../../../../../displayComponents/index";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary } from "../../../../../styles/colors";
-import { addParticipant } from "../../../../../queries/councilParticipant";
+import { addParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
+import gql from 'graphql-tag';
 import { languages } from "../../../../../queries/masters";
 import ParticipantForm from "../../../participants/ParticipantForm";
 import {
 	checkRequiredFieldsParticipant,
-	checkRequiredFieldsRepresentative
+	checkRequiredFieldsRepresentative,
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 
@@ -34,7 +35,7 @@ class AddCouncilParticipantButton extends React.Component {
 			  }
 			: null;
 
-		if (!this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.addParticipant({
 				variables: {
 					participant: {
@@ -44,6 +45,8 @@ class AddCouncilParticipantButton extends React.Component {
 					representative: representative
 				}
 			});
+
+			console.log(response);
 			if (!response.errors) {
 				this.props.refetch();
 				this.setState({
@@ -75,7 +78,7 @@ class AddCouncilParticipantButton extends React.Component {
 		});
 	};
 
-	checkRequiredFields() {
+	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations } = this.props;
@@ -90,11 +93,45 @@ class AddCouncilParticipantButton extends React.Component {
 			errors: {},
 			hasError: false
 		};
+
+		const emailsToCheck = [participant.email];
+
 		if (representative.hasRepresentative) {
 			errorsRepresentative = checkRequiredFieldsRepresentative(
 				representative,
 				translate
 			);
+
+			emailsToCheck.push(representative.email);
+		}
+
+
+		const response = await this.props.client.query({
+			query: checkUniqueCouncilEmails,
+			variables: {
+				councilId: this.props.councilId,
+				emailList: emailsToCheck
+			}
+		});
+
+		if(!response.data.checkUniqueCouncilEmails.success){
+			const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+			data.duplicatedEmails.forEach(email => {
+				if(participant.email === email){
+					errorsParticipant.errors.email = translate.register_exists_email;
+					errorsParticipant.hasError = true;
+				}
+				if(representative.email === email){
+					errorsRepresentative.errors.email = translate.register_exists_email;
+					errorsRepresentative.hasError = true;
+				}
+			})
+		}
+
+		if(participant.email === representative.email){
+			errorsRepresentative.errors.email = translate.repeated_email;
+			errorsParticipant.errors.email = translate.repeated_email;
+			errorsParticipant.hasError = true;
 		}
 
 		this.setState({
@@ -171,6 +208,8 @@ class AddCouncilParticipantButton extends React.Component {
 	}
 }
 
+
+
 export default compose(
 	graphql(addParticipant, {
 		name: "addParticipant",
@@ -179,7 +218,7 @@ export default compose(
 		}
 	}),
 	graphql(languages)
-)(AddCouncilParticipantButton);
+)(withApollo(AddCouncilParticipantButton));
 
 const initialParticipant = {
 	name: "",

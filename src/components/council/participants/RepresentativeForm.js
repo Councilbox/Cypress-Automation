@@ -10,6 +10,7 @@ import { MenuItem } from "material-ui";
 const RepresentativeForm = ({
 	representative,
 	errors,
+	checkEmail,
 	updateState,
 	translate,
 	languages,
@@ -74,6 +75,7 @@ const RepresentativeForm = ({
 			<TextInput
 				floatingText={translate.email}
 				type="text"
+				{...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'representative')} : {})}
 				errorText={errors.email}
 				value={representative.email}
 				onChange={event =>

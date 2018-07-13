@@ -12,6 +12,7 @@ const RepresentativeForm = ({
 	updateState,
 	translate,
 	state,
+	checkEmail,
 	errors,
 	languages
 }) => {
@@ -85,6 +86,7 @@ const RepresentativeForm = ({
 					</GridItem>
 					<GridItem xs={6} md={4} lg={3}>
 						<TextInput
+							{...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'representative')} : {})}
 							floatingText={translate.email}
 							type="text"
 							errorText={errors.email}

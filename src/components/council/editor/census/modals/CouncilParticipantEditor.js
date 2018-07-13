@@ -1,12 +1,13 @@
 import React from "react";
 import { AlertConfirm } from "../../../../../displayComponents/index";
-import { compose, graphql } from "react-apollo";
-import { updateCouncilParticipant } from "../../../../../queries/councilParticipant";
+import { compose, graphql, withApollo } from "react-apollo";
+import { updateCouncilParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
 import { languages } from "../../../../../queries/masters";
 import ParticipantForm from "../../../participants/ParticipantForm";
 import {
 	checkRequiredFieldsParticipant,
-	checkRequiredFieldsRepresentative
+	checkRequiredFieldsRepresentative,
+	checkValidEmail
 } from "../../../../../utils/validation";
 import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
 
@@ -45,7 +46,7 @@ class CouncilParticipantEditor extends React.Component {
 			  }
 			: null;
 
-		if (!this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.updateCouncilParticipant({
 				variables: {
 					participant: {
@@ -80,7 +81,15 @@ class CouncilParticipantEditor extends React.Component {
 		});
 	};
 
-	checkRequiredFields() {
+	cleanAndClose = () => {
+		this.setState({
+			errors: {},
+			representativeErrors: {}
+		})
+		this.props.close();
+	}
+
+	async checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations } = this.props;
@@ -95,11 +104,45 @@ class CouncilParticipantEditor extends React.Component {
 			errors: {},
 			hasError: false
 		};
+
+		const emailsToCheck = [];
+		if(participant.email !== this.props.participant.email){
+			emailsToCheck.push(participant.email);
+		}
+
 		if (representative.hasRepresentative) {
 			errorsRepresentative = checkRequiredFieldsRepresentative(
 				representative,
 				translate
 			);
+
+			if(this.props.representative){
+				if(representative.email !== this.props.representative.email){
+					emailsToCheck.push(representative.email);
+				}
+			}
+		}
+
+		const response = await this.props.client.query({
+			query: checkUniqueCouncilEmails,
+			variables: {
+				councilId: this.props.councilId,
+				emailList: emailsToCheck
+			}
+		});
+
+		if(!response.data.checkUniqueCouncilEmails.success){
+			const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+			data.duplicatedEmails.forEach(email => {
+				if(participant.email === email){
+					errorsParticipant.errors.email = translate.register_exists_email;
+					errorsParticipant.hasError = true;
+				}
+				if(representative.email === email){
+					errorsRepresentative.errors.email = translate.register_exists_email;
+					errorsRepresentative.hasError = true;
+				}
+			})
 		}
 
 		this.setState({
@@ -111,16 +154,75 @@ class CouncilParticipantEditor extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
+	timeout = null;
+
+	checkEmail = async (email, type) => {
+		let error;
+		const { translate } = this.props;
+	
+		if(!this.props[type] || email !== this.props[type].email){
+			if(checkValidEmail(email)){
+				const response = await this.props.client.query({
+					query: checkUniqueCouncilEmails,
+					variables: {
+						councilId: this.props.councilId,
+						emailList: [email]
+					}
+				});
+		
+				if(!response.data.checkUniqueCouncilEmails.success){
+					const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+					data.duplicatedEmails.forEach(email => {
+						if(this.state.data.email === email){
+							error = translate.register_exists_email;
+						}
+						if(this.state.representative.email === email){
+							error = translate.register_exists_email;
+						}
+					})
+				}
+			}else{
+				error = 'Se requiere un email válido';//TRADUCCION
+			}
+
+			if(type === 'participant'){
+				this.setState({
+					errors: {
+						...this.state.errors,
+						email: error
+					}
+				})
+			}else{
+				this.setState({
+					representativeErrors: {
+						...this.state.errors,
+						email: error
+					}
+				})
+			}
+		}
+	}
+
+	emailKeyUp = (event, type) => {
+		clearTimeout(this.timeout);
+		const value = event.target.value;
+		this.timeout = setTimeout(() => {
+			this.checkEmail(value, type);
+			clearTimeout(this.timeout);
+		}, 400);
+	}
+
 	_renderBody() {
 		const participant = this.state.data;
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<React.Fragment>
+			<div>
 				<ParticipantForm
 					type={participant.personOrEntity}
 					participant={participant}
+					checkEmail={this.emailKeyUp}
 					participations={participations}
 					translate={translate}
 					languages={languages}
@@ -130,11 +232,12 @@ class CouncilParticipantEditor extends React.Component {
 				<RepresentativeForm
 					translate={translate}
 					state={representative}
+					checkEmail={this.emailKeyUp}
 					updateState={this.updateRepresentative}
 					errors={representativeErrors}
 					languages={languages}
 				/>
-			</React.Fragment>
+			</div>
 		);
 	}
 
@@ -144,7 +247,7 @@ class CouncilParticipantEditor extends React.Component {
 		return (
 			<React.Fragment>
 				<AlertConfirm
-					requestClose={() => this.props.close()}
+					requestClose={() => this.cleanAndClose()}
 					open={this.props.opened}
 					fullWidth={false}
 					acceptAction={this.updateCouncilParticipant}
@@ -166,7 +269,7 @@ export default compose(
 		}
 	}),
 	graphql(languages)
-)(CouncilParticipantEditor);
+)(withApollo(CouncilParticipantEditor));
 
 const initialRepresentative = {
 	hasRepresentative: false,

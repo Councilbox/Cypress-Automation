@@ -13,8 +13,8 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	if (!companies.list.length > 0) {
 		return <LoadingMainApp />;
 	}
-/* 
-	if (/Mobi|Android/i.test(navigator.userAgent)){
+
+/* 	if (/Mobi|Android/i.test(navigator.userAgent)){
 		return (
 			<CouncilLiveMobilePage 
 				companies={companies}

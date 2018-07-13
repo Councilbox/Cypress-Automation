@@ -13,6 +13,7 @@ const ParticipantForm = ({
 	participant,
 	errors,
 	updateState,
+	checkEmail,
 	participations,
 	translate,
 	languages
@@ -126,6 +127,7 @@ const ParticipantForm = ({
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.email}
+					{...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'participant')} : {})}
 					type="text"
 					errorText={errors.email}
 					value={participant.email}

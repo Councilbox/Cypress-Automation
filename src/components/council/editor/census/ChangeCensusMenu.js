@@ -6,7 +6,7 @@ import {
 	ButtonIcon,
 	BasicButton
 } from "../../../../displayComponents/index";
-import { MenuItem, Typography } from "material-ui";
+import { MenuItem, Typography, Tooltip } from "material-ui";
 import * as CBX from "../../../../utils/CBX";
 import AddCouncilParticipantButton from "./modals/AddCouncilParticipantButton";
 import { getSecondary } from "../../../../styles/colors";
@@ -52,7 +52,7 @@ const ChangeCensusMenu = ({
 			</SelectInput>
 			
 		:
-			<span>La entidad no tiene ningún censo</span>
+			<span>La entidad no tiene ningún censo{/*TRADUCCION*/}</span>
 		}
 
 		</GridItem>
@@ -66,22 +66,26 @@ const ChangeCensusMenu = ({
 				alignItems: "center"
 			}}
 		>
-			<BasicButton
-				color={getSecondary()}
-				buttonStyle={{
-					margin: "0"
-				}}
-				icon={
-					<ButtonIcon
-						color="white"
-						type="refresh"
+			<Tooltip title="Volver a cargar el censo seleccionado" /*TRADUCCION*/>
+				<div>
+					<BasicButton
+						color={getSecondary()}
+						buttonStyle={{
+							margin: "0"
+						}}
+						icon={
+							<ButtonIcon
+								color="white"
+								type="refresh"
+							/>
+						}
+						textPosition="after"
+						onClick={() =>
+							reloadCensus()
+						}
 					/>
-				}
-				textPosition="after"
-				onClick={() =>
-					reloadCensus()
-				}
-			/>
+				</div>
+			</Tooltip>
 		</GridItem>
 		<GridItem
 			lg={5}

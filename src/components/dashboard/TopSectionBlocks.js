@@ -43,6 +43,23 @@ const TopSectionBlocks = ({ translate, company }) => (
 				icon="class"
 				text={translate.drafts}
 			/>
+		</GridItem>	
+		<GridItem xs={12} md={6} lg={3}>
+		</GridItem>
+
+		<GridItem xs={12} md={6} lg={3}>
+			<Block
+				link={`/company/${company.id}/council/new`}
+				icon="add"
+				text={translate.dashboard_new}
+			/>
+		</GridItem>
+		<GridItem xs={12} md={6} lg={3}>
+			<Block
+				link={`/company/${company.id}/meeting/new`}
+				icon="video_call"
+				text={'Iniciar conferencia'}//TRADUCCION
+			/>
 		</GridItem>
 	</Grid>
 );
