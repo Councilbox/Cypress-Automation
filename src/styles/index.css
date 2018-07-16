@@ -33,6 +33,10 @@ a:hover {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
+h4 {
+    font-size: 1.25em !important;
+}
+
 .truncate {
     white-space: nowrap;
     overflow: hidden;
