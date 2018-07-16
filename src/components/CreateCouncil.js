@@ -36,7 +36,7 @@ class CreateCouncil extends Component {
 			let newCouncilId = await this.createCouncil(
 				this.props.match.params.company
 			);
-			bHistory.push(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
+			bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
 		}
 	}
 
