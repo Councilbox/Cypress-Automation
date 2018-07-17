@@ -159,46 +159,47 @@ class CouncilParticipantEditor extends React.Component {
 	checkEmail = async (email, type) => {
 		let error;
 		const { translate } = this.props;
-	
-		if(!this.props[type] || email !== this.props[type].email){
-			if(checkValidEmail(email)){
-				const response = await this.props.client.query({
-					query: checkUniqueCouncilEmails,
-					variables: {
-						councilId: this.props.councilId,
-						emailList: [email]
-					}
-				});
-		
-				if(!response.data.checkUniqueCouncilEmails.success){
-					const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
-					data.duplicatedEmails.forEach(email => {
-						if(this.state.data.email === email){
-							error = translate.register_exists_email;
+
+		if(email.length > 0){
+			if(!this.props[type] || email !== this.props[type].email){
+				if(checkValidEmail(email)){
+					const response = await this.props.client.query({
+						query: checkUniqueCouncilEmails,
+						variables: {
+							councilId: this.props.councilId,
+							emailList: [email]
 						}
-						if(this.state.representative.email === email){
-							error = translate.register_exists_email;
+					});
+
+					if(!response.data.checkUniqueCouncilEmails.success){
+						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+						data.duplicatedEmails.forEach(email => {
+							if(this.state.data.email === email){
+								error = translate.register_exists_email;
+							}
+							if(this.state.representative.email === email){
+								error = translate.register_exists_email;
+							}
+						})
+					}
+				}else{
+					error = 'Se requiere un email válido';//TRADUCCION
+				}
+				if(type === 'participant'){
+					this.setState({
+						errors: {
+							...this.state.errors,
+							email: error
+						}
+					})
+				}else{
+					this.setState({
+						representativeErrors: {
+							...this.state.errors,
+							email: error
 						}
 					})
 				}
-			}else{
-				error = 'Se requiere un email válido';//TRADUCCION
-			}
-
-			if(type === 'participant'){
-				this.setState({
-					errors: {
-						...this.state.errors,
-						email: error
-					}
-				})
-			}else{
-				this.setState({
-					representativeErrors: {
-						...this.state.errors,
-						email: error
-					}
-				})
 			}
 		}
 	}

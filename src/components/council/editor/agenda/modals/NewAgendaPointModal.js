@@ -63,9 +63,9 @@ class NewAgendaPointModal extends React.Component {
 
 			if (response) {
 				this.setState({ loadDraft: false });
+				this.close();
 				this.sending = false;
 				this.props.refetch();
-				this.close();
 			}
 		}
 	};
@@ -97,6 +97,7 @@ class NewAgendaPointModal extends React.Component {
 			loadDraft: false
 		});
 	};
+
 	loadDraft = draft => {
 
 		const correctedText = CBX.changeVariablesToValues(draft.text, {

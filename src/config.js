@@ -5,6 +5,14 @@ const LOCATION_URL =
 
 export const CLIENT_VERSION = '1.0.0';
 export const API_URL = LOCATION_URL;
+export const videoVersions = {
+	CMP: 'CMP',
+	OLD: 'OLD'
+}
+export const config = {
+	videoEnabled: true,
+	videoVersion: videoVersions.OLD //OLD - CMP
+}
 
 // POINT CLIENT TO VPS SERVER
 //const LOCATION_URL = process.env.REACT_APP_MODE === 'dev'? 'localhost:5000/graphql' : 'apicbx.councilbox.com';

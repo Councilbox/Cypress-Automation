@@ -4,13 +4,13 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
+	Scrollbar,
 	LoadMoreButton
 } from "../../../displayComponents";
-import { Card } from "material-ui";
+import { Paper } from "material-ui";
 import { liveParticipants, updateCredentialsSends } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import LiveParticipantEditor from "./participants/LiveParticipantEditor";
-import Scrollbar from "react-perfect-scrollbar";
 import AddGuestModal from "./AddGuestModal";
 import { toast } from "react-toastify";
 import ParticipantItem from "./participants/ParticipantItem";
@@ -23,6 +23,7 @@ class ParticipantsManager extends React.Component {
 		participantType: "all",
 		participantState: "all",
 		addGuest: false,
+		layout: 'full',
 		loadingMore: false,
 		refreshing: false,
 		tableType: "participantState",
@@ -161,6 +162,12 @@ class ParticipantsManager extends React.Component {
 		});
 	};
 
+	changeTableLayout = () => {
+		this.setState({
+			layout: this.state.layout === 'compact'? 'full' : 'compact'
+		});
+	}
+
 	refreshEmailStates = async () => {
 		this.setState({
 			refreshing: true
@@ -210,14 +217,13 @@ class ParticipantsManager extends React.Component {
 							overflow: "hidden"
 						}}
 					>
-						<Card
+						<Paper
 							style={{
 								height: "85vh",
 								overflowY: "hidden",
 								position: "relative"
 							}}
 						>
-							<Scrollbar option={{ suppressScrollX: true }}>
 								{this.state.editParticipant ? (
 									<LiveParticipantEditor
 										translate={translate}
@@ -225,14 +231,13 @@ class ParticipantsManager extends React.Component {
 										refetch={this.props.data.refetch}
 										id={this.state.editParticipant}
 										requestClose={() => {
-											//this.refresh();
 											this.setState({
 												editParticipant: undefined
 											});
 										}}
 									/>
 								) : (
-									<Grid style={{ paddingTop: "2em" }}>
+									<div style={{ paddingTop: "2em", height: '100%' }}>
 										<ParticipantStatsBanner
 											council={this.props.council}
 											translate={translate}
@@ -252,57 +257,49 @@ class ParticipantsManager extends React.Component {
 										) : this.props.data.liveParticipants
 											.list.length > 0 ? (
 											<React.Fragment>
-												{this.props.data.liveParticipants.list.map(
-													participant => (
-														<ParticipantItem
-															key={`participant_${
-																participant.id
-															}`}
-															participant={
-																participant
-															}
-															translate={
-																translate
-															}
-															mode={
-																this.state
-																	.tableType
-															}
-															editParticipant={
-																this
-																	.editParticipant
-															}
-															council={
-																this.props
-																	.council
-															}
-														/>
-													)
-												)}
-												{this.props.data
-													.liveParticipants.list
-													.length <
-													this.props.data
-														.liveParticipants
-														.total && (
-													<LoadMoreButton
-														onClick={this.loadMore}
-														loading={
-															this.state
-																.loadingMore
-														}
-													/>
-												)}
+												<div style={{height: 'calc(100% - 4em)', overflow: 'hidden'}}>
+													<Scrollbar>
+														<Grid spacing={0}>
+															{this.props.data.liveParticipants.list.map(
+																participant => (
+																	<ParticipantItem
+																		changeLayout={this.changeTableLayout}
+																		layout={this.state.layout}
+																		key={`participant_${participant.id}`}
+																		participant={participant}
+																		translate={translate}
+																		mode={this.state.tableType}
+																		editParticipant={this.editParticipant}
+																		council={this.props.council}
+																	/>
+																)
+															)}
+															{this.props.data
+																.liveParticipants.list
+																.length <
+																this.props.data
+																	.liveParticipants
+																	.total && (
+																<LoadMoreButton
+																	onClick={this.loadMore}
+																	loading={
+																		this.state
+																			.loadingMore
+																	}
+																/>
+															)}
+														</Grid>
+													</Scrollbar>
+												</div>
 											</React.Fragment>
 										) : (
 											<div style={{ marginLeft: "2em" }}>
 												{translate.no_results}
 											</div>
 										)}
-									</Grid>
+									</div>
 								)}
-							</Scrollbar>
-						</Card>
+						</Paper>
 					</GridItem>
 					{!this.state.editParticipant && (
 						<GridItem
@@ -315,6 +312,8 @@ class ParticipantsManager extends React.Component {
 								position: "relative"
 							}}
 						>
+							<div onClick={() => this.setState({layout: 'compact'})}>COMPACTO</div>
+							<div onClick={() => this.setState({layout: 'full'})}>FULL</div>
 							<FilterMenu
 								state={this.state}
 								translate={translate}

@@ -20,12 +20,12 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em' }) => {
                 tooltip = translate.confirmed_assistance;
                 icon = "user"
                 break;
-            
+
             case 6:
                 tooltip = translate.no_assist_assistance;
                 icon = "times"
                 break;
-            
+
             default:
                 tooltip = translate.not_confirmed_assistance;
                 icon = ""
@@ -56,7 +56,7 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em' }) => {
                     />
                 </Tooltip>
             }
-        </div>  
+        </div>
     )
 }
 

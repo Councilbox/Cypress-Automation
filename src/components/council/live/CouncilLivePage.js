@@ -13,12 +13,15 @@ import { showVideo } from "../../../utils/CBX";
 import { Tooltip, Badge } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
+import { config, videoVersions } from '../../../config';
+import { Collapse } from 'react-collapse';
+import CMPVideoIFrame from './video/CMPVideoIFrame';
 const minVideoWidth = 30;
 const minVideoHeight = "45vh";
 
 class CouncilLivePage extends React.Component {
 	state = {
-		participants: false,
+		participants: true,
 		confirmModal: false,
 		selectedPoint: 0,
 		wall: false,
@@ -114,6 +117,8 @@ class CouncilLivePage extends React.Component {
 	render() {
 		const { council } = this.props.data;
 		const { translate } = this.props;
+		console.log(config);
+		console.log(config.videoVersion === 'CMP');
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
@@ -277,13 +282,23 @@ class CouncilLivePage extends React.Component {
 										style={{
 											height: this.state.videoHeight,
 											width: "100%",
-											position: "relative"
+											overflow: 'hidden',
+											position: "relative",
+											transition: 'width 0.8s, height 0.6s',
+											transitionTimingFunction: 'ease'
 										}}
 									>
-										{/* <div
-											style={{height: '100%', width: '100%'}}
-											dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}
-										/> */}
+										{config.videoEnabled && config.videoVersion === videoVersions.CMP &&
+											<CMPVideoIFrame
+												council={council}
+											/>
+										}
+										{config.videoEnabled && config.videoVersion !== videoVersions.CMP &&
+											<div
+												style={{height: '100%', width: '100%'}}
+												dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}
+											/>
+										}
 
 										<Tooltip title={`ALT + T`}>
 											<div

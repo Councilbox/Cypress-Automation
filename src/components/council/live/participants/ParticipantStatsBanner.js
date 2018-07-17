@@ -61,6 +61,10 @@ class ParticipantStatsBanner extends React.Component {
 					md={12}
 					style={{
 						backgroundColor: "whiteSmoke",
+						width: '100%',
+						height: '3em',
+						borderBottom: '1px solid gainsboro',
+						borderTop: '1px solid gainsboro',
 						display: "flex",
 						flexDirection: "row",
 						alignItems: "center",

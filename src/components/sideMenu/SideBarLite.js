@@ -55,6 +55,26 @@ class Sidebar extends React.Component {
 				companyMenu: false,
 				selectedRoute: this.findActiveRoute(this.props.location.pathname)
 			});
+
+			this.routes =  [
+				{
+					path: `/company/${this.props.company.id}`,
+					sidebarName: 'Dashboard',
+					icon: 'dashboard'
+				},
+				{
+					path: `/company/${this.props.company.id}/councils/drafts`,
+					name: "council",
+					sidebarName: 'Reuniones',
+					icon: 'import_contacts'
+				},
+				{
+					path: `/company/${this.props.company.id}/signatures/drafts`,
+					name: "signature",
+					sidebarName: 'Firmas',
+					icon: 'border_color'
+				}
+			];
 		}
 	}
 

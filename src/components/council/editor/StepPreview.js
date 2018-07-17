@@ -38,6 +38,7 @@ class StepPreview extends React.Component {
 		conveneTestSuccess: false,
 		preConveneModal: false,
 		preConveneSuccess: false,
+		loading: false,
 		sendConveneWithoutNoticeModal: false,
 		conveneWithoutNoticeSuccess: false,
 		data: {
@@ -56,6 +57,9 @@ class StepPreview extends React.Component {
 	conveneWithNotice = async () => {
 		const { __typename, ...council } = this.props.data.council;
 		this.props.data.loading = true;
+		this.setState({
+			loading: true
+		});
 		const response = await this.props.conveneWithNotice({
 			variables: {
 				councilId: council.id,
@@ -64,6 +68,9 @@ class StepPreview extends React.Component {
 		});
 
 		if(!response.errors){
+			this.setState({
+				loading: false
+			});
 			if (response.data.conveneWithNotice.success) {
 				toast.success(this.props.translate.council_sended);
 				bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
@@ -73,6 +80,9 @@ class StepPreview extends React.Component {
 
 	sendConveneTest = async () => {
 		if (checkValidEmail(this.state.data.conveneTestEmail)) {
+			this.setState({
+				loading: true
+			});
 			const response = await this.props.sendConveneTest({
 				variables: {
 					councilId: this.props.data.council.id,
@@ -80,6 +90,12 @@ class StepPreview extends React.Component {
 					timezone: moment().utcOffset(),
 				}
 			});
+
+			if(response){
+				this.setState({
+					loading: false
+				});
+			}
 
 			if (!response.errors) {
 				this.setState({
@@ -121,11 +137,18 @@ class StepPreview extends React.Component {
 	};
 
 	sendPreConvene = async () => {
+		this.setState({
+			loading: true
+		});
 		const response = await this.props.sendPreConvene({
 			variables: {
 				councilId: this.props.data.council.id,
 				timezone: moment().utcOffset(),
 			}
+		});
+
+		this.setState({
+			loading: false
 		});
 
 		if (!response.errors) {
@@ -136,11 +159,18 @@ class StepPreview extends React.Component {
 	};
 
 	sendConveneWithoutNotice = async () => {
+		this.setState({
+			loading: true
+		});
 		const response = await this.props.conveneWithoutNotice({
 			variables: {
 				councilId: this.props.data.council.id,
 				timezone: moment().utcOffset(),
 			}
+		});
+
+		this.setState({
+			loading: false
 		});
 		if (!response.errors) {
 			this.setState({
@@ -241,7 +271,7 @@ class StepPreview extends React.Component {
 								<DropDownMenu
 									color="transparent"
 									Component={() =>
-										<Paper 
+										<Paper
 											elevation={1}
 											style={{
 												boxSizing: "border-box",
@@ -394,6 +424,7 @@ class StepPreview extends React.Component {
 				<AlertConfirm
 					requestClose={this.resetConveneTestValues}
 					open={this.state.conveneTestModal}
+					loadingAction={this.state.loading}
 					acceptAction={
 						this.state.conveneTestSuccess
 							? this.resetConveneTestValues
@@ -416,6 +447,7 @@ class StepPreview extends React.Component {
 						})
 					}
 					open={this.state.preConveneModal}
+					loadingAction={this.state.loading}
 					acceptAction={
 						this.state.preConveneSuccess
 							? () =>
@@ -442,6 +474,7 @@ class StepPreview extends React.Component {
 						})
 					}
 					open={this.state.sendConveneWithoutNoticeModal}
+					loadingAction={this.state.loading}
 					acceptAction={
 						this.state.sendWithoutNoticeSuccess
 							? () => {

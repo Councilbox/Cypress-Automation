@@ -23,17 +23,14 @@ import { isPresentVote } from "../../../../utils/CBX";
 
 class VotingsTable extends React.Component {
 
-    constructor(props) {
-		super(props);
-		this.state = {
-			open: false,
-			voteFilter: "all",
-			stateFilter: "all",
-			filterText: "",
-			page: 1,
-			agendaId: this.props.agenda.id
-		};
-	}
+    state = {
+		open: false,
+		voteFilter: "all",
+		stateFilter: "all",
+		filterText: "",
+		page: 1,
+		agendaId: this.props.agenda.id
+	};
 
     static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.agenda.id !== prevState.agendaId) {

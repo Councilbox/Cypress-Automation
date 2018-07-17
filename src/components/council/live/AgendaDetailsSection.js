@@ -13,11 +13,15 @@ import * as CBX from "../../../utils/CBX";
 import { AGENDA_TYPES } from "../../../constants";
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
+import { Collapse } from 'react-collapse';
+import { BasicButton, Grid, GridItem } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
 
 
 class AgendaDetailsSection extends React.Component {
 	state = {
-		openIndex: 1
+		openIndex: 1,
+		expanded: false
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -31,11 +35,13 @@ class AgendaDetailsSection extends React.Component {
 			);
 			if (openAgenda) {
 				this.setState({
-					openIndex: openAgenda.orderIndex
+					openIndex: openAgenda.orderIndex,
+					expanded: false
 				});
 			} else {
 				this.setState({
-					openIndex: 1
+					openIndex: 1,
+					expanded: false
 				});
 			}
 		}
@@ -62,47 +68,62 @@ class AgendaDetailsSection extends React.Component {
 					margin: 0,
 					paddingLeft: "1px",
 					overflow: "auto",
+					overflowX: 'hidden',
 					outline: 0
 				}}
 				tabIndex="0"
 				onKeyUp={this.handleKeyPress}
 			>
-				<div
-					className="row"
+				<Grid
 					style={{
 						width: "100%",
-						padding: "2em",
+						padding: "1.5em",
 					}}
 				>
-					<div className="col-lg-6 col-md-5 col-xs-5">
+					<GridItem xs={12} lg={6} md={6} style={{display: 'flex', minHeight: '8em', flexDirection: 'column', justifyContent: 'space-between'}}>
 						{agenda.agendaSubject}
 						<br />
-						{this.state.expanded?
-							<div
-								style={{
-									fontSize: "0.9em",
-									marginTop: "1em",
-									lineHeight: '1.2em',
-									width: '100%'
-								}}
-								onClick={() => this.setState({expanded: !this.state.expanded})}
-								dangerouslySetInnerHTML={{
-									__html: agenda.description
-								}}
-							/>
-						:
-							<div onClick={() => this.setState({expanded: !this.state.expanded})}>
-								<Truncate
-									lines={4}
-									dangerouslySetInnerHTML={{
-										__html: agenda.description
+						<Grid>
+							<GridItem xs={12} md={4} lg={4}>
+								<BasicButton
+									text={translate.description}
+									color={getSecondary()}
+									textStyle={{
+										textTransform: 'none',
+										fontWeight: '700',
+										color: 'white'
 									}}
+									onClick={() => this.setState({
+										expanded: !this.state.expanded
+									})}
 								/>
-							</div>
-								
-						}
-					</div>
-					<div className="col-lg-6 col-md-5 col-xs-5">
+							</GridItem>
+							<GridItem xs={12} md={4} lg={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+								{CBX.councilStarted(council) && !CBX.agendaClosed(agenda) && (
+									<ToggleAgendaButton
+										agenda={agenda}
+										translate={translate}
+										refetch={refetch}
+										active={
+											agenda.orderIndex ===
+											this.state.openIndex
+										}
+									/>
+								)}
+							</GridItem>
+							<GridItem xs={12} md={4} lg={4}>
+								{CBX.showAgendaVotingsToggle(council, agenda) && agenda.subjectType !== CBX.getActPointSubjectType() ? (
+									<ToggleVotingsButton
+										council={council}
+										agenda={agenda}
+										translate={translate}
+										refetch={refetch}
+									/>
+								) : <div/>}
+							</GridItem>
+						</Grid>
+					</GridItem>
+					<GridItem xs={12} lg={6} md={6}>
 						{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT?
 							<ActPointStateManager
 								council={council}
@@ -111,84 +132,72 @@ class AgendaDetailsSection extends React.Component {
 								refetch={this.props.refetch}
 							/>
 						:
-							<div className="row">
+							<Grid style={{paddingLeft: '1.2em'}}>
 								{CBX.councilStarted(council) &&
-									!CBX.agendaClosed(agenda) && (
-										<div
-											className="col-lg-6 col-md-12 col-xs-12"
-											style={{
-												marginTop: "0.6em",
-												display: "flex",
-												alignItems: "center",
-												justifyContent: "center"
-											}}
-										>
-											<ToggleAgendaButton
-												agenda={agenda}
-												translate={translate}
-												refetch={refetch}
-												active={
-													agenda.orderIndex ===
-													this.state.openIndex
-												}
-											/>
-										</div>
-									)}
-								{council.state === 20 || council.state === 30 ? (
-									!CBX.councilStarted(council) ? (
-										<div
-											className="col-lg-6 col-md-12 col-xs-12"
-											style={{ marginTop: "0.6em" }}
-										>
-											<StartCouncilButton
-												recount={this.props.recount}
-												council={council}
-												translate={translate}
-												participants={participants}
-												refetch={refetch}
-											/>
-										</div>
+									council.state === 20 || council.state === 30 ? (
+										!CBX.councilStarted(council) ? (
+											<GridItem
+												xs={12} lg={12} md={12}
+												style={{ marginTop: "0.6em" }}
+											>
+												<StartCouncilButton
+													recount={this.props.recount}
+													council={council}
+													translate={translate}
+													participants={participants}
+													refetch={refetch}
+												/>
+											</GridItem>
+										) : (
+											<GridItem
+												xs={12} lg={12} md={12}
+												style={{ marginTop: "0.6em" }}
+											>
+												<EndCouncilButton
+													council={council}
+													translate={translate}
+												/>
+											</GridItem>
+										)
 									) : (
-										<div
-											className="col-lg-6 col-md-12 col-xs-12"
-											style={{ marginTop: "0.6em" }}
-										>
-											<EndCouncilButton
-												council={council}
-												translate={translate}
-											/>
-										</div>
-									)
-								) : (
-									<OpenRoomButton
-										translate={translate}
-										council={council}
-										refetch={refetch}
-									/>
-								)}
-								{CBX.showAgendaVotingsToggle(council, agenda) && agenda.subjectType !== CBX.getActPointSubjectType() && (
-									<div
-										className="col-lg-6 col-md-12 col-xs-12"
-										style={{ marginTop: "0.6em" }}
-									>
-										<ToggleVotingsButton
-											council={council}
-											agenda={agenda}
+										<OpenRoomButton
 											translate={translate}
+											council={council}
 											refetch={refetch}
 										/>
-									</div>
-								)}
-							</div>
+									)
+								}
+							</Grid>
 						}
-					</div>
-				</div>
+					</GridItem>
+				</Grid>
+				<Grid>
+					<GridItem xs={12} lg={12} md={12} style={{ padding: this.state.expanded? '1em' : 0, paddingBottom: 0 }}>
+						<Collapse isOpened={this.state.expanded} style={{...(this.state.expanded? {border: '1px solid gainsboro'} : {})}}>
+							<div onClick={() => this.setState({expanded: !this.state.expanded})}>
+								<div
+									style={{
+										fontSize: "0.9em",
+										padding: '1em',
+										paddingBottom: '1.5em',
+										lineHeight: '1.2em',
+										width: '100%'
+									}}
+									onClick={() => this.setState({expanded: !this.state.expanded})}
+									dangerouslySetInnerHTML={{
+										__html: agenda.description
+									}}
+								/>
+							</div>
+						</Collapse>
+					</GridItem>
+				</Grid>
 				{agenda.subjectType !== CBX.getActPointSubjectType()?
 					<React.Fragment>
 						<div
 							style={{
 								width: "100%",
-								marginTop: "2em"
+								marginTop: "1em"
 							}}
 							className="withShadow"
 						>
@@ -280,3 +289,53 @@ class AgendaDetailsSection extends React.Component {
 }
 
 export default AgendaDetailsSection;
+
+/* this.state.expanded?
+	<div
+		style={{
+			fontSize: "0.9em",
+			marginTop: "1em",
+			lineHeight: '1.2em',
+			width: '100%'
+		}}
+		onClick={() => this.setState({expanded: !this.state.expanded})}
+		dangerouslySetInnerHTML={{
+			__html: agenda.description
+		}}
+	/>
+:
+	<div onClick={() => this.setState({expanded: !this.state.expanded})}>
+		<Truncate
+			lines={4}
+			dangerouslySetInnerHTML={{
+				__html: agenda.description
+			}}
+		/>
+	</div>
+
+							<Collapse isOpened={true}>
+							{this.state.expanded?
+								<div
+									style={{
+										fontSize: "0.9em",
+										marginTop: "1em",
+										lineHeight: '1.2em',
+										width: '100%'
+									}}
+									onClick={() => this.setState({expanded: !this.state.expanded})}
+									dangerouslySetInnerHTML={{
+										__html: agenda.description
+									}}
+								/>
+							:
+								<div onClick={() => this.setState({expanded: !this.state.expanded})}>
+									<Truncate
+										lines={4}
+										dangerouslySetInnerHTML={{
+											__html: agenda.description
+										}}
+									/>
+								</div>
+							}
+						</Collapse>
+ */

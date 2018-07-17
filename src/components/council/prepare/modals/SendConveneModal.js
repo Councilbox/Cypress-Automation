@@ -9,7 +9,7 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendConvene } from "../../../../queries";
 
-class RescheduleModal extends React.Component {
+class SendConveneModal extends React.Component {
 	state = {
 		success: "",
 		error: "",
@@ -88,6 +88,7 @@ class RescheduleModal extends React.Component {
 			<AlertConfirm
 				requestClose={this.close}
 				open={this.props.show}
+				loadingAction={this.state.sending}
 				acceptAction={
 					this.state.success ? () => this.close() : this.sendConvene
 				}
@@ -104,7 +105,7 @@ class RescheduleModal extends React.Component {
 
 export default graphql(sendConvene, {
 	name: "sendConvene"
-})(RescheduleModal);
+})(SendConveneModal);
 
 const SuccessMessage = ({ message }) => (
 	<div

@@ -11,6 +11,7 @@ class ReminderModal extends React.Component {
 	state = {
 		success: "",
 		error: "",
+		sending: false,
 		sendAgenda: false
 	};
 
@@ -23,6 +24,7 @@ class ReminderModal extends React.Component {
 			sendAgenda: false
 		});
 	};
+
 	sendReminder = async () => {
 		this.setState({
 			sending: true
@@ -58,15 +60,7 @@ class ReminderModal extends React.Component {
 
 		return (
 			<div>
-				{/* <Checkbox
-					label={translate.include_agenda_points}
-					value={this.state.sendAgenda}
-					onChange={(event, isInputChecked) =>
-						this.setState({
-							sendAgenda: isInputChecked
-						})
-					}
-				/> */}
+
 			</div>
 		);
 	}
@@ -78,6 +72,7 @@ class ReminderModal extends React.Component {
 			<AlertConfirm
 				requestClose={this.close}
 				open={this.props.show}
+				loadingAction={this.state.sending}
 				acceptAction={
 					this.state.success ? () => this.close() : this.sendReminder
 				}

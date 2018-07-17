@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	DateTimePicker,
@@ -13,7 +13,17 @@ import * as CBX from "../../../../utils/CBX";
 import { moment } from '../../../../containers/App';
 
 
-class RescheduleModal extends Component {
+class RescheduleModal extends React.Component {
+	state = {
+		success: "",
+		error: "",
+		sendAgenda: false,
+		dateStart: this.props.council.dateStart,
+		dateStart2NdCall: this.props.council.dateStart2NdCall || null,
+		error2NdCall: ""
+	};
+
+
 	close = () => {
 		this.props.requestClose();
 		this.setState({
@@ -24,6 +34,7 @@ class RescheduleModal extends Component {
 			error2NdCall: ""
 		});
 	};
+
 	rescheduleCouncil = async () => {
 		this.setState({
 			sending: true
@@ -51,12 +62,14 @@ class RescheduleModal extends Component {
 			});
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			...object,
 			unsavedChanges: true
 		});
 	};
+
 	updateDate = (
 		firstDate = this.state.dateStart,
 		secondDate = this.state.dateStart2NdCall
@@ -94,18 +107,6 @@ class RescheduleModal extends Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			error: "",
-			sendAgenda: false,
-			dateStart: this.props.council.dateStart,
-			dateStart2NdCall: this.props.council.dateStart2NdCall || null,
-			error2NdCall: ""
-		};
-	}
 
 	_renderReminderBody() {
 		const { translate, council } = this.props;
@@ -179,6 +180,7 @@ class RescheduleModal extends Component {
 		return (
 			<AlertConfirm
 				requestClose={this.close}
+				loadingAction={this.state.sending}
 				open={this.props.show}
 				{...(this.state.unsavedChanges
 					? {

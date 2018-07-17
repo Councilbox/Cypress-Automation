@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { compose, graphql } from "react-apollo";
 import {
 	CollapsibleSection,
@@ -11,7 +11,12 @@ import { addAgendaAttachment, removeAgendaAttachment } from "../../../queries";
 import { MAX_FILE_SIZE } from "../../../constants";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 
-class AgendaAttachmentsManager extends Component {
+class AgendaAttachmentsManager extends React.Component {
+	state = {
+		open: false,
+		loadingId: ""
+	};
+
 
 	handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
@@ -54,6 +59,7 @@ class AgendaAttachmentsManager extends Component {
 			}
 		};
 	};
+
 	removeAgendaAttachment = async attachmentID => {
 		this.setState({
 			loadingId: attachmentID
@@ -73,6 +79,7 @@ class AgendaAttachmentsManager extends Component {
 			}
 		}
 	};
+
 	_button = () => {
 		const { attachments } = this.props;
 
@@ -81,6 +88,7 @@ class AgendaAttachmentsManager extends Component {
 				style={{
 					height: LIVE_COLLAPSIBLE_HEIGHT,
 					display: "flex",
+					...(attachments.length === 0? {cursor: 'auto'} : {}),
 					justifyContent: "space-between",
 					alignItems: "center"
 				}}
@@ -113,13 +121,16 @@ class AgendaAttachmentsManager extends Component {
 						paddingRight: "2em"
 					}}
 				>
-					<Icon className="material-icons" style={{ color: "grey" }}>
-						keyboard_arrow_down
-					</Icon>
+					{attachments.length > 0 && (
+						<Icon className="material-icons" style={{ color: "grey" }}>
+							keyboard_arrow_down
+						</Icon>
+					)}
 				</div>
 			</div>
 		);
 	};
+
 	_section = () => {
 		const { attachments, translate } = this.props;
 
@@ -132,14 +143,6 @@ class AgendaAttachmentsManager extends Component {
 			/>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			open: false,
-			loadingId: ""
-		};
-	}
 
 	render() {
 		return (

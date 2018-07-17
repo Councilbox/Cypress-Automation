@@ -49,6 +49,8 @@ class AgendaSelector extends React.Component {
 									open={agenda.pointState === 1}
 									active={selected === index}
 									activeColor={getPrimary()}
+									voting={agenda.votingState === 1 && agenda.subjectType !== 0}
+									translate={translate}
 									secondaryColor={getSecondary()}
 									onClick={() => onClick(index)}
 								/>

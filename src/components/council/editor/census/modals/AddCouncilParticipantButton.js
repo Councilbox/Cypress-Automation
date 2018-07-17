@@ -9,6 +9,7 @@ import { getPrimary } from "../../../../../styles/colors";
 import { addParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
 import gql from 'graphql-tag';
 import { languages } from "../../../../../queries/masters";
+import { checkValidEmail } from "../../../../../utils/validation";
 import ParticipantForm from "../../../participants/ParticipantForm";
 import {
 	checkRequiredFieldsParticipant,
@@ -23,8 +24,11 @@ class AddCouncilParticipantButton extends React.Component {
 		data: { ...initialParticipant },
 		representative: { ...initialRepresentative },
 		errors: {},
+		loading: false,
 		representativeErrors: {}
 	};
+
+	timeout = null;
 
 	addParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
@@ -36,6 +40,9 @@ class AddCouncilParticipantButton extends React.Component {
 			: null;
 
 		if (!await this.checkRequiredFields()) {
+			this.setState({
+				loading: true
+			});
 			const response = await this.props.addParticipant({
 				variables: {
 					participant: {
@@ -46,7 +53,6 @@ class AddCouncilParticipantButton extends React.Component {
 				}
 			});
 
-			console.log(response);
 			if (!response.errors) {
 				this.props.refetch();
 				this.setState({
@@ -54,6 +60,7 @@ class AddCouncilParticipantButton extends React.Component {
 					data: { ...initialParticipant },
 					representative: { ...initialRepresentative },
 					errors: {},
+					loading: false,
 					representativeErrors: {}
 				});
 			}
@@ -143,6 +150,63 @@ class AddCouncilParticipantButton extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
+	checkEmail = async (email, type) => {
+		let error;
+		const { translate } = this.props;
+
+		if(email.length > 0){
+			if(!this.props[type] || email !== this.props[type].email){
+				if(checkValidEmail(email)){
+					const response = await this.props.client.query({
+						query: checkUniqueCouncilEmails,
+						variables: {
+							councilId: this.props.councilId,
+							emailList: [email]
+						}
+					});
+
+					if(!response.data.checkUniqueCouncilEmails.success){
+						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+						data.duplicatedEmails.forEach(email => {
+							if(this.state.data.email === email){
+								error = translate.register_exists_email;
+							}
+							if(this.state.representative.email === email){
+								error = translate.register_exists_email;
+							}
+						})
+					}
+				}else{
+					error = 'Se requiere un email válido';//TRADUCCION
+				}
+				if(type === 'participant'){
+					this.setState({
+						errors: {
+							...this.state.errors,
+							email: error
+						}
+					})
+				}else{
+					this.setState({
+						representativeErrors: {
+							...this.state.errors,
+							email: error
+						}
+					})
+				}
+			}
+		}
+	}
+
+	emailKeyUp = (event, type) => {
+		clearTimeout(this.timeout);
+		const value = event.target.value;
+		this.timeout = setTimeout(() => {
+			this.checkEmail(value, type);
+			clearTimeout(this.timeout);
+		}, 400);
+	}
+
 	_renderBody() {
 		const participant = this.state.data;
 		const errors = this.state.errors;
@@ -156,6 +220,7 @@ class AddCouncilParticipantButton extends React.Component {
 					participations={participations}
 					translate={translate}
 					languages={languages}
+					checkEmail={this.emailKeyUp}
 					errors={errors}
 					updateState={this.updateState}
 				/>
@@ -163,6 +228,7 @@ class AddCouncilParticipantButton extends React.Component {
 					translate={this.props.translate}
 					state={this.state.representative}
 					updateState={this.updateRepresentative}
+					checkEmail={this.emailKeyUp}
 					errors={this.state.representativeErrors}
 					languages={this.props.data.languages}
 				/>
@@ -194,9 +260,15 @@ class AddCouncilParticipantButton extends React.Component {
 					}}
 				/>
 				<AlertConfirm
-					requestClose={() => this.setState({ modal: false })}
+					requestClose={() => this.setState({
+						modal: false,
+						errors: {},
+						representativeErrors: {},
+						loading: false
+					})}
 					open={this.state.modal}
 					fullWidth={false}
+					loadingAction={this.state.loading}
 					acceptAction={this.addParticipant}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}

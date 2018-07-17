@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 
 import { AlertConfirm, Icon } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
@@ -7,15 +7,22 @@ import { cancelCouncil } from "../../../../queries/council";
 import { bHistory } from "../../../../containers/App";
 import { moment } from '../../../../containers/App';
 
+class CancelModal extends React.Component {
+	state = {
+		success: false,
+		sending: false,
+		error: ""
+	};
 
-class CancelModal extends Component {
 	close = () => {
 		this.props.requestClose();
 		bHistory.push("/");
 	};
+
 	hide = () => {
 		this.props.requestClose();
 	};
+
 	cancelCouncil = async () => {
 		this.setState({
 			sending: true
@@ -39,15 +46,6 @@ class CancelModal extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: false,
-			sending: false,
-			error: ""
-		};
-	}
-
 	_renderCancelBody() {
 		const { translate } = this.props;
 
@@ -59,7 +57,7 @@ class CancelModal extends Component {
 			return <SuccessMessage message={translate.canceled_council} />;
 		}
 
-		return <Fragment>{translate.cancel_council_desc}</Fragment>;
+		return <React.Fragment>{translate.cancel_council_desc}</React.Fragment>;
 	}
 
 	render() {
@@ -69,6 +67,7 @@ class CancelModal extends Component {
 			<AlertConfirm
 				requestClose={this.hide}
 				open={this.props.show}
+				loadingAction={this.state.sending}
 				acceptAction={
 					this.state.success ? () => this.close() : this.cancelCouncil
 				}

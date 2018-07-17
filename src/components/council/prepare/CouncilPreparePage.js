@@ -82,7 +82,7 @@ class CouncilPreparePage extends React.Component {
 						<DropDownMenu
 							color="transparent"
 							Component={() =>
-								<Paper 
+								<Paper
 									elevation={1}
 									style={{
 										boxSizing: "border-box",
@@ -242,7 +242,7 @@ class CouncilPreparePage extends React.Component {
 							text: translate.convene,
 							component: () => {
 								return (
-									<div style={{width: '100%', position: 'relative'}}>
+									<div style={{width: '100%', position: 'relative', padding: '1em'}}>
 										<Convene
 											council={council}
 											translate={translate}
