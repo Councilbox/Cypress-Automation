@@ -25,6 +25,7 @@ const DoubleIcon = ({
 				height: "2.5em",
 				display: "flex",
 				alignItems: "center",
+				width: '2.75em',
 				justifyContent: "center"
 			}}
 		>

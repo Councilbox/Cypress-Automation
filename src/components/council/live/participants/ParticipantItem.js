@@ -15,22 +15,21 @@ class ParticipantItem extends React.Component {
 	};
 
 	render(){
-		const { participant, translate, council, layout, changeLayout, editParticipant, mode } = this.props;
+		const { participant, translate, layout, editParticipant, mode } = this.props;
 		const secondary = getSecondary();
 
 		return (
 			<GridItem
-				xs={layout === 'compact'? 12 : 6}
-				md={layout === 'compact'? 12 : 6}
-				lg={layout === 'compact'? 12 : 6}
+				xs={layout !== 'squares'? 12 : 6}
+				md={layout !== 'squares'? 12 : 6}
+				lg={layout !== 'squares'? 12 : 6}
 			>
 				<Collapse isOpened={true}>
 					<div
 						style={{
 							width: '100%',
-							height: layout === 'compact'? '2em' : '4.5em'
+							height: layout === 'compact'? '1.8em' : layout === 'table' ? '2.5em' : '5em'
 						}}
-						onClick={changeLayout}
 					>
 						<MenuItem
 							style={{
@@ -51,7 +50,14 @@ class ParticipantItem extends React.Component {
 									mode={mode}
 								/>
 							}
-							{layout === 'full' &&
+							{layout === 'table' &&
+								<CompactItemLayout
+									participant={participant}
+									translate={translate}
+									mode={mode}
+								/>
+							}
+							{layout === 'squares' &&
 								<TabletItem
 									secondary={secondary}
 									participant={participant}
@@ -86,17 +92,17 @@ const CompactItemLayout = ({ participant, translate, mode }) => (
 			md={1}
 		>
 			{mode === "participantState" ? (
-				<div style={{fontSize: '0.6em', position: 'relative'}}>
+				<div style={{fontSize: '0.6em', position: 'relative', display: 'flex', justifyContent: 'center'}}>
 					<ParticipantStateIcon
 						participant={participant}
 						translate={translate}
 					/>
 				</div>
 			) : mode === "attendIntention" ? (
-				{/* <AttendIntentionIcon
+				<AttendIntentionIcon
 					translate={translate}
 					participant={participant}
-				/> */}
+				/>
 			) : participant.notifications.length > 0 ? (
 				<img
 					style={{
@@ -156,10 +162,10 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 					translate={translate}
 				/>
 			) : mode === "attendIntention" ? (
-				{/* <AttendIntentionIcon
+				<AttendIntentionIcon
 					translate={translate}
 					participant={participant}
-				/> */}
+				/>
 			) : (
 				"-"
 			)}

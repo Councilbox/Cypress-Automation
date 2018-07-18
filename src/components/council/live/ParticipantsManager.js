@@ -3,10 +3,13 @@ import ReactDOM from "react-dom";
 import {
 	Grid,
 	GridItem,
+	FilterButton,
 	LoadingSection,
 	Scrollbar,
 	LoadMoreButton
 } from "../../../displayComponents";
+import { getPrimary } from '../../../styles/colors';
+import FontAwesome from 'react-fontawesome';
 import { Paper } from "material-ui";
 import { liveParticipants, updateCredentialsSends } from "../../../queries";
 import { compose, graphql } from "react-apollo";
@@ -23,7 +26,7 @@ class ParticipantsManager extends React.Component {
 		participantType: "all",
 		participantState: "all",
 		addGuest: false,
-		layout: 'full',
+		layout: 'squares',
 		loadingMore: false,
 		refreshing: false,
 		tableType: "participantState",
@@ -191,6 +194,7 @@ class ParticipantsManager extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const columnSize = this.state.editParticipant ? 12 : 9;
+		const primary = getPrimary();
 
 		return (
 			<div
@@ -312,8 +316,47 @@ class ParticipantsManager extends React.Component {
 								position: "relative"
 							}}
 						>
-							<div onClick={() => this.setState({layout: 'compact'})}>COMPACTO</div>
-							<div onClick={() => this.setState({layout: 'full'})}>FULL</div>
+							<div style={{display: 'flex', flexDirection: 'row'}}>
+								<FilterButton
+									tooltip={'Tabla compacta'}//TRADUCCION
+									onClick={() => this.setState({layout: 'compact'})}
+									active={this.state.layout === "compact"}
+								>
+									<FontAwesome
+										name={"list"}
+										style={{
+											color: primary,
+											fontSize: "0.7em"
+										}}
+									/>
+								</FilterButton>
+								<FilterButton
+									tooltip={'Tabla'}//TRADUCCION
+									onClick={() => this.setState({layout: 'table'})}
+									active={this.state.layout === "table"}
+								>
+									<FontAwesome
+										name={"th-list"}
+										style={{
+											color: primary,
+											fontSize: "0.7em"
+										}}
+									/>
+								</FilterButton>
+								<FilterButton
+									tooltip={'Cuadros'}//TRADUCCION
+									onClick={() => this.setState({layout: 'squares'})}
+									active={this.state.layout === "squares"}
+								>
+									<FontAwesome
+										name={"th-large"}
+										style={{
+											color: primary,
+											fontSize: "0.7em"
+										}}
+									/>
+								</FilterButton>
+							</div>
 							<FilterMenu
 								state={this.state}
 								translate={translate}

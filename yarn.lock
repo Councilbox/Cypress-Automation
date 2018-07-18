@@ -7067,6 +7067,14 @@ react-collapsible@^2.0.4:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/react-collapsible/-/react-collapsible-2.1.0.tgz#6403b2645e7699f87d3e946c0abc0f055dceac62"
 
+react-custom-scrollbars-cbx@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/react-custom-scrollbars-cbx/-/react-custom-scrollbars-cbx-4.2.2.tgz#bfccd6081ffcd13721235ffbbcc51f3b54fefbef"
+  dependencies:
+    dom-css "^2.0.0"
+    prop-types "^15.5.10"
+    raf "^3.1.0"
+
 react-custom-scrollbars@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz#830fd9502927e97e8a78c2086813899b2a8b66db"

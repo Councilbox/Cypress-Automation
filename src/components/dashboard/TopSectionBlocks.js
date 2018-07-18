@@ -43,8 +43,8 @@ const TopSectionBlocks = ({ translate, company }) => (
 				icon="class"
 				text={translate.drafts}
 			/>
-		</GridItem>	
-		<GridItem xs={12} md={6} lg={3}>
+		</GridItem>
+		<GridItem xs={12} md={false} lg={3}>
 		</GridItem>
 
 		<GridItem xs={12} md={6} lg={3}>

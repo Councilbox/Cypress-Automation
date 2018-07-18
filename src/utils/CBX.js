@@ -282,6 +282,19 @@ export const getActPointSubjectType = () => {
 	return 2;
 };
 
+export const generateInitialDates = (statute) => {
+	const momentDate = moment(new Date().toISOString());
+	momentDate.add(statute.advanceNoticeDays, "days");
+	const dates = {
+		dateStart: momentDate.add(statute.advanceNoticeDays, "days").toISOString()
+	}
+	if(hasSecondCall(statute)){
+		console.log('error');
+	}
+
+	return dates;
+}
+
 export const showUserUniqueKeyMessage = council => {
 	return council.securityType === 1 || council.securityType === 2;
 };

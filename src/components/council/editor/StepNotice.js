@@ -56,12 +56,14 @@ class StepNotice extends React.Component {
 			return {
 				data: {
 					...nextProps.data.council,
-					...(CBX.hasSecondCall(nextProps.data.council.statute)? { 
+					//...(CBX.hasSecondCall(nextProps.data.council.statute)? {
+					...CBX.generateInitialDates(nextProps.data.council.statute),
+						/* dateStart: CBX.generate
 						dateStart2NdCall: CBX.addMinimunDistance(
 							new Date().toISOString(),
 							nextProps.data.council.statute
-						)
-					} : {}),
+						) */
+					//} : {}),
 					...prevState.data
 				}
 			}

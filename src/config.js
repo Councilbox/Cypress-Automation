@@ -10,8 +10,8 @@ export const videoVersions = {
 	OLD: 'OLD'
 }
 export const config = {
-	videoEnabled: true,
-	videoVersion: videoVersions.OLD //OLD - CMP
+	videoEnabled: false,
+	videoVersion: videoVersions.CMP //OLD - CMP
 }
 
 // POINT CLIENT TO VPS SERVER

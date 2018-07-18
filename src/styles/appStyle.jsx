@@ -11,7 +11,7 @@ const appStyle = theme => ({
 		height: "100vh"
 	},
 	mainPanel: {
-		[theme.breakpoints.up("md")]: {
+		[theme.breakpoints.up("xs")]: {
 			width: `calc(100% - ${drawerWidth}px)`
 		},
 		overflow: "hidden",
@@ -24,7 +24,7 @@ const appStyle = theme => ({
 	},
 	mainPanelLite: {
 		width: "100%",
-		[theme.breakpoints.up("xs")]: {
+		[theme.breakpoints.up("sm")]: {
 			width: `calc(100% - 5em)`
 		},
 		[theme.breakpoints.down("md")]: {
