@@ -93,7 +93,7 @@ class DelegateVoteModal extends React.Component {
 				<div>
 					ESTE PARTICIPANTE HA LLEGADO AL NÚMERO MÁXIMO DE VOTOS DELEGADOS.
 				</div>
-			)
+			)/*TRADUCCION*/
 		}
 
 		return (

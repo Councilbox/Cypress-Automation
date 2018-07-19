@@ -27,7 +27,7 @@ const appStyle = theme => ({
 		[theme.breakpoints.up("sm")]: {
 			width: `calc(100% - 5em)`
 		},
-		[theme.breakpoints.down("md")]: {
+		[theme.breakpoints.down("sm")]: {
 			width: '100%',
 			marginLeft: 0
 		},

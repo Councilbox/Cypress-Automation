@@ -18,6 +18,63 @@ import { provinces } from "../../../queries/masters";
 
 
 class PlaceModal extends React.Component {
+	state = {
+		data: {
+			...this.props.council
+		},
+		countries: [],
+		country_states: [],
+		remote: false,
+		errors: {
+			address: "",
+			city: "",
+			country: "",
+			zipcode: "",
+			region: ""
+		}
+	};
+
+	componentDidMount() {
+		if (this.props.council) {
+			this.setState({
+				data: {
+					council: this.props.council
+				}
+			});
+
+			if (this.props.countries && this.props.council.country) {
+				const country = this.props.countries.filter(
+					country => country.deno === this.props.council.country
+				)[0];
+				if (country) {
+					this.updateCountryStates(country.id);
+				}
+			}
+		}
+	}
+
+	static getDerivedStateFromProps(nextProps){
+		if(nextProps.council){
+			return ({
+				data: {
+					council: nextProps.council
+				}
+			});
+		}
+	}
+
+
+	componentDidUpdate(prevProps, prevState){
+		if(this.props.council.country !== prevProps.council.country){
+			const country = this.props.countries.filter(
+				country => country.deno === this.props.council.country
+			)[0];
+			if (country) {
+				this.updateCountryStates(country.id);
+			}
+		}
+	}
+
 	handleCountryChange = event => {
 		this.setState({
 			...this.state,
@@ -59,6 +116,7 @@ class PlaceModal extends React.Component {
 			}
 		});
 	};
+
 	saveAndClose = () => {
 		if (!this.checkRequiredFields()) {
 			if (!this.state.remote) {
@@ -110,66 +168,6 @@ class PlaceModal extends React.Component {
 			</React.Fragment>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				...this.props.council
-			},
-			countries: [],
-			country_states: [],
-			remote: false,
-			errors: {
-				address: "",
-				city: "",
-				country: "",
-				zipcode: "",
-				region: ""
-			}
-		};
-	}
-
-	componentDidMount() {
-		if (this.props.council) {
-			this.setState({
-				data: {
-					council: this.props.council
-				}
-			});
-
-			if (this.props.countries && this.props.council.country) {
-				const country = this.props.countries.filter(
-					country => country.deno === this.props.council.country
-				)[0];
-				if (country) {
-					this.updateCountryStates(country.id);
-				}
-			}
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.council) {
-			this.setState({
-				data: {
-					council: nextProps.council
-				}
-			});
-
-			if (
-				this.props.countries &&
-				nextProps.council.country !== this.state.data.council.country
-			) {
-				const country = this.props.countries.filter(
-					country => country.deno === nextProps.council.country
-				)[0];
-				if (country) {
-					this.updateCountryStates(country.id);
-				}
-			}
-		}
-	}
 
 	checkRequiredFields() {
 		const { translate } = this.props;

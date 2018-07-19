@@ -50,6 +50,8 @@ class MeetingLivePage extends React.Component {
 		return council.state === 20 && council.councilType === 0;
 	};
 
+	rand = Date.now();
+
 	render() {
 		const { translate, company } = this.props;
 
@@ -82,7 +84,7 @@ class MeetingLivePage extends React.Component {
 						allow="geolocation; microphone; camera"
 						scrolling="no"
 						className="temp_video"
-						src={`https://${this.state.url}?rand=${Date.now()}`}
+						src={`https://${this.state.url}?rand=${this.rand}`}
 						allowFullScreen="true"
 						style={{
 							border: "none !important"

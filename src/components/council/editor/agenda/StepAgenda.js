@@ -135,10 +135,6 @@ class StepAgenda extends React.Component {
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
-		if (this.props.data.loading) {
-			return <LoadingSection />;
-		}
-
 		const agendas = !!council.agendas? council.agendas : [];
 		let newDraft = agendas.find(item => item.id === saveAsDraftId);
 
@@ -152,45 +148,42 @@ class StepAgenda extends React.Component {
 				<EditorStepLayout
 					body={
 						<React.Fragment>
-							<CouncilHeader
-								council={council}
-								translate={translate}
-							/>
 							{agendas.length > 0 && (
 								<Grid>
-									<GridItem
-										xs={12}
-										lg={12}
-										md={12}
-										style={{
-											display: "flex",
-											flexDirection: "row"
-										}}
-									>
-										<NewAgendaPointModal
-											translate={translate}
-											agendas={council.agendas}
-											votingTypes={votingTypes}
-											majorityTypes={majorityTypes}
-											draftTypes={draftTypes}
-											statute={council.statute}
-											company={this.props.company}
-											council={council}
-											companyStatutes={this.props.data.companyStatutes}
-											refetch={this.props.data.refetch}
+									{this.props.data.loading?
+										<LoadingSection />
+									:
+										<GridItem
+											xs={12}
+											lg={12}
+											md={12}
+											style={{
+												display: "flex",
+												flexDirection: "row"
+											}}
 										>
-											<BasicButton
-												text={translate.add_agenda_point}
-												color={primary}
-												textStyle={buttonStyle}
-												icon={
-													<ButtonIcon type="add" color="white" />
-												}
-												textPosition="after"
-											/>
-										</NewAgendaPointModal>
-
-										{CBX.canReorderPoints(council) && (
+											<NewAgendaPointModal
+												translate={translate}
+												agendas={council.agendas}
+												votingTypes={votingTypes}
+												majorityTypes={majorityTypes}
+												draftTypes={draftTypes}
+												statute={council.statute}
+												company={this.props.company}
+												council={council}
+												companyStatutes={this.props.data.companyStatutes}
+												refetch={this.props.data.refetch}
+											>
+												<BasicButton
+													text={translate.add_agenda_point}
+													color={primary}
+													textStyle={buttonStyle}
+													icon={
+														<ButtonIcon type="add" color="white" />
+													}
+													textPosition="after"
+												/>
+											</NewAgendaPointModal>
 											<ReorderPointsModal
 												translate={translate}
 												agendas={council.agendas}
@@ -211,8 +204,8 @@ class StepAgenda extends React.Component {
 													textPosition="after"
 												/>
 											</ReorderPointsModal>
-										)}
-									</GridItem>
+										</GridItem>
+									}
 								</Grid>
 							)}
 

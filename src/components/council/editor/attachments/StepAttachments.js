@@ -157,10 +157,6 @@ class StepAttachments extends React.Component {
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						<CouncilHeader
-							council={!this.props.data.loading? this.props.data.council : { name: ''}}
-							translate={translate}
-						/>
 						<Grid>
 							<GridItem xs={12} md={10}>
 								<Typography

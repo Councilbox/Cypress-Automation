@@ -149,7 +149,7 @@ export const createCensus = gql`
 export const deleteCensus = gql`
 	mutation deleteCensus($censusId: Int!) {
 		deleteCensus(censusId: $censusId) {
-			id
+			success
 		}
 	}
 `;

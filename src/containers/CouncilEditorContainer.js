@@ -21,8 +21,7 @@ const CouncilEditorContainer = ({
 	return (
 		<CouncilEditorPage
 			translate={translate}
-			councilState={data.council.state}
-			step={+data.council.step}
+			council={data.council}
 			company={company}
 			updateStep={() => data.refetch}
 			councilID={match.params.id}

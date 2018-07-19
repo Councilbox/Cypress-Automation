@@ -225,6 +225,8 @@ export const deleteCouncil = gql`
 export const council = gql`
 	query Council($id: Int!) {
 		council(id: $id) {
+			id
+			name
 			state
 			step
 		}
@@ -349,6 +351,7 @@ export const councilStepOne = gql`
 			conveneText
 			name
 			street
+			selectedCensusId
 			fullVideoRecord
 			remoteCelebration
 			country
@@ -362,6 +365,7 @@ export const councilStepOne = gql`
 				existsAdvanceNoticeDays
 				existsSecondCall
 				id
+				censusId
 				minimumSeparationBetweenCall
 				statuteId
 				title
@@ -370,6 +374,7 @@ export const councilStepOne = gql`
 		companyStatutes(companyId: $companyId) {
 			id
 			title
+			censusId
 		}
 		countries {
 			id

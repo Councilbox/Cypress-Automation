@@ -17,6 +17,10 @@ const theme = createMuiTheme({
 		}
 	},
 
+	typography: {
+		fontFamily: ['Lato', 'Roboto', 'Helvetica']
+	},
+
 	overrides: {
 		MuiDialog: {
 			root: {

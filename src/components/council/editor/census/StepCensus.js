@@ -161,10 +161,6 @@ class StepCensus extends React.Component {
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
-		if (loading) {
-			return <LoadingSection />;
-		}
-
 		if (error) {
 			return (
 				<div
@@ -183,26 +179,26 @@ class StepCensus extends React.Component {
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						<CouncilHeader
-							translate={translate}
-							council={council}
-						/>
-						<ParticipantsTable
-							translate={translate}
-							council={council}
-							handleCensusChange={this.handleCensusChange}
-							reloadCensus={this.reloadCensus}
-							showAddModal={() =>
-								this.setState({ addParticipant: true })
-							}
-							censuses={this.props.data.censuses}
-							editable={true}
-							totalVotes={this.props.data.councilTotalVotes}
-							totalSocialCapital={
-								this.props.data.councilSocialCapital
-							}
-							participations={CBX.hasParticipations(council)}
-						/>
+						{loading?
+							<LoadingSection />
+						:
+							<ParticipantsTable
+								translate={translate}
+								council={council}
+								handleCensusChange={this.handleCensusChange}
+								reloadCensus={this.reloadCensus}
+								showAddModal={() =>
+									this.setState({ addParticipant: true })
+								}
+								censuses={this.props.data.censuses}
+								editable={true}
+								totalVotes={this.props.data.councilTotalVotes}
+								totalSocialCapital={
+									this.props.data.councilSocialCapital
+								}
+								participations={CBX.hasParticipations(council)}
+							/>
+						}
 						<Dialog
 							disableBackdropClick={false}
 							open={this.state.censusChangeAlert}

@@ -13,20 +13,20 @@ import EditorStepper from './EditorStepper';
 
 class CouncilEditorPage extends React.Component {
 	state = {
-		step: this.props.step,
-		actualStep: this.props.step
+		step: this.props.council.step,
+		actualStep: this.props.council.step
 	};
 
 	componentDidMount() {
-		if (this.state.step !== this.props.step) {
+		if (this.state.step !== this.props.council.step) {
 			this.setState({
-				step: this.props.step
+				step: this.props.council.step
 			});
 		}
 		checkCouncilState(
 			{
-				state: this.props.councilState,
-				id: this.props.councilID
+				state: this.props.council.state,
+				id: this.props.council.id
 			},
 			this.props.company,
 			bHistory,
@@ -40,7 +40,7 @@ class CouncilEditorPage extends React.Component {
 	};
 
 	goToPage = page => {
-		if (page < this.props.step) {
+		if (page < +this.props.council.step) {
 			this.setState({
 				step: page
 			});
@@ -72,7 +72,7 @@ class CouncilEditorPage extends React.Component {
 		const { translate } = this.props;
 
 		return (
-			<CardPageLayout title={translate.dashboard_new} disableScroll={true}>
+			<CardPageLayout title={!!this.props.council.name? `${this.props.council.name}` : translate.dashboard_new} disableScroll={true}>
 				<div
 					style={{
 						width: "100%",
@@ -92,7 +92,7 @@ class CouncilEditorPage extends React.Component {
 						<CouncilEditorNotice
 							nextStep={this.nextStep}
 							actualStep={this.state.actualStep}
-							councilID={this.props.councilID}
+							councilID={this.props.council.id}
 							company={this.props.company}
 							translate={translate}
 						/>
@@ -102,7 +102,7 @@ class CouncilEditorPage extends React.Component {
 							nextStep={this.nextStep}
 							previousStep={this.previousStep}
 							actualStep={this.state.actualStep}
-							councilID={this.props.councilID}
+							councilID={this.props.council.id}
 							companyID={this.props.company.id}
 							translate={translate}
 						/>
@@ -112,7 +112,7 @@ class CouncilEditorPage extends React.Component {
 							nextStep={this.nextStep}
 							previousStep={this.previousStep}
 							actualStep={this.state.actualStep}
-							councilID={this.props.councilID}
+							councilID={this.props.council.id}
 							company={this.props.company}
 							translate={translate}
 						/>
@@ -122,7 +122,7 @@ class CouncilEditorPage extends React.Component {
 							nextStep={this.nextStep}
 							previousStep={this.previousStep}
 							actualStep={this.state.actualStep}
-							councilID={this.props.councilID}
+							councilID={this.props.council.id}
 							companyID={this.props.company.id}
 							translate={translate}
 						/>
@@ -132,7 +132,7 @@ class CouncilEditorPage extends React.Component {
 							nextStep={this.nextStep}
 							previousStep={this.previousStep}
 							actualStep={this.state.actualStep}
-							councilID={this.props.councilID}
+							councilID={this.props.council.id}
 							companyID={this.props.company.id}
 							translate={translate}
 						/>
@@ -142,7 +142,7 @@ class CouncilEditorPage extends React.Component {
 							nextStep={this.nextStep}
 							previousStep={this.previousStep}
 							actualStep={this.state.actualStep}
-							councilID={this.props.councilID}
+							councilID={this.props.council.id}
 							company={this.props.company}
 							translate={translate}
 						/>

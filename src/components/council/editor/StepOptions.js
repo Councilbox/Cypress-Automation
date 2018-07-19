@@ -96,7 +96,7 @@ class StepOptions extends React.Component {
 	_renderNumberInput() {
 		const { council } = this.state.data;
 		return (
-			<div className="row">
+			<div className="row" style={{padding: '1.1em'}}>
 				<div style={{ width: "3em" }}>
 					<TextInput
 						type={"number"}
@@ -223,7 +223,6 @@ class StepOptions extends React.Component {
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						<CouncilHeader council={council} translate={translate} />
 						<Typography variant="title" style={{ fontSize: '1.1rem' }}>{translate.new_options}</Typography>
 
 						<Typography variant="subheading" style={{ marginTop: "1em" }}>

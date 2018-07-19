@@ -284,15 +284,33 @@ export const getActPointSubjectType = () => {
 
 export const generateInitialDates = (statute) => {
 	const momentDate = moment(new Date().toISOString());
-	momentDate.add(statute.advanceNoticeDays, "days");
 	const dates = {
 		dateStart: momentDate.add(statute.advanceNoticeDays, "days").toISOString()
 	}
 	if(hasSecondCall(statute)){
-		console.log('error');
+		dates.dateStart2NdCall = addMinimunDistance(dates.dateStart, statute);
 	}
 
 	return dates;
+}
+
+
+
+export const checkMinimunAdvance = (date, statute) => {
+	if(statute.existsAdvanceNoticeDays){
+		const firstDate = moment(
+			new Date(date).toISOString(),
+			moment.ISO_8601
+		);
+		const secondDate = moment(
+			new Date().toISOString(),
+			moment.ISO_8601
+		);
+		const difference = firstDate.diff(secondDate, "days");
+		return difference >= statute.advanceNoticeDays;
+	}
+
+	return false;
 }
 
 export const showUserUniqueKeyMessage = council => {

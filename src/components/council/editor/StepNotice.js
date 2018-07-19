@@ -1,6 +1,7 @@
 import React from "react";
 import { MenuItem } from "material-ui";
 import {
+	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
 	DateTimePicker,
@@ -12,6 +13,7 @@ import {
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
+import gql from 'graphql-tag';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";
@@ -26,10 +28,9 @@ class StepNotice extends React.Component {
 
 	state = {
 		placeModal: false,
+		changeCensusModal: false,
 		alert: false,
-		data: {
-			dateStart: new Date().toISOString()
-		},
+		data: {},
 		errors: {
 			name: "",
 			dateStart: "",
@@ -43,28 +44,40 @@ class StepNotice extends React.Component {
 		}
 	};
 
+	baseState = this.state;
+
 	editor = null;
 
 
 	componentDidMount() {
-		this.props.data.loading = true;
 		this.props.data.refetch();
+	}
+
+	componentWillUnmount(){
+		this.setState(this.baseState);
+	}
+
+ 	componentDidUpdate(prevProps, prevState){
+		if(!this.props.data.loading){
+			if(prevState.data.dateStart !== this.state.data.dateStart){
+				if(!CBX.checkMinimunAdvance(this.state.data.dateStart, this.props.data.council.statute)){
+					this.updateError({
+						dateStart: this.props.translate.new_statutes_warning
+						.replace('{{council_prototype}}', this.props.translate[this.props.data.council.statute.title])
+						.replace('{{days}}', this.props.data.council.statute.advanceNoticeDays)
+					});
+				}
+			}
+		}
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState){
 		if(!nextProps.data.loading){
+			const council = nextProps.data.council;
 			return {
 				data: {
 					...nextProps.data.council,
-					//...(CBX.hasSecondCall(nextProps.data.council.statute)? {
-					...CBX.generateInitialDates(nextProps.data.council.statute),
-						/* dateStart: CBX.generate
-						dateStart2NdCall: CBX.addMinimunDistance(
-							new Date().toISOString(),
-							nextProps.data.council.statute
-						) */
-					//} : {}),
-					...prevState.data
+					...(!council.dateStart || !council.dateStart2NdCall? CBX.generateInitialDates(nextProps.data.council.statute) : {}),
 				}
 			}
 		}
@@ -120,6 +133,20 @@ class StepNotice extends React.Component {
 		});
 	};
 
+	changeCensus = async () => {
+		const response = await this.props.changeCensus({
+			variables: {
+				censusId: this.props.data.council.statute.censusId,
+				councilId: this.props.data.council.id
+			}
+		});
+		if (response) {
+			this.setState({
+				changeCensusModal: false
+			});
+		}
+	}
+
 	changeStatute = async statuteId => {
 		const response = await this.props.changeStatute({
 			variables: {
@@ -129,11 +156,11 @@ class StepNotice extends React.Component {
 		});
 
 		if (response) {
-			console.log(response);
 			this.loadDraft({
 				text: response.data.changeCouncilStatute.conveneHeader
 			});
 			this.props.data.refetch();
+			this.checkAssociatedCensus(statuteId);
 			this.updateDate();
 		}
 	};
@@ -143,19 +170,29 @@ class StepNotice extends React.Component {
 		secondDate = this.state.data.dateStart2NdCall
 	) => {
 		const { translate } = this.props;
+		const statute = this.props.data.council.statute;
+		const errors = {
+			dateStart: '',
+			dateStart2NdCall: ''
+		};
+
 		this.updateState({
 			dateStart: firstDate,
 			dateStart2NdCall: secondDate
 		});
+
+		if(!CBX.checkMinimunAdvance(firstDate, statute)){
+			errors.dateStart = translate.new_statutes_warning
+				.replace('{{council_prototype}}', translate[statute.title] || statute.title)
+				.replace('{{days}}', statute.advanceNoticeDays)
+		}
 		if (!CBX.checkSecondDateAfterFirst(firstDate, secondDate)) {
-			this.updateError({
-				dateStart2NdCall: translate["2nd_call_date_changed"]
-			});
+			errors.dateStart2NdCall = translate["2nd_call_date_changed"];
 			this.updateState({
 				dateStart: firstDate,
 				dateStart2NdCall: CBX.addMinimunDistance(
 					firstDate,
-					this.props.data.council.statute
+					statute
 				)
 			});
 		} else {
@@ -163,22 +200,14 @@ class StepNotice extends React.Component {
 				!CBX.checkMinimunDistanceBetweenCalls(
 					firstDate,
 					secondDate,
-					this.props.data.council.statute
+					statute
 				)
 			) {
-				this.updateError({
-					dateStart2NdCall: translate.new_statutes_hours_warning.replace(
-						"{{hours}}",
-						this.props.data.council.statute
-							.minimumSeparationBetweenCall
-					)
-				});
-			} else {
-				this.updateError({
-					dateStart2NdCall: ''
-				});
+				errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
 			}
 		}
+
+		this.updateError(errors);
 	};
 
 	loadDraft = draft => {
@@ -231,6 +260,17 @@ class StepNotice extends React.Component {
 		return hasError;
 	}
 
+	checkAssociatedCensus = (statuteId) => {
+		const statute = this.props.data.companyStatutes.find(statute => statute.id === statuteId);
+		console.log(statute);
+		if(!!statute.censusId){
+			this.setState({
+				changeCensusModal: true
+			});
+		}
+
+	}
+
 	render() {
 		const { translate, company } = this.props;
 		const { loading, companyStatutes, draftTypes } = this.props.data;
@@ -239,7 +279,7 @@ class StepNotice extends React.Component {
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
-		if (loading) {
+		if (!this.props.data.council && !this.props.data.errors) {
 			return (
 				<div
 					style={{
@@ -273,10 +313,10 @@ class StepNotice extends React.Component {
 										this.changeStatute(+event.target.value)
 									}
 								>
-									{companyStatutes.map(statute => {
+									{companyStatutes.map((statute, index) => {
 										return (
 											<MenuItem
-												value={+statute.id}
+												value={statute.id}
 												key={`statutes_${statute.id}`}
 											>
 												{translate[statute.title] ||
@@ -469,6 +509,15 @@ class StepNotice extends React.Component {
 					saveAndClose={this.savePlaceAndClose}
 					council={council}
 				/>
+				<AlertConfirm
+					requestClose={() => this.setState({ changeCensusModal: false })}
+					open={this.state.changeCensusModal}
+					acceptAction={this.changeCensus}
+					buttonAccept={translate.want_census_change}
+					buttonCancel={translate.cancel}
+					bodyText={<div>{translate.census_change_statute}</div>}
+					title={translate.census_change}
+				/>
 				<ErrorAlert
 					title={translate.error}
 					bodyText={translate.check_form}
@@ -481,6 +530,14 @@ class StepNotice extends React.Component {
 	}
 }
 
+const changeCensus = gql`
+	mutation changeCensus($councilId: Int!, $censusId: Int!) {
+		changeCensus(councilId: $councilId, censusId: $censusId){
+			success
+		}
+	}
+`;
+
 export default compose(
 	graphql(councilStepOne, {
 		name: "data",
@@ -491,6 +548,9 @@ export default compose(
 			},
 			notifyOnNetworkStatusChange: true
 		})
+	}),
+	graphql(changeCensus, {
+		name: 'changeCensus'
 	}),
 
 	graphql(changeStatute, {

@@ -210,53 +210,56 @@ class AgendaDetailsSection extends React.Component {
 									/>
 								</div>
 								{CBX.councilStarted(council) &&
-									CBX.agendaVotingsOpened(agenda) && (
-										<React.Fragment>
-											{/*<div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
-												<RecountSection
-												agenda={agenda}
-												council={council}
-												majorities={this.props.majorities}
-												translate={translate}
-												councilID={this.props.council.id}
-												refetch={this.props.refetch}
-												agendaID={agenda.id}
+									<React.Fragment>
+										{CBX.councilHasComments(council.statute) && !CBX.agendaPointNotOpened(agenda) && (
+											<div
+												style={{
+													width: "100%",
+													marginTop: "0.4em"
+												}}
+												className="withShadow"
+											>
+												<Comments
+													agenda={agenda}
+													council={council}
+													translate={translate}
 												/>
-												</div>*/
-											}
-											{CBX.councilHasComments(council.statute) && (
-												<div
-													style={{
-														width: "100%",
-														marginTop: "0.4em"
-													}}
-													className="withShadow"
-												>
-													<Comments
-														agenda={agenda}
-														council={council}
-														translate={translate}
+											</div>
+										)}
+										{CBX.agendaVotingsOpened(agenda) && (
+											<React.Fragment>
+												{/*<div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
+													<RecountSection
+													agenda={agenda}
+													council={council}
+													majorities={this.props.majorities}
+													translate={translate}
+													councilID={this.props.council.id}
+													refetch={this.props.refetch}
+													agendaID={agenda.id}
 													/>
-												</div>
-											)}
-											{CBX.showAgendaVotingsTable(agenda) &&
-												<div
-													style={{
-														width: "100%",
-														marginTop: "0.4em"
-													}}
-													className="withShadow"
-												>
-													<Votings
-														ref={votings => (this.votings = votings)}
-														agenda={agenda}
-														majorities={this.props.data.majorities}
-														translate={translate}
-													/>
-												</div>
-											}
-										</React.Fragment>
-									)}
+													</div>*/
+												}
+												{CBX.showAgendaVotingsTable(agenda) &&
+													<div
+														style={{
+															width: "100%",
+															marginTop: "0.4em"
+														}}
+														className="withShadow"
+													>
+														<Votings
+															ref={votings => (this.votings = votings)}
+															agenda={agenda}
+															majorities={this.props.data.majorities}
+															translate={translate}
+														/>
+													</div>
+												}
+											</React.Fragment>
+										)}
+									</React.Fragment>
+								}
 								<div
 									style={{
 										width: "100%",
