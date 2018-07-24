@@ -7,6 +7,7 @@ import { bHistory } from '../../containers/App';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
+import logo from "../../assets/img/logo-icono.png";
 
 
 class ActiveUserPage extends React.Component {
@@ -106,6 +107,7 @@ class ActiveUserPage extends React.Component {
                             <LoadingSection />
                         :
                             <React.Fragment>
+                                <img src={logo} style={{height: '6em', marginBottom: '0.6em'}} alt="councibox-icon" />
                                 {this.state.error &&
                                     this.errorWrapper()
                                 }

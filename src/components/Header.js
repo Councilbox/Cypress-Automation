@@ -9,7 +9,8 @@ import { Icon, UnsavedChangesModal } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
-import { Tooltip, Paper } from "material-ui";
+import Tooltip from "material-ui/Tooltip";
+import Paper from 'material-ui/Paper';
 import FontAwesome from 'react-fontawesome';
 
 class Header extends React.PureComponent {

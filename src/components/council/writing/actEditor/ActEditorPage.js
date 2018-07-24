@@ -60,21 +60,20 @@ class ActEditorPage extends React.Component {
                     );
                 }
             })
-        }
-
-        if(this.props.confirmed){
-            tabs.push({
-                text: translate.sending_the_minutes,
-                component: () => {
-                    return (
-                        <SendActPage
-                            council={council}
-                            translate={translate}
-                            refetch={this.props.refetch}
-                        />
-                    );
-                }
-            });
+            if(this.props.confirmed){
+                tabs.push({
+                    text: translate.sending_the_minutes,
+                    component: () => {
+                        return (
+                            <SendActPage
+                                council={council}
+                                translate={translate}
+                                refetch={this.props.refetch}
+                            />
+                        );
+                    }
+                });
+            }
         }
 
         tabs = [...tabs, 

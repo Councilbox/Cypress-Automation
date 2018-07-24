@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import AppRouter from "./AppRouter";
 import { Route, Router, Switch } from "react-router-dom";
-import CouncilLiveContainer from "./CouncilLiveContainer";
-import MeetingLivePage from "../components/meeting/live/MeetingLivePage";
-import MeetingCreateContainer from '../components/meeting/MeetingCreateContainer';
 import createHistory from "history/createBrowserHistory";
+import LoadingMainApp from '../displayComponents/LoadingMainApp';
+import Loadable from 'react-loadable';
 import configureStore from "../store/store";
 import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
@@ -21,14 +20,31 @@ import { API_URL, CLIENT_VERSION } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
 import 'antd/dist/antd.css';
-import CouncilLiveTestContainer from './CouncilLiveTestContainer';
 import moment from "moment/min/moment-with-locales";
-moment.locale("es");
 export { moment as moment };
+
 
 const httpLink = new HttpLink({
 	uri: API_URL
 });
+
+const CouncilLiveContainer = Loadable({
+	loader: () => import('./CouncilLiveContainer'),
+	loading: LoadingMainApp
+});
+const MeetingLivePage = Loadable({
+	loader: () => import('../components/meeting/live/MeetingLivePage'),
+	loading: LoadingMainApp
+});
+const MeetingCreateContainer = Loadable({
+	loader: () => import('../components/meeting/MeetingCreateContainer'),
+	loading: LoadingMainApp
+});
+const CouncilLiveTestContainer = Loadable({
+	loader: () => import('./CouncilLiveTestContainer'),
+	loading: LoadingMainApp
+});
+
 
 const authLink = setContext((_, { headers }) => {
 	const token = sessionStorage.getItem("token");

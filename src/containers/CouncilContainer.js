@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import TabsScreen from "../displayComponents/TabsScreen";
+import { TabsScreen, FabButton, Icon } from "../displayComponents";
+import { Tooltip } from 'material-ui';
 import Councils from "../components/dashboard/Councils";
 import { lightGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
+import { bHistory } from '../containers/App';
 
 const CouncilContainer = ({ match, company, translate, windowSize }) => {
 	const tabsIndex = {
@@ -126,6 +128,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 				width: '100%',
 				height: 'calc(100vh - 3em)',
 				padding: '2em',
+				position: 'relative',
 				...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
 				backgroundColor: lightGrey
 			}}
@@ -137,6 +140,29 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 				linked={true}
 				selected={match.params.section}
 			/>
+			<div
+				style={{
+					position: 'absolute',
+					right: '5%',
+					bottom: '5%'
+				}}
+			>
+				<Tooltip title={`${translate.dashboard_new}`}>
+					<div style={{ marginBottom: "0.3em" }}>
+						<FabButton
+							icon={
+								<Icon className="material-icons">
+									add
+								</Icon>
+							}
+							updateState={this.updateState}
+							onClick={() =>
+								bHistory.push(`/company/${company.id}/council/new`)
+							}
+						/>
+					</div>
+				</Tooltip>
+			</div>
 		</div>
 	);
 };

@@ -7,8 +7,10 @@ const SectionTitle = ({ icon, title, subtitle }) => (
 		style={{
 			display: "flex",
 			flexDirection: "row",
+			height: '8em',
+			paddingLeft: '2em',
+			borderBottom: '1px solid gainsboro',
 			alignItems: "center",
-			marginBottom: "0.5em"
 		}}
 	>
 		<FontAwesome

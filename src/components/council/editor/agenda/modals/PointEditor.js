@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { graphql } from "react-apollo";
 import {
 	AlertConfirm,
@@ -17,7 +17,34 @@ import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 
-class PointEditor extends Component {
+class PointEditor extends React.Component {
+
+	state = {
+		data: {
+			agendaSubject: "",
+			subjectType: "",
+			description: ""
+		},
+		loadDraft: false,
+		errors: {
+			agendaSubject: "",
+			subjectType: "",
+			description: "",
+			majorityType: "",
+			majority: "",
+			majorityDivider: ""
+		}
+	};
+
+	componentWillReceiveProps(nextProps) {
+		this.setState({
+			data: {
+				...nextProps.agenda
+			}
+		});
+	}
+
+
 	loadDraft = draft => {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
@@ -33,6 +60,7 @@ class PointEditor extends Component {
 		});
 		this.editor.setValue(correctedText);
 	};
+
 	saveChanges = async () => {
 		if (!this.checkRequiredFields()) {
 			const { __typename, ...data } = this.state.data;
@@ -49,6 +77,7 @@ class PointEditor extends Component {
 			}
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -58,6 +87,7 @@ class PointEditor extends Component {
 			loadDraft: false
 		});
 	};
+
 	_renderModalBody = () => {
 		const secondary = getSecondary();
 		const {
@@ -237,34 +267,6 @@ class PointEditor extends Component {
 			</div>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {
-				agendaSubject: "",
-				subjectType: "",
-				description: ""
-			},
-			loadDraft: false,
-			errors: {
-				agendaSubject: "",
-				subjectType: "",
-				description: "",
-				majorityType: "",
-				majority: "",
-				majorityDivider: ""
-			}
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		this.setState({
-			data: {
-				...nextProps.agenda
-			}
-		});
-	}
 
 	checkRequiredFields() {
 		const { translate } = this.props;

@@ -4,7 +4,7 @@ import AgendaSelector from "./AgendaSelector";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { agendaManager } from "../../../queries";
-import { LoadingSection } from "../../../displayComponents";
+import { LoadingSection, Scrollbar } from "../../../displayComponents";
 
 class AgendaManager extends React.Component {
 
@@ -17,6 +17,14 @@ class AgendaManager extends React.Component {
 			selectedPoint: index
 		});
 	};
+
+	nextPoint = () => {
+		if(this.state.selectedPoint < this.props.council.agendas.length - 1){
+			this.setState({
+				selectedPoint: this.state.selectedPoint + 1
+			});
+		}
+	}
 
 	handleKeyPress = event => {
 		const key = event.nativeEvent;
@@ -60,18 +68,20 @@ class AgendaManager extends React.Component {
 					}}
 					onClick={this.props.openMenu}
 				>
-					<AgendaSelector
-						agendas={agendas}
-						company={company}
-						council={council}
-						votingTypes={this.props.data.votingTypes}
-						companyStatutes={this.props.data.companyStatutes}
-						selected={this.state.selectedPoint}
-						onClick={this.changeSelectedPoint}
-						translate={translate}
-						councilID={council.id}
-						refetch={this.props.refetch}
-					/>
+					<Scrollbar>
+						<AgendaSelector
+							agendas={agendas}
+							company={company}
+							council={council}
+							votingTypes={this.props.data.votingTypes}
+							companyStatutes={this.props.data.companyStatutes}
+							selected={this.state.selectedPoint}
+							onClick={this.changeSelectedPoint}
+							translate={translate}
+							councilID={council.id}
+							refetch={this.props.refetch}
+						/>
+					</Scrollbar>
 				</Card>
 			);
 		}
@@ -93,19 +103,21 @@ class AgendaManager extends React.Component {
 						backgroundColor: "white"
 					}}
 				>
-					<AgendaSelector
-						agendas={agendas}
-						company={company}
-						council={council}
-						votingTypes={this.props.data.votingTypes}
-						companyStatutes={this.props.data.companyStatutes}
-						majorityTypes={this.props.data.majorityTypes}
-						selected={this.state.selectedPoint}
-						onClick={this.changeSelectedPoint}
-						translate={translate}
-						councilID={council.id}
-						refetch={this.props.refetch}
-					/>
+					<Scrollbar>
+						<AgendaSelector
+							agendas={agendas}
+							company={company}
+							council={council}
+							votingTypes={this.props.data.votingTypes}
+							companyStatutes={this.props.data.companyStatutes}
+							majorityTypes={this.props.data.majorityTypes}
+							selected={this.state.selectedPoint}
+							onClick={this.changeSelectedPoint}
+							translate={translate}
+							councilID={council.id}
+							refetch={this.props.refetch}
+						/>
+					</Scrollbar>
 				</Card>
 				<div
 					style={{
@@ -126,8 +138,10 @@ class AgendaManager extends React.Component {
 						recount={this.props.recount}
 						council={council}
 						agendas={agendas}
+						nextPoint={this.nextPoint}
 						data={this.props.data}
 						selectedPoint={this.state.selectedPoint}
+						majorityTypes={this.props.data.majorityTypes}
 						attachments={council.agenda_attachments}
 						participants={this.props.participants}
 						councilID={this.props.councilID}

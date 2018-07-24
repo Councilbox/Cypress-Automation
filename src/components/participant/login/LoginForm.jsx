@@ -1,6 +1,5 @@
 import React from "react";
 import { Tooltip } from "material-ui";
-import { moment } from '../../../containers/App';
 import * as mainActions from "../../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -12,6 +11,7 @@ import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton } from "../../../displayComponents";
 import { councilStarted, participantNeverConnected } from '../../../utils/CBX';
+import { moment } from '../../../containers/App';
 
 const styles = {
 	loginContainer: {

@@ -53,7 +53,7 @@ const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translat
 
 				</div>
 			</GridItem>
-			<GridItem xs={4} style={{fontSize: '0.8em'}}>{attachment.state === 2? translate.deleted : formatSize(attachment.filesize)}</GridItem>
+			<GridItem xs={4} style={{fontSize: '0.8em', display: 'flex', alignItems: 'center'}}>{attachment.state === 2? translate.deleted : formatSize(attachment.filesize)}</GridItem>
 			{attachment.state !== 2 &&
 				<GridItem xs={1}>
 					{edit &&

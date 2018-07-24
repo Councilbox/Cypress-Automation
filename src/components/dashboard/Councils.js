@@ -57,73 +57,75 @@ class Councils extends React.Component {
 					position: "relative"
 				}}
 			>
-				<Scrollbar>
-					<div style={{ padding: "2em", paddingBottom: '5em', width: '100%' }}>
-						<SectionTitle
-							icon={this.props.icon}
-							title={this.props.title}
-							subtitle={this.props.desc}
-						/>
-						{loading ? (
-							<div style={{
-								width: '100%',
-								marginTop: '8em',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center'
-							}}>
-								<LoadingSection />
-							</div>
-						) : (
-							<React.Fragment>
-								{false ? (
-									<div>
-										{error.graphQLErrors.map(error => {
-											return (
-												<ErrorWrapper
-													error={error}
-													translate={translate}
-												/>
-											);
-										})}
-									</div>
-								) : councils.length > 0 ? (
-									this.props.link === "/history"? 
-										<CouncilsHistory
-											councils={councils}
-											openDeleteModal={this.openDeleteModal}
-											translate={translate}
-											company={this.props.company}
-										/>
-									: (
+				<div style={{ width: '100%', height: '100%' }}>
+					<SectionTitle
+						icon={this.props.icon}
+						title={this.props.title}
+						subtitle={this.props.desc}
+					/>
+					{loading ? (
+						<div style={{
+							width: '100%',
+							marginTop: '8em',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center'
+						}}>
+							<LoadingSection />
+						</div>
+					) : (
+						<div style={{height: 'calc(100% - 10.5em)', overflow: 'hidden'}}>
+							<Scrollbar>
+								<div style={{padding: "2em", paddingTop: '2em'}}> 
+									{false ? (
+										<div>
+											{error.graphQLErrors.map(error => {
+												return (
+													<ErrorWrapper
+														error={error}
+														translate={translate}
+													/>
+												);
+											})}
+										</div>
+									) : councils.length > 0 ? (
+										this.props.link === "/history"? 
+											<CouncilsHistory
+												councils={councils}
+												openDeleteModal={this.openDeleteModal}
+												translate={translate}
+												company={this.props.company}
+											/>
+										: (
 
-										<CouncilsList
-											openDeleteModal={this.openDeleteModal}
-											translate={translate}
-											councils={councils}
-											company={this.props.company}
-											link={this.props.link}
-										/>
-									)
-								) : (
-									<span>{translate.no_results}</span>
-								)}
-								<AlertConfirm
-									title={translate.send_to_trash}
-									bodyText={translate.send_to_trash_desc}
-									open={this.state.deleteModal}
-									buttonAccept={translate.send_to_trash}
-									buttonCancel={translate.cancel}
-									modal={true}
-									acceptAction={this.deleteCouncil}
-									requestClose={() =>
-										this.setState({ deleteModal: false })
-									}
-								/>
-							</React.Fragment>
-						)}
-					</div>
-				</Scrollbar>
+											<CouncilsList
+												openDeleteModal={this.openDeleteModal}
+												translate={translate}
+												councils={councils}
+												company={this.props.company}
+												link={this.props.link}
+											/>
+										)
+									) : (
+										<span>{translate.no_results}</span>
+									)}
+									<AlertConfirm
+										title={translate.send_to_trash}
+										bodyText={translate.send_to_trash_desc}
+										open={this.state.deleteModal}
+										buttonAccept={translate.send_to_trash}
+										buttonCancel={translate.cancel}
+										modal={true}
+										acceptAction={this.deleteCouncil}
+										requestClose={() =>
+											this.setState({ deleteModal: false })
+										}
+									/>
+								</div>
+							</Scrollbar>
+						</div>
+					)}
+				</div>
 			</div>
 		);
 	}

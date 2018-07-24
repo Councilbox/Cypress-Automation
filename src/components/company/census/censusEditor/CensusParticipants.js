@@ -91,8 +91,7 @@ class CensusParticipants extends React.Component {
 		}
 
 		headers.push({
-			text: translate.delete,
-			canOrder: false
+			text: ''
 		});
 
 		return (
@@ -152,39 +151,13 @@ class CensusParticipants extends React.Component {
 						{censusParticipants.list.map(participant => {
 							return (
 								<React.Fragment key={`participant_${participant.id}`}>
-									<TableRow
-										hover={true}
-										onClick={() =>
-											this.editParticipant(participant)
-										}
-										style={{ cursor: "pointer" }}
-										key={`censusParticipant_${
-											participant.id
-										}`}
-									>
-										<TableCell>
-											{`${participant.name} ${
-												participant.surname
-											}`}
-										</TableCell>
-										<TableCell>{participant.dni}</TableCell>
-										<TableCell>
-											{participant.position}
-										</TableCell>
-										<TableCell>
-											{participant.numParticipations}
-										</TableCell>
-										{census.quorumPrototype === 1 && (
-											<TableCell>
-												{participant.socialCapital}
-											</TableCell>
-										)}
-										<TableCell>
-											{this._renderDeleteIcon(
-												participant.id
-											)}
-										</TableCell>
-									</TableRow>
+									<HoverableRow
+										participant={participant}
+										translate={translate}
+										census={census}
+										renderDeleteIcon={this._renderDeleteIcon}
+										editParticipant={this.editParticipant}
+									/>
 									{!!participant.representative && (
 										<TableRow
 											hover={true}
@@ -265,6 +238,69 @@ class CensusParticipants extends React.Component {
 				/>
 			</React.Fragment>
 		);
+	}
+}
+
+class HoverableRow extends React.PureComponent {
+
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
+
+	render() {
+		const { participant, census } = this.props;
+		
+		return(
+			<TableRow
+				hover={true}
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				onClick={() =>
+					this.props.editParticipant(participant)
+				}
+				style={{ cursor: "pointer" }}
+				key={`censusParticipant_${
+					participant.id
+				}`}
+			>
+				<TableCell>
+					{`${participant.name} ${
+						participant.surname
+					}`}
+				</TableCell>
+				<TableCell>{participant.dni}</TableCell>
+				<TableCell>
+					{participant.position}
+				</TableCell>
+				<TableCell>
+					{participant.numParticipations}
+				</TableCell>
+				{census.quorumPrototype === 1 && (
+					<TableCell>
+						{participant.socialCapital}
+					</TableCell>
+				)}
+				<TableCell>
+					<div style={{width: '2em'}}>
+						{this.state.showActions && this.props.renderDeleteIcon(
+							participant.id
+						)}
+					</div>
+				</TableCell>
+			</TableRow>
+		)
 	}
 }
 

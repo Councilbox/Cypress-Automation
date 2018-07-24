@@ -203,7 +203,7 @@ class Sidebar extends React.Component {
 				>
 					<div
 						style={{
-							width: '20%',
+							width: '25%',
 							height: '100%',
 							display: 'flex',
 							justifyContent: 'center',
@@ -231,7 +231,7 @@ class Sidebar extends React.Component {
 										textDecoration: "none",
 										color: "red"
 									},
-									width: '20%',
+									width: '25%',
 									marginTop: 0
 								}}
 								onClick={() => this.setState({ selectedRoute: key })}
@@ -322,8 +322,8 @@ class Sidebar extends React.Component {
 		const { classes } = this.props;
 		return (
 			<div style={{float: 'left', zIndex: '0'}}>
-				<div style={
-					{backgroundColor: darkGrey,
+				<div style={{
+					backgroundColor: darkGrey,
 					height: '100vh',
 					zIndex: '1000',
 					position: 'absolute',
@@ -354,7 +354,7 @@ class Sidebar extends React.Component {
 						{this.links()}
 					</div>
 				</div>
-				{this.props.windowSize !== 'xs' &&
+				{//this.props.windowSize !== 'xs' &&
 					<CompanyMenu
 						open={this.state.companyMenu}
 						company={this.props.company}

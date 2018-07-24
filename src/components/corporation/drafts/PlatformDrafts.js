@@ -129,6 +129,12 @@ class PlatformDrafts extends React.Component {
 		});
 	};
 
+	updateState = object =>  {
+		this.setState({
+			...object
+		});
+	}
+
 	updateSelectedValues = id => {
 		let { selectedValues } = this.state;
 		const item = selectedValues.find(selectedValue => id === selectedValue);
@@ -278,69 +284,17 @@ class PlatformDrafts extends React.Component {
 									>
 										{platformDrafts.list.map(
 											(draft, index) => {
-												let isChecked = this.isChecked(
-													draft.id
-												);
 												return (
-													<TableRow
-														key={`draft${draft.id}`}
-													>
-														<TableCell
-															style={TableStyles.TD}
-														>
-															<Checkbox
-																value={isChecked}
-																checked={isChecked}
-																onChange={() =>
-																	this.updateSelectedValues(
-																		draft.id
-																	)
-																}
-															/>
-														</TableCell>
-														<TableCell
-															style={
-																TableStyles.TD
-															}
-														>
-															{this.alreadySaved(
-																draft.id
-															) && (
-																<FontAwesome
-																	name={
-																		"save"
-																	}
-																	style={{
-																		cursor:
-																			"pointer",
-																		fontSize:
-																			"2em",
-																		color: getSecondary()
-																	}}
-																/>
-															)}
-														</TableCell>
-														<TableCell
-															style={TableStyles.TD}
-															onClick={() =>
-																this.setState({
-																	selectedIndex: index
-																})
-															}
-														>
-															{draft.title}
-														</TableCell>
-														<TableCell>
-															{
-																translate[
-																	draftTypes[
-																		draft
-																			.type
-																	].label
-																]
-															}
-														</TableCell>
-													</TableRow>
+													<HoverableRow
+														draft={draft}
+														translate={translate}
+														index={index}
+														isChecked={this.isChecked}
+														alreadySaved={this.alreadySaved}
+														updateState={this.updateState}
+														updateSelectedValues={this.updateSelectedValues}
+														draftTypes={draftTypes}
+													/>
 												);
 											}
 										)}
@@ -352,6 +306,99 @@ class PlatformDrafts extends React.Component {
 				)}
 			</CardPageLayout>
 		);
+	}
+}
+
+class HoverableRow extends React.PureComponent {
+
+	state = {
+		showCheck: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showCheck: true
+		});
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showCheck: false
+		});
+	}
+
+	render() {
+		const { draft, index, translate, draftTypes } = this.props;
+		let isChecked = this.props.isChecked(
+			draft.id
+		);
+	
+		return (
+			<TableRow
+				key={`draft${draft.id}`}
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+			>
+				<TableCell
+					style={TableStyles.TD}
+				>
+					{(isChecked || this.state.showCheck) &&
+						<Checkbox
+							value={isChecked}
+							checked={isChecked}
+							onChange={() =>
+								this.props.updateSelectedValues(
+									draft.id
+								)
+							}
+						/>
+					}
+					
+				</TableCell>
+				<TableCell
+					style={
+						TableStyles.TD
+					}
+				>
+					{this.props.alreadySaved(
+						draft.id
+					) && (
+						<FontAwesome
+							name={
+								"save"
+							}
+							style={{
+								cursor:
+									"pointer",
+								fontSize:
+									"2em",
+								color: getSecondary()
+							}}
+						/>
+					)}
+				</TableCell>
+				<TableCell
+					style={TableStyles.TD}
+					onClick={() =>
+						this.updateState({
+							selectedIndex: index
+						})
+					}
+				>
+					{draft.title}
+				</TableCell>
+				<TableCell>
+					{
+						translate[
+							draftTypes[
+								draft
+									.type
+							].label
+						]
+					}
+				</TableCell>
+			</TableRow>
+		)
 	}
 }
 

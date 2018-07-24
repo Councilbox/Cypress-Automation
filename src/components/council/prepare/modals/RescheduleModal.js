@@ -85,14 +85,14 @@ class RescheduleModal extends React.Component {
 			});
 			this.updateState({
 				dateStart: firstDate,
-				dateStart2NdCall: CBX.addMinimunDistance(
+				dateStart2NdCall: CBX.addMinimumDistance(
 					firstDate,
 					this.props.council.statute
 				)
 			});
 		} else {
 			if (
-				!CBX.checkMinimunDistanceBetweenCalls(
+				!CBX.checkMinimumDistanceBetweenCalls(
 					firstDate,
 					secondDate,
 					this.props.council.statute

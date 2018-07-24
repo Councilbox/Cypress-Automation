@@ -35,6 +35,18 @@ a:hover {
     border: none !important;
 }
 
+@page htmlPreview {
+    size: A4;
+    margin: .5in .5in .5in .5in; 
+    mso-header-margin: .5in; 
+    mso-footer-margin: .5in; 
+    mso-paper-source: 0;
+}
+
+.htmlPreview {
+    page: htmlPreview;
+} 
+
 .withShadow {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }

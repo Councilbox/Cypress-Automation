@@ -8,6 +8,8 @@ import {
 	LoadingSection,
 	MajorityInput,
 	Radio,
+	Grid,
+	GridItem,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
@@ -15,9 +17,10 @@ import { councilStepFive, updateCouncil } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
+import withWindowSize from '../../../HOCs/withWindowSize';
 import CouncilHeader from './CouncilHeader';
-import { moment } from '../../../containers/App';
 import EditorStepLayout from './EditorStepLayout';
+import { moment } from '../../../containers/App';
 let primary = getPrimary();
 let secondary = getSecondary();
 
@@ -213,169 +216,194 @@ class StepOptions extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const { council } = this.state.data;
+		let statute = {}
 
-		if (this.props.data.loading || !this.state.data) {
-			return <LoadingSection />;
+		if(!this.props.data.loading){
+			statute = this.props.data.council.statute;
 		}
-		const { statute } = this.props.data.council;
 
 		return (
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						<Typography variant="title" style={{ fontSize: '1.1rem' }}>{translate.new_options}</Typography>
-
-						<Typography variant="subheading" style={{ marginTop: "1em" }}>
-							{translate.confirm_assistance}
-						</Typography>
-						<Checkbox
-							label={translate.confirm_assistance_desc}
-							value={council.confirmAssistance === 1}
-							onChange={(event, isInputChecked) =>
-								this.updateCouncilData({
-									confirmAssistance: isInputChecked ? 1 : 0
-								})
-							}
-						/>
-
-						<Typography variant="subheading" style={{ marginTop: "1em" }}>
-							{translate.video}
-						</Typography>
-						<Checkbox
-							label={translate.room_video_broadcast}
-							value={council.councilType === 0}
-							onChange={(event, isInputChecked) =>
-								this.updateCouncilData({
-									councilType: isInputChecked ? 0 : 1,
-									fullVideoRecord: 0
-								})
-							}
-						/>
-						{council.councilType === 0 ? (
-							<Checkbox
-								label={translate.full_video_record}
-								value={council.fullVideoRecord !== 0}
-								onChange={(event, isInputChecked) =>
-									this.updateCouncilData({
-										fullVideoRecord: isInputChecked ? 1 : 0
-									})
-								}
-							/>
-						) : (
-							<Checkbox
-								label={translate.auto_close}
-								value={council.autoClose !== 0}
-								onChange={(event, isInputChecked) =>
-									this.updateCouncilData({
-										autoClose: isInputChecked ? 1 : 0
-									})
-								}
-							/>
-						)}
-						{council.autoClose === 1 && 
-							<DateTimePicker
-								required
-								minDate={moment(new Date(council.dateStart)).add(1, 'm')}
-								onChange={date => {
-									const newDate = new Date(date);
-									const dateString = newDate.toISOString();
-									this.updateCouncilData({
-										closeDate: dateString
-									})
+						{this.props.data.loading?
+							<div
+								style={{
+									height: "300px",
+									width: "100%",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center"
 								}}
-								minDateMessage={""}
-								acceptText={translate.accept}
-								cancelText={translate.cancel}
-								value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
-							/>
-						}
-						
-
-						<Typography variant="subheading" style={{ marginTop: "1em" }}>
-							{translate.security}
-						</Typography>
-						{this._renderSecurityForm()}
-
-						{CBX.hasAct(statute) && (
+							>
+								<LoadingSection />
+							</div>
+						:
 							<React.Fragment>
-								<Typography
-									variant="subheading"
-									style={{ marginTop: "1em" }}
-								>
-									{translate.approve_act_draft_at_end}
+								<Typography variant="title" style={{ fontSize: '1.1rem' }}>{translate.new_options}</Typography>
+								<Typography variant="subheading" style={{ marginTop: "1em" }}>
+									{translate.confirm_assistance}
 								</Typography>
 								<Checkbox
-									label={translate.approve_act_draft_at_end_desc}
-									value={council.approveActDraft !== 0}
+									label={translate.confirm_assistance_desc}
+									value={council.confirmAssistance === 1}
 									onChange={(event, isInputChecked) =>
 										this.updateCouncilData({
-											approveActDraft: isInputChecked ? 1 : 0
+											confirmAssistance: isInputChecked ? 1 : 0
 										})
 									}
 								/>
-								{council.approveActDraft === 1 && (
-									<div className="row">
-										<div className="col-lg-3 col-md-3 col-xs-4">
-											<SelectInput
-												floatingLabelText={
-													translate.majority_label
-												}
-												value={council.actPointMajorityType}
-												onChange={event => {
-													this.updateCouncilData({
-														actPointMajorityType:
-															event.target.value
-													});
-												}}
-											>
-												{this.props.data.majorityTypes.map(
-													majority => {
-														return (
-															<MenuItem
-																value={majority.value}
-																key={`majority${
-																	majority.value
-																}`}
-															>
-																{
-																	translate[
-																		majority.label
-																	]
-																}
-															</MenuItem>
-														);
-													}
-												)}
-											</SelectInput>
-										</div>
-										<div>
-											{CBX.majorityNeedsInput(
-												council.actPointMajorityType
-											) && (
-												<MajorityInput
-													type={council.actPointMajorityType}
-													style={{ marginLeft: "1em" }}
-													value={council.actPointMajority}
-													divider={
-														council.actPointMajorityDivider
-													}
-													onChange={value =>
+
+								<Typography variant="subheading" style={{ marginTop: "1em" }}>
+									{translate.video}
+								</Typography>
+								<Checkbox
+									label={translate.room_video_broadcast}
+									value={council.councilType === 0}
+									onChange={(event, isInputChecked) =>
+										this.updateCouncilData({
+											councilType: isInputChecked ? 0 : 1,
+											fullVideoRecord: 0
+										})
+									}
+								/>
+								{council.councilType === 0 ? (
+									<Checkbox
+										label={translate.full_video_record}
+										value={council.fullVideoRecord !== 0}
+										onChange={(event, isInputChecked) =>
+											this.updateCouncilData({
+												fullVideoRecord: isInputChecked ? 1 : 0
+											})
+										}
+									/>
+								) : (
+									<Checkbox
+										label={translate.auto_close}
+										value={council.autoClose !== 0}
+										onChange={(event, isInputChecked) =>
+											this.updateCouncilData({
+												autoClose: isInputChecked ? 1 : 0
+											})
+										}
+									/>
+								)}
+								{council.autoClose === 1 && 
+									<DateTimePicker
+										required
+										minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+										onChange={date => {
+											const newDate = new Date(date);
+											const dateString = newDate.toISOString();
+											this.updateCouncilData({
+												closeDate: dateString
+											})
+										}}
+										minDateMessage={""}
+										acceptText={translate.accept}
+										cancelText={translate.cancel}
+										value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+									/>
+								}
+								
+
+								<Typography variant="subheading" style={{ marginTop: "1em" }}>
+									{translate.security}
+								</Typography>
+								{this._renderSecurityForm()}
+
+								{CBX.hasAct(statute) && (
+									<React.Fragment>
+										<Typography
+											variant="subheading"
+											style={{ marginTop: "1em" }}
+										>
+											{translate.approve_act_draft_at_end}
+										</Typography>
+										<div
+											style={{
+												display: 'flex',
+												flexDirection: this.props.windowSize === 'xs'? 'column' : 'row',
+												alignItems:  this.props.windowSize === 'xs'? 'flex-start' : 'center',
+											}}
+										>
+											<div style={{paddingTop: '12px'}}>
+												<Checkbox
+													label={translate.approve_act_draft_at_end_desc}
+													value={council.approveActDraft !== 0}
+													onChange={(event, isInputChecked) =>
 														this.updateCouncilData({
-															actPointMajority: +value
-														})
-													}
-													onChangeDivider={value =>
-														this.updateCouncilData({
-															actPointMajorityDivider: +value
+															approveActDraft: isInputChecked ? 1 : 0
 														})
 													}
 												/>
+											</div>
+											{council.approveActDraft === 1 && (
+												<div style={{display: 'flex', flexDirection: 'row', marginLeft: '1.1em'}}>
+													<div>
+														<SelectInput
+															floatingLabelText={
+																translate.majority_label
+															}
+															value={council.actPointMajorityType}
+															onChange={event => {
+																this.updateCouncilData({
+																	actPointMajorityType:
+																		event.target.value
+																});
+															}}
+														>
+															{this.props.data.majorityTypes.map(
+																majority => {
+																	return (
+																		<MenuItem
+																			value={majority.value}
+																			key={`majority${
+																				majority.value
+																			}`}
+																		>
+																			{
+																				translate[
+																					majority.label
+																				]
+																			}
+																		</MenuItem>
+																	);
+																}
+															)}
+														</SelectInput>
+													</div>
+													<div>
+														{CBX.majorityNeedsInput(
+															council.actPointMajorityType
+														) && (
+															<MajorityInput
+																type={council.actPointMajorityType}
+																style={{ marginLeft: "1em" }}
+																value={council.actPointMajority}
+																divider={
+																	council.actPointMajorityDivider
+																}
+																onChange={value =>
+																	this.updateCouncilData({
+																		actPointMajority: +value
+																	})
+																}
+																onChangeDivider={value =>
+																	this.updateCouncilData({
+																		actPointMajorityDivider: +value
+																	})
+																}
+															/>
+														)}
+													</div>
+												</div>
 											)}
 										</div>
-									</div>
+									</React.Fragment>
 								)}
 							</React.Fragment>
-						)}
+						}
 					</React.Fragment>
 				}
 				buttons={
@@ -440,4 +468,4 @@ export default compose(
 	graphql(updateCouncil, {
 		name: "updateCouncil"
 	})
-)(StepOptions);
+)(withWindowSize(StepOptions));

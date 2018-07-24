@@ -16,6 +16,7 @@ class SignUpPage extends React.PureComponent {
 	state = {
 		page: 1,
 		success: false,
+		sendCompany: true,
 		data: {
 			user: {
 				name: "",
@@ -60,10 +61,11 @@ class SignUpPage extends React.PureComponent {
 		return null;
 	}
 
-	nextPage = () => {
+	nextPage = (sendCompany = true) => {
 		const index = this.state.page + 1;
 		if (index <= 3) {
 			this.setState({
+				sendCompany: sendCompany,
 				page: index
 			});
 		}
@@ -87,12 +89,14 @@ class SignUpPage extends React.PureComponent {
 	};
 
 	send = async () => {
+		const { user, company, subscription } = this.state.data;
 		const response = await this.props.mutate({
 			variables: {
-				...this.state.data
+				user,
+				...(this.state.sendCompany? { company: company } : {}),
+				subscription
 			}
 		});
-		console.log(response.errors);
 		if (response.errors) {
 			switch (response.errors[0].message) {
 				default:

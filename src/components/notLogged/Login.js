@@ -42,6 +42,14 @@ class Login extends React.PureComponent {
 							}
 						});
 						break;
+
+					case 'Not actived':
+						this.setState({
+							errors: {
+								user: translate.email_not_found
+							}
+						})
+						break;
 					case "Not found":
 						this.setState({
 							errors: {
@@ -102,7 +110,6 @@ class Login extends React.PureComponent {
 		const { translate, windowSize } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
-		//background: `linear-gradient(to right, ${primary}, #6499B1)`
 		return (
 			<NotLoggedLayout
 				translate={this.props.translate}

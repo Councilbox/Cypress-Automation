@@ -6,6 +6,7 @@ import { getPrimary, secondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { BasicButton, ButtonIcon, TextInput, NotLoggedLayout } from "../../displayComponents";
+import { checkValidEmail } from '../../utils/validation';
 //import background from "../../assets/img/signup3.jpg";
 
 class ForgetPwd extends React.PureComponent {
@@ -34,16 +35,24 @@ class ForgetPwd extends React.PureComponent {
 								user: translate.email_not_found
 							}
 						});
-						break;
 
+						break;
+					case "Not actived":
+						this.setState({
+							errors: {
+								user: translate.email_not_found
+							}
+						});
+						break;
 					default:
 						return;
 				}
-			}
-			if (response.data.restorePwd.success) {
-				this.setState({
-					sent: true
-				});
+			} else {
+				if (response.data.restorePwd.success) {
+					this.setState({
+						sent: true
+					});
+				}
 			}
 		}
 	};
@@ -66,7 +75,12 @@ class ForgetPwd extends React.PureComponent {
 
 		if (!this.state.user.length > 0) {
 			hasError = true;
-			errors.user = "Por favor introduce un email";
+			errors.user = "Por favor introduce un email";//TRADUCCION
+		}
+
+		if (!checkValidEmail(this.state.user)) {
+			hasError = true;
+			errors.user = this.props.translate.email_not_valid;
 		}
 
 		this.setState({

@@ -1,30 +1,20 @@
 import React from "react";
-import Header from "../components/Header";
-import Login from '../components/notLogged/Login';
-import SignUpPage from "../components/notLogged/signUp/SignUpPage";
-import ChangePwd from "../components/notLogged/ChangePwd";
-import ForgetPwd from "../components/notLogged/ForgetPwd";
-import Welcome from "../components/Welcome";
-import NotFound from "../components/NotFound";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import SidebarLite from "../components/sideMenu/SideBarLite";
 import { LoadingMainApp } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
-import Test from "../components/participant/test/Test";
-import ParticipantTokenContainer from "./ParticipantTokenContainer";
-import ActiveUserPage from '../components/notLogged/ActiveUserPage';
-import SetUserPasswordPage from '../components/notLogged/SetUserPasswordPage';
-import ParticipantContainer from "./ParticipantContainer";
 import appStyle from "../styles/appStyle.jsx";
 import image from "../assets/img/sidebar-2.jpg";
-import { withStyles } from "material-ui";
-import AssistanceTokenContainer from "./AssistanceTokenContainer";
-import AssistanceContainer from "./AssistanceContainer";
+import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
 
 const LoadCorporationTree = Loadable({
 	loader: () => import('../components/corporation/Router'),
+	loading: LoadingMainApp
+});
+
+const Header = Loadable({
+	loader: () => import('../components/Header'),
 	loading: LoadingMainApp
 });
 
@@ -35,6 +25,77 @@ const LoadMainTree = Loadable({
 
 const LoadNoCompanyTree = Loadable({
 	loader: () => import('../components/noCompany/NoCompanyRouter'),
+	loading: LoadingMainApp
+});
+
+const Login = Loadable({
+	loader: () => import('../components/notLogged/Login'),
+	loading: LoadingMainApp
+});
+
+const SignUpPage = Loadable({
+	loader: () => import('../components/notLogged/signUp/SignUpPage'),
+	loading: LoadingMainApp
+});
+
+const ChangePwd = Loadable({
+	loader: () => import('../components/notLogged/ChangePwd'),
+	loading: LoadingMainApp
+});
+
+const ForgetPwd = Loadable({
+	loader: () => import('../components/notLogged/ForgetPwd'),
+	loading: LoadingMainApp
+});
+
+const Welcome = Loadable({
+	loader: () => import('../components/Welcome'),
+	loading: LoadingMainApp
+});
+
+const NotFound = Loadable({
+	loader: () => import('../components/NotFound'),
+	loading: LoadingMainApp
+});
+
+const SidebarLite = Loadable({
+	loader: () => import('../components/sideMenu/SideBarLite'),
+	loading: LoadingMainApp
+});
+
+const Test = Loadable({
+	loader: () => import('../components/participant/test/Test'),
+	loading: LoadingMainApp
+});
+
+const ParticipantTokenContainer = Loadable({
+	loader: () => import('./ParticipantTokenContainer'),
+	loading: LoadingMainApp
+});
+
+const ActiveUserPage = Loadable({
+	loader: () => import('../components/notLogged/ActiveUserPage'),
+	loading: LoadingMainApp
+});
+
+const SetUserPasswordPage = Loadable({
+	loader: () => import('../components/notLogged/SetUserPasswordPage'),
+	loading: LoadingMainApp
+});
+
+
+const ParticipantContainer = Loadable({
+	loader: () => import('./ParticipantContainer'),
+	loading: LoadingMainApp
+});
+
+const AssistanceTokenContainer = Loadable({
+	loader: () => import('./AssistanceTokenContainer'),
+	loading: LoadingMainApp
+});
+
+const AssistanceContainer = Loadable({
+	loader: () => import('./AssistanceContainer'),
 	loading: LoadingMainApp
 });
 
@@ -189,7 +250,7 @@ class AppRouter extends React.Component {
 						component={AssistanceContainer}
 					/>
 
-					<Route path="*" component={NotFound} />
+					<Route path="*" component={() => <Redirect to="/" />} />
 				</Switch>
 			);
 	}

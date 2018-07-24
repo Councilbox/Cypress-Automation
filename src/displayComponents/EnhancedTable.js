@@ -215,6 +215,9 @@ class EnhancedTable extends React.Component {
 							</div>
 						))
 					)}
+					{!!this.props.menuButtons &&
+						this.props.menuButtons
+					}
 					{!this.props.hideTextFilter && 
 						<div style={{width: '16em'}}>
 							<TextInput

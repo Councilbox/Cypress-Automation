@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { companyDrafts, deleteDraft } from "../../../queries/companyDrafts.js";
 import { compose, graphql } from "react-apollo";
@@ -19,7 +19,17 @@ import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
 
-class CompanyDraftList extends Component {
+class CompanyDraftList extends React.Component {
+	state = {
+		deleteModal: false,
+		draftID: null,
+		newForm: false
+	};
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+	
 	_renderDeleteIcon = draftID => {
 		const primary = getPrimary();
 		return (
@@ -32,6 +42,7 @@ class CompanyDraftList extends Component {
 			/>
 		);
 	};
+
 	openDeleteModal = draftID => {
 		this.setState({
 			deleteModal: true,
@@ -53,18 +64,6 @@ class CompanyDraftList extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			deleteModal: false,
-			draftID: null,
-			newForm: false
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
 
 	render() {
 		const { translate, company } = this.props;
@@ -90,7 +89,8 @@ class CompanyDraftList extends Component {
 					color={getPrimary()}
 					textStyle={{
 						color: "white",
-						fontWeight: "700"
+						fontWeight: "700",
+						textTransform: 'none'
 					}}
 					onClick={() =>
 						this.setState({
@@ -108,14 +108,15 @@ class CompanyDraftList extends Component {
 						color={getSecondary()}
 						textStyle={{
 							color: "white",
-							fontWeight: "700"
+							fontWeight: "700",
+							textTransform: 'none'
 						}}
 						icon={<ButtonIcon type="add" color="white" />}
 					/>
 				</Link>
 				<br />
 				<br />
-				<Fragment>
+				<React.Fragment>
 					{error ? (
 						<div>
 							{error.graphQLErrors.map(error => {
@@ -129,7 +130,7 @@ class CompanyDraftList extends Component {
 						</div>
 					) : (
 						!!companyDrafts && (
-							<Fragment>
+							<React.Fragment>
 								<EnhancedTable
 									translate={translate}
 									defaultLimit={DRAFTS_LIMITS[0]}
@@ -152,8 +153,8 @@ class CompanyDraftList extends Component {
 											canOrder: true
 										},
 										{
-											name: translate.delete,
-											text: translate.delete
+											name: '',
+											text: ''
 										}
 									]}
 									action={this._renderDeleteIcon}
@@ -161,43 +162,18 @@ class CompanyDraftList extends Component {
 								>
 									{companyDrafts.list.map(draft => {
 										return (
-											<TableRow
-												hover
+											<HoverableRow
 												key={`draft${draft.id}`}
-												style={TableStyles.ROW}
-												onClick={() => {
-													bHistory.push(
-														`/company/${
-															this.props.company
-																.id
-														}/draft/${draft.id}`
-													);
-												}}
-											>
-												<TableCell
-													style={TableStyles.TD}
-												>
-													{draft.title}
-												</TableCell>
-												<TableCell>
-													{
-														translate[
-															draftTypes[
-																draft.type
-															].label
-														]
-													}
-												</TableCell>
-												<TableCell>
-													{this._renderDeleteIcon(
-														draft.id
-													)}
-												</TableCell>
-											</TableRow>
+												translate={translate}
+												renderDeleteIcon={this._renderDeleteIcon}
+												draft={draft}
+												draftTypes={draftTypes}
+												company={this.props.company}
+											/>	
 										);
 									})}
 								</EnhancedTable>
-							</Fragment>
+							</React.Fragment>
 						)
 					)}
 
@@ -213,9 +189,70 @@ class CompanyDraftList extends Component {
 							this.setState({ deleteModal: false })
 						}
 					/>
-				</Fragment>
+				</React.Fragment>
 			</CardPageLayout>
 		);
+	}
+}
+
+class HoverableRow extends React.Component {
+
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
+
+	render() {
+		const { draft, draftTypes, renderDeleteIcon, translate } = this.props;
+
+		return (
+			<TableRow
+				hover
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				onClick={() => {
+					bHistory.push(
+						`/company/${
+							this.props.company
+								.id
+						}/draft/${draft.id}`
+					);
+				}}
+			>
+				<TableCell
+					style={TableStyles.TD}
+				>
+					{draft.title}
+				</TableCell>
+				<TableCell>
+					{
+						translate[
+							draftTypes[
+								draft.type
+							].label
+						]
+					}
+				</TableCell>
+				<TableCell>
+					<div style={{width: '3em'}}>
+						{this.state.showActions && this.props.renderDeleteIcon(
+							draft.id
+						)}
+					</div>
+				</TableCell>
+			</TableRow>
+		)
 	}
 }
 

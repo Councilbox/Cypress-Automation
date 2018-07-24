@@ -4,10 +4,10 @@ import {
 	PARTICIPANT_STATES,
 	SEND_TYPES,
 	COUNCIL_STATES,
+	AGENDA_STATES,
 	AGENDA_TYPES,
 	VOTE_VALUES
 } from "../constants";
-import { moment } from '../containers/App';
 import dropped from "../assets/img/dropped.png";
 import delivered from "../assets/img/delivered.png";
 import invalidEmailAddress from "../assets/img/invalid_email_address.png";
@@ -16,6 +16,7 @@ import opened from "../assets/img/opened.png";
 import pendingShipping from "../assets/img/pending_shipping.png";
 import spam from "../assets/img/spam.png";
 import LiveUtil from './live';
+import { moment } from '../containers/App';
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
@@ -96,6 +97,10 @@ export const haveQualityVoteConditions = (agenda, council) => {
 			agenda.negativeManual) && council.statute.existsQualityVote;
 };
 
+export const canEditPresentVotings = agenda => {
+	return agenda.votingState === AGENDA_STATES.DISCUSSION && agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING && agenda.subjectType !== AGENDA_TYPES.INFORMATIVE;
+}
+
 export const approvedByQualityVote = (agenda, qualityVoteId) => {
 	if(agenda.votings && qualityVoteId){
 		const qualityVote = agenda.votings.find(item => item.participantId === qualityVoteId);
@@ -167,6 +172,7 @@ export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
 
+
 export const filterAgendaVotingTypes = (votingTypes, statute) => {
 	if (statute.existsPresentWithRemoteVote === 1) {
 		return votingTypes.filter(
@@ -180,7 +186,7 @@ export const hasSecondCall = statute => {
 	return statute.existsSecondCall === 1;
 };
 
-export const checkMinimunDistanceBetweenCalls = (
+export const checkMinimumDistanceBetweenCalls = (
 	firstCall,
 	secondCall,
 	statute
@@ -204,7 +210,7 @@ export const checkSecondDateAfterFirst = (firstDate, secondDate) => {
 	return difference > 0;
 };
 
-export const addMinimunDistance = (date, statute) => {
+export const addMinimumDistance = (date, statute) => {
 	const momentDate = moment(new Date(date).toISOString());
 	return momentDate.add(statute.minimumSeparationBetweenCall, "minutes");
 };
@@ -283,21 +289,28 @@ export const getActPointSubjectType = () => {
 };
 
 export const generateInitialDates = (statute) => {
-	const momentDate = moment(new Date().toISOString());
-	const dates = {
-		dateStart: momentDate.add(statute.advanceNoticeDays, "days").toISOString()
+	if(statute.existsAdvanceNoticeDays === 1){
+		const momentDate = moment(new Date().toISOString());
+		const dates = {
+			dateStart: momentDate.add(statute.advanceNoticeDays, "days").toISOString()
+		}
+		if(hasSecondCall(statute)){
+			dates.dateStart2NdCall = addMinimumDistance(dates.dateStart, statute);
+		}
+	
+		return dates;
+	}else{
+		return {
+			dateStart: new Date(),
+			...(hasSecondCall(statute)? { dateStart2NdCall: new Date() } : {})
+		}
 	}
-	if(hasSecondCall(statute)){
-		dates.dateStart2NdCall = addMinimunDistance(dates.dateStart, statute);
-	}
-
-	return dates;
 }
 
 
 
-export const checkMinimunAdvance = (date, statute) => {
-	if(statute.existsAdvanceNoticeDays){
+export const checkMinimumAdvance = (date, statute) => {
+	if(statute.existsAdvanceNoticeDays === 1){
 		const firstDate = moment(
 			new Date(date).toISOString(),
 			moment.ISO_8601
@@ -310,7 +323,7 @@ export const checkMinimunAdvance = (date, statute) => {
 		return difference >= statute.advanceNoticeDays;
 	}
 
-	return false;
+	return true;
 }
 
 export const showUserUniqueKeyMessage = council => {

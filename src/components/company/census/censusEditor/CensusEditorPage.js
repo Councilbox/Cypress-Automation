@@ -60,7 +60,7 @@ class CensusEditorPage extends React.Component {
 		const errors = this.state.errors;
 
 		return (
-			<CardPageLayout title={translate.census}>
+			<CardPageLayout title={census.censusName || translate.census}>
 				<div style={{padding: '2.2em', paddingTop: '0'}}>
 					<Grid style={{marginBottom: '1.6em'}}>
 						<GridItem lg={6} md={6} xs={12} style={{padding: '0.8em'}}>

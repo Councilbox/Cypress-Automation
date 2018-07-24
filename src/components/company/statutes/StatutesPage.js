@@ -230,6 +230,7 @@ class StatutesPage extends React.Component {
 							additionalTab={
 								<BasicButton
 									text={'Añadir tipo de reunión'}//TRADUCCION
+									fullWidth
 									textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
 									color={secondary}
 									icon={<ButtonIcon type="add" color="white" />}
@@ -238,33 +239,72 @@ class StatutesPage extends React.Component {
 							}
 							additionalTabAction={this.showNewStatute}
 							translate={translate}
-							saveAction={this.state.unsavedChanges? this.updateStatute : null}
 							undoAction={() => this.setState({
 								rollbackAlert: true
 							})}
 							deleteAction={this.openDeleteModal}
 						>
 							{!!statute && (
-								<div style={{height: '100%', position: 'relative', overflow: 'hidden'}}>
-									<Scrollbar>
-										<div className="container-fluid">
-											<StatuteEditor
-												companyStatutes={companyStatutes}
-												statute={statute}
-												company={this.props.company}
-												translate={translate}
-												updateState={this.updateState}
-												errors={this.state.errors}
-											/>
-											<br />
+								<React.Fragment>
+									<div style={{height: '100%', position: 'relative', overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
+										<Scrollbar>
+											<div style={{paddingLeft: '1em', paddingRight: '1.5em'}}>
+												<StatuteEditor
+													companyStatutes={companyStatutes}
+													statute={statute}
+													company={this.props.company}
+													translate={translate}
+													updateState={this.updateState}
+													errors={this.state.errors}
+												/>
+												<br />
+											</div>
+										</Scrollbar>
+									</div>
+									<div
+										style={{
+											width: 'calc(100% + 24px)',
+											marginLeft: '-24px',
+											height: '3.5em',
+											borderTop: '1px solid gainsboro',
+											display: 'flex',
+											paddingRight: '1em',
+											justifyContent: 'flex-end',
+											alignItems: 'center'
+										}}
+									>
+										<div>
+											{this.state.unsavedChanges &&
+												<BasicButton
+													text={'Deshacer cambios'}
+													color={success ? "green" : getSecondary()}
+													textStyle={{
+														color: "white",
+														fontWeight: "700",
+														textTransform: 'none'
+													}}
+													buttonStyle={{
+														marginRight: '0.8em'
+													}}
+													onClick={() => this.setState({
+														rollbackAlert: true
+													})}
+													icon={
+														<ButtonIcon
+															type={"replay"}
+															color="white"
+														/>
+													}
+												/>
+											}
 											<BasicButton
 												text={translate.save}
 												color={success ? "green" : getPrimary()}
 												textStyle={{
 													color: "white",
-													fontWeight: "700"
+													fontWeight: "700",
+													textTransform: 'none'
 												}}
-												floatRight
 												onClick={this.updateStatute}
 												loading={this.state.loading}
 												error={this.state.error}
@@ -278,8 +318,8 @@ class StatutesPage extends React.Component {
 												}
 											/>
 										</div>
-									</Scrollbar>
-								</div>
+									</div>
+								</React.Fragment>
 							)}
 						</VTabs>
 					</React.Fragment>

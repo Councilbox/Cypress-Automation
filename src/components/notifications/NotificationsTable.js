@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableRow, TableHead, Tooltip } from 'material-ui';
-import { moment } from '../../containers/App';
 import * as CBX from '../../utils/CBX';
+import { moment } from '../../containers/App';
 
 const NotificationsTable = ({ notifications, translate }) => (
 	<Table>

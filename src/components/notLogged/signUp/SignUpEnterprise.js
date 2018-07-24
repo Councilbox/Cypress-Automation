@@ -79,7 +79,7 @@ class SignUpEnterprise extends React.Component {
 	};
 
 	jumpStep = () => {
-		this.props.nextPage();
+		this.props.nextPage(false);
 	}
 
 

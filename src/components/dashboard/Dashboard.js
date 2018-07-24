@@ -38,7 +38,7 @@ const Dashboard = ({ translate, company, user }) => {
 						}}
 					>
 						{/*TRADUCCION*/}
-						Le damos la <Link to="/cmp/5598">bienvenida.</Link>
+						Le damos la bienvenida.
 					</div>
 					<div
 						style={{

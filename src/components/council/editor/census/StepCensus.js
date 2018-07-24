@@ -180,7 +180,17 @@ class StepCensus extends React.Component {
 				body={
 					<React.Fragment>
 						{loading?
-							<LoadingSection />
+							<div
+								style={{
+									height: "300px",
+									width: "100%",
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center"
+								}}
+							>
+								<LoadingSection />
+							</div>
 						:
 							<ParticipantsTable
 								translate={translate}

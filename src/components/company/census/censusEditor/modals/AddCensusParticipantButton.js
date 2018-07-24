@@ -198,7 +198,7 @@ class AddCensusParticipantButton extends React.Component {
 					open={this.state.modal}
 					fullWidth={false}
 					acceptAction={this.addCensusParticipant}
-					buttonAccept={translate.accept}
+					buttonAccept={translate.save}
 					buttonCancel={translate.cancel}
 					bodyText={this._renderBody()}
 					title={translate.add_participant}

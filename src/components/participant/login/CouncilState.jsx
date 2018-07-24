@@ -6,7 +6,6 @@ import {
 	DialogTitle,
 	DialogContent
 } from "material-ui";
-import { moment } from '../../../containers/App';
 import FontAwesome from "react-fontawesome";
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
@@ -25,6 +24,7 @@ import {
 	secondary
 } from "../../../styles/colors";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
+import { moment } from '../../../containers/App';
 
 const styles = {
 	container: {

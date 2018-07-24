@@ -63,6 +63,12 @@ class CompanyCensusPage extends React.Component {
 		}
 	};
 
+	updateState = object => {
+		this.setState({
+			...object
+		})
+	}
+
 	openCensusEdit = censusId => {
 		bHistory.push(`/company/${this.props.company.id}/census/${censusId}`);
 	};
@@ -70,19 +76,9 @@ class CompanyCensusPage extends React.Component {
 	render() {
 		const { translate, company } = this.props;
 		const { loading, censuses } = this.props.data;
-		const primary = getPrimary();
 
 		return (
 			<CardPageLayout title={translate.censuses_list}>
-				<Grid>
-					<GridItem xs={6} lg={3} md={3}>
-						<AddCensusButton
-							translate={translate}
-							company={company}
-							refetch={this.props.data.refetch}
-						/>
-					</GridItem>
-				</Grid>
 				{!!censuses && (
 					<EnhancedTable
 						translate={translate}
@@ -90,6 +86,17 @@ class CompanyCensusPage extends React.Component {
 						defaultFilter={"censusName"}
 						limits={CENSUS_LIMITS}
 						page={1}
+						menuButtons={
+							<div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+								<div>
+									<AddCensusButton
+										translate={translate}
+										company={company}
+										refetch={this.props.data.refetch}
+									/>
+								</div>
+							</div>
+						}
 						loading={loading}
 						length={censuses.list.length}
 						total={censuses.total}
@@ -120,103 +127,16 @@ class CompanyCensusPage extends React.Component {
 					>
 						{censuses.list.map((census, index) => {
 							return (
-								<TableRow
-									hover
+								<HoverableRow
+									census={census}
 									key={`census_${census.id}`}
-									onClick={() =>
-										this.openCensusEdit(census.id)
-									}
-									style={{ cursor: "pointer" }}
-								>
-									<TableCell>{census.censusName}</TableCell>
-									<TableCell>
-										<DateWrapper
-											format="DD/MM/YYYY HH:mm"
-											date={census.creationDate}
-										/>
-									</TableCell>
-									<TableCell>
-										<DateWrapper
-											format="DD/MM/YYYY HH:mm"
-											date={census.lastEdit}
-										/>
-									</TableCell>
-									<TableCell>
-										{`${!!census.creator? census.creator.name : ''} ${!!census.creator? census.creator.surname : ''}`}
-									</TableCell>
-									<TableCell>
-										<div style={{ float: "right" }}>
-											{census.id ===
-											this.state.changingDefault ? (
-												<div
-													style={{
-														display: "inline-block"
-													}}
-												>
-													<LoadingSection size={20} />
-												</div>
-											) : (
-												<Tooltip title={translate.change_default_census_tooltip}>
-													<FontAwesome
-														name={
-															census.defaultCensus ===
-															1
-																? "star"
-																: "star-o"
-														}
-														style={{
-															cursor: "pointer",
-															fontSize: "2em",
-															color: primary
-														}}
-														onClick={event => {
-															event.stopPropagation();
-															this.setDefaultCensus(
-																census.id
-															);
-														}}
-													/>
-												</Tooltip>
-
-											)}
-											<Tooltip title={translate.clone_census}>
-												<FontAwesome
-													name={"clone"}
-													style={{
-														cursor: "pointer",
-														fontSize: "1.8em",
-														marginLeft: "0.2em",
-														color: primary
-													}}
-													onClick={event => {
-														event.stopPropagation();
-														this.setState({
-															cloneModal: true,
-															cloneIndex: index
-														});
-													}}
-												/>
-											</Tooltip>
-											<Tooltip title={translate.delete}>
-												<span>
-													<CloseIcon
-														style={{
-															color: primary,
-															marginTop: "-10px"
-														}}
-														onClick={event => {
-															event.stopPropagation();
-															this.setState({
-																deleteModal: true,
-																deleteCensus: census.id
-															});
-														}}
-													/>
-												</span>
-											</Tooltip>
-										</div>
-									</TableCell>
-								</TableRow>
+									changingDefault={this.state.changingDefault}
+									openCensusEdit={this.openCensusEdit}
+									updateState={this.updateState}
+									setDefaultCensus={this.setDefaultCensus}
+									index={index}
+									translate={translate}
+								/>
 							);
 						})}
 					</EnhancedTable>
@@ -246,6 +166,166 @@ class CompanyCensusPage extends React.Component {
 			</CardPageLayout>
 		);
 	}
+}
+
+class HoverableRow extends React.PureComponent {
+
+    state = {
+        showActions: false
+    }
+
+    mouseEnterHandler = () => {
+        this.setState({
+            showActions: true
+        })
+    }
+
+    mouseLeaveHandler = () => {
+        this.setState({
+            showActions: false
+        })
+    }
+
+    deleteIcon = (councilID) => {
+        const primary = getPrimary();
+
+        return (
+            <CloseIcon
+                style={{ color: primary }}
+                onClick={event => {
+                    this.props.openDeleteModal(councilID);
+                    event.stopPropagation();
+                }}
+            />
+        );
+    }
+
+
+    render() {
+        const { census, company, link, translate } = this.props;
+		const primary = getPrimary();
+
+
+        return (
+			<TableRow
+				hover
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				onClick={() =>
+					this.props.openCensusEdit(census.id)
+				}
+				style={{ cursor: "pointer" }}
+			>
+				<TableCell>
+					{census.censusName}
+					{census.defaultCensus === 1 &&
+						<FontAwesome
+							name={"star"}
+							style={{
+								cursor: "pointer",
+								fontSize: "1.5em",
+								marginLeft: '0.6em',
+								color: primary
+							}}
+						/>
+					}
+				</TableCell>
+				<TableCell>
+					<DateWrapper
+						format="DD/MM/YYYY HH:mm"
+						date={census.creationDate}
+					/>
+				</TableCell>
+				<TableCell>
+					<DateWrapper
+						format="DD/MM/YYYY HH:mm"
+						date={census.lastEdit}
+					/>
+				</TableCell>
+				<TableCell>
+					{`${!!census.creator? census.creator.name : ''} ${!!census.creator? census.creator.surname : ''}`}
+				</TableCell>
+				<TableCell>
+					{this.state.showActions?
+						<div style={{ float: "right" }}>
+							{census.id ===
+							this.props.changingDefault ? (
+								<div
+									style={{
+										display: "inline-block"
+									}}
+								>
+									<LoadingSection size={20} />
+								</div>
+							) : (
+								<Tooltip title={translate.change_default_census_tooltip}>
+									<FontAwesome
+										name={
+											census.defaultCensus ===
+											1
+												? "star"
+												: "star-o"
+										}
+										style={{
+											cursor: "pointer",
+											fontSize: "2em",
+											color: primary
+										}}
+										onClick={event => {
+											event.stopPropagation();
+											this.props.setDefaultCensus(
+												census.id
+											);
+										}}
+									/>
+								</Tooltip>
+
+							)}
+							<Tooltip title={translate.clone_census}>
+								<FontAwesome
+									name={"clone"}
+									style={{
+										cursor: "pointer",
+										fontSize: "1.8em",
+										marginLeft: "0.2em",
+										color: primary
+									}}
+									onClick={event => {
+										event.stopPropagation();
+										this.props.updateState({
+											cloneModal: true,
+											cloneIndex: this.props.index
+										});
+									}}
+								/>
+							</Tooltip>
+							<Tooltip title={translate.delete}>
+								<span>
+									<CloseIcon
+										style={{
+											color: primary,
+											marginTop: "-10px"
+										}}
+										onClick={event => {
+											event.stopPropagation();
+											this.props.updateState({
+												deleteModal: true,
+												deleteCensus: census.id
+											});
+										}}
+									/>
+								</span>
+							</Tooltip>
+						</div>
+					:
+						<div style={{width: '6.5em'}}>
+							
+						</div>
+					}
+				</TableCell>
+			</TableRow>
+        )
+    }
 }
 
 export default compose(

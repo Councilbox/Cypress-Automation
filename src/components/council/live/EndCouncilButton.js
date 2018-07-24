@@ -1,12 +1,18 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { graphql } from "react-apollo";
 import { endCouncil } from "../../../queries";
 import { AlertConfirm, BasicButton, Icon } from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
+import { AGENDA_STATES } from "../../../constants";
 import { bHistory } from "../../../containers/App";
 import { pointIsClosed } from "../../../utils/CBX";
 
-class EndCouncilButton extends Component {
+class EndCouncilButton extends React.Component {
+
+	state = {
+		confirmModal: false
+	};
+
 	endCouncil = async () => {
 		const { council } = this.props;
 		const response = await this.props.endCouncil({
@@ -19,35 +25,33 @@ class EndCouncilButton extends Component {
 				bHistory.push(
 					`/company/${council.companyId}/council/${
 						council.id
-					}/writing`
+					}/finished`
 				);
 				//this.props.refetch();
 			}
 		}
 	};
+
 	getUnclosedPoints = () => {
 		const { agendas } = this.props.council;
 		return agendas.filter(agenda => !pointIsClosed(agenda));
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			confirmModal: false
-		};
-	}
 
 	render() {
 		const { translate } = this.props;
 		const unclosed = this.getUnclosedPoints();
 		const primary = getPrimary();
+		const secondary = getSecondary();
+		const { agendas } = this.props.council;
+		const lastPointClosed = agendas[agendas.length - 1].pointState === AGENDA_STATES.CLOSED;
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<div className="col-lg-6 col-md-12 col-xs-12">
 					<BasicButton
 						text={translate.finish_council}
-						color={primary}
+						color={lastPointClosed? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
 						icon={
@@ -73,9 +77,9 @@ class EndCouncilButton extends Component {
 				<AlertConfirm
 					title={translate.finish_council}
 					bodyText={
-						<Fragment>
+						<React.Fragment>
 							{unclosed.length > 0 ? (
-								<Fragment>
+								<React.Fragment>
 									<div>{translate.unclosed_points_desc}</div>
 									<ul>
 										{unclosed.map(agenda => {
@@ -88,11 +92,11 @@ class EndCouncilButton extends Component {
 											);
 										})}
 									</ul>
-								</Fragment>
+								</React.Fragment>
 							) : (
 								<div>{translate.council_will_be_end}</div>
 							)}
-						</Fragment>
+						</React.Fragment>
 					}
 					open={this.state.confirmModal}
 					buttonAccept={translate.accept}
@@ -101,7 +105,7 @@ class EndCouncilButton extends Component {
 					acceptAction={this.endCouncil}
 					requestClose={() => this.setState({ confirmModal: false })}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

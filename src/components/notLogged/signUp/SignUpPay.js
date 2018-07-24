@@ -176,11 +176,9 @@ class SignUpPay extends React.Component {
 							<a
 								style={{
 									color: primary,
-									fontSize: '0.9em',
 									fontWeight: '700',
 									cursor: 'pointer',
 									textTransform: 'lowerCase',
-									paddingBottom: '3px',
 									marginLeft: '0.4em'
 								 }}
 								onClick={event => {

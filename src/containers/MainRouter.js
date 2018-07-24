@@ -28,6 +28,10 @@ const MainRouter = ({ company, location }) => {
         return <Redirect to={`/company/${company.id}`} />
     }
 
+    const companySettings = () => {
+        return <CompanySettingsPage linkButton={true} />
+    }
+
     return(
         <Switch>
             <Route
@@ -49,7 +53,7 @@ const MainRouter = ({ company, location }) => {
             <Route
                 exact
                 path="/company/:company/settings"
-                component={() => <CompanySettingsPage linkButton={true} />}
+                component={companySettings}
             />
             <Route
                 exact

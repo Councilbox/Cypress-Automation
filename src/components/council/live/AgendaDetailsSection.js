@@ -6,7 +6,6 @@ import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
-import Truncate from 'react-truncate-html';
 import Comments from "./Comments";
 import Votings from "./Votings";
 import * as CBX from "../../../utils/CBX";
@@ -14,8 +13,9 @@ import { AGENDA_TYPES } from "../../../constants";
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
-import { BasicButton, Grid, GridItem, Scrollbar } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem, Scrollbar, AgendaNumber } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
+import RecountSection from './RecountSection';
 
 
 class AgendaDetailsSection extends React.Component {
@@ -82,7 +82,7 @@ class AgendaDetailsSection extends React.Component {
 					}}
 				>
 					<GridItem xs={12} lg={councilStarted? 8 : 6} md={councilStarted? 8 : 6} style={{display: 'flex', minHeight: '8em', flexDirection: 'column', justifyContent: 'space-between'}}>
-						<span style={{fontWeight: '700'}}>{agenda.agendaSubject}</span>
+						<span style={{fontWeight: '700', marginLeft: '0.3em'}}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</span>
 						<br />
 						<Grid>
 							<GridItem xs={12} md={4} lg={4}>
@@ -92,7 +92,8 @@ class AgendaDetailsSection extends React.Component {
 									textStyle={{
 										textTransform: 'none',
 										fontWeight: '700',
-										color: 'white'
+										color: 'white',
+										fontSize: "0.85em",
 									}}
 									onClick={() => this.setState({
 										expanded: !this.state.expanded
@@ -103,6 +104,7 @@ class AgendaDetailsSection extends React.Component {
 								{councilStarted && !CBX.agendaClosed(agenda) && (
 									<ToggleAgendaButton
 										agenda={agenda}
+										nextPoint={this.props.nextPoint}
 										translate={translate}
 										refetch={refetch}
 										active={agenda.orderIndex === this.state.openIndex}
@@ -131,8 +133,7 @@ class AgendaDetailsSection extends React.Component {
 							/>
 						:
 							<Grid style={{paddingLeft: '1.2em'}}>
-								{councilStarted &&
-									council.state === 20 || council.state === 30 ? (
+								{council.state === 20 || council.state === 30 ? (
 										!CBX.councilStarted(council) ? (
 											<GridItem
 												xs={12} lg={12} md={12}
@@ -228,33 +229,39 @@ class AgendaDetailsSection extends React.Component {
 										)}
 										{CBX.agendaVotingsOpened(agenda) && (
 											<React.Fragment>
-												{/*<div style={{width: '100%', marginTop: '0.4em'}} className="withShadow">
-													<RecountSection
-													agenda={agenda}
-													council={council}
-													majorities={this.props.majorities}
-													translate={translate}
-													councilID={this.props.council.id}
-													refetch={this.props.refetch}
-													agendaID={agenda.id}
-													/>
-													</div>*/
-												}
 												{CBX.showAgendaVotingsTable(agenda) &&
-													<div
-														style={{
-															width: "100%",
-															marginTop: "0.4em"
-														}}
-														className="withShadow"
-													>
-														<Votings
-															ref={votings => (this.votings = votings)}
-															agenda={agenda}
-															majorities={this.props.data.majorities}
-															translate={translate}
-														/>
-													</div>
+													<React.Fragment>
+														<div
+															style={{
+																width: "100%",
+																marginTop: "0.4em"
+															}}
+															className="withShadow"
+														>
+															<RecountSection
+																agenda={agenda}
+																council={council}
+																translate={translate}
+																recount={{}}
+																refetch={this.props.refetch}
+																majorityTypes={this.props.majorityTypes}
+															/>
+														</div>
+														
+														<div
+															style={{
+																width: "100%",
+																marginTop: "0.4em"
+															}}
+															className="withShadow"
+														>
+															<Votings
+																ref={votings => (this.votings = votings)}
+																agenda={agenda}
+																translate={translate}
+															/>
+														</div>
+													</React.Fragment>
 												}
 											</React.Fragment>
 										)}

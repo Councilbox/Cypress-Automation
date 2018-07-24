@@ -1,6 +1,5 @@
 import React from "react";
 import { Card, Avatar } from "material-ui";
-import { moment } from '../../../containers/App';
 import FontAwesome from "react-fontawesome";
 import Header from "../Header";
 import withTranslations from "../../../HOCs/withTranslations";
@@ -13,6 +12,7 @@ import {
 } from "../../../styles/colors";
 import { PARTICIPANT_ERRORS } from "../../../constants";
 import background from "../../../assets/img/signup3.jpg";
+import { moment } from '../../../containers/App';
 //import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {

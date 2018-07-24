@@ -23,20 +23,21 @@ class LiveUtil {
 	}
 
 	static calculateMayorityAgenda(agenda, council, recount) {
-		const company = store.getState().company;
+		const companies = store.getState().companies;
+		const company = companies.list[companies.selected];
 		let specialSL = false;
-		if (company.type === 1 && council.quorum_prototype === 1) {
+		if (company.type === 1 && council.quorumPrototype === 1) {
 			specialSL = true;
 		}
 		return this.calculateMajority(
 			specialSL,
-			recount.part_total,
-			agenda.present_census + agenda.current_remote_census,
-			agenda.majority_type,
+			recount.partTotal,
+			agenda.present_census + agenda.currentRemoteCensus,
+			agenda.majorityType,
 			agenda.majority,
-			agenda.majority_divider,
-			agenda.negative_votings + agenda.negative_manual,
-			council.quorum_prototype
+			agenda.majorityDivider,
+			agenda.negativeVotings + agenda.negativeManual,
+			council.quorumPrototype
 		);
 	}
 

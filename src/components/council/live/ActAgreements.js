@@ -10,9 +10,9 @@ import { compose, graphql } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { moment } from '../../../containers/App';
 import { changeVariablesToValues } from "../../../utils/CBX";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
+import { moment } from '../../../containers/App';
 
 class ActAgreements extends React.Component {
 

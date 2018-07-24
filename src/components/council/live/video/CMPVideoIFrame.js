@@ -2,6 +2,8 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+const rand = Date.now();
+
 const CMPVideoIFrame = ({ council, translate, data }) => {
     if(!data.loading){
         return (
@@ -11,7 +13,7 @@ const CMPVideoIFrame = ({ council, translate, data }) => {
                     allow="geolocation; microphone; camera"
                     scrolling="no"
                     className="temp_video"
-                    src={`https://${data.roomVideoURL}?rand=${Date.now()}`}
+                    src={`https://${data.roomVideoURL}?rand=${rand}`}
                     allowFullScreen="true"
                     style={{
                         border: "none !important"

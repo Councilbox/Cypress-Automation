@@ -66,7 +66,7 @@ class ParticipantsTable extends React.Component {
 		const { loading, councilParticipants, refetch } = this.props.data;
 		let headers = [
 			{
-				text: translate.name,
+				text: translate.participant_data,
 				name: "fullName",
 				canOrder: true
 			},

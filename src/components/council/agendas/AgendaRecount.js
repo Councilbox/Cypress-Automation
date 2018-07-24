@@ -1,9 +1,14 @@
 import React from 'react';
-import { Grid, GridItem, Table } from '../../../displayComponents';
-import { TableRow, TableCell } from 'material-ui';
+import { Grid, GridItem, Table, TextInput } from '../../../displayComponents';
+import { TableRow, TableCell, Tooltip } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
+import { graphql } from 'react-apollo';
+import { updateAgenda } from "../../../queries/agenda";
 import * as CBX from '../../../utils/CBX';
+import { Input } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
 import withSharedProps from '../../../HOCs/withSharedProps';
+import LiveUtil from "../../../utils/live";
 
 const columnStyle = {
     display: 'flex',
@@ -24,7 +29,26 @@ const itemStyle = {
 
 
 
-const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, translate }) => {
+const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda }) => {
+
+    const updateValue = async value => {
+        const { attachments, __typename, ...toSend } = agenda;
+        const response = await updateAgenda({
+            variables: {
+                agenda: {
+                    ...toSend,
+                    ...value
+                }
+            }
+        });
+
+        if(!response.errors){
+            refetch();
+        }
+
+        console.log(response);
+    }
+
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
 
     return(
@@ -97,12 +121,28 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, trans
                 </GridItem>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
-                        {`${translate.votes_in_favor_for_approve} ${agendaNeededMajority}`}
-                        {agendaNeededMajority > agenda.positiveVotings + agenda.positiveManual? 
-                            <i class="fa fa-times" style={{color: 'red', marginLeft: '0.3em'}}/>
-                        :
-                            <i class="fa fa-check" style={{color: 'green', marginLeft: '0.3em'}}/>
-                        }
+                        {`${
+							translate.votes_in_favor_for_approve
+						}: ${agendaNeededMajority}`}
+						{agendaNeededMajority > agenda.positive_votings + agenda.positive_manual ? (
+							<FontAwesome
+								name={"times"}
+								style={{
+									margin: "0.5em",
+									color: "red",
+									fontSize: "1.2em"
+								}}
+							/>
+						) : (
+							<FontAwesome
+								name={"check"}
+								style={{
+									margin: "0.5em",
+									color: 'green',
+									fontSize: "1.2em"
+								}}
+							/>
+						)}
                     </div>
                 </GridItem>
             </Grid>
@@ -136,18 +176,46 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, trans
                     <TableCell>
                         {translate.present_vote}
                     </TableCell>
-                    <TableCell>
-                        {agenda.positiveManual}
-                    </TableCell>
-                    <TableCell>
-                        {agenda.negativeManual}
-                    </TableCell>
-                    <TableCell>
-                        {agenda.abstentionManual}
-                    </TableCell>
-                    <TableCell>
-                        {agenda.noVoteManual}
-                    </TableCell>
+                    {editable?
+                        <React.Fragment>
+                            <EditableCell
+                                max={agenda.presentCensus}
+                                blurAction={(value) => updateValue({positiveManual: value})}
+                                value={agenda.positiveManual}
+                            />
+                            <EditableCell
+                                max={agenda.presentCensus}
+                                blurAction={(value) => updateValue({negativeManual: value})}
+                                value={agenda.negativeManual}
+                            />
+                            <EditableCell
+                                max={agenda.presentCensus}
+                                blurAction={(value) => updateValue({abstentionManual: value})}
+                                value={agenda.abstentionManual}
+                            />
+                            <EditableCell
+                                max={agenda.presentCensus}
+                                blurAction={(value) => updateValue({noVoteManual: value })}
+                                value={agenda.noVoteManual}
+                            />
+                        </React.Fragment>
+                    :
+                        <React.Fragment>
+                            <TableCell>
+                                {agenda.positiveManual}
+                            </TableCell>
+                            <TableCell>
+                                {agenda.negativeManual}
+                            </TableCell>
+                            <TableCell>
+                                {agenda.abstentionManual}
+                            </TableCell>
+                            <TableCell>
+                                {agenda.noVoteManual}
+                            </TableCell>
+                        </React.Fragment>
+                    }
+                    
                 </TableRow>
                 <TableRow>
                     <TableCell>
@@ -172,4 +240,116 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, trans
 }
 
 
-export default withSharedProps()(AgendaRecount);
+export default withSharedProps()(graphql(updateAgenda, {
+    name: 'updateAgenda'
+})(AgendaRecount));
+
+class EditableCell extends React.Component {
+
+    state = {
+        showEdit: false,
+        edit: false,
+        tooltip: false,
+        value: this.props.value
+    }
+
+    show = () => {
+        this.setState({
+            edit: true
+        });
+    }
+
+    hide = () => {
+        this.setState({
+            showEdit: false
+        })
+    }
+
+    toggleEdit = () => {
+        this.setState({
+            edit: !this.state.edit
+        })
+    }
+
+    showTooltip = () => {
+        this.setState({
+            tooltip: true
+        });
+    }
+
+    handleKeyUp = (event) => {
+        const key = event.nativeEvent;
+
+        if(key.keyCode === 13){
+            this.saveValue();
+        }
+    }
+
+    saveValue = () => {
+        if(this.state.value !== this.props.value){
+            this.props.blurAction(this.state.value);
+        }
+        this.toggleEdit();
+    }
+
+    render(){
+        return (
+            <TableCell
+                onMouseEnter={this.show}
+                onMouseLeave={this.hide}   
+            >
+                <div
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        
+                    }} 
+                >
+                    {this.state.edit?
+                        <Tooltip title={`Por favor introduzca un numero entre 0 y ${this.props.max}`}>
+                            <div style={{width: '4em'}}>
+                                <Input
+                                    type="number"
+                                    fullWidth
+                                    onKeyUp={this.handleKeyUp}
+                                    max={this.props.max}
+                                    min={0}
+                                    onBlur={this.saveValue}
+                                    value={this.state.value}
+                                    onChange={(event) => {
+                                        if(event.target.value >= 0 && event.target.value <= this.props.max){
+                                            this.setState({
+                                                value: parseInt(event.target.value, 10)
+                                            })
+                                        } else {
+                                            this.showTooltip()
+                                        }
+                                    }}
+                                />
+                            </div>
+                        </Tooltip>
+
+                    :
+                        this.state.value
+                    }
+
+                </div>
+            </TableCell>
+        )
+    }
+
+}
+
+/*
+                    {this.state.showEdit &&
+                        <FontAwesome 
+                            name="edit"
+                            onClick={() => this.toggleEdit()}
+                            style={{
+                                fontSize: '14px',
+                                marginLeft: '0.6em',
+                                color: getSecondary()
+                            }}
+                        />
+                    }
+*/

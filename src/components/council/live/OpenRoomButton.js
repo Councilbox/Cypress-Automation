@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from "react";
-import { moment } from '../../../containers/App';
+import React, { Fragment } from "react";
 import { graphql } from "react-apollo";
 import { openCouncilRoom } from "../../../queries";
 import {
@@ -10,8 +9,22 @@ import {
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
 import CouncilMenu from "./councilMenu/CouncilMenu";
+import { moment } from '../../../containers/App';
 
-class openCouncilRoomButton extends Component {
+class OpenRoomButton extends React.Component {
+	state = {
+		sendCredentials: true,
+		confirmModal: false
+	};
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.council) {
+			this.setState({
+				sendCredentials: !nextProps.council.videoEmailsDate
+			});
+		}
+	}
+
 	openCouncilRoom = async () => {
 		const { council } = this.props;
 		const response = await this.props.openCouncilRoom({
@@ -26,26 +39,13 @@ class openCouncilRoomButton extends Component {
 				noVideoEmails: !this.state.sendCredentials
 			}
 		});
-		if (response) {
+		if (response.data.openCouncilRoom.success) {
+			this.setState({
+				confirmModal: false
+			});
 			this.props.refetch();
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			sendCredentials: true,
-			confirmModal: false
-		};
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.council) {
-			this.setState({
-				sendCredentials: !nextProps.council.videoEmailsDate
-			});
-		}
-	}
 
 	render() {
 		const { translate } = this.props;
@@ -129,4 +129,4 @@ class openCouncilRoomButton extends Component {
 
 export default graphql(openCouncilRoom, {
 	name: "openCouncilRoom"
-})(openCouncilRoomButton);
+})(OpenRoomButton);

@@ -1,6 +1,6 @@
 import React from "react";
-import { moment } from '../containers/App';
 import Moment from "react-moment";
+import { moment } from '../containers/App';
 Moment.globalMoment = moment;
 
 const DateWrapper = ({ date, format, style }) => {

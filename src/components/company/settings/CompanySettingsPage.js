@@ -154,12 +154,12 @@ class CompanySettingsPage extends React.Component {
 					success: false
 				});
 			} else {
-				store.dispatch(setCompany(response.data.updateCompany));
 				this.setState({
 					error: false,
 					loading: false,
 					success: true
-				});
+				}, () => bHistory.push('/'));
+				store.dispatch(setCompany(response.data.updateCompany));
 			}
 		}
 	};

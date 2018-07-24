@@ -2,15 +2,23 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./containers/App";
 import { unregister } from "./registerServiceWorker";
+import Loadable from 'react-loadable';
 import "./styles/index.css";
-import { ThemeProvider } from "./displayComponents";
+//import { ThemeProvider } from "./displayComponents";
+import LoadingMainApp from "./displayComponents/LoadingMainApp";
 import "react-toastify/dist/ReactToastify.css";
 
+const ThemeProviderLoad = Loadable({
+	loader: () => import('./displayComponents/ThemeProvider'),
+	loading: LoadingMainApp
+});
+
+
 ReactDOM.render(
-	<ThemeProvider>
+	<ThemeProviderLoad>
 		<App />
-	</ThemeProvider>,
+	</ThemeProviderLoad>,
 	document.getElementById("root")
 );
-//registerServiceWorker();
-unregister();
+registerServiceWorker();
+//unregister();

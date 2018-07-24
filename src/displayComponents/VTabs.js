@@ -41,70 +41,13 @@ const Vtabs = ({
 						<Tabs.TabPane
 							key={''+mapIndex}
 							tab={
-								<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}>
-									<Tooltip title={tab.title}>
-										<span
-											style={{
-												marginRight: '0.2em',
-												maxWidth: '15em',
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis',
-												color: +index === +mapIndex? primary : 'black',
-											...(+index === +mapIndex? { fontWeight: '700'} : {})
-											}}
-										>
-											{tab.title}
-										</span>
-									</Tooltip>
-									{!!(saveAction && +index === +mapIndex)?
-										<React.Fragment>
-											<Tooltip title={translate.save}>
-												<Paper style={{margin: 0, padding: 0, width: '2.5em', height: '2em', overflow: 'hidden'}}>
-													<Icon
-														type="save"
-														style={{
-															fontSize:'1.75em',
-															width: '100%',
-															height: '100%',
-															backgroundColor: primary,
-															color: 'white'
-														}}
-														onClick={event => {
-															saveAction();
-															event.stopPropagation();
-														}}
-													/>
-												</Paper>
-											</Tooltip>
-											<Tooltip title="Deshacer" /*TRADUCCION*/>
-												<Icon
-													type="rollback"
-													style={{
-														fontSize:'1.75em',
-														width: '1.5em',
-														color: secondary
-													}}
-													onClick={event => {
-														undoAction();
-														event.stopPropagation();
-													}}
-												/>
-											</Tooltip>
-										</React.Fragment>
-									:
-										<span style={{width: '2em'}}>
-
-										</span>
-									}
-									<CloseIcon
-										style={{ float: "right" }}
-										onClick={event => {
-											deleteAction(tab.data.id);
-											event.stopPropagation();
-										}}
-									/>
-								</div>
+								<HoverableTab
+									tab={tab}
+									index={index}
+									mapIndex={mapIndex}
+									deleteAction={deleteAction}
+									translate={translate}
+								/>
 							}
 						>
 							{children}
@@ -202,6 +145,63 @@ const Vtabs = ({
 
 export default withWindowSize(Vtabs);
 
+
+class HoverableTab extends React.PureComponent {
+
+	state = {
+		showAction: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showAction: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showAction: false
+		})
+	}
+
+
+	render(){
+		const { tab, mapIndex, index, translate, primary, deleteAction } = this.props;
+
+		return (
+			<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+			>
+				<Tooltip title={tab.title}>
+					<span
+						style={{
+							marginRight: '0.2em',
+							maxWidth: '15em',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							color: +index === +mapIndex? primary : 'black',
+						...(+index === +mapIndex? { fontWeight: '700'} : {})
+						}}
+					>
+						{tab.title}
+					</span>
+				</Tooltip>
+				<span style={{width: '2em', height: '32px'}} />
+				{this.state.showAction &&
+					<CloseIcon
+						style={{ float: "right" }}
+						onClick={event => {
+							deleteAction(tab.data.id);
+							event.stopPropagation();
+						}}
+					/>
+				}
+			</div>
+		)
+	}
+}
 
 /*
 <Grid style={{ height: "100%" }}>

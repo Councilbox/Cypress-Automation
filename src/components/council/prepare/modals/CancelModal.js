@@ -1,5 +1,4 @@
 import React from "react";
-
 import { AlertConfirm, Icon } from "../../../../displayComponents/index";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";

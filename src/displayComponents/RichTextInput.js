@@ -1,9 +1,16 @@
 import React from "react";
-import RichTextEditor from "react-rte";
 import { Grid, GridItem } from "./index";
 import { Typography } from "material-ui";
 import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
+import { removeHTMLTags } from '../utils/CBX';
+import Loadable from 'react-loadable';
+import LoadingSection from './LoadingSection';
+
+const RichTextEditor = Loadable({
+	loader: () => import('react-rte'),
+	loading: LoadingSection
+})
 
 class RichTextInput extends React.Component {
 	state = {
@@ -31,9 +38,13 @@ class RichTextInput extends React.Component {
 	onChange = value => {
 		this.setState({ value });
 		if (this.props.onChange) {
-			this.props.onChange(
-				value.toString("html").replace(/<a /g, '<a target="_blank" ')
-			);
+			if(removeHTMLTags(value.toString("html")).length > 0){
+				this.props.onChange(
+					value.toString("html").replace(/<a /g, '<a target="_blank" ')
+				);
+			}else{
+				this.props.onChange('');
+			}
 		}
 	};
 

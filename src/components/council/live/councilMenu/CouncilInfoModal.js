@@ -1,7 +1,7 @@
 import React from "react";
 import { AlertConfirm, Grid, GridItem } from "../../../../displayComponents";
-import { moment } from '../../../../containers/App';
 import { hasSecondCall } from "../../../../utils/CBX";
+import { moment } from '../../../../containers/App';
 
 const CouncilInfoModal = ({ council, requestClose, show, translate }) => (
 	<AlertConfirm

@@ -1,19 +1,27 @@
-import React, { Component, Fragment } from "react";
-import { Icon, LoadingSection } from "../../../displayComponents";
+import React from "react";
+import { Icon, LoadingSection, CollapsibleSection } from "../../../displayComponents";
 import { darkGrey, getPrimary } from "../../../styles/colors";
 import LiveUtil from "../../../utils/live";
 import FontAwesome from "react-fontawesome";
-import VotesTable from "./VotesTable";
+//import VotesTable from "./VotesTable";
+import AgendaRecount from '../agendas/AgendaRecount';
+import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
+import { canEditPresentVotings } from '../../../utils/CBX';
 
-class RecountSection extends Component {
+class RecountSection extends React.Component {
+	state = {
+		open: false
+	};
+
 	_button = () => {
 		const { translate } = this.props;
 
 		return (
 			<div
 				style={{
-					height: "3em",
+					height: LIVE_COLLAPSIBLE_HEIGHT,
 					display: "flex",
+					backgroundColor: 'lightgrey',
 					justifyContent: "space-between",
 					alignItems: "center"
 				}}
@@ -57,17 +65,48 @@ class RecountSection extends Component {
 	};
 
 	_section = () => {
-		if (this.props.data.loading) {
+/* 		if (this.props.data.loading) {
 			return <LoadingSection />;
-		}
+		} */
 
 		const { translate, council, majorities, agenda } = this.props;
-		const recount = this.props.data.liveRecount[0];
+		//const recount = this.props.data.liveRecount[0];
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
-				<div
+			<div style={{backgroundColor: 'white'}}>
+				<AgendaRecount
+					agenda={agenda}
+					council={council}
+					translate={translate}
+					editable={canEditPresentVotings(agenda)}
+					refetch={this.props.refetch}
+					recount={{}}
+					majorityTypes={this.props.majorityTypes}
+				/>
+			</div>
+		);
+	};
+
+	render() {
+		return (
+			<div
+				style={{
+					width: "100%",
+					backgroundColor: 'white',
+					position: "relative"
+				}}
+			>
+				<CollapsibleSection trigger={this._button} collapse={this._section} />
+			</div>
+		);
+	}
+}
+
+export default RecountSection;
+
+
+{/* <div
 					className="row"
 					style={{
 						border: `1px solid ${primary}`,
@@ -108,7 +147,7 @@ class RecountSection extends Component {
 						<div>{`${translate.votes}: ${recount.part_present ||
 							0}`}</div>
 						{council.quorum_prototype === 1 && (
-							<Fragment>
+							<React.Fragment>
 								<div>
 									{translate.social_capital}:{" "}
 									{recount.social_capital_present || 0}{" "}
@@ -121,7 +160,7 @@ class RecountSection extends Component {
 										100
 									).toFixed(3)}%
 								</div>
-							</Fragment>
+							</React.Fragment>
 						)}
 					</div>
 					<div
@@ -140,7 +179,7 @@ class RecountSection extends Component {
 							translate.votes
 						}: ${recount.part_current_remote || 0}`}</div>
 						{council.quorum_prototype === 1 && (
-							<Fragment>
+							<React.Fragment>
 								<div>
 									{translate.social_capital}:{" "}
 									{recount.social_capital_current_remote || 0}{" "}
@@ -153,7 +192,7 @@ class RecountSection extends Component {
 										100
 									).toFixed(3)}%
 								</div>
-							</Fragment>
+							</React.Fragment>
 						)}
 					</div>
 					<div
@@ -172,7 +211,7 @@ class RecountSection extends Component {
 							translate.votes
 						}: ${recount.part_right_voting || 0}`}</div>
 						{council.quorum_prototype === 1 && (
-							<Fragment>
+							<React.Fragment>
 								<div>
 									{translate.social_capital}:{" "}
 									{recount.social_capital_rigth_voting || 0}{" "}
@@ -185,7 +224,7 @@ class RecountSection extends Component {
 										100
 									).toFixed(3)}%
 								</div>
-							</Fragment>
+							</React.Fragment>
 						)}
 					</div>
 				</div>
@@ -267,30 +306,4 @@ class RecountSection extends Component {
 						<VotesTable agenda={agenda} translate={translate} />
 					</div>
 				</div>
-			</Fragment>
-		);
-	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			open: false
-		};
-	}
-
-	render() {
-		return (
-			<div
-				style={{
-					width: "100%",
-					backgroundColor: "lightgrey",
-					position: "relative"
-				}}
-			>
-				{/*<CollapsibleSection trigger={this._button} collapse={this._section} />*/}
-			</div>
-		);
-	}
-}
-
-export default RecountSection;
+ */}

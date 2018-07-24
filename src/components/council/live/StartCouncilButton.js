@@ -217,6 +217,7 @@ class StartCouncilButton extends React.Component {
 										{participants.map(participant => (
 											<ParticipantRow
 												participant={participant}
+												key={`participant_${participant.id}`}
 												onClick={() =>
 													this.actionSwitch()(
 														participant.id,

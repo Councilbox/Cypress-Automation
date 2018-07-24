@@ -59,6 +59,7 @@ class ToggleAgendaButton extends React.Component {
 		});
 		if (response) {
 			this.props.refetch();
+			this.props.nextPoint();
 		}
 	};
 

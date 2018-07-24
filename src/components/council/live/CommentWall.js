@@ -9,16 +9,13 @@ import {
 } from "../../../styles/colors";
 import { wallComments } from "../../../queries";
 import { Icon, LoadingSection } from "../../../displayComponents";
-import { moment } from '../../../containers/App';
 import Scrollbar from "react-perfect-scrollbar";
+import { moment } from '../../../containers/App';
 
 class CommentWall extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			commentsRead: 0
-		};
-	}
+	state = {
+		commentsRead: 0
+	};
 
 	static getDerivedStateFromProps(nextProps) {
 		if (nextProps.open && !nextProps.data.loading) {

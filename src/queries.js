@@ -1642,7 +1642,7 @@ export const openCouncilRoom = gql`
 			noVideoEmails: $noVideoEmails
 			timezone: $timezone
 		) {
-			id
+			success
 		}
 	}
 `;
