@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./containers/App";
-import { unregister } from "./registerServiceWorker";
+import { unregister, registerServiceWorker } from "./registerServiceWorker";
 import Loadable from 'react-loadable';
 import "./styles/index.css";
 //import { ThemeProvider } from "./displayComponents";
