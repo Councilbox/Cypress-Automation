@@ -14,9 +14,14 @@ const ThemeProviderLoad = Loadable({
 });
 
 
+/*  const App = Loadable({
+	 loader: () => import('./containers/App'),
+	 loading: LoadingMainApp
+ }) */
+
 ReactDOM.render(
 	<ThemeProviderLoad>
-		<App />
+		<App/>
 	</ThemeProviderLoad>,
 	document.getElementById("root")
 );

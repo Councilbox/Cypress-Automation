@@ -6,11 +6,12 @@ import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 import Loadable from 'react-loadable';
 import LoadingSection from './LoadingSection';
+import RichTextEditor from 'react-rte';
 
-const RichTextEditor = Loadable({
+/* const RichTextEditor = Loadable({
 	loader: () => import('react-rte'),
 	loading: LoadingSection
-})
+}) */
 
 class RichTextInput extends React.Component {
 	state = {
