@@ -60,37 +60,31 @@ class ParticipantContainer extends React.PureComponent {
 					margin: 0
 				}}
 			>
-				{match.path.includes('login') ?
-						<ParticipantLogin
-							participant={data.participant}
-							council={data.councilVideo}
-							company={data.councilVideo.company}
-						/>
-					:
-						<React.Fragment>
-							{main.isParticipantLogged ? 
-									<React.Fragment>
-										{match.path.includes('meet') ?
-												<Meet 
-													participant={data.participant}
-													council={data.councilVideo}
-													company={data.councilVideo.company}
-												/>
-											:
-												<Council 
-													participant={data.participant}
-													council={data.councilVideo}
-													company={data.councilVideo.company}
-												/>
-										}
-									</React.Fragment>
-								:
-									<Redirect
-										to={`/participant/${match.params.id}/council/${match.params.councilId}/login`}
-									/>	
-							}
-						</React.Fragment>
-				}
+                <React.Fragment>
+                    {main.isParticipantLogged ? 
+                            <React.Fragment>
+                                {match.path.includes('meet') ?
+                                        <Meet 
+                                            participant={data.participant}
+                                            council={data.councilVideo}
+                                            company={data.councilVideo.company}
+                                        />
+                                    :
+                                        <Council 
+                                            participant={data.participant}
+                                            council={data.councilVideo}
+                                            company={data.councilVideo.company}
+                                        />
+                                }
+                            </React.Fragment>
+                        :
+                            <ParticipantLogin
+                                participant={data.participant}
+                                council={data.councilVideo}
+                                company={data.councilVideo.company}
+                            />
+                    }
+                </React.Fragment>
 			</div>
 		);
 	}
