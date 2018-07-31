@@ -46,7 +46,12 @@ class ParticipantCouncil extends React.Component {
 
 		return (
 			<div style={styles.viewContainer}>
-				<Header logoutButton={true} participant={participant} council={council} />
+				<Header
+                    logoutButton={true}
+                    participant={participant}
+                    council={council}
+                    primaryColor={'white'}
+                />
 				<div style={styles.mainContainer}>
 					<div style={{width: '100%', height: '100%'}}>
                         <iframe

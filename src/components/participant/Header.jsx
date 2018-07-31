@@ -6,7 +6,7 @@ import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
-import { primary } from "../../styles/colors";
+import { primary, getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton } from "material-ui";
 
 class Header extends React.PureComponent {
@@ -16,7 +16,7 @@ class Header extends React.PureComponent {
 	};
 
 	render() {
-		const { logoutButton, windowSize } = this.props;
+		const { logoutButton, windowSize, primaryColor } = this.props;
 		const { council } = this.props;
 
 
@@ -30,7 +30,8 @@ class Header extends React.PureComponent {
 					width: "100%",
 					justifyContent: "space-between",
 					alignItems: "center",
-					backgroundColor: "white"
+					background: primaryColor ? primaryColor : `linear-gradient(to right, ${getSecondary()}, ${getPrimary()})`,
+					color: primaryColor ? getPrimary() : "white"
 				}}
 			>
 				<div
@@ -66,6 +67,12 @@ class Header extends React.PureComponent {
 					}
 				</div>
 
+                {(council && council.name) &&
+                    <div>
+                        {council.name}
+                    </div>
+                }
+
 				<div
 					style={{
 						display: "flex",
@@ -85,7 +92,7 @@ class Header extends React.PureComponent {
 							<Icon
 								className="material-icons"
 								style={{
-									color: primary,
+									color: primaryColor ? primary : 'white',
 									fontSize: "0.9em"
 								}}
 							>
