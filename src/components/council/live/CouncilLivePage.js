@@ -119,6 +119,8 @@ class CouncilLivePage extends React.Component {
 		const { translate } = this.props;
 		console.log(config);
 		console.log(config.videoVersion === 'CMP');
+        console.log(config.videoVersion === videoVersions.CMP);
+        console.log(config.videoEnabled && config.videoVersion === videoVersions.CMP);
 
 		if (this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
