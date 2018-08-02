@@ -21,6 +21,8 @@ import CompanyDraftList from "../components/company/drafts/CompanyDraftList";
 import CouncilContainer from "./CouncilContainer";
 import SignatureContainer from "./SignatureContainer";
 import MeetingsContainer from "./MeetingsContainer";
+import PartnersBookPage from '../components/partners/PartnersBookPage';
+
 
 const MainRouter = ({ company, location }) => {
 
@@ -54,6 +56,11 @@ const MainRouter = ({ company, location }) => {
                 exact
                 path="/company/:company/settings"
                 component={companySettings}
+            />
+            <Route
+                exact
+                path="/company/:company/book"
+                component={PartnersBookPage}
             />
             <Route
                 exact

@@ -38,7 +38,7 @@ class FinishActModal extends Component {
 				{this.props.show &&
 					<ActHTML
 						ref={(ref => this.actViewer = ref)}
-						council={this.props.council} 
+						council={this.props.council}
 					/>
 				}
 			</div>

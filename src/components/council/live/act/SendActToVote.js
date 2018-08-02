@@ -35,7 +35,7 @@ class SendActToVote extends React.Component {
 
 	_modalBody() {
         return (
-			<div style={{width: '650px', overflow: 'hidden'}}>
+			<div style={{width: '650px', maxHeight: '75vh', height: '40em'}}>
 				<Scrollbar>
 					{this.props.show &&
 						<ActHTML

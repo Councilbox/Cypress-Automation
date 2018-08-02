@@ -50,7 +50,7 @@ class ApproveActButton extends React.Component {
                     requestClose={() => this.setState({ showModal: false })}
                 />
             </React.Fragment>
-        )  
+        )
     }
 
 }

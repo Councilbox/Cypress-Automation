@@ -17,7 +17,7 @@ class ActPointStateManager extends React.PureComponent {
     render(){
         const { agenda, council, translate, refetch } = this.props;
         const primary = getPrimary();
-
+        
         return (
             <React.Fragment>
                 {agenda.pointState === AGENDA_STATES.INITIAL &&

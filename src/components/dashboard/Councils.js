@@ -57,7 +57,7 @@ class Councils extends React.Component {
 					position: "relative"
 				}}
 			>
-				<div style={{ width: '100%', height: '100%' }}>
+				<div style={{ width: '100%', height: '100%', padding: '1em' }}>
 					<SectionTitle
 						icon={this.props.icon}
 						title={this.props.title}
@@ -76,7 +76,7 @@ class Councils extends React.Component {
 					) : (
 						<div style={{height: 'calc(100% - 10.5em)', overflow: 'hidden'}}>
 							<Scrollbar>
-								<div style={{padding: "2em", paddingTop: '2em'}}> 
+								<div style={{padding: "1em", paddingTop: '2em'}}> 
 									{false ? (
 										<div>
 											{error.graphQLErrors.map(error => {

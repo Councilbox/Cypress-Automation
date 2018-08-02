@@ -8,8 +8,8 @@ import {
 	lightGrey
 } from "../../../styles/colors";
 import { wallComments } from "../../../queries";
-import { Icon, LoadingSection } from "../../../displayComponents";
-import Scrollbar from "react-perfect-scrollbar";
+import { Icon, LoadingSection, Scrollbar } from "../../../displayComponents";
+//import Scrollbar from "react-perfect-scrollbar";
 import { moment } from '../../../containers/App';
 
 class CommentWall extends React.Component {
@@ -102,7 +102,7 @@ class CommentWall extends React.Component {
 								position: "relative"
 							}}
 						>
-							<Scrollbar option={{ suppressScrollX: true }}>
+							<Scrollbar>
 								{data.councilRoomMessages.map(comment => (
 									<div
 										key={`comment_${comment.id}`}
