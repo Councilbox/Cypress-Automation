@@ -278,7 +278,7 @@ class CouncilLivePage extends React.Component {
 								</div>
 							)}
 
-							{council.room && council.room.htmlVideoCouncil && (
+							{
 								<React.Fragment>
 									<div
 										style={{
@@ -295,7 +295,7 @@ class CouncilLivePage extends React.Component {
 												council={council}
 											/>
 										}
-										{config.videoEnabled && config.videoVersion !== videoVersions.CMP &&
+										{council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP &&
 											<div
 												style={{height: '100%', width: '100%'}}
 												dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}
@@ -332,7 +332,7 @@ class CouncilLivePage extends React.Component {
 										</Tooltip>
 									</div>
 								</React.Fragment>
-							)}
+							}
 							{!this.state.fullScreen && (
 								<div
 									style={{
