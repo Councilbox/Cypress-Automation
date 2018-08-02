@@ -16,39 +16,37 @@ class ParticipantTokenContainer extends React.Component {
 		};
 	}
 
-	async componentDidUpdate(prevProps) {
-		if (!prevProps.translate.send && this.props.translate.send) {
-			this.setState({ loading: true });
+	async componentDidMount() {
+        this.setState({ loading: true });
 
-			try {
-				const response = await this.props.participantToken();
-				if (response && !response.errors) {
-					const token = response.data.participantToken;
-					sessionStorage.setItem("participantToken", token);
-					const responseQueryMe = await this.props.client.query({
-						query: getMe,
-						variables: {},
-						fetchPolicy: "network-only"
-					});
-					const participant = responseQueryMe.data.participantMe;
+        try {
+            const response = await this.props.participantToken();
+            if (response && !response.errors) {
+                const token = response.data.participantToken;
+                sessionStorage.setItem("participantToken", token);
+                const responseQueryMe = await this.props.client.query({
+                    query: getMe,
+                    variables: {},
+                    fetchPolicy: "network-only"
+                });
+                const participant = responseQueryMe.data.participantMe;
 
-					this.setState({
-						token: token,
-						loading: false,
-						participant: participant
-					});
-				} else {
-					throw new Error("Error getting participant token");
-				}
-			} catch (error) {
-				console.log(error);
-				//TODO ADD TOAST OR LOAD MESSAGE VIEW
-				this.setState({
-					error: true,
-					loading: false
-				});
-			}
-		}
+                this.setState({
+                    token: token,
+                    loading: false,
+                    participant: participant
+                });
+            } else {
+                throw new Error("Error getting participant token");
+            }
+        } catch (error) {
+            console.log(error);
+            //TODO ADD TOAST OR LOAD MESSAGE VIEW
+            this.setState({
+                error: true,
+                loading: false
+            });
+        }
 	}
 
 	render() {

@@ -49,7 +49,9 @@ class ParticipantLogin extends React.Component {
 		const { isCompatible } = this.state;
 		return (
 			<div style={styles.viewContainer}>
-				<Header />
+				<Header
+                    primaryColor={'white'}
+                />
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer}>
 						{(isCompatible === COMPATIBLE) ?
