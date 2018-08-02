@@ -1,10 +1,9 @@
 import React from "react";
-import { AgendaNumber, Scrollbar } from "../../../displayComponents";
+import { AgendaNumber, Scrollbar, Icon } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import NewAgendaPointModal from "../editor/agenda/modals/NewAgendaPointModal";
 import ReorderPointsModal from "../agendas/ReorderPointsModal";
 import * as CBX from "../../../utils/CBX";
-import icon from "../../../assets/img/reorder.PNG";
 import { Tooltip } from "material-ui";
 
 class AgendaSelector extends React.Component {
@@ -15,7 +14,7 @@ class AgendaSelector extends React.Component {
 			<div
 				style={{
 					width: "100%",
-					paddingBottom: "5em",
+					paddingBottom: "2em",
 					flexDirection: "column",
 					display: "flex",
 					alignItems: "center",
@@ -59,30 +58,32 @@ class AgendaSelector extends React.Component {
 					})}
 				</div>
 				{CBX.canAddPoints(council) && (
-					<Tooltip
-						title={translate.add_agenda_point}
-						placement="top-end"
-					>
-						<div style={{ marginBottom: "0.8em" }}>
-							<NewAgendaPointModal
-								translate={translate}
-								agendas={agendas}
-								statute={council.statute}
-								companyStatutes={this.props.companyStatutes}
-								majorityTypes={this.props.majorityTypes}
-								votingTypes={this.props.votingTypes}
-								council={council}
-								company={this.props.company}
-								refetch={this.props.refetch}
+					<div style={{ marginBottom: "0.8em" }}>
+						<NewAgendaPointModal
+							translate={translate}
+							agendas={agendas}
+							statute={council.statute}
+							companyStatutes={this.props.companyStatutes}
+							majorityTypes={this.props.majorityTypes}
+							votingTypes={this.props.votingTypes}
+							council={council}
+							company={this.props.company}
+							refetch={this.props.refetch}
+						>
+							<Tooltip
+								title={translate.add_agenda_point}
+								placement="top-end"
 							>
-								<AgendaNumber
-									index={"+"}
-									active={false}
-									secondaryColor={"#888888"}
-								/>
-							</NewAgendaPointModal>
-						</div>
-					</Tooltip>
+								<div>
+									<AgendaNumber
+										index={"+"}
+										active={false}
+										secondaryColor={"#888888"}
+									/>
+								</div>
+							</Tooltip>
+						</NewAgendaPointModal>
+					</div>
 				)}
 
 				{CBX.canReorderPoints(council) && (
@@ -92,20 +93,24 @@ class AgendaSelector extends React.Component {
 						councilID={this.props.councilID}
 						refetch={this.props.refetch}
 					>
-						<AgendaNumber
-							index={
-								<img
-									src={icon}
-									alt="reorder icon"
-									style={{
-										width: "1.2em",
-										height: "auto"
-									}}
+						<Tooltip title={translate.reorder_agenda_points}>
+							<div>
+								<AgendaNumber
+									index={
+										<Icon
+											alt="reorder icon"
+											style={{
+												fontSize: '16px',
+												color: "#888888",
+												height: "auto"
+											}}
+										>low_priority</Icon>
+									}
+									active={false}
+									secondaryColor={"#888888"}
 								/>
-							}
-							active={false}
-							secondaryColor={"#888888"}
-						/>
+							</div>
+						</Tooltip>
 					</ReorderPointsModal>
 				)}
 			</div>

@@ -143,7 +143,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 			<div
 				style={{
 					position: 'absolute',
-					right: '5%',
+					right: '3%',
 					bottom: '5%'
 				}}
 			>
