@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import {
 	Grid,
 	GridItem,
@@ -68,7 +68,7 @@ const ParticipantForm = ({
 					/>
 				</GridItem>
 			) : (
-				<Fragment>
+				<React.Fragment>
 					<GridItem xs={6} md={4} lg={3}>
 						<TextInput
 							floatingText={translate.name}
@@ -95,7 +95,7 @@ const ParticipantForm = ({
 							}
 						/>
 					</GridItem>
-				</Fragment>
+				</React.Fragment>
 			)}
 
 			<GridItem xs={6} md={4} lg={3}>

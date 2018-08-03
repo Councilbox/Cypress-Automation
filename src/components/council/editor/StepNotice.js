@@ -48,13 +48,8 @@ class StepNotice extends React.Component {
 
 	editor = null;
 
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
 	componentWillUnmount(){
-		this.setState(this.baseState);
+		//this.setState(this.baseState);
 	}
 
  	componentDidUpdate(prevProps, prevState){
@@ -89,6 +84,7 @@ class StepNotice extends React.Component {
 			const response = await this.updateCouncil(2);
 			if(!response.data.errors){
 				this.props.nextStep();
+				this.props.data.refetch();
 			}
 		}
 	};
@@ -148,6 +144,7 @@ class StepNotice extends React.Component {
 	}
 
 	changeStatute = async statuteId => {
+		const { statuteId: statute, ...actualState } = this.state.data;
 		const response = await this.props.changeStatute({
 			variables: {
 				councilId: this.props.councilID,
@@ -159,9 +156,12 @@ class StepNotice extends React.Component {
 			this.loadDraft({
 				text: response.data.changeCouncilStatute.conveneHeader
 			});
-			this.props.data.refetch();
+			await this.props.data.refetch();
 			this.checkAssociatedCensus(statuteId);
 			this.updateDate();
+			this.setState({
+				data: actualState
+			});
 		}
 	};
 
@@ -278,7 +278,7 @@ class StepNotice extends React.Component {
 		const { errors } = this.state;
 		const primary = getPrimary();
 		const secondary = getSecondary();
-/* 
+/*
 		if (!this.props.data.council && !this.props.data.errors) {
 			return (
 				<div
@@ -298,7 +298,7 @@ class StepNotice extends React.Component {
 		if(!!this.props.data.council){
 			statute = this.props.data.council.statute;
 		}
-		
+
 
 		return (
 			<React.Fragment>

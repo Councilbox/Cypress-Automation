@@ -22,6 +22,8 @@ import CouncilContainer from "./CouncilContainer";
 import SignatureContainer from "./SignatureContainer";
 import MeetingsContainer from "./MeetingsContainer";
 import PartnersBookPage from '../components/partners/PartnersBookPage';
+import PartnerEditorPage from '../components/partners/PartnerEditorPage';
+import NewPartnerPage from '../components/partners/NewPartnerPage';
 
 
 const MainRouter = ({ company, location }) => {
@@ -61,6 +63,16 @@ const MainRouter = ({ company, location }) => {
                 exact
                 path="/company/:company/book"
                 component={PartnersBookPage}
+            />
+            <Route
+                exact
+                path="/company/:company/book/new"
+                component={NewPartnerPage}
+            />
+            <Route
+                exact
+                path="/company/:company/book/:id"
+                component={PartnerEditorPage}
             />
             <Route
                 exact

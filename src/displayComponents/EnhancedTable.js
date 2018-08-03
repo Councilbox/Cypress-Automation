@@ -170,67 +170,67 @@ class EnhancedTable extends React.Component {
 							</SelectInput>
 						</div>
 					)}
-					<div style={{display: 'flex', flexDirection: 'row'}}>
-					{fields && (
-						<div style={{minWidth: '12em', marginRight: '0.8em'}}>
-							<SelectInput
-								floatingText={translate.filter_by}
-								value={filterField}
-								onChange={event =>
-									this.updateFilterField(event.target.value)
-								}
-							>
-								{fields.map(field => (
-									<MenuItem
-										key={`field_${field.value}`}
-										value={field.value}
+					<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+						{categories && (
+							categories.map((category, index) => (
+								<div key={`category_${index}`} style={{minWidth: '12em', marginRight: '0.8em'}}>
+									<SelectInput
+										value={this.state.selectedCategories[index].value}
+										onChange={event =>
+											this.updateCategory(index,
+												event.target,
+												categories[0].field
+											)
+										}
 									>
-										{field.translation}
-									</MenuItem>
-								))}
-							</SelectInput>
-						</div>
-					)}
-					{categories && (
-						categories.map((category, index) => (
-							<div key={`category_${index}`} style={{minWidth: '12em', marginRight: '0.8em'}}>
+										{category.map(fields => (
+											<MenuItem
+												key={`category_${index}${fields.value}`}
+												value={fields.value}
+											>
+												{fields.label}
+											</MenuItem>
+										))}
+									</SelectInput>
+								</div>
+							))
+						)}
+						{!!this.props.menuButtons &&
+							this.props.menuButtons
+						}
+						{fields && (
+							<div style={{minWidth: '12em', marginRight: '0.8em'}}>
 								<SelectInput
-									value={this.state.selectedCategories[index].value}
+									floatingText={translate.filter_by}
+									value={filterField}
 									onChange={event =>
-										this.updateCategory(index,
-											event.target,
-											categories[0].field
-										)
+										this.updateFilterField(event.target.value)
 									}
 								>
-									{category.map(fields => (
+									{fields.map(field => (
 										<MenuItem
-											key={`category_${index}${fields.value}`}
-											value={fields.value}
+											key={`field_${field.value}`}
+											value={field.value}
 										>
-											{fields.label}
+											{field.translation}
 										</MenuItem>
 									))}
 								</SelectInput>
 							</div>
-						))
-					)}
-					{!!this.props.menuButtons &&
-						this.props.menuButtons
-					}
-					{!this.props.hideTextFilter && 
-						<div style={{width: '16em'}}>
-							<TextInput
-								adornment={<Icon>search</Icon>}
-								floatingText={" "}
-								type="text"
-								value={filterText}
-								onChange={event => {
-									this.updateFilterText(event.target.value);
-								}}
-							/>
-						</div>
-					}
+						)}
+						{!this.props.hideTextFilter && 
+							<div style={{width: '16em'}}>
+								<TextInput
+									adornment={<Icon>search</Icon>}
+									floatingText={" "}
+									type="text"
+									value={filterText}
+									onChange={event => {
+										this.updateFilterText(event.target.value);
+									}}
+								/>
+							</div>
+						}
 					</div>
 				</Grid>
 				<Table style={{ maxWidth: "100%" }}>

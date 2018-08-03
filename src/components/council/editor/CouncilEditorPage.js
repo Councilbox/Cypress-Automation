@@ -90,6 +90,7 @@ class CouncilEditorPage extends React.Component {
 				<div style={{width: '100%', height: 'calc(100% - 3em)'}}>
 					{this.state.step === 1 && (
 						<CouncilEditorNotice
+							key={Math.random()}
 							nextStep={this.nextStep}
 							actualStep={this.state.actualStep}
 							councilID={this.props.council.id}

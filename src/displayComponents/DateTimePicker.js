@@ -7,8 +7,9 @@ const DateTimePickerWrapper = ({
 	required,
 	onChange,
 	floatingText,
-	format,
+	clearable = true,
 	value,
+	format = "LLL",
 	minDate = new Date(),
 	minDateMessage,
 	acceptText,
@@ -16,26 +17,29 @@ const DateTimePickerWrapper = ({
 	errorText
 }) => (
 	<React.Fragment>
-		<DateTimePicker
-			label={!!label? `${label}${required && "*"}` : ''}
-			ampm={false}
-			format="LLL"
-			minDateMessage={minDateMessage}
-			okLabel={acceptText}
-			cancelLabel={cancelText}
-			minDate={minDate}
-			InputProps={{
-				endAdornment: (
-					<InputAdornment position="end">
-						<IconButton style={{outline: 0}}>
-							<Icon color="primary">event</Icon>
-						</IconButton>
-					</InputAdornment>
-				)
-			}}
-			value={!!value ? new Date(value).toISOString() : new Date()}
-			onChange={onChange}
-		/>
+		<div style={{width: '100%'}}>
+			<DateTimePicker
+				label={!!label? `${label}${required && "*"}` : ''}
+				ampm={false}
+				format={format}
+				minDateMessage={minDateMessage}
+				okLabel={acceptText}
+				style={{width: '100%'}}
+				cancelLabel={cancelText}
+				minDate={minDate}
+				InputProps={{
+					endAdornment: (
+						<InputAdornment position="end">
+							<IconButton style={{outline: 0}}>
+								<Icon color="primary">event</Icon>
+							</IconButton>
+						</InputAdornment>
+					)
+				}}
+				value={value}
+				onChange={onChange}
+			/>
+		</div>
 		{!!errorText && (
 			<Typography
 				variant="caption"

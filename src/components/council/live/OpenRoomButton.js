@@ -36,7 +36,7 @@ class OpenRoomButton extends React.Component {
 					councilType: council.councilType
 				},
 				timezone: moment().utcOffset(),
-				noVideoEmails: !this.state.sendCredentials
+				sendCredentials: this.state.sendCredentials
 			}
 		});
 		if (response.data.openCouncilRoom.success) {

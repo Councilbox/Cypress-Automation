@@ -1,6 +1,8 @@
 import React from 'react'
-import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon } from '../../displayComponents';
+import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton } from '../../displayComponents';
 import { TableRow, TableCell } from 'material-ui';
+import { bHistory } from '../../containers/App';
+import { getPrimary } from '../../styles/colors';
 import withTranslations from '../../HOCs/withTranslations';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -8,9 +10,14 @@ import { withRouter } from 'react-router-dom';
 
 class PartnersBookPage extends React.PureComponent {
 
+    addPartner = () => {
+        bHistory.push(`/company/${this.props.match.params.company}/book/new`);
+    }
+
     render(){
 
         const { translate } = this.props;
+        const primary = getPrimary();
 
         if(this.props.data.loading){
             return <LoadingSection />;
@@ -31,9 +38,14 @@ class PartnersBookPage extends React.PureComponent {
 				text: translate.position,
 				name: "position",
 				canOrder: true
-			}
+            },
+            {
+                text: '',
+                name: '',
+                canOrder: false
+            }
 		];
-        
+
         return(
             <CardPageLayout title={this.props.translate.simple_book}>
                 {!!this.props.data.bookParticipants?
@@ -42,6 +54,17 @@ class PartnersBookPage extends React.PureComponent {
                             ref={table => (this.table = table)}
                             translate={translate}
                             defaultLimit={10}
+                            menuButtons={
+                                <div style={{marginRight: '0.9em'}}>
+                                    <BasicButton
+                                        text={this.props.translate.add_partner}
+                                        onClick={this.addPartner}
+                                        color={'white'}
+                                        buttonStyle={{border: `2px solid ${primary}`}}
+                                        textStyle={{color: primary, textTransform: 'none', fontWeight: '700'}}
+                                    />
+                                </div>
+                            }
                             defaultFilter={"fullName"}
                             defaultOrder={["fullName", "asc"]}
                             limits={[10, 20]}
@@ -74,6 +97,7 @@ class PartnersBookPage extends React.PureComponent {
                                         >
                                             <HoverableRow
                                                 participant={participant}
+                                                companyId={this.props.match.params.company}
                                             />
                                         </React.Fragment>
                                     );
@@ -85,7 +109,6 @@ class PartnersBookPage extends React.PureComponent {
                 :
                     <LoadingSection />
                 }
-                
             </CardPageLayout>
         )
     }
@@ -117,12 +140,7 @@ class HoverableRow extends React.PureComponent {
                 hover={true}
                 onMouseEnter={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}
-                onClick={() =>
-                    this.setState({
-                        editingParticipant: true,
-                        participant: participant
-                    })
-                }
+                onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
                 style={{
                     cursor: "pointer",
                     fontSize: "0.5em"
@@ -130,7 +148,7 @@ class HoverableRow extends React.PureComponent {
             >
                 <TableCell>
                     {`${participant.name} ${participant.surname}`}
-                </TableCell>  
+                </TableCell>
                 <TableCell>
                     {`${participant.dni}`}
                 </TableCell>

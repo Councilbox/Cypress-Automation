@@ -104,8 +104,6 @@ const CardPageLayout = ({
 							style={{
 								paddingTop: "2.5em",
 								paddingBottom: "0.5em",
-								paddingLeft: windowSize === "xl" && "2vw",
-								paddingRight: windowSize === "xl" && "2vw",
 								height: "100%"
 							}}
 						>
