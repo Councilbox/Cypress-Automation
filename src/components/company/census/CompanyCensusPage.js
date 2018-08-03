@@ -19,6 +19,7 @@ import { getPrimary } from "../../../styles/colors";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import CloneCensusModal from "./CloneCensusModal";
 import AddCensusButton from "./AddCensusButton";
+import EditCensusModal from './censusEditor/modals/EditCensusModal';
 import { bHistory } from "../../../containers/App";
 import { CENSUS_LIMITS } from "../../../constants";
 
@@ -26,7 +27,8 @@ class CompanyCensusPage extends React.Component {
 	state = {
 		deleteModal: false,
 		cloneModal: false,
-		cloneIndex: 0
+		editId: false,
+		index: 0,
 	};
 
 
@@ -155,14 +157,25 @@ class CompanyCensusPage extends React.Component {
 					translate={translate}
 					user={this.props.user}
 					refetch={this.props.data.refetch}
-					requestClose={() => this.setState({ cloneModal: false, cloneIndex: null})}
+					requestClose={() => this.setState({ cloneModal: false, index: null})}
 					open={this.state.cloneModal}
-					census={!!censuses? 
-						censuses.list[this.state.cloneIndex]
+					census={!!censuses?
+						censuses.list[this.state.index]
 					:
 						[]
 					}
 				/>
+				{!!this.state.editId &&
+					<EditCensusModal
+						translate={translate}
+						censusId={this.state.editId}
+						open={!!this.state.editId}
+						requestClose={() => this.setState({
+							editId: null
+						})}
+					/>
+				}
+
 			</CardPageLayout>
 		);
 	}
@@ -211,9 +224,6 @@ class HoverableRow extends React.PureComponent {
 				hover
 				onMouseEnter={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
-				onClick={() =>
-					this.props.openCensusEdit(census.id)
-				}
 				style={{ cursor: "pointer" }}
 			>
 				<TableCell>
@@ -281,6 +291,38 @@ class HoverableRow extends React.PureComponent {
 								</Tooltip>
 
 							)}
+							<Tooltip title={'Administrar participantes'}>
+								<FontAwesome
+									name={"users"}
+									style={{
+										cursor: "pointer",
+										fontSize: "1.8em",
+										marginLeft: "0.2em",
+										color: primary
+									}}
+									onClick={event => {
+										event.stopPropagation();
+										this.props.openCensusEdit(census.id)
+									}}
+								/>
+							</Tooltip>
+							<Tooltip title={translate.edit}>
+								<FontAwesome
+									name={"edit"}
+									style={{
+										cursor: "pointer",
+										fontSize: "1.8em",
+										marginLeft: "0.2em",
+										color: primary
+									}}
+									onClick={event => {
+										event.stopPropagation();
+										this.props.updateState({
+											editId: census.id
+										});
+									}}
+								/>
+							</Tooltip>
 							<Tooltip title={translate.clone_census}>
 								<FontAwesome
 									name={"clone"}
@@ -294,7 +336,7 @@ class HoverableRow extends React.PureComponent {
 										event.stopPropagation();
 										this.props.updateState({
 											cloneModal: true,
-											cloneIndex: this.props.index
+											index: this.props.index
 										});
 									}}
 								/>
@@ -318,9 +360,7 @@ class HoverableRow extends React.PureComponent {
 							</Tooltip>
 						</div>
 					:
-						<div style={{width: '6.5em'}}>
-							
-						</div>
+						<div style={{width: '12.5em'}} />
 					}
 				</TableCell>
 			</TableRow>

@@ -261,7 +261,6 @@ class HoverableRow extends React.PureComponent {
 
 	render() {
 		const { participant, census } = this.props;
-		
 		return(
 			<TableRow
 				hover={true}

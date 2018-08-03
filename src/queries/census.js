@@ -179,3 +179,11 @@ export const checkUniqueCensusEmails = gql`
 		}
 	}
 `;
+
+export const updateCensus = gql`
+	mutation updateCensus($census: CensusInput!){
+		updateCensus(census: $census){
+			id
+		}
+	}
+`;

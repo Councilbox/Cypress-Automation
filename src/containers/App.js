@@ -19,7 +19,7 @@ import { onError } from "apollo-link-error";
 import { API_URL, CLIENT_VERSION } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
-import 'antd/dist/antd.css';
+import '../styles/antd.css';
 import moment from "moment/min/moment-with-locales.min";
 export { moment as moment };
 

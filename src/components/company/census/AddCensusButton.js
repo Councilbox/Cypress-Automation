@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -12,8 +12,20 @@ import { MenuItem } from "material-ui";
 import { graphql } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";
 import { createCensus } from "../../../queries/census";
+import CensusInfoForm from './CensusInfoForm';
 
-class AddCensusButton extends Component {
+class AddCensusButton extends React.Component {
+	state = {
+		modal: false,
+		data: {
+			censusName: "",
+			censusDescription: "",
+			quorumPrototype: 0
+		},
+		errors: {}
+	}
+
+
 	createCensus = async () => {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.createCensus({
@@ -48,77 +60,18 @@ class AddCensusButton extends Component {
 			}
 		});
 	};
-	_renderNewPointBody = () => {
-		const { translate } = this.props;
-		const errors = this.state.errors;
-		const census = this.state.data;
-
+	_renderBody = () => {
 		return (
 			<div style={{ minWidth: "800px" }}>
-				<Grid>
-					<GridItem xs={6}>
-						<TextInput
-							floatingText={translate.name}
-							required
-							type="text"
-							errorText={errors.censusName}
-							value={census.censusName}
-							onChange={event => {
-								this.updateState({
-									censusName: event.target.value
-								});
-							}}
-						/>
-					</GridItem>
-					<GridItem xs={6}>
-						<SelectInput
-							floatingText={translate.census_type}
-							value={census.quorumPrototype}
-							onChange={event => {
-								this.updateState({
-									quorumPrototype: event.target.value
-								});
-							}}
-						>
-							<MenuItem value={0}>
-								{translate.census_type_assistants}
-							</MenuItem>
-							<MenuItem value={1}>
-								{translate.social_capital}
-							</MenuItem>
-						</SelectInput>
-					</GridItem>
-					<GridItem xs={12}>
-						<TextInput
-							floatingText={translate.description}
-							required
-							type="text"
-							errorText={errors.censusDescription}
-							value={census.censusDescription}
-							onChange={event => {
-								this.updateState({
-									censusDescription: event.target.value
-								});
-							}}
-						/>
-					</GridItem>
-				</Grid>
+				<CensusInfoForm
+					translate={this.props.translate}
+					errors={this.state.errors}
+					updateState={this.updateState}
+					census={this.state.data}
+				/>
 			</div>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false,
-			data: {
-				censusName: "",
-				censusDescription: "",
-				quorumPrototype: 0
-			},
-			errors: {}
-		};
-	}
 
 	checkRequiredFields() {
 		return false;
@@ -129,7 +82,7 @@ class AddCensusButton extends Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.add_census}
 					color={"white"}
@@ -153,10 +106,10 @@ class AddCensusButton extends Component {
 					acceptAction={this.createCensus}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderNewPointBody()}
+					bodyText={this._renderBody()}
 					title={translate.census}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

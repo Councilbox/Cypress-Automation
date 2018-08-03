@@ -3,6 +3,8 @@ import {
 	BasicButton,
 	ButtonIcon,
 	Scrollbar,
+	Grid,
+	GridItem,
 	CustomDialog,
 	FileUploadButton
 } from "../../../displayComponents";
@@ -109,7 +111,6 @@ class ImportCensusButton extends React.Component {
 					`censusTemplate.xlsx`
 				);
 				this.setState({
-					step: 2,
 					downloading: false
 				});
 			}
@@ -129,12 +130,20 @@ class ImportCensusButton extends React.Component {
 				participantsData["census"]
 			);
 			if(participants){
-				this.setState({
-					processing: false,
-					loading: false,
-					readedParticipants: participants,
-					step: 3
-				});
+				if(participants.length > 0){
+					this.setState({
+						processing: false,
+						loading: false,
+						readedParticipants: participants,
+						step: 3
+					});
+				}else {
+					this.setState({
+						processing: false,
+						loading: false,
+						step: 2
+					})
+				}
 			}
 
 		} else {
@@ -516,72 +525,64 @@ class ImportCensusButton extends React.Component {
 				>
 					{step === 1 && (
 						<React.Fragment>
-							<h4>{translate.download_template_desc}</h4>
-							<BasicButton
-								text={translate.download_template}
-								color={secondary}
-								textStyle={{
-									color: 'white',
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								loading={downloading}
-								textPosition="after"
-								icon={<ButtonIcon type="add" color="white" />}
-								onClick={this.getCensusTemplate}
-								buttonStyle={{
-									marginRight: "1em",
-								}}
-							/>
-							<BasicButton
-								text={translate.skip}
-								color={secondary}
-								textStyle={{
-									color: 'white',
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								textPosition="after"
-								icon={<ButtonIcon type="add" color="white" />}
-								onClick={() => this.setState({ step: 2 })}
-								buttonStyle={{
-									marginRight: "1em",
-								}}
-							/>
+							<Grid>
+								<GridItem xs={6} md={6} lg={6} style={{display: 'flex', justifyContent: 'center'}}>
+									<div>
+										<BasicButton
+											text={translate.download_template}
+											color={secondary}
+											textStyle={{
+												color: 'white',
+												fontWeight: "700",
+												fontSize: "0.9em",
+												textTransform: "none"
+											}}
+											loading={downloading}
+											textPosition="after"
+											icon={<ButtonIcon type="add" color="white" />}
+											onClick={this.getCensusTemplate}
+											buttonStyle={{
+												marginRight: "1em",
+											}}
+										/>
+									</div>
+								</GridItem>
+								<GridItem xs={6} md={6} lg={6}>
+									<FileUploadButton
+										accept=".xlsx"
+										text={translate.import_template}
+										style={{
+											width: "100%"
+										}}
+										buttonStyle={{ width: "100%" }}
+										color={primary}
+										textStyle={{
+											color: "white",
+											fontWeight: "700",
+											fontSize: "0.9em",
+											textTransform: "none"
+										}}
+										loading={this.state.loading}
+										icon={
+											<ButtonIcon type="publish" color="white" />
+										}
+										onChange={this.handleFile}
+									/>
+									{this.state.loading &&
+										<span style={{fontSize: '0.85em'}}>
+											{this.state.processing? `Procesando ${this.state.processing} participantes`: 'Cargando archivo'}
+										</span>
+									}
+								</GridItem>
+							</Grid>
 						</React.Fragment>
 					)}
 					{step === 2 && (
-						<React.Fragment>
-							<h4>{translate.import_template_desc}</h4>
-							<FileUploadButton
-								accept=".xlsx"
-								text={translate.import_template}
-								style={{
-									marginTop: "2em",
-									width: "100%"
-								}}
-								buttonStyle={{ width: "100%" }}
-								color={primary}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								loading={this.state.loading}
-								icon={
-									<ButtonIcon type="publish" color="white" />
-								}
-								onChange={this.handleFile}
-							/>
-							{this.state.loading &&
-								<span style={{fontSize: '0.85em'}}>
-									{this.state.processing? `Procesando ${this.state.processing} participantes`: 'Cargando archivo'}
-								</span>
-							}
-						</React.Fragment>
+						<div
+							style={{height: '100px'}}
+						>
+							No hay ningún participante válido en el archivo. {/*TRADUCCION*/}
+						</div>
 					)}
 					{step === 3 && (
 						<div

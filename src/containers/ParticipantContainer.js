@@ -231,6 +231,7 @@ export default graphql(participantQuery, {
 		variables: {
 			councilId: props.match.params.councilId
 		},
-		fetchPolicy: "network-only"
+		fetchPolicy: "network-only",
+        pollInterval: 5000
 	})
 })(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps)(ParticipantContainer)))));
