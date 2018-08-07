@@ -162,35 +162,55 @@ class CouncilLivePage extends React.Component {
 					}}
 				>
 					<Tooltip title={`${translate.wall} - (ALT + W)`}>
-						<Badge
-							badgeContent={
-								<span
-									style={{
-										color: "white",
-										fontWeight: "700"
-									}}
+						<div>
+							{this.state.unreadComments > 0 ?
+								<Badge
+									badgeContent={
+										<span
+											style={{
+												color: "white",
+												fontWeight: "700",
+											}}
+										>
+											{this.state.unreadComments}
+										</span>
+									}
+									color="secondary"
 								>
-									{this.state.unreadComments}
-								</span>
+									<div style={{ marginBottom: "0.3em" }}>
+										<FabButton
+											icon={
+												<Icon className="material-icons">
+													chat
+												</Icon>
+											}
+											updateState={this.updateState}
+											onClick={() =>
+												this.setState({
+													wall: true
+												})
+											}
+										/>
+									</div>
+								</Badge>
+							:
+								<div style={{ marginBottom: "0.3em" }}>
+									<FabButton
+										icon={
+											<Icon className="material-icons">
+												chat
+											</Icon>
+										}
+										updateState={this.updateState}
+										onClick={() =>
+											this.setState({
+												wall: true
+											})
+										}
+									/>
+								</div>
 							}
-							color="secondary"
-						>
-							<div style={{ marginBottom: "0.3em" }}>
-								<FabButton
-									icon={
-										<Icon className="material-icons">
-											chat
-										</Icon>
-									}
-									updateState={this.updateState}
-									onClick={() =>
-										this.setState({
-											wall: true
-										})
-									}
-								/>
-							</div>
-						</Badge>
+						</div>
 					</Tooltip>
 					<Tooltip
 						title={

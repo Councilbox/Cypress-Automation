@@ -243,6 +243,7 @@ class Login extends React.PureComponent {
 						>
 							<TextInput
 								onKeyUp={this.handleKeyUp}
+								className={'username'}
 								floatingText={translate.login_user}
 								errorText={this.state.errors.user}
 								type="text"
@@ -262,6 +263,7 @@ class Login extends React.PureComponent {
 						>
 							<TextInput
 								floatingText={translate.login_password}
+								className={'password'}
 								type={
 									this.state.showPassword
 										? "text"
@@ -287,6 +289,7 @@ class Login extends React.PureComponent {
 							<BasicButton
 								text={translate.dashboard_enter}
 								color={primary}
+								className={'login-button'}
 								textStyle={{
 									color: "white",
 									fontWeight: "700"

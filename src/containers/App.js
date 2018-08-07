@@ -14,9 +14,12 @@ import { HttpLink } from "apollo-link-http";
 import { ApolloLink, Observable } from 'apollo-link';
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloProvider } from "react-apollo";
+import { WebSocketLink } from 'apollo-link-ws';
 import { setContext } from "apollo-link-context";
+import { split } from 'apollo-link';
+import { getMainDefinition } from 'apollo-utilities';
 import { onError } from "apollo-link-error";
-import { API_URL, CLIENT_VERSION } from "../config";
+import { API_URL, CLIENT_VERSION, WS_URL } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
 import '../styles/antd.css';
@@ -27,6 +30,41 @@ export { moment as moment };
 const httpLink = new HttpLink({
 	uri: API_URL
 });
+
+const wsLink = new WebSocketLink({
+	uri: WS_URL,
+	options: {
+		reconnect: true,
+		timeout: 3000,
+		connectionParams: {
+			token: sessionStorage.getItem("token"),
+		},
+	}
+});
+
+const authLink = setContext((_, { headers }) => {
+	const token = sessionStorage.getItem("token");
+	const participantToken = sessionStorage.getItem("participantToken");
+	return {
+		headers: {
+			...headers,
+			authorization: token
+				? `Bearer ${token}`
+				: `Bearer ${participantToken}`,
+			"x-jwt-token": token ? token : participantToken,
+			"cbx-client-v": CLIENT_VERSION
+		}
+	};
+});
+
+const link = split(
+	({ query }) => {
+	  const { kind, operation } = getMainDefinition(query);
+	  return kind === 'OperationDefinition' && operation === 'subscription';
+	},
+	wsLink,
+	httpLink,
+  );
 
 const CouncilLiveContainer = Loadable({
 	loader: () => import('./CouncilLiveContainer'),
@@ -43,22 +81,6 @@ const MeetingCreateContainer = Loadable({
 const CouncilLiveTestContainer = Loadable({
 	loader: () => import('./CouncilLiveTestContainer'),
 	loading: LoadingMainApp
-});
-
-
-const authLink = setContext((_, { headers }) => {
-	const token = sessionStorage.getItem("token");
-	const participantToken = sessionStorage.getItem("participantToken");
-	return {
-		headers: {
-			...headers,
-			authorization: token
-				? `Bearer ${token}`
-				: `Bearer ${participantToken}`,
-			"x-jwt-token": token ? token : participantToken,
-			"cbx-client-v": CLIENT_VERSION
-		}
-	};
 });
 
 const retryLink = new RetryLink({
@@ -123,7 +145,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 });
 
 export const client = new ApolloClient({
-	link: ApolloLink.from([retryLink, addStatusLink, logoutLink, authLink, httpLink]),
+	link: ApolloLink.from([retryLink, addStatusLink, logoutLink, authLink, link]),
 	cache: new InMemoryCache(),
 	defaultOptions: {
 		query: {

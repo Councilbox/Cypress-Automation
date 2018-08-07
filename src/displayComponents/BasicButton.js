@@ -5,6 +5,7 @@ import { CircularProgress } from "material-ui/Progress";
 
 const BasicButton = ({
 	color,
+	className,
 	error,
 	text,
 	resetDelay = 2700,
@@ -31,6 +32,7 @@ const BasicButton = ({
 
 	return (
 		<Button
+			className={className}
 			style={{
 				...buttonStyle,
 				...textStyle,

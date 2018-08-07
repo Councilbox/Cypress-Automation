@@ -8,13 +8,15 @@ import {
 	lightGrey
 } from "../../../styles/colors";
 import { wallComments } from "../../../queries";
+import gql from 'graphql-tag';
 import { Icon, LoadingSection, Scrollbar } from "../../../displayComponents";
 //import Scrollbar from "react-perfect-scrollbar";
 import { moment } from '../../../containers/App';
 
 class CommentWall extends React.Component {
 	state = {
-		commentsRead: 0
+		commentsRead: 0,
+		subscribed: false
 	};
 
 	static getDerivedStateFromProps(nextProps) {
@@ -27,17 +29,22 @@ class CommentWall extends React.Component {
 		return null;
 	}
 
-	componentDidUpdate() {
-		if (
-			!this.props.data.loading &&
-			this.props.unreadComments !==
-				this.props.data.councilRoomMessages.length -
-					this.state.commentsRead
-		) {
+
+	componentDidUpdate(prevProps, prevState) {
+		if (!this.props.data.loading && this.props.unreadComments !== this.props.data.councilRoomMessages.length - this.state.commentsRead) {
 			this.props.updateState({
 				unreadComments:
 					this.props.data.councilRoomMessages.length -
 					this.state.commentsRead
+			});
+		}
+
+		if(prevProps.data.loading && !this.props.data.loading && !this.state.subscribed){
+			this.props.subscribeToWallComments({
+				councilId: this.props.council.id
+			});
+			this.setState({
+				subscribed: true
 			});
 		}
 	}
@@ -163,11 +170,55 @@ class CommentWall extends React.Component {
 	}
 }
 
+const roomMessagesSubscription = gql`
+  subscription roomMessageAdded($councilId: Int!) {
+    roomMessageAdded(councilId: $councilId) {
+        id
+		participantId
+		text
+		date
+		author {
+			name
+			participantId
+			surname
+			position
+			id
+		}
+    }
+  }
+`;
+
 export default graphql(wallComments, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id
 		},
-		pollInterval: 5000
-	})
+		//pollInterval: 5000
+	}),
+	props: props => {
+		return {
+		  ...props,
+		  subscribeToWallComments: params => {
+			return props.data.subscribeToMore({
+			  document: roomMessagesSubscription,
+			  variables: {
+				councilId: params.councilId
+			  },
+			  updateQuery: (prev, { subscriptionData }) => {
+				if (!subscriptionData.data.roomMessageAdded) {
+				  return prev;
+				}
+				console.log(prev);
+				console.log(subscriptionData);
+				return ({
+					councilRoomMessages: [
+						...prev.councilRoomMessages,
+						...[subscriptionData.data.roomMessageAdded]
+					]
+				});
+			  }
+			});
+		  }
+		};
+	  }
 })(CommentWall);

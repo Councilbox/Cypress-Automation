@@ -19,7 +19,7 @@ class AgendaManager extends React.Component {
 	};
 
 	nextPoint = () => {
-		if(this.state.selectedPoint < this.props.council.agendas.length - 1){
+		if(this.state.selectedPoint < this.props.data.agendas.length - 1){
 			this.setState({
 				selectedPoint: this.state.selectedPoint + 1
 			});
@@ -51,11 +51,13 @@ class AgendaManager extends React.Component {
 
 	render() {
 		const { council, translate, company } = this.props;
-		const { agendas } = this.props.council;
 
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}
+
+		const { agendas } = this.props.data;
+
 
 		if (this.props.fullScreen) {
 			return (
@@ -142,7 +144,6 @@ class AgendaManager extends React.Component {
 						data={this.props.data}
 						selectedPoint={this.state.selectedPoint}
 						majorityTypes={this.props.data.majorityTypes}
-						attachments={council.agenda_attachments}
 						participants={this.props.participants}
 						councilID={this.props.councilID}
 						translate={translate}
@@ -157,7 +158,8 @@ class AgendaManager extends React.Component {
 export default graphql(agendaManager, {
 	options: props => ({
 		variables: {
-			companyId: props.company.id
+			companyId: props.company.id,
+			councilId: props.council.id
 		}
 	})
 })(AgendaManager);

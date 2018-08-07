@@ -23,6 +23,7 @@ const TextInput = ({
 	placeholder,
 	required,
 	min,
+	className,
 	max,
 	disabled
 }) => (
@@ -46,7 +47,6 @@ const TextInput = ({
 							}}
 						/>
 					}
-					
 				</React.Fragment>
 			}
 			value={value}
@@ -68,6 +68,7 @@ const TextInput = ({
 				),
 				inputProps: {
 					min: min,
+					className: className,
 					max: max
 				},
 				endAdornment: passwordToggler ? (

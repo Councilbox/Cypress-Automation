@@ -477,7 +477,66 @@ export const downloadCBXData = gql`
 `;
 
 export const agendaManager = gql`
-	query AgendaManagerFields($companyId: Int!) {
+	query AgendaManagerFields($companyId: Int!, $councilId: Int!) {
+		agendas(councilId: $councilId) {
+			abstentionManual
+			abstentionVotings
+			agendaSubject
+			attachments {
+				id
+				agendaId
+				filename
+				filesize
+				filetype
+				councilId
+				state
+			}
+			comment
+			councilId
+			currentRemoteCensus
+			dateEndVotation
+			dateStart
+			dateStartVotation
+			description
+			id
+			majority
+			majorityDivider
+			majorityType
+			negativeManual
+			negativeVotings
+			noParticipateCensus
+			noVoteManual
+			noVoteVotings
+			numAbstentionManual
+			numAbstentionVotings
+			numCurrentRemoteCensus
+			numNegativeManual
+			numNegativeVotings
+			numNoParticipateCensus
+			numNoVoteManual
+			numNoVoteVotings
+			numPositiveManual
+			numPositiveVotings
+			numPresentCensus
+			numRemoteCensus
+			numTotalManual
+			numTotalVotings
+			orderIndex
+			pointState
+			positiveManual
+			positiveVotings
+			presentCensus
+			remoteCensus
+			socialCapitalCurrentRemote
+			socialCapitalNoParticipate
+			socialCapitalPresent
+			socialCapitalRemote
+			sortable
+			subjectType
+			totalManual
+			totalVotings
+			votingState
+		}
 		languages {
 			desc
 			columnName
@@ -1281,17 +1340,9 @@ export const councilAndAgendaAttachments = gql`
 	}
 `;
 
-export const councilLiveQuery = gql`
-	query CouncilLiveQuery($councilID: Int!) {
-		council(id: $councilID) {
-			act{
-				id
-				intro
-				conclusion
-				constitution
-			}
-			active
-			autoClose
+export const liveCouncilAgendas = gql`
+	query CouncilLiveAgendas($councilId: Int!){
+		agendas(councilId: $councilId){
 			agendas {
 				abstentionManual
 				abstentionVotings
@@ -1351,6 +1402,21 @@ export const councilLiveQuery = gql`
 				totalVotings
 				votingState
 			}
+		}
+	}
+`;
+
+export const councilLiveQuery = gql`
+	query CouncilLiveQuery($councilID: Int!) {
+		council(id: $councilID) {
+			act{
+				id
+				intro
+				conclusion
+				constitution
+			}
+			active
+			autoClose
 			approveActDraft
 			attachments {
 				councilId
@@ -1634,12 +1700,12 @@ export const endCouncil = gql`
 export const openCouncilRoom = gql`
 	mutation openCouncilRoom(
 		$council: CouncilInput
-		$sendCredentials: Boolean
+		$noVideoEmails: Boolean
 		$timezone: String
 	) {
 		openCouncilRoom(
 			council: $council
-			sendCredentials: $sendCredentials
+			noVideoEmails: $noVideoEmails
 			timezone: $timezone
 		) {
 			success

@@ -55,9 +55,6 @@ class AgendaDetailsSection extends React.Component {
 			participants,
 			refetch
 		} = this.props;
-		if (!this.props.council.agendas) {
-			return <div>{translate.no_results}</div>;
-		}
 		const councilStarted = CBX.councilStarted(council);
 		const agenda = agendas[this.props.selectedPoint];
 
@@ -153,7 +150,10 @@ class AgendaDetailsSection extends React.Component {
 												style={{ marginTop: "0.6em" }}
 											>
 												<EndCouncilButton
-													council={council}
+													council={{
+														...council,
+														agendas: this.props.agendas
+													}}
 													translate={translate}
 												/>
 											</GridItem>
@@ -247,7 +247,7 @@ class AgendaDetailsSection extends React.Component {
 																majorityTypes={this.props.majorityTypes}
 															/>
 														</div>
-														
+
 														<div
 															style={{
 																width: "100%",
