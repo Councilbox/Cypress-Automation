@@ -1631,22 +1631,6 @@ export const endCouncil = gql`
 	}
 `;
 
-export const openCouncilRoom = gql`
-	mutation openCouncilRoom(
-		$council: CouncilInput
-		$sendCredentials: Boolean
-		$timezone: String
-	) {
-		openCouncilRoom(
-			council: $council
-			sendCredentials: $sendCredentials
-			timezone: $timezone
-		) {
-			success
-		}
-	}
-`;
-
 export const updateCredentialsSends = gql`
 	mutation updateCredentialsSends($councilId: Int!) {
 		updateCredentialsSends(councilId: $councilId) {
