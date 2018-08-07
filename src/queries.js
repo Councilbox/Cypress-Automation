@@ -251,8 +251,8 @@ export const sendActDraft = gql`
 `;
 
 export const sendAct = gql`
-	mutation SendActDraft($councilId: Int!, $participants: [LiveParticipantInput]){
-		sendCouncilAct(councilId: $councilId, participants: $participants){
+	mutation SendActDraft($councilId: Int!, $participantsIds: [Int]!){
+		sendCouncilAct(councilId: $councilId, participantsIds: $participantsIds){
 			success
 			message
 		}

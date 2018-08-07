@@ -179,10 +179,13 @@ class SendActModal extends React.Component {
 
 
 	sendAct = async () => {
+		let participantsIds = this.state.participants.map(participant=>{
+			return participant.id;
+		});
 		const response = await this.props.sendAct({
 			variables: {
 				councilId: this.props.council.id,
-				participants: this.state.participants
+				participantsIds
 			}
 		});
 
