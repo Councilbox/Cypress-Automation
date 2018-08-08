@@ -13,6 +13,7 @@ const UserMenu = ({ user, actions, translate }) => {
 	return (
 		<DropDownMenu
 			color="transparent"
+			id={'user-menu-trigger'}
 			text={
 				<Icon className="material-icons" style={{ color: secondary }}>
 					account_circle
@@ -36,6 +37,7 @@ const UserMenu = ({ user, actions, translate }) => {
 									flexDirection: 'row',
 									justifyContent: 'space-between'
 								}}
+								id={'user-menu-settings'}
 							>
 								<FontAwesome
 									name={'edit'}
@@ -60,6 +62,7 @@ const UserMenu = ({ user, actions, translate }) => {
 									flexDirection: 'row',
 									justifyContent: 'space-between'
 								}}
+								id={'user-menu-logout'}
 							>
 								<FontAwesome
 									name={'external-link'}

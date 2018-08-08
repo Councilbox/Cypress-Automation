@@ -22,6 +22,17 @@ export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
 };
 
+export const splitExtensionFilename = (filename) => {
+	const array = filename.split('.');
+	if(array.length < 2){
+		return 'That`s not a filename';
+	}
+	return {
+		filename: array.slice(0, -1).join('.'),
+		extension: array[array.length-1]
+	}
+}
+
 export const showAddCouncilAttachment = attachments => {
 	return attachments.length < MAX_COUNCIL_ATTACHMENTS;
 };

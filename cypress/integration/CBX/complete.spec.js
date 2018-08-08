@@ -1,54 +1,25 @@
 /// <reference types="Cypress" />
+import loginTest from './login';
+import logoutTest from './logout';
 
 context('Actions', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000')
-  })
+  });
+
+  console.log(this);
 
   // https://on.cypress.io/interacting-with-elements
 
   it('Type and login user', () => {
     // https://on.cypress.io/type
-    cy.get('.username')
-      .type('aaron.fuentes.cocodin@gmail.com').should('have.value', 'aaron.fuentes.cocodin@gmail.com')
+    loginTest();
+    cy.url().should('contain', '/company/');
 
-      // .type() with special character sequences
-      .type('{leftarrow}{rightarrow}{uparrow}{downarrow}')
-      .type('{del}{selectall}{backspace}')
+    cy.get('#edit-company-block').click();
+    cy.url().should('contain', '/settings');
 
-      // .type() with key modifiers
-      .type('{alt}{option}') //these are equivalent
-      .type('{ctrl}{control}') //these are equivalent
-      .type('{meta}{command}{cmd}') //these are equivalent
-      .type('{shift}')
-
-      // Delay each keypress by 0.1 sec
-      .type('aaron.fuentes.cocodin@gmail.com', { delay: 100 })
-      .should('have.value', 'aaron.fuentes.cocodin@gmail.com')
-
-/*     cy.get('.action-disabled')
-      // Ignore error checking prior to type
-      // like whether the input is visible or disabled
-      .type('disabled error checking', { force: true })
-      .should('have.value', 'disabled error checking') */
-      cy.get('.password')
-      .type('aaron').should('have.value', 'aaron')
-
-      // .type() with special character sequences
-      .type('{leftarrow}{rightarrow}{uparrow}{downarrow}')
-      .type('{del}{selectall}{backspace}')
-
-      // .type() with key modifiers
-      .type('{alt}{option}') //these are equivalent
-      .type('{ctrl}{control}') //these are equivalent
-      .type('{meta}{command}{cmd}') //these are equivalent
-      .type('{shift}')
-
-      // Delay each keypress by 0.1 sec
-      .type('aaron', { delay: 100 })
-      .should('have.value', 'aaron')
-
-      cy.get('.login-button').click();
+    logoutTest();
   })
 
   /* it('.focus() - focus on a DOM element', () => {

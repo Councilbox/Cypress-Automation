@@ -26,7 +26,6 @@ import '../styles/antd.css';
 import moment from "moment/min/moment-with-locales.min";
 export { moment as moment };
 
-
 const httpLink = new HttpLink({
 	uri: API_URL
 });

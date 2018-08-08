@@ -23,7 +23,7 @@ const TextInput = ({
 	placeholder,
 	required,
 	min,
-	className,
+	id,
 	max,
 	disabled
 }) => (
@@ -68,7 +68,7 @@ const TextInput = ({
 				),
 				inputProps: {
 					min: min,
-					className: className,
+					id: id,
 					max: max
 				},
 				endAdornment: passwordToggler ? (

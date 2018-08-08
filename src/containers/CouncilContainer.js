@@ -155,7 +155,6 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 									add
 								</Icon>
 							}
-							updateState={this.updateState}
 							onClick={() =>
 								bHistory.push(`/company/${company.id}/council/new`)
 							}

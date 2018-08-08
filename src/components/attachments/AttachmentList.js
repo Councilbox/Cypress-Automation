@@ -3,6 +3,7 @@ import { AlertConfirm, TextInput } from "../../displayComponents";
 import { graphql } from "react-apollo";
 import { updateCouncilAttachment } from "../../queries";
 import AttachmentItem from "./AttachmentItem";
+import { splitExtensionFilename } from '../../utils/CBX';
 
 class AttachmentList extends React.Component {
 	state = {
@@ -34,10 +35,10 @@ class AttachmentList extends React.Component {
 					floatingText={translate.name}
 					type="text"
 					errorText={errors.name}
-					value={this.state.data.name}
+					value={this.state.data.filename}
 					onChange={event =>
 						this.updateState({
-							name: event.target.value
+							filename: event.target.value
 						})
 					}
 				/>
@@ -51,7 +52,7 @@ class AttachmentList extends React.Component {
 			editId: this.props.attachments[index].id,
 			data: {
 				...this.state.data,
-				name: this.props.attachments[index].filename
+				...splitExtensionFilename(this.props.attachments[index].filename)
 			}
 		});
 	};
@@ -60,7 +61,7 @@ class AttachmentList extends React.Component {
 		const response = await this.props.updateAttachment({
 			variables: {
 				id: this.state.editId,
-				filename: this.state.data.name
+				filename: `${this.state.data.filename}.${this.state.data.extension}`
 			}
 		});
 		if (response) {

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Popover } from 'material-ui'; 
+import { Popover } from 'material-ui';
 import { BasicButton } from "./index";
 
 class DropDownMenu extends React.Component {
@@ -36,12 +36,13 @@ class DropDownMenu extends React.Component {
 		return (
 			<Fragment>
 				{!!Component ? (
-					<div onClick={this.handleClick} style={{width: '100%'}}>
+					<div onClick={this.handleClick} id={id} style={{width: '100%'}}>
 						<Component />
 					</div>
 				) : (
 					<BasicButton
 						type={type}
+						id={id}
 						onClick={this.handleClick}
 						textStyle={{
 							...textStyle,
@@ -60,7 +61,7 @@ class DropDownMenu extends React.Component {
 					anchorEl={anchorEl}
 					onClose={this.handleClose}
 				>
-					<div 
+					<div
 						onClick={this.props.persistent? () => {} : this.handleClose}
 					>
 						{items}

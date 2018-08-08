@@ -3,10 +3,11 @@ import { Link, Icon } from '../../displayComponents';
 import { getSecondary, darkGrey } from '../../styles/colors';
 import { Card, MenuItem } from 'material-ui';
 
-const Block = ({ button, link, icon, text }) => (
+const Block = ({ button, link, icon, text, id }) => (
 	<React.Fragment>
-		<Link to={link}>
+		<Link to={link} >
 			<Card
+				id={id}
 				elevation={6}
 				style={{
 					height: "10em",

@@ -17,6 +17,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 			<Block
 				link={`/company/${company.id}/settings`}
 				icon="work"
+				id={'edit-company-block'}
 				text={translate.edit_company}
 			/>
 		</GridItem>

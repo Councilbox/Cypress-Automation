@@ -6,6 +6,7 @@ import CouncilPreparePage from "../components/council/prepare/CouncilPreparePage
 import MeetingEditorContainer from "./MeetingEditorContainer";
 import CompanySettingsPage from "../components/company/settings/CompanySettingsPage";
 import CompanyCensusPage from "../components/company/census/CompanyCensusPage";
+import SignatureEditorPage from '../components/company/signatures/editor/SignatureEditorPage';
 import UserSettingsPage from "../components/userSettings/UserSettingsPage";
 import CreateCouncil from "../components/CreateCouncil";
 import MeetingCreateContainer from "../components/meeting/MeetingCreateContainer";
@@ -116,6 +117,10 @@ const MainRouter = ({ company, location }) => {
             <Route
                 path="/company/:company/signatures/:section"
                 component={SignatureContainer}
+            />
+            <Route
+                path="/company/:company/signature/:id"
+                component={SignatureEditorPage}
             />
             <Route
                 exact

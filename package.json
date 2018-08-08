@@ -67,6 +67,7 @@
     "build": "cross-env REACT_APP_MODE=alpha react-scripts build",
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test": "mocha --require babel-register ./src/tests",
+    "e2eTest": "cypress run --spec=cypress/integration/CBX/complete.spec.js",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer build/static/js/main.*",
     "format": "prettier --write 'src/**/*'"
