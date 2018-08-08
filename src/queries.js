@@ -10,8 +10,8 @@ export const setCompanyAsSelected = gql`
 `;
 
 export const sendGraphQLError = gql`
-	mutation sendGraphQLError($error: GraphQLErrorInput!){
-		sendGraphQLError(graphQLError: $error){
+	mutation sendGraphQLError($error: GraphQLErrorInput!) {
+		sendGraphQLError(graphQLError: $error) {
 			success
 			message
 		}
@@ -19,8 +19,8 @@ export const sendGraphQLError = gql`
 `;
 
 export const refreshTokenQuery = gql`
-	mutation refreshToken($token: String!){
-		refreshToken(token: $token){
+	mutation refreshToken($token: String!) {
+		refreshToken(token: $token) {
 			token
 			refreshToken
 		}
@@ -83,8 +83,8 @@ export const getTranslations = gql`
 `;
 
 export const company = gql`
-	query company($id: Int!){
-		company(id: $id){
+	query company($id: Int!) {
+		company(id: $id) {
 			alias
 			tin
 			logo
@@ -149,14 +149,14 @@ export const councils = gql`
 `;
 
 export const downloadCertificate = gql`
-	mutation DownloadCertificate($id: Int!){
+	mutation DownloadCertificate($id: Int!) {
 		downloadCertificate(id: $id)
 	}
 `;
 
 export const createCertificate = gql`
-	mutation CreateCertificate($certificate: CertificateInput, $points: [Int]){
-		createCertificate(certificate: $certificate, points: $points){
+	mutation CreateCertificate($certificate: CertificateInput, $points: [Int]) {
+		createCertificate(certificate: $certificate, points: $points) {
 			success
 			message
 		}
@@ -164,8 +164,8 @@ export const createCertificate = gql`
 `;
 
 export const councilCertificates = gql`
-	query CouncilCertificates($councilId: Int!){
-		councilCertificates(councilId: $councilId){
+	query CouncilCertificates($councilId: Int!) {
+		councilCertificates(councilId: $councilId) {
 			id
 			councilId
 			title
@@ -175,11 +175,11 @@ export const councilCertificates = gql`
 			date
 		}
 
-		council(id: $councilId){
+		council(id: $councilId) {
 			id
 			name
 			dateStart
-			agendas{
+			agendas {
 				id
 				agendaSubject
 				description
@@ -189,16 +189,16 @@ export const councilCertificates = gql`
 `;
 
 export const councilActEmail = gql`
-	query CouncilActEmail($councilId: String!){
-		councilAct(councilId: $councilId){
+	query CouncilActEmail($councilId: String!) {
+		councilAct(councilId: $councilId) {
 			emailAct
 		}
 	}
 `;
 
 export const approveAct = gql`
-	mutation ApproveAct($councilId: Int!){
-		approveCouncilAct(councilId: $councilId){
+	mutation ApproveAct($councilId: Int!) {
+		approveCouncilAct(councilId: $councilId) {
 			success
 			message
 		}
@@ -242,8 +242,8 @@ export const createCouncil = gql`
 `;
 
 export const sendActDraft = gql`
-	mutation SendActDraft($councilId: Int!, $emailList: [String]){
-		sendCouncilActDraft(councilId: $councilId, emailList: $emailList){
+	mutation SendActDraft($councilId: Int!, $emailList: [String]) {
+		sendCouncilActDraft(councilId: $councilId, emailList: $emailList) {
 			success
 			message
 		}
@@ -251,8 +251,11 @@ export const sendActDraft = gql`
 `;
 
 export const sendAct = gql`
-	mutation SendActDraft($councilId: Int!, $participantsIds: [Int]!){
-		sendCouncilAct(councilId: $councilId, participantsIds: $participantsIds){
+	mutation SendActDraft($councilId: Int!, $participantsIds: [Int]!) {
+		sendCouncilAct(
+			councilId: $councilId
+			participantsIds: $participantsIds
+		) {
 			success
 			message
 		}
@@ -260,8 +263,11 @@ export const sendAct = gql`
 `;
 
 export const sendActToVote = gql`
-	mutation SendActDraft($councilId: Int!, $participants: [LiveParticipantInput]){
-		sendCouncilAct(councilId: $councilId, participants: $participants){
+	mutation SendActDraft(
+		$councilId: Int!
+		$participants: [LiveParticipantInput]
+	) {
+		sendCouncilAct(councilId: $councilId, participants: $participants) {
 			success
 			message
 		}
@@ -269,39 +275,57 @@ export const sendActToVote = gql`
 `;
 
 export const councilParticipantsWithActSends = gql`
-query councilParticipantsWithActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
-	councilParticipantsWithActSends(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
-		list {
-			id
-			councilId
-			name
-			surname
-			position
-			email
-			phone
-			dni
-			type
-			numParticipations
-			socialCapital
-			position
-			language
-			city
-			personOrEntity
-			actNotifications{
-				reqCode
-				sendType
+	query councilParticipantsWithActSends(
+		$councilId: Int!
+		$filters: [FilterInput]
+		$notificationStatus: Int
+		$options: OptionsInput
+	) {
+		councilParticipantsWithActSends(
+			councilId: $councilId
+			filters: $filters
+			notificationStatus: $notificationStatus
+			options: $options
+		) {
+			list {
+				id
+				councilId
+				name
+				surname
+				position
+				email
+				phone
+				dni
+				type
+				numParticipations
+				socialCapital
+				position
+				language
+				city
+				personOrEntity
+				actNotifications {
+					reqCode
+					sendType
+				}
 			}
+			total
 		}
-		total
 	}
-}
 `;
 
-
-
 export const councilParticipantsActSends = gql`
-	query councilParticipantsActSends($councilId: Int!, $filters: [FilterInput], $notificationStatus: Int, $options: OptionsInput ){
-		councilParticipantsActSends(councilId: $councilId, filters: $filters, notificationStatus: $notificationStatus, options: $options){
+	query councilParticipantsActSends(
+		$councilId: Int!
+		$filters: [FilterInput]
+		$notificationStatus: Int
+		$options: OptionsInput
+	) {
+		councilParticipantsActSends(
+			councilId: $councilId
+			filters: $filters
+			notificationStatus: $notificationStatus
+			options: $options
+		) {
 			list {
 				id
 				councilId
@@ -326,8 +350,8 @@ export const councilParticipantsActSends = gql`
 `;
 
 export const updateCouncilAct = gql`
-	mutation updateCouncilAct($councilAct: CouncilActInput){
-		updateCouncilAct(councilAct: $councilAct){
+	mutation updateCouncilAct($councilAct: CouncilActInput) {
+		updateCouncilAct(councilAct: $councilAct) {
 			success
 			message
 		}
@@ -641,8 +665,8 @@ export const corporationDrafts = gql`
 `;
 
 export const corporationDraft = gql`
-	query corporationDraft($id: Int!){
-		corporationDraft(id: $id){
+	query corporationDraft($id: Int!) {
+		corporationDraft(id: $id) {
 			categories
 			companyType
 			corporationId
@@ -691,8 +715,8 @@ export const corporationDraft = gql`
 `;
 
 export const createCorporationDraft = gql`
-	mutation CreateCorporationDraft($draft: CorporationDraftInput!){
-		createCorporationDraft(draft: $draft){
+	mutation CreateCorporationDraft($draft: CorporationDraftInput!) {
+		createCorporationDraft(draft: $draft) {
 			success
 			message
 		}
@@ -700,8 +724,8 @@ export const createCorporationDraft = gql`
 `;
 
 export const deleteCorporationDraft = gql`
-	mutation deleteCorporationDraft($id: Int!){
-		deleteCorporationDraft(id: $id){
+	mutation deleteCorporationDraft($id: Int!) {
+		deleteCorporationDraft(id: $id) {
 			success
 			message
 		}
@@ -709,8 +733,8 @@ export const deleteCorporationDraft = gql`
 `;
 
 export const updateCorporationDraft = gql`
-	mutation updateCorporationDraft($draft: CorporationDraftInput!){
-		updateCorporationDraft(draft: $draft){
+	mutation updateCorporationDraft($draft: CorporationDraftInput!) {
+		updateCorporationDraft(draft: $draft) {
 			id
 		}
 	}
@@ -775,7 +799,7 @@ export const updateStatute = gql`
 
 export const deleteStatute = gql`
 	mutation deleteStatute($statuteId: Int!) {
-		deleteCompanyStatute(statuteId: $statuteId){
+		deleteCompanyStatute(statuteId: $statuteId) {
 			success
 		}
 	}
@@ -957,7 +981,7 @@ export const removeCouncilAttachment = gql`
 		removeCouncilAttachment(
 			councilId: $councilId
 			attachmentId: $attachmentId
-		){
+		) {
 			success
 		}
 	}
@@ -1255,16 +1279,16 @@ export const councilDetails = gql`
 `;
 
 export const councilAndAgendaAttachments = gql`
-	query council($councilId: Int!){
-		council(id: $councilId){
+	query council($councilId: Int!) {
+		council(id: $councilId) {
 			id
-			attachments{
+			attachments {
 				id
 				filename
 				filesize
 				filetype
 			}
-			agendas{
+			agendas {
 				id
 				agendaSubject
 				orderIndex
@@ -1284,7 +1308,7 @@ export const councilAndAgendaAttachments = gql`
 export const councilLiveQuery = gql`
 	query CouncilLiveQuery($councilID: Int!) {
 		council(id: $councilID) {
-			act{
+			act {
 				id
 				intro
 				conclusion
@@ -1454,14 +1478,14 @@ export const councilLiveQuery = gql`
 			zipcode
 		}
 
-		councilRecount(councilId: $councilID){
-            id
-            socialCapitalTotal
-            partTotal
-            numTotal
-            socialCapitalRightVoting
-            numRightVoting
-        }
+		councilRecount(councilId: $councilID) {
+			id
+			socialCapitalTotal
+			partTotal
+			numTotal
+			socialCapitalRightVoting
+			numRightVoting
+		}
 	}
 `;
 
@@ -1562,7 +1586,10 @@ export const addAgendaAttachment = gql`
 
 export const removeAgendaAttachment = gql`
 	mutation removeAgendaAttachment($attachmentId: Int!, $agendaId: Int!) {
-		removeAgendaAttachment(attachmentId: $attachmentId, agendaId: $agendaId){
+		removeAgendaAttachment(
+			attachmentId: $attachmentId
+			agendaId: $agendaId
+		) {
 			success
 			message
 		}
@@ -1571,7 +1598,7 @@ export const removeAgendaAttachment = gql`
 
 export const openAgenda = gql`
 	mutation openAgendaPoint($agendaId: Int!) {
-		openAgendaPoint(agendaId: $agendaId){
+		openAgendaPoint(agendaId: $agendaId) {
 			success
 			message
 		}
@@ -1580,7 +1607,7 @@ export const openAgenda = gql`
 
 export const openActPoint = gql`
 	mutation OpenActPoint($councilId: Int!) {
-		openActPoint(councilId: $councilId){
+		openActPoint(councilId: $councilId) {
 			success
 			message
 		}
@@ -1608,15 +1635,6 @@ export const openAgendaVoting = gql`
 export const closeAgendaVoting = gql`
 	mutation closeAgendaVoting($agendaId: Int!) {
 		closeAgendaVoting(agendaId: $agendaId) {
-			success
-			message
-		}
-	}
-`;
-
-export const startCouncil = gql`
-	mutation startCouncil($council: CouncilInput) {
-		startCouncil(council: $council) {
 			success
 			message
 		}
@@ -1664,15 +1682,22 @@ export const downloadAttendPDF = gql`
 `;
 
 export const downloadConnectionsExcel = gql`
-	query downloadConnectionsExcel($councilId: Int!){
+	query downloadConnectionsExcel($councilId: Int!) {
 		downloadConnectionsExcel(councilId: $councilId)
 	}
 `;
 
-
 export const councilAttendants = gql`
-	query councilAttendants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
-		councilAttendants(councilId: $councilId, filters: $filters, options: $options){
+	query councilAttendants(
+		$councilId: Int!
+		$filters: [FilterInput]
+		$options: OptionsInput
+	) {
+		councilAttendants(
+			councilId: $councilId
+			filters: $filters
+			options: $options
+		) {
 			list {
 				id
 				delegateId
@@ -1761,7 +1786,7 @@ export const liveParticipants = gql`
 				surname
 				assistanceComment
 				assistanceLastDateConfirmed
-				assistanceIntention				
+				assistanceIntention
 				representative {
 					id
 					name
@@ -2357,8 +2382,6 @@ export const updateOrder = gql`
 		}
 	}
 `;
-
-
 
 export const getVideoHTML = gql`
 	query getVideoHTML($councilID: ID!) {

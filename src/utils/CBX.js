@@ -29,7 +29,7 @@ export const showAddCouncilAttachment = attachments => {
 export const canAddCouncilAttachment = (council, filesize) => {
 	return (
 		council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) +
-			filesize <
+		filesize <
 		MAX_COUNCIL_FILE_SIZE
 	);
 };
@@ -93,7 +93,7 @@ export const majorityNeedsInput = majorityType => {
 
 export const haveQualityVoteConditions = (agenda, council) => {
 	return (agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING) &&
-			(agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings +
+		(agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings +
 			agenda.negativeManual) && council.statute.existsQualityVote;
 };
 
@@ -102,10 +102,10 @@ export const canEditPresentVotings = agenda => {
 }
 
 export const approvedByQualityVote = (agenda, qualityVoteId) => {
-	if(agenda.votings && qualityVoteId){
+	if (agenda.votings && qualityVoteId) {
 		const qualityVote = agenda.votings.find(item => item.participantId === qualityVoteId);
-		if(qualityVote){
-			if(qualityVote.vote === VOTE_VALUES.POSITIVE){
+		if (qualityVote) {
+			if (qualityVote.vote === VOTE_VALUES.POSITIVE) {
 				return true;
 			}
 		}
@@ -238,13 +238,13 @@ export const changeVariablesToValues = (text, data, translate) => {
 			moment.ISO_8601
 		).format("LLL")
 	);
-	text = text.replace("{{dateRealStart}}", !!data.council.dateRealStart? data.council.dateRealStart : '');
-	text = text.replace("{{firstOrSecondCall}}", data.council.firstOrSecondCall === 1? 
+	text = text.replace("{{dateRealStart}}", !!data.council.dateRealStart ? data.council.dateRealStart : '');
+	text = text.replace("{{firstOrSecondCall}}", data.council.firstOrSecondCall === 1 ?
 		translate.first_call
-	:
-		data.council.firstOrSecondCall === 2?
-			translate.second_call
 		:
+		data.council.firstOrSecondCall === 2 ?
+			translate.second_call
+			:
 			''
 	);
 
@@ -289,20 +289,20 @@ export const getActPointSubjectType = () => {
 };
 
 export const generateInitialDates = (statute) => {
-	if(statute.existsAdvanceNoticeDays === 1){
+	if (statute.existsAdvanceNoticeDays === 1) {
 		const momentDate = moment(new Date().toISOString());
 		const dates = {
 			dateStart: momentDate.add(statute.advanceNoticeDays, "days").toISOString()
 		}
-		if(hasSecondCall(statute)){
+		if (hasSecondCall(statute)) {
 			dates.dateStart2NdCall = addMinimumDistance(dates.dateStart, statute);
 		}
-	
+
 		return dates;
-	}else{
+	} else {
 		return {
 			dateStart: new Date(),
-			...(hasSecondCall(statute)? { dateStart2NdCall: new Date() } : {})
+			...(hasSecondCall(statute) ? { dateStart2NdCall: new Date() } : {})
 		}
 	}
 }
@@ -310,7 +310,7 @@ export const generateInitialDates = (statute) => {
 
 
 export const checkMinimumAdvance = (date, statute) => {
-	if(statute.existsAdvanceNoticeDays === 1){
+	if (statute.existsAdvanceNoticeDays === 1) {
 		const firstDate = moment(
 			new Date(date).toISOString(),
 			moment.ISO_8601
@@ -347,7 +347,7 @@ export const councilIsNotLiveYet = council => {
 
 export const councilIsPreparing = council => {
 	return (
-		council.state === COUNCIL_STATES.PREPARING 
+		council.state === COUNCIL_STATES.PREPARING
 	);
 };
 
@@ -398,9 +398,9 @@ export const addDecimals = (num, fixed) => {
 function s2ab(s) {
 	var buf = new ArrayBuffer(s.length);
 	var view = new Uint8Array(buf);
-	for (let i=0; i!==s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
+	for (let i = 0; i !== s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
 	return buf;
-  }
+}
 
 export const downloadFile = (base64, filetype, filename) => {
 	let bufferArray = dataURItoBlob(base64);
@@ -413,11 +413,11 @@ export const downloadFile = (base64, filetype, filename) => {
 		return window.navigator.msSaveOrOpenBlob(blobObject, filename);
 	} else {
 		let blob;
-		if(filetype === 'excel'){
+		if (filetype === 'excel') {
 			blob = new Blob([s2ab(atob(bufferArray))], {
 				type: ''
 			});
-		}else{
+		} else {
 			blob = new Blob([bufferArray], {
 				type: filetype
 			});
@@ -795,23 +795,23 @@ export const formatSize = size => {
 
 export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 	let specialSL = false;
-	if(company.type === 1 && council.quorumPrototype === 1){
+	if (company.type === 1 && council.quorumPrototype === 1) {
 		specialSL = true;
 	}
 	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.quorumPrototype);
 }
 
 export const calculateQuorum = (council, recount) => {
-    let base;
-    if(council.quorumPrototype === 1){
-        base = !!recount? recount.socialCapitalTotal : 0;
-    }else{
-        base = !!recount? recount.numTotal : 0;
-    }
+	let base;
+	if (council.quorumPrototype === 1) {
+		base = !!recount ? recount.socialCapitalTotal : 0;
+	} else {
+		base = !!recount ? recount.numTotal : 0;
+	}
 
-    if(council.firstOrSecondConvene === 1){
-        return LiveUtil.calculateQuorum(base, council.statute.firstCallQuorumType, council.statute.firstCallQuorum, council.statute.firstCallQuorumDivider);
-    }
+	if (council.firstOrSecondConvene === 1) {
+		return LiveUtil.calculateQuorum(base, council.statute.firstCallQuorumType, council.statute.firstCallQuorum, council.statute.firstCallQuorumDivider);
+	}
 
-    return LiveUtil.calculateQuorum(base, council.statute.secondCallQuorumType, council.statute.secondCallQuorum, council.statute.secondCallQuorumDivider);
+	return LiveUtil.calculateQuorum(base, council.statute.secondCallQuorumType, council.statute.secondCallQuorum, council.statute.secondCallQuorumDivider);
 }
