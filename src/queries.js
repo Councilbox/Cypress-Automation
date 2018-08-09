@@ -1641,14 +1641,6 @@ export const closeAgendaVoting = gql`
 	}
 `;
 
-export const endCouncil = gql`
-	mutation endCouncil($councilId: Int!) {
-		endCouncil(councilId: $councilId) {
-			id
-		}
-	}
-`;
-
 export const updateCredentialsSends = gql`
 	mutation updateCredentialsSends($councilId: Int!) {
 		updateCredentialsSends(councilId: $councilId) {

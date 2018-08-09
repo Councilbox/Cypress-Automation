@@ -180,3 +180,11 @@ export const startCouncil = gql`
 		}
 	}
 `;
+
+export const endCouncil = gql`
+	mutation endCouncil($councilId: Int!) {
+		endCouncil(councilId: $councilId) {
+			success
+		}
+	}
+`;
