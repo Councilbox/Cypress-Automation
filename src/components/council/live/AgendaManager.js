@@ -33,7 +33,8 @@ class AgendaManager extends React.Component {
 	}
 
 	getInitialSelectedPoint = () => {
-		return this.props.data.agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
+		const index = this.props.data.agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
+		return index !== -1? index : 0;
 	}
 
 	changeSelectedPoint = index => {

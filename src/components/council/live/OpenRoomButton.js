@@ -14,7 +14,8 @@ import { moment } from '../../../containers/App';
 class OpenRoomButton extends React.Component {
 	state = {
 		sendCredentials: true,
-		confirmModal: false
+		confirmModal: false,
+		loading: false
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -27,6 +28,9 @@ class OpenRoomButton extends React.Component {
 
 	openCouncilRoom = async () => {
 		const { council } = this.props;
+		this.setState({
+			loading: true
+		});
 		const response = await this.props.openCouncilRoom({
 			variables: {
 				councilId: council.id,
@@ -36,7 +40,7 @@ class OpenRoomButton extends React.Component {
 		});
 		if (response.data.openCouncilRoom.success) {
 			this.setState({
-				confirmModal: false
+				confirmModal: false,
 			});
 			this.props.refetch();
 		}
@@ -55,6 +59,7 @@ class OpenRoomButton extends React.Component {
 					<BasicButton
 						text={translate.open_room}
 						color={primary}
+						loading={this.state.loading}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
 						icon={

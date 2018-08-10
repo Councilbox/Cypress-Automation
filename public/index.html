@@ -13,12 +13,38 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
     <title>Councilbox</title>
+    <style>
+      .landingPage {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+      }
+      @keyframes example {
+          0% {width: 25px; height: auto}
+          50% {width: 200px; height: auto}
+          100% {width: 25px; height: auto}
+      }
+
+      .splash {
+        animation-name: example;
+        animation-duration: 6s;
+        width: 200px;
+        height: auto;
+        animation-iteration-count: infinite;
+      }
+    </style>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root">
+    </div>
+    <div class="landingPage">
+      <img src="/img/logo-icono.png" class="splash" alt="councilbox logo">
     </div>
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated"></script>
   </body>

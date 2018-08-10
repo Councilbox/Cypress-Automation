@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import { createCouncil } from "../queries";
 import { graphql } from 'react-apollo';
 import { bHistory } from "../containers/App";
+import { toast } from 'react-toastify';
 
 class CreateCouncil extends Component {
 	constructor(props) {
@@ -20,7 +21,11 @@ class CreateCouncil extends Component {
 				companyId: companyId
 			}
 		});
-		return response.data.createCouncil.id;
+		if(response.data.createCouncil){
+			return response.data.createCouncil.id;
+		}else{
+			return null;
+		}
 	}
 
 	async componentDidMount() {
@@ -36,7 +41,12 @@ class CreateCouncil extends Component {
 			let newCouncilId = await this.createCouncil(
 				this.props.match.params.company
 			);
-			bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
+			if(newCouncilId){
+				bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
+			}else{
+				bHistory.replace(`/company/${this.props.match.params.company}`);
+				toast.error('No dispone de ningún tipo de reunión, por favor añada uno antes de crear una nueva reunión');//TRADUCCION
+			}
 		}
 	}
 

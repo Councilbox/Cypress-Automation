@@ -6,6 +6,7 @@ import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
+import CouncilInfoMenu from './CouncilInfoMenu';
 import Comments from "./Comments";
 import Votings from "./Votings";
 import * as CBX from "../../../utils/CBX";
@@ -132,13 +133,10 @@ class AgendaDetailsSection extends React.Component {
 						</Grid>
 					</GridItem>
 					<GridItem xs={12} lg={councilStarted? 4 : 6} md={councilStarted? 4 : 6} style={{borderLeft: '1px solid gainsboro'}}>
-						<Grid style={{paddingLeft: '1.2em'}}>
+						<div style={{paddingLeft: '1.2em', display: 'flex', alignItems: 'center'}}>
 							{council.state === 20 || council.state === 30 ? (
 									!CBX.councilStarted(council) ? (
-										<GridItem
-											xs={12} lg={12} md={12}
-											style={{ marginTop: "0.6em" }}
-										>
+										<div>
 											<StartCouncilButton
 												recount={this.props.recount}
 												council={council}
@@ -146,12 +144,9 @@ class AgendaDetailsSection extends React.Component {
 												participants={participants}
 												refetch={refetch}
 											/>
-										</GridItem>
+										</div>
 									) : (
-										<GridItem
-											xs={12} lg={12} md={12}
-											style={{ marginTop: "0.6em" }}
-										>
+										<div>
 											<EndCouncilButton
 												council={{
 													...council,
@@ -159,7 +154,7 @@ class AgendaDetailsSection extends React.Component {
 												}}
 												translate={translate}
 											/>
-										</GridItem>
+										</div>
 									)
 								) : (
 									<OpenRoomButton
@@ -169,7 +164,11 @@ class AgendaDetailsSection extends React.Component {
 									/>
 								)
 							}
-						</Grid>
+							<CouncilInfoMenu
+								translate={translate}
+								council={council}
+							/>
+						</div>
 					</GridItem>
 				</Grid>
 				<div style={{borderTop: '1px solid gainsboro', width: '100%', height: 'calc(100vh - 13.5em)', overflow: 'hidden'}}>

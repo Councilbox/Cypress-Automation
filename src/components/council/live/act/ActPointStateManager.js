@@ -52,9 +52,9 @@ class ActPointStateManager extends React.PureComponent {
                     <React.Fragment>
                         <BasicButton
                             text={translate.save_preview_act}
-                            color={primary}
+                            color={'white'}
                             textStyle={{
-                                color: 'white',
+                                color: primary,
                                 fontWeight: "700",
                                 fontSize: "0.9em",
                                 textTransform: "none"
