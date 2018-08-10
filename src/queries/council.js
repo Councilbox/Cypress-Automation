@@ -158,3 +158,33 @@ export const conveneWithoutNotice = gql`
 		}
 	}
 `;
+
+
+export const startCouncil = gql`
+	mutation startCouncil(
+		$councilId: Int!
+		$presidentId: Int!
+		$secretaryId: Int!
+		$firstOrSecondConvene: Int
+		$qualityVoteId: Int
+	) {
+		startCouncil(
+			councilId: $councilId
+			presidentId: $presidentId
+			secretaryId: $secretaryId
+			firstOrSecondConvene: $firstOrSecondConvene
+			qualityVoteId: $qualityVoteId
+		) {
+			success
+			message
+		}
+	}
+`;
+
+export const endCouncil = gql`
+	mutation endCouncil($councilId: Int!) {
+		endCouncil(councilId: $councilId) {
+			success
+		}
+	}
+`;

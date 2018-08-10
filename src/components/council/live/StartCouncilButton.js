@@ -1,5 +1,5 @@
 import React from "react";
-import { councilOfficials, startCouncil } from "../../../queries";
+import { councilOfficials } from "../../../queries";
 import { compose, graphql } from "react-apollo";
 import {
 	AlertConfirm,
@@ -17,7 +17,7 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
 import { existsQualityVote, calculateQuorum } from "../../../utils/CBX";
 import ConveneSelector from './ConveneSelector';
-
+import { startCouncil } from "../../../queries/council";
 
 class StartCouncilButton extends React.Component {
 
@@ -39,30 +39,19 @@ class StartCouncilButton extends React.Component {
 
 	startCouncil = async () => {
 		if (!this.checkRequiredFields()) {
-			const { council, recount } = this.props;
-			const currentQuorum = council.quorumPrototype? (
-				recount.socialCapitalRightVoting
-			) : (
-				recount.numRightVoting
-			);
-			const neededQuorum = calculateQuorum(council, recount);
-
-
-			const response = await this.props.startCouncil({
+			const { council, refetch, startCouncil } = this.props;
+			const { presidentId, secretaryId, qualityVoteId, firstOrSecondConvene } = this.state.data;
+			const response = await startCouncil({
 				variables: {
-					council: {
-						...this.state.data,
-						id: council.id,
-						companyId: council.companyId,
-						neededQuorum: neededQuorum,
-						currentQuorum: currentQuorum,
-						satisfyQuorum: (currentQuorum >= neededQuorum ? 1 : 0),
-						firstOrSecondConvene: this.state.data.firstOrSecondConvene
-					}
+					councilId: council.id,
+					presidentId,
+					secretaryId,
+					qualityVoteId,
+					firstOrSecondConvene
 				}
 			});
 			if (response) {
-				this.props.refetch();
+				refetch();
 			}
 		}
 	};

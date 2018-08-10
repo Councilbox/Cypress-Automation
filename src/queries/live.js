@@ -12,3 +12,19 @@ export const liveRecount = gql`
         }
     }
 `;
+
+export const openCouncilRoom = gql`
+	mutation openCouncilRoom(
+		$councilId: Int!
+		$sendCredentials: Boolean!
+		$timezone: String!
+	) {
+		openCouncilRoom(
+			councilId: $councilId
+			sendCredentials: $sendCredentials
+			timezone: $timezone
+		) {
+			success
+		}
+	}
+`;

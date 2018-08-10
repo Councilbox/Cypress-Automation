@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { endCouncil } from "../../../queries";
+import { endCouncil } from "../../../queries/council";
 import { AlertConfirm, BasicButton, Icon } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { AGENDA_STATES } from "../../../constants";
@@ -20,15 +20,12 @@ class EndCouncilButton extends React.Component {
 				councilId: council.id
 			}
 		});
-		if (response) {
-			if (response.data.endCouncil.id) {
-				bHistory.push(
-					`/company/${council.companyId}/council/${
-						council.id
-					}/finished`
-				);
-				//this.props.refetch();
-			}
+		if (!response.errors) {
+			bHistory.push(
+				`/company/${council.companyId}/council/${
+					council.id
+				}/finished`
+			);
 		}
 	};
 

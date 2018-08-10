@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { graphql } from "react-apollo";
-import { openCouncilRoom } from "../../../queries";
+import { openCouncilRoom } from "../../../queries/live";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -29,12 +29,7 @@ class OpenRoomButton extends React.Component {
 		const { council } = this.props;
 		const response = await this.props.openCouncilRoom({
 			variables: {
-				council: {
-					id: council.id,
-					name: council.name,
-					language: council.language,
-					councilType: council.councilType
-				},
+				councilId: council.id,
 				timezone: moment().utcOffset(),
 				noVideoEmails: !this.state.sendCredentials
 			}
