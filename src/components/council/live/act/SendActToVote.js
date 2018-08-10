@@ -19,12 +19,7 @@ class SendActToVote extends React.Component {
 		const { council, agenda } = this.props;
 		const response = await this.props.openAgendaVoting({
 			variables: {
-				agenda: {
-					id: agenda.id,
-					councilId: agenda.councilId,
-					subjectType: agenda.subjectType,
-					language: council.language
-				}
+				agendaId: agenda.id
 			}
 		});
 		if (response) {

@@ -99,13 +99,24 @@ class AgendaDetailsSection extends React.Component {
 							</GridItem>
 							<GridItem xs={12} md={4} lg={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 								{councilStarted && !CBX.agendaClosed(agenda) && (
-									<ToggleAgendaButton
-										agenda={agenda}
-										nextPoint={this.props.nextPoint}
-										translate={translate}
-										refetch={refetch}
-										active={agenda.orderIndex === this.state.openIndex}
-									/>
+									<React.Fragment>
+										{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT?
+											<ActPointStateManager
+												council={council}
+												agenda={agenda}
+												translate={translate}
+												refetch={this.props.refetch}
+											/>
+										:
+											<ToggleAgendaButton
+												agenda={agenda}
+												nextPoint={this.props.nextPoint}
+												translate={translate}
+												refetch={refetch}
+												active={agenda.orderIndex === this.state.openIndex}
+											/>
+										}
+									</React.Fragment>
 								)}
 							</GridItem>
 							<GridItem xs={12} md={4} lg={4}>
@@ -121,53 +132,44 @@ class AgendaDetailsSection extends React.Component {
 						</Grid>
 					</GridItem>
 					<GridItem xs={12} lg={councilStarted? 4 : 6} md={councilStarted? 4 : 6} style={{borderLeft: '1px solid gainsboro'}}>
-						{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT?
-							<ActPointStateManager
-								council={council}
-								agenda={agenda}
-								translate={translate}
-								refetch={this.props.refetch}
-							/>
-						:
-							<Grid style={{paddingLeft: '1.2em'}}>
-								{council.state === 20 || council.state === 30 ? (
-										!CBX.councilStarted(council) ? (
-											<GridItem
-												xs={12} lg={12} md={12}
-												style={{ marginTop: "0.6em" }}
-											>
-												<StartCouncilButton
-													recount={this.props.recount}
-													council={council}
-													translate={translate}
-													participants={participants}
-													refetch={refetch}
-												/>
-											</GridItem>
-										) : (
-											<GridItem
-												xs={12} lg={12} md={12}
-												style={{ marginTop: "0.6em" }}
-											>
-												<EndCouncilButton
-													council={{
-														...council,
-														agendas: this.props.agendas
-													}}
-													translate={translate}
-												/>
-											</GridItem>
-										)
+						<Grid style={{paddingLeft: '1.2em'}}>
+							{council.state === 20 || council.state === 30 ? (
+									!CBX.councilStarted(council) ? (
+										<GridItem
+											xs={12} lg={12} md={12}
+											style={{ marginTop: "0.6em" }}
+										>
+											<StartCouncilButton
+												recount={this.props.recount}
+												council={council}
+												translate={translate}
+												participants={participants}
+												refetch={refetch}
+											/>
+										</GridItem>
 									) : (
-										<OpenRoomButton
-											translate={translate}
-											council={council}
-											refetch={refetch}
-										/>
+										<GridItem
+											xs={12} lg={12} md={12}
+											style={{ marginTop: "0.6em" }}
+										>
+											<EndCouncilButton
+												council={{
+													...council,
+													agendas: this.props.agendas
+												}}
+												translate={translate}
+											/>
+										</GridItem>
 									)
-								}
-							</Grid>
-						}
+								) : (
+									<OpenRoomButton
+										translate={translate}
+										council={council}
+										refetch={refetch}
+									/>
+								)
+							}
+						</Grid>
 					</GridItem>
 				</Grid>
 				<div style={{borderTop: '1px solid gainsboro', width: '100%', height: 'calc(100vh - 13.5em)', overflow: 'hidden'}}>

@@ -5,12 +5,36 @@ import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { agendaManager } from "../../../queries";
 import { LoadingSection, Scrollbar } from "../../../displayComponents";
+import { AGENDA_STATES } from '../../../constants';
 
 class AgendaManager extends React.Component {
 
 	state = {
-		selectedPoint: 0
+		selectedPoint: 0,
+		loaded: false
 	};
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			return {
+				loaded: true
+			}
+		}
+
+		return null;
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		if(!prevState.loaded && this.state.loaded){
+			this.setState({
+				selectedPoint: this.getInitialSelectedPoint()
+			});
+		}
+	}
+
+	getInitialSelectedPoint = () => {
+		return this.props.data.agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
+	}
 
 	changeSelectedPoint = index => {
 		this.setState({
@@ -147,7 +171,7 @@ class AgendaManager extends React.Component {
 						participants={this.props.participants}
 						councilID={this.props.councilID}
 						translate={translate}
-						refetch={this.props.refetch}
+						refetch={this.props.data.refetch}
 					/>
 				</div>
 			</div>

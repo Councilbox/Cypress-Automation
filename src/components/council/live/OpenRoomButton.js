@@ -31,7 +31,7 @@ class OpenRoomButton extends React.Component {
 			variables: {
 				councilId: council.id,
 				timezone: moment().utcOffset(),
-				noVideoEmails: !this.state.sendCredentials
+				sendCredentials: this.state.sendCredentials
 			}
 		});
 		if (response.data.openCouncilRoom.success) {

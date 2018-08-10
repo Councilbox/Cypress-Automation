@@ -1727,12 +1727,12 @@ export const endCouncil = gql`
 export const openCouncilRoom = gql`
 	mutation openCouncilRoom(
 		$council: CouncilInput
-		$noVideoEmails: Boolean
+		$sendCredentials: Boolean
 		$timezone: String
 	) {
 		openCouncilRoom(
 			council: $council
-			noVideoEmails: $noVideoEmails
+			sendCredentials: $sendCredentials
 			timezone: $timezone
 		) {
 			success
