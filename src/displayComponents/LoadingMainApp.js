@@ -14,12 +14,12 @@ const LoadingMainApp = ({ message }) => (
 			flexDirection: 'column'
 		}}
 	>
-{/* 		<Spinner
+		<Spinner
 			name="double-bounce"
 			color={getPrimary()}
 			className="spinner"
-		/> */}
-		<img src="icono" alt="councilbox logo" className='splash' />
+		/>
+		{/* <img src="icono" alt="councilbox logo" className='splash' /> */}
 		<div>
 			{message}
 		</div>
