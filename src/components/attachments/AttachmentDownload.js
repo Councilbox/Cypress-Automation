@@ -7,6 +7,10 @@ import FontAwesome from "react-fontawesome";
 import { downloadFile, printPrettyFilesize } from "../../utils/CBX";
 
 class AttachmentDownload extends React.Component {
+	state = {
+		downloading: false
+	};
+
 	downloadAttachment = async id => {
 		this.setState({
 			downloading: true
@@ -40,13 +44,6 @@ class AttachmentDownload extends React.Component {
 
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			downloading: false
-		};
-	}
 
 	render() {
 		const { attachment } = this.props;

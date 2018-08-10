@@ -12,7 +12,7 @@ export const videoVersions = {
 	OLD: 'OLD'
 }
 export const config = {
-	videoEnabled: false,
+	videoEnabled: true,
 	videoVersion: videoVersions.CMP //OLD - CMP
 }
 

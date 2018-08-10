@@ -30,6 +30,9 @@ class SignatureStepTwo extends React.Component {
         });
 
         console.log(response);
+        if(response.data.sendSignature.success){
+            this.props.refetch();
+        }
     }
 
     render(){
@@ -80,7 +83,7 @@ class SignatureStepTwo extends React.Component {
 const sendSignature = gql`
     mutation SendSignature($id: Int!){
         sendSignature(id: $id){
-            id
+            success
         }
     }
 `;

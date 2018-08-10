@@ -100,8 +100,7 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 								</Icon>
 							}
 							onClick={() =>
-								//bHistory.push(`/company/${company.id}/council/new`)
-								console.log('nueva firma')
+								bHistory.push(`/company/${company.id}/signature/new`)
 							}
 						/>
 					</div>

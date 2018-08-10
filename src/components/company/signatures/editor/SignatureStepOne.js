@@ -15,7 +15,8 @@ class SignatureStepOne extends React.Component {
             ...this.props.signature
         },
         editDocument: false,
-        errors: {}
+        errors: {},
+        errorState: false
     }
 
     updateState = object => {
@@ -25,6 +26,10 @@ class SignatureStepOne extends React.Component {
                 ...object
             }
         });
+
+        if(this.state.errorState){
+            this.checkRequiredFields();
+        }
     }
 
     updateAttachment = object => {
@@ -88,13 +93,13 @@ class SignatureStepOne extends React.Component {
                 this.setState({
                     uploading: true
                 });
-    
+
                 const response = await this.props.saveSignatureDocument({
                     variables: {
                         document: fileInfo
                     }
                 });
-    
+
                 if (response.data) {
                     if(response.data.saveSignatureDocument.id){
                         this.setState({
@@ -133,7 +138,7 @@ class SignatureStepOne extends React.Component {
         console.log(response);
         return response;
     }
-    
+
     nextStep = async () => {
         if(!this.checkRequiredFields()){
             const result = await this.saveSignature();
@@ -144,7 +149,44 @@ class SignatureStepOne extends React.Component {
     }
 
     checkRequiredFields = () => {
-        return false;
+        const errors = {
+            expirationDateToSign: '',
+            title: '',
+            description: '',
+            file: ''
+        }
+
+        const { data } = this.state;
+        const { translate } = this.props;
+
+        let hasError = false;
+
+        if(!data.expirationDateToSign){
+            errors.expirationDateToSign = translate.required_field;
+            hasError = true;
+        }
+
+        if(!data.title){
+            errors.title = translate.required_field;
+            hasError = true;
+        }
+
+        if(!data.description){
+            errors.description = translate.required_field;
+            hasError = true;
+        }
+
+        if(!data.attachment){
+            errors.file = translate.must_add_attachment_file_to_sign;
+            hasError = true;
+        }
+
+        this.setState({
+            errors,
+            errorState: true
+        });
+
+        return hasError;
     }
 
     render(){
@@ -190,6 +232,7 @@ class SignatureStepOne extends React.Component {
                         >
                             <TextInput
                                 floatingText={translate.signature_title}
+                                errorText={errors.title}
                                 onChange={(event) => this.updateState({title: event.target.value})}
                                 value={data.title}
                             />
@@ -201,7 +244,8 @@ class SignatureStepOne extends React.Component {
                             }}
                         >
                             <RichTextInput
-                                value={data.description}
+                                value={data.description || ''}
+                                errorText={errors.description}
                                 floatingText={translate.description}
                                 onChange={value => this.updateState({description: value})}
                             />
@@ -259,7 +303,7 @@ class SignatureStepOne extends React.Component {
                                         />
                                     </div>
                                     {!!this.state.errors.file &&
-                                        <p>
+                                        <p style={{color: 'red', fontWeight: '700'}}>
                                             {this.state.errors.file}
                                         </p>
                                     }

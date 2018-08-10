@@ -216,7 +216,7 @@ class HoverableRow extends React.PureComponent {
 				}`}
 			>
 				<TableCell>
-					{signature.title}
+					{signature.title || translate.dashboard_new_signature}
 				</TableCell>
 				<TableCell>
 					{this.state.showActions?

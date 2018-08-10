@@ -2,12 +2,37 @@ export const COMMANDS = [
     {
         section: 'Council',
         command: 'Create',
-        link: '/council/new'
+        link: '/company/{{companyId}}/council/new'
     },
 
     {
-        section: 'Council',
+        section: 'Councils',
         command: 'Drafts',
-        link: '/councils/drafts'
+        link: '/company/{{companyId}}/councils/drafts'
+    },
+    {
+        section: 'Councils',
+        command: 'Convened',
+        link: '/company/{{companyId}}/councils/calendar'
+    },
+    {
+        section: 'Councils',
+        command: 'Live',
+        link: '/company/{{companyId}}/councils/live'
+    },
+    {
+        section: 'Signatures',
+        command: 'New',
+        link: '/company/{{companyId}}/signature/new'
+    },
+    {
+        section: 'Company',
+        command: 'Settings',
+        link: '/company/{{companyId}}/settings'
+    },
+    {
+        section: 'User',
+        command: 'Settings',
+        link: '/user/{{userId}}'
     }
 ]

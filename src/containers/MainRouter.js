@@ -6,7 +6,8 @@ import CouncilPreparePage from "../components/council/prepare/CouncilPreparePage
 import MeetingEditorContainer from "./MeetingEditorContainer";
 import CompanySettingsPage from "../components/company/settings/CompanySettingsPage";
 import CompanyCensusPage from "../components/company/census/CompanyCensusPage";
-import SignatureEditorPage from '../components/company/signatures/editor/SignatureEditorPage';
+import SignatureRootPage from '../components/company/signatures/SignatureRootPage';
+import CreateSignature from '../components/company/signatures/CreateSignature';
 import UserSettingsPage from "../components/userSettings/UserSettingsPage";
 import CreateCouncil from "../components/CreateCouncil";
 import MeetingCreateContainer from "../components/meeting/MeetingCreateContainer";
@@ -27,9 +28,9 @@ import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 
 
-const MainRouter = ({ company, location }) => {
+const MainRouter = ({ company, user, location }) => {
 
-    if(!location.pathname.includes(`/company/${company.id}`)){
+    if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`)){
         return <Redirect to={`/company/${company.id}`} />
     }
 
@@ -115,12 +116,17 @@ const MainRouter = ({ company, location }) => {
                 component={CouncilCertificatesPage}
             />
             <Route
+                exact
+                path="/company/:company/signature/new"
+                component={CreateSignature}
+            />
+            <Route
                 path="/company/:company/signatures/:section"
                 component={SignatureContainer}
             />
             <Route
                 path="/company/:company/signature/:id"
-                component={SignatureEditorPage}
+                component={SignatureRootPage}
             />
             <Route
                 exact

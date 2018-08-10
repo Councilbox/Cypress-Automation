@@ -33,14 +33,16 @@ const BasicButton = ({
 	return (
 		<Button
 			id={id}
+			disableRipple={loading}
 			style={{
 				...buttonStyle,
 				...textStyle,
 				backgroundColor: success ? "green" : error ? "red" : color,
 				float: floatRight && "right",
-				outline: "0"
+				outline: "0",
+				cursor: loading? 'wait' : 'pointer'
 			}}
-			disabled={disabled}
+			disabled={disabled || loading}
 			variant={type}
 			{...(!success && !loading? {onClick: onClick} : {})}
 			fullWidth={fullWidth}

@@ -17,7 +17,7 @@ const DraggableBlock = SortableElement((props) => {
 				border: `2px solid ${getPrimary()}`,
 				listStyleType: "none",
 				borderRadius: "3px",
-				cursor: "pointer",
+				cursor: "grab",
 				marginTop: "0.5em"
 			}}
 			className="draggable"

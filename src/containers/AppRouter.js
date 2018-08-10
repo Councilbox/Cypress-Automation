@@ -194,7 +194,7 @@ class AppRouter extends React.Component {
 							}: {})
 						}}
 					>
-						<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} />
+						<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
 					</div>
 				</div>
 			</div>

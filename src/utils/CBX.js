@@ -5,6 +5,7 @@ import {
 	SEND_TYPES,
 	COUNCIL_STATES,
 	AGENDA_STATES,
+	SIGNATURE_PARTICIPANTS_STATES,
 	AGENDA_TYPES,
 	VOTE_VALUES
 } from "../constants";
@@ -458,6 +459,30 @@ function dataURItoBlob(dataURI) {
 	}
 
 	return arrayBuffer;
+}
+
+export const getSignerStatusTranslateField = (status) => {
+	const STATES = SIGNATURE_PARTICIPANTS_STATES;
+	switch (status){
+		case STATES.IN_QUEUE:
+			return 'in_queue';
+		case STATES.SENT:
+			return 'sent';
+		case STATES.OPENED:
+			return 'opened';
+		case STATES.SIGNING:
+			return 'signing';
+		case STATES.SIGNED:
+			return 'signed';
+		case STATES.EXPIRED:
+			return 'expired';
+		case STATES.CANCELED:
+			return 'canceled';
+		case STATES.REJECTED:
+			return 'rejected';
+		default:
+			return 'error';
+	};
 }
 
 export const checkCouncilState = (council, company, bHistory, expected) => {

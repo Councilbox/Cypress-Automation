@@ -1,16 +1,14 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
 import { CardPageLayout, LoadingSection } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { withRouter } from 'react-router-dom';
 import SignatureStepper from './SignatureStepper';
-import { signature } from '../../../../queries/signature';
 import SignatureStepOne from './SignatureStepOne';
 import SignatureStepTwo from './SignatureStepTwo';
 
 class SignatureEditorPage extends React.Component {
     state = {
-        step: 2
+        step: 1
     };
 
     render(){
@@ -64,6 +62,7 @@ class SignatureEditorPage extends React.Component {
                                     translate={translate}
                                     key={this.props.data.signature.id}
                                     signature={this.props.data.signature}
+                                    refetch={this.props.data.refetch}
                                     prevStep={() => this.setState({ step: 1 })}
                                 />
                             }
@@ -75,10 +74,4 @@ class SignatureEditorPage extends React.Component {
     }
 }
 
-export default graphql(signature, {
-    options: props => ({
-        variables: {
-            id: props.match.params.id
-        }
-    })
-})(withSharedProps()(withRouter(SignatureEditorPage)));
+export default withSharedProps()(withRouter(SignatureEditorPage));

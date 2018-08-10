@@ -3,6 +3,7 @@ import { COMMANDS } from '../../commands';
 import Autosuggest from 'react-autosuggest';
 import { bHistory } from '../../containers/App';
 import withSharedProps from '../../HOCs/withSharedProps';
+import '../../styles/autoSuggest.css';
 
 
 const renderSuggestion = suggestion => (
@@ -47,7 +48,9 @@ class CommandLine extends React.Component {
 
     onSuggestionSelected = (event, suggestion) => {
         console.log(suggestion);
-        bHistory.push(`/company/${this.props.company.id}${suggestion.suggestionValue}`);
+        let link = suggestion.suggestionValue.replace('{{companyId}}', this.props.company.id);
+        link = link.replace('{{userId}}', this.props.user.id);
+        bHistory.push(`${link}`);
         this.setState({
             command: ``
         });
