@@ -55,15 +55,15 @@ export const councilParticipants = gql`
 `;
 
 export const addParticipant = gql`
-	mutation addParticipant(
+	mutation upsertCouncilParticipant(
 		$participant: NewParticipant
 		$representative: NewRepresentative
 	) {
-		addCouncilParticipant(
+		upsertCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
-			id
+			success
 		}
 	}
 `;
@@ -82,7 +82,7 @@ export const updateCouncilParticipant = gql`
 		$participant: ParticipantInput
 		$representative: RepresentativeInput
 	) {
-		updateCouncilParticipant(
+		upsertCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
