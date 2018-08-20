@@ -29,7 +29,6 @@ class CommentWall extends React.Component {
 		return null;
 	}
 
-
 	componentDidUpdate(prevProps, prevState) {
 		if (!this.props.data.loading && this.props.unreadComments !== this.props.data.councilRoomMessages.length - this.state.commentsRead) {
 			this.props.updateState({

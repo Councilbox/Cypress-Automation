@@ -19,10 +19,14 @@ class ParticipantsTable extends React.Component {
 		participant: {}
 	};
 
+	componentDidMount() {
+		this.props.data.refetch();
+	}
 
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
+
 	deleteParticipant = async id => {
 		const response = await this.props.mutate({
 			variables: {
@@ -32,6 +36,7 @@ class ParticipantsTable extends React.Component {
 
 		if (response) {
 			this.table.refresh();
+			this.props.refetch();
 		}
 	};
 
@@ -50,8 +55,9 @@ class ParticipantsTable extends React.Component {
 		);
 	}
 
-	componentDidMount() {
+	refresh = () => {
 		this.props.data.refetch();
+		this.props.refetch();
 	}
 
 	render() {
@@ -102,7 +108,7 @@ class ParticipantsTable extends React.Component {
 					translate={translate}
 					council={council}
 					participations={participations}
-					refetch={refetch}
+					refetch={this.refresh}
 					handleCensusChange={this.props.handleCensusChange}
 					reloadCensus={this.props.reloadCensus}
 					showAddModal={this.props.showAddModal}
@@ -117,7 +123,7 @@ class ParticipantsTable extends React.Component {
 					participations={participations}
 					participant={participant}
 					opened={editingParticipant}
-					refetch={refetch}
+					refetch={this.refresh}
 				/>
 				{!!councilParticipants && (
 					<React.Fragment>

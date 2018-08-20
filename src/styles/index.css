@@ -77,3 +77,17 @@ h4 {
 .text-editor-error {
     border: 1px solid red !important;
 }
+
+.ant-steps {
+    font-family: 'Lato' !important;
+}
+
+.ant-steps-item-process > .ant-steps-item-content > .ant-steps-item-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.ant-steps-item-process > .ant-steps-item-icon {
+    font-size: 16px;
+    font-weight: 600;
+}

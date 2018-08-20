@@ -13,6 +13,8 @@ const ThemeProviderLoad = Loadable({
 	loading: LoadingMainApp
 });
 
+document.getElementById('landingPage').innerHTML = '';
+
 
 /*  const App = Loadable({
 	 loader: () => import('./containers/App'),
