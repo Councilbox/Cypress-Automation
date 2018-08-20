@@ -84,7 +84,7 @@ class ConvenedParticipantsTable extends Component {
 		}
 
 		if (CBX.councilIsNotified(council)) {
-			if(!hideNotifications){
+			if (!hideNotifications) {
 				headers.push({
 					text: translate.convene
 				});
@@ -97,7 +97,7 @@ class ConvenedParticipantsTable extends Component {
 			headers.push({});
 		}
 
-		if(!hideNotifications){
+		if (!hideNotifications) {
 			headers.push({});
 		}
 
@@ -113,7 +113,7 @@ class ConvenedParticipantsTable extends Component {
 										refetch={this.refresh}
 									/>
 								}
-								
+
 							</GridItem>
 							<GridItem xs={6} lg={6} md={6}>
 								{!hideNotifications &&
@@ -208,7 +208,7 @@ class ConvenedParticipantsTable extends Component {
 												<TableCell>
 													{`${participant.name} ${
 														participant.surname
-													}`}
+														}`}
 												</TableCell>
 												<TableCell>
 													{participant.dni}
@@ -219,21 +219,21 @@ class ConvenedParticipantsTable extends Component {
 												<TableCell>
 													{`${
 														participant.numParticipations
-													} (${(
-														(participant.numParticipations /
-															totalVotes) *
-														100
-													).toFixed(2)}%)`}
+														} (${(
+															(participant.numParticipations /
+																totalVotes) *
+															100
+														).toFixed(2)}%)`}
 												</TableCell>
 												{this.props.participations && (
 													<TableCell>
 														{`${
 															participant.socialCapital
-														} (${(
-															(participant.socialCapital /
-																socialCapital) *
-															100
-														).toFixed(2)}%)`}
+															} (${(
+																(participant.socialCapital /
+																	socialCapital) *
+																100
+															).toFixed(2)}%)`}
 													</TableCell>
 												)}
 												{!hideNotifications &&
@@ -241,50 +241,50 @@ class ConvenedParticipantsTable extends Component {
 														<TableCell>
 															{participant.notifications
 																.length > 0 ? (
-																<Tooltip
-																	title={
-																		translate[
+																	<Tooltip
+																		title={
+																			translate[
 																			CBX.getTranslationReqCode(
 																				participant
 																					.notifications[0]
 																					.reqCode
 																			)
-																		]
-																	}
-																>
-																	<img
-																		style={{
-																			height:
-																				"2.1em",
-																			width:
-																				"auto"
-																		}}
-																		src={CBX.getEmailIconByReqCode(
-																			participant
-																				.notifications[0]
-																				.reqCode
-																		)}
-																		alt="email-state-icon"
-																	/>
-																</Tooltip>
-															) : (
-																""
-															)}
+																			]
+																		}
+																	>
+																		<img
+																			style={{
+																				height:
+																					"2.1em",
+																				width:
+																					"auto"
+																			}}
+																			src={CBX.getEmailIconByReqCode(
+																				participant
+																					.notifications[0]
+																					.reqCode
+																			)}
+																			alt="email-state-icon"
+																		/>
+																	</Tooltip>
+																) : (
+																	""
+																)}
 														</TableCell>
 														{CBX.councilHasAssistanceConfirmation(
 															council
 														) && (
-															<TableCell>
-																<AttendIntentionIcon
-																	participant={participant.live}
-																	translate={translate}
-																	size="2em"
-																/>
-															</TableCell>
-														)}
+																<TableCell>
+																	<AttendIntentionIcon
+																		participant={participant.live}
+																		translate={translate}
+																		size="2em"
+																	/>
+																</TableCell>
+															)}
 													</React.Fragment>
 												}
-												
+
 												<TableCell>
 													<DownloadCBXDataButton
 														translate={translate}
@@ -319,15 +319,15 @@ class ConvenedParticipantsTable extends Component {
 														>
 															{`${
 																translate.represented_by
-															}: ${
+																}: ${
 																participant
 																	.representative
 																	.name
-															} ${
+																} ${
 																participant
 																	.representative
 																	.surname
-															}`}
+																}`}
 														</div>
 													</TableCell>
 													<TableCell>
@@ -363,8 +363,8 @@ class ConvenedParticipantsTable extends Component {
 													<TableCell />
 													{this.props
 														.participations && (
-														<TableCell />
-													)}
+															<TableCell />
+														)}
 													{!hideNotifications &&
 														<React.Fragment>
 															<TableCell>
@@ -372,49 +372,49 @@ class ConvenedParticipantsTable extends Component {
 																	.representative
 																	.notifications
 																	.length > 0 ? (
-																	<Tooltip
-																		title={
-																			translate[
+																		<Tooltip
+																			title={
+																				translate[
 																				CBX.getTranslationReqCode(
 																					participant
 																						.representative
 																						.notifications[0]
 																						.reqCode
 																				)
-																			]
-																		}
-																	>
-																		<img
-																			style={{
-																				height:
-																					"2.1em",
-																				width:
-																					"auto"
-																			}}
-																			src={CBX.getEmailIconByReqCode(
-																				participant
-																					.representative
-																					.notifications[0]
-																					.reqCode
-																			)}
-																			alt="email-state-icon"
-																		/>
-																	</Tooltip>
-																) : (
-																	""
-																)}
+																				]
+																			}
+																		>
+																			<img
+																				style={{
+																					height:
+																						"2.1em",
+																					width:
+																						"auto"
+																				}}
+																				src={CBX.getEmailIconByReqCode(
+																					participant
+																						.representative
+																						.notifications[0]
+																						.reqCode
+																				)}
+																				alt="email-state-icon"
+																			/>
+																		</Tooltip>
+																	) : (
+																		""
+																	)}
 															</TableCell>
 															{CBX.councilHasAssistanceConfirmation(
 																council
 															) && (
-																<TableCell>
-																	<AttendIntentionIcon
-																		participant={participant.representative.live}
-																		translate={translate}
-																		size="2em"
-																	/>
-																</TableCell>
-															)}
+																	<TableCell>
+																		<AttendIntentionIcon
+																			participant={participant.representative.live}
+																			translate={translate}
+																			size="2em"
+																		/>
+																	</TableCell>
+																)}
 														</React.Fragment>
 													}
 
