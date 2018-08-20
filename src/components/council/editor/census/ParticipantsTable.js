@@ -100,7 +100,7 @@ class ParticipantsTable extends React.Component {
 				canOrder: true
 			});
 		}
-		headers.push({ text: translate.delete });
+		headers.push({ text: '' });
 
 		return (
 			<div style={{ width: "100%" }}>
@@ -162,65 +162,19 @@ class ParticipantsTable extends React.Component {
 										<React.Fragment
 											key={`participant${participant.id}`}
 										>
-											<TableRow
-												hover={true}
-												onClick={() =>
-													this.setState({
-														editingParticipant: true,
-														participant: participant
-													})
-												}
-												style={{
-													cursor: "pointer",
-													fontSize: "0.5em"
-												}}
-											>
-												<TableCell>
-													{`${participant.name} ${
-														participant.surname
-													}`}
-												</TableCell>
-												<TableCell>
-													{participant.dni}
-												</TableCell>
-												<TableCell>
-													{participant.position}
-												</TableCell>
-												<TableCell>
-													{!CBX.isRepresentative(
-														participant
-													) &&
-														`${
-															participant.numParticipations
-														} (${(
-															(participant.numParticipations /
-																totalVotes) *
-															100
-														).toFixed(2)}%)`}
-												</TableCell>
-												{this.props.participations && (
-													<TableCell>
-														{!CBX.isRepresentative(
-															participant
-														) &&
-															`${
-																participant.socialCapital
-															} (${(
-																(participant.socialCapital /
-																	totalSocialCapital) *
-																100
-															).toFixed(2)}%)`}
-													</TableCell>
-												)}
-												<TableCell>
-													{!CBX.isRepresentative(
-														participant
-													) &&
-														this._renderDeleteIcon(
-															participant.id
-														)}
-												</TableCell>
-											</TableRow>
+											<HoverableRow
+												participant={participant}
+												editParticipant={() => this.setState({
+													editingParticipant: true,
+													participant: participant
+												})}
+												totalSocialCapital={totalSocialCapital}
+												totalVotes={totalVotes}
+												participations={participations}
+												_renderDeleteIcon={() => this._renderDeleteIcon(participant.id)}
+											/>
+
+
 
 											{!!participant.representative && (
 												<TableRow
@@ -282,9 +236,7 @@ class ParticipantsTable extends React.Component {
 															}}
 														>
 															{
-																participant
-																	.representative
-																	.position
+																participant.representative.position
 															}
 														</div>
 													</TableCell>
@@ -306,6 +258,96 @@ class ParticipantsTable extends React.Component {
 			</div>
 		);
 	}
+}
+
+class HoverableRow extends React.Component {
+
+	state = {
+		showActions: false
+	};
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		});
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		});
+	}
+
+
+
+	render(){
+
+		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital } = this.props;
+
+		return (
+			<TableRow
+				hover={true}
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				onClick={editParticipant}
+				style={{
+					cursor: "pointer",
+					fontSize: "0.5em"
+				}}
+			>
+				<TableCell>
+					{`${participant.name} ${participant.surname}`}
+				</TableCell>
+				<TableCell>
+					{participant.dni}
+				</TableCell>
+				<TableCell>
+					{participant.position}
+				</TableCell>
+				<TableCell>
+					{!CBX.isRepresentative(
+						participant
+					) &&
+						`${
+							participant.numParticipations
+						} (${(
+							(participant.numParticipations /
+								totalVotes) *
+							100
+						).toFixed(2)}%)`}
+				</TableCell>
+				{this.props.participations && (
+					<TableCell>
+						{!CBX.isRepresentative(
+							participant
+						) &&
+							`${
+								participant.socialCapital
+							} (${(
+								(participant.socialCapital /
+									totalSocialCapital) *
+								100
+							).toFixed(2)}%)`}
+					</TableCell>
+				)}
+				<TableCell>
+					{this.state.showActions?
+						!CBX.isRepresentative(
+							participant
+						) &&
+							_renderDeleteIcon(
+								participant.id
+							)
+					:
+						<div style={{width: '4em'}} />
+
+					}
+					
+				</TableCell>
+			</TableRow>
+		)
+	}
+
 }
 
 export default compose(

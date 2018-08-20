@@ -375,6 +375,8 @@ class StepAgenda extends React.Component {
 							<BasicButton
 								text={translate.next}
 								color={primary}
+								loading={this.props.data.loading}
+								loadingColor={'white'}
 								textStyle={{
 									color: "white",
 									fontWeight: "700",
