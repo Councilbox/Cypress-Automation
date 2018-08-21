@@ -4,7 +4,6 @@ import App from "./containers/App";
 import registerServiceWorker, { unregister } from "./registerServiceWorker";
 import Loadable from 'react-loadable';
 import "./styles/index.css";
-//import { ThemeProvider } from "./displayComponents";
 import LoadingMainApp from "./displayComponents/LoadingMainApp";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -14,12 +13,6 @@ const ThemeProviderLoad = Loadable({
 });
 
 document.getElementById('landingPage').innerHTML = '';
-
-
-/*  const App = Loadable({
-	 loader: () => import('./containers/App'),
-	 loading: LoadingMainApp
- }) */
 
 ReactDOM.render(
 	<ThemeProviderLoad>

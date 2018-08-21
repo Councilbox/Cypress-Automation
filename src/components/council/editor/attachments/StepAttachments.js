@@ -259,6 +259,8 @@ class StepAttachments extends React.Component {
 						/>
 						<BasicButton
 							text={translate.next}
+							loading={this.props.data.loading}
+							loadingColor={'white'}
 							color={primary}
 							textStyle={{
 								color: "white",

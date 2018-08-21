@@ -22,6 +22,7 @@ import { withRouter } from "react-router-dom";
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
+import StatuteNameEditor from './StatuteNameEditor';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 
 
@@ -32,6 +33,7 @@ class StatutesPage extends React.Component {
 		newStatuteName: "",
 		statute: {},
 		success: false,
+		editModal: false,
 		requestError: false,
 		requesting: false,
 		unsavedChanges: false,
@@ -63,12 +65,18 @@ class StatutesPage extends React.Component {
 		return false;
 	}
 
-	openDeleteModal = ID => {
+	openDeleteModal = id => {
 		this.setState({
 			deleteModal: true,
-			deleteID: ID
+			deleteID: id
 		});
 	};
+
+	openEditModal = index => {
+		this.setState({
+			editModal: index
+		})
+	}
 
 	resetButtonStates = () => {
 		this.setState({
@@ -239,9 +247,7 @@ class StatutesPage extends React.Component {
 							}
 							additionalTabAction={this.showNewStatute}
 							translate={translate}
-							undoAction={() => this.setState({
-								rollbackAlert: true
-							})}
+							editAction={this.openEditModal}
 							deleteAction={this.openDeleteModal}
 						>
 							{!!statute && (
@@ -398,6 +404,17 @@ class StatutesPage extends React.Component {
 					}
 					title={translate.add_council_type}
 				/>
+				{this.state.editModal !== false &&
+					<StatuteNameEditor
+						requestClose={() =>
+							this.setState({ editModal: false })
+						}
+						key={companyStatutes[this.state.editModal].id}
+						statute={companyStatutes[this.state.editModal]}
+						translate={translate}
+						refetch={this.props.data.refetch}
+					/>
+				}
 			</CardPageLayout>
 		);
 	}
