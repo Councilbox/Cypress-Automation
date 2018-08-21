@@ -9,7 +9,7 @@
 }
 
 ::-moz-selection {
-    background: var(--secondary); 
+    background: var(--secondary);
 }
 
 html {
@@ -37,15 +37,15 @@ a:hover {
 
 @page htmlPreview {
     size: A4;
-    margin: .5in .5in .5in .5in; 
-    mso-header-margin: .5in; 
-    mso-footer-margin: .5in; 
+    margin: .5in .5in .5in .5in;
+    mso-header-margin: .5in;
+    mso-footer-margin: .5in;
     mso-paper-source: 0;
 }
 
 .htmlPreview {
-    page: htmlPreview;
-} 
+    width: 21cm;
+}
 
 .withShadow {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
@@ -76,4 +76,18 @@ h4 {
 
 .text-editor-error {
     border: 1px solid red !important;
+}
+
+.ant-steps {
+    font-family: 'Lato' !important;
+}
+
+.ant-steps-item-process > .ant-steps-item-content > .ant-steps-item-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.ant-steps-item-process > .ant-steps-item-icon {
+    font-size: 16px;
+    font-weight: 600;
 }

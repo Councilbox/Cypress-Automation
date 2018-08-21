@@ -45,7 +45,7 @@ class EndCouncilButton extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div className="col-lg-6 col-md-12 col-xs-12">
+				<div>
 					<BasicButton
 						text={translate.finish_council}
 						color={lastPointClosed? primary : secondary}
@@ -62,7 +62,7 @@ class EndCouncilButton extends React.Component {
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ width: "11em" }}
+						buttonStyle={{ minWidth: "13em", marginRight: '0.6em' }}
 						textStyle={{
 							color: "white",
 							fontSize: "0.75em",

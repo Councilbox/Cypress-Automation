@@ -4,6 +4,8 @@ import { getPrimary, getSecondary } from "../styles/colors";
 import { CloseIcon, Grid, GridItem, SelectInput } from "./index";
 import { Tooltip, Paper, MenuItem } from 'material-ui';
 import Tabs from 'antd/lib/tabs';
+import { IconButton } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
 import "../styles/react-tabs.css";
 import Icon from 'antd/lib/icon';
 
@@ -18,6 +20,7 @@ const Vtabs = ({
 	additionalTabAction,
 	windowSize,
 	saveAction,
+	editAction,
 	undoAction,
 	translate,
 	index,
@@ -45,6 +48,7 @@ const Vtabs = ({
 									tab={tab}
 									index={index}
 									mapIndex={mapIndex}
+									editAction={editAction}
 									deleteAction={deleteAction}
 									translate={translate}
 								/>
@@ -62,14 +66,15 @@ const Vtabs = ({
 					<GridItem xs={6}>
 						<SelectInput
 							noLabel
+							value={index}
 							style={{ margin: "-16px" }}
 							onChange={event => changeTab(event.target.value)}
 						>
-							{tabs.map((tab, index) => {
+							{tabs.map((tab, itemIndex) => {
 								return (
 									<MenuItem
-										value={index}
-										key={`statute_${index}`}
+										value={itemIndex}
+										key={`statute_${itemIndex}`}
 									>
 										{tab.title}
 									</MenuItem>
@@ -85,54 +90,81 @@ const Vtabs = ({
 								</MenuItem>
 							</Paper>
 						)}
-						{!!saveAction &&
-							<React.Fragment>
-								<Tooltip title={translate.save}>
-									<Icon
-										type="save"
+						<Paper
+							style={{
+								height: '35px',
+								paddingLeft: '1em',
+								paddingRight: '1em',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'space-between',
+								borderRadius: '18px',
+								outline: '0'
+							}}
+							elevation={0}
+						>
+							{!!saveAction &&
+								<React.Fragment>
+									<Tooltip title={translate.save}>
+										<Icon
+											type="save"
+											style={{
+												fontSize:'1.75em',
+												width: '1.5em',
+												color: secondary
+											}}
+											onClick={event => {
+												saveAction();
+												event.stopPropagation();
+											}}
+										/>
+									</Tooltip>
+									<Tooltip title="Deshacer" /*TRADUCCION*/>
+										<Icon
+											type="rollback"
+											style={{
+												fontSize:'1.75em',
+												width: '1.5em',
+												color: secondary
+											}}
+											onClick={event => {
+												undoAction();
+												event.stopPropagation();
+											}}
+										/>
+									</Tooltip>
+								</React.Fragment>
+							}
+							{!!editAction && (
+								<Tooltip title="Cambiar nombre reunión" /*TRADUCCION*/>
+									<FontAwesome
+										name="edit"
 										style={{
 											fontSize:'1.75em',
 											width: '1.5em',
 											color: secondary
 										}}
 										onClick={event => {
-											saveAction();
+											editAction(index);
 											event.stopPropagation();
 										}}
 									/>
 								</Tooltip>
-								<Tooltip title="Deshacer" /*TRADUCCION*/>
-									<Icon
-										type="rollback"
-										style={{
-											fontSize:'1.75em',
-											width: '1.5em',
-											color: secondary
-										}}
-										onClick={event => {
-											undoAction();
-											event.stopPropagation();
-										}}
-									/>
-								</Tooltip>
-							</React.Fragment>
-						}
-						{deleteAction && (
-							<CloseIcon
-								onClick={() => {
-									for (let i = 0; i < tabs.length; i++) {
-										const tab = tabs[i];
-										if (tab.active) {
-											return deleteAction(tab.data.id);
-										}
-									}
-								}}
-							/>
-						)}
+							)}
+							{deleteAction && (
+								<CloseIcon
+									onClick={(event) => {
+										deleteAction(tabs[index].data.id);
+										event.stopPropagation();
+									}}
+								/>
+							)}
+						</Paper>
 					</GridItem>
 				</Grid>
 				<div
 					style={{
+						height: '100%',
 						marginTop: "0.5em"
 					}}
 				>
@@ -166,7 +198,7 @@ class HoverableTab extends React.PureComponent {
 
 
 	render(){
-		const { tab, mapIndex, index, translate, primary, deleteAction } = this.props;
+		const { tab, mapIndex, index, deleteAction, editAction } = this.props;
 
 		return (
 			<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}
@@ -190,81 +222,54 @@ class HoverableTab extends React.PureComponent {
 				</Tooltip>
 				<span style={{width: '2em', height: '32px'}} />
 				{this.state.showAction &&
-					<CloseIcon
-						style={{ float: "right" }}
-						onClick={event => {
-							deleteAction(tab.data.id);
-							event.stopPropagation();
+					<Paper
+						style={{
+							height: '35px',
+							paddingLeft: '1em',
+							paddingRight: '1em',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between',
+							borderRadius: '18px',
+							outline: '0'
 						}}
-					/>
+						elevation={0}
+					>
+						{!!editAction && (
+							<Tooltip title="Cambiar nombre reunión" /*TRADUCCION*/>
+								<IconButton
+									style={{
+										width: '32px',
+										height: '32px',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}
+								>
+									<FontAwesome
+										name="edit"
+										style={{
+											fontSize:'19px',
+											color: secondary
+										}}
+										onClick={event => {
+											editAction(mapIndex);
+											event.stopPropagation();
+										}}
+									/>
+								</IconButton>
+							</Tooltip>
+						)}
+						<CloseIcon
+							style={{ float: "right" }}
+							onClick={event => {
+								deleteAction(tab.data.id);
+								event.stopPropagation();
+							}}
+						/>
+					</Paper>
 				}
 			</div>
 		)
 	}
 }
-
-/*
-<Grid style={{ height: "100%" }}>
-				<GridItem xs={12} md={3} lg={3} className="nav-tabs-left">
-					{tabs.map((tab, index) => {
-						return (
-							<div
-								key={`vtab${index}`}
-								style={{
-									width: "100%",
-									backgroundColor: tab.active
-										? "white"
-										: lightTurquoise,
-									padding: "0.8vh",
-									color: tab.active ? primary : secondary,
-									fontWeight: "700",
-									borderLeft:
-										"solid 3px " +
-										(tab.active ? primary : secondary),
-									marginBottom: "0.6vh",
-									cursor: tab.active ? "" : "pointer",
-									boxShadow: tab.active
-										? "-2px 2px 6px -2px rgba(0, 0, 0, 0.2)"
-										: ""
-								}}
-								onClick={() => changeTab(index)}
-							>
-								<Grid>
-									<GridItem xs={10}>{tab.title}</GridItem>
-									<GridItem xs={2}>
-										<CloseIcon
-											style={{ float: "right" }}
-											onClick={event => {
-												deleteAction(tab.data.id);
-												event.stopPropagation();
-											}}
-										/>
-									</GridItem>
-								</Grid>
-							</div>
-						);
-					})}
-					{additionalTab && (
-						<div
-							style={{
-								width: "100%",
-								backgroundColor: secondary,
-								padding: "0.8vh",
-								color: "white",
-								fontWeight: "700",
-								cursor: "pointer"
-							}}
-							onClick={additionalTab.action}
-						>
-							<i className="fa fa-plus" />
-							{additionalTab.title}
-						</div>
-					)}
-				</GridItem>
-				<GridItem xs={12} md={9} lg={9} style={{ height: "100%" }}>
-					<Scrollbar>{children}</Scrollbar>
-				</GridItem>
-			</Grid>
-		)}
-
- */

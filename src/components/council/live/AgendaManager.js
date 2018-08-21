@@ -148,7 +148,7 @@ class AgendaManager extends React.Component {
 				</Card>
 				<div
 					style={{
-						width: "94%",
+						width: "calc(100% - 5em)",
 						height: "calc(100vh - 3em)",
 						padding: "0",
 						display: "flex",

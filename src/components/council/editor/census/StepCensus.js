@@ -194,6 +194,7 @@ class StepCensus extends React.Component {
 						:
 							<ParticipantsTable
 								translate={translate}
+								refetch={this.props.data.refetch}
 								council={council}
 								handleCensusChange={this.handleCensusChange}
 								reloadCensus={this.reloadCensus}

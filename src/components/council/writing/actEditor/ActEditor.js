@@ -18,6 +18,7 @@ import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
+import { getActPointSubjectType } from '../../../../utils/CBX';
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!) {
@@ -397,7 +398,7 @@ class ActEditor extends Component {
 						</div>
 						{!!council.agendas && (
 							<Fragment>
-								{council.agendas.map((agenda, index) => {
+								{council.agendas.filter(agenda => agenda.subjectType !== getActPointSubjectType()).map((agenda, index) => {
 									return (
 										<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
 											<AgendaEditor
@@ -440,56 +441,58 @@ class ActEditor extends Component {
 								})}
 							</Fragment>
 						)}
-						<RichTextInput
-							ref={editor => (this.editorConclusion = editor)}
-							floatingText={translate.conclusion}
-							type="text"
-							loadDraft={
-								<BasicButton
-									text={translate.load_draft}
-									color={secondary}
-									textStyle={{
-										color: "white",
-										fontWeight: "600",
-										fontSize: "0.8em",
-										textTransform: "none",
-										marginLeft: "0.4em",
-										minHeight: 0,
-										lineHeight: "1em"
-									}}
-									textPosition="after"
-									onClick={() =>
-										this.setState({
-											loadDraft: true,
-											draftType: DRAFT_TYPES.CONCLUSION
-										})
-									}
-								/>
-							}
-							tags={[
-								{
-									value: `${council.president} `,
-									label: translate.president
-								},
-								{
-									value: `${council.secretary} `,
-									label: translate.secretary
-								},
-								{
-									value: `${moment(council.dateEnd).format(
-										"LLLL"
-									)} `,
-									label: translate.date_end
+						{!this.props.liveMode &&
+							<RichTextInput
+								ref={editor => (this.editorConclusion = editor)}
+								floatingText={translate.conclusion}
+								type="text"
+								loadDraft={
+									<BasicButton
+										text={translate.load_draft}
+										color={secondary}
+										textStyle={{
+											color: "white",
+											fontWeight: "600",
+											fontSize: "0.8em",
+											textTransform: "none",
+											marginLeft: "0.4em",
+											minHeight: 0,
+											lineHeight: "1em"
+										}}
+										textPosition="after"
+										onClick={() =>
+											this.setState({
+												loadDraft: true,
+												draftType: DRAFT_TYPES.CONCLUSION
+											})
+										}
+									/>
 								}
-							]}
-							errorText={errors.conclusion}
-							value={data.council.act.conclusion || ''}
-							onChange={value =>
-								this.updateActState({
-									conclusion: value
-								})
-							}
-						/>
+								tags={[
+									{
+										value: `${council.president} `,
+										label: translate.president
+									},
+									{
+										value: `${council.secretary} `,
+										label: translate.secretary
+									},
+									{
+										value: `${moment(council.dateEnd).format(
+											"LLLL"
+										)} `,
+										label: translate.date_end
+									}
+								]}
+								errorText={errors.conclusion}
+								value={data.council.act.conclusion || ''}
+								onChange={value =>
+									this.updateActState({
+										conclusion: value
+									})
+								}
+							/>
+						}
 						<div style={{padding: '1em', paddingTop: '1.8em', width: '100%', display: 'flex', justifyContent: 'flex-end'}}>
 							{!this.props.liveMode &&
 								<React.Fragment>

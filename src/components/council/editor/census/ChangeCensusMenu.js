@@ -50,7 +50,6 @@ const ChangeCensusMenu = ({
 					);
 				})}
 			</SelectInput>
-			
 		:
 			<span>La entidad no tiene ningún censo{/*TRADUCCION*/}</span>
 		}

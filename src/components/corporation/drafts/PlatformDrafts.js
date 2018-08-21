@@ -233,7 +233,7 @@ class PlatformDrafts extends React.Component {
 											label: translate.all_plural
 										},{
 											field: "companyType",
-											value: 'all',
+											value: this.props.company.type,
 											label: translate.all_plural
 										}]}
 										categories={[[
@@ -287,6 +287,7 @@ class PlatformDrafts extends React.Component {
 												return (
 													<HoverableRow
 														draft={draft}
+														key={`draft_${draft.id}`}
 														translate={translate}
 														index={index}
 														isChecked={this.isChecked}
@@ -309,7 +310,7 @@ class PlatformDrafts extends React.Component {
 	}
 }
 
-class HoverableRow extends React.PureComponent {
+class HoverableRow extends React.Component {
 
 	state = {
 		showCheck: false
@@ -336,13 +337,14 @@ class HoverableRow extends React.PureComponent {
 		return (
 			<TableRow
 				key={`draft${draft.id}`}
+				hover={true}
 				onMouseEnter={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 			>
 				<TableCell
 					style={TableStyles.TD}
 				>
-					{(isChecked || this.state.showCheck) &&
+					{(isChecked || this.state.showCheck)?
 						<Checkbox
 							value={isChecked}
 							checked={isChecked}
@@ -352,6 +354,8 @@ class HoverableRow extends React.PureComponent {
 								)
 							}
 						/>
+					:
+						<div style={{width: '3em'}} />
 					}
 					
 				</TableCell>
@@ -380,9 +384,9 @@ class HoverableRow extends React.PureComponent {
 				<TableCell
 					style={TableStyles.TD}
 					onClick={() =>
-						this.updateState({
-							selectedIndex: index
-						})
+						this.props.updateSelectedValues(
+							draft.id
+						)
 					}
 				>
 					{draft.title}
@@ -411,7 +415,13 @@ export default withSharedProps()(
 					options: {
 						limit: DRAFTS_LIMITS[0],
 						offset: 0
-					}
+					},
+					filters: [
+						{
+							field: 'companyType',
+							text: props.company.type
+						}
+					]
 				},
 				notifyOnNetworkStatusChange: true
 			})

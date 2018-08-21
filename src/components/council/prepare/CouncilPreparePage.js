@@ -75,44 +75,57 @@ class CouncilPreparePage extends React.Component {
 		return (
 			<CardPageLayout title={translate.prepare_room} disableScroll>
 				<div style={{height: '100%'}}>
-					<div style={{height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, overflow: 'hidden', position: 'relative'}}>
-						<Scrollbar>
-							<div>
-								<TabsScreen
-									uncontrolled={true}
-									tabsInfo={[
-										{
-											text: translate.convene,
-											component: () => {
-												return (
-													<div style={{width: '100%', position: 'relative', padding: '1em'}}>
-														<Convene
-															council={council}
-															translate={translate}
-														/>
-													</div>
-												);
-											}
-										},
-										{
-											text: translate.new_list_called,
-											component: () => {
-												return (
-													<ConvenedParticipantsTable
-														council={council}
-														participations={CBX.hasParticipations(
-															this.props.council
-														)}
-														translate={translate}
-														refetch={refetch}
-													/>
-												);
-											}
-										},
-									]}
-								/>
-							</div>
-						</Scrollbar>
+					<div style={{height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, paddingBottom: 0, overflow: 'hidden', position: 'relative'}}>
+						<div style={{height: 'calc(100% - 1em)', borderBottom: '1px solid gainsboro'}}>
+							<TabsScreen
+								uncontrolled={true}
+								tabsInfo={[
+									{
+										text: translate.convene,
+										component: () => {
+											return (
+												<div style={{height: 'calc(100% - 38px)'}}>
+													<Scrollbar>
+														<div style={{width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em'}}>
+															<Convene
+																council={council}
+																translate={translate}
+															/>
+														</div>
+													</Scrollbar>
+												</div>
+											);
+										}
+									},
+									{
+										text: translate.new_list_called,
+										component: () => {
+											return (
+												<div style={{height: 'calc(100% - 38px)'}}>
+													<Scrollbar>
+														<div
+															style={{
+																padding: '1.2em',
+																height: '100%'
+															}}
+														>
+															<ConvenedParticipantsTable
+																council={council}
+																participations={CBX.hasParticipations(
+																	this.props.council
+																)}
+																translate={translate}
+																refetch={refetch}
+															/>
+														</div>
+													</Scrollbar>
+												</div>
+											);
+										}
+									},
+								]}
+							/>
+						</div>
 					</div>
 					<ReminderModal
 						show={this.state.sendReminder}
@@ -158,7 +171,8 @@ class CouncilPreparePage extends React.Component {
 									text={translate.prepare_room}
 									color={primary}
 									buttonStyle={{
-										margin: "0"
+										margin: "0",
+										minWidth: '12em'
 									}}
 									textStyle={{
 										color: "white",

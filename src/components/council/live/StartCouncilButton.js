@@ -24,6 +24,7 @@ class StartCouncilButton extends React.Component {
 	state = {
 		alert: false,
 		selecting: 0,
+		loading: false,
 		data: {
 			firstOrSecondConvene: this.props.council.firstOrSecondConvene,
 			neededQuorum: 2,
@@ -39,6 +40,9 @@ class StartCouncilButton extends React.Component {
 
 	startCouncil = async () => {
 		if (!this.checkRequiredFields()) {
+			this.setState({
+				loading: true
+			});
 			const { council, refetch, startCouncil } = this.props;
 			const { presidentId, secretaryId, qualityVoteId, firstOrSecondConvene } = this.state.data;
 			const response = await startCouncil({
@@ -51,6 +55,9 @@ class StartCouncilButton extends React.Component {
 				}
 			});
 			if (response) {
+				this.setState({
+					loading: false
+				})
 				refetch();
 			}
 		}
@@ -371,6 +378,7 @@ class StartCouncilButton extends React.Component {
 					title={translate.start_council}
 					bodyText={this._startCouncilForm()}
 					open={this.state.alert}
+					loadingAction={this.state.loading}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
 					hideAccept={this.state.selecting !== 0}
