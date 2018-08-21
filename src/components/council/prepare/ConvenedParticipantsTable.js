@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
 import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../styles/colors";
@@ -6,6 +6,7 @@ import * as CBX from "../../../utils/CBX";
 import {
 	BasicButton,
 	ButtonIcon,
+	LoadingSection,
 	EnhancedTable,
 	Grid,
 	GridItem
@@ -20,7 +21,14 @@ import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton"
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 
-class ConvenedParticipantsTable extends Component {
+class ConvenedParticipantsTable extends React.Component {
+
+	state = {
+		editingParticipant: false,
+		participant: {},
+		activeStatusFilter: ""
+	};
+
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
@@ -38,15 +46,6 @@ class ConvenedParticipantsTable extends Component {
 			this.table.refresh();
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			editingParticipant: false,
-			participant: {},
-			activeStatusFilter: ""
-		};
-	}
 
 	render() {
 		const { translate, council, participations, hideNotifications, hideAddParticipant } = this.props;
@@ -102,62 +101,61 @@ class ConvenedParticipantsTable extends Component {
 		}
 
 		return (
-			<div style={{ width: "100%" }}>
-				{!!councilParticipants && (
-					<React.Fragment>
-						<Grid style={{ margin: "0.5em 0" }}>
-							<GridItem xs={12} lg={6} md={6}>
-								{!hideNotifications &&
-									<NotificationFilters
-										translate={translate}
-										refetch={this.refresh}
-									/>
-								}
-								
-							</GridItem>
-							<GridItem xs={6} lg={6} md={6}>
-								{!hideNotifications &&
-									<Tooltip
-										title={
-											translate.tooltip_refresh_convene_email_state_assistance
+			<div style={{ width: "100%", height: '100%' }}>
+				<React.Fragment>
+					<Grid style={{ margin: "0.5em 0" }}>
+						<GridItem xs={12} lg={6} md={6}>
+							{!hideNotifications &&
+								<NotificationFilters
+									translate={translate}
+									refetch={this.refresh}
+								/>
+							}
+						</GridItem>
+						<GridItem xs={6} lg={6} md={6}>
+							{!hideNotifications &&
+								<Tooltip
+									title={
+										translate.tooltip_refresh_convene_email_state_assistance
+									}
+								>
+									<BasicButton
+										floatRight
+										text={translate.refresh_convened}
+										color={getSecondary()}
+										buttonStyle={{
+											margin: "0"
+										}}
+										textStyle={{
+											color: "white",
+											fontWeight: "700",
+											fontSize: "0.9em",
+											textTransform: "none"
+										}}
+										icon={
+											<ButtonIcon
+												color="white"
+												type="refresh"
+											/>
 										}
-									>
-										<BasicButton
-											floatRight
-											text={translate.refresh_convened}
-											color={getSecondary()}
-											buttonStyle={{
-												margin: "0"
-											}}
-											textStyle={{
-												color: "white",
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											icon={
-												<ButtonIcon
-													color="white"
-													type="refresh"
-												/>
-											}
-											textPosition="after"
-											onClick={() =>
-												this.refreshEmailStates()
-											}
-										/>
-									</Tooltip>
-								}
-								{!hideAddParticipant &&
-									<AddConvenedParticipantButton
-										participations={participations}
-										translate={translate}
-										councilId={council.id}
-										refetch={refetch}
+										textPosition="after"
+										onClick={() =>
+											this.refreshEmailStates()
+										}
 									/>
-								}
-							</GridItem>
-						</Grid>
+								</Tooltip>
+							}
+							{!hideAddParticipant &&
+								<AddConvenedParticipantButton
+									participations={participations}
+									translate={translate}
+									councilId={council.id}
+									refetch={refetch}
+								/>
+							}
+						</GridItem>
+					</Grid>
+					{!!councilParticipants?
 						<EnhancedTable
 							ref={table => (this.table = table)}
 							translate={translate}
@@ -190,7 +188,7 @@ class ConvenedParticipantsTable extends Component {
 							{councilParticipants.list.map(
 								(participant, index) => {
 									return (
-										<Fragment
+										<React.Fragment
 											key={`participant${participant.id}`}
 										>
 											<TableRow
@@ -432,22 +430,32 @@ class ConvenedParticipantsTable extends Component {
 													</TableCell>
 												</TableRow>
 											)}
-										</Fragment>
+										</React.Fragment>
 									);
 								}
 							)}
 						</EnhancedTable>
-						<ConvenedParticipantEditor
-							translate={translate}
-							close={this.closeParticipantEditor}
-							councilId={council.id}
-							participations={participations}
-							participant={participant}
-							opened={editingParticipant}
-							refetch={refetch}
-						/>
-					</React.Fragment>
-				)}
+					:
+						<div
+							style={{
+								height: '10em',
+								display: 'flex',
+								alignItems: 'center'
+							}}
+						>
+							<LoadingSection/>
+						</div>
+					}
+					<ConvenedParticipantEditor
+						translate={translate}
+						close={this.closeParticipantEditor}
+						councilId={council.id}
+						participations={participations}
+						participant={participant}
+						opened={editingParticipant}
+						refetch={refetch}
+					/>
+				</React.Fragment>
 				{this.props.children}
 			</div>
 		);

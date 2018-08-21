@@ -10,10 +10,11 @@ import {
 	GridItem,
 	LoadingSection
 } from "../../../displayComponents";
-import { Typography } from "material-ui";
+import { Typography, Paper } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
 import { downloadConvenePDF } from "../../../queries";
 import * as CBX from '../../../utils/CBX';
+import withWindowSize from '../../../HOCs/withWindowSize';
 
 
 export const conveneDetails = gql`
@@ -138,12 +139,26 @@ class Convene extends React.Component {
 					onClick={this.downloadPDF}
 				/>
 				<div
-					dangerouslySetInnerHTML={{ __html: council.emailText }}
 					style={{
-						padding: "2em",
-						margin: "0 auto"
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'center',
+						marginTop: '0.8em'
 					}}
-				/>
+				>
+					<Paper
+						className={this.props.windowSize !== 'xs'? 'htmlPreview' : ''}
+					>
+						<div
+							dangerouslySetInnerHTML={{ __html: council.emailText }}
+							style={{
+								padding: "2em",
+								margin: "0 auto"
+							}}
+						/>
+					</Paper>
+				</div>
 			</React.Fragment>
 		);
 	}
@@ -156,4 +171,4 @@ export default graphql(conveneDetails, {
 			councilID: props.council.id
 		}
 	})
-})(withApollo(Convene));
+})(withApollo(withWindowSize(Convene)));
