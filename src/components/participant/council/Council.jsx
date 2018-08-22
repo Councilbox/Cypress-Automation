@@ -54,23 +54,11 @@ class ParticipantCouncil extends React.Component {
                     council={council}
                     primaryColor={'white'}
                 />
-                <Button
-                    variant="fab"
-                    mini
-                    style={{position: 'absolute', top: '5px', right: '60px', outline: 0}}
-                    onClick={this.toggleAgendasAnchor}
-                >
-                    {agendasAnchor === 'left' ?
-                            <i className="fa fa-caret-right"></i>
-                        :
-                            <i className="fa fa-caret-left"></i>
-                    }
-                </Button>
 				<div style={styles.mainContainer}>
                     <Grid container spacing={8} style={{height: '100%'}}>
                         {agendasAnchor === 'left' &&
                             <Grid item xs={12} sm={4}>
-                                <Agendas participant={participant} council={council} />
+                                <Agendas participant={participant} council={council} agendasAnchor={agendasAnchor} toggleAgendasAnchor={this.toggleAgendasAnchor}/>
                             </Grid>
                         }
 
@@ -94,7 +82,7 @@ class ParticipantCouncil extends React.Component {
 
                         {agendasAnchor === 'right' &&
                             <Grid item xs={12} sm={4}>
-                                <Agendas participant={participant} council={council} />
+                                <Agendas participant={participant} council={council} agendasAnchor={agendasAnchor} toggleAgendasAnchor={this.toggleAgendasAnchor}/>
                             </Grid>
                         }
                     </Grid>
