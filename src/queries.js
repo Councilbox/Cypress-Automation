@@ -495,8 +495,8 @@ export const councilStepTwo = gql`
 `;
 
 export const downloadCBXData = gql`
-	mutation cbxData($participantId: Int!) {
-		cbxData(participantId: $participantId)
+	mutation cbxData($participantId: Int!, $timezone: String!) {
+		cbxData(participantId: $participantId, timezone: $timezone)
 	}
 `;
 

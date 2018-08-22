@@ -16,38 +16,35 @@ class AssistanceTokenContainer extends React.Component {
 		};
 	}
 
-	async componentDidUpdate(prevProps) {
-		if (!prevProps.translate.send && this.props.translate.send) {
-			this.setState({ loading: true });
-
-			try {
-				const response = await this.props.participantToken();
-				if (response && !response.errors) {
-					const token = response.data.assistanceToken;
-					sessionStorage.setItem("participantToken", token);
-					const responseQueryMe = await this.props.client.query({
-						query: getMe,
-						variables: {},
-						fetchPolicy: "network-only"
-					});
-					const participant = responseQueryMe.data.participantMe;
-
-					this.setState({
-						token: token,
-						loading: false,
-						participant: participant
-					});
-				} else {
-					throw new Error("Error getting participant token");
-				}
-			} catch (error) {
-				console.log(error);
-				//TODO ADD TOAST OR LOAD MESSAGE VIEW
-				this.setState({
-					error: true,
-					loading: false
+	async componentDidMount(prevProps) {
+		this.setState({ loading: true });
+		try {
+			const response = await this.props.participantToken();
+			if (response && !response.errors) {
+				const token = response.data.assistanceToken;
+				sessionStorage.setItem("participantToken", token);
+				const responseQueryMe = await this.props.client.query({
+					query: getMe,
+					variables: {},
+					fetchPolicy: "network-only"
 				});
+				const participant = responseQueryMe.data.participantMe;
+
+				this.setState({
+					token: token,
+					loading: false,
+					participant: participant
+				});
+			} else {
+				throw new Error("Error getting participant token");
 			}
+		} catch (error) {
+			console.log(error);
+			//TODO ADD TOAST OR LOAD MESSAGE VIEW
+			this.setState({
+				error: true,
+				loading: false
+			});
 		}
 	}
 
@@ -62,20 +59,20 @@ class AssistanceTokenContainer extends React.Component {
 			return <InvalidUrl />;
 		}
 		if (match.params.token === 'fake') {
-			return <div style={{textAlign: 'center', padding: '20vh'}}>
+			return <div style={{ textAlign: 'center', padding: '20vh' }}>
 				<h2>{translate.corfirm_assistance_test}</h2>
 			</div>;
 		}
 
 		return (
 			<React.Fragment>
-				{participant && (
+				{participant ? (
 					<Redirect
 						to={`/assistance/participant/${participant.id}/council/${
 							participant.councilId
-						}`}
+							}`}
 					/>
-				)}
+				) : <div>No participant</div>}
 			</React.Fragment>
 		);
 	}

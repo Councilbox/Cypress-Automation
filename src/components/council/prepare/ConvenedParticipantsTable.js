@@ -85,7 +85,7 @@ class ConvenedParticipantsTable extends React.Component {
 		}
 
 		if (CBX.councilIsNotified(council)) {
-			if(!hideNotifications){
+			if (!hideNotifications) {
 				headers.push({
 					text: translate.convene
 				});
@@ -222,15 +222,15 @@ class ConvenedParticipantsTable extends React.Component {
 														>
 															{`${
 																translate.represented_by
-															}: ${
+																}: ${
 																participant
 																	.representative
 																	.name
-															} ${
+																} ${
 																participant
 																	.representative
 																	.surname
-															}`}
+																}`}
 														</div>
 													</TableCell>
 													<TableCell>
@@ -266,8 +266,8 @@ class ConvenedParticipantsTable extends React.Component {
 													<TableCell />
 													{this.props
 														.participations && (
-														<TableCell />
-													)}
+															<TableCell />
+														)}
 													{!hideNotifications &&
 														<React.Fragment>
 															<TableCell>
@@ -275,49 +275,49 @@ class ConvenedParticipantsTable extends React.Component {
 																	.representative
 																	.notifications
 																	.length > 0 ? (
-																	<Tooltip
-																		title={
-																			translate[
+																		<Tooltip
+																			title={
+																				translate[
 																				CBX.getTranslationReqCode(
 																					participant
 																						.representative
 																						.notifications[0]
 																						.reqCode
 																				)
-																			]
-																		}
-																	>
-																		<img
-																			style={{
-																				height:
-																					"2.1em",
-																				width:
-																					"auto"
-																			}}
-																			src={CBX.getEmailIconByReqCode(
-																				participant
-																					.representative
-																					.notifications[0]
-																					.reqCode
-																			)}
-																			alt="email-state-icon"
-																		/>
-																	</Tooltip>
-																) : (
-																	""
-																)}
+																				]
+																			}
+																		>
+																			<img
+																				style={{
+																					height:
+																						"2.1em",
+																					width:
+																						"auto"
+																				}}
+																				src={CBX.getEmailIconByReqCode(
+																					participant
+																						.representative
+																						.notifications[0]
+																						.reqCode
+																				)}
+																				alt="email-state-icon"
+																			/>
+																		</Tooltip>
+																	) : (
+																		""
+																	)}
 															</TableCell>
 															{CBX.councilHasAssistanceConfirmation(
 																council
 															) && (
-																<TableCell>
-																	<AttendIntentionIcon
-																		participant={participant.representative.live}
-																		translate={translate}
-																		size="2em"
-																	/>
-																</TableCell>
-															)}
+																	<TableCell>
+																		<AttendIntentionIcon
+																			participant={participant.representative.live}
+																			translate={translate}
+																			size="2em"
+																		/>
+																	</TableCell>
+																)}
 														</React.Fragment>
 													}
 
