@@ -1,10 +1,11 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
-import { Card } from "material-ui";
+import { Grid, Button } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { LoadingMainApp } from '../../../displayComponents';
+import Agendas from '../agendas/Agendas';
 import Header from "../Header";
 
 const styles = {
@@ -23,22 +24,23 @@ const styles = {
 		position: "relative",
 		backgroundImage: 'red',
 		padding: "10px"
-	},
-	cardContainer: {
-		margin: "20px",
-		padding: "20px",
-		maxWidth: "100%"
 	}
 };
 
 class ParticipantCouncil extends React.Component {
 	state = {
-        rand: Date.now()
+        rand: Date.now(),
+        agendasAnchor: 'right'
 	};
+
+    toggleAgendasAnchor = () => {
+        const anchor = this.state.agendasAnchor === 'left' ? 'right' : 'left';
+        this.setState({agendasAnchor: anchor});
+    }
 
 	render() {
 		const { participant, council, data } = this.props;
-        const { rand } = this.state;
+        const { rand, agendasAnchor } = this.state;
 
         if(data.loading){
             return <LoadingMainApp />
@@ -52,22 +54,50 @@ class ParticipantCouncil extends React.Component {
                     council={council}
                     primaryColor={'white'}
                 />
+                <Button
+                    variant="fab"
+                    mini
+                    style={{position: 'absolute', top: '5px', right: '60px', outline: 0}}
+                    onClick={this.toggleAgendasAnchor}
+                >
+                    {agendasAnchor === 'left' ?
+                            <i className="fa fa-caret-right"></i>
+                        :
+                            <i className="fa fa-caret-left"></i>
+                    }
+                </Button>
 				<div style={styles.mainContainer}>
-					<div style={{width: '100%', height: '100%'}}>
-                        <iframe
-                            title="meetingScreen"
-                            allow="geolocation; microphone; camera"
-                            scrolling="no"
-                            className="temp_video"
-                            src={`https://${data.participantVideoURL}?rand=${rand}`}
-                            allowFullScreen="true"
-                            style={{
-                                border: "none !important"
-                            }}
-                        >
-                            Something wrong...
-                        </iframe>
-                    </div>
+                    <Grid container spacing={8} style={{height: '100%'}}>
+                        {agendasAnchor === 'left' &&
+                            <Grid item xs={12} sm={4}>
+                                <Agendas participant={participant} council={council} />
+                            </Grid>
+                        }
+
+                        <Grid item xs={12} sm={8}>
+                            <div style={{width: '100%', height: '100%'}}>
+                                <iframe
+                                    title="meetingScreen"
+                                    allow="geolocation; microphone; camera"
+                                    scrolling="no"
+                                    className="temp_video"
+                                    src={`https://${data.participantVideoURL}?rand=${rand}`}
+                                    allowFullScreen="true"
+                                    style={{
+                                        border: "none !important"
+                                    }}
+                                >
+                                    Something wrong...
+                                </iframe>
+                            </div>
+                        </Grid>
+
+                        {agendasAnchor === 'right' &&
+                            <Grid item xs={12} sm={4}>
+                                <Agendas participant={participant} council={council} />
+                            </Grid>
+                        }
+                    </Grid>
 				</div>
 			</div>
 		);
