@@ -142,6 +142,7 @@ class PlaceModal extends React.Component {
 			<React.Fragment>
 				<BasicButton
 					text={translate.close}
+					id={'close-button'}
 					color={"white"}
 					textStyle={{
 						color: primary,

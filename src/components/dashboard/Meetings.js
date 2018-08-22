@@ -6,7 +6,7 @@ import {
 	DateWrapper,
 	ErrorWrapper,
 	LoadingSection,
-	SectionTitle,
+	MainTitle,
 	Table
 } from "../../displayComponents/index";
 import { getPrimary } from "../../styles/colors";
@@ -76,7 +76,7 @@ class Meetings extends Component {
 			>
 				<Scrollbar option={{ suppressScrollX: true }}>
 					<div style={{ padding: "2em" }}>
-						<SectionTitle
+						<MainTitle
 							icon={this.props.icon}
 							title={this.props.title}
 							subtitle={this.props.desc}

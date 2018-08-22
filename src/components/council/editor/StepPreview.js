@@ -253,10 +253,11 @@ class StepPreview extends React.Component {
 							width: "100%",
 							height: "100%",
 							padding: '1.2em',
-							paddingTop: '0.8em'
+							paddingTop: '0.8em',
+							display: 'flex',
+							justifyContent: 'center'
 						}}
 					>
-						
 						<Paper className="htmlPreview">
 							<div
 								style={{

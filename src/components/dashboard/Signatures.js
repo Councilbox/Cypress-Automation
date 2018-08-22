@@ -6,7 +6,7 @@ import {
 	CloseIcon,
 	ErrorWrapper,
 	LoadingSection,
-	SectionTitle,
+	MainTitle,
 	Table
 } from "../../displayComponents/index";
 import { getPrimary } from "../../styles/colors";
@@ -74,7 +74,7 @@ class Signatures extends React.Component {
 				}}
 			>
 				<div style={{ width: '100%', height: '100%', padding: '1em' }}>
-					<SectionTitle
+					<MainTitle
 						icon={this.props.icon}
 						title={this.props.title}
 						subtitle={this.props.desc}

@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
+import ActionInvertColors from 'material-ui/SvgIcon';
 import {
 	BasicButton,
 	ButtonIcon,
 	Grid,
 	GridItem,
+	SectionTitle,
 	TextInput
 } from "../../displayComponents";
 import { Typography } from "material-ui";
@@ -128,9 +130,10 @@ class ChangePasswordForm extends Component {
 
 		return (
 			<Fragment>
-				<Typography variant="title" style={{ color: primary }}>
-					{translate.change_password}
-				</Typography>
+				<SectionTitle
+					text={translate.change_password}
+					color={primary}
+				/>
 				<br />
 				<Grid>
 					<GridItem xs={12} md={6} lg={4}>

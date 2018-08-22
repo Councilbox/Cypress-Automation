@@ -3,6 +3,7 @@ import {
 	Checkbox,
 	Grid,
 	GridItem,
+	SectionTitle,
 	SelectInput,
 	TextInput,
 } from "../../../displayComponents";
@@ -61,9 +62,10 @@ class StatuteEditor extends React.PureComponent {
 
 		return (
 			<Fragment>
-				<Typography variant="title" style={{ color: primary }}>
-					{translate.convene}
-				</Typography>
+				<SectionTitle
+					text={translate.convene}
+					color={primary}
+				/>
 				<br />
 				<Grid>
 					<GridItem xs={12} md={8} lg={6}>
@@ -134,15 +136,13 @@ class StatuteEditor extends React.PureComponent {
 						)}
 					</GridItem>
 				</Grid>
-				<Typography
-					variant="title"
+				<SectionTitle
+					text={translate.assistance}
+					color={primary}
 					style={{
-						color: primary,
 						marginTop: "1em"
 					}}
-				>
-					{translate.assistance}
-				</Typography>
+				/>
 				<br />
 				<Grid>
 					<GridItem xs={12} md={6} lg={6}>
@@ -346,16 +346,14 @@ class StatuteEditor extends React.PureComponent {
 					</GridItem>
 				</Grid>
 
-				<Typography
-					variant="title"
+				<SectionTitle
+					text={translate.celebration_and_agreements}
+					color={primary}
 					style={{
-						color: primary,
-						marginTop: "1em",
+						marginTop: "2em",
 						marginBottom: "1em"
 					}}
-				>
-					{translate.celebration_and_agreements}
-				</Typography>
+				/>
 				<Grid>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
@@ -438,16 +436,14 @@ class StatuteEditor extends React.PureComponent {
 					</GridItem>
 				</Grid>
 
-				<Typography
-					variant="title"
+				<SectionTitle
+					text={translate.census}
+					color={primary}
 					style={{
-						color: primary,
-						marginTop: "1em",
+						marginTop: "2em",
 						marginBottom: "1em"
 					}}
-				>
-					{translate.census}
-				</Typography>
+				/>
 				<Grid>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
@@ -477,16 +473,15 @@ class StatuteEditor extends React.PureComponent {
 					</GridItem>
 				</Grid>
 
-				<Typography
-					variant="title"
+
+				<SectionTitle
+					text={translate.act_and_documentation}
+					color={primary}
 					style={{
-						color: primary,
-						marginTop: "1em",
+						marginTop: "2em",
 						marginBottom: "1em"
 					}}
-				>
-					{translate.act_and_documentation}
-				</Typography>
+				/>
 				<Grid>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
@@ -525,16 +520,14 @@ class StatuteEditor extends React.PureComponent {
 					</GridItem>
 				</Grid>
 
-				<Typography
-					variant="title"
+				<SectionTitle
+					text={translate.call_template}
+					color={primary}
 					style={{
-						color: primary,
-						marginTop: "1em",
+						marginTop: "2em",
 						marginBottom: "1em"
 					}}
-				>
-					{translate.call_template}
-				</Typography>
+				/>
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
 						<RichTextInput
@@ -570,16 +563,14 @@ class StatuteEditor extends React.PureComponent {
 				</Grid>
 				{statute.existsAct === 1 && (
 					<Fragment>
-						<Typography
-							variant="title"
+						<SectionTitle
+							text={translate.act_templates}
+							color={primary}
 							style={{
-								color: primary,
-								marginTop: "1em",
+								marginTop: "2em",
 								marginBottom: "1em"
 							}}
-						>
-							{translate.act_templates}
-						</Typography>
+						/>
 						<Grid>
 							<GridItem xs={12} md={12} lg={12}>
 								<RichTextInput

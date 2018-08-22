@@ -53,6 +53,7 @@ class DownloadCBXDataButton extends Component {
 						height: "1.8em",
 						width: "3em",
 						marginLeft: "1.5em",
+						backgroundColor: 'white',
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "center",

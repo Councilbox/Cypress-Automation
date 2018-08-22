@@ -10,6 +10,7 @@ import {
 	Radio,
 	Grid,
 	GridItem,
+	SectionTitle,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
@@ -216,6 +217,7 @@ class StepOptions extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const { council } = this.state.data;
+		const primary = getPrimary();
 		let statute = {}
 
 		if(!this.props.data.loading){
@@ -240,10 +242,14 @@ class StepOptions extends React.Component {
 							</div>
 						:
 							<React.Fragment>
-								<Typography variant="title" style={{ fontSize: '1.1rem' }}>{translate.new_options}</Typography>
-								<Typography variant="subheading" style={{ marginTop: "1em" }}>
-									{translate.confirm_assistance}
-								</Typography>
+								{/* <SectionTitle
+									text={translate.confirm_assistance}
+									color={primary}
+								/> */}
+								<SectionTitle
+									text={translate.confirm_assistance}
+									color={primary}
+								/>
 								<Checkbox
 									label={translate.confirm_assistance_desc}
 									value={council.confirmAssistance === 1}
@@ -253,10 +259,13 @@ class StepOptions extends React.Component {
 										})
 									}
 								/>
-
-								<Typography variant="subheading" style={{ marginTop: "1em" }}>
-									{translate.video}
-								</Typography>
+								<SectionTitle
+									text={translate.video}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
 								<Checkbox
 									label={translate.room_video_broadcast}
 									value={council.councilType === 0}
@@ -305,11 +314,14 @@ class StepOptions extends React.Component {
 										value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
 									/>
 								}
-								
 
-								<Typography variant="subheading" style={{ marginTop: "1em" }}>
-									{translate.security}
-								</Typography>
+								<SectionTitle
+									text={translate.security}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
 								{this._renderSecurityForm()}
 
 								{CBX.hasAct(statute) && (

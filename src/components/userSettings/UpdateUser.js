@@ -4,7 +4,8 @@ import { Typography } from "material-ui";
 import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,
-	ButtonIcon
+	ButtonIcon,
+	SectionTitle
 } from "../../displayComponents";
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
@@ -152,10 +153,11 @@ class UpdateUserForm extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div style={{padding: '0.8em', paddingTop: 0}} {...(error? {onKeyUp: this.onKeyUp} : {})}>
-					<Typography variant="title" style={{ color: primary }}>
-						{translate.user_data}
-					</Typography>
+				<div style={{paddingTop: 0}} {...(error? {onKeyUp: this.onKeyUp} : {})}>
+					<SectionTitle
+						text={translate.user_data}
+						color={primary}
+					/>
 					<br />
 					<UserForm
 						data={data}

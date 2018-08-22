@@ -29,7 +29,10 @@ const SelectInput = ({
 		<Select
 			inputProps={{
 				name: floatingText,
-				id: id
+				id: id,
+				style: {
+					fontSize: '12px !important'
+				}
 			}}
 			disabled={!!disabled}
 			value={value}

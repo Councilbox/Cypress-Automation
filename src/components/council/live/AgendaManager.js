@@ -106,7 +106,7 @@ class AgendaManager extends React.Component {
 							onClick={this.changeSelectedPoint}
 							translate={translate}
 							councilID={council.id}
-							refetch={this.props.refetch}
+							refetch={this.props.data.refetch}
 						/>
 					</Scrollbar>
 				</Card>
@@ -142,7 +142,7 @@ class AgendaManager extends React.Component {
 							onClick={this.changeSelectedPoint}
 							translate={translate}
 							councilID={council.id}
-							refetch={this.props.refetch}
+							refetch={this.props.data.refetch}
 						/>
 					</Scrollbar>
 				</Card>

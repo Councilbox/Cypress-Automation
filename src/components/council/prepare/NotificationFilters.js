@@ -44,8 +44,8 @@ class NotificationFilters extends React.Component {
 					src={CBX.getEmailIconByReqCode(value)}
 					alt={value}
 					style={{
-						width: "25px",
-						height: "auto"
+						width: "22px",
+						height: "auto",
 					}}
 				/>
 			</FilterButton>

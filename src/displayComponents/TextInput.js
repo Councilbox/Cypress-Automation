@@ -69,7 +69,10 @@ const TextInput = ({
 				inputProps: {
 					min: min,
 					id: id,
-					max: max
+					max: max,
+					style: {
+						fontSize: '15px'
+					}
 				},
 				endAdornment: passwordToggler ? (
 					<InputAdornment position="end">
@@ -91,7 +94,8 @@ const TextInput = ({
 				)
 			}}
 			FormHelperTextProps={{
-				error: !!errorText
+				error: !!errorText,
+				className: 'error-text'
 			}}
 			color="secondary"
 			type={type}

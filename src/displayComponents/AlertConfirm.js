@@ -31,9 +31,11 @@ const AlertConfirm = ({
 					text={buttonCancel}
 					textStyle={{
 						textTransform: "none",
-						fontWeight: "700"
+						fontWeight: "700",
 					}}
 					primary={true}
+					color='transparent'
+					type="flat"
 					onClick={!!cancelAction? cancelAction : requestClose}
 				/>
 			)}

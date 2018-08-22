@@ -9,9 +9,10 @@ import {
 	GridItem,
 	LoadingSection,
 	SelectInput,
+	SectionTitle,
 	TextInput
 } from "../../../displayComponents";
-import { MenuItem, Typography } from "material-ui";
+import { MenuItem } from "material-ui";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { compose, graphql, withApollo } from "react-apollo";
 import { provinces } from "../../../queries/masters";
@@ -227,11 +228,12 @@ class CompanySettingsPage extends React.Component {
 		}
 
 		return (
-			<CardPageLayout title={translate.settings}>
+			<CardPageLayout title={translate.company_settings}>
 				<div style={{width: '100%', height: '100%', padding: '1.5em'}}>
-					<Typography variant="title" style={{ color: primary }}>
-						{translate.fiscal_data}
-					</Typography>
+					<SectionTitle
+						text={translate.fiscal_data}
+						color={primary}
+					/>
 					<br />
 					<Grid spacing={0}>
 						<GridItem xs={12} md={9} lg={9}>
@@ -240,6 +242,7 @@ class CompanySettingsPage extends React.Component {
 									<TextInput
 										floatingText={translate.business_name}
 										type="text"
+										id="business-name"
 										value={data.businessName}
 										errorText={errors.businessName}
 										onChange={event =>
@@ -375,9 +378,13 @@ class CompanySettingsPage extends React.Component {
 						</GridItem>
 					</Grid>
 					<br />
-					<Typography variant="title" style={{ color: primary, marginTop: '1.2em' }}>
-						{translate.contact_data}
-					</Typography>
+					<SectionTitle
+						text={translate.contact_data}
+						color={primary}
+						style={{
+							marginTop: '2em'
+						}}
+					/>
 					<br />
 					<Grid spacing={16}>
 						<GridItem xs={12} md={6} lg={6}>
@@ -487,6 +494,7 @@ class CompanySettingsPage extends React.Component {
 					<br />
 					<BasicButton
 						text={translate.save}
+						id="save-button"
 						color={getPrimary()}
 						error={updateError}
 						success={success}

@@ -13,15 +13,16 @@ const UserSettingsPage = ({ data, user, translate }) => {
 
 	return (
 		<CardPageLayout title={translate.settings}>
-			<br />
-			<UpdateUser
-				translate={translate}
-				user={user}
-				languages={data.languages}
-			/>
-			<br />
-			<br />
-			<ChangePasswordForm translate={translate} />
+			<div style={{margin: 0, marginTop: '0.6em'}}>
+				<UpdateUser
+					translate={translate}
+					user={user}
+					languages={data.languages}
+				/>
+			</div>
+			<div style={{marginTop: '3.5em'}}>
+				<ChangePasswordForm translate={translate} />
+			</div>
 		</CardPageLayout>
 	);
 }

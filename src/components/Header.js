@@ -100,6 +100,7 @@ class Header extends React.PureComponent {
 									display: "flex",
 									alignItems: "center"
 								}}
+								id="back-button"
 								onClick={this.goBack}
 							>
 								<Icon

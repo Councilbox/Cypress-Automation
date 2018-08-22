@@ -35,6 +35,7 @@ const BasicButton = ({
 			id={id}
 			disableRipple={loading}
 			style={{
+				textTransform: 'none',
 				...buttonStyle,
 				...textStyle,
 				backgroundColor: success ? "green" : error ? "red" : color,

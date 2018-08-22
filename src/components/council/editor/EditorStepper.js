@@ -11,13 +11,18 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
     const secondary = getSecondary();
     const primary = getPrimary();
 
-    const XsIcon = ({ icon, page }) => (
+    const XsIcon = ({ icon, page, selected }) => (
         <Icon
             type={icon}
             style={{
+                fontSize: '18px',
                 color: active === page - 1? primary : secondary,
                 cursor: active > page - 1? 'pointer' : 'inherit',
-                userSelect: 'none'
+                userSelect: 'none',
+                ...(active === page - 1? {
+                    fontSize: '22px',
+                    fontWeight: '700'
+                } : {})
             }}
 
             {...(active > page - 1? {
@@ -32,7 +37,7 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
             <div
                 style={{
                     width: '100%',
-                    height: '2.5em',
+                    height: '2em',
                     display: 'flex',
                     flexDirection: 'row',
                     paddingLeft: '15%',

@@ -98,19 +98,16 @@ const CouncilActData = gql`
 
 class ActEditor extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false,
-			data: {},
-			updating: false,
-			draftType: null,
-			sendActDraft: false,
-			finishActModal: false,
-			loadDraft: false,
-			errors: {}
-		};
-	}
+	state = {
+		loading: false,
+		data: {},
+		updating: false,
+		draftType: null,
+		sendActDraft: false,
+		finishActModal: false,
+		loadDraft: false,
+		errors: {}
+	};
 
 	timeout = null;
 

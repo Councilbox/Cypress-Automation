@@ -90,7 +90,7 @@ class StepNotice extends React.Component {
 	};
 
 	updateCouncil = step => {
-		const { __typename, statute, ...council } = this.state.data;
+		const { __typename, statute, councilType, ...council } = this.state.data;
 		return this.props.updateCouncil({
 			variables: {
 				council: {
@@ -319,7 +319,7 @@ class StepNotice extends React.Component {
 						:
 							<React.Fragment>
 								<Grid>
-									<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em'}}>
+									<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em' }}>
 										<SelectInput
 											required
 											floatingText={translate.council_type}
@@ -351,6 +351,7 @@ class StepNotice extends React.Component {
 									>
 										<BasicButton
 											text={translate.change_location}
+											id={'change-place'}
 											color={secondary}
 											textStyle={{
 												color: "white",
@@ -372,7 +373,7 @@ class StepNotice extends React.Component {
 										</h6>
 									</GridItem>
 
-									<GridItem xs={12} md={4} lg={4}>
+									<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
 										<DateTimePicker
 											required
 											onChange={date => {
@@ -388,7 +389,7 @@ class StepNotice extends React.Component {
 											value={council.dateStart}
 										/>
 									</GridItem>
-									<GridItem xs={12} md={4} lg={4}>
+									<GridItem xs={12} md={4} lg={4} style={{marginTop: '1.3em'}}>
 										{CBX.hasSecondCall(statute) && (
 											<DateTimePicker
 												required
@@ -411,7 +412,7 @@ class StepNotice extends React.Component {
 											/>
 										)}
 									</GridItem>
-									<GridItem xs={12} md={10} lg={10} style={{marginTop: '0.8em'}}>
+									<GridItem xs={12} md={10} lg={10} style={{marginTop: '2em'}}>
 										<TextInput
 											required
 											floatingText={translate.table_councils_name}

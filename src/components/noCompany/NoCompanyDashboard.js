@@ -1,7 +1,6 @@
 import React from "react";
-import Block from '../dashboard/Block';
 import { darkGrey, lightGrey } from "../../styles/colors";
-import { Grid, GridItem } from '../../displayComponents';
+import { Block, Grid, GridItem } from '../../displayComponents';
 
 
 const NoCompanyDashboard = ({ translate, company, user }) => {

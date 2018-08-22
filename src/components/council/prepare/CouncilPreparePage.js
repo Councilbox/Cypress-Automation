@@ -31,7 +31,7 @@ class CouncilPreparePage extends React.Component {
 		sendReminder: false,
 		sendConvene: false,
 		cancel: false,
-		selectedTab: 0,
+		selectedTab: 2,
 		rescheduleCouncil: false
 	};
 

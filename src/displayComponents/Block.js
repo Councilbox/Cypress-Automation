@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, Icon } from '../../displayComponents';
-import { getSecondary, darkGrey } from '../../styles/colors';
+import { Link, Icon } from './';
+import { getSecondary, darkGrey } from '../styles/colors';
 import { Card, MenuItem } from 'material-ui';
 
 const Block = ({ button, link, icon, text, id }) => (
@@ -48,7 +48,7 @@ const Block = ({ button, link, icon, text, id }) => (
 						>
 							{icon}
 						</Icon>
-						{text}
+						<span style={{fontSize: '13px'}}>{text}</span>
 					</div>
 				</MenuItem>
 			</Card>

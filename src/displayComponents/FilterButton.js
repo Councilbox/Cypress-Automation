@@ -27,14 +27,16 @@ const FilterButton = ({
 				style={{
 					display: "flex",
 					alignItems: "center",
+					margin: '1px',
 					width: size,
 					justifyContent: "center",
 					cursor: "pointer",
 					overflow: "hidden",
 					height: size,
-					border: `2px solid ${getSecondary()}`,
+					outline: 0,
+					border: `2px solid gainsboro`,
 					borderRadius: "3px",
-					backgroundColor: active ? "gainsboro" : "transparent"
+					backgroundColor: active ? 'gainsboro' : "transparent"
 				}}
 				elevation={active? 0 : 1}
 				tabIndex="0"

@@ -1,37 +1,10 @@
-import React from "react";
-import FontAwesome from "react-fontawesome";
-import { getPrimary } from "../styles/colors";
+import React from 'react';
+import { Typography } from 'material-ui';
 
-const SectionTitle = ({ icon, title, subtitle }) => (
-	<div
-		style={{
-			display: "flex",
-			flexDirection: "row",
-			height: '8em',
-			paddingLeft: '2em',
-			borderBottom: '1px solid gainsboro',
-			alignItems: "center",
-		}}
-	>
-		<FontAwesome
-			name={icon}
-			color={getPrimary()}
-			style={{
-				margin: "0.2em 0.4em",
-				color: getPrimary(),
-				fontSize: "4em"
-			}}
-		/>
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "column"
-			}}
-		>
-			<h3 style={{ fontWeight: "600" }}>{title}</h3>
-			<div>{subtitle}</div>
-		</div>
-	</div>
-);
+const SectionTitle = ({ text, color, style }) => (
+    <Typography variant="title" style={{ color: color, fontSize: '18px', fontWeight: '700', marginBottom: '0.6em', ...style }}>
+        {text}
+    </Typography>
+)
 
 export default SectionTitle;

@@ -47,7 +47,7 @@ const UserMenu = ({ user, actions, translate }) => {
 										color: secondary
 									}}
 								/>
-								<span style={{marginLeft: '2.5em', fontSize: '0.9em', marginRight: '0.8em'}}>
+								<span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
 									{translate.settings}
 								</span>
 							</div>
@@ -72,7 +72,7 @@ const UserMenu = ({ user, actions, translate }) => {
 										color: 'red'
 									}}
 								/>
-								<span style={{marginLeft: '2.5em', fontSize: '0.9em', marginRight: '0.8em'}}>
+								<span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
 									{translate.logout}
 								</span>
 							</div>

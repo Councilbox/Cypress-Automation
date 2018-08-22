@@ -33,7 +33,7 @@ class EnhancedTable extends React.Component {
 
 	timeout = null;
 
-	refresh = () => {
+	refresh = object => {
 		let variables = {
 			options: {
 				limit: this.state.limit,
@@ -43,6 +43,7 @@ class EnhancedTable extends React.Component {
 			},
 			filters: []
 		};
+
 		if(this.state.filterText){
 			variables.filters.push({
 				field: this.state.filterField,
@@ -72,6 +73,14 @@ class EnhancedTable extends React.Component {
 				})
 			}
 		}
+
+		if(object){
+			variables = {
+				...variables,
+				...object
+			}
+		}
+
 		this.props.refetch(variables);
 	};
 

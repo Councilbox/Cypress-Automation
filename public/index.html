@@ -19,21 +19,20 @@
         height: 100vh;
         display: flex;
         align-items: center;
+        flex-direction: column;
         justify-content: center;
-
       }
-      @keyframes example {
-          0% {width: 25px; height: auto}
-          50% {width: 200px; height: auto}
-          100% {width: 25px; height: auto}
+
+      @keyframes grow {
+          0% {width: 25px; height: auto; margin-bottom: 185px;}
+          50% {width: 200px; height: auto; margin-bottom: 10px;}
       }
 
       .splash {
-        animation-name: example;
-        animation-duration: 6s;
+        animation-name: grow;
+        animation-duration: 5s;
         width: 200px;
         height: auto;
-        animation-iteration-count: infinite;
       }
     </style>
   </head>

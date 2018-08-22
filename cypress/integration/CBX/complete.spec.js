@@ -1,23 +1,22 @@
 /// <reference types="Cypress" />
 import loginTest from './login';
 import logoutTest from './logout';
+import dashboardTest from './dashboard';
 
 context('Actions', () => {
   beforeEach(() => {
+    cy.window().then((win) => {
+      win.sessionStorage.clear()
+    });
     cy.visit('http://localhost:3000')
   });
-
-  console.log(this);
 
   // https://on.cypress.io/interacting-with-elements
 
   it('Type and login user', () => {
     // https://on.cypress.io/type
     loginTest();
-    cy.url().should('contain', '/company/');
-
-    cy.get('#edit-company-block').click();
-    cy.url().should('contain', '/settings');
+    dashboardTest();
 
     logoutTest();
   })

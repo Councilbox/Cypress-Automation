@@ -32,9 +32,11 @@ class ConvenedParticipantsTable extends React.Component {
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
+	
 	refresh = object => {
 		this.table.refresh(object);
 	};
+
 	refreshEmailStates = async () => {
 		const response = await this.props.updateConveneSends({
 			variables: {
@@ -93,11 +95,10 @@ class ConvenedParticipantsTable extends React.Component {
 					});
 				}
 			}
-			headers.push({});
 		}
 
 		if(!hideNotifications){
-			headers.push({});
+			headers.push({text: ''});
 		}
 
 		return (
@@ -191,107 +192,11 @@ class ConvenedParticipantsTable extends React.Component {
 										<React.Fragment
 											key={`participant${participant.id}`}
 										>
-											<TableRow
-												hover
-												onClick={() =>
-													this.setState({
-														editingParticipant: true,
-														participant: participant
-													})
-												}
-												style={{
-													cursor: "pointer"
-												}}
-											>
-												<TableCell>
-													{`${participant.name} ${
-														participant.surname
-													}`}
-												</TableCell>
-												<TableCell>
-													{participant.dni}
-												</TableCell>
-												<TableCell>
-													{participant.position}
-												</TableCell>
-												<TableCell>
-													{`${
-														participant.numParticipations
-													} (${(
-														(participant.numParticipations /
-															totalVotes) *
-														100
-													).toFixed(2)}%)`}
-												</TableCell>
-												{this.props.participations && (
-													<TableCell>
-														{`${
-															participant.socialCapital
-														} (${(
-															(participant.socialCapital /
-																socialCapital) *
-															100
-														).toFixed(2)}%)`}
-													</TableCell>
-												)}
-												{!hideNotifications &&
-													<React.Fragment>
-														<TableCell>
-															{participant.notifications
-																.length > 0 ? (
-																<Tooltip
-																	title={
-																		translate[
-																			CBX.getTranslationReqCode(
-																				participant
-																					.notifications[0]
-																					.reqCode
-																			)
-																		]
-																	}
-																>
-																	<img
-																		style={{
-																			height:
-																				"2.1em",
-																			width:
-																				"auto"
-																		}}
-																		src={CBX.getEmailIconByReqCode(
-																			participant
-																				.notifications[0]
-																				.reqCode
-																		)}
-																		alt="email-state-icon"
-																	/>
-																</Tooltip>
-															) : (
-																""
-															)}
-														</TableCell>
-														{CBX.councilHasAssistanceConfirmation(
-															council
-														) && (
-															<TableCell>
-																<AttendIntentionIcon
-																	participant={participant.live}
-																	translate={translate}
-																	size="2em"
-																/>
-															</TableCell>
-														)}
-													</React.Fragment>
-												}
-												
-												<TableCell>
-													<DownloadCBXDataButton
-														translate={translate}
-														participantId={
-															participant.id
-														}
-													/>
-												</TableCell>
-											</TableRow>
+											<HoverableRow
+												translate={translate}
+												participant={participant}
+												{...this.props}
+											/>
 											{!!participant.representative && (
 												<TableRow
 													hover={true}
@@ -459,6 +364,144 @@ class ConvenedParticipantsTable extends React.Component {
 				{this.props.children}
 			</div>
 		);
+	}
+}
+
+class HoverableRow extends React.Component {
+
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		});
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		});
+	}
+
+	render() {
+		const { translate, participant, action, hideNotifications, totalVotes, socialCapital, council } = this.props;
+
+		return (
+			<TableRow
+				hover
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				onClick={() =>
+					this.setState({
+						editingParticipant: true,
+						participant: participant
+					})
+				}
+				style={{
+					cursor: "pointer"
+				}}
+			>
+				<TableCell>
+					{`${participant.name} ${
+						participant.surname
+					}`}
+				</TableCell>
+				<TableCell>
+					{participant.dni}
+				</TableCell>
+				<TableCell>
+					{participant.position}
+				</TableCell>
+				<TableCell>
+					{`${
+						participant.numParticipations
+					} (${(
+						(participant.numParticipations /
+							totalVotes) *
+						100
+					).toFixed(2)}%)`}
+				</TableCell>
+				{this.props.participations && (
+					<TableCell>
+						{`${
+							participant.socialCapital
+						} (${(
+							(participant.socialCapital /
+								socialCapital) *
+							100
+						).toFixed(2)}%)`}
+					</TableCell>
+				)}
+				{!hideNotifications &&
+					<React.Fragment>
+						<TableCell>
+							{participant.notifications
+								.length > 0 ? (
+								<Tooltip
+									title={
+										translate[
+											CBX.getTranslationReqCode(
+												participant
+													.notifications[0]
+													.reqCode
+											)
+										]
+									}
+								>
+									<img
+										style={{
+											height:
+												"2.1em",
+											width:
+												"auto"
+										}}
+										src={CBX.getEmailIconByReqCode(
+											participant
+												.notifications[0]
+												.reqCode
+										)}
+										alt="email-state-icon"
+									/>
+								</Tooltip>
+							) : (
+								""
+							)}
+						</TableCell>
+						{CBX.councilHasAssistanceConfirmation(
+							council
+						) && (
+							<TableCell>
+								<AttendIntentionIcon
+									participant={participant.live}
+									translate={translate}
+									size="2em"
+								/>
+							</TableCell>
+						)}
+					</React.Fragment>
+				}
+				<TableCell>
+					<div
+						style={{
+							width: '4em'
+						}}
+					>
+						{this.state.showActions &&
+							<DownloadCBXDataButton
+								translate={translate}
+								participantId={participant.id}
+							/>
+						}
+					</div>
+					{
+
+					}
+					
+				</TableCell>
+			</TableRow>
+		)
 	}
 }
 

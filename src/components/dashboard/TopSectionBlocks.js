@@ -1,9 +1,9 @@
 import React from "react";
 import {
+	Block,
 	Grid,
 	GridItem
 } from "../../displayComponents";
-import Block from './Block';
 
 const TopSectionBlocks = ({ translate, company }) => (
 	<Grid
@@ -26,6 +26,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 			<Block
 				link={`/company/${company.id}/statutes`}
 				icon="gavel"
+				id={'edit-statutes-block'}
 				text={'Tipos de reunión'}//TRADUCCION
 			/>
 		</GridItem>
@@ -34,6 +35,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 			<Block
 				link={`/company/${company.id}/censuses`}
 				icon="person"
+				id={'edit-censuses-block'}
 				text={translate.censuses}
 			/>
 		</GridItem>
@@ -42,6 +44,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 			<Block
 				link={`/company/${company.id}/drafts`}
 				icon="class"
+				id={'edit-drafts-block'}
 				text={translate.drafts}
 			/>
 		</GridItem>
@@ -52,6 +55,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 			<Block
 				link={`/company/${company.id}/council/new`}
 				icon="add"
+				id={'create-council-block'}
 				text={translate.dashboard_new}
 			/>
 		</GridItem>
@@ -59,6 +63,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 			<Block
 				link={`/company/${company.id}/meeting/new`}
 				icon="video_call"
+				id={'init-meeting-block'}
 				text={'Iniciar conferencia'}//TRADUCCION
 			/>
 		</GridItem>

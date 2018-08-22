@@ -6,7 +6,7 @@ import {
 	ErrorWrapper,
 	Scrollbar,
 	LoadingSection,
-	SectionTitle,
+	MainTitle,
 } from "../../displayComponents/index";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
@@ -58,7 +58,7 @@ class Councils extends React.Component {
 				}}
 			>
 				<div style={{ width: '100%', height: '100%', padding: '1em' }}>
-					<SectionTitle
+					<MainTitle
 						icon={this.props.icon}
 						title={this.props.title}
 						subtitle={this.props.desc}

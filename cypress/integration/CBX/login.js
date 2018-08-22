@@ -16,8 +16,8 @@ export default () => {
       .type('{shift}')
 
       // Delay each keypress by 0.1 sec
-      .type(loginUser, { delay: 100 })
-      .should('have.value', loginUser);
+/*       .type(loginUser, { delay: 100 })
+      .should('have.value', loginUser); */
 
 /*     cy.get('.action-disabled')
       // Ignore error checking prior to type
@@ -38,8 +38,17 @@ export default () => {
       .type('{shift}')
 
       // Delay each keypress by 0.1 sec
-      .type(password, { delay: 100 })
-      .should('have.value', password)
+/*       .type(password, { delay: 100 })
+      .should('have.value', password) */
+
+    cy.get('#login-button').click();
+
+    cy.get('.error-text').should('have.length', 2);
+
+    cy.get('#username')
+      .type(loginUser).should('have.value', loginUser)
+    cy.get('#password')
+      .type(password).should('have.value', password)
 
     cy.get('#login-button').click();
 }

@@ -18,13 +18,13 @@ const theme = createMuiTheme({
 	},
 
 	typography: {
-		fontFamily: ['Lato', 'Roboto', 'Helvetica']
+		fontFamily: ['Lato', 'Roboto', 'Helvetica'],
 	},
 
 	overrides: {
 		MuiDialog: {
 			root: {
-				zIndex: 1001
+				zIndex: 1001,
 			}
 		},
 		MuiDialogTitle: {
@@ -38,6 +38,11 @@ const theme = createMuiTheme({
 			},
 			modal: {
 				zIndex: 999
+			}
+		},
+		MuiIconButton: {
+			root: {
+				height: '34px !important'
 			}
 		},
 		MuiInput: {
@@ -61,6 +66,16 @@ const theme = createMuiTheme({
 				zIndex: 998
 			}
 		},
+		MuiMenuItem: {
+			root: {
+				fontSize: '14px !important'
+			}
+		},
+		MuiSelect : {
+			select: {
+				fontSize: '15px !important'
+			}
+		},
 		MuiStepper: {
 			root: {
 				backgroundColor: "transparent",
@@ -72,7 +87,8 @@ const theme = createMuiTheme({
 		},
 		MuiTable: {
 			root: {
-				maxWidth: "90%"
+				maxWidth: "90%",
+				fontSize: '0.8rem'
 			}
 		},
 		MuiTableRow: {
@@ -83,6 +99,11 @@ const theme = createMuiTheme({
 		MuiTooltip: {
 			tooltip: {
 				fontSize: "0.7rem"
+			}
+		},
+		MuiTypography: {
+			title: {
+				fontSize: "1.25rem"
 			}
 		}
 	}
