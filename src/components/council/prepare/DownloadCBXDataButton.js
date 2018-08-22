@@ -6,6 +6,7 @@ import { downloadCBXData } from "../../../queries";
 import { Tooltip } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { getSecondary } from "../../../styles/colors";
+import { moment } from "../../../containers/App";
 
 class DownloadCBXDataButton extends Component {
 	downloadCBXData = async id => {
@@ -14,7 +15,8 @@ class DownloadCBXDataButton extends Component {
 		});
 		const response = await this.props.downloadCBXData({
 			variables: {
-				participantId: id
+				participantId: id,
+				timezone: moment().utcOffset()
 			}
 		});
 
