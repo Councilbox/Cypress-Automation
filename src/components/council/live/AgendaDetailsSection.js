@@ -8,6 +8,7 @@ import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
 import CouncilInfoMenu from './CouncilInfoMenu';
 import Comments from "./Comments";
+import CouncilMenu from './councilMenu/CouncilMenu';
 import Votings from "./Votings";
 import * as CBX from "../../../utils/CBX";
 import { AGENDA_TYPES } from "../../../constants";
@@ -164,9 +165,9 @@ class AgendaDetailsSection extends React.Component {
 									/>
 								)
 							}
-							<CouncilInfoMenu
-								translate={translate}
+							<CouncilMenu
 								council={council}
+								translate={translate}
 							/>
 						</div>
 					</GridItem>

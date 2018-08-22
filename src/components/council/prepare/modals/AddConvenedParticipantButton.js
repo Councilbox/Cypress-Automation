@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -15,7 +15,15 @@ import {
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 
-class AddConvenedParticipantButton extends Component {
+class AddConvenedParticipantButton extends React.Component {
+	state = {
+		modal: false,
+		data: { ...initialParticipant },
+		representative: { ...initialRepresentative },
+		errors: {},
+		representativeErrors: {}
+	};
+
 	addParticipant = async sendConvene => {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative
@@ -65,17 +73,6 @@ class AddConvenedParticipantButton extends Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false,
-			data: { ...initialParticipant },
-			representative: { ...initialRepresentative },
-			errors: {},
-			representativeErrors: {}
-		};
-	}
-
 	checkRequiredFields() {
 		const participant = this.state.data;
 		const representative = this.state.representative;
@@ -119,7 +116,7 @@ class AddConvenedParticipantButton extends Component {
 		const { languages } = this.props.data;
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<BasicButton
 					text={translate.add_participant}
 					color={"white"}
@@ -142,14 +139,18 @@ class AddConvenedParticipantButton extends Component {
 					requestClose={() => this.setState({ modal: false })}
 					open={this.state.modal}
 					actions={
-						<Fragment>
+						<React.Fragment>
 							<BasicButton
 								text={translate.cancel}
+								type="flat"
+								color="white"
 								textStyle={{
 									textTransform: "none",
 									fontWeight: "700"
 								}}
-								onClick={this.props.close}
+								onClick={() => this.setState({
+									modal: false
+								})}
 							/>
 							<BasicButton
 								text={translate.save_changes_and_send}
@@ -177,7 +178,7 @@ class AddConvenedParticipantButton extends Component {
 									this.addParticipant(false);
 								}}
 							/>
-						</Fragment>
+						</React.Fragment>
 					}
 				>
 					<ParticipantForm
@@ -197,7 +198,7 @@ class AddConvenedParticipantButton extends Component {
 						languages={languages}
 					/>
 				</CustomDialog>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

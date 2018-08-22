@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { graphql } from "react-apollo";
 import { openCouncilRoom } from "../../../queries/live";
 import {
@@ -51,11 +51,8 @@ class OpenRoomButton extends React.Component {
 		const primary = getPrimary();
 
 		return (
-			<Fragment>
-				<div
-					className="col-lg-6 col-md-12 col-xs-12"
-					style={{ marginTop: "0.6em" }}
-				>
+			<React.Fragment>
+				<div>
 					<BasicButton
 						text={translate.open_room}
 						color={primary}
@@ -81,15 +78,11 @@ class OpenRoomButton extends React.Component {
 							textTransform: "none"
 						}}
 					/>
-					<CouncilMenu
-						council={this.props.council}
-						translate={translate}
-					/>
 				</div>
 				<AlertConfirm
 					title={translate.open_room}
 					bodyText={
-						<Fragment>
+						<React.Fragment>
 							<div>{translate.open_room_continue}</div>
 							<Checkbox
 								label={translate.send_video_credentials}
@@ -113,7 +106,7 @@ class OpenRoomButton extends React.Component {
 									style={{ color: primary }}
 								/>
 							</a>
-						</Fragment>
+						</React.Fragment>
 					}
 					open={this.state.confirmModal}
 					buttonAccept={translate.accept}
@@ -122,7 +115,7 @@ class OpenRoomButton extends React.Component {
 					acceptAction={this.openCouncilRoom}
 					requestClose={() => this.setState({ confirmModal: false })}
 				/>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }
