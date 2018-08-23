@@ -3,13 +3,8 @@ import { graphql } from "react-apollo";
 import { census } from "../../../../queries/census";
 import {
 	CardPageLayout,
-	Grid,
-	GridItem,
 	LoadingSection,
-	SelectInput,
-	TextInput
 } from "../../../../displayComponents";
-import { MenuItem } from "material-ui";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
 import CensusParticipants from "./CensusParticipants";
@@ -57,7 +52,6 @@ class CensusEditorPage extends React.Component {
 		const { translate } = this.props;
 		const { loading } = this.props.data;
 		const census = this.state.data;
-		const errors = this.state.errors;
 
 		return (
 			<CardPageLayout title={census.censusName || translate.census}>

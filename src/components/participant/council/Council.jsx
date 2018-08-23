@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
-import { Grid, Button } from "material-ui";
+import { Grid } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { LoadingMainApp } from '../../../displayComponents';

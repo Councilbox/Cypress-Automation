@@ -4,8 +4,6 @@ import { Typography } from "material-ui";
 import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
-import Loadable from 'react-loadable';
-import LoadingSection from './LoadingSection';
 import RichTextEditor from 'react-rte';
 
 /* const RichTextEditor = Loadable({

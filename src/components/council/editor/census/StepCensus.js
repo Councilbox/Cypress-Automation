@@ -3,8 +3,6 @@ import {
 	BasicButton,
 	ButtonIcon,
 	ErrorWrapper,
-	Grid,
-	GridItem,
 	LoadingSection
 } from "../../../../displayComponents/index";
 import Dialog, {
@@ -18,7 +16,6 @@ import * as CBX from "../../../../utils/CBX";
 import { councilStepTwo, updateCouncil } from "../../../../queries";
 import { compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
-import CouncilHeader from '../CouncilHeader';
 import EditorStepLayout from '../EditorStepLayout';
 
 

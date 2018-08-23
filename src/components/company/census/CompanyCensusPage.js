@@ -5,8 +5,6 @@ import {
 	CloseIcon,
 	DateWrapper,
 	EnhancedTable,
-	Grid,
-	GridItem,
 	LoadingSection
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
@@ -213,11 +211,9 @@ class HoverableRow extends React.PureComponent {
         );
     }
 
-
     render() {
-        const { census, company, link, translate } = this.props;
+        const { census, translate } = this.props;
 		const primary = getPrimary();
-
 
         return (
 			<TableRow

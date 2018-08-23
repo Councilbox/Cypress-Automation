@@ -1,6 +1,4 @@
 import { urlParser } from "../utils";
-import { client } from "../containers/App";
-import * as queries from "../queries";
 
 /*const apiURLs = {
  prod: {

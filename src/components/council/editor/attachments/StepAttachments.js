@@ -16,9 +16,7 @@ import { Typography } from "material-ui";
 import AttachmentList from "../../../attachments/AttachmentList";
 import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
 import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil} from "../../../../queries";
-import CouncilHeader from '../CouncilHeader';
 import EditorStepLayout from '../EditorStepLayout';
-
 
 class StepAttachments extends React.Component {
 

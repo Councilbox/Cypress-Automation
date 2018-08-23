@@ -6,7 +6,6 @@ import StartCouncilButton from "./StartCouncilButton";
 import EndCouncilButton from "./EndCouncilButton";
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
-import CouncilInfoMenu from './CouncilInfoMenu';
 import Comments from "./Comments";
 import CouncilMenu from './councilMenu/CouncilMenu';
 import Votings from "./Votings";
@@ -15,7 +14,7 @@ import { AGENDA_TYPES } from "../../../constants";
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
-import { BasicButton, Grid, GridItem, Scrollbar, AgendaNumber } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem, Scrollbar } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import RecountSection from './RecountSection';
 

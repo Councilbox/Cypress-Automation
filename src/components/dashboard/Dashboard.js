@@ -2,7 +2,6 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Link } from '../../displayComponents';
 
 const Dashboard = ({ translate, company, user }) => {
 	return (

@@ -1,6 +1,6 @@
 import React from "react";
-import { Steps, Step } from 'antd';
-import { Paper, Typography, Divider, Button, IconButton } from "material-ui";
+import { Steps } from 'antd';
+import { Paper, Typography, Divider, IconButton } from "material-ui";
 import Scrollbar from '../../../displayComponents/Scrollbar';
 import AgendaNumber from '../../../displayComponents/AgendaNumber';
 import withTranslations from "../../../HOCs/withTranslations";
@@ -29,7 +29,7 @@ class Agendas extends React.Component {
     }
 
 	render() {
-		const { translate, participant, council, agendasAnchor, toggleAgendasAnchor } = this.props;
+		const { translate, council, agendasAnchor, toggleAgendasAnchor } = this.props;
         const { selected } = this.state;
 
 		return (

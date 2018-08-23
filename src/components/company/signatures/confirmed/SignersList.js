@@ -1,10 +1,9 @@
 import React from 'react';
-import { EnhancedTable, CloseIcon, BasicButton, ButtonIcon, RefreshButton } from '../../../../displayComponents';
+import { EnhancedTable, RefreshButton } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, SIGNATURE_PARTICIPANTS_STATES } from '../../../../constants';
 import { TableRow, TableCell } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getPrimary } from '../../../../styles/colors';
 import { getSignerStatusTranslateField } from '../../../../utils/CBX';
 
 class SignersList extends React.Component {
@@ -15,8 +14,7 @@ class SignersList extends React.Component {
 
     render(){
         const { translate } = this.props;
-        const { signatureParticipants = { list: [], total: 0}, loading, refetch } = this.props.data;
-        const primary = getPrimary();
+        const { signatureParticipants = { list: [], total: 0}, loading } = this.props.data;
 
         return(
             <React.Fragment>

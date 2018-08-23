@@ -1,8 +1,6 @@
 import React from "react";
-import { Icon, LoadingSection, CollapsibleSection } from "../../../displayComponents";
-import { darkGrey, getPrimary } from "../../../styles/colors";
-import LiveUtil from "../../../utils/live";
-import FontAwesome from "react-fontawesome";
+import { Icon, CollapsibleSection } from "../../../displayComponents";
+import { darkGrey } from "../../../styles/colors";
 //import VotesTable from "./VotesTable";
 import AgendaRecount from '../agendas/AgendaRecount';
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
@@ -69,9 +67,8 @@ class RecountSection extends React.Component {
 			return <LoadingSection />;
 		} */
 
-		const { translate, council, majorities, agenda } = this.props;
+		const { translate, council, agenda } = this.props;
 		//const recount = this.props.data.liveRecount[0];
-		const primary = getPrimary();
 
 		return (
 			<div style={{backgroundColor: 'white'}}>

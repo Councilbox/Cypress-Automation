@@ -7,7 +7,6 @@ import {
 	DateTimePicker,
 	ErrorAlert,
 	Grid,
-	Scrollbar,
 	GridItem,
 	LoadingSection,
 	SelectInput,
@@ -273,7 +272,7 @@ class StepNotice extends React.Component {
 
 	render() {
 		const { translate, company } = this.props;
-		const { loading, companyStatutes, draftTypes } = this.props.data;
+		const { companyStatutes, draftTypes } = this.props.data;
 		const council = this.state.data;
 		const { errors } = this.state;
 		const primary = getPrimary();

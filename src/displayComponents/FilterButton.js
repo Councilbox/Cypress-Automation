@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { getSecondary } from "../styles/colors";
 import { Tooltip, MenuItem, Card } from "material-ui";
 import { LoadingSection } from "./";
 

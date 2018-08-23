@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, Table, TextInput } from '../../../displayComponents';
+import { Grid, GridItem, Table } from '../../../displayComponents';
 import { TableRow, TableCell, Tooltip } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import { graphql } from 'react-apollo';
@@ -8,7 +8,6 @@ import * as CBX from '../../../utils/CBX';
 import { Input } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import LiveUtil from "../../../utils/live";
 
 const columnStyle = {
     display: 'flex',

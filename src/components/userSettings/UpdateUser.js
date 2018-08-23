@@ -1,6 +1,5 @@
 import React from "react";
 import { graphql, withApollo } from "react-apollo";
-import { Typography } from "material-ui";
 import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,

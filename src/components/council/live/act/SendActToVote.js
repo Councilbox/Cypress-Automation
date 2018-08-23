@@ -15,8 +15,7 @@ class SendActToVote extends React.Component {
 	};
 
     sendActToVote = async () => {
-
-		const { council, agenda } = this.props;
+		const { agenda } = this.props;
 		const response = await this.props.openAgendaVoting({
 			variables: {
 				agendaId: agenda.id
@@ -26,7 +25,6 @@ class SendActToVote extends React.Component {
 			this.props.refetch();
 		}
 	}
-
 
 	_modalBody() {
         return (

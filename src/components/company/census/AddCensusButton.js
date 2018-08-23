@@ -3,12 +3,7 @@ import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
-	Grid,
-	GridItem,
-	SelectInput,
-	TextInput
 } from "../../../displayComponents";
-import { MenuItem } from "material-ui";
 import { graphql } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";
 import { createCensus } from "../../../queries/census";

@@ -1,6 +1,5 @@
 import React from "react";
 import CouncilLivePage from "../components/council/live/CouncilLivePage";
-import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";

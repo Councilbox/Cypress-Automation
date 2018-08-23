@@ -2,8 +2,8 @@ import React from 'react';
 import { SelectInput, TextInput, Grid, GridItem, Radio, DateTimePicker } from '../../displayComponents';
 import RichTextInput from '../../displayComponents/RichTextInput';
 import { MenuItem } from 'material-ui';
-import { countries, provinces, languages } from '../../queries/masters';
-import { graphql, withApollo, compose } from 'react-apollo';
+import { provinces } from '../../queries/masters';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 
 class PartnerForm extends React.PureComponent {
@@ -33,7 +33,7 @@ class PartnerForm extends React.PureComponent {
     }
 
     render(){
-        const { participant, translate, updateState, errors, checkEmail, data } = this.props;
+        const { participant, translate, updateState, errors, checkEmail } = this.props;
         return (
             <Grid>
                 <GridItem xs={12} md={12} lg={12}>

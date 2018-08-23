@@ -8,7 +8,6 @@ import {
 	Icon
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import CouncilMenu from "./councilMenu/CouncilMenu";
 import { moment } from '../../../containers/App';
 
 class OpenRoomButton extends React.Component {

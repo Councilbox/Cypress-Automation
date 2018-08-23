@@ -18,7 +18,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { provinces } from "../../../queries/masters";
 import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
-import { getCompanies, changeCompany } from "../../../actions/companyActions";
+import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
 
 

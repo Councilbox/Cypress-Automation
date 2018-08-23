@@ -2,7 +2,7 @@ import React from 'react';
 import { CardPageLayout, Scrollbar, BasicButton } from '../../displayComponents';
 import PartnerForm from './PartnerForm';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { getPrimary, getSecondary } from '../../styles/colors';
+import { getPrimary } from '../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { bHistory } from '../../containers/App';
