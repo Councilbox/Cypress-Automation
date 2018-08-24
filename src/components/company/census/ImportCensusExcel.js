@@ -15,7 +15,6 @@ import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
 import FontAwesome from 'react-fontawesome';
-import gql from 'graphql-tag';
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
@@ -84,14 +83,14 @@ function to_json(workbook) {
 
 class ImportCensusButton extends React.Component {
 	state = {
-        step: 1,
-        modal: false,
-        data: [],
-        errors: {},
+		step: 1,
+		modal: false,
+		data: [],
+		errors: {},
 		loading: false,
 		processing: false,
 		sending: false
-    };
+	};
 
 	getCensusTemplate = async () => {
 		const { selectedLanguage: language } = this.props.translate;
@@ -118,9 +117,9 @@ class ImportCensusButton extends React.Component {
 	};
 
 	read = async (workbook) => {
-        const wb = XLSX.read(workbook, {type:'binary'});
-        const participantsData = to_json(wb);
-        console.log(participantsData);
+		const wb = XLSX.read(workbook, { type: 'binary' });
+		const participantsData = to_json(wb);
+		console.log(participantsData);
 		const pages = Object.keys(participantsData);
 		this.setState({
 			processing: participantsData.census.length
@@ -129,15 +128,15 @@ class ImportCensusButton extends React.Component {
 			const participants = await this.prepareParticipants(
 				participantsData["census"]
 			);
-			if(participants){
-				if(participants.length > 0){
+			if (participants) {
+				if (participants.length > 0) {
 					this.setState({
 						processing: false,
 						loading: false,
 						readedParticipants: participants,
 						step: 3
 					});
-				}else {
+				} else {
 					this.setState({
 						processing: false,
 						loading: false,
@@ -156,22 +155,22 @@ class ImportCensusButton extends React.Component {
 		let uniqueEmails = new Map();
 		let duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
-			if(uniqueEmails.get(censusP.participant.email)){
+			if (uniqueEmails.get(censusP.participant.email)) {
 				duplicatedEmails.set(censusP.participant.email, [index + 2]);
-			}else{
+			} else {
 				uniqueEmails.set(censusP.participant.email, index + 2);
 			}
 
-			if(censusP.representative){
-				if(uniqueEmails.get(censusP.representative.email)){
+			if (censusP.representative) {
+				if (uniqueEmails.get(censusP.representative.email)) {
 					duplicatedEmails.set(censusP.representative.email, index + 2);
-				}else{
-					uniqueEmails.set(censusP.representative.email, index + 2 );
+				} else {
+					uniqueEmails.set(censusP.representative.email, index + 2);
 				}
 			}
 		});
 
-		if(duplicatedEmails.size > 0){
+		if (duplicatedEmails.size > 0) {
 			const emails = [];
 			duplicatedEmails.forEach((value, key) => emails.push([key, value]));
 			return {
@@ -191,7 +190,7 @@ class ImportCensusButton extends React.Component {
 			}
 		});
 
-		if(!response.data.checkUniqueCensusEmails.success){
+		if (!response.data.checkUniqueCensusEmails.success) {
 			const json = JSON.parse(response.data.checkUniqueCensusEmails.message);
 			console.log(JSON);
 			const dEmails = [];
@@ -225,7 +224,7 @@ class ImportCensusButton extends React.Component {
 	}
 
 
-    handleFile = async event => {
+	handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
 			return;
@@ -240,7 +239,7 @@ class ImportCensusButton extends React.Component {
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
-            await this.read(reader.result);
+			await this.read(reader.result);
 		};
 	};
 
@@ -252,10 +251,10 @@ class ImportCensusButton extends React.Component {
 			for (var i = 0; i < participants.length; i++) {
 				let participant = this.prepareParticipant(participants[i]);
 				console.log(participant);
-				if(participant.hasError){
-					participant.line = i+1;
+				if (participant.hasError) {
+					participant.line = i + 1;
 					invalidEmails.push(participant);
-				}else{
+				} else {
 					preparedParticipants.push(participant);
 				}
 			}
@@ -272,14 +271,14 @@ class ImportCensusButton extends React.Component {
 		const duplicatedEmails = await this.checkUniqueEmails(preparedParticipants);
 		console.log(duplicatedEmails);
 
-		if(!duplicatedEmails){
-			if(preparedParticipants.length > 0){
+		if (!duplicatedEmails) {
+			if (preparedParticipants.length > 0) {
 				if (preparedParticipants[0].participant.email === "example@councilbox.com") {
 					preparedParticipants.splice(0, 1);
 				}
 			}
 			return preparedParticipants;
-		}else{
+		} else {
 			this.setState({
 				step: 5,
 				invalidEmails: duplicatedEmails.emails,
@@ -301,7 +300,7 @@ class ImportCensusButton extends React.Component {
 		for (var j = 0; j < keys.length; j++) {
 			var key = keys[j];
 			if (excelToDBColumns[key]) {
-				participant[excelToDBColumns[key]] = ''+_participant[key].trim();
+				participant[excelToDBColumns[key]] = '' + _participant[key].trim();
 			}
 		}
 
@@ -327,46 +326,46 @@ class ImportCensusButton extends React.Component {
 			if (participant.r_email) {
 				if (!checkValidEmail(participant.r_email)) {
 					return 'invalid';
-				}else{
-                    participant = {
-                        participant: {
+				} else {
+					participant = {
+						participant: {
 							companyId: this.props.companyId,
 							censusId: this.props.censusId,
 							name: participant.r_name,
-                            email: participant.r_email.toLowerCase(),
-                            dni: participant.r_dni,
-                            phone: participant.r_phone,
-                            personOrEntity: 1,
-                            language: participant.language,
-                            numParticipations: participant.numParticipations,
-                            socialCapital: participant.socialCapital,
-                            position: participant.position,
-                        },
-                        representative: {
+							email: participant.r_email.toLowerCase(),
+							dni: participant.r_dni,
+							phone: participant.r_phone,
+							personOrEntity: 1,
+							language: participant.language,
+							numParticipations: participant.numParticipations,
+							socialCapital: participant.socialCapital,
+							position: participant.position,
+						},
+						representative: {
 							companyId: this.props.companyId,
 							censusId: this.props.censusId,
 							name: participant.name,
 							surname: participant.surname,
-                            email: participant.email.toLowerCase(),
-                            dni: participant.dni,
-                            phone: participant.phone,
-                            language: participant.language,
-                        }
+							email: participant.email.toLowerCase(),
+							dni: participant.dni,
+							phone: participant.phone,
+							language: participant.language,
+						}
 					}
 
 					const participantError = this.checkRequiredFields(participant.representative, false);
-					if(participantError){
+					if (participantError) {
 						return participantError;
 					}
 					const entityError = this.checkRequiredFields(participant.participant, true);
-					return entityError? entityError : participant;
-                }
+					return entityError ? entityError : participant;
+				}
 			}
 			const participantError = this.checkRequiredFields(participant, false);
-			return participantError? participantError : { participant: { ...participant, email: participant.email.toLowerCase() }};
+			return participantError ? participantError : { participant: { ...participant, email: participant.email.toLowerCase() } };
 		} else {
 			//Es una entidad sin representante
-			if(!!participant.r_email){
+			if (!!participant.r_email) {
 				if (!checkValidEmail(participant.r_email)) {
 					return 'invalid';
 				}
@@ -385,8 +384,8 @@ class ImportCensusButton extends React.Component {
 						position: participant.position,
 					}
 				};
-				const entityError = this.checkRequiredFields(entity,  true);
-				return entityError? entityError : { entity };
+				const entityError = this.checkRequiredFields(entity, true);
+				return entityError ? entityError : { entity };
 			}
 			return 'invalid';
 		}
@@ -407,49 +406,49 @@ class ImportCensusButton extends React.Component {
 			r_phone: ''
 		}
 
-		if(!isEntity){
-			if(!participant.name){
+		if (!isEntity) {
+			if (!participant.name) {
 				errors.name = required;
 				errors.hasError = true;
 			}
 
-			if(!participant.surname){
+			if (!participant.surname) {
 				errors.surname = required;
 				errors.hasError = true;
 			}
 
-			if(!participant.dni){
+			if (!participant.dni) {
 				errors.dni = required;
 				errors.hasError = true;
 			}
 
-			if(!participant.phone){
+			if (!participant.phone) {
 				errors.phone = required;
 				errors.hasError = true;
 			}
 
-			if(!participant.language){
+			if (!participant.language) {
 				errors.dni = required;
 				errors.hasError = true;
 			}
-		}else{
-			if(!participant.name){
+		} else {
+			if (!participant.name) {
 				errors.r_name = required;
 				errors.hasError = true;
 			}
 
-			if(!participant.dni){
+			if (!participant.dni) {
 				errors.r_dni = required;
 				errors.hasError = true;
 			}
 
-			if(!participant.phone){
+			if (!participant.phone) {
 				errors.r_phone = required;
 				errors.hasError = true;
 			}
 		}
 
-		return errors.hasError? errors : false;
+		return errors.hasError ? errors : false;
 	}
 
 	updateState = object => {
@@ -466,17 +465,17 @@ class ImportCensusButton extends React.Component {
 
 		let string = `Entrada: ${
 			errors.line}: ${
-			errors.name? `${translate.name}, ` : ''}${
-			errors.surname? `${translate.new_surname}, ` : ''}${
-			errors.dni? `${translate.dni}, ` : ''}${
-			errors.phone? `${translate.phone}, ` : ''}${
-			errors.email? `${translate.login_email}, ` : ''}${
-			errors.r_name? `nombre de la entidad, ` /*TRADUCCION*/ : ''}${
-			errors.r_dni? `CIF de la entidad, ` /*TRADUCCION*/ : ''}${
-			errors.r_phone? `nº de teléfono de la entidad, ` /*TRADUCCION*/ : ''}${
-			errors.r_email? `email de la entidad, ` /*TRADUCCION*/ : ''
-		}`;
-		if(string.charAt(string.length - 2) === ','){
+			errors.name ? `${translate.name}, ` : ''}${
+			errors.surname ? `${translate.new_surname}, ` : ''}${
+			errors.dni ? `${translate.dni}, ` : ''}${
+			errors.phone ? `${translate.phone}, ` : ''}${
+			errors.email ? `${translate.login_email}, ` : ''}${
+			errors.r_name ? `nombre de la entidad, ` /*TRADUCCION*/ : ''}${
+			errors.r_dni ? `CIF de la entidad, ` /*TRADUCCION*/ : ''}${
+			errors.r_phone ? `nº de teléfono de la entidad, ` /*TRADUCCION*/ : ''}${
+			errors.r_email ? `email de la entidad, ` /*TRADUCCION*/ : ''
+			}`;
+		if (string.charAt(string.length - 2) === ',') {
 			string = string.substr(0, string.length - 2) + '.';
 		}
 
@@ -512,13 +511,13 @@ class ImportCensusButton extends React.Component {
 					requestClose={() => this.setState({ modal: false, step: 1 })}
 					open={this.state.modal}
 					title={translate.import_census}
-					{...(step === 3? {
+					{...(step === 3 ? {
 						actions:
 							<BasicButton
 								text={translate.send}
 								color={primary}
 								icon={<ButtonIcon type="send" color="white" />}
-								textStyle={{fontWeight: '700', color: 'white', textTransform: 'none'}}
+								textStyle={{ fontWeight: '700', color: 'white', textTransform: 'none' }}
 								onClick={this.sendImportedParticipants}
 							/>
 					} : {})}
@@ -526,7 +525,7 @@ class ImportCensusButton extends React.Component {
 					{step === 1 && (
 						<React.Fragment>
 							<Grid>
-								<GridItem xs={6} md={6} lg={6} style={{display: 'flex', justifyContent: 'center'}}>
+								<GridItem xs={6} md={6} lg={6} style={{ display: 'flex', justifyContent: 'center' }}>
 									<div>
 										<BasicButton
 											text={translate.download_template}
@@ -569,8 +568,8 @@ class ImportCensusButton extends React.Component {
 										onChange={this.handleFile}
 									/>
 									{this.state.loading &&
-										<span style={{fontSize: '0.85em'}}>
-											{this.state.processing? `Procesando ${this.state.processing} participantes`: 'Cargando archivo'}
+										<span style={{ fontSize: '0.85em' }}>
+											{this.state.processing ? `Procesando ${this.state.processing} participantes` : 'Cargando archivo'}
 										</span>
 									}
 								</GridItem>
@@ -579,23 +578,23 @@ class ImportCensusButton extends React.Component {
 					)}
 					{step === 2 && (
 						<div
-							style={{height: '100px'}}
+							style={{ height: '100px' }}
 						>
 							No hay ningún participante válido en el archivo. {/*TRADUCCION*/}
 						</div>
 					)}
 					{step === 3 && (
 						<div
-							style={{height: '70vh'}}
+							style={{ height: '70vh' }}
 						>
 							Resultado de la lectura, pulse enviar para confirmar:{/*TRADUCCION*/}
 							<Scrollbar>
 								<div
-									style={{width: '100%'}}
+									style={{ width: '100%' }}
 								>
 									{this.state.readedParticipants.map((item, index) => (
 										<Paper
-											style={{margin: '0.4em', marginBottom: 0, fontSize: '14px', padding: '0.4em'}}
+											style={{ margin: '0.4em', marginBottom: 0, fontSize: '14px', padding: '0.4em' }}
 											key={`excelParticipant_${index}`}
 										>
 											<FontAwesome
@@ -605,7 +604,7 @@ class ImportCensusButton extends React.Component {
 													fontSize: "0.8em",
 													marginRight: '0.3em'
 												}}
-											/>{`${item.participant.name} ${item.participant.surname? item.participant.surname : ''} - ${item.participant.dni}`}<br/>
+											/>{`${item.participant.name} ${item.participant.surname ? item.participant.surname : ''} - ${item.participant.dni}`}<br />
 											<FontAwesome
 												name={"at"}
 												style={{
@@ -627,7 +626,7 @@ class ImportCensusButton extends React.Component {
 						</div>
 					)}
 					{step === 4 && (
-						<div style={{minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px'}}>
+						<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
 							<div
 								style={{
 									fontSize: '1.2em',
@@ -637,21 +636,21 @@ class ImportCensusButton extends React.Component {
 							>
 								{translate.attention}
 							</div>
-							No se puede realizar la importación.<br/>
+							No se puede realizar la importación.<br />
 							Por favor corrija los errores siguientes y vuelva a enviar el archivo.{/*TRADUCCION*/}
-								<div
-									style={{width: '100%'}}
-								>
-									{this.state.invalidEmails.map((item, index) => (
-										<React.Fragment key={`invalidEmails_${item.line}`}>
-											{this.buildErrorString(item)}<br/>
-										</React.Fragment>
-									))}
-								</div>
+							<div
+								style={{ width: '100%' }}
+							>
+								{this.state.invalidEmails.map((item, index) => (
+									<React.Fragment key={`invalidEmails_${item.line}`}>
+										{this.buildErrorString(item)}<br />
+									</React.Fragment>
+								))}
+							</div>
 						</div>
 					)}
 					{step === 5 && (
-						<div style={{minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px'}}>
+						<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
 							<div
 								style={{
 									fontSize: '1.2em',
@@ -661,21 +660,21 @@ class ImportCensusButton extends React.Component {
 							>
 								{translate.attention}
 							</div>
-							No se puede realizar la importación.<br/>
-							{this.state.duplicatedType === 'DB'?
+							No se puede realizar la importación.<br />
+							{this.state.duplicatedType === 'DB' ?
 								'Los siguientes emails ya están presentes en el censo actual:'
-							:
+								:
 								'Los siguientes emails están duplicados en el archivo enviado:' /*TRADUCCION*/
 							}
-								<div
-									style={{width: '100%'}}
-								>
-									{this.state.invalidEmails.map((item, index) => (
-										<React.Fragment key={`invalidEmails_${item[0]}`}>
-											{`Entrada ${item[1]}: ${item[0]}`}<br />
-										</React.Fragment>
-									))}
-								</div>
+							<div
+								style={{ width: '100%' }}
+							>
+								{this.state.invalidEmails.map((item, index) => (
+									<React.Fragment key={`invalidEmails_${item[0]}`}>
+										{`Entrada ${item[1]}: ${item[0]}`}<br />
+									</React.Fragment>
+								))}
+							</div>
 						</div>
 					)}
 				</CustomDialog>

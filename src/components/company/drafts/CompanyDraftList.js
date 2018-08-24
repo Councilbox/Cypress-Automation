@@ -214,7 +214,7 @@ class HoverableRow extends React.Component {
 	}
 
 	render() {
-		const { draft, draftTypes, renderDeleteIcon, translate } = this.props;
+		const { draft, draftTypes, translate } = this.props;
 
 		return (
 			<TableRow

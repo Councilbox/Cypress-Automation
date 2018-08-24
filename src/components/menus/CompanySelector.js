@@ -1,5 +1,5 @@
 import React from "react";
-import { bHistory, store } from "../../containers/App";
+import { store } from "../../containers/App";
 import { changeCompany } from "../../actions/companyActions";
 import { Scrollbar } from "../../displayComponents";
 import { MenuItem, Divider } from "material-ui";
@@ -12,7 +12,6 @@ class CompanySelector extends React.Component {
 	};
 
 	changeCompany = index => {
-		const { companies } = this.props;
 		store.dispatch(changeCompany(index));
 	};
 

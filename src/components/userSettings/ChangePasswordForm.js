@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { graphql } from "react-apollo";
-import ActionInvertColors from 'material-ui/SvgIcon';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -9,7 +8,6 @@ import {
 	SectionTitle,
 	TextInput
 } from "../../displayComponents";
-import { Typography } from "material-ui";
 import { getPrimary } from "../../styles/colors";
 import { updatePassword } from "../../queries";
 

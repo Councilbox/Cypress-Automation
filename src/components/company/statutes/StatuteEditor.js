@@ -9,7 +9,7 @@ import {
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
-import { MenuItem, Typography } from "material-ui";
+import { MenuItem } from "material-ui";
 import { quorumTypes } from "../../../queries";
 import { censuses } from "../../../queries/census";
 import { compose, graphql } from "react-apollo";

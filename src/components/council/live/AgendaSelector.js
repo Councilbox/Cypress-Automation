@@ -1,5 +1,5 @@
 import React from "react";
-import { AgendaNumber, Scrollbar, Icon } from "../../../displayComponents";
+import { AgendaNumber, Icon } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import NewAgendaPointModal from "../editor/agenda/modals/NewAgendaPointModal";
 import ReorderPointsModal from "../agendas/ReorderPointsModal";

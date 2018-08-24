@@ -52,8 +52,6 @@ class ConvenedParticipantsTable extends React.Component {
 	render() {
 		const { translate, council, participations, hideNotifications, hideAddParticipant } = this.props;
 		const { loading, refetch } = this.props.data;
-		const totalVotes = this.props.data.councilTotalVotes;
-		const socialCapital = this.props.data.councilSocialCapital;
 		const councilParticipants = this.props.data.councilParticipantsWithNotifications;
 		const { participant, editingParticipant } = this.state;
 
@@ -386,7 +384,7 @@ class HoverableRow extends React.Component {
 	}
 
 	render() {
-		const { translate, participant, action, hideNotifications, totalVotes, socialCapital, council } = this.props;
+		const { translate, participant, hideNotifications, totalVotes, socialCapital, council } = this.props;
 
 		return (
 			<TableRow

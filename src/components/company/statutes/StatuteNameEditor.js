@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, AlertConfirm } from '../../../displayComponents';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { updateStatute } from "../../../queries";
 
 class StatuteNameEditor extends React.Component {

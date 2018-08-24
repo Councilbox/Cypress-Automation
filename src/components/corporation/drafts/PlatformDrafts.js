@@ -329,7 +329,7 @@ class HoverableRow extends React.Component {
 	}
 
 	render() {
-		const { draft, index, translate, draftTypes } = this.props;
+		const { draft, translate, draftTypes } = this.props;
 		let isChecked = this.props.isChecked(
 			draft.id
 		);

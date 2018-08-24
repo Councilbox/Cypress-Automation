@@ -1,17 +1,9 @@
 
 import React from "react";
 import {
-	AlertConfirm,
-	BasicButton,
-	ButtonIcon,
-	Grid,
-	GridItem,
-	SelectInput,
-	TextInput
+	AlertConfirm
 } from "../../../../../displayComponents";
-import { MenuItem } from "material-ui";
 import { graphql, compose } from "react-apollo";
-import { getPrimary } from "../../../../../styles/colors";
 import { census, updateCensus } from "../../../../../queries/census";
 import CensusInfoForm from '../../CensusInfoForm';
 
@@ -76,7 +68,6 @@ class EditCensusButton extends React.Component {
 
 	render() {
 		const { translate } = this.props;
-		const primary = getPrimary();
 
 		return (
             <AlertConfirm

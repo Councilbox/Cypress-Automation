@@ -1,13 +1,9 @@
 import React from 'react';
-import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon } from '../../../../displayComponents';
+import { BasicButton } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
-import RichTextInput from '../../../../displayComponents/RichTextInput';
-import { Typography } from 'material-ui';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import AttachmentItem from '../../../attachments/AttachmentItem';
-import DocumentNameEditor from './DocumentNameEditor';
 import SignatureParticipants from './SignatureParticipants';
 
 class SignatureStepTwo extends React.Component {
@@ -39,8 +35,7 @@ class SignatureStepTwo extends React.Component {
         const { translate } = this.props;
         const primary = getPrimary();
         const secondary = getSecondary();
-        const {data, errors } = this.state;
-
+        
         return(
             <EditorStepLayout
                 body={

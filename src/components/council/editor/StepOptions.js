@@ -8,8 +8,6 @@ import {
 	LoadingSection,
 	MajorityInput,
 	Radio,
-	Grid,
-	GridItem,
 	SectionTitle,
 	SelectInput,
 	TextInput
@@ -19,7 +17,6 @@ import { compose, graphql } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import withWindowSize from '../../../HOCs/withWindowSize';
-import CouncilHeader from './CouncilHeader';
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 let primary = getPrimary();

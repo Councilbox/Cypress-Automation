@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./containers/App";
-import registerServiceWorker, { unregister } from "./registerServiceWorker";
+import registerServiceWorker from "./registerServiceWorker";
 import Loadable from 'react-loadable';
 import "./styles/index.css";
 import LoadingMainApp from "./displayComponents/LoadingMainApp";

@@ -69,7 +69,7 @@ class ParticipantsTable extends React.Component {
 			council
 		} = this.props;
 		const { editingParticipant, participant } = this.state;
-		const { loading, councilParticipants, refetch } = this.props.data;
+		const { loading, councilParticipants } = this.props.data;
 		let headers = [
 			{
 				text: translate.participant_data,

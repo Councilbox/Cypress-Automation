@@ -4,7 +4,6 @@ import {
 	BasicButton,
 	DropDownMenu,
 	Grid,
-	Scrollbar,
 	GridItem,
 	LoadingSection,
 	TextInput,

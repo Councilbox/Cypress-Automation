@@ -252,7 +252,7 @@ class StatutesPage extends React.Component {
 						>
 							{!!statute && (
 								<React.Fragment>
-									<div style={{height: '100%', position: 'relative', overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
+									<div style={{position: 'relative', overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
 										<Scrollbar>
 											<div style={{paddingLeft: '1em', paddingRight: '1.5em'}}>
 												<StatuteEditor

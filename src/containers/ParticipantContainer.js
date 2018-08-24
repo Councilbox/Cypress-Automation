@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
@@ -14,8 +13,6 @@ import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
 import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
-
-
 
 class ParticipantContainer extends React.PureComponent {
 

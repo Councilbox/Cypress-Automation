@@ -14,11 +14,9 @@ import { removeAgenda } from "../../../../queries/agenda";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import NewAgendaPointModal from "./modals/NewAgendaPointModal";
 import PointEditor from "./modals/PointEditor";
-import * as CBX from "../../../../utils/CBX";
 import ReorderPointsModal from "../../agendas/ReorderPointsModal";
 import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
 import AgendaItem from "./AgendaItem";
-import CouncilHeader from '../CouncilHeader';
 import EditorStepLayout from '../EditorStepLayout';
 
 const buttonStyle = {
@@ -136,9 +134,9 @@ class StepAgenda extends React.Component {
 		const secondary = getSecondary();
 
 		let agendas = [];
-		
-		if(!this.props.data.loading){
-			agendas = !!council.agendas? council.agendas : [];
+
+		if (!this.props.data.loading) {
+			agendas = !!council.agendas ? council.agendas : [];
 		}
 		let newDraft = agendas.find(item => item.id === saveAsDraftId);
 
@@ -153,7 +151,7 @@ class StepAgenda extends React.Component {
 					body={
 						<React.Fragment>
 							<Grid>
-								{this.props.data.loading?
+								{this.props.data.loading ?
 									<div
 										style={{
 											height: "300px",
@@ -165,7 +163,7 @@ class StepAgenda extends React.Component {
 									>
 										<LoadingSection />
 									</div>
-								:
+									:
 									agendas.length > 0 ? (
 										<React.Fragment>
 											<GridItem
@@ -232,11 +230,11 @@ class StepAgenda extends React.Component {
 															key={`agenda${index}`}
 															typeText={
 																translate[
-																	votingTypes.find(
-																		item =>
-																			item.value ===
-																			agenda.subjectType
-																	).label
+																votingTypes.find(
+																	item =>
+																		item.value ===
+																		agenda.subjectType
+																).label
 																]
 															}
 															removeAgenda={this.removeAgenda}
@@ -248,55 +246,55 @@ class StepAgenda extends React.Component {
 											</div>
 										</React.Fragment>
 									) : (
-										<div
-											style={{
-												width: "100%",
-												display: "flex",
-												flexDirection: "column",
-												alignItems: "center",
-												marginTop: "2em",
-												marginBottom: "3em"
-											}}
-										>
-											<Typography variant="subheading">
-												{translate.empty_agendas}
-											</Typography>
-											<br />
-											<div>
-												<NewAgendaPointModal
-													translate={translate}
-													agendas={council.agendas}
-													votingTypes={votingTypes}
-													majorityTypes={majorityTypes}
-													draftTypes={draftTypes}
-													statute={council.statute}
-													company={this.props.company}
-													council={council}
-													companyStatutes={
-														this.props.data.companyStatutes
-													}
-													refetch={this.props.data.refetch}
-												>
-													<BasicButton
-														type="raised"
-														buttonStyle={buttonStyle}
-														text={translate.add_agenda_point}
-														color={primary}
-														icon={
-															<ButtonIcon type="add" color="white" />
+											<div
+												style={{
+													width: "100%",
+													display: "flex",
+													flexDirection: "column",
+													alignItems: "center",
+													marginTop: "2em",
+													marginBottom: "3em"
+												}}
+											>
+												<Typography variant="subheading">
+													{translate.empty_agendas}
+												</Typography>
+												<br />
+												<div>
+													<NewAgendaPointModal
+														translate={translate}
+														agendas={council.agendas}
+														votingTypes={votingTypes}
+														majorityTypes={majorityTypes}
+														draftTypes={draftTypes}
+														statute={council.statute}
+														company={this.props.company}
+														council={council}
+														companyStatutes={
+															this.props.data.companyStatutes
 														}
-														textStyle={{
-															color: "white",
-															textTransform: "none"
-														}}
-													/>
-												</NewAgendaPointModal>
+														refetch={this.props.data.refetch}
+													>
+														<BasicButton
+															type="raised"
+															buttonStyle={buttonStyle}
+															text={translate.add_agenda_point}
+															color={primary}
+															icon={
+																<ButtonIcon type="add" color="white" />
+															}
+															textStyle={{
+																color: "white",
+																textTransform: "none"
+															}}
+														/>
+													</NewAgendaPointModal>
+												</div>
+												<Typography variant="body1" style={{ color: "red" }}>
+													{errors.emptyAgendas}
+												</Typography>
 											</div>
-											<Typography variant="body1" style={{ color: "red" }}>
-												{errors.emptyAgendas}
-											</Typography>
-										</div>
-									)
+										)
 								}
 							</Grid>
 							{!this.props.data.loading &&

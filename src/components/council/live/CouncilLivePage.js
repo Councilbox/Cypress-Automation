@@ -14,7 +14,6 @@ import { Tooltip, Badge } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
-import { Collapse } from 'react-collapse';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 const minVideoWidth = 30;
 const minVideoHeight = "60vh";

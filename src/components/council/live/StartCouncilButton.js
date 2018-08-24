@@ -15,7 +15,7 @@ import { getPrimary } from "../../../styles/colors";
 import Scrollbar from "react-perfect-scrollbar";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
-import { existsQualityVote, calculateQuorum } from "../../../utils/CBX";
+import { existsQualityVote } from "../../../utils/CBX";
 import ConveneSelector from './ConveneSelector';
 import { startCouncil } from "../../../queries/council";
 
@@ -207,40 +207,40 @@ class StartCouncilButton extends React.Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<React.Fragment>
-										{participants.map(participant => (
-											<ParticipantRow
-												participant={participant}
-												key={`participant_${participant.id}`}
-												onClick={() =>
-													this.actionSwitch()(
-														participant.id,
-														`${participant.name} ${
+								<Scrollbar option={{ suppressScrollX: true }}>
+									{participants.length > 0 ? (
+										<React.Fragment>
+											{participants.map(participant => (
+												<ParticipantRow
+													participant={participant}
+													key={`participant_${participant.id}`}
+													onClick={() =>
+														this.actionSwitch()(
+															participant.id,
+															`${participant.name} ${
 															participant.surname
-														}`
-													)
-												}
-											/>
-										))}
-										{participants.length < total - 1 && (
-											<div onClick={this.loadMore}>
-												{`DESCARGAR ${
-													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
-												}`}
-											</div>
+															}`
+														)
+													}
+												/>
+											))}
+											{participants.length < total - 1 && (
+												<div onClick={this.loadMore}>
+													{`DESCARGAR ${
+														rest > DELEGATION_USERS_LOAD
+															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+															: translate.all_plural.toLowerCase()
+														}`}
+												</div>
+											)}
+										</React.Fragment>
+									) : (
+											<Typography>
+												{translate.no_results}
+											</Typography>
 										)}
-									</React.Fragment>
-								) : (
-									<Typography>
-										{translate.no_results}
-									</Typography>
-								)}
-							</Scrollbar>
-						)}
+								</Scrollbar>
+							)}
 					</div>
 				</div>
 			);
@@ -260,16 +260,16 @@ class StartCouncilButton extends React.Component {
 					{!!this.state.data.president ? (
 						this.state.data.president
 					) : (
-						<span
-							style={{
-								color: this.state.errors.president
-									? "red"
-									: "inherit"
-							}}
-						>
-							{translate.not_selected}
-						</span>
-					)}
+							<span
+								style={{
+									color: this.state.errors.president
+										? "red"
+										: "inherit"
+								}}
+							>
+								{translate.not_selected}
+							</span>
+						)}
 				</GridItem>
 
 				<GridItem xs={3} md={3} lg={3}>
@@ -284,16 +284,16 @@ class StartCouncilButton extends React.Component {
 					{!!this.state.data.secretary ? (
 						this.state.data.secretary
 					) : (
-						<span
-							style={{
-								color: this.state.errors.secretary
-									? "red"
-									: "inherit"
-							}}
-						>
-							{translate.not_selected}
-						</span>
-					)}
+							<span
+								style={{
+									color: this.state.errors.secretary
+										? "red"
+										: "inherit"
+								}}
+							>
+								{translate.not_selected}
+							</span>
+						)}
 				</GridItem>
 
 				{existsQualityVote(this.props.council.statute) && (
@@ -312,16 +312,16 @@ class StartCouncilButton extends React.Component {
 							{!!this.state.data.qualityVoteName ? (
 								this.state.data.qualityVoteName
 							) : (
-								<span
-									style={{
-										color: this.state.errors.qualityVote
-											? "red"
-											: "inherit"
-									}}
-								>
-									{translate.not_selected}
-								</span>
-							)}
+									<span
+										style={{
+											color: this.state.errors.qualityVote
+												? "red"
+												: "inherit"
+										}}
+									>
+										{translate.not_selected}
+									</span>
+								)}
 						</GridItem>
 					</React.Fragment>
 				)}

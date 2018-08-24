@@ -1,7 +1,6 @@
 import React from "react";
 import {
 	Grid,
-	GridItem,
 	LoadingSection,
 	SelectInput,
 	TextInput
@@ -44,24 +43,24 @@ class EnhancedTable extends React.Component {
 			filters: []
 		};
 
-		if(this.state.filterText){
+		if (this.state.filterText) {
 			variables.filters.push({
 				field: this.state.filterField,
 				text: this.state.filterText
 			});
 		};
 
-		if(this.props.addedFilters){
+		if (this.props.addedFilters) {
 			variables.filters = [
 				...variables.filters,
 				...this.props.addedFilters
 			]
 		}
 
-		if(this.props.categories){
-			if(this.props.categories.length > 0){
+		if (this.props.categories) {
+			if (this.props.categories.length > 0) {
 				this.state.selectedCategories.forEach(category => {
-					if(category.value !== 'all'){
+					if (category.value !== 'all') {
 						variables.filters = [
 							...variables.filters,
 							{
@@ -74,7 +73,7 @@ class EnhancedTable extends React.Component {
 			}
 		}
 
-		if(object){
+		if (object) {
 			variables = {
 				...variables,
 				...object
@@ -88,9 +87,9 @@ class EnhancedTable extends React.Component {
 		this.setState({
 			filterText: value,
 			page: 1
-        }, () => {
-            clearTimeout(this.timeout);
-            this.timeout = setTimeout(() => this.refresh(), 450);
+		}, () => {
+			clearTimeout(this.timeout);
+			this.timeout = setTimeout(() => this.refresh(), 450);
 		});
 	};
 
@@ -152,16 +151,15 @@ class EnhancedTable extends React.Component {
 		const {
 			filterText,
 			filterField,
-			categoryValue,
 			limit,
 			page
 		} = this.state;
 
 		return (
 			<div>
-				<Grid style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+				<Grid style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
 					{limits && (
-						<div style={{width: '5em'}}>
+						<div style={{ width: '5em' }}>
 							<SelectInput
 								value={limit}
 								onChange={event =>
@@ -179,10 +177,10 @@ class EnhancedTable extends React.Component {
 							</SelectInput>
 						</div>
 					)}
-					<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 						{categories && (
 							categories.map((category, index) => (
-								<div key={`category_${index}`} style={{minWidth: '12em', marginRight: '0.8em'}}>
+								<div key={`category_${index}`} style={{ minWidth: '12em', marginRight: '0.8em' }}>
 									<SelectInput
 										value={this.state.selectedCategories[index].value}
 										onChange={event =>
@@ -208,7 +206,7 @@ class EnhancedTable extends React.Component {
 							this.props.menuButtons
 						}
 						{fields && (
-							<div style={{minWidth: '12em', marginRight: '0.8em'}}>
+							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
 									floatingText={translate.filter_by}
 									value={filterField}
@@ -227,8 +225,8 @@ class EnhancedTable extends React.Component {
 								</SelectInput>
 							</div>
 						)}
-						{!this.props.hideTextFilter && 
-							<div style={{width: '16em'}}>
+						{!this.props.hideTextFilter &&
+							<div style={{ width: '16em' }}>
 								<TextInput
 									adornment={<Icon>search</Icon>}
 									floatingText={" "}
@@ -270,8 +268,8 @@ class EnhancedTable extends React.Component {
 												{header.text}
 											</TableSortLabel>
 										) : (
-											header.text
-										)}
+												header.text
+											)}
 									</TableCell>
 								);
 							})}
@@ -280,7 +278,7 @@ class EnhancedTable extends React.Component {
 					<TableBody>{!loading && children}</TableBody>
 				</Table>
 				{loading &&
-					<div style={{marginTop: '3em'}}>
+					<div style={{ marginTop: '3em' }}>
 						<LoadingSection />
 					</div>
 				}

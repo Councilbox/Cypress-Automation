@@ -7,7 +7,6 @@ import {
 import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary } from "../../../../../styles/colors";
 import { addParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
-import gql from 'graphql-tag';
 import { languages } from "../../../../../queries/masters";
 import { checkValidEmail } from "../../../../../utils/validation";
 import ParticipantForm from "../../../participants/ParticipantForm";

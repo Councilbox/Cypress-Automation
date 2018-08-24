@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertConfirm, BasicButton } from '../../../../displayComponents';
+import { AlertConfirm } from '../../../../displayComponents';
 import SignatureParticipantForm from './SignatureParticipantForm';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { languages } from '../../../../queries/masters';

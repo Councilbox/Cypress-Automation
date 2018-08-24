@@ -35,7 +35,7 @@ class SignatureParticipants extends React.Component {
 
     render(){
         const { translate } = this.props;
-        const { signatureParticipants = { list: [], total: 0}, loading, refetch } = this.props.data;
+        const { signatureParticipants = { list: [], total: 0}, loading } = this.props.data;
         const primary = getPrimary();
 
         return(
@@ -152,7 +152,7 @@ class HoverableRow extends React.Component {
     }
 
     render(){
-        const { participant, translate, deleteAction } = this.props;
+        const { participant } = this.props;
 
         return(
             <TableRow

@@ -11,18 +11,18 @@ const AgendaNumber = ({
 	onClick,
 	translate,
 	voting,
-	open
+	open,
+    small
 }) => (
 	<div
 		style={{
 			display: "flex",
 			justifyContent: "center",
 			alignItems: "center",
-			height: "2em",
+			height: small ? "24px" : "2em",
 			filter: open && !active ? "opacity(50%)" : "",
-			width: "2em",
-			position: 'relative',
-			fontSize: "1.1em",
+			width: small ? "24px" : "2em",
+			fontSize: small ? "18px" : "1.1em",
 			cursor: "pointer",
 			userSelect: "none",
 			margin: 0,
