@@ -9,7 +9,7 @@ import * as CBX from '../../../../utils/CBX';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
 import Scrollbar from 'react-perfect-scrollbar';
-
+import { moment } from '../../../../containers/App';
 
 class ActAttendantsTable extends React.Component {
 
@@ -25,7 +25,8 @@ class ActAttendantsTable extends React.Component {
 		const response = await this.props.client.query({
 			query: downloadAttendPDF,
 			variables: {
-				councilId: this.props.council.id
+                councilId: this.props.council.id,
+				timezone: moment().utcOffset(),
 			}
 		});
 
