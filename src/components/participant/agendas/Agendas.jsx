@@ -2,9 +2,12 @@ import React from "react";
 import { Steps } from 'antd';
 import { Paper, Typography, Divider, IconButton } from "material-ui";
 import Scrollbar from '../../../displayComponents/Scrollbar';
-import AgendaNumber from '../../../displayComponents/AgendaNumber';
+import { AgendaNumber, LoadingSection } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import { getPrimary, getSecondary } from "../../../styles/colors";
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import AgendaMenu from './AgendaMenu';
 
 const styles = {
 	container: {
@@ -32,6 +35,17 @@ class Agendas extends React.Component {
 		const { translate, council, agendasAnchor, toggleAgendasAnchor } = this.props;
         const { selected } = this.state;
 
+        let agendas = [];
+
+        if(this.props.data.agendas){
+            agendas = this.props.data.agendas.map(agenda => {
+                return {
+                    ...agenda,
+                    voting: this.props.data.participantVotings.filter(voting => voting.agendaId === agenda.id)
+                }
+            });
+        }
+
 		return (
             <Paper style={styles.container} elevation={4}>
                 <Scrollbar>
@@ -47,7 +61,7 @@ class Agendas extends React.Component {
                                     </IconButton>
                                 }
                             </div>
-                            <Typography variant="headline">{translate.agenda}</Typography>
+                            <Typography variant="title" style={{fontWeight: '700'}}>{translate.agenda}</Typography>
                             <div style={{width: '3em'}}>
                                 {agendasAnchor === 'left' &&
                                     <IconButton
@@ -61,36 +75,49 @@ class Agendas extends React.Component {
                         </div>
                         <Divider style={{marginBottom: '10px'}}/>
                         <Steps direction="vertical" size="small" current={selected}>
-                            {council.agendas.map((agenda, index) => {
-                                return (
-                                    <Steps.Step
-                                        icon={
-                                            <AgendaNumber
-                                                index={index + 1}
-                                                open={agenda.pointState === 1}
-                                                active={selected === index}
-                                                activeColor={getPrimary()}
-                                                voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-                                                translate={translate}
-                                                secondaryColor={getSecondary()}
-                                                onClick={() => this.selectAgenda(index)}
-                                                small={true}
-                                            />
-                                        }
-                                        title={
-                                            <div onClick={() => this.selectAgenda(index)}>
-                                                {agenda.agendaSubject}
-                                            </div>
-                                        }
-                                        description={ selected === index ?
-                                                <div dangerouslySetInnerHTML={{__html: agenda.description}}></div>
-                                            :
-                                                ''
-                                        }
-                                        key={agenda.id}
-                                    />
-                                )
-                            })}
+                            {this.props.data.agendas?
+                                agendas.map((agenda, index) => {
+                                    return (
+                                        <Steps.Step
+                                            icon={
+                                                <AgendaNumber
+                                                    index={index + 1}
+                                                    open={agenda.pointState === 1}
+                                                    active={selected === index}
+                                                    activeColor={getPrimary()}
+                                                    voting={agenda.votingState === 1 && agenda.subjectType !== 0}
+                                                    translate={translate}
+                                                    secondaryColor={getSecondary()}
+                                                    onClick={() => this.selectAgenda(index)}
+                                                    small={true}
+                                                    style={{
+                                                        position: 'static'
+                                                    }}
+                                                />
+                                            }
+                                            title={
+                                                <div onClick={() => this.selectAgenda(index)}>
+                                                    {agenda.agendaSubject}
+                                                </div>
+                                            }
+                                            description={ selected === index ?
+                                                    <React.Fragment>
+                                                        <div dangerouslySetInnerHTML={{__html: agenda.description}}></div>
+                                                        <AgendaMenu
+                                                            agenda={agenda}
+                                                            translate={translate}
+                                                        />
+                                                    </React.Fragment>
+                                                :
+                                                    ''
+                                            }
+                                            key={agenda.id}
+                                        />
+                                    )
+                                })
+                            :   
+                                <LoadingSection />
+                            }
                         </Steps>
                     </div>
                 </Scrollbar>
@@ -100,4 +127,45 @@ class Agendas extends React.Component {
 }
 
 
-export default withTranslations()(Agendas);
+const agendas = gql`
+    query Agendas($councilId: Int!, $participantId: Int!){
+        agendas(councilId: $councilId){
+            agendaSubject
+            attachments {
+                id
+                agendaId
+                filename
+                filesize
+                filetype
+                councilId
+                state
+            }
+            councilId
+            dateEndVotation
+            dateStart
+            dateStartVotation
+            description
+            id
+            orderIndex
+            pointState
+            subjectType
+            votingState
+        }
+        participantVotings(participantId: $participantId){
+            id
+            comment
+            agendaId
+            vote
+        }
+    }
+`;
+
+export default graphql(agendas, {
+    options: props => ({
+        variables: {
+            councilId: props.council.id,
+            participantId: props.participant.id
+        },
+        pollInterval: 7000
+    })
+})(withTranslations()(Agendas));

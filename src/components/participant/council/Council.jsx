@@ -7,6 +7,7 @@ import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { LoadingMainApp } from '../../../displayComponents';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
+import { darkGrey } from '../../../styles/colors';
 
 const styles = {
 	viewContainer: {
@@ -17,7 +18,8 @@ const styles = {
 	mainContainer: {
 		width: "100%",
 		height: "calc(100% - 48px)",
-		display: "flex",
+        display: "flex",
+        backgroundColor: darkGrey,
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",

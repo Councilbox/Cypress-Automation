@@ -101,35 +101,6 @@ const participantQuery = gql`
 		}
 		councilVideo(id: $councilId) {
 			active
-			agendas {
-				agendaSubject
-				attachments {
-					id
-					agendaId
-					filename
-					filesize
-					filetype
-					councilId
-					state
-				}
-				councilId
-				dateEndVotation
-				dateStart
-				dateStartVotation
-				description
-				id
-				orderIndex
-				pointState
-				subjectType
-				votingState
-			}
-			attachments {
-				councilId
-				filename
-				filesize
-				filetype
-				id
-			}
 			businessName
 			city
 			companyId
