@@ -6,8 +6,8 @@ import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
-import { primary, getPrimary, getSecondary } from "../../styles/colors";
-import { IconButton } from "material-ui";
+import { getPrimary, getSecondary } from "../../styles/colors";
+import { IconButton, Typography } from "material-ui";
 
 class Header extends React.PureComponent {
 	logout = () => {
@@ -18,6 +18,7 @@ class Header extends React.PureComponent {
 	render() {
 		const { logoutButton, windowSize, primaryColor } = this.props;
 		const { council } = this.props;
+		const primary = getPrimary();
 
 
 		return (
@@ -30,7 +31,7 @@ class Header extends React.PureComponent {
 					width: "100%",
 					justifyContent: "space-between",
 					alignItems: "center",
-					background: primaryColor ? primaryColor : `linear-gradient(to right, ${getSecondary()}, ${getPrimary()})`,
+					background: primaryColor ? primaryColor : `linear-gradient(to right, ${getSecondary()}, ${primary})`,
 					color: primaryColor ? getPrimary() : "white"
 				}}
 			>
@@ -68,9 +69,9 @@ class Header extends React.PureComponent {
 				</div>
 
                 {(council && council.name) &&
-                    <div>
+                    <Typography variant="title" style={{color: primary, fontWeight: '700'}}>
                         {council.name}
-                    </div>
+                    </Typography>
                 }
 
 				<div

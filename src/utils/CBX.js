@@ -70,10 +70,10 @@ export const showAgendaVotingsTable = (agenda) => {
 }
 
 export const agendaVotingsOpened = agenda => {
-	return agenda.votingState !== 0;
+	return agenda.votingState === AGENDA_STATES.DISCUSSION;
 };
 export const agendaClosed = agenda => {
-	return agenda.pointState === 2;
+	return agenda.pointState === AGENDA_STATES.CLOSED;
 };
 
 export const councilHasVideo = council => {
@@ -596,12 +596,31 @@ export const getEmailIconByReqCode = reqCode => {
 };
 
 export const agendaPointOpened = agenda => {
-	return agenda.pointState !== 2;
+	return agenda.pointState === AGENDA_STATES.DISCUSSION;
 };
 
 export const agendaPointNotOpened = agenda => {
-	return agenda.pointState === 0;
+	return agenda.pointState === AGENDA_STATES.INITIAL;
 };
+
+export const getAgendaTypeLabel = agenda => {
+	switch(agenda.subjectType){
+		case AGENDA_TYPES.INFORMATIVE:
+			return 'informative';
+		case AGENDA_TYPES.PUBLIC_VOTING:
+			return 'public_votation';
+		case AGENDA_TYPES.PUBLIC_ACT:
+			return 'public_act';
+		case AGENDA_TYPES.FAKE_PUBLIC_VOTING:
+			return 'fake_public_votation';
+		case AGENDA_TYPES.PRIVATE_ACT:
+			return 'public_act';
+		case AGENDA_TYPES.PRIVATE_VOTING:
+			return 'private_votation';
+		default: 
+			return 'informative';
+	}
+}
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {

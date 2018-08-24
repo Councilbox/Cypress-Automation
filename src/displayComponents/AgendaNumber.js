@@ -12,6 +12,7 @@ const AgendaNumber = ({
 	translate,
 	voting,
 	open,
+	style,
     small
 }) => (
 	<div
@@ -22,12 +23,13 @@ const AgendaNumber = ({
 			height: small ? "24px" : "2em",
 			filter: open && !active ? "opacity(50%)" : "",
 			width: small ? "24px" : "2em",
-			fontSize: small ? "18px" : "1.1em",
+			fontSize: small ? "15px" : "1.1em",
 			cursor: "pointer",
 			userSelect: "none",
+			position: 'relative',
 			margin: 0,
 			color: active || open ? "white" : secondaryColor,
-			borderRadius: "1em",
+			borderRadius: small ? "12px" : "1em",
 			backgroundColor: active || open ? activeColor : "white",
 			border: `3px solid ${active || open ? activeColor : secondaryColor}`
 		}}
@@ -49,7 +51,9 @@ const AgendaNumber = ({
 				/>
 			</Tooltip>
 		}
-		{index}
+		<div>
+			{index}
+		</div>
 	</div>
 );
 

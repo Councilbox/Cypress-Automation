@@ -7,6 +7,7 @@ import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
 import { getActPointSubjectType } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
+import { AGENDA_STATES } from '../../../constants';
 
 class ToggleAgendaButton extends React.Component {
 	state = {
@@ -70,7 +71,7 @@ class ToggleAgendaButton extends React.Component {
 
 		return (
 			<React.Fragment>
-				{agenda.pointState === 0 ? (
+				{agenda.pointState === AGENDA_STATES.INITIAL ? (
 					active ? (
 						<BasicButton
 							text={translate.discuss_agenda}
