@@ -1765,8 +1765,11 @@ export const wallComments = gql`
 `;
 
 export const downloadAttendPDF = gql`
-	query downloadAttendPDF($councilId: Int!) {
-		downloadAttendPDF(councilId: $councilId)
+	query downloadAttendPDF($councilId: Int!, $timezone: String!) {
+		downloadAttendPDF(
+			councilId: $councilId 
+			timezone: $timezone
+		)
 	}
 `;
 
