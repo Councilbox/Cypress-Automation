@@ -235,6 +235,7 @@ class StepCensus extends React.Component {
 						<BasicButton
 							text={translate.previous}
 							color={secondary}
+							loading={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -247,6 +248,7 @@ class StepCensus extends React.Component {
 						<BasicButton
 							text={translate.save}
 							color={secondary}
+							loading={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -264,6 +266,7 @@ class StepCensus extends React.Component {
 						<BasicButton
 							text={translate.table_button_next}
 							color={primary}
+							loading={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",

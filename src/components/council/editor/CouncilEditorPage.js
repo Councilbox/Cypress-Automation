@@ -9,6 +9,7 @@ import CouncilEditorPreview from "./StepPreview";
 import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
 import EditorStepper from './EditorStepper';
+import { withRouter } from 'react-router-dom';
 
 
 class CouncilEditorPage extends React.Component {
@@ -90,7 +91,7 @@ class CouncilEditorPage extends React.Component {
 				<div style={{width: '100%', height: 'calc(100% - 3em)'}}>
 					{this.state.step === 1 && (
 						<CouncilEditorNotice
-							key={Math.random()}
+							versionControl={Math.random()}
 							nextStep={this.nextStep}
 							actualStep={this.state.actualStep}
 							councilID={this.props.council.id}
@@ -154,4 +155,4 @@ class CouncilEditorPage extends React.Component {
 	}
 }
 
-export default CouncilEditorPage;
+export default withRouter(CouncilEditorPage);

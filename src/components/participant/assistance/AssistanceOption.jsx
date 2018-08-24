@@ -1,11 +1,24 @@
 import React from "react";
 import { Icon } from "material-ui";
-import { getPrimary } from "../../../styles/colors";
+import { primary } from "../../../styles/colors";
+import { Radio } from '../../../displayComponents';
 
-const AssistanceOption = ({ title, subtitle, selected, select }) => {
-    const primary = getPrimary();
+const AssistanceOption = ({ title, value, subtitle, selected, select }) => {
     return (
-        <div style={{margin: '1em', cursor: 'pointer'}} onClick={select}>
+        <div>
+            <Radio
+                value={value}
+                checked={selected === value}
+                onChange={select}
+                name="security"
+                label={title}
+            />
+        </div>
+    )
+}
+
+/*
+<div style={{margin: '1em', cursor: 'pointer'}} onClick={select}>
             <div style={{ display: 'flex' }}>
                 <div style={{ width: '50px' }}>
                     {selected ?
@@ -29,7 +42,6 @@ const AssistanceOption = ({ title, subtitle, selected, select }) => {
                 </div>
             }
         </div>
-    )
-}
+*/
 
 export default AssistanceOption;

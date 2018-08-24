@@ -9,7 +9,7 @@ const DateWrapper = ({ date, format, style }) => {
 		date = now.toISOString();
 	}
 
-	return <Moment format={format} style={style}>{date}</Moment>;
+	return moment(new Date(date)).format(format);
 };
 
 export default DateWrapper;

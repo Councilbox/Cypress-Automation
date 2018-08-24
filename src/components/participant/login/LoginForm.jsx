@@ -184,7 +184,6 @@ class LoginForm extends React.Component {
                 <div style={styles.loginFormContainer}>
                     <form>
                         <TextInput
-                            onKeyUp={this.handleKeyUp}
                             floatingText={translate.email}
                             type="email"
                             errorText={errors.email}
@@ -192,7 +191,6 @@ class LoginForm extends React.Component {
                             onChange={event =>
                                 this.handleChange("email", event)
                             }
-                            required={true}
                             disabled={true}
                         />
 

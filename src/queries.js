@@ -371,7 +371,6 @@ export const councilStepOne = gql`
 	query CouncilStepOne($id: Int!, $companyId: Int!) {
 		council(id: $id) {
 			id
-			councilType
 			conveneText
 			name
 			street
@@ -1142,7 +1141,6 @@ export const councilStepSix = gql`
 			companyId
 			sendPointsMode
 			confirmAssistance
-			councilType
 			fullVideoRecord
 			id
 			name

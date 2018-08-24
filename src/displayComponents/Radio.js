@@ -8,7 +8,7 @@ export default ({ value, checked, label, style, name, onChange }) => (
 			<Radio
 				checked={checked}
 				onChange={onChange}
-				value={value}
+				value={''+value}
 				name={name}
 			/>
 		}

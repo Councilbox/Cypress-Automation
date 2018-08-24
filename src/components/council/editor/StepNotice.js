@@ -48,10 +48,6 @@ class StepNotice extends React.Component {
 
 	editor = null;
 
-	componentWillUnmount(){
-		//this.setState(this.baseState);
-	}
-
  	componentDidUpdate(prevProps, prevState){
 		if(!this.props.data.loading){
 			if(prevState.data.dateStart !== this.state.data.dateStart){
@@ -67,7 +63,7 @@ class StepNotice extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState){
-		if(!nextProps.data.loading){
+		if(nextProps.data.council){
 			const council = nextProps.data.council;
 			return {
 				data: {
@@ -278,6 +274,9 @@ class StepNotice extends React.Component {
 		const { errors } = this.state;
 		const primary = getPrimary();
 		const secondary = getSecondary();
+		console.log(this.props.data);
+		console.log(this.state);
+		console.log(this.props.versionControl);
 /*
 		if (!this.props.data.council && !this.props.data.errors) {
 			return (
@@ -429,6 +428,7 @@ class StepNotice extends React.Component {
 									<GridItem xs={12} md={12} lg={12}>
 										<RichTextInput
 											ref={editor => this.editor = editor}
+											key={this.props.versionControl}
 											errorText={errors.conveneText}
 											required
 											loadDraft={

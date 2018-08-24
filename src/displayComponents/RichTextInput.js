@@ -7,7 +7,130 @@ import { removeHTMLTags } from '../utils/CBX';
 import Loadable from 'react-loadable';
 import LoadingSection from './LoadingSection';
 import RichTextEditor from 'react-rte';
+import withTranslations from '../HOCs/withTranslations';
+//import { Editor } from 'slate-react';
+//import { Value } from 'slate';
+//import Html from 'slate-html-serializer';
 
+/* const BLOCK_TAGS = {
+	blockquote: 'quote',
+	p: 'paragraph',
+	pre: 'code',
+}
+
+const MARK_TAGS = {
+	em: 'italic',
+	strong: 'bold',
+	u: 'underline',
+}
+
+const rules = [
+	{
+		deserialize(el, next) {
+			const type = BLOCK_TAGS[el.tagName.toLowerCase()]
+			if (type) {
+				return {
+					object: 'block',
+					type: type,
+					data: {
+						className: el.getAttribute('class'),
+					},
+					nodes: next(el.childNodes),
+				}
+			}
+		},
+		serialize(obj, children) {
+			if (obj.object == 'block') {
+				switch (obj.type) {
+					case 'code':
+						return (
+							<pre>
+								<code>{children}</code>
+							</pre>
+						)
+						case 'paragraph':
+							return <p className={obj.data.get('className')}>{children}</p>
+						case 'quote':
+							return <blockquote>{children}</blockquote>
+					}
+				}
+			},
+		},
+	// Add a new rule that handles marks...
+		{
+		deserialize(el, next) {
+			const type = MARK_TAGS[el.tagName.toLowerCase()]
+			if (type) {
+				return {
+					object: 'mark',
+					type: type,
+					nodes: next(el.childNodes),
+				}
+			}
+		},
+		serialize(obj, children) {
+			if (obj.object == 'mark') {
+					switch (obj.type) {
+						case 'bold':
+							return <strong>{children}</strong>
+						case 'strong':
+							return <strong>{children}</strong>
+						case 'italic':
+							return <em>{children}</em>
+						case 'underline':
+							return <u>{children}</u>
+					}
+				}
+			},
+		},
+]
+
+const html = new Html({ rules });
+
+class RichTextInput extends React.Component {
+	state = {
+		value: html.deserialize(this.props.value)
+	}
+
+	onChange = ({ value }) => {
+		this.setState({ value })
+		console.log(value);
+		console.log(html.serialize(value));
+	}
+
+	render() {
+		return(
+			<Editor
+				value={this.state.value}
+				onChange={this.onChange}
+				style={{
+					border: '1px solid gainsboro',
+					minHeight: '6em',
+					fontFamily: 'Lato'
+				}}
+
+				renderMark={renderMark}
+			/>
+		);
+	}
+}
+
+const renderMark = props => {
+    switch (props.mark.type) {
+      case 'bold':
+        return <strong>{props.children}</strong>
+      // Add our new mark renderers...
+      case 'code':
+        return <code>{props.children}</code>
+      case 'italic':
+        return <em>{props.children}</em>
+      case 'strikethrough':
+        return <del>{props.children}</del>
+      case 'underline':
+        return <u>{props.children}</u>
+    }
+}
+ */
 /* const RichTextEditor = Loadable({
 	loader: () => import('react-rte'),
 	loading: LoadingSection
@@ -69,6 +192,60 @@ class RichTextInput extends React.Component {
 	render() {
 		const { tags, loadDraft, errorText, required } = this.props;
 		const secondary = getSecondary();
+		const toolbarConfig = {
+			// Optionally specify the groups to display (displayed in the order listed).
+			display: [
+				"INLINE_STYLE_BUTTONS",
+				"BLOCK_TYPE_BUTTONS",
+				"LINK_BUTTONS",
+				"TAGS",
+				"BLOCK_TYPE_DROPDOWN",
+				"HISTORY_BUTTONS"
+			],
+			INLINE_STYLE_BUTTONS: [
+				{
+					label: "Negrita", //TRADUCCION
+					style: "BOLD",
+					className: "custom-css-class"
+				},
+				{
+					label: "Cursiva", //TRADUCCION
+					style: "ITALIC"
+				},
+				{
+					label: "Subrayado", //TRADUCCION
+					style: "UNDERLINE"
+				}
+			],
+			BLOCK_TYPE_DROPDOWN: [
+				{
+					label: "Normal", //TRADUCCION
+					style: "unstyled"
+				},
+				{
+					label: "Cabecera grande", //TRADUCCION
+					style: "header-one"
+				},
+				{
+					label: "Cabecera mediana", //TRADUCCION
+					style: "header-two"
+				},
+				{
+					label: "Cabecera pequeña", //TRADUCCION
+					style: "header-three"
+				}
+			],
+			BLOCK_TYPE_BUTTONS: [
+				{
+					label: "Lista desordenada", //TRADUCCION
+					style: "unordered-list-item"
+				},
+				{
+					label: "Lista ordenada", //TRADUCCION
+					style: "ordered-list-item"
+				}
+			]
+		};
 
 		return (
 			<React.Fragment>
@@ -144,60 +321,5 @@ class RichTextInput extends React.Component {
 		);
 	}
 }
-
-const toolbarConfig = {
-	// Optionally specify the groups to display (displayed in the order listed).
-	display: [
-		"INLINE_STYLE_BUTTONS",
-		"BLOCK_TYPE_BUTTONS",
-		"LINK_BUTTONS",
-		"TAGS",
-		"BLOCK_TYPE_DROPDOWN",
-		"HISTORY_BUTTONS"
-	],
-	INLINE_STYLE_BUTTONS: [
-		{
-			label: "Bold",
-			style: "BOLD",
-			className: "custom-css-class"
-		},
-		{
-			label: "Italic",
-			style: "ITALIC"
-		},
-		{
-			label: "Underline",
-			style: "UNDERLINE"
-		}
-	],
-	BLOCK_TYPE_DROPDOWN: [
-		{
-			label: "Normal",
-			style: "unstyled"
-		},
-		{
-			label: "Heading Large",
-			style: "header-one"
-		},
-		{
-			label: "Heading Medium",
-			style: "header-two"
-		},
-		{
-			label: "Heading Small",
-			style: "header-three"
-		}
-	],
-	BLOCK_TYPE_BUTTONS: [
-		{
-			label: "UL",
-			style: "unordered-list-item"
-		},
-		{
-			label: "OL",
-			style: "ordered-list-item"
-		}
-	]
-};
 
 export default RichTextInput;

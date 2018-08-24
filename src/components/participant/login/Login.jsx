@@ -7,8 +7,8 @@ import { checkIsCompatible, COMPATIBLE } from '../../../utils/webRTC';
 import Header from "../Header";
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
+import { NotLoggedLayout } from '../../../displayComponents';
 import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
-import background from "../../../assets/img/signup3.jpg";
 
 const styles = {
 	viewContainer: {
@@ -24,7 +24,6 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		backgroundImage: `url(${background})`,
 		padding: "10px"
 	},
 	cardContainer: {
@@ -48,10 +47,11 @@ class ParticipantLogin extends React.Component {
 		const { participant, council, company } = this.props;
 		const { isCompatible } = this.state;
 		return (
-			<div style={styles.viewContainer}>
-				<Header
-                    primaryColor={'white'}
-                />
+			<NotLoggedLayout
+				translate={this.props.translate}
+				helpIcon={true}
+				languageSelector={false}
+			>
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer}>
 						{(isCompatible === COMPATIBLE) ?
@@ -71,7 +71,7 @@ class ParticipantLogin extends React.Component {
 						}
 					</Card>
 				</div>
-			</div>
+			</NotLoggedLayout>
 		);
 	}
 }
