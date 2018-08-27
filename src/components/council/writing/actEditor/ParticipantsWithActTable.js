@@ -159,7 +159,7 @@ export default compose(
                     limit: 10,
                     offset: 0
                 },
-                notificationStatus: 6
+                // notificationStatus: 6
             }
         })
     }),
