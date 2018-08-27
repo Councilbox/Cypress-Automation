@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql, withApollo } from "react-apollo";
+import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { Grid } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
@@ -8,6 +8,8 @@ import { LoadingMainApp } from '../../../displayComponents';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
 import { darkGrey } from '../../../styles/colors';
+import RequestWordMenu from '../menus/RequestWordMenu';
+import { API_URL } from '../../../config';
 
 const styles = {
 	viewContainer: {
@@ -33,7 +35,47 @@ class ParticipantCouncil extends React.Component {
 	state = {
         rand: Date.now(),
         agendasAnchor: 'right'
-	};
+    };
+
+    componentDidMount = () => {
+        this.props.changeParticipantOnlineState({
+            variables: {
+                participantId: this.props.participant.id,
+                online: 1
+            }
+        });
+
+        if (navigator.userAgent.indexOf("Firefox") !== -1) {
+            window.onbeforeunload = this.leaveRoom;
+        } else {
+            window.onunload = this.leaveRoom;
+        }
+    }
+
+    leaveRoom = () => {
+        var request = new XMLHttpRequest();
+        const token = sessionStorage.getItem("token");
+	    const participantToken = sessionStorage.getItem("participantToken");
+        request.open('POST', API_URL, false);  // `false` makes the request synchronous
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        request.setRequestHeader("Accept", "application/json");
+        request.setRequestHeader("x-jwt-token", token ? token : participantToken);
+        request.onload = function () {
+            var users = JSON.parse(request.responseText);
+            if (request.readyState == 4 && request.status == "201") {
+                console.table(users);
+            } else {
+                console.error(users);
+            }
+        }
+        request.send(JSON.stringify({
+            query: changeParticipantOnlineState,
+            variables: {
+                participantId: this.props.participant.id,
+                online: 2
+            }
+        }));
+    };
 
     toggleAgendasAnchor = () => {
         const anchor = this.state.agendasAnchor === 'left' ? 'right' : 'left';
@@ -65,7 +107,11 @@ class ParticipantCouncil extends React.Component {
                         }
 
                         <Grid item xs={12} sm={8}>
-                            <div style={{width: '100%', height: '100%'}}>
+                            <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                                <RequestWordMenu
+                                    translate={this.props.translate}
+                                    participant={participant}
+                                />
                                 <iframe
                                     title="meetingScreen"
                                     allow="geolocation; microphone; camera"
@@ -100,10 +146,24 @@ const videoURLQuery = gql`
     }
 `;
 
-export default graphql(videoURLQuery, {
-    options: props => ({
-        variables: {
-            participantId: props.participant.id
+const changeParticipantOnlineState = gql`
+    mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
+        changeParticipantOnlineState(participantId: $participantId, online: $online){
+            success
+            message
         }
+    }
+`;
+
+export default compose(
+    graphql(videoURLQuery, {
+        options: props => ({
+            variables: {
+                participantId: props.participant.id
+            }
+        })
+    }),
+    graphql(changeParticipantOnlineState, {
+        name: 'changeParticipantOnlineState'
     })
-})(withApollo(withTranslations()(withDetectRTC()(ParticipantCouncil))));
+)(withApollo(withTranslations()(withDetectRTC()(ParticipantCouncil))));

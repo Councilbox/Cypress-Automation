@@ -16,7 +16,7 @@ class ReactSignature extends Component {
     width: 450,
     height: 300
   }
-  
+
   points = [];
 
   componentDidMount(){
@@ -30,7 +30,7 @@ class ReactSignature extends Component {
   }
 
   toDataURL = () => {
-    return canvas.toDataURL.apply(canvas, arguments);
+    return canvas.toDataURL.apply(canvas);
   }
 
   fromDataURL = (dataURL) => {

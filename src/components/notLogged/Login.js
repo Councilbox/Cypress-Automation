@@ -88,12 +88,12 @@ class Login extends React.PureComponent {
 		};
 		let hasError = false;
 
-		if (!this.state.user.length > 0) {
+		if (!this.state.user) {
 			hasError = true;
 			errors.user = translate.field_required;
 		}
 
-		if (!this.state.password.length > 0) {
+		if (!this.state.password) {
 			hasError = true;
 			errors.password = translate.field_required;
 		}

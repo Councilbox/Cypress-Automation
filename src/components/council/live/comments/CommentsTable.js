@@ -121,12 +121,15 @@ class CommentsTable extends React.Component{
 											borderBottom: "1px solid black"
 										}}
 									>
-										<span
+										<div
+											dangerouslySetInnerHTML={{
+												__html: voting.comment
+											}}
 											style={{
 												fontStyle: "italic",
 												fontSize: "0.85em"
 											}}
-										>{`"${voting.comment}"`}</span>
+										></div>
 										<br />
 										<span
 											style={{ fontSize: "0.73rem" }}

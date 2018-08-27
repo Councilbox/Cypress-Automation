@@ -41,14 +41,11 @@ class StepAttachments extends React.Component {
 			} else {
 				totalSize = attachments[0].filesize / 1000;
 			}
-		}
 
-		if (attachments) {
 			return {
 				totalSize: totalSize
 			};
 		}
-
 		return null;
 	}
 

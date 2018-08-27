@@ -53,7 +53,7 @@ class ParticipantLogin extends React.Component {
 				languageSelector={false}
 			>
 				<div style={styles.mainContainer}>
-					<Card style={styles.cardContainer}>
+					<Card style={styles.cardContainer} elevation={6}>
 						{(isCompatible === COMPATIBLE) ?
 								<React.Fragment>
 									{councilIsLive(council) ? (

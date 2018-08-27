@@ -95,7 +95,7 @@ class ChangePwd extends React.PureComponent {
 
 		let hasError = false;
 
-		if (!this.state.pwd.length > 0) {
+		if (!this.state.pwd) {
 			hasError = true;
 			errors.pwd = translate.no_empty_pwd;
 		}

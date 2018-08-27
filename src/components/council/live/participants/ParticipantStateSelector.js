@@ -177,7 +177,7 @@ class ParticipantStateSelector extends Component {
 				)}
 
 				{CBX.canHaveRepresentative(participant) &&
-					!participant.delegatedVotes.length > 0 && (
+					!(participant.delegatedVotes.length > 0) && (
 						<FilterButton
 							tooltip={translate.add_representative}
 							loading={loading === 4}
@@ -212,7 +212,7 @@ class ParticipantStateSelector extends Component {
 					)}
 				{CBX.canDelegateVotes(council.statute, participant) && (
 					<React.Fragment>
-						{!participant.delegatedVotes.length > 0 &&
+						{!(participant.delegatedVotes.length > 0) &&
 							<FilterButton
 								tooltip={translate.to_delegate_vote}
 								loading={loading === 5}

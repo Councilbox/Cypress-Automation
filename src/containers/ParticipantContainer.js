@@ -58,16 +58,16 @@ class ParticipantContainer extends React.PureComponent {
 				}}
 			>
                 <React.Fragment>
-                    {main.isParticipantLogged ? 
+                    {main.isParticipantLogged ?
                             <React.Fragment>
                                 {match.path.includes('meet') ?
-                                        <Meet 
+                                        <Meet
                                             participant={data.participant}
                                             council={data.councilVideo}
                                             company={data.councilVideo.company}
                                         />
                                     :
-                                        <Council 
+                                        <Council
                                             participant={data.participant}
                                             council={data.councilVideo}
                                             company={data.councilVideo.company}

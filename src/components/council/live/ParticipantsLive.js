@@ -122,7 +122,7 @@ class ParticipantsLive extends React.Component {
 						fontSize: "1.1em",
 						marginRight: "0.3em",
 						color: this.participantLiveColor(
-							participant.lastDateConnection
+							participant
 						)
 					}}
 				>
@@ -137,7 +137,7 @@ class ParticipantsLive extends React.Component {
 					fontSize: "1.1em",
 					marginRight: "0.3em",
 					color: this.participantLiveColor(
-						participant.lastDateConnection
+						participant
 					)
 				}}
 			>
@@ -225,8 +225,8 @@ class ParticipantsLive extends React.Component {
 		);
 	};
 
-	participantLiveColor = date => {
-		if (exceedsOnlineTimeout(date)) {
+	participantLiveColor = participant => {
+		if(participant.online !== 1) {
 			return "crimson";
 		}
 		return getSecondary();

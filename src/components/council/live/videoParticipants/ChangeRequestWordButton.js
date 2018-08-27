@@ -24,7 +24,7 @@ class ChangeRequestWordButton extends React.Component {
 		const { participant } = this.props;
 
 		return (
-			<div>
+			<div style={{marginRight: '0.3em'}}>
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={
@@ -70,38 +70,40 @@ class ChangeRequestWordButton extends React.Component {
 					</Tooltip>
 				)}
 				{isAskingForWord(participant) && (
-					<Card
-						onClick={() => this.changeWordState(participant.id, 2)}
-						style={{
-							width: "1.6em",
-							height: "1.6em",
-							borderRadius: "0.1em",
-							backgroundColor: getSecondary()
-						}}
-					>
-						<MenuItem
+					<Tooltip title="Conceder palabra" /*TRADUCCION*/>
+						<Card
+							onClick={() => this.changeWordState(participant.id, 2)}
 							style={{
-								height: "1.6em",
 								width: "1.6em",
-								padding: 0,
-								margin: 0,
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center"
+								height: "1.6em",
+								borderRadius: "0.1em",
+								backgroundColor: getSecondary()
 							}}
 						>
-							<Icon
-								className="material-icons"
+							<MenuItem
 								style={{
-									fontSize: "0.92em",
-									marginRight: "0.3em",
-									color: "white"
+									height: "1.6em",
+									width: "1.6em",
+									padding: 0,
+									margin: 0,
+									display: "flex",
+									alignItems: "center",
+									justifyContent: "center"
 								}}
 							>
-								pan_tool
-							</Icon>
-						</MenuItem>
-					</Card>
+								<Icon
+									className="material-icons"
+									style={{
+										fontSize: "0.92em",
+										marginRight: "0.3em",
+										color: "white"
+									}}
+								>
+									pan_tool
+								</Icon>
+							</MenuItem>
+						</Card>
+					</Tooltip>
 				)}
 			</div>
 		);

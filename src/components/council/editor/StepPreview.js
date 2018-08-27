@@ -91,19 +91,15 @@ class StepPreview extends React.Component {
 				}
 			});
 
-			if(response){
-				this.setState({
-					loading: false
-				});
-			}
-
 			if (!response.errors) {
 				this.setState({
+					loading: false,
 					conveneTestSuccess: true
 				});
 			}
 		} else {
 			this.setState({
+				loading: false,
 				errors: {
 					...this.state.errors,
 					conveneTestEmail: this.props.translate.tooltip_invalid_email_address

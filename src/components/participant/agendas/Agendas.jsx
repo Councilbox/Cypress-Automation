@@ -56,6 +56,7 @@ class Agendas extends React.Component {
                                     <IconButton
                                         size={'small'}
                                         onClick={toggleAgendasAnchor}
+                                        style={{outline: 0}}
                                     >
                                         <i className="fa fa-caret-left"></i>
                                     </IconButton>
@@ -67,6 +68,7 @@ class Agendas extends React.Component {
                                     <IconButton
                                         size={'small'}
                                         onClick={this.props.toggleAgendasAnchor}
+                                        style={{outline: 0}}
                                     >
                                         <i className="fa fa-caret-right"></i>
                                     </IconButton>
@@ -105,7 +107,9 @@ class Agendas extends React.Component {
                                                         <div dangerouslySetInnerHTML={{__html: agenda.description}}></div>
                                                         <AgendaMenu
                                                             agenda={agenda}
+                                                            council={council}
                                                             translate={translate}
+                                                            refetch={this.props.data.refetch}
                                                         />
                                                     </React.Fragment>
                                                 :
@@ -115,7 +119,7 @@ class Agendas extends React.Component {
                                         />
                                     )
                                 })
-                            :   
+                            :
                                 <LoadingSection />
                             }
                         </Steps>

@@ -32,6 +32,23 @@ class VotingMenu extends React.Component {
         },
     ]
 
+    updateAgendaVoting = async vote => {
+        const response = await this.props.updateAgendaVoting({
+            variables: {
+                agendaVoting: {
+                    id: this.props.agenda.voting[0].id,
+                    vote: vote
+                }
+            }
+        });
+
+        if(response.data.updateAgendaVoting){
+            if(response.data.updateAgendaVoting.success){
+                this.props.refetch();
+            }
+        }
+    }
+
     render(){
         const { agenda } = this.props;
 
@@ -49,22 +66,22 @@ class VotingMenu extends React.Component {
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.in_favor_btn}
-                        selected={agenda.voting.vote === 1}
-                        onClick={() => {this.updateVoting(1)}}
+                        selected={agenda.voting[0].vote === 1}
+                        onClick={() => {this.updateAgendaVoting(1)}}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.against_btn}
-                        selected={agenda.voting.vote === 0}
-                        onClick={() => {this.updateVoting(0)}}
+                        selected={agenda.voting[0].vote === 0}
+                        onClick={() => {this.updateAgendaVoting(0)}}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.abstention_btn}
-                        selected={agenda.voting.vote === 2}
-                        onClick={() => {this.updateVoting(2)}}
+                        selected={agenda.voting[0].vote === 2}
+                        onClick={() => {this.updateAgendaVoting(2)}}
                     />
                 </GridItem>
             </Grid>
@@ -85,10 +102,23 @@ const VotingButton = ({ onClick, text, selected }) => {
                 color: selected? 'white' : primary,
                 fontWeight: '700'
             }}
+            buttonStyle={{
+                border: `2px solid ${primary}`
+            }}
             onClick={onClick}
         />
     )
- 
 }
 
-export default VotingMenu;
+const updateAgendaVoting = gql`
+    mutation UpdateAgendaVoting($agendaVoting: AgendaVotingInput!){
+        updateAgendaVoting(agendaVoting: $agendaVoting){
+            success
+            message
+        }
+    }
+`;
+
+export default graphql(updateAgendaVoting, {
+    name: 'updateAgendaVoting'
+})(VotingMenu);

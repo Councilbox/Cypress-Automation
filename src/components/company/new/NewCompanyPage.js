@@ -162,12 +162,12 @@ class NewCompanyPage extends React.PureComponent {
 		};
 		let hasError = false;
 
-		if (!data.businessName.length > 0) {
+		if (!data.businessName) {
 			hasError = true;
 			errors.businessName = translate.field_required;
 		}
 
-		if(!data.alias.length > 0){
+		if(!data.alias){
 			hasError = true;
 			errors.alias = translate.field_required;
 		}
@@ -179,19 +179,19 @@ class NewCompanyPage extends React.PureComponent {
 
 		let existsCif = await this.checkCifExists();
 
-		if (!data.tin.length > 0 || existsCif) {
+		if (!data.tin || existsCif) {
 			hasError = true;
 			errors.tin = existsCif
 				? translate.vat_previosly_save
 				: translate.field_required;
 		}
 
-		if (!data.address.length > 0) {
+		if (!data.address) {
 			hasError = true;
 			errors.address = translate.field_required;
 		}
 
-		if (!data.city.length > 0) {
+		if (!data.city) {
 			hasError = true;
 			errors.city = translate.field_required;
 		}
@@ -201,7 +201,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.countryState = translate.field_required;
 		}
 
-		if (!data.zipcode.length > 0) {
+		if (!data.zipcode) {
 			hasError = true;
 			errors.zipcode = translate.field_required;
 		}

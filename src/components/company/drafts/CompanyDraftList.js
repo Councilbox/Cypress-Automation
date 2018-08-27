@@ -29,7 +29,7 @@ class CompanyDraftList extends React.Component {
 	componentDidMount() {
 		this.props.data.refetch();
 	}
-	
+
 	_renderDeleteIcon = draftID => {
 		const primary = getPrimary();
 		return (
@@ -119,9 +119,10 @@ class CompanyDraftList extends React.Component {
 				<React.Fragment>
 					{error ? (
 						<div>
-							{error.graphQLErrors.map(error => {
+							{error.graphQLErrors.map((error, index) => {
 								return (
 									<ErrorWrapper
+										key={`error_${index}`}
 										error={error}
 										translate={translate}
 									/>

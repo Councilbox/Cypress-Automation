@@ -44,7 +44,7 @@ class StepAgenda extends React.Component {
 		this.props.data.refetch();
 	}
 
-	updateCouncil = step => {
+	updateCouncil = async step => {
 		const { agendas, statute, __typename, ...council } = this.props.data.council;
 
 		this.props.updateCouncil({

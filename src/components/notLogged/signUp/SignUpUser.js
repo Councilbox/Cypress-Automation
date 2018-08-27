@@ -51,22 +51,22 @@ class SignUpUser extends React.Component {
 		const { translate } = this.props;
 		let hasError = false;
 
-		if (!data.name.length > 0) {
+		if (!data.name) {
 			hasError = true;
 			errors.name = translate.field_required;
 		}
 
-		if (!data.surname.length > 0) {
+		if (!data.surname) {
 			hasError = true;
 			errors.surname = translate.field_required;
 		}
 
-		if (!data.phone.length > 0) {
+		if (!data.phone) {
 			hasError = true;
 			errors.phone = translate.field_required;
 		}
 
-		if (!data.email.length > 0) {
+		if (!data.email) {
 			hasError = true;
 			errors.email = translate.field_required;
 		} else {
@@ -84,7 +84,7 @@ class SignUpUser extends React.Component {
 			}
 		}
 
-		if (!data.pwd.length > 0) {
+		if (!data.pwd) {
 			hasError = true;
 			errors.pwd = translate.no_empty_pwd;
 		}

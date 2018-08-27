@@ -1,9 +1,11 @@
 import React from 'react';
-import { CollapsibleSection, BasicButton } from '../../../displayComponents';
+import { CollapsibleSection, BasicButton, ButtonIcon } from '../../../displayComponents';
 import VotingMenu from './VotingMenu';
+import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
+
 
 class AgendaMenu extends React.Component {
 
@@ -12,7 +14,7 @@ class AgendaMenu extends React.Component {
         open: false,
         reopen: false
     }
-    
+
     toggle = () => {
        this.setState({
            open: !this.state.open
@@ -23,10 +25,17 @@ class AgendaMenu extends React.Component {
         if(this.state.voting){
             this.toggle();
         }else{
-            this.setState({
-                open: false,
-                reopen: true
-            });
+            if(this.state.open){
+                this.setState({
+                    open: false,
+                    reopen: true
+                });
+            }else{
+                this.setState({
+                    open: true,
+                    voting: true
+                });
+            }
         }
     }
 
@@ -35,10 +44,17 @@ class AgendaMenu extends React.Component {
         if(!this.state.voting){
             this.toggle(() => {});
         }else{
-            this.setState({
-                open: false,
-                reopen: true
-            });
+            if(this.state.open){
+                this.setState({
+                    open: false,
+                    reopen: true
+                });
+            }else{
+                this.setState({
+                    open: true,
+                    voting: false
+                });
+            }
         }
     }
 
@@ -90,68 +106,51 @@ class AgendaMenu extends React.Component {
                                         justifyContent: 'space-between',
                                     }}>
                                         <BasicButton
-                                            color={primary}
-                                            text={'Votar'}
-                                            textStyle={{color: 'white'}}
-                                            buttonStyle={{
-                                                float: 'left'
+                                            color={this.state.voting && this.state.open? primary : 'white'}
+                                            text={'Votar'}//TRADUCCION
+                                            textStyle={{
+                                                color: this.state.voting && this.state.open? 'white' : primary,
+                                                fontWeight: '700',
+                                                fontSize: '14px'
                                             }}
+                                            buttonStyle={{
+                                                float: 'left',
+                                                border: `2px solid ${primary}`
+                                            }}
+                                            icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
                                             onClick={this.activateVoting}
                                         />
-                                        <BasicButton
-                                            color={primary}
-                                            text={'Comentar'}
-                                            textStyle={{color: 'white'}}
-                                            buttonStyle={{
-                                                float: 'left'
-                                            }}
-                                            onClick={this.activateComment}
-                                        />
+                                        {CBX.councilHasComments(this.props.council.statute) &&
+                                            <BasicButton
+                                                color={!this.state.voting && this.state.open? primary : 'white'}
+                                                text={translate.act_comment_btn}
+                                                textStyle={{
+                                                    color: !this.state.voting && this.state.open? 'white' : primary,
+                                                    fontWeight: '700',
+                                                    fontSize: '14px'
+                                                }}
+                                                buttonStyle={{
+                                                    float: 'left',
+                                                    border: `2px solid ${primary}`
+                                                }}
+                                                icon={<ButtonIcon type="mode_edit" color={!this.state.voting && this.state.open? 'white' : primary}/>}
+                                                onClick={this.activateComment}
+                                            />
+                                        }
                                     </div>
                                 }
                                 collapse={() => this.state.voting?
                                     <VotingMenu
                                         translate={this.props.translate}
+                                        refetch={this.props.refetch}
                                         agenda={agenda}
                                     />
                                 :
-                                    <div
-                                        style={{
-                                            width: '100%',
-                                            backgroundColor: 'white',
-                                            height: '6em',
-                                            display: 'flex',
-                                            flexDirection: 'row'
-                                        }}
-                                    >
-                                        <div
-                                            style={{
-                                                height: '100%',
-                                                width: '33.3333%',
-                                                backgroundColor: 'black'
-                                            }}
-                                        >
-                                            SI
-                                        </div>
-                                        <div
-                                            style={{
-                                                height: '100%',
-                                                width: '33.3333%',
-                                                backgroundColor: 'white'
-                                            }}
-                                        >
-                                            NO
-                                        </div>
-                                        <div
-                                            style={{
-                                                height: '100%',
-                                                width: '33.3333%',
-                                                backgroundColor: 'grey'
-                                            }}
-                                        >
-                                            ABSTENCION
-                                        </div>
-                                    </div>
+                                    <CommentMenu
+                                        agenda={agenda}
+                                        translate={this.props.translate}
+                                        refetch={this.props.refetch}
+                                    />
                                 }
                             />
                     }
