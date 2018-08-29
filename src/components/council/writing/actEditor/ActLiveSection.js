@@ -38,7 +38,7 @@ class ActLiveSection extends React.Component {
 					}}
 				>
 					<Icon className="material-icons" style={{ color: "grey" }}>
-						assignment
+						book
 					</Icon>
 					<span
 						style={{
@@ -73,7 +73,6 @@ class ActLiveSection extends React.Component {
 		}
 
 		return (
-                    
         	<div
 				style={{
 					paddingTop: "1.2em",
@@ -111,7 +110,7 @@ class ActLiveSection extends React.Component {
 			</div>
 		);
 	};
-    
+
     loadDraft = draft => {
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,

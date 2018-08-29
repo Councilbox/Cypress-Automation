@@ -768,7 +768,7 @@ export const haveGrantedWord = participant => {
 
 export const exceedsOnlineTimeout = date => {
 	const timeout = -moment(new Date(date)).diff(moment(), "seconds");
-	return timeout > 15;
+	return timeout > 13;
 };
 
 export const checkRequiredFields = (translate, draft, updateErrors, corporation) => {

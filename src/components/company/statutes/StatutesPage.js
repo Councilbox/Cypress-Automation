@@ -393,7 +393,7 @@ class StatutesPage extends React.Component {
 							required
 							type="text"
 							errorText={errors.newStatuteName}
-							value={statute.newStatuteName}
+							value={statute? statute.newStatuteName : ''}
 							onChange={event =>
 								this.setState({
 									newStatuteName:

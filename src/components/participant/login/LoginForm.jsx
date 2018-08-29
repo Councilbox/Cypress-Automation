@@ -34,6 +34,7 @@ const styles = {
     },
     councilInfoContainer: {
         display: "flex",
+        width: '100%',
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
@@ -42,6 +43,7 @@ const styles = {
     },
     loginFormContainer: {
         display: "flex",
+        width: '100%',
         alignItems: "center",
         justifyContent: "center",
         padding: "15px"
@@ -55,18 +57,15 @@ const styles = {
 };
 
 class LoginForm extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: props.participant.email,
-            password: "",
-            showPassword: false,
-            errors: {
-                email: "",
-                password: ""
-            }
-        };
-    }
+    state = {
+        email: this.props.participant.email,
+        password: "",
+        showPassword: false,
+        errors: {
+            email: "",
+            password: ""
+        }
+    };
 
     checkFieldsValidationState = () => {
         const { translate, council } = this.props;

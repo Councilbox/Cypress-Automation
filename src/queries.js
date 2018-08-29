@@ -1938,18 +1938,12 @@ export const videoParticipants = gql`
 		) {
 			list {
 				id
-				delegateId
 				state
 				audio
 				video
 				councilId
 				name
-				position
-				email
-				phone
-				dni
 				date
-				type
 				participantId
 				online
 				requestWord
@@ -1959,9 +1953,7 @@ export const videoParticipants = gql`
 				videoMode
 				firstLoginDate
 				firstLoginCurrentPointId
-				language
 				signed
-				address
 				actived
 			}
 			total

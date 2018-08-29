@@ -1,5 +1,6 @@
 import React from 'react';
-import { CollapsibleSection, BasicButton, ButtonIcon } from '../../../displayComponents';
+import { CollapsibleSection, BasicButton, ButtonIcon, AlertConfirm } from '../../../displayComponents';
+import ActHTML from '../../council/writing/actViewer/ActHTML';
 import VotingMenu from './VotingMenu';
 import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
@@ -12,6 +13,7 @@ class AgendaMenu extends React.Component {
     state = {
         voting: true,
         open: false,
+        showModal: false,
         reopen: false
     }
 
@@ -69,8 +71,7 @@ class AgendaMenu extends React.Component {
     render(){
         const { translate, agenda } = this.props;
         const secondary = getSecondary();
-        const primary = getPrimary();
-        console.log(agenda);
+        const primary = getPrimary()
 
         return(
             <div>
@@ -107,7 +108,7 @@ class AgendaMenu extends React.Component {
                                     }}>
                                         <BasicButton
                                             color={this.state.voting && this.state.open? primary : 'white'}
-                                            text={'Votar'}//TRADUCCION
+                                            text={this.props.translate.exercise_voting}
                                             textStyle={{
                                                 color: this.state.voting && this.state.open? 'white' : primary,
                                                 fontWeight: '700',
@@ -156,6 +157,107 @@ class AgendaMenu extends React.Component {
                     }
                     </div>
                 }
+                {agenda.subjectType === CBX.getActPointSubjectType() &&
+                    <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
+                    <BasicButton
+                        text={this.props.translate.show_act_draft}
+                        textStyle={{color: secondary, fontWeight: '700'}}
+                        buttonStyle={{border: `2px solid ${secondary}`, marginBottom: '1.2em'}}
+                        color={'white'}
+                        onClick={() => this.setState({
+                            showModal: true
+                        })}
+                    />
+                    {!CBX.agendaVotingsOpened(agenda)?
+                            <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
+                        :
+                            <CollapsibleSection
+                                open={this.state.open}
+                                onTriggerClick={() => {}}
+                                onClose={() => {
+                                    if(this.state.reopen){
+                                        this.setState({
+                                            open: true,
+                                            voting: !this.state.voting,
+                                            reopen: false
+                                        })
+                                    }
+                                }}
+                                style={{
+                                    cursor: 'auto'
+                                }}
+                                trigger={() =>
+                                    <div style={{
+                                        width: '100%',
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-between',
+                                    }}>
+                                        <BasicButton
+                                            color={this.state.voting && this.state.open? primary : 'white'}
+                                            text={this.props.translate.exercise_voting}
+                                            textStyle={{
+                                                color: this.state.voting && this.state.open? 'white' : primary,
+                                                fontWeight: '700',
+                                                fontSize: '14px'
+                                            }}
+                                            buttonStyle={{
+                                                float: 'left',
+                                                border: `2px solid ${primary}`
+                                            }}
+                                            icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
+                                            onClick={this.activateVoting}
+                                        />
+                                        {CBX.councilHasComments(this.props.council.statute) &&
+                                            <BasicButton
+                                                color={!this.state.voting && this.state.open? primary : 'white'}
+                                                text={translate.act_comment_btn}
+                                                textStyle={{
+                                                    color: !this.state.voting && this.state.open? 'white' : primary,
+                                                    fontWeight: '700',
+                                                    fontSize: '14px'
+                                                }}
+                                                buttonStyle={{
+                                                    float: 'left',
+                                                    border: `2px solid ${primary}`
+                                                }}
+                                                icon={<ButtonIcon type="mode_edit" color={!this.state.voting && this.state.open? 'white' : primary}/>}
+                                                onClick={this.activateComment}
+                                            />
+                                        }
+                                    </div>
+                                }
+                                collapse={() => this.state.voting?
+                                    <VotingMenu
+                                        translate={this.props.translate}
+                                        refetch={this.props.refetch}
+                                        agenda={agenda}
+                                    />
+                                :
+                                    <CommentMenu
+                                        agenda={agenda}
+                                        translate={this.props.translate}
+                                        refetch={this.props.refetch}
+                                    />
+                                }
+                            />
+                    }
+                    </div>
+                }
+                <AlertConfirm
+					requestClose={() => this.setState({ showModal: false })}
+					open={this.state.showModal}
+					acceptAction={() => this.setState({ showModal: false })}
+					buttonAccept={translate.accept}
+					bodyText={
+                        <div>
+                            <ActHTML
+                                council={this.props.council}
+                            />
+                        </div>
+                    }
+					title={translate.edit}
+				/>
             </div>
         )
     }

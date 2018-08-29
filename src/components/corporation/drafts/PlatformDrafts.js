@@ -167,9 +167,10 @@ class PlatformDrafts extends React.Component {
 					<React.Fragment>
 						{error ? (
 							<div>
-								{error.graphQLErrors.map(error => {
+								{error.graphQLErrors.map((error, index) => {
 									return (
 										<ErrorWrapper
+											key={`error_${index}`}
 											error={error}
 											translate={translate}
 										/>

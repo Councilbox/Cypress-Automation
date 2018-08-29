@@ -173,127 +173,127 @@ class AgendaDetailsSection extends React.Component {
 				</Grid>
 				<div style={{borderTop: '1px solid gainsboro', width: '100%', height: 'calc(100vh - 13.5em)', overflow: 'hidden'}}>
 				<Scrollbar>
-						<Grid style={{paddingBottom: '1.5em'}}>
-							<GridItem xs={12} lg={12} md={12} style={{ padding: this.state.expanded? '1em' : 0, paddingBottom: 0 }}>
-								<Collapse isOpened={this.state.expanded} style={{...(this.state.expanded? {border: '1px solid gainsboro'} : {})}}>
-									<div onClick={() => this.setState({expanded: !this.state.expanded})}>
+					<Grid style={{paddingBottom: '1.5em'}}>
+						<GridItem xs={12} lg={12} md={12} style={{ padding: this.state.expanded? '1em' : 0, paddingBottom: 0 }}>
+							<Collapse isOpened={this.state.expanded} style={{...(this.state.expanded? {border: '1px solid gainsboro'} : {})}}>
+								<div onClick={() => this.setState({expanded: !this.state.expanded})}>
+									<div
+										style={{
+											fontSize: "0.9em",
+											padding: '1em',
+											paddingBottom: '1.5em',
+											lineHeight: '1.2em',
+											width: '100%'
+										}}
+										onClick={() => this.setState({expanded: !this.state.expanded})}
+										dangerouslySetInnerHTML={{
+											__html: agenda.description
+										}}
+									/>
+								</div>
+							</Collapse>
+						</GridItem>
+					</Grid>
+					{agenda.subjectType !== CBX.getActPointSubjectType()?
+						<React.Fragment>
+							<div
+								style={{
+									width: "100%",
+									marginTop: "1em"
+								}}
+								className="withShadow"
+							>
+								<ActAgreements
+									agenda={agenda}
+									translate={translate}
+									council={this.props.council}
+									refetch={this.props.refetch}
+									data={this.props.data}
+								/>
+							</div>
+							{CBX.councilStarted(council) &&
+								<React.Fragment>
+									{CBX.councilHasComments(council.statute) && !CBX.agendaPointNotOpened(agenda) && (
 										<div
 											style={{
-												fontSize: "0.9em",
-												padding: '1em',
-												paddingBottom: '1.5em',
-												lineHeight: '1.2em',
-												width: '100%'
+												width: "100%",
+												marginTop: "0.4em"
 											}}
-											onClick={() => this.setState({expanded: !this.state.expanded})}
-											dangerouslySetInnerHTML={{
-												__html: agenda.description
-											}}
-										/>
-									</div>
-								</Collapse>
-							</GridItem>
-						</Grid>
-						{agenda.subjectType !== CBX.getActPointSubjectType()?
-							<React.Fragment>
-								<div
-									style={{
-										width: "100%",
-										marginTop: "1em"
-									}}
-									className="withShadow"
-								>
-									<ActAgreements
-										agenda={agenda}
-										translate={translate}
-										council={this.props.council}
-										refetch={this.props.refetch}
-										data={this.props.data}
-									/>
-								</div>
-								{CBX.councilStarted(council) &&
-									<React.Fragment>
-										{CBX.councilHasComments(council.statute) && !CBX.agendaPointNotOpened(agenda) && (
-											<div
-												style={{
-													width: "100%",
-													marginTop: "0.4em"
-												}}
-												className="withShadow"
-											>
-												<Comments
-													agenda={agenda}
-													council={council}
-													translate={translate}
-												/>
-											</div>
-										)}
-										{CBX.agendaVotingsOpened(agenda) && (
-											<React.Fragment>
-												{CBX.showAgendaVotingsTable(agenda) &&
-													<React.Fragment>
-														<div
-															style={{
-																width: "100%",
-																marginTop: "0.4em"
-															}}
-															className="withShadow"
-														>
-															<RecountSection
-																agenda={agenda}
-																council={council}
-																translate={translate}
-																recount={{}}
-																refetch={this.props.refetch}
-																majorityTypes={this.props.majorityTypes}
-															/>
-														</div>
+											className="withShadow"
+										>
+											<Comments
+												agenda={agenda}
+												council={council}
+												translate={translate}
+											/>
+										</div>
+									)}
+									{CBX.agendaVotingsOpened(agenda) && (
+										<React.Fragment>
+											{CBX.showAgendaVotingsTable(agenda) &&
+												<React.Fragment>
+													<div
+														style={{
+															width: "100%",
+															marginTop: "0.4em"
+														}}
+														className="withShadow"
+													>
+														<RecountSection
+															agenda={agenda}
+															council={council}
+															translate={translate}
+															recount={{}}
+															refetch={this.props.refetch}
+															majorityTypes={this.props.majorityTypes}
+														/>
+													</div>
 
-														<div
-															style={{
-																width: "100%",
-																marginTop: "0.4em"
-															}}
-															className="withShadow"
-														>
-															<Votings
-																ref={votings => (this.votings = votings)}
-																agenda={agenda}
-																translate={translate}
-															/>
-														</div>
-													</React.Fragment>
-												}
-											</React.Fragment>
-										)}
-									</React.Fragment>
-								}
-								<div
-									style={{
-										width: "100%",
-										marginTop: "0.4em"
-									}}
-									className="withShadow"
-								>
-									<AgendaAttachmentsManager
-										attachments={agenda.attachments}
-										translate={translate}
-										councilID={this.props.council.id}
-										refetch={this.props.refetch}
-										agendaID={agenda.id}
-									/>
-								</div>
-							</React.Fragment>
-						:
-							<ActPointInfoDisplay
-								council={council}
-								data={this.props.data}
-								agenda={agenda}
-								companyID={this.props.council.companyId}
-								translate={translate}
-								refetch={this.props.refetch}
-							/>
-						}
+													<div
+														style={{
+															width: "100%",
+															marginTop: "0.4em"
+														}}
+														className="withShadow"
+													>
+														<Votings
+															ref={votings => (this.votings = votings)}
+															agenda={agenda}
+															translate={translate}
+														/>
+													</div>
+												</React.Fragment>
+											}
+										</React.Fragment>
+									)}
+								</React.Fragment>
+							}
+							<div
+								style={{
+									width: "100%",
+									marginTop: "0.4em"
+								}}
+								className="withShadow"
+							>
+								<AgendaAttachmentsManager
+									attachments={agenda.attachments}
+									translate={translate}
+									councilID={this.props.council.id}
+									refetch={this.props.refetch}
+									agendaID={agenda.id}
+								/>
+							</div>
+						</React.Fragment>
+					:
+						<ActPointInfoDisplay
+							council={council}
+							data={this.props.data}
+							agenda={agenda}
+							companyID={this.props.council.companyId}
+							translate={translate}
+							refetch={this.props.refetch}
+						/>
+					}
 				</Scrollbar>
 				</div>
 

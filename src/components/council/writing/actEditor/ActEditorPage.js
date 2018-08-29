@@ -1,11 +1,11 @@
 import React from 'react';
-import { CardPageLayout, TabsScreen, ScrollHTMLFixer } from "../../../../displayComponents";
+import { CardPageLayout, TabsScreen, ScrollHTMLFixer, Scrollbar } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
 import ActEditor from "./ActEditor";
 import Convene from '../../convene/Convene';
 import ActHTML from '../actViewer/ActHTML';
-import Scrollbar from 'react-perfect-scrollbar';
+//import Scrollbar from 'react-perfect-scrollbar';
 import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
@@ -28,10 +28,12 @@ class ActEditorPage extends React.Component {
                     text: translate.wizard_agenda,
                     component: () => {
                         return (
-                            <AgendaTab
-                                council={council}
-                                translate={translate}
-                            />
+                            <TabContainer>
+                                <AgendaTab
+                                    council={council}
+                                    translate={translate}
+                                />
+                            </TabContainer>
                         );
                     }
                 }
@@ -41,22 +43,26 @@ class ActEditorPage extends React.Component {
                 text: translate.act,
                 component: () => {
                     return (
-                        this.props.confirmed?
-                            <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
-                                <Scrollbar option={{ suppressScrollX: true }}>
-                                    <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
-                                        <ActHTML council={council} />
-                                    </div>
-                                </Scrollbar>
-                                <ScrollHTMLFixer />
-                            </div>
-                        :
-                            <ActEditor
-                                councilID={council.id}
-                                companyID={this.props.companyID}
-                                translate={translate}
-                                refetch={this.props.refetch}
-                            />
+                        <TabContainer>
+                            {this.props.confirmed?
+                                <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
+                                    <Scrollbar>
+                                        <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
+                                            <ActHTML council={council} />
+                                        </div>
+                                    </Scrollbar>
+                                </div>
+                            :
+                                <div style={{height: '100%'}}>
+                                    <ActEditor
+                                        councilID={council.id}
+                                        companyID={this.props.companyID}
+                                        translate={translate}
+                                        refetch={this.props.refetch}
+                                    />
+                                </div>
+                            }
+                        </TabContainer>
                     );
                 }
             })
@@ -65,26 +71,32 @@ class ActEditorPage extends React.Component {
                     text: translate.sending_the_minutes,
                     component: () => {
                         return (
-                            <SendActPage
-                                council={council}
-                                translate={translate}
-                                refetch={this.props.refetch}
-                            />
+                            <TabContainer>
+                                <Scrollbar>
+                                    <SendActPage
+                                        council={council}
+                                        translate={translate}
+                                        refetch={this.props.refetch}
+                                    />
+                                </Scrollbar>
+                            </TabContainer>
                         );
                     }
                 });
             }
         }
 
-        tabs = [...tabs, 
+        tabs = [...tabs,
             {
                 text: translate.new_list_called,
                 component: () => {
                     return (
-                        <ActConvenedParticipants
-                            council={council}
-                            translate={translate}
-                        />
+                        <TabContainer>
+                            <ActConvenedParticipants
+                                council={council}
+                                translate={translate}
+                            />
+                        </TabContainer>   
                     );
                 }
             },
@@ -92,10 +104,12 @@ class ActEditorPage extends React.Component {
                 text: translate.show_assistants_list,
                 component: () => {
                     return (
-                        <ActAttendantsTable
-                            council={council}
-                            translate={translate}
-                        />
+                        <TabContainer>
+                            <ActAttendantsTable
+                                council={council}
+                                translate={translate}
+                            />
+                        </TabContainer>
                     );
                 }
             },
@@ -103,10 +117,14 @@ class ActEditorPage extends React.Component {
                 text: translate.attachment_files,
                 component: () => {
                     return (
-                        <ActAttachments
-                            council={council}
-                            translate={translate}
-                        />
+                        <TabContainer>
+                            <Scrollbar>
+                                <ActAttachments
+                                    council={council}
+                                    translate={translate}
+                                />
+                            </Scrollbar>
+                        </TabContainer>
                     );
                 }
             },
@@ -114,19 +132,24 @@ class ActEditorPage extends React.Component {
                 text: translate.convene,
                 component: () => {
                     return (
-                        <div style={{position: 'relative', width: '100%', height: '100%'}}>
-                            <Convene
-                                council={council}
-                                translate={translate}
-                            />
-                        </div>
+                        <TabContainer style={{position: 'relative', width: '100%', padding: '1.2em'}}>
+                            <Scrollbar>
+                                <div style={{paddingBottom: '2em'}}>
+                                    <Convene
+                                        council={council}
+                                        hideAttachments
+                                        translate={translate}
+                                    />
+                                </div>
+                            </Scrollbar>
+                        </TabContainer>
                     );
                 }
             }
         ];
 
         return(
-            <CardPageLayout title={translate.video_meeting_finished}>
+            <CardPageLayout title={translate.video_meeting_finished} disableScroll={true}>
                 <div style={{width: '100%', padding: '1.7em', height: '100%'}}>
                     <TabsScreen
                         uncontrolled={true}
@@ -137,5 +160,11 @@ class ActEditorPage extends React.Component {
         )
     }
 }
+
+const TabContainer = ({ children, style }) => (
+    <div style={{height: 'calc(100% - 40px)', ...style}}>
+        {children}
+    </div>
+)
 
 export default ActEditorPage;

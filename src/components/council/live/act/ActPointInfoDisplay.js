@@ -14,7 +14,7 @@ class ActPointInfoDisplay extends React.Component {
 
         return(
             <div>
-            {agenda.pointState === AGENDA_STATES.DISCUSSION && 
+            {agenda.pointState === AGENDA_STATES.DISCUSSION &&
                 <React.Fragment>
                     {agenda.votingState === AGENDA_STATES.INITIAL &&
                         <div style={{paddingRight: '3.5em'}}>

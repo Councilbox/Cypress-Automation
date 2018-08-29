@@ -41,7 +41,7 @@ class ParticipantContainer extends React.PureComponent {
 			}
 		}
 
-		if (data.loading || Object.keys(detectRTC).length === 0) {
+		if (!data.participant || Object.keys(detectRTC).length === 0) {
 			return <LoadingMainApp />;
 		}
 
@@ -95,6 +95,7 @@ const participantQuery = gql`
 			id
 			phone
 			email
+			requestWord
 			language
 			online
 			roomType
@@ -200,6 +201,7 @@ export default graphql(participantQuery, {
 			councilId: props.match.params.councilId
 		},
 		fetchPolicy: "network-only",
+		notifyOnNetworkStatusChange: true,
         pollInterval: 5000
 	})
 })(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps)(ParticipantContainer)))));

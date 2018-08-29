@@ -1,13 +1,13 @@
 import React from 'react';
 import ConvenedParticipantsTable from '../../prepare/ConvenedParticipantsTable';
 import { hasParticipations } from '../../../../utils/CBX';
-import Scrollbar from 'react-perfect-scrollbar';
+import { Scrollbar } from '../../../../displayComponents';
 
 const ActConvenedParticipants = ({ council, translate }) => {
 
     return(
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
-            <Scrollbar option={{ suppressScrollX: true }}>
+            <Scrollbar>
                 <div style={{padding: '1.5em', overflow: 'hidden'}}>
                     <ConvenedParticipantsTable
                         council={council}

@@ -9,13 +9,13 @@ import { getSecondary } from '../../../styles/colors';
 class CommentMenu extends React.Component {
 
     state = {
-        comment: this.props.agenda.voting[0].comment
+        comment: this.props.agenda.voting.comment
     }
 
     updateComment = async () => {
         const response = await this.props.updateComment({
             variables: {
-                id: this.props.agenda.voting[0].id,
+                id: this.props.agenda.voting.id,
                 text: this.state.comment
             }
         });

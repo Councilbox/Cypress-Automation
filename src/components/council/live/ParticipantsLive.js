@@ -75,10 +75,7 @@ class ParticipantsLive extends React.Component {
 				}
 			}
 		}
-		return {
-			online: "-",
-			offline: "-"
-		};
+		return null;
 	}
 
 	banParticipant = async () => {
@@ -122,7 +119,7 @@ class ParticipantsLive extends React.Component {
 						fontSize: "1.1em",
 						marginRight: "0.3em",
 						color: this.participantLiveColor(
-							participant
+							participant.lastDateConnection
 						)
 					}}
 				>
@@ -137,7 +134,7 @@ class ParticipantsLive extends React.Component {
 					fontSize: "1.1em",
 					marginRight: "0.3em",
 					color: this.participantLiveColor(
-						participant
+						participant.lastDateConnection
 					)
 				}}
 			>
@@ -225,15 +222,15 @@ class ParticipantsLive extends React.Component {
 		);
 	};
 
-	participantLiveColor = participant => {
-		if(participant.online !== 1) {
+	participantLiveColor = date => {
+		if (exceedsOnlineTimeout(date)) {
 			return "crimson";
 		}
 		return getSecondary();
 	};
 
 	_button = () => {
-		const videoParticipants = this.props.data.loading
+		const videoParticipants = !this.props.data.videoParticipants
 			? []
 			: this.props.data.videoParticipants.list;
 
@@ -253,7 +250,7 @@ class ParticipantsLive extends React.Component {
 	_section = () => {
 		const { videoParticipants } = this.props.data;
 
-		if (this.props.data.loading) {
+		if (!this.props.data.videoParticipants) {
 			return <LoadingSection />;
 		}
 
@@ -287,8 +284,10 @@ class ParticipantsLive extends React.Component {
 			<div>
 				<CollapsibleSection
 					trigger={this._button}
+					controlled={true}
 					collapse={this._section}
 					open={true}
+					style={{ cursor: 'auto'}}
 				/>
 				<AlertConfirm
 					requestClose={() =>
@@ -326,11 +325,12 @@ class ParticipantsLive extends React.Component {
 
 export default compose(
 	graphql(videoParticipants, {
-		name: "data",
 		options: props => ({
 			variables: {
 				councilId: props.councilId
 			},
+			fetchPolicy: "network-only",
+			notifyOnNetworkStatusChange: true,
 			pollInterval: 5000
 		})
 	}),
