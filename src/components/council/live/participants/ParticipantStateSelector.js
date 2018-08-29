@@ -4,7 +4,7 @@ import * as CBX from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import ParticipantStateIcon from "../ParticipantStateIcon";
 import { PARTICIPANT_STATES } from "../../../../constants";
-import { updateLiveParticipant } from "../../../../queries";
+import { changeParticipantState } from "../../../../queries/liveParticipant";
 import { FilterButton } from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
@@ -13,25 +13,19 @@ import FontAwesome from "react-fontawesome";
 import SignatureModal from "./modals/SignatureModal";
 
 class ParticipantStateSelector extends Component {
-	updateLiveParticipant = async (
+	changeParticipantState = async (
 		state,
 		index,
-		delegate,
-		id = this.props.participant.id
 	) => {
 		const { participant } = this.props;
 		this.setState({
 			loading: index
 		});
 
-		const response = await this.props.updateLiveParticipant({
+		const response = await this.props.changeParticipantState({
 			variables: {
-				participant: {
-					id: id,
-					state: state,
-					delegateId: delegate,
-					councilId: participant.councilId
-				}
+				participantId: participant.id,
+				state: state
 			}
 		});
 
@@ -72,7 +66,7 @@ class ParticipantStateSelector extends Component {
 					tooltip={translate.change_to_no_participate}
 					loading={loading === 0}
 					size="2.8em"
-					onClick={() => this.updateLiveParticipant(6, 0, null)}
+					onClick={() => this.changeParticipantState(6, 0, null)}
 					active={
 						participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
 					}
@@ -98,7 +92,7 @@ class ParticipantStateSelector extends Component {
 					tooltip={translate.change_to_remote}
 					loading={loading === 1}
 					size="2.8em"
-					onClick={() => this.updateLiveParticipant(0, 1, null)}
+					onClick={() => this.changeParticipantState(0, 1, null)}
 					active={participant.state === PARTICIPANT_STATES.REMOTE}
 				>
 					<div
@@ -122,7 +116,7 @@ class ParticipantStateSelector extends Component {
 					tooltip={translate.physically_present_assistance}
 					loading={loading === 2}
 					size="2.8em"
-					onClick={() => this.updateLiveParticipant(5, 2, null)}
+					onClick={() => this.changeParticipantState(5, 2, null)}
 					active={
 						participant.state ===
 						PARTICIPANT_STATES.PHYSICALLY_PRESENT
@@ -150,7 +144,7 @@ class ParticipantStateSelector extends Component {
 						tooltip={translate.change_to_present_with_remote_vote}
 						loading={loading === 3}
 						size="2.8em"
-						onClick={() => this.updateLiveParticipant(7, 3, null)}
+						onClick={() => this.changeParticipantState(7, 3, null)}
 						active={
 							participant.state ===
 							PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
@@ -306,7 +300,6 @@ class ParticipantStateSelector extends Component {
 					show={this.state.delegateOwnVote}
 					council={council}
 					participant={participant}
-					delegateVote={this.updateLiveParticipant}
 					refetch={this.props.refetch}
 					requestClose={() =>
 						this.setState({ delegateOwnVote: false })
@@ -317,7 +310,6 @@ class ParticipantStateSelector extends Component {
 					show={this.state.delegateVote}
 					council={council}
 					participant={participant}
-					delegateVote={this.updateLiveParticipant}
 					refetch={this.props.refetch}
 					requestClose={() => this.setState({ delegateVote: false })}
 					translate={translate}
@@ -326,7 +318,6 @@ class ParticipantStateSelector extends Component {
 					show={this.state.signature}
 					council={council}
 					participant={participant}
-					delegateVote={this.saveSignature}
 					refetch={this.props.refetch}
 					requestClose={() => this.setState({ signature: false })}
 					translate={translate}
@@ -336,6 +327,6 @@ class ParticipantStateSelector extends Component {
 	}
 }
 
-export default graphql(updateLiveParticipant, {
-	name: "updateLiveParticipant"
+export default graphql(changeParticipantState, {
+	name: "changeParticipantState"
 })(ParticipantStateSelector);

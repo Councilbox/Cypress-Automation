@@ -11,6 +11,7 @@ import { compose, graphql } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
+import { addDelegation } from "../../../queries/liveParticipant";
 
 class DelegateOwnVoteModal extends React.Component {
 	state = {
@@ -57,9 +58,12 @@ class DelegateOwnVoteModal extends React.Component {
 
 	delegateVote = id => {
 		this.props.delegateVote(
-			this.props.participant.state === 2 ? 2 : 4,
-			4,
-			id
+			{
+				variables: {
+					participantId: id,
+					delegateId: this.props.participant.id
+				}
+			}
 		);
 		this.close();
 	};
@@ -179,5 +183,8 @@ export default compose(
 				councilId: props.council.id
 			}
 		})
+	}),
+	graphql(addDelegation, {
+		name: "delegateVote"
 	})
 )(DelegateOwnVoteModal);

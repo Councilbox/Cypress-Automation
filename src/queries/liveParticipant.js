@@ -55,3 +55,32 @@ export const setLiveParticipantSignature = gql`
 		}
 	}
 `;
+
+export const changeParticipantState = gql`
+	mutation changeParticipantState(
+		$participantId: Int!,
+		$state: Int!,
+	) {
+		changeParticipantState(
+			participantId: $participantId
+			state: $state
+		) {
+			success
+			message
+		}
+	}
+`;
+export const addDelegation = gql`
+	mutation addDelegation(
+		$participantId: Int!,
+		$delegateId: Int!,
+	) {
+		addDelegation(
+			participantId: $participantId
+			delegateId: $delegateId
+		) {
+			success
+			message
+		}
+	}
+`;
