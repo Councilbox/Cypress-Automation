@@ -256,7 +256,7 @@ class StepPreview extends React.Component {
 						<Paper className="htmlPreview">
 							<div
 								style={{
-									padding: '2em'
+									padding: '2em',
 								}}
 								dangerouslySetInnerHTML={{
 									__html: this.props.data.councilPreviewHTML
