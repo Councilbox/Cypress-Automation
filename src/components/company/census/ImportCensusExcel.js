@@ -470,10 +470,10 @@ class ImportCensusButton extends React.Component {
 			errors.dni ? `${translate.dni}, ` : ''}${
 			errors.phone ? `${translate.phone}, ` : ''}${
 			errors.email ? `${translate.login_email}, ` : ''}${
-			errors.r_name ? `nombre de la entidad, ` /*TRADUCCION*/ : ''}${
-			errors.r_dni ? `CIF de la entidad, ` /*TRADUCCION*/ : ''}${
-			errors.r_phone ? `nº de teléfono de la entidad, ` /*TRADUCCION*/ : ''}${
-			errors.r_email ? `email de la entidad, ` /*TRADUCCION*/ : ''
+			errors.r_name ? `${translate.entity_name}, `  : ''}${
+			errors.r_dni ? `${translate.entity_cif}, `  : ''}${
+			errors.r_phone ? `${translate.entity_phone}, `  : ''}${
+			errors.r_email ? `${translate.entity_email}, `  : ''
 			}`;
 		if (string.charAt(string.length - 2) === ',') {
 			string = string.substr(0, string.length - 2) + '.';
@@ -580,14 +580,14 @@ class ImportCensusButton extends React.Component {
 						<div
 							style={{ height: '100px' }}
 						>
-							No hay ningún participante válido en el archivo. {/*TRADUCCION*/}
+							 {translate.no_valid_participants}
 						</div>
 					)}
 					{step === 3 && (
 						<div
 							style={{ height: '70vh' }}
 						>
-							Resultado de la lectura, pulse enviar para confirmar:{/*TRADUCCION*/}
+							{translate.result_reading_press_confirm}:
 							<Scrollbar>
 								<div
 									style={{ width: '100%' }}
@@ -636,8 +636,8 @@ class ImportCensusButton extends React.Component {
 							>
 								{translate.attention}
 							</div>
-							No se puede realizar la importación.<br />
-							Por favor corrija los errores siguientes y vuelva a enviar el archivo.{/*TRADUCCION*/}
+							{translate.import_can_not_be_done}<br />
+							{translate.please_correct_errors_and_resend}
 							<div
 								style={{ width: '100%' }}
 							>
@@ -662,9 +662,9 @@ class ImportCensusButton extends React.Component {
 							</div>
 							No se puede realizar la importación.<br />
 							{this.state.duplicatedType === 'DB' ?
-								'Los siguientes emails ya están presentes en el censo actual:'
+								translate.following_emails_already_present_in_current_census
 								:
-								'Los siguientes emails están duplicados en el archivo enviado:' /*TRADUCCION*/
+								translate.following_emails_are_duplicated_in_sent_file
 							}
 							<div
 								style={{ width: '100%' }}

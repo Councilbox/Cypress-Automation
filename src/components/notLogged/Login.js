@@ -142,7 +142,7 @@ class Login extends React.PureComponent {
 								color: 'white'
 							}}
 						>
-							¿Todavía no dispone de una cuenta en Councilbox?{/*TRADUCCION*/}
+							{translate.account_question}
 						</h6>
 						{windowSize !== "xs" && (
 							<span
@@ -154,10 +154,7 @@ class Login extends React.PureComponent {
 									alignSelf: 'center'
 								}}
 							>
-							{/*TRADUCCION*/}
-							Active su cuenta de usuario de forma rápida y sencilla. Registre su entidad y empiece a gestionar sus reuniones al momento.
-
-							También puede probarlo sin registrarse, realizando una reunión informal y descubriendo parte del potencial de Councilbox.
+								{translate.login_desc}
 							</span>
 						)}
 						<br />
@@ -175,7 +172,7 @@ class Login extends React.PureComponent {
 							>
 								<Link to="/meeting/new">
 									<BasicButton
-										text="Iniciar conferencia de prueba"//TRADUCCION
+										text={translate.start_conference_test}
 										color={'transparent'}
 										fullWidth
 										buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}

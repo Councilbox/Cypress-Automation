@@ -114,7 +114,7 @@ class NewParticipantModal extends React.Component {
         }else{
             if(!checkValidEmail(data.email)){
                 hasError = true;
-                errors.email = 'Se requiere un email válido';//TRADUCCION
+                errors.email = translate.valid_email_required;
             }else{
                 if(!await this.checkEmailAvailability()){
                     hasError = true;

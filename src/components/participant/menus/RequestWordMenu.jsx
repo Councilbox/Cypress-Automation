@@ -2,7 +2,9 @@ import React from 'react';
 import { Paper, IconButton, Tooltip } from "material-ui";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
+import withTranslations from '../../../HOCs/withTranslations';
+
 
 class RequestWordMenu extends React.Component {
 
@@ -35,7 +37,7 @@ class RequestWordMenu extends React.Component {
                     bottom: '10px'
                 }}
             >
-                <Tooltip title="Pedir palabra"/*TRADUCCION*/ placement="top">
+                <Tooltip title={this.props.translate.ask_to_speak} placement="top">
                     <IconButton
                         size={'small'}
                         style={{outline: 0, color: primary}}
@@ -62,4 +64,4 @@ const changeRequestWord = gql`
 
 export default graphql(changeRequestWord, {
     name: 'changeRequestWord'
-})(RequestWordMenu);
+})(withTranslations()(RequestWordMenu));

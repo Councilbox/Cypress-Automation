@@ -99,9 +99,9 @@ class DelegateVoteModal extends React.Component {
 		if (delegatedVotesLimitReached(this.props.council.statute, this.props.participant.delegatedVotes.length)) {
 			return (
 				<div>
-					ESTE PARTICIPANTE HA LLEGADO AL NÚMERO MÁXIMO DE VOTOS DELEGADOS.
+					{translate.number_of_delegated_votes_exceeded}
 				</div>
-			)/*TRADUCCION*/
+			)
 		}
 
 		return (

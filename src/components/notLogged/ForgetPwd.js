@@ -75,7 +75,7 @@ class ForgetPwd extends React.PureComponent {
 
 		if (!this.state.user.length > 0) {
 			hasError = true;
-			errors.user = "Por favor introduce un email";//TRADUCCION
+			errors.user = this.props.translate.email_not_valid;
 		}
 
 		if (!checkValidEmail(this.state.user)) {

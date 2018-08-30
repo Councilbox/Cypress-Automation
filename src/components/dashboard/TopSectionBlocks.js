@@ -27,7 +27,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 				link={`/company/${company.id}/statutes`}
 				icon="gavel"
 				id={'edit-statutes-block'}
-				text={'Tipos de reunión'}//TRADUCCION
+				text={translate.council_types}
 			/>
 		</GridItem>
 
@@ -64,7 +64,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 				link={`/company/${company.id}/meeting/new`}
 				icon="video_call"
 				id={'init-meeting-block'}
-				text={'Iniciar conferencia'}//TRADUCCION
+				text={translate.start_conference}
 			/>
 		</GridItem>
 	</Grid>

@@ -66,7 +66,7 @@ class StatuteNameEditor extends React.Component {
                         }
                     />
                 }
-                title={'Editar nombre de reunión'}//TRADUCCION
+                title={translate.edit_council_type}
             />
         )
     }

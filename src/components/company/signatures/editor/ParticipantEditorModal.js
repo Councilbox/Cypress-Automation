@@ -125,7 +125,7 @@ class ParticipantEditorModal extends React.Component {
         }else{
             if(!checkValidEmail(data.email)){
                 hasError = true;
-                errors.email = 'Se requiere un email válido';//TRADUCCION
+                errors.email = translate.valid_email_required;
             }else{
                 if(data.email !== this.props.data.signatureParticipant.email){
                     if(!await this.checkEmailAvailability()){

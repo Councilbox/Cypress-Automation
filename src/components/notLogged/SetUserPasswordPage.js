@@ -169,8 +169,7 @@ class SetUserPasswordPage extends React.Component {
                                                     marginBottom: '1.2em'
                                                 }}
                                             >
-                                                {/*TRADUCCION*/} 
-                                                Le damos la bienvienda a Councilbox, por favor introduzca la que será su contraseña
+                                                {translate.welcome_set_your_pwd} 
                                             </p>
                                             <div
                                                 style={{

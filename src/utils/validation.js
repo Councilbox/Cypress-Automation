@@ -46,7 +46,7 @@ export const checkRequiredFieldsParticipant = (
 
 	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 		hasError = true;
-		errors.email = "Se requiere un email válido"; //TRADUCCION
+		errors.email = translate.valid_email_required;
 	}
 
 	if (!participant.phone) {
@@ -110,7 +110,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
 	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 		hasError = true;
-		errors.email = "Se requiere un email válido"; //TRADUCCION
+		errors.email = translate.valid_email_required;
 	}
 
 	if (!participant.phone) {

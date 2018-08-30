@@ -131,7 +131,7 @@ class CertificateForm extends React.PureComponent {
                     </div>
 
                     <Typography style={{fontWeight: '700', fontSize: '14px'}}>
-                        Incluir puntos del día: {/*TRADUCCION*/}
+                        {translate.include_agenda_points}:
                     </Typography>
                     <div style={{marginBottom: '1.2em'}}>
                         {this.props.council.agendas.map(agenda => (

@@ -318,7 +318,7 @@ class ParticipantsManager extends React.Component {
 						>
 							<div style={{display: 'flex', flexDirection: 'row'}}>
 								<FilterButton
-									tooltip={'Tabla compacta'}//TRADUCCION
+									tooltip={translate.compact_table}
 									onClick={() => this.setState({layout: 'compact'})}
 									active={this.state.layout === "compact"}
 								>
@@ -331,7 +331,7 @@ class ParticipantsManager extends React.Component {
 									/>
 								</FilterButton>
 								<FilterButton
-									tooltip={'Tabla'}//TRADUCCION
+									tooltip={translate.table}
 									onClick={() => this.setState({layout: 'table'})}
 									active={this.state.layout === "table"}
 								>
@@ -344,7 +344,7 @@ class ParticipantsManager extends React.Component {
 									/>
 								</FilterButton>
 								<FilterButton
-									tooltip={'Cuadros'}//TRADUCCION
+									tooltip={translate.grid}
 									onClick={() => this.setState({layout: 'squares'})}
 									active={this.state.layout === "squares"}
 								>

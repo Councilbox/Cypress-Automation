@@ -90,22 +90,21 @@ class LinkCompanyPage extends React.Component {
 					case "Wrong linkKey":
 						this.setState({
 							errors: {
-								linkKey: "CLAVE MAESTRA INCORRECTA"//TRADUCCION
+								linkKey: this.props.translate.incorrect_master_key
 							}
 						});
 						break;
 					case "Already Linked":
 						this.setState({
 							errors: {
-								cif:
-									"ESTA COMPAÑIA YA ESTÁ VINCULADA A TU CUENTA"//TRADUCCION
+								cif: this.props.translate.company_already_linked
 							}
 						});
 						break;
 					default:
 						this.setState({
 							errors: {
-								linkKey: "CLAVE MAESTRA INCORRECTA"//TRADUCCION
+								linkKey: this.props.translate.incorrect_master_key
 							}
 						});
 				}
@@ -118,7 +117,7 @@ class LinkCompanyPage extends React.Component {
 		const { data, errors, requestError, success, request } = this.state;
 
 		return (
-			<CardPageLayout title="Vincular entidad">{/*TRADUCCION*/}
+			<CardPageLayout title={translate.companies_link_company}>
 				<Grid style={{ marginTop: "4em" }}>
 					<GridItem xs={12} md={12} lg={12}>
 						<div
@@ -128,7 +127,7 @@ class LinkCompanyPage extends React.Component {
 							}}
 						>
 							<TextInput
-								floatingText={'CIF de la entidad'}//TRADUCCION
+								floatingText={translate.entity_cif}
 								type="text"
 								required
 								value={data.cif}

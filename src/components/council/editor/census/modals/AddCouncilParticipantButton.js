@@ -176,7 +176,7 @@ class AddCouncilParticipantButton extends React.Component {
 						})
 					}
 				}else{
-					error = 'Se requiere un email válido';//TRADUCCION
+					error = translate.valid_email_required;
 				}
 				if(type === 'participant'){
 					this.setState({

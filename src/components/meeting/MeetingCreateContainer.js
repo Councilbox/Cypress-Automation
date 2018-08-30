@@ -52,7 +52,7 @@ class MeetingCreateContainer extends React.Component {
 				>
 					<LiveHeader
 						logo={logo}
-						councilName={'Meeting'}//TRADUCCION
+						councilName={this.props.translate.dashboard_new_meeting}
 						translate={this.props.translate}
 					/>
 					<div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center'}}>
