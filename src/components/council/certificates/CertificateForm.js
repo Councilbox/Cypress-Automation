@@ -6,6 +6,8 @@ import AgendaCheckItem from './AgendaCheckItem';
 import { graphql } from 'react-apollo';
 import { createCertificate } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
+import { toast } from 'react-toastify';
+import { checkForUnclosedBraces } from '../../../utils/CBX';
 
 class CertificateForm extends React.PureComponent {
 
@@ -37,7 +39,7 @@ class CertificateForm extends React.PureComponent {
                     points: this.state.points
                 }
             })
-    
+
             if(!response.errors){
                 if(response.data.createCertificate.success){
                     this.props.requestClose();
@@ -56,6 +58,7 @@ class CertificateForm extends React.PureComponent {
             footer: ''
         };
         let hasError = false;
+        let notify = false;
 
         if(!data.title){
             hasError = true;
@@ -65,11 +68,27 @@ class CertificateForm extends React.PureComponent {
         if(!data.header){
             hasError = true;
             errors.header = translate.field_required;
+        } else {
+            if(checkForUnclosedBraces(data.header)){
+                errors.header = true;
+                hasError = true;
+                notify = true;
+            }
         }
 
         if(!data.footer){
             hasError = true;
             errors.footer = translate.field_required;
+        } else {
+            if(checkForUnclosedBraces(data.footer)){
+                errors.footer = true;
+                hasError = true;
+                notify = true;
+            }
+        }
+
+        if(notify){
+            toast.error(translate.revise_text);
         }
 
         this.setState({
@@ -119,7 +138,7 @@ class CertificateForm extends React.PureComponent {
                             })}
                         />
                     </div>
-                    <div style={{marginBottom: '1.2em'}}>                
+                    <div style={{marginBottom: '1.2em'}}>
                         <RichTextInput
                             floatingText={translate.certificate_header}
                             value={data.header}

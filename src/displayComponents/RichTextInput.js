@@ -159,10 +159,11 @@ class RichTextInput extends React.Component {
 
 	onChange = value => {
 		this.setState({ value });
+		const html = value.toString('html');
 		if (this.props.onChange) {
-			if(removeHTMLTags(value.toString("html")).length > 0){
+			if(removeHTMLTags(html).length > 0){
 				this.props.onChange(
-					value.toString("html").replace(/<a /g, '<a target="_blank" ')
+					html.replace(/<a /g, '<a target="_blank" ')
 				);
 			}else{
 				this.props.onChange('');

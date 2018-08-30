@@ -41,7 +41,6 @@ const CensusInfoForm = ({ translate, census, updateState, errors }) => {
             <GridItem xs={12}>
                 <TextInput
                     floatingText={translate.description}
-                    required
                     type="text"
                     errorText={errors.censusDescription}
                     value={census.censusDescription}

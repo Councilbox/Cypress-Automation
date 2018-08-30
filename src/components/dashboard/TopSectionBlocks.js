@@ -4,6 +4,7 @@ import {
 	Grid,
 	GridItem
 } from "../../displayComponents";
+import logo from '../../assets/img/logo-icono.png';
 
 const TopSectionBlocks = ({ translate, company }) => (
 	<Grid
@@ -54,7 +55,7 @@ const TopSectionBlocks = ({ translate, company }) => (
 		<GridItem xs={12} md={6} lg={3}>
 			<Block
 				link={`/company/${company.id}/council/new`}
-				icon="add"
+				customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} />}
 				id={'create-council-block'}
 				text={translate.dashboard_new}
 			/>

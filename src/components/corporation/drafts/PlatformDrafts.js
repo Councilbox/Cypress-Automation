@@ -180,7 +180,7 @@ class PlatformDrafts extends React.Component {
 						) : (
 							!!platformDrafts && (
 								<React.Fragment>
-									<div style={{ display: "inline-block" }}>
+									<div style={{ display: 'flex' }}>
 										<AllSelector
 											selectAll={this.selectAll}
 											deselectAll={this.deselectAll}
@@ -189,36 +189,36 @@ class PlatformDrafts extends React.Component {
 											translate={translate}
 										/>
 										{selectedValues.length > 0 && (
-											<BasicButton
-												text={`${translate.download} ${
-													selectedValues.length
-												} ${translate.drafts} ${
-													translate.to
-												} '${translate.my_drafts}'`}
-												color={"white"}
-												textStyle={{
-													color: primary,
-													fontWeight: "700",
-													fontSize: "1em",
-													textTransform: "none"
-												}}
-												textPosition="after"
-												icon={
-													<ButtonIcon
-														type="add"
-														color={primary}
-													/>
-												}
-												onClick={() =>
-													this.cloneDrafts()
-												}
-												buttonStyle={{
-													marginRight: "1em",
-													border: `2px solid ${primary}`,
-													paddingTop: "14px",
-													paddingBottom: "13px"
-												}}
-											/>
+											<div>
+												<BasicButton
+													text={`${translate.download} ${
+														selectedValues.length
+													} ${translate.drafts} ${
+														translate.to
+													} '${translate.my_drafts}'`}
+													color={"white"}
+													textStyle={{
+														color: primary,
+														fontWeight: "700",
+														fontSize: "1em",
+														textTransform: "none"
+													}}
+													textPosition="after"
+													icon={
+														<ButtonIcon
+															type="add"
+															color={primary}
+														/>
+													}
+													onClick={() =>
+														this.cloneDrafts()
+													}
+													buttonStyle={{
+														marginRight: "1em",
+														border: `2px solid ${primary}`,
+													}}
+												/>
+											</div>
 										)}
 									</div>
 									<EnhancedTable

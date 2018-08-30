@@ -14,6 +14,7 @@ const AgendaEditor = ({
 	council,
 	typeText,
 	translate,
+	error,
 	updateAgenda,
 	loadDraft,
 	recount,
@@ -32,6 +33,7 @@ const AgendaEditor = ({
 						<RichTextInput
 							ref={editor => (this.editorAgenda = editor)}
 							type="text"
+							errorText={error}
 							loadDraft={loadDraft}
 							tags={[
 								{
@@ -114,7 +116,7 @@ const AgendaEditor = ({
 			}}
 		>
 			<Grid spacing={16} style={{marginBottom: '1em'}}>
-				<GridItem xs={1} 
+				<GridItem xs={1}
 					style={{
 						color: primary,
 						width: "30px",

@@ -149,7 +149,7 @@ class AddCensusParticipantButton extends React.Component {
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<React.Fragment>
+			<div style={{maxWidth: '950px'}}>
 				<ParticipantForm
 					type={participant.personOrEntity}
 					participant={participant}
@@ -166,7 +166,7 @@ class AddCensusParticipantButton extends React.Component {
 					errors={this.state.representativeErrors}
 					languages={this.props.data.languages}
 				/>
-			</React.Fragment>
+			</div>
 		);
 	}
 

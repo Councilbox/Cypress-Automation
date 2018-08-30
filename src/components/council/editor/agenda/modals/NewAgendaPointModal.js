@@ -16,6 +16,7 @@ import { addAgenda } from "../../../../../queries/agenda";
 import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
+import { toast } from 'react-toastify';
 
 
 class NewAgendaPointModal extends React.Component {
@@ -296,7 +297,7 @@ class NewAgendaPointModal extends React.Component {
 	checkRequiredFields() {
 		const { translate } = this.props;
 		const agenda = this.state.newPoint;
-		let errors = checkRequiredFieldsAgenda(agenda, translate);
+		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
 		this.setState({
 			errors: errors.errors
 		});

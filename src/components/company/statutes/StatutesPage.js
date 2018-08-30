@@ -24,6 +24,8 @@ import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import StatuteNameEditor from './StatuteNameEditor';
 import { getPrimary, getSecondary } from "../../../styles/colors";
+import { checkForUnclosedBraces } from '../../../utils/CBX';
+import { toast } from 'react-toastify';
 
 
 class StatutesPage extends React.Component {
@@ -62,7 +64,78 @@ class StatutesPage extends React.Component {
 	}
 
 	checkRequiredFields() {
-		return false;
+		let errors = {
+			advanceNoticeDays: '',
+			minimumSeparationBetweenCall: '',
+			maxNumDelegatedVotes: '',
+			limitedAccessRoomMinutes: '',
+			conveneHeader: '',
+			intro: '',
+			constitution: '',
+			conclusion: ''
+		};
+		let hasError = false;
+		let notify = false;
+
+		const { statute } = this.state;
+		const { translate } = this.props;
+
+		if(statute.existsAdvanceNoticeDays && isNaN(statute.advanceNoticeDays)){
+			errors.advanceNoticeDays = translate.required_field;
+			hasError = true;
+		}
+
+		if(statute.existsSecondCall && isNaN(statute.minimumSeparationBetweenCall)){
+			errors.minimumSeparationBetweenCall = translate.required_field;
+			hasError = true;
+		}
+
+		if(statute.existsMaxNumDelegatedVotes && isNaN(statute.maxNumDelegatedVotes)){
+			hasError = true;
+			errors.maxNumDelegatedVotes = translate.required_field;
+		}
+
+		if(statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)){
+			hasError = true;
+			errors.limitedAccessRoomMinutes;
+		}
+
+		if(checkForUnclosedBraces(statute.conveneHeader)){
+			hasError = true;
+			notify = true;
+			errors.conveneHeader = translate.revise_text;
+		}
+
+		if(statute.existsAct){
+			if(checkForUnclosedBraces(statute.intro)){
+				hasError = true;
+				notify = true;
+				errors.intro = translate.revise_text;
+			}
+
+			if(checkForUnclosedBraces(statute.constitution)){
+				hasError = true;
+				notify = true;
+				errors.constitution = translate.revise_text;
+			}
+
+			if(checkForUnclosedBraces(statute.conclusion)){
+				hasError = true;
+				notify = true;
+				errors.conclusion = translate.revise_text;
+			}
+		}
+
+		if(notify){
+			toast.error(translate.revise_text);
+		}
+
+		this.setState({
+			errors,
+			error: hasError
+		});
+
+		return hasError;
 	}
 
 	openDeleteModal = id => {
@@ -283,7 +356,7 @@ class StatutesPage extends React.Component {
 											{this.state.unsavedChanges &&
 												<BasicButton
 													text={'Deshacer cambios'}
-													color={success ? "green" : getSecondary()}
+													color={getSecondary()}
 													textStyle={{
 														color: "white",
 														fontWeight: "700",
@@ -305,6 +378,7 @@ class StatutesPage extends React.Component {
 											}
 											<BasicButton
 												text={translate.save}
+												disabled={this.state.error}
 												color={success ? "green" : getPrimary()}
 												textStyle={{
 													color: "white",

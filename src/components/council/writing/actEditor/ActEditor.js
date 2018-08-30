@@ -19,7 +19,8 @@ import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
-import { getActPointSubjectType } from '../../../../utils/CBX';
+import { getActPointSubjectType, checkForUnclosedBraces } from '../../../../utils/CBX';
+import { toast } from 'react-toastify';
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!) {
@@ -44,41 +45,43 @@ const CouncilActData = gql`
 				constitution
 				conclusion
 			}
-			agendas {
-				id
-				orderIndex
-				agendaSubject
-				subjectType
-				abstentionVotings
-				abstentionManual
-				noVoteVotings
-				noVoteManual
-				positiveVotings
-				positiveManual
-				negativeVotings
-				negativeManual
-				description
-				majorityType
-				majority
-				majorityDivider
-				votings {
-					id
-					participantId
-					comment
-					vote
-				}
-				numPresentCensus
-				presentCensus
-				numCurrentRemoteCensus
-				currentRemoteCensus
-				comment
-			}
 			statute {
 				id
 				prototype
 				existsQualityVote
 			}
 		}
+
+		agendas(councilId: $councilID) {
+			id
+			orderIndex
+			agendaSubject
+			subjectType
+			abstentionVotings
+			abstentionManual
+			noVoteVotings
+			noVoteManual
+			positiveVotings
+			positiveManual
+			negativeVotings
+			negativeManual
+			description
+			majorityType
+			majority
+			majorityDivider
+			votings {
+				id
+				participantId
+				comment
+				vote
+			}
+			numPresentCensus
+			presentCensus
+			numCurrentRemoteCensus
+			currentRemoteCensus
+			comment
+		}
+
 		councilRecount(councilId: $councilID){
 			id
 			socialCapitalTotal
@@ -105,6 +108,8 @@ class ActEditor extends Component {
 		updating: false,
 		draftType: null,
 		sendActDraft: false,
+		disableButtons: false,
+		agendaErrors: new Map(),
 		finishActModal: false,
 		loadDraft: false,
 		errors: {}
@@ -119,6 +124,7 @@ class ActEditor extends Component {
 					data: {
 						council: {
 							...nextProps.data.council,
+							agendas: nextProps.data.agendas,
 							act: nextProps.data.council.act || {}
 						}
 					}
@@ -159,25 +165,71 @@ class ActEditor extends Component {
 		});
 	};
 
+	checkBraces = () => {
+		const act = this.state.data.council.act;
+		let errors = {
+			intro: false,
+			conclusion: false,
+			constitution: false
+		};
+		let hasError = false;
+
+		if(act.intro){
+			if(checkForUnclosedBraces(act.intro)){
+				errors.intro = true;
+				hasError = true;
+			}
+		}
+
+		if(act.constitution){
+			if(checkForUnclosedBraces(act.constitution)){
+				errors.constitution = true;
+				hasError = true;
+			}
+		}
+
+		if(act.conclusion){
+			if(checkForUnclosedBraces(act.conclusion)){
+				errors.conclusion = true;
+				hasError = true;
+			}
+		}
+
+		if(hasError){
+			toast.error(this.props.translate.revise_text);
+		}
+
+		this.setState({
+			disableButtons: hasError,
+			errors
+		});
+
+		return hasError;
+	}
+
 	updateCouncilAct = async () => {
 		const { __typename, ...act } = this.state.data.council.act;
-		this.setState({
-			updating: true
-		});
 
-		const response = await this.props.updateCouncilAct({
-			variables: {
-				councilAct: {
-					...act,
-					councilId: this.state.data.council.id
-				}
-			}
-		});
-
-		if(response){
+		if(!this.checkBraces()){
 			this.setState({
-				updating: false
+				updating: true,
+				disableButtons: false
 			});
+
+			const response = await this.props.updateCouncilAct({
+				variables: {
+					councilAct: {
+						...act,
+						councilId: this.state.data.council.id
+					}
+				}
+			});
+
+			if(response){
+				this.setState({
+					updating: false
+				});
+			}
 		}
 	}
 
@@ -206,24 +258,51 @@ class ActEditor extends Component {
 		});
 	};
 
-	updateAgenda = async () => {
+	checkAgendasCommentBraces = () => {
+		let agendaErrors = new Map();
+		let hasError = false;
+
 		const { agendas } = this.state.data.council;
-		this.setState({
-			updating: true
+
+		agendas.forEach(agenda => {
+			if(checkForUnclosedBraces(agenda.comment)){
+				agendaErrors.set(agenda.id, true);
+				hasError = true;
+			}
 		});
 
-		await Promise.all(agendas.map(async item => {
-			const { __typename, votings, ...agenda } = item;
-			await this.props.updateAgenda({
-				variables: {
-					agenda: {
-						...agenda,
-						councilId: this.state.data.council.id
-					}
-				}
+		if(hasError){
+			toast.error(this.props.translate.revise_text);
+		}
+
+		this.setState({
+			disableButtons: hasError,
+			agendaErrors
+		});
+
+		return hasError;
+	}
+
+	updateAgenda = async () => {
+		if(!this.checkAgendasCommentBraces()){
+			const { agendas } = this.state.data.council;
+			this.setState({
+				updating: true
 			});
-		}));
-		this.updateCouncilAct();
+
+			await Promise.all(agendas.map(async item => {
+				const { __typename, votings, ...agenda } = item;
+				await this.props.updateAgenda({
+					variables: {
+						agenda: {
+							...agenda,
+							councilId: this.state.data.council.id
+						}
+					}
+				});
+			}));
+			this.updateCouncilAct();
+		}
 	}
 
 	getTypeText = (subjectType) => {
@@ -238,10 +317,10 @@ class ActEditor extends Component {
 		const {
 			error,
 			loading,
-			council,
 			companyStatutes
 		} = this.props.data;
 		const { errors, data } = this.state;
+		const { council } = data;
 
 		if (loading) {
 			return <LoadingSection />;
@@ -404,6 +483,7 @@ class ActEditor extends Component {
 													<AgendaEditor
 														agenda={agenda}
 														council={council}
+														error={this.state.agendaErrors.get(agenda.id)}
 														recount={this.props.data.councilRecount}
 														loadDraft={
 															<BasicButton
@@ -514,6 +594,7 @@ class ActEditor extends Component {
 								<BasicButton
 									text={translate.send_draft_act_review}
 									color={"white"}
+									disabled={this.state.disableButtons}
 									textStyle={{
 										color: primary,
 										fontWeight: "700",
@@ -532,7 +613,7 @@ class ActEditor extends Component {
 									text={translate.end_writing_act}
 									loading={this.state.updating}
 									loadingColor={primary}
-									disabled={this.state.updating}
+									disabled={this.state.updating || this.state.disableButtons}
 									color={"white"}
 									textStyle={{
 										color: primary,

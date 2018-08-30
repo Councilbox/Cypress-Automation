@@ -84,6 +84,16 @@ export const censusHasParticipations = census => {
 	return census.quorumPrototype === 1;
 };
 
+export const checkForUnclosedBraces = text => {
+	if(text){
+		const open = text.split('{').length-1;
+		const close = text.split('}').length-1;
+		return open !== close;
+	}
+
+	return false;
+}
+
 export const councilHasParticipations = council => {
 	return council.statute.quorumPrototype === 1;
 };
@@ -771,7 +781,7 @@ export const exceedsOnlineTimeout = date => {
 	return timeout > 13;
 };
 
-export const checkRequiredFields = (translate, draft, updateErrors, corporation) => {
+export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
 	let errors = {
 		title: "",
 		description: "",
@@ -783,6 +793,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation)
 		majorityDivider: "",
 		majorityType: ""
 	};
+
 	let hasError = false;
 
 	if (!draft.title) {
@@ -798,6 +809,12 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation)
 	if (!draft.text) {
 		hasError = true;
 		errors.text = translate.required_field;
+	} else {
+		if(checkForUnclosedBraces(draft.text)){
+			errors.text = true;
+			hasError = true;
+			toast.error(translate.revise_text);
+		}
 	}
 
 	if (draft.type === -1) {

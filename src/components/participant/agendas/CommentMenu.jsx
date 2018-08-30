@@ -4,7 +4,8 @@ import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getSecondary } from '../../../styles/colors';
-
+import { checkForUnclosedBraces } from '../../../utils/CBX';
+import { toast } from 'react-toastify';
 
 class CommentMenu extends React.Component {
 
@@ -13,14 +14,23 @@ class CommentMenu extends React.Component {
     }
 
     updateComment = async () => {
-        const response = await this.props.updateComment({
-            variables: {
-                id: this.props.agenda.voting.id,
-                text: this.state.comment
-            }
-        });
+        if(!this.checkRequiredFields()){
+            const response = await this.props.updateComment({
+                variables: {
+                    id: this.props.agenda.voting.id,
+                    text: this.state.comment
+                }
+            });
 
-        console.log(response);
+            console.log(response);
+        }
+    }
+
+    checkRequiredFields = () => {
+        if(checkForUnclosedBraces(this.state.comment)){
+            toast.error(this.props.translate.revise_text);
+            return true;
+        }
     }
 
     render(){

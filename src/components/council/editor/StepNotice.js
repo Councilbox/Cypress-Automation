@@ -22,6 +22,7 @@ import { changeStatute, councilStepOne, updateCouncil } from "../../../queries";
 import * as CBX from "../../../utils/CBX";
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
+import { toast } from 'react-toastify';
 
 class StepNotice extends React.Component {
 
@@ -245,6 +246,12 @@ class StepNotice extends React.Component {
 		) {
 			hasError = true;
 			errors.conveneText = translate.field_required;
+		} else {
+			if(CBX.checkForUnclosedBraces(data.conveneText)){
+				hasError = true;
+				errors.conveneText = translate.revise_text;
+				toast.error(translate.revise_text);
+			}
 		}
 
 		this.setState({
@@ -273,25 +280,6 @@ class StepNotice extends React.Component {
 		const { errors } = this.state;
 		const primary = getPrimary();
 		const secondary = getSecondary();
-		console.log(this.props.data);
-		console.log(this.state);
-		console.log(this.props.versionControl);
-/*
-		if (!this.props.data.council && !this.props.data.errors) {
-			return (
-				<div
-					style={{
-						height: "300px",
-						width: "100%",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center"
-					}}
-				>
-					<LoadingSection />
-				</div>
-			);
-		} */
 		let statute = {};
 		if(!!this.props.data.council){
 			statute = this.props.data.council.statute;
@@ -463,7 +451,7 @@ class StepNotice extends React.Component {
 													label: translate.new_location_of_celebrate
 												},
 												{
-													value: company.country,
+													value: council.country,
 													label: translate.company_new_country
 												}
 											]}
@@ -497,7 +485,7 @@ class StepNotice extends React.Component {
 								/>
 								<ErrorAlert
 									title={translate.error}
-									bodyText={translate.check_form}
+									bodyText={translate.alert_must_fix_form}
 									buttonAccept={translate.accept}
 									open={this.state.alert}
 									requestClose={() => this.setState({ alert: false })}
