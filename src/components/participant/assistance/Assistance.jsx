@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Typography } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
-import { councilIsPreparing } from "../../../utils/CBX";
+import { councilIsPreparing, checkForUnclosedBraces } from "../../../utils/CBX";
 import CouncilState from "../login/CouncilState";
 import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
@@ -13,6 +13,7 @@ import DelegateVoteModal from "../../council/live/DelegateVoteModal";
 import DelegationItem from "./DelegationItem";
 import { canDelegateVotes } from "../../../utils/CBX"
 import { primary } from "../../../styles/colors";
+import { toast } from 'react-toastify';
 
 
 const styles = {
@@ -85,19 +86,27 @@ class Assistance extends React.Component {
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
-		this.setState({
-			savingAssistanceComment: true
-		})
+		if(!checkForUnclosedBraces(assistanceComment)){
+			this.setState({
+				savingAssistanceComment: true
+			})
 
-		await setAssistanceComment({
-			variables: {
-				assistanceComment: assistanceComment
-			}
-		});
+			await setAssistanceComment({
+				variables: {
+					assistanceComment: assistanceComment
+				}
+			});
 
-		this.setState({
-			savingAssistanceComment: false
-		})
+			this.setState({
+				savingAssistanceComment: false
+			})
+		}else{
+			this.setState({
+				commentError: true
+			})
+			toast.error(this.props.translate.revise_text);
+		}
+
 	}
 
 	selectDelegation = async (a, b, delegate) => {
@@ -204,7 +213,7 @@ class Assistance extends React.Component {
 
 											<h4>{translate.attendance_comment}:</h4>
 											<RichTextInput
-												errorText=""
+												errorText={this.state.commentError}
 												value={
 													!!participant.assistanceComment
 														? participant.assistanceComment

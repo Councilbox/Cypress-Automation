@@ -36,7 +36,7 @@ class VotingMenu extends React.Component {
         const response = await this.props.updateAgendaVoting({
             variables: {
                 agendaVoting: {
-                    id: this.props.agenda.voting[0].id,
+                    id: this.props.agenda.voting.id,
                     vote: vote
                 }
             }
@@ -66,21 +66,21 @@ class VotingMenu extends React.Component {
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.in_favor_btn}
-                        selected={agenda.voting[0].vote === 1}
+                        selected={agenda.voting.vote === 1}
                         onClick={() => {this.updateAgendaVoting(1)}}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.against_btn}
-                        selected={agenda.voting[0].vote === 0}
+                        selected={agenda.voting.vote === 0}
                         onClick={() => {this.updateAgendaVoting(0)}}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.abstention_btn}
-                        selected={agenda.voting[0].vote === 2}
+                        selected={agenda.voting.vote === 2}
                         onClick={() => {this.updateAgendaVoting(2)}}
                     />
                 </GridItem>

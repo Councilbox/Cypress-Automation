@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm,
 	Icon
@@ -8,8 +8,18 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { noCelebrateCouncil } from "../../../../queries";
 import { bHistory } from "../../../../containers/App";
+import { checkForUnclosedBraces } from '../../../../utils/CBX';
+import { toast } from 'react-toastify';
 
-class NoCelebrateModal extends Component {
+class NoCelebrateModal extends React.Component {
+	state = {
+		success: "",
+		error: "",
+		errorText: '',
+		cancelText: "",
+		sendAgenda: false
+	};
+
 	close = () => {
 		this.props.requestClose();
 		this.setState(
@@ -23,10 +33,22 @@ class NoCelebrateModal extends Component {
 			() => bHistory.push("/")
 		);
 	};
+
 	noCelebrateCouncil = async () => {
+		if(this.state.cancelText){
+			if(checkForUnclosedBraces(this.state.cancelText)){
+				this.setState({
+					errorText: true
+				});
+				toast.error(this.props.translate.revise_text);
+				return;
+			}
+		}
+
 		this.setState({
 			sending: true
 		});
+
 		const response = await this.props.noCelebrateCouncil({
 			variables: {
 				councilId: this.props.council.id,
@@ -46,16 +68,6 @@ class NoCelebrateModal extends Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			error: "",
-			cancelText: "",
-			sendAgenda: false
-		};
-	}
-
 	_renderBody() {
 		const { translate } = this.props;
 
@@ -72,6 +84,7 @@ class NoCelebrateModal extends Component {
 				<RichTextInput
 					floatingText={translate.live_no_celebrate}
 					type="text"
+					errorText={this.state.errorText}
 					value={this.state.cancelText}
 					onChange={value => {
 						this.setState({
@@ -88,7 +101,7 @@ class NoCelebrateModal extends Component {
 
 		return (
 			<AlertConfirm
-				requestClose={this.close}
+				requestClose={this.props.requestClose}
 				open={this.props.show}
 				acceptAction={
 					this.state.success

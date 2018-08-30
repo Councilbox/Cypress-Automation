@@ -93,9 +93,13 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.advanceNoticeDays}
 								value={statute.advanceNoticeDays}
 								onChange={event => {
-									if(!isNaN(event.target.value) || +event.target.value > 0){
+									if(!isNaN(event.target.value) && +event.target.value >= 0){
 										updateState({
-											advanceNoticeDays: event.target.value
+											advanceNoticeDays: parseInt(event.target.value)
+										})
+									} else {
+										updateState({
+											advanceNoticeDays: 0
 										})
 									}
 								}}
@@ -126,9 +130,13 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.minimumSeparationBetweenCall}
 								value={statute.minimumSeparationBetweenCall}
 								onChange={event => {
-									if(!isNaN(event.target.value) || +event.target.value > 0){
+									if(!isNaN(event.target.value) && +event.target.value > 0){
 										updateState({
-											minimumSeparationBetweenCall: event.target.value
+											minimumSeparationBetweenCall: parseInt(event.target.value)
+										})
+									} else {
+										updateState({
+											minimumSeparationBetweenCall: 5
 										})
 									}
 								}}
@@ -281,7 +289,7 @@ class StatuteEditor extends React.PureComponent {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={10} md={6} lg={6}>
+					<GridItem xs={10} md={6} lg={6} style={{display: 'flex', alignItems: 'center'}}>
 						<Checkbox
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
@@ -294,7 +302,7 @@ class StatuteEditor extends React.PureComponent {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={2} md={2} lg={2}>
+					<GridItem xs={2} md={2} lg={2} style={{display: 'flex', alignItems: 'center'}}>
 						{statute.existMaxNumDelegatedVotes === 1 && (
 							<TextInput
 								floatingText={translate.votes}
@@ -304,16 +312,20 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.maxNumDelegatedVotes}
 								value={statute.maxNumDelegatedVotes}
 								onChange={event => {
-									if(!isNaN(event.target.value) || +event.target.value > 0){
+									if(!isNaN(event.target.value) && +event.target.value > 0){
 										updateState({
-											maxNumDelegatedVotes: event.target.value
+											maxNumDelegatedVotes: parseInt(event.target.value)
+										})
+									} else {
+										updateState({
+											maxNumDelegatedVotes: 1
 										})
 									}
 								}}
 							/>
 						)}
 					</GridItem>
-					<GridItem xs={10} md={6} lg={6}>
+					<GridItem xs={10} md={6} lg={6} style={{display: 'flex', alignItems: 'center'}}>
 						<Checkbox
 							label={translate.exists_limited_access_room}
 							value={statute.existsLimitedAccessRoom === 1}
@@ -326,7 +338,7 @@ class StatuteEditor extends React.PureComponent {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={2} md={2} lg={2}>
+					<GridItem xs={2} md={2} lg={2} style={{display: 'flex', alignItems: 'center'}}>
 						{statute.existsLimitedAccessRoom === 1 && (
 							<TextInput
 								floatingText={translate.minutes}
@@ -335,9 +347,13 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.limitedAccessRoomMinutes}
 								value={statute.limitedAccessRoomMinutes}
 								onChange={event => {
-									if(!isNaN(event.target.value) || +event.target.value > 0){
+									if(!isNaN(event.target.value) && +event.target.value > 0){
 										updateState({
-											limitedAccessRoomMinutes: event.target.value
+											limitedAccessRoomMinutes: parseInt(event.target.value)
+										})
+									} else {
+										updateState({
+											limitedAccessRoomMinutes: 1
 										})
 									}
 								}}
@@ -532,7 +548,7 @@ class StatuteEditor extends React.PureComponent {
 					<GridItem xs={12} md={12} lg={12}>
 						<RichTextInput
 							ref={editor => this.editor = editor}
-							errorText=""
+							errorText={errors.conveneHeader}
 							floatingText={translate.convene_header}
 							value={
 								!!statute.conveneHeader
@@ -574,9 +590,9 @@ class StatuteEditor extends React.PureComponent {
 						<Grid>
 							<GridItem xs={12} md={12} lg={12}>
 								<RichTextInput
-									errorText=""
 									ref={intro => this.intro = intro}
 									floatingText={translate.intro}
+									errorText={errors.intro}
 									value={statute.intro || ""}
 									onChange={value =>
 										updateState({
@@ -608,7 +624,7 @@ class StatuteEditor extends React.PureComponent {
 
 							<GridItem xs={12} md={12} lg={12}>
 								<RichTextInput
-									errorText=""
+									errorText={errors.constitution}
 									ref={constitution => this.constitution = constitution}
 									floatingText={translate.constitution}
 									value={statute.constitution || ""}
@@ -642,7 +658,7 @@ class StatuteEditor extends React.PureComponent {
 
 							<GridItem xs={12} md={12} lg={12}>
 								<RichTextInput
-									errorText=""
+									errorText={errors.conclusion}
 									ref={conclusion => this.conclusion = conclusion}
 									floatingText={translate.conclusion}
 									value={statute.conclusion || ""}

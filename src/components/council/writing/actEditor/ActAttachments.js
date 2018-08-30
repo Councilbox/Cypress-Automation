@@ -23,12 +23,13 @@ class ActAttachments extends React.PureComponent{
             )
         }
         const { translate } = this.props;
+        const primary = getPrimary();
 
         return(
             <div style={{padding: '1.2em'}}>
                 <Grid>
                     <GridItem xs={12} md={12} lg={12}>
-                        <Typography variant="subheading" style={{color: getPrimary()}}>
+                        <Typography variant="title" style={{color: primary, fontWeight: '700'}}>
                             {translate.new_files_title}
                         </Typography>
                     </GridItem>
@@ -47,12 +48,15 @@ class ActAttachments extends React.PureComponent{
                             '-'
                     }
                 </Grid>
-                <Grid style={{marginTop: '1.4em'}}>
+                <Grid style={{marginTop: '2.6em'}}>
+                    <Typography variant="title" style={{color: primary, fontWeight: '700'}}>
+                        Archivos adjuntos al orden del día {/*TRADUCCION*/}
+                    </Typography>
                     {this.props.data.council &&
                         this.props.data.council.agendas.map((agenda) =>
                             <React.Fragment key={`agenda_${agenda.id}`}>
                                 <GridItem xs={12} lg={12} md={12} style={{display: 'flex', flexDirection: 'column'}}>
-                                    <Typography variant="subheading" style={{color: getPrimary()}}>
+                                    <Typography variant="subheading" style={{color: primary, fontWeight: '700'}}>
                                         {`${agenda.orderIndex} - ${agenda.agendaSubject}`}
                                     </Typography>
                                 </GridItem>

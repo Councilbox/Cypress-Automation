@@ -8,8 +8,17 @@ import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import { IconButton, Typography } from "material-ui";
+import { councilIsFinished } from '../../utils/CBX';
 
-class Header extends React.PureComponent {
+class Header extends React.Component {
+	componentDidUpdate(){
+		if(this.props.council) {
+			if(councilIsFinished(this.props.council)){
+				this.logout();
+			}
+		}
+	}
+
 	logout = () => {
 		const { participant, council } = this.props;
 		this.props.actions.logoutParticipant(participant, council);

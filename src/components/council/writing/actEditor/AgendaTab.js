@@ -1,9 +1,8 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { LoadingSection } from '../../../../displayComponents';
+import { LoadingSection, Scrollbar } from '../../../../displayComponents';
 import gql from 'graphql-tag';
 import AgendaEditor from './AgendaEditor';
-import Scrollbar from  'react-perfect-scrollbar';
 
 const AgendaTab = ({ council, translate, data }) => {
 	if(data.loading){
@@ -18,7 +17,7 @@ const AgendaTab = ({ council, translate, data }) => {
 
 	return(
 		<div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
-			<Scrollbar option={{ suppressScrollX: true }}>
+			<Scrollbar>
 				{!!data.council.agendas && (
 					<React.Fragment>
 						{data.council.agendas.map((agenda, index) => {

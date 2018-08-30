@@ -16,6 +16,7 @@ import * as CBX from "../../../../../utils/CBX";
 import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
+import { toast } from 'react-toastify';
 
 class PointEditor extends React.Component {
 
@@ -271,7 +272,7 @@ class PointEditor extends React.Component {
 	checkRequiredFields() {
 		const { translate } = this.props;
 		const agenda = this.state.data;
-		let errors = checkRequiredFieldsAgenda(agenda, translate);
+		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
 		this.setState({
 			errors: errors.errors
 		});

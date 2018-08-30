@@ -60,7 +60,7 @@ class TabsScreen extends React.Component {
 								}
 								key={''+index}
 								style={{
-									height: "100%",
+									height: "calc(100% - 40px) !important",
 									overflow: "hidden",
 									border: '1px solid #e8e8e8',
 									borderTop: 'none',

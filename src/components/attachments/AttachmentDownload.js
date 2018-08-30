@@ -71,6 +71,7 @@ class AttachmentDownload extends React.Component {
 						name={"download"}
 						style={{
 							fontSize: "0.9em",
+							marginRight: '0.3em',
 							color: secondary
 						}}
 					/>

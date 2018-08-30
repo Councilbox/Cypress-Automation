@@ -3,7 +3,7 @@ import { Link, Icon } from './';
 import { getSecondary, darkGrey } from '../styles/colors';
 import { Card, MenuItem } from 'material-ui';
 
-const Block = ({ button, link, icon, text, id }) => (
+const Block = ({ button, link, icon, text, id, customIcon }) => (
 	<React.Fragment>
 		<Link to={link} >
 			<Card
@@ -39,15 +39,20 @@ const Block = ({ button, link, icon, text, id }) => (
 							fontSize: "0.9em"
 						}}
 					>
-						<Icon
-							className="material-icons"
-							style={{
-								fontSize: "7em",
-								color: getSecondary()
-							}}
-						>
-							{icon}
-						</Icon>
+						{customIcon?
+							customIcon
+						:	
+							<Icon
+								className="material-icons"
+								style={{
+									fontSize: "7em",
+									color: getSecondary()
+								}}
+							>
+								{icon}
+							</Icon>
+						}
+
 						<span style={{fontSize: '13px'}}>{text}</span>
 					</div>
 				</MenuItem>

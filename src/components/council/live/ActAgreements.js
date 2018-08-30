@@ -10,14 +10,16 @@ import { compose, graphql } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { changeVariablesToValues } from "../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces } from "../../../utils/CBX";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 import { moment } from '../../../containers/App';
+import { toast } from 'react-toastify';
 
 class ActAgreements extends React.Component {
 
 	state = {
-		loading: false
+		loading: false,
+		error: false
 	};
 
 	timeout = null;
@@ -37,6 +39,15 @@ class ActAgreements extends React.Component {
 	};
 
 	updateAgreement = async value => {
+
+		if(checkForUnclosedBraces(value)){
+			toast.dismiss();
+			toast.error(this.props.translate.revise_text);
+			this.setState({
+				error: true
+			});
+			return;
+		}
 		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
 			this.setState({ loading: true });
 			const response = await this.props.updateAgenda({
@@ -48,7 +59,7 @@ class ActAgreements extends React.Component {
 					}
 				}
 			});
-			this.setState({ loading: false });
+			this.setState({ loading: false, error: false });
 
 			console.log(response);
 		}
@@ -116,7 +127,7 @@ class ActAgreements extends React.Component {
 		this.updateAgreement(correctedText);
 		this.modal.close();
 	};
-	
+
 	_section = () => {
 		const { agenda, council, translate, company } = this.props;
 		if (this.props.data.loading) {
@@ -126,13 +137,14 @@ class ActAgreements extends React.Component {
 		return (
 			<div
 				style={{
+					padding: '0.9em',
 					paddingTop: "1.2em",
 					backgroundColor: "white"
 				}}
 			>
 				<RichTextInput
 					ref={editor => (this.editor = editor)}
-					required
+					errorText={this.state.error}
 					loadDraft={
 						<LoadDraftModal
 							ref={modal => (this.modal = modal)}
@@ -162,9 +174,8 @@ class ActAgreements extends React.Component {
 							label: translate.company_new_country
 						}
 					]}
-					floatingText={translate.convene_info}
 					value={agenda.comment || ""}
-					onChange={value => this.updateAgreement(value)}
+					onChange={value => this.startUpdateTimeout(value)}
 				/>
 			</div>
 		);

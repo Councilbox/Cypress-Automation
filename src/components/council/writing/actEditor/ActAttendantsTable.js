@@ -1,14 +1,13 @@
 import React from 'react';
 import { councilAttendants, downloadAttendPDF, downloadConnectionsExcel } from "../../../../queries";
 import { graphql, withApollo } from 'react-apollo';
-import { LoadingSection, EnhancedTable, BasicButton } from '../../../../displayComponents';
+import { LoadingSection, EnhancedTable, BasicButton, Scrollbar } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 import { TableRow, TableCell } from 'material-ui';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
-import Scrollbar from 'react-perfect-scrollbar';
 import { moment } from '../../../../containers/App';
 
 class ActAttendantsTable extends React.Component {
@@ -82,7 +81,7 @@ class ActAttendantsTable extends React.Component {
     
         return(
             <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
-                <Scrollbar option={{ suppressScrollX: true }}>
+                <Scrollbar>
                     <div style={{padding: '1.5em', overflow: 'hidden'}}>
                         {!!councilAttendants && (
                             <React.Fragment>

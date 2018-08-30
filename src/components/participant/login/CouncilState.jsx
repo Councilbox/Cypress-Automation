@@ -7,9 +7,11 @@ import {
 	DialogContent
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
+import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
+import Results from '../Results';
 import OverFlowText from "../../../displayComponents/OverFlowText";
 import {
 	councilIsInTrash,
@@ -21,7 +23,7 @@ import {
 import {
 	getPrimary,
 	lightTurquoise,
-	secondary
+	getSecondary
 } from "../../../styles/colors";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 import { moment } from '../../../containers/App';
@@ -65,6 +67,10 @@ const styles = {
 };
 
 class CouncilState extends React.Component {
+	state = {
+		modal: false
+	}
+
 	render() {
 		const {
 			translate,
@@ -74,6 +80,8 @@ class CouncilState extends React.Component {
 			windowOrientation,
 			isAssistance
 		} = this.props;
+
+		const secondary = getSecondary();
 
 		return (
 			<div
@@ -135,12 +143,30 @@ class CouncilState extends React.Component {
 					)}
 
 					{councilIsFinished(council) && (
-						<TextRender
-							title={translate.concil_finished}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+						<React.Fragment>
+							<TextRender
+								title={translate.concil_finished}
+								council={council}
+								company={company}
+								translate={translate}
+							/>
+							<BasicButton
+								text={"Ver participación"} //TRADUCCION
+								color={secondary}
+								textStyle={{color: 'white', fontWeight: '700', marginTop: '0.9em'}}
+								onClick={() => this.setState({
+									modal: true
+								})}
+							/>
+							<Results
+								council={council}
+								participant={this.props.participant}
+								requestClose={() => this.setState({ modal: false })}
+								translate={translate}
+								open={this.state.modal}
+							/>
+						</React.Fragment>
+
 					)}
 				</div>
 
@@ -153,12 +179,9 @@ class CouncilState extends React.Component {
 }
 
 class TextRender extends React.PureComponent {
-	constructor(props) {
-		super(props);
-		this.state = {
-			dialogOpen: false
-		};
-	}
+	state = {
+		dialogOpen: false
+	};
 
 	handleOpenDialog = () => {
 		this.setState({ dialogOpen: true });
@@ -279,7 +302,7 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 					right: "10px",
 					top: "5px",
 					cursor: "pointer",
-					color: secondary
+					color: getSecondary()
 				}}
 				onClick={handleClose}
 			/>

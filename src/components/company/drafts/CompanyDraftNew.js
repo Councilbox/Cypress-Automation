@@ -10,6 +10,7 @@ import { createCompanyDraft, draftData } from "../../../queries/companyDrafts";
 import { getPrimary } from "../../../styles/colors";
 import { checkRequiredFields } from "../../../utils/CBX";
 import CompanyDraftForm from "./CompanyDraftForm";
+import { toast } from 'react-toastify';
 
 class CompanyDraftNew extends Component {
 	updateState = object => {
@@ -30,7 +31,7 @@ class CompanyDraftNew extends Component {
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { draft } = this.state;
-		if (!checkRequiredFields(translate, draft, this.updateErrors)) {
+		if (!checkRequiredFields(translate, draft, this.updateErrors, null, toast)) {
 			this.setState({ loading: true });
 			const response = await this.props.createCompanyDraft({
 				variables: {

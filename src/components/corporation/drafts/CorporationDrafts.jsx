@@ -26,9 +26,10 @@ class CorporationDrafts extends React.Component {
             <CardPageLayout title={translate.general_drafts}>
                 {error ? (
                     <div>
-                        {error.graphQLErrors.map(error => {
+                        {error.graphQLErrors.map((error, index) => {
                             return (
                                 <ErrorWrapper
+                                    key={`error_${index}`}
                                     error={error}
                                     translate={translate}
                                 />

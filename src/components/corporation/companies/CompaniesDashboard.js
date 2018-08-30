@@ -122,7 +122,7 @@ class CompaniesDashboard extends React.PureComponent {
                         <LoadingSection />
                     :
                         this.props.data.corporationCompanies.list.map(company => (
-                            <Link to={`/companies/edit/${company.id}`} >
+                            <Link to={`/companies/edit/${company.id}`} key={`company_${company.id}`}>
                                 <CompanyItem
                                     key={`company_${company.id}`}
                                     company={company}

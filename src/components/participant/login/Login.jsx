@@ -29,6 +29,7 @@ const styles = {
 	cardContainer: {
 		margin: "20px",
 		padding: "20px",
+		minWidth: '350px',
 		maxWidth: "100%"
 	}
 };
@@ -63,7 +64,7 @@ class ParticipantLogin extends React.Component {
 											company={company}
 										/>
 									) : (
-										<CouncilState council={council} company={company} />
+										<CouncilState council={council} company={company} participant={participant} />
 									)}
 								</React.Fragment>
 							:

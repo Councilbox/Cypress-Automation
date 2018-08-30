@@ -24,13 +24,14 @@ class Header extends React.PureComponent {
 	};
 
 	goBack = () => {
-		if(!this.props.main.unsavedChanges){
+		bHistory.goBack();
+/* 		if(!this.props.main.unsavedChanges){
 			bHistory.goBack();
 		} else {
 			this.setState({
 				unsavedChanges: true
 			})
-		}
+		} */
 	};
 
 	toggleCompanyMenu = () => {

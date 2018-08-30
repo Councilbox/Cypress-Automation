@@ -82,7 +82,7 @@ class Convene extends React.Component {
 
 		return (
 			<React.Fragment>
-				{council.attachments.length > 0 && (
+				{council.attachments.length > 0 && !this.props.hideAttachments && (
 					<div
 						style={{
 							paddingTop: "1em 0",

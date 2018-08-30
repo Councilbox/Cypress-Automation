@@ -13,7 +13,7 @@ import { Tooltip } from 'material-ui';
 import { TableCell, TableRow } from "material-ui/Table";
 import { withRouter } from 'react-router-dom';
 import FontAwesome from "react-fontawesome";
-import { getPrimary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
 import withSharedProps from '../../../HOCs/withSharedProps';
 import CloneCensusModal from "./CloneCensusModal";
 import AddCensusButton from "./AddCensusButton";
@@ -91,6 +91,7 @@ class CompanyCensusPage extends React.Component {
 								<div>
 									<AddCensusButton
 										translate={translate}
+										user={this.props.user}
 										company={company}
 										refetch={this.props.data.refetch}
 									/>
@@ -214,6 +215,7 @@ class HoverableRow extends React.PureComponent {
     render() {
         const { census, translate } = this.props;
 		const primary = getPrimary();
+		const secondary = getSecondary();
 
         return (
 			<TableRow
@@ -221,20 +223,23 @@ class HoverableRow extends React.PureComponent {
 				onMouseEnter={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				style={{ cursor: "pointer" }}
+				onClick={() => this.props.openCensusEdit(census.id)}
 			>
 				<TableCell>
-					{census.censusName}
 					{census.defaultCensus === 1 &&
-						<FontAwesome
-							name={"star"}
-							style={{
-								cursor: "pointer",
-								fontSize: "1.5em",
-								marginLeft: '0.6em',
-								color: primary
-							}}
-						/>
+						<Tooltip title={'Censo por defecto'} /*TRADUCCION*/>
+							<FontAwesome
+								name={"star"}
+								style={{
+									cursor: "pointer",
+									fontSize: "1.2em",
+									marginRight: '0.6em',
+									color: secondary
+								}}
+							/>
+						</Tooltip>
 					}
+					{census.censusName}
 				</TableCell>
 				<TableCell>
 					<DateWrapper
@@ -287,7 +292,7 @@ class HoverableRow extends React.PureComponent {
 								</Tooltip>
 
 							)}
-							<Tooltip title={'Administrar participantes'}>
+							<Tooltip title={'Administrar participantes'}/*TRADUCCION*/>
 								<FontAwesome
 									name={"users"}
 									style={{

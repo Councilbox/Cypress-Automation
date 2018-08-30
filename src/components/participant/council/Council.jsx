@@ -10,12 +10,14 @@ import Header from "../Header";
 import { darkGrey } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { API_URL } from '../../../config';
+import { councilHasVideo } from '../../../utils/CBX';
+import VideoContainer from '../VideoContainer';
 
 const styles = {
 	viewContainer: {
 		width: "100vw",
 		height: "100vh",
-		position: "relative"
+        position: "relative"
 	},
 	mainContainer: {
 		width: "100%",
@@ -33,8 +35,8 @@ const styles = {
 
 class ParticipantCouncil extends React.Component {
 	state = {
-        rand: Date.now(),
-        agendasAnchor: 'right'
+        agendasAnchor: 'right',
+        hasVideo: councilHasVideo(this.props.council)
     };
 
     componentDidMount = () => {
@@ -44,12 +46,6 @@ class ParticipantCouncil extends React.Component {
                 online: 1
             }
         });
-
-        if (navigator.userAgent.indexOf("Firefox") !== -1) {
-            window.onbeforeunload = this.leaveRoom;
-        } else {
-            window.onunload = this.leaveRoom;
-        }
     }
 
     leaveRoom = () => {
@@ -77,6 +73,20 @@ class ParticipantCouncil extends React.Component {
         }));
     };
 
+    _renderAgendaSection = () => {
+        return (
+            <Grid item xs={12} sm={this.state.hasVideo? 4 : 6}>
+                <Agendas
+                    participant={this.props.participant}
+                    council={this.props.council}
+                    anchorToggle={this.state.hasVideo}
+                    agendasAnchor={this.state.agendasAnchor}
+                    toggleAgendasAnchor={this.toggleAgendasAnchor}
+                />
+            </Grid>
+        )
+    }
+
     toggleAgendasAnchor = () => {
         const anchor = this.state.agendasAnchor === 'left' ? 'right' : 'left';
         this.setState({agendasAnchor: anchor});
@@ -84,11 +94,9 @@ class ParticipantCouncil extends React.Component {
 
 	render() {
 		const { participant, council, data } = this.props;
-        const { rand, agendasAnchor } = this.state;
+        const { agendasAnchor } = this.state;
+        //const hasVideo = councilHasVideo(council);
 
-        if(data.loading){
-            return <LoadingMainApp />
-        }
 
 		return (
 			<div style={styles.viewContainer}>
@@ -99,39 +107,33 @@ class ParticipantCouncil extends React.Component {
                     primaryColor={'white'}
                 />
 				<div style={styles.mainContainer}>
-                    <Grid container spacing={8} style={{height: '100%'}}>
+                    <Grid container spacing={8} style={{
+                        height: '100%',
+                        ...(!this.state.hasVideo? {
+                            display: 'flex',
+                            justifyContent: 'center'
+                        } : {})
+                    }}>
                         {agendasAnchor === 'left' &&
-                            <Grid item xs={12} sm={4}>
-                                <Agendas participant={participant} council={council} agendasAnchor={agendasAnchor} toggleAgendasAnchor={this.toggleAgendasAnchor}/>
-                            </Grid>
+                            this._renderAgendaSection()
                         }
 
-                        <Grid item xs={12} sm={8}>
-                            <div style={{width: '100%', height: '100%', position: 'relative'}}>
-                                <RequestWordMenu
-                                    translate={this.props.translate}
-                                    participant={participant}
-                                />
-                                <iframe
-                                    title="meetingScreen"
-                                    allow="geolocation; microphone; camera"
-                                    scrolling="no"
-                                    className="temp_video"
-                                    src={`https://${data.participantVideoURL}?rand=${rand}`}
-                                    allowFullScreen="true"
-                                    style={{
-                                        border: "none !important"
-                                    }}
-                                >
-                                    Something wrong...
-                                </iframe>
-                            </div>
-                        </Grid>
-
-                        {agendasAnchor === 'right' &&
-                            <Grid item xs={12} sm={4}>
-                                <Agendas participant={participant} council={council} agendasAnchor={agendasAnchor} toggleAgendasAnchor={this.toggleAgendasAnchor}/>
+                        {this.state.hasVideo &&
+                            <Grid item xs={12} sm={8}>
+                                <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                                    <RequestWordMenu
+                                        translate={this.props.translate}
+                                        participant={participant}
+                                    />
+                                    <VideoContainer
+                                        council={council}
+                                        participant={participant}
+                                    />
+                                </div>
                             </Grid>
+                        }
+                        {agendasAnchor === 'right' &&
+                            this._renderAgendaSection()
                         }
                     </Grid>
 				</div>
@@ -140,11 +142,7 @@ class ParticipantCouncil extends React.Component {
 	}
 }
 
-const videoURLQuery = gql`
-    query participantVideoURL($participantId: String!){
-        participantVideoURL(participantId: $participantId)
-    }
-`;
+
 
 const changeParticipantOnlineState = gql`
     mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
@@ -155,12 +153,17 @@ const changeParticipantOnlineState = gql`
     }
 `;
 
+const participantPing = gql`
+    query participantPing {
+        participantPing
+    }
+`
+
 export default compose(
-    graphql(videoURLQuery, {
+    graphql(participantPing, {
+        name: 'ping',
         options: props => ({
-            variables: {
-                participantId: props.participant.id
-            }
+            pollInterval: 7000
         })
     }),
     graphql(changeParticipantOnlineState, {

@@ -20,13 +20,13 @@ class AddCensusButton extends React.Component {
 		errors: {}
 	}
 
-
 	createCensus = async () => {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.createCensus({
 				variables: {
 					census: {
 						...this.state.data,
+						creatorId: this.props.user.id,
 						companyId: this.props.company.id,
 						defaultCensus: 0
 					}
@@ -47,6 +47,7 @@ class AddCensusButton extends React.Component {
 			}
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -55,6 +56,7 @@ class AddCensusButton extends React.Component {
 			}
 		});
 	};
+
 	_renderBody = () => {
 		return (
 			<div style={{ minWidth: "800px" }}>
@@ -69,6 +71,15 @@ class AddCensusButton extends React.Component {
 	};
 
 	checkRequiredFields() {
+		if(!this.state.data.censusName){
+			this.setState({
+				errors: {
+					censusName: this.props.translate.required_field
+				}
+			});
+			return true;
+		}
+
 		return false;
 	}
 

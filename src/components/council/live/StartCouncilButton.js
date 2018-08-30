@@ -55,10 +55,11 @@ class StartCouncilButton extends React.Component {
 				}
 			});
 			if (response) {
+				await refetch();
 				this.setState({
-					loading: false
+					loading: false,
+					alert: false
 				})
-				refetch();
 			}
 		}
 	};

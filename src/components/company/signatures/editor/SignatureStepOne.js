@@ -8,6 +8,8 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import AttachmentItem from '../../../attachments/AttachmentItem';
 import DocumentNameEditor from './DocumentNameEditor';
+import { checkForUnclosedBraces } from '../../../../utils/CBX';
+import { toast } from 'react-toastify';
 
 class SignatureStepOne extends React.Component {
     state = {
@@ -174,6 +176,12 @@ class SignatureStepOne extends React.Component {
         if(!data.description){
             errors.description = translate.required_field;
             hasError = true;
+        }else{
+            if(checkForUnclosedBraces(data.description)){
+                errors.description = true;
+                hasError = true;
+                toast.error(translate.revise_text);
+            }
         }
 
         if(!data.attachment){
