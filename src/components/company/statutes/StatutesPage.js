@@ -310,7 +310,7 @@ class StatutesPage extends React.Component {
 							index={this.state.selectedStatute}
 							additionalTab={
 								<BasicButton
-									text={'Añadir tipo de reunión'}//TRADUCCION
+									text={translate.add_council_type}
 									fullWidth
 									textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
 									color={secondary}
@@ -415,10 +415,10 @@ class StatutesPage extends React.Component {
 						}}
 					>
 						<span style={{fontSize: '1.1em', fontWeight: '700', marginBottom: '1em'}}>
-							No tiene ningún tipo de reunión, pruebe a crear una pulsando este botón
-						</span> {/*TRADUCCION*/}
+							{translate.no_council_types}
+						</span>
 						<BasicButton
-							text={'Añadir tipo de reunión'}//TRADUCCION
+							text={translate.add_council_type}
 							textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
 							color={secondary}
 							icon={<ButtonIcon type="add" color="white" />}
@@ -445,7 +445,7 @@ class StatutesPage extends React.Component {
 				/>
 				<AlertConfirm
 					title={translate.attention}
-					bodyText={"Está seguro que quiere deshacer los cambios?"}//TRADUCCION
+					bodyText={translate.are_you_sure_undo_changes}
 					open={this.state.rollbackAlert}
 					buttonAccept={translate.accept}
 					acceptAction={this.restoreStatute}

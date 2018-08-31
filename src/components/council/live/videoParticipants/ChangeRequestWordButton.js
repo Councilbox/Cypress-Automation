@@ -70,7 +70,7 @@ class ChangeRequestWordButton extends React.Component {
 					</Tooltip>
 				)}
 				{isAskingForWord(participant) && (
-					<Tooltip title="Conceder palabra" /*TRADUCCION*/>
+					<Tooltip title={this.props.translate.give_word} >
 						<Card
 							onClick={() => this.changeWordState(participant.id, 2)}
 							className={'fadeToggle'}

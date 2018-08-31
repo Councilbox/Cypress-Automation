@@ -255,7 +255,7 @@ class CompanySettingsPage extends React.Component {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
-										floatingText={'Nombre de la entidad'}//TRADUCCION
+										floatingText={translate.entity_name}
 										type="text"
 										value={data.alias}
 										errorText={errors.alias}
@@ -269,7 +269,7 @@ class CompanySettingsPage extends React.Component {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={3}>
 									<SelectInput
-										floatingText={'Tipo de entidad'}//TRADUCCION
+										floatingText={translate.company_type}
 										value={data.type}
 										disabled
 										onChange={event =>
@@ -299,7 +299,7 @@ class CompanySettingsPage extends React.Component {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
-										floatingText={'CIF de la entidad'}//TRADUCCION
+										floatingText={translate.entity_cif}
 										type="text"
 										value={data.tin}
 										errorText={errors.tin}
@@ -360,7 +360,7 @@ class CompanySettingsPage extends React.Component {
 							</GridItem>
 							<GridItem xs={12} md={12} lg={12}>
 								<FileUploadButton
-									text={'Logo de la entidad'}//TRADUCCION
+									text={translate.company_logotype}
 									image
 									color={secondary}
 									textStyle={{

@@ -194,7 +194,7 @@ class SignUpEnterprise extends React.Component {
 						color: primary
 					}}
 				>
-					Datos de entidad {/*TRADUCCION*/}
+					{translate.company_new_data}
 				</span>
 				<Grid style={{ marginTop: "2em" }}>
 				<GridItem xs={12} md={12} lg={12}>
@@ -299,7 +299,7 @@ class SignUpEnterprise extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<SelectInput
-							floatingText="Tipo de entidad"//TRADUCCION
+							floatingText={translate.company_type}
 							value={this.props.formData.type}
 							onChange={this.handleTypeChange}
 							errorText={this.props.errors.type}

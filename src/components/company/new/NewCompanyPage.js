@@ -85,7 +85,7 @@ class NewCompanyPage extends React.PureComponent {
 				...this.state.data,
 				...object
 			}
-		}, () => !!cb? cb() : {});
+		}, () => !!cb ? cb() : {});
 	};
 
 	cbxFile = event => {
@@ -127,7 +127,7 @@ class NewCompanyPage extends React.PureComponent {
 	};
 
 	createCompany = async () => {
-		if(!await this.checkRequiredFields()){
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.createCompany({
 				variables: {
 					company: this.state.data,
@@ -167,7 +167,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.businessName = translate.field_required;
 		}
 
-		if(!data.alias){
+		if (!data.alias) {
 			hasError = true;
 			errors.alias = translate.field_required;
 		}
@@ -232,7 +232,7 @@ class NewCompanyPage extends React.PureComponent {
 		if (event.nativeEvent.keyCode === 13) {
 			this.createCompany();
 		}
-		if(this.state.hasError){
+		if (this.state.hasError) {
 			this.checkRequiredFields();
 		}
 	};
@@ -248,7 +248,7 @@ class NewCompanyPage extends React.PureComponent {
 		}
 
 		return (
-			<CardPageLayout title={"Crear entidad"}>{/*TRADUCCION*/}
+			<CardPageLayout title={translate.companies_add}>
 				{this.state.step === 1 ? (
 					<React.Fragment>
 						<Typography variant="title" style={{ color: primary }}>
@@ -277,9 +277,7 @@ class NewCompanyPage extends React.PureComponent {
 									</GridItem>
 									<GridItem xs={12} md={6} lg={4}>
 										<TextInput
-											floatingText={
-												"Nombre de la entidad"//TRADUCCION
-											}
+											floatingText={translate.entity_name}
 											type="text"
 											value={data.alias}
 											errorText={errors.alias}
@@ -293,9 +291,7 @@ class NewCompanyPage extends React.PureComponent {
 									</GridItem>
 									<GridItem xs={12} md={6} lg={3}>
 										<SelectInput
-											floatingText={
-												"Tipo de entidad"//TRADUCCION
-											}
+											floatingText={translate.company_type}
 											value={data.type}
 											onChange={event =>
 												this.updateState({
@@ -317,8 +313,8 @@ class NewCompanyPage extends React.PureComponent {
 														>
 															{
 																translate[
-																	companyType
-																		.label
+																companyType
+																	.label
 																]
 															}
 														</MenuItem>
@@ -330,7 +326,7 @@ class NewCompanyPage extends React.PureComponent {
 									<GridItem xs={12} md={6} lg={4}>
 										<TextInput
 											floatingText={
-												"CIF de la entidad"//TRADUCCION
+												translate.entity_cif
 											}
 											type="text"
 											value={data.tin}
@@ -524,7 +520,7 @@ class NewCompanyPage extends React.PureComponent {
 												<MenuItem
 													key={`language_${
 														language.columnName
-													}`}
+														}`}
 													value={language.columnName}
 												>
 													{language.desc}
@@ -536,7 +532,7 @@ class NewCompanyPage extends React.PureComponent {
 						</Grid>
 						<br />
 						<BasicButton
-							text={'Añadir entidad'}//TRADUCCION
+							text={translate.companies_add}
 							color={getPrimary()}
 							error={requestError}
 							success={success}
@@ -551,8 +547,8 @@ class NewCompanyPage extends React.PureComponent {
 						/>
 					</React.Fragment>
 				) : (
-					<React.Fragment>STEP 2</React.Fragment>
-				)}
+						<React.Fragment>STEP 2</React.Fragment>
+					)}
 			</CardPageLayout>
 		);
 	}

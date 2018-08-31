@@ -3,6 +3,13 @@ import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
+import {
+	BrowserView,
+	MobileView,
+	isBrowser,
+	isMobile
+} from "react-device-detect";
+import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	if (!main.isLogged) {
@@ -13,16 +20,6 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 		return <LoadingMainApp />;
 	}
 
-/* 	if (/Mobi|Android/i.test(navigator.userAgent)){
-		return (
-			<CouncilLiveMobilePage 
-				companies={companies}
-				translate={translate}
-				councilID={match.params.id}
-			/>
-		);
-	} */
-
 	return (
 		<div
 			style={{
@@ -31,11 +28,21 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 				overflow: 'hidden'
 			}}
 		>
-			<CouncilLivePage
-				companies={companies}
-				translate={translate}
-				councilID={match.params.id}
-			/>
+			<BrowserView>
+				<CouncilLivePage
+					companies={companies}
+					translate={translate}
+					councilID={match.params.id}
+				/>
+			</BrowserView>
+
+			<MobileView>
+				<CouncilLiveMobilePage
+					companies={companies}
+					translate={translate}
+					councilID={match.params.id}
+				/>
+			</MobileView>
 		</div>
 	);
 };

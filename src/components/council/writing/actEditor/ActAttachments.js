@@ -50,7 +50,7 @@ class ActAttachments extends React.PureComponent{
                 </Grid>
                 <Grid style={{marginTop: '2.6em'}}>
                     <Typography variant="title" style={{color: primary, fontWeight: '700'}}>
-                        Archivos adjuntos al orden del día {/*TRADUCCION*/}
+                        {translate.attachments_to_agenda}
                     </Typography>
                     {this.props.data.council &&
                         this.props.data.council.agendas.map((agenda) =>

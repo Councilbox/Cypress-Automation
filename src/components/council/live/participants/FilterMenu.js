@@ -67,7 +67,7 @@ const FilterMenu = ({
 					fontWeight: "700"
 				}}
 			>
-				VER:{/*TRADUCCION*/}
+				{translate.see}:
 			</Typography>
 			<div
 				style={{

@@ -217,7 +217,7 @@ class SignUpPage extends React.PureComponent {
 						}}
 					>
 						<h3 style={{ color: "white", fontWeight: '700' }}>
-							Alta de usuario {/*TRADUCCION*/}
+							{translate.sign_up_user}
 						</h3>
 					</div>
 					{!this.state.success ? (

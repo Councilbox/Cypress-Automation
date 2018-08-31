@@ -69,7 +69,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                                         {agenda.voting?
                                             <VoteDisplay vote={agenda.voting.vote} translate={translate} />
                                         :
-                                            'No presente en el momento de la votación' //TRADUCCION
+                                            translate.not_present_at_time_of_voting
                                         }
                                     </React.Fragment>
                                 }
@@ -78,7 +78,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                                         {agenda.voting?
                                             <VoteDisplay vote={agenda.voting.vote} translate={translate} />
                                         :
-                                            'No presente en el momento de la votación' //TRADUCCION
+                                        translate.not_present_at_time_of_voting 
                                         }
                                     </React.Fragment>
                                 }
@@ -87,7 +87,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                     })}
                 </div>
             }
-            title={`${participant.name} ${participant.surname}`}//TRADUCCION
+            title={`${participant.name} ${participant.surname}`}
         />
     )
 }

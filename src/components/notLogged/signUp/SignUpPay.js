@@ -145,7 +145,7 @@ class SignUpPay extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={4} lg={4}>
 						<TextInput
-							floatingText="Código promocional"//TRADUCCION
+							floatingText={translate.code_society_up}
 							type="text"
 							value={this.state.code}
 							onChange={event =>

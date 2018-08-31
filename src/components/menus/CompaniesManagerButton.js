@@ -1,6 +1,8 @@
 import React from 'react';
 import { BasicButton, ButtonIcon, Link, Grid, GridItem } from '../../displayComponents';
 import { getSecondary } from '../../styles/colors';
+import withTranslations from '../../HOCs/withTranslations';
+
 
 
 class CompaniesManagerButton extends React.Component {
@@ -11,7 +13,7 @@ class CompaniesManagerButton extends React.Component {
                 <GridItem xs={5} md={5} lg={5}>
                     <Link to={`/company/${this.props.company.id}/create`}>
                         <BasicButton
-                            text="Crear"/*TRADUCCION*/
+                            text={this.props.translate.companies_add}
                             color={getSecondary()}
                             icon={<ButtonIcon type="add" color="white" />}
                             textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
@@ -22,7 +24,7 @@ class CompaniesManagerButton extends React.Component {
                 <GridItem xs={5} md={5} lg={5}>
                     <Link to={`/company/${this.props.company.id}/link`}>
                         <BasicButton
-                            text="Vincular"/*TRADUCCION*/
+                            text={this.props.translate.companies_link}
                             color={getSecondary()}
                             icon={<ButtonIcon type="link" color="white" />}
                             textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
@@ -34,7 +36,7 @@ class CompaniesManagerButton extends React.Component {
     }
 }
 
-export default CompaniesManagerButton;
+export default withTranslations()(CompaniesManagerButton);
 
 
 /*
@@ -69,7 +71,7 @@ export default CompaniesManagerButton;
                         </MenuItem>
                         <MenuItem>
                             <Link to={`/company/${this.props.company.id}/link`}>
-                                Vincular entidad{/*TRADUCCION
+                                {translate.companies_link}
                             </Link>
                         </MenuItem>
                     </React.Fragment>

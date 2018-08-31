@@ -42,20 +42,20 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 						title={
 							<React.Fragment>
 								<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited"}}>
-									{`Datos de entidad (opcional)`}
+									{`${translate.company_new_data} (${translate.optional})`}
 								</span>
 								<br />
 								<br />
 							</React.Fragment>
-						}//TRADUCCION
+						}
 						icon={<Icon type="profile" style={{color: active === 1? primary : secondary}} />}
 					/>
 					<Step
 						title={
 							<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited" , marginBottom: '2em'}}>
-								{`${translate.billing_information} (opcional)`}
+								{`${translate.billing_information} (${translate.optional})`}
 							</span>
-						}//TRADUCCION
+						}
 						icon={<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />}
 					/>
 				</Steps>

@@ -5,7 +5,7 @@ import { AlertConfirm } from './';
 const UnsavedChangesModal = ({ translate, open, requestClose }) => (
     <AlertConfirm
         title={translate.attention}
-        bodyText={"Tiene cambios sin guardar"}//TRADUCCION
+        bodyText={translate.changes_without_saving}
         open={open}
         buttonCancel={translate.accept}
         modal={true}

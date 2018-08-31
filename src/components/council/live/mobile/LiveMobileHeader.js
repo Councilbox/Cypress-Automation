@@ -1,9 +1,9 @@
 import React from "react";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { bHistory } from "../../../containers/App";
-import { AlertConfirm, Icon } from "../../../displayComponents";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { bHistory } from "../../../../containers/App";
+import { AlertConfirm, Icon } from "../../../../displayComponents";
 
-class LiveHeader extends React.Component {
+class LiveMobileHeader extends React.Component {
 	state = {
 		showConfirm: false
 	};
@@ -21,7 +21,6 @@ class LiveHeader extends React.Component {
 			translate
 		} = this.props;
 		const primary = getPrimary();
-		const secondary = getSecondary();
 
 		return (
 			<React.Fragment>
@@ -29,14 +28,14 @@ class LiveHeader extends React.Component {
 					style={{
 						background:
 							primaryColor ||
-							`linear-gradient(to right, ${secondary}, ${primary})`,
+							`linear-gradient(to right, ${getSecondary()}, ${primary})`,
 						color: "white",
 						display: "flex",
 						width: "100%",
 						userSelect: "none",
 						position: "absolute",
 						zIndex: 1000,
-						height: "5em",
+						height: "3em",
 						alignItems: "center",
 						justifyContent: "space-between"
 					}}
@@ -52,14 +51,14 @@ class LiveHeader extends React.Component {
 							}}
 							alt="councilbox logo"
 						/>
-						<span style={{ fontWeight: "700" }}>{companyName}</span>
 					</div>
 					<div
 						style={{
 							width: "50%",
 							display: "flex",
 							justifyContent: "center",
-							marginRight: "10%"
+							marginRight: "10%",
+							textOverflow: "ellipsis"
 						}}
 					>
 						<span style={{ alignSelf: "center" }}>
@@ -75,12 +74,6 @@ class LiveHeader extends React.Component {
 							paddingRight: "2em"
 						}}
 					>
-						{/*<Icon
-                     className="material-icons"
-                     style={{fontSize: '1.5em', color: 'white'}}
-                     >
-                     help
-                     </Icon>*/}
 						<Icon
 							className="material-icons"
 							style={{
@@ -122,4 +115,4 @@ class LiveHeader extends React.Component {
 	}
 }
 
-export default LiveHeader;
+export default LiveMobileHeader;

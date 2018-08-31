@@ -119,7 +119,7 @@ const Vtabs = ({
 											}}
 										/>
 									</Tooltip>
-									<Tooltip title="Deshacer" /*TRADUCCION*/>
+									<Tooltip title={translate.discard_changes} >
 										<Icon
 											type="rollback"
 											style={{
@@ -136,7 +136,7 @@ const Vtabs = ({
 								</React.Fragment>
 							}
 							{!!editAction && (
-								<Tooltip title="Cambiar nombre reunión" /*TRADUCCION*/>
+								<Tooltip title={translate.rename_council_type}>
 									<FontAwesome
 										name="edit"
 										style={{
@@ -198,7 +198,7 @@ class HoverableTab extends React.PureComponent {
 
 
 	render(){
-		const { tab, mapIndex, index, deleteAction, editAction } = this.props;
+		const { tab, mapIndex, index, deleteAction, editAction, translate } = this.props;
 
 		return (
 			<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}
@@ -236,7 +236,7 @@ class HoverableTab extends React.PureComponent {
 						elevation={0}
 					>
 						{!!editAction && (
-							<Tooltip title="Cambiar nombre reunión" /*TRADUCCION*/>
+							<Tooltip title={translate.rename_council_type}>
 								<IconButton
 									style={{
 										width: '32px',

@@ -36,8 +36,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
 							paddingTop: "2em"
 						}}
 					>
-                        {/*TRADUCCION*/}
-						Le damos la bienvenida.
+                        {translate.we_welcome}
 					</div>
 					<div
 						style={{
@@ -48,8 +47,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
 							paddingTop: "0.5em"
 						}}
 					>
-                        {/*TRADUCCION*/}
-						No tiene ninguna entidad asociada a su usuario, puede crear o vincular una, o probar a realizar una conferencia.
+                        {translate.no_companies_desc}
 					</div>
                     <Grid
                         style={{
@@ -62,7 +60,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
                             <Block
                                 link={`/company/create`}
                                 icon="add"
-                                text="Crear entidad"/*TRADUCCION*/
+                                text={translate.companies_add}
                             />
                         </GridItem>
 
@@ -70,7 +68,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
                             <Block
                                 link={`/company/link`}
                                 icon="link"
-                                text="Vincular entidad"/*TRADUCCION*/
+                                text={translate.companies_link}
                             />
                         </GridItem>
 
@@ -78,7 +76,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
                             <Block
                                 link={`/meeting/new`}
                                 icon="video_call"
-                                text={'Iniciar conferencia'}/*TRADUCCION*/
+                                text={translate.start_conference}
                             />
                         </GridItem>
                     </Grid>

@@ -26,7 +26,7 @@ class ToggleAgendaButton extends React.Component {
 	}
 
 	openAgenda = async () => {
-		const { agenda } = this.props;
+		const { agenda, translate } = this.props;
 		if(agenda.subjectType === getActPointSubjectType()){
 			const response = await this.props.openActPoint({
 				variables: {
@@ -44,7 +44,7 @@ class ToggleAgendaButton extends React.Component {
 			});
 			if (response) {
 				if(response.errors){
-					toast.error('Ha ocurrido un error al intentar abrir el punto'); //TRADUCCION
+					toast.error(translate.open_point_error);
 				}
 				this.props.refetch();
 			}

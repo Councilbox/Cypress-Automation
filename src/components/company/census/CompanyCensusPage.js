@@ -227,7 +227,7 @@ class HoverableRow extends React.PureComponent {
 			>
 				<TableCell>
 					{census.defaultCensus === 1 &&
-						<Tooltip title={'Censo por defecto'} /*TRADUCCION*/>
+						<Tooltip title={translate.default_census} >
 							<FontAwesome
 								name={"star"}
 								style={{
@@ -292,7 +292,7 @@ class HoverableRow extends React.PureComponent {
 								</Tooltip>
 
 							)}
-							<Tooltip title={'Administrar participantes'}/*TRADUCCION*/>
+							<Tooltip title={translate.manage_participants}>
 								<FontAwesome
 									name={"users"}
 									style={{

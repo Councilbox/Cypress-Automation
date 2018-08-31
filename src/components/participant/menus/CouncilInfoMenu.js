@@ -1,7 +1,6 @@
 import React from 'react';
 import { DropDownMenu, Icon, AlertConfirm } from '../../../displayComponents';
-import FontAwesome from 'react-fontawesome';
-import { MenuItem, Paper, IconButton } from 'material-ui';
+import { MenuItem, IconButton } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';

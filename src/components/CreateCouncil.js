@@ -6,6 +6,7 @@ import { createCouncil } from "../queries";
 import { graphql } from 'react-apollo';
 import { bHistory } from "../containers/App";
 import { toast } from 'react-toastify';
+import withTranslations from "../HOCs/withTranslations";
 
 class CreateCouncil extends Component {
 	constructor(props) {
@@ -45,7 +46,7 @@ class CreateCouncil extends Component {
 				bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
 			}else{
 				bHistory.replace(`/company/${this.props.match.params.company}`);
-				toast.error('No dispone de ningún tipo de reunión, por favor añada uno antes de crear una nueva reunión');//TRADUCCION
+				toast.error(this.props.translate.no_statutes);
 			}
 		}
 	}
@@ -66,4 +67,4 @@ const mapStateToProps = state => ({
 
 export default graphql(createCouncil, { name: 'createCouncil' })(connect(
 	mapStateToProps
-)(withRouter(CreateCouncil)));
+)(withRouter(withTranslations()(CreateCouncil))));

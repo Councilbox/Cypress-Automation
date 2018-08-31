@@ -9,7 +9,7 @@ class LiveUtil {
 			agenda.majority_type === 1 &&
 			agenda.positive_votings + agenda.positive_manual ===
 				agenda.negative_votings + agenda.negative_manual &&
-			council.statutes[0].exists_quality_vote
+			council.statute.exists_quality_vote
 		);
 	}
 

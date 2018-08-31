@@ -50,7 +50,7 @@ class CompanyMenu extends React.Component {
 						}}
 						onClick={this.props.requestClose}
 					>
-						Entidades{/*TRADUCCION*/}
+						{this.props.translate.entities}
 						<img
 							src={icon}
 							style={{

@@ -2,12 +2,11 @@ import React from "react";
 import { compose, graphql } from "react-apollo";
 import {
 	liveParticipant,
-	updateLiveParticipant,
 	updateParticipantSends
 } from "../../../../queries";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { Tooltip, Typography, } from "material-ui";
-import { 
+import {
 	Grid,
 	GridItem,
 	LoadingSection,
@@ -18,6 +17,7 @@ import * as CBX from "../../../../utils/CBX";
 import ParticipantStateSelector from "./ParticipantStateSelector";
 import FontAwesome from "react-fontawesome";
 import NotificationsTable from '../../../notifications/NotificationsTable';
+import { changeParticipantState } from "../../../../queries/liveParticipant";
 
 class LiveParticipantEditor extends React.Component {
 	refreshEmailStates = async () => {
@@ -37,16 +37,12 @@ class LiveParticipantEditor extends React.Component {
 			});
 		}
 	};
-	
+
 	removeDelegatedVote = async id => {
-		const response = await this.props.updateLiveParticipant({
+		const response = await this.props.changeParticipantState({
 			variables: {
-				participant: {
-					id: id,
-					state: 0,
-					delegateId: null,
-					councilId: this.props.council.id
-				}
+				participantId: id,
+				state: 0
 			}
 		});
 
@@ -343,8 +339,8 @@ export default compose(
 			notifyOnNetworkStatusChange: true
 		})
 	}),
-	graphql(updateLiveParticipant, {
-		name: "updateLiveParticipant"
+	graphql(changeParticipantState, {
+		name: "changeParticipantState"
 	}),
 	graphql(updateParticipantSends, {
 		name: "updateParticipantSends"

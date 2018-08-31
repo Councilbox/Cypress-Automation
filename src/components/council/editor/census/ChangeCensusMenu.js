@@ -51,7 +51,7 @@ const ChangeCensusMenu = ({
 				})}
 			</SelectInput>
 		:
-			<span>La entidad no tiene ningún censo{/*TRADUCCION*/}</span>
+			<span>{translate.empty_censuses}</span>
 		}
 
 		</GridItem>
@@ -65,7 +65,7 @@ const ChangeCensusMenu = ({
 				alignItems: "center"
 			}}
 		>
-			<Tooltip title="Volver a cargar el censo seleccionado" /*TRADUCCION*/>
+			<Tooltip title={translate.try_again_census} >
 				<div>
 					<BasicButton
 						color={getSecondary()}

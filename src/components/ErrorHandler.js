@@ -9,6 +9,8 @@ import { Scrollbar } from '../displayComponents';
 import withWindowSize from '../HOCs/withWindowSize';
 import withSharedProps from '../HOCs/withSharedProps';
 import { bHistory } from '../containers/App';
+import withTranslations from '../HOCs/withTranslations';
+
 
 class ErrorHandler extends React.Component {
 
@@ -105,7 +107,7 @@ class ErrorHandler extends React.Component {
                                     marginTop: '1.4em'
                                 }}
                             >
-                                Lo sentimos, ha ocurrido algo inesperado, hemos enviado información relacionada para solucionarlo lo antes posible {/*TRADUCCION*/}
+                                {this.props.translate.unexpected_error}
                             </p>
                         </div>
                     </Scrollbar>
@@ -128,4 +130,4 @@ const sendRuntimeError = gql`
 
 export default graphql(sendRuntimeError, {
     name: 'sendRuntimeError'
-})(withWindowSize(withSharedProps()(ErrorHandler)));
+})(withWindowSize(withSharedProps()(withTranslations()((ErrorHandler)))));

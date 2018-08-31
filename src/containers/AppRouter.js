@@ -235,7 +235,7 @@ class AppRouter extends React.Component {
 					/>
 					<Route
 						exact
-						path="/assistance/token/:token/"
+						path="/attendance/token/:token/"
 						component={AssistanceTokenContainer}
 					/>
 
@@ -246,7 +246,7 @@ class AppRouter extends React.Component {
 					/>
 					<Route
 						exact
-						path="/assistance/participant/:participantId/council/:councilId"
+						path="/attendance/participant/:participantId/council/:councilId"
 						component={AssistanceContainer}
 					/>
 

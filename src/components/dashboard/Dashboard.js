@@ -36,8 +36,7 @@ const Dashboard = ({ translate, company, user }) => {
 							paddingTop: "2em"
 						}}
 					>
-						{/*TRADUCCION*/}
-						Le damos la bienvenida.
+						{translate.we_welcome}
 					</div>
 					<div
 						style={{
@@ -48,9 +47,7 @@ const Dashboard = ({ translate, company, user }) => {
 							paddingTop: "0.5em"
 						}}
 					>
-						{/*TRADUCCION*/}
-						Le recomendamos que comience revisando la
-						configuración de su entidad.
+						{translate.we_recommend_review_configuration}
 					</div>
 					<TopSectionBlocks
 						translate={translate}

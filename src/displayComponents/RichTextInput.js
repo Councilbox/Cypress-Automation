@@ -5,7 +5,6 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 import RichTextEditor from 'react-rte';
-import withTranslations from '../HOCs/withTranslations';
 //import { Editor } from 'slate-react';
 //import { Value } from 'slate';
 //import Html from 'slate-html-serializer';
