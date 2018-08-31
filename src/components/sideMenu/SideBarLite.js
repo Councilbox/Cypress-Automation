@@ -48,7 +48,7 @@ class Sidebar extends React.Component {
 	}
 
 
-	componentDidUpdate(prevProps){
+	componentDidUpdate(prevProps) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			this.setState({
 				location: this.props.location.pathname,
@@ -56,7 +56,7 @@ class Sidebar extends React.Component {
 				selectedRoute: this.findActiveRoute(this.props.location.pathname)
 			});
 
-			this.routes =  [
+			this.routes = [
 				{
 					path: `/company/${this.props.company.id}`,
 					sidebarName: 'Dashboard',
@@ -92,11 +92,11 @@ class Sidebar extends React.Component {
 		<div className={this.props.classes.list}
 			style={{
 				display: 'flex',
-				flexDirection:  'column',
-				...(this.props.windowSize === 'xs'? { margin: 0 } : {}),
+				flexDirection: 'column',
+				...(this.props.windowSize === 'xs' ? { margin: 0 } : {}),
 			}}
 		>
-			{this.props.windowSize !== 'xs'?
+			{this.props.windowSize !== 'xs' ?
 				<React.Fragment>
 					<div
 						className={this.props.classes.logoLink}
@@ -118,17 +118,17 @@ class Sidebar extends React.Component {
 							}}
 						>
 							<Tooltip title={this.props.company.businessName} placement="top-end">
-							{!!this.props.company.logo ? (
-								<img
-									src={this.props.company.logo}
-									alt="logo"
-									className={this.props.classes.img}
-								/>
-							) : (
-								<FontAwesome
-									name={"building-o"}
-								/>
-							)}
+								{!!this.props.company.logo ? (
+									<img
+										src={this.props.company.logo}
+										alt="logo"
+										className={this.props.classes.img}
+									/>
+								) : (
+										<FontAwesome
+											name={"building-o"}
+										/>
+									)}
 							</Tooltip>
 						</div>
 					</div>
@@ -138,7 +138,7 @@ class Sidebar extends React.Component {
 						}
 						const listItemClasses = cx({
 							[" " +
-							this.props.classes[this.props.color]]: this.activeRoute(key)
+								this.props.classes[this.props.color]]: this.activeRoute(key)
 						});
 						return (
 							<NavLink
@@ -192,7 +192,7 @@ class Sidebar extends React.Component {
 						);
 					})}
 				</React.Fragment>
-			:
+				:
 				<div
 					style={{
 						display: 'flex',
@@ -218,7 +218,7 @@ class Sidebar extends React.Component {
 						}
 						const listItemClasses = cx({
 							[" " +
-							this.props.classes[this.props.color]]: this.activeRoute(key)
+								this.props.classes[this.props.color]]: this.activeRoute(key)
 						});
 						return (
 							<NavLink
@@ -289,22 +289,22 @@ class Sidebar extends React.Component {
 
 	brand = () => (
 		<React.Fragment>
-			<Tooltip title="Gestionar entidades" /*TRADUCCION*/>
+			<Tooltip title={this.props.translate.manage_entities} >
 				<div
 					style={{
-						width: this.props.windowSize === 'xs'? '3em' : '100%',
+						width: this.props.windowSize === 'xs' ? '3em' : '100%',
 						height: '3em',
 						cursor: 'pointer',
 						display: 'flex',
-						backgroundColor: this.state.companyMenu? getSecondary() : 'transparent',
+						backgroundColor: this.state.companyMenu ? getSecondary() : 'transparent',
 						alignItems: 'center',
 						justifyContent: 'center'
 					}}
 					onClick={this.toggleCompanyMenu}
 				>
-					<div className={this.props.classes.logo} style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					<div className={this.props.classes.logo} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 						<Icon
-							style={{color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em'}}
+							style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em' }}
 						>
 							apps
 						</Icon>
@@ -321,14 +321,14 @@ class Sidebar extends React.Component {
 	render() {
 		const { classes } = this.props;
 		return (
-			<div style={{float: 'left', zIndex: '0'}}>
+			<div style={{ float: 'left', zIndex: '0' }}>
 				<div style={{
 					backgroundColor: darkGrey,
 					height: '100vh',
 					zIndex: '1000',
 					position: 'absolute',
 					display: 'flex',
-					...(this.props.windowSize === 'xs'?
+					...(this.props.windowSize === 'xs' ?
 						{
 							flexDirection: 'row',
 							bottom: 0,
@@ -337,11 +337,11 @@ class Sidebar extends React.Component {
 							alignItems: 'center',
 							height: '3.5em'
 						}
-					:
+						:
 						{
-							flexDirection:  'column',
+							flexDirection: 'column',
 							top: 0,
-					 		left: 0,
+							left: 0,
 							width: '5em',
 						}
 					),

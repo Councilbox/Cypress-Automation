@@ -67,4 +67,4 @@ const mapStateToProps = state => ({
 
 export default graphql(createCouncil, { name: 'createCouncil' })(connect(
 	mapStateToProps
-)(withRouter(withTranslations(CreateCouncil))));
+)(withRouter(withTranslations()(CreateCouncil))));

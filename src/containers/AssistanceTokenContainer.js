@@ -68,7 +68,7 @@ class AssistanceTokenContainer extends React.Component {
 			<React.Fragment>
 				{participant ? (
 					<Redirect
-						to={`/assistance/participant/${participant.id}/council/${
+						to={`/attendance/participant/${participant.id}/council/${
 							participant.councilId
 							}`}
 					/>

@@ -463,7 +463,7 @@ class ImportCensusButton extends React.Component {
 	buildErrorString = (errors) => {
 		const translate = this.props.translate;
 
-		let string = `Entrada: ${
+		let string = `${translate.entry}: ${
 			errors.line}: ${
 			errors.name ? `${translate.name}, ` : ''}${
 			errors.surname ? `${translate.new_surname}, ` : ''}${
@@ -671,7 +671,7 @@ class ImportCensusButton extends React.Component {
 							>
 								{this.state.invalidEmails.map((item, index) => (
 									<React.Fragment key={`invalidEmails_${item[0]}`}>
-										{`Entrada ${item[1]}: ${item[0]}`}<br />
+										{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
 									</React.Fragment>
 								))}
 							</div>

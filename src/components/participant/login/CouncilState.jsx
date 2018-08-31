@@ -151,7 +151,7 @@ class CouncilState extends React.Component {
 								translate={translate}
 							/>
 							<BasicButton
-								text={"Ver participación"} //TRADUCCION
+								text={translate.see_participation}
 								color={secondary}
 								textStyle={{color: 'white', fontWeight: '700', marginTop: '0.9em'}}
 								onClick={() => this.setState({

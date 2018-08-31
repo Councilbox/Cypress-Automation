@@ -88,7 +88,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 			}
 		},
 		{
-			text: translate.completed_acts,
+			text: translate.councils_finished,
 			link: `/company/${company.id}/councils/confirmed`,
 			component: () => {
 				return (

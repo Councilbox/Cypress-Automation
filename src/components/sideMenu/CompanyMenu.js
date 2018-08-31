@@ -4,7 +4,6 @@ import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary } from '../../styles/colors';
-import withTranslations from "../../HOCs/withTranslations";
 let icon;
 import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
 

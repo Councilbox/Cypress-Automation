@@ -106,7 +106,7 @@ class Test extends React.Component {
 							paddingTop: '5em',
 						}}
 					>
-						Lo sentimos, no se ha podido conectar con el servidor de video, por favor, vuelva a intentarlo en otro momento {/*TRADUCCION*/}
+						{translate.video_error} 
 					</div>
 				:
 					<React.Fragment>

@@ -62,7 +62,7 @@ class AgendaMenu extends React.Component {
 
     agendaStateMessage = () => {
         const { translate, agenda } = this.props;
-        if(CBX.agendaPointNotOpened(agenda)) return 'Discusión no iniciada'//TRADUCCION
+        if(CBX.agendaPointNotOpened(agenda)) return translate.discussion_not_started
         if(CBX.agendaPointOpened(agenda)) return translate.in_discussion;
         if(CBX.agendaClosed(agenda)) return translate.closed;
         if(CBX.agendaVotingsOpened(agenda)) return translate.agenda_votations_closed;
