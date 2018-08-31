@@ -2179,21 +2179,6 @@ export const liveParticipant = gql`
 	}
 `;
 
-export const updateLiveParticipant = gql`
-	mutation updateLiveParticipant(
-		$participant: LiveParticipantInput
-		$representative: LiveRepresentativeInput
-	) {
-		updateLiveParticipant(
-			participant: $participant
-			representative: $representative
-		) {
-			success
-			message
-		}
-	}
-`;
-
 export const banParticipant = gql`
 	mutation banParticipant($participantId: Int!) {
 		banParticipant(participantId: $participantId) {
