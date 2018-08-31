@@ -1878,6 +1878,8 @@ export const videoParticipants = gql`
 				video
 				councilId
 				name
+				email
+				position
 				date
 				participantId
 				online

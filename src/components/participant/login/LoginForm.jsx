@@ -181,10 +181,11 @@ class LoginForm extends React.Component {
                 </div>
 
                 <div style={styles.loginFormContainer}>
-                    <form>
+                    <form style={{width: '100%'}}> 
                         <TextInput
                             floatingText={translate.email}
                             type="email"
+                            fullWidth
                             errorText={errors.email}
                             value={email}
                             onChange={event =>

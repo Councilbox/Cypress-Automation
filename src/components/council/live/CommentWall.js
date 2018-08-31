@@ -192,7 +192,7 @@ export default graphql(wallComments, {
 		variables: {
 			councilId: props.council.id
 		},
-		//pollInterval: 5000
+		pollInterval: 5000
 	}),
 	props: props => {
 		return {

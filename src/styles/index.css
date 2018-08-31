@@ -92,3 +92,12 @@ h4 {
     font-size: 16px;
     font-weight: 600;
 }
+
+@keyframes fadeIn {
+    from { opacity: 0.3; }
+  }
+
+.fadeToggle {
+    animation: fadeIn 1s infinite alternate;
+}
+

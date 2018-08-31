@@ -21,7 +21,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 					<React.Fragment>
 						{`${participant.name} ${participant.surname} - ${
 							participant.email
-						} - ${participant.position}`}
+						} - ${participant.position? participant.position : ''}`}
 
 						{data.loading ? (
 							<LoadingSection />

@@ -20,6 +20,7 @@ const TextInput = ({
 	errorText,
 	classes,
 	onKeyUp,
+	multiline = false,
 	placeholder,
 	required,
 	min,
@@ -50,6 +51,7 @@ const TextInput = ({
 				</React.Fragment>
 			}
 			value={value}
+			multiline={multiline}
 			style={{
 				marginTop: 0,
 				width: "100%"

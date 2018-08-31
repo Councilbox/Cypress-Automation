@@ -55,7 +55,17 @@ class StepCensus extends React.Component {
 		});
 	};
 
+	resetButtonStates = () => {
+		this.setState({
+			loading: false,
+			success: false
+		})
+	}
+
 	saveDraft = async step => {
+		this.setState({
+			loading: true
+		})
 		const { __typename, participants, ...council } = this.props.data.council;
 		await this.props.updateCouncil({
 			variables: {
@@ -64,6 +74,11 @@ class StepCensus extends React.Component {
 					step: step
 				}
 			}
+		});
+
+		this.setState({
+			loading: false,
+			success: true
 		});
 	};
 
@@ -232,7 +247,7 @@ class StepCensus extends React.Component {
 						<BasicButton
 							text={translate.previous}
 							color={secondary}
-							loading={this.props.data.loading}
+							disabled={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -245,7 +260,10 @@ class StepCensus extends React.Component {
 						<BasicButton
 							text={translate.save}
 							color={secondary}
-							loading={this.props.data.loading}
+							disabled={this.props.data.loading}
+							reset={this.resetButtonStates}
+							loading={this.state.loading}
+							success={this.state.success}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -263,7 +281,7 @@ class StepCensus extends React.Component {
 						<BasicButton
 							text={translate.table_button_next}
 							color={primary}
-							loading={this.props.data.loading}
+							disabled={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",

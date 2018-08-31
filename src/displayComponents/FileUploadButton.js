@@ -23,6 +23,7 @@ const FileUploadButton = ({
 			{...(accept? { accept: accept} : {})}
 			id={"raised-button-file"}
 			onChange={onChange}
+			{...(loading? { disabled: true } : {})}
 			style={{
 				cursor: "pointer",
 				position: "absolute",
@@ -38,6 +39,8 @@ const FileUploadButton = ({
 			<Button
 				variant={flat ? "flat" : "raised"}
 				component="span"
+				disableRipple={loading}
+				disabled={loading}
 				style={{
 					...buttonStyle,
 					...textStyle,

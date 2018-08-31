@@ -160,6 +160,9 @@ class CouncilLivePage extends React.Component {
 						<div>
 							{this.state.unreadComments > 0 ?
 								<Badge
+									classes={{
+										badge: 'fadeToggle'
+									}}
 									badgeContent={
 										<span
 											style={{

@@ -48,7 +48,7 @@ class ParticipantCouncil extends React.Component {
         });
     }
 
-    leaveRoom = () => {
+/*     leaveRoom = () => {
         var request = new XMLHttpRequest();
         const token = sessionStorage.getItem("token");
 	    const participantToken = sessionStorage.getItem("participantToken");
@@ -71,7 +71,7 @@ class ParticipantCouncil extends React.Component {
                 online: 2
             }
         }));
-    };
+    }; */
 
     _renderAgendaSection = () => {
         return (
@@ -124,6 +124,7 @@ class ParticipantCouncil extends React.Component {
                                     <RequestWordMenu
                                         translate={this.props.translate}
                                         participant={participant}
+                                        council={council}
                                     />
                                     <VideoContainer
                                         council={council}

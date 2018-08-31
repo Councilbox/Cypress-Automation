@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
+import AdminPrivateMessage from './AdminPrivateMessage';
 
 class RequestWordMenu extends React.Component {
 
@@ -40,7 +41,14 @@ class RequestWordMenu extends React.Component {
                 <Tooltip title={this.props.translate.cancel_ask_word} placement="top">
                     <IconButton
                         size={'small'}
-                        style={{outline: 0, color:grantedWord? 'white' : secondary}}
+                        style={{
+                            outline: 0,
+                            color: grantedWord? 'white' : primary,
+                            backgroundColor: grantedWord? primary : 'inherit',
+                            width: '2em',
+                            height: '100%',
+                            borderRadius: '0.5em'
+                        }}
                         onClick={this.cancelAskForWord}
                     >
                         <i className="material-icons">
@@ -55,7 +63,7 @@ class RequestWordMenu extends React.Component {
             <Tooltip title={this.props.translate.ask_to_speak} placement="top">
                 <IconButton
                     size={'small'}
-                    style={{outline: 0, color: grantedWord? 'white' : primary}}
+                    style={{outline: 0, color: secondary}}
                     onClick={this.askForWord}
                 >
                     <i className="material-icons">
@@ -63,6 +71,16 @@ class RequestWordMenu extends React.Component {
                     </i>
                 </IconButton>
             </Tooltip>
+        )
+    }
+
+    renderPrivateMessageIcon = () => {
+        return(
+            <AdminPrivateMessage
+                translate={this.props.translate}
+                council={this.props.council}
+                participant={this.props.participant}
+            />
         )
     }
 
@@ -74,10 +92,10 @@ class RequestWordMenu extends React.Component {
         return(
             <Paper
                 style={{
-                    width: '6em',
+                    width: '8em',
                     height: '3em',
                     position: 'absolute',
-                    backgroundColor: grantedWord? primary : 'white',
+                    backgroundColor: 'white',
                     color: grantedWord? 'white' : primary,
                     left: '50%',
                     transform: 'translateX(-50%)',
@@ -87,7 +105,10 @@ class RequestWordMenu extends React.Component {
                     bottom: '10px'
                 }}
             >
-                {this.renderWordButtonIcon()}
+                <div>
+                    {this.renderWordButtonIcon()}
+                    {this.renderPrivateMessageIcon()}
+                </div>
             </Paper>
         )
     }

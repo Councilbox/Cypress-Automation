@@ -191,9 +191,9 @@ class ParticipantsLive extends React.Component {
 					</div>
 				</GridItem>
 				<GridItem
-					xs={2}
-					lg={2}
-					md={2}
+					xs={1}
+					lg={1}
+					md={1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -205,6 +205,17 @@ class ParticipantsLive extends React.Component {
 						participant={participant}
 						refetch={this.props.data.refetch}
 					/>
+				</GridItem>
+				<GridItem
+					xs={1}
+					lg={1}
+					md={1}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between"
+					}}
+				>
 					<VideoParticipantMenu
 						council={this.props.council}
 						participant={participant}
@@ -304,7 +315,8 @@ class ParticipantsLive extends React.Component {
 									this.state.banParticipant.name
 								} ${this.state.banParticipant.surname} ${
 									translate.from_room
-								}?`}
+								}?`
+							}
 						</div>
 					}
 					title={translate.attention}
