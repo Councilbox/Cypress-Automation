@@ -83,7 +83,7 @@ class AgendaDetailsSection extends React.Component {
 						<span style={{fontWeight: '700', marginLeft: '0.3em'}}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</span>
 						<br />
 						<Grid>
-							<GridItem xs={12} md={4} lg={4}>
+							<GridItem xs={12} md={12} lg={3}>
 								<BasicButton
 									text={translate.description}
 									color={getSecondary()}
@@ -98,7 +98,7 @@ class AgendaDetailsSection extends React.Component {
 									})}
 								/>
 							</GridItem>
-							<GridItem xs={12} md={4} lg={4} style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+							<GridItem xs={12} md={5} lg={4} style={{display: 'flex', alignItems: 'center'}}>
 								{councilStarted && !CBX.agendaClosed(agenda) && (
 									<React.Fragment>
 										{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT?
@@ -120,7 +120,7 @@ class AgendaDetailsSection extends React.Component {
 									</React.Fragment>
 								)}
 							</GridItem>
-							<GridItem xs={12} md={4} lg={4}>
+							<GridItem xs={12} md={7} lg={5} style={{display: 'flex', alignItems: 'center'}}>
 								{CBX.showAgendaVotingsToggle(council, agenda) && agenda.subjectType !== CBX.getActPointSubjectType() ? (
 									<ToggleVotingsButton
 										council={council}

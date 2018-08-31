@@ -6,6 +6,7 @@ import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
+import AttachmentDownload from '../../attachments/AttachmentDownload';
 
 
 class AgendaMenu extends React.Component {
@@ -79,6 +80,11 @@ class AgendaMenu extends React.Component {
                     {translate[CBX.getAgendaTypeLabel(agenda)]}
                 </Typography>
                 <Typography variant="caption" style={{fontSize: '0.8rem'}}>{this.agendaStateMessage()}</Typography>
+                {agenda.attachments &&
+                    agenda.attachments.map(attachment =>
+                        <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda/>
+                    )
+                }
                 {CBX.hasVotation(agenda.subjectType) &&
                     <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
                     {!CBX.agendaVotingsOpened(agenda)?

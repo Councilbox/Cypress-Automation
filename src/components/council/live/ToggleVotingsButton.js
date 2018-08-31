@@ -88,7 +88,7 @@ class ToggleVotingsButton extends React.Component {
 								lock_open
 							</Icon>
 						}
-						buttonStyle={{ width: "15em" }}
+						buttonStyle={{ width: "18em" }}
 						onClick={this.closeAgendaVoting}
 						textStyle={{
 							fontSize: "0.75em",

@@ -42,7 +42,7 @@ class CensusParticipants extends React.Component {
 	};
 
 
-	_renderDeleteIcon(participantID) {
+	_renderDeleteIcon = (participantID) => {
 		const primary = getPrimary();
 
 		return (

@@ -31,6 +31,8 @@ class StepAgenda extends React.Component {
 		votingTypes: [],
 		edit: false,
 		editIndex: 0,
+		loading: false,
+		success: false,
 		saveAsDraft: false,
 		saveAsDraftId: 0,
 		errors: {
@@ -45,9 +47,12 @@ class StepAgenda extends React.Component {
 	}
 
 	updateCouncil = async step => {
+		this.setState({
+			loading: true
+		})
 		const { agendas, statute, __typename, ...council } = this.props.data.council;
 
-		this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -55,7 +60,19 @@ class StepAgenda extends React.Component {
 				}
 			}
 		});
+
+		await this.setState({
+			loading: false,
+			success: true
+		})
 	};
+
+	resetButtonStates = () => {
+		this.setState({
+			loading: false,
+			success: false
+		})
+	}
 
 	removeAgenda = async agendaId => {
 		const response = await this.props.removeAgenda({
@@ -290,7 +307,7 @@ class StepAgenda extends React.Component {
 														/>
 													</NewAgendaPointModal>
 												</div>
-												<Typography variant="body1" style={{ color: "red" }}>
+												<Typography variant="subheading" style={{ color: "red", fontWeight: '700', marginTop: '1.2em'}}>
 													{errors.emptyAgendas}
 												</Typography>
 											</div>
@@ -350,6 +367,7 @@ class StepAgenda extends React.Component {
 						<React.Fragment>
 							<BasicButton
 								text={translate.previous}
+								disable={this.props.data.loading}
 								color={secondary}
 								textStyle={buttonStyle}
 								textPosition="after"
@@ -357,6 +375,10 @@ class StepAgenda extends React.Component {
 							/>
 							<BasicButton
 								text={translate.save}
+								disable={this.props.data.loading}
+								success={this.state.success}
+								loading={this.state.loading}
+								reset={this.resetButtonStates}
 								color={secondary}
 								textStyle={{
 									color: "white",
@@ -368,12 +390,12 @@ class StepAgenda extends React.Component {
 								}}
 								icon={<ButtonIcon type="save" color="white" />}
 								textPosition="after"
-								onClick={this.updateCouncil}
+								onClick={() => this.updateCouncil(3)}
 							/>
 							<BasicButton
 								text={translate.next}
 								color={primary}
-								loading={this.props.data.loading}
+								disable={this.props.data.loading}
 								loadingColor={'white'}
 								textStyle={{
 									color: "white",

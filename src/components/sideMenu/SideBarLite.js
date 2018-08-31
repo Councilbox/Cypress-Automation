@@ -29,13 +29,13 @@ class Sidebar extends React.Component {
 		{
 			path: `/company/${this.props.company.id}/councils/drafts`,
 			name: "council",
-			sidebarName: 'Reuniones',
+			sidebarName: 'Reuniones', //TRADUCCION
 			icon: 'import_contacts'
 		},
 		{
 			path: `/company/${this.props.company.id}/signatures/drafts`,
 			name: "signature",
-			sidebarName: 'Firmas',
+			sidebarName: 'Firmas', //TRADUCCION
 			icon: 'border_color'
 		}
 	];
@@ -148,6 +148,7 @@ class Sidebar extends React.Component {
 								key={key}
 								style={{
 									display: 'flex',
+									width: '100%',
 									alignItems: 'center',
 									justifyContent: 'center'
 								}}

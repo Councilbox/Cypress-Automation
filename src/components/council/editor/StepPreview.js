@@ -39,6 +39,7 @@ class StepPreview extends React.Component {
 		preConveneModal: false,
 		preConveneSuccess: false,
 		loading: false,
+		success: false,
 		sendConveneWithoutNoticeModal: false,
 		conveneWithoutNoticeSuccess: false,
 		data: {

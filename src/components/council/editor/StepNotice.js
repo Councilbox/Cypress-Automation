@@ -29,6 +29,8 @@ class StepNotice extends React.Component {
 	state = {
 		placeModal: false,
 		changeCensusModal: false,
+		loading: false,
+		success: false,
 		alert: false,
 		data: {},
 		errors: {
@@ -75,6 +77,13 @@ class StepNotice extends React.Component {
 		return null;
 	}
 
+	resetButtonStates = () => {
+		this.setState({
+			loading: false,
+			success: false
+		});
+	}
+
 	nextPage = async () => {
 		if (!this.checkRequiredFields()) {
 			const response = await this.updateCouncil(2);
@@ -85,9 +94,12 @@ class StepNotice extends React.Component {
 		}
 	};
 
-	updateCouncil = step => {
+	updateCouncil = async step => {
+		this.setState({
+			loading: true
+		});
 		const { __typename, statute, councilType, ...council } = this.state.data;
-		return this.props.updateCouncil({
+		const response = await this.props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -95,6 +107,15 @@ class StepNotice extends React.Component {
 				}
 			}
 		});
+
+		if(!response.data.errors){
+			this.setState({
+				loading: false,
+				success: true
+			});
+		}
+
+		return response;
 	};
 
 	savePlaceAndClose = council => {
@@ -497,6 +518,9 @@ class StepNotice extends React.Component {
 							<BasicButton
 								floatRight
 								text={translate.save}
+								loading={this.state.loading}
+								success={this.state.success}
+								reset={this.resetButtonStates}
 								color={secondary}
 								textStyle={{
 									color: "white",
@@ -513,6 +537,8 @@ class StepNotice extends React.Component {
 								floatRight
 								text={translate.next}
 								color={primary}
+								disabled={this.props.data.loading}
+								loading={this.state.loading}
 								icon={
 									<ButtonIcon
 										type="arrow_forward"

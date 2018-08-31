@@ -92,6 +92,8 @@ class ImportCensusButton extends React.Component {
 		sending: false
 	};
 
+	initialState = this.state;
+
 	getCensusTemplate = async () => {
 		const { selectedLanguage: language } = this.props.translate;
 		this.setState({ downloading: true });
@@ -116,56 +118,36 @@ class ImportCensusButton extends React.Component {
 		}
 	};
 
-	read = async (workbook) => {
+	read = workbook => {
 		const wb = XLSX.read(workbook, { type: 'binary' });
-		const participantsData = to_json(wb);
-		console.log(participantsData);
-		const pages = Object.keys(participantsData);
-		this.setState({
-			processing: participantsData.census.length
-		});
-		if (pages.length >= 1) {
-			const participants = await this.prepareParticipants(
-				participantsData["census"]
-			);
-			if (participants) {
-				if (participants.length > 0) {
-					this.setState({
-						processing: false,
-						loading: false,
-						readedParticipants: participants,
-						step: 3
-					});
-				} else {
-					this.setState({
-						processing: false,
-						loading: false,
-						step: 2
-					})
-				}
-			}
-
-		} else {
-			//console.error(workbook);
-			//console.error(participantsData);
-		}
+		return to_json(wb);
 	};
+
+	close = () => {
+		this.setState(this.initialState);
+	}
 
 	checkUniqueEmails = async (participants) => {
 		let uniqueEmails = new Map();
 		let duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
-			if (uniqueEmails.get(censusP.participant.email)) {
-				duplicatedEmails.set(censusP.participant.email, [index + 2]);
-			} else {
-				uniqueEmails.set(censusP.participant.email, index + 2);
+			console.log(censusP);
+			if(censusP.participant.email){
+				if (uniqueEmails.get(censusP.participant.email)) {
+					duplicatedEmails.set(censusP.participant.email, [index + 2]);
+				} else {
+					uniqueEmails.set(censusP.participant.email, index + 2);
+				}
 			}
 
+
 			if (censusP.representative) {
-				if (uniqueEmails.get(censusP.representative.email)) {
-					duplicatedEmails.set(censusP.representative.email, index + 2);
-				} else {
-					uniqueEmails.set(censusP.representative.email, index + 2);
+				if(censusP.representative.email){
+					if (uniqueEmails.get(censusP.representative.email)) {
+						duplicatedEmails.set(censusP.representative.email, [index + 2]);
+					} else {
+						uniqueEmails.set(censusP.representative.email, index + 2);
+					}
 				}
 			}
 		});
@@ -223,7 +205,6 @@ class ImportCensusButton extends React.Component {
 		}
 	}
 
-
 	handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -239,7 +220,33 @@ class ImportCensusButton extends React.Component {
 		reader.readAsBinaryString(file);
 
 		reader.onload = async () => {
-			await this.read(reader.result);
+			const result = await this.read(reader.result);
+			const pages = Object.keys(result);
+			this.setState({
+				processing: result.census.length
+			});
+			if (pages.length >= 1) {
+				const participants = await this.prepareParticipants(result["census"]);
+				if (participants) {
+					if (participants.length > 0) {
+						this.setState({
+							processing: false,
+							loading: false,
+							readedParticipants: participants,
+							step: 3
+						});
+					} else {
+						this.setState({
+							processing: false,
+							loading: false,
+							step: 2
+						})
+					}
+				}
+
+			} else {
+				console.error(result);
+			}
 		};
 	};
 
@@ -250,9 +257,8 @@ class ImportCensusButton extends React.Component {
 		if (participants) {
 			for (var i = 0; i < participants.length; i++) {
 				let participant = this.prepareParticipant(participants[i]);
-				console.log(participant);
 				if (participant.hasError) {
-					participant.line = i + 1;
+					participant.line = i + 2;
 					invalidEmails.push(participant);
 				} else {
 					preparedParticipants.push(participant);
@@ -269,7 +275,6 @@ class ImportCensusButton extends React.Component {
 		}
 
 		const duplicatedEmails = await this.checkUniqueEmails(preparedParticipants);
-		console.log(duplicatedEmails);
 
 		if (!duplicatedEmails) {
 			if (preparedParticipants.length > 0) {
@@ -314,85 +319,76 @@ class ImportCensusButton extends React.Component {
 		}
 		delete participant.language_TEXT;
 
-		//TODO parche para importar censos sin email
-		// if(!participant.email){
-		//     participant.email = (index++) + '@fake.com';
-		// }
-
-		if (participant.email) {
-			if (!checkValidEmail(participant.email)) {
-				return 'invalid';
-			}
-			if (participant.r_email) {
-				if (!checkValidEmail(participant.r_email)) {
-					return 'invalid';
-				} else {
-					participant = {
-						participant: {
-							companyId: this.props.companyId,
-							censusId: this.props.censusId,
-							name: participant.r_name,
-							email: participant.r_email.toLowerCase(),
-							dni: participant.r_dni,
-							phone: participant.r_phone,
-							personOrEntity: 1,
-							language: participant.language,
-							numParticipations: participant.numParticipations,
-							socialCapital: participant.socialCapital,
-							position: participant.position,
-						},
-						representative: {
-							companyId: this.props.companyId,
-							censusId: this.props.censusId,
-							name: participant.name,
-							surname: participant.surname,
-							email: participant.email.toLowerCase(),
-							dni: participant.dni,
-							phone: participant.phone,
-							language: participant.language,
-						}
-					}
-
-					const participantError = this.checkRequiredFields(participant.representative, false);
-					if (participantError) {
-						return participantError;
-					}
-					const entityError = this.checkRequiredFields(participant.participant, true);
-					return entityError ? entityError : participant;
-				}
-			}
-			const participantError = this.checkRequiredFields(participant, false);
-			return participantError ? participantError : { participant: { ...participant, email: participant.email.toLowerCase() } };
-		} else {
-			//Es una entidad sin representante
-			if (!!participant.r_email) {
-				if (!checkValidEmail(participant.r_email)) {
-					return 'invalid';
-				}
-				var entity = {
-					participant: {
-						companyId: this.props.companyId,
-						censusId: this.props.censusId,
-						name: participant.r_name,
-						email: participant.r_email.toLowerCase(),
-						dni: participant.r_dni,
-						phone: participant.r_phone,
-						personOrEntity: 1,
-						language: participant.language,
-						numParticipations: participant.numParticipations,
-						socialCapital: participant.socialCapital,
-						position: participant.position,
-					}
-				};
-				const entityError = this.checkRequiredFields(entity, true);
-				return entityError ? entityError : { entity };
-			}
-			return 'invalid';
+		if(participant.r_name){
+			return this.checkEntityParticipant(participant);
+		}else{
+			return  this.checkPersonParticipant(participant);
 		}
 	};
 
+	updateState = object => {
+		this.setState({
+			data: {
+				...this.state.data,
+				...object
+			}
+		});
+	};
+
+	checkEntityParticipant = participant => {
+		let errors = {};
+		const mappedParticipant = {};
+		if(participant.name){
+			const participantError = this.checkRequiredFields(participant, false);
+			if (participantError) {
+				errors = participantError;
+			} else {
+				mappedParticipant.representative = {
+					companyId: this.props.companyId,
+					censusId: this.props.censusId,
+					name: participant.name,
+					surname: participant.surname,
+					email: participant.email.toLowerCase(),
+					dni: participant.dni,
+					phone: participant.phone,
+					language: participant.language,
+				}
+			}
+		}
+		const participantError = this.checkRequiredFields(participant, true);
+		if (participantError) {
+			return { ...errors, ...participantError};
+		}
+		return {
+			participant: {
+				companyId: this.props.companyId,
+				censusId: this.props.censusId,
+				name: participant.r_name,
+				email: participant.r_email.toLowerCase(),
+				dni: participant.r_dni,
+				phone: participant.r_phone,
+				personOrEntity: 1,
+				language: participant.language,
+				numParticipations: participant.numParticipations,
+				socialCapital: participant.socialCapital,
+				position: participant.position,
+			},
+			...mappedParticipant
+		};
+
+	}
+
+	checkPersonParticipant = participant => {
+		const participantError = this.checkRequiredFields(participant, false);
+		if (participantError) {
+			console.log('participant error');
+			return participantError;
+		}
+		return { participant: participant }
+	}
+
 	checkRequiredFields = (participant, isEntity) => {
-		const required = this.props.translate.required_field;
+		 const required = 'required'
 
 		let errors = {
 			name: '',
@@ -407,6 +403,11 @@ class ImportCensusButton extends React.Component {
 		}
 
 		if (!isEntity) {
+			if(!checkValidEmail(participant.email)){
+				errors.email = required;
+				errors.hasError = true;
+			}
+
 			if (!participant.name) {
 				errors.name = required;
 				errors.hasError = true;
@@ -432,17 +433,22 @@ class ImportCensusButton extends React.Component {
 				errors.hasError = true;
 			}
 		} else {
-			if (!participant.name) {
+			if(!checkValidEmail(participant.r_email)){
+				errors.r_email = required;
+				errors.hasError = true;
+			}
+
+			if (!participant.r_name) {
 				errors.r_name = required;
 				errors.hasError = true;
 			}
 
-			if (!participant.dni) {
+			if (!participant.r_dni) {
 				errors.r_dni = required;
 				errors.hasError = true;
 			}
 
-			if (!participant.phone) {
+			if (!participant.r_phone) {
 				errors.r_phone = required;
 				errors.hasError = true;
 			}
@@ -450,15 +456,6 @@ class ImportCensusButton extends React.Component {
 
 		return errors.hasError ? errors : false;
 	}
-
-	updateState = object => {
-		this.setState({
-			data: {
-				...this.state.data,
-				...object
-			}
-		});
-	};
 
 	buildErrorString = (errors) => {
 		const translate = this.props.translate;
@@ -508,7 +505,7 @@ class ImportCensusButton extends React.Component {
 				/>
 
 				<CustomDialog
-					requestClose={() => this.setState({ modal: false, step: 1 })}
+					requestClose={this.close}
 					open={this.state.modal}
 					title={translate.import_census}
 					{...(step === 3 ? {
@@ -530,6 +527,7 @@ class ImportCensusButton extends React.Component {
 										<BasicButton
 											text={translate.download_template}
 											color={secondary}
+											disabled={this.state.loading}
 											textStyle={{
 												color: 'white',
 												fontWeight: "700",
@@ -549,6 +547,7 @@ class ImportCensusButton extends React.Component {
 								<GridItem xs={6} md={6} lg={6}>
 									<FileUploadButton
 										accept=".xlsx"
+										loading={this.state.loading}
 										text={translate.import_template}
 										style={{
 											width: "100%"
@@ -691,3 +690,76 @@ export default compose(
 		name: "importCensus"
 	})
 )(withApollo(ImportCensusButton));
+
+
+
+/* if (participant.email) {
+	if (!checkValidEmail(participant.email)) {
+		return {hasError: true, email: 'Invalid'};
+	}
+	if (participant.r_email) {
+		if (!checkValidEmail(participant.r_email)) {
+			return {hasError: true, r_email: 'Invalid'};;
+		} else {
+			participant = {
+				participant: {
+					companyId: this.props.companyId,
+					censusId: this.props.censusId,
+					name: participant.r_name,
+					email: participant.r_email.toLowerCase(),
+					dni: participant.r_dni,
+					phone: participant.r_phone,
+					personOrEntity: 1,
+					language: participant.language,
+					numParticipations: participant.numParticipations,
+					socialCapital: participant.socialCapital,
+					position: participant.position,
+				},
+				representative: {
+					companyId: this.props.companyId,
+					censusId: this.props.censusId,
+					name: participant.name,
+					surname: participant.surname,
+					email: participant.email.toLowerCase(),
+					dni: participant.dni,
+					phone: participant.phone,
+					language: participant.language,
+				}
+			}
+
+			const participantError = this.checkRequiredFields(participant.representative, false);
+			if (participantError) {
+				return participantError;
+			}
+			const entityError = this.checkRequiredFields(participant.participant, true);
+			return entityError ? entityError : participant;
+		}
+	}
+	const participantError = this.checkRequiredFields(participant, false);
+	return participantError ? participantError : { participant: { ...participant, email: participant.email.toLowerCase() } };
+} else {
+	//Es una entidad sin representante
+	if (!!participant.r_email) {
+		if (!checkValidEmail(participant.r_email)) {
+			return {hasError: true, r_email: 'Invalid'};
+		}
+		var entity = {
+			participant: {
+				companyId: this.props.companyId,
+				censusId: this.props.censusId,
+				name: participant.r_name,
+				email: participant.r_email.toLowerCase(),
+				dni: participant.r_dni,
+				phone: participant.r_phone,
+				personOrEntity: 1,
+				language: participant.language,
+				numParticipations: participant.numParticipations,
+				socialCapital: participant.socialCapital,
+				position: participant.position,
+			}
+		};
+		const entityError = this.checkRequiredFields(entity, true);
+		return entityError ? entityError : { entity };
+	}
+	return {hasError: true};
+} */

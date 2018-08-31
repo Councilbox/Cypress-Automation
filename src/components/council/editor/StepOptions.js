@@ -26,6 +26,8 @@ let secondary = getSecondary();
 class StepOptions extends React.Component {
 	state = {
 		data: {},
+		loading: false,
+		success: false,
 		errors: {
 			confirmAssistance: "",
 			actPointMajorityDivider: -1
@@ -54,9 +56,12 @@ class StepOptions extends React.Component {
 		return null;
 	}
 
-	updateCouncil = step => {
+	updateCouncil = async step => {
+		this.setState({
+			loading: true
+		});
 		const { __typename, statute, platform, ...council } = this.state.data.council;
-		this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -66,7 +71,19 @@ class StepOptions extends React.Component {
 				}
 			}
 		});
+
+		this.setState({
+			loading: false,
+			success: true
+		});
 	};
+
+	resetButtonStates = () => {
+		this.setStates({
+			loading: false,
+			success: false
+		});
+	}
 
 	nextPage = () => {
 		if (true) {
@@ -420,6 +437,7 @@ class StepOptions extends React.Component {
 						<BasicButton
 							text={translate.previous}
 							color={secondary}
+							disable={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -431,7 +449,11 @@ class StepOptions extends React.Component {
 						/>
 						<BasicButton
 							text={translate.save}
+							reset={this.resetButtonStates}
 							color={secondary}
+							success={this.state.success}
+							loading={this.state.loading}
+							disable={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -447,6 +469,7 @@ class StepOptions extends React.Component {
 						<BasicButton
 							text={translate.next}
 							color={primary}
+							disable={this.props.data.loading}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",

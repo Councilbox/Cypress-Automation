@@ -23,6 +23,8 @@ class StepAttachments extends React.Component {
 	state = {
 		uploading: false,
 		totalSize: 0,
+		loading: false,
+		success: false,
 		alert: false
 	};
 
@@ -114,9 +116,12 @@ class StepAttachments extends React.Component {
 		});
 	};
 
-	updateCouncil = step => {
+	updateCouncil = async step => {
+		this.setState({
+			loading: true
+		});
 		const { attachments, __typename, ...council } = this.props.data.council;
-		this.props.updateCouncil({
+		await this.props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -124,7 +129,20 @@ class StepAttachments extends React.Component {
 				}
 			}
 		});
+
+		this.setState({
+			loading: false,
+			success: true
+		})
 	};
+
+	resetButtonStates = () => {
+		this.setState({
+			loading: false,
+			success: false,
+			uploading: false
+		})
+	}
 
 	nextPage = () => {
 		if (!this.state.uploading) {
@@ -227,6 +245,7 @@ class StepAttachments extends React.Component {
 					<React.Fragment>
 						<BasicButton
 							text={translate.previous}
+							disabled={this.state.uploading}
 							color={getSecondary()}
 							textStyle={{
 								color: "white",
@@ -240,6 +259,9 @@ class StepAttachments extends React.Component {
 						<BasicButton
 							text={translate.save}
 							color={secondary}
+							loading={this.state.loading}
+							success={this.state.success}
+							reset={this.resetButtonStates}
 							textStyle={{
 								color: "white",
 								fontWeight: "700",
@@ -250,11 +272,11 @@ class StepAttachments extends React.Component {
 							}}
 							icon={<ButtonIcon color="white" type="save" />}
 							textPosition="after"
-							onClick={this.updateCouncil}
+							onClick={() => this.updateCouncil(4)}
 						/>
 						<BasicButton
 							text={translate.next}
-							loading={this.props.data.loading}
+							loading={this.props.data.loading || this.state.uploading}
 							loadingColor={'white'}
 							color={primary}
 							textStyle={{
