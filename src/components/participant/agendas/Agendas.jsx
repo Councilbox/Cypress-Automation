@@ -123,6 +123,7 @@ class Agendas extends React.Component {
                                                             <AgendaMenu
                                                                 agenda={agenda}
                                                                 council={council}
+                                                                participant={this.props.participant}
                                                                 translate={translate}
                                                                 refetch={this.props.data.refetch}
                                                             />

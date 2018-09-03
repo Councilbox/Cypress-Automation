@@ -119,20 +119,22 @@ class Sidebar extends React.Component {
 							}}
 						>
 							<Tooltip title={this.props.company.businessName} placement="top-end">
-								<Link to={`/company/${this.props.company.id}/settings`}>
-									{!!this.props.company.logo ? (
-										<img
-											src={this.props.company.logo}
-											alt="logo"
-											className={this.props.classes.img}
-										/>
-									) : (
-											<FontAwesome
-												name={"building-o"}
+								<div>
+									<Link to={`/company/${this.props.company.id}/settings`}>
+										{!!this.props.company.logo ? (
+											<img
+												src={this.props.company.logo}
+												alt="logo"
+												className={this.props.classes.img}
 											/>
-										)
-									}
-								</Link>
+										) : (
+												<FontAwesome
+													name={"building-o"}
+												/>
+											)
+										}
+									</Link>
+								</div>
 							</Tooltip>
 						</div>
 					</div>

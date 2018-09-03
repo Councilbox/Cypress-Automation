@@ -48,31 +48,6 @@ class ParticipantCouncil extends React.Component {
         });
     }
 
-/*     leaveRoom = () => {
-        var request = new XMLHttpRequest();
-        const token = sessionStorage.getItem("token");
-	    const participantToken = sessionStorage.getItem("participantToken");
-        request.open('POST', API_URL, false);  // `false` makes the request synchronous
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        request.setRequestHeader("Accept", "application/json");
-        request.setRequestHeader("x-jwt-token", token ? token : participantToken);
-        request.onload = function () {
-            var users = JSON.parse(request.responseText);
-            if (request.readyState == 4 && request.status == "201") {
-                console.table(users);
-            } else {
-                console.error(users);
-            }
-        }
-        request.send(JSON.stringify({
-            query: changeParticipantOnlineState,
-            variables: {
-                participantId: this.props.participant.id,
-                online: 2
-            }
-        }));
-    }; */
-
     _renderAgendaSection = () => {
         return (
             <Grid item xs={12} sm={this.state.hasVideo? 4 : 6}>
@@ -95,8 +70,6 @@ class ParticipantCouncil extends React.Component {
 	render() {
 		const { participant, council, data } = this.props;
         const { agendasAnchor } = this.state;
-        //const hasVideo = councilHasVideo(council);
-
 
 		return (
 			<div style={styles.viewContainer}>

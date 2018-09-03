@@ -78,7 +78,7 @@ class ErrorHandler extends React.Component {
                             })
                         }}
                     >
-                        <img src={logo} style={{height: '2em', cursor: 'pointer'}} alt="councibox-icon" onClick={this.redirect} />
+                        <img src={logo} style={{height: '1.5em', cursor: 'pointer'}} alt="councibox-icon" onClick={this.redirect} />
                     </div>
                     <Scrollbar>
                         <div

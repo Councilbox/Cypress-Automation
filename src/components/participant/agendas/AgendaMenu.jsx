@@ -7,6 +7,7 @@ import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
+import { PARTICIPANT_TYPE } from '../../../constants';
 
 
 class AgendaMenu extends React.Component {
@@ -85,7 +86,7 @@ class AgendaMenu extends React.Component {
                         <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda/>
                     )
                 }
-                {CBX.hasVotation(agenda.subjectType) &&
+                {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
                     <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
                     {!CBX.agendaVotingsOpened(agenda)?
                             <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
@@ -163,7 +164,7 @@ class AgendaMenu extends React.Component {
                     }
                     </div>
                 }
-                {agenda.subjectType === CBX.getActPointSubjectType() &&
+                {agenda.subjectType === CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
                     <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
 
                     {!CBX.agendaVotingsOpened(agenda)?

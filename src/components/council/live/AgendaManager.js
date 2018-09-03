@@ -90,6 +90,7 @@ class AgendaManager extends React.Component {
 					style={{
 						width: "100%",
 						height: "calc(100vh - 3em)",
+						borderLeft: '1px solid gainsboro',
 						overflow: "hidden",
 						backgroundColor: "white"
 					}}
@@ -126,6 +127,7 @@ class AgendaManager extends React.Component {
 					style={{
 						width: "5em",
 						height: "100%",
+						borderLeft: '1px solid gainsboro',
 						overflow: "auto",
 						backgroundColor: "white"
 					}}

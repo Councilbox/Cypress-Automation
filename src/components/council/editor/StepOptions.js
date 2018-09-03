@@ -79,7 +79,7 @@ class StepOptions extends React.Component {
 	};
 
 	resetButtonStates = () => {
-		this.setStates({
+		this.setState({
 			loading: false,
 			success: false
 		});

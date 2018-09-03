@@ -2,6 +2,10 @@ import React from "react";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
 import { AlertConfirm, Icon } from "../../../displayComponents";
+import { Paper } from 'material-ui';
+import logo from "../../../assets/img/logo.png";
+import icono from "../../../assets/img/logo-icono.png";
+import withWindowSize from '../../../HOCs/withWindowSize';
 
 class LiveHeader extends React.Component {
 	state = {
@@ -17,20 +21,19 @@ class LiveHeader extends React.Component {
 			primaryColor,
 			companyName,
 			councilName,
-			logo,
-			translate
+			translate,
+			windowSize,
 		} = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
 		return (
 			<React.Fragment>
-				<div
+				<Paper
+					elevation={0}
 					style={{
-						background:
-							primaryColor ||
-							`linear-gradient(to right, ${secondary}, ${primary})`,
-						color: "white",
+						background: 'white',
+						borderBottom: '1px solid gainsboro',
 						display: "flex",
 						width: "100%",
 						userSelect: "none",
@@ -43,16 +46,14 @@ class LiveHeader extends React.Component {
 				>
 					<div style={{ width: "20%" }}>
 						<img
-							src={logo}
+							src={windowSize !== "xs" ? logo : icono}
+							className="App-logo"
 							style={{
-								height: "2em",
-								width: "auto",
-								marginLeft: "1em",
-								marginRight: "1em"
+								height: "1.5em",
+								marginLeft: "2em"
 							}}
-							alt="councilbox logo"
+							alt="logo"
 						/>
-						<span style={{ fontWeight: "700" }}>{companyName}</span>
 					</div>
 					<div
 						style={{
@@ -62,7 +63,7 @@ class LiveHeader extends React.Component {
 							marginRight: "10%"
 						}}
 					>
-						<span style={{ alignSelf: "center" }}>
+						<span style={{ alignSelf: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
 							{councilName}
 						</span>
 					</div>
@@ -85,7 +86,7 @@ class LiveHeader extends React.Component {
 							className="material-icons"
 							style={{
 								fontSize: "1.5em",
-								color: "white",
+								color: primary,
 								cursor: "pointer"
 							}}
 							onClick={() =>
@@ -110,7 +111,7 @@ class LiveHeader extends React.Component {
 							}
 						/>
 					</div>
-				</div>
+				</Paper>
 				<div
 					style={{
 						height: "3em",
@@ -122,4 +123,4 @@ class LiveHeader extends React.Component {
 	}
 }
 
-export default LiveHeader;
+export default withWindowSize(LiveHeader);

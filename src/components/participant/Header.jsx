@@ -49,32 +49,19 @@ class Header extends React.Component {
 						display: "flex",
 						flexDirection: "row",
 						height: "100%",
+						width: '15em',
 						alignItems: "center"
 					}}
 				>
-					{
-						council ?
-						<img
-							src={council.company.logo ? council.company.logo : windowSize !== "xs" ? logo : icono}
-							className="App-logo"
-							style={{
-								height: "2.2em",
-								marginLeft: "2em"
-							}}
-							alt="logo"
-						/>
-						:
-
-						<img
-							src={windowSize !== "xs" ? logo : icono}
-							className="App-logo"
-							style={{
-								height: "2.2em",
-								marginLeft: "2em"
-							}}
-							alt="logo"
-						/>
-					}
+					<img
+						src={windowSize !== "xs" ? logo : icono}
+						className="App-logo"
+						style={{
+							height: "1.5em",
+							marginLeft: "2em"
+						}}
+						alt="councilbox-logo"
+					/>
 				</div>
 
                 {(council && council.name) &&
@@ -87,6 +74,8 @@ class Header extends React.Component {
 					style={{
 						display: "flex",
 						flexDirection: "row",
+						justifyContent: 'flex-end',
+						width: '15em',
 						alignItems: "center"
 					}}
 				>

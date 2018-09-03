@@ -13,6 +13,11 @@ const LoadCorporationTree = Loadable({
 	loading: LoadingMainApp
 });
 
+const LoadNoConnectionModal = Loadable({
+	loader: () => import('../components/NoConnectionModal'),
+	loading: LoadingMainApp
+})
+
 const Header = Loadable({
 	loader: () => import('../components/Header'),
 	loading: LoadingMainApp
@@ -113,9 +118,9 @@ class AppRouter extends React.Component {
 	render() {
 		const { translate } = this.props;
 
-		if(!this.props.main.serverStatus){
+/* 		if(!this.props.main.serverStatus){
 			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR..." />
-		}
+		} */
 
 		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
 			return <LoadingMainApp />;
@@ -154,6 +159,7 @@ class AppRouter extends React.Component {
 					overflow: 'hidden'
 				}}
 			>
+				<LoadNoConnectionModal open={!this.props.main.serverStatus} />
 				<SidebarLite
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}

@@ -41,7 +41,7 @@ class CouncilEditorPage extends React.Component {
 	};
 
 	goToPage = page => {
-		if (page < +this.props.council.step) {
+		if (page < +this.state.step) {
 			this.setState({
 				step: page
 			});

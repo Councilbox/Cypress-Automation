@@ -93,6 +93,7 @@ const participantQuery = gql`
 			name
 			surname
 			id
+			type
 			phone
 			email
 			requestWord
