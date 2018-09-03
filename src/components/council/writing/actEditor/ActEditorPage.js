@@ -9,6 +9,7 @@ import ActHTML from '../actViewer/ActHTML';
 import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
+import RecordingsSection from '../recordings/RecordingsSection';
 
 class ActEditorPage extends React.Component {
     state = {
@@ -120,6 +121,21 @@ class ActEditorPage extends React.Component {
                         <TabContainer>
                             <Scrollbar>
                                 <ActAttachments
+                                    council={council}
+                                    translate={translate}
+                                />
+                            </Scrollbar>
+                        </TabContainer>
+                    );
+                }
+            },
+            {
+                text: 'Grabaciones',
+                component: () => {
+                    return (
+                        <TabContainer>
+                            <Scrollbar>
+                                <RecordingsSection
                                     council={council}
                                     translate={translate}
                                 />

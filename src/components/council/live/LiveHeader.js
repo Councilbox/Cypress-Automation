@@ -2,7 +2,7 @@ import React from "react";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
 import { AlertConfirm, Icon } from "../../../displayComponents";
-import { Paper } from 'material-ui';
+import { Paper, Tooltip } from 'material-ui';
 import logo from "../../../assets/img/logo.png";
 import icono from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
@@ -57,15 +57,18 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "50%",
-							display: "flex",
-							justifyContent: "center",
-							marginRight: "10%"
+							width: "35%",
+							marginRight: "10%",
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
 						}}
 					>
-						<span style={{ alignSelf: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
-							{councilName}
-						</span>
+						<Tooltip title={councilName}>
+							<div style={{ textAlign: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
+								{councilName}
+							</div>
+						</Tooltip>
 					</div>
 					<div
 						style={{

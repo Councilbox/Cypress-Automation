@@ -13,11 +13,11 @@ class ActPointInfoDisplay extends React.Component {
         const { agenda, council, translate } = this.props;
 
         return(
-            <div>
+            <div style={{height: '100%'}}>
             {agenda.pointState === AGENDA_STATES.DISCUSSION &&
                 <React.Fragment>
                     {agenda.votingState === AGENDA_STATES.INITIAL &&
-                        <div style={{paddingRight: '3.5em'}}>
+                        <div style={{paddingRight: '3.5em', height: '100%'}} >
                             <ActEditor
                                 liveMode={true}
                                 councilID={this.props.council.id}

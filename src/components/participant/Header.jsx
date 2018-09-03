@@ -7,7 +7,7 @@ import icono from "../../assets/img/logo-icono.png";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
-import { IconButton, Typography } from "material-ui";
+import { IconButton, Typography, Tooltip } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
 
 class Header extends React.Component {
@@ -64,12 +64,25 @@ class Header extends React.Component {
 					/>
 				</div>
 
-                {(council && council.name) &&
-                    <Typography variant="title" style={{color: primary, fontWeight: '700'}}>
-                        {council.name}
-                    </Typography>
-                }
 
+
+                {(council && council.name) &&
+                    <div
+						style={{
+							width: "35%",
+							marginRight: "10%",
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+						}}
+					>
+						<Tooltip title={council.name}>
+							<div style={{ textAlign: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
+								{council.name}
+							</div>
+						</Tooltip>
+					</div>
+                }
 				<div
 					style={{
 						display: "flex",

@@ -178,6 +178,10 @@ class ConvenedParticipantsTable extends React.Component {
 									translation: translate.dni
 								},
 								{
+									value: "email",
+									translation: translate.email
+								},
+								{
 									value: "position",
 									translation: translate.position
 								}
@@ -257,6 +261,21 @@ class ConvenedParticipantsTable extends React.Component {
 															{
 																participant
 																	.representative
+																	.email
+															}
+														</div>
+													</TableCell>
+													<TableCell>
+														<div
+															style={{
+																fontSize:
+																	"0.9em",
+																width: "100%"
+															}}
+														>
+															{
+																participant
+																	.representative
 																	.position
 															}
 														</div>
@@ -320,16 +339,7 @@ class ConvenedParticipantsTable extends React.Component {
 													}
 
 													<TableCell>
-														<DownloadCBXDataButton
-															translate={
-																translate
-															}
-															participantId={
-																participant
-																	.representative
-																	.id
-															}
-														/>
+														
 													</TableCell>
 												</TableRow>
 											)}
@@ -408,6 +418,9 @@ class HoverableRow extends React.Component {
 				</TableCell>
 				<TableCell>
 					{participant.dni}
+				</TableCell>
+				<TableCell>
+					{participant.email}
 				</TableCell>
 				<TableCell>
 					{participant.position}

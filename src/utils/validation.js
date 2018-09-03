@@ -15,7 +15,6 @@ export const checkRequiredFieldsParticipant = (
 		name: "",
 		surname: "",
 		dni: "",
-		position: "",
 		email: "",
 		phone: "",
 		language: "",
@@ -38,11 +37,6 @@ export const checkRequiredFieldsParticipant = (
 	if (!participant.dni) {
 		hasError = true;
 		errors.dni = translate.field_required;
-	}
-
-	if (!participant.position) {
-		hasError = true;
-		errors.position = translate.field_required;
 	}
 
 	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
@@ -81,7 +75,6 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 		name: "",
 		surname: "",
 		dni: "",
-		position: "",
 		email: "",
 		phone: "",
 		language: ""
@@ -102,11 +95,6 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	if (!participant.dni) {
 		hasError = true;
 		errors.dni = translate.field_required;
-	}
-
-	if (!participant.position) {
-		hasError = true;
-		errors.position = translate.field_required;
 	}
 
 	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
