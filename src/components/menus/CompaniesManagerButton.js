@@ -9,29 +9,28 @@ class CompaniesManagerButton extends React.Component {
 
     render(){
         return(
-            <Grid>
-                <GridItem xs={5} md={5} lg={5}>
-                    <Link to={`/company/${this.props.company.id}/create`}>
+            <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <Link to={`/company/${this.props.company.id}/create`}>
+                    <div>
                         <BasicButton
                             text={this.props.translate.companies_add}
                             color={getSecondary()}
                             icon={<ButtonIcon type="add" color="white" />}
-                            textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                            textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
                         />
-                    </Link>
-                </GridItem>
-                <GridItem lg={2} />
-                <GridItem xs={5} md={5} lg={5}>
-                    <Link to={`/company/${this.props.company.id}/link`}>
+                    </div>
+                </Link>
+                <Link to={`/company/${this.props.company.id}/link`}>
+                    <div>
                         <BasicButton
                             text={this.props.translate.companies_link}
                             color={getSecondary()}
                             icon={<ButtonIcon type="link" color="white" />}
-                            textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
+                            textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white'}}
                         />
-                    </Link>
-                </GridItem>
-            </Grid>
+                    </div>
+                </Link>
+            </div>
         )
     }
 }

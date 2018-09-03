@@ -19,7 +19,7 @@ class PartnersBookPage extends React.PureComponent {
         const { translate } = this.props;
         const primary = getPrimary();
 
-        if(this.props.data.loading){
+        if(!this.props.data.bookParticipants){
             return <LoadingSection />;
         }
 

@@ -24,7 +24,7 @@ class CompanySelector extends React.Component {
 							selected={company.id === this.props.company.id}
 							onClick={() => this.changeCompany(index)}
 							style={{
-								width: '300px',
+								width: 'calc(100% - 20px)',
 								height: '2em',
 								display: 'flex',
 								flexDirection: 'row',

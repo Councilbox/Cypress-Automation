@@ -13,7 +13,7 @@ class CompanyMenu extends React.Component {
 			<Drawer
 				style={{
 					zIndex: 100,
-					width: "500px"
+					width: "520px"
 				}}
 				variant="persistent"
 				anchor="left"
@@ -23,7 +23,7 @@ class CompanyMenu extends React.Component {
 					style={{
 						height: "100%",
 						zIndex: 100,
-						width: "400px",
+						width: "420px",
 						marginTop: this.props.windowSize === 'xs'? '3em' : 0,
 						paddingLeft: this.props.windowSize === 'xs'? 0 : '5em',
 						overflow: "hidden",
@@ -60,7 +60,7 @@ class CompanyMenu extends React.Component {
 							alt={'logo-councilbox'}
 						/>
 					</div>
-					<div style={{marginBottom: '0.8em', height: '5em'}}>
+					<div style={{marginBottom: '0.8em', height: '5em', width: '100%'}}>
 						<CompaniesManagerButton
 							translate={this.props.translate}
 							company={this.props.company}

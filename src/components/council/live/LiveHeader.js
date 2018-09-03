@@ -36,7 +36,7 @@ class LiveHeader extends React.Component {
 						userSelect: "none",
 						position: "absolute",
 						zIndex: 1000,
-						height: "5em",
+						height: "3em",
 						alignItems: "center",
 						justifyContent: "space-between"
 					}}

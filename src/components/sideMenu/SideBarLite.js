@@ -8,6 +8,7 @@ import {
 	Tooltip
 } from "material-ui";
 import sidebarStyleLite from "../../styles/sidebarStyleLite";
+import { Link } from '../../displayComponents';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary, darkGrey } from "../../styles/colors";
 import CompanyMenu from "../sideMenu/CompanyMenu";
@@ -118,17 +119,20 @@ class Sidebar extends React.Component {
 							}}
 						>
 							<Tooltip title={this.props.company.businessName} placement="top-end">
-								{!!this.props.company.logo ? (
-									<img
-										src={this.props.company.logo}
-										alt="logo"
-										className={this.props.classes.img}
-									/>
-								) : (
-										<FontAwesome
-											name={"building-o"}
+								<Link to={`/company/${this.props.company.id}/settings`}>
+									{!!this.props.company.logo ? (
+										<img
+											src={this.props.company.logo}
+											alt="logo"
+											className={this.props.classes.img}
 										/>
-									)}
+									) : (
+											<FontAwesome
+												name={"building-o"}
+											/>
+										)
+									}
+								</Link>
 							</Tooltip>
 						</div>
 					</div>

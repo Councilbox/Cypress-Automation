@@ -14,14 +14,6 @@ const TopSectionBlocks = ({ translate, company }) => (
 		}}
 		spacing={8}
 	>
-		<GridItem xs={12} md={6} lg={3}>
-			<Block
-				link={`/company/${company.id}/settings`}
-				icon="work"
-				id={'edit-company-block'}
-				text={translate.edit_company}
-			/>
-		</GridItem>
 
 		<GridItem xs={12} md={6} lg={3}>
 			<Block
@@ -29,6 +21,15 @@ const TopSectionBlocks = ({ translate, company }) => (
 				icon="gavel"
 				id={'edit-statutes-block'}
 				text={translate.council_types}
+			/>
+		</GridItem>
+
+		<GridItem xs={12} md={6} lg={3}>
+			<Block
+				link={`/company/${company.id}/book`}
+				icon="contacts"
+				id={'edit-company-block'}
+				text={translate.book}
 			/>
 		</GridItem>
 
