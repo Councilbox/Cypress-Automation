@@ -10,6 +10,7 @@ import {
 	isMobile
 } from "react-device-detect";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
+import NoConnectionModal from '../components/NoConnectionModal';
 
 const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 	if (!main.isLogged) {
@@ -20,6 +21,8 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 		return <LoadingMainApp />;
 	}
 
+
+
 	return (
 		<div
 			style={{
@@ -28,6 +31,9 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 				overflow: 'hidden'
 			}}
 		>
+			{!main.serverStatus &&
+				<NoConnectionModal open={!main.serverStatus} />
+			}
 			<BrowserView>
 				<CouncilLivePage
 					companies={companies}

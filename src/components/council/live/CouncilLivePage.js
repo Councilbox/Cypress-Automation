@@ -65,7 +65,7 @@ class CouncilLivePage extends React.Component {
 	};
 
 	checkLoadingComplete = () => {
-		return this.props.data.loading && this.props.companies.list;
+		return this.props.data.council && this.props.companies.list;
 	};
 
 	handleKeyPress = event => {
@@ -117,7 +117,7 @@ class CouncilLivePage extends React.Component {
 		const { council } = this.props.data;
 		const { translate } = this.props;
 
-		if (this.checkLoadingComplete()) {
+		if (!this.checkLoadingComplete()) {
 			return <LoadingMainApp />;
 		}
 
