@@ -188,3 +188,39 @@ export const endCouncil = gql`
 		}
 	}
 `;
+
+
+export const councilAttendants = gql`
+	query councilAttendants(
+		$councilId: Int!
+		$filters: [FilterInput]
+		$options: OptionsInput
+	) {
+		councilAttendants(
+			councilId: $councilId
+			filters: $filters
+			options: $options
+		) {
+			list {
+				id
+				councilId
+				name
+				position
+				dni
+				participantId
+				surname
+				state
+				delegationsAndRepresentations {
+					name
+					position
+					dni
+					participantId
+					surname
+					state
+				}
+				blocked
+			}
+			total
+		}
+	}
+`;

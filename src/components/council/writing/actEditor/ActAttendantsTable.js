@@ -1,14 +1,15 @@
 import React from 'react';
-import { councilAttendants, downloadAttendPDF, downloadConnectionsExcel } from "../../../../queries";
+import { downloadAttendPDF, downloadConnectionsExcel } from "../../../../queries";
 import { graphql, withApollo } from 'react-apollo';
 import { LoadingSection, EnhancedTable, BasicButton, Scrollbar } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 import { TableRow, TableCell } from 'material-ui';
-import { PARTICIPANTS_LIMITS } from '../../../../constants';
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
 import { moment } from '../../../../containers/App';
+import { councilAttendants } from '../../../../queries/council';
 
 class ActAttendantsTable extends React.Component {
 
@@ -18,71 +19,71 @@ class ActAttendantsTable extends React.Component {
     }
 
     downloadPDF = async () => {
-		this.setState({
-			downloadingPDF: true
-		})
-		const response = await this.props.client.query({
-			query: downloadAttendPDF,
-			variables: {
+        this.setState({
+            downloadingPDF: true
+        })
+        const response = await this.props.client.query({
+            query: downloadAttendPDF,
+            variables: {
                 councilId: this.props.council.id,
-				timezone: moment().utcOffset(),
-			}
-		});
+                timezone: moment().utcOffset(),
+            }
+        });
 
-		if (response) {
-			if (response.data.downloadAttendPDF) {
-				this.setState({
-					downloadingPDF: false
-				});
-				CBX.downloadFile(
-					response.data.downloadAttendPDF,
-					"application/pdf",
-					`${this.props.translate.convene.replace(/ /g, '_')}-${
-						this.props.council.name.replace(/ /g, '_')
-					}`
-				);
-			}
-		}
+        if (response) {
+            if (response.data.downloadAttendPDF) {
+                this.setState({
+                    downloadingPDF: false
+                });
+                CBX.downloadFile(
+                    response.data.downloadAttendPDF,
+                    "application/pdf",
+                    `${this.props.translate.convene.replace(/ /g, '_')}-${
+                    this.props.council.name.replace(/ /g, '_')
+                    }`
+                );
+            }
+        }
     };
-    
+
     downloadExcel = async () => {
-		this.setState({
-			downloadingExcel: true
-		})
-		const response = await this.props.client.query({
-			query: downloadConnectionsExcel,
-			variables: {
-				councilId: this.props.council.id
-			}
-		});
+        this.setState({
+            downloadingExcel: true
+        })
+        const response = await this.props.client.query({
+            query: downloadConnectionsExcel,
+            variables: {
+                councilId: this.props.council.id
+            }
+        });
 
-		if (response) {
-			if (response.data.downloadConnectionsExcel) {
-				this.setState({
-					downloadingExcel: false
-				});
-				CBX.downloadFile(
-					response.data.downloadConnectionsExcel,
-					"excel",
-					`${this.props.translate.convene.replace(/ /g, '_')}-${
-						this.props.council.name.replace(/ /g, '_')
-					}`
-				);
-			}
-		}
-	};
+        if (response) {
+            if (response.data.downloadConnectionsExcel) {
+                this.setState({
+                    downloadingExcel: false
+                });
+                CBX.downloadFile(
+                    response.data.downloadConnectionsExcel,
+                    "excel",
+                    `${this.props.translate.convene.replace(/ /g, '_')}-${
+                    this.props.council.name.replace(/ /g, '_')
+                    }`
+                );
+            }
+        }
+    };
 
-    render(){
+    render() {
         const { translate } = this.props;
         const { loading } = this.props.data;
         const secondary = getSecondary();
-    
+
         const { councilAttendants } = this.props.data;
-    
-        return(
+
+        return (
             <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
                 <Scrollbar>
-                    <div style={{padding: '1.5em', overflow: 'hidden'}}>
+                    <div style={{ padding: '1.5em', overflow: 'hidden' }}>
                         {!!councilAttendants && (
                             <React.Fragment>
                                 <BasicButton
@@ -137,6 +138,11 @@ class ActAttendantsTable extends React.Component {
                                     ]}
                                     headers={[
                                         {
+                                            text: '',
+                                            name: 'icon',
+                                            canOrder: false
+                                        },
+                                        {
                                             text: translate.participant_data,
                                             name: 'surname',
                                             canOrder: true
@@ -145,138 +151,82 @@ class ActAttendantsTable extends React.Component {
                                             text: translate.dni,
                                             name: 'dni',
                                             canOrder: true
-                                            
+
                                         },
                                         {
                                             text: translate.position,
                                             name: 'position',
-                                            canOrder: true                                    
+                                            canOrder: true
+                                        },
+                                        {
+                                            text: '',
+                                            name: 'download',
+                                            canOrder: false
                                         }
                                     ]}
                                 >
-                                    {loading?
+                                    {loading ?
                                         <LoadingSection />
-                                    :
-                                        
+                                        :
+
                                         councilAttendants.list.map(
-                                        (participant, index) => {
-                                            return (
-                                                <React.Fragment
-                                                    key={`participant${participant.id}`}
-                                                >
-                                                    <TableRow
+                                            (participant, index) => {
+                                                return (
+                                                    <React.Fragment
+                                                        key={`participant${participant.id}`}
                                                     >
-                                                        <TableCell>
-                                                            {`${participant.name} ${
-                                                                participant.surname
-                                                            }`}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {participant.dni}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {participant.position}
-                                                        </TableCell>
-                                                        
-                                                        <TableCell>
-                                                            <DownloadCBXDataButton
-                                                                translate={translate}
-                                                                participantId={
-                                                                    participant.id
+                                                        <TableRow>
+                                                            <TableCell>
+                                                                {participant.state === PARTICIPANT_STATES.REMOTE ?
+                                                                    'REMOTE ICON'
+                                                                    :
+                                                                    'PRESENT ICON'
                                                                 }
-                                                            />
-                                                        </TableCell>
-                                                    </TableRow>
-                                                    {!!participant.representative && (
-                                                        <TableRow
-                                                            hover={true}
-                                                            style={{
-                                                                cursor: "pointer",
-                                                                backgroundColor:
-                                                                    "WhiteSmoke"
-                                                            }}
-                                                            onClick={() =>
-                                                                this.setState({
-                                                                    editParticipant: true,
-                                                                    editIndex: index
-                                                                })
-                                                            }
-                                                        >
-                                                            <TableCell>
-                                                                <div
-                                                                    style={{
-                                                                        fontSize:
-                                                                            "0.9em",
-                                                                        width: "100%"
-                                                                    }}
-                                                                >
-                                                                    {`${
-                                                                        translate.represented_by
-                                                                    }: ${
-                                                                        participant
-                                                                            .representative
-                                                                            .name
-                                                                    } ${
-                                                                        participant
-                                                                            .representative
-                                                                            .surname
-                                                                    }`}
-                                                                </div>
                                                             </TableCell>
                                                             <TableCell>
-                                                                <div
-                                                                    style={{
-                                                                        fontSize:
-                                                                            "0.9em",
-                                                                        width: "100%"
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        participant
-                                                                            .representative
-                                                                            .dni
-                                                                    }
-                                                                </div>
+                                                                {`${participant.name} ${participant.surname}`}
                                                             </TableCell>
                                                             <TableCell>
-                                                                <div
-                                                                    style={{
-                                                                        fontSize:
-                                                                            "0.9em",
-                                                                        width: "100%"
-                                                                    }}
-                                                                >
-                                                                    {
-                                                                        participant
-                                                                            .representative
-                                                                            .position
-                                                                    }
-                                                                </div>
+                                                                {participant.dni}
                                                             </TableCell>
-                                                            <TableCell />
-                                                            {this.props
-                                                                .participations && (
-                                                                <TableCell />
-                                                            )}
-            
+                                                            <TableCell>
+                                                                {participant.position}
+                                                            </TableCell>
                                                             <TableCell>
                                                                 <DownloadCBXDataButton
-                                                                    translate={
-                                                                        translate
-                                                                    }
+                                                                    translate={translate}
                                                                     participantId={
-                                                                        participant
-                                                                            .representative
-                                                                            .id
+                                                                        participant.id
                                                                     }
                                                                 />
                                                             </TableCell>
                                                         </TableRow>
-                                                    )}
-                                                </React.Fragment>
-                                            );
-                                        }
-                                    )}
+                                                        {!!participant.delegationsAndRepresentations && (
+                                                            participant.delegationsAndRepresentations.map(delegatedVote =>
+                                                                <TableRow style={{
+                                                                    backgroundColor:
+                                                                        "WhiteSmoke"
+                                                                }} >
+                                                                    <TableCell style={{ fontSize: "0.9em" }}>
+                                                                        {delegatedVote.state === PARTICIPANT_STATES.REPRESENTATED ? 'REPRESENTADO' : 'DELEGADO'}
+                                                                    </TableCell>
+                                                                    <TableCell style={{ fontSize: "0.9em" }}>
+                                                                        {`${delegatedVote.name} ${delegatedVote.surname}`}
+                                                                    </TableCell>
+                                                                    <TableCell style={{ fontSize: "0.9em" }}>
+                                                                        {delegatedVote.dni}
+                                                                    </TableCell>
+                                                                    <TableCell style={{ fontSize: "0.9em" }}>
+                                                                        {delegatedVote.position}
+                                                                    </TableCell>
+                                                                    <TableCell />
+                                                                </TableRow>
+                                                            )
+                                                        )}
+                                                    </React.Fragment>
+                                                );
+                                            }
+                                        )}
                                 </EnhancedTable>
                             </React.Fragment>
                         )}
