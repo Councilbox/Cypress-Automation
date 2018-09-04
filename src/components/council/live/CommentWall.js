@@ -79,6 +79,7 @@ class CommentWall extends React.Component {
 							fontSize: "0.90rem",
 							width: "100%",
 							height: "3.5em",
+							fontWeight: '700',
 							backgroundColor: darkGrey,
 							textTransform: "uppercase",
 							color: "grey"

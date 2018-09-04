@@ -14,7 +14,7 @@ const AlertConfirm = ({
 	fullScreen,
 	buttonAccept,
 	buttonCancel,
-	modal,
+	modal = true,
 	open,
 	requestClose,
 	loadingAction,

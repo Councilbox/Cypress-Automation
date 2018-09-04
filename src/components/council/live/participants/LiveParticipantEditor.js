@@ -20,6 +20,14 @@ import NotificationsTable from '../../../notifications/NotificationsTable';
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 
 class LiveParticipantEditor extends React.Component {
+	state = {
+		loadingSends: false
+	};
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
 	refreshEmailStates = async () => {
 		this.setState({
 			loadingSends: true
@@ -51,21 +59,10 @@ class LiveParticipantEditor extends React.Component {
 		}
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			loadingSends: false
-		};
-	}
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
 	render() {
 		const { translate } = this.props;
 
-		if (this.props.data.loading) {
+		if (!this.props.data.liveParticipant) {
 			return <LoadingSection />;
 		}
 

@@ -201,6 +201,7 @@ class ParticipantsManager extends React.Component {
 				style={{
 					height: "100%",
 					width: "100%",
+					overflowX: 'hidden',
 					padding: 0,
 					margin: 0,
 					outline: 0
@@ -224,8 +225,8 @@ class ParticipantsManager extends React.Component {
 						<Paper
 							style={{
 								height: "85vh",
-								overflowY: "hidden",
-								position: "relative"
+								overflow: "hidden",
+								position: "relative",
 							}}
 						>
 								{this.state.editParticipant ? (

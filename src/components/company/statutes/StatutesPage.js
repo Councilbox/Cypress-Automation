@@ -97,7 +97,7 @@ class StatutesPage extends React.Component {
 
 		if(statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)){
 			hasError = true;
-			errors.limitedAccessRoomMinutes;
+			errors.limitedAccessRoomMinutes = translate.required_field;
 		}
 
 		if(checkForUnclosedBraces(statute.conveneHeader)){

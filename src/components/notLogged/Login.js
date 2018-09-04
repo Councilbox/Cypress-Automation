@@ -8,7 +8,7 @@ import { login } from "../../queries";
 import { getPrimary, getSecondary } from "../../styles/colors";
 import withWindowSize from "../../HOCs/withWindowSize";
 import withTranslations from "../../HOCs/withTranslations";
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout } from "../../displayComponents";
+import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem } from "../../displayComponents";
 
 
 class Login extends React.PureComponent {
@@ -116,205 +116,208 @@ class Login extends React.PureComponent {
 				helpIcon={true}
 				languageSelector={true}
 			>
-				<div
-					className="col-lg-7 col-md-7 col-xs-12"
-					style={{
-						color: "white",
-						display: "flex",
-						paddingLeft: "3%",
-						flexDirection: "column",
-						alignItems: "center",
-						paddingTop: windowSize === "xs" ? "1em" : "9em"
-					}}
-				>
-					<div
+				<Grid style={{width: '100%', overflowX: 'hidden', padding: '0', margin: '0'}}>
+					<GridItem xs={12} md={7} lg={7}
 						style={{
-							width: "70%",
-							fontSize: "0.9em",
-							textAlign: 'center'
+							color: "white",
+							display: "flex",
+							paddingLeft: "3%",
+							flexDirection: "column",
+							alignItems: "center",
+							paddingTop: windowSize === "xs" ? "8%" : "12em"
 						}}
 					>
-						<h6
+						<div
 							style={{
-								fontWeigth: "300",
-								marginBottom: "1.2em",
-								fontSize: "1.7em",
-								color: 'white'
+								width: "70%",
+								fontSize: "0.9em",
+								textAlign: 'center'
 							}}
 						>
-							{translate.account_question}
-						</h6>
-						{windowSize !== "xs" && (
-							<span
+							<h6
 								style={{
-									fontSize: "0.95",
-									marginBottom: "1em",
-									marginTop: "0.7em",
-									textAlign: 'center',
-									alignSelf: 'center'
+									fontWeigth: "300",
+									marginBottom: "1.2em",
+									fontSize: "1.7em",
+									color: 'white'
 								}}
 							>
-								{translate.login_desc}
-							</span>
-						)}
-						<br />
-						<div
-							className="row"
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								marginTop: windowSize === "xs" ? 0 : "1em"
-							}}
-						>
+								{translate.account_question}
+							</h6>
+							{windowSize !== "xs" && (
+								<span
+									style={{
+										fontSize: "0.95",
+										marginBottom: "1em",
+										marginTop: "0.7em",
+										textAlign: 'center',
+										alignSelf: 'center'
+									}}
+								>
+									{translate.login_desc}
+								</span>
+							)}
+							<br />
 							<div
-								className="col-lg-6 col-md-6 col-xs-6"
-								style={{ padding: "1em" }}
+								className="row"
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									marginTop: windowSize === "xs" ? 0 : "1em"
+								}}
 							>
-								<Link to="/meeting/new">
-									<BasicButton
-										text={translate.start_conference_test}
-										color={'transparent'}
-										fullWidth
-										buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-										textStyle={{color: 'white', fontWeight: '700', fontSize: '0.95em', textTransform: 'none'}}
-									/>
-								</Link>
-							</div>
-							<div
-								className="col-lg-6 col-md-6 col-xs-6"
-								style={{ padding: "1em" }}
-							>
-								<Link to="/signup">
-									<BasicButton
-										text={translate.login_check_in}
-										color={"white"}
-										fullWidth
-										textStyle={{
-											color: primary,
-											fontWeight: "700",
-											fontSize: "0.95em",
-											textTransform: "none"
-										}}
-										textPosition="before"
-									/>
-								</Link>
+								<div
+									className="col-lg-6 col-md-6 col-xs-6"
+									style={{ padding: "1em" }}
+								>
+									<Link to="/meeting/new">
+										<BasicButton
+											text={translate.start_conference_test}
+											color={'transparent'}
+											fullWidth
+											buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
+											textStyle={{color: 'white', fontWeight: '700', fontSize: '0.95em', textTransform: 'none'}}
+										/>
+									</Link>
+								</div>
+								<div
+									className="col-lg-6 col-md-6 col-xs-6"
+									style={{ padding: "1em" }}
+								>
+									<Link to="/signup">
+										<BasicButton
+											text={translate.login_check_in}
+											color={"white"}
+											fullWidth
+											textStyle={{
+												color: primary,
+												fontWeight: "700",
+												fontSize: "0.95em",
+												textTransform: "none"
+											}}
+											textPosition="before"
+										/>
+									</Link>
+								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-				<div
-					className="col-lg-5 col-md-5 col-xs-12"
-					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						padding: 0
-					}}
-				>
-					<Card
-						elevation={6}
+					</GridItem>
+					<GridItem lg={5} md={5} xs={12}
 						style={{
-							minHeight: "60%",
-							width: windowSize === "xs" ? "100%" : "70%",
-							padding: "8%",
-							marginBottom: windowSize === "xs" ? 0 : "5em",
-							marginRight: windowSize === "xs" ? 0 : "5em"
+							display: "flex",
+							justifyContent: "center",
+							alignItems: "center",
+							padding: 0,
+							margin: '0',
+							width: '100%'
 						}}
 					>
-						<div
+						<Card
+							elevation={6}
 							style={{
-								marginBottom: 0,
-								paddingBottom: 0,
-								fontWeight: "700",
-								fontSize: "1.5em",
-								color: primary
+								minHeight: "60%",
+								width: windowSize === "xs" ? "100vw" : "70%",
+								padding: "8%",
+								margin: '0',
+								marginBottom: windowSize === "xs" ? 0 : "5em",
+								marginRight: windowSize === "xs" ? 0 : "5em"
 							}}
 						>
-							{`${translate.login_signin_header} Councilbox`}
-						</div>
-						<div
-							style={{
-								marginTop: "2em",
-								width: "95%"
-							}}
-						>
-							<TextInput
-								onKeyUp={this.handleKeyUp}
-								id={'username'}
-								floatingText={translate.login_user}
-								errorText={this.state.errors.user}
-								type="text"
-								value={this.state.user}
-								onChange={event =>
-									this.setState({
-										user: event.nativeEvent.target.value
-									})
-								}
-							/>
-						</div>
-						<div
-							style={{
-								marginTop: "1.5em",
-								width: "95%"
-							}}
-						>
-							<TextInput
-								floatingText={translate.login_password}
-								id={'password'}
-								type={
-									this.state.showPassword
-										? "text"
-										: "password"
-								}
-								passwordToggler={() =>
-									this.setState({
-										showPassword: !this.state.showPassword
-									})
-								}
-								showPassword={this.state.showPassword}
-								onKeyUp={this.handleKeyUp}
-								value={this.state.password}
-								errorText={this.state.errors.password}
-								onChange={event =>
-									this.setState({
-										password: event.nativeEvent.target.value
-									})
-								}
-							/>
-						</div>
-						<div style={{ marginTop: "3em" }}>
-							<BasicButton
-								text={translate.dashboard_enter}
-								color={primary}
-								id={'login-button'}
-								textStyle={{
-									color: "white",
-									fontWeight: "700"
+							<div
+								style={{
+									marginBottom: 0,
+									paddingBottom: 0,
+									fontWeight: "700",
+									fontSize: "1.5em",
+									color: primary
 								}}
-								textPosition="before"
-								onClick={this.login}
-								fullWidth={true}
-								icon={
-									<ButtonIcon
-										color="white"
-										type="arrow_forward"
-									/>
-								}
-							/>
-						</div>
-						<div
-							style={{
-								marginTop: "2em",
-								color: secondary
-							}}
-						>
-							<Link to="/forgetPwd">
-								{/*TODO*/}
-								{translate.login_forgot}
-							</Link>
-						</div>
-					</Card>
-				</div>
+							>
+								{`${translate.login_signin_header} Councilbox`}
+							</div>
+							<div
+								style={{
+									marginTop: "2em",
+									width: "95%"
+								}}
+							>
+								<TextInput
+									onKeyUp={this.handleKeyUp}
+									id={'username'}
+									floatingText={translate.login_user}
+									errorText={this.state.errors.user}
+									type="text"
+									value={this.state.user}
+									onChange={event =>
+										this.setState({
+											user: event.nativeEvent.target.value
+										})
+									}
+								/>
+							</div>
+							<div
+								style={{
+									marginTop: "1.5em",
+									width: "95%"
+								}}
+							>
+								<TextInput
+									floatingText={translate.login_password}
+									id={'password'}
+									type={
+										this.state.showPassword
+											? "text"
+											: "password"
+									}
+									passwordToggler={() =>
+										this.setState({
+											showPassword: !this.state.showPassword
+										})
+									}
+									showPassword={this.state.showPassword}
+									onKeyUp={this.handleKeyUp}
+									value={this.state.password}
+									errorText={this.state.errors.password}
+									onChange={event =>
+										this.setState({
+											password: event.nativeEvent.target.value
+										})
+									}
+								/>
+							</div>
+							<div style={{ marginTop: "3em" }}>
+								<BasicButton
+									text={translate.dashboard_enter}
+									color={primary}
+									id={'login-button'}
+									textStyle={{
+										color: "white",
+										fontWeight: "700"
+									}}
+									textPosition="before"
+									onClick={this.login}
+									fullWidth={true}
+									icon={
+										<ButtonIcon
+											color="white"
+											type="arrow_forward"
+										/>
+									}
+								/>
+							</div>
+							<div
+								style={{
+									marginTop: "2em",
+									color: secondary
+								}}
+							>
+								<Link to="/forgetPwd">
+									{/*TODO*/}
+									{translate.login_forgot}
+								</Link>
+							</div>
+						</Card>
+					</GridItem>
+				</Grid>
 			</NotLoggedLayout>
 		);
 	}

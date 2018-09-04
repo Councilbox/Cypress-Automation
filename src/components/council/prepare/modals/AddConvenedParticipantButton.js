@@ -4,7 +4,7 @@ import {
 	ButtonIcon,
 	CustomDialog
 } from "../../../../displayComponents";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { getPrimary, secondary } from "../../../../styles/colors";
 import { upsertConvenedParticipant } from "../../../../queries/councilParticipant";
 import { languages } from "../../../../queries/masters";
@@ -14,6 +14,8 @@ import {
 	checkRequiredFieldsRepresentative
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
+import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
+
 
 class AddConvenedParticipantButton extends React.Component {
 	state = {
@@ -33,7 +35,7 @@ class AddConvenedParticipantButton extends React.Component {
 			  }
 			: null;
 
-		if (!this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.addParticipant({
 				variables: {
 					participant: {
@@ -56,6 +58,7 @@ class AddConvenedParticipantButton extends React.Component {
 			}
 		}
 	};
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -64,6 +67,7 @@ class AddConvenedParticipantButton extends React.Component {
 			}
 		});
 	};
+
 	updateRepresentative = object => {
 		this.setState({
 			representative: {
@@ -73,26 +77,76 @@ class AddConvenedParticipantButton extends React.Component {
 		});
 	};
 
-	checkRequiredFields() {
+	async checkRequiredFields(onlyEmail) {
 		const participant = this.state.data;
 		const representative = this.state.representative;
 		const { translate, participations } = this.props;
-		let hasSocialCapital = participations;
-		let errorsParticipant = checkRequiredFieldsParticipant(
-			participant,
-			translate,
-			hasSocialCapital
-		);
 
+		let errorsParticipant = {
+			errors: {},
+			hasError: false
+		};
+
+		if(!onlyEmail){
+			let hasSocialCapital = participations;
+			errorsParticipant = checkRequiredFieldsParticipant(
+				participant,
+				translate,
+				hasSocialCapital
+			);
+		}
 		let errorsRepresentative = {
 			errors: {},
 			hasError: false
 		};
+
+
+
 		if (representative.hasRepresentative) {
-			errorsRepresentative = checkRequiredFieldsRepresentative(
-				representative,
-				translate
-			);
+			if(!onlyEmail){
+				errorsRepresentative = checkRequiredFieldsRepresentative(
+					representative,
+					translate
+				);
+			}
+		}
+
+
+		if(participant.email){
+			let emailsToCheck = [participant.email];
+
+			if(representative.email){
+				emailsToCheck.push(representative.email);
+			}
+
+			const response = await this.props.client.query({
+				query: checkUniqueCouncilEmails,
+				variables: {
+					councilId: this.props.councilId,
+					emailList: emailsToCheck
+				}
+			});
+	
+			if(!response.data.checkUniqueCouncilEmails.success){
+				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
+				data.duplicatedEmails.forEach(email => {
+					if(participant.email === email){
+						errorsParticipant.errors.email = translate.register_exists_email;
+						errorsParticipant.hasError = true;
+					}
+					if(representative.email === email){
+						errorsRepresentative.errors.email = translate.register_exists_email;
+						errorsRepresentative.hasError = true;
+					}
+				})
+			}
+	
+			if(participant.email === representative.email){
+				errorsRepresentative.errors.email = translate.repeated_email;
+				errorsParticipant.errors.email = translate.repeated_email;
+				errorsParticipant.hasError = true;
+			}
+	
 		}
 
 		this.setState({
@@ -181,22 +235,24 @@ class AddConvenedParticipantButton extends React.Component {
 						</React.Fragment>
 					}
 				>
-					<ParticipantForm
-						type={participant.personOrEntity}
-						participant={participant}
-						participations={participations}
-						translate={translate}
-						languages={languages}
-						errors={errors}
-						updateState={this.updateState}
-					/>
-					<RepresentativeForm
-						translate={translate}
-						state={representative}
-						updateState={this.updateRepresentative}
-						errors={representativeErrors}
-						languages={languages}
-					/>
+					<div style={{maxWidth: '900px'}}>
+						<ParticipantForm
+							type={participant.personOrEntity}
+							participant={participant}
+							participations={participations}
+							translate={translate}
+							languages={languages}
+							errors={errors}
+							updateState={this.updateState}
+						/>
+						<RepresentativeForm
+							translate={translate}
+							state={representative}
+							updateState={this.updateRepresentative}
+							errors={representativeErrors}
+							languages={languages}
+						/>
+					</div>
 				</CustomDialog>
 			</React.Fragment>
 		);
@@ -211,7 +267,7 @@ export default compose(
 		}
 	}),
 	graphql(languages)
-)(AddConvenedParticipantButton);
+)(withApollo(AddConvenedParticipantButton));
 
 const initialParticipant = {
 	name: "",

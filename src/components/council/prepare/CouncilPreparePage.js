@@ -111,6 +111,8 @@ class CouncilPreparePage extends React.Component {
 														>
 															<ConvenedParticipantsTable
 																council={council}
+																totalVotes={this.props.data.councilTotalVotes}
+																socialCapital={this.props.data.councilSocialCapital}
 																participations={CBX.hasParticipations(
 																	this.props.council
 																)}
