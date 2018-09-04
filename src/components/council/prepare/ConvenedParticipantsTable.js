@@ -66,6 +66,11 @@ class ConvenedParticipantsTable extends React.Component {
 				name: "dni",
 				canOrder: true
 			},
+			{
+				text: translate.email,
+				name: "email",
+				canOrder: true
+			},
 			{ text: translate.position },
 			{
 				text: translate.votes,
@@ -111,53 +116,56 @@ class ConvenedParticipantsTable extends React.Component {
 								/>
 							}
 						</GridItem>
-						<GridItem xs={6} lg={6} md={6}>
-							{!hideNotifications &&
-								<Tooltip
-									title={
-										translate.tooltip_refresh_convene_email_state_assistance
-									}
-								>
-									<BasicButton
-										floatRight
-										text={translate.refresh_convened}
-										color={getSecondary()}
-										buttonStyle={{
-											margin: "0"
-										}}
-										textStyle={{
-											color: "white",
-											fontWeight: "700",
-											fontSize: "0.9em",
-											textTransform: "none"
-										}}
-										icon={
-											<ButtonIcon
-												color="white"
-												type="refresh"
-											/>
-										}
-										textPosition="after"
-										onClick={() =>
-											this.refreshEmailStates()
-										}
-									/>
-								</Tooltip>
-							}
-							{!hideAddParticipant &&
-								<AddConvenedParticipantButton
-									participations={participations}
-									translate={translate}
-									councilId={council.id}
-									refetch={refetch}
-								/>
-							}
-						</GridItem>
 					</Grid>
 					{!!councilParticipants?
 						<EnhancedTable
 							ref={table => (this.table = table)}
 							translate={translate}
+							menuButtons={
+								<React.Fragment>
+									{!hideNotifications &&
+										<Tooltip
+											title={
+												translate.tooltip_refresh_convene_email_state_assistance
+											}
+										>
+											<BasicButton
+												floatRight
+												text={translate.refresh_convened}
+												color={getSecondary()}
+												buttonStyle={{
+													margin: "0",
+													marginRight: '1.2em'
+												}}
+												textStyle={{
+													color: "white",
+													fontWeight: "700",
+													fontSize: "0.9em",
+													textTransform: "none"
+												}}
+												icon={
+													<ButtonIcon
+														color="white"
+														type="refresh"
+													/>
+												}
+												textPosition="after"
+												onClick={() =>
+													this.refreshEmailStates()
+												}
+											/>
+										</Tooltip>
+									}
+									{!hideAddParticipant &&
+										<AddConvenedParticipantButton
+											participations={participations}
+											translate={translate}
+											councilId={council.id}
+											refetch={refetch}
+										/>
+									}
+								</React.Fragment>
+							}
 							defaultLimit={PARTICIPANTS_LIMITS[0]}
 							defaultFilter={"fullName"}
 							defaultOrder={["name", "asc"]}
@@ -197,6 +205,12 @@ class ConvenedParticipantsTable extends React.Component {
 											<HoverableRow
 												translate={translate}
 												participant={participant}
+												editParticipant={() =>
+													this.setState({
+														editingParticipant: true,
+														participant: participant
+													})
+												}
 												{...this.props}
 											/>
 											{!!participant.representative && (
@@ -394,19 +408,14 @@ class HoverableRow extends React.Component {
 	}
 
 	render() {
-		const { translate, participant, hideNotifications, totalVotes, socialCapital, council } = this.props;
+		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 
 		return (
 			<TableRow
 				hover
 				onMouseEnter={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
-				onClick={() =>
-					this.setState({
-						editingParticipant: true,
-						participant: participant
-					})
-				}
+				onClick={editParticipant}
 				style={{
 					cursor: "pointer"
 				}}

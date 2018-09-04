@@ -1,47 +1,123 @@
-import React, { Component } from "react";
+import React from "react";
 import { AlertConfirm } from "../../../displayComponents";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { addGuest } from "../../../queries";
 import RepresentativeForm from "../participants/RepresentativeForm";
 import { languages } from "../../../queries/masters";
+import { checkValidEmail } from '../../../utils/validation';
+import { checkUniqueCouncilEmails } from "../../../queries/councilParticipant";
 
-class AddGuestModal extends Component {
+class AddGuestModal extends React.Component {
+
+	state = {
+		success: "",
+		errors: {},
+		guest: {
+			...newGuestInitialValues
+		}
+	};
+
+	initialState = this.state;
+
 	close = () => {
 		this.props.requestClose();
 		this.resetForm();
 	};
+
 	addGuest = async () => {
-		const response = await this.props.addGuest({
-			variables: {
-				guest: {
-					...this.state.guest,
-					position: this.props.translate.guest,
-					councilId: this.props.council.id
+		if(!await this.checkRequiredFields()){
+			const response = await this.props.addGuest({
+				variables: {
+					guest: {
+						...this.state.guest,
+						position: this.props.translate.guest,
+						councilId: this.props.council.id
+					}
 				}
-			}
-		});
-		if (response) {
-			if (response.data.addGuest.success) {
-				this.props.refetch();
-				this.close();
-			} else {
-				if (response.data.addGuest.message === "601") {
-					this.setState({
-						errors: {
-							email: this.props.translate.repeated_email
-						}
-					});
+			});
+			if (response) {
+				if (response.data.addGuest.success) {
+					this.props.refetch();
+					this.close();
+				} else {
+					if (response.data.addGuest.message === "601") {
+						this.setState({
+							errors: {
+								email: this.props.translate.repeated_email
+							}
+						});
+					}
 				}
 			}
 		}
 	};
-	resetForm = () => {
-		this.setState({
-			guest: {
-				...newGuestInitialValues
+
+	checkRequiredFields = async (emailOnly) => {
+		let errors = {
+			name: '',
+			surname: '',
+			dni: '',
+			email: '',
+			phone: ''
+		}
+		let hasError = false;
+		const { guest } = this.state;
+		const { translate } = this.props;
+
+
+		if(!guest.email){
+			errors.email = translate.required_field;
+			hasError = true;
+		}else{
+			if(!checkValidEmail(guest.email)){
+				errors.email = translate.valid_email_required;
+				hasError = true;
+			}else{
+				const response = await this.props.client.query({
+					query: checkUniqueCouncilEmails,
+					variables: {
+						councilId: this.props.council.id,
+						emailList: [guest.email]
+					}
+				});
+				if(!response.data.checkUniqueCouncilEmails.success){
+					errors.email = translate.register_exists_email;
+					hasError = true;
+				}
 			}
-		});
+		}
+
+		if(!emailOnly){
+			if(!guest.name){
+				errors.name = translate.required_field;
+				hasError = true;
+			}
+	
+			if(!guest.surname){
+				errors.surname = translate.required_field;
+				hasError = true;
+			}
+	
+			if(!guest.dni){
+				errors.dni = translate.required_field;
+				hasError = true;
+			}
+	
+			if(!guest.phone){
+				errors.phone = translate.required_field;
+				hasError = true;
+			}
+		}
+
+		this.setState({errors});
+
+		return hasError;
+	}
+
+	resetForm = () => {
+		this.setState(this.initialState);
 	};
+
 	updateGuest = object => {
 		this.setState({
 			guest: {
@@ -51,15 +127,13 @@ class AddGuestModal extends Component {
 		});
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			errors: {},
-			guest: {
-				...newGuestInitialValues
-			}
-		};
+	emailKeyUp = (event, type) => {
+		clearTimeout(this.timeout);
+		const value = event.target.value;
+		this.timeout = setTimeout(() => {
+			this.checkRequiredFields(true);
+			clearTimeout(this.timeout);
+		}, 400);
 	}
 
 	_renderReminderBody() {
@@ -73,6 +147,7 @@ class AddGuestModal extends Component {
 			<div style={{ maxWidth: "850px" }}>
 				<RepresentativeForm
 					guest={true}
+					checkEmail={this.emailKeyUp}
 					translate={this.props.translate}
 					representative={this.state.guest}
 					updateState={this.updateGuest}
@@ -108,7 +183,7 @@ export default compose(
 		}
 	}),
 	graphql(languages)
-)(AddGuestModal);
+)(withApollo(AddGuestModal));
 
 const newGuestInitialValues = {
 	language: "es",
