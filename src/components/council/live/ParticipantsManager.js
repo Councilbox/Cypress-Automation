@@ -167,7 +167,7 @@ class ParticipantsManager extends React.Component {
 
 	changeTableLayout = () => {
 		this.setState({
-			layout: this.state.layout === 'compact'? 'full' : 'compact'
+			layout: this.state.layout === 'compact' ? 'full' : 'compact'
 		});
 	}
 
@@ -209,39 +209,40 @@ class ParticipantsManager extends React.Component {
 				onKeyDown={this.handleKeyPress}
 				ref={ref => (this.div = ref)}
 			>
-				<Grid style={{ height: "100%", overflow: "hidden" }}>
+				<Grid style={{
+					height: "100%",
+					overflow: "hidden"
+				}}>
 					<GridItem
 						xs={columnSize}
 						md={columnSize}
 						lg={columnSize}
 						style={{
-							padding: "3em",
-							paddingTop: 0,
-							paddingBottom: 0,
+							padding: "2vh 2vw",
 							overflow: "hidden"
 						}}
 					>
 						<Paper
 							style={{
-								height: "85vh",
+								height: "92vh",
 								overflowY: "hidden",
 								position: "relative"
 							}}
 						>
-								{this.state.editParticipant ? (
-									<LiveParticipantEditor
-										translate={translate}
-										council={this.props.council}
-										refetch={this.props.data.refetch}
-										id={this.state.editParticipant}
-										requestClose={() => {
-											this.setState({
-												editParticipant: undefined
-											});
-										}}
-									/>
-								) : (
-									<div style={{ paddingTop: "2em", height: '100%' }}>
+							{this.state.editParticipant ? (
+								<LiveParticipantEditor
+									translate={translate}
+									council={this.props.council}
+									refetch={this.props.data.refetch}
+									id={this.state.editParticipant}
+									requestClose={() => {
+										this.setState({
+											editParticipant: undefined
+										});
+									}}
+								/>
+							) : (
+									<React.Fragment>
 										<ParticipantStatsBanner
 											council={this.props.council}
 											translate={translate}
@@ -260,48 +261,48 @@ class ParticipantsManager extends React.Component {
 											</div>
 										) : this.props.data.liveParticipants
 											.list.length > 0 ? (
-											<React.Fragment>
-												<div style={{height: 'calc(100% - 4em)', overflow: 'hidden'}}>
-													<Scrollbar>
-														<Grid spacing={0}>
-															{this.props.data.liveParticipants.list.map(
-																participant => (
-																	<ParticipantItem
-																		changeLayout={this.changeTableLayout}
-																		layout={this.state.layout}
-																		key={`participant_${participant.id}`}
-																		participant={participant}
-																		translate={translate}
-																		mode={this.state.tableType}
-																		editParticipant={this.editParticipant}
-																		council={this.props.council}
-																	/>
-																)
-															)}
-															{this.props.data
-																.liveParticipants.list
-																.length <
-																this.props.data
-																	.liveParticipants
-																	.total && (
-																<LoadMoreButton
-																	onClick={this.loadMore}
-																	loading={
-																		this.state
-																			.loadingMore
-																	}
-																/>
-															)}
-														</Grid>
-													</Scrollbar>
-												</div>
-											</React.Fragment>
-										) : (
-											<div style={{ marginLeft: "2em" }}>
-												{translate.no_results}
-											</div>
-										)}
-									</div>
+													<React.Fragment>
+														<div style={{ height: 'calc(100% - 4em)', overflow: 'hidden' }}>
+															<Scrollbar>
+																<Grid spacing={0}>
+																	{this.props.data.liveParticipants.list.map(
+																		participant => (
+																			<ParticipantItem
+																				changeLayout={this.changeTableLayout}
+																				layout={this.state.layout}
+																				key={`participant_${participant.id}`}
+																				participant={participant}
+																				translate={translate}
+																				mode={this.state.tableType}
+																				editParticipant={this.editParticipant}
+																				council={this.props.council}
+																			/>
+																		)
+																	)}
+																	{this.props.data
+																		.liveParticipants.list
+																		.length <
+																		this.props.data
+																			.liveParticipants
+																			.total && (
+																			<LoadMoreButton
+																				onClick={this.loadMore}
+																				loading={
+																					this.state
+																						.loadingMore
+																				}
+																			/>
+																		)}
+																</Grid>
+															</Scrollbar>
+														</div>
+													</React.Fragment>
+												) : (
+													<div style={{ marginLeft: "2em" }}>
+														{translate.no_results}
+													</div>
+												)}
+									</React.Fragment>
 								)}
 						</Paper>
 					</GridItem>
@@ -316,10 +317,10 @@ class ParticipantsManager extends React.Component {
 								position: "relative"
 							}}
 						>
-							<div style={{display: 'flex', flexDirection: 'row'}}>
+							<div style={{ display: 'flex', flexDirection: 'row' }}>
 								<FilterButton
 									tooltip={translate.compact_table}
-									onClick={() => this.setState({layout: 'compact'})}
+									onClick={() => this.setState({ layout: 'compact' })}
 									active={this.state.layout === "compact"}
 								>
 									<FontAwesome
@@ -332,7 +333,7 @@ class ParticipantsManager extends React.Component {
 								</FilterButton>
 								<FilterButton
 									tooltip={translate.table}
-									onClick={() => this.setState({layout: 'table'})}
+									onClick={() => this.setState({ layout: 'table' })}
 									active={this.state.layout === "table"}
 								>
 									<FontAwesome
@@ -345,7 +346,7 @@ class ParticipantsManager extends React.Component {
 								</FilterButton>
 								<FilterButton
 									tooltip={translate.grid}
-									onClick={() => this.setState({layout: 'squares'})}
+									onClick={() => this.setState({ layout: 'squares' })}
 									active={this.state.layout === "squares"}
 								>
 									<FontAwesome

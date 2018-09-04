@@ -68,7 +68,6 @@ class RecountSection extends React.Component {
 		} */
 
 		const { translate, council, agenda } = this.props;
-		//const recount = this.props.data.liveRecount[0];
 
 		return (
 			<div style={{backgroundColor: 'white'}}>

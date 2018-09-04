@@ -35,8 +35,8 @@ class CouncilLivePage extends React.Component {
 		this.props.data.refetch();
 	}
 
-	componentDidUpdate(){
-		if(!this.props.data.loading){
+	componentDidUpdate() {
+		if (!this.props.data.loading) {
 			const company = this.props.companies.list[
 				this.props.companies.selected
 			];
@@ -191,7 +191,7 @@ class CouncilLivePage extends React.Component {
 										/>
 									</div>
 								</Badge>
-							:
+								:
 								<div style={{ marginBottom: "0.3em" }}>
 									<FabButton
 										icon={
@@ -315,8 +315,8 @@ class CouncilLivePage extends React.Component {
 										}
 										{council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP &&
 											<div
-												style={{height: '100%', width: '100%'}}
-												dangerouslySetInnerHTML={{__html: council.room.htmlVideoCouncil}}
+												style={{ height: '100%', width: '100%' }}
+												dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}
 											/>
 										}
 
@@ -378,45 +378,38 @@ class CouncilLivePage extends React.Component {
 								showVideo(council)
 									? 100 - this.state.videoWidth
 									: 100
-							}%`,
+								}%`,
 							height: "calc(100vh - 3em)"
 						}}
 					>
 						{this.state.participants && !this.state.fullScreen ? (
-							<div
-								style={{
-									height: "calc(100vh - 6.5em)",
-									marginTop: "3em"
-								}}
-							>
-								<ParticipantsManager
-									translate={translate}
-									participants={
-										this.props.data.council.participants
-									}
-									council={council}
-								/>
-							</div>
-						) : (
-							<AgendaManager
-								ref={agendaManager =>
-									(this.agendaManager = agendaManager)
-								}
-								recount={this.props.data.councilRecount}
-								council={council}
-								company={company}
+							<ParticipantsManager
 								translate={translate}
-								fullScreen={this.state.fullScreen}
-								refetch={this.props.data.refetch}
-								openMenu={() =>
-									this.setState({
-										videoWidth: minVideoWidth,
-										videoHeight: minVideoHeight,
-										fullScreen: false
-									})
+								participants={
+									this.props.data.council.participants
 								}
+								council={council}
 							/>
-						)}
+						) : (
+								<AgendaManager
+									ref={agendaManager =>
+										(this.agendaManager = agendaManager)
+									}
+									recount={this.props.data.councilRecount}
+									council={council}
+									company={company}
+									translate={translate}
+									fullScreen={this.state.fullScreen}
+									refetch={this.props.data.refetch}
+									openMenu={() =>
+										this.setState({
+											videoWidth: minVideoWidth,
+											videoHeight: minVideoHeight,
+											fullScreen: false
+										})
+									}
+								/>
+							)}
 					</div>
 				</div>
 			</div>
