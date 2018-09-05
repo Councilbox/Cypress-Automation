@@ -106,6 +106,7 @@ class OpenRoomButton extends React.Component {
 					}
 					open={this.state.confirmModal}
 					buttonAccept={translate.accept}
+					loadingAction={this.state.loading}
 					buttonCancel={translate.cancel}
 					modal={true}
 					acceptAction={this.openCouncilRoom}

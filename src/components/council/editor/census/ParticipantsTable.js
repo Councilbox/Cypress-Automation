@@ -36,6 +36,7 @@ class ParticipantsTable extends React.Component {
 
 		if (response) {
 			this.table.refresh();
+			//this.props.data.refetch();
 			this.props.refetch();
 		}
 	};
@@ -55,8 +56,7 @@ class ParticipantsTable extends React.Component {
 		);
 	}
 
-	refresh = () => {
-		this.props.data.refetch();
+	refresh = async () => {
 		this.props.refetch();
 	}
 
@@ -135,7 +135,7 @@ class ParticipantsTable extends React.Component {
 							defaultOrder={["fullName", "asc"]}
 							limits={PARTICIPANTS_LIMITS}
 							page={1}
-							loading={loading}
+							loading={!councilParticipants}
 							length={councilParticipants.list.length}
 							total={councilParticipants.total}
 							refetch={this.props.data.refetch}

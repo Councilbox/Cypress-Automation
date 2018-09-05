@@ -56,8 +56,8 @@ class RecordingButton extends React.Component {
                 <div
                     style={{
                         position: 'absolute',
-                        top: '10%',
-                        left: '10%',
+                        top: '1.5em',
+                        left: '2em',
                         fontSize: '1.4em',
                         cursor: 'pointer'
                     }}

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
@@ -16,7 +16,18 @@ import { checkRequiredFields } from "../../../utils/CBX";
 import { withRouter } from "react-router-dom";
 import { getPrimary } from "../../../styles/colors";
 
-class CompanyDraftEditor extends Component {
+class CompanyDraftEditor extends React.Component {
+	state = {
+		data: {},
+		errors: {}
+	};
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		return {
+			data: nextProps.data.companyDraft
+		};
+	}
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -31,6 +42,7 @@ class CompanyDraftEditor extends Component {
 			errors
 		});
 	};
+	
 	updateCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { data } = this.state;
@@ -63,20 +75,6 @@ class CompanyDraftEditor extends Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {},
-			errors: {}
-		};
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		return {
-			data: nextProps.data.companyDraft
-		};
-	}
 
 	render() {
 		const { translate } = this.props;

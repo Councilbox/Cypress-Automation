@@ -256,10 +256,6 @@ class StepOptions extends React.Component {
 							</div>
 						:
 							<React.Fragment>
-								{/* <SectionTitle
-									text={translate.confirm_assistance}
-									color={primary}
-								/> */}
 								<SectionTitle
 									text={translate.confirm_assistance}
 									color={primary}

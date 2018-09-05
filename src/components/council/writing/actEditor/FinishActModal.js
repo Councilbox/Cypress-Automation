@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import {
 	AlertConfirm
 } from "../../../../displayComponents";
@@ -7,13 +7,20 @@ import { approveAct } from '../../../../queries';
 import ActHTML from "../actViewer/ActHTML";
 
 
-class FinishActModal extends Component {
+class FinishActModal extends React.Component {
+
+	state = {
+		loading: false
+	}
 
 	close = () => {
 		this.props.requestClose();
 	};
 
 	approveAct = async () => {
+		this.setState({
+			loading: true
+		});
 		const response = await this.props.approveAct({
 			variables: {
 				councilId: this.props.council.id
@@ -21,10 +28,10 @@ class FinishActModal extends Component {
 		});
 
 		if(response){
-            console.log(response);
 			if(!response.data.errors){
 				this.setState({
-					success: true
+					success: true,
+					loading: false
 				});
 				this.props.refetch();
 			}
@@ -53,6 +60,7 @@ class FinishActModal extends Component {
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={this.approveAct}
+				loadingAction={this.state.loading}
 				buttonAccept={translate.finish_and_aprove_act}
 				buttonCancel={translate.close}
 				bodyText={this._modalBody()}

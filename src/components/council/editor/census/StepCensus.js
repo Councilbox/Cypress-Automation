@@ -196,7 +196,7 @@ class StepCensus extends React.Component {
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						{loading?
+						{!council?
 							<div
 								style={{
 									height: "300px",
@@ -212,7 +212,11 @@ class StepCensus extends React.Component {
 							<ParticipantsTable
 								translate={translate}
 								data={this.props.participants}
-								refetch={this.props.data.refetch}
+								refetch={() => {
+									this.props.data.refetch();
+									this.props.participants.refetch();
+								}}
+								key={this.props.data.council.selectedCensusId}
 								council={council}
 								handleCensusChange={this.handleCensusChange}
 								reloadCensus={this.reloadCensus}

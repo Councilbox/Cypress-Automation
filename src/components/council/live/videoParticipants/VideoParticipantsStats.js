@@ -53,7 +53,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={translate.present}>
+		<Tooltip title={translate.present.toLowerCase().capitalize()}>
 			<div
 				style={{
 					marginLeft: "1em",
@@ -115,7 +115,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={"EMITIENDO"}>
+		<Tooltip title={"Emitiendo"} /*TRADUCCION*/>
 			<div
 				style={{
 					marginLeft: "1em",
