@@ -10,6 +10,10 @@ import Dialog, {
 	DialogContent,
 	DialogTitle
 } from "material-ui/Dialog";
+import {
+	councilParticipants
+} from "../../../../queries/councilParticipant";
+import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import ParticipantsTable from "./ParticipantsTable";
 import * as CBX from "../../../../utils/CBX";
@@ -99,6 +103,7 @@ class StepCensus extends React.Component {
 	};
 
 	nextPage = () => {
+		console.log(this.props.participants);
 		this.saveDraft(3);
 		this.props.nextStep();
 	};
@@ -206,6 +211,7 @@ class StepCensus extends React.Component {
 						:
 							<ParticipantsTable
 								translate={translate}
+								data={this.props.participants}
 								refetch={this.props.data.refetch}
 								council={council}
 								handleCensusChange={this.handleCensusChange}
@@ -314,6 +320,22 @@ export default compose(
 				id: props.councilID,
 				companyId: props.companyID
 			},
+			notifyOnNetworkStatusChange: true
+		})
+	}),
+	graphql(councilParticipants, {
+		name: 'participants',
+		options: props => ({
+			variables: {
+				councilId: props.councilID,
+				options: {
+					limit: PARTICIPANTS_LIMITS[0],
+					offset: 0,
+					orderBy: 'fullName',
+					orderDirection: 'asc'
+				}
+			},
+			forceFetch: true,
 			notifyOnNetworkStatusChange: true
 		})
 	}),

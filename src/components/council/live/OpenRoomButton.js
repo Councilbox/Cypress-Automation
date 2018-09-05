@@ -38,10 +38,7 @@ class OpenRoomButton extends React.Component {
 			}
 		});
 		if (response.data.openCouncilRoom.success) {
-			this.setState({
-				confirmModal: false,
-			});
-			this.props.refetch();
+			await this.props.refetch();
 		}
 	};
 

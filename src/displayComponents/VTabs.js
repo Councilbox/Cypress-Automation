@@ -136,7 +136,7 @@ const Vtabs = ({
 								</React.Fragment>
 							}
 							{!!editAction && (
-								<Tooltip title={translate.rename_council_type}>
+								<Tooltip title={'Renombrar tipo de reunión'} /*TRADUCCION*/>
 									<FontAwesome
 										name="edit"
 										style={{
@@ -236,7 +236,7 @@ class HoverableTab extends React.PureComponent {
 						elevation={0}
 					>
 						{!!editAction && (
-							<Tooltip title={translate.rename_council_type}>
+							<Tooltip title={'Renombrar tipo de reunión'} /*TRADUCCION*/>
 								<IconButton
 									style={{
 										width: '32px',

@@ -355,7 +355,7 @@ class StatutesPage extends React.Component {
 										<div>
 											{this.state.unsavedChanges &&
 												<BasicButton
-													text={'Deshacer cambios'}
+													text={'Deshacer cambios'}//TRADUCCION
 													color={getSecondary()}
 													textStyle={{
 														color: "white",

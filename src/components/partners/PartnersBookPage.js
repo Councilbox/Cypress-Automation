@@ -8,7 +8,11 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 
-class PartnersBookPage extends React.PureComponent {
+class PartnersBookPage extends React.Component {
+
+    componentDidMount(){
+        this.props.data.refetch();
+    }
 
     addPartner = () => {
         bHistory.push(`/company/${this.props.match.params.company}/book/new`);
@@ -186,6 +190,7 @@ export default graphql(bookParticipants, {
     options: props => ({
         variables: {
             companyId: props.match.params.company
-        }
+        },
+        notifyOnNetworkStatusChange: true
     })
 })(withTranslations()(withRouter(PartnersBookPage)));

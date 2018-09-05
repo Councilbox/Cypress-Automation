@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import FontAwesome from "react-fontawesome";
-import { darkGrey, secondary } from "../../styles/colors";
+import { darkGrey, secondary, lightGrey } from "../../styles/colors";
 import Header from "./Header";
 
 class InvalidUrl extends React.Component {
@@ -17,6 +17,7 @@ class InvalidUrl extends React.Component {
 				<div
 					style={{
 						display: "flex",
+						backgroundColor: lightGrey,
 						height: "calc(100% - 48px)",
 						width: "100%",
 						alignItems: "center",
@@ -39,15 +40,15 @@ class InvalidUrl extends React.Component {
 								fontSize: "70px"
 							}}
 						/>
-						<h1 style={{ color: secondary }}>
+						<h2 style={{ color: secondary }}>
 							{this.props.translate.invalid_url}
-						</h1>
-						<h3 style={{ color: darkGrey }}>
+						</h2>
+						<h5 style={{ color: darkGrey }}>
 							{
 								this.props.translate
 									.access_from_mail_check_correctly_copied
 							}
-						</h3>
+						</h5>
 					</div>
 				</div>
 			</div>

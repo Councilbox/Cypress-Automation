@@ -84,12 +84,11 @@ const CouncilLiveTestContainer = Loadable({
 
 const retryLink = new RetryLink({
 	delay: {
-		initial: 500,
+		initial: 1000,
 		max: Infinity,
 		jitter: true
 	},
 	attempts: {
-		max: 10,
 		retryIf: (error, _operation) => {
 			/* console.log(error.name);
 			console.log(error.message);

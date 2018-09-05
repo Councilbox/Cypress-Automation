@@ -57,6 +57,7 @@ class CensusParticipantEditor extends React.Component {
 					representative: representative
 				}
 			});
+			console.log(response);
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();

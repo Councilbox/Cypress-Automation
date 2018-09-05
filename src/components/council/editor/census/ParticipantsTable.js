@@ -351,20 +351,5 @@ class HoverableRow extends React.Component {
 }
 
 export default compose(
-	graphql(deleteParticipant),
-	graphql(councilParticipants, {
-		options: props => ({
-			variables: {
-				councilId: props.council.id,
-				options: {
-					limit: PARTICIPANTS_LIMITS[0],
-					offset: 0,
-					orderBy: 'fullName',
-					orderDirection: 'asc'
-				}
-			},
-			forceFetch: true,
-			notifyOnNetworkStatusChange: true
-		})
-	})
+	graphql(deleteParticipant)
 )(ParticipantsTable);

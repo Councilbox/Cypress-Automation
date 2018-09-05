@@ -13,6 +13,7 @@ import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import FontAwesome from 'react-fontawesome';
 
+
 class Header extends React.PureComponent {
 	state = {
 		companyMenu: false,
