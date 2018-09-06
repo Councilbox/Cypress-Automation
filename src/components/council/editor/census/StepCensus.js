@@ -28,6 +28,7 @@ class StepCensus extends React.Component {
 		placeModal: false,
 		censusChangeAlert: false,
 		addParticipant: false,
+		noParticipantsError: false,
 		censusChangeId: "",
 		data: {
 			censuses: []
@@ -103,9 +104,14 @@ class StepCensus extends React.Component {
 	};
 
 	nextPage = () => {
-		console.log(this.props.participants);
-		this.saveDraft(3);
-		this.props.nextStep();
+		if(this.props.participants.councilParticipants.list.length > 0){
+			this.saveDraft(3);
+			this.props.nextStep();
+		} else {
+			this.setState({
+				noParticipantsError: true
+			});
+		}
 	};
 
 	previousPage = () => {
@@ -114,6 +120,9 @@ class StepCensus extends React.Component {
 	};
 
 	sendCensusChange = async () => {
+		this.setState({
+			loading: true
+		})
 		const response = await this.props.changeCensus({
 			variables: {
 				censusId: this.state.censusChangeId,
@@ -122,7 +131,8 @@ class StepCensus extends React.Component {
 		});
 		if (response) {
 			this.setState({
-				censusChangeAlert: false
+				censusChangeAlert: false,
+				loading: false
 			});
 			const newData = await this.props.data.refetch();
 			if (newData) {
@@ -172,6 +182,10 @@ class StepCensus extends React.Component {
 		);
 	}
 
+	checkParticipants = () => {
+		return this.props.participants.councilParticipants.list.length <= 0;
+	}
+
 	render() {
 		const { translate } = this.props;
 		const { council, loading, error } = this.props.data;
@@ -192,6 +206,10 @@ class StepCensus extends React.Component {
 			);
 		}
 
+		if(this.state.loading){
+			return <LoadingSection />
+		}
+
 		return (
 			<EditorStepLayout
 				body={
@@ -209,28 +227,46 @@ class StepCensus extends React.Component {
 								<LoadingSection />
 							</div>
 						:
-							<ParticipantsTable
-								translate={translate}
-								data={this.props.participants}
-								refetch={() => {
-									this.props.data.refetch();
-									this.props.participants.refetch();
-								}}
-								key={this.props.data.council.selectedCensusId}
-								council={council}
-								handleCensusChange={this.handleCensusChange}
-								reloadCensus={this.reloadCensus}
-								showAddModal={() =>
-									this.setState({ addParticipant: true })
+							<React.Fragment>
+								<ParticipantsTable
+									translate={translate}
+									data={this.props.participants}
+									refetch={() => {
+										this.props.data.refetch();
+										this.props.participants.refetch();
+									}}
+									key={`${this.props.data.council.selectedCensusId}`}
+									council={council}
+									handleCensusChange={this.handleCensusChange}
+									reloadCensus={this.reloadCensus}
+									showAddModal={() =>
+										this.setState({ addParticipant: true })
+									}
+									censuses={this.props.data.censuses}
+									editable={true}
+									totalVotes={this.props.data.councilTotalVotes}
+									totalSocialCapital={
+										this.props.data.councilSocialCapital
+									}
+									participations={CBX.hasParticipations(council)}
+								/>
+								{this.checkParticipants() &&
+									<div
+										style={{
+											color: 'red',
+											fontWeight: '700',
+											marginTop: '1em',
+											width: '100%',
+											display: 'flex',
+											justifyContent: 'center'
+										}}
+										//TRADUCCION
+									>
+										Es necesario añadir al menos un participante.
+									</div>
+
 								}
-								censuses={this.props.data.censuses}
-								editable={true}
-								totalVotes={this.props.data.councilTotalVotes}
-								totalSocialCapital={
-									this.props.data.councilSocialCapital
-								}
-								participations={CBX.hasParticipations(council)}
-							/>
+							</React.Fragment>
 						}
 						<Dialog
 							disableBackdropClick={false}

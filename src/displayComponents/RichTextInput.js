@@ -157,7 +157,6 @@ class RichTextInput extends React.Component {
 	};
 
 	onChange = value => {
-		console.log(this.rtEditor);
 		this.setState({ value });
 		const html = value.toString('html');
 		if (this.props.onChange) {

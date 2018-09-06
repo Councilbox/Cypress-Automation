@@ -42,7 +42,6 @@ const FileUploadButton = ({
 				component="span"
 				disableRipple={loading}
 				disabled={loading}
-				loadingColor={loadingColor}
 				style={{
 					...buttonStyle,
 					...textStyle,

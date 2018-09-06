@@ -9,7 +9,7 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo } from "../../../utils/CBX";
+import { showVideo, councilStarted } from "../../../utils/CBX";
 import { Tooltip, Badge } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
@@ -156,25 +156,43 @@ class CouncilLivePage extends React.Component {
 						zIndex: 2
 					}}
 				>
-					<Tooltip title={`${translate.wall} - (ALT + W)`}>
-						<div>
-							{this.state.unreadComments > 0 ?
-								<Badge
-									classes={{
-										badge: 'fadeToggle'
-									}}
-									badgeContent={
-										<span
-											style={{
-												color: "white",
-												fontWeight: "700",
-											}}
-										>
-											{this.state.unreadComments}
-										</span>
-									}
-									color="secondary"
-								>
+					{council.state === 20 || council.state === 30 &&
+						<Tooltip title={`${translate.wall} - (ALT + W)`}>
+							<div>
+								{this.state.unreadComments > 0 ?
+									<Badge
+										classes={{
+											badge: 'fadeToggle'
+										}}
+										badgeContent={
+											<span
+												style={{
+													color: "white",
+													fontWeight: "700",
+												}}
+											>
+												{this.state.unreadComments}
+											</span>
+										}
+										color="secondary"
+									>
+										<div style={{ marginBottom: "0.3em" }}>
+											<FabButton
+												icon={
+													<Icon className="material-icons">
+														chat
+													</Icon>
+												}
+												updateState={this.updateState}
+												onClick={() =>
+													this.setState({
+														wall: true
+													})
+												}
+											/>
+										</div>
+									</Badge>
+								:
 									<div style={{ marginBottom: "0.3em" }}>
 										<FabButton
 											icon={
@@ -190,26 +208,10 @@ class CouncilLivePage extends React.Component {
 											}
 										/>
 									</div>
-								</Badge>
-							:
-								<div style={{ marginBottom: "0.3em" }}>
-									<FabButton
-										icon={
-											<Icon className="material-icons">
-												chat
-											</Icon>
-										}
-										updateState={this.updateState}
-										onClick={() =>
-											this.setState({
-												wall: true
-											})
-										}
-									/>
-								</div>
-							}
-						</div>
-					</Tooltip>
+								}
+							</div>
+						</Tooltip>
+					}
 					<Tooltip
 						title={
 							this.state.participants

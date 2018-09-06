@@ -1,18 +1,29 @@
 import React from 'react';
-import { EnhancedTable, CloseIcon, BasicButton, ButtonIcon } from '../../../../displayComponents';
+import { EnhancedTable, CloseIcon, BasicButton, ButtonIcon, SelectInput, AlertConfirm } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
-import { TableRow, TableCell } from 'material-ui';
+import { TableRow, TableCell, MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getPrimary } from '../../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
 import NewParticipantModal from './NewParticipantModal';
 import ParticipantEditorModal from './ParticipantEditorModal';
+import ChangeCensusMenu from '../../../council/editor/census/ChangeCensusMenu';
 
 class SignatureParticipants extends React.Component {
 
     state = {
         newParticipantModal: false,
-        participantId: null
+        participantId: null,
+        censusModal: false,
+        selectedCensus: null
+    }
+
+    openCensusChangeModal = event => {
+        console.log(event.target.value);
+        this.setState({
+            censusModal: true,
+            selectedCensus: event.target.value
+        })
     }
 
     deleteParticipant = async participantId => {
@@ -35,8 +46,9 @@ class SignatureParticipants extends React.Component {
 
     render(){
         const { translate } = this.props;
-        const { signatureParticipants = { list: [], total: 0}, loading } = this.props.data;
+        const { signatureParticipants = { list: [], total: 0}, loading, censuses = { list: [], total: 0}} = this.props.data;
         const primary = getPrimary();
+        const secondary = getSecondary();
 
         return(
             <React.Fragment>
@@ -66,14 +78,34 @@ class SignatureParticipants extends React.Component {
                     limits={PARTICIPANTS_LIMITS}
                     menuButtons={
                         <React.Fragment>
-                            <BasicButton
-                                text={translate.add_participant}
-                                color={'white'}
-                                textStyle={{color: primary, textTransform: 'none', fontWeight: '700'}}
-                                buttonStyle={{border: `2px solid ${primary}`, marginRight: '1.2em'}}
-                                icon={<ButtonIcon type="add" color={primary} />}
-                                onClick={() => this.setState({ newParticipantModal: true })}
-                            />
+                            <div style={{minWidth: '8em', marginRight: '1em'}}>
+                                <SelectInput
+                                    floatingText={translate.current_census}
+                                    value={this.props.signature.selectedCensusId}
+                                    onChange={this.openCensusChangeModal}
+                                >
+                                    {censuses.list.map(census => {
+                                        return (
+                                            <MenuItem
+                                                value={parseInt(census.id, 10)}
+                                                key={`census${census.id}`}
+                                            >
+                                                {census.censusName}
+                                            </MenuItem>
+                                        );
+                                    })}
+                                </SelectInput>
+                            </div>
+                            <div style={{width: '15em', display: 'flex', justifyContent: 'flex-end'}}>
+                                <BasicButton
+                                    text={translate.add_participant}
+                                    color={'white'}
+                                    textStyle={{color: primary, textTransform: 'none', fontWeight: '700'}}
+                                    buttonStyle={{border: `2px solid ${primary}`, marginRight: '1.2em'}}
+                                    icon={<ButtonIcon type="add" color={primary} />}
+                                    onClick={() => this.setState({ newParticipantModal: true })}
+                                />
+                            </div>
                         </React.Fragment>
                     }
                     page={1}
@@ -128,6 +160,17 @@ class SignatureParticipants extends React.Component {
                         ))
                     }
                 </EnhancedTable>
+                <AlertConfirm
+                    requestClose={() => this.setState({
+                        censusModal: false
+                    })}
+                    open={this.props.open}
+                    acceptAction={this.updateCensus}
+                    buttonAccept={translate.accept}
+                    buttonCancel={translate.cancel}
+                    bodyText={this._renderBody()}
+                    title={translate.census}
+                />
             </React.Fragment>
         )
     }
@@ -180,7 +223,10 @@ class HoverableRow extends React.Component {
                             style={{
                                 color: getPrimary()
                             }}
-                            onClick={() => this.props.deleteParticipant(participant.id)}
+                            onClick={event => {
+                                event.stopPropagation();
+                                this.props.deleteParticipant(participant.id)
+                            }}
                         />
                     :
                         <div style={{width: '4em'}} />
@@ -192,7 +238,7 @@ class HoverableRow extends React.Component {
 }
 
 const signatureParticipants = gql`
-    query SignatureParticipants($signatureId: Int!, $filters: [FilterInput], $options: OptionsInput){
+    query SignatureParticipants($signatureId: Int!, $filters: [FilterInput], $options: OptionsInput, $companyId: Int!){
         signatureParticipants(signatureId: $signatureId, filters: $filters, options: $options){
             list{
                 id
@@ -203,6 +249,18 @@ const signatureParticipants = gql`
             }
             total
         }
+        censuses(companyId: $companyId) {
+			list {
+				id
+				companyId
+				censusName
+				censusDescription
+				defaultCensus
+				quorumPrototype
+				state
+			}
+			total
+		}
     }
 `;
 
@@ -223,6 +281,7 @@ export default compose(
         options: props => ({
             variables: {
                 signatureId: props.signature.id,
+                companyId: props.company.id,
                 options: {
                     limit: PARTICIPANTS_LIMITS[0],
                     offset: 0

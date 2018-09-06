@@ -24,6 +24,7 @@ export const signature = gql`
 			id
 			companyId
 			title
+			censusId
 			description
 			expirationDateToSign
 			state

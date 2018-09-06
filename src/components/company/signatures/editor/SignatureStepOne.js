@@ -114,6 +114,7 @@ class SignatureStepOne extends React.Component {
                             }
                         })
                     }
+                    this.props.data.refetch();
                 }
             }else{
                 this.setState({
@@ -291,6 +292,7 @@ class SignatureStepOne extends React.Component {
                                     <div style={{maxWidth: '10em'}}>
                                         <FileUploadButton
                                             text={translate.new_add}
+                                            accept='application/pdf'
                                             style={{
                                                 marginTop: "2em",
                                                 width: "100%"
