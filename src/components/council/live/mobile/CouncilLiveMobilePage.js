@@ -2,7 +2,7 @@ import React from 'react';
 import { LoadingMainApp } from '../../../../displayComponents';
 import { graphql } from 'react-apollo';
 import { councilLiveQuery } from "../../../../queries";
-import ParticipantsManager from '../ParticipantsManager';
+import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
 
 class CouncilLiveMobilePage extends React.Component {

@@ -84,3 +84,70 @@ export const addDelegation = gql`
 		}
 	}
 `;
+
+export const liveParticipants = gql`
+	query liveParticipants(
+		$councilId: Int!
+		$filters: [FilterInput]
+		$notificationStatus: Int
+		$options: OptionsInput
+	) {
+		liveParticipants(
+			councilId: $councilId
+			filters: $filters
+			notificationStatus: $notificationStatus
+			options: $options
+		) {
+			list {
+				id
+				delegateId
+				state
+				audio
+				video
+				councilId
+				name
+				position
+				email
+				phone
+				dni
+				date
+				type
+				participantId
+				online
+				requestWord
+				numParticipations
+				surname
+				assistanceComment
+				assistanceLastDateConfirmed
+				assistanceIntention
+				representative {
+					id
+					name
+					surname
+				}
+				blocked
+				lastDateConnection
+				videoMode
+				notifications {
+					participantId
+					reqCode
+					refreshDate
+				}
+				firstLoginDate
+				firstLoginCurrentPointId
+				language
+				signed
+				socialCapital
+				address
+				city
+				country
+				countryState
+				zipcode
+				delegateUuid
+				actived
+				personOrEntity
+			}
+			total
+		}
+	}
+`;

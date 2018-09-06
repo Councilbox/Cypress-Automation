@@ -1,11 +1,11 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	getParticipantStateString,
 	isRepresentative,
 	participantIsGuest
-} from "../../../utils/CBX";
+} from "../../../../utils/CBX";
 import { Tooltip } from "material-ui";
 
 const mainIconSize = 1.75;

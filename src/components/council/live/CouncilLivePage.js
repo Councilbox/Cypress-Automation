@@ -7,7 +7,7 @@ import { graphql } from "react-apollo";
 import { councilLiveQuery } from "../../../queries";
 import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
-import ParticipantsManager from "./ParticipantsManager";
+import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
 import { showVideo } from "../../../utils/CBX";
 import { Tooltip, Badge } from "material-ui";
