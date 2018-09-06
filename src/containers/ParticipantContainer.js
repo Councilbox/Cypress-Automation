@@ -71,6 +71,7 @@ class ParticipantContainer extends React.PureComponent {
                                             participant={data.participant}
                                             council={data.councilVideo}
                                             company={data.councilVideo.company}
+											refetchParticipant={data.refetch}
                                         />
                                 }
                             </React.Fragment>

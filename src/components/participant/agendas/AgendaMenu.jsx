@@ -88,7 +88,7 @@ class AgendaMenu extends React.Component {
                 }
                 {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
                     <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
-                    {!CBX.agendaVotingsOpened(agenda)?
+                    {!CBX.agendaVotingsOpened(agenda) && agenda.voting?
                             <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
                         :
                             <CollapsibleSection
@@ -148,11 +148,13 @@ class AgendaMenu extends React.Component {
                                     </div>
                                 }
                                 collapse={() => this.state.voting?
-                                    <VotingMenu
-                                        translate={this.props.translate}
-                                        refetch={this.props.refetch}
-                                        agenda={agenda}
-                                    />
+                                    <React.Fragment>
+                                        <VotingMenu
+                                            translate={this.props.translate}
+                                            refetch={this.props.refetch}
+                                            agenda={agenda}
+                                        />
+                                    </React.Fragment>
                                 :
                                     <CommentMenu
                                         agenda={agenda}

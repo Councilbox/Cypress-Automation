@@ -175,10 +175,9 @@ class StepNotice extends React.Component {
 			});
 			await this.props.data.refetch();
 			this.checkAssociatedCensus(statuteId);
-			this.updateDate();
 			this.setState({
 				data: actualState
-			});
+			}, this.updateDate);
 		}
 	};
 
@@ -392,6 +391,7 @@ class StepNotice extends React.Component {
 											errorText={errors.dateStart}
 											acceptText={translate.accept}
 											cancelText={translate.cancel}
+											minDate={Date.now()}
 											label={translate["1st_call_date"]}
 											value={council.dateStart}
 										/>

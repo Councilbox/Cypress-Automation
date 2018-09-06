@@ -340,6 +340,7 @@ class ActEditor extends Component {
 										ref={editor => this.editorIntro = editor}
 										floatingText={translate.intro}
 										type="text"
+										id="act-intro"
 										loadDraft={
 											<BasicButton
 												text={translate.load_draft}
@@ -406,6 +407,7 @@ class ActEditor extends Component {
 										ref={editor => (this.editorConstitution = editor)}
 										floatingText={translate.constitution}
 										type="text"
+										id="act-constitution"
 										loadDraft={
 											<BasicButton
 												text={translate.load_draft}
@@ -522,56 +524,61 @@ class ActEditor extends Component {
 									</Fragment>
 								)}
 								{!this.props.liveMode &&
-									<RichTextInput
-										ref={editor => (this.editorConclusion = editor)}
-										floatingText={translate.conclusion}
-										type="text"
-										loadDraft={
-											<BasicButton
-												text={translate.load_draft}
-												color={secondary}
-												textStyle={{
-													color: "white",
-													fontWeight: "600",
-													fontSize: "0.8em",
-													textTransform: "none",
-													marginLeft: "0.4em",
-													minHeight: 0,
-													lineHeight: "1em"
-												}}
-												textPosition="after"
-												onClick={() =>
-													this.setState({
-														loadDraft: true,
-														draftType: DRAFT_TYPES.CONCLUSION
-													})
-												}
-											/>
-										}
-										tags={[
-											{
-												value: `${council.president} `,
-												label: translate.president
-											},
-											{
-												value: `${council.secretary} `,
-												label: translate.secretary
-											},
-											{
-												value: `${moment(council.dateEnd).format(
-													"LLLL"
-												)} `,
-												label: translate.date_end
+									<div
+										ref={ref => this.conclusionSection = ref}
+									>
+										<RichTextInput
+											ref={editor => (this.editorConclusion = editor)}
+											floatingText={translate.conclusion}
+											type="text"
+											id="act-conclusion"
+											loadDraft={
+												<BasicButton
+													text={translate.load_draft}
+													color={secondary}
+													textStyle={{
+														color: "white",
+														fontWeight: "600",
+														fontSize: "0.8em",
+														textTransform: "none",
+														marginLeft: "0.4em",
+														minHeight: 0,
+														lineHeight: "1em"
+													}}
+													textPosition="after"
+													onClick={() =>
+														this.setState({
+															loadDraft: true,
+															draftType: DRAFT_TYPES.CONCLUSION
+														})
+													}
+												/>
 											}
-										]}
-										errorText={errors.conclusion}
-										value={data.council.act.conclusion || ''}
-										onChange={value =>
-											this.updateActState({
-												conclusion: value
-											})
-										}
-									/>
+											tags={[
+												{
+													value: `${council.president} `,
+													label: translate.president
+												},
+												{
+													value: `${council.secretary} `,
+													label: translate.secretary
+												},
+												{
+													value: `${moment(council.dateEnd).format(
+														"LLLL"
+													)} `,
+													label: translate.date_end
+												}
+											]}
+											errorText={errors.conclusion}
+											value={data.council.act.conclusion || ''}
+											onChange={value => {
+												this.updateActState({
+													conclusion: value
+												})
+											}}
+										/>
+									</div>
 								}
 							</div>
 						</Scrollbar>

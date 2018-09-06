@@ -157,6 +157,7 @@ class RichTextInput extends React.Component {
 	};
 
 	onChange = value => {
+		console.log(this.rtEditor);
 		this.setState({ value });
 		const html = value.toString('html');
 		if (this.props.onChange) {
@@ -179,9 +180,9 @@ class RichTextInput extends React.Component {
 	paste = text => {
 		let cd = new DataTransfer();
 		cd.setData("text/plain", text);
-		this.refs.rtEditor.refs.editor._onPaste({
+		this.rtEditor.refs.editor._onPaste({
 			preventDefault: () => {
-				this.refs.rtEditor.refs.editor.focus();
+				this.rtEditor.refs.editor.focus();
 			},
 			clipboardData: cd
 		});
@@ -307,7 +308,8 @@ class RichTextInput extends React.Component {
 							)}
 						</div>
 						<RichTextEditor
-							ref={"rtEditor"}
+							ref={editor => this.rtEditor = editor}
+							id={this.props.id}
 							className={`text-editor ${!!errorText? 'text-editor-error' : ''}`}
 							value={this.state.value}
 							onChange={this.onChange}

@@ -98,6 +98,7 @@ class ParticipantCouncil extends React.Component {
                                         translate={this.props.translate}
                                         participant={participant}
                                         council={council}
+                                        refetchParticipant={this.props.refetchParticipant}
                                     />
                                     <VideoContainer
                                         council={council}

@@ -38,6 +38,7 @@ class CensusParticipants extends React.Component {
 
 		if (response) {
 			this.props.data.refetch();
+			this.props.refetch();
 		}
 	};
 

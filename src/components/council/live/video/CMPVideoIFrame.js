@@ -2,6 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import RecordingButton from './RecordingButton';
+import { darkGrey } from '../../../../styles/colors';
 
 const rand = Date.now();
 
@@ -14,23 +15,39 @@ class CMPVideoIFrame extends React.Component {
         if(!data.loading){
             return (
                 <div style={{width: '100%', height: '100%', position: 'relative'}}>
-                    <RecordingButton
-                        council={this.props.council}
-                        translate={this.props.translate}
-                    />
-                    <iframe
-                        title="meetingScreen"
-                        allow="geolocation; microphone; camera"
-                        scrolling="no"
-                        className="temp_video"
-                        src={`https://${data.roomVideoURL}?rand=${rand}`}
-                        allowFullScreen="true"
-                        style={{
-                            border: "none !important"
-                        }}
-                    >
-                        Something wrong...
-                    </iframe>
+                    {!!data.roomVideoURL?
+                        <React.Fragment>
+                            <RecordingButton
+                                council={this.props.council}
+                                translate={this.props.translate}
+                            />
+                            <iframe
+                                title="meetingScreen"
+                                allow="geolocation; microphone; camera"
+                                scrolling="no"
+                                className="temp_video"
+                                src={`https://${data.roomVideoURL}?rand=${rand}`}
+                                allowFullScreen="true"
+                                style={{
+                                    border: "none !important"
+                                }}
+                            >
+                                Something wrong...
+                            </iframe>
+                        </React.Fragment>
+                    :
+                        <div
+                            style={{
+                                width: '100%',
+                                backgroundColor: darkGrey,
+                                height: '100%',
+                                color: 'white'
+                            }}
+                        >
+                            Lo sentimos, algo ha ocurrido con el servidor de video, disculpe las molestias
+                        </div>
+                    }
+                    
                 </div>
             );
         }

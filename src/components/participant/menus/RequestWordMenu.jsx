@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import AdminPrivateMessage from './AdminPrivateMessage';
 import DetectRTC from 'detectrtc';
-import { AlertConfirm } from '../../../displayComponents';
+import { AlertConfirm, LoadingSection } from '../../../displayComponents';
 
 
 class RequestWordMenu extends React.Component {
@@ -18,13 +18,19 @@ class RequestWordMenu extends React.Component {
 
     askForWord = async () => {
         if(await this.checkWordRequisites()){
-            const response = await this.props.changeRequestWord({
+            this.setState({
+                loading: true
+            });
+            await this.props.changeRequestWord({
                 variables: {
                     participantId: this.props.participant.id,
                     requestWord: 1
                 }
             });
-    
+            await this.props.refetchParticipant();
+            this.setState({
+                loading: false
+            });
         } else {
             this.setState({
                 alertCantRequestWord: true
@@ -44,12 +50,14 @@ class RequestWordMenu extends React.Component {
     }
 
     cancelAskForWord = async () => {
-        const response = await this.props.changeRequestWord({
+        await this.props.changeRequestWord({
             variables: {
                 participantId: this.props.participant.id,
                 requestWord: 0
             }
         });
+        await this.props.refetchParticipant();
+
     }
 
     closeAlertCantRequest = () => {
@@ -108,7 +116,7 @@ class RequestWordMenu extends React.Component {
                 >
                     <i className="material-icons">
                         pan_tool
-                    </i>
+                    </i>                    
                 </IconButton>
             </Tooltip>
         )
