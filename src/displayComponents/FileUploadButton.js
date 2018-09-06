@@ -14,6 +14,7 @@ const FileUploadButton = ({
 	buttonStyle,
 	flat,
 	loading,
+	loadingColor = 'inherit',
 	style
 }) => (
 	<React.Fragment>
@@ -41,6 +42,7 @@ const FileUploadButton = ({
 				component="span"
 				disableRipple={loading}
 				disabled={loading}
+				loadingColor={loadingColor}
 				style={{
 					...buttonStyle,
 					...textStyle,
@@ -55,7 +57,7 @@ const FileUploadButton = ({
 							marginLeft: "0.3em"
 						}}
 					>
-						<CircularProgress size={12} color={"inherit"} />
+						<CircularProgress size={12} color={loadingColor} />
 					</div>
 				) : (
 					icon

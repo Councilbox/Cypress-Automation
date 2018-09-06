@@ -88,7 +88,7 @@ class AgendaMenu extends React.Component {
                 }
                 {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
                     <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
-                    {!CBX.agendaVotingsOpened(agenda) && agenda.voting?
+                    {!CBX.agendaVotingsOpened(agenda) && !agenda.voting?
                             <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
                         :
                             <CollapsibleSection

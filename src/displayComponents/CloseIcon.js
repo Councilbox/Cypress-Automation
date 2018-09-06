@@ -5,7 +5,7 @@ import { IconButton } from "material-ui";
 import { CircularProgress } from "material-ui/Progress";
 
 const CloseIcon = ({ style, onClick, loading }) => (
-	<Fragment>
+	<div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 		{!loading ? (
 			<IconButton
 				onClick={onClick}
@@ -19,9 +19,9 @@ const CloseIcon = ({ style, onClick, loading }) => (
 				<Close />
 			</IconButton>
 		) : (
-			<CircularProgress size={10} color="primary" />
+			<CircularProgress size={15} color="primary" />
 		)}
-	</Fragment>
+	</div>
 );
 
 export default CloseIcon;

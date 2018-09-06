@@ -95,6 +95,7 @@ class AttachmentList extends React.Component {
 							key={`attachment${index}`}
 							attachment={attachment}
 							translate={translate}
+							loadingId={this.props.loadingId}
 							removeAttachment={this.deleteAttachment}
 							editName={() => {
 								this.editIndex(index);

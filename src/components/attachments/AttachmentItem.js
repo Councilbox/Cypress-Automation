@@ -7,17 +7,18 @@ import { formatSize } from "../../utils/CBX";
 const primary = getPrimary();
 const secondary = getSecondary();
 
-const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translate }) => (
+const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translate, loadingId }) => (
 	<Paper
 		style={{
 			width: "100%",
 			padding: "1vw",
+			paddingRight: '3em',
 			marginTop: "0.6em",
 			...(attachment.state === 2? { backgroundColor: 'whiteSmoke'} : {})
 		}}
 	>
-		<Grid spacing={16}>
-			<GridItem xs={7}>
+		<Grid>
+			<GridItem xs={6}>
 				<div
 					style={{
 						fontWeight: "600",
@@ -53,15 +54,16 @@ const AttachmentItem = ({ attachment, removeAttachment, editName, edit, translat
 
 				</div>
 			</GridItem>
-			<GridItem xs={4} style={{fontSize: '0.8em', display: 'flex', alignItems: 'center'}}>{attachment.state === 2? translate.deleted : formatSize(attachment.filesize)}</GridItem>
+			<GridItem xs={4} style={{fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>{attachment.state === 2? translate.deleted : formatSize(attachment.filesize)}</GridItem>
 			{attachment.state !== 2 &&
-				<GridItem xs={1}>
+				<GridItem xs={2} style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
 					{edit &&
 						<CloseIcon
 							style={{
 								float: "right",
 								color: primary
 							}}
+							loading={loadingId === attachment.id}
 							onClick={event => {
 								event.stopPropagation();
 								removeAttachment(attachment.id);
