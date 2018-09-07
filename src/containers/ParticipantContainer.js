@@ -97,6 +97,7 @@ const participantQuery = gql`
 			type
 			phone
 			email
+			state
 			requestWord
 			language
 			online

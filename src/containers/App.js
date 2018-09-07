@@ -210,7 +210,10 @@ class App extends Component {
 									/>
 									<Route path="/" component={AppRouter} />
 								</Switch>
-								<ToastContainer position="top-right" />
+								<ToastContainer
+									position="top-right"
+									progressClassName={'toastProgressBar'}
+								/>
 							</React.Fragment>
 						</Router>
 					</ErrorHandler>

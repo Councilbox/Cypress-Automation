@@ -114,11 +114,6 @@ class ParticipantEditorModal extends React.Component {
             errors.phone = translate.field_required;
         }
 
-        if(!data.position){
-            hasError = true;
-            errors.position = translate.field_required;
-        }
-
         if(!data.email){
             hasError = true;
             errors.email = translate.field_required;

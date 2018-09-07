@@ -64,6 +64,7 @@ class Header extends React.PureComponent {
 					zIndex: 1000,
 					display: "flex",
 					flexDirection: "row",
+					borderBottom: '1px solid gainsboro',
 					width: "100%",
 					justifyContent: "space-between",
 					alignItems: "center",

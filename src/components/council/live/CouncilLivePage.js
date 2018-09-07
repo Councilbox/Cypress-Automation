@@ -150,13 +150,13 @@ class CouncilLivePage extends React.Component {
 					style={{
 						position: "absolute",
 						bottom: "5%",
-						right: "2%",
+						right: this.state.fullScreen? "5%" : "2%",
 						display: "flex",
 						flexDirection: "column",
 						zIndex: 2
 					}}
 				>
-					{council.state === 20 || council.state === 30 &&
+					{(council.state === 20 || council.state === 30) &&
 						<Tooltip title={`${translate.wall} - (ALT + W)`}>
 							<div>
 								{this.state.unreadComments > 0 ?

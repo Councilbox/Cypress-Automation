@@ -6,7 +6,8 @@ import {
 	BasicButton,
 	ErrorWrapper,
 	Scrollbar,
-	LoadingSection
+	LoadingSection,
+	LiveToast
 } from "../../../../displayComponents";
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
@@ -196,7 +197,15 @@ class ActEditor extends Component {
 		}
 
 		if(hasError){
-			toast.error(this.props.translate.revise_text);
+			toast(
+				<LiveToast
+					message={this.props.translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 
 		this.setState({
@@ -272,7 +281,15 @@ class ActEditor extends Component {
 		});
 
 		if(hasError){
-			toast.error(this.props.translate.revise_text);
+			toast(
+				<LiveToast
+					message={this.props.translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 
 		this.setState({
@@ -649,7 +666,7 @@ class ActEditor extends Component {
 					<DialogContent style={{ width: "800px" }}>
 						<LoadDraft
 							translate={translate}
-							companyId={this.props.companyID}
+							companyId={this.props.company.id}
 							loadDraft={this.state.loadDraft}
 							statute={council.statute}
 							statutes={companyStatutes}

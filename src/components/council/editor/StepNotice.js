@@ -5,6 +5,7 @@ import {
 	BasicButton,
 	ButtonIcon,
 	DateTimePicker,
+	LiveToast,
 	ErrorAlert,
 	Grid,
 	GridItem,
@@ -270,7 +271,15 @@ class StepNotice extends React.Component {
 			if(CBX.checkForUnclosedBraces(data.conveneText)){
 				hasError = true;
 				errors.conveneText = translate.revise_text;
-				toast.error(translate.revise_text);
+				toast(
+					<LiveToast
+						message={translate.revise_text}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,			
+						className: "errorToast"
+					}
+				);
 			}
 		}
 

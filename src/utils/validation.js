@@ -1,5 +1,7 @@
 import { AGENDA_TYPES } from "../constants";
 import { checkForUnclosedBraces } from './CBX';
+import React from 'react';
+import { LiveToast } from '../displayComponents';
 
 export const checkValidEmail = email => {
 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -144,7 +146,15 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		if(checkForUnclosedBraces(agenda.description)){
 			hasError = true;
 			errors.description = true;
-			toast.error(translate.revise_text);
+			toast(
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 	}
 

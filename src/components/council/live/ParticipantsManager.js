@@ -5,6 +5,7 @@ import {
 	GridItem,
 	FilterButton,
 	LoadingSection,
+	LiveToast,
 	Scrollbar,
 	LoadMoreButton
 } from "../../../displayComponents";
@@ -186,7 +187,15 @@ class ParticipantsManager extends React.Component {
 		if (response) {
 			this.setState({ refreshing: false });
 			if (!response.data.updateCredentialsSends.success) {
-				toast.error(this.props.translate.err_saved);
+				toast(
+					<LiveToast
+						message={this.props.translate.err_saved}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,			
+						className: "errorToast"
+					}
+				);
 			}
 		}
 	};

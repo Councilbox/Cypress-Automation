@@ -1,7 +1,7 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import { closeAgenda, openAgenda, openActPoint } from "../../../queries";
-import { BasicButton, Icon } from "../../../displayComponents";
+import { BasicButton, Icon, LiveToast } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from "material-ui";
@@ -44,7 +44,15 @@ class ToggleAgendaButton extends React.Component {
 			});
 			if (response) {
 				if(response.errors){
-					toast.error(translate.open_point_error);
+					toast(
+						<LiveToast
+							message={translate.open_point_error}
+						/>, {
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,			
+							className: "errorToast"
+						}
+					);
 				}
 				this.props.refetch();
 			}

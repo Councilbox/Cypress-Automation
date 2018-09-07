@@ -101,3 +101,35 @@ h4 {
     animation: fadeIn 1s infinite alternate;
 }
 
+.liveToast {
+    border-radius: 4px !important;
+    background-color: purple !important;
+    color: white !important;
+    margin-top: 4.2em !important;
+}
+
+.errorToast {
+    border-radius: 4px !important;
+    background-color: red !important;
+    color: white !important;
+}
+
+.successToast{
+    border-radius: 4px !important;
+    background-color: green !important;
+    color: white !important;
+    margin-top: 4.2em !important;
+}
+
+.Toastify__close-button {
+    color: white !important;
+}
+
+.Toastify__close-button--default {
+    opacity: 0.6 !important;
+}
+
+.toastProgressBar {
+    background-color: 'white';
+}
+

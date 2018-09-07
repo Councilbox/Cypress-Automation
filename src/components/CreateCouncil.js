@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp } from "../displayComponents";
+import { LoadingMainApp, LiveToast } from "../displayComponents";
 import { withRouter } from "react-router-dom";
 import { createCouncil } from "../queries";
 import { graphql } from 'react-apollo';
@@ -46,7 +46,15 @@ class CreateCouncil extends Component {
 				bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
 			}else{
 				bHistory.replace(`/company/${this.props.match.params.company}`);
-				toast.error(this.props.translate.no_statutes);
+				toast(
+					<LiveToast
+						message={this.props.transalte.no_statutes}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,			
+						className: "errorToast"
+					}
+				);
 			}
 		}
 	}

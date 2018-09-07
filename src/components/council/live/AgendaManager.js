@@ -64,7 +64,7 @@ class AgendaManager extends React.Component {
 					}
 					break;
 				case 40:
-					if (selectedPoint < this.props.council.agendas.length - 1) {
+					if (selectedPoint < this.props.data.agendas.length - 1) {
 						this.changeSelectedPoint(selectedPoint + 1);
 					}
 					break;

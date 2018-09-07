@@ -6,6 +6,7 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CardPageLayout,
+	LiveToast,
 	Scrollbar,
 	UnsavedChangesModal,
 	LoadingSection,
@@ -127,7 +128,15 @@ class StatutesPage extends React.Component {
 		}
 
 		if(notify){
-			toast.error(translate.revise_text);
+			toast(
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 
 		this.setState({
@@ -345,6 +354,7 @@ class StatutesPage extends React.Component {
 											width: 'calc(100% + 24px)',
 											marginLeft: '-24px',
 											height: '3.5em',
+											paddingTop: '0.5em',
 											borderTop: '1px solid gainsboro',
 											display: 'flex',
 											paddingRight: '1em',

@@ -7,6 +7,7 @@ import {
 import {
 	CollapsibleSection,
 	Icon,
+	Scrollbar,
 	LoadingSection,
 	Grid,
 	GridItem,
@@ -18,11 +19,11 @@ import {
 	videoParticipants,
 	banParticipant
 } from "../../../queries";
-import Scrollbar from "react-perfect-scrollbar";
 import { Tooltip } from "material-ui";
 import {
 	exceedsOnlineTimeout,
-	participantIsBlocked
+	participantIsBlocked,
+	isAskingForWord
 } from "../../../utils/CBX";
 import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
@@ -46,17 +47,17 @@ class ParticipantsLive extends React.Component {
 					let online = 0;
 					let offline = 0;
 					let broadcasting = 0;
+					let askingForWord = 0;
 					let banned = 0;
 					nextProps.data.videoParticipants.list.forEach(
 						participant => {
 							if (participantIsBlocked(participant)) {
 								banned++;
 							}
-							if (
-								exceedsOnlineTimeout(
-									participant.lastDateConnection
-								)
-							) {
+							if(isAskingForWord(participant)){
+								askingForWord++;
+							}
+							if (exceedsOnlineTimeout(participant.lastDateConnection)) {
 								offline++;
 							} else {
 								if (participant.requestWord === 2) {
@@ -70,6 +71,7 @@ class ParticipantsLive extends React.Component {
 						online,
 						offline,
 						broadcasting,
+						askingForWord,
 						banned
 					};
 				}
@@ -265,24 +267,13 @@ class ParticipantsLive extends React.Component {
 			return <LoadingSection />;
 		}
 
-		return (
-			<div
-				style={{
-					backgroundColor: darkGrey,
-					width: "100%",
-					height: "calc(100vh - 45vh - 6em)",
-					padding: "0.75em",
-					position: "relative",
-					overflow: "hidden"
-				}}
-			>
-				<Scrollbar option={{ suppressScrollX: true }}>
+		return <div style={{ backgroundColor: darkGrey, width: "100%", height: "calc(100vh - 45vh - 6em)", padding: "0.75em", position: "relative", overflow: "hidden" }}>
+				<Scrollbar>
 					{videoParticipants.list.map(participant => {
 						return this._participantEntry(participant);
 					})}
 				</Scrollbar>
-			</div>
-		);
+			</div>;
 	};
 
 	render() {

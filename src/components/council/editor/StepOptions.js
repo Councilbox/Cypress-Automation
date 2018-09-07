@@ -297,33 +297,39 @@ class StepOptions extends React.Component {
 										}
 									/>
 								) : (
-									<Checkbox
-										label={translate.auto_close}
-										value={council.autoClose !== 0}
-										onChange={(event, isInputChecked) =>
-											this.updateCouncilData({
-												autoClose: isInputChecked ? 1 : 0
-											})
+									<div style={{display: 'flex'}}>
+										<Checkbox
+											label={translate.auto_close}
+											value={council.autoClose !== 0}
+											onChange={(event, isInputChecked) =>
+												this.updateCouncilData({
+													autoClose: isInputChecked ? 1 : 0
+												})
+											}
+										/>
+										{council.autoClose === 1 && 
+											<div style={{maxWidth: '18em', marginLeft: '0.9em'}}>
+												<DateTimePicker
+													required
+													minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+													onChange={date => {
+														const newDate = new Date(date);
+														const dateString = newDate.toISOString();
+														this.updateCouncilData({
+															closeDate: dateString
+														})
+													}}
+													minDateMessage={""}
+													acceptText={translate.accept}
+													cancelText={translate.cancel}
+													value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+												/>
+											</div>
 										}
-									/>
+									</div>
+									
 								)}
-								{council.autoClose === 1 && 
-									<DateTimePicker
-										required
-										minDate={moment(new Date(council.dateStart)).add(1, 'm')}
-										onChange={date => {
-											const newDate = new Date(date);
-											const dateString = newDate.toISOString();
-											this.updateCouncilData({
-												closeDate: dateString
-											})
-										}}
-										minDateMessage={""}
-										acceptText={translate.accept}
-										cancelText={translate.cancel}
-										value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
-									/>
-								}
+								
 
 								<SectionTitle
 									text={translate.security}

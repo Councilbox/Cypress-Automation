@@ -5,6 +5,7 @@ import {
 	BasicButton,
 	ButtonIcon,
 	CardPageLayout,
+	LiveToast,
 	FileUploadButton,
 	Grid,
 	GridItem,
@@ -139,7 +140,15 @@ class NewCompanyPage extends React.PureComponent {
 				if (response.data.createCompany.id) {
 					await store.dispatch(getCompanies(this.props.user.id));
 					bHistory.push(`/`);
-					toast.success(this.props.translate.company_created);
+					toast(
+						<LiveToast
+							message={this.props.translate.company_created}
+						/>, {
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,				
+							className: "successToast"
+						}
+					);
 				}
 			}
 		}
