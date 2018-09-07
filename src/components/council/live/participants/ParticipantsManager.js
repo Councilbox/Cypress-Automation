@@ -12,6 +12,9 @@ import { Paper, Tooltip } from "material-ui";
 import LiveParticipantEditor from "./LiveParticipantEditor";
 import AddGuestModal from "./AddGuestModal";
 import StatesContainer from "./sections/StatesContainer";
+import ConveneContainer from "./sections/ConveneContainer";
+import CredentialsContainer from "./sections/CredentialsContainer";
+import TypesContainer from "./sections/TypesContainer";
 
 
 class ParticipantsManager extends React.Component {
@@ -62,6 +65,34 @@ class ParticipantsManager extends React.Component {
 		switch (view) {
 			case 'STATES':
 				return <StatesContainer
+					council={council}
+					translate={translate}
+					layout={layout}
+					editParticipant={this.editParticipant}
+				/>
+			case 'CONVENE':
+				return <ConveneContainer
+					council={council}
+					translate={translate}
+					layout={layout}
+					editParticipant={this.editParticipant}
+				/>
+			case 'CREDENTIALS':
+				return <CredentialsContainer
+					council={council}
+					translate={translate}
+					layout={layout}
+					editParticipant={this.editParticipant}
+				/>
+			case 'ATTENDANCE':
+				return <CredentialsContainer
+					council={council}
+					translate={translate}
+					layout={layout}
+					editParticipant={this.editParticipant}
+				/>
+			case 'TYPE':
+				return <TypesContainer
 					council={council}
 					translate={translate}
 					layout={layout}

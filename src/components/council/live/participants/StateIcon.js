@@ -25,7 +25,7 @@ const styleMainIcon = (color, ratio) => {
 };
 const styleSubIcon = (color, ratio) => {
 	return {
-		marginLeft: `${-0.5 * ratio}em`,
+		marginLeft: `${-0.3 * ratio}em`,
 		fontSize: `${1 * ratio}em`,
 		color
 	};
@@ -41,7 +41,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"users"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -57,7 +57,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"times"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -69,7 +69,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"globe"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -89,7 +89,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 						>
 							face
 						</Icon>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -113,7 +113,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"mobile"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -129,7 +129,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"user"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -145,7 +145,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"user"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -158,7 +158,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 							name={"question"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{number && <span style={{padding:"1em"}}>{number}</span>}
+						{(!!number || number === 0) && <span style={{padding:"1em"}}>{number}</span>}
 					</div>
 				</Tooltip>
 			);

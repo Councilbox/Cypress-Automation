@@ -5,38 +5,40 @@ import {
 	Icon,
 	SelectInput,
 	MenuItem,
-	TextInput
+	TextInput,
+	BasicButton,
+	ButtonIcon
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../../../constants";
+import { PARTICIPANTS_LIMITS, EMAIL_TRACK_STATES } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
 import FontAwesome from "react-fontawesome";
-import StateIcon from "../StateIcon";
+import EmailIcon from "../EmailIcon";
 
 
 
 const PARTICIPANTS_DEFINITION = {
-	'STATES': 'liveParticipantsState',
-	'CONVENE': 'liveParticipantsConvene',
+	'STATES': 'liveParticipantsCredentials',
+	'CONVENE': 'liveParticipantsCredentials',
 	'CREDENTIALS': 'liveParticipantsCredentials',
 	'ATTENDANCE': 'liveParticipantsAttendance',
 	'TYPE': 'liveParticipantsType',
 };
 
 const STATUS_DEFINITION = {
-	'STATES': 'stateStatus',
+	'STATES': 'notificationStatus',
 	'CONVENE': 'notificationStatus',
 	'CREDENTIALS': 'notificationStatus',
 	'ATTENDANCE': 'attendanceStatus',
 	'TYPE': 'typeStatus',
 };
 
-class StatesContainer extends React.Component {
+class CredentialsContainer extends React.Component {
 	state = {
-		stateStatus: null,
+		notificationStatus: null,
 		filterText: "",
 		filterField: "fullName",
 		status: null
@@ -60,8 +62,8 @@ class StatesContainer extends React.Component {
 		];
 	};
 
-	setStateStatus = newValue => {
-		this.setState({ stateStatus: newValue }, () => this.refresh());
+	setnotificationStatus = newValue => {
+		this.setState({ notificationStatus: newValue }, () => this.refresh());
 	};
 
 	updateFilterField = value => {
@@ -83,7 +85,7 @@ class StatesContainer extends React.Component {
 	};
 
 	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsState.list.length;
+		const currentLength = this.props.data.liveParticipantsCredentials.list.length;
 
 		this.setState({
 			loadingMore: true
@@ -106,11 +108,11 @@ class StatesContainer extends React.Component {
 
 				return {
 					...prev,
-					liveParticipantsState: {
-						...prev.liveParticipantsState,
+					liveParticipantsCredentials: {
+						...prev.liveParticipantsCredentials,
 						list: [
-							...prev.liveParticipantsState.list,
-							...fetchMoreResult.liveParticipantsState.list
+							...prev.liveParticipantsCredentials.list,
+							...fetchMoreResult.liveParticipantsCredentials.list
 						]
 					}
 				};
@@ -123,7 +125,7 @@ class StatesContainer extends React.Component {
 			filters: []
 		};
 		if (this.state.status) {
-			variables.stateStatus = this.state.stateStatus;
+			variables.notificationStatus = this.state.notificationStatus;
 		}
 
 		if (this.state.filterText) {
@@ -137,8 +139,8 @@ class StatesContainer extends React.Component {
 	};
 
 	_renderHeader = () => {
-		let { stateRecount } = this.props.data;
-		let { translate } = this.props;
+		let { crendentialSendRecount } = this.props.data;
+		let { translate, mode } = this.props;
 		const secondary = getSecondary();
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
@@ -162,26 +164,29 @@ class StatesContainer extends React.Component {
 						paddingRight: "2.5em"
 					}}
 				>
-					<div onClick={()=>{this.setStateStatus(null)}} style={{backgroundColor: this.state.stateStatus === null && 'lightGrey'}}>
-						<StateIcon translate={translate} state={'ALL'} number={stateRecount.all} />
+					<div onClick={() => { this.setnotificationStatus(null) }} style={{ backgroundColor: this.state.notificationStatus === null && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={'ALL'} number={crendentialSendRecount.all} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.NO_PARTICIPATE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.NO_PARTICIPATE} number={stateRecount.noParticipate} />
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.FAILED) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.FAILED && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.FAILED} number={crendentialSendRecount.failed} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.REMOTE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.REMOTE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.REMOTE} number={stateRecount.remote} />
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.NOT_SENT) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.NOT_SENT && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.NOT_SENT} number={crendentialSendRecount.notSend} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.PHYSICALLY_PRESENT)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.PHYSICALLY_PRESENT} number={stateRecount.present} />
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS} number={crendentialSendRecount.invalidAddress} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE} number={stateRecount.presentWithElectronicVote} />
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.SPAM) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.SPAM && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.SPAM} number={crendentialSendRecount.spam} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.DELEGATED)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.DELEGATED && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.DELEGATED} number={stateRecount.delegated} />
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.PENDING_SHIPPING) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.PENDING_SHIPPING && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.PENDING_SHIPPING} number={crendentialSendRecount.pendingShipping} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.REPRESENTATED)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.REPRESENTATED && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.REPRESENTATED} number={stateRecount.representated} />
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.DELIVERED) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.DELIVERED && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.DELIVERED} number={crendentialSendRecount.delivered} />
+					</div>
+					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.OPENED) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.OPENED && 'lightGrey' }}>
+						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.OPENED} number={crendentialSendRecount.opened} />
 					</div>
 				</Grid>
 				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
@@ -226,13 +231,49 @@ class StatesContainer extends React.Component {
 							))}
 						</SelectInput>
 					</div>
+
+					<div style={{ width: '33%', maxWidth: '12em', float: 'right', marginTop: '12px' }}>
+						<Tooltip
+							title={
+								translate.tooltip_refresh_convene_email_state_assistance
+							}
+						>
+							<BasicButton
+								floatRight
+								text={translate.refresh_convened}
+								color={getSecondary()}
+								buttonStyle={{
+									margin: "0",
+									marginRight: '0.8em',
+									paddingTop: '6px',
+									paddingBottom: '6px'
+								}}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								icon={
+									<ButtonIcon
+										color="white"
+										type="refresh"
+									/>
+								}
+								textPosition="after"
+								onClick={() =>
+									this.props.refreshEmailStates()
+								}
+							/>
+						</Tooltip>
+					</div>
 				</div>
 			</React.Fragment>
 		);
 	};
 
 	render() {
-		if (!this.props.data.stateRecount) {
+		if (!this.props.data.crendentialSendRecount) {
 			return <LoadingSection />;
 		}
 
@@ -256,12 +297,12 @@ class StatesContainer extends React.Component {
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
-						participants={this.props.data.liveParticipantsState}
+						participants={this.props.data.liveParticipantsCredentials}
 						layout={this.props.layout}
 						council={this.props.council}
 						translate={this.props.translate}
 						editParticipant={this.props.editParticipant}
-						mode={"STATES"}
+						mode={"CREDENTIALS"}
 					/>
 				</div>
 			</React.Fragment>
@@ -270,16 +311,16 @@ class StatesContainer extends React.Component {
 }
 
 const query = gql`
-	query liveParticipantsState(
+	query liveParticipantsCredentials(
 		$councilId: Int!
 		$filters: [FilterInput]
-		$stateStatus: Int
+		$notificationStatus: Int
 		$options: OptionsInput
 	) {
-		liveParticipantsState(
+		liveParticipantsCredentials(
 			councilId: $councilId
 			filters: $filters
-			stateStatus: $stateStatus
+			notificationStatus: $notificationStatus
 			options: $options
 		) {
 			list {
@@ -296,19 +337,21 @@ const query = gql`
 				requestWord
 				numParticipations
 				surname
+				sendConvene{
+					reqCode
+				}
 			}
 			total
 		}
-		stateRecount(councilId: $councilId) {
+		crendentialSendRecount(councilId: $councilId) {
 			all
-			remote
-			remoteOffline
-			remoteOnline
-			present
-			presentWithElectronicVote
-			delegated
-			representated
-			noParticipate
+			failed
+			notSend
+			invalidAddress
+			spam
+			pendingShipping
+			delivered
+			opened
 		}
 	}
 `;
@@ -323,4 +366,4 @@ export default graphql(query, {
 			}
 		}
 	})
-})(StatesContainer);
+})(CredentialsContainer);

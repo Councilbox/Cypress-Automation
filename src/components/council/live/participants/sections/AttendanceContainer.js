@@ -19,7 +19,7 @@ import StateIcon from "../StateIcon";
 
 
 const PARTICIPANTS_DEFINITION = {
-	'STATES': 'liveParticipantsState',
+	'STATES': 'liveParticipantsAttendance',
 	'CONVENE': 'liveParticipantsConvene',
 	'CREDENTIALS': 'liveParticipantsCredentials',
 	'ATTENDANCE': 'liveParticipantsAttendance',
@@ -27,16 +27,16 @@ const PARTICIPANTS_DEFINITION = {
 };
 
 const STATUS_DEFINITION = {
-	'STATES': 'stateStatus',
+	'STATES': 'attendanceStatus',
 	'CONVENE': 'notificationStatus',
 	'CREDENTIALS': 'notificationStatus',
 	'ATTENDANCE': 'attendanceStatus',
 	'TYPE': 'typeStatus',
 };
 
-class StatesContainer extends React.Component {
+class AttendanceContainer extends React.Component {
 	state = {
-		stateStatus: null,
+		attendanceStatus: null,
 		filterText: "",
 		filterField: "fullName",
 		status: null
@@ -60,8 +60,8 @@ class StatesContainer extends React.Component {
 		];
 	};
 
-	setStateStatus = newValue => {
-		this.setState({ stateStatus: newValue }, () => this.refresh());
+	setattendanceStatus = newValue => {
+		this.setState({ attendanceStatus: newValue }, () => this.refresh());
 	};
 
 	updateFilterField = value => {
@@ -83,7 +83,7 @@ class StatesContainer extends React.Component {
 	};
 
 	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsState.list.length;
+		const currentLength = this.props.data.liveParticipantsAttendance.list.length;
 
 		this.setState({
 			loadingMore: true
@@ -106,11 +106,11 @@ class StatesContainer extends React.Component {
 
 				return {
 					...prev,
-					liveParticipantsState: {
-						...prev.liveParticipantsState,
+					liveParticipantsAttendance: {
+						...prev.liveParticipantsAttendance,
 						list: [
-							...prev.liveParticipantsState.list,
-							...fetchMoreResult.liveParticipantsState.list
+							...prev.liveParticipantsAttendance.list,
+							...fetchMoreResult.liveParticipantsAttendance.list
 						]
 					}
 				};
@@ -123,7 +123,7 @@ class StatesContainer extends React.Component {
 			filters: []
 		};
 		if (this.state.status) {
-			variables.stateStatus = this.state.stateStatus;
+			variables.attendanceStatus = this.state.attendanceStatus;
 		}
 
 		if (this.state.filterText) {
@@ -162,25 +162,25 @@ class StatesContainer extends React.Component {
 						paddingRight: "2.5em"
 					}}
 				>
-					<div onClick={()=>{this.setStateStatus(null)}} style={{backgroundColor: this.state.stateStatus === null && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(null)}} style={{backgroundColor: this.state.attendanceStatus === null && 'lightGrey'}}>
 						<StateIcon translate={translate} state={'ALL'} number={stateRecount.all} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.NO_PARTICIPATE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.NO_PARTICIPATE)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.NO_PARTICIPATE && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.NO_PARTICIPATE} number={stateRecount.noParticipate} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.REMOTE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.REMOTE && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.REMOTE)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.REMOTE && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.REMOTE} number={stateRecount.remote} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.PHYSICALLY_PRESENT)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.PHYSICALLY_PRESENT)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.PHYSICALLY_PRESENT} number={stateRecount.present} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE} number={stateRecount.presentWithElectronicVote} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.DELEGATED)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.DELEGATED && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.DELEGATED)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.DELEGATED && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.DELEGATED} number={stateRecount.delegated} />
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.REPRESENTATED)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.REPRESENTATED && 'lightGrey'}}>
+					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.REPRESENTATED)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.REPRESENTATED && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.REPRESENTATED} number={stateRecount.representated} />
 					</div>
 				</Grid>
@@ -256,7 +256,7 @@ class StatesContainer extends React.Component {
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
-						participants={this.props.data.liveParticipantsState}
+						participants={this.props.data.liveParticipantsAttendance}
 						layout={this.props.layout}
 						council={this.props.council}
 						translate={this.props.translate}
@@ -270,16 +270,16 @@ class StatesContainer extends React.Component {
 }
 
 const query = gql`
-	query liveParticipantsState(
+	query liveParticipantsAttendance(
 		$councilId: Int!
 		$filters: [FilterInput]
-		$stateStatus: Int
+		$attendanceStatus: Int
 		$options: OptionsInput
 	) {
-		liveParticipantsState(
+		liveParticipantsAttendance(
 			councilId: $councilId
 			filters: $filters
-			stateStatus: $stateStatus
+			attendanceStatus: $attendanceStatus
 			options: $options
 		) {
 			list {
@@ -299,16 +299,12 @@ const query = gql`
 			}
 			total
 		}
-		stateRecount(councilId: $councilId) {
+		attendanceRecount(councilId: $councilId) {
 			all
 			remote
-			remoteOffline
-			remoteOnline
 			present
-			presentWithElectronicVote
-			delegated
-			representated
 			noParticipate
+			delegated
 		}
 	}
 `;
@@ -323,4 +319,4 @@ export default graphql(query, {
 			}
 		}
 	})
-})(StatesContainer);
+})(AttendanceContainer);
