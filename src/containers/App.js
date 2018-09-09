@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { initUserData, loadingFinished, setLanguage} from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 import { RetryLink } from 'apollo-link-retry';
+import AppControl from './AppControl';
 import { HttpLink } from "apollo-link-http";
 import { ApolloLink, Observable } from 'apollo-link';
 import { InMemoryCache } from "apollo-cache-inmemory";
@@ -180,42 +181,44 @@ class App extends Component {
 			<ApolloProvider client={client}>
 				<Provider store={store}>
 					<ErrorHandler>
-						<Router history={bHistory}>
-							<React.Fragment>
-								<Switch>
-									<Route
-										exact
-										path="/company/:company/council/:id/live"
-										component={CouncilLiveContainer}
+						<AppControl>
+							<Router history={bHistory}>
+								<React.Fragment>
+									<Switch>
+										<Route
+											exact
+											path="/company/:company/council/:id/live"
+											component={CouncilLiveContainer}
+										/>
+										<Route
+											exact
+											path="/cmp/:id"
+											component={CouncilLiveTestContainer}
+										/>
+										<Route
+											exact
+											path="/company/:company/meeting/live"
+											component={MeetingLivePage}
+										/>
+										<Route
+											exact
+											path="/meeting/"
+											component={MeetingLivePage}
+										/>
+										<Route
+											exact
+											path="/meeting/new"
+											component={MeetingCreateContainer}
+										/>
+										<Route path="/" component={AppRouter} />
+									</Switch>
+									<ToastContainer
+										position="top-right"
+										progressClassName={'toastProgressBar'}
 									/>
-									<Route
-										exact
-										path="/cmp/:id"
-										component={CouncilLiveTestContainer}
-									/>
-									<Route
-										exact
-										path="/company/:company/meeting/live"
-										component={MeetingLivePage}
-									/>
-									<Route
-										exact
-										path="/meeting/"
-										component={MeetingLivePage}
-									/>
-									<Route
-										exact
-										path="/meeting/new"
-										component={MeetingCreateContainer}
-									/>
-									<Route path="/" component={AppRouter} />
-								</Switch>
-								<ToastContainer
-									position="top-right"
-									progressClassName={'toastProgressBar'}
-								/>
-							</React.Fragment>
-						</Router>
+								</React.Fragment>
+							</Router>
+						</AppControl>
 					</ErrorHandler>
 				</Provider>
 			</ApolloProvider>
