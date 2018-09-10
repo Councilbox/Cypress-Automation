@@ -28,7 +28,7 @@ export const networkErrorHandler = async (networkError, toast, store, apolloClie
                         }, userId: ${
                            !!user.id? user.id : undefined
                         }, companyId: ${
-                            !!companies.list.length > 0? companies.list[companies.selected].id : undefined
+                            companies.list.length > 0 ? companies.list[companies.selected].id : undefined
                         }`
                     }
                 }

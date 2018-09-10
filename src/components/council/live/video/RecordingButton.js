@@ -32,7 +32,7 @@ class RecordingButton extends React.Component {
 
         console.log(response);
 
-        if(response){
+        if(!!response){
             await this.props.data.refetch();
             this.setState({
                 loading: false

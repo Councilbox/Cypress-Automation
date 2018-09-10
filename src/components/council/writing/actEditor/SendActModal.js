@@ -190,7 +190,7 @@ class SendActModal extends React.Component {
 		});
 
 		console.log(response);
-		if(response){
+		if(!!response){
 			if(!response.data.errors){
 				this.setState({
 					success: true

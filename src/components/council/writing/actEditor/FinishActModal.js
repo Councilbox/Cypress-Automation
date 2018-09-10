@@ -27,7 +27,7 @@ class FinishActModal extends React.Component {
 			}
 		});
 
-		if(response){
+		if(!!response){
 			if(!response.data.errors){
 				this.setState({
 					success: true,

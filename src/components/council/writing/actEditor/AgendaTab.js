@@ -104,7 +104,6 @@ const CouncilActData = gql`
 			}
 		}
 		councilRecount(councilId: $councilId){
-			id
 			socialCapitalTotal
 			partTotal
 			numTotal

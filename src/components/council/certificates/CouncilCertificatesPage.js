@@ -4,7 +4,7 @@ import { graphql, compose } from 'react-apollo';
 import { councilCertificates, downloadCertificate } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Scrollbar, Table, DateWrapper } from '../../../displayComponents';
+import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper } from '../../../displayComponents';
 import { TableRow, TableCell, Typography } from 'material-ui';
 import { downloadFile } from '../../../utils/CBX';
 import CertificateForm from './CertificateForm';
@@ -27,19 +27,19 @@ class CouncilCertificates extends React.PureComponent {
             }
         });
 
-        if(response){
-            if(!response.errors){
-                this.setState({
-                    downloading: false
-                })
-            }
-        }
+        this.setState({
+            downloading: false
+        })
 
-        downloadFile(
-            response.data.downloadCertificate,
-            "application/pdf",
-            `${certificate.title}`
-        );
+        if(!!response){
+            if(!response.errors){
+                downloadFile(
+                    response.data.downloadCertificate,
+                    "application/pdf",
+                    `${certificate.title}`
+                );
+            } 
+        }
 
     }
 

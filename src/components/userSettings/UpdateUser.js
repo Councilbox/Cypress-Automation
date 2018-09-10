@@ -94,7 +94,7 @@ class UpdateUserForm extends React.Component {
 		const data = this.state.data;
 		let hasError = false;
 
-		if (!data.name.length > 0) {
+		if (!(data.name.length > 0)) {
 			hasError = true;
 			errors.name = translate.field_required;
 		}
@@ -110,17 +110,17 @@ class UpdateUserForm extends React.Component {
 			}
 		}
 
-		if (!data.surname.length > 0) {
+		if (!(data.surname.length > 0)) {
 			hasError = true;
 			errors.surname = translate.field_required;
 		}
 
-		if (!data.phone.length > 0) {
+		if (!(data.phone.length > 0)) {
 			hasError = true;
 			errors.phone = translate.field_required;
 		}
 
-		if (!data.email.length > 0) {
+		if (!(data.email.length > 0)) {
 			hasError = true;
 			errors.email = translate.field_required;
 		}

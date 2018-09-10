@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, BasicButton, CardPageLayout, Scrollbar, SectionTitle, LiveToast } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import { Typography } from 'material-ui';
 import AgendaCheckItem from './AgendaCheckItem';
 import { graphql } from 'react-apollo';
 import { createCertificate } from '../../../queries';

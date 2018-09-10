@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
-import { store } from './App';
 const ConfigContext = React.createContext({
     video: true,
     commandBar: false,

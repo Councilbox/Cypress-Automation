@@ -36,7 +36,7 @@ class CommentMenu extends React.Component {
                 }
             });
 
-            if(response){
+            if(!!response){
                 await this.props.refetch();
                 this.setState({
                     loading: false,

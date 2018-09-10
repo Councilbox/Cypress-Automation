@@ -1451,6 +1451,7 @@ export const councilLiveQuery = gql`
 			city
 			companyId
 			confirmAssistance
+			conveneSendDate
 			conveneText
 			councilStarted
 			councilType
@@ -1543,7 +1544,6 @@ export const councilLiveQuery = gql`
 		}
 
 		councilRecount(councilId: $councilID) {
-			id
 			socialCapitalTotal
 			partTotal
 			numTotal
@@ -1842,20 +1842,6 @@ export const liveParticipants = gql`
 				personOrEntity
 			}
 			total
-		}
-	}
-`;
-
-export const liveParticipantsStats = gql`
-	query liveParticipantsStats($councilId: Int!) {
-		liveParticipantsStateCount(councilId: $councilId) {
-			state
-			count
-		}
-
-		liveParticipantsTypeCount(councilId: $councilId) {
-			type
-			count
 		}
 	}
 `;

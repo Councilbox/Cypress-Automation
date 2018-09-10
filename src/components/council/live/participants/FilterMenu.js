@@ -36,27 +36,7 @@ const FilterMenu = ({
 				}}
 			/>
 			<div style={{ display: "flex", flexDirection: "row" }}>
-				<Tooltip title="ALT + G">
-					<div>
-						<BasicButton
-							text={translate.add_guest}
-							color={"white"}
-							textStyle={{
-								color: secondary,
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							icon={<ButtonIcon type="add" color={secondary} />}
-							onClick={() => updateState({ addGuest: true })}
-							buttonStyle={{
-								marginRight: "1em",
-								border: `2px solid ${secondary}`
-							}}
-						/>
-					</div>
-				</Tooltip>
+				
 			</div>
 			<Typography
 				variant="subheading"

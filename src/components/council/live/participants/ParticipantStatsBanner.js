@@ -2,76 +2,53 @@ import React from "react";
 import { graphql } from "react-apollo";
 import { Tooltip } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { GridItem, Icon } from "../../../../displayComponents";
+import { Grid, GridItem, Icon } from "../../../../displayComponents";
 import { getSecondary } from "../../../../styles/colors";
-import { liveParticipantsStats } from "../../../../queries";
+import { councilRecount } from "../../../../queries/council";
 
 class ParticipantStatsBanner extends React.Component {
-	getStateCount = value => {
-		if (this.props.data.loading) {
-			return "...";
-		}
-
-		if (value !== "all") {
-			const data = this.props.data.liveParticipantsStateCount.find(
-				item => item.state === value
-			);
-			if (data) {
-				return data.count;
-			}
-			return "0";
-		}
-
-		return this.props.data.liveParticipantsStateCount.reduce(
-			(a, b) => a + b.count,
-			0
-		);
-	};
-
-	getTypeCount = value => {
-		if (this.props.data.loading) {
-			return "...";
-		}
-
-		if (value !== "all") {
-			const data = this.props.data.liveParticipantsTypeCount.find(
-				item => item.type === value
-			);
-			if (data) {
-				return data.count;
-			}
-			return "0";
-		}
-
-		return this.props.data.liveParticipantsTypeCount.reduce(
-			(a, b) => a + b.count,
-			0
-		);
-	};
-
 	render() {
 		const { translate } = this.props;
 		const secondary = getSecondary();
 
 		return (
-			<React.Fragment>
+			<Grid spacing={0} style={{
+				backgroundColor: "whiteSmoke",
+				width: '100%',
+				height: '3em',
+				borderBottom: '1px solid gainsboro',
+				borderTop: '1px solid gainsboro',
+				display: "flex",
+				flexDirection: "row",
+				alignItems: "center",
+				justifyContent: "space-between",
+				paddingLeft: "1.5em",
+				paddingRight: "2.5em",
+				textAlign: 'center'
+			}}>
 				<GridItem
-					xs={12}
-					lg={12}
-					md={12}
-					style={{
-						backgroundColor: "whiteSmoke",
-						width: '100%',
-						height: '3em',
-						borderBottom: '1px solid gainsboro',
-						borderTop: '1px solid gainsboro',
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center",
-						justifyContent: "space-between",
-						paddingLeft: "1.5em",
-						paddingRight: "2.5em"
-					}}
+					xs={4}
+					lg={2}
+					md={2}
+				>
+					<Tooltip title={translate.all_plural}>
+						<div>
+							<FontAwesome
+								name={"users"}
+								style={{
+									margin: "0.5em",
+									color: secondary,
+									fontSize: "1.4em"
+								}}
+							/>
+							{/* {this.getStateCount("all")} */}
+						</div>
+					</Tooltip>
+				</GridItem>
+				<GridItem
+					xs={4}
+					lg={2}
+					md={2}
 				>
 					<Tooltip title={translate.customer_initial}>
 						<div>
@@ -83,11 +60,17 @@ class ParticipantStatsBanner extends React.Component {
 									fontSize: "1.4em"
 								}}
 							/>
-							{this.getStateCount(0)}
+							{/* {this.getStateCount(0)} */}
 						</div>
 					</Tooltip>
+				</GridItem>
+				<GridItem
+					xs={4}
+					lg={2}
+					md={2}
+				>
 					<Tooltip title={translate.customer_present}>
-						<div style={{ display: "flex", alignItems: "center" }}>
+						<div>
 							<Icon
 								className="material-icons"
 								style={{
@@ -98,9 +81,15 @@ class ParticipantStatsBanner extends React.Component {
 							>
 								face
 							</Icon>
-							{this.getStateCount(5)}
+							{/* {this.getStateCount(5)} */}
 						</div>
 					</Tooltip>
+				</GridItem>
+				<GridItem
+					xs={4}
+					lg={2}
+					md={2}
+				>
 					<Tooltip title={translate.customer_delegated}>
 						<div>
 							<FontAwesome
@@ -120,9 +109,15 @@ class ParticipantStatsBanner extends React.Component {
 									fontSize: "0.85em"
 								}}
 							/>
-							{this.getStateCount(4)}
+							{/* {this.getStateCount(4)} */}
 						</div>
 					</Tooltip>
+				</GridItem>
+				<GridItem
+					xs={4}
+					lg={2}
+					md={2}
+				>
 					<Tooltip title={translate.customer_representated}>
 						<div>
 							<FontAwesome
@@ -142,22 +137,15 @@ class ParticipantStatsBanner extends React.Component {
 									fontSize: "0.85em"
 								}}
 							/>
-							{this.getStateCount(2)}
+							{/* {this.getStateCount(2)} */}
 						</div>
 					</Tooltip>
-					<Tooltip title={translate.all_plural}>
-						<div>
-							<FontAwesome
-								name={"users"}
-								style={{
-									margin: "0.5em",
-									color: secondary,
-									fontSize: "1.4em"
-								}}
-							/>
-							{this.getStateCount("all")}
-						</div>
-					</Tooltip>
+				</GridItem>
+				<GridItem
+					xs={4}
+					lg={2}
+					md={2}
+				>
 					<Tooltip title={translate.guest}>
 						<div>
 							<FontAwesome
@@ -168,16 +156,16 @@ class ParticipantStatsBanner extends React.Component {
 									fontSize: "1.2em"
 								}}
 							/>
-							{this.getTypeCount(1)}
+							{/* {this.getTypeCount(1)} */}
 						</div>
 					</Tooltip>
 				</GridItem>
-			</React.Fragment>
+			</Grid>
 		);
 	}
 }
 
-export default graphql(liveParticipantsStats, {
+export default graphql(councilRecount, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id

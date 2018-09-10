@@ -84,7 +84,6 @@ const CouncilActData = gql`
 		}
 
 		councilRecount(councilId: $councilID){
-			id
 			socialCapitalTotal
 			partTotal
 			numTotal
@@ -234,7 +233,7 @@ class ActEditor extends Component {
 				}
 			});
 
-			if(response){
+			if(!!response){
 				this.setState({
 					updating: false
 				});

@@ -7,7 +7,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import AdminPrivateMessage from './AdminPrivateMessage';
 import DetectRTC from 'detectrtc';
-import { AlertConfirm, LoadingSection } from '../../../displayComponents';
+import { AlertConfirm } from '../../../displayComponents';
 
 
 class RequestWordMenu extends React.Component {

@@ -1,11 +1,11 @@
 import React from "react";
-import { AlertConfirm } from "../../../displayComponents";
+import { AlertConfirm } from "../../../../displayComponents";
 import { compose, graphql, withApollo } from "react-apollo";
-import { addGuest } from "../../../queries";
-import RepresentativeForm from "../participants/RepresentativeForm";
-import { languages } from "../../../queries/masters";
-import { checkValidEmail } from '../../../utils/validation';
-import { checkUniqueCouncilEmails } from "../../../queries/councilParticipant";
+import { addGuest } from "../../../../queries";
+import RepresentativeForm from "../../participants/RepresentativeForm";
+import { languages } from "../../../../queries/masters";
+import { checkValidEmail } from '../../../../utils/validation';
+import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
 
 class AddGuestModal extends React.Component {
 
@@ -129,7 +129,6 @@ class AddGuestModal extends React.Component {
 
 	emailKeyUp = (event, type) => {
 		clearTimeout(this.timeout);
-		const value = event.target.value;
 		this.timeout = setTimeout(() => {
 			this.checkRequiredFields(true);
 			clearTimeout(this.timeout);

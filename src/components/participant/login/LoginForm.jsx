@@ -77,13 +77,13 @@ class LoginForm extends React.Component {
 
         //CHECK REQUIRED
         errors.email =
-            !this.state.email.length > 0 ? translate.field_required : "";
+            !(this.state.email.length > 0) ? translate.field_required : "";
 
         if (council.securityType === 0) {
             errors.password = "";
         } else {
             errors.password =
-                !this.state.password.length > 0 ? translate.field_required : "";
+                !(this.state.password.length > 0) ? translate.field_required : "";
         }
 
         // CHECK VALID EMAIL

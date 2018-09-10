@@ -136,7 +136,7 @@ class LiveParticipantEditor extends React.Component {
 					/>
 				</GridItem>
 				{CBX.isRepresented(participant) && (
-					<div style={{ marginTop: "1.2em", marginBottom: "0.4" }}>
+					<div style={{ marginTop: "1.2em", marginBottom: "0.4em" }}>
 						{translate.represented_by}
 						<GridItem
 							xs={12}
@@ -190,7 +190,7 @@ class LiveParticipantEditor extends React.Component {
 				)}
 
 				{CBX.hasHisVoteDelegated(participant) && (
-					<div style={{ marginTop: "1.2em", marginBottom: "0.4" }}>
+					<div style={{ marginTop: "1.2em", marginBottom: "0.4em" }}>
 						{translate.voting_delegate}
 						<GridItem
 							xs={12}

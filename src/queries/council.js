@@ -87,14 +87,9 @@ export const updateAgenda = gql`
 	}
 `;
 
-
 export const sendReminder = gql`
-	mutation sendReminder(
-		$councilId: Int!
-	) {
-		sendReminder(
-			councilId: $councilId
-		) {
+	mutation sendReminder($councilId: Int!) {
+		sendReminder(councilId: $councilId) {
 			success
 		}
 	}
@@ -126,7 +121,6 @@ export const cancelCouncil = gql`
 	}
 `;
 
-
 export const conveneWithNotice = gql`
 	mutation conveneWithNotice($councilId: Int!, $timezone: String!) {
 		conveneWithNotice(councilId: $councilId, timezone: $timezone) {
@@ -136,8 +130,16 @@ export const conveneWithNotice = gql`
 `;
 
 export const sendConveneTest = gql`
-	mutation sendConveneTest($councilId: Int!, $email: String!, $timezone: String!) {
-		sendConveneTest(councilId: $councilId, email: $email, timezone: $timezone) {
+	mutation sendConveneTest(
+		$councilId: Int!
+		$email: String!
+		$timezone: String!
+	) {
+		sendConveneTest(
+			councilId: $councilId
+			email: $email
+			timezone: $timezone
+		) {
 			success
 		}
 	}
@@ -158,7 +160,6 @@ export const conveneWithoutNotice = gql`
 		}
 	}
 `;
-
 
 export const startCouncil = gql`
 	mutation startCouncil(
@@ -188,7 +189,6 @@ export const endCouncil = gql`
 		}
 	}
 `;
-
 
 export const councilAttendants = gql`
 	query councilAttendants(
@@ -221,6 +221,34 @@ export const councilAttendants = gql`
 				blocked
 			}
 			total
+		}
+	}
+`;
+
+export const councilRecount = gql`
+	query councilRecount($councilId: Int!) {
+		councilRecount(councilId: $councilId) {
+			numTotal
+			partTotal
+			socialCapitalTotal
+			numRemote
+			partRemote
+			socialCapitalRemote
+			numCurrentRemote
+			partCurrentRemote
+			socialCapitalCurrentRemote
+			numPresent
+			partPresent
+			socialCapitalPresent
+			numRightVoting
+			partRightVoting
+			socialCapitalRightVoting
+			numNoParticipate
+			partNoParticipate
+			socialCapitalNoParticipate
+			numDelegations
+			numRepresentations
+			numGuests
 		}
 	}
 `;

@@ -1,6 +1,4 @@
 import React from "react";
-import { Icon } from "material-ui";
-import { primary } from "../../../styles/colors";
 import { Radio } from '../../../displayComponents';
 
 const AssistanceOption = ({ title, value, subtitle, selected, select }) => {
