@@ -1451,6 +1451,7 @@ export const councilLiveQuery = gql`
 			city
 			companyId
 			confirmAssistance
+			conveneSendDate
 			conveneText
 			councilStarted
 			councilType

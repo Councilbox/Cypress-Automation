@@ -7,34 +7,18 @@ import {
 	MenuItem,
 	TextInput,
 	BasicButton,
-	ButtonIcon
+	ButtonIcon,
+	LiveToast
 } from "../../../../../displayComponents";
-import { graphql } from "react-apollo";
+import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { PARTICIPANTS_LIMITS, EMAIL_TRACK_STATES } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
-import FontAwesome from "react-fontawesome";
 import EmailIcon from "../EmailIcon";
-
-
-
-const PARTICIPANTS_DEFINITION = {
-	'STATES': 'liveParticipantsCredentials',
-	'CONVENE': 'liveParticipantsCredentials',
-	'CREDENTIALS': 'liveParticipantsCredentials',
-	'ATTENDANCE': 'liveParticipantsAttendance',
-	'TYPE': 'liveParticipantsType',
-};
-
-const STATUS_DEFINITION = {
-	'STATES': 'notificationStatus',
-	'CONVENE': 'notificationStatus',
-	'CREDENTIALS': 'notificationStatus',
-	'ATTENDANCE': 'attendanceStatus',
-	'TYPE': 'typeStatus',
-};
+import { toast } from "react-toastify";
+import { updateCredentialsSends } from "../../../../../queries";
 
 class CredentialsContainer extends React.Component {
 	state = {
@@ -84,6 +68,34 @@ class CredentialsContainer extends React.Component {
 		this.timeout = setTimeout(() => this.refresh(), 450);
 	};
 
+	refreshEmailStates = async () => {
+		this.setState({
+			refreshing: true
+		});
+		const response = await this.props.updateCredentialsSends({
+			variables: {
+				councilId: this.props.council.id
+			}
+		});
+
+		console.log(response);
+
+		if (response) {
+			this.setState({ refreshing: false });
+			if (!response.data.updateCredentialsSends.success) {
+				toast(
+					<LiveToast
+						message={this.props.translate.err_saved}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,			
+						className: "errorToast"
+					}
+				);
+			}
+		}
+	};
+
 	loadMore = () => {
 		const currentLength = this.props.data.liveParticipantsCredentials.list.length;
 
@@ -124,7 +136,7 @@ class CredentialsContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.status) {
+		if (this.state.notificationStatus) {
 			variables.notificationStatus = this.state.notificationStatus;
 		}
 
@@ -337,7 +349,7 @@ const query = gql`
 				requestWord
 				numParticipations
 				surname
-				sendConvene{
+				sendCredentials{
 					reqCode
 				}
 			}
@@ -356,14 +368,20 @@ const query = gql`
 	}
 `;
 
-export default graphql(query, {
-	options: props => ({
-		variables: {
-			councilId: props.council.id,
-			options: {
-				limit: PARTICIPANTS_LIMITS[0],
-				offset: 0
+export default compose(
+	graphql(query, {
+		options: props => ({
+			variables: {
+				councilId: props.council.id,
+				options: {
+					limit: PARTICIPANTS_LIMITS[0],
+					offset: 0
+				}
 			}
-		}
+		})
+	}),
+	graphql(updateCredentialsSends, {
+		name: "updateCredentialsSends"
 	})
-})(CredentialsContainer);
+)(CredentialsContainer);
+

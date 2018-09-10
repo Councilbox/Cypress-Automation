@@ -19,7 +19,7 @@ const styleMainIcon = (color, ratio) => {
 
 const styleImageIcon = (ratio) => {
 	return {
-		height: `${2.1 * ratio}em`,
+		height: `${1.6 * ratio}em`,
 		width: "auto"
 	}
 }
@@ -35,21 +35,23 @@ const _renderIcon = (color, reqCode, number, translate, ratio) => {
 						name={"users"}
 						style={styleMainIcon(color, ratio)}
 					/>
-					{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
+					{(!!number || number === 0) && <span style={{ padding: "0.5em" }}>{number}</span>}
 				</div>
 			</Tooltip>
 		);
 	}
 	return (
 		<Tooltip
-			title={translate.all_plural}
+			title={translation}
 		>
-			<img
-				style={styleImageIcon(ratio)}
-				src={src}
-				alt={translation}
-			/>
-			{(!!number || number === 0) && <span style={{ padding: "1em" }}>{number}</span>}
+			<div style={{ padding: "0.5em" }}>
+				<img
+					style={styleImageIcon(ratio)}
+					src={src}
+					alt={translation}
+				/>
+				{(!!number || number === 0) && <span style={{ padding: "0.5em" }}>{number}</span>}
+			</div>
 		</Tooltip>
 	);
 }

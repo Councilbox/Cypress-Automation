@@ -11,28 +11,8 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
-import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
-import FontAwesome from "react-fontawesome";
 import StateIcon from "../StateIcon";
-
-
-
-const PARTICIPANTS_DEFINITION = {
-	'STATES': 'liveParticipantsState',
-	'CONVENE': 'liveParticipantsConvene',
-	'CREDENTIALS': 'liveParticipantsCredentials',
-	'ATTENDANCE': 'liveParticipantsAttendance',
-	'TYPE': 'liveParticipantsType',
-};
-
-const STATUS_DEFINITION = {
-	'STATES': 'stateStatus',
-	'CONVENE': 'notificationStatus',
-	'CREDENTIALS': 'notificationStatus',
-	'ATTENDANCE': 'attendanceStatus',
-	'TYPE': 'typeStatus',
-};
 
 class StatesContainer extends React.Component {
 	state = {
@@ -122,7 +102,7 @@ class StatesContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.status) {
+		if (this.state.stateStatus) {
 			variables.stateStatus = this.state.stateStatus;
 		}
 

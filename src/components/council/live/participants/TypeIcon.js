@@ -36,7 +36,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 							name={"users"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{number}
+						{(!!number || number === 0) && <span style={{ padding: "0.5em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -48,7 +48,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 							name={"user"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{number}
+						{(!!number || number === 0) && <span style={{ padding: "0.5em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -60,7 +60,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 							name={"user-o"}
 							style={styleMainIcon(color, ratio)}
 						/>
-						{number}
+						{(!!number || number === 0) && <span style={{ padding: "0.5em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);
@@ -76,7 +76,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 							name={"eye"}
 							style={styleSubIcon(color, ratio)}
 						/>
-						{number}
+						{(!!number || number === 0) && <span style={{ padding: "0.5em" }}>{number}</span>}
 					</div>
 				</Tooltip>
 			);

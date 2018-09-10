@@ -14,6 +14,7 @@ import AddGuestModal from "./AddGuestModal";
 import StatesContainer from "./sections/StatesContainer";
 import ConveneContainer from "./sections/ConveneContainer";
 import CredentialsContainer from "./sections/CredentialsContainer";
+import AttendanceContainer from "./sections/AttendanceContainer";
 import TypesContainer from "./sections/TypesContainer";
 
 
@@ -85,7 +86,7 @@ class ParticipantsManager extends React.Component {
 					editParticipant={this.editParticipant}
 				/>
 			case 'ATTENDANCE':
-				return <CredentialsContainer
+				return <AttendanceContainer
 					council={council}
 					translate={translate}
 					layout={layout}
@@ -104,7 +105,7 @@ class ParticipantsManager extends React.Component {
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { translate, council } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
@@ -116,7 +117,7 @@ class ParticipantsManager extends React.Component {
 					}}>
 					<LiveParticipantEditor
 						translate={translate}
-						council={this.props.council}
+						council={council}
 						// refetch={this.props.data.refetch}
 						id={this.state.editParticipant}
 						requestClose={() => {
@@ -236,38 +237,48 @@ class ParticipantsManager extends React.Component {
 								label={translate.states || 'ESTADOS' /*TRADUCIR*/}
 							/>
 							<Radio
-								value={"1"}
-								checked={this.state.view === "CONVENE"}
-								onChange={() => this.setState({ view: 'CONVENE' })}
-								name="CONVENE"
-								label={translate.convene || 'CONVENE'}
-							/>
-							<Radio
-								value={"2"}
-								checked={this.state.view === "CREDENTIALS"}
-								onChange={() => this.setState({ view: 'CREDENTIALS' })}
-								name="CREDENTIALS"
-								label={translate.credentials || 'CREDENTIALS'}
-							/>
-							<Radio
-								value={"3"}
-								checked={this.state.view === "ATTENDANCE"}
-								onChange={() => this.setState({ view: 'ATTENDANCE' })}
-								name="ATTENDANCE"
-								label={translate.assistance || 'ATTENDANCE'}
-							/>
-							<Radio
 								value={"4"}
 								checked={this.state.view === "TYPE"}
 								onChange={() => this.setState({ view: 'TYPE' })}
 								name="TYPE"
 								label={translate.types || 'TYPE' /*TRADUCIR*/}
 							/>
+							{council.conveneSendDate &&
+								<React.Fragment>
+									<Radio
+										value={"1"}
+										checked={this.state.view === "CONVENE"}
+										onChange={() => this.setState({ view: 'CONVENE' })}
+										name="CONVENE"
+										label={translate.convene || 'CONVENE'}
+									/>
+									{
+										council.confirmAssistance &&
+										<Radio
+											value={"3"}
+											checked={this.state.view === "ATTENDANCE"}
+											onChange={() => this.setState({ view: 'ATTENDANCE' })}
+											name="ATTENDANCE"
+											label={translate.assistance || 'ATTENDANCE'}
+										/>
+									}
+								</React.Fragment>
+							}
+
+							{council.videoEmailsDate &&
+								<Radio
+									value={"2"}
+									checked={this.state.view === "CREDENTIALS"}
+									onChange={() => this.setState({ view: 'CREDENTIALS' })}
+									name="CREDENTIALS"
+									label={translate.credentials || 'CREDENTIALS'}
+								/>
+							}
 						</div>
 					</GridItem>
 					<AddGuestModal
 						show={this.state.addGuest}
-						council={this.props.council}
+						council={council}
 						// refetch={this.props.data.refetch}
 						requestClose={() => this.setState({ addGuest: false })}
 						translate={translate}

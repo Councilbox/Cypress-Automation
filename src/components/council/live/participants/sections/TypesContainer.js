@@ -11,28 +11,8 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import { PARTICIPANTS_LIMITS, PARTICIPANT_TYPE } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
-import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
-import FontAwesome from "react-fontawesome";
 import TypeIcon from "../TypeIcon";
-
-
-
-const PARTICIPANTS_DEFINITION = {
-	'STATES': 'liveParticipantsType',
-	'CONVENE': 'liveParticipantsConvene',
-	'CREDENTIALS': 'liveParticipantsCredentials',
-	'ATTENDANCE': 'liveParticipantsAttendance',
-	'TYPE': 'liveParticipantsType',
-};
-
-const STATUS_DEFINITION = {
-	'STATES': 'typeStatus',
-	'CONVENE': 'notificationStatus',
-	'CREDENTIALS': 'notificationStatus',
-	'ATTENDANCE': 'attendanceStatus',
-	'TYPE': 'typeStatus',
-};
 
 class TypesContainer extends React.Component {
 	state = {
@@ -122,7 +102,7 @@ class TypesContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.status) {
+		if (this.state.typeStatus) {
 			variables.typeStatus = this.state.typeStatus;
 		}
 
@@ -163,16 +143,16 @@ class TypesContainer extends React.Component {
 					}}
 				>
 					<div onClick={()=>{this.settypeStatus(null)}} style={{backgroundColor: this.state.typeStatus === null && 'lightGrey'}}>
-						<TypeIcon translate={translate} state={'ALL'} number={participantTypeRecount.all} />
+						<TypeIcon translate={translate} type={'ALL'} number={participantTypeRecount.all} />
 					</div>
 					<div onClick={()=>{this.settypeStatus(PARTICIPANT_TYPE.PARTICIPANT)}} style={{backgroundColor: this.state.typeStatus === PARTICIPANT_TYPE.PARTICIPANT && 'lightGrey'}}>
-						<TypeIcon translate={translate} state={PARTICIPANT_TYPE.PARTICIPANT} number={participantTypeRecount.noParticipate} />
+						<TypeIcon translate={translate} type={PARTICIPANT_TYPE.PARTICIPANT} number={participantTypeRecount.participant} />
 					</div>
 					<div onClick={()=>{this.settypeStatus(PARTICIPANT_TYPE.GUEST)}} style={{backgroundColor: this.state.typeStatus === PARTICIPANT_TYPE.GUEST && 'lightGrey'}}>
-						<TypeIcon translate={translate} state={PARTICIPANT_TYPE.GUEST} number={participantTypeRecount.GUEST} />
+						<TypeIcon translate={translate} type={PARTICIPANT_TYPE.GUEST} number={participantTypeRecount.guest} />
 					</div>
 					<div onClick={()=>{this.settypeStatus(PARTICIPANT_TYPE.REPRESENTATIVE)}} style={{backgroundColor: this.state.typeStatus === PARTICIPANT_TYPE.REPRESENTATIVE && 'lightGrey'}}>
-						<TypeIcon translate={translate} state={PARTICIPANT_TYPE.REPRESENTATIVE} number={participantTypeRecount.present} />
+						<TypeIcon translate={translate} type={PARTICIPANT_TYPE.REPRESENTATIVE} number={participantTypeRecount.representative} />
 					</div>
 					
 				</Grid>
@@ -253,7 +233,7 @@ class TypesContainer extends React.Component {
 						council={this.props.council}
 						translate={this.props.translate}
 						editParticipant={this.props.editParticipant}
-						mode={"TYPES"}
+						mode={"TYPE"}
 					/>
 				</div>
 			</React.Fragment>
@@ -293,14 +273,9 @@ const query = gql`
 		}
 		participantTypeRecount(councilId: $councilId) {
 			all
-			GUEST
-			GUESTOffline
-			GUESTOnline
-			present
-			presentWithElectronicVote
-			delegated
-			representated
-			noParticipate
+			participant
+			representative
+			guest
 		}
 	}
 `;

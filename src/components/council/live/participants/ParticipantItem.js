@@ -216,9 +216,9 @@ const _getIcon = (mode, participant, translate) => {
 		case 'STATES':
 			return <StateIcon translate={translate} state={participant.state}/>
 		case 'CONVENE':
-			return <StateIcon translate={translate} reqCode={participant.sendConvene.reqCode}/>
+			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode}/>
 		case 'CREDENTIALS':
-			return <StateIcon translate={translate} reqCode={participant.sendCredentials.reqCode}/>
+			return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode}/>
 		case 'TYPE':
 			return <TypeIcon translate={translate} type={participant.type}/>
 		case 'ATTENDANCE':
