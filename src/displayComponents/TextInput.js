@@ -61,13 +61,7 @@ const TextInput = ({
 				shrink: true
 			}}
 			InputProps={{
-				startAdornment: adornment ? (
-					<InputAdornment position="start">
-						{adornment}
-					</InputAdornment>
-				) : (
-					""
-				),
+				startAdornment: "",
 				inputProps: {
 					min: min,
 					id: id,
@@ -90,6 +84,10 @@ const TextInput = ({
 						>
 							{showPassword ? <VisibilityOff /> : <Visibility />}
 						</IconButton>
+					</InputAdornment>
+				) : adornment ? (
+					<InputAdornment position="end">
+						{adornment}
 					</InputAdornment>
 				) : (
 					""

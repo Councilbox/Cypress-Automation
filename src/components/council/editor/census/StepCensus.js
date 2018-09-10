@@ -188,7 +188,7 @@ class StepCensus extends React.Component {
 
 	render() {
 		const { translate } = this.props;
-		const { council, loading, error } = this.props.data;
+		const { council, error } = this.props.data;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 

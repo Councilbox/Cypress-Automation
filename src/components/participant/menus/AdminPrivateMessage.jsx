@@ -1,5 +1,5 @@
 import React from 'react';
-import { getSecondary, getPrimary } from '../../../styles/colors';
+import { getSecondary } from '../../../styles/colors';
 import { Tooltip, IconButton } from 'material-ui';
 import { TextInput, BasicButton } from '../../../displayComponents';
 import Popover from 'antd/lib/popover';
@@ -98,7 +98,6 @@ class AdminPrivateMessage extends React.Component {
 
     render(){
         const secondary = getSecondary();
-        const primary = getPrimary();
 
         return(
             <Popover

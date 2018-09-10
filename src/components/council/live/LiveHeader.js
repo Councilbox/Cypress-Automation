@@ -1,5 +1,5 @@
 import React from "react";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
 import { AlertConfirm, Icon } from "../../../displayComponents";
 import { Paper, Tooltip } from 'material-ui';
@@ -18,14 +18,11 @@ class LiveHeader extends React.Component {
 
 	render() {
 		const {
-			primaryColor,
-			companyName,
 			councilName,
 			translate,
 			windowSize,
 		} = this.props;
 		const primary = getPrimary();
-		const secondary = getSecondary();
 
 		return (
 			<React.Fragment>

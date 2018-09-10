@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardPageLayout, TabsScreen, ScrollHTMLFixer, Scrollbar } from "../../../../displayComponents";
+import { CardPageLayout, TabsScreen, Scrollbar } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
 import { graphql } from 'react-apollo';

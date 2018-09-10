@@ -1,5 +1,5 @@
 import React from 'react';
-import { BasicButton, ButtonIcon, Link, Grid, GridItem } from '../../displayComponents';
+import { BasicButton, ButtonIcon, Link } from '../../displayComponents';
 import { getSecondary } from '../../styles/colors';
 import withTranslations from '../../HOCs/withTranslations';
 

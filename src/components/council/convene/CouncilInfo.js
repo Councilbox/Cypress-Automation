@@ -1,6 +1,5 @@
 import React from 'react';
 import { hasSecondCall } from '../../../utils/CBX';
-import { DateWrapper } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 
 const CouncilInfo = ({ council, translate }) => (

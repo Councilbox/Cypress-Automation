@@ -6,7 +6,6 @@ import * as CBX from "../../../../utils/CBX";
 import { CloseIcon, EnhancedTable } from "../../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import {
-	councilParticipants,
 	deleteParticipant
 } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
@@ -41,7 +40,6 @@ class ParticipantsTable extends React.Component {
 		}
 	};
 
-
 	_renderDeleteIcon(participantID) {
 		const primary = getPrimary();
 
@@ -69,7 +67,7 @@ class ParticipantsTable extends React.Component {
 			council
 		} = this.props;
 		const { editingParticipant, participant } = this.state;
-		const { loading, councilParticipants } = this.props.data;
+		const { councilParticipants } = this.props.data;
 		let headers = [
 			{
 				text: translate.participant_data,

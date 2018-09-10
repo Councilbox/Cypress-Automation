@@ -474,23 +474,22 @@ function dataURItoBlob(dataURI) {
 }
 
 export const getSignerStatusTranslateField = (status) => {
-	const STATES = SIGNATURE_PARTICIPANTS_STATES;
 	switch (status){
-		case STATES.IN_QUEUE:
+		case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
 			return 'in_queue';
-		case STATES.SENT:
+		case SIGNATURE_PARTICIPANTS_STATES.SENT:
 			return 'sent';
-		case STATES.OPENED:
+		case SIGNATURE_PARTICIPANTS_STATES.OPENED:
 			return 'opened';
-		case STATES.SIGNING:
+		case SIGNATURE_PARTICIPANTS_STATES.SIGNING:
 			return 'signing';
-		case STATES.SIGNED:
+		case SIGNATURE_PARTICIPANTS_STATES.SIGNED:
 			return 'signed';
-		case STATES.EXPIRED:
+		case SIGNATURE_PARTICIPANTS_STATES.EXPIRED:
 			return 'expired';
-		case STATES.CANCELED:
+		case SIGNATURE_PARTICIPANTS_STATES.CANCELED:
 			return 'canceled';
-		case STATES.REJECTED:
+		case SIGNATURE_PARTICIPANTS_STATES.REJECTED:
 			return 'rejected';
 		default:
 			return 'error';

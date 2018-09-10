@@ -7,7 +7,7 @@ import {
 	DialogContent
 } from "material-ui";
 import FontAwesome from "react-fontawesome";
-import { AlertConfirm, BasicButton } from '../../../displayComponents';
+import { BasicButton } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";

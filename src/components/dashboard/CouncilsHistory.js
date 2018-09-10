@@ -3,7 +3,7 @@ import { Table, DateWrapper, BasicButton } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 import { TableRow, TableCell } from 'material-ui';
 import TableStyles from "../../styles/table";
-import { getSecondary, getPrimary } from "../../styles/colors";
+import { getPrimary } from '../../styles/colors';
 
 const generateLink = (council, company) => {
     return `/company/${company.id}/council/${council.id}`;
@@ -24,6 +24,7 @@ const CouncilsHistory = ({ councils, translate, deleteCouncil, openDeleteModal, 
             {councils.map(council => {
                 return (
                     <HoverableRow
+                        key={`council_${council.id}`}
                         translate={translate}
                         council={council}
                         company={company}

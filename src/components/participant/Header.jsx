@@ -6,8 +6,8 @@ import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
-import { getPrimary, getSecondary, lightGrey } from "../../styles/colors";
-import { IconButton, Typography, Tooltip } from "material-ui";
+import { getPrimary } from "../../styles/colors";
+import { IconButton, Tooltip } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
 
 class Header extends React.Component {

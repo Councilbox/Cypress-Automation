@@ -198,7 +198,7 @@ class HoverableTab extends React.PureComponent {
 
 
 	render(){
-		const { tab, mapIndex, index, deleteAction, editAction, translate } = this.props;
+		const { tab, mapIndex, index, deleteAction, editAction } = this.props;
 
 		return (
 			<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}
