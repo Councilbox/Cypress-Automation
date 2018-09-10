@@ -9,7 +9,10 @@ import {
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../../../constants";
+import {
+	PARTICIPANTS_LIMITS,
+	PARTICIPANT_STATES
+} from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import { getSecondary } from "../../../../../styles/colors";
 import StateIcon from "../StateIcon";
@@ -63,7 +66,8 @@ class AttendanceContainer extends React.Component {
 	};
 
 	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsAttendance.list.length;
+		const currentLength = this.props.data.liveParticipantsAttendance.list
+			.length;
 
 		this.setState({
 			loadingMore: true
@@ -142,26 +146,138 @@ class AttendanceContainer extends React.Component {
 						paddingRight: "2.5em"
 					}}
 				>
-					<div onClick={()=>{this.setattendanceStatus(null)}} style={{backgroundColor: this.state.attendanceStatus === null && 'lightGrey'}}>
-						<StateIcon translate={translate} state={'ALL'} number={attendanceRecount.all} />
+					<div
+						onClick={() => {
+							this.setattendanceStatus(null);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus === null &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={"ALL"}
+							number={attendanceRecount.all}
+						/>
 					</div>
-					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.NO_PARTICIPATE)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.NO_PARTICIPATE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.NO_PARTICIPATE} number={attendanceRecount.noParticipate} />
+					<div
+						onClick={() => {
+							this.setattendanceStatus(-1);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus === -1 &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={null}
+							number={attendanceRecount.notConfirmed}
+						/>
 					</div>
-					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.REMOTE)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.REMOTE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.REMOTE} number={attendanceRecount.remote} />
+					<div
+						onClick={() => {
+							this.setattendanceStatus(
+								PARTICIPANT_STATES.NO_PARTICIPATE
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus ===
+								PARTICIPANT_STATES.NO_PARTICIPATE &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.NO_PARTICIPATE}
+							number={attendanceRecount.noParticipate}
+						/>
 					</div>
-					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.PHYSICALLY_PRESENT)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.PHYSICALLY_PRESENT} number={attendanceRecount.present} />
+					<div
+						onClick={() => {
+							this.setattendanceStatus(PARTICIPANT_STATES.REMOTE);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus ===
+								PARTICIPANT_STATES.REMOTE && "lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.REMOTE}
+							number={attendanceRecount.remote}
+						/>
 					</div>
-					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 'lightGrey'}}>
+					<div
+						onClick={() => {
+							this.setattendanceStatus(
+								PARTICIPANT_STATES.PHYSICALLY_PRESENT
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus ===
+								PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+							number={attendanceRecount.present}
+						/>
+					</div>
+					{/* <div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE)}} style={{cursor: 'pointer', backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 'lightGrey'}}>
 						<StateIcon translate={translate} state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE} number={attendanceRecount.presentWithElectronicVote} />
+					</div> */}
+					<div
+						onClick={() => {
+							this.setattendanceStatus(
+								PARTICIPANT_STATES.DELEGATED
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus ===
+								PARTICIPANT_STATES.DELEGATED && "lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.DELEGATED}
+							number={attendanceRecount.delegated}
+						/>
 					</div>
-					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.DELEGATED)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.DELEGATED && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.DELEGATED} number={attendanceRecount.delegated} />
-					</div>
-					<div onClick={()=>{this.setattendanceStatus(PARTICIPANT_STATES.REPRESENTATED)}} style={{backgroundColor: this.state.attendanceStatus === PARTICIPANT_STATES.REPRESENTATED && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.REPRESENTATED} number={attendanceRecount.representated} />
+					<div
+						onClick={() => {
+							this.setattendanceStatus(
+								PARTICIPANT_STATES.REPRESENTATED
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.attendanceStatus ===
+								PARTICIPANT_STATES.REPRESENTATED &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.REPRESENTATED}
+							number={attendanceRecount.representated}
+						/>
 					</div>
 				</Grid>
 				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
@@ -226,17 +342,21 @@ class AttendanceContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{
-					height: "calc(100% - 6em)",
-					padding: '0 1vw',
-					overflow: "hidden"
-				}}>
+				<div
+					style={{
+						height: "calc(100% - 6em)",
+						padding: "0 1vw",
+						overflow: "hidden"
+					}}
+				>
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
-						participants={this.props.data.liveParticipantsAttendance}
+						participants={
+							this.props.data.liveParticipantsAttendance
+						}
 						layout={this.props.layout}
 						council={this.props.council}
 						translate={this.props.translate}
@@ -283,6 +403,7 @@ const query = gql`
 		}
 		attendanceRecount(councilId: $councilId) {
 			all
+			notConfirmed
 			remote
 			present
 			noParticipate

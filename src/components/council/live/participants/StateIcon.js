@@ -78,14 +78,14 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 				<Tooltip title={translate.customer_present}>
 					<div
 						style={{
-							display: "flex",
+							// display: "flex",
 							alignItems: "center",
 							padding: "0.51em"
 						}}
 					>
 						<Icon
 							className="material-icons"
-							style={styleMainIcon(color, ratio)}
+							style={{...styleMainIcon(color, ratio), paddingTop: '0.1em'}}
 						>
 							face
 						</Icon>
@@ -98,14 +98,14 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 				<Tooltip title={translate.physically_present_with_remote_vote}>
 					<div
 						style={{
-							display: "flex",
+							// display: "flex",
 							alignItems: "center",
 							padding: "0.51em"
 						}}
 					>
 						<Icon
 							className="material-icons"
-							style={styleMainIcon(color, ratio)}
+							style={{...styleMainIcon(color, ratio), paddingTop: '0.1em'}}
 						>
 							face
 						</Icon>

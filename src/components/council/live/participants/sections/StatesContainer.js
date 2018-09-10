@@ -9,7 +9,10 @@ import {
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../../../constants";
+import {
+	PARTICIPANTS_LIMITS,
+	PARTICIPANT_STATES
+} from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import { getSecondary } from "../../../../../styles/colors";
 import StateIcon from "../StateIcon";
@@ -142,26 +145,135 @@ class StatesContainer extends React.Component {
 						paddingRight: "2.5em"
 					}}
 				>
-					<div onClick={()=>{this.setStateStatus(null)}} style={{backgroundColor: this.state.stateStatus === null && 'lightGrey'}}>
-						<StateIcon translate={translate} state={'ALL'} number={stateRecount.all} />
+					<div
+						onClick={() => {
+							this.setStateStatus(null);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus === null && "lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={"ALL"}
+							number={stateRecount.all}
+						/>
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.NO_PARTICIPATE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.NO_PARTICIPATE} number={stateRecount.noParticipate} />
+					<div
+						onClick={() => {
+							this.setStateStatus(
+								PARTICIPANT_STATES.NO_PARTICIPATE
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus ===
+								PARTICIPANT_STATES.NO_PARTICIPATE &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.NO_PARTICIPATE}
+							number={stateRecount.noParticipate}
+						/>
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.REMOTE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.REMOTE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.REMOTE} number={stateRecount.remote} />
+					<div
+						onClick={() => {
+							this.setStateStatus(PARTICIPANT_STATES.REMOTE);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus ===
+								PARTICIPANT_STATES.REMOTE && "lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.REMOTE}
+							number={stateRecount.remote}
+						/>
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.PHYSICALLY_PRESENT)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.PHYSICALLY_PRESENT} number={stateRecount.present} />
+					<div
+						onClick={() => {
+							this.setStateStatus(
+								PARTICIPANT_STATES.PHYSICALLY_PRESENT
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus ===
+								PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+							number={stateRecount.present}
+						/>
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE} number={stateRecount.presentWithElectronicVote} />
+					<div
+						onClick={() => {
+							this.setStateStatus(
+								PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus ===
+								PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
+							number={stateRecount.presentWithElectronicVote}
+						/>
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.DELEGATED)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.DELEGATED && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.DELEGATED} number={stateRecount.delegated} />
+					<div
+						onClick={() => {
+							this.setStateStatus(PARTICIPANT_STATES.DELEGATED);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus ===
+								PARTICIPANT_STATES.DELEGATED && "lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.DELEGATED}
+							number={stateRecount.delegated}
+						/>
 					</div>
-					<div onClick={()=>{this.setStateStatus(PARTICIPANT_STATES.REPRESENTATED)}} style={{backgroundColor: this.state.stateStatus === PARTICIPANT_STATES.REPRESENTATED && 'lightGrey'}}>
-						<StateIcon translate={translate} state={PARTICIPANT_STATES.REPRESENTATED} number={stateRecount.representated} />
+					<div
+						onClick={() => {
+							this.setStateStatus(
+								PARTICIPANT_STATES.REPRESENTATED
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.stateStatus ===
+								PARTICIPANT_STATES.REPRESENTATED &&
+								"lightGrey"
+						}}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.REPRESENTATED}
+							number={stateRecount.representated}
+						/>
 					</div>
 				</Grid>
 				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
@@ -226,11 +338,13 @@ class StatesContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{
-					height: "calc(100% - 6em)",
-					padding: '0 1vw',
-					overflow: "hidden"
-				}}>
+				<div
+					style={{
+						height: "calc(100% - 6em)",
+						padding: "0 1vw",
+						overflow: "hidden"
+					}}
+				>
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}

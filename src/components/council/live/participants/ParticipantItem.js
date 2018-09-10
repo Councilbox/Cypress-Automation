@@ -1,23 +1,21 @@
 import React from "react";
-import { getEmailIconByReqCode } from "../../../../utils/CBX";
-import { MenuItem, Typography } from "material-ui";
+import { MenuItem, Typography, Tooltip } from "material-ui";
 import { GridItem, Grid } from "../../../../displayComponents";
 import ParticipantStateIcon from "./ParticipantStateIcon";
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import FontAwesome from "react-fontawesome";
-import { getSecondary } from "../../../../styles/colors";
-import { Collapse } from 'react-collapse';
+import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
 
 
 
-class ParticipantItem extends React.Component {
+class ParticipantItem extends React.PureComponent {
 
-	state = {
-		showIcons: false
-	};
+	// state = {
+	// 	showIcons: false
+	// };
 
 	render() {
 		const { participant, translate, layout, editParticipant, mode } = this.props;
@@ -25,7 +23,7 @@ class ParticipantItem extends React.Component {
 
 		return (
 			<GridItem
-				xs={layout !== 'squares' ? 12 : 6}
+				xs={12}
 				md={layout !== 'squares' ? 12 : 6}
 				lg={layout !== 'squares' ? 12 : 6}
 			>
@@ -44,8 +42,8 @@ class ParticipantItem extends React.Component {
 							overflow: "hidden"
 						}}
 						onClick={() => editParticipant(participant.id)}
-						onMouseEnter={() => this.setState({ showIcons: true })}
-						onMouseLeave={() => this.setState({ showIcons: false })}
+						// onMouseEnter={() => this.setState({ showIcons: true })}
+						// onMouseLeave={() => this.setState({ showIcons: false })}
 					>
 						{layout === 'compact' &&
 							<CompactItemLayout
@@ -90,12 +88,30 @@ const CompactItemLayout = ({ participant, translate, mode }) => (
 		}}
 	>
 		<GridItem
-			xs={2}
-			lg={2}
-			md={2}
+			xs={mode === 'ATTENDANCE' ? 1 : 2}
+			lg={mode === 'ATTENDANCE' ? 1 : 2}
+			md={mode === 'ATTENDANCE' ? 1 : 2}
 		>
 			{_getIcon(mode, participant, translate)}
 		</GridItem>
+		{
+			mode === 'ATTENDANCE' &&
+			<GridItem
+				xs={1}
+				lg={1}
+				md={1}
+			>
+				<Tooltip title={participant.assistanceComment}>
+					<div style={{ padding: "0.5em" }}>
+						<FontAwesome
+							name={"comment"}
+							style={{ fontSize: '1.5em', color: 'grey' }}
+						/>
+					</div>
+				</Tooltip>
+			</GridItem>
+		}
+
 		<GridItem
 			xs={6}
 			md={6}
@@ -152,7 +168,7 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 				>
 					<div
 						style={{
-							width: "1.6em",
+							width: "2.2em",
 							display: "flex",
 							justifyContent: "center"
 						}}
@@ -161,7 +177,7 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 							name={"info"}
 							style={{
 								color: secondary,
-								fontSize: "0.8em",
+								fontSize: "1em",
 								marginRight: 0
 							}}
 						/>
@@ -170,7 +186,7 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 						variant="body1"
 						style={{
 							fontWeight: "600",
-							fontSize: "0.95rem"
+							// fontSize: "0.95rem"
 						}}
 					>
 						{`${participant.name} ${participant.surname}`}
@@ -185,7 +201,37 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 				>
 					<div
 						style={{
-							width: "1.6em",
+							width: "2.2em",
+							display: "flex",
+							justifyContent: "center"
+						}}
+					>
+						<FontAwesome
+							name={"id-card"}
+							style={{
+								color: secondary,
+								fontSize: "1em",
+								marginRight: 0
+							}}
+						/>
+					</div>
+					<Typography
+						variant="body1"
+						style={{ color: "grey", fontSize: "0.75rem" }}
+					>
+						{`${participant.dni}`}
+					</Typography>
+				</div>
+				<div
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
+					<div
+						style={{
+							width: "2.2em",
 							display: "flex",
 							justifyContent: "center"
 						}}
@@ -194,7 +240,7 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 							name={"tag"}
 							style={{
 								color: secondary,
-								fontSize: "0.8em",
+								fontSize: "1em",
 								marginRight: 0
 							}}
 						/>
@@ -206,6 +252,42 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 						{`${participant.position}`}
 					</Typography>
 				</div>
+				{mode === 'ATTENDANCE' && participant.assistanceComment &&
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center"
+						}}
+					>
+						<div
+							style={{
+								width: "2.2em",
+								display: "flex",
+								justifyContent: "center"
+							}}
+						>
+							<FontAwesome
+								name={"comment"}
+								style={{
+									color: primary,
+									fontSize: "1em",
+									marginRight: 0
+								}}
+							/>
+						</div>
+						<Typography
+							variant="body1"
+							style={{
+								color: "grey", fontSize: "0.75rem", textOverflow: "ellipsis",
+								overflow: "hidden"
+							}}
+						>
+							{`${participant.assistanceComment}`}
+						</Typography>
+					</div>
+				}
+
 			</div>
 		</div>
 	</React.Fragment>
@@ -214,15 +296,15 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 const _getIcon = (mode, participant, translate) => {
 	switch (mode) {
 		case 'STATES':
-			return <StateIcon translate={translate} state={participant.state}/>
+			return <StateIcon translate={translate} state={participant.state} />
 		case 'CONVENE':
-			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode}/>
+			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />
 		case 'CREDENTIALS':
-			return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode}/>
+			return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />
 		case 'TYPE':
-			return <TypeIcon translate={translate} type={participant.type}/>
+			return <TypeIcon translate={translate} type={participant.type} />
 		case 'ATTENDANCE':
-			return <StateIcon translate={translate} state={participant.assistanceIntention}/>
+			return <StateIcon translate={translate} state={participant.assistanceIntention} />
 		default:
 			break;
 	}

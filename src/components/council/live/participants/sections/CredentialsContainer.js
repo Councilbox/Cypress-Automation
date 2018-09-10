@@ -12,7 +12,10 @@ import {
 } from "../../../../../displayComponents";
 import { graphql, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { PARTICIPANTS_LIMITS, EMAIL_TRACK_STATES } from "../../../../../constants";
+import {
+	PARTICIPANTS_LIMITS,
+	EMAIL_TRACK_STATES
+} from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
@@ -78,26 +81,23 @@ class CredentialsContainer extends React.Component {
 			}
 		});
 
-		console.log(response);
-
 		if (response) {
 			this.setState({ refreshing: false });
 			if (!response.data.updateCredentialsSends.success) {
-				toast(
-					<LiveToast
-						message={this.props.translate.err_saved}
-					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,			
-						className: "errorToast"
-					}
-				);
+				toast(<LiveToast message={this.props.translate.err_saved} />, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				});
+			} else {
+				this.refresh();
 			}
 		}
 	};
 
 	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsCredentials.list.length;
+		const currentLength = this.props.data.liveParticipantsCredentials.list
+			.length;
 
 		this.setState({
 			loadingMore: true
@@ -176,29 +176,155 @@ class CredentialsContainer extends React.Component {
 						paddingRight: "2.5em"
 					}}
 				>
-					<div onClick={() => { this.setnotificationStatus(null) }} style={{ backgroundColor: this.state.notificationStatus === null && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={'ALL'} number={crendentialSendRecount.all} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(null);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus === null &&
+								"lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={"ALL"}
+							number={crendentialSendRecount.all}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.FAILED) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.FAILED && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.FAILED} number={crendentialSendRecount.failed} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(
+								EMAIL_TRACK_STATES.FAILED
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.FAILED && "lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.FAILED}
+							number={crendentialSendRecount.failed}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.NOT_SENT) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.NOT_SENT && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.NOT_SENT} number={crendentialSendRecount.notSend} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(
+								EMAIL_TRACK_STATES.NOT_SENT
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.NOT_SENT && "lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.NOT_SENT}
+							number={crendentialSendRecount.notSend}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS} number={crendentialSendRecount.invalidAddress} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(
+								EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS &&
+								"lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS}
+							number={crendentialSendRecount.invalidAddress}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.SPAM) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.SPAM && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.SPAM} number={crendentialSendRecount.spam} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(EMAIL_TRACK_STATES.SPAM);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.SPAM && "lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.SPAM}
+							number={crendentialSendRecount.spam}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.PENDING_SHIPPING) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.PENDING_SHIPPING && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.PENDING_SHIPPING} number={crendentialSendRecount.pendingShipping} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(
+								EMAIL_TRACK_STATES.PENDING_SHIPPING
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.PENDING_SHIPPING &&
+								"lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.PENDING_SHIPPING}
+							number={crendentialSendRecount.pendingShipping}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.DELIVERED) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.DELIVERED && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.DELIVERED} number={crendentialSendRecount.delivered} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(
+								EMAIL_TRACK_STATES.DELIVERED
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.DELIVERED && "lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.DELIVERED}
+							number={crendentialSendRecount.delivered}
+						/>
 					</div>
-					<div onClick={() => { this.setnotificationStatus(EMAIL_TRACK_STATES.OPENED) }} style={{ backgroundColor: this.state.notificationStatus === EMAIL_TRACK_STATES.OPENED && 'lightGrey' }}>
-						<EmailIcon translate={translate} reqCode={EMAIL_TRACK_STATES.OPENED} number={crendentialSendRecount.opened} />
+					<div
+						onClick={() => {
+							this.setnotificationStatus(
+								EMAIL_TRACK_STATES.OPENED
+							);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.notificationStatus ===
+								EMAIL_TRACK_STATES.OPENED && "lightGrey"
+						}}
+					>
+						<EmailIcon
+							translate={translate}
+							reqCode={EMAIL_TRACK_STATES.OPENED}
+							number={crendentialSendRecount.opened}
+						/>
 					</div>
 				</Grid>
 				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
@@ -244,7 +370,14 @@ class CredentialsContainer extends React.Component {
 						</SelectInput>
 					</div>
 
-					<div style={{ width: '33%', maxWidth: '12em', float: 'right', marginTop: '12px' }}>
+					<div
+						style={{
+							width: "33%",
+							maxWidth: "12em",
+							float: "right",
+							marginTop: "12px"
+						}}
+					>
 						<Tooltip
 							title={
 								translate.tooltip_refresh_convene_email_state_assistance
@@ -256,9 +389,9 @@ class CredentialsContainer extends React.Component {
 								color={getSecondary()}
 								buttonStyle={{
 									margin: "0",
-									marginRight: '0.8em',
-									paddingTop: '6px',
-									paddingBottom: '6px'
+									marginRight: "0.8em",
+									paddingTop: "6px",
+									paddingBottom: "6px"
 								}}
 								textStyle={{
 									color: "white",
@@ -267,15 +400,10 @@ class CredentialsContainer extends React.Component {
 									textTransform: "none"
 								}}
 								icon={
-									<ButtonIcon
-										color="white"
-										type="refresh"
-									/>
+									<ButtonIcon color="white" type="refresh" />
 								}
 								textPosition="after"
-								onClick={() =>
-									this.props.refreshEmailStates()
-								}
+								onClick={() => this.refreshEmailStates()}
 							/>
 						</Tooltip>
 					</div>
@@ -299,17 +427,21 @@ class CredentialsContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{
-					height: "calc(100% - 6em)",
-					padding: '0 1vw',
-					overflow: "hidden"
-				}}>
+				<div
+					style={{
+						height: "calc(100% - 6em)",
+						padding: "0 1vw",
+						overflow: "hidden"
+					}}
+				>
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
-						participants={this.props.data.liveParticipantsCredentials}
+						participants={
+							this.props.data.liveParticipantsCredentials
+						}
 						layout={this.props.layout}
 						council={this.props.council}
 						translate={this.props.translate}
@@ -349,7 +481,7 @@ const query = gql`
 				requestWord
 				numParticipations
 				surname
-				sendCredentials{
+				sendCredentials {
 					reqCode
 				}
 			}
@@ -384,4 +516,3 @@ export default compose(
 		name: "updateCredentialsSends"
 	})
 )(CredentialsContainer);
-

@@ -9,7 +9,10 @@ import {
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
 import gql from "graphql-tag";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_TYPE } from "../../../../../constants";
+import {
+	PARTICIPANTS_LIMITS,
+	PARTICIPANT_TYPE
+} from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import { getSecondary } from "../../../../../styles/colors";
 import TypeIcon from "../TypeIcon";
@@ -142,19 +145,74 @@ class TypesContainer extends React.Component {
 						paddingRight: "2.5em"
 					}}
 				>
-					<div onClick={()=>{this.settypeStatus(null)}} style={{backgroundColor: this.state.typeStatus === null && 'lightGrey'}}>
-						<TypeIcon translate={translate} type={'ALL'} number={participantTypeRecount.all} />
+					<div
+						onClick={() => {
+							this.settypeStatus(null);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.typeStatus === null && "lightGrey"
+						}}
+					>
+						<TypeIcon
+							translate={translate}
+							type={"ALL"}
+							number={participantTypeRecount.all}
+						/>
 					</div>
-					<div onClick={()=>{this.settypeStatus(PARTICIPANT_TYPE.PARTICIPANT)}} style={{backgroundColor: this.state.typeStatus === PARTICIPANT_TYPE.PARTICIPANT && 'lightGrey'}}>
-						<TypeIcon translate={translate} type={PARTICIPANT_TYPE.PARTICIPANT} number={participantTypeRecount.participant} />
+					<div
+						onClick={() => {
+							this.settypeStatus(PARTICIPANT_TYPE.PARTICIPANT);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.typeStatus ===
+									PARTICIPANT_TYPE.PARTICIPANT && "lightGrey"
+						}}
+					>
+						<TypeIcon
+							translate={translate}
+							type={PARTICIPANT_TYPE.PARTICIPANT}
+							number={participantTypeRecount.participant}
+						/>
 					</div>
-					<div onClick={()=>{this.settypeStatus(PARTICIPANT_TYPE.GUEST)}} style={{backgroundColor: this.state.typeStatus === PARTICIPANT_TYPE.GUEST && 'lightGrey'}}>
-						<TypeIcon translate={translate} type={PARTICIPANT_TYPE.GUEST} number={participantTypeRecount.guest} />
+					<div
+						onClick={() => {
+							this.settypeStatus(PARTICIPANT_TYPE.GUEST);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.typeStatus ===
+									PARTICIPANT_TYPE.GUEST && "lightGrey"
+						}}
+					>
+						<TypeIcon
+							translate={translate}
+							type={PARTICIPANT_TYPE.GUEST}
+							number={participantTypeRecount.guest}
+						/>
 					</div>
-					<div onClick={()=>{this.settypeStatus(PARTICIPANT_TYPE.REPRESENTATIVE)}} style={{backgroundColor: this.state.typeStatus === PARTICIPANT_TYPE.REPRESENTATIVE && 'lightGrey'}}>
-						<TypeIcon translate={translate} type={PARTICIPANT_TYPE.REPRESENTATIVE} number={participantTypeRecount.representative} />
+					<div
+						onClick={() => {
+							this.settypeStatus(PARTICIPANT_TYPE.REPRESENTATIVE);
+						}}
+						style={{
+							cursor: "pointer",
+							backgroundColor:
+								this.state.typeStatus ===
+									PARTICIPANT_TYPE.REPRESENTATIVE &&
+								"lightGrey"
+						}}
+					>
+						<TypeIcon
+							translate={translate}
+							type={PARTICIPANT_TYPE.REPRESENTATIVE}
+							number={participantTypeRecount.representative}
+						/>
 					</div>
-					
 				</Grid>
 				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
 					<div
@@ -218,11 +276,13 @@ class TypesContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{
-					height: "calc(100% - 6em)",
-					padding: '0 1vw',
-					overflow: "hidden"
-				}}>
+				<div
+					style={{
+						height: "calc(100% - 6em)",
+						padding: "0 1vw",
+						overflow: "hidden"
+					}}
+				>
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
