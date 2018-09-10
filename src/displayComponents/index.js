@@ -24,6 +24,7 @@ export { default as GridItem } from "./GridItem";
 export { default as HelpPopover } from './HelpPopover';
 export { default as Icon } from "./Icon";
 export { default as Link } from "./LinkWithoutStyling";
+export { default as LiveToast } from './LiveToast';
 export { default as LoadingMainApp } from "./LoadingMainApp";
 export { default as LoadMoreButton } from "./LoadMoreButton";
 export { default as LoadingSection } from "./LoadingSection";

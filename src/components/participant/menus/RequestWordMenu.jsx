@@ -6,32 +6,80 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import AdminPrivateMessage from './AdminPrivateMessage';
+import DetectRTC from 'detectrtc';
+import { AlertConfirm, LoadingSection } from '../../../displayComponents';
+
 
 class RequestWordMenu extends React.Component {
 
-    askForWord = async () => {
-        const response = await this.props.changeRequestWord({
-            variables: {
-                participantId: this.props.participant.id,
-                requestWord: 1
-            }
-        });
+    state = {
+        alertCantRequestWord: false
+    }
 
-        console.log(response);
+    askForWord = async () => {
+        if(await this.checkWordRequisites()){
+            this.setState({
+                loading: true
+            });
+            await this.props.changeRequestWord({
+                variables: {
+                    participantId: this.props.participant.id,
+                    requestWord: 1
+                }
+            });
+            await this.props.refetchParticipant();
+            this.setState({
+                loading: false
+            });
+        } else {
+            this.setState({
+                alertCantRequestWord: true
+            });
+        }
+    }
+
+    updateRTC = () => {
+        return new Promise((resolve) => {
+            DetectRTC.load(() => resolve());
+        })
+    }
+
+    checkWordRequisites = async () => {
+        await this.updateRTC();
+        return DetectRTC.audioInputDevices.length > 0;
     }
 
     cancelAskForWord = async () => {
-        const response = await this.props.changeRequestWord({
+        await this.props.changeRequestWord({
             variables: {
                 participantId: this.props.participant.id,
                 requestWord: 0
             }
         });
+        await this.props.refetchParticipant();
 
-        console.log(response);
     }
 
-    renderWordButtonIcon = () => {
+    closeAlertCantRequest = () => {
+        this.setState({
+            alertCantRequestWord: false
+        });
+    }
+
+    _renderAlertBody = () => {
+        return (
+            <div
+                style={{
+                    maxWidth: '500px'
+                }}
+                //TRADUCCION
+            >
+                Lo sentimos, no puede solicitar palabra porque no dispone de un micrófono o dispositivo de entrada de audio.
+            </div>
+        )
+    }
+
+    _renderWordButtonIcon = () => {
         const secondary = getSecondary();
         const primary = getPrimary();
 
@@ -68,13 +116,13 @@ class RequestWordMenu extends React.Component {
                 >
                     <i className="material-icons">
                         pan_tool
-                    </i>
+                    </i>                    
                 </IconButton>
             </Tooltip>
         )
     }
 
-    renderPrivateMessageIcon = () => {
+    _renderPrivateMessageIcon = () => {
         return(
             <AdminPrivateMessage
                 translate={this.props.translate}
@@ -106,9 +154,18 @@ class RequestWordMenu extends React.Component {
                 }}
             >
                 <div>
-                    {this.renderWordButtonIcon()}
-                    {this.renderPrivateMessageIcon()}
+                    {this._renderWordButtonIcon()}
+                    {this._renderPrivateMessageIcon()}
                 </div>
+                <AlertConfirm
+					requestClose={() => this.setState({ alertCantRequestWord: false })}
+					open={this.state.alertCantRequestWord}
+					fullWidth={false}
+					acceptAction={this.closeAlertCantRequest}
+					buttonAccept={this.props.translate.accept}
+					bodyText={this._renderAlertBody()}
+					title={this.props.translate.error}
+				/>
             </Paper>
         )
     }

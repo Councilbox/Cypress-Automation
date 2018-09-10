@@ -5,6 +5,7 @@ import {
 	BasicButton,
 	ButtonIcon,
 	DateTimePicker,
+	LiveToast,
 	ErrorAlert,
 	Grid,
 	GridItem,
@@ -175,10 +176,9 @@ class StepNotice extends React.Component {
 			});
 			await this.props.data.refetch();
 			this.checkAssociatedCensus(statuteId);
-			this.updateDate();
 			this.setState({
 				data: actualState
-			});
+			}, this.updateDate);
 		}
 	};
 
@@ -271,7 +271,15 @@ class StepNotice extends React.Component {
 			if(CBX.checkForUnclosedBraces(data.conveneText)){
 				hasError = true;
 				errors.conveneText = translate.revise_text;
-				toast.error(translate.revise_text);
+				toast(
+					<LiveToast
+						message={translate.revise_text}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,			
+						className: "errorToast"
+					}
+				);
 			}
 		}
 
@@ -392,6 +400,7 @@ class StepNotice extends React.Component {
 											errorText={errors.dateStart}
 											acceptText={translate.accept}
 											cancelText={translate.cancel}
+											minDate={Date.now()}
 											label={translate["1st_call_date"]}
 											value={council.dateStart}
 										/>
@@ -500,7 +509,7 @@ class StepNotice extends React.Component {
 									open={this.state.changeCensusModal}
 									acceptAction={this.changeCensus}
 									buttonAccept={translate.want_census_change}
-									buttonCancel={translate.cancel}
+									buttonCancel={'No cambiar'}//TRADUCCION
 									bodyText={<div>{translate.census_change_statute}</div>}
 									title={translate.census_change}
 								/>

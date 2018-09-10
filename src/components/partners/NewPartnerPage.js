@@ -34,7 +34,9 @@ class NewPartnerPage extends React.Component {
             subscribeDate: null,
             unsubscribeDate: null,
             subscribeActDate: null,
-            unsubscribeActDate: null
+            unsubscribeActDate: null,
+            subscribeActNumber: '',
+            unsubscribeActNumber: ''
         },
         errors: {}
     }
@@ -56,7 +58,11 @@ class NewPartnerPage extends React.Component {
                 }
             });
 
-            console.log(response)
+            if(response.data){
+                if(response.data.createSimpleBookParticipant){
+                    this.goBack();
+                }
+            }
         }
     }
 
@@ -74,19 +80,16 @@ class NewPartnerPage extends React.Component {
     }
 
     render(){
-        console.log(bHistory);
-
         return(
             <CardPageLayout title={this.props.translate.add_partner} disableScroll>
                 <div
                     style={{
                         height: 'calc(100% - 3em)',
                         overflow: 'hidden',
-                        padding: '2%'
                     }}
                 >
                     <Scrollbar>
-                        <div style={{padding: '3px'}}>
+                        <div style={{padding: '0.6em 5%'}}>
                             <PartnerForm
                                 translate={this.props.translate}
                                 updateState={this.updateState}
@@ -102,6 +105,7 @@ class NewPartnerPage extends React.Component {
                         display: 'flex',
                         flexDirection: 'row',
                         paddingRight: '1.2em',
+                        paddingTop: '0.5em',
                         alignItems: 'center',
                         justifyContent: 'flex-end',
                         borderTop: '1px solid gainsboro'
@@ -112,6 +116,7 @@ class NewPartnerPage extends React.Component {
                             <BasicButton
                                 text={this.props.translate.back}
                                 color={'white'}
+                                type="flat"
                                 textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none'}}
                                 onClick={this.goBack}
                                 buttonStyle={{marginRight: '0.8em'}}

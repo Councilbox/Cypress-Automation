@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon } from '../../../../displayComponents';
+import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon, LiveToast } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
@@ -20,6 +20,8 @@ class SignatureStepOne extends React.Component {
         errors: {},
         errorState: false
     }
+
+    toastId = null;
 
     updateState = object => {
         this.setState({
@@ -114,6 +116,7 @@ class SignatureStepOne extends React.Component {
                             }
                         })
                     }
+                    this.props.data.refetch();
                 }
             }else{
                 this.setState({
@@ -180,7 +183,19 @@ class SignatureStepOne extends React.Component {
             if(checkForUnclosedBraces(data.description)){
                 errors.description = true;
                 hasError = true;
-                toast.error(translate.revise_text);
+                if(this.toastId){
+                    toast.dismiss(this.toastId);
+                }
+                this.toastId = toast(
+					<LiveToast
+						message={translate.revise_text}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+                        autoClose: true,
+                        onClose: () => this.toastId = null,				
+						className: "errorToast"
+					}
+				);
             }
         }
 
@@ -291,6 +306,7 @@ class SignatureStepOne extends React.Component {
                                     <div style={{maxWidth: '10em'}}>
                                         <FileUploadButton
                                             text={translate.new_add}
+                                            accept='application/pdf'
                                             style={{
                                                 marginTop: "2em",
                                                 width: "100%"

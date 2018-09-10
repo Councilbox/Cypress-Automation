@@ -13,6 +13,7 @@ import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import FontAwesome from 'react-fontawesome';
 
+
 class Header extends React.PureComponent {
 	state = {
 		companyMenu: false,
@@ -63,6 +64,7 @@ class Header extends React.PureComponent {
 					zIndex: 1000,
 					display: "flex",
 					flexDirection: "row",
+					borderBottom: '1px solid gainsboro',
 					width: "100%",
 					justifyContent: "space-between",
 					alignItems: "center",

@@ -1,71 +1,60 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Tooltip } from 'material-ui';
+import RecordingButton from './RecordingButton';
+import { darkGrey } from '../../../../styles/colors';
+import { ConfigContext } from '../../../../containers/AppControl';
 
 const rand = Date.now();
 
 class CMPVideoIFrame extends React.Component {
 
-    toggleRecordings = async () => {
-        const variables = {
-            councilId: this.props.council.id
-        }
-
-        const response = this.props.data.sessionStatus.record?
-            await this.props.stopRecording({variables})
-        :
-            await this.props.startRecording({variables});
-
-        console.log(response);
-
-        if(response){
-            const update = await this.props.data.refetch();
-            console.log(update);
-        }
-    }
 
     render(){
         const { data } = this.props;
-        console.log(data.sessionStatus);
 
         if(!data.loading){
             return (
-                <div style={{width: '100%', height: '100%', position: 'relative'}}>
-                    <Tooltip title={this.props.data.sessionStatus.record? 'Parar grabación' : 'Iniciar grabación'} /*TRADUCCION*/>
-                        <div
-                            style={{
-                                position: 'absolute',
-                                top: '10%',
-                                left: '10%',
-                                fontSize: '1.4em',
-                                cursor: 'pointer'
-                            }}
-                            onClick={this.toggleRecordings}
-                        >
-                            {this.props.data.sessionStatus.record?
-                                <i className="fa fa-dot-circle-o fadeToggle" style={{color: 'red'}}/>
+                <ConfigContext.Consumer>
+                    {config => (
+                        <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                            {!!data.roomVideoURL && config.video?
+                                <React.Fragment>
+                                    <RecordingButton
+                                        config={config}
+                                        council={this.props.council}
+                                        translate={this.props.translate}
+                                    />
+                                    <iframe
+                                        title="meetingScreen"
+                                        allow="geolocation; microphone; camera"
+                                        scrolling="no"
+                                        className="temp_video"
+                                        src={`https://${data.roomVideoURL}?rand=${rand}`}
+                                        allowFullScreen="true"
+                                        style={{
+                                            border: "none !important"
+                                        }}
+                                    >
+                                        Something wrong...
+                                    </iframe>
+                                </React.Fragment>
                             :
-                                <i className="fa fa-circle" style={{color: 'red'}}/>
+                                <div
+                                    style={{
+                                        width: '100%',
+                                        backgroundColor: darkGrey,
+                                        height: '100%',
+                                        color: 'white'
+                                    }}
+                                >
+                                    Lo sentimos, algo ha ocurrido con el servidor de video, disculpe las molestias
+                                </div>
                             }
-                        
+                            
                         </div>
-                    </Tooltip>
-    
-                    <iframe
-                        title="meetingScreen"
-                        allow="geolocation; microphone; camera"
-                        scrolling="no"
-                        className="temp_video"
-                        src={`https://${data.roomVideoURL}?rand=${rand}`}
-                        allowFullScreen="true"
-                        style={{
-                            border: "none !important"
-                        }}
-                    >
-                        Something wrong...
-                    </iframe>
-                </div>
+                    )}
+                </ConfigContext.Consumer>
             );
         }
         return(
@@ -78,27 +67,6 @@ const videoURL = gql`
     query RoomVideoURL($councilId: Int!, $participantId: String!){
         roomVideoURL(councilId: $councilId, participantId: $participantId)
 
-        sessionStatus(councilId: $councilId){
-            record
-        }
-    }
-`;
-
-const startRecording = gql`
-    mutation StartRecording($councilId: Int!){
-        startRecording(councilId: $councilId){
-            success
-            message
-        }
-    }
-`;
-
-const stopRecording = gql`
-    mutation StopRecording($councilId: Int!){
-        stopRecording(councilId: $councilId){
-            success
-            message
-        }
     }
 `;
 
@@ -111,10 +79,4 @@ export default compose(
             }
         })
     }),
-    graphql(startRecording, {
-        name: 'startRecording'
-    }),
-    graphql(stopRecording, {
-        name: 'stopRecording'
-    })
 )(CMPVideoIFrame);

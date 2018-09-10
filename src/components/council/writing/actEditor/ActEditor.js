@@ -6,7 +6,8 @@ import {
 	BasicButton,
 	ErrorWrapper,
 	Scrollbar,
-	LoadingSection
+	LoadingSection,
+	LiveToast
 } from "../../../../displayComponents";
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
@@ -195,7 +196,15 @@ class ActEditor extends Component {
 		}
 
 		if(hasError){
-			toast.error(this.props.translate.revise_text);
+			toast(
+				<LiveToast
+					message={this.props.translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 
 		this.setState({
@@ -271,7 +280,15 @@ class ActEditor extends Component {
 		});
 
 		if(hasError){
-			toast.error(this.props.translate.revise_text);
+			toast(
+				<LiveToast
+					message={this.props.translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 
 		this.setState({
@@ -339,6 +356,7 @@ class ActEditor extends Component {
 										ref={editor => this.editorIntro = editor}
 										floatingText={translate.intro}
 										type="text"
+										id="act-intro"
 										loadDraft={
 											<BasicButton
 												text={translate.load_draft}
@@ -405,6 +423,7 @@ class ActEditor extends Component {
 										ref={editor => (this.editorConstitution = editor)}
 										floatingText={translate.constitution}
 										type="text"
+										id="act-constitution"
 										loadDraft={
 											<BasicButton
 												text={translate.load_draft}
@@ -521,56 +540,61 @@ class ActEditor extends Component {
 									</Fragment>
 								)}
 								{!this.props.liveMode &&
-									<RichTextInput
-										ref={editor => (this.editorConclusion = editor)}
-										floatingText={translate.conclusion}
-										type="text"
-										loadDraft={
-											<BasicButton
-												text={translate.load_draft}
-												color={secondary}
-												textStyle={{
-													color: "white",
-													fontWeight: "600",
-													fontSize: "0.8em",
-													textTransform: "none",
-													marginLeft: "0.4em",
-													minHeight: 0,
-													lineHeight: "1em"
-												}}
-												textPosition="after"
-												onClick={() =>
-													this.setState({
-														loadDraft: true,
-														draftType: DRAFT_TYPES.CONCLUSION
-													})
-												}
-											/>
-										}
-										tags={[
-											{
-												value: `${council.president} `,
-												label: translate.president
-											},
-											{
-												value: `${council.secretary} `,
-												label: translate.secretary
-											},
-											{
-												value: `${moment(council.dateEnd).format(
-													"LLLL"
-												)} `,
-												label: translate.date_end
+									<div
+										ref={ref => this.conclusionSection = ref}
+									>
+										<RichTextInput
+											ref={editor => (this.editorConclusion = editor)}
+											floatingText={translate.conclusion}
+											type="text"
+											id="act-conclusion"
+											loadDraft={
+												<BasicButton
+													text={translate.load_draft}
+													color={secondary}
+													textStyle={{
+														color: "white",
+														fontWeight: "600",
+														fontSize: "0.8em",
+														textTransform: "none",
+														marginLeft: "0.4em",
+														minHeight: 0,
+														lineHeight: "1em"
+													}}
+													textPosition="after"
+													onClick={() =>
+														this.setState({
+															loadDraft: true,
+															draftType: DRAFT_TYPES.CONCLUSION
+														})
+													}
+												/>
 											}
-										]}
-										errorText={errors.conclusion}
-										value={data.council.act.conclusion || ''}
-										onChange={value =>
-											this.updateActState({
-												conclusion: value
-											})
-										}
-									/>
+											tags={[
+												{
+													value: `${council.president} `,
+													label: translate.president
+												},
+												{
+													value: `${council.secretary} `,
+													label: translate.secretary
+												},
+												{
+													value: `${moment(council.dateEnd).format(
+														"LLLL"
+													)} `,
+													label: translate.date_end
+												}
+											]}
+											errorText={errors.conclusion}
+											value={data.council.act.conclusion || ''}
+											onChange={value => {
+												this.updateActState({
+													conclusion: value
+												})
+											}}
+										/>
+									</div>
 								}
 							</div>
 						</Scrollbar>
@@ -641,7 +665,7 @@ class ActEditor extends Component {
 					<DialogContent style={{ width: "800px" }}>
 						<LoadDraft
 							translate={translate}
-							companyId={this.props.companyID}
+							companyId={this.props.company.id}
 							loadDraft={this.state.loadDraft}
 							statute={council.statute}
 							statutes={companyStatutes}

@@ -38,10 +38,7 @@ class OpenRoomButton extends React.Component {
 			}
 		});
 		if (response.data.openCouncilRoom.success) {
-			this.setState({
-				confirmModal: false,
-			});
-			this.props.refetch();
+			await this.props.refetch();
 		}
 	};
 
@@ -109,6 +106,7 @@ class OpenRoomButton extends React.Component {
 					}
 					open={this.state.confirmModal}
 					buttonAccept={translate.accept}
+					loadingAction={this.state.loading}
 					buttonCancel={translate.cancel}
 					modal={true}
 					acceptAction={this.openCouncilRoom}

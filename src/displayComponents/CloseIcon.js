@@ -19,7 +19,9 @@ const CloseIcon = ({ style, onClick, loading }) => (
 				<Close />
 			</IconButton>
 		) : (
-			<CircularProgress size={10} color="primary" />
+			<div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+				<CircularProgress size={15} color="primary" />
+			</div>
 		)}
 	</Fragment>
 );

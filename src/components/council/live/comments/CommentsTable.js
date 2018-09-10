@@ -130,10 +130,11 @@ class CommentsTable extends React.Component{
 												fontSize: "0.85em"
 											}}
 										></div>
-										<br />
 										<span
-											style={{ fontSize: "0.73rem" }}
-										>{`${voting.author.name} ${voting.author.surname} - ${
+											style={{ fontSize: "0.73rem", fontWeight: '700' }}
+										>{`${voting.author.name} ${voting.author.surname}`}
+										</span>
+										<span style={{ fontSize: "0.73rem" }}>{` - ${
 											voting.author.position
 										}`}</span>
 									</div>

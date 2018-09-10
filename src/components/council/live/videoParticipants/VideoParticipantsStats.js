@@ -53,7 +53,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={translate.present}>
+		<Tooltip title={translate.present.toLowerCase().capitalize()}>
 			<div
 				style={{
 					marginLeft: "1em",
@@ -84,6 +84,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
+	
 		<Tooltip title={translate.absents}>
 			<div
 				style={{
@@ -115,7 +116,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={"EMITIENDO"}>
+		<Tooltip title={"Emitiendo"} /*TRADUCCION*/>
 			<div
 				style={{
 					marginLeft: "1em",
@@ -174,6 +175,38 @@ const VideoParticipantsStats = ({
 					}}
 				>
 					{stats.banned}
+				</span>
+			</div>
+		</Tooltip>
+		<Tooltip title={'Pidiendo palabra'} /*TRADUCCION*/>
+			<div
+				style={{
+					marginLeft: "1em",
+					marginRight: "0.5em",
+					height: videoFullScreen ? "3em" : "100%",
+					display: "flex",
+					alignItems: "center"
+				}}
+				{...(stats.askingForWord > 0? {className: 'fadeToggle'} : {})}
+			>
+				<Icon
+					className="material-icons"
+					style={{
+						fontSize: "1.1em",
+						marginRight: "0.3em",
+						color: getSecondary()
+					}}
+				>
+					pan_tool
+				</Icon>
+				<span
+					style={{
+						fontWeight: "700",
+						color: "white",
+						fontSize: "0.8em"
+					}}
+				>
+					{stats.askingForWord}
 				</span>
 			</div>
 		</Tooltip>

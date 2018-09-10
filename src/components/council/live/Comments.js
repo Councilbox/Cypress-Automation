@@ -9,12 +9,9 @@ import CommentsTable from "./comments/CommentsTable";
 
 
 class CommentsSection extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			open: false
-		};
-	}
+	state = {
+		open: false
+	};
 
 	_button = () => {
 		const { translate, council } = this.props;

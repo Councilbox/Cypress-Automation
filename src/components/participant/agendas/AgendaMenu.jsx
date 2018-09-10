@@ -61,10 +61,36 @@ class AgendaMenu extends React.Component {
             }
         }
     }
+    agendaStateIcon = () => {
+        const { translate, agenda } = this.props;
+        let icon = 'fa fa-lock';
+        if(CBX.agendaPointNotOpened(agenda)) icon ="fa fa-lock";
+        if(CBX.agendaPointOpened(agenda)) icon = "fa fa-unlock-alt";
+        if(CBX.agendaClosed(agenda)) icon = "fa fa-lock";
+        //if(CBX.agendaVotingsOpened(agenda)) icon = "fa fa-lock";
+        return <i className={icon} aria-hidden="true" style={{marginRight: '0.6em'}}></i>;
+    }
+
+    agendaVotingIcon = () => {
+        const { translate, agenda } = this.props;
+        let icon = 'fa fa-lock';
+        if(CBX.agendaVotingsOpened(agenda)) icon ="fa fa-unlock-alt";
+        return <i className={icon} aria-hidden="true" style={{marginRight: '0.6em'}}></i>;
+    }
+
+    agendaVotingMessage = () => {
+        const { translate, agenda } = this.props;
+        if(!CBX.agendaVotingsOpened(agenda)) return translate.agenda_votations_closed;
+        return 'Votaciones abiertas'; //TRADUCCION
+    }
+
+    canComment = (agenda, participant) => {
+        return true;
+    }
 
     agendaStateMessage = () => {
         const { translate, agenda } = this.props;
-        if(CBX.agendaPointNotOpened(agenda)) return translate.discussion_not_started
+        if(CBX.agendaPointNotOpened(agenda)) return translate.discussion_not_started;
         if(CBX.agendaPointOpened(agenda)) return translate.in_discussion;
         if(CBX.agendaClosed(agenda)) return translate.closed;
         if(CBX.agendaVotingsOpened(agenda)) return translate.agenda_votations_closed;
@@ -77,45 +103,50 @@ class AgendaMenu extends React.Component {
 
         return(
             <div>
-                <Typography variant="body1" style={{color: secondary, fontWeight: '700'}}>
-                    {translate[CBX.getAgendaTypeLabel(agenda)]}
+                <Typography style={{ fontWeight: '700', fontSize: '16px'}}>
+                    {this.agendaStateIcon()}
+                    {this.agendaStateMessage()}
                 </Typography>
-                <Typography variant="caption" style={{fontSize: '0.8rem'}}>{this.agendaStateMessage()}</Typography>
                 {agenda.attachments &&
                     agenda.attachments.map(attachment =>
                         <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda/>
                     )
                 }
                 {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
-                    <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
-                    {!CBX.agendaVotingsOpened(agenda)?
-                            <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
-                        :
-                            <CollapsibleSection
-                                open={this.state.open}
-                                onTriggerClick={() => {}}
-                                onClose={() => {
-                                    if(this.state.reopen){
-                                        this.setState({
-                                            open: true,
-                                            voting: !this.state.voting,
-                                            reopen: false
-                                        })
-                                    }
-                                }}
-                                style={{
-                                    cursor: 'auto'
-                                }}
-                                trigger={() =>
-                                    <div style={{
-                                        width: '100%',
-                                        display: 'flex',
-                                        flexDirection: 'row',
-                                        justifyContent: 'space-between',
-                                    }}>
+                    <React.Fragment>
+                        <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
+                            <Typography style={{ fontWeight: '700', fontSize: '16px'}}>
+                                {this.agendaVotingIcon()}
+                                {this.agendaVotingMessage()}
+                            </Typography>
+                        </div>
+                        {!!agenda.voting &&
+                            CBX.agendaVotingsOpened(agenda) &&
+                                <React.Fragment>
+                                    <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
+                                        <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
+                                            {agenda.voting.vote === -1 &&
+                                                'Aun no has votado'
+                                            }
+                                            {agenda.voting.vote === 0 &&
+                                                <React.Fragment /*TRADUCCION*/>
+                                                    {'Has votado: En contra'}
+                                                </React.Fragment>
+                                            }
+                                            {agenda.voting.vote === 1 &&
+                                                <React.Fragment /*TRADUCCION*/>
+                                                    {'Has votado: A favor'}
+                                                </React.Fragment>
+                                            }
+                                            {agenda.voting.vote === 2 &&
+                                                <React.Fragment /*TRADUCCION*/>
+                                                    {'Has votado: Abstención'}
+                                                </React.Fragment>
+                                            }
+                                        </Typography>
                                         <BasicButton
                                             color={this.state.voting && this.state.open? primary : 'white'}
-                                            text={this.props.translate.exercise_voting}
+                                            text={agenda.voting.vote === -1? this.props.translate.exercise_voting : 'Cambiar voto'} //TRADUCCION
                                             textStyle={{
                                                 color: this.state.voting && this.state.open? 'white' : primary,
                                                 fontWeight: '700',
@@ -123,46 +154,36 @@ class AgendaMenu extends React.Component {
                                             }}
                                             buttonStyle={{
                                                 float: 'left',
+                                                marginLeft: '0.6em',
+                                                padding: '0.3em',
                                                 border: `2px solid ${primary}`
                                             }}
                                             icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
                                             onClick={this.activateVoting}
                                         />
-                                        {CBX.councilHasComments(this.props.council.statute) &&
-                                            <BasicButton
-                                                color={!this.state.voting && this.state.open? primary : 'white'}
-                                                text={translate.act_comment_btn}
-                                                textStyle={{
-                                                    color: !this.state.voting && this.state.open? 'white' : primary,
-                                                    fontWeight: '700',
-                                                    fontSize: '14px'
-                                                }}
-                                                buttonStyle={{
-                                                    float: 'left',
-                                                    border: `2px solid ${primary}`
-                                                }}
-                                                icon={<ButtonIcon type="mode_edit" color={!this.state.voting && this.state.open? 'white' : primary}/>}
-                                                onClick={this.activateComment}
+                                    </div>
+                                        <CollapsibleSection
+                                        trigger={() => <span/>}
+                                        onTriggerClick={() => {}}
+                                        open={this.state.open}
+                                        collapse={() =>
+                                            <VotingMenu
+                                                translate={this.props.translate}
+                                                refetch={this.props.refetch}
+                                                agenda={agenda}
                                             />
                                         }
-                                    </div>
-                                }
-                                collapse={() => this.state.voting?
-                                    <VotingMenu
-                                        translate={this.props.translate}
-                                        refetch={this.props.refetch}
-                                        agenda={agenda}
                                     />
-                                :
-                                    <CommentMenu
-                                        agenda={agenda}
-                                        translate={this.props.translate}
-                                        refetch={this.props.refetch}
-                                    />
-                                }
-                            />
-                    }
-                    </div>
+                                    {this.canComment(agenda, this.props.participant) &&
+                                        <CommentMenu
+                                            agenda={agenda}
+                                            translate={this.props.translate}
+                                            refetch={this.props.refetch}
+                                        />
+                                    }
+                                </React.Fragment>  
+                            }
+                    </React.Fragment>
                 }
                 {agenda.subjectType === CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
                     <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
@@ -274,3 +295,56 @@ class AgendaMenu extends React.Component {
 }
 
 export default AgendaMenu;
+
+/*
+<CollapsibleSection
+    open={this.state.open}
+    onTriggerClick={() => {}}
+    onClose={() => {
+        if(this.state.reopen){
+            this.setState({
+                open: true,
+                voting: !this.state.voting,
+                reopen: false
+            })
+        }
+    }}
+    style={{
+        cursor: 'auto'
+    }}
+    trigger={() =>
+        <div style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+        }}>
+            
+            {CBX.councilHasComments(this.props.council.statute) &&
+                <BasicButton
+                    color={!this.state.voting && this.state.open? primary : 'white'}
+                    text={translate.act_comment_btn}
+                    textStyle={{
+                        color: !this.state.voting && this.state.open? 'white' : primary,
+                        fontWeight: '700',
+                        fontSize: '14px'
+                    }}
+                    buttonStyle={{
+                        float: 'left',
+                        border: `2px solid ${primary}`
+                    }}
+                    icon={<ButtonIcon type="mode_edit" color={!this.state.voting && this.state.open? 'white' : primary}/>}
+                    onClick={this.activateComment}
+                />
+            }
+        </div>
+    }
+    collapse={() => this.state.voting?
+        <React.Fragment>
+            
+        </React.Fragment>
+    :
+        
+    }
+/>
+*/

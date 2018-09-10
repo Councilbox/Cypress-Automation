@@ -4,7 +4,7 @@ import gql from "graphql-tag";
 import { Grid } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
-import { LoadingMainApp } from '../../../displayComponents';
+import { PARTICIPANT_STATES } from '../../../constants';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
 import { darkGrey } from '../../../styles/colors';
@@ -82,7 +82,7 @@ class ParticipantCouncil extends React.Component {
 				<div style={styles.mainContainer}>
                     <Grid container spacing={8} style={{
                         height: '100%',
-                        ...(!this.state.hasVideo? {
+                        ...(!this.state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE? {
                             display: 'flex',
                             justifyContent: 'center'
                         } : {})
@@ -91,13 +91,14 @@ class ParticipantCouncil extends React.Component {
                             this._renderAgendaSection()
                         }
 
-                        {this.state.hasVideo &&
+                        {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 
                             <Grid item xs={12} sm={8}>
                                 <div style={{width: '100%', height: '100%', position: 'relative'}}>
                                     <RequestWordMenu
                                         translate={this.props.translate}
                                         participant={participant}
                                         council={council}
+                                        refetchParticipant={this.props.refetchParticipant}
                                     />
                                     <VideoContainer
                                         council={council}

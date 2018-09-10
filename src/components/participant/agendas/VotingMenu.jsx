@@ -14,6 +14,11 @@ const styles = {
 }
 
 class VotingMenu extends React.Component {
+    
+    state = {
+        loading: true
+    }
+
     votingOptions = [
         {
             label: this.props.translate.in_favor_btn,
@@ -33,6 +38,9 @@ class VotingMenu extends React.Component {
     ]
 
     updateAgendaVoting = async vote => {
+        this.setState({
+            loading: vote
+        });
         const response = await this.props.updateAgendaVoting({
             variables: {
                 agendaVoting: {
@@ -44,7 +52,10 @@ class VotingMenu extends React.Component {
 
         if(response.data.updateAgendaVoting){
             if(response.data.updateAgendaVoting.success){
-                this.props.refetch();
+                await this.props.refetch();
+                this.setState({
+                    loading: false
+                });
             }
         }
     }
@@ -66,20 +77,26 @@ class VotingMenu extends React.Component {
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.in_favor_btn}
+                        loading={this.state.loading === 1}
                         selected={agenda.voting.vote === 1}
+                        icon={<i className="fa fa-check" aria-hidden="true" style={{marginLeft: '0.2em'}}></i>}
                         onClick={() => {this.updateAgendaVoting(1)}}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.against_btn}
+                        loading={this.state.loading === 0}
                         selected={agenda.voting.vote === 0}
+                        icon={<i className="fa fa-times" aria-hidden="true" style={{marginLeft: '0.2em'}}></i>}
                         onClick={() => {this.updateAgendaVoting(0)}}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
                     <VotingButton
                         text={this.props.translate.abstention_btn}
+                        loading={this.state.loading === 2}
+                        icon={<i className="fa fa-circle-o" aria-hidden="true" style={{marginLeft: '0.2em'}}></i>}
                         selected={agenda.voting.vote === 2}
                         onClick={() => {this.updateAgendaVoting(2)}}
                     />
@@ -89,7 +106,7 @@ class VotingMenu extends React.Component {
     }
 }
 
-const VotingButton = ({ onClick, text, selected }) => {
+const VotingButton = ({ onClick, text, selected, icon, loading }) => {
 
     const primary = getPrimary();
 
@@ -98,6 +115,9 @@ const VotingButton = ({ onClick, text, selected }) => {
             text={text}
             color={selected? primary: 'white'}
             disabled={selected}
+            loading={loading}
+            loadingColor={primary}
+            icon={icon}
             textStyle={{
                 color: selected? 'white' : primary,
                 fontWeight: '700'

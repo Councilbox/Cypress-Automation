@@ -41,6 +41,7 @@ class SignatureStepTwo extends React.Component {
                 body={
                     <div>
                         <SignatureParticipants
+                            company={this.props.company}
                             signature={this.props.signature}
                             translate={translate}
                         />

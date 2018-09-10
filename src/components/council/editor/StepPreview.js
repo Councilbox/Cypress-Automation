@@ -5,6 +5,7 @@ import {
 	DropDownMenu,
 	Grid,
 	GridItem,
+	LiveToast,
 	LoadingSection,
 	TextInput,
 	SuccessMessage
@@ -73,7 +74,15 @@ class StepPreview extends React.Component {
 				loading: false
 			});
 			if (response.data.conveneWithNotice.success) {
-				toast.success(this.props.translate.council_sended);
+				toast(
+					<LiveToast
+						message={this.props.translate.council_sended}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,				
+						className: "successToast"
+					}
+				)
 				bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
 			}
 		}
@@ -174,8 +183,16 @@ class StepPreview extends React.Component {
 				conveneWithoutNoticeSuccess: true
 			});
 			if (response.data.conveneWithoutNotice.success) {
-				toast.success(this.props.translate.changes_saved);
-				bHistory.push("/");
+				toast(
+					<LiveToast
+						message={this.props.translate.changes_saved}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,				
+						className: "successToast"
+					}
+				);
+				bHistory.push(`/company/${this.props.company.id}/council/${this.props.data.council.id}/prepare`);
 			}
 		}
 	};

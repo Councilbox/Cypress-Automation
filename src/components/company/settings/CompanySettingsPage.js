@@ -8,6 +8,7 @@ import {
 	Grid,
 	GridItem,
 	LoadingSection,
+	LiveToast,
 	SelectInput,
 	SectionTitle,
 	TextInput
@@ -160,6 +161,15 @@ class CompanySettingsPage extends React.Component {
 					loading: false,
 					success: true
 				}, () => bHistory.push('/'));
+				toast(
+					<LiveToast
+						message={'Cambios guardados correctamente'}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,				
+						className: "successToast"
+					}
+				);
 				store.dispatch(setCompany(response.data.updateCompany));
 			}
 		}
@@ -176,7 +186,15 @@ class CompanySettingsPage extends React.Component {
 		if (!response.errors) {
 			if (response.data.unlinkCompany.success) {
 				store.dispatch(getCompanies(this.props.user.id));
-				toast.success(this.props.translate.company_link_unliked_title);
+				toast(
+					<LiveToast
+						message={this.props.translate.company_link_unliked_title}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,				
+						className: "successToast"
+					}
+				);
 				bHistory.push("/");
 			}
 		}

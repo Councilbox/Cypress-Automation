@@ -2,6 +2,7 @@ import React from "react";
 import {
 	CollapsibleSection,
 	Icon,
+	LiveToast,
 	LoadingSection
 } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
@@ -42,7 +43,15 @@ class ActAgreements extends React.Component {
 
 		if(checkForUnclosedBraces(value)){
 			toast.dismiss();
-			toast.error(this.props.translate.revise_text);
+			toast(
+                <LiveToast
+                    message={this.props.translate.revise_text}
+                />, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: true,			
+                    className: "errorToast"
+                }
+            );
 			this.setState({
 				error: true
 			});

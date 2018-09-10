@@ -2,13 +2,16 @@ import React from "react";
 import { Steps } from 'antd';
 import { Paper, Typography, Divider, IconButton } from "material-ui";
 import Scrollbar from '../../../displayComponents/Scrollbar';
-import { AgendaNumber, LoadingSection } from '../../../displayComponents';
+import { AgendaNumber, LoadingSection, LiveToast } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import AgendaMenu from './AgendaMenu';
+import AgendaDescription from './AgendaDescription';
+import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
+import { toast } from 'react-toastify';
 
 const styles = {
 	container: {
@@ -29,13 +32,88 @@ class Agendas extends React.Component {
         selected: 0
     }
 
+    updated = 0;
+
     selectAgenda = (index) => {
         this.setState({selected: index});
     }
 
+    agendaStateToastId = null;
+    agendaVotingsToastId = null;
+
+    componentDidUpdate(prevProps){
+
+        if(prevProps.data.agendas){
+            const { agendas: actualAgendas } = this.props.data;
+            prevProps.data.agendas.forEach((agenda, index) => {
+                let agendaToCheck = agenda.id === actualAgendas[index].id?
+                    actualAgendas[index]
+                :
+                    actualAgendas.find(item => item.id === agenda.id)
+                ;
+
+                if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
+                    if(this.agendaStateToastId){
+                        toast.dismiss(this.agendaStateToastId);  
+                    }
+                    this.agendaStateToastId = this.toastChanges(
+                        `Se ha abierto el punto del día ${agendaToCheck.orderIndex}`,
+                        () => this.agendaStateToastId = null
+                    );
+                }
+
+                if (agendaPointOpened(agenda) && !agendaPointOpened(agendaToCheck)) {
+                    if(this.agendaStateToastId){
+                        toast.dismiss(this.agendaStateToastId);
+                    }
+                    this.agendaStateToastId = this.toastChanges(
+                        `Se ha cerrado el punto del día ${agendaToCheck.orderIndex}`,
+                        () => this.agendaStateToastId = null
+                    );
+                    
+                }
+
+                if (!agendaVotingsOpened(agenda) && agendaVotingsOpened(agendaToCheck)){
+                    if(this.agendaVotingsToastId){
+                        toast.dismiss(this.agendaVotingsToastId);
+                    }
+                    this.agendaVotingsToastId = this.toastChanges(
+                        `Se han abierto las votaciones del punto del día ${agendaToCheck.orderIndex}`,
+                        () => this.agendaVotingsToastId = null
+                    );
+                }
+                
+                if (agendaVotingsOpened(agenda) && !agendaVotingsOpened(agendaToCheck)){
+                    if(this.agendaVotingsToastId){
+                        toast.dismiss(this.agendaVotingsToastId);
+                    }
+                    this.agendaVotingsToastId = this.toastChanges(
+                        `Se han cerrado las votaciones del punto del día ${agendaToCheck.orderIndex}`,
+                        () => this.agendaVotingsToastId = null
+                    )
+                }
+            });
+        }
+    }
+
+    toastChanges = (message, onClose) => (
+        toast(
+            <LiveToast
+                message={message}
+                action={() => this.selectAgenda}
+            />, {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: false,
+                onClose: onClose,
+                className: "liveToast"
+            }
+        )
+    )
+
 	render() {
 		const { translate, council, agendasAnchor, toggleAgendasAnchor, anchorToggle } = this.props;
         const { selected } = this.state;
+        const secondary = getSecondary();
 
         let agendas = [];
 
@@ -119,7 +197,12 @@ class Agendas extends React.Component {
                                                 }
                                                 description={ selected === index ?
                                                         <React.Fragment>
-                                                            <div dangerouslySetInnerHTML={{__html: agenda.description}}></div>
+                                                            <Typography variant="body1" style={{color: secondary, fontWeight: '700'}}>
+                                                                {translate[getAgendaTypeLabel(agenda)]}
+                                                            </Typography>
+                                                            <div style={{marginBottom: '0.6em'}}>
+                                                                <AgendaDescription agenda={agenda} translate={translate} />
+                                                            </div>
                                                             <AgendaMenu
                                                                 agenda={agenda}
                                                                 council={council}

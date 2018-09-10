@@ -118,7 +118,7 @@ class Sidebar extends React.Component {
 								padding: '0.5em'
 							}}
 						>
-							<Tooltip title={this.props.company.businessName} placement="top-end">
+							<Tooltip title={`${this.props.translate.edit_company} - ${this.props.company.businessName}`} placement="top-end">
 								<div>
 									<Link to={`/company/${this.props.company.id}/settings`}>
 										{!!this.props.company.logo ? (

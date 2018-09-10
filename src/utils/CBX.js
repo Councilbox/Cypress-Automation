@@ -10,6 +10,7 @@ import {
 	VOTE_VALUES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
+import React from 'react';
 import delivered from "../assets/img/delivered.png";
 import invalidEmailAddress from "../assets/img/invalid_email_address.png";
 import notSent from "../assets/img/not_sent.png";
@@ -17,6 +18,7 @@ import opened from "../assets/img/opened.png";
 import pendingShipping from "../assets/img/pending_shipping.png";
 import spam from "../assets/img/spam.png";
 import LiveUtil from './live';
+import { LiveToast } from '../displayComponents';
 import { moment } from '../containers/App';
 
 export const canReorderPoints = council => {
@@ -784,7 +786,6 @@ export const exceedsOnlineTimeout = date => {
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
 	let errors = {
 		title: "",
-		description: "",
 		text: "",
 		statuteId: "",
 		type: "",
@@ -801,11 +802,6 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		errors.title = translate.required_field;
 	}
 
-	if (!draft.description) {
-		hasError = true;
-		errors.description = translate.required_field;
-	}
-
 	if (!draft.text) {
 		hasError = true;
 		errors.text = translate.required_field;
@@ -813,7 +809,15 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		if(checkForUnclosedBraces(draft.text)){
 			errors.text = true;
 			hasError = true;
-			toast.error(translate.revise_text);
+			toast(
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 	}
 

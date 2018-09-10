@@ -9,14 +9,14 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo } from "../../../utils/CBX";
+import { showVideo, councilStarted } from "../../../utils/CBX";
 import { Tooltip, Badge } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
-const minVideoWidth = 30;
-const minVideoHeight = "60vh";
+const minVideoWidth = 35;
+const minVideoHeight = "45vh";
 
 class CouncilLivePage extends React.Component {
 	state = {
@@ -150,31 +150,49 @@ class CouncilLivePage extends React.Component {
 					style={{
 						position: "absolute",
 						bottom: "5%",
-						right: "2%",
+						right: this.state.fullScreen? "5%" : "2%",
 						display: "flex",
 						flexDirection: "column",
 						zIndex: 2
 					}}
 				>
-					<Tooltip title={`${translate.wall} - (ALT + W)`}>
-						<div>
-							{this.state.unreadComments > 0 ?
-								<Badge
-									classes={{
-										badge: 'fadeToggle'
-									}}
-									badgeContent={
-										<span
-											style={{
-												color: "white",
-												fontWeight: "700",
-											}}
-										>
-											{this.state.unreadComments}
-										</span>
-									}
-									color="secondary"
-								>
+					{(council.state === 20 || council.state === 30) &&
+						<Tooltip title={`${translate.wall} - (ALT + W)`}>
+							<div>
+								{this.state.unreadComments > 0 ?
+									<Badge
+										classes={{
+											badge: 'fadeToggle'
+										}}
+										badgeContent={
+											<span
+												style={{
+													color: "white",
+													fontWeight: "700",
+												}}
+											>
+												{this.state.unreadComments}
+											</span>
+										}
+										color="secondary"
+									>
+										<div style={{ marginBottom: "0.3em" }}>
+											<FabButton
+												icon={
+													<Icon className="material-icons">
+														chat
+													</Icon>
+												}
+												updateState={this.updateState}
+												onClick={() =>
+													this.setState({
+														wall: true
+													})
+												}
+											/>
+										</div>
+									</Badge>
+								:
 									<div style={{ marginBottom: "0.3em" }}>
 										<FabButton
 											icon={
@@ -190,26 +208,10 @@ class CouncilLivePage extends React.Component {
 											}
 										/>
 									</div>
-								</Badge>
-								:
-								<div style={{ marginBottom: "0.3em" }}>
-									<FabButton
-										icon={
-											<Icon className="material-icons">
-												chat
-											</Icon>
-										}
-										updateState={this.updateState}
-										onClick={() =>
-											this.setState({
-												wall: true
-											})
-										}
-									/>
-								</div>
-							}
-						</div>
-					</Tooltip>
+								}
+							</div>
+						</Tooltip>
+					}
 					<Tooltip
 						title={
 							this.state.participants
@@ -274,7 +276,8 @@ class CouncilLivePage extends React.Component {
 								width: `${this.state.videoWidth}%`,
 								height: "calc(100vh - 3em)",
 								overflow: "hidden",
-								position: "relative"
+								position: "relative",
+								backgroundColor: darkGrey,
 							}}
 						>
 							{this.state.fullScreen && (
@@ -303,6 +306,7 @@ class CouncilLivePage extends React.Component {
 											height: this.state.videoHeight,
 											width: "100%",
 											overflow: 'hidden',
+											backgroundColor: darkGrey,
 											position: "relative",
 											transition: 'width 0.8s, height 0.6s',
 											transitionTimingFunction: 'ease'
@@ -354,7 +358,7 @@ class CouncilLivePage extends React.Component {
 							{!this.state.fullScreen && (
 								<div
 									style={{
-										height: "calc(100vh - 3em)",
+										height: `calc(100vh - ${minVideoHeight} - 3em)`,
 										width: "100%",
 										overflow: "hidden",
 										backgroundColor: darkGrey

@@ -7,7 +7,7 @@ import AssistanceOption from "./AssistanceOption";
 import { compose, graphql } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES } from "../../../constants";
-import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, Checkbox } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateVoteModal from "../../council/live/DelegateVoteModal";
 import DelegationItem from "./DelegationItem";
@@ -104,7 +104,15 @@ class Assistance extends React.Component {
 			this.setState({
 				commentError: true
 			})
-			toast.error(this.props.translate.revise_text);
+			toast(
+				<LiveToast
+					message={this.props.translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,			
+					className: "errorToast"
+				}
+			);
 		}
 
 	}

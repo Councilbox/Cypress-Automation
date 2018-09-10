@@ -12,7 +12,13 @@ class PartnerEditorPage extends React.PureComponent {
 
     state = {
         data: {},
-        errors: {}
+        loading: false,
+        errors: {},
+        success: false
+    }
+
+    componentDidMount(){
+        this.props.data.refetch();
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
@@ -34,14 +40,31 @@ class PartnerEditorPage extends React.PureComponent {
 
     updateBookParticipant = async () => {
         if(!await this.checkRequiredFields()){
+            this.setState({
+                loading: true
+            });
             const response = await this.props.updateBookParticipant({
                 variables: {
                     participant: this.state.data
                 }
             });
 
-            console.log(response);
+            if(response.data){
+                if(response.data.updateBookParticipant.success){
+                    this.setState({
+                        success: true,
+                        loading: false
+                    })
+                }
+            }
         }
+    }
+
+    resetButtonStates = () => {
+        this.setState({
+            success: false,
+            loading: false
+        })
     }
 
     checkRequiredFields = async () => {
@@ -69,11 +92,10 @@ class PartnerEditorPage extends React.PureComponent {
                     style={{
                         height: 'calc(100% - 3em)',
                         overflow: 'hidden',
-                        padding: '2%'
                     }}
                 >
                     <Scrollbar>
-                        <div style={{padding: '3px'}}>
+                        <div style={{padding: '0.6em 5%'}}>
                             <PartnerForm
                                 translate={this.props.translate}
                                 updateState={this.updateState}
@@ -89,6 +111,7 @@ class PartnerEditorPage extends React.PureComponent {
                         display: 'flex',
                         flexDirection: 'row',
                         paddingRight: '1.2em',
+                        paddingTop: '0.5em',
                         alignItems: 'center',
                         justifyContent: 'flex-end',
                         borderTop: '1px solid gainsboro'
@@ -99,6 +122,7 @@ class PartnerEditorPage extends React.PureComponent {
                             <BasicButton
                                 text={this.props.translate.back}
                                 color={'white'}
+                                type="flat"
                                 textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none'}}
                                 onClick={this.goBack}
                                 buttonStyle={{marginRight: '0.8em'}}
@@ -107,6 +131,9 @@ class PartnerEditorPage extends React.PureComponent {
                         <BasicButton
                             text={this.props.translate.save_changes}
                             color={getPrimary()}
+                            success={this.state.success}
+                            loading={this.state.loading}
+                            reset={this.resetButtonStates}
                             textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none'}}
                             onClick={this.updateBookParticipant}
                         />
@@ -145,6 +172,8 @@ const getBookParticipant = gql`
             unsubscribeDate
             subscribeActDate
             unsubscribeActDate
+            subscribeActNumber
+            unsubscribeActNumber
         }
     }
 `;
@@ -163,7 +192,8 @@ export default compose(
         options: props => ({
             variables: {
                 participantId: props.match.params.id
-            }
+            },
+            notifyOnNetworkStatusChange: true
         })
     }),
     graphql(updateBookParticipant, {

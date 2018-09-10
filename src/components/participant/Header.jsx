@@ -6,7 +6,7 @@ import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
-import { getPrimary, getSecondary } from "../../styles/colors";
+import { getPrimary, getSecondary, lightGrey } from "../../styles/colors";
 import { IconButton, Typography, Tooltip } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
 
@@ -39,9 +39,10 @@ class Header extends React.Component {
 					flexDirection: "row",
 					width: "100%",
 					justifyContent: "space-between",
+					borderBottom: '1px solid gainsboro',
 					alignItems: "center",
-					background: primaryColor ? primaryColor : `linear-gradient(to right, ${getSecondary()}, ${primary})`,
-					color: primaryColor ? getPrimary() : "white"
+					background: 'white',
+					color: getPrimary()
 				}}
 			>
 				<div

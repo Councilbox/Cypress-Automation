@@ -6,7 +6,7 @@ import {
 	Icon
 } from "../../../displayComponents";
 import AttachmentList from "../../attachments/AttachmentList";
-import { darkGrey } from "../../../styles/colors";
+import { darkGrey, getPrimary } from "../../../styles/colors";
 import { addAgendaAttachment, removeAgendaAttachment } from "../../../queries";
 import { MAX_FILE_SIZE } from "../../../constants";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
@@ -31,7 +31,6 @@ class AgendaAttachmentsManager extends React.Component {
 		}
 		let reader = new FileReader();
 		reader.readAsBinaryString(file);
-
 		reader.onload = async event => {
 			let fileInfo = {
 				filename: file.name,
@@ -179,6 +178,8 @@ class AgendaAttachmentsManager extends React.Component {
 							fontSize: "0.9em",
 							textTransform: "none"
 						}}
+						loading={this.state.uploading}
+						loadingColor={'primary'}
 						buttonStyle={{
 							maxWidth: "1em",
 							height: "100%",

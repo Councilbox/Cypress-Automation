@@ -40,6 +40,7 @@ const styles = {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
+		minHeight: '12em',
 		padding: "15px",
 		width: "100%"
 	}
@@ -285,7 +286,7 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{width: '8em', height: 'auto'}} />
 		</div>
 	</React.Fragment>
 );

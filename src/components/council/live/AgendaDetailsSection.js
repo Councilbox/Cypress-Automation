@@ -213,7 +213,7 @@ class AgendaDetailsSection extends React.Component {
 							</div>
 							{CBX.councilStarted(council) &&
 								<React.Fragment>
-									{CBX.councilHasComments(council.statute) && !CBX.agendaPointNotOpened(agenda) && (
+									{CBX.councilHasComments(council.statute) && CBX.showAgendaVotingsTable(agenda) && (
 										<div
 											style={{
 												width: "100%",
@@ -228,7 +228,7 @@ class AgendaDetailsSection extends React.Component {
 											/>
 										</div>
 									)}
-									{CBX.agendaVotingsOpened(agenda) && (
+									{CBX.showAgendaVotingsTable(agenda) && (
 										<React.Fragment>
 											{CBX.showAgendaVotingsTable(agenda) &&
 												<React.Fragment>

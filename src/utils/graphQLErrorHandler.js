@@ -1,6 +1,8 @@
 import { printCifAlreadyUsed, printSessionExpiredError } from "./CBX";
 import { logout } from "../actions/mainActions";
 import { refreshTokenQuery } from '../queries';
+import { LiveToast } from '../displayComponents';
+import React from 'react';
 
 export const refreshToken = async (apolloClient, toast, store) => {
 	const rToken = sessionStorage.getItem('refreshToken');
@@ -18,7 +20,15 @@ export const refreshToken = async (apolloClient, toast, store) => {
 		}
 	}
 
-	toast.error(printSessionExpiredError());
+	toast(
+		<LiveToast
+			message={printSessionExpiredError()}
+		/>, {
+			position: toast.POSITION.TOP_RIGHT,
+			autoClose: true,			
+			className: "errorToast"
+		}
+	);
 	store.dispatch(logout());
 
 }
@@ -29,7 +39,15 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 		if (graphQLError.originalError) {
 			if (graphQLError.originalError.fields) {
 				if (graphQLError.originalError.fields.tin) {
-					toast.error(printCifAlreadyUsed());
+					toast(
+						<LiveToast
+							message={printCifAlreadyUsed()}
+						/>, {
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,			
+							className: "errorToast"
+						}
+					);
 				}
 			}
 		}

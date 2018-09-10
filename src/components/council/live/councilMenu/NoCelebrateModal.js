@@ -1,7 +1,8 @@
 import React from "react";
 import {
 	AlertConfirm,
-	Icon
+	Icon,
+	LiveToast
 } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { Typography } from "material-ui";
@@ -40,7 +41,15 @@ class NoCelebrateModal extends React.Component {
 				this.setState({
 					errorText: true
 				});
-				toast.error(this.props.translate.revise_text);
+				toast(
+					<LiveToast
+						message={this.props.translate.revise_text}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,			
+						className: "errorToast"
+					}
+				);
 				return;
 			}
 		}

@@ -10,7 +10,7 @@ const DateTimePickerWrapper = ({
 	clearable = true,
 	value,
 	format = "LLL",
-	minDate = new Date(),
+	minDate,
 	minDateMessage,
 	acceptText,
 	cancelText,
@@ -26,7 +26,7 @@ const DateTimePickerWrapper = ({
 				okLabel={acceptText}
 				style={{width: '100%'}}
 				cancelLabel={cancelText}
-				minDate={minDate}
+				{...(minDate? {minDate:minDate} : {})}
 				InputProps={{
 					endAdornment: (
 						<InputAdornment position="end">

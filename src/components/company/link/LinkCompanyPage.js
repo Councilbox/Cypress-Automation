@@ -6,6 +6,7 @@ import {
 	ButtonIcon,
 	CardPageLayout,
 	Grid,
+	LiveToast,
 	GridItem,
 	TextInput
 } from "../../../displayComponents";
@@ -82,7 +83,15 @@ class LinkCompanyPage extends React.Component {
 			}
 
 			if (response.data.linkCompany.success) {
-				toast.success(this.props.translate.company_link_success_title);
+				toast(
+					<LiveToast
+						message={this.props.translate.company_link_success_title}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,				
+						className: "successToast"
+					}
+				);
 				store.dispatch(getCompanies(this.props.user.id));
 				bHistory.push("/");
 			} else {
