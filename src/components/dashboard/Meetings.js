@@ -87,7 +87,7 @@ class Meetings extends Component {
 							<Fragment>
 								{error ? (
 									<div>
-										{error.graphQLErrors.map(error => {
+										{error.graphQLErrors.map((error, index)=> {
 											return (
 												<ErrorWrapper
 													key={`error_${index}`}

@@ -79,7 +79,7 @@ class Councils extends React.Component {
 									<div style={{ padding: "1em", paddingTop: '2em' }}>
 										{false ? (
 											<div>
-												{error.graphQLErrors.map(error => {
+												{error.graphQLErrors.map((error, index) => {
 													return (
 														<ErrorWrapper
 															key={`error_${index}`}
