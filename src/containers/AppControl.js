@@ -91,10 +91,10 @@ export default graphql(appConfig, {
                         console.log(prev);
 
                         if(subscriptionData.data.appControlChange.command === 'logout'){
-                            store.dispatch(mainActions.logout());
+                            //store.dispatch(mainActions.logout());
                         }
 
-                        if(!subscriptionData.data.appControlChange.config) return prev;
+                        if(!subscriptionData.data.appControlChange.config || true) return prev;
 
                         const { config } = subscriptionData.data.appControlChange;
 

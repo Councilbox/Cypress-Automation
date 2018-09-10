@@ -44,6 +44,14 @@ class SignatureParticipants extends React.Component {
         })
     }
 
+    _renderBody = () => {
+        return (
+            <div style={{maxWidth: '600px'}}>
+                {this.props.translate.census_change_warning.replace("<br/>", "")}
+            </div>
+        )
+    }
+
     render(){
         const { translate } = this.props;
         const { signatureParticipants = { list: [], total: 0}, loading, censuses = { list: [], total: 0}} = this.props.data;
@@ -139,7 +147,7 @@ class SignatureParticipants extends React.Component {
                             text: translate.dni,
                             canOrder: true
                         },
-                        {   
+                        {
                             name: 'email',
                             text: translate.email,
                             canOrder: true
@@ -164,7 +172,7 @@ class SignatureParticipants extends React.Component {
                     requestClose={() => this.setState({
                         censusModal: false
                     })}
-                    open={this.props.open}
+                    open={this.state.censusModal}
                     acceptAction={this.updateCensus}
                     buttonAccept={translate.accept}
                     buttonCancel={translate.cancel}
