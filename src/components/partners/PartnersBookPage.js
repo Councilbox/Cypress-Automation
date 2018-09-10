@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 
 class PartnersBookPage extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.data.refetch();
     }
 
@@ -18,54 +18,53 @@ class PartnersBookPage extends React.Component {
         bHistory.push(`/company/${this.props.match.params.company}/book/new`);
     }
 
-    render(){
+    render() {
 
         const { translate } = this.props;
         const primary = getPrimary();
 
-        if(!this.props.data.bookParticipants){
+        if (!this.props.data.bookParticipants) {
             return <LoadingSection />;
         }
 
         let headers = [
-			{
-				text: translate.participant_data,
-				name: "fullName",
-				canOrder: true
-			},
-			{
-				text: translate.dni,
-				name: "dni",
-				canOrder: true
-			},
-			{
-				text: translate.position,
-				name: "position",
-				canOrder: true
+            {
+                text: translate.participant_data,
+                name: "fullName",
+                canOrder: true
+            },
+            {
+                text: translate.dni,
+                name: "dni",
+                canOrder: true
+            },
+            {
+                text: translate.position,
+                name: "position",
+                canOrder: true
             },
             {
                 text: '',
                 name: '',
                 canOrder: false
             }
-		];
+        ];
 
-        return(
+        return (
             <CardPageLayout title={this.props.translate.simple_book}>
-                {!!this.props.data.bookParticipants?
-                    this.props.data.bookParticipants.list.length > 0?
+                {this.props.data.bookParticipants.list.length > 0 ?
                         <EnhancedTable
                             ref={table => (this.table = table)}
                             translate={translate}
                             defaultLimit={10}
                             menuButtons={
-                                <div style={{marginRight: '0.9em'}}>
+                                <div style={{ marginRight: '0.9em' }}>
                                     <BasicButton
                                         text={this.props.translate.add_partner}
                                         onClick={this.addPartner}
                                         color={'white'}
-                                        buttonStyle={{border: `2px solid ${primary}`}}
-                                        textStyle={{color: primary, textTransform: 'none', fontWeight: '700'}}
+                                        buttonStyle={{ border: `2px solid ${primary}` }}
+                                        textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
                                     />
                                 </div>
                             }
@@ -96,22 +95,17 @@ class PartnersBookPage extends React.Component {
                             {this.props.data.bookParticipants.list.map(
                                 (participant, index) => {
                                     return (
-                                        <React.Fragment
+                                        <HoverableRow
                                             key={`participant${participant.id}`}
-                                        >
-                                            <HoverableRow
-                                                participant={participant}
-                                                companyId={this.props.match.params.company}
-                                            />
-                                        </React.Fragment>
+                                            participant={participant}
+                                            companyId={this.props.match.params.company}
+                                        />
                                     );
                                 }
                             )}
                         </EnhancedTable>
-                    :
+                        :
                         translate.no_results
-                :
-                    <LoadingSection />
                 }
             </CardPageLayout>
         )
@@ -160,7 +154,7 @@ class HoverableRow extends React.PureComponent {
                     {`${participant.position}`}
                 </TableCell>
                 <TableCell>
-                    <div style={{width: '3em'}}>
+                    <div style={{ width: '3em' }}>
                         {this.state.showActions &&
                             <CloseIcon />
                         }

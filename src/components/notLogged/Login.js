@@ -136,7 +136,7 @@ class Login extends React.PureComponent {
 						>
 							<h6
 								style={{
-									fontWeigth: "300",
+									fontWeight: "300",
 									marginBottom: "1.2em",
 									fontSize: "1.7em",
 									color: 'white'
@@ -147,7 +147,7 @@ class Login extends React.PureComponent {
 							{windowSize !== "xs" && (
 								<span
 									style={{
-										fontSize: "0.95",
+										fontSize: "0.95em",
 										marginBottom: "1em",
 										marginTop: "0.7em",
 										textAlign: 'center',

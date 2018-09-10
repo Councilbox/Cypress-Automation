@@ -24,6 +24,7 @@ const CouncilsHistory = ({ councils, translate, deleteCouncil, openDeleteModal, 
             {councils.map(council => {
                 return (
                     <HoverableRow
+                        key={`council_${council.id}`}
                         translate={translate}
                         council={council}
                         company={company}

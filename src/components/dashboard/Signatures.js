@@ -98,6 +98,7 @@ class Signatures extends React.Component {
 											{error.graphQLErrors.map(error => {
 												return (
 													<ErrorWrapper
+														key={`error_${index}`}
 														error={error}
 														translate={translate}
 													/>

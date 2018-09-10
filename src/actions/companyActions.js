@@ -95,7 +95,7 @@ export const getCouncils = info => {
 /*export const sendNewCompany = (company) => {
  return (dispatch) => {
  return CouncilboxApi.createCompany(company).then(response => {
- if(response){
+ if(!!response){
  bHistory.push('/welcome');
  }
  }).catch(error => {

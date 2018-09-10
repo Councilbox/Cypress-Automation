@@ -27,7 +27,7 @@ class CouncilCertificates extends React.PureComponent {
             }
         });
 
-        if(response){
+        if(!!response){
             if(!response.errors){
                 this.setState({
                     downloading: false
