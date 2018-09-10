@@ -27,19 +27,19 @@ class CouncilCertificates extends React.PureComponent {
             }
         });
 
+        this.setState({
+            downloading: false
+        })
+
         if(!!response){
             if(!response.errors){
-                this.setState({
-                    downloading: false
-                })
-            }
+                downloadFile(
+                    response.data.downloadCertificate,
+                    "application/pdf",
+                    `${certificate.title}`
+                );
+            } 
         }
-
-        downloadFile(
-            response.data.downloadCertificate,
-            "application/pdf",
-            `${certificate.title}`
-        );
 
     }
 
