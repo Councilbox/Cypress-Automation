@@ -62,7 +62,7 @@ class AgendaMenu extends React.Component {
         }
     }
     agendaStateIcon = () => {
-        const { translate, agenda } = this.props;
+        const { agenda } = this.props;
         let icon = 'fa fa-lock';
         if(CBX.agendaPointNotOpened(agenda)) icon ="fa fa-lock";
         if(CBX.agendaPointOpened(agenda)) icon = "fa fa-unlock-alt";
@@ -72,7 +72,7 @@ class AgendaMenu extends React.Component {
     }
 
     agendaVotingIcon = () => {
-        const { translate, agenda } = this.props;
+        const { agenda } = this.props;
         let icon = 'fa fa-lock';
         if(CBX.agendaVotingsOpened(agenda)) icon ="fa fa-unlock-alt";
         return <i className={icon} aria-hidden="true" style={{marginRight: '0.6em'}}></i>;

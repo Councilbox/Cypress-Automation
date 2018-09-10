@@ -4,7 +4,6 @@ import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { councilIsLive } from "../../../utils/CBX";
 import { checkIsCompatible, COMPATIBLE } from '../../../utils/webRTC';
-import Header from "../Header";
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout } from '../../../displayComponents';

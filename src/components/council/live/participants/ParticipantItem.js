@@ -1,15 +1,11 @@
 import React from "react";
 import { MenuItem, Typography, Tooltip } from "material-ui";
 import { GridItem, Grid } from "../../../../displayComponents";
-import ParticipantStateIcon from "./ParticipantStateIcon";
-import AttendIntentionIcon from "./AttendIntentionIcon";
 import FontAwesome from "react-fontawesome";
 import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
-
-
 
 class ParticipantItem extends React.PureComponent {
 

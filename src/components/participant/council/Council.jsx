@@ -9,7 +9,6 @@ import Agendas from '../agendas/Agendas';
 import Header from "../Header";
 import { darkGrey } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
-import { API_URL } from '../../../config';
 import { councilHasVideo } from '../../../utils/CBX';
 import VideoContainer from '../VideoContainer';
 
@@ -68,7 +67,7 @@ class ParticipantCouncil extends React.Component {
     }
 
 	render() {
-		const { participant, council, data } = this.props;
+		const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
 
 		return (

@@ -560,7 +560,6 @@ class ImportCensusButton extends React.Component {
 											fontSize: "0.9em",
 											textTransform: "none"
 										}}
-										loading={this.state.loading}
 										icon={
 											<ButtonIcon type="publish" color="white" />
 										}
