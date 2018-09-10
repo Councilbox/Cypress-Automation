@@ -50,7 +50,7 @@ class ParticipantCouncil extends React.Component {
 
     _renderAgendaSection = () => {
         return (
-            <Grid item xs={12} sm={this.state.hasVideo? 4 : 6}>
+            <Grid item xs={12} sm={12} md={this.state.hasVideo? 4 : 6}>
                 <Agendas
                     participant={this.props.participant}
                     council={this.props.council}
@@ -92,7 +92,7 @@ class ParticipantCouncil extends React.Component {
                         }
 
                         {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 
-                            <Grid item xs={12} sm={8}>
+                            <Grid item xs={12} sm={12} md={8}>
                                 <div style={{width: '100%', height: '100%', position: 'relative'}}>
                                     <RequestWordMenu
                                         translate={this.props.translate}
@@ -138,7 +138,7 @@ export default compose(
     graphql(participantPing, {
         name: 'ping',
         options: props => ({
-            pollInterval: 7000
+            pollInterval: 5000
         })
     }),
     graphql(changeParticipantOnlineState, {

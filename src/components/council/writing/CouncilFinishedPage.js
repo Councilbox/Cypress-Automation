@@ -115,6 +115,8 @@ class CouncilFinishedPage extends React.Component {
 					translate={translate}
 					council={council}
 					refetch={this.props.data.refetch}
+					socialCapital={this.props.data.councilSocialCapital}
+					totalVotes={this.props.data.councilTotalVotes}
 				/>
 			);
 		}
@@ -126,6 +128,8 @@ class CouncilFinishedPage extends React.Component {
 					refetch={this.props.data.refetch}
 					translate={translate}
 					council={council}
+					socialCapital={this.props.data.councilSocialCapital}
+					totalVotes={this.props.data.councilTotalVotes}
 				/>
 			)
 		}
@@ -138,6 +142,8 @@ class CouncilFinishedPage extends React.Component {
 					refetch={this.props.data.refetch}
 					translate={translate}
 					council={council}
+					socialCapital={this.props.data.councilSocialCapital}
+					totalVotes={this.props.data.councilTotalVotes}
 				/>
 			)
 		}
@@ -147,6 +153,8 @@ class CouncilFinishedPage extends React.Component {
 				<CanceledCouncil
 					council={council}
 					translate={translate}
+					socialCapital={this.props.data.councilSocialCapital}
+					totalVotes={this.props.data.councilTotalVotes}
 				/>
 			)
 		}

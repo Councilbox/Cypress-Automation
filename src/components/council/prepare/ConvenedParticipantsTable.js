@@ -410,6 +410,8 @@ class HoverableRow extends React.Component {
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 
+		console.log(this.props);
+
 		return (
 			<TableRow
 				hover

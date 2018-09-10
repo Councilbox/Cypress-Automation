@@ -6,6 +6,7 @@ import Loadable from 'react-loadable';
 import "./styles/index.css";
 import LoadingMainApp from "./displayComponents/LoadingMainApp";
 import "react-toastify/dist/ReactToastify.css";
+import { unregister } from './registerServiceWorker';
 
 const ThemeProviderLoad = Loadable({
 	loader: () => import('./displayComponents/ThemeProvider'),
@@ -20,5 +21,6 @@ ReactDOM.render(
 	</ThemeProviderLoad>,
 	document.getElementById("root")
 );
-registerServiceWorker();
+unregister();
+//registerServiceWorker();
 

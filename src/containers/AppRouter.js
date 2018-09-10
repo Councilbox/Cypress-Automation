@@ -152,6 +152,7 @@ class AppRouter extends React.Component {
 
 		return this.props.main.isLogged && this.props.user.type === 'company'? (
 			<div
+				id={"mainContainer"}
 				style={{
 					width: "100%",
 					height: "100vh",

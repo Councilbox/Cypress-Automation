@@ -47,6 +47,7 @@ class ParticipantContainer extends React.PureComponent {
 
 		return (
 			<div
+				id={"mainContainer"}
 				style={{
 					display: "flex",
 					flex: 1,

@@ -196,7 +196,7 @@ class ActAttendantsTable extends React.Component {
                                                                 <DownloadCBXDataButton
                                                                     translate={translate}
                                                                     participantId={
-                                                                        participant.id
+                                                                        participant.participantId
                                                                     }
                                                                 />
                                                             </TableCell>

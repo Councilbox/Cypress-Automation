@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 const withWindowSize = WrappedComponent => {
 	return class WithWindowSize extends Component {
+		state = {
+			size: "lg"
+		};
+
 		updateSize = () => {
 			if (window.innerWidth < 960) {
 				this.setState({ size: "xs" });
@@ -12,14 +16,13 @@ const withWindowSize = WrappedComponent => {
 			} else {
 				this.setState({ size: "xl" });
 			}
+			const element = document.getElementById('mainContainer')
+			
+			if(element){
+				console.log('update height');
+				element.style.height = window.innerHeight;
+			}
 		};
-
-		constructor(props) {
-			super(props);
-			this.state = {
-				size: "lg"
-			};
-		}
 
 		componentDidMount() {
 			this.updateSize();

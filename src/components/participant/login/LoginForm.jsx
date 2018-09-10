@@ -150,14 +150,19 @@ class LoginForm extends React.Component {
                         enterDelay={300}
                         leaveDelay={300}
                     >
-                        <img
-                            src={company.logo}
-                            alt="company_logo"
-                            style={{
-                                maxWidth: '80px',
-                                maxHeight: '80px'
-                            }}
-                        />
+                        {!!company.logo && false ?
+                            <img
+                                src={company.logo}
+                                alt="company_logo"
+                                style={{
+                                    maxWidth: '80px',
+                                    maxHeight: '80px'
+                                }}
+                            />
+                        :
+                            <i className="fa fa-building-o" style={{fontSize: '75px', color: 'grey', marginBottom: '10px'}} />
+                        }
+                        
                     </Tooltip>
                     <h3 style={{ color: secondaryColor }}>{council.name}</h3>
                     <span>

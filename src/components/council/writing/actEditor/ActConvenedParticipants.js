@@ -3,7 +3,7 @@ import ConvenedParticipantsTable from '../../prepare/ConvenedParticipantsTable';
 import { hasParticipations } from '../../../../utils/CBX';
 import { Scrollbar } from '../../../../displayComponents';
 
-const ActConvenedParticipants = ({ council, translate }) => {
+const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital }) => {
 
     return(
         <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
@@ -14,6 +14,8 @@ const ActConvenedParticipants = ({ council, translate }) => {
                         participations={hasParticipations(
                             council
                         )}
+                        totalVotes={totalVotes}
+                        socialCapital={socialCapital}
                         hideNotifications={true}
                         hideAddParticipant={true}
                         translate={translate}

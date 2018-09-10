@@ -163,7 +163,7 @@ class CompanySettingsPage extends React.Component {
 				}, () => bHistory.push('/'));
 				toast(
 					<LiveToast
-						message={'Cambios guardados correctamente'}
+						message={this.props.translate.changes_saved}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,				

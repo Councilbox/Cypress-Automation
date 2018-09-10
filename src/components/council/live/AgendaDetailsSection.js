@@ -106,14 +106,14 @@ class AgendaDetailsSection extends React.Component {
 												council={council}
 												agenda={agenda}
 												translate={translate}
-												refetch={this.props.refetch}
+												refetch={this.props.refetchCouncil}
 											/>
 										:
 											<ToggleAgendaButton
 												agenda={agenda}
 												nextPoint={this.props.nextPoint}
 												translate={translate}
-												refetch={refetch}
+												refetch={this.props.data.refetch}
 												active={agenda.orderIndex === this.state.openIndex}
 											/>
 										}
@@ -142,7 +142,7 @@ class AgendaDetailsSection extends React.Component {
 												council={council}
 												translate={translate}
 												participants={participants}
-												refetch={refetch}
+												refetch={this.props.refetchCouncil}
 											/>
 										</div>
 									) : (
@@ -160,7 +160,7 @@ class AgendaDetailsSection extends React.Component {
 									<OpenRoomButton
 										translate={translate}
 										council={council}
-										refetch={refetch}
+										refetch={this.props.refetchCouncil}
 									/>
 								)
 							}

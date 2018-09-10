@@ -9,40 +9,69 @@ import DetectRTC from 'detectrtc';
 class RecordingButton extends React.Component {
 
     state = {
-        loading: false
+        loading: false,
+        disabled: false
     }
+
+    timeout = null;
 
     componentDidMount(){
         DetectRTC.load();
     }
 
-    toggleRecordings = async () => {
-        this.setState({
-            loading: true
-        });
+    componentDidUpdate(prevProps){
+        if(prevProps.data.loading && !this.props.data.loading){
+            if(this.props.council.fullVideoRecord === 1){
+                this.startFullRecording();
+            }
+        }
+    }
 
-        const variables = {
-            councilId: this.props.council.id
+    startFullRecording = async () => {
+        const { sessionStatus } = this.props.data;
+        if(!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)){
+            return;
         }
 
-        const response = this.props.data.sessionStatus.record?
-            await this.props.stopRecording({variables})
-        :
-            await this.props.startRecording({variables});
+        if(!sessionStatus.record){
+            setTimeout(async () => {
+                await this.toggleRecordings();
+                this.setState({
+                    disabled: true
+                });
+            }, 5000);
+        }
+    }
 
-        console.log(response);
-
-        if(response){
-            await this.props.data.refetch();
+    toggleRecordings = async () => {
+        if(!this.state.disabled){
             this.setState({
-                loading: false
+                loading: true
             });
+    
+            const variables = {
+                councilId: this.props.council.id
+            }
+    
+            const response = this.props.data.sessionStatus.record?
+                await this.props.stopRecording({variables})
+            :
+                await this.props.startRecording({variables});
+    
+            console.log(response);
+    
+            if(response){
+                await this.props.data.refetch();
+                this.setState({
+                    loading: false
+                });
+            }
         }
     }
 
     render() {
-        console.log(this.props.config);
         const { sessionStatus } = this.props.data;
+        console.log(sessionStatus);
         if(!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)){
             return <span />
         }
@@ -54,16 +83,16 @@ class RecordingButton extends React.Component {
         const { record } = sessionStatus;
 
         return (
-            <Tooltip title={record? 'Parar grabación' : 'Iniciar grabación'} /*TRADUCCION*/>
+            <Tooltip title={this.props.council.fullVideoRecord == 1? 'Grabación íntegra' : record? 'Parar grabación' : 'Iniciar grabación'} /*TRADUCCION*/>
                 <div
                     style={{
                         position: 'absolute',
                         top: '1.5em',
                         left: '2em',
                         fontSize: '1.4em',
-                        cursor: 'pointer'
+                        cursor: this.props.council.fullVideoRecord == 1? 'auto' : 'pointer'
                     }}
-                    onClick={this.toggleRecordings}
+                    {...(this.props.council.fullVideoRecord == 1? {onClick: this.toggleRecordings}: {})}
                 >
                     {this.state.loading?
                         <CircularProgress size={20} thickness={7} color={'secondary'} />
