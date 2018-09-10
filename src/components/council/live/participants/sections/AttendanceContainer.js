@@ -14,7 +14,6 @@ import {
 	PARTICIPANT_STATES
 } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
-import { getSecondary } from "../../../../../styles/colors";
 import StateIcon from "../StateIcon";
 
 class AttendanceContainer extends React.Component {
@@ -123,7 +122,6 @@ class AttendanceContainer extends React.Component {
 	_renderHeader = () => {
 		let { attendanceRecount } = this.props.data;
 		let { translate } = this.props;
-		const secondary = getSecondary();
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 		return (

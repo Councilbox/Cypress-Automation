@@ -4,10 +4,9 @@ import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import { TableRow, TableCell, MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import NewParticipantModal from './NewParticipantModal';
 import ParticipantEditorModal from './ParticipantEditorModal';
-import ChangeCensusMenu from '../../../council/editor/census/ChangeCensusMenu';
 
 class SignatureParticipants extends React.Component {
 
@@ -56,7 +55,6 @@ class SignatureParticipants extends React.Component {
         const { translate } = this.props;
         const { signatureParticipants = { list: [], total: 0}, loading, censuses = { list: [], total: 0}} = this.props.data;
         const primary = getPrimary();
-        const secondary = getSecondary();
 
         return(
             <React.Fragment>

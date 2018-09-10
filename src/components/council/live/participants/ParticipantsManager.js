@@ -7,7 +7,7 @@ import {
 	BasicButton,
 	ButtonIcon,
 } from "../../../../displayComponents";
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getSecondary } from '../../../../styles/colors';
 import { Paper, Tooltip } from "material-ui";
 import LiveParticipantEditor from "./LiveParticipantEditor";
 import AddGuestModal from "./AddGuestModal";
@@ -106,7 +106,6 @@ class ParticipantsManager extends React.Component {
 
 	render() {
 		const { translate, council } = this.props;
-		const primary = getPrimary();
 		const secondary = getSecondary();
 
 		if (!!this.state.editParticipant) {

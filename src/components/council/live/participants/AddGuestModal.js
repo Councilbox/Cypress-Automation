@@ -129,7 +129,6 @@ class AddGuestModal extends React.Component {
 
 	emailKeyUp = (event, type) => {
 		clearTimeout(this.timeout);
-		const value = event.target.value;
 		this.timeout = setTimeout(() => {
 			this.checkRequiredFields(true);
 			clearTimeout(this.timeout);

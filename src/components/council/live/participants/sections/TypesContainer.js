@@ -14,7 +14,6 @@ import {
 	PARTICIPANT_TYPE
 } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
-import { getSecondary } from "../../../../../styles/colors";
 import TypeIcon from "../TypeIcon";
 
 class TypesContainer extends React.Component {
@@ -122,7 +121,6 @@ class TypesContainer extends React.Component {
 	_renderHeader = () => {
 		let { participantTypeRecount } = this.props.data;
 		let { translate } = this.props;
-		const secondary = getSecondary();
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 		return (

@@ -6,7 +6,7 @@ import {
 	Icon
 } from "../../../displayComponents";
 import AttachmentList from "../../attachments/AttachmentList";
-import { darkGrey, getPrimary } from "../../../styles/colors";
+import { darkGrey } from "../../../styles/colors";
 import { addAgendaAttachment, removeAgendaAttachment } from "../../../queries";
 import { MAX_FILE_SIZE } from "../../../constants";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";

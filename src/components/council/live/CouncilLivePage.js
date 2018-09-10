@@ -9,7 +9,7 @@ import AgendaManager from "./AgendaManager";
 import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
-import { showVideo, councilStarted } from "../../../utils/CBX";
+import { showVideo } from "../../../utils/CBX";
 import { Tooltip, Badge } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';

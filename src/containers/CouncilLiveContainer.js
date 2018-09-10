@@ -5,9 +5,7 @@ import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
 import {
 	BrowserView,
-	MobileView,
-	isBrowser,
-	isMobile
+	MobileView
 } from "react-device-detect";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';

@@ -152,8 +152,7 @@ class ConveneContainer extends React.Component {
 
 	_renderHeader = () => {
 		let { conveneSendRecount } = this.props.data;
-		let { translate, mode } = this.props;
-		const secondary = getSecondary();
+		let { translate } = this.props;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 		return (

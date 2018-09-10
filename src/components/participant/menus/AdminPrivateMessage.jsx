@@ -98,7 +98,6 @@ class AdminPrivateMessage extends React.Component {
 
     render(){
         const secondary = getSecondary();
-        const primary = getPrimary();
 
         return(
             <Popover

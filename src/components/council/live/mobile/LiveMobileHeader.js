@@ -15,7 +15,6 @@ class LiveMobileHeader extends React.Component {
 	render() {
 		const {
 			primaryColor,
-			companyName,
 			councilName,
 			logo,
 			translate
