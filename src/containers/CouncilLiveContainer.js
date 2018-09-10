@@ -15,11 +15,9 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 		return <Redirect to="/" />;
 	}
 
-	if (!companies.list.length > 0) {
+	if (!(companies.list.length > 0)) {
 		return <LoadingMainApp />;
 	}
-
-
 
 	return (
 		<div

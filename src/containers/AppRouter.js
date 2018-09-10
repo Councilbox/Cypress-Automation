@@ -136,7 +136,7 @@ class AppRouter extends React.Component {
 			)
 		};
 
-		if (this.props.main.isLogged && !this.props.companies.list.length > 0 && !this.props.companies.selected) {
+		if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
 			return <LoadingMainApp />
 		}
 
