@@ -2,19 +2,18 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
+import { bindActionCreators } from 'redux';
+import * as mainActions from '../actions/mainActions';
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
 
 class ParticipantTokenContainer extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: true,
-			error: false,
-			participant: null
-		};
-	}
+	state = {
+		loading: true,
+		error: false,
+		participant: null
+	};
 
 	async componentDidMount() {
         this.setState({ loading: true });
@@ -29,7 +28,8 @@ class ParticipantTokenContainer extends React.Component {
                     variables: {},
                     fetchPolicy: "network-only"
                 });
-                const participant = responseQueryMe.data.participantMe;
+				const participant = responseQueryMe.data.participantMe;
+				this.props.actions.participantLoginSuccess(participant);				
 
                 this.setState({
                     token: token,
@@ -77,6 +77,12 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(mainActions, dispatch)
+    };
+}
+
 const participantToken = gql`
 	mutation participantToken($token: String!) {
 		participantToken(token: $token)
@@ -100,4 +106,4 @@ export default graphql(participantToken, {
 		},
 		errorPolicy: "all"
 	})
-})(withApollo(connect(mapStateToProps)(ParticipantTokenContainer)));
+})(withApollo(connect(mapStateToProps, mapDispatchToProps)(ParticipantTokenContainer)));
