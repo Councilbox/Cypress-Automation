@@ -11,7 +11,7 @@ import { Typography } from 'material-ui';
 class CommentMenu extends React.Component {
 
     state = {
-        comment: this.props.agenda.voting.comment,
+        vote: this.props.agenda.votings.find(voting => voting.participantId === this.props.participant.id),
         open: false,
         success: false,
         loading: false
@@ -70,7 +70,13 @@ class CommentMenu extends React.Component {
     render(){
         const secondary = getSecondary();
         const primary = getPrimary();
-        const { comment } = this.props.agenda.voting;
+        const { vote } = this.state;
+
+        if(!vote){
+            return (<span />);   
+        }
+
+        const comment = vote.comment;
 
         return(
             <React.Fragment>
@@ -122,7 +128,10 @@ class CommentMenu extends React.Component {
                                 value={this.state.comment || ''}
                                 onChange={value =>
                                     this.setState({
-                                        comment: value
+                                        vote: {
+                                            ...this.state.vote,
+                                            comment: value
+                                        }
                                     })
                                 }
                             />

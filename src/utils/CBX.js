@@ -411,7 +411,7 @@ export const printPrettyFilesize = filesize => {
 };
 
 export const isPresentVote = vote => {
-	return vote.presentVote === 1;
+	return vote.presentVote !== 0;
 };
 
 export const addDecimals = (num, fixed) => {

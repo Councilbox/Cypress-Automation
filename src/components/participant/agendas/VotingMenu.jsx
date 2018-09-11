@@ -41,27 +41,44 @@ class VotingMenu extends React.Component {
         this.setState({
             loading: vote
         });
-        const response = await this.props.updateAgendaVoting({
+
+        const updateAgendaVoting = this.props.updateAgendaVoting;
+
+        const response = await Promise.all(this.props.agenda.votings.map(voting => 
+            updateAgendaVoting({
+                variables: {
+                    agendaVoting: {
+                        id: voting.id,
+                        vote: vote
+                    }
+                }
+            })
+        ));
+
+        console.log(response)
+
+/*         const response = await this.props.updateAgendaVoting({
             variables: {
                 agendaVoting: {
                     id: this.props.agenda.voting.id,
                     vote: vote
                 }
             }
-        });
+        }); */
 
-        if(response.data.updateAgendaVoting){
+/*         if(response){
             if(response.data.updateAgendaVoting.success){
                 await this.props.refetch();
                 this.setState({
                     loading: false
                 });
             }
-        }
+        } */
     }
 
     render(){
         const { agenda } = this.props;
+        const primary = getPrimary();
 
         return(
             <Grid
@@ -78,8 +95,8 @@ class VotingMenu extends React.Component {
                     <VotingButton
                         text={this.props.translate.in_favor_btn}
                         loading={this.state.loading === 1}
-                        selected={agenda.voting.vote === 1}
-                        icon={<i className="fa fa-check" aria-hidden="true" style={{marginLeft: '0.2em'}}></i>}
+                        selected={agenda.votings[0].vote === 1}
+                        icon={<i className="fa fa-check" aria-hidden="true" style={{marginLeft: '0.2em', color: agenda.votings[0].vote === 1? 'white': primary}}></i>}
                         onClick={() => {this.updateAgendaVoting(1)}}
                     />
                 </GridItem>
@@ -87,8 +104,8 @@ class VotingMenu extends React.Component {
                     <VotingButton
                         text={this.props.translate.against_btn}
                         loading={this.state.loading === 0}
-                        selected={agenda.voting.vote === 0}
-                        icon={<i className="fa fa-times" aria-hidden="true" style={{marginLeft: '0.2em'}}></i>}
+                        selected={agenda.votings[0].vote === 0}
+                        icon={<i className="fa fa-times" aria-hidden="true" style={{marginLeft: '0.2em', color: agenda.votings[0].vote === 0? 'white': primary}}></i>}
                         onClick={() => {this.updateAgendaVoting(0)}}
                     />
                 </GridItem>
@@ -96,8 +113,8 @@ class VotingMenu extends React.Component {
                     <VotingButton
                         text={this.props.translate.abstention_btn}
                         loading={this.state.loading === 2}
-                        icon={<i className="fa fa-circle-o" aria-hidden="true" style={{marginLeft: '0.2em'}}></i>}
-                        selected={agenda.voting.vote === 2}
+                        icon={<i className="fa fa-circle-o" aria-hidden="true" style={{marginLeft: '0.2em', color: agenda.votings[0].vote === 2? 'white': primary}}></i>}
+                        selected={agenda.votings[0].vote === 2}
                         onClick={() => {this.updateAgendaVoting(2)}}
                     />
                 </GridItem>

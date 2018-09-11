@@ -367,64 +367,72 @@ class StepOptions extends React.Component {
 												/>
 											</div>
 											{council.approveActDraft === 1 && (
-												<div style={{display: 'flex', flexDirection: 'row', marginLeft: '1.1em'}}>
-													<div>
-														<SelectInput
-															floatingLabelText={
-																translate.majority_label
-															}
-															value={council.actPointMajorityType}
-															onChange={event => {
-																this.updateCouncilData({
-																	actPointMajorityType:
-																		event.target.value
-																});
-															}}
-														>
-															{this.props.data.majorityTypes.map(
-																majority => {
-																	return (
-																		<MenuItem
-																			value={majority.value}
-																			key={`majority${
-																				majority.value
-																			}`}
-																		>
-																			{
-																				translate[
-																					majority.label
-																				]
-																			}
-																		</MenuItem>
-																	);
+												<div>
+													<div style={{display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center'}}>
+														<div>
+															<SelectInput
+																floatingLabelText={
+																	translate.majority_label
 																}
+																value={council.actPointMajorityType}
+																onChange={event => {
+																	this.updateCouncilData({
+																		actPointMajorityType:
+																			event.target.value
+																	});
+																}}
+															>
+																{this.props.data.majorityTypes.map(
+																	majority => {
+																		return (
+																			<MenuItem
+																				value={majority.value}
+																				key={`majority${
+																					majority.value
+																				}`}
+																			>
+																				{
+																					translate[
+																						majority.label
+																					]
+																				}
+																			</MenuItem>
+																		);
+																	}
+																)}
+															</SelectInput>
+														</div>
+														<div>
+															{CBX.majorityNeedsInput(
+																council.actPointMajorityType
+															) && (
+																<MajorityInput
+																	type={council.actPointMajorityType}
+																	style={{ marginLeft: "1em" }}
+																	value={council.actPointMajority}
+																	divider={
+																		council.actPointMajorityDivider
+																	}
+																	onChange={value =>
+																		this.updateCouncilData({
+																			actPointMajority: +value
+																		})
+																	}
+																	onChangeDivider={value =>
+																		this.updateCouncilData({
+																			actPointMajorityDivider: +value
+																		})
+																	}
+																/>
 															)}
-														</SelectInput>
+														</div>
 													</div>
-													<div>
-														{CBX.majorityNeedsInput(
-															council.actPointMajorityType
-														) && (
-															<MajorityInput
-																type={council.actPointMajorityType}
-																style={{ marginLeft: "1em" }}
-																value={council.actPointMajority}
-																divider={
-																	council.actPointMajorityDivider
-																}
-																onChange={value =>
-																	this.updateCouncilData({
-																		actPointMajority: +value
-																	})
-																}
-																onChangeDivider={value =>
-																	this.updateCouncilData({
-																		actPointMajorityDivider: +value
-																	})
-																}
-															/>
-														)}
-													</div>
+													{
+														(council.actPointMajority <= 0 || council.actPointMajority > council.actPointMajorityDivider) && 
+															<span style={{fontSize: '14px', color: 'red'}}>
+																El valor de la fracción no es válido
+															</span>	
+													}
 												</div>
 											)}
 										</div>

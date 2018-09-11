@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardPageLayout, TabsScreen, Scrollbar } from "../../../../displayComponents";
+import { CardPageLayout, TabsScreen, Scrollbar, BasicButton } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
 import { graphql } from 'react-apollo';
@@ -48,12 +48,28 @@ class ActEditorPage extends React.Component {
                     return (
                         <TabContainer>
                             {this.props.confirmed?
-                                <div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
-                                    <Scrollbar>
-                                        <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
-                                            <ActHTML council={council} />
-                                        </div>
-                                    </Scrollbar>
+                                <div style={{ height: '100%'}}>
+                                    <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
+                                        <Scrollbar>
+                                            <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
+                                                <ActHTML council={council} />
+                                            </div>
+                                        </Scrollbar>
+                                    </div>
+                                    {/*<div
+                                        style={{
+                                            height: '3.5em',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            borderTop: '1px solid gainsboro',
+                                            borderBottom: '1px solid gainsboro',
+                                            justifyContent: 'flex-end'
+                                        }}
+                                    >
+                                        <BasicButton
+                                            text={translate.export_act_to_pdf}
+                                        />
+                                    </div>*/}
                                 </div>
                             :
                                 <div style={{height: '100%'}}>

@@ -37,7 +37,7 @@ const wsLink = new WebSocketLink({
 		reconnect: true,
 		timeout: 3000,
 		connectionParams: {
-			token: sessionStorage.getItem("token")? sessionStorage.getItem("token") : sessionStorage.getItem("participantToken"),
+			token: sessionStorage.getItem("token"),
 		},
 	}
 });

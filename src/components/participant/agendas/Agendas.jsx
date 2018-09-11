@@ -121,7 +121,7 @@ class Agendas extends React.Component {
             agendas = this.props.data.agendas.map(agenda => {
                 return {
                     ...agenda,
-                    voting: this.props.data.participantVotings.find(voting => voting.agendaId === agenda.id)
+                    votings: this.props.data.participantVotings.filter(voting => voting.agendaId === agenda.id)
                 }
             });
         }
@@ -258,6 +258,8 @@ const agendas = gql`
         participantVotings(participantId: $participantId){
             id
             comment
+            participantId
+            delegateId
             agendaId
             vote
         }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, TextInput } from "./index";
+import { Grid, GridItem, TextInput } from "./index";
 import * as CBX from "../utils/CBX";
 
 const MajorityInput = ({
@@ -37,7 +37,9 @@ const MajorityInput = ({
 							type={"number"}
 							value={value}
 							min="1"
+
 							errorText={majorityError}
+							adornment={"/"}
 							onChange={event =>
 								onChange(event.nativeEvent.target.value)
 							}
@@ -49,12 +51,12 @@ const MajorityInput = ({
 							value={divider}
 							min="1"
 							errorText={dividerError}
-							adornment={"/"}
 							onChange={event =>
 								onChangeDivider(event.nativeEvent.target.value)
 							}
 						/>
 					</div>
+					<br />
 				</Grid>
 			</div>
 		);
