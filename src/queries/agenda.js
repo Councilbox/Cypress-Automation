@@ -137,7 +137,7 @@ export const agendaVotings = gql`
 `;
 
 export const updateAgendaVoting = gql`
-	mutation updateAgendaVoting($agendaVoting: AgendaVotingInput) {
+	mutation updateAgendaVoting($agendaVoting: AgendaVotingInput!) {
 		updateAgendaVoting(agendaVoting: $agendaVoting) {
 			success
 			message
