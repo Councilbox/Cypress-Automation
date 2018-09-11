@@ -21,6 +21,7 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 
 	return (
 		<div
+			id="mainContainer"
 			style={{
 				width: '100vw',
 				height: '100vh',

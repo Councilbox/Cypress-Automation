@@ -183,7 +183,14 @@ class StepCensus extends React.Component {
 	}
 
 	checkParticipants = () => {
-		return this.props.participants.councilParticipants.list.length <= 0;
+		if(this.props.participants){
+			if(this.props.participants.councilParticipants){
+				if(this.props.participants.councilParticipants.list){
+					return this.props.participants.councilParticipants.list.length <= 0;
+				}
+			}
+		}
+		return true;
 	}
 
 	render() {

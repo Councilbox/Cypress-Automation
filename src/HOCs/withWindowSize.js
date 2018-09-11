@@ -19,7 +19,6 @@ const withWindowSize = WrappedComponent => {
 			const element = document.getElementById('mainContainer')
 			
 			if(element){
-				console.log('update height');
 				element.style.height = window.innerHeight;
 			}
 		};

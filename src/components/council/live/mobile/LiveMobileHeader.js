@@ -25,11 +25,10 @@ class LiveMobileHeader extends React.Component {
 			<React.Fragment>
 				<div
 					style={{
-						background:
-							primaryColor ||
-							`linear-gradient(to right, ${getSecondary()}, ${primary})`,
-						color: "white",
+						background: 'white',
+						color: primary,
 						display: "flex",
+						borderBottom: '1px solid gainsboro',
 						width: "100%",
 						userSelect: "none",
 						position: "absolute",
@@ -39,7 +38,7 @@ class LiveMobileHeader extends React.Component {
 						justifyContent: "space-between"
 					}}
 				>
-					<div style={{ width: "20%" }}>
+					<div style={{ width: "15%" }}>
 						<img
 							src={logo}
 							style={{
@@ -53,11 +52,11 @@ class LiveMobileHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "50%",
-							display: "flex",
-							justifyContent: "center",
-							marginRight: "10%",
-							textOverflow: "ellipsis"
+							width: "40%",
+							fontWeight: '700',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
 						}}
 					>
 						<span style={{ alignSelf: "center" }}>
@@ -66,18 +65,18 @@ class LiveMobileHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "10%",
+							width: "15%",
 							display: "flex",
 							flexDirection: "row",
 							justifyContent: "flex-end",
-							paddingRight: "2em"
+							paddingRight: "1em"
 						}}
 					>
 						<Icon
 							className="material-icons"
 							style={{
 								fontSize: "1.5em",
-								color: "white",
+								color: primary,
 								cursor: "pointer"
 							}}
 							onClick={() =>

@@ -100,9 +100,7 @@ class ConvenedParticipantsTable extends React.Component {
 			}
 		}
 
-		if(!hideNotifications){
-			headers.push({text: ''});
-		}
+		headers.push({text: ''});
 
 		return (
 			<div style={{ width: "100%", height: '100%' }}>
@@ -409,8 +407,6 @@ class HoverableRow extends React.Component {
 
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
-
-		console.log(this.props);
 
 		return (
 			<TableRow
