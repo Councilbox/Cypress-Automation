@@ -15,8 +15,8 @@ import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
-const minVideoWidth = 35;
-const minVideoHeight = "45vh";
+const minVideoWidth = 33;
+const minVideoHeight = "42vh";
 
 class CouncilLivePage extends React.Component {
 	state = {
