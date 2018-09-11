@@ -19,8 +19,10 @@ export default class OverflowText extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.children !== prevState.children)
+		if (nextProps.children !== prevState.children){
 			return nextProps.children;
+		}
+		return null;
 	}
 
 	componentDidUpdate(prevProps, prevState) {

@@ -60,9 +60,7 @@ export const checkIsCompatible = detectRTC => {
 	if (isWebRTCCompatibleBrowser) {
 		isCompatible = COMPATIBLE;
 		return isCompatible;
-	}
-
-	if (!isWebRTCCompatibleBrowser) {
+	} else {
 		isCompatible = NOT_COMPATIBLE_BROWSER;
 		return isCompatible;
 	}
