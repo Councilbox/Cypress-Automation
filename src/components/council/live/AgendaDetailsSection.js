@@ -80,8 +80,7 @@ class AgendaDetailsSection extends React.Component {
 					}}
 				>
 					<GridItem xs={12} md={9} style={{ display: 'flex', minHeight: '6em', flexDirection: 'column', justifyContent: 'space-between' }}>
-						<span style={{ fontWeight: '700' }}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</span>
-						<br />
+						<div style={{ fontWeight: '700' }}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</div>
 						<Grid>
 							<GridItem xs={12} md={12} lg={3}>
 								<BasicButton
