@@ -61,6 +61,7 @@ class PlaceModal extends React.Component {
 				}
 			});
 		}
+		return null;
 	}
 
 
