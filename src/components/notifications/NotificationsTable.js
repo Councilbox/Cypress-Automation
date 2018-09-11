@@ -2,53 +2,43 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableRow, TableHead, Tooltip } from 'material-ui';
 import * as CBX from '../../utils/CBX';
 import { moment } from '../../containers/App';
+import EmailIcon from '../council/live/participants/EmailIcon';
+EmailIcon
 
 const NotificationsTable = ({ notifications, translate }) => (
-	<Table>
+	<Table style={{maxWidth: '100%'}}>
 		<TableHead>
 			<TableRow>
-				<TableCell>{translate.current_status}</TableCell>
-				<TableCell>{translate.send_type}</TableCell>
-				<TableCell>{translate.send_date}</TableCell>
-				<TableCell>{translate.last_date_updated}</TableCell>
+				<TableCell style={{paddingRight:'0.1em'}}>{translate.current_status}</TableCell>
+				<TableCell style={{paddingRight:'0.1em'}}>{translate.send_type}</TableCell>
+				<TableCell style={{paddingRight:'0.1em'}}>{translate.email}</TableCell>
+				<TableCell style={{paddingRight:'0.1em'}}>{translate.send_date}</TableCell>
+				<TableCell style={{paddingRight:'0.1em'}}>{translate.last_date_updated}</TableCell>
 			</TableRow>
 		</TableHead>
 		<TableBody>
 			{notifications.map((notification, index) => (
 				<TableRow key={`notification_${index}`}>
 					<TableCell>
-						<Tooltip
-							title={
-								translate[
-								CBX.getTranslationReqCode(
-									notification.reqCode
-								)
-								]
-							}
-						>
-							<img
-								style={{
-									height: "2.1em",
-									width: "auto"
-								}}
-								src={CBX.getEmailIconByReqCode(
-									notification.reqCode
-								)}
-								alt="email-state-icon"
-							/>
-						</Tooltip>
+						<EmailIcon
+							translate={translate}
+							reqCode={notification.reqCode}
+						/>
 					</TableCell>
 					<TableCell>
 						{translate[CBX.getSendType(notification.sendType)]}
 					</TableCell>
 					<TableCell>
+						{notification.email}
+					</TableCell>
+					<TableCell>
 						{moment(notification.sendDate).isValid()
-							? moment(notification.sendDate).format("LLL")
+							? moment(notification.sendDate).format("l LT")
 							: "-"}
 					</TableCell>
 					<TableCell>
 						{moment(notification.refreshDate).isValid()
-							? moment(notification.refreshDate).format("LLL")
+							? moment(notification.refreshDate).format("l LT")
 							: "-"}
 					</TableCell>
 				</TableRow>

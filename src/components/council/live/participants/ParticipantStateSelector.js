@@ -11,12 +11,10 @@ import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
 import FontAwesome from "react-fontawesome";
 import SignatureModal from "./modals/SignatureModal";
+import StateIcon from "./StateIcon";
 
 class ParticipantStateSelector extends Component {
-	changeParticipantState = async (
-		state,
-		index,
-	) => {
+	changeParticipantState = async (state, index) => {
 		const { participant } = this.props;
 		this.setState({
 			loading: index
@@ -62,6 +60,14 @@ class ParticipantStateSelector extends Component {
 					alignItems: "center"
 				}}
 			>
+				<SignatureModal
+					show={this.state.signature}
+					council={council}
+					participant={participant}
+					refetch={this.props.refetch}
+					requestClose={() => this.setState({ signature: false })}
+					translate={translate}
+				/>
 				<FilterButton
 					tooltip={translate.change_to_no_participate}
 					loading={loading === 0}
@@ -71,22 +77,12 @@ class ParticipantStateSelector extends Component {
 						participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
 					}
 				>
-					<div
-						style={{
-							position: "relative",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center"
-						}}
-					>
-						<ParticipantStateIcon
-							noTooltip={true}
-							participant={{
-								state: PARTICIPANT_STATES.NO_PARTICIPATE
-							}}
-							translate={translate}
-						/>
-					</div>
+					<StateIcon
+						translate={translate}
+						state={PARTICIPANT_STATES.NO_PARTICIPATE}
+						color={secondary}
+						hideTooltip={true}
+					/>
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.change_to_remote}
@@ -95,22 +91,12 @@ class ParticipantStateSelector extends Component {
 					onClick={() => this.changeParticipantState(0, 1, null)}
 					active={participant.state === PARTICIPANT_STATES.REMOTE}
 				>
-					<div
-						style={{
-							position: "relative",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center"
-						}}
-					>
-						<ParticipantStateIcon
-							noTooltip={true}
-							participant={{
-								state: PARTICIPANT_STATES.REMOTE
-							}}
-							translate={translate}
-						/>
-					</div>
+					<StateIcon
+						translate={translate}
+						state={PARTICIPANT_STATES.REMOTE}
+						color={secondary}
+						hideTooltip={true}
+					/>
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.physically_present_assistance}
@@ -122,22 +108,12 @@ class ParticipantStateSelector extends Component {
 						PARTICIPANT_STATES.PHYSICALLY_PRESENT
 					}
 				>
-					<div
-						style={{
-							position: "relative",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center"
-						}}
-					>
-						<ParticipantStateIcon
-							noTooltip={true}
-							participant={{
-								state: PARTICIPANT_STATES.PHYSICALLY_PRESENT
-							}}
-							translate={translate}
-						/>
-					</div>
+					<StateIcon
+						translate={translate}
+						state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+						color={secondary}
+						hideTooltip={true}
+					/>
 				</FilterButton>
 				{CBX.canBePresentWithRemoteVote(council.statute) && (
 					<FilterButton
@@ -150,26 +126,14 @@ class ParticipantStateSelector extends Component {
 							PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 						}
 					>
-						<div
-							style={{
-								position: "relative",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center"
-							}}
-						>
-							<ParticipantStateIcon
-								noTooltip={true}
-								participant={{
-									state:
-										PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-								}}
-								translate={translate}
-							/>
-						</div>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
+							color={secondary}
+							hideTooltip={true}
+						/>
 					</FilterButton>
 				)}
-
 				{CBX.canHaveRepresentative(participant) &&
 					!(participant.delegatedVotes.length > 0) && (
 						<FilterButton
@@ -186,106 +150,72 @@ class ParticipantStateSelector extends Component {
 								PARTICIPANT_STATES.REPRESENTATED
 							}
 						>
-							<div
-								style={{
-									position: "relative",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center"
-								}}
-							>
-								<ParticipantStateIcon
-									noTooltip={true}
-									participant={{
-										state: PARTICIPANT_STATES.REPRESENTATED
-									}}
-									translate={translate}
-								/>
-							</div>
+							<StateIcon
+								translate={translate}
+								state={PARTICIPANT_STATES.REPRESENTATED}
+								color={secondary}
+								hideTooltip={true}
+							/>
 						</FilterButton>
 					)}
 				{CBX.canDelegateVotes(council.statute, participant) && (
-					<React.Fragment>
-						{!(participant.delegatedVotes.length > 0) &&
-							<FilterButton
-								tooltip={translate.to_delegate_vote}
-								loading={loading === 5}
-								size="2.8em"
-								onClick={() =>
-									this.setState({
-										delegateOwnVote: true
-									})
-								}
-								active={
-									participant.state ===
-									PARTICIPANT_STATES.DELEGATED
-								}
-							>
-								<div
-									style={{
-										position: "relative",
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center"
-									}}
-								>
-									<ParticipantStateIcon
-										noTooltip={true}
-										participant={{
-											state: PARTICIPANT_STATES.DELEGATED
-										}}
-										translate={translate}
-									/>
-								</div>
-							</FilterButton>
-
+					<FilterButton
+						tooltip={translate.to_delegate_vote}
+						loading={loading === 5}
+						size="2.8em"
+						onClick={() =>
+							this.setState({
+								delegateOwnVote: true
+							})
 						}
-						{participant.state !== PARTICIPANT_STATES.DELEGATED && (
-							<FilterButton
-								tooltip={translate.add_delegated}
-								loading={loading === 6}
-								size="2.8em"
-								onClick={() =>
-									this.setState({
-										delegateVote: true
-									})
-								}
-								active={
-									participant.state ===
-									PARTICIPANT_STATES.DELEGATED
-								}
-							>
-								<div
-									style={{
-										position: "relative",
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center"
-									}}
-								>
-									<FontAwesome
-										name={"user"}
-										style={{
-											position: "absolute",
-											color: secondary,
-											fontSize: "1.75em"
-										}}
-									/>
-									<FontAwesome
-										name={"mail-reply"}
-										style={{
-											position: "absolute",
-											color: primary,
-											right: "-0.8em",
-											fontSize: "1em"
-										}}
-										onClick={this.props.requestClose}
-									/>
-								</div>
-							</FilterButton>
-						)}
-					</React.Fragment>
+						active={
+							participant.state ===
+							PARTICIPANT_STATES.DELEGATED
+						}
+					>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.DELEGATED}
+							color={secondary}
+							hideTooltip={true}
+						/>
+					</FilterButton>
 				)}
+				{CBX.canAddDelegateVotes(council.statute, participant) && (
+					<FilterButton
+						tooltip={translate.add_delegated}
+						loading={loading === 6}
+						size="2.8em"
+						onClick={() =>
+							this.setState({
+								delegateVote: true
+							})
+						}
+						active={
+							participant.state ===
+							PARTICIPANT_STATES.DELEGATED
+						}
+					>
+						<FontAwesome
+							name={"user"}
+							style={{
+								position: "absolute",
+								color: secondary,
+								fontSize: "1.5em"
+							}}
+						/>
+						<FontAwesome
+							name={"mail-reply"}
+							style={{
+								position: "absolute",
+								color: primary,
+								right: "0.7em",
+								fontSize: "0.8em"
+							}}
+						/>
+					</FilterButton>
+				)}
+
 				<AddRepresentativeModal
 					show={this.state.addRepresentative}
 					council={council}
@@ -306,22 +236,22 @@ class ParticipantStateSelector extends Component {
 					}
 					translate={translate}
 				/>
-				<DelegateVoteModal
-					show={this.state.delegateVote}
-					council={council}
-					participant={participant}
-					refetch={this.props.refetch}
-					requestClose={() => this.setState({ delegateVote: false })}
-					translate={translate}
-				/>
-				<SignatureModal
-					show={this.state.signature}
-					council={council}
-					participant={participant}
-					refetch={this.props.refetch}
-					requestClose={() => this.setState({ signature: false })}
-					translate={translate}
-				/>
+				{(participant.state === PARTICIPANT_STATES.REMOTE ||
+					participant.state ===
+					PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
+					participant.state ===
+					PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
+						<DelegateVoteModal
+							show={this.state.delegateVote}
+							council={council}
+							participant={participant}
+							refetch={this.props.refetch}
+							requestClose={() =>
+								this.setState({ delegateVote: false })
+							}
+							translate={translate}
+						/>
+					)}
 			</div>
 		);
 	}

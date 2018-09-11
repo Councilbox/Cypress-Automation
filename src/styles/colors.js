@@ -33,3 +33,6 @@ export const getSecondary = () => {
 	}
 	return secondary;
 };
+export const getLightGrey = () => {
+	return lightGrey;
+};

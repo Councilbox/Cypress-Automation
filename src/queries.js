@@ -2056,6 +2056,7 @@ export const liveParticipant = gql`
 			videoMode
 			notifications {
 				participantId
+				email
 				reqCode
 				refreshDate
 				sendDate

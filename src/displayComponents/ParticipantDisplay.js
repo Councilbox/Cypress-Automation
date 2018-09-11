@@ -8,7 +8,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 	const secondary = getSecondary();
 
 	return (
-		<Card elevation={0}>
+		<div style={{padding: '0.5em'}}>
 			<div
 				style={{
 					display: "flex",
@@ -33,9 +33,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					/>
 				</div>
 				<Typography variant="subheading">
-					{`${participant.name} ${participant.surname} - ${
-						participant.position
-					}`}
+					<b>{`${participant.name} ${participant.surname}`}</b>
 				</Typography>
 			</div>
 			<div
@@ -78,6 +76,33 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					}}
 				>
 					<FontAwesome
+						name={"tag"}
+						style={{
+							color: secondary,
+							fontSize: "0.8em",
+							marginRight: "0.3em"
+						}}
+					/>
+				</div>
+				<Typography variant="body1">
+					{`${participant.position}`}
+				</Typography>
+			</div>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center"
+				}}
+			>
+				<div
+					style={{
+						width: "2em",
+						display: "flex",
+						justifyContent: "center"
+					}}
+				>
+					<FontAwesome
 						name={"at"}
 						style={{
 							color: secondary,
@@ -90,7 +115,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					{`${participant.email}`}
 				</Typography>
 			</div>
-			{!CBX.participantIsGuest(participant) &&
+			{!CBX.participantIsGuest(participant) &&!CBX.participantIsRepresentative(participant) &&
 				!delegate && (
 					<React.Fragment>
 						<div
@@ -157,7 +182,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						)}
 					</React.Fragment>
 				)}
-		</Card>
+		</div>
 	);
 };
 

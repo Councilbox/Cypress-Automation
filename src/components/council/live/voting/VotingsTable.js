@@ -351,7 +351,6 @@ class VotingsTable extends React.Component {
 																vote={vote.vote}
 															/>
 														</Tooltip>
-
 														{isPresentVote(
 															vote
 														) && (
