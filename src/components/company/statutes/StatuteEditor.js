@@ -54,7 +54,6 @@ class StatuteEditor extends React.PureComponent {
 		this.editor.setValue(draft.text);
 	};
 
-
 	render() {
 		const { statute, translate, updateState, errors } = this.props;
 		const { quorumTypes, loading } = this.props.data;
@@ -93,7 +92,7 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.advanceNoticeDays}
 								value={statute.advanceNoticeDays}
 								onChange={event => {
-									if(!isNaN(event.target.value) && +event.target.value >= 0){
+									if (!isNaN(event.target.value) && +event.target.value >= 0) {
 										updateState({
 											advanceNoticeDays: parseInt(event.target.value)
 										})
@@ -130,7 +129,7 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.minimumSeparationBetweenCall}
 								value={statute.minimumSeparationBetweenCall}
 								onChange={event => {
-									if(!isNaN(event.target.value) && +event.target.value > 0){
+									if (!isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
 											minimumSeparationBetweenCall: parseInt(event.target.value)
 										})
@@ -241,7 +240,7 @@ class StatuteEditor extends React.PureComponent {
 												value={quorumType.value}
 												key={`quorum_${
 													quorumType.label
-												}`}
+													}`}
 											>
 												{translate[quorumType.label]}
 											</MenuItem>
@@ -255,27 +254,27 @@ class StatuteEditor extends React.PureComponent {
 							{CBX.quorumNeedsInput(
 								statute.secondCallQuorumType
 							) && (
-								<QuorumInput
-									type={statute.secondCallQuorumType}
-									style={{ marginLeft: "1em" }}
-									value={statute.secondCallQuorum}
-									divider={statute.secondCallQuorumDivider}
-									quorumError={errors.secondCallQuorum}
-									dividerError={
-										errors.secondCallQuorumDivider
-									}
-									onChange={value =>
-										updateState({
-											secondCallQuorum: +value
-										})
-									}
-									onChangeDivider={value =>
-										updateState({
-											secondCallQuorumDivider: +value
-										})
-									}
-								/>
-							)}
+									<QuorumInput
+										type={statute.secondCallQuorumType}
+										style={{ marginLeft: "1em" }}
+										value={statute.secondCallQuorum}
+										divider={statute.secondCallQuorumDivider}
+										quorumError={errors.secondCallQuorum}
+										dividerError={
+											errors.secondCallQuorumDivider
+										}
+										onChange={value =>
+											updateState({
+												secondCallQuorum: +value
+											})
+										}
+										onChangeDivider={value =>
+											updateState({
+												secondCallQuorumDivider: +value
+											})
+										}
+									/>
+								)}
 						</GridItem>
 					)}
 					<GridItem xs={12} md={7} lg={7}>
@@ -289,7 +288,7 @@ class StatuteEditor extends React.PureComponent {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={10} md={6} lg={6} style={{display: 'flex', alignItems: 'center'}}>
+					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
@@ -302,7 +301,7 @@ class StatuteEditor extends React.PureComponent {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={2} md={2} lg={2} style={{display: 'flex', alignItems: 'center'}}>
+					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
 						{statute.existMaxNumDelegatedVotes === 1 && (
 							<TextInput
 								floatingText={translate.votes}
@@ -312,7 +311,7 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.maxNumDelegatedVotes}
 								value={statute.maxNumDelegatedVotes}
 								onChange={event => {
-									if(!isNaN(event.target.value) && +event.target.value > 0){
+									if (!isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
 											maxNumDelegatedVotes: parseInt(event.target.value)
 										})
@@ -325,7 +324,7 @@ class StatuteEditor extends React.PureComponent {
 							/>
 						)}
 					</GridItem>
-					<GridItem xs={10} md={6} lg={6} style={{display: 'flex', alignItems: 'center'}}>
+					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							label={translate.exists_limited_access_room}
 							value={statute.existsLimitedAccessRoom === 1}
@@ -338,7 +337,7 @@ class StatuteEditor extends React.PureComponent {
 							}
 						/>
 					</GridItem>
-					<GridItem xs={2} md={2} lg={2} style={{display: 'flex', alignItems: 'center'}}>
+					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
 						{statute.existsLimitedAccessRoom === 1 && (
 							<TextInput
 								floatingText={translate.minutes}
@@ -347,7 +346,7 @@ class StatuteEditor extends React.PureComponent {
 								errorText={errors.limitedAccessRoomMinutes}
 								value={statute.limitedAccessRoomMinutes}
 								onChange={event => {
-									if(!isNaN(event.target.value) && +event.target.value > 0){
+									if (!isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
 											limitedAccessRoomMinutes: parseInt(event.target.value)
 										})
@@ -471,8 +470,7 @@ class StatuteEditor extends React.PureComponent {
 								})
 							}
 						>
-							{!this.props.censusList.loading &&
-								!!this.props.censusList &&
+							{!!this.props.censusList && !this.props.censusList.loading &&
 								this.props.censusList.censuses.list.map(
 									census => {
 										return (
@@ -488,8 +486,6 @@ class StatuteEditor extends React.PureComponent {
 						</SelectInput>
 					</GridItem>
 				</Grid>
-
-
 				<SectionTitle
 					text={translate.act_and_documentation}
 					color={primary}
