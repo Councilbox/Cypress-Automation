@@ -150,7 +150,7 @@ class LoginForm extends React.Component {
                         enterDelay={300}
                         leaveDelay={300}
                     >
-                        {!!company.logo && false ?
+                        {!!company.logo?
                             <img
                                 src={company.logo}
                                 alt="company_logo"
