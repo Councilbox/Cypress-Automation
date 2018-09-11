@@ -7,7 +7,8 @@ import {
 	AGENDA_STATES,
 	SIGNATURE_PARTICIPANTS_STATES,
 	AGENDA_TYPES,
-	VOTE_VALUES
+	VOTE_VALUES,
+	PARTICIPANT_TYPE
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
 import React from 'react';
@@ -176,13 +177,20 @@ export const councilHasComments = statute => {
 export const canDelegateVotes = (statute, participant) => {
 	return (
 		statute.existsDelegatedVote === 1 &&
-		participant.state !== 3 &&
+		!(participant.delegatedVotes.length > 0) &&
 		participant.type === 0
+	);
+};
+export const canAddDelegateVotes = (statute, participant) => {
+	return (
+		statute.existsDelegatedVote === 1 &&
+		(participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) &&
+		(participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
 	);
 };
 
 export const canHaveRepresentative = participant => {
-	return participant.type === 0 && participant.state !== 3;
+	return participant.type === PARTICIPANT_TYPE.PARTICIPANT;
 };
 
 export const delegatedVotesLimitReached = (statute, length) => {
@@ -411,7 +419,7 @@ export const printPrettyFilesize = filesize => {
 };
 
 export const isPresentVote = vote => {
-	return vote.presentVote === 1;
+	return vote.presentVote === 5 || vote.presentVote === 7;
 };
 
 export const addDecimals = (num, fixed) => {
@@ -571,7 +579,10 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 };
 
 export const participantIsGuest = participant => {
-	return participant.type === 1;
+	return participant.type === PARTICIPANT_TYPE.GUEST;
+};
+export const participantIsRepresentative = participant => {
+	return participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 };
 
 export const getEmailIconByReqCode = reqCode => {

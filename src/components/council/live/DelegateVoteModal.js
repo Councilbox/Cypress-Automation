@@ -65,8 +65,8 @@ class DelegateVoteModal extends React.Component {
 		this.props.delegateVote(
 			{
 				variables: {
-					participantId: this.props.participant.id,
-					delegateId: id
+					participantId: id,
+					delegateId: this.props.participant.id
 				}
 			}
 		);

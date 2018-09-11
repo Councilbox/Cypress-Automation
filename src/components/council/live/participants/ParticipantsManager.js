@@ -251,8 +251,7 @@ class ParticipantsManager extends React.Component {
 										name="CONVENE"
 										label={translate.convene || 'CONVENE'}
 									/>
-									{
-										council.confirmAssistance &&
+									{!!council.confirmAssistance &&
 										<Radio
 											value={"3"}
 											checked={this.state.view === "ATTENDANCE"}

@@ -20,16 +20,16 @@ class PresentVoteMenu extends React.Component {
 			__typename,
 			...agendaVoting
 		} = this.props.agendaVoting;
+		
 		const response = await this.props.updateAgendaVoting({
 			variables: {
 				agendaVoting: {
-					...agendaVoting,
+					id: agendaVoting.id,
 					vote: value
 				}
 			}
 		});
 
-		console.log(response);
 		this.props.refetch();
 	};
 
