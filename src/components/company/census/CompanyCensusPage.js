@@ -168,6 +168,7 @@ class CompanyCensusPage extends React.Component {
 					<EditCensusModal
 						translate={translate}
 						censusId={this.state.editId}
+						refetch={this.props.data.refetch}
 						open={!!this.state.editId}
 						requestClose={() => this.setState({
 							editId: null

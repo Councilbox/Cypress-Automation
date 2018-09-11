@@ -99,7 +99,9 @@ class AgendaMenu extends React.Component {
     render(){
         const { translate, agenda } = this.props;
         const secondary = getSecondary();
-        const primary = getPrimary()
+        const primary = getPrimary();
+
+        console.log(agenda.votings);
 
         return(
             <div>
@@ -120,25 +122,25 @@ class AgendaMenu extends React.Component {
                                 {this.agendaVotingMessage()}
                             </Typography>
                         </div>
-                        {!!agenda.voting &&
+                        {!!agenda.votings &&
                             CBX.agendaVotingsOpened(agenda) &&
                                 <React.Fragment>
                                     <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
                                         <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                                            {agenda.voting.vote === -1 &&
+                                            {agenda.votings[0].vote === -1 &&
                                                 'Aun no has votado'
                                             }
-                                            {agenda.voting.vote === 0 &&
+                                            {agenda.votings[0].vote === 0 &&
                                                 <React.Fragment /*TRADUCCION*/>
                                                     {'Has votado: En contra'}
                                                 </React.Fragment>
                                             }
-                                            {agenda.voting.vote === 1 &&
+                                            {agenda.votings[0].vote === 1 &&
                                                 <React.Fragment /*TRADUCCION*/>
                                                     {'Has votado: A favor'}
                                                 </React.Fragment>
                                             }
-                                            {agenda.voting.vote === 2 &&
+                                            {agenda.votings[0].vote === 2 &&
                                                 <React.Fragment /*TRADUCCION*/>
                                                     {'Has votado: Abstención'}
                                                 </React.Fragment>
@@ -146,7 +148,7 @@ class AgendaMenu extends React.Component {
                                         </Typography>
                                         <BasicButton
                                             color={this.state.voting && this.state.open? primary : 'white'}
-                                            text={agenda.voting.vote === -1? this.props.translate.exercise_voting : 'Cambiar voto'} //TRADUCCION
+                                            text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : 'Cambiar voto'} //TRADUCCION
                                             textStyle={{
                                                 color: this.state.voting && this.state.open? 'white' : primary,
                                                 fontWeight: '700',
@@ -177,6 +179,7 @@ class AgendaMenu extends React.Component {
                                     {this.canComment(agenda, this.props.participant) &&
                                         <CommentMenu
                                             agenda={agenda}
+                                            participant={this.props.participant}
                                             translate={this.props.translate}
                                             refetch={this.props.refetch}
                                         />

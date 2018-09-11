@@ -148,6 +148,7 @@ class RequestWordMenu extends React.Component {
                     left: '50%',
                     transform: 'translateX(-50%)',
                     display: 'flex',
+                    overflow: 'hidden',
                     alignItems: 'center',
                     justifyContent: 'center',
                     bottom: '10px'

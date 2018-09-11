@@ -92,7 +92,7 @@ class RecordingButton extends React.Component {
                         fontSize: '1.4em',
                         cursor: this.props.council.fullVideoRecord == 1? 'auto' : 'pointer'
                     }}
-                    {...(this.props.council.fullVideoRecord == 1? {onClick: this.toggleRecordings}: {})}
+                    {...(this.props.council.fullVideoRecord !== 1? {onClick: this.toggleRecordings}: {})}
                 >
                     {this.state.loading?
                         <CircularProgress size={20} thickness={7} color={'secondary'} />

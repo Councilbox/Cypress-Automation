@@ -104,7 +104,7 @@ class StatesContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.stateStatus) {
+		if (this.state.stateStatus || this.state.stateStatus === 0) {
 			variables.stateStatus = this.state.stateStatus;
 		}
 

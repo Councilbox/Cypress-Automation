@@ -98,7 +98,7 @@ export default graphql(appConfig, {
                             window.location.reload(true);
                         }
 
-                        if(!subscriptionData.data.appControlChange.config || true) return prev;
+                        if(!subscriptionData.data.appControlChange.config) return prev;
 
                         const { config } = subscriptionData.data.appControlChange;
 

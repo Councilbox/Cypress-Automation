@@ -6,12 +6,9 @@ import { updateAgendaVoting } from "../../../../queries/agenda";
 import { MenuItem } from "material-ui";
 
 class PresentVoteMenu extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false
-		};
-	}
+	state = {
+		loading: false
+	};
 
 	updateAgendaVoting = async value => {
 		const {
