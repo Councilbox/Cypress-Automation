@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Tooltip, MenuItem, Card } from "material-ui";
 import { LoadingSection } from "./";
+import { getLightGrey } from "../styles/colors";
+
 
 const FilterButton = ({
 	onClick,
@@ -26,18 +28,18 @@ const FilterButton = ({
 				style={{
 					display: "flex",
 					alignItems: "center",
-					margin: '1px',
+					margin: '1px 0.2em',
 					width: size,
 					justifyContent: "center",
 					cursor: "pointer",
 					overflow: "hidden",
 					height: size,
 					outline: 0,
-					border: `2px solid gainsboro`,
-					borderRadius: "3px",
-					backgroundColor: active ? 'gainsboro' : "transparent"
+					border: `1px solid gainsboro`,
+					borderRadius: "2px",
+					backgroundColor: active ? getLightGrey() : "transparent"
 				}}
-				elevation={active? 0 : 1}
+				elevation={active ? 0 : 1}
 				tabIndex="0"
 				ref={ref => (element = ref)}
 				onKeyUp={onKeyUp}

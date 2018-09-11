@@ -11,9 +11,10 @@ class StateIcon extends React.PureComponent {
 			state,
 			number,
 			translate,
-			ratio = 1
+			ratio = 1,
+			hideTooltip = false
 		} = this.props;
-		return _renderIcon(color, state, number, translate, ratio);
+		return _renderIcon(color, state, number, translate, ratio, hideTooltip);
 	}
 }
 
@@ -31,11 +32,11 @@ const styleSubIcon = (color, ratio) => {
 	};
 };
 
-const _renderIcon = (color, state, number, translate, ratio) => {
+const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 	switch (state) {
 		case "ALL":
 			return (
-				<Tooltip title={translate.all_plural}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.all_plural}>
 					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"users"}
@@ -47,7 +48,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 			);
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
 			return (
-				<Tooltip title={translate.no_participate}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
 					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"user-o"}
@@ -63,7 +64,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 			);
 		case PARTICIPANT_STATES.REMOTE:
 			return (
-				<Tooltip title={translate.customer_initial}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_initial}>
 					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"globe"}
@@ -75,7 +76,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 			);
 		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
 			return (
-				<Tooltip title={translate.customer_present}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_present}>
 					<div
 						style={{
 							// display: "flex",
@@ -95,7 +96,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 			);
 		case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
 			return (
-				<Tooltip title={translate.physically_present_with_remote_vote}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.physically_present_with_remote_vote}>
 					<div
 						style={{
 							// display: "flex",
@@ -119,7 +120,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 			);
 		case PARTICIPANT_STATES.DELEGATED:
 			return (
-				<Tooltip title={translate.customer_delegated}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_delegated}>
 					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"user"}
@@ -135,7 +136,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 			);
 		case PARTICIPANT_STATES.REPRESENTATED:
 			return (
-				<Tooltip title={translate.customer_representated}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_representated}>
 					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"user-o"}
@@ -152,7 +153,7 @@ const _renderIcon = (color, state, number, translate, ratio) => {
 
 		default:
 			return (
-				<Tooltip title={translate.not_confirmed_assistance}>
+				<Tooltip disableHoverListener={hideTooltip} title={translate.not_confirmed_assistance}>
 					<div style={{ padding: "0.5em" }}>
 						<FontAwesome
 							name={"question"}

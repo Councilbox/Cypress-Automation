@@ -98,7 +98,7 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={12} lg={2} md={2}>
+		<GridItem xs={12} lg={4} md={4}>
 			<SelectInput
 				floatingText={translate.language}
 				value={representative.language}
