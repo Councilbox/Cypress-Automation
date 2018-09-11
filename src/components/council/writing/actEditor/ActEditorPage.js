@@ -2,6 +2,8 @@ import React from 'react';
 import { CardPageLayout, TabsScreen, Scrollbar } from "../../../../displayComponents";
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from "./ActAttendantsTable";
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import ActEditor from "./ActEditor";
 import Convene from '../../convene/Convene';
 import ActHTML from '../actViewer/ActHTML';
@@ -95,6 +97,8 @@ class ActEditorPage extends React.Component {
                         <TabContainer>
                             <ActConvenedParticipants
                                 council={council}
+                                totalVotes={this.props.totalVotes}
+                                socialCapital={this.props.socialCapital}
                                 translate={translate}
                             />
                         </TabContainer>   
@@ -130,21 +134,6 @@ class ActEditorPage extends React.Component {
                 }
             },
             {
-                text: 'Grabaciones',
-                component: () => {
-                    return (
-                        <TabContainer>
-                            <Scrollbar>
-                                <RecordingsSection
-                                    council={council}
-                                    translate={translate}
-                                />
-                            </Scrollbar>
-                        </TabContainer>
-                    );
-                }
-            },
-            {
                 text: translate.convene,
                 component: () => {
                     return (
@@ -163,6 +152,25 @@ class ActEditorPage extends React.Component {
                 }
             }
         ];
+
+        if(this.props.data.recordingsIframe){
+            tabs.push({
+                text: 'Grabaciones', //TRADUCCION
+                component: () => {
+                    return (
+                        <TabContainer>
+                            <Scrollbar>
+                                <RecordingsSection
+                                    data={this.props.data}
+                                    council={council}
+                                    translate={translate}
+                                />
+                            </Scrollbar>
+                        </TabContainer>
+                    );
+                }
+            });
+        }
 
         return(
             <CardPageLayout title={translate.video_meeting_finished} disableScroll={true}>
@@ -183,4 +191,17 @@ const TabContainer = ({ children, style }) => (
     </div>
 )
 
-export default ActEditorPage;
+
+const recordingsIframe = gql`
+    query RecordingsIframe($councilId: Int!){
+        recordingsIframe(councilId: $councilId)
+    }
+`;
+
+export default graphql(recordingsIframe, {
+    options: props => ({
+        variables: {
+            councilId: props.council.id
+        }
+    })
+})(ActEditorPage);

@@ -1938,8 +1938,8 @@ export const addGuest = gql`
 `;
 
 export const sendVideoEmails = gql`
-	mutation sendVideoEmails($councilId: Int!) {
-		sendVideoEmails(councilId: $councilId) {
+	mutation sendVideoEmails($councilId: Int!, $timezone: String!) {
+		sendRoomEmails(councilId: $councilId, timezone: $timezone) {
 			success
 			message
 		}
@@ -1947,8 +1947,8 @@ export const sendVideoEmails = gql`
 `;
 
 export const sendVideoEmailTest = gql`
-	mutation sendVideoEmailTest($councilId: Int!, $email: String!) {
-		sendVideoEmailTest(councilId: $councilId, email: $email) {
+	mutation sendVideoEmailTest($councilId: Int!, $email: String!, $phone: String, $timezone: String!) {
+		sendRoomEmailTest(councilId: $councilId, email: $email, phone: $phone, timezone: $timezone) {
 			success
 			message
 		}

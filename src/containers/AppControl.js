@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
 import { bindActionCreators } from 'redux';
+import { store } from '../containers/App';
 const ConfigContext = React.createContext({
     video: true,
     commandBar: false,
@@ -90,7 +91,11 @@ export default graphql(appConfig, {
                         console.log(prev);
 
                         if(subscriptionData.data.appControlChange.command === 'logout'){
-                            //store.dispatch(mainActions.logout());
+                            store.dispatch(mainActions.logout());
+                        }
+
+                        if(subscriptionData.data.appControlChange.command === 'refresh'){
+                            window.location.reload(true);
                         }
 
                         if(!subscriptionData.data.appControlChange.config || true) return prev;

@@ -174,6 +174,7 @@ class AgendaManager extends React.Component {
 						participants={this.props.participants}
 						councilID={this.props.councilID}
 						translate={translate}
+						refetchCouncil={this.props.refetch}
 						refetch={this.props.data.refetch}
 					/>
 				</div>

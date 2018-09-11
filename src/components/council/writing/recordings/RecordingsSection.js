@@ -1,6 +1,4 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { LoadingSection } from '../../../../displayComponents';
 
 const rand = Math.random();
@@ -32,16 +30,4 @@ class RecordingsSection extends React.Component {
     }
 }
 
-const recordingsIframe = gql`
-    query RecordingsIframe($councilId: Int!){
-        recordingsIframe(councilId: $councilId)
-    }
-`;
-
-export default graphql(recordingsIframe, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id
-        }
-    })
-})(RecordingsSection);
+export default RecordingsSection;

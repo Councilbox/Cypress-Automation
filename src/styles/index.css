@@ -130,6 +130,7 @@ h4 {
 }
 
 .toastProgressBar {
-    background-color: 'white';
+    background: white !important;
+    opacity: 0.6 !important;
 }
 

@@ -3,6 +3,7 @@ import { AlertConfirm, Icon } from "../../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendVideoEmails } from "../../../../queries";
+import { moment } from '../../../../containers/App';
 
 class SendCredentialsModal extends React.Component {
 	state = {
@@ -27,10 +28,11 @@ class SendCredentialsModal extends React.Component {
 		});
 		const response = await this.props.sendVideoEmails({
 			variables: {
-				councilId: this.props.council.id
+				councilId: this.props.council.id,
+				timezone: moment().utcOffset()
 			}
 		});
-		if (response.data.sendVideoEmails.success) {
+		if (response.data.sendRoomEmails.success) {
 			this.setState({
 				sending: false,
 				success: true
@@ -64,6 +66,7 @@ class SendCredentialsModal extends React.Component {
 			<AlertConfirm
 				requestClose={this.close}
 				open={this.props.show}
+				loadingAction={this.state.sending}
 				acceptAction={
 					this.state.success
 						? () => this.close()

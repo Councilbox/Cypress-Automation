@@ -29,6 +29,7 @@ import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
 import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
+import MuteToggleButton from './videoParticipants/MuteToggleButton';
 
 
 class ParticipantsLive extends React.Component {
@@ -180,7 +181,7 @@ class ParticipantsLive extends React.Component {
 						</div>
 					</Tooltip>
 				</GridItem>
-				<GridItem xs={4} lg={4} md={4}>
+				<GridItem xs={3} lg={3} md={3}>
 					<div
 						style={{
 							color: lightGrey,
@@ -191,6 +192,22 @@ class ParticipantsLive extends React.Component {
 					>
 						{participant.position}
 					</div>
+				</GridItem>
+				<GridItem
+					xs={1}
+					lg={1}
+					md={1}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						justifyContent: "space-between"
+					}}
+				>
+					{/* <MuteToggleButton
+						translate={this.props.translate}
+						participant={participant}
+						refetch={this.props.data.refetch}
+					/> */}
 				</GridItem>
 				<GridItem
 					xs={1}

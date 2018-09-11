@@ -14,6 +14,7 @@ class SignatureParticipants extends React.Component {
         newParticipantModal: false,
         participantId: null,
         censusModal: false,
+        loading: false,
         selectedCensus: null
     }
 
@@ -35,6 +36,31 @@ class SignatureParticipants extends React.Component {
         if(response.data.removeSignatureParticipant.success){
             this.props.data.refetch();
         }
+    }
+
+    updateCensus = async () => {
+        this.setState({
+            loading: true
+        });
+        const response = await this.props.addSignatureParticipantsFromCensus({
+            variables: {
+                signatureId: this.props.signature.id,
+                censusId: this.state.selectedCensus
+            }
+        });
+
+        if(response.data){
+            if(response.data.addSignatureParticipantsFromCensus.success){
+                this.props.data.refetch();
+                this.props.refetch();
+            }
+        }
+
+        this.setState({
+            loading: false,
+            selectedCensus: null,
+            censusModal: false
+        })
     }
 
     editParticipant = id => {
@@ -87,7 +113,7 @@ class SignatureParticipants extends React.Component {
                             <div style={{minWidth: '8em', marginRight: '1em'}}>
                                 <SelectInput
                                     floatingText={translate.current_census}
-                                    value={this.props.signature.selectedCensusId}
+                                    value={this.props.signature.censusId}
                                     onChange={this.openCensusChangeModal}
                                 >
                                     {censuses.list.map(census => {
@@ -172,6 +198,7 @@ class SignatureParticipants extends React.Component {
                     })}
                     open={this.state.censusModal}
                     acceptAction={this.updateCensus}
+                    loadingAction={this.state.loading}
                     buttonAccept={translate.accept}
                     buttonCancel={translate.cancel}
                     bodyText={this._renderBody()}
@@ -279,9 +306,20 @@ const removeSignatureParticipant = gql`
     }
 `;
 
+const addParticipantsFromCensus = gql`
+    mutation AddSignatureParticipantsFromCensus($signatureId: Int!, $censusId: Int!){
+        addSignatureParticipantsFromCensus(signatureId: $signatureId, censusId: $censusId){
+            success
+        }
+    }
+`;
+
 export default compose(
     graphql(removeSignatureParticipant, {
         name: 'removeSignatureParticipant'
+    }),
+    graphql(addParticipantsFromCensus, {
+        name: 'addSignatureParticipantsFromCensus'
     }),
     graphql(signatureParticipants, {
         options: props => ({

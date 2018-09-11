@@ -175,32 +175,10 @@ class ActAttendantsTable extends React.Component {
                                                     <React.Fragment
                                                         key={`participant${participant.id}`}
                                                     >
-                                                        <TableRow>
-                                                            <TableCell>
-                                                                {participant.state === PARTICIPANT_STATES.REMOTE ?
-                                                                    'REMOTE ICON'
-                                                                    :
-                                                                    'PRESENT ICON'
-                                                                }
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {`${participant.name} ${participant.surname}`}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {participant.dni}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                {participant.position}
-                                                            </TableCell>
-                                                            <TableCell>
-                                                                <DownloadCBXDataButton
-                                                                    translate={translate}
-                                                                    participantId={
-                                                                        participant.id
-                                                                    }
-                                                                />
-                                                            </TableCell>
-                                                        </TableRow>
+                                                        <HoverableRow
+                                                            translate={translate}
+                                                            participant={participant}
+                                                        />
                                                         {!!participant.delegationsAndRepresentations && (
                                                             participant.delegationsAndRepresentations.map(delegatedVote =>
                                                                 <TableRow style={{
@@ -236,6 +214,65 @@ class ActAttendantsTable extends React.Component {
                     </div>
                 </Scrollbar>
             </div>
+        )
+    }
+}
+
+class HoverableRow extends React.Component {
+
+    state = {
+        showActions: false
+    }
+
+    mouseEnterHandler = () => {
+        this.setState({
+            showActions: true
+        });
+    }
+
+    mouseLeaveHandler = () => {
+        this.setState({
+            showActions: false
+        });
+    }
+
+    render(){
+        const { translate, participant } = this.props;
+
+        return (
+            <TableRow
+                onMouseEnter={this.mouseEnterHandler}
+                onMouseLeave={this.mouseLeaveHandler}
+            >
+                <TableCell>
+                    {participant.state === PARTICIPANT_STATES.REMOTE ?
+                        'REMOTE ICON'
+                        :
+                        'PRESENT ICON'
+                    }
+                </TableCell>
+                <TableCell>
+                    {`${participant.name} ${participant.surname}`}
+                </TableCell>
+                <TableCell>
+                    {participant.dni}
+                </TableCell>
+                <TableCell>
+                    {participant.position}
+                </TableCell>
+                <TableCell>
+                    <div style={{width: '4em'}}>
+                        {this.state.showActions &&
+                            <DownloadCBXDataButton
+                                translate={translate}
+                                participantId={
+                                    participant.participantId
+                                }
+                            />
+                        }
+                    </div>
+                </TableCell>
+            </TableRow>
         )
     }
 }

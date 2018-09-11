@@ -172,8 +172,6 @@ class ParticipantsTable extends React.Component {
 												_renderDeleteIcon={() => this._renderDeleteIcon(participant.id)}
 											/>
 
-
-
 											{!!participant.representative && (
 												<TableRow
 													hover={true}
@@ -276,8 +274,6 @@ class HoverableRow extends React.Component {
 		});
 	}
 
-
-
 	render(){
 
 		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital } = this.props;
@@ -329,17 +325,17 @@ class HoverableRow extends React.Component {
 					</TableCell>
 				)}
 				<TableCell>
-					{this.state.showActions?
-						!CBX.isRepresentative(
-							participant
-						) &&
-							_renderDeleteIcon(
-								participant.id
-							)
-					:
-						<div style={{width: '4em'}} />
+					<div style={{width: '6em'}}>
 
-					}
+						{this.state.showActions &&
+							!CBX.isRepresentative(
+								participant
+							) &&
+								_renderDeleteIcon(
+									participant.id
+								)
+						}
+					</div>
 					
 				</TableCell>
 			</TableRow>

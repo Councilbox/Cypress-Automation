@@ -4,6 +4,7 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendVideoEmailTest } from "../../../../queries";
 import { checkValidEmail } from "../../../../utils/validation";
+import { moment } from '../../../../containers/App';
 
 class SendCredentialsTestModal extends React.Component {
 	state = {
@@ -30,10 +31,13 @@ class SendCredentialsTestModal extends React.Component {
 		const response = await this.props.sendVideoEmailTest({
 			variables: {
 				councilId: this.props.council.id,
-				email: this.state.email
+				email: this.state.email,
+				phone: '',
+				timezone: moment().utcOffset()
+
 			}
 		});
-		if (response.data.sendVideoEmailTest.success) {
+		if (response.data.sendRoomEmailTest.success) {
 			this.setState({
 				sending: false,
 				success: true

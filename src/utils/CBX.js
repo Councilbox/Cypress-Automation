@@ -779,7 +779,7 @@ export const haveGrantedWord = participant => {
 
 export const exceedsOnlineTimeout = date => {
 	const timeout = -moment(new Date(date)).diff(moment(), "seconds");
-	return timeout > 13;
+	return timeout > 9;
 };
 
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
