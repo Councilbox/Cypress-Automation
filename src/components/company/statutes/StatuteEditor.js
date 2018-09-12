@@ -69,9 +69,6 @@ class StatuteEditor extends React.PureComponent {
 				<Grid>
 					<GridItem xs={12} md={8} lg={6}>
 						<Checkbox
-							helpPopover={true}
-							helpTitle={translate.exists_advance_notice_days}
-							helpDescription={'Advance notice days'}
 							label={translate.exists_advance_notice_days}
 							value={statute.existsAdvanceNoticeDays === 1}
 							onChange={(event, isInputChecked) =>
@@ -290,6 +287,9 @@ class StatuteEditor extends React.PureComponent {
 					</GridItem>
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
+							helpPopover={true}
+							helpTitle={translate.exist_max_num_delegated_votes}
+							helpDescription={translate.max_delegated_votes_des}
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
 							onChange={(event, isInputChecked) =>
@@ -327,6 +327,9 @@ class StatuteEditor extends React.PureComponent {
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							label={translate.exists_limited_access_room}
+							helpPopover={false}
+							helpTitle={translate.exists_limited_access_room}
+							helpDescription={translate.cant_access_after_start_desc}
 							value={statute.existsLimitedAccessRoom === 1}
 							onChange={(event, isInputChecked) =>
 								updateState({
@@ -405,6 +408,9 @@ class StatuteEditor extends React.PureComponent {
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							helpPopover={true}
+							helpTitle={translate.exist_present_with_remote_vote}
+							helpDescription={translate.exists_present_with_remote_vote_desc}
 							label={translate.exist_present_with_remote_vote}
 							value={statute.existsPresentWithRemoteVote === 1}
 							onChange={(event, isInputChecked) =>

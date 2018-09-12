@@ -66,13 +66,13 @@ class Sidebar extends React.Component {
 				{
 					path: `/company/${this.props.company.id}/councils/drafts`,
 					name: "council",
-					sidebarName: 'Reuniones',
+					sidebarName: this.props.translate.councils_sidebar,
 					icon: 'import_contacts'
 				},
 				{
 					path: `/company/${this.props.company.id}/signatures/drafts`,
 					name: "signature",
-					sidebarName: 'Firmas',
+					sidebarName: this.props.translate.signatures_sidebar,
 					icon: 'border_color'
 				}
 			];

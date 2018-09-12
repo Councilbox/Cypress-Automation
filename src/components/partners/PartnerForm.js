@@ -202,20 +202,21 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={2}>
                             <SelectInput
                                 floatingText={translate.state}
-                                value={participant.state}
+                                value={''+participant.state}
+                                errorText={errors.state}
                                 onChange={event =>
                                     updateState({
-                                        state: event.target.value
+                                        state: +event.target.value
                                     })
                                 }
                             >
                                 <MenuItem
-                                    value={1}
+                                    value={'1'}
                                 >
                                     {translate.subscribed}
                                 </MenuItem>
                                 <MenuItem
-                                    value={0}
+                                    value={'0'}
                                 >
                                     {translate.unsubscribed}
                                 </MenuItem>
