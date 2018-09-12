@@ -189,7 +189,7 @@ class ActAttendantsTable extends React.Component {
                                                                     key={`delegatedVote_${delegatedVote.id}`}
                                                                     >
                                                                     <TableCell style={{ fontSize: "0.9em" }}>
-                                                                        {delegatedVote.state === PARTICIPANT_STATES.REPRESENTATED ? 'REPRESENTADO' : 'DELEGADO'}
+                                                                        <StateIcon translate={translate} state={delegatedVote.state}/>
                                                                     </TableCell>
                                                                     <TableCell style={{ fontSize: "0.9em" }}>
                                                                         {`${delegatedVote.name} ${delegatedVote.surname}`}
