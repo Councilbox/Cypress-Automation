@@ -238,7 +238,7 @@ class AgendaDetailsSection extends React.Component {
 																agenda={agenda}
 																council={council}
 																translate={translate}
-																recount={{}}
+																recount={this.props.recount}
 																refetch={this.props.refetch}
 																majorityTypes={this.props.majorityTypes}
 															/>

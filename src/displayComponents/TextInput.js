@@ -8,6 +8,7 @@ import {
 import Visibility from "material-ui-icons/Visibility";
 import VisibilityOff from "material-ui-icons/VisibilityOff";
 import FontAwesome from 'react-fontawesome';
+import HelpPopover from './HelpPopover';
 
 const TextInput = ({
 	floatingText = "",
@@ -24,6 +25,9 @@ const TextInput = ({
 	placeholder,
 	required,
 	min,
+	helpPopover,
+	helpTitle,
+	helpDescription,
 	id,
 	max,
 	disabled
@@ -36,7 +40,7 @@ const TextInput = ({
 	>
 		<TextField
 			label={
-				<React.Fragment>
+				<div style={{display: 'flex'}}>
 					{`${floatingText}${required ? "*" : ""}` }
 					{!!errorText &&
 						<FontAwesome
@@ -48,7 +52,13 @@ const TextInput = ({
 							}}
 						/>
 					}
-				</React.Fragment>
+					{helpPopover &&
+						<HelpPopover
+							title={helpTitle}
+							content={helpDescription}
+						/>
+					}
+				</div>
 			}
 			value={value}
 			multiline={multiline}

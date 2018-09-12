@@ -48,7 +48,7 @@ class StepAttachments extends React.Component {
 				totalSize: totalSize
 			};
 		}
-		return null;
+		return { totalSize: 0};
 	}
 
 	componentDidMount() {
@@ -99,7 +99,7 @@ class StepAttachments extends React.Component {
 	};
 
 	removeCouncilAttachment = async attachmentID => {
-		this.props.removeCouncilAttachment({
+		await this.props.removeCouncilAttachment({
 			variables: {
 				attachmentId: attachmentID,
 				councilId: this.props.councilID
@@ -114,6 +114,7 @@ class StepAttachments extends React.Component {
 				}
 			]
 		});
+		this.props.data.refetch();
 	};
 
 	updateCouncil = async step => {
