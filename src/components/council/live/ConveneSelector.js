@@ -6,7 +6,6 @@ import { Card } from 'material-ui';
 
 
 const ConveneSelector = ({ translate, council, recount, convene, changeConvene }) => {
-    console.log(council);
     return(
         <React.Fragment>
             <Card style={{

@@ -37,7 +37,7 @@ class AddGuestModal extends React.Component {
 			});
 			if (response) {
 				if (response.data.addGuest.success) {
-					this.props.refetch();
+					//this.props.refetch();
 					this.close();
 				} else {
 					if (response.data.addGuest.message === "601") {

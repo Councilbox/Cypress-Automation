@@ -202,14 +202,7 @@ class ParticipantsManager extends React.Component {
 						<br />
 						{/* Vista */}
 						<div style={{ display: 'flex', flexDirection: 'column' }}>
-							<h3>{translate.view || 'VISTA' /*TRADUCIR*/}</h3>
-							<Radio
-								value={"0"}
-								checked={this.state.layout === "compact"}
-								onChange={() => this.setState({ layout: 'compact' })}
-								name="compact"
-								label={translate.compact_table}
-							/>
+							<span style={{fontWeight: '700'}}>{translate.view || 'VISTA' /*TRADUCIR*/}</span>
 							<Radio
 								value={"1"}
 								checked={this.state.layout === "table"}
@@ -226,8 +219,8 @@ class ParticipantsManager extends React.Component {
 							/>
 						</div>
 						{/* Ver  */}
-						<div style={{ display: 'flex', flexDirection: 'column' }}>
-							<h3>{translate.see}</h3>
+						<div style={{ display: 'flex', flexDirection: 'column', marginTop: '1em' }}>
+							<span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span>
 							<Radio
 								value={"0"}
 								checked={this.state.view === "STATES"}

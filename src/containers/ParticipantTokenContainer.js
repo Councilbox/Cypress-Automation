@@ -28,8 +28,7 @@ class ParticipantTokenContainer extends React.Component {
                     variables: {},
                     fetchPolicy: "network-only"
                 });
-				const participant = responseQueryMe.data.participantMe;
-				this.props.actions.participantLoginSuccess(participant);				
+				const participant = responseQueryMe.data.participantMe;			
 
                 this.setState({
                     token: token,

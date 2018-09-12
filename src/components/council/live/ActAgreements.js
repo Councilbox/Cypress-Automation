@@ -105,7 +105,6 @@ class ActAgreements extends React.Component {
 							fontWeight: "700"
 						}}
 					>{`${translate.comments_and_agreements}`}</span>
-					{this.state.loading && <LoadingSection size={20} />}
 				</div>
 				<div
 					style={{
@@ -124,6 +123,8 @@ class ActAgreements extends React.Component {
 	};
 
 	loadDraft = draft => {
+		console.log(this.props.council);
+		console.log(this.props.agenda);
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,

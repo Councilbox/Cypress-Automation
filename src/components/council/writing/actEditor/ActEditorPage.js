@@ -5,6 +5,7 @@ import ActAttendantsTable from "./ActAttendantsTable";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ActEditor from "./ActEditor";
+import withSharedProps from '../../../../HOCs/withSharedProps';
 import Convene from '../../convene/Convene';
 import ActHTML from '../actViewer/ActHTML';
 //import Scrollbar from 'react-perfect-scrollbar';
@@ -75,7 +76,8 @@ class ActEditorPage extends React.Component {
                                 <div style={{height: '100%'}}>
                                     <ActEditor
                                         councilID={council.id}
-                                        companyID={this.props.companyID}
+                                        companyID={this.props.company.id}
+                                        company={this.props.company}
                                         translate={translate}
                                         refetch={this.props.refetch}
                                     />
@@ -220,4 +222,4 @@ export default graphql(recordingsIframe, {
             councilId: props.council.id
         }
     })
-})(ActEditorPage);
+})(withSharedProps()(ActEditorPage));

@@ -104,8 +104,10 @@ class TypesContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.typeStatus) {
+		if (this.state.typeStatus || this.state.typeStatus === 0) {
 			variables.typeStatus = this.state.typeStatus;
+		} else {
+			variables.typeStatus = null;
 		}
 
 		if (this.state.filterText) {
