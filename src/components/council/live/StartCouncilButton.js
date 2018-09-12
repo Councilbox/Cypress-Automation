@@ -16,11 +16,18 @@ import Scrollbar from "react-perfect-scrollbar";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
 import { existsQualityVote } from "../../../utils/CBX";
-import ConveneSelector from './ConveneSelector';
+import ConveneSelector from "./ConveneSelector";
 import { startCouncil } from "../../../queries/council";
 
-class StartCouncilButton extends React.Component {
+const buttonStyle = primary => ({
+	backgroundColor: "white",
+	border: `solid 1px ${primary}`,
+	color: primary,
+	cursor: 'pointer',
+	borderRadius: '2px'
+});
 
+class StartCouncilButton extends React.Component {
 	state = {
 		alert: false,
 		selecting: 0,
@@ -44,7 +51,12 @@ class StartCouncilButton extends React.Component {
 				loading: true
 			});
 			const { council, refetch, startCouncil } = this.props;
-			const { presidentId, secretaryId, qualityVoteId, firstOrSecondConvene } = this.state.data;
+			const {
+				presidentId,
+				secretaryId,
+				qualityVoteId,
+				firstOrSecondConvene
+			} = this.state.data;
 			const response = await startCouncil({
 				variables: {
 					councilId: council.id,
@@ -135,15 +147,14 @@ class StartCouncilButton extends React.Component {
 		}
 	};
 
-
-	changeConvene = (value) => {
+	changeConvene = value => {
 		this.setState({
 			data: {
 				...this.state.data,
 				firstOrSecondConvene: value
 			}
-		})
-	}
+		});
+	};
 
 	loadMore = () => {
 		this.props.data.fetchMore({
@@ -180,6 +191,7 @@ class StartCouncilButton extends React.Component {
 			: this.props.data.councilOfficials.list;
 		const { total } = loading ? 0 : this.props.data.councilOfficials;
 		const rest = total - participants.length - 1;
+		const primary = getPrimary();
 
 		if (this.state.selecting !== 0) {
 			return (
@@ -204,40 +216,42 @@ class StartCouncilButton extends React.Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-								<Scrollbar option={{ suppressScrollX: true }}>
-									{participants.length > 0 ? (
-										<React.Fragment>
-											{participants.map(participant => (
-												<ParticipantRow
-													participant={participant}
-													key={`participant_${participant.id}`}
-													onClick={() =>
-														this.actionSwitch()(
-															participant.id,
-															`${participant.name} ${
+							<Scrollbar option={{ suppressScrollX: true }}>
+								{participants.length > 0 ? (
+									<div style={{padding: '0.2em'}}>
+										{participants.map(participant => (
+											<ParticipantRow
+												participant={participant}
+												key={`participant_${
+													participant.id
+												}`}
+												onClick={() =>
+													this.actionSwitch()(
+														participant.id,
+														`${participant.name} ${
 															participant.surname
-															}`
-														)
-													}
-												/>
-											))}
-											{participants.length < total - 1 && (
-												<div onClick={this.loadMore}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-												</div>
-											)}
-										</React.Fragment>
-									) : (
-											<Typography>
-												{translate.no_results}
-											</Typography>
+														}`
+													)
+												}
+											/>
+										))}
+										{participants.length < total - 1 && (
+											<div onClick={this.loadMore}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD
+														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+												}`}
+											</div>
 										)}
-								</Scrollbar>
-							)}
+									</div>
+								) : (
+									<Typography>
+										{translate.no_results}
+									</Typography>
+								)}
+							</Scrollbar>
+						)}
 					</div>
 				</div>
 			);
@@ -249,7 +263,10 @@ class StartCouncilButton extends React.Component {
 					{translate.president}
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
-					<button onClick={() => this.setState({ selecting: 1 })}>
+					<button
+						style={buttonStyle(primary)}
+						onClick={() => this.setState({ selecting: 1 })}
+					>
 						{translate.select_president}
 					</button>
 				</GridItem>
@@ -257,23 +274,26 @@ class StartCouncilButton extends React.Component {
 					{!!this.state.data.president ? (
 						this.state.data.president
 					) : (
-							<span
-								style={{
-									color: this.state.errors.president
-										? "red"
-										: "inherit"
-								}}
-							>
-								{translate.not_selected}
-							</span>
-						)}
+						<span
+							style={{
+								color: this.state.errors.president
+									? "red"
+									: "inherit"
+							}}
+						>
+							{translate.not_selected}
+						</span>
+					)}
 				</GridItem>
 
 				<GridItem xs={3} md={3} lg={3}>
 					{translate.secretary}
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
-					<button onClick={() => this.setState({ selecting: 2 })}>
+					<button
+						style={buttonStyle(primary)}
+						onClick={() => this.setState({ selecting: 2 })}
+					>
 						{translate.select_secretary}
 					</button>
 				</GridItem>
@@ -281,16 +301,16 @@ class StartCouncilButton extends React.Component {
 					{!!this.state.data.secretary ? (
 						this.state.data.secretary
 					) : (
-							<span
-								style={{
-									color: this.state.errors.secretary
-										? "red"
-										: "inherit"
-								}}
-							>
-								{translate.not_selected}
-							</span>
-						)}
+						<span
+							style={{
+								color: this.state.errors.secretary
+									? "red"
+									: "inherit"
+							}}
+						>
+							{translate.not_selected}
+						</span>
+					)}
 				</GridItem>
 
 				{existsQualityVote(this.props.council.statute) && (
@@ -300,6 +320,7 @@ class StartCouncilButton extends React.Component {
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
+								style={buttonStyle(primary)}
 								onClick={() => this.setState({ selecting: 3 })}
 							>
 								{translate.select_quality_vote}
@@ -309,16 +330,16 @@ class StartCouncilButton extends React.Component {
 							{!!this.state.data.qualityVoteName ? (
 								this.state.data.qualityVoteName
 							) : (
-									<span
-										style={{
-											color: this.state.errors.qualityVote
-												? "red"
-												: "inherit"
-										}}
-									>
-										{translate.not_selected}
-									</span>
-								)}
+								<span
+									style={{
+										color: this.state.errors.qualityVote
+											? "red"
+											: "inherit"
+									}}
+								>
+									{translate.not_selected}
+								</span>
+							)}
 						</GridItem>
 					</React.Fragment>
 				)}
@@ -366,7 +387,7 @@ class StartCouncilButton extends React.Component {
 					buttonStyle={{ width: "11em" }}
 					textStyle={{
 						color: "white",
-						fontSize: "0.7em",
+						fontSize: "0.9em",
 						fontWeight: "700",
 						textTransform: "none"
 					}}
