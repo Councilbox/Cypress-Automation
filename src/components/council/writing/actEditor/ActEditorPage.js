@@ -6,12 +6,12 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ActEditor from "./ActEditor";
 import Convene from '../../convene/Convene';
-import ActHTML from '../actViewer/ActHTML';
 //import Scrollbar from 'react-perfect-scrollbar';
 import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
 import RecordingsSection from '../recordings/RecordingsSection';
+import ActHTMLTab from '../actViewer/ActHTMLTab';
 
 class ActEditorPage extends React.Component {
     state = {
@@ -52,7 +52,7 @@ class ActEditorPage extends React.Component {
                                     <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
                                         <Scrollbar>
                                             <div style={{padding: '1.5em', overflow: 'hidden', position: 'relative'}}>
-                                                <ActHTML council={council} />
+                                                <ActHTMLTab council={council} translate={translate} />
                                             </div>
                                         </Scrollbar>
                                     </div>
