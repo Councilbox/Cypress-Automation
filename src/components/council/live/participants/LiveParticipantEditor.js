@@ -3,7 +3,6 @@ import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
-	Tooltip,
 	Typography,
 	Table,
 	TableHead,
@@ -25,6 +24,8 @@ import NotificationsTable from "../../../notifications/NotificationsTable";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 import StateIcon from "./StateIcon";
 import TypeIcon from "./TypeIcon";
+import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
+import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 
 class LiveParticipantEditor extends React.Component {
 	state = {
@@ -103,28 +104,36 @@ class LiveParticipantEditor extends React.Component {
 				/>
 				<div style={{ paddingBottom: '0.5em' }}>
 					<Grid>
-						<GridItem xs={2} md={1}>
+						<GridItem md={1}>
 							<TypeIcon
 								translate={translate}
 								type={participant.type}
-								ratio={1.5}
+								ratio={1.3}
 							/>
+							<div style={{marginLeft: '-1.5em', marginTop: '0.5em'}}>
+								<DownloadCBXDataButton
+									translate={translate}
+									participantId={
+										participant.participantId
+									}
+								/>
+							</div>
 						</GridItem>
-						<GridItem xs={10} md={5}>
+						<GridItem md={4}>
 							<ParticipantDisplay
 								participant={participant}
 								translate={translate}
 								council={this.props.council}
 							/>
 						</GridItem>
-						<GridItem xs={2} md={1}>
+						<GridItem md={1}>
 							<StateIcon
 								translate={translate}
 								state={participant.state}
-								ratio={1.5}
+								ratio={1.3}
 							/>
 						</GridItem>
-						<GridItem xs={10} md={5}>
+						<GridItem md={6}>
 							<Typography variant="body2">
 								<b>{`${translate.current_status}:  `}</b>
 								<br />
@@ -172,12 +181,6 @@ class LiveParticipantEditor extends React.Component {
 										translate={translate}
 										participants={[participant.representative]}
 									/>
-
-									{/* <ParticipantDisplay
-									translate={translate}
-									delegate={true}
-									council={this.props.council}
-								/> */}
 								</GridItem>
 							)}
 
@@ -220,6 +223,11 @@ class LiveParticipantEditor extends React.Component {
 										loading={this.state.loadingSends}
 										onClick={this.refreshEmailStates}
 									/>
+									<ResendCredentialsModal
+										participant={participant}
+										translate={translate}
+										refetch={this.props.data.refetch}
+									/>
 								</GridItem>
 								<GridItem xs={12} lg={12} md={12}>
 									<NotificationsTable
@@ -240,23 +248,23 @@ const ParticipantTable = ({ participants, translate }) => (
 	<Table style={{ maxWidth: "100%", width: "100%" }}>
 		<TableHead>
 			<TableRow>
-				<TableCell style={{ paddingRight: "0.1em" }}>
+				<TableCell style={{ padding: "0.2em" }}>
 					{translate.name}
 				</TableCell>
-				<TableCell>{translate.dni}</TableCell>
-				<TableCell>{translate.position}</TableCell>
-				<TableCell>{translate.votes}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{translate.dni}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{translate.position}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{translate.votes}</TableCell>
 			</TableRow>
 		</TableHead>
 		<TableBody>
 			{participants.map((participant, index) => (
 				<TableRow key={`part_${index}`}>
-					<TableCell>
+					<TableCell style={{ padding: "0.2em" }}>
 						{`${participant.name} ${participant.surname}`}
 					</TableCell>
-					<TableCell>{`${participant.dni}`}</TableCell>
-					<TableCell>{`${participant.position}`}</TableCell>
-					<TableCell>{`${participant.numParticipations}`}</TableCell>
+					<TableCell style={{ padding: "0.2em" }}>{`${participant.dni}`}</TableCell>
+					<TableCell style={{ padding: "0.2em" }}>{`${participant.position}`}</TableCell>
+					<TableCell style={{ padding: "0.2em" }}>{`${participant.numParticipations}`}</TableCell>
 				</TableRow>
 			))}
 		</TableBody>
@@ -277,5 +285,5 @@ export default compose(
 	}),
 	graphql(updateParticipantSends, {
 		name: "updateParticipantSends"
-	})
+	}),
 )(LiveParticipantEditor);

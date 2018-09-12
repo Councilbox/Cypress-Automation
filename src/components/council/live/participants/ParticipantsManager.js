@@ -6,8 +6,9 @@ import {
 	GridItem,
 	BasicButton,
 	ButtonIcon,
+	FilterButton,
 } from "../../../../displayComponents";
-import { getSecondary } from '../../../../styles/colors';
+import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { Paper, Tooltip } from "material-ui";
 import LiveParticipantEditor from "./LiveParticipantEditor";
 import AddGuestModal from "./AddGuestModal";
@@ -16,6 +17,8 @@ import ConveneContainer from "./sections/ConveneContainer";
 import CredentialsContainer from "./sections/CredentialsContainer";
 import AttendanceContainer from "./sections/AttendanceContainer";
 import TypesContainer from "./sections/TypesContainer";
+import FontAwesome from "react-fontawesome";
+
 
 
 class ParticipantsManager extends React.Component {
@@ -105,6 +108,7 @@ class ParticipantsManager extends React.Component {
 	}
 
 	render() {
+		const primary = getPrimary();
 		const { translate, council } = this.props;
 		const secondary = getSecondary();
 
@@ -201,9 +205,49 @@ class ParticipantsManager extends React.Component {
 						</Tooltip>
 						<br />
 						{/* Vista */}
-						<div style={{ display: 'flex', flexDirection: 'column' }}>
-							<h3>{translate.view || 'VISTA' /*TRADUCIR*/}</h3>
-							<Radio
+						<div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1.5em' }}>
+							<FilterButton
+								tooltip={translate.grid}
+								onClick={() => this.setState({ layout: 'squares' })}
+								active={this.state.layout === "squares"}
+							>
+								<FontAwesome
+									name={"th-large"}
+									style={{
+										color: primary,
+										fontSize: "0.7em"
+									}}
+								/>
+							</FilterButton>
+							<FilterButton
+								tooltip={translate.compact_table}
+								onClick={() => this.setState({ layout: 'compact' })}
+								active={this.state.layout === "compact"}
+							>
+								<FontAwesome
+									name={"list"}
+									style={{
+										color: primary,
+										fontSize: "0.7em"
+									}}
+								/>
+							</FilterButton>
+							<FilterButton
+								tooltip={translate.table}
+								onClick={() => this.setState({ layout: 'table' })}
+								active={this.state.layout === "table"}
+							>
+								<FontAwesome
+									name={"th-list"}
+									style={{
+										color: primary,
+										fontSize: "0.7em"
+									}}
+								/>
+							</FilterButton>
+
+							{/* <h3>{translate.view || 'VISTA'}</h3> */}
+							{/* <Radio
 								value={"0"}
 								checked={this.state.layout === "compact"}
 								onChange={() => this.setState({ layout: 'compact' })}
@@ -223,7 +267,7 @@ class ParticipantsManager extends React.Component {
 								onChange={() => this.setState({ layout: 'squares' })}
 								name="squares"
 								label={translate.grid}
-							/>
+							/> */}
 						</div>
 						{/* Ver  */}
 						<div style={{ display: 'flex', flexDirection: 'column' }}>
