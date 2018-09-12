@@ -22,7 +22,7 @@ class SaveDraftModal extends Component {
 	};
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
-		const { draft } = this.state;
+		const draft = this.state.data;
 		if (!checkRequiredFields(translate, draft, this.updateErrors)) {
 			const { data } = this.state;
 			this.setState({ loading: true });

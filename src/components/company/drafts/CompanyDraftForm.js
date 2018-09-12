@@ -164,7 +164,6 @@ const CompanyDraftForm = ({
 				floatingText={translate.description}
 				type="text"
 				errorText={errors.description}
-				required
 				value={draft.description}
 				onChange={event =>
 					updateState({
