@@ -1594,6 +1594,12 @@ export const downloadConvenePDF = gql`
 	}
 `;
 
+export const downloadAct = gql`
+	query downloadAct($councilId: Int!) {
+		downloadAct(councilId: $councilId)
+	}
+`;
+
 export const majorityTypes = gql`
 	query majorityTypes {
 		majorityTypes {

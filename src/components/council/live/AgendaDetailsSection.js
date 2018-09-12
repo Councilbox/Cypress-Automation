@@ -79,7 +79,7 @@ class AgendaDetailsSection extends React.Component {
 						padding: "1em 0 1em 1em",
 					}}
 				>
-					<GridItem xs={12} md={9} style={{ display: 'flex', minHeight: '6em', flexDirection: 'column', justifyContent: 'space-between' }}>
+					<GridItem xs={12} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
 						<div style={{ fontWeight: '700' }}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</div>
 						<Grid>
 							<GridItem xs={12} md={12} lg={3}>
@@ -131,8 +131,8 @@ class AgendaDetailsSection extends React.Component {
 							</GridItem>
 						</Grid>
 					</GridItem>
-					<GridItem xs={12} md={3} style={{ borderLeft: '1px solid gainsboro' }}>
-						<div style={{ float: 'right' }}>
+					<GridItem xs={12} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
+						<div style={{marginLeft: 'auto'}}>
 							{council.state === 20 || council.state === 30 ? (
 								!CBX.councilStarted(council) ? (
 									<div>
@@ -164,7 +164,7 @@ class AgendaDetailsSection extends React.Component {
 								)
 							}
 						</div>
-						<div style={{ float: 'right', marginTop: '0.5em', paddingRight: '0.5em' }}>
+						<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
 							<CouncilMenu
 								council={council}
 								translate={translate}
@@ -172,7 +172,7 @@ class AgendaDetailsSection extends React.Component {
 						</div>
 					</GridItem>
 				</Grid>
-				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: 'calc(100vh - 13.5em)', overflow: 'hidden' }}>
+				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: 'calc(100vh - 11em)', overflow: 'hidden' }}>
 					<Scrollbar>
 						<Collapse isOpened={this.state.expanded}>
 							<div

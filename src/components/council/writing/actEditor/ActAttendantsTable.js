@@ -10,6 +10,7 @@ import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
 import { moment } from '../../../../containers/App';
 import { councilAttendants } from '../../../../queries/council';
+import StateIcon from '../../live/participants/StateIcon';
 
 class ActAttendantsTable extends React.Component {
 
@@ -188,7 +189,7 @@ class ActAttendantsTable extends React.Component {
                                                                     key={`delegatedVote_${delegatedVote.id}`}
                                                                     >
                                                                     <TableCell style={{ fontSize: "0.9em" }}>
-                                                                        {delegatedVote.state === PARTICIPANT_STATES.REPRESENTATED ? 'REPRESENTADO' : 'DELEGADO'}
+                                                                        <StateIcon translate={translate} state={delegatedVote.state}/>
                                                                     </TableCell>
                                                                     <TableCell style={{ fontSize: "0.9em" }}>
                                                                         {`${delegatedVote.name} ${delegatedVote.surname}`}
@@ -245,11 +246,7 @@ class HoverableRow extends React.Component {
                 onMouseLeave={this.mouseLeaveHandler}
             >
                 <TableCell>
-                    {participant.state === PARTICIPANT_STATES.REMOTE ?
-                        'REMOTE ICON'
-                        :
-                        'PRESENT ICON'
-                    }
+                    <StateIcon translate={translate} state={participant.state}/>
                 </TableCell>
                 <TableCell>
                     {`${participant.name} ${participant.surname}`}
