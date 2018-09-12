@@ -24,7 +24,7 @@ const styles = {
 	},
 	container: {
 		width: "100%",
-		height: "calc(100% - 48px)",
+		height: "calc(100% - 3em)",
 		display: "flex",
 		flexDirection: "row"
 	}
