@@ -1,12 +1,8 @@
 import gql from "graphql-tag";
 
 export const setAssistanceComment = gql`
-	mutation setAssistanceComment(
-		$assistanceComment: String!
-	) {
-		setAssistanceComment(
-			assistanceComment: $assistanceComment
-		) {
+	mutation setAssistanceComment($assistanceComment: String!) {
+		setAssistanceComment(assistanceComment: $assistanceComment) {
 			success
 		}
 	}
@@ -14,8 +10,8 @@ export const setAssistanceComment = gql`
 
 export const setAssistanceIntention = gql`
 	mutation setAssistanceIntention(
-		$assistanceIntention: Int!,
-		$representativeId: Int,
+		$assistanceIntention: Int!
+		$representativeId: Int
 	) {
 		setAssistanceIntention(
 			assistanceIntention: $assistanceIntention
@@ -26,14 +22,9 @@ export const setAssistanceIntention = gql`
 	}
 `;
 
-
 export const liveParticipantSignature = gql`
-	query liveParticipantSignature(
-		$participantId: Int!,
-	) {
-		liveParticipantSignature(
-			participantId: $participantId
-		) {
+	query liveParticipantSignature($participantId: Int!) {
+		liveParticipantSignature(participantId: $participantId) {
 			id
 			participantId
 			data
@@ -44,41 +35,35 @@ export const liveParticipantSignature = gql`
 
 export const setLiveParticipantSignature = gql`
 	mutation setLiveParticipantSignature(
-		$signature: LiveParticipantSignatureInput!,
+		$signature: LiveParticipantSignatureInput!
 		$state: Int
 	) {
-		setLiveParticipantSignature(
-			signature: $signature,
-			state: $state
-		) {
+		setLiveParticipantSignature(signature: $signature, state: $state) {
 			success
 		}
 	}
 `;
 
 export const changeParticipantState = gql`
-	mutation changeParticipantState(
-		$participantId: Int!,
-		$state: Int!,
-	) {
-		changeParticipantState(
-			participantId: $participantId
-			state: $state
-		) {
+	mutation changeParticipantState($participantId: Int!, $state: Int!) {
+		changeParticipantState(participantId: $participantId, state: $state) {
 			success
 			message
 		}
 	}
 `;
 export const addDelegation = gql`
-	mutation addDelegation(
-		$participantId: Int!,
-		$delegateId: Int!,
-	) {
-		addDelegation(
-			participantId: $participantId
-			delegateId: $delegateId
-		) {
+	mutation addDelegation($participantId: Int!, $delegateId: Int!) {
+		addDelegation(participantId: $participantId, delegateId: $delegateId) {
+			success
+			message
+		}
+	}
+`;
+
+export const resendRoomEmails = gql`
+	mutation resendRoomEmails($councilId: Int!, $timezone: String!, $participantsIds: [Int]!) {
+		resendRoomEmails(councilId: $councilId, timezone: $timezone, participantsIds: $participantsIds) {
 			success
 			message
 		}
