@@ -188,6 +188,7 @@ export default graphql(agendaManager, {
 		variables: {
 			companyId: props.company.id,
 			councilId: props.council.id
-		}
+		},
+		pollInterval: 5000
 	})
 })(AgendaManager);

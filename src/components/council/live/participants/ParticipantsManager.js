@@ -270,8 +270,8 @@ class ParticipantsManager extends React.Component {
 							/> */}
 						</div>
 						{/* Ver  */}
-						<div style={{ display: 'flex', flexDirection: 'column' }}>
-							<h3>{translate.see}</h3>
+						<div style={{ display: 'flex', flexDirection: 'column', marginTop: '1em' }}>
+							<span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span>
 							<Radio
 								value={"0"}
 								checked={this.state.view === "STATES"}

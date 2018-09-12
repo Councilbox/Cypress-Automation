@@ -136,8 +136,11 @@ class ConveneContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.notificationStatus) {
+
+		if (this.state.notificationStatus || this.state.notificationStatus === 0) {
 			variables.notificationStatus = this.state.notificationStatus;
+		} else {
+			variables.notificationStatus = null;
 		}
 
 		if (this.state.filterText) {

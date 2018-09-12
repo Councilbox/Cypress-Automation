@@ -98,16 +98,6 @@ class NewParticipantModal extends React.Component {
             errors.dni = translate.field_required;
         }
 
-        if(!data.phone){
-            hasError = true;
-            errors.phone = translate.field_required;
-        }
-
-        if(!data.position){
-            hasError = true;
-            errors.position = translate.field_required;
-        }
-
         if(!data.email){
             hasError = true;
             errors.email = translate.field_required;

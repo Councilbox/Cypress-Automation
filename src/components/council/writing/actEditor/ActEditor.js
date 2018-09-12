@@ -11,20 +11,19 @@ import {
 } from "../../../../displayComponents";
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { updateAgenda } from "../../../../queries/agenda";
 import AgendaEditor from "./AgendaEditor";
 import { DRAFT_TYPES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
-import moment from "moment";
+import { moment } from '../../../../containers/App';
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
-import { getActPointSubjectType, checkForUnclosedBraces } from '../../../../utils/CBX';
+import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 
 const CouncilActData = gql`
-	query CouncilActData($councilID: Int!) {
+	query CouncilActData($councilID: Int!, $companyId: Int!) {
 		council(id: $councilID) {
 			id
 			businessName
@@ -36,6 +35,8 @@ const CouncilActData = gql`
 			street
 			city
 			name
+			dateStart
+			dateStart2NdCall
 			dateRealStart
 			dateEnd
 			qualityVoteId
@@ -93,6 +94,12 @@ const CouncilActData = gql`
 			value
 		}
 
+		companyStatutes(companyId: $companyId) {
+			id
+			title
+			censusId
+		}
+
 		majorityTypes {
 			label
 			value
@@ -146,6 +153,21 @@ class ActEditor extends Component {
 			}
 		}
 	}
+
+	loadDraft = draft => {
+ 		const correctedText = changeVariablesToValues(draft.text, {
+			company: this.props.company,
+			council: this.props.data.council
+		}, this.props.translate);
+		this.updateActState({
+			[this.state.load]: correctedText
+		});
+
+		this[this.state.load].setValue(correctedText);
+		this.setState({
+			loadDraft: false
+		});
+	};
 
 	updateActState = async object => {
 		this.setState({
@@ -217,6 +239,7 @@ class ActEditor extends Component {
 
 	updateCouncilAct = async () => {
 		const { __typename, ...act } = this.state.data.council.act;
+		console.log(act);
 
 		if(!this.checkBraces()){
 			this.setState({
@@ -238,86 +261,6 @@ class ActEditor extends Component {
 					updating: false
 				});
 			}
-		}
-	}
-
-	updateAgendaState = object => {
-		let modifiedAgendas = this.state.data.council.agendas.map(agenda => {
-			if (object.id === agenda.id) {
-				return {
-					...agenda,
-					comment: object.comment
-				};
-			}
-			return agenda;
-		});
-
-		this.setState({
-			data: {
-				...this.state.data,
-				council: {
-					...this.state.data.council,
-					agendas: modifiedAgendas
-				}
-			}
-		}, async () => {
-			clearTimeout(this.timeout);
-			this.timeout = setTimeout(() => this.updateAgenda(), 450);
-		});
-	};
-
-	checkAgendasCommentBraces = () => {
-		let agendaErrors = new Map();
-		let hasError = false;
-
-		const { agendas } = this.state.data.council;
-
-		agendas.forEach(agenda => {
-			if(checkForUnclosedBraces(agenda.comment)){
-				agendaErrors.set(agenda.id, true);
-				hasError = true;
-			}
-		});
-
-		if(hasError){
-			toast(
-				<LiveToast
-					message={this.props.translate.revise_text}
-				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
-					className: "errorToast"
-				}
-			);
-		}
-
-		this.setState({
-			disableButtons: hasError,
-			agendaErrors
-		});
-
-		return hasError;
-	}
-
-	updateAgenda = async () => {
-		if(!this.checkAgendasCommentBraces()){
-			const { agendas } = this.state.data.council;
-			this.setState({
-				updating: true
-			});
-
-			await Promise.all(agendas.map(async item => {
-				const { __typename, votings, ...agenda } = item;
-				await this.props.updateAgenda({
-					variables: {
-						agenda: {
-							...agenda,
-							councilId: this.state.data.council.id
-						}
-					}
-				});
-			}));
-			this.updateCouncilAct();
 		}
 	}
 
@@ -353,7 +296,7 @@ class ActEditor extends Component {
 							<div style={{padding: '1.2em 5%'}}>
 								{!!data.council.act &&
 									<RichTextInput
-										ref={editor => this.editorIntro = editor}
+										ref={editor => this.intro = editor}
 										floatingText={translate.intro}
 										type="text"
 										id="act-intro"
@@ -374,6 +317,7 @@ class ActEditor extends Component {
 												onClick={() =>
 													this.setState({
 														loadDraft: true,
+														load: 'intro',
 														draftType: DRAFT_TYPES.INTRO
 													})
 												}
@@ -420,7 +364,7 @@ class ActEditor extends Component {
 								}
 								<div style={{marginTop: '1em'}}>
 									<RichTextInput
-										ref={editor => (this.editorConstitution = editor)}
+										ref={editor => (this.constitution = editor)}
 										floatingText={translate.constitution}
 										type="text"
 										id="act-constitution"
@@ -441,6 +385,7 @@ class ActEditor extends Component {
 												onClick={() =>
 													this.setState({
 														loadDraft: true,
+														load: 'constitution',
 														draftType: DRAFT_TYPES.CONSTITUTION
 													})
 												}
@@ -501,35 +446,13 @@ class ActEditor extends Component {
 													<AgendaEditor
 														agenda={agenda}
 														council={council}
-														error={this.state.agendaErrors.get(agenda.id)}
+														updateCouncilAct={this.updateCouncilAct}
 														recount={this.props.data.councilRecount}
-														loadDraft={
-															<BasicButton
-																text={translate.load_draft}
-																color={secondary}
-																textStyle={{
-																	color: "white",
-																	fontWeight: "600",
-																	fontSize: "0.8em",
-																	textTransform: "none",
-																	marginLeft: "0.4em",
-																	minHeight: 0,
-																	lineHeight: "1em"
-																}}
-																textPosition="after"
-																onClick={() =>
-																	this.setState({
-																		loadDraft: true,
-																		draftType:
-																			DRAFT_TYPES.AGENDA
-																	})
-																}
-															/>
-														}
-														updateAgenda={this.updateAgendaState}
 														translate={translate}
 														majorityTypes={this.props.data.majorityTypes}
 														typeText={this.getTypeText(agenda.subjectType)}
+														company={this.props.company}
+														data={this.props.data}
 													/>
 													{index < council.agendas.length -1 &&
 														<hr style={{marginTop: '2.5em'}} />
@@ -544,7 +467,7 @@ class ActEditor extends Component {
 										ref={ref => this.conclusionSection = ref}
 									>
 										<RichTextInput
-											ref={editor => (this.editorConclusion = editor)}
+											ref={editor => (this.conclusion = editor)}
 											floatingText={translate.conclusion}
 											type="text"
 											id="act-conclusion"
@@ -565,6 +488,7 @@ class ActEditor extends Component {
 													onClick={() =>
 														this.setState({
 															loadDraft: true,
+															load: 'conclusion',
 															draftType: DRAFT_TYPES.CONCLUSION
 														})
 													}
@@ -666,9 +590,9 @@ class ActEditor extends Component {
 						<LoadDraft
 							translate={translate}
 							companyId={this.props.company.id}
-							loadDraft={this.state.loadDraft}
+							loadDraft={this.loadDraft}
 							statute={council.statute}
-							statutes={companyStatutes}
+							statutes={this.props.data.companyStatutes}
 							draftType={this.state.draftType}
 						/>
 					</DialogContent>
@@ -697,14 +621,11 @@ export default compose(
 		options: props => ({
 			variables: {
 				councilID: props.councilID,
-				companyID: props.companyID
+				companyId: props.companyID
 			}
 		})
 	}),
 	graphql(updateCouncilAct, {
 		name: 'updateCouncilAct'
-	}),
-	graphql(updateAgenda, {
-		name: 'updateAgenda'
 	})
 )(withSharedProps()(ActEditor));

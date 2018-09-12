@@ -248,6 +248,7 @@ export const addMinimumDistance = (date, statute) => {
 };
 
 export const changeVariablesToValues = (text, data, translate) => {
+	console.log(data.council);
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
 	}
@@ -270,7 +271,10 @@ export const changeVariablesToValues = (text, data, translate) => {
 			moment.ISO_8601
 		).format("LLL")
 	);
-	text = text.replace("{{dateRealStart}}", !!data.council.dateRealStart ? data.council.dateRealStart : '');
+	text = text.replace("{{dateRealStart}}", !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
+		moment.ISO_8601).format("LLL") : '');
+	text = text.replace("{{dateEnd}}", !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
+		moment.ISO_8601).format("LLL") : '');
 	text = text.replace("{{firstOrSecondCall}}", data.council.firstOrSecondCall === 1 ?
 		translate.first_call
 		:
@@ -280,6 +284,8 @@ export const changeVariablesToValues = (text, data, translate) => {
 			''
 	);
 
+	text = text.replace('{{president}}', data.council.president);
+	text = text.replace('{{secretary}}', data.council.secretary);
 	text = text.replace("{{address}}", `${data.council.street} ${data.council.country}`)
 	text = text.replace("{{business_name}}", data.company.businessName);
 	text = text.replace("{{city}}", data.council.city);

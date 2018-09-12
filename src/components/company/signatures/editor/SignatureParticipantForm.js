@@ -78,7 +78,6 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
                 <TextInput
 					floatingText={translate.phone}
 					type="text"
-                    required
 					errorText={errors.phone}
 					value={participant.phone}
 					onChange={event =>

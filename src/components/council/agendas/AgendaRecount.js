@@ -44,11 +44,16 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
         if(!response.errors){
             refetch();
         }
-
-        console.log(response);
     }
 
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
+    const votesLeft = (agenda.presentCensus - agenda.noVoteManual - agenda.abstentionManual - agenda.negativeManual - agenda.positiveManual);
+    const maxVoteManual = votesLeft <= 0? 0 : votesLeft;
+
+    console.log(recount);
+    console.log(agenda);
+
+    const activatePresentOneVote = false;
 
     return(
         <React.Fragment>
@@ -72,7 +77,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {`${translate.participants}: ${agenda.numPresentCensus || 0}`}
                     </div>
                     <div style={itemStyle}>
-                        {`${translate.votes}: ${agenda.presentCensus || 0}`}
+                        {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numPresentCensus : agenda.presentCensus || 0}`}
                     </div>
                 </GridItem>
                 <GridItem xs={3} lg={3} md={3} style={columnStyle}>
@@ -83,7 +88,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
                     </div>
                     <div style={itemStyle}>
-                        {`${translate.votes}: ${recount.currentRemoteCensus || 0}`}
+                        {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numCurrentRemoteCensus : recount.currentRemoteCensus || 0}`}
                     </div>
                 </GridItem>
                 <GridItem xs={3} lg={3} md={3} style={{...columnStyle, backgroundColor: 'lightcyan'}}>
@@ -94,7 +99,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
                     </div>
                     <div style={itemStyle}>
-                        {`${translate.votes}: ${agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
+                        {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numCurrentRemoteCensus + agenda.numPresentCensus : agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
                     </div>
                 </GridItem>
             </Grid>
@@ -178,22 +183,22 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     {editable?
                         <React.Fragment>
                             <EditableCell
-                                max={agenda.presentCensus}
+                                max={maxVoteManual + agenda.positiveManual}
                                 blurAction={(value) => updateValue({positiveManual: value})}
                                 value={agenda.positiveManual}
                             />
                             <EditableCell
-                                max={agenda.presentCensus}
+                                max={maxVoteManual + agenda.negativeManual}
                                 blurAction={(value) => updateValue({negativeManual: value})}
                                 value={agenda.negativeManual}
                             />
                             <EditableCell
-                                max={agenda.presentCensus}
+                                max={maxVoteManual + agenda.abstentionManual}
                                 blurAction={(value) => updateValue({abstentionManual: value})}
                                 value={agenda.abstentionManual}
                             />
                             <EditableCell
-                                max={agenda.presentCensus}
+                                max={maxVoteManual + agenda.noVoteManual}
                                 blurAction={(value) => updateValue({noVoteManual: value })}
                                 value={agenda.noVoteManual}
                             />
@@ -305,7 +310,7 @@ class EditableCell extends React.Component {
                     }} 
                 >
                     {this.state.edit?
-                        <Tooltip title={`Por favor introduzca un numero entre 0 y ${this.props.max}`}>
+                        <Tooltip /*TRADUCCION*/title={this.props.max === 0? 'Máximo de votos alcanzado' : `Por favor introduzca un numero entre 0 y ${this.props.max}`}>
                             <div style={{width: '4em'}}>
                                 <Input
                                     type="number"
@@ -336,19 +341,4 @@ class EditableCell extends React.Component {
             </TableCell>
         )
     }
-
 }
-
-/*
-                    {this.state.showEdit &&
-                        <FontAwesome 
-                            name="edit"
-                            onClick={() => this.toggleEdit()}
-                            style={{
-                                fontSize: '14px',
-                                marginLeft: '0.6em',
-                                color: getSecondary()
-                            }}
-                        />
-                    }
-*/

@@ -245,7 +245,7 @@ class SendActModal extends React.Component {
 						) : (
 							<Scrollbar option={{ suppressScrollX: true }}>
 								{participants.length > 0 ? (
-									<div style={{marginTop: '1.2em'}}>
+									<div style={{marginTop: '1em', padding: '0.3em'}}>
 										{participants.map(participant => {
 											return (
 												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>

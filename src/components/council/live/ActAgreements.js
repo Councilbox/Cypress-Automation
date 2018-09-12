@@ -105,7 +105,6 @@ class ActAgreements extends React.Component {
 							fontWeight: "700"
 						}}
 					>{`${translate.comments_and_agreements}`}</span>
-					{this.state.loading && <LoadingSection size={20} />}
 				</div>
 				<div
 					style={{
@@ -124,12 +123,15 @@ class ActAgreements extends React.Component {
 	};
 
 	loadDraft = draft => {
+		const { agenda } = this.props;
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,
 			votings: {
-				positive: 1,
-				negative: 43
+				positive: agenda.positiveVotings + agenda.positiveManual,
+				negative: agenda.negativeVotings + agenda.negativeManual,
+				abstention: agenda.abstentionVotings + agenda.abstentionManual,
+				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual
 			}
 		});
 		this.editor.setValue(correctedText);

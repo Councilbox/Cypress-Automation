@@ -6,6 +6,7 @@ import { getPrimary } from '../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { bHistory } from '../../containers/App';
+import { checkValidEmail } from "../../utils";
 
 class NewPartnerPage extends React.Component {
 
@@ -18,6 +19,7 @@ class NewPartnerPage extends React.Component {
             home: '',
             language: 'es',
             email: '',
+            state: 1,
             phone: '',
             landlinePhone: '',
             type: 0,
@@ -67,7 +69,69 @@ class NewPartnerPage extends React.Component {
     }
 
     checkRequiredFields = async () => {
-        return false;
+        let errors = {
+            name: '',
+            surname: '',
+            dni: '',
+            home: '',
+            language: 'es',
+            email: '',
+            phone: '',
+            landlinePhone: '',
+            address: '',
+            state: '',
+            city: '',
+            observations: '',
+            country: 'España',
+            countryState: '',
+            zipcode: ''
+        };
+
+        let hasError = false
+
+        const { data } = this.state;
+        const { translate } = this.props;
+
+        if(!data.name){
+            hasError = true;
+            errors.name = translate.required_field;
+        }
+
+        if(!data.surname){
+            hasError = true;
+            errors.surname = translate.required_field;
+        }
+
+        if(!data.dni){
+            hasError = true;
+            errors.dni = translate.required_field;
+        }
+
+        if(!data.phone){
+            hasError = true;
+            errors.phone = translate.required_field;
+        }
+
+        if(!data.email){
+            hasError = true;
+            errors.email = translate.required_field;
+        }
+
+        if(!data.email){
+            hasError = true;
+            errors.email = translate.required_field;
+        } else {
+            if(!checkValidEmail(data.email)){
+                hasError = true;
+                errors.email = translate.valid_email_required;
+            }
+        }
+
+        this.setState({
+            errors
+        });
+
+        return hasError;
     }
 
     updateState = object => {

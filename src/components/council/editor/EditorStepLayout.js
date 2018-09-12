@@ -13,7 +13,7 @@ class EditorStepLayout extends React.Component {
     componentDidUpdate(){
         if(this.scrollbar){
             if(this.state.stick){
-                this.scrollbar.scrollToBottom();
+                //this.scrollbar.scrollToBottom();
             }
             const values = this.scrollbar.getValues();
             if(values.clientHeight === values.scrollHeight && !this.state.stick){
