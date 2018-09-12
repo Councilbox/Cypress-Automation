@@ -276,7 +276,7 @@ class StepNotice extends React.Component {
 						message={translate.revise_text}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,			
+						autoClose: true,
 						className: "errorToast"
 					}
 				);
