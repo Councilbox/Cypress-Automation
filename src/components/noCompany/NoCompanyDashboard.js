@@ -5,6 +5,7 @@ import ToggleRecordings from './ToggleRecordings';
 import ToggleVideo from './ToggleVideo';
 import LogoutUser from './LogoutUser';
 import RefreshUser from './RefreshUser';
+import withSharedProps from '../../HOCs/withSharedProps';
 
 
 const NoCompanyDashboard = ({ translate, company, user }) => {
@@ -20,7 +21,7 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
 				alignItems: "center",
 				flexDirection: "column"
 			}}
-			className="container-fluid"
+			id={"mainContainer"}
 		>
 			{user.email === 'aaron.fuentes.cocodin+2@gmail.com'?
 				<Grid>
@@ -108,4 +109,4 @@ const NoCompanyDashboard = ({ translate, company, user }) => {
 	);
 }
 
-export default NoCompanyDashboard;
+export default withSharedProps()(NoCompanyDashboard);
