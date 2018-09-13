@@ -166,7 +166,7 @@ class CompanySettingsPage extends React.Component {
 						message={this.props.translate.changes_saved}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,				
+						autoClose: true,
 						className: "successToast"
 					}
 				);
@@ -191,7 +191,7 @@ class CompanySettingsPage extends React.Component {
 						message={this.props.translate.company_link_unliked_title}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,				
+						autoClose: true,
 						className: "successToast"
 					}
 				);
@@ -347,6 +347,9 @@ class CompanySettingsPage extends React.Component {
 										floatingText={translate.company_new_key}
 										type="text"
 										value={data.linkKey}
+										helpPopover={true}
+										helpTitle={translate.company_new_key}
+										helpDescription={translate.company_link_key_desc}
 										errorText={errors.linkKey}
 										onChange={event =>
 											this.updateState({

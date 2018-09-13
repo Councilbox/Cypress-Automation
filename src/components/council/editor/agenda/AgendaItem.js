@@ -82,7 +82,8 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 							<IconButton
 								style={{
 									float: "right",
-									height: "28px"
+									height: "28px",
+									outline: 0
 								}}
 								onClick={event => {
 									event.stopPropagation();

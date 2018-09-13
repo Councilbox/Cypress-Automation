@@ -228,6 +228,7 @@ class LiveParticipantEditor extends React.Component {
 									/>
 									<ResendCredentialsModal
 										participant={participant}
+										council={this.props.council}
 										translate={translate}
 										refetch={this.props.data.refetch}
 									/>

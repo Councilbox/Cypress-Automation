@@ -109,7 +109,7 @@ class Assistance extends React.Component {
 					message={this.props.translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
+					autoClose: true,
 					className: "errorToast"
 				}
 			);
@@ -123,7 +123,7 @@ class Assistance extends React.Component {
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-				representativeId: delegate
+				representativeId: id
 			}
 		});
 
@@ -209,7 +209,7 @@ class Assistance extends React.Component {
 												value={PARTICIPANT_STATES.NO_PARTICIPATE}
 												selected={participant.assistanceIntention}
 											/>
-											{
+											{/* 
 												canDelegate && <AssistanceOption
 													title={translate.want_to_delegate_in}
 													select={this.showDelegation}
@@ -219,7 +219,7 @@ class Assistance extends React.Component {
 											}
 											{representative &&
 												<DelegationItem participant={representative} />
-											}
+											 */}
 											<br />
 
 											<h4>{translate.attendance_comment}:</h4>
@@ -261,7 +261,7 @@ class Assistance extends React.Component {
 									show={this.state.delegationModal}
 									council={council}
 									participant={participant}
-									delegateVote={this.selectDelegation}
+									addRepresentative={this.selectDelegation}
 									requestClose={() => this.setState({ delegationModal: false })}
 									translate={translate}
 								/>
@@ -276,14 +276,6 @@ class Assistance extends React.Component {
 	}
 }
 
-/*
-			<div style={styles.viewContainer}>
-				<Header logoutButton={false} participant={participant} council={council} />
-				<div style={styles.mainContainer}>
-					
-				</div>
-			</div>
-*/
 
 export default compose(graphql(setAssistanceIntention, {
 	name: "setAssistanceIntention"

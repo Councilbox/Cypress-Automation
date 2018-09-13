@@ -57,15 +57,19 @@ class DelegateOwnVoteModal extends React.Component {
 	};
 
 	delegateVote = id => {
-		this.props.delegateVote(
-			{
-				variables: {
-					participantId: id,
-					delegateId: this.props.participant.id
+		if(this.props.addRepresentative){
+			this.props.addRepresentative(id);
+		}else {
+			this.props.delegateVote(
+				{
+					variables: {
+						participantId: id,
+						delegateId: this.props.participant.id
+					}
 				}
-			}
-		);
-		this.close();
+			);
+			this.close();
+		}
 	};
 
 	updateFilterText = async text => {

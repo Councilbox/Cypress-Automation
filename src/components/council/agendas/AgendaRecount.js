@@ -45,7 +45,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
             refetch();
         }
     }
-
+    
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const votesLeft = (agenda.presentCensus - agenda.noVoteManual - agenda.abstentionManual - agenda.negativeManual - agenda.positiveManual);
     const maxVoteManual = votesLeft <= 0? 0 : votesLeft;
@@ -128,7 +128,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {`${
 							translate.votes_in_favor_for_approve
 						}: ${agendaNeededMajority}`}
-						{agendaNeededMajority > agenda.positive_votings + agenda.positive_manual ? (
+						{agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) ? (
 							<FontAwesome
 								name={"times"}
 								style={{

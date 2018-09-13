@@ -77,7 +77,7 @@ class AgendaManager extends React.Component {
 	render() {
 		const { council, translate, company } = this.props;
 
-		if (this.props.data.loading) {
+		if (!this.props.data.agendas) {
 			return <LoadingSection />;
 		}
 
