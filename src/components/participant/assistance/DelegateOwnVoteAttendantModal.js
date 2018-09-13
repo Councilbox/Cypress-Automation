@@ -94,7 +94,7 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 					style={{
 						height: "300px",
 						padding: '0.5em',
-						overflow: "hidden"
+						// overflow: "hidden"
 					}}
 				>
 					{loading ? (

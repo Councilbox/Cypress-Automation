@@ -117,13 +117,13 @@ class Assistance extends React.Component {
 
 	}
 
-	selectDelegation = async (delegate) => {
+	selectDelegation = async (delegateId) => {
 		const { setAssistanceIntention, refetch } = this.props;
 
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-				representativeId: id
+				representativeId: delegateId
 			}
 		});
 
