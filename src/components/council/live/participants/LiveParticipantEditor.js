@@ -160,7 +160,7 @@ class LiveParticipantEditor extends React.Component {
 					overflow: 'auto',
 					/* for Firefox */
 					minHeight: 0,
-					paddingRight: '0.5em' 
+					paddingRight: '0.5em'
 				}}>
 					<Grid>
 						{(CBX.isRepresented(participant) ||
@@ -225,6 +225,7 @@ class LiveParticipantEditor extends React.Component {
 									/>
 									<ResendCredentialsModal
 										participant={participant}
+										council={this.props.council}
 										translate={translate}
 										refetch={this.props.data.refetch}
 									/>

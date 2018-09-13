@@ -29,7 +29,7 @@ class ResendCredentialsModal extends Component {
 	resend = async () => {
 		const response = await this.props.resendRoomEmails({
 			variables: {
-				councilId: this.props.participant.councilId,
+				councilId: this.props.council.id,
 				timezone: moment().utcOffset(),
 				participantsIds: [this.props.participant.id]
 			}

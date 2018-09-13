@@ -9,7 +9,7 @@ import { setAssistanceIntention, setAssistanceComment } from "../../../queries/l
 import { PARTICIPANT_STATES } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import DelegateVoteModal from "../../council/live/DelegateVoteModal";
+import DelegateOwnVoteModal from "../../council/live/DelegateOwnVoteModal";
 import DelegationItem from "./DelegationItem";
 import { canDelegateVotes } from "../../../utils/CBX"
 import { primary } from "../../../styles/colors";
@@ -109,7 +109,7 @@ class Assistance extends React.Component {
 					message={this.props.translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
+					autoClose: true,
 					className: "errorToast"
 				}
 			);
@@ -117,13 +117,13 @@ class Assistance extends React.Component {
 
 	}
 
-	selectDelegation = async (a, b, delegate) => {
+	selectDelegation = async id => {
 		const { setAssistanceIntention, refetch } = this.props;
 
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-				representativeId: delegate
+				representativeId: id
 			}
 		});
 
@@ -206,7 +206,7 @@ class Assistance extends React.Component {
 												value={PARTICIPANT_STATES.NO_PARTICIPATE}
 												selected={participant.assistanceIntention}
 											/>
-											{
+											{/* 
 												canDelegate && <AssistanceOption
 													title={translate.want_to_delegate_in}
 													select={this.showDelegation}
@@ -216,7 +216,7 @@ class Assistance extends React.Component {
 											}
 											{representative &&
 												<DelegationItem participant={representative} />
-											}
+											 */}
 											<br />
 
 											<h4>{translate.attendance_comment}:</h4>
@@ -253,11 +253,11 @@ class Assistance extends React.Component {
 										icon={<ButtonIcon type="save" color="white" />}
 									/>
 								</div>
-								<DelegateVoteModal
+								<DelegateOwnVoteModal
 									show={this.state.delegationModal}
 									council={council}
 									participant={participant}
-									delegateVote={this.selectDelegation}
+									addRepresentative={this.selectDelegation}
 									requestClose={() => this.setState({ delegationModal: false })}
 									translate={translate}
 								/>
@@ -272,14 +272,6 @@ class Assistance extends React.Component {
 	}
 }
 
-/*
-			<div style={styles.viewContainer}>
-				<Header logoutButton={false} participant={participant} council={council} />
-				<div style={styles.mainContainer}>
-					
-				</div>
-			</div>
-*/
 
 export default compose(graphql(setAssistanceIntention, {
 	name: "setAssistanceIntention"
