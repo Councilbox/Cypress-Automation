@@ -184,7 +184,7 @@ class AgendaMenu extends React.Component {
                                             refetch={this.props.refetch}
                                         />
                                     }
-                                </React.Fragment>  
+                                </React.Fragment>
                             }
                     </React.Fragment>
                 }

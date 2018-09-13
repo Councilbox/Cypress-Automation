@@ -144,9 +144,9 @@ class PlaceModal extends React.Component {
 				<BasicButton
 					text={translate.close}
 					id={'close-button'}
+					type="flat"
 					color={"white"}
 					textStyle={{
-						color: primary,
 						fontWeight: "700",
 						fontSize: "0.9em",
 						textTransform: "none"
@@ -258,7 +258,45 @@ class PlaceModal extends React.Component {
 								justifyContent: "center"
 							}}
 						>
-							<SelectInput
+							<TextInput
+								floatingText={translate.country}
+								type="text"
+								errorText={this.state.errors.country}
+								value={this.state.data.council.country}
+								onChange={event =>
+									this.setState({
+										...this.state,
+										data: {
+											...this.state.data,
+											council: {
+												...this.state.data.council,
+												country: event.nativeEvent.target.value
+											}
+										}
+									})
+								}
+							/>
+							<TextInput
+								floatingText={translate.company_new_country_state}
+								type="text"
+								errorText={this.state.errors.countryState}
+								value={this.state.data.council.countryState}
+								onChange={event =>
+									this.setState({
+										...this.state,
+										data: {
+											...this.state.data,
+											council: {
+												...this.state.data.council,
+												countryState:
+													event.nativeEvent.target
+														.value
+											}
+										}
+									})
+								}
+							/>
+							{/* <SelectInput
 								floatingText={translate.country}
 								value={this.state.data.council.country}
 								onChange={this.handleCountryChange}
@@ -295,7 +333,7 @@ class PlaceModal extends React.Component {
 										);
 									}
 								)}
-							</SelectInput>
+							</SelectInput> */}
 							<TextInput
 								floatingText={translate.company_new_zipcode}
 								type="text"

@@ -31,8 +31,8 @@ class CommentMenu extends React.Component {
             });
             const response = await this.props.updateComment({
                 variables: {
-                    id: this.props.agenda.voting.id,
-                    text: this.state.comment
+                    id: this.props.agenda.votings[0].id,
+                    text: this.state.vote.comment
                 }
             });
 
@@ -53,7 +53,7 @@ class CommentMenu extends React.Component {
                     message={this.props.translate.revise_text}
                 />, {
                     position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,			
+                    autoClose: true,
                     className: "errorToast"
                 }
             );
@@ -73,7 +73,7 @@ class CommentMenu extends React.Component {
         const { vote } = this.state;
 
         if(!vote){
-            return (<span />);   
+            return (<span />);
         }
 
         const comment = vote.comment;
