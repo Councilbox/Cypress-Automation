@@ -110,7 +110,7 @@ class LiveParticipantEditor extends React.Component {
 								type={participant.type}
 								ratio={1.3}
 							/>
-							<div style={{marginLeft: '-1.5em', marginTop: '0.5em'}}>
+							<div style={{ marginLeft: '-1.5em', marginTop: '0.5em' }}>
 								<DownloadCBXDataButton
 									translate={translate}
 									participantId={
@@ -176,11 +176,14 @@ class LiveParticipantEditor extends React.Component {
 											{translate.voting_delegate}
 										</Typography>
 									)}
+									{
+										participant.representative &&
+										<ParticipantTable
+											translate={translate}
+											participants={[participant.representative]}
+										/>
+									}
 
-									<ParticipantTable
-										translate={translate}
-										participants={[participant.representative]}
-									/>
 								</GridItem>
 							)}
 

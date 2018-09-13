@@ -34,7 +34,7 @@ class ActHTML extends React.Component {
 				downloadFile(
 					response.data.downloadAct,
 					"application/pdf",
-					`${this.props.translate.convene.replace(/ /g, '_')}-${
+					`${this.props.translate.act.replace(/ /g, '_')}-${
 					this.props.council.name.replace(/ /g, '_')
 					}`
 				);
