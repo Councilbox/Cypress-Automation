@@ -277,14 +277,14 @@ class ParticipantsManager extends React.Component {
 								checked={this.state.view === "STATES"}
 								onChange={() => this.setState({ view: 'STATES' })}
 								name="STATES"
-								label={translate.states || 'ESTADOS' /*TRADUCIR*/}
+								label={translate.states }
 							/>
 							<Radio
 								value={"4"}
 								checked={this.state.view === "TYPE"}
 								onChange={() => this.setState({ view: 'TYPE' })}
 								name="TYPE"
-								label={translate.types || 'TYPE' /*TRADUCIR*/}
+								label={translate.types}
 							/>
 							{council.conveneSendDate &&
 								<React.Fragment>
@@ -293,7 +293,7 @@ class ParticipantsManager extends React.Component {
 										checked={this.state.view === "CONVENE"}
 										onChange={() => this.setState({ view: 'CONVENE' })}
 										name="CONVENE"
-										label={translate.convene || 'CONVENE'}
+										label={translate.convene}
 									/>
 									{!!council.confirmAssistance &&
 										<Radio

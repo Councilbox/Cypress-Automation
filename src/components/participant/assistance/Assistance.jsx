@@ -9,7 +9,7 @@ import { setAssistanceIntention, setAssistanceComment } from "../../../queries/l
 import { PARTICIPANT_STATES } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import DelegateVoteModal from "../../council/live/DelegateVoteModal";
+import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
 import DelegationItem from "./DelegationItem";
 import { canDelegateVotes } from "../../../utils/CBX"
 import { primary } from "../../../styles/colors";
@@ -117,7 +117,7 @@ class Assistance extends React.Component {
 
 	}
 
-	selectDelegation = async (a, b, delegate) => {
+	selectDelegation = async (delegate) => {
 		const { setAssistanceIntention, refetch } = this.props;
 
 		const response = await setAssistanceIntention({
@@ -129,6 +129,9 @@ class Assistance extends React.Component {
 
 		if (response) {
 			refetch();
+			this.setState({
+				delegationModal: false
+			})
 		}
 	}
 
@@ -249,11 +252,12 @@ class Assistance extends React.Component {
 											color: "white",
 											fontWeight: "700"
 										}}
+										loading={this.state.savingAssistanceComment}
 										onClick={this.saveAssistanceComment}
 										icon={<ButtonIcon type="save" color="white" />}
 									/>
 								</div>
-								<DelegateVoteModal
+								<DelegateOwnVoteAttendantModal
 									show={this.state.delegationModal}
 									council={council}
 									participant={participant}
