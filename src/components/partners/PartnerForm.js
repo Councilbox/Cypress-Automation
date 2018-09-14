@@ -26,14 +26,14 @@ class PartnerForm extends React.PureComponent {
     }
 
     async componentDidUpdate(prevProps, prevState) {
-        if(!this.props.data.loading){
-            if((prevProps.participant.country !== this.props.participant.country) || this.state.provinces.length === 0){
+        if (!this.props.data.loading) {
+            if ((prevProps.participant.country !== this.props.participant.country) || this.state.provinces.length === 0) {
                 this.setProvinces();
             }
         }
     }
 
-    render(){
+    render() {
         const { participant, translate, updateState, errors, checkEmail } = this.props;
         const primary = getPrimary();
 
@@ -73,7 +73,7 @@ class PartnerForm extends React.PureComponent {
                     </GridItem>
                 </Grid>
 
-                <SectionTitle color={primary} text={'Datos personales'} /*TRADUCCION*/ style={{marginTop: '1.2em'}} />
+                <SectionTitle color={primary} text={'Datos personales'} /*TRADUCCION*/ style={{ marginTop: '1.2em' }} />
                 <Paper elevation={0}>
                     <Grid>
                         {participant.personOrEntity ? (
@@ -91,38 +91,38 @@ class PartnerForm extends React.PureComponent {
                                 />
                             </GridItem>
                         ) : (
-                            <React.Fragment>
-                                <GridItem xs={6} md={4} lg={3}>
-                                    <TextInput
-                                        floatingText={translate.name}
-                                        type="text"
-                                        errorText={errors.name}
-                                        value={participant.name}
-                                        onChange={event =>
-                                            updateState({
-                                                name: event.nativeEvent.target.value
-                                            })
-                                        }
-                                    />
-                                </GridItem>
-                                <GridItem xs={6} md={4} lg={3}>
-                                    <TextInput
-                                        floatingText={translate.surname}
-                                        type="text"
-                                        errorText={errors.surname}
-                                        value={participant.surname}
-                                        onChange={event =>
-                                            updateState({
-                                                surname: event.nativeEvent.target.value
-                                            })
-                                        }
-                                    />
-                                </GridItem>
-                            </React.Fragment>
-                        )}
+                                <React.Fragment>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.name}
+                                            type="text"
+                                            errorText={errors.name}
+                                            value={participant.name}
+                                            onChange={event =>
+                                                updateState({
+                                                    name: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.surname}
+                                            type="text"
+                                            errorText={errors.surname}
+                                            value={participant.surname}
+                                            onChange={event =>
+                                                updateState({
+                                                    surname: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                </React.Fragment>
+                            )}
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
-                                floatingText={participant.personOrEntity === 1? translate.cif : translate.dni}
+                                floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
                                 type="text"
                                 errorText={errors.dni}
                                 value={participant.dni}
@@ -149,7 +149,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
                                 floatingText={translate.email}
-                                {...(checkEmail? {onKeyUp: (event) => checkEmail(event, 'participant')} : {})}
+                                {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
                                 type="text"
                                 errorText={errors.email}
                                 value={participant.email}
@@ -202,7 +202,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={2}>
                             <SelectInput
                                 floatingText={translate.state}
-                                value={''+participant.state}
+                                value={'' + participant.state}
                                 errorText={errors.state}
                                 onChange={event =>
                                     updateState({
@@ -230,7 +230,7 @@ class PartnerForm extends React.PureComponent {
                     </Grid>
                 </Paper>
 
-                <SectionTitle color={primary} text={'Ficha'} /*TRADUCCION*/ style={{marginTop: '2.8em'}} />                
+                <SectionTitle color={primary} text={'Ficha'} /*TRADUCCION*/ style={{ marginTop: '2.8em' }} />
                 <Paper elevation={0}>
                     <Grid>
                         <GridItem xs={6} md={4} lg={4}>
@@ -352,7 +352,7 @@ class PartnerForm extends React.PureComponent {
                     </Grid>
                 </Paper>
 
-                <SectionTitle color={primary} text={'Datos adicionales'} /*TRADUCCION*/ style={{marginTop: '2.8em'}} />
+                <SectionTitle color={primary} text={'Datos adicionales'} /*TRADUCCION*/ style={{ marginTop: '2.8em' }} />
                 <Paper elevation={0}>
                     <Grid>
                         <GridItem xs={6} md={6} lg={5}>

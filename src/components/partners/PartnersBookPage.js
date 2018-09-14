@@ -7,6 +7,7 @@ import withTranslations from '../../HOCs/withTranslations';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 
 class PartnersBookPage extends React.Component {
 
@@ -16,6 +17,18 @@ class PartnersBookPage extends React.Component {
 
     addPartner = () => {
         bHistory.push(`/company/${this.props.match.params.company}/book/new`);
+    }
+
+    deleteBookParticipant = async id => {
+        const response = await this.props.mutate({
+			variables: {
+				participantId: id
+			}
+		});
+
+		if (response) {
+            this.props.data.refetch();
+		}
     }
 
     render() {
@@ -97,6 +110,7 @@ class PartnersBookPage extends React.Component {
                                     return (
                                         <HoverableRow
                                             key={`participant${participant.id}`}
+                                            deleteBookParticipant={this.deleteBookParticipant}
                                             participant={participant}
                                             companyId={this.props.match.params.company}
                                         />
@@ -130,6 +144,7 @@ class HoverableRow extends React.PureComponent {
         })
     }
 
+
     render() {
         const { participant } = this.props;
 
@@ -156,7 +171,10 @@ class HoverableRow extends React.PureComponent {
                 <TableCell>
                     <div style={{ width: '3em' }}>
                         {this.state.showActions &&
-                            <CloseIcon />
+                            <CloseIcon onClick={event => {
+                                event.stopPropagation();
+                                this.props.deleteBookParticipant(participant.id);
+                            }}/>
                         }
                     </div>
                 </TableCell>
@@ -179,12 +197,23 @@ const bookParticipants = gql`
         }
     }
 `;
+const deleteBookParticipant = gql`
+    mutation deleteBookParticipant($participantId: Int!){
+        deleteBookParticipant(participantId: $participantId){
+            success
+            message
+        }
+    }
+`;
 
-export default graphql(bookParticipants, {
+export default compose(
+    graphql(bookParticipants, {
     options: props => ({
         variables: {
             companyId: props.match.params.company
         },
         notifyOnNetworkStatusChange: true
     })
-})(withTranslations()(withRouter(PartnersBookPage)));
+}),
+graphql(deleteBookParticipant)
+)(withTranslations()(withRouter(PartnersBookPage)));

@@ -18,12 +18,12 @@ class PartnerEditorPage extends React.PureComponent {
         success: false
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.data.refetch();
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(!nextProps.data.loading){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.data.loading) {
             const { __typename, ...bookParticipant } = nextProps.data.bookParticipant;
             return {
                 data: {
@@ -40,7 +40,7 @@ class PartnerEditorPage extends React.PureComponent {
     }
 
     updateBookParticipant = async () => {
-        if(!await this.checkRequiredFields()){
+        if (!await this.checkRequiredFields()) {
             this.setState({
                 loading: true
             });
@@ -50,8 +50,8 @@ class PartnerEditorPage extends React.PureComponent {
                 }
             });
 
-            if(response.data){
-                if(response.data.updateBookParticipant.success){
+            if (response.data) {
+                if (response.data.updateBookParticipant.success) {
                     this.setState({
                         success: true,
                         loading: false
@@ -92,36 +92,36 @@ class PartnerEditorPage extends React.PureComponent {
         const { data } = this.state;
         const { translate } = this.props;
 
-        if(!data.name){
+        if (!data.name) {
             hasError = true;
             errors.name = translate.required_field;
         }
 
-        if(!data.surname){
+        if (!data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
         }
 
-        if(!data.dni){
+        if (!data.dni) {
             hasError = true;
             errors.dni = translate.required_field;
         }
 
-        if(!data.phone){
+        if (!data.phone) {
             hasError = true;
             errors.phone = translate.required_field;
         }
 
-        if(!data.email){
+        if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
         }
 
-        if(!data.email){
+        if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
         } else {
-            if(!checkValidEmail(data.email)){
+            if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.valid_email_required;
             }
@@ -143,13 +143,13 @@ class PartnerEditorPage extends React.PureComponent {
         })
     }
 
-    render(){
+    render() {
 
-        if(this.props.data.loading){
+        if (this.props.data.loading) {
             return <LoadingSection />;
         }
 
-        return(
+        return (
             <CardPageLayout title={this.props.translate.edit_partner} disableScroll>
                 <div
                     style={{
@@ -158,7 +158,7 @@ class PartnerEditorPage extends React.PureComponent {
                     }}
                 >
                     <Scrollbar>
-                        <div style={{padding: '0.6em 5%'}}>
+                        <div style={{ padding: '0.6em 5%' }}>
                             <PartnerForm
                                 translate={this.props.translate}
                                 updateState={this.updateState}
@@ -186,9 +186,9 @@ class PartnerEditorPage extends React.PureComponent {
                                 text={this.props.translate.back}
                                 color={'white'}
                                 type="flat"
-                                textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none'}}
+                                textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
                                 onClick={this.goBack}
-                                buttonStyle={{marginRight: '0.8em'}}
+                                buttonStyle={{ marginRight: '0.8em' }}
                             />
                         }
                         <BasicButton
@@ -197,7 +197,7 @@ class PartnerEditorPage extends React.PureComponent {
                             success={this.state.success}
                             loading={this.state.loading}
                             reset={this.resetButtonStates}
-                            textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none'}}
+                            textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none' }}
                             onClick={this.updateBookParticipant}
                         />
                     </div>

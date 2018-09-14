@@ -50,7 +50,7 @@ class NewPartnerPage extends React.Component {
     baseState = this.state;
 
     createPartner = async () => {
-        if(!await this.checkRequiredFields()){
+        if (!await this.checkRequiredFields()) {
             const response = await this.props.createPartner({
                 variables: {
                     participant: {
@@ -60,8 +60,8 @@ class NewPartnerPage extends React.Component {
                 }
             });
 
-            if(response.data){
-                if(response.data.createSimpleBookParticipant){
+            if (response.data) {
+                if (response.data.createSimpleBookParticipant) {
                     this.goBack();
                 }
             }
@@ -92,36 +92,36 @@ class NewPartnerPage extends React.Component {
         const { data } = this.state;
         const { translate } = this.props;
 
-        if(!data.name){
+        if (!data.name) {
             hasError = true;
             errors.name = translate.required_field;
         }
 
-        if(!data.surname){
+        if (!data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
         }
 
-        if(!data.dni){
+        if (!data.dni) {
             hasError = true;
             errors.dni = translate.required_field;
         }
 
-        if(!data.phone){
+        if (!data.phone) {
             hasError = true;
             errors.phone = translate.required_field;
         }
 
-        if(!data.email){
+        if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
         }
 
-        if(!data.email){
+        if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
         } else {
-            if(!checkValidEmail(data.email)){
+            if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.valid_email_required;
             }
@@ -143,8 +143,8 @@ class NewPartnerPage extends React.Component {
         })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <CardPageLayout title={this.props.translate.add_partner} disableScroll>
                 <div
                     style={{
@@ -153,7 +153,7 @@ class NewPartnerPage extends React.Component {
                     }}
                 >
                     <Scrollbar>
-                        <div style={{padding: '0.6em 5%'}}>
+                        <div style={{ padding: '0.6em 5%' }}>
                             <PartnerForm
                                 translate={this.props.translate}
                                 updateState={this.updateState}
@@ -181,15 +181,15 @@ class NewPartnerPage extends React.Component {
                                 text={this.props.translate.back}
                                 color={'white'}
                                 type="flat"
-                                textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none'}}
+                                textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
                                 onClick={this.goBack}
-                                buttonStyle={{marginRight: '0.8em'}}
+                                buttonStyle={{ marginRight: '0.8em' }}
                             />
                         }
                         <BasicButton
                             text={this.props.translate.save_changes}
                             color={getPrimary()}
-                            textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none'}}
+                            textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none' }}
                             onClick={this.createPartner}
                         />
                     </div>

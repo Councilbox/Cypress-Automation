@@ -77,6 +77,10 @@ class CompanyCensusPage extends React.Component {
 		const { translate, company } = this.props;
 		const { loading, censuses } = this.props.data;
 
+		if (!censuses) {
+			return <LoadingSection />;
+		}
+
 		return (
 			<CardPageLayout title={translate.censuses_list}>
 				{!!censuses && (

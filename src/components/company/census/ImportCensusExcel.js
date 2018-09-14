@@ -132,7 +132,7 @@ class ImportCensusButton extends React.Component {
 		let duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
 			console.log(censusP);
-			if(censusP.participant.email){
+			if (censusP.participant.email) {
 				if (uniqueEmails.get(censusP.participant.email)) {
 					duplicatedEmails.set(censusP.participant.email, [index + 2]);
 				} else {
@@ -142,7 +142,7 @@ class ImportCensusButton extends React.Component {
 
 
 			if (censusP.representative) {
-				if(censusP.representative.email){
+				if (censusP.representative.email) {
 					if (uniqueEmails.get(censusP.representative.email)) {
 						duplicatedEmails.set(censusP.representative.email, [index + 2]);
 					} else {
@@ -319,10 +319,10 @@ class ImportCensusButton extends React.Component {
 		}
 		delete participant.language_TEXT;
 
-		if(participant.r_name){
+		if (participant.r_name) {
 			return this.checkEntityParticipant(participant);
-		}else{
-			return  this.checkPersonParticipant(participant);
+		} else {
+			return this.checkPersonParticipant(participant);
 		}
 	};
 
@@ -338,7 +338,7 @@ class ImportCensusButton extends React.Component {
 	checkEntityParticipant = participant => {
 		let errors = {};
 		const mappedParticipant = {};
-		if(participant.name){
+		if (participant.name) {
 			const participantError = this.checkRequiredFields(participant, false);
 			if (participantError) {
 				errors = participantError;
@@ -357,7 +357,7 @@ class ImportCensusButton extends React.Component {
 		}
 		const participantError = this.checkRequiredFields(participant, true);
 		if (participantError) {
-			return { ...errors, ...participantError};
+			return { ...errors, ...participantError };
 		}
 		return {
 			participant: {
@@ -388,7 +388,7 @@ class ImportCensusButton extends React.Component {
 	}
 
 	checkRequiredFields = (participant, isEntity) => {
-		 const required = 'required'
+		const required = 'required'
 
 		let errors = {
 			name: '',
@@ -403,7 +403,7 @@ class ImportCensusButton extends React.Component {
 		}
 
 		if (!isEntity) {
-			if(!checkValidEmail(participant.email)){
+			if (!checkValidEmail(participant.email)) {
 				errors.email = required;
 				errors.hasError = true;
 			}
@@ -433,7 +433,7 @@ class ImportCensusButton extends React.Component {
 				errors.hasError = true;
 			}
 		} else {
-			if(!checkValidEmail(participant.r_email)){
+			if (!checkValidEmail(participant.r_email)) {
 				errors.r_email = required;
 				errors.hasError = true;
 			}
@@ -467,10 +467,10 @@ class ImportCensusButton extends React.Component {
 			errors.dni ? `${translate.dni}, ` : ''}${
 			errors.phone ? `${translate.phone}, ` : ''}${
 			errors.email ? `${translate.login_email}, ` : ''}${
-			errors.r_name ? `${translate.entity_name}, `  : ''}${
-			errors.r_dni ? `${translate.entity_cif}, `  : ''}${
-			errors.r_phone ? `${translate.entity_phone}, `  : ''}${
-			errors.r_email ? `${translate.entity_email}, `  : ''
+			errors.r_name ? `${translate.entity_name}, ` : ''}${
+			errors.r_dni ? `${translate.entity_cif}, ` : ''}${
+			errors.r_phone ? `${translate.entity_phone}, ` : ''}${
+			errors.r_email ? `${translate.entity_email}, ` : ''
 			}`;
 		if (string.charAt(string.length - 2) === ',') {
 			string = string.substr(0, string.length - 2) + '.';
@@ -578,7 +578,7 @@ class ImportCensusButton extends React.Component {
 						<div
 							style={{ height: '100px' }}
 						>
-							 {translate.no_valid_participants}
+							{translate.no_valid_participants}
 						</div>
 					)}
 					{step === 3 && (

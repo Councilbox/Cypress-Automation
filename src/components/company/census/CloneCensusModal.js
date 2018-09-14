@@ -25,9 +25,9 @@ class CloneCensusModal extends Component {
 		}
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.census){
-			if(nextProps.census.id !== prevState.data.id){
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.census) {
+			if (nextProps.census.id !== prevState.data.id) {
 				return {
 					data: {
 						...nextProps.census,
@@ -53,7 +53,7 @@ class CloneCensusModal extends Component {
 			});
 
 			if (!response.errors) {
-				if(response.data.cloneCensus.success){
+				if (response.data.cloneCensus.success) {
 					this.props.refetch();
 					this.props.requestClose();
 				}

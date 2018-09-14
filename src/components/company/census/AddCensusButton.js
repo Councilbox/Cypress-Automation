@@ -71,7 +71,7 @@ class AddCensusButton extends React.Component {
 	};
 
 	checkRequiredFields() {
-		if(!this.state.data.censusName){
+		if (!this.state.data.censusName) {
 			this.setState({
 				errors: {
 					censusName: this.props.translate.required_field
