@@ -8,6 +8,11 @@ import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
 
+const LoadRecommendations = Loadable({
+	loader: () => import('../components/noCompany/Recommendations'),
+	loading: LoadingMainApp
+});
+
 const LoadCorporationTree = Loadable({
 	loader: () => import('../components/corporation/Router'),
 	loading: LoadingMainApp
@@ -212,6 +217,8 @@ class AppRouter extends React.Component {
 					<Route path="/forgetPwd" component={ForgetPwd} />
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
+					<Route path="/recommendations/:language" component={LoadRecommendations} />
+
 					<Route
 						exact
 						path="/changePwd/:language/:token"

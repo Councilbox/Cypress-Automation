@@ -7,6 +7,7 @@ import UserSettingsPage from '../userSettings/UserSettingsPage';
 import NewCompanyPage from '../company/new/NewCompanyPage';
 import LinkCompanyPage from '../company/link/LinkCompanyPage';
 
+
 class NoCompanyRouter extends React.Component {
 
     render(){
