@@ -45,7 +45,7 @@ class ActAttachments extends React.PureComponent{
                                 </GridItem>
                             )
                         :
-                            '-'
+                            'No hay documentos adjuntos a la convocatoria' //TRADUCCION
                     }
                 </Grid>
                 <Grid style={{marginTop: '2.6em'}}>
@@ -55,25 +55,24 @@ class ActAttachments extends React.PureComponent{
                     {this.props.data.council &&
                         this.props.data.council.agendas.map((agenda) =>
                             <React.Fragment key={`agenda_${agenda.id}`}>
-                                <GridItem xs={12} lg={12} md={12} style={{display: 'flex', flexDirection: 'column'}}>
-                                    <Typography variant="subheading" style={{color: primary, fontWeight: '700'}}>
-                                        {`${agenda.orderIndex} - ${agenda.agendaSubject}`}
-                                    </Typography>
-                                </GridItem>
-
-                                    {agenda.attachments.length > 0?
+                                    {agenda.attachments.length > 0 &&
                                         agenda.attachments.map((attachment) =>
-                                            <GridItem key={`agendaAttachment_${attachment.id}`}>
-                                                <AttachmentDownload
-                                                    agenda={true}
-                                                    attachment={attachment}
-                                                    translate={translate}
-                                                    council={this.props.council}
-                                                />
-                                            </GridItem>
+                                            <React.Fragment>
+                                                <GridItem xs={12} lg={12} md={12} style={{display: 'flex', flexDirection: 'column'}}>
+                                                    <Typography variant="subheading" style={{fontWeight: '700'}}>
+                                                        {`${agenda.orderIndex} - ${agenda.agendaSubject}`}
+                                                    </Typography>
+                                                </GridItem>
+                                                <GridItem key={`agendaAttachment_${attachment.id}`}>
+                                                    <AttachmentDownload
+                                                        agenda={true}
+                                                        attachment={attachment}
+                                                        translate={translate}
+                                                        council={this.props.council}
+                                                    />
+                                                </GridItem>
+                                            </React.Fragment>
                                         )
-                                    :
-                                        '-'
                                     }
                             </React.Fragment>
                         )

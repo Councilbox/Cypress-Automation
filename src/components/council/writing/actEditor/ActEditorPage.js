@@ -191,7 +191,7 @@ class ActEditorPage extends React.Component {
         }
 
         return(
-            <CardPageLayout title={translate.video_meeting_finished} disableScroll={true}>
+            <CardPageLayout title={council.name} disableScroll={true}>
                 <div style={{width: '100%', padding: '1.7em', height: '100%'}}>
                     <TabsScreen
                         uncontrolled={true}

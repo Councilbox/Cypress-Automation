@@ -66,10 +66,15 @@ class Votings extends React.Component {
 
 	_section = () => {
 		return(
-			<VotingsTable
-				translate={this.props.translate}
-				agenda={this.props.agenda}
-			/>
+			<React.Fragment>
+				<div style={{height: '4em', backgroundColor: 'white'}}>
+					MENU PARA VOTOS MANUALES
+				</div>
+				<VotingsTable
+					translate={this.props.translate}
+					agenda={this.props.agenda}
+				/>
+			</React.Fragment>
 		)
 	};
 
