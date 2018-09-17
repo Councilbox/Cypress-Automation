@@ -69,6 +69,7 @@ class SignatureModal extends Component {
 		});
 		if (!response.errors) {
 			this.props.data.refetch();
+			this.props.refetch();
 			this.close();
 		}
 	};
