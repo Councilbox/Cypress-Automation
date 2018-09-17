@@ -1,7 +1,7 @@
 import React from "react";
 import { NotLoggedLayout, ButtonIcon, FilterButton } from "../../displayComponents";
 import { Paper, Card } from "material-ui";
-import { getPrimary } from "../../styles/colors";
+import { getPrimary, getLightGrey } from "../../styles/colors";
 import * as mainActions from "../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import withTranslations from "../../HOCs/withTranslations";
@@ -37,6 +37,7 @@ class Recommendations extends React.Component {
 
     _renderPlatformButtons = () => {
         let primary = getPrimary();
+        let lightgrey = getLightGrey();
         return (
             <div style={{ float: 'right', display: 'inline-flex', marginTop: '-0.5em' }}>
                 <Card
@@ -45,7 +46,7 @@ class Recommendations extends React.Component {
                     style={{
                         cursor: 'pointer',
                         padding: '0.4em 0.8em 0.2em  0.3em',
-                        backgroundColor: this.state.platformActive === 'DESKTOP' ? 'lightgrey' : 'white'
+                        backgroundColor: this.state.platformActive === 'DESKTOP' ? lightgrey : 'white'
                     }}
                 >
                     <ButtonIcon
@@ -59,7 +60,7 @@ class Recommendations extends React.Component {
                     style={{
                         cursor: 'pointer',
                         padding: '0.4em 0.8em 0.2em  0.3em',
-                        backgroundColor: this.state.platformActive === 'ANDROID' ? 'lightgrey' : 'white'
+                        backgroundColor: this.state.platformActive === 'ANDROID' ? lightgrey : 'white'
                     }}
                 >
                     <ButtonIcon
@@ -73,7 +74,7 @@ class Recommendations extends React.Component {
                     style={{
                         cursor: 'pointer',
                         padding: '0.4em 0.8em 0.2em  1em',
-                        backgroundColor: this.state.platformActive === 'IOS' ? 'lightgrey' : 'white'
+                        backgroundColor: this.state.platformActive === 'IOS' ? lightgrey : 'white'
                     }}
                 >
                     <FontAwesome
@@ -93,6 +94,7 @@ class Recommendations extends React.Component {
         let platform = this.getBrowserPlatform();
         let { platformActive } = this.state;
         let primary = getPrimary();
+        let lightgrey = getLightGrey()
 
         return (
             <NotLoggedLayout
@@ -315,7 +317,7 @@ const titleStyle = {
     width: "100%",
     fontWeight: "bold",
     padding: "1em",
-    borderBottom: "solid 1px lightgrey",
+    borderBottom: `solid 1px lightgrey`,
     marginBottom: "2em"
 };
 
@@ -327,7 +329,7 @@ const instructionListStyle = {
 
 const instructionListItemStyle = {
     padding: "1.2em",
-    borderBottom: "solid 1px lightgrey"
+    borderBottom: `solid 1px lightgrey`
 };
 
 const counter = {
