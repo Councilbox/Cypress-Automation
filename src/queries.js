@@ -1868,6 +1868,10 @@ export const videoParticipants = gql`
 				state
 				audio
 				video
+				videoParticipant{
+					mutedMic
+					id
+				}
 				councilId
 				name
 				email

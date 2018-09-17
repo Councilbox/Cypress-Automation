@@ -1,9 +1,5 @@
 import React from "react";
-import {
-	darkGrey,
-	getSecondary,
-	lightGrey,
-} from "../../../styles/colors";
+import { darkGrey, getSecondary, lightGrey } from "../../../styles/colors";
 import {
 	CollapsibleSection,
 	Icon,
@@ -14,17 +10,9 @@ import {
 	AlertConfirm
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
-import {
-	changeRequestWord,
-	videoParticipants,
-	banParticipant
-} from "../../../queries";
+import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import { Tooltip } from "material-ui";
-import {
-	exceedsOnlineTimeout,
-	participantIsBlocked,
-	isAskingForWord
-} from "../../../utils/CBX";
+import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord } from "../../../utils/CBX";
 import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
 import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
@@ -203,11 +191,11 @@ class ParticipantsLive extends React.Component {
 						justifyContent: "space-between"
 					}}
 				>
-					{/* <MuteToggleButton
+					{false && <MuteToggleButton
 						translate={this.props.translate}
 						participant={participant}
 						refetch={this.props.data.refetch}
-					/> */}
+					/>}
 				</GridItem>
 				<GridItem
 					xs={1}

@@ -93,12 +93,13 @@ class Assistance extends React.Component {
 
 			await setAssistanceComment({
 				variables: {
-					assistanceComment: assistanceComment
+					assistanceComment: assistanceComment || ''
 				}
 			});
 
 			this.setState({
-				savingAssistanceComment: false
+				savingAssistanceComment: false,
+				success: true
 			})
 		}else{
 			this.setState({
@@ -115,6 +116,13 @@ class Assistance extends React.Component {
 			);
 		}
 
+	}
+
+	resetButtonStates = () => {
+		this.setState({
+			success: false,
+			savingAssistanceComment: false,
+		});
 	}
 
 	selectDelegation = async (delegateId) => {
@@ -209,8 +217,7 @@ class Assistance extends React.Component {
 												value={PARTICIPANT_STATES.NO_PARTICIPATE}
 												selected={participant.assistanceIntention}
 											/>
-											{/* 
-												canDelegate && <AssistanceOption
+											{canDelegate && <AssistanceOption
 													title={translate.want_to_delegate_in}
 													select={this.showDelegation}
 													value={PARTICIPANT_STATES.DELEGATED}
@@ -219,7 +226,7 @@ class Assistance extends React.Component {
 											}
 											{representative &&
 												<DelegationItem participant={representative} />
-											 */}
+											}
 											<br />
 
 											<h4>{translate.attendance_comment}:</h4>
@@ -248,6 +255,8 @@ class Assistance extends React.Component {
 										text={translate.send}
 										color={primary}
 										floatRight
+										success={this.state.success}
+										reset={this.resetButtonStates}
 										textStyle={{
 											color: "white",
 											fontWeight: "700"

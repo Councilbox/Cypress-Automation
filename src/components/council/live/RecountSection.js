@@ -75,7 +75,7 @@ class RecountSection extends React.Component {
 					agenda={agenda}
 					council={council}
 					translate={translate}
-					editable={canEditPresentVotings(agenda)}
+					editable={canEditPresentVotings(agenda) && false}
 					refetch={this.props.refetch}
 					recount={this.props.recount}
 					majorityTypes={this.props.majorityTypes}

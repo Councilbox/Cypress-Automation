@@ -118,7 +118,7 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 															toDelegate={true}
 															participant={participant}
 															onClick={() =>
-																this.props.delegateVote(
+																this.props.addRepresentative(
 																	participant.id
 																)
 															}

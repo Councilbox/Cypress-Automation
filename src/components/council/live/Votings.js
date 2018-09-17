@@ -3,6 +3,8 @@ import { CollapsibleSection, Icon } from "../../../displayComponents";
 import { darkGrey } from "../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 import VotingsTable from "./voting/VotingsTable";
+import { canEditPresentVotings } from '../../../utils/CBX';
+import ManualVotingsMenu from './voting/ManualVotingsMenu';
 
 class Votings extends React.Component {
 	state = {
@@ -66,10 +68,19 @@ class Votings extends React.Component {
 
 	_section = () => {
 		return(
-			<VotingsTable
-				translate={this.props.translate}
-				agenda={this.props.agenda}
-			/>
+			<div style={{backgroundColor: 'white', paddingTop: '1em'}}>
+				{canEditPresentVotings(this.props.agenda) &&
+					<ManualVotingsMenu
+						refetch={this.props.refetch}
+						translate={this.props.translate}
+						agenda={this.props.agenda}
+					/>
+				}
+				<VotingsTable
+					translate={this.props.translate}
+					agenda={this.props.agenda}
+				/>
+			</div>
 		)
 	};
 
