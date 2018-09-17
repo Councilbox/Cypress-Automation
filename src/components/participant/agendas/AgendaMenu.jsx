@@ -122,70 +122,76 @@ class AgendaMenu extends React.Component {
                                 {this.agendaVotingMessage()}
                             </Typography>
                         </div>
-                        {!!agenda.votings &&
-                            CBX.agendaVotingsOpened(agenda) &&
-                                <React.Fragment>
-                                    <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
-                                        <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                                            {agenda.votings[0].vote === -1 &&
-                                                'Aun no has votado'
+                        {CBX.agendaVotingsOpened(agenda) &&
+                            <React.Fragment>
+                                {(agenda.votings && agenda.votings.length > 0)?
+                           
+                                    <React.Fragment>
+                                        <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
+                                            <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
+                                                {agenda.votings[0].vote === -1 &&
+                                                    'Aun no has votado'
+                                                }
+                                                {agenda.votings[0].vote === 0 &&
+                                                    <React.Fragment /*TRADUCCION*/>
+                                                        {'Has votado: En contra'}
+                                                    </React.Fragment>
+                                                }
+                                                {agenda.votings[0].vote === 1 &&
+                                                    <React.Fragment /*TRADUCCION*/>
+                                                        {'Has votado: A favor'}
+                                                    </React.Fragment>
+                                                }
+                                                {agenda.votings[0].vote === 2 &&
+                                                    <React.Fragment /*TRADUCCION*/>
+                                                        {'Has votado: Abstención'}
+                                                    </React.Fragment>
+                                                }
+                                            </Typography>
+                                            <BasicButton
+                                                color={this.state.voting && this.state.open? primary : 'white'}
+                                                text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : 'Cambiar voto'} //TRADUCCION
+                                                textStyle={{
+                                                    color: this.state.voting && this.state.open? 'white' : primary,
+                                                    fontWeight: '700',
+                                                    fontSize: '14px'
+                                                }}
+                                                buttonStyle={{
+                                                    float: 'left',
+                                                    marginLeft: '0.6em',
+                                                    padding: '0.3em',
+                                                    border: `2px solid ${primary}`
+                                                }}
+                                                icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
+                                                onClick={this.activateVoting}
+                                            />
+                                        </div>
+                                            <CollapsibleSection
+                                            trigger={() => <span/>}
+                                            onTriggerClick={() => {}}
+                                            open={this.state.open}
+                                            collapse={() =>
+                                                <VotingMenu
+                                                    translate={this.props.translate}
+                                                    refetch={this.props.refetch}
+                                                    agenda={agenda}
+                                                />
                                             }
-                                            {agenda.votings[0].vote === 0 &&
-                                                <React.Fragment /*TRADUCCION*/>
-                                                    {'Has votado: En contra'}
-                                                </React.Fragment>
-                                            }
-                                            {agenda.votings[0].vote === 1 &&
-                                                <React.Fragment /*TRADUCCION*/>
-                                                    {'Has votado: A favor'}
-                                                </React.Fragment>
-                                            }
-                                            {agenda.votings[0].vote === 2 &&
-                                                <React.Fragment /*TRADUCCION*/>
-                                                    {'Has votado: Abstención'}
-                                                </React.Fragment>
-                                            }
-                                        </Typography>
-                                        <BasicButton
-                                            color={this.state.voting && this.state.open? primary : 'white'}
-                                            text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : 'Cambiar voto'} //TRADUCCION
-                                            textStyle={{
-                                                color: this.state.voting && this.state.open? 'white' : primary,
-                                                fontWeight: '700',
-                                                fontSize: '14px'
-                                            }}
-                                            buttonStyle={{
-                                                float: 'left',
-                                                marginLeft: '0.6em',
-                                                padding: '0.3em',
-                                                border: `2px solid ${primary}`
-                                            }}
-                                            icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
-                                            onClick={this.activateVoting}
                                         />
-                                    </div>
-                                        <CollapsibleSection
-                                        trigger={() => <span/>}
-                                        onTriggerClick={() => {}}
-                                        open={this.state.open}
-                                        collapse={() =>
-                                            <VotingMenu
+                                        {this.canComment(agenda, this.props.participant) &&
+                                            <CommentMenu
+                                                agenda={agenda}
+                                                participant={this.props.participant}
                                                 translate={this.props.translate}
                                                 refetch={this.props.refetch}
-                                                agenda={agenda}
                                             />
                                         }
-                                    />
-                                    {this.canComment(agenda, this.props.participant) &&
-                                        <CommentMenu
-                                            agenda={agenda}
-                                            participant={this.props.participant}
-                                            translate={this.props.translate}
-                                            refetch={this.props.refetch}
-                                        />
-                                    }
-                                </React.Fragment>
-                            }
+                                    </React.Fragment>
+                                :
+                                    'No puedes ejercer el voto por no estar presente en el momento de apertura de votaciones'
+                                }
+                            </React.Fragment>
+                        }
                     </React.Fragment>
                 }
                 {agenda.subjectType === CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&

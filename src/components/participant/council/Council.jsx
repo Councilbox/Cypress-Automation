@@ -7,10 +7,13 @@ import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { PARTICIPANT_STATES } from '../../../constants';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
+import { LiveToast } from '../../../displayComponents';
 import { darkGrey } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
 import VideoContainer from '../VideoContainer';
+import { toast } from 'react-toastify';
+import { councilStarted } from '../../../utils/CBX';
 
 const styles = {
 	viewContainer: {
@@ -38,6 +41,8 @@ class ParticipantCouncil extends React.Component {
         hasVideo: councilHasVideo(this.props.council)
     };
 
+    noStartedToastId = null;
+
     componentDidMount = () => {
         this.props.changeParticipantOnlineState({
             variables: {
@@ -45,6 +50,29 @@ class ParticipantCouncil extends React.Component {
                 online: 1
             }
         });
+
+        if(!councilStarted(this.props.council)){
+            this.noStartedToastId = toast(
+                <LiveToast
+                    message={this.props.translate.council_not_started_yet} //TRADUCCIÓN
+                />, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: false,
+                    closeOnClick: false,
+                    draggable: false,
+                    closeButton: false,
+                    className: "liveToast"
+                }
+            )
+        }
+    }
+
+    componentDidUpdate = () => {
+        if(this.noStartedToastId){
+            if(councilStarted(this.props.council)){
+                toast.dismiss(this.noStartedToastId);
+            }
+        }
     }
 
     _renderAgendaSection = () => {
