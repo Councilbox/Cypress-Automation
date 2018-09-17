@@ -5,15 +5,20 @@ import { TableRow, TableCell } from 'material-ui';
 import TableStyles from "../../styles/table";
 import { getPrimary } from "../../styles/colors";
 
-const CouncilsList = ({ councils, translate, deleteCouncil, openDeleteModal, company, link }) => {
-
+const CouncilsList = ({ councils, translate, openDeleteModal, company, link }) => {
+    let headers = link === '/finished' ? [
+        { name: translate.date_real_start },
+        { name: translate.table_councils_duration },
+        { name: translate.name },
+        { name: '' }
+    ] : [
+        { name: translate.date_real_start },
+        { name: translate.name },
+        { name: '' }
+    ]
     return(
         <Table
-            headers={[
-                { name: translate.date_real_start },
-                { name: translate.name },
-                { name: '' }
-            ]}
+            headers={headers}
             companyID={company.id}
         >
             {councils.map(council => {
@@ -85,12 +90,30 @@ class HoverableRow extends React.PureComponent {
                     style={TableStyles.TD}
                 >
                     <DateWrapper
-                        format="DD/MM/YYYY HH:mm"
+                        format="DD/MM/YYYY"
                         date={
                             council.dateStart
                         }
                     />
                 </TableCell>
+                {link === '/finished' && <TableCell
+                    style={TableStyles.TD}
+                >
+                    <div style={{width: '15em', display: 'flex', flexDirection: 'row'}}>
+                        <DateWrapper
+                            format="HH:mm"
+                            date={
+                                council.dateRealStart
+                            }
+                        /> {` - `}
+                        <DateWrapper
+                            format="HH:mm"
+                            date={
+                                council.dateEnd
+                            }
+                        />
+                    </div>
+                </TableCell>}
                 <TableCell
                     style={{
                         ...TableStyles.TD,
