@@ -29,30 +29,8 @@ const itemStyle = {
 
 
 const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda }) => {
-
-    const updateValue = async value => {
-        const { attachments, __typename, ...toSend } = agenda;
-        const response = await updateAgenda({
-            variables: {
-                agenda: {
-                    ...toSend,
-                    ...value
-                }
-            }
-        });
-
-        if(!response.errors){
-            refetch();
-        }
-    }
     
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
-    const votesLeft = (agenda.presentCensus - agenda.noVoteManual - agenda.abstentionManual - agenda.negativeManual - agenda.positiveManual);
-    const maxVoteManual = votesLeft <= 0? 0 : votesLeft;
-
-    console.log(recount);
-    console.log(agenda);
-
     const activatePresentOneVote = false;
 
     return(
@@ -183,23 +161,15 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     {editable?
                         <React.Fragment>
                             <EditableCell
-                                max={maxVoteManual + agenda.positiveManual}
-                                blurAction={(value) => updateValue({positiveManual: value})}
                                 value={agenda.positiveManual}
                             />
                             <EditableCell
-                                max={maxVoteManual + agenda.negativeManual}
-                                blurAction={(value) => updateValue({negativeManual: value})}
                                 value={agenda.negativeManual}
                             />
                             <EditableCell
-                                max={maxVoteManual + agenda.abstentionManual}
-                                blurAction={(value) => updateValue({abstentionManual: value})}
                                 value={agenda.abstentionManual}
                             />
                             <EditableCell
-                                max={maxVoteManual + agenda.noVoteManual}
-                                blurAction={(value) => updateValue({noVoteManual: value })}
                                 value={agenda.noVoteManual}
                             />
                         </React.Fragment>

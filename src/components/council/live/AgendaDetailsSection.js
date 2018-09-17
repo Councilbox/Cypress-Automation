@@ -200,6 +200,7 @@ class AgendaDetailsSection extends React.Component {
 								>
 									<ActAgreements
 										agenda={agenda}
+										key={`agendaAgreements_${agenda.id}`}
 										translate={translate}
 										council={this.props.council}
 										refetch={this.props.refetch}
@@ -236,6 +237,7 @@ class AgendaDetailsSection extends React.Component {
 														>
 															<RecountSection
 																agenda={agenda}
+																key={`agendaRecount_${agenda.id}`}
 																council={council}
 																translate={translate}
 																recount={this.props.recount}
@@ -252,7 +254,9 @@ class AgendaDetailsSection extends React.Component {
 															className="withShadow"
 														>
 															<Votings
+																key={`agendaVotings_${agenda.id}`}
 																ref={votings => (this.votings = votings)}
+																refetch={this.props.refetch}
 																agenda={agenda}
 																translate={translate}
 															/>
@@ -273,6 +277,7 @@ class AgendaDetailsSection extends React.Component {
 									<AgendaAttachmentsManager
 										attachments={agenda.attachments}
 										translate={translate}
+										key={`agendaAttachments_${agenda.id}`}
 										councilID={this.props.council.id}
 										refetch={this.props.refetch}
 										agendaID={agenda.id}
