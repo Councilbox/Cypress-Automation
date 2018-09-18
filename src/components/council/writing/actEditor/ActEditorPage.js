@@ -171,24 +171,22 @@ class ActEditorPage extends React.Component {
             }
         ];
 
-        if(this.props.data.recordingsIframe){
-            tabs.push({
-                text: 'Grabaciones', //TRADUCCION
-                component: () => {
-                    return (
-                        <TabContainer>
-                            <Scrollbar>
-                                <RecordingsSection
-                                    data={this.props.data}
-                                    council={council}
-                                    translate={translate}
-                                />
-                            </Scrollbar>
-                        </TabContainer>
-                    );
-                }
-            });
-        }
+        tabs.push({
+            text: 'Grabaciones', //TRADUCCION
+            component: () => {
+                return (
+                    <TabContainer>
+                        <Scrollbar>
+                            <RecordingsSection
+                                data={this.props.data}
+                                council={council}
+                                translate={translate}
+                            />
+                        </Scrollbar>
+                    </TabContainer>
+                );
+            }
+        });
 
         return(
             <CardPageLayout title={council.name} disableScroll={true}>

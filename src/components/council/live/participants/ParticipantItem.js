@@ -260,7 +260,8 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 							style={{
 								width: "2.2em",
 								display: "flex",
-								justifyContent: "center"
+								justifyContent: "center",
+								alignItems: 'center'
 							}}
 						>
 							<FontAwesome
@@ -272,15 +273,16 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 								}}
 							/>
 						</div>
-						<Typography
-							variant="body1"
+						<div
 							style={{
-								color: "grey", fontSize: "0.75rem", textOverflow: "ellipsis",
+								color: "grey",
+								fontSize: "0.75rem",
+								textOverflow: "ellipsis",
+								height: '1.5em',
 								overflow: "hidden"
 							}}
-						>
-							{`${participant.assistanceComment}`}
-						</Typography>
+							dangerouslySetInnerHTML={{__html: participant.assistanceComment}}
+						/>
 					</div>
 				}
 

@@ -108,7 +108,7 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser}/>
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{width: '8em', height: 'auto'}} />
 		</div>
 	</React.Fragment>
 );
@@ -240,7 +240,7 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 					</div>
 
 					<div style={styles.imageContainer}>
-						<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} />
+						<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} style={{width: '8em', height: 'auto'}} />
 					</div>
 				</React.Fragment>
 			}

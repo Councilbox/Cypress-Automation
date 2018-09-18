@@ -11,6 +11,39 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
     const secondary = getSecondary();
     const primary = getPrimary();
 
+    const steps = [
+        {
+            index: 0,
+            icon: 'schedule',
+            text: translate.wizard_convene
+        },
+        {
+            index: 1,
+            icon: 'team',
+            text: translate.census
+        },
+        {
+            index: 2,
+            icon: 'profile',
+            text: translate.wizard_agenda
+        },
+        {
+            index: 3,
+            icon: 'link',
+            text: translate.wizard_attached_documentation
+        },
+        {
+            index: 4,
+            icon: 'bars',
+            text: translate.wizard_options
+        },
+        {
+            index: 5,
+            icon: 'copy',
+            text: translate.wizard_preview
+        },
+    ];
+
     const XsIcon = ({ icon, page, selected }) => (
         <Icon
             type={icon}
@@ -73,91 +106,43 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
             size="small"
             direction="horizontal"
         >
-            <Steps.Step
-                title={
-                    <span
-                        style={{userSelect: 'none', cursor: active > 0? 'pointer' : 'inherit'}}
-                        {...(active > 0
-                        ? {
-                                onClick: () => goToPage(1),
-                        }
-                        : {})}
-                    >
-                        {translate.wizard_convene}
-                    </span>
-                }
-                icon={<Icon type="schedule" style={{color: active === 0? primary : secondary}} />}
-            />
-            <Steps.Step
-                title={
-                    <span
-                        style={{userSelect: 'none', cursor: active > 1? 'pointer' : 'inherit'}}
-                        {...(active > 1
-                        ? {
-                                onClick: () => goToPage(2),
-                        }
-                        : {})}
-                    >
-                        {translate.census}
-                    </span>
-                }
-                icon={<Icon type="team" style={{color: active === 1? primary : secondary}} />}
-            />
-            <Steps.Step
-                title={
-                    <span
-                        style={{userSelect: 'none', cursor: active > 2? 'pointer' : 'inherit'}}
-                        {...(active > 2
-                        ? {
-                                onClick: () => goToPage(3),
-                        }
-                        : {})}
-                    >
-                        {translate.wizard_agenda}
-                    </span>
-                }
-                icon={<Icon type="profile" style={{color: active === 2? primary : secondary}} />}
-            />
-            <Steps.Step
-                title={
-                    <span
-                        style={{userSelect: 'none', cursor: active > 3? 'pointer' : 'inherit'}}
-                        {...(active > 3
-                        ? {
-                                onClick: () => goToPage(4),
-                        }
-                        : {})}
-                    >
-                        {translate.wizard_attached_documentation}
-                    </span>
-                }
-                icon={<Icon type="link" style={{color: active === 3? primary : secondary}} />}
-            />
-            <Steps.Step
-                title={
-                    <span
-                        style={{userSelect: 'none', cursor: active > 4? 'pointer' : 'inherit'}}
-                        {...(active > 4
-                        ? {
-                                onClick: () => goToPage(5),
-                        }
-                        : {})}
-                    >
-                        {translate.wizard_options}
-                    </span>
-                }
-                icon={<Icon type="bars" style={{color: active === 4? primary : secondary}} />}
-            />
-            <Steps.Step
-                title={
-                    <span
-                        style={{userSelect: 'none'}}
-                    >
-                        {translate.wizard_preview}
-                    </span>
-                }
-                icon={<Icon type="copy" style={{color: active === 5? primary : secondary}} />}
-            />
+            {steps.map(step => (
+                <Steps.Step
+                    title={
+                        <span
+                            style={{
+                                userSelect: 'none',
+                                cursor: active > step.index? 'pointer' : 'inherit',
+                                ...(active === step.index? {
+                                    fontSize: '18px',
+                                    textDecoration: 'underline'
+                                } : {})
+                            }}
+                            {...(active > step.index
+                            ? {
+                                    onClick: () => goToPage(step.index + 1),
+                            }
+                            : {})}
+                        >
+                            {step.text}
+                        </span>
+                    }
+                    icon={
+                        <Icon
+                            type={step.icon}
+                            style={{
+                                color: active === step.index? primary : secondary,
+                                cursor: active > step.index ? 'pointer' : 'inherit'
+                            }}
+                            {...(active > step.index
+                            ? {
+                                    onClick: () => goToPage(step.index + 1),
+                            }
+                            : {})}
+                        />
+                    }
+                />
+            ))}
         </Steps>
     )
 }

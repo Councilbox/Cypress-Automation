@@ -115,6 +115,10 @@ class AppRouter extends React.Component {
 		mobileOpen: false
 	};
 
+	redirectToRoot = () => {
+		return <Redirect to="/" />
+	}
+
 	render() {
 		const { translate } = this.props;
 
@@ -257,7 +261,7 @@ class AppRouter extends React.Component {
 						component={AssistanceContainer}
 					/>
 
-					<Route path="*" component={() => <Redirect to="/" />} />
+					<Route path="*" component={this.redirectToRoot} />
 				</Switch>
 			);
 	}

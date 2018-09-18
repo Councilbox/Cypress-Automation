@@ -16,6 +16,7 @@ import {
 import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
 
+
 class AttendanceContainer extends React.Component {
 	state = {
 		attendanceStatus: null,

@@ -431,7 +431,7 @@ class StepNotice extends React.Component {
 									<GridItem xs={12} md={10} lg={10} style={{marginTop: '2em'}}>
 										<TextInput
 											required
-											floatingText={translate.table_councils_name}
+											floatingText={translate.meeting_title}
 											type="text"
 											errorText={errors.name}
 											value={council.name || ""}
