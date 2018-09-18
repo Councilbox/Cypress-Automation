@@ -1,7 +1,7 @@
 import React from "react";
 import { Icon } from "./index";
 
-const ButtonIcon = ({ type, color, style }) => (
+const ButtonIcon = ({ type, color, style, onClick }) => (
 	<Icon
 		className="material-icons"
 		style={{
@@ -10,6 +10,7 @@ const ButtonIcon = ({ type, color, style }) => (
 			marginLeft: "0.3em",
 			...style
 		}}
+		onClick={()=> {!!onClick && onClick()}}
 	>
 		{type}
 	</Icon>
