@@ -1034,6 +1034,14 @@ export const updateCouncilAttachment = gql`
 	}
 `;
 
+export const updateAgendaAttachment = gql`
+	mutation updateAgendaAttachment($id: Int!, $filename: String!) {
+		updateAgendaAttachment(id: $id, filename: $filename) {
+			filename
+		}
+	}
+`;
+
 export const removeCouncilAttachment = gql`
 	mutation removeCouncilAttachment($councilId: Int!, $attachmentId: Int!) {
 		removeCouncilAttachment(

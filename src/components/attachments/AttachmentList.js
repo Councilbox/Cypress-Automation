@@ -1,7 +1,7 @@
 import React from "react";
 import { AlertConfirm, TextInput } from "../../displayComponents";
-import { graphql } from "react-apollo";
-import { updateCouncilAttachment } from "../../queries";
+import { compose, graphql } from "react-apollo";
+import { updateCouncilAttachment, updateAgendaAttachment } from "../../queries";
 import AttachmentItem from "./AttachmentItem";
 import { splitExtensionFilename } from '../../utils/CBX';
 
@@ -58,12 +58,24 @@ class AttachmentList extends React.Component {
 	};
 
 	updateAttachment = async () => {
-		const response = await this.props.updateAttachment({
-			variables: {
-				id: this.state.editId,
-				filename: `${this.state.data.filename}.${this.state.data.extension}`
-			}
-		});
+		let isAgendaAttachment = this.props.isAgendaAttachment;
+		let response;
+		if (isAgendaAttachment) {
+			response = await this.props.updateAgendaAttachment({
+				variables: {
+					id: this.state.editId,
+					filename: `${this.state.data.filename}.${this.state.data.extension}`
+				}
+			});
+		} else {
+			response = await this.props.updateCouncilAttachment({
+				variables: {
+					id: this.state.editId,
+					filename: `${this.state.data.filename}.${this.state.data.extension}`
+				}
+			});
+		}
+
 		if (response) {
 			this.setState({
 				showModal: false
@@ -117,6 +129,4 @@ class AttachmentList extends React.Component {
 	}
 }
 
-export default graphql(updateCouncilAttachment, { name: "updateAttachment" })(
-	AttachmentList
-);
+export default compose(graphql(updateCouncilAttachment, { name: "updateCouncilAttachment" }), graphql(updateAgendaAttachment, { name: "updateAgendaAttachment" }))(AttachmentList);

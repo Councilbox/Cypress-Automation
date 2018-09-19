@@ -17,7 +17,6 @@ class AgendaAttachmentsManager extends React.Component {
 		loadingId: ""
 	};
 
-
 	handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -139,6 +138,8 @@ class AgendaAttachmentsManager extends React.Component {
 				translate={translate}
 				loadingId={this.state.loadingId}
 				deleteAction={this.removeAgendaAttachment}
+				refetch={this.props.refetch}
+				isAgendaAttachment
 			/>
 		);
 	};
