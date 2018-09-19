@@ -55,7 +55,6 @@ class DraftEditPage extends React.PureComponent {
 				}
 			});
 
-            console.log(response);
 			if (!response.errors) {
 				this.setState({ success: true });
 				this.timeout = setTimeout(() => this.reset(), 2000);

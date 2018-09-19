@@ -1,7 +1,6 @@
 import React from 'react';
 import { TextInput, Grid, GridItem, BasicButton } from '../../../../displayComponents';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import { getSecondary } from '../../../../styles/colors';
 import { updateAgenda } from "../../../../queries/agenda";
 

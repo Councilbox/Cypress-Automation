@@ -22,6 +22,7 @@ import { getSecondary } from "../../../../../styles/colors";
 import EmailIcon from "../EmailIcon";
 import { toast } from "react-toastify";
 import { updateCredentialsSends } from "../../../../../queries";
+import AddGuestModal from "../AddGuestModal";
 
 class CredentialsContainer extends React.Component {
 	state = {
@@ -415,6 +416,9 @@ class CredentialsContainer extends React.Component {
 	};
 
 	render() {
+		const { addGuest, updateState, council, translate } = this.props;
+		const { refetch } = this.props.data;
+
 		if (!this.props.data.crendentialSendRecount) {
 			return <LoadingSection />;
 		}
@@ -451,6 +455,13 @@ class CredentialsContainer extends React.Component {
 						mode={"CREDENTIALS"}
 					/>
 				</div>
+				<AddGuestModal
+					show={addGuest}
+					council={council}
+					refetch={refetch}
+					requestClose={() => updateState({ addGuest: false })}
+					translate={translate}
+				/>
 			</React.Fragment>
 		);
 	}

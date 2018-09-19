@@ -15,7 +15,8 @@ import {
 	GridItem,
 	LoadingSection,
 	ParticipantDisplay,
-	RefreshButton
+	RefreshButton,
+	CloseIcon
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
 import ParticipantStateSelector from "./ParticipantStateSelector";
@@ -67,7 +68,6 @@ class LiveParticipantEditor extends React.Component {
 		}
 	};
 
-
 	render() {
 		const { translate } = this.props;
 
@@ -80,16 +80,18 @@ class LiveParticipantEditor extends React.Component {
 		const primary = getPrimary();
 
 		return (
-			<div style={{
-				width: '100%',
-				height: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'flex-start', /* align items in Main Axis */
-				alignItems: 'stretch', /* align items in Cross Axis */
-				alignContent: 'stretch', /* Extra space in Cross Axis */
-				padding: "1em"
-			}}>
+			<div
+				style={{
+					width: "100%",
+					height: "100%",
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "flex-start" /* align items in Main Axis */,
+					alignItems: "stretch" /* align items in Cross Axis */,
+					alignContent: "stretch" /* Extra space in Cross Axis */,
+					padding: "1em"
+				}}
+			>
 				<FontAwesome
 					name={"times"}
 					style={{
@@ -102,7 +104,7 @@ class LiveParticipantEditor extends React.Component {
 					}}
 					onClick={this.props.requestClose}
 				/>
-				<div style={{ paddingBottom: '0.5em' }}>
+				<div style={{ paddingBottom: "0.5em" }}>
 					<Grid>
 						<GridItem md={1}>
 							<TypeIcon
@@ -110,12 +112,15 @@ class LiveParticipantEditor extends React.Component {
 								type={participant.type}
 								ratio={1.3}
 							/>
-							<div style={{ marginLeft: '-1.5em', marginTop: '0.5em' }}>
+							<div
+								style={{
+									marginLeft: "-1.5em",
+									marginTop: "0.5em"
+								}}
+							>
 								<DownloadCBXDataButton
 									translate={translate}
-									participantId={
-										participant.participantId
-									}
+									participantId={participant.participantId}
 								/>
 							</div>
 						</GridItem>
@@ -139,11 +144,13 @@ class LiveParticipantEditor extends React.Component {
 								<br />
 								{
 									translate[
-									CBX.getParticipantStateField(participant)
+									CBX.getParticipantStateField(
+										participant
+									)
 									]
 								}
 								<br />
-								<div style={{ marginTop: '0.5em' }}>
+								<div style={{ marginTop: "0.5em" }}>
 									<ParticipantStateSelector
 										participant={participant}
 										council={this.props.council}
@@ -155,13 +162,15 @@ class LiveParticipantEditor extends React.Component {
 						</GridItem>
 					</Grid>
 				</div>
-				<div style={{
-					flexGrow: 1,
-					overflow: 'auto',
-					/* for Firefox */
-					minHeight: 0,
-					paddingRight: '0.5em'
-				}}>
+				<div
+					style={{
+						flexGrow: 1,
+						overflow: "auto",
+						/* for Firefox */
+						minHeight: 0,
+						paddingRight: "0.5em"
+					}}
+				>
 					<Grid>
 						{(CBX.isRepresented(participant) ||
 							CBX.hasHisVoteDelegated(participant)) && (
@@ -176,14 +185,14 @@ class LiveParticipantEditor extends React.Component {
 											{translate.voting_delegate}
 										</Typography>
 									)}
-									{
-										participant.representative &&
+									{participant.representative && (
 										<ParticipantTable
 											translate={translate}
-											participants={[participant.representative]}
+											participants={[
+												participant.representative
+											]}
 										/>
-									}
-
+									)}
 								</GridItem>
 							)}
 
@@ -195,7 +204,14 @@ class LiveParticipantEditor extends React.Component {
 									</Typography>
 									<ParticipantTable
 										translate={translate}
-										participants={participant.delegatedVotes}
+										participants={
+											participant.delegatedVotes
+										}
+										enableActions
+										quitDelegatedVote={
+											this.removeDelegatedVote
+										}
+										primary={primary}
 									/>
 								</GridItem>
 							</React.Fragment>
@@ -216,7 +232,7 @@ class LiveParticipantEditor extends React.Component {
 									<Typography
 										variant="subheading"
 										style={{
-											marginRight: "1em",
+											marginRight: "1em"
 										}}
 									>
 										{translate.sends}
@@ -235,7 +251,9 @@ class LiveParticipantEditor extends React.Component {
 								</GridItem>
 								<GridItem xs={12} lg={12} md={12}>
 									<NotificationsTable
-										notifications={participant.notifications}
+										notifications={
+											participant.notifications
+										}
 										translate={translate}
 									/>
 								</GridItem>
@@ -248,32 +266,109 @@ class LiveParticipantEditor extends React.Component {
 	}
 }
 
-const ParticipantTable = ({ participants, translate }) => (
-	<Table style={{ maxWidth: "100%", width: "100%" }}>
-		<TableHead>
-			<TableRow>
-				<TableCell style={{ padding: "0.2em" }}>
-					{translate.name}
-				</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{translate.dni}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{translate.position}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{translate.votes}</TableCell>
-			</TableRow>
-		</TableHead>
-		<TableBody>
-			{participants.map((participant, index) => (
-				<TableRow key={`part_${index}`}>
+const ParticipantTable = ({
+	participants,
+	translate,
+	enableActions,
+	quitDelegatedVote,
+	primary
+}) => (
+		<Table style={{ maxWidth: "100%", width: "100%" }}>
+			<TableHead>
+				<TableRow>
 					<TableCell style={{ padding: "0.2em" }}>
-						{`${participant.name} ${participant.surname}`}
+						{translate.name}
 					</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>{`${participant.dni}`}</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>{`${participant.position}`}</TableCell>
-					<TableCell style={{ padding: "0.2em" }}>{`${participant.numParticipations}`}</TableCell>
+					<TableCell style={{ padding: "0.2em" }}>
+						{translate.dni}
+					</TableCell>
+					<TableCell style={{ padding: "0.2em" }}>
+						{translate.position}
+					</TableCell>
+					<TableCell style={{ padding: "0.2em" }}>
+						{translate.votes}
+					</TableCell>
+					{enableActions && <TableCell style={{ padding: "0.2em" }}>
+						&nbsp;
+					</TableCell>}
 				</TableRow>
-			))}
-		</TableBody>
-	</Table>
-);
+			</TableHead>
+			<TableBody>
+				{participants.map((participant, index) => (
+					<HoverableRow
+						key={`del_${index}`}
+						primary={primary}
+						participant={participant}
+						enableActions={enableActions}
+						quitDelegatedVote={quitDelegatedVote}
+					/>
+					// <TableRow key={`part_${index}`}>
+					// 	<TableCell style={{ padding: "0.2em" }}>
+					// 		{`${participant.name} ${participant.surname}`}
+					// 	</TableCell>
+					// 	<TableCell style={{ padding: "0.2em" }}>{`${participant.dni}`}</TableCell>
+					// 	<TableCell style={{ padding: "0.2em" }}>{`${participant.position}`}</TableCell>
+					// 	<TableCell style={{ padding: "0.2em" }}>{`${participant.numParticipations}`}</TableCell>
+					// </TableRow>
+				))}
+			</TableBody>
+		</Table>
+	);
+
+class HoverableRow extends React.PureComponent {
+	state = {
+		showActions: false
+	};
+
+	mouseEnterHandler = () => {
+		this.setState({ showActions: true });
+	};
+
+	mouseLeaveHandler = () => {
+		this.setState({ showActions: false });
+	};
+
+	render() {
+		const {
+			primary,
+			participant,
+			quitDelegatedVote,
+			enableActions
+		} = this.props;
+		const { showActions } = this.state;
+
+		return (
+			<TableRow
+				onMouseEnter={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}>
+				<TableCell style={{ padding: "0.2em" }}>
+					{`${participant.name} ${participant.surname}`}
+				</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{`${
+					participant.dni
+					}`}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{`${
+					participant.position
+					}`}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{`${
+					participant.numParticipations
+					}`}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>
+					{showActions &&
+						enableActions && (
+							<CloseIcon
+								style={{ color: primary }}
+								onClick={event => {
+									quitDelegatedVote(participant.id);
+									event.stopPropagation();
+								}}
+							/>
+						)}
+				</TableCell>
+			</TableRow>
+		);
+	}
+}
 
 export default compose(
 	graphql(liveParticipant, {
@@ -289,5 +384,5 @@ export default compose(
 	}),
 	graphql(updateParticipantSends, {
 		name: "updateParticipantSends"
-	}),
+	})
 )(LiveParticipantEditor);

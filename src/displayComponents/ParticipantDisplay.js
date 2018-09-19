@@ -1,7 +1,7 @@
 import React from "react";
 import { getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
-import { Card, Typography, Tooltip } from "material-ui";
+import { Typography, Tooltip } from "material-ui";
 import * as CBX from "../utils/CBX";
 
 const ParticipantDisplay = ({ participant, translate, council, delegate }) => {

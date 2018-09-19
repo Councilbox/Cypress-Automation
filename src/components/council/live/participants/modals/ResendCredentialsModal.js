@@ -4,8 +4,7 @@ import {
 } from "../../../../../queries/liveParticipant";
 import {
 	CustomDialog,
-	BasicButton,
-	Tooltip
+	BasicButton
 } from "../../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../../styles/colors";
 import { Card } from "material-ui";

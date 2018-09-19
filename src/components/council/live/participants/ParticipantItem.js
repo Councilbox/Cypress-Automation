@@ -6,6 +6,8 @@ import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
+import { removeHTMLTags } from '../../../../utils/CBX';
+
 
 class ParticipantItem extends React.PureComponent {
 
@@ -38,8 +40,8 @@ class ParticipantItem extends React.PureComponent {
 							overflow: "hidden"
 						}}
 						onClick={() => editParticipant(participant.id)}
-						// onMouseEnter={() => this.setState({ showIcons: true })}
-						// onMouseLeave={() => this.setState({ showIcons: false })}
+					// onMouseEnter={() => this.setState({ showIcons: true })}
+					// onMouseLeave={() => this.setState({ showIcons: false })}
 					>
 						{layout === 'compact' &&
 							<CompactItemLayout
@@ -97,14 +99,16 @@ const CompactItemLayout = ({ participant, translate, mode }) => (
 				lg={1}
 				md={1}
 			>
-				<Tooltip title={participant.assistanceComment}>
-					<div style={{ padding: "0.5em" }}>
-						<FontAwesome
-							name={"comment"}
-							style={{ fontSize: '1.5em', color: 'grey' }}
-						/>
-					</div>
-				</Tooltip>
+				{participant.assistanceComment &&
+					<Tooltip title={removeHTMLTags(participant.assistanceComment)}>
+						<div style={{ padding: "0.5em" }}>
+							<FontAwesome
+								name={"comment"}
+								style={{ fontSize: '1.5em', color: 'grey' }}
+							/>
+						</div>
+					</Tooltip>
+				}
 			</GridItem>
 		}
 
@@ -281,8 +285,9 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 								height: '1.5em',
 								overflow: "hidden"
 							}}
-							dangerouslySetInnerHTML={{__html: participant.assistanceComment}}
-						/>
+						>
+							{removeHTMLTags(participant.assistanceComment)}
+						</div>
 					</div>
 				}
 

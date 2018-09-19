@@ -62,7 +62,7 @@ class EndCouncilButton extends React.Component {
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ minWidth: "13em", marginRight: '0.6em' }}
+						buttonStyle={{ minWidth: "13em" }}
 						textStyle={{
 							color: "white",
 							fontSize: "0.75em",

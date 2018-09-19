@@ -15,6 +15,7 @@ import {
 } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
+import AddGuestModal from "../AddGuestModal";
 
 
 class AttendanceContainer extends React.Component {
@@ -327,6 +328,9 @@ class AttendanceContainer extends React.Component {
 	};
 
 	render() {
+		const { addGuest, updateState, council, translate } = this.props;
+		const { refetch } = this.props.data;
+
 		if (!this.props.data.attendanceRecount) {
 			return <LoadingSection />;
 		}
@@ -363,6 +367,13 @@ class AttendanceContainer extends React.Component {
 						mode={"ATTENDANCE"}
 					/>
 				</div>
+				<AddGuestModal
+					show={addGuest}
+					council={council}
+					refetch={refetch}
+					requestClose={() => updateState({ addGuest: false })}
+					translate={translate}
+				/>
 			</React.Fragment>
 		);
 	}

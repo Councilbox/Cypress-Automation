@@ -15,13 +15,13 @@ class RecordingButton extends React.Component {
 
     timeout = null;
 
-    componentDidMount(){
+    componentDidMount() {
         DetectRTC.load();
     }
 
-    componentDidUpdate(prevProps){
-        if(prevProps.data.loading && !this.props.data.loading){
-            if(this.props.council.fullVideoRecord === 1){
+    componentDidUpdate(prevProps) {
+        if (prevProps.data.loading && !this.props.data.loading) {
+            if (this.props.council.fullVideoRecord === 1) {
                 this.startFullRecording();
             }
         }
@@ -29,11 +29,11 @@ class RecordingButton extends React.Component {
 
     startFullRecording = async () => {
         const { sessionStatus } = this.props.data;
-        if(!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)){
+        if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
             return;
         }
 
-        if(!sessionStatus.record){
+        if (!sessionStatus.record) {
             setTimeout(async () => {
                 await this.toggleRecordings();
                 this.setState({
@@ -44,23 +44,23 @@ class RecordingButton extends React.Component {
     }
 
     toggleRecordings = async () => {
-        if(!this.state.disabled){
+        if (!this.state.disabled) {
             this.setState({
                 loading: true
             });
-    
+
             const variables = {
                 councilId: this.props.council.id
             }
-    
-            const response = this.props.data.sessionStatus.record?
-                await this.props.stopRecording({variables})
-            :
-                await this.props.startRecording({variables});
-    
+
+            const response = this.props.data.sessionStatus.record ?
+                await this.props.stopRecording({ variables })
+                :
+                await this.props.startRecording({ variables });
+
             console.log(response);
-    
-            if(response){
+
+            if (response) {
                 await this.props.data.refetch();
                 this.setState({
                     loading: false
@@ -72,38 +72,38 @@ class RecordingButton extends React.Component {
     render() {
         const { sessionStatus } = this.props.data;
         console.log(sessionStatus);
-        if(!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)){
+        if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
             return <span />
         }
 
-        if(!this.props.config.recording){
+        if (!this.props.config.recording) {
             return <span />;
         }
 
         const { record } = sessionStatus;
 
         return (
-            <Tooltip title={this.props.council.fullVideoRecord == 1? 'Grabación íntegra' : record? 'Parar grabación' : 'Iniciar grabación'} /*TRADUCCION*/>
+            <Tooltip title={this.props.council.fullVideoRecord === 1 ? 'Grabación íntegra' : record ? 'Parar grabación' : 'Iniciar grabación'} /*TRADUCCION*/>
                 <div
                     style={{
                         position: 'absolute',
                         top: '20px',
                         left: '2em',
                         fontSize: '1.4em',
-                        cursor: this.props.council.fullVideoRecord == 1? 'auto' : 'pointer'
+                        cursor: this.props.council.fullVideoRecord === 1 ? 'auto' : 'pointer'
                     }}
-                    {...(this.props.council.fullVideoRecord !== 1? {onClick: this.toggleRecordings}: {})}
+                    {...(this.props.council.fullVideoRecord !== 1 ? { onClick: this.toggleRecordings } : {})}
                 >
-                    {this.state.loading?
+                    {this.state.loading ?
                         <CircularProgress size={20} thickness={7} color={'secondary'} />
-                    :
-                        record?
-                            <i className="fa fa-dot-circle-o fadeToggle" style={{color: 'red'}}/>
                         :
-                            <i className="fa fa-circle" style={{color: 'red'}}/>
+                        record ?
+                            <i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
+                            :
+                            <i className="fa fa-circle" style={{ color: 'red' }} />
                     }
-                    
-                
+
+
                 </div>
             </Tooltip>
         )

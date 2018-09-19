@@ -11,7 +11,6 @@ import {
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { Paper, Tooltip } from "material-ui";
 import LiveParticipantEditor from "./LiveParticipantEditor";
-import AddGuestModal from "./AddGuestModal";
 import StatesContainer from "./sections/StatesContainer";
 import ConveneContainer from "./sections/ConveneContainer";
 import CredentialsContainer from "./sections/CredentialsContainer";
@@ -64,7 +63,7 @@ class ParticipantsManager extends React.Component {
 	}
 
 	_renderSection = () => {
-		let { view, layout } = this.state;
+		let { view, layout, addGuest } = this.state;
 		let { council, translate } = this.props;
 		switch (view) {
 			case 'STATES':
@@ -73,6 +72,8 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
+					addGuest={addGuest}
+					updateState={this.updateState}
 				/>
 			case 'CONVENE':
 				return <ConveneContainer
@@ -80,6 +81,8 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
+					addGuest={addGuest}
+					updateState={this.updateState}
 				/>
 			case 'CREDENTIALS':
 				return <CredentialsContainer
@@ -87,6 +90,8 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
+					addGuest={addGuest}
+					updateState={this.updateState}
 				/>
 			case 'ATTENDANCE':
 				return <AttendanceContainer
@@ -94,6 +99,8 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
+					addGuest={addGuest}
+					updateState={this.updateState}
 				/>
 			case 'TYPE':
 				return <TypesContainer
@@ -101,6 +108,8 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
+					addGuest={addGuest}
+					updateState={this.updateState}
 				/>
 			default:
 				return 'Error';
@@ -318,13 +327,6 @@ class ParticipantsManager extends React.Component {
 							}
 						</div>
 					</GridItem>
-					<AddGuestModal
-						show={this.state.addGuest}
-						council={council}
-						// refetch={this.props.data.refetch}
-						requestClose={() => this.setState({ addGuest: false })}
-						translate={translate}
-					/>
 				</Grid>
 			</div >
 		);

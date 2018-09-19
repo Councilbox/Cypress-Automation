@@ -4,7 +4,8 @@ import {
 	Icon,
 	LoadingSection,
 	ParticipantRow,
-	TextInput
+	TextInput,
+	LiveToast
 } from "../../../displayComponents";
 import { Typography } from "material-ui";
 import { compose, graphql } from "react-apollo";
@@ -12,6 +13,7 @@ import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
 import { addDelegation } from "../../../queries/liveParticipant";
+import { toast } from "react-toastify";
 
 class DelegateOwnVoteModal extends React.Component {
 	state = {
@@ -56,19 +58,53 @@ class DelegateOwnVoteModal extends React.Component {
 		this.props.requestClose();
 	};
 
-	delegateVote = id => {
-		if(this.props.addRepresentative){
+	delegateVote = async id => {
+		//For attendance
+		if (this.props.addRepresentative) {
 			this.props.addRepresentative(id);
-		}else {
-			this.props.delegateVote(
+		} else {
+			let response = await this.props.delegateVote(
 				{
 					variables: {
-						participantId: id,
-						delegateId: this.props.participant.id
+						participantId: this.props.participant.id,
+						delegateId: id
 					}
 				}
 			);
-			this.close();
+			if (!response.errors) {
+				this.props.refetch();
+				this.close();
+			} else if (response.errors[0].code === 710) {
+				toast(
+					<LiveToast
+						message={this.props.translate.just_delegate_vote}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "errorToast"
+					}
+				)
+			} else if (response.errors[0].code === 711) {
+				toast(
+					<LiveToast
+						message={this.props.translate.number_of_delegated_votes_exceeded}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "errorToast"
+					}
+				)
+			} else if (response.errors[0].code === 715) {
+				toast(
+					<LiveToast
+						message={this.props.translate.cant_delegate_has_delegated_votes}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "errorToast"
+					}
+				)
+			}
 		}
 	};
 
@@ -117,47 +153,47 @@ class DelegateOwnVoteModal extends React.Component {
 					{loading ? (
 						<LoadingSection />
 					) : (
-						<Scrollbar option={{ suppressScrollX: true }}>
-							{participants.length > 0 ? (
-								<React.Fragment>
-									{participants.map(participant => {
-										if (
-											participant.id !==
-											this.props.participant.id
-										) {
-											return (
-												<ParticipantRow
-													key={`delegateVote_${
-														participant.id
-													}`}
-													council={this.props.council}
-													toDelegate={true}
-													participant={participant}
-													onClick={() =>
-														this.delegateVote(
+							<Scrollbar option={{ suppressScrollX: true }}>
+								{participants.length > 0 ? (
+									<React.Fragment>
+										{participants.map(participant => {
+											if (
+												participant.id !==
+												this.props.participant.id
+											) {
+												return (
+													<ParticipantRow
+														key={`delegateVote_${
 															participant.id
-														)
-													}
-												/>
-											);
-										}
-										return false;
-									})}
-									{participants.length < total - 1 && (
-										<div onClick={this.loadMore}>
-											{`DESCARGAR ${
-												rest > DELEGATION_USERS_LOAD
-													? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-													: translate.all_plural.toLowerCase()
-											}`}
-										</div>
+															}`}
+														council={this.props.council}
+														toDelegate={true}
+														participant={participant}
+														onClick={() =>
+															this.delegateVote(
+																participant.id
+															)
+														}
+													/>
+												);
+											}
+											return false;
+										})}
+										{participants.length < total - 1 && (
+											<div onClick={this.loadMore}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD
+														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+													}`}
+											</div>
+										)}
+									</React.Fragment>
+								) : (
+										<Typography>{translate.no_results}</Typography>
 									)}
-								</React.Fragment>
-							) : (
-								<Typography>{translate.no_results}</Typography>
-							)}
-						</Scrollbar>
-					)}
+							</Scrollbar>
+						)}
 				</div>
 			</div>
 		);

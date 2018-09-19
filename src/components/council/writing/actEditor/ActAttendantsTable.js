@@ -4,7 +4,7 @@ import { graphql, withApollo } from 'react-apollo';
 import { LoadingSection, EnhancedTable, BasicButton, Scrollbar } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 import { TableRow, TableCell } from 'material-ui';
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
+import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
