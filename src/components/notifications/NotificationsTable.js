@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableRow, TableHead, Tooltip } from 'material-ui';
+import { Table, TableBody, TableCell, TableRow, TableHead } from 'material-ui';
 import * as CBX from '../../utils/CBX';
 import { moment } from '../../containers/App';
 import EmailIcon from '../council/live/participants/EmailIcon';

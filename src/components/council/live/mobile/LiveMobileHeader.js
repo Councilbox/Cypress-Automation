@@ -1,5 +1,5 @@
 import React from "react";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getPrimary } from "../../../../styles/colors";
 import { bHistory } from "../../../../containers/App";
 import { AlertConfirm, Icon } from "../../../../displayComponents";
 
@@ -14,7 +14,6 @@ class LiveMobileHeader extends React.Component {
 
 	render() {
 		const {
-			primaryColor,
 			councilName,
 			logo,
 			translate

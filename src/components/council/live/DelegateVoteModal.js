@@ -4,7 +4,8 @@ import {
 	Icon,
 	LoadingSection,
 	ParticipantRow,
-	TextInput
+	TextInput,
+	LiveToast
 } from "../../../displayComponents";
 import { Typography } from "material-ui";
 import { compose, graphql } from "react-apollo";
@@ -13,6 +14,7 @@ import { DELEGATION_USERS_LOAD } from "../../../constants";
 import Scrollbar from "react-perfect-scrollbar";
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
 import { addDelegation } from "../../../queries/liveParticipant";
+import { toast } from "react-toastify";
 
 
 class DelegateVoteModal extends React.Component {
@@ -61,8 +63,8 @@ class DelegateVoteModal extends React.Component {
 		});
 	};
 
-	delegateVote = id => {
-		this.props.delegateVote(
+	addDelegation = async id => {
+		let response = await this.props.addDelegation(
 			{
 				variables: {
 					participantId: id,
@@ -70,7 +72,41 @@ class DelegateVoteModal extends React.Component {
 				}
 			}
 		);
-		this.close();
+
+		if (!response.errors) {
+			this.props.refetch();
+			this.close();
+		} else if (response.errors[0].code === 710) {
+			toast(
+				<LiveToast
+					message={this.props.translate.just_delegate_vote}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
+			)
+		} else if (response.errors[0].code === 711) {
+			toast(
+				<LiveToast
+					message={this.props.translate.number_of_delegated_votes_exceeded}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
+			)
+		} else if (response.errors[0].code === 715) {
+			toast(
+				<LiveToast
+					message={this.props.translate.cant_delegate_has_delegated_votes}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: "errorToast"
+				}
+			)
+		}
 	};
 
 	updateFilterText = text => {
@@ -141,7 +177,7 @@ class DelegateVoteModal extends React.Component {
 															}`}
 														participant={participant}
 														onClick={() =>
-															this.delegateVote(
+															this.addDelegation(
 																participant.id
 															)
 														}
@@ -177,8 +213,6 @@ class DelegateVoteModal extends React.Component {
 			<AlertConfirm
 				requestClose={this.close}
 				open={this.props.show}
-				acceptAction={this.delegateVote}
-				buttonAccept={translate.send}
 				buttonCancel={translate.close}
 				bodyText={this._modalBody()}
 				title={translate.to_delegate_vote}
@@ -200,6 +234,6 @@ export default compose(
 		})
 	}),
 	graphql(addDelegation, {
-		name: "delegateVote"
+		name: "addDelegation"
 	})
 )(DelegateVoteModal);

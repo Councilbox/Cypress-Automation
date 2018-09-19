@@ -1,9 +1,7 @@
 import React from "react";
 import { Card, MenuItem, Tooltip } from "material-ui";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getSecondary } from "../../../../styles/colors";
 import { graphql, compose } from "react-apollo";
-import { changeRequestWord } from "../../../../queries";
-import { Icon } from "../../../../displayComponents";
 import { haveGrantedWord, isAskingForWord } from "../../../../utils/CBX";
 import gql from 'graphql-tag';
 

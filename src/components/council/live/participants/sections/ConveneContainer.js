@@ -22,6 +22,7 @@ import { getSecondary } from "../../../../../styles/colors";
 import EmailIcon from "../EmailIcon";
 import { toast } from "react-toastify";
 import { updateConveneSends } from "../../../../../queries";
+import AddGuestModal from "../AddGuestModal";
 
 class ConveneContainer extends React.Component {
 	state = {
@@ -415,6 +416,9 @@ class ConveneContainer extends React.Component {
 	};
 
 	render() {
+		const { addGuest, updateState, council, translate } = this.props;
+		const { refetch } = this.props.data;
+
 		if (!this.props.data.conveneSendRecount) {
 			return <LoadingSection />;
 		}
@@ -449,6 +453,13 @@ class ConveneContainer extends React.Component {
 						mode={"CONVENE"}
 					/>
 				</div>
+				<AddGuestModal
+					show={addGuest}
+					council={council}
+					refetch={refetch}
+					requestClose={() => updateState({ addGuest: false })}
+					translate={translate}
+				/>
 			</React.Fragment>
 		);
 	}

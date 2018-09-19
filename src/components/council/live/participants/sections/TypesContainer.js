@@ -15,6 +15,7 @@ import {
 } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import TypeIcon from "../TypeIcon";
+import AddGuestModal from "../AddGuestModal";
 
 class TypesContainer extends React.Component {
 	state = {
@@ -262,6 +263,9 @@ class TypesContainer extends React.Component {
 	};
 
 	render() {
+		const { addGuest, updateState, council, translate } = this.props;
+		const { refetch } = this.props.data;
+
 		if (!this.props.data.participantTypeRecount) {
 			return <LoadingSection />;
 		}
@@ -296,6 +300,13 @@ class TypesContainer extends React.Component {
 						mode={"TYPE"}
 					/>
 				</div>
+				<AddGuestModal
+					show={addGuest}
+					council={council}
+					refetch={refetch}
+					requestClose={() => updateState({ addGuest: false })}
+					translate={translate}
+				/>
 			</React.Fragment>
 		);
 	}

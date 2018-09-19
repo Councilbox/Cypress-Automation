@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { graphql } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import ParticipantStateIcon from "./ParticipantStateIcon";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 import { FilterButton } from "../../../../displayComponents";

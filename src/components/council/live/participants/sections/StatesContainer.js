@@ -15,6 +15,7 @@ import {
 } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
+import AddGuestModal from "../AddGuestModal";
 
 class StatesContainer extends React.Component {
 	state = {
@@ -104,7 +105,7 @@ class StatesContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		
+
 		if (this.state.stateStatus || this.state.stateStatus === 0) {
 			variables.stateStatus = this.state.stateStatus;
 		} else {
@@ -325,6 +326,9 @@ class StatesContainer extends React.Component {
 	};
 
 	render() {
+		const { addGuest, updateState, council, translate } = this.props;
+		const { refetch } = this.props.data;
+
 		if (!this.props.data.stateRecount) {
 			return <LoadingSection />;
 		}
@@ -359,6 +363,13 @@ class StatesContainer extends React.Component {
 						mode={"STATES"}
 					/>
 				</div>
+				<AddGuestModal
+					show={addGuest}
+					council={council}
+					refetch={refetch}
+					requestClose={() => updateState({ addGuest: false })}
+					translate={translate}
+				/>
 			</React.Fragment>
 		);
 	}
