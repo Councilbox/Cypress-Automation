@@ -287,7 +287,7 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 							}}
 						>
 							{removeHTMLTags(participant.assistanceComment)}
-						</Typography>
+						</div>
 					</div>
 				}
 
