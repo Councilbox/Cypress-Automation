@@ -17,6 +17,7 @@ import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
 import AddGuestModal from "../AddGuestModal";
 
+
 class AttendanceContainer extends React.Component {
 	state = {
 		attendanceStatus: null,

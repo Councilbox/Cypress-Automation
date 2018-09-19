@@ -28,6 +28,10 @@ import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 
 
+const redirect = (company) => () => (
+    <Redirect to={`/company/${company.id}`} />
+)
+
 const MainRouter = ({ company, user, location }) => {
 
     if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`)){
@@ -43,13 +47,7 @@ const MainRouter = ({ company, user, location }) => {
             <Route
                 exact
                 path="/"
-                component={() => {
-                    return (
-                        <Redirect
-                            to={`/company/${company.id}`}
-                        />
-                    );
-                }}
+                component={redirect(company)}
             />
             <Route
                 exact

@@ -22,9 +22,9 @@ class AppControl extends React.Component {
             this.props.subscribeToAppControl({userId: this.props.user.id});
         }
     }
-    
+
     render(){
-        console.log(this.props.data.appConfig);
+        //console.log(this.props.data.appConfig);
         return(
             <ConfigContext.Provider value={this.props.data.appConfig}>
                 {this.props.children}

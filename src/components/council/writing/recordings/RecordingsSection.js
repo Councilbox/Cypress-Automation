@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoadingSection } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
 
 const rand = Math.random();
 
@@ -7,11 +8,18 @@ class RecordingsSection extends React.Component {
 
     render(){
         if(!this.props.data.recordingsIframe){
-            return <LoadingSection />;
+            return (
+                <div style={{width: '100%', paddingTop: '8em', fontSize: '20px', display: 'flex', fontWeight: '700', flexDirection: 'column', alignItems: 'center'}}>
+                    <i class="material-icons" style={{color: getSecondary(), fontSize: '8em'}}>
+                        videocam_off
+                    </i>
+                    No se ha realizado ninguna grabación
+                </div>
+            ) //TRADUCCION
         }
 
         return(
-            <div style={{width: '100%', height: '100%'}}>
+            <div style={{width: '100%'}}>
                 <iframe
                     title="meetingScreen"
                     allow="geolocation; microphone; camera"
