@@ -2,14 +2,15 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
+import { Scrollbar } from '../../displayComponents';
 
 const Dashboard = ({ translate, company, user }) => {
 	return (
 		<div
 			style={{
-				overflowY: "auto",
+				overflowY: "hidden",
 				width: "100%",
-				backgroundColor: "white",
+				backgroundColor: lightGrey,
 				padding: 0,
 				height: "100%",
 				display: "flex",
@@ -18,21 +19,22 @@ const Dashboard = ({ translate, company, user }) => {
 			}}
 			className="container-fluid"
 		>
-			<div className="row" style={{ width: "100%" }}>
+			<Scrollbar>
 				<div
 					style={{
 						width: "100%",
-						height: "calc(100vh - 3em)",
 						backgroundColor: lightGrey,
 						display: "flex",
 						alignItems: "center",
 						flexDirection: "column",
-						paddingBottom: "5em"
+						padding: '1em',
+						textAlign: 'center',
+						paddingBottom: "4em"
 					}}
 				>
 					<div
 						style={{
-							padding: "1em",
+							padding: "0.5em",
 							paddingTop: "2em"
 						}}
 					>
@@ -42,12 +44,19 @@ const Dashboard = ({ translate, company, user }) => {
 						style={{
 							fontWeight: "700",
 							color: darkGrey,
-							padding: "2em",
 							fontSize: "1em",
-							paddingTop: "0.5em"
+							marginBottom: '1em'
 						}}
 					>
-						{translate.we_recommend_review_configuration}
+						{`${translate.we_recommend_review_configuration}`}
+					</div>
+					<div style={{display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'}}>
+						<div>
+							{company.logo &&
+								<img src={company.logo} alt="company-logo" style={{height: '4.5em', width: 'auto'}} />
+							}
+						</div>
+						{company.businessName}
 					</div>
 					<TopSectionBlocks
 						translate={translate}
@@ -55,7 +64,7 @@ const Dashboard = ({ translate, company, user }) => {
 						user={user}
 					/>
 				</div>
-			</div>
+			</Scrollbar>
 		</div>
 	);
 }

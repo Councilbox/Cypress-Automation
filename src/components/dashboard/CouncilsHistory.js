@@ -4,9 +4,10 @@ import { bHistory } from '../../containers/App';
 import { TableRow, TableCell } from 'material-ui';
 import TableStyles from "../../styles/table";
 import { getPrimary } from '../../styles/colors';
+import { COUNCIL_STATES } from '../../constants';
 
 const generateLink = (council, company) => {
-    return `/company/${company.id}/council/${council.id}`;
+    return `/company/${company.id}/council/${council.id}/finished`;
 }
 
 const CouncilsHistory = ({ councils, translate, deleteCouncil, openDeleteModal, company, link }) => {
@@ -14,6 +15,7 @@ const CouncilsHistory = ({ councils, translate, deleteCouncil, openDeleteModal, 
     return(
         <Table
             headers={[
+                { name: translate.type },
                 { name: translate.date_real_start },
                 { name: translate.table_councils_duration },
                 { name: translate.name },
@@ -53,6 +55,23 @@ class HoverableRow extends React.Component {
         });
     }
 
+    getCouncilState = state => {
+        const { translate } = this.props;
+        console.log(state);
+        switch (state){
+            case COUNCIL_STATES.NOT_CELEBRATED:
+                return  translate.not_held_council;
+            case COUNCIL_STATES.FINISHED:
+                return translate.council_finished;
+            case COUNCIL_STATES.FINAL_ACT_SENT:
+                return 'Acta enviada' //TRADUCCION
+            case COUNCIL_STATES.CANCELED:
+                return translate.not_held_council;
+            default: 
+                return translate.council_finished;
+        }
+    }
+
     render(){
         const { council, company, translate } = this.props;
         const primary = getPrimary();
@@ -70,6 +89,9 @@ class HoverableRow extends React.Component {
                     );
                 }}
             >
+                <TableCell>
+                    {this.getCouncilState(council.state)}
+                </TableCell>
                 <TableCell
                     style={TableStyles.TD}
                 >
@@ -80,6 +102,7 @@ class HoverableRow extends React.Component {
                         }
                     />
                 </TableCell>
+
                 <TableCell
                     style={TableStyles.TD}
                 >
@@ -101,7 +124,7 @@ class HoverableRow extends React.Component {
                 <TableCell
                     style={{
                         ...TableStyles.TD,
-                        width: "65%"
+                        width: "35%"
                     }}
                 >
                     {council.name ||
@@ -124,7 +147,6 @@ class HoverableRow extends React.Component {
                             />
                         }
                     </div>
-                    
                 </TableCell>
             </TableRow>
         )

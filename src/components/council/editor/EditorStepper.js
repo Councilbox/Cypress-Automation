@@ -108,6 +108,7 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
         >
             {steps.map(step => (
                 <Steps.Step
+                    key={`step:${step.index}`}
                     title={
                         <span
                             style={{

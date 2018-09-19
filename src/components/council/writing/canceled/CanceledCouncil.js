@@ -12,6 +12,7 @@ const CanceledCouncil = ({ council, translate }) => {
             />
             {!!council.noCelebrateComment &&
                 <Card 
+                    elevation={0}
                     style={{
                         marginTop: '1em',
                         padding: '0.8em'

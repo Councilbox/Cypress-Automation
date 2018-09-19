@@ -15,7 +15,7 @@ import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { addAgenda } from "../../../../../queries/agenda";
 import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
-import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
+import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
 
 
@@ -225,9 +225,9 @@ class NewAgendaPointModal extends React.Component {
 									<MajorityInput
 										type={agenda.majorityType}
 										value={agenda.majority}
+										majorityError={!!this.state.majorityError}
+										dividerError={!!this.state.majorityError}
 										divider={agenda.majorityDivider}
-										majorityError={errors.majority}
-										dividerError={errors.majorityDivider}
 										onChange={value =>
 											this.updateState({
 												majority: +value
@@ -241,8 +241,12 @@ class NewAgendaPointModal extends React.Component {
 									/>
 								)}
 							</GridItem>
+
 						</Grid>
 					)}
+					<div>
+						<span style={{color: 'red'}}>{this.state.majorityError}</span>
+					</div>
 
 					<RichTextInput
 						ref={editor => (this.editor = editor)}
@@ -298,10 +302,12 @@ class NewAgendaPointModal extends React.Component {
 		const { translate } = this.props;
 		const agenda = this.state.newPoint;
 		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
 		this.setState({
-			errors: errors.errors
+			errors: errors.errors,
+			majorityError: majorityCheckResult.message
 		});
-		return errors.hasError;
+		return errors.hasError || majorityCheckResult.error;
 	}
 
 	render() {

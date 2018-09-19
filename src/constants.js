@@ -35,6 +35,15 @@ export const EMAIL_TRACK_STATES = {
 	DROPPED: 37
 };
 
+export const MAJORITY_TYPES = {
+	SIMPLE: 1,
+	ABSOLUTE: 2,
+	TWO_THIRDS: 4,
+	PERCENTAGE: 0,
+	FRACTION: 5,
+	NUMBER: 6
+};
+
 export const EMAIL_STATES_FILTERS = {
 	FAILED: -1,
 	DROPPED: 37,

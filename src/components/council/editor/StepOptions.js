@@ -8,11 +8,13 @@ import {
 	LoadingSection,
 	MajorityInput,
 	Radio,
+	AlertConfirm,
 	SectionTitle,
 	SelectInput,
 	TextInput
 } from "../../../displayComponents";
 import { councilStepFive, updateCouncil } from "../../../queries";
+import { checkValidMajority } from '../../../utils/validation';
 import { compose, graphql } from "react-apollo";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
@@ -27,6 +29,8 @@ class StepOptions extends React.Component {
 	state = {
 		data: {},
 		loading: false,
+		majorityAlert: false,
+		alertText: '',
 		success: false,
 		errors: {
 			confirmAssistance: "",
@@ -86,11 +90,38 @@ class StepOptions extends React.Component {
 	}
 
 	nextPage = () => {
-		if (true) {
+		if (!this.checkRequiredFields()) {
 			this.updateCouncil(6);
 			this.props.nextStep();
 		}
 	};
+
+	checkRequiredFields = () => {
+		let errors = {
+			majority: ''
+		};
+
+		const { council } = this.state.data;
+
+		let hasError = false;
+
+		if(council.approveActDraft === 1){
+			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);
+
+			console.log(response);
+
+			if(response.error){
+				this.setState({
+					majorityAlert: true,
+					alertText: response.message
+				});
+			}
+
+			return response.error;
+		}
+
+		return false;
+	}
 
 	previousPage = () => {
 		if (true) {
@@ -307,7 +338,7 @@ class StepOptions extends React.Component {
 												})
 											}
 										/>
-										{council.autoClose === 1 && 
+										{council.autoClose === 1 &&
 											<div style={{maxWidth: '18em', marginLeft: '0.9em'}}>
 												<DateTimePicker
 													required
@@ -327,9 +358,7 @@ class StepOptions extends React.Component {
 											</div>
 										}
 									</div>
-									
 								)}
-								
 
 								<SectionTitle
 									text={translate.security}
@@ -402,7 +431,7 @@ class StepOptions extends React.Component {
 																)}
 															</SelectInput>
 														</div>
-														<div>
+														<div style={{display: 'flex', alignItems: 'center'}}>
 															{CBX.majorityNeedsInput(
 																council.actPointMajorityType
 															) && (
@@ -413,6 +442,7 @@ class StepOptions extends React.Component {
 																	divider={
 																		council.actPointMajorityDivider
 																	}
+																	mayori
 																	onChange={value =>
 																		this.updateCouncilData({
 																			actPointMajority: +value
@@ -427,17 +457,18 @@ class StepOptions extends React.Component {
 															)}
 														</div>
 													</div>
-													{
-														(council.actPointMajority <= 0 || council.actPointMajority > council.actPointMajorityDivider) && 
-															<span style={{fontSize: '14px', color: 'red'}}>
-																El valor de la fracción no es válido
-															</span>	
-													}
 												</div>
 											)}
 										</div>
 									</React.Fragment>
 								)}
+								<AlertConfirm
+									open={this.state.majorityAlert}
+									title={'Error'}
+									buttonAccept={translate.accept}
+									bodyText={this.state.alertText}
+									acceptAction={() => this.setState({majorityAlert: false})}
+								/>
 							</React.Fragment>
 						}
 					</React.Fragment>

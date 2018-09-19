@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { AlertConfirm } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
 import withTranslations from "../../../HOCs/withTranslations";
@@ -6,7 +6,18 @@ import { graphql } from "react-apollo";
 import { createCompanyDraft } from "../../../queries/companyDrafts";
 import { checkRequiredFields } from "../../../utils/CBX";
 
-class SaveDraftModal extends Component {
+class SaveDraftModal extends React.Component {
+	state = {
+		data: {}
+	};
+
+	static getDerivedStateFromProps(nextProps, prevState) {
+		return {
+			data: nextProps.data
+		};
+	}
+
+
 	updateState = object => {
 		this.setState({
 			data: {
@@ -15,11 +26,13 @@ class SaveDraftModal extends Component {
 			}
 		});
 	};
+
 	updateErrors = errors => {
 		this.setState({
 			errors
 		});
 	};
+
 	createCompanyDraft = async () => {
 		const { translate } = this.props;
 		const draft = this.state.data;
@@ -43,12 +56,15 @@ class SaveDraftModal extends Component {
 				}
 			});
 
+			console.log(response);
+
 			if (!response.errors) {
 				this.setState({ success: true });
 				this.props.requestClose();
 			}
 		}
 	};
+
 	_renderNewPointBody = () => {
 		console.log(this.props);
 		const { translate } = this.props;
@@ -69,19 +85,6 @@ class SaveDraftModal extends Component {
 			</div>
 		);
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			data: {}
-		};
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState) {
-		return {
-			data: nextProps.data
-		};
-	}
 
 	render() {
 		const { translate } = this.props;

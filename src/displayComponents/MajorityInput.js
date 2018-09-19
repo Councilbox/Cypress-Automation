@@ -19,10 +19,10 @@ const MajorityInput = ({
 					type={"number"}
 					value={value}
 					errorText={majorityError}
-					min="1"
-					max="100"
+					min={1}
+					max={100}
 					adornment={"%"}
-					onChange={event => onChange(event.nativeEvent.target.value)}
+					onChange={event => onChange(event.target.value <= 1? 1 : event.target.value > 100? 100 : event.nativeEvent.target.value)}
 				/>
 			</div>
 		);
@@ -30,34 +30,31 @@ const MajorityInput = ({
 
 	if (CBX.isMajorityFraction(type)) {
 		return (
-			<div style={{ width: "100%", ...style }}>
-				<Grid>
-					<div style={{width: '5em'}}>
-						<TextInput
-							type={"number"}
-							value={value}
-							min="1"
-
-							errorText={majorityError}
-							adornment={"/"}
-							onChange={event =>
-								onChange(event.nativeEvent.target.value)
-							}
-						/>
-					</div>
-					<div style={{width: '5em', marginLeft: '0.8em'}}>
-						<TextInput
-							type={"number"}
-							value={divider}
-							min="1"
-							errorText={dividerError}
-							onChange={event =>
-								onChangeDivider(event.nativeEvent.target.value)
-							}
-						/>
-					</div>
-					<br />
-				</Grid>
+			<div style={{ width: "100%", display: 'flex', alignItems: 'center', ...style }}>
+				<div style={{width: '5em', display: 'flex', alignItems: 'center'}}>
+					<TextInput
+						type={"number"}
+						value={value}
+						min="1"
+						errorText={majorityError}
+						adornment={"/"}
+						onChange={event =>
+							onChange(divider? event.target.value > divider? divider : event.nativeEvent.target.value : event.target.value)
+						}
+					/>
+				</div>
+				<div style={{width: '5em', marginLeft: '0.8em', isplay: 'flex', alignItems: 'center'}}>
+					<TextInput
+						type={"number"}
+						value={divider}
+						min="1"
+						errorText={dividerError}
+						onChange={event =>
+							onChangeDivider(event.target.value < 1? 1 : event.nativeEvent.target.value)
+						}
+					/>
+				</div>
+				<br />
 			</div>
 		);
 	}
