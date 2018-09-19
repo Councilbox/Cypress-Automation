@@ -26,7 +26,7 @@ class ManualVotingsMenu extends React.Component {
                     positiveManual: this.state.positiveManual || 0,
                     negativeManual: this.state.negativeManual  || 0,
                     abstentionManual: this.state.abstentionManual || 0,
-                    noVoteManual: this.state.noVoteManual || 0, 
+                    noVoteManual: this.state.noVoteManual || 0,
                 }
             }
         });
@@ -56,7 +56,7 @@ class ManualVotingsMenu extends React.Component {
 
         return(
             <div style={{width: '100%', backgroundColor: 'white', padding: '0 1em'}}>
-                <div 
+                <div
                     style={{
                         backgroundColor: 'white',
                         width: '100%',
@@ -69,7 +69,8 @@ class ManualVotingsMenu extends React.Component {
                 >
                     <Grid>
                         <GridItem xs={12} md={2} lg={2} style={{display: 'flex', alignItems: 'center'}}>
-                            Votos manuales
+                            Votos manuales <br /> {/*TRADUCCION*/}
+                            {`(disponibles ${maxVoteManual})` /*TRADUCCION*/}
                         </GridItem>
                         <GridItem xs={12} md={2} lg={2}>
                             <TextInput
