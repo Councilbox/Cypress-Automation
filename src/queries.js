@@ -136,11 +136,12 @@ export const companies = gql`
 `;
 
 export const councils = gql`
-	query Councils($companyId: Int!, $state: [Int]) {
-		councils(companyId: $companyId, state: $state) {
+	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput]) {
+		councils(companyId: $companyId, state: $state, filters: $filters) {
 			id
 			dateStart
 			dateRealStart
+			state
 			dateEnd
 			name
 			step

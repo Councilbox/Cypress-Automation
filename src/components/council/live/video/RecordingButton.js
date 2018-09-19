@@ -87,7 +87,7 @@ class RecordingButton extends React.Component {
                 <div
                     style={{
                         position: 'absolute',
-                        top: '1.5em',
+                        top: '20px',
                         left: '2em',
                         fontSize: '1.4em',
                         cursor: this.props.council.fullVideoRecord === 1 ? 'auto' : 'pointer'

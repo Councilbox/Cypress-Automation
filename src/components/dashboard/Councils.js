@@ -11,6 +11,7 @@ import {
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
+import CouncilsFilters from './CouncilsFilters';
 
 
 class Councils extends React.Component {
@@ -22,6 +23,8 @@ class Councils extends React.Component {
 	componentDidMount() {
 		this.props.data.refetch();
 	}
+
+
 
 	openDeleteModal = councilID => {
 		this.setState({
@@ -63,6 +66,7 @@ class Councils extends React.Component {
 						title={this.props.title}
 						subtitle={this.props.desc}
 					/>
+					<CouncilsFilters refetch={this.props.data.refetch} />
 					{loading ? (
 						<div style={{
 							width: '100%',
@@ -74,9 +78,9 @@ class Councils extends React.Component {
 							<LoadingSection />
 						</div>
 					) : (
-							<div style={{ height: 'calc(100% - 10.5em)', overflow: 'hidden' }}>
+							<div style={{ height: 'calc(100% - 13.5em)', overflow: 'hidden' }}>
 								<Scrollbar>
-									<div style={{ padding: "1em", paddingTop: '2em' }}>
+									<div style={{ padding: "1em", paddingTop: '2em'}}>
 										{false ? (
 											<div>
 												{error.graphQLErrors.map((error, index) => {

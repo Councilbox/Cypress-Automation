@@ -819,8 +819,8 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 	}
 
 	if (!draft.text) {
-		hasError = true;
-		errors.text = translate.required_field;
+		//hasError = true;
+		//errors.text = translate.required_field;
 	} else {
 		if(checkForUnclosedBraces(draft.text)){
 			errors.text = true;
@@ -830,7 +830,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
+					autoClose: true,
 					className: "errorToast"
 				}
 			);

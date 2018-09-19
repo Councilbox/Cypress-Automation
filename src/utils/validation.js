@@ -1,4 +1,4 @@
-import { AGENDA_TYPES } from "../constants";
+import { AGENDA_TYPES, MAJORITY_TYPES } from "../constants";
 import { checkForUnclosedBraces } from './CBX';
 import React from 'react';
 import { LiveToast } from '../displayComponents';
@@ -7,6 +7,30 @@ export const checkValidEmail = email => {
 	const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return re.test(email);
 };
+
+export const checkValidMajority = (majority, divider, type, translate) => {
+	if(type === MAJORITY_TYPES.PERCENTAGE){
+		if(majority > 100){
+			return {
+				error: true,
+				message: 'El porcentaje no puede ser superior a 100'
+			}
+		}
+	}
+
+	if(type === MAJORITY_TYPES.FRACTION){
+		if((majority / divider) > 1) {
+			return {
+				error: true,
+				message: 'Fracción inválida, el resultado no puede ser mayor que el total'
+			}
+		}
+	}
+
+	return {
+		error: false
+	};
+}
 
 export const checkRequiredFieldsParticipant = (
 	participant,

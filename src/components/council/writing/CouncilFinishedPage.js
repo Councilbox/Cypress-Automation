@@ -148,7 +148,7 @@ class CouncilFinishedPage extends React.Component {
 			)
 		}
 
-		if(council.state === COUNCIL_STATES.NOT_CELEBRATED){
+		if(council.state === COUNCIL_STATES.NOT_CELEBRATED || council.state === COUNCIL_STATES.CANCELED){
 			return(
 				<CanceledCouncil
 					council={council}
