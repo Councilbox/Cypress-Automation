@@ -57,3 +57,4 @@ export { default as ThemeProvider } from "./ThemeProvider";
 export { default as Tooltip } from "./Tooltip";
 export { default as UnsavedChangesModal } from './UnsavedChangesModal';
 export { default as VTabs } from "./VTabs";
+export { default as SwitchButton } from "./SwitchButton";

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {
-	Radio,
+	SwitchButton,
 	Grid,
 	GridItem,
 	BasicButton,
@@ -145,8 +145,8 @@ class ParticipantsManager extends React.Component {
 		return (
 			<div
 				style={{
-					height: "100%",
 					width: "100%",
+					height: "100%",
 					overflowX: 'hidden',
 					padding: 0,
 					margin: 0,
@@ -156,40 +156,18 @@ class ParticipantsManager extends React.Component {
 				onKeyDown={this.handleKeyPress}
 				ref={ref => (this.div = ref)}
 			>
-				<Grid spacing={0} style={{
-					height: "100%",
-				}}>
-					<GridItem
-						xs={9}
-						md={9}
-						lg={9}
-						style={{
-							height: "100%",
-							overflow: "hidden"
-						}}
-					>
-						<Paper
-							style={{
-								height: "100%",
-							}}
-						>
-							{this.state.editParticipant}
-							{
-								this._renderSection()
-							}
-						</Paper>
-					</GridItem>
-					<GridItem
-						xs={3}
-						md={3}
-						lg={3}
-						style={{
-							height: "100%",
-							padding: "1em",
-							position: "relative"
-						}}
-					>
-						{/* Añadir invitado */}
+				<div
+					style={{
+						height: "3.6em",
+						padding: "0.5em",
+						position: "relative",
+						backgroundColor: 'white'
+					}}
+				>
+					{/* Añadir invitado */}
+
+					{/* Vista */}
+					<div style={{ display: 'flex', flexDirection: 'row', float: 'right' }}>
 						<Tooltip title="ALT + G">
 							<div>
 								<BasicButton
@@ -207,80 +185,100 @@ class ParticipantsManager extends React.Component {
 									buttonStyle={{
 										marginRight: "1em",
 										border: `2px solid ${secondary}`,
-										width: '100%'
 									}}
 								/>
 							</div>
 						</Tooltip>
-						<br />
-						{/* Vista */}
-						<div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1.5em' }}>
-							<FilterButton
-								tooltip={translate.grid}
-								onClick={() => this.setState({ layout: 'squares' })}
-								active={this.state.layout === "squares"}
-							>
-								<FontAwesome
-									name={"th-large"}
-									style={{
-										color: primary,
-										fontSize: "0.7em"
-									}}
-								/>
-							</FilterButton>
-							<FilterButton
-								tooltip={translate.compact_table}
-								onClick={() => this.setState({ layout: 'compact' })}
-								active={this.state.layout === "compact"}
-							>
-								<FontAwesome
-									name={"list"}
-									style={{
-										color: primary,
-										fontSize: "0.7em"
-									}}
-								/>
-							</FilterButton>
-							<FilterButton
-								tooltip={translate.table}
-								onClick={() => this.setState({ layout: 'table' })}
-								active={this.state.layout === "table"}
-							>
-								<FontAwesome
-									name={"th-list"}
-									style={{
-										color: primary,
-										fontSize: "0.7em"
-									}}
-								/>
-							</FilterButton>
-
-							{/* <h3>{translate.view || 'VISTA'}</h3> */}
-							{/* <Radio
-								value={"0"}
-								checked={this.state.layout === "compact"}
-								onChange={() => this.setState({ layout: 'compact' })}
-								name="compact"
-								label={translate.compact_table}
+						<FilterButton
+							tooltip={translate.grid}
+							onClick={() => this.setState({ layout: 'squares' })}
+							active={this.state.layout === "squares"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"th-large"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
 							/>
-							<Radio
-								value={"1"}
-								checked={this.state.layout === "table"}
-								onChange={() => this.setState({ layout: 'table' })}
-								name="table"
-								label={translate.table}
+						</FilterButton>
+						<FilterButton
+							tooltip={translate.compact_table}
+							onClick={() => this.setState({ layout: 'compact' })}
+							active={this.state.layout === "compact"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"list"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
 							/>
-							<Radio
-								value={"2"}
-								checked={this.state.layout === "squares"}
-								onChange={() => this.setState({ layout: 'squares' })}
-								name="squares"
-								label={translate.grid}
-							/> */}
-						</div>
-						{/* Ver  */}
-						<div style={{ display: 'flex', flexDirection: 'column', marginTop: '1em' }}>
-							<span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span>
+						</FilterButton>
+						<FilterButton
+							tooltip={translate.table}
+							onClick={() => this.setState({ layout: 'table' })}
+							active={this.state.layout === "table"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"th-list"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
+							/>
+						</FilterButton>
+					</div>
+					{/* Ver  */}
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						{/* <span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span> */}
+						<SwitchButton
+							onClick={() => this.setState({ view: 'STATES' })}
+							active={this.state.view === "STATES"}
+						>
+							{translate.states}
+						</SwitchButton>
+						<SwitchButton
+							onClick={() => this.setState({ view: 'TYPE' })}
+							active={this.state.view === "TYPE"}
+						>
+							{translate.types}
+						</SwitchButton>
+						{council.conveneSendDate &&
+							<React.Fragment>
+								<SwitchButton
+									onClick={() => this.setState({ view: 'CONVENE' })}
+									active={this.state.view === "CONVENE"}
+								>
+									{translate.convene}
+								</SwitchButton>
+								{!!council.confirmAssistance &&
+									<SwitchButton
+										onClick={() => this.setState({ view: 'ATTENDANCE' })}
+										active={this.state.view === "ATTENDANCE"}
+									>
+										{translate.assistance}
+									</SwitchButton>
+								}
+							</React.Fragment>
+						}
+						{council.videoEmailsDate &&
+							<SwitchButton
+								onClick={() => this.setState({ view: 'CREDENTIALS' })}
+								active={this.state.view === "CREDENTIALS"}
+							>
+								{translate.credentials}
+							</SwitchButton>
+						}
+						{/* <FilterButton
+								onChange={() => this.setState({ view: 'TYPE' })}
+								active={this.state.view === "TYPE"}
+							>
+								{translate.types }
+							</FilterButton>
 							<Radio
 								value={"0"}
 								checked={this.state.view === "STATES"}
@@ -324,10 +322,26 @@ class ParticipantsManager extends React.Component {
 									name="CREDENTIALS"
 									label={translate.credentials || 'CREDENTIALS'}
 								/>
-							}
-						</div>
-					</GridItem>
-				</Grid>
+							} */}
+					</div>
+				</div>
+				<div
+					style={{
+						height: 'calc(100% - 3.6em)',
+						overflow: "hidden"
+					}}
+				>
+					<Paper
+						style={{
+							height: "100%",
+						}}
+					>
+						{this.state.editParticipant}
+						{
+							this._renderSection()
+						}
+					</Paper>
+				</div>
 			</div >
 		);
 	}
