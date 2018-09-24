@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {
-	Radio,
+	SwitchButton,
 	Grid,
 	GridItem,
 	SelectInput,
@@ -148,8 +148,8 @@ class ParticipantsManager extends React.Component {
 		return (
 			<div
 				style={{
-					height: "100%",
 					width: "100%",
+					height: "100%",
 					overflowX: 'hidden',
 					padding: 0,
 					margin: 0,
@@ -229,39 +229,99 @@ class ParticipantsManager extends React.Component {
 									buttonStyle={{
 										marginRight: "1em",
 										border: `2px solid ${secondary}`,
-										width: '100%'
 									}}
 								/>
 							</div>
 						</Tooltip>
-						<br />
-						{/* Vista */}
-						<div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1.5em' }}>
-							<FilterButton
-								tooltip={translate.grid}
-								onClick={() => this.setState({ layout: 'squares' })}
-								active={this.state.layout === "squares"}
+						<FilterButton
+							tooltip={translate.grid}
+							onClick={() => this.setState({ layout: 'squares' })}
+							active={this.state.layout === "squares"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"th-large"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
+							/>
+						</FilterButton>
+						<FilterButton
+							tooltip={translate.compact_table}
+							onClick={() => this.setState({ layout: 'compact' })}
+							active={this.state.layout === "compact"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"list"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
+							/>
+						</FilterButton>
+						<FilterButton
+							tooltip={translate.table}
+							onClick={() => this.setState({ layout: 'table' })}
+							active={this.state.layout === "table"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"th-list"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
+							/>
+						</FilterButton>
+					</div>
+					{/* Ver  */}
+					<div style={{ display: 'flex', flexDirection: 'row' }}>
+						{/* <span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span> */}
+						<SwitchButton
+							onClick={() => this.setState({ view: 'STATES' })}
+							active={this.state.view === "STATES"}
+						>
+							{translate.states}
+						</SwitchButton>
+						<SwitchButton
+							onClick={() => this.setState({ view: 'TYPE' })}
+							active={this.state.view === "TYPE"}
+						>
+							{translate.types}
+						</SwitchButton>
+						{council.conveneSendDate &&
+							<React.Fragment>
+								<SwitchButton
+									onClick={() => this.setState({ view: 'CONVENE' })}
+									active={this.state.view === "CONVENE"}
+								>
+									{translate.convene}
+								</SwitchButton>
+								{!!council.confirmAssistance &&
+									<SwitchButton
+										onClick={() => this.setState({ view: 'ATTENDANCE' })}
+										active={this.state.view === "ATTENDANCE"}
+									>
+										{translate.assistance}
+									</SwitchButton>
+								}
+							</React.Fragment>
+						}
+						{council.videoEmailsDate &&
+							<SwitchButton
+								onClick={() => this.setState({ view: 'CREDENTIALS' })}
+								active={this.state.view === "CREDENTIALS"}
 							>
-								<FontAwesome
-									name={"th-large"}
-									style={{
-										color: primary,
-										fontSize: "0.7em"
-									}}
-								/>
-							</FilterButton>
-							<FilterButton
-								tooltip={translate.compact_table}
-								onClick={() => this.setState({ layout: 'compact' })}
-								active={this.state.layout === "compact"}
+								{translate.credentials}
+							</SwitchButton>
+						}
+						{/* <FilterButton
+								onChange={() => this.setState({ view: 'TYPE' })}
+								active={this.state.view === "TYPE"}
 							>
-								<FontAwesome
-									name={"list"}
-									style={{
-										color: primary,
-										fontSize: "0.7em"
-									}}
-								/>
+								{translate.types }
 							</FilterButton>
 						</div>
 						{/* Ver  */}
