@@ -134,3 +134,7 @@ h4 {
     opacity: 0.6 !important;
 }
 
+.ant-tabs-tab-active {
+    background-color: gainsboro;
+}
+

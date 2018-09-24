@@ -7,7 +7,7 @@ import Tabs from 'antd/lib/tabs';
 import { IconButton } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import "../styles/react-tabs.css";
-import Icon from 'antd/lib/icon';
+import Icon from 'antd';
 
 const primary = getPrimary();
 const secondary = getSecondary();

@@ -4,12 +4,14 @@ import {
 	Radio,
 	Grid,
 	GridItem,
+	SelectInput,
 	BasicButton,
 	ButtonIcon,
+	AlertConfirm,
 	FilterButton,
 } from "../../../../displayComponents";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
-import { Paper, Tooltip } from "material-ui";
+import { Paper, Tooltip, MenuItem } from "material-ui";
 import LiveParticipantEditor from "./LiveParticipantEditor";
 import StatesContainer from "./sections/StatesContainer";
 import ConveneContainer from "./sections/ConveneContainer";
@@ -17,6 +19,7 @@ import CredentialsContainer from "./sections/CredentialsContainer";
 import AttendanceContainer from "./sections/AttendanceContainer";
 import TypesContainer from "./sections/TypesContainer";
 import FontAwesome from "react-fontawesome";
+
 
 
 
@@ -121,7 +124,7 @@ class ParticipantsManager extends React.Component {
 		const { translate, council } = this.props;
 		const secondary = getSecondary();
 
-		if (!!this.state.editParticipant) {
+/* 		if (!!this.state.editParticipant) {
 			return (
 				<Paper
 					style={{
@@ -140,7 +143,7 @@ class ParticipantsManager extends React.Component {
 					/>
 				</Paper>
 			)
-		}
+		} */
 
 		return (
 			<div
@@ -156,6 +159,25 @@ class ParticipantsManager extends React.Component {
 				onKeyDown={this.handleKeyPress}
 				ref={ref => (this.div = ref)}
 			>
+				<AlertConfirm
+					open={!!this.state.editParticipant}
+					requestClose={() => {
+						this.setState({
+							editParticipant: undefined
+						});
+					}}
+					bodyText={
+						<div style={{height: '70vh'}}>
+							<LiveParticipantEditor
+								translate={translate}
+								council={council}
+								// refetch={this.props.data.refetch}
+								id={this.state.editParticipant}
+
+							/>
+						</div>
+					}
+				/>
 				<Grid spacing={0} style={{
 					height: "100%",
 				}}>
@@ -241,46 +263,28 @@ class ParticipantsManager extends React.Component {
 									}}
 								/>
 							</FilterButton>
-							<FilterButton
-								tooltip={translate.table}
-								onClick={() => this.setState({ layout: 'table' })}
-								active={this.state.layout === "table"}
-							>
-								<FontAwesome
-									name={"th-list"}
-									style={{
-										color: primary,
-										fontSize: "0.7em"
-									}}
-								/>
-							</FilterButton>
-
-							{/* <h3>{translate.view || 'VISTA'}</h3> */}
-							{/* <Radio
-								value={"0"}
-								checked={this.state.layout === "compact"}
-								onChange={() => this.setState({ layout: 'compact' })}
-								name="compact"
-								label={translate.compact_table}
-							/>
-							<Radio
-								value={"1"}
-								checked={this.state.layout === "table"}
-								onChange={() => this.setState({ layout: 'table' })}
-								name="table"
-								label={translate.table}
-							/>
-							<Radio
-								value={"2"}
-								checked={this.state.layout === "squares"}
-								onChange={() => this.setState({ layout: 'squares' })}
-								name="squares"
-								label={translate.grid}
-							/> */}
 						</div>
 						{/* Ver  */}
 						<div style={{ display: 'flex', flexDirection: 'column', marginTop: '1em' }}>
-							<span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span>
+							<SelectInput
+								floatingText={'Tipo de visualización'}
+								value={this.state.view}
+								onChange={(event => this.setState({ view: event.target.value}))}
+							>
+								<MenuItem value={'STATES'}>
+									{translate.states}
+								</MenuItem>
+								<MenuItem value={'TYPE'} >
+									{translate.types}
+								</MenuItem>
+								<MenuItem value={'ATTENDANCE'}>
+									{translate.assistance}
+								</MenuItem>
+								<MenuItem value={'CREDENTIALS'}>
+									{translate.credentials}
+								</MenuItem>
+							</SelectInput>
+							{/* <span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span>
 							<Radio
 								value={"0"}
 								checked={this.state.view === "STATES"}
@@ -324,11 +328,11 @@ class ParticipantsManager extends React.Component {
 									name="CREDENTIALS"
 									label={translate.credentials || 'CREDENTIALS'}
 								/>
-							}
+							}*/}
 						</div>
 					</GridItem>
 				</Grid>
-			</div >
+			</div>
 		);
 	}
 }

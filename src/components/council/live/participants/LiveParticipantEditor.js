@@ -92,7 +92,7 @@ class LiveParticipantEditor extends React.Component {
 					padding: "1em"
 				}}
 			>
-				<FontAwesome
+				{/* <FontAwesome
 					name={"times"}
 					style={{
 						position: "absolute",
@@ -103,7 +103,7 @@ class LiveParticipantEditor extends React.Component {
 						fontSize: "2em"
 					}}
 					onClick={this.props.requestClose}
-				/>
+				/> */}
 				<div style={{ paddingBottom: "0.5em" }}>
 					<Grid>
 						<GridItem md={1}>

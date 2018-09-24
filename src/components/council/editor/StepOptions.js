@@ -313,12 +313,13 @@ class StepOptions extends React.Component {
 									onChange={(event, isInputChecked) =>
 										this.updateCouncilData({
 											councilType: isInputChecked ? 0 : 1,
+											autoClose: 0,
 											fullVideoRecord: 0
 										})
 									}
 								/>
-								{council.councilType === 0 ? (
 									<Checkbox
+										disabled={council.councilType !== 0}
 										label={translate.full_video_record}
 										value={council.fullVideoRecord !== 0}
 										onChange={(event, isInputChecked) =>
@@ -327,39 +328,38 @@ class StepOptions extends React.Component {
 											})
 										}
 									/>
-								) : (
-									<div style={{display: 'flex'}}>
-										<Checkbox
-											label={translate.auto_close}
-											value={council.autoClose !== 0}
-											onChange={(event, isInputChecked) =>
-												this.updateCouncilData({
-													autoClose: isInputChecked ? 1 : 0
-												})
-											}
-										/>
-										{council.autoClose === 1 &&
-											<div style={{maxWidth: '18em', marginLeft: '0.9em'}}>
-												<DateTimePicker
-													required
-													minDate={moment(new Date(council.dateStart)).add(1, 'm')}
-													onChange={date => {
-														const newDate = new Date(date);
-														const dateString = newDate.toISOString();
-														this.updateCouncilData({
-															closeDate: dateString
-														})
-													}}
-													minDateMessage={""}
-													acceptText={translate.accept}
-													cancelText={translate.cancel}
-													value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
-												/>
-											</div>
-										}
-									</div>
-								)}
 
+							<div style={{display: 'flex'}}>
+								<Checkbox
+									disabled={council.councilType === 0}
+									label={translate.auto_close}
+									value={council.autoClose !== 0}
+									onChange={(event, isInputChecked) =>
+										this.updateCouncilData({
+											autoClose: isInputChecked ? 1 : 0
+										})
+									}
+								/>
+								{council.autoClose === 1 &&
+									<div style={{maxWidth: '18em', marginLeft: '0.9em'}}>
+										<DateTimePicker
+											required
+											minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+											onChange={date => {
+												const newDate = new Date(date);
+												const dateString = newDate.toISOString();
+												this.updateCouncilData({
+													closeDate: dateString
+												})
+											}}
+											minDateMessage={""}
+											acceptText={translate.accept}
+											cancelText={translate.cancel}
+											value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+										/>
+									</div>
+								}
+								</div>
 								<SectionTitle
 									text={translate.security}
 									color={primary}

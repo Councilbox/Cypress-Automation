@@ -61,6 +61,7 @@ class AgendaMenu extends React.Component {
             }
         }
     }
+
     agendaStateIcon = () => {
         const { agenda } = this.props;
         let icon = 'fa fa-lock';
@@ -166,13 +167,14 @@ class AgendaMenu extends React.Component {
                                                 onClick={this.activateVoting}
                                             />
                                         </div>
-                                            <CollapsibleSection
+                                        <CollapsibleSection
                                             trigger={() => <span/>}
                                             onTriggerClick={() => {}}
                                             open={this.state.open}
                                             collapse={() =>
                                                 <VotingMenu
                                                     translate={this.props.translate}
+                                                    close={this.toggle}
                                                     refetch={this.props.refetch}
                                                     agenda={agenda}
                                                 />

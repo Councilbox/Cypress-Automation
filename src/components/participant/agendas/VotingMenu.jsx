@@ -14,7 +14,7 @@ const styles = {
 }
 
 class VotingMenu extends React.Component {
-    
+
     state = {
         loading: true
     }
@@ -55,25 +55,10 @@ class VotingMenu extends React.Component {
             })
         ));
 
-        console.log(response)
-
-/*         const response = await this.props.updateAgendaVoting({
-            variables: {
-                agendaVoting: {
-                    id: this.props.agenda.voting.id,
-                    vote: vote
-                }
-            }
-        }); */
-
-/*         if(response){
-            if(response.data.updateAgendaVoting.success){
-                await this.props.refetch();
-                this.setState({
-                    loading: false
-                });
-            }
-        } */
+        if(response){
+            await this.props.refetch();
+            this.props.close();
+        }
     }
 
     render(){
