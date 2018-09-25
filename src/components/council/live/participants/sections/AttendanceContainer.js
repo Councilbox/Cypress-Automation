@@ -124,8 +124,7 @@ class AttendanceContainer extends React.Component {
 	_renderHeader = () => {
 		let { attendanceRecount } = this.props.data;
 		let { translate } = this.props;
-		const { filterText, filterField } = this.state;
-		const fields = this._getFilters();
+
 		return (
 			<React.Fragment>
 				<Grid
@@ -280,49 +279,6 @@ class AttendanceContainer extends React.Component {
 						/>
 					</div>
 				</Grid>
-				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
-					<div
-						style={{
-							width: "33%",
-							marginLeft: "0.8em",
-							float: "right"
-						}}
-					>
-						<TextInput
-							adornment={<Icon>search</Icon>}
-							floatingText={" "}
-							type="text"
-							value={filterText}
-							onChange={event => {
-								this.updateFilterText(event.target.value);
-							}}
-						/>
-					</div>
-					<div
-						style={{
-							width: "33%",
-							maxWidth: "12em",
-							float: "right"
-						}}
-					>
-						<SelectInput
-							// floatingText={translate.filter_by}
-							value={filterField}
-							onChange={event =>
-								this.updateFilterField(event.target.value)
-							}
-						>
-							{fields.map(field => (
-								<MenuItem
-									key={`field_${field.value}`}
-									value={field.value}
-								>
-									{field.translation}
-								</MenuItem>
-							))}
-						</SelectInput>
-					</div>
-				</div>
 			</React.Fragment>
 		);
 	};
@@ -330,30 +286,78 @@ class AttendanceContainer extends React.Component {
 	render() {
 		const { addGuest, updateState, council, translate } = this.props;
 		const { refetch } = this.props.data;
+		const { filterText, filterField } = this.state;
+		const fields = this._getFilters();
 
-		if (!this.props.data.attendanceRecount) {
+		if (!this.props.data.liveParticipantsAttendance) {
 			return <LoadingSection />;
 		}
 
 		return (
 			<React.Fragment>
-				<div
+			<div
 					style={{
-						height: "6em",
+						minHeight: "3em",
+						maxHeight: '6em',
 						overflow: "hidden"
 					}}
 				>
 					{this._renderHeader()}
 				</div>
+				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<div style={{display: 'flex', alignItems: 'center'}}>
+						{this.props.addGuestButton()}
+					</div>
+					<div style={{display: 'flex'}}>
+						<div
+							style={{
+								maxWidth: "12em"
+							}}
+						>
+							<SelectInput
+								// floatingText={translate.filter_by}
+								value={filterField}
+								onChange={event =>
+									this.updateFilterField(event.target.value)
+								}
+							>
+								{fields.map(field => (
+									<MenuItem
+										key={`field_${field.value}`}
+										value={field.value}
+									>
+										{field.translation}
+									</MenuItem>
+								))}
+							</SelectInput>
+						</div>
+						<div
+							style={{
+								marginLeft: "0.8em",
+							}}
+						>
+							<TextInput
+								adornment={<Icon>search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={filterText}
+								onChange={event => {
+									this.updateFilterText(event.target.value);
+								}}
+							/>
+						</div>
+					</div>
+				</div>
 				<div
 					style={{
-						height: "calc(100% - 6em)",
+						height: `calc(100% - 3em - ${'3.5em'})`,
 						padding: "0 1vw",
 						overflow: "hidden"
 					}}
 				>
 					<ParticipantsList
 						loadMore={this.loadMore}
+						refetch={this.props.data.refetch}
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
@@ -401,6 +405,7 @@ const query = gql`
 				email
 				phone
 				dni
+				signed
 				type
 				online
 				requestWord

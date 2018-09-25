@@ -1,13 +1,12 @@
 import React from "react";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../styles/colors";
-import { CloseIcon, Grid, GridItem, SelectInput } from "./index";
+import { CloseIcon, Grid, GridItem, SelectInput, Icon } from "./index";
 import { Tooltip, Paper, MenuItem } from 'material-ui';
 import Tabs from 'antd/lib/tabs';
 import { IconButton } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import "../styles/react-tabs.css";
-import Icon from 'antd';
 
 const primary = getPrimary();
 const secondary = getSecondary();

@@ -19,25 +19,23 @@ import { PARTICIPANT_STATES } from "../../../../../constants";
 import { Icon, Card } from "material-ui";
 
 class SignatureModal extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false,
-			success: "",
-			loading: false,
-			errors: {},
-			liveParticipantSignature: {},
-			participant: {},
-			participantState: PARTICIPANT_STATES.PHYSICALLY_PRESENT
-		};
-		this.signature = null;
-	}
-
-	close = () => {
-		this.setState({ modal: false });
+	state = {
+		modal: false,
+		success: "",
+		loading: false,
+		errors: {},
+		liveParticipantSignature: {},
+		participant: {},
+		participantState: PARTICIPANT_STATES.PHYSICALLY_PRESENT
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState) {
+	signature = null;
+
+	close = () => {
+		this.props.requestClose();
+	};
+
+/* 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (!nextProps.data.loading) {
 			if (nextProps.data.liveParticipantSignature) {
 				return {
@@ -51,22 +49,27 @@ class SignatureModal extends Component {
 				participantId: nextProps.participant.id
 			}
 		};
+	} */
+
+	componentDidUpdate(prevProps) {
+		if(!this.props.data.loading){
+			this.setSignature();
+		}
 	}
 
 	save = async () => {
 		let signatureData = this.signature.toDataURL();
-		let {
-			__typename,
-			...liveParticipantSignature
-		} = this.state.liveParticipantSignature;
-		liveParticipantSignature.data = signatureData;
-
 		const response = await this.props.setLiveParticipantSignature({
 			variables: {
-				signature: liveParticipantSignature,
+				signature: {
+					...(this.props.data.liveParticipantSignature? { id: this.props.data.liveParticipantSignature.id } : {}),
+					data: signatureData,
+					participantId: this.props.participant.id
+				},
 				state: this.state.participantState
 			}
 		});
+		console.log(response);
 		if (!response.errors) {
 			this.props.data.refetch();
 			this.props.refetch();
@@ -84,10 +87,7 @@ class SignatureModal extends Component {
 
 	setSignature = () => {
 		let data = this.props.data;
-		if (
-			data.liveParticipantSignature &&
-			data.liveParticipantSignature.data
-		) {
+		if (data.liveParticipantSignature && data.liveParticipantSignature.data) {
 			this.signature.fromDataURL(data.liveParticipantSignature.data);
 		}
 	};
@@ -111,7 +111,7 @@ class SignatureModal extends Component {
 				<CustomDialog
 					title={translate.to_sign_and_confirm}
 					requestClose={this.close}
-					open={this.state.modal}
+					open={this.props.show}
 					onEntered={this.setSignature}
 					disableBackdropClick
 					actions={
@@ -234,7 +234,8 @@ export default compose(
 			variables: {
 				participantId: props.participant.id
 			},
-			notifyOnNetworkStatusChange: true
+			notifyOnNetworkStatusChange: true,
+			fetchPolicy: 'network-only'
 		})
 	}),
 	graphql(setLiveParticipantSignature, {

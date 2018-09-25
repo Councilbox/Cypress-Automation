@@ -124,8 +124,7 @@ class TypesContainer extends React.Component {
 	_renderHeader = () => {
 		let { participantTypeRecount } = this.props.data;
 		let { translate } = this.props;
-		const { filterText, filterField } = this.state;
-		const fields = this._getFilters();
+
 		return (
 			<React.Fragment>
 				<Grid
@@ -215,58 +214,28 @@ class TypesContainer extends React.Component {
 						/>
 					</div>
 				</Grid>
-				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
-					<div
-						style={{
-							width: "33%",
-							marginLeft: "0.8em",
-							float: "right"
-						}}
-					>
-						<TextInput
-							adornment={<Icon>search</Icon>}
-							floatingText={" "}
-							type="text"
-							value={filterText}
-							onChange={event => {
-								this.updateFilterText(event.target.value);
-							}}
-						/>
-					</div>
-					<div
-						style={{
-							width: "33%",
-							maxWidth: "12em",
-							float: "right"
-						}}
-					>
-						<SelectInput
-							// floatingText={translate.filter_by}
-							value={filterField}
-							onChange={event =>
-								this.updateFilterField(event.target.value)
-							}
-						>
-							{fields.map(field => (
-								<MenuItem
-									key={`field_${field.value}`}
-									value={field.value}
-								>
-									{field.translation}
-								</MenuItem>
-							))}
-						</SelectInput>
-					</div>
-				</div>
 			</React.Fragment>
 		);
 	};
 
+	filterOnlySigned = () => {
+		this.props.data.refetch({
+			variables: {
+				filters: [{
+					field: 'signed',
+					text: 1
+				}]
+			}
+		})
+	}
+
 	render() {
 		const { addGuest, updateState, council, translate } = this.props;
 		const { refetch } = this.props.data;
+		const { filterText, filterField } = this.state;
+		const fields = this._getFilters();
 
-		if (!this.props.data.participantTypeRecount) {
+		if (!this.props.data.liveParticipantsType) {
 			return <LoadingSection />;
 		}
 
@@ -274,15 +243,66 @@ class TypesContainer extends React.Component {
 			<React.Fragment>
 				<div
 					style={{
-						height: "6em",
+						minHeight: "3em",
+						maxHeight: '6em',
 						overflow: "hidden"
 					}}
 				>
 					{this._renderHeader()}
 				</div>
+				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<div style={{display: 'flex', alignItems: 'center'}}>
+						{this.props.addGuestButton()}
+					</div>
+					<div onClick={this.filterOnlySigned} style={{width: '2em', height: '2em', borderRadius: '1em', backgroundColor: 'green'}}>
+
+					</div>
+					<div onClick={this.filterOnlyNotSigned} style={{width: '2em', height: '2em', borderRadius: '1em', backgroundColor: 'blue'}}>
+
+					</div>
+					<div style={{display: 'flex'}}>
+						<div
+							style={{
+								maxWidth: "12em"
+							}}
+						>
+							<SelectInput
+								// floatingText={translate.filter_by}
+								value={filterField}
+								onChange={event =>
+									this.updateFilterField(event.target.value)
+								}
+							>
+								{fields.map(field => (
+									<MenuItem
+										key={`field_${field.value}`}
+										value={field.value}
+									>
+										{field.translation}
+									</MenuItem>
+								))}
+							</SelectInput>
+						</div>
+						<div
+							style={{
+								marginLeft: "0.8em",
+							}}
+						>
+							<TextInput
+								adornment={<Icon>search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={filterText}
+								onChange={event => {
+									this.updateFilterText(event.target.value);
+								}}
+							/>
+						</div>
+					</div>
+				</div>
 				<div
 					style={{
-						height: "calc(100% - 6em)",
+						height: `calc(100% - 3em - ${'3.5em'})`,
 						padding: "0 1vw",
 						overflow: "hidden"
 					}}
@@ -295,6 +315,7 @@ class TypesContainer extends React.Component {
 						participants={this.props.data.liveParticipantsType}
 						layout={this.props.layout}
 						council={this.props.council}
+						refetch={this.props.data.refetch}
 						translate={this.props.translate}
 						editParticipant={this.props.editParticipant}
 						mode={"TYPE"}
@@ -333,6 +354,7 @@ const query = gql`
 				position
 				email
 				phone
+				signed
 				dni
 				type
 				online

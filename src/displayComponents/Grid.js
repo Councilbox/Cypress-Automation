@@ -8,9 +8,11 @@ const GridWrapper = ({
 	style,
 	spacing = 8,
 	justify,
+	id,
 	onKeyUp
 }) => (
 	<Grid
+		id={id}
 		container
 		justify={justify}
 		alignItems={alignItems}

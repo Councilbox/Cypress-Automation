@@ -1,12 +1,13 @@
 import React from "react";
 import { MenuItem, Typography, Tooltip } from "material-ui";
-import { GridItem, Grid } from "../../../../displayComponents";
+import { GridItem, Grid, BasicButton } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
 import { removeHTMLTags } from '../../../../utils/CBX';
+import withWindowSize from '../../../../HOCs/withWindowSize';
 
 
 class ParticipantItem extends React.PureComponent {
@@ -21,14 +22,14 @@ class ParticipantItem extends React.PureComponent {
 
 		return (
 			<GridItem
-				xs={12}
-				md={layout !== 'squares' ? 12 : 6}
-				lg={layout !== 'squares' ? 12 : 6}
+				xs={this.props.orientation === 'portrait'? 12 : 6}
+				md={layout !== 'squares' ? 12 : 4}
+				lg={layout !== 'squares' ? 12 : 4}
 			>
 				<div
 					style={{
 						width: '100%',
-						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '5em'
+						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em'
 					}}
 				>
 					<MenuItem
@@ -47,6 +48,7 @@ class ParticipantItem extends React.PureComponent {
 							<CompactItemLayout
 								participant={participant}
 								translate={translate}
+								showSignatureModal={this.props.showSignatureModal}
 								mode={mode}
 							/>
 						}
@@ -54,6 +56,7 @@ class ParticipantItem extends React.PureComponent {
 							<CompactItemLayout
 								participant={participant}
 								translate={translate}
+								showSignatureModal={this.props.showSignatureModal}
 								mode={mode}
 							/>
 						}
@@ -62,6 +65,7 @@ class ParticipantItem extends React.PureComponent {
 								secondary={secondary}
 								participant={participant}
 								translate={translate}
+								showSignatureModal={this.props.showSignatureModal}
 								mode={mode}
 							/>
 						}
@@ -136,7 +140,7 @@ const CompactItemLayout = ({ participant, translate, mode }) => (
 	</Grid>
 )
 
-const TabletItem = ({ participant, translate, secondary, mode }) => (
+const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal }) => (
 	<React.Fragment>
 		<div
 			style={{
@@ -148,111 +152,18 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 				overflow: "hidden"
 			}}
 		>
-			{_getIcon(mode, participant, translate)}
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					marginLeft: "0.6em",
-					width: "100%",
-					textOverflow: "ellipsis",
-					overflow: "hidden"
-				}}
-			>
+			<div style={{width: '65%', display: 'flex'}}>
+				{_getIcon(mode, participant, translate)}
 				<div
 					style={{
 						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
+						flexDirection: "column",
+						marginLeft: "0.6em",
+						width: "100%",
+						textOverflow: "ellipsis",
+						overflow: "hidden"
 					}}
 				>
-					<div
-						style={{
-							width: "2.2em",
-							display: "flex",
-							justifyContent: "center"
-						}}
-					>
-						<FontAwesome
-							name={"info"}
-							style={{
-								color: secondary,
-								fontSize: "1em",
-								marginRight: 0
-							}}
-						/>
-					</div>
-					<Typography
-						variant="body1"
-						style={{
-							fontWeight: "600",
-							// fontSize: "0.95rem"
-						}}
-					>
-						{`${participant.name} ${participant.surname}`}
-					</Typography>
-				</div>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
-					}}
-				>
-					<div
-						style={{
-							width: "2.2em",
-							display: "flex",
-							justifyContent: "center"
-						}}
-					>
-						<FontAwesome
-							name={"id-card"}
-							style={{
-								color: secondary,
-								fontSize: "1em",
-								marginRight: 0
-							}}
-						/>
-					</div>
-					<Typography
-						variant="body1"
-						style={{ color: "grey", fontSize: "0.75rem" }}
-					>
-						{`${participant.dni}`}
-					</Typography>
-				</div>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
-					}}
-				>
-					<div
-						style={{
-							width: "2.2em",
-							display: "flex",
-							justifyContent: "center"
-						}}
-					>
-						<FontAwesome
-							name={"tag"}
-							style={{
-								color: secondary,
-								fontSize: "1em",
-								marginRight: 0
-							}}
-						/>
-					</div>
-					<Typography
-						variant="body1"
-						style={{ color: "grey", fontSize: "0.75rem" }}
-					>
-						{`${participant.position}`}
-					</Typography>
-				</div>
-				{mode === 'ATTENDANCE' && participant.assistanceComment &&
 					<div
 						style={{
 							display: "flex",
@@ -264,33 +175,140 @@ const TabletItem = ({ participant, translate, secondary, mode }) => (
 							style={{
 								width: "2.2em",
 								display: "flex",
-								justifyContent: "center",
-								alignItems: 'center'
+								justifyContent: "center"
 							}}
 						>
 							<FontAwesome
-								name={"comment"}
+								name={"info"}
 								style={{
-									color: primary,
+									color: secondary,
 									fontSize: "1em",
 									marginRight: 0
 								}}
 							/>
 						</div>
-						<div
+						<Typography
+							variant="body1"
 							style={{
-								color: "grey",
-								fontSize: "0.75rem",
-								textOverflow: "ellipsis",
-								height: '1.5em',
-								overflow: "hidden"
+								fontWeight: "600",
+								// fontSize: "0.95rem"
 							}}
 						>
-							{removeHTMLTags(participant.assistanceComment)}
-						</div>
+							{`${participant.name} ${participant.surname}`}
+						</Typography>
 					</div>
-				}
-
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center"
+						}}
+					>
+						<div
+							style={{
+								width: "2.2em",
+								display: "flex",
+								justifyContent: "center"
+							}}
+						>
+							<FontAwesome
+								name={"id-card"}
+								style={{
+									color: secondary,
+									fontSize: "1em",
+									marginRight: 0
+								}}
+							/>
+						</div>
+						<Typography
+							variant="body1"
+							style={{ color: "grey", fontSize: "0.75rem" }}
+						>
+							{`${participant.dni}`}
+						</Typography>
+					</div>
+					<div
+						style={{
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center"
+						}}
+					>
+						<div
+							style={{
+								width: "2.2em",
+								display: "flex",
+								justifyContent: "center"
+							}}
+						>
+							<FontAwesome
+								name={"tag"}
+								style={{
+									color: secondary,
+									fontSize: "1em",
+									marginRight: 0
+								}}
+							/>
+						</div>
+						<Typography
+							variant="body1"
+							style={{ color: "grey", fontSize: "0.75rem" }}
+						>
+							{`${participant.position}`}
+						</Typography>
+					</div>
+					{mode === 'ATTENDANCE' && participant.assistanceComment &&
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center"
+							}}
+						>
+							<div
+								style={{
+									width: "2.2em",
+									display: "flex",
+									justifyContent: "center",
+									alignItems: 'center'
+								}}
+							>
+								<FontAwesome
+									name={"comment"}
+									style={{
+										color: primary,
+										fontSize: "1em",
+										marginRight: 0
+									}}
+								/>
+							</div>
+							<div
+								style={{
+									color: "grey",
+									fontSize: "0.75rem",
+									textOverflow: "ellipsis",
+									height: '1.5em',
+									overflow: "hidden"
+								}}
+							>
+								{removeHTMLTags(participant.assistanceComment)}
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+			<div style={{width: '35%', padding: '0.3em', height: '6em', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+				<BasicButton
+					text={participant.signed? 'Ha firmado' : "Firmar"}
+					fullWidth
+					type="flat"
+					color={"white"}
+					onClick={event => {
+						event.stopPropagation();
+						showSignatureModal()
+					}}
+					textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+				/>
 			</div>
 		</div>
 	</React.Fragment>
@@ -313,4 +331,4 @@ const _getIcon = (mode, participant, translate) => {
 	}
 }
 
-export default ParticipantItem;
+export default withWindowSize(ParticipantItem);

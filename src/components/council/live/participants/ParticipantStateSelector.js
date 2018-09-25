@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { graphql } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
@@ -12,7 +12,15 @@ import FontAwesome from "react-fontawesome";
 import SignatureModal from "./modals/SignatureModal";
 import StateIcon from "./StateIcon";
 
-class ParticipantStateSelector extends Component {
+class ParticipantStateSelector extends React.Component {
+	state = {
+		loading: false,
+		delegateVote: false,
+		delegateOwnVote: false,
+		addRepresentative: false
+	};
+
+
 	changeParticipantState = async (state, index) => {
 		const { participant } = this.props;
 		this.setState({
@@ -33,16 +41,6 @@ class ParticipantStateSelector extends Component {
 			this.props.refetch();
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false,
-			delegateVote: false,
-			delegateOwnVote: false,
-			addRepresentative: false
-		};
-	}
 
 	render() {
 		const { translate, participant, council } = this.props;
@@ -196,7 +194,7 @@ class ParticipantStateSelector extends Component {
 						</div>
 					)}
 					{CBX.canAddDelegateVotes(council.statute, participant) && (
-						<div style={{display: 'flex', alignItems: 'center'}}>						
+						<div style={{display: 'flex', alignItems: 'center'}}>
 							<FilterButton
 								tooltip={translate.add_delegated}
 								loading={loading === 6}

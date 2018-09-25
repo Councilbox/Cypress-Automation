@@ -3,21 +3,38 @@ import React, { Component } from "react";
 const withWindowSize = WrappedComponent => {
 	return class WithWindowSize extends Component {
 		state = {
-			size: "lg"
+			size: "lg",
+			innerHeight: window.innerHeight
 		};
 
+
+
 		updateSize = () => {
+			let state = this.state;
 			if (window.innerWidth < 960) {
-				this.setState({ size: "xs" });
+				state.size = "xs";
 			} else if (window.innerWidth < 1200) {
-				this.setState({ size: "md" });
+				state.size = "md";
 			} else if (window.innerWidth < 1600) {
-				this.setState({ size: "lg" });
+				state.size = "lg";
 			} else {
-				this.setState({ size: "xl" });
+				state.size =  "xl";
 			}
-			const element = document.getElementById('mainContainer')
-			
+
+			if (window.innerWidth < window.innerHeight) {
+				state.orientation = "portrait";
+			} else if (window.innerWidth > window.innerHeight) {
+				state.orientation = "landscape";
+			}
+
+			state.innerHeight = window.innerHeight;
+
+			this.setState({
+				...state
+			});
+
+			const element = document.getElementById('mainContainer');
+
 			if(element){
 				element.style.height = window.innerHeight;
 			}
@@ -36,6 +53,8 @@ const withWindowSize = WrappedComponent => {
 			return (
 				<WrappedComponent
 					updateSize={this.updateSize}
+					orientation={this.state.orientation}
+					innherHeight={this.state.innerHeight}
 					windowSize={this.state.size}
 					{...this.props}
 				/>

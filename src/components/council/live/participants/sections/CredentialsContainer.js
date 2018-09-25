@@ -157,8 +157,7 @@ class CredentialsContainer extends React.Component {
 	_renderHeader = () => {
 		let { crendentialSendRecount } = this.props.data;
 		let { translate } = this.props;
-		const { filterText, filterField } = this.state;
-		const fields = this._getFilters();
+
 		return (
 			<React.Fragment>
 				<Grid
@@ -330,87 +329,6 @@ class CredentialsContainer extends React.Component {
 						/>
 					</div>
 				</Grid>
-				<div style={{ padding: "0 8px", marginTop: "-8px" }}>
-					<div
-						style={{
-							width: "33%",
-							marginLeft: "0.8em",
-							float: "right"
-						}}
-					>
-						<TextInput
-							adornment={<Icon>search</Icon>}
-							floatingText={" "}
-							type="text"
-							value={filterText}
-							onChange={event => {
-								this.updateFilterText(event.target.value);
-							}}
-						/>
-					</div>
-					<div
-						style={{
-							width: "33%",
-							maxWidth: "12em",
-							float: "right"
-						}}
-					>
-						<SelectInput
-							// floatingText={translate.filter_by}
-							value={filterField}
-							onChange={event =>
-								this.updateFilterField(event.target.value)
-							}
-						>
-							{fields.map(field => (
-								<MenuItem
-									key={`field_${field.value}`}
-									value={field.value}
-								>
-									{field.translation}
-								</MenuItem>
-							))}
-						</SelectInput>
-					</div>
-
-					<div
-						style={{
-							width: "33%",
-							maxWidth: "12em",
-							float: "right",
-							marginTop: "12px"
-						}}
-					>
-						<Tooltip
-							title={
-								translate.tooltip_refresh_convene_email_state_assistance
-							}
-						>
-							<BasicButton
-								floatRight
-								text={translate.refresh_convened}
-								color={getSecondary()}
-								buttonStyle={{
-									margin: "0",
-									marginRight: "0.8em",
-									paddingTop: "6px",
-									paddingBottom: "6px"
-								}}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								icon={
-									<ButtonIcon color="white" type="refresh" />
-								}
-								textPosition="after"
-								onClick={() => this.refreshEmailStates()}
-							/>
-						</Tooltip>
-					</div>
-				</div>
 			</React.Fragment>
 		);
 	};
@@ -418,8 +336,10 @@ class CredentialsContainer extends React.Component {
 	render() {
 		const { addGuest, updateState, council, translate } = this.props;
 		const { refetch } = this.props.data;
+		const { filterText, filterField } = this.state;
+		const fields = this._getFilters();
 
-		if (!this.props.data.crendentialSendRecount) {
+		if (!this.props.data.liveParticipantsCredentials) {
 			return <LoadingSection />;
 		}
 
@@ -427,15 +347,90 @@ class CredentialsContainer extends React.Component {
 			<React.Fragment>
 				<div
 					style={{
-						height: "6em",
+						minHeight: "3em",
+						maxHeight: '6em',
 						overflow: "hidden"
 					}}
 				>
 					{this._renderHeader()}
 				</div>
+				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<div style={{display: 'flex', alignItems: 'center'}}>
+						{this.props.addGuestButton()}
+					</div>
+					<div style={{display: 'flex', alignItems: 'center'}}>
+						<div style={{display: 'flex', alignItems: 'center'}}>
+							<Tooltip
+								title={
+									translate.tooltip_refresh_convene_email_state_assistance
+								}
+							>
+								<BasicButton
+									floatRight
+									text={translate.refresh_convened}
+									color={getSecondary()}
+									buttonStyle={{
+										margin: "0",
+										marginRight: "0.8em",
+										paddingTop: "6px",
+										paddingBottom: "6px"
+									}}
+									textStyle={{
+										color: "white",
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									icon={
+										<ButtonIcon color="white" type="refresh" />
+									}
+									textPosition="after"
+									onClick={() => this.refreshEmailStates()}
+								/>
+							</Tooltip>
+						</div>
+						<div
+							style={{
+								maxWidth: "12em"
+							}}
+						>
+							<SelectInput
+								// floatingText={translate.filter_by}
+								value={filterField}
+								onChange={event =>
+									this.updateFilterField(event.target.value)
+								}
+							>
+								{fields.map(field => (
+									<MenuItem
+										key={`field_${field.value}`}
+										value={field.value}
+									>
+										{field.translation}
+									</MenuItem>
+								))}
+							</SelectInput>
+						</div>
+						<div
+							style={{
+								marginLeft: "0.8em",
+							}}
+						>
+							<TextInput
+								adornment={<Icon>search</Icon>}
+								floatingText={" "}
+								type="text"
+								value={filterText}
+								onChange={event => {
+									this.updateFilterText(event.target.value);
+								}}
+							/>
+						</div>
+					</div>
+				</div>
 				<div
 					style={{
-						height: "calc(100% - 6em)",
+						height: `calc(100% - 3em - ${'3.5em'})`,
 						padding: "0 1vw",
 						overflow: "hidden"
 					}}
@@ -445,6 +440,7 @@ class CredentialsContainer extends React.Component {
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
+						refetch={this.props.data.refetch}
 						participants={
 							this.props.data.liveParticipantsCredentials
 						}

@@ -2,8 +2,23 @@ import React from "react";
 import { Grid } from "../../../../displayComponents";
 import { LoadMoreButton, Scrollbar, LoadingSection } from "../../../../displayComponents";
 import ParticipantItem from "./ParticipantItem";
+import SignatureModal from "./modals/SignatureModal";
 
 class ParticipantsList extends React.PureComponent {
+
+	state = {
+		showSignatureModal: false,
+		participantToSign: null
+	}
+
+	showSignatureModal = participant => () => {
+		this.setState({
+			showSignatureModal: true,
+			participantToSign: participant
+		})
+	}
+
+
 	render() {
 		const {
 			mode,
@@ -16,6 +31,8 @@ class ParticipantsList extends React.PureComponent {
 			loadingMore,
 			participants
 		} = this.props;
+
+		console.log(this.state);
 
 		return (
 			<React.Fragment>
@@ -36,20 +53,131 @@ class ParticipantsList extends React.PureComponent {
 
 					participants.list.length > 0 ? (
 						<Scrollbar>
-							<Grid spacing={0}>
+							<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
 								{participants.list.map(
 									participant =>
-										<ParticipantItem
-											layout={layout}
-											key={`participant_${
-												participant.id
-												}`}
-											participant={participant}
-											translate={translate}
-											mode={mode}
-											editParticipant={editParticipant}
-											council={council}
-										/>
+										<React.Fragment>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												mode={mode}
+												showSignatureModal={this.showSignatureModal(participant)}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											{/* <ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												showSignatureModal={this.showSignatureModal(participant)}
+												mode={mode}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												showSignatureModal={this.showSignatureModal(participant)}
+												translate={translate}
+												mode={mode}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												showSignatureModal={this.showSignatureModal(participant)}
+												mode={mode}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												showSignatureModal={this.showSignatureModal(participant)}
+												translate={translate}
+												mode={mode}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												showSignatureModal={this.showSignatureModal(participant)}
+												translate={translate}
+												mode={mode}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												mode={mode}
+												showSignatureModal={this.showSignatureModal(participant)}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												mode={mode}
+												showSignatureModal={this.showSignatureModal(participant)}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												showSignatureModal={this.showSignatureModal(participant)}
+												mode={mode}
+												editParticipant={editParticipant}
+												council={council}
+											/>
+											<ParticipantItem
+												layout={layout}
+												key={`participant_${
+													participant.id
+													}`}
+												participant={participant}
+												translate={translate}
+												mode={mode}
+												showSignatureModal={this.showSignatureModal(participant)}
+												editParticipant={editParticipant}
+												council={council}
+											/> */}
+										</React.Fragment>
 								)}
 								{participants.list.length <
 									participants.total && (
@@ -59,6 +187,16 @@ class ParticipantsList extends React.PureComponent {
 										/>
 									)}
 							</Grid>
+							{this.state.showSignatureModal &&
+								<SignatureModal
+									show={this.state.showSignatureModal}
+									council={council}
+									participant={this.state.participantToSign}
+									refetch={this.props.refetch}
+									requestClose={() => this.setState({ showSignatureModal: false, participantToSign: null })}
+									translate={translate}
+								/>
+							}
 						</Scrollbar>
 					)
 						:

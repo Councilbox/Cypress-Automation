@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 const withWindowOrientation = WrappedComponent => {
 	return class withWindowOrientation extends Component {
+		state = {
+			orientation: "landscape"
+		};
+
 		updateOrientation = () => {
 			if (window.innerWidth < window.innerHeight) {
 				this.setState({ orientation: "portrait" });
@@ -10,12 +14,7 @@ const withWindowOrientation = WrappedComponent => {
 			}
 		};
 
-		constructor(props) {
-			super(props);
-			this.state = {
-				orientation: "landscape"
-			};
-		}
+
 
 		componentDidMount() {
 			this.updateOrientation();

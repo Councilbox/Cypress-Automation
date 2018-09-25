@@ -7,6 +7,7 @@ import {
 	SelectInput,
 	BasicButton,
 	ButtonIcon,
+	CollapsibleSection,
 	AlertConfirm,
 	FilterButton,
 } from "../../../../displayComponents";
@@ -19,8 +20,7 @@ import CredentialsContainer from "./sections/CredentialsContainer";
 import AttendanceContainer from "./sections/AttendanceContainer";
 import TypesContainer from "./sections/TypesContainer";
 import FontAwesome from "react-fontawesome";
-
-
+import { isMobile } from 'react-device-detect';
 
 
 class ParticipantsManager extends React.Component {
@@ -65,6 +65,34 @@ class ParticipantsManager extends React.Component {
 		});
 	}
 
+	_renderAddGuestButton = () => {
+		const secondary = getSecondary();
+
+		return (
+			<Tooltip title="ALT + G">
+				<div>
+					<BasicButton
+						text={isMobile? '' : this.props.translate.add_guest}
+						color={"white"}
+						textStyle={{
+							color: secondary,
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none",
+						}}
+						textPosition="after"
+						icon={<ButtonIcon type="add" color={secondary} />}
+						onClick={() => this.updateState({ addGuest: true })}
+						buttonStyle={{
+							marginRight: "1em",
+							border: `2px solid ${secondary}`,
+						}}
+					/>
+				</div>
+			</Tooltip>
+		)
+	}
+
 	_renderSection = () => {
 		let { view, layout, addGuest } = this.state;
 		let { council, translate } = this.props;
@@ -73,6 +101,7 @@ class ParticipantsManager extends React.Component {
 				return <StatesContainer
 					council={council}
 					translate={translate}
+					addGuestButton={this._renderAddGuestButton}
 					layout={layout}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
@@ -81,6 +110,7 @@ class ParticipantsManager extends React.Component {
 			case 'CONVENE':
 				return <ConveneContainer
 					council={council}
+					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
@@ -90,6 +120,7 @@ class ParticipantsManager extends React.Component {
 			case 'CREDENTIALS':
 				return <CredentialsContainer
 					council={council}
+					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
@@ -99,6 +130,7 @@ class ParticipantsManager extends React.Component {
 			case 'ATTENDANCE':
 				return <AttendanceContainer
 					council={council}
+					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
@@ -108,6 +140,7 @@ class ParticipantsManager extends React.Component {
 			case 'TYPE':
 				return <TypesContainer
 					council={council}
+					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					editParticipant={this.editParticipant}
@@ -119,40 +152,89 @@ class ParticipantsManager extends React.Component {
 		}
 	}
 
+	_renderTableOptions = () => {
+		const secondary = getSecondary();
+		const { translate } = this.props;
+		const primary = getPrimary();
+
+		return (
+			<div
+				style={{
+					display: 'flex',
+					width: '100%',
+					justifyContent: 'flex-end',
+					alignItems: 'center',
+					backgroundColor: 'white',
+					borderBottom: '1px solid gainsboro',
+					position: "relative"
+				}}
+			>
+				<div style={{minWidth: '14em'}}>
+					<SelectInput
+						fullWidth
+						floatingText={'Tipo de visualización'} //TRADUCCION
+						value={this.state.view}
+						onChange={(event => this.setState({ view: event.target.value}))}
+					>
+						<MenuItem value={'STATES'}>
+							{translate.states}
+						</MenuItem>
+						<MenuItem value={'TYPE'} >
+							{translate.types}
+						</MenuItem>
+						<MenuItem value={'ATTENDANCE'}>
+							{translate.assistance}
+						</MenuItem>
+						<MenuItem value={'CREDENTIALS'}>
+							{translate.credentials}
+						</MenuItem>
+					</SelectInput>
+				</div>
+				<FilterButton
+					tooltip={translate.grid}
+					onClick={() => this.setState({ layout: 'squares' })}
+					active={this.state.layout === "squares"}
+					size= {'2.55em'}
+				>
+					<FontAwesome
+						name={"th-large"}
+						style={{
+							color: primary,
+							fontSize: "0.9em"
+						}}
+					/>
+				</FilterButton>
+				<FilterButton
+					tooltip={translate.table}
+					onClick={() => this.setState({ layout: 'table' })}
+					active={this.state.layout === "table"}
+					size= {'2.55em'}
+				>
+					<FontAwesome
+						name={"th-list"}
+						style={{
+							color: primary,
+							fontSize: "0.9em"
+						}}
+					/>
+				</FilterButton>
+			</div>
+		)
+	}
+
 	render() {
 		const primary = getPrimary();
 		const { translate, council } = this.props;
 		const secondary = getSecondary();
 
-/* 		if (!!this.state.editParticipant) {
-			return (
-				<Paper
-					style={{
-						height: "100%",
-					}}>
-					<LiveParticipantEditor
-						translate={translate}
-						council={council}
-						// refetch={this.props.data.refetch}
-						id={this.state.editParticipant}
-						requestClose={() => {
-							this.setState({
-								editParticipant: undefined
-							});
-						}}
-					/>
-				</Paper>
-			)
-		} */
-
 		return (
-			<div
+			<Paper
 				style={{
-					width: "100%",
-					height: "100%",
+					width: "calc(100% - 1.2em)",
+					height: "calc(100% - 1.2em)",
 					overflowX: 'hidden',
 					padding: 0,
-					margin: 0,
+					margin: '0.6em',
 					outline: 0
 				}}
 				tabIndex="0"
@@ -171,228 +253,58 @@ class ParticipantsManager extends React.Component {
 							<LiveParticipantEditor
 								translate={translate}
 								council={council}
-								// refetch={this.props.data.refetch}
+								//refetch={this.props.data.refetch}
 								id={this.state.editParticipant}
 
 							/>
 						</div>
 					}
 				/>
+				<i
+					className="material-icons"
+					style={{
+						position: 'absolute',
+						zIndex: 1000,
+						cursor: 'pointer',
+						top: isMobile? '2.5em' : '1.8em',
+						right: '1em',
+						color: secondary
+					}}
+					onClick={() => this.setState({open: !this.state.open})}
+				>
+					settings
+				</i>
 				<Grid spacing={0} style={{
 					height: "100%",
 				}}>
 					<GridItem
-						xs={9}
-						md={9}
-						lg={9}
+						xs={12}
+						md={12}
+						lg={12}
 						style={{
 							height: "100%",
-							overflow: "hidden"
+							overflow: 'hidden'
 						}}
 					>
 						<Paper
 							style={{
 								height: "100%",
+								position: 'relative'
 							}}
 						>
+							<CollapsibleSection
+								trigger={() => <span/>}
+								open={this.state.open}
+								collapse={this._renderTableOptions}
+							/>
 							{this.state.editParticipant}
 							{
 								this._renderSection()
 							}
 						</Paper>
 					</GridItem>
-					<GridItem
-						xs={3}
-						md={3}
-						lg={3}
-						style={{
-							height: "100%",
-							padding: "1em",
-							position: "relative"
-						}}
-					>
-						{/* Añadir invitado */}
-						<Tooltip title="ALT + G">
-							<div>
-								<BasicButton
-									text={translate.add_guest}
-									color={"white"}
-									textStyle={{
-										color: secondary,
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none",
-									}}
-									textPosition="after"
-									icon={<ButtonIcon type="add" color={secondary} />}
-									onClick={() => this.updateState({ addGuest: true })}
-									buttonStyle={{
-										marginRight: "1em",
-										border: `2px solid ${secondary}`,
-									}}
-								/>
-							</div>
-						</Tooltip>
-						<FilterButton
-							tooltip={translate.grid}
-							onClick={() => this.setState({ layout: 'squares' })}
-							active={this.state.layout === "squares"}
-							size= {'2.55em'}
-						>
-							<FontAwesome
-								name={"th-large"}
-								style={{
-									color: primary,
-									fontSize: "0.9em"
-								}}
-							/>
-						</FilterButton>
-						<FilterButton
-							tooltip={translate.compact_table}
-							onClick={() => this.setState({ layout: 'compact' })}
-							active={this.state.layout === "compact"}
-							size= {'2.55em'}
-						>
-							<FontAwesome
-								name={"list"}
-								style={{
-									color: primary,
-									fontSize: "0.9em"
-								}}
-							/>
-						</FilterButton>
-						<FilterButton
-							tooltip={translate.table}
-							onClick={() => this.setState({ layout: 'table' })}
-							active={this.state.layout === "table"}
-							size= {'2.55em'}
-						>
-							<FontAwesome
-								name={"th-list"}
-								style={{
-									color: primary,
-									fontSize: "0.9em"
-								}}
-							/>
-						</FilterButton>
-					</div>
-					{/* Ver  */}
-					<div style={{ display: 'flex', flexDirection: 'row' }}>
-						{/* <span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span> */}
-						<SwitchButton
-							onClick={() => this.setState({ view: 'STATES' })}
-							active={this.state.view === "STATES"}
-						>
-							{translate.states}
-						</SwitchButton>
-						<SwitchButton
-							onClick={() => this.setState({ view: 'TYPE' })}
-							active={this.state.view === "TYPE"}
-						>
-							{translate.types}
-						</SwitchButton>
-						{council.conveneSendDate &&
-							<React.Fragment>
-								<SwitchButton
-									onClick={() => this.setState({ view: 'CONVENE' })}
-									active={this.state.view === "CONVENE"}
-								>
-									{translate.convene}
-								</SwitchButton>
-								{!!council.confirmAssistance &&
-									<SwitchButton
-										onClick={() => this.setState({ view: 'ATTENDANCE' })}
-										active={this.state.view === "ATTENDANCE"}
-									>
-										{translate.assistance}
-									</SwitchButton>
-								}
-							</React.Fragment>
-						}
-						{council.videoEmailsDate &&
-							<SwitchButton
-								onClick={() => this.setState({ view: 'CREDENTIALS' })}
-								active={this.state.view === "CREDENTIALS"}
-							>
-								{translate.credentials}
-							</SwitchButton>
-						}
-						{/* <FilterButton
-								onChange={() => this.setState({ view: 'TYPE' })}
-								active={this.state.view === "TYPE"}
-							>
-								{translate.types }
-							</FilterButton>
-						</div>
-						{/* Ver  */}
-						<div style={{ display: 'flex', flexDirection: 'column', marginTop: '1em' }}>
-							<SelectInput
-								floatingText={'Tipo de visualización'}
-								value={this.state.view}
-								onChange={(event => this.setState({ view: event.target.value}))}
-							>
-								<MenuItem value={'STATES'}>
-									{translate.states}
-								</MenuItem>
-								<MenuItem value={'TYPE'} >
-									{translate.types}
-								</MenuItem>
-								<MenuItem value={'ATTENDANCE'}>
-									{translate.assistance}
-								</MenuItem>
-								<MenuItem value={'CREDENTIALS'}>
-									{translate.credentials}
-								</MenuItem>
-							</SelectInput>
-							{/* <span style={{fontWeight: '700', textTransform: 'uppercase'}}>{translate.see}</span>
-							<Radio
-								value={"0"}
-								checked={this.state.view === "STATES"}
-								onChange={() => this.setState({ view: 'STATES' })}
-								name="STATES"
-								label={translate.states }
-							/>
-							<Radio
-								value={"4"}
-								checked={this.state.view === "TYPE"}
-								onChange={() => this.setState({ view: 'TYPE' })}
-								name="TYPE"
-								label={translate.types}
-							/>
-							{council.conveneSendDate &&
-								<React.Fragment>
-									<Radio
-										value={"1"}
-										checked={this.state.view === "CONVENE"}
-										onChange={() => this.setState({ view: 'CONVENE' })}
-										name="CONVENE"
-										label={translate.convene}
-									/>
-									{!!council.confirmAssistance &&
-										<Radio
-											value={"3"}
-											checked={this.state.view === "ATTENDANCE"}
-											onChange={() => this.setState({ view: 'ATTENDANCE' })}
-											name="ATTENDANCE"
-											label={translate.assistance || 'ATTENDANCE'}
-										/>
-									}
-								</React.Fragment>
-							}
-
-							{council.videoEmailsDate &&
-								<Radio
-									value={"2"}
-									checked={this.state.view === "CREDENTIALS"}
-									onChange={() => this.setState({ view: 'CREDENTIALS' })}
-									name="CREDENTIALS"
-									label={translate.credentials || 'CREDENTIALS'}
-								/>
-							}*/}
-						</div>
-					</GridItem>
 				</Grid>
-			</div>
+			</Paper>
 		);
 	}
 }
