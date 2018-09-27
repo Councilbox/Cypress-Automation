@@ -3,6 +3,8 @@ import {
 	LoadingSection,
 	Grid,
 	Icon,
+	GridItem,
+	BasicButton,
 	SelectInput,
 	MenuItem,
 	TextInput
@@ -16,6 +18,9 @@ import {
 import ParticipantsList from "../ParticipantsList";
 import TypeIcon from "../TypeIcon";
 import AddGuestModal from "../AddGuestModal";
+import withWindowSize from '../../../../../HOCs/withWindowSize';
+import { getSecondary } from '../../../../../styles/colors';
+
 
 class TypesContainer extends React.Component {
 	state = {
@@ -218,20 +223,12 @@ class TypesContainer extends React.Component {
 		);
 	};
 
-	filterOnlySigned = () => {
-		this.props.data.refetch({
-			variables: {
-				filters: [{
-					field: 'signed',
-					text: 1
-				}]
-			}
-		})
-	}
+
 
 	render() {
-		const { addGuest, updateState, council, translate } = this.props;
+		const { addGuest, updateState, council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
+		const secondary = getSecondary();
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 
@@ -250,17 +247,20 @@ class TypesContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<div style={{display: 'flex', alignItems: 'center'}}>
+				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
 						{this.props.addGuestButton()}
-					</div>
-					<div onClick={this.filterOnlySigned} style={{width: '2em', height: '2em', borderRadius: '1em', backgroundColor: 'green'}}>
-
-					</div>
-					<div onClick={this.filterOnlyNotSigned} style={{width: '2em', height: '2em', borderRadius: '1em', backgroundColor: 'blue'}}>
-
-					</div>
-					<div style={{display: 'flex'}}>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
+						<BasicButton
+							text={this.state.onlyNotSigned? 'Mostrar todos' : 'Mostrar sin firmar'}//TRADUCCION
+							color='white'
+							type="flat"
+							textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
+							onClick={this.toggleOnlyNotSigned}
+						/>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
 						<div
 							style={{
 								maxWidth: "12em"
@@ -286,6 +286,7 @@ class TypesContainer extends React.Component {
 						<div
 							style={{
 								marginLeft: "0.8em",
+								width: '10em'
 							}}
 						>
 							<TextInput
@@ -298,8 +299,8 @@ class TypesContainer extends React.Component {
 								}}
 							/>
 						</div>
-					</div>
-				</div>
+					</GridItem>
+				</Grid>
 				<div
 					style={{
 						height: `calc(100% - 3em - ${'3.5em'})`,
@@ -383,4 +384,4 @@ export default graphql(query, {
 			}
 		}
 	})
-})(TypesContainer);
+})(withWindowSize(TypesContainer));

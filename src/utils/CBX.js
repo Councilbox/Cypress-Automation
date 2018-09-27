@@ -307,7 +307,7 @@ export const isRepresentative = participant => {
 };
 
 export const isRepresented = participant => {
-	return participant.state === 2;
+	return participant.state === PARTICIPANT_STATES.REPRESENTATED;
 };
 
 export const getSendType = value => {

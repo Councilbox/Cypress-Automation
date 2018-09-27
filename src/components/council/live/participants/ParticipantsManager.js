@@ -72,7 +72,7 @@ class ParticipantsManager extends React.Component {
 			<Tooltip title="ALT + G">
 				<div>
 					<BasicButton
-						text={isMobile? '' : this.props.translate.add_guest}
+						text={isMobile? 'Invitar' : this.props.translate.add_guest} //TRADUCCION
 						color={"white"}
 						textStyle={{
 							color: secondary,
@@ -81,11 +81,12 @@ class ParticipantsManager extends React.Component {
 							textTransform: "none",
 						}}
 						textPosition="after"
+						type="flat"
 						icon={<ButtonIcon type="add" color={secondary} />}
 						onClick={() => this.updateState({ addGuest: true })}
 						buttonStyle={{
 							marginRight: "1em",
-							border: `2px solid ${secondary}`,
+							border: `1px solid ${secondary}`,
 						}}
 					/>
 				</div>
@@ -103,6 +104,7 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					addGuestButton={this._renderAddGuestButton}
 					layout={layout}
+					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
 					updateState={this.updateState}
@@ -113,6 +115,7 @@ class ParticipantsManager extends React.Component {
 					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
+					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
 					updateState={this.updateState}
@@ -123,6 +126,7 @@ class ParticipantsManager extends React.Component {
 					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
+					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
 					updateState={this.updateState}
@@ -133,6 +137,7 @@ class ParticipantsManager extends React.Component {
 					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
+					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
 					updateState={this.updateState}
@@ -143,6 +148,7 @@ class ParticipantsManager extends React.Component {
 					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
+					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
 					updateState={this.updateState}
@@ -190,34 +196,38 @@ class ParticipantsManager extends React.Component {
 						</MenuItem>
 					</SelectInput>
 				</div>
-				<FilterButton
-					tooltip={translate.grid}
-					onClick={() => this.setState({ layout: 'squares' })}
-					active={this.state.layout === "squares"}
-					size= {'2.55em'}
-				>
-					<FontAwesome
-						name={"th-large"}
-						style={{
-							color: primary,
-							fontSize: "0.9em"
-						}}
-					/>
-				</FilterButton>
-				<FilterButton
-					tooltip={translate.table}
-					onClick={() => this.setState({ layout: 'table' })}
-					active={this.state.layout === "table"}
-					size= {'2.55em'}
-				>
-					<FontAwesome
-						name={"th-list"}
-						style={{
-							color: primary,
-							fontSize: "0.9em"
-						}}
-					/>
-				</FilterButton>
+				{!isMobile &&
+					<React.Fragment>
+						<FilterButton
+							tooltip={translate.grid}
+							onClick={() => this.setState({ layout: 'squares' })}
+							active={this.state.layout === "squares"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"th-large"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
+							/>
+						</FilterButton>
+						<FilterButton
+							tooltip={translate.table}
+							onClick={() => this.setState({ layout: 'table' })}
+							active={this.state.layout === "table"}
+							size= {'2.55em'}
+						>
+							<FontAwesome
+								name={"th-list"}
+								style={{
+									color: primary,
+									fontSize: "0.9em"
+								}}
+							/>
+						</FilterButton>
+					</React.Fragment>
+				}
 			</div>
 		)
 	}

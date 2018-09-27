@@ -75,7 +75,7 @@ class ParticipantStateSelector extends React.Component {
 								hideTooltip={true}
 							/>
 						</FilterButton>
-						<span style={{fontSize: '0.9em'}}>{'No participa'}</span>
+						<span style={{fontSize: '0.9em'}} /*TRADUCCION */>{'No participa'}</span>
 					</div>
 					<div style={{display: 'flex', alignItems: 'center'}}>
 						<FilterButton
@@ -92,7 +92,7 @@ class ParticipantStateSelector extends React.Component {
 								hideTooltip={true}
 							/>
 						</FilterButton>
-						<span style={{fontSize: '0.9em'}}>{'Remoto'}</span>
+						<span style={{fontSize: '0.9em'}} /*TRADUCCION */>{'Remoto'}</span>
 					</div>
 					<div style={{display: 'flex', alignItems: 'center'}}>
 						<FilterButton

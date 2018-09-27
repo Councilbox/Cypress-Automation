@@ -6,7 +6,7 @@ import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
-import { removeHTMLTags } from '../../../../utils/CBX';
+import { removeHTMLTags, isRepresented } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 
 
@@ -28,7 +28,8 @@ class ParticipantItem extends React.PureComponent {
 			>
 				<div
 					style={{
-						width: '100%',
+						width: '95%',
+						marginRight: '5%',
 						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em'
 					}}
 				>
@@ -46,6 +47,7 @@ class ParticipantItem extends React.PureComponent {
 					>
 						{layout === 'compact' &&
 							<CompactItemLayout
+								secondary={secondary}
 								participant={participant}
 								translate={translate}
 								showSignatureModal={this.props.showSignatureModal}
@@ -54,6 +56,7 @@ class ParticipantItem extends React.PureComponent {
 						}
 						{layout === 'table' &&
 							<CompactItemLayout
+								secondary={secondary}
 								participant={participant}
 								translate={translate}
 								showSignatureModal={this.props.showSignatureModal}
@@ -76,7 +79,7 @@ class ParticipantItem extends React.PureComponent {
 	}
 };
 
-const CompactItemLayout = ({ participant, translate, mode }) => (
+const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary }) => (
 	<Grid
 		spacing={0}
 		style={{
@@ -117,9 +120,9 @@ const CompactItemLayout = ({ participant, translate, mode }) => (
 		}
 
 		<GridItem
-			xs={6}
-			md={6}
-			lg={6}
+			xs={4}
+			md={4}
+			lg={4}
 		>
 			{`${participant.name} ${participant.surname}`}
 		</GridItem>
@@ -136,6 +139,26 @@ const CompactItemLayout = ({ participant, translate, mode }) => (
 			lg={2}
 		>
 			{`${participant.position}`}
+		</GridItem>
+		<GridItem
+			xs={2}
+			md={2}
+			lg={2}
+		>
+			{!isRepresented(participant) &&
+				<BasicButton
+					text={participant.signed? 'Ha firmado' : "Firmar"}//TRADUCCION
+					fullWidth
+					buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+					type="flat"
+					color={"white"}
+					onClick={event => {
+						event.stopPropagation();
+						showSignatureModal()
+					}}
+					textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+				/>
+			}
 		</GridItem>
 	</Grid>
 )
@@ -187,15 +210,18 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								}}
 							/>
 						</div>
-						<Typography
-							variant="body1"
-							style={{
-								fontWeight: "600",
-								// fontSize: "0.95rem"
-							}}
-						>
-							{`${participant.name} ${participant.surname}`}
-						</Typography>
+						<Tooltip title={`${participant.name} ${participant.surname}`}>
+							<Typography
+								variant="body1"
+								className="truncate"
+								style={{
+									fontWeight: "600",
+									width: 'calc(100% - 2.2em)'
+								}}
+							>
+								{`${participant.name} ${participant.surname}`}
+							</Typography>
+						</Tooltip>
 					</div>
 					<div
 						style={{
@@ -297,18 +323,31 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 					}
 				</div>
 			</div>
-			<div style={{width: '35%', padding: '0.3em', height: '6em', display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-				<BasicButton
-					text={participant.signed? 'Ha firmado' : "Firmar"}
-					fullWidth
-					type="flat"
-					color={"white"}
-					onClick={event => {
-						event.stopPropagation();
-						showSignatureModal()
-					}}
-					textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
-				/>
+			<div
+				style={{
+					width: '35%',
+					padding: '0.3em',
+					paddingRight: '0.6em',
+					height: '6em',
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center'
+				}}
+			>
+				{!isRepresented(participant) &&
+					<BasicButton
+						text={participant.signed? 'Ha firmado' : "Firmar"}//TRADUCCION
+						fullWidth
+						buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+						type="flat"
+						color={"white"}
+						onClick={event => {
+							event.stopPropagation();
+							showSignatureModal()
+						}}
+						textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+					/>
+				}
 			</div>
 		</div>
 	</React.Fragment>

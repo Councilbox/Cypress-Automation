@@ -5,6 +5,8 @@ import {
 	Icon,
 	SelectInput,
 	MenuItem,
+	GridItem,
+	BasicButton,
 	TextInput
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
@@ -13,6 +15,8 @@ import {
 	PARTICIPANTS_LIMITS,
 	PARTICIPANT_STATES
 } from "../../../../../constants";
+import { getSecondary } from "../../../../../styles/colors";
+import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
 import AddGuestModal from "../AddGuestModal";
@@ -284,10 +288,11 @@ class AttendanceContainer extends React.Component {
 	};
 
 	render() {
-		const { addGuest, updateState, council, translate } = this.props;
+		const { addGuest, updateState, council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
+		const secondary = getSecondary();
 
 		if (!this.props.data.liveParticipantsAttendance) {
 			return <LoadingSection />;
@@ -295,7 +300,7 @@ class AttendanceContainer extends React.Component {
 
 		return (
 			<React.Fragment>
-			<div
+				<div
 					style={{
 						minHeight: "3em",
 						maxHeight: '6em',
@@ -304,11 +309,20 @@ class AttendanceContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<div style={{display: 'flex', alignItems: 'center'}}>
+				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
 						{this.props.addGuestButton()}
-					</div>
-					<div style={{display: 'flex'}}>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
+						<BasicButton
+							text={this.state.onlyNotSigned? 'Mostrar todos' : 'Mostrar sin firmar'}//TRADUCCION
+							color='white'
+							type="flat"
+							textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
+							onClick={this.toggleOnlyNotSigned}
+						/>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
 						<div
 							style={{
 								maxWidth: "12em"
@@ -334,6 +348,7 @@ class AttendanceContainer extends React.Component {
 						<div
 							style={{
 								marginLeft: "0.8em",
+								width: '10em'
 							}}
 						>
 							<TextInput
@@ -346,8 +361,8 @@ class AttendanceContainer extends React.Component {
 								}}
 							/>
 						</div>
-					</div>
-				</div>
+					</GridItem>
+				</Grid>
 				<div
 					style={{
 						height: `calc(100% - 3em - ${'3.5em'})`,
@@ -437,4 +452,4 @@ export default graphql(query, {
 			}
 		}
 	})
-})(AttendanceContainer);
+})(withWindowSize(AttendanceContainer));

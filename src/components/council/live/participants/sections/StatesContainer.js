@@ -2,8 +2,11 @@ import React from "react";
 import {
 	LoadingSection,
 	Grid,
+	GridItem,
 	Icon,
 	SelectInput,
+	BasicButton,
+	Scrollbar,
 	MenuItem,
 	TextInput
 } from "../../../../../displayComponents";
@@ -13,14 +16,20 @@ import {
 	PARTICIPANTS_LIMITS,
 	PARTICIPANT_STATES
 } from "../../../../../constants";
+import { getSecondary } from "../../../../../styles/colors";
+import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
 import AddGuestModal from "../AddGuestModal";
+import { isMobile } from 'react-device-detect';
+
 
 class StatesContainer extends React.Component {
 	state = {
 		stateStatus: null,
 		filterText: "",
+		charFilter: null,
+		onlyNotSigned: false,
 		filterField: "fullName",
 		status: null
 	};
@@ -44,6 +53,12 @@ class StatesContainer extends React.Component {
 			}
 		];
 	};
+
+	toggleCharFilter = char => {
+		this.setState({
+			charFilter: char === this.state.charFilter? null : char
+		}, () => this.refresh());
+	}
 
 	setStateStatus = newValue => {
 		this.setState({ stateStatus: newValue }, () => this.refresh());
@@ -103,6 +118,24 @@ class StatesContainer extends React.Component {
 		});
 	};
 
+	toggleOnlyNotSigned = () => {
+		this.setState({
+			onlyNotSigned: !this.state.onlyNotSigned
+		}, () => this.refresh());
+	}
+
+	filterOnlySigned = async () => {
+		const response = await this.props.data.refetch({
+			filters: [{
+				field: 'signed',
+				text: 1
+			}]
+		});
+
+		console.log(response);
+	}
+
+
 	refresh = () => {
 		let variables = {
 			filters: []
@@ -119,6 +152,20 @@ class StatesContainer extends React.Component {
 				...variables.filters,
 				{ field: this.state.filterField, text: this.state.filterText }
 			];
+		}
+
+		if(this.state.onlyNotSigned){
+			variables.filters = [
+				...variables.filters,
+				{ field: 'signed', text: 0}
+			];
+		}
+
+		if(this.state.charFilter){
+			variables.filters = [
+				...variables.filters,
+				{ field: 'surname', text: this.state.charFilter}
+			]
 		}
 
 		this.props.data.refetch(variables);
@@ -281,10 +328,11 @@ class StatesContainer extends React.Component {
 	};
 
 	render() {
-		const { addGuest, updateState, council, translate } = this.props;
+		const { addGuest, updateState, council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
+		const secondary = getSecondary();
 
 		if (!this.props.data.liveParticipantsState) {
 			return <LoadingSection />;
@@ -301,11 +349,20 @@ class StatesContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<div style={{display: 'flex', alignItems: 'center'}}>
+				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
 						{this.props.addGuestButton()}
-					</div>
-					<div style={{display: 'flex'}}>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
+						<BasicButton
+							text={this.state.onlyNotSigned? 'Mostrar todos' : 'Mostrar sin firmar'}//TRADUCCION
+							color='white'
+							type="flat"
+							textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
+							onClick={this.toggleOnlyNotSigned}
+						/>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
 						<div
 							style={{
 								maxWidth: "12em"
@@ -331,6 +388,7 @@ class StatesContainer extends React.Component {
 						<div
 							style={{
 								marginLeft: "0.8em",
+								width: '10em'
 							}}
 						>
 							<TextInput
@@ -343,15 +401,37 @@ class StatesContainer extends React.Component {
 								}}
 							/>
 						</div>
-					</div>
-				</div>
+					</GridItem>
+				</Grid>
 				<div
 					style={{
-						height: `calc(100% - 3em - ${'3.5em'})`,
-						padding: "0 1vw",
-						overflow: "hidden"
+						height: `calc(100% - 3em - ${isMobile && orientation === 'portrait'? '8em' : `${this.props.menuOpen? '6.5' : '3.5'}em`} )`,
+						overflow: "hidden",
+						display: 'flex',
 					}}
 				>
+					<div style={{height: '100%', width: '1.5em', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between'}}>
+							{['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'].map(char => (
+								<div
+									key={`char_selector_${char}`}
+									style={{
+										textTransform: 'uppercase',
+										height: '14px',
+										width: '100%',
+										display: 'flex',
+										cursor: 'pointer',
+										alignItems: 'center',
+										justifyContent: 'center',
+										...(this.state.charFilter === char? {backgroundColor: 'gainsboro'} : {})
+									}}
+									className="hoverShadow"
+									onClick={() => this.toggleCharFilter(char)}
+								>
+									<span style={{fontSize: '11px'}}>{char}</span>
+								</div>
+							))}
+
+					</div>
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
@@ -433,4 +513,4 @@ export default graphql(query, {
 			}
 		}
 	})
-})(StatesContainer);
+})(withWindowSize(StatesContainer));

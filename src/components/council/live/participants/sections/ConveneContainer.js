@@ -7,6 +7,7 @@ import {
 	MenuItem,
 	TextInput,
 	BasicButton,
+	GridItem,
 	ButtonIcon,
 	LiveToast
 } from "../../../../../displayComponents";
@@ -19,10 +20,12 @@ import {
 import ParticipantsList from "../ParticipantsList";
 import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
+import withWindowSize from "../../../../../HOCs/withWindowSize";
 import EmailIcon from "../EmailIcon";
 import { toast } from "react-toastify";
 import { updateConveneSends } from "../../../../../queries";
 import AddGuestModal from "../AddGuestModal";
+
 
 class ConveneContainer extends React.Component {
 	state = {
@@ -334,10 +337,11 @@ class ConveneContainer extends React.Component {
 	};
 
 	render() {
-		const { addGuest, updateState, council, translate } = this.props;
+		const { addGuest, updateState, council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
+		const secondary = getSecondary();
 
 		if (!this.props.data.conveneSendRecount) {
 			return <LoadingSection />;
@@ -345,7 +349,7 @@ class ConveneContainer extends React.Component {
 
 		return (
 			<React.Fragment>
-			<div
+				<div
 					style={{
 						minHeight: "3em",
 						maxHeight: '6em',
@@ -354,39 +358,20 @@ class ConveneContainer extends React.Component {
 				>
 					{this._renderHeader()}
 				</div>
-				<div style={{ height: '3em', padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<div style={{display: 'flex', alignItems: 'center'}}>
+				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
 						{this.props.addGuestButton()}
-					</div>
-					<div style={{display: 'flex'}}>
-						<Tooltip
-							title={
-								translate.tooltip_refresh_convene_email_state_assistance
-							}
-						>
-							<BasicButton
-								floatRight
-								text={translate.refresh_convened}
-								color={getSecondary()}
-								buttonStyle={{
-									margin: "0",
-									marginRight: "0.8em",
-									paddingTop: "6px",
-									paddingBottom: "6px"
-								}}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								icon={
-									<ButtonIcon color="white" type="refresh" />
-								}
-								textPosition="after"
-								onClick={() => this.refreshEmailStates()}
-							/>
-						</Tooltip>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
+						<BasicButton
+							text={this.state.onlyNotSigned? 'Mostrar todos' : 'Mostrar sin firmar'}//TRADUCCION
+							color='white'
+							type="flat"
+							textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
+							onClick={this.toggleOnlyNotSigned}
+						/>
+					</GridItem>
+					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
 						<div
 							style={{
 								maxWidth: "12em"
@@ -412,6 +397,7 @@ class ConveneContainer extends React.Component {
 						<div
 							style={{
 								marginLeft: "0.8em",
+								width: '10em'
 							}}
 						>
 							<TextInput
@@ -424,8 +410,8 @@ class ConveneContainer extends React.Component {
 								}}
 							/>
 						</div>
-					</div>
-				</div>
+					</GridItem>
+				</Grid>
 				<div
 					style={{
 						height: `calc(100% - 3em - ${'3.5em'})`,
@@ -522,4 +508,4 @@ export default compose(
 	graphql(updateConveneSends, {
 		name: "updateConveneSends"
 	})
-)(ConveneContainer);
+)(withWindowSize(ConveneContainer));

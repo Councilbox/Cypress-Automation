@@ -29,6 +29,14 @@ a:hover {
     text-decoration: none !important;
 }
 
+.scrollbarFix {
+    margin-right: -17px;
+}
+
+.hoverShadow:hover {
+    background-color: rgba(0, 0, 0, 0.08)
+}
+
 .temp_video {
     width: 100%;
     height: 100%;

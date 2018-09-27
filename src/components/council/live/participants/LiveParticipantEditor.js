@@ -13,14 +13,15 @@ import {
 import {
 	Grid,
 	GridItem,
+	BasicButton,
 	LoadingSection,
 	ParticipantDisplay,
 	RefreshButton,
 	CloseIcon
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
+import SignatureModal from "./modals/SignatureModal";
 import ParticipantStateSelector from "./ParticipantStateSelector";
-import FontAwesome from "react-fontawesome";
 import NotificationsTable from "../../../notifications/NotificationsTable";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 import StateIcon from "./StateIcon";
@@ -30,11 +31,24 @@ import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 
 class LiveParticipantEditor extends React.Component {
 	state = {
-		loadingSends: false
+		loadingSends: false,
+		showSignatureModal: false
 	};
 
 	componentDidMount() {
 		this.props.data.refetch();
+	}
+
+	openSignModal = () => {
+		this.setState({
+			showSignatureModal: true
+		})
+	}
+
+	closeSignModal = () => {
+		this.setState({
+			showSignatureModal: false
+		});
 	}
 
 	refreshEmailStates = async () => {
@@ -92,18 +106,6 @@ class LiveParticipantEditor extends React.Component {
 					padding: "1em"
 				}}
 			>
-				{/* <FontAwesome
-					name={"times"}
-					style={{
-						position: "absolute",
-						right: "25px",
-						top: "2em",
-						cursor: "pointer",
-						color: secondary,
-						fontSize: "2em"
-					}}
-					onClick={this.props.requestClose}
-				/> */}
 				<div style={{ paddingBottom: "0.5em" }}>
 					<Grid>
 						<GridItem md={1}>
@@ -122,6 +124,34 @@ class LiveParticipantEditor extends React.Component {
 									translate={translate}
 									participantId={participant.participantId}
 								/>
+							</div>
+							<div
+								style={{
+									marginLeft: "-1.5em",
+									marginTop: "0.5em"
+								}}
+							>
+								{!CBX.isRepresented(participant) &&
+									<BasicButton
+										text={participant.signed? 'Ha firmado' : "Firmar"}//TRADUCCION
+										fullWidth
+										buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+										type="flat"
+										color={"white"}
+										onClick={this.openSignModal}
+										textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+									/>
+								}
+								{this.state.showSignatureModal &&
+									<SignatureModal
+										show={this.state.showSignatureModal}
+										council={this.props.council}
+										participant={participant}
+										refetch={this.props.data.refetch}
+										requestClose={this.closeSignModal}
+										translate={translate}
+									/>
+								}
 							</div>
 						</GridItem>
 						<GridItem md={4}>
@@ -302,14 +332,6 @@ const ParticipantTable = ({
 						enableActions={enableActions}
 						quitDelegatedVote={quitDelegatedVote}
 					/>
-					// <TableRow key={`part_${index}`}>
-					// 	<TableCell style={{ padding: "0.2em" }}>
-					// 		{`${participant.name} ${participant.surname}`}
-					// 	</TableCell>
-					// 	<TableCell style={{ padding: "0.2em" }}>{`${participant.dni}`}</TableCell>
-					// 	<TableCell style={{ padding: "0.2em" }}>{`${participant.position}`}</TableCell>
-					// 	<TableCell style={{ padding: "0.2em" }}>{`${participant.numParticipations}`}</TableCell>
-					// </TableRow>
 				))}
 			</TableBody>
 		</Table>
@@ -354,16 +376,18 @@ class HoverableRow extends React.PureComponent {
 					participant.numParticipations
 					}`}</TableCell>
 				<TableCell style={{ padding: "0.2em" }}>
-					{showActions &&
-						enableActions && (
-							<CloseIcon
-								style={{ color: primary }}
-								onClick={event => {
-									quitDelegatedVote(participant.id);
-									event.stopPropagation();
-								}}
-							/>
-						)}
+					<div style={{width: '4em'}}>
+						{showActions &&
+							enableActions && (
+								<CloseIcon
+									style={{ color: primary }}
+									onClick={event => {
+										quitDelegatedVote(participant.id);
+										event.stopPropagation();
+									}}
+								/>
+							)}
+					</div>
 				</TableCell>
 			</TableRow>
 		);

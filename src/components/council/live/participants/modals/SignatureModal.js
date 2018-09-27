@@ -20,7 +20,6 @@ import { Icon, Card } from "material-ui";
 
 class SignatureModal extends Component {
 	state = {
-		modal: false,
 		success: "",
 		loading: false,
 		errors: {},
@@ -35,21 +34,6 @@ class SignatureModal extends Component {
 		this.props.requestClose();
 	};
 
-/* 	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!nextProps.data.loading) {
-			if (nextProps.data.liveParticipantSignature) {
-				return {
-					liveParticipantSignature:
-						nextProps.data.liveParticipantSignature
-				};
-			}
-		}
-		return {
-			liveParticipantSignature: {
-				participantId: nextProps.participant.id
-			}
-		};
-	} */
 
 	componentDidUpdate(prevProps) {
 		if(!this.props.data.loading){
@@ -100,14 +84,18 @@ class SignatureModal extends Component {
 			council.statute
 		);
 
+		const maxWidth = 600;
+		const minWidth = window.innerWidth * 0.7;
+		let width = minWidth;
+
+		if(minWidth > maxWidth){
+			width = maxWidth;
+		}
+
+		const height = width * 0.41;
+
 		return (
 			<Fragment>
-				<SignatureButton
-					action={this.openModal}
-					translate={translate}
-					active={participant.signed === 1}
-				/>
-				{/* <button onClick={this.openModal}> ABRIR FIRMA</button> */}
 				<CustomDialog
 					title={translate.to_sign_and_confirm}
 					requestClose={this.close}
@@ -118,6 +106,8 @@ class SignatureModal extends Component {
 						<Fragment>
 							<BasicButton
 								text={translate.clean}
+								type="flat"
+								color="transparent"
 								textStyle={{
 									textTransform: "none",
 									fontWeight: "700"
@@ -126,6 +116,9 @@ class SignatureModal extends Component {
 							/>
 							<BasicButton
 								text={translate.cancel}
+								type="flat"
+								color="transparent"
+								buttonStyle={{marginLeft: '0.6em'}}
 								textStyle={{
 									textTransform: "none",
 									fontWeight: "700"
@@ -148,18 +141,21 @@ class SignatureModal extends Component {
 						</Fragment>
 					}
 				>
-					<div style={{ width: "600px" }}>
+					<div style={{ width: `calc(${width}px +  2em)`}}>
 						<div
 							style={{
 								height: "400px",
-								overflow: "hidden",
+								width: '100%',
+								display: 'flex',
+								alignItems: 'center',
+								flexDirection: 'column',
 								position: "relative"
 							}}
 						>
 							<ParticipantDisplay
 								participant={participant}
 								translate={translate}
-								delegate={false}
+								delegate={true}
 								council={council}
 							/>
 							{_canBePresentWithRemoteVote ? (
@@ -182,10 +178,11 @@ class SignatureModal extends Component {
 							) : (
 									<br />
 								)}
-							<div style={{ width: "50vw", minWidth: "600px" }}>
+							<div style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}>
 								<ReactSignature
-									height={248}
-									width={596}
+									height={height}
+									width={width}
+									dotSize={1}
 									style={{ border: "solid 1px" }}
 									ref={ref => (this.signature = ref)}
 								/>

@@ -41,7 +41,7 @@ class ReactSignature extends Component {
     this.reset();
     image.src = dataURL;
     image.onload = () => {
-      context.drawImage(image, 0, 0, width, height);
+      context.drawImage(image, 0, 0);
     }
     this.isEmpty = false;
   }
