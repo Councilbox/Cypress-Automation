@@ -7,6 +7,7 @@ import {
 	SelectInput,
 	BasicButton,
 	Scrollbar,
+	CharSelector,
 	MenuItem,
 	TextInput
 } from "../../../../../displayComponents";
@@ -363,6 +364,12 @@ class StatesContainer extends React.Component {
 						/>
 					</GridItem>
 					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
+						{orientation === 'landscape' && isMobile &&
+							<CharSelector
+								onClick={this.toggleCharFilter}
+								selectedChar={this.state.charFilter}
+							/>
+						}
 						<div
 							style={{
 								maxWidth: "12em"
@@ -410,28 +417,12 @@ class StatesContainer extends React.Component {
 						display: 'flex',
 					}}
 				>
-					<div style={{height: '100%', width: '1.5em', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between'}}>
-							{['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'].map(char => (
-								<div
-									key={`char_selector_${char}`}
-									style={{
-										textTransform: 'uppercase',
-										height: '14px',
-										width: '100%',
-										display: 'flex',
-										cursor: 'pointer',
-										alignItems: 'center',
-										justifyContent: 'center',
-										...(this.state.charFilter === char? {backgroundColor: 'gainsboro'} : {})
-									}}
-									className="hoverShadow"
-									onClick={() => this.toggleCharFilter(char)}
-								>
-									<span style={{fontSize: '11px'}}>{char}</span>
-								</div>
-							))}
-
-					</div>
+					{(!isMobile || orientation !== 'landscape') &&
+						<CharSelector
+							onClick={this.toggleCharFilter}
+							selectedChar={this.state.charFilter}
+						/>
+					}
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}

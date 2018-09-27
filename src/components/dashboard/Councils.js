@@ -94,7 +94,7 @@ class Councils extends React.Component {
 												})}
 											</div>
 										) : councils.length > 0 ? (
-											this.props.link === "/history" ?
+											this.props.link === "/history" || this.props.link === "/finished" ?
 												<CouncilsHistory
 													councils={councils}
 													openDeleteModal={this.openDeleteModal}

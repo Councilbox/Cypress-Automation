@@ -57,7 +57,6 @@ class HoverableRow extends React.Component {
 
     getCouncilState = state => {
         const { translate } = this.props;
-        console.log(state);
         switch (state){
             case COUNCIL_STATES.NOT_CELEBRATED:
                 return  translate.not_held_council;
@@ -67,7 +66,7 @@ class HoverableRow extends React.Component {
                 return 'Acta enviada' //TRADUCCION
             case COUNCIL_STATES.CANCELED:
                 return translate.not_held_council;
-            default: 
+            default:
                 return translate.council_finished;
         }
     }

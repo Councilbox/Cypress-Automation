@@ -5,6 +5,7 @@ export { default as BasicButton } from "./BasicButton";
 export { default as Block } from './Block';
 export { default as ButtonIcon } from "./ButtonIcon";
 export { default as CardPageLayout } from "./CardPageLayout";
+export { default as CharSelector } from './CharSelector';
 export { default as Checkbox } from "./CheckBox";
 export { default as CloseIcon } from "./CloseIcon";
 export { default as CollapsibleSection } from "./CollapsibleSection";
