@@ -191,7 +191,7 @@ class ParticipantsLive extends React.Component {
 						justifyContent: "space-between"
 					}}
 				>
-					{false && <MuteToggleButton
+					{true && <MuteToggleButton
 						translate={this.props.translate}
 						participant={participant}
 						refetch={this.props.data.refetch}

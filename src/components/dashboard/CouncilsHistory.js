@@ -62,8 +62,10 @@ class HoverableRow extends React.Component {
                 return  translate.not_held_council;
             case COUNCIL_STATES.FINISHED:
                 return translate.council_finished;
+            case COUNCIL_STATES.APPROVED:
+                return 'Acta no enviada';
             case COUNCIL_STATES.FINAL_ACT_SENT:
-                return 'Acta enviada' //TRADUCCION
+                return 'Acta enviada'; //TRADUCCION
             case COUNCIL_STATES.CANCELED:
                 return translate.not_held_council;
             default:

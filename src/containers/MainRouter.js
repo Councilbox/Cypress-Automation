@@ -28,7 +28,7 @@ import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 
 
-const redirect = (company) => () => (
+const redirect = company => () => (
     <Redirect to={`/company/${company.id}`} />
 )
 
@@ -177,13 +177,7 @@ const MainRouter = ({ company, user, location }) => {
             />
             <Route
                 path="*"
-                component={() => {
-                        return (
-                            <Redirect
-                                to={`/company/${company.id}`}
-                            />
-                        );
-                }}
+                component={redirect(company)}
             />
         </Switch>
     )

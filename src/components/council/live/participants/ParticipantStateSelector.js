@@ -200,9 +200,13 @@ class ParticipantStateSelector extends React.Component {
 								loading={loading === 6}
 								size="2.8em"
 								onClick={() =>
-									this.setState({
-										delegateVote: true
-									})
+									{
+										console.log('añadir voto delegado');
+										this.setState({
+											delegateVote: true
+										})
+									}
+									
 								}
 								active={
 									participant.state ===
@@ -252,6 +256,7 @@ class ParticipantStateSelector extends React.Component {
 						translate={translate}
 					/>
 					{(participant.state === PARTICIPANT_STATES.REMOTE ||
+						participant.state === PARTICIPANT_STATES.NO_PARTICIPATE ||
 						participant.state ===
 						PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
 						participant.state ===

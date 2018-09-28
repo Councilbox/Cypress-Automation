@@ -5,6 +5,8 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 import RichTextEditor from 'react-rte';
+import { isAndroid } from 'react-device-detect';
+import { TextField } from 'material-ui';
 //import { Editor } from 'slate-react';
 //import { Value } from 'slate';
 //import Html from 'slate-html-serializer';
@@ -306,14 +308,24 @@ class RichTextInput extends React.Component {
 								</React.Fragment>
 							)}
 						</div>
-						<RichTextEditor
-							ref={editor => this.rtEditor = editor}
-							id={this.props.id}
-							className={`text-editor ${!!errorText? 'text-editor-error' : ''}`}
-							value={this.state.value}
-							onChange={this.onChange}
-							toolbarConfig={toolbarConfig}
-						/>
+						{isAndroid?
+							<TextField
+								rows={4}
+								multiline
+								value={this.props.value}
+								onChange={event => this.props.onChange(event.target.value)}
+							/>
+						:
+							<RichTextEditor
+								ref={editor => this.rtEditor = editor}
+								id={this.props.id}
+								className={`text-editor ${!!errorText? 'text-editor-error' : ''}`}
+								value={this.state.value}
+								onChange={this.onChange}
+								toolbarConfig={toolbarConfig}
+							/>
+						}
+						
 					</GridItem>
 				</Grid>
 			</React.Fragment>

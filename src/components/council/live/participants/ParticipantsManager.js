@@ -182,17 +182,17 @@ class ParticipantsManager extends React.Component {
 						value={this.state.view}
 						onChange={(event => this.setState({ view: event.target.value}))}
 					>
-						<MenuItem value={'STATES'}>
-							{translate.states}
+						<MenuItem value={'STATES'} /*TRADUCCION*/>
+							{'Estado de los participantes'}
 						</MenuItem>
-						<MenuItem value={'TYPE'} >
-							{translate.types}
+						<MenuItem value={'TYPE'}  /*TRADUCCION*/>
+							{'Tipo de participante'}
 						</MenuItem>
-						<MenuItem value={'ATTENDANCE'}>
-							{translate.assistance}
+						<MenuItem value={'ATTENDANCE'}  /*TRADUCCION*/>
+							{'Intención de asistencia'}
 						</MenuItem>
-						<MenuItem value={'CREDENTIALS'}>
-							{translate.credentials}
+						<MenuItem value={'CREDENTIALS'} /*TRADUCCION*/>
+							{'Envío de credenciales'}
 						</MenuItem>
 					</SelectInput>
 				</div>

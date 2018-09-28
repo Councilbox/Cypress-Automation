@@ -88,7 +88,7 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 			}
 		},
 		{
-			text: translate.councils_finished,
+			text: translate.act_book,
 			link: `/company/${company.id}/councils/confirmed`,
 			component: () => {
 				return (
@@ -97,8 +97,8 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 						translate={translate}
 						state={[60, 70]}
 						link={"/finished"}
-						title={translate.companies_docu}
-						desc={translate.companies_docu_desc}
+						title={translate.act_book}
+						desc="Reuniones finalizadas con acta aprobada. Puede estar pendiente de envío."//TRADUCCION ORIGINAL{translate.companies_docu_desc}
 						icon={"clipboard"}
 					/>
 				);
