@@ -19,7 +19,7 @@ const CharSelector = ({ onClick, ...props }) => {
                     }}
                 >
                     <MenuItem value={null}>
-                        {'Todos'}
+                        {props.translate.all_plural}
                     </MenuItem>
                     {chars.map(char => (
                         <MenuItem value={char} style={{textTransform: 'uppercase'}}>

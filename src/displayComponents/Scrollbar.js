@@ -23,7 +23,7 @@ class Scrollbar extends React.Component {
 
     render(){
         const { style, autoHide, children, showX, onScrollStop } = this.props;
-        console.log(this.scrollbar);
+        //console.log(this.scrollbar);
 
         return(
             <Scrollbars

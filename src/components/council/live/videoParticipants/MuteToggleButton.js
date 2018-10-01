@@ -11,8 +11,15 @@ class MuteToggleButton extends React.Component {
 		muted: this.props.participant.videoParticipant.mutedMic
 	}
 
+	static getDerivedStateFromProps(nextProps){
+		return {
+			muted: nextProps.participant.videoParticipant.mutedMic
+		}
+	}
+
     toggleMuteParticipant = async () => {
-		if(this.props.participant.videoParticipant.mutedMic){
+		if(this.state.muted){
+			console.log('unmute');
 			const response = await this.props.unmuteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -30,6 +37,7 @@ class MuteToggleButton extends React.Component {
 				}
 			}
 		}else {
+			console.log('mute');
 			const response = await this.props.muteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -49,7 +57,7 @@ class MuteToggleButton extends React.Component {
 
 	render() {
 		const { participant } = this.props;
-		console.log(participant);
+		//console.log(participant);
 
 		return (
 			<div style={{marginRight: '0.3em'}}>
@@ -84,8 +92,8 @@ class MuteToggleButton extends React.Component {
 									justifyContent: "center"
 								}}
 							>
-								{this.state.muted? 
-                                	<i className="fa fa-microphone-slash" aria-hidden="true"></i>						
+								{this.state.muted?
+                                	<i className="fa fa-microphone-slash" aria-hidden="true" style={{transform: 'scaleX(-1)'}}></i>
 								:
                                 	<i className="fa fa-microphone" aria-hidden="true"></i>
 								}

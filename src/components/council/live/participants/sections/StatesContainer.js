@@ -367,6 +367,7 @@ class StatesContainer extends React.Component {
 						{orientation === 'landscape' && isMobile &&
 							<CharSelector
 								onClick={this.toggleCharFilter}
+								translate={translate}
 								selectedChar={this.state.charFilter}
 							/>
 						}
@@ -420,6 +421,7 @@ class StatesContainer extends React.Component {
 					{(!isMobile || orientation !== 'landscape') &&
 						<CharSelector
 							onClick={this.toggleCharFilter}
+							translate={translate}
 							selectedChar={this.state.charFilter}
 						/>
 					}
