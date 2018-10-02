@@ -81,6 +81,7 @@ const participantQuery = gql`
 			dateStart2NdCall
 			hasLimitDate
 			id
+			remoteCelebration
 			limitDateResponse
 			name
 			prototype

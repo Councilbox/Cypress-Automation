@@ -38,7 +38,7 @@ class CouncilCertificates extends React.PureComponent {
                     "application/pdf",
                     `${certificate.title}`
                 );
-            } 
+            }
         }
 
     }
@@ -94,44 +94,81 @@ class CouncilCertificates extends React.PureComponent {
                         icon={<ButtonIcon type="add" color="white"/>}
                     />
                     <div>
-                        {councilCertificates.length > 0? 
+                        {councilCertificates.length > 0?
                             <Table
                                 headers={[
                                     { name: translate.field_date},
-                                    { name: translate.certificate_title_of}
+                                    { name: translate.certificate_title_of},
+                                    { name: ''}
                                 ]}
                             >
                                 {this.props.data.councilCertificates.map(certificate => (
-                                    <TableRow key={`certificate_${certificate.id}`}>
-                                        <TableCell>
-                                            <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
-                                        </TableCell>
-                                        <TableCell>
-                                            {certificate.title}
-                                        </TableCell>
-                                        <TableCell>
-                                            <div>
-                                                <BasicButton
-                                                    text={translate.download}
-                                                    color={getSecondary()}
-                                                    loading={this.state.downloading === certificate.id}
-                                                    loadingColor="white"
-                                                    textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
-                                                    onClick={() => this.downloadCertificate(certificate)}
-                                                />
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
+                                    <HoverableRow
+                                        certificate={certificate}
+                                        translate={translate}
+                                    />
                                 ))}
                             </Table>
                         :
-                            <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}}>
+                            <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}} /*TRADUCCION*/>
                                 NO HAY CERTIFICADOS GENERADOS
                             </Typography>
                         }
                     </div>
                 </div>
             </CardPageLayout>
+        )
+    }
+}
+
+class HoverableRow extends React.Component {
+    state = {
+        showActions: false
+    }
+
+    mouseEnterHandler = () => {
+        this.setState({
+            showActions: true
+        });
+    }
+
+    mouseLeaveHandler = () => {
+        this.setState({
+            showActions: false
+        });
+    }
+
+    render(){
+        const { certificate } = this.props;
+
+        return(
+            <TableRow
+                key={`certificate_${certificate.id}`}
+                onMouseEnter={this.mouseEnterHandler}
+                onMouseLeave={this.mouseLeaveHandler}
+            >
+                <TableCell>
+                    <DateWrapper format="DD/MM/YYYY HH:mm" date={certificate.date} />
+                </TableCell>
+                <TableCell>
+                    {certificate.title}
+                </TableCell>
+                <TableCell>
+                    <div style={{width: '10em'}}>
+                        {this.state.showActions &&
+                            <BasicButton
+                                text={this.props.translate.download}
+                                color='white'
+                                loading={this.state.downloading === certificate.id}
+                                loadingColor="white"
+                                buttonStyle={{border: `1px solid ${getSecondary()}`}}
+                                textStyle={{textTransform: 'none', fontWeight: '700', color: getSecondary()}}
+                                onClick={() => this.downloadCertificate(certificate)}
+                            />
+                        }
+                    </div>
+                </TableCell>
+            </TableRow>
         )
     }
 }
@@ -148,8 +185,3 @@ export default compose(
         name: 'downloadCertificate'
     })
 )(withSharedProps()(withRouter(CouncilCertificates)));
-
-
-/* 
-&&data%5Btitle%5D=Titulo%20-%20alpha&data%5Bheader%5D=%3Cp%3ECabecera%20-%20alpha%3C%2Fp%3E&data%5Bfooter%5D=%3Cp%3EPie%20-%20alpha%3C%2Fp%3E&data%5Bcouncil_id%5D=5581&data%5Bdate%5D=2018-06-12T07%3A35%3A46.830Z
-*/

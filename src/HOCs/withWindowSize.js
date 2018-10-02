@@ -33,10 +33,11 @@ const withWindowSize = WrappedComponent => {
 				...state
 			});
 
+
 			const element = document.getElementById('mainContainer');
 
 			if(element){
-				element.style.height = window.innerHeight;
+				element.style.height = window.screen? window.screen.avaliableHeight : window.innerHeight;
 			}
 		};
 

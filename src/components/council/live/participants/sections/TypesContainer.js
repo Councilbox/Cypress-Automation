@@ -21,6 +21,12 @@ import AddGuestModal from "../AddGuestModal";
 import withWindowSize from '../../../../../HOCs/withWindowSize';
 import { getSecondary } from '../../../../../styles/colors';
 
+const selectedStyle = {
+	borderBottom: `3px solid ${getSecondary()}`,
+	color: getSecondary(),
+	fontWeight: '700'
+}
+
 
 class TypesContainer extends React.Component {
 	state = {
@@ -138,7 +144,6 @@ class TypesContainer extends React.Component {
 					lg={12}
 					md={12}
 					style={{
-						backgroundColor: "whiteSmoke",
 						width: "100%",
 						height: "3em",
 						borderBottom: "1px solid gainsboro",
@@ -156,11 +161,15 @@ class TypesContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.typeStatus === null && "lightGrey"
+							...(this.state.typeStatus === null?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<TypeIcon
+							color={this.state.typeStatus === null? getSecondary() : 'grey'}
 							translate={translate}
 							type={"ALL"}
 							number={participantTypeRecount.all}
@@ -172,12 +181,15 @@ class TypesContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.typeStatus ===
-									PARTICIPANT_TYPE.PARTICIPANT && "lightGrey"
+							...(this.state.typeStatus === PARTICIPANT_TYPE.PARTICIPANT?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<TypeIcon
+							color={this.state.typeStatus === PARTICIPANT_TYPE.PARTICIPANT? getSecondary() : 'grey'}
 							translate={translate}
 							type={PARTICIPANT_TYPE.PARTICIPANT}
 							number={participantTypeRecount.participant}
@@ -189,12 +201,15 @@ class TypesContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.typeStatus ===
-									PARTICIPANT_TYPE.GUEST && "lightGrey"
+							...(this.state.typeStatus === PARTICIPANT_TYPE.GUEST?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<TypeIcon
+							color={this.state.typeStatus === PARTICIPANT_TYPE.GUEST? getSecondary() : 'grey'}
 							translate={translate}
 							type={PARTICIPANT_TYPE.GUEST}
 							number={participantTypeRecount.guest}
@@ -206,13 +221,15 @@ class TypesContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.typeStatus ===
-									PARTICIPANT_TYPE.REPRESENTATIVE &&
-								"lightGrey"
+							...(this.state.typeStatus === PARTICIPANT_TYPE.REPRESENTATIVE?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<TypeIcon
+							color={this.state.typeStatus === PARTICIPANT_TYPE.REPRESENTATIVE? getSecondary() : 'grey'}
 							translate={translate}
 							type={PARTICIPANT_TYPE.REPRESENTATIVE}
 							number={participantTypeRecount.representative}

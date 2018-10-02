@@ -79,14 +79,17 @@ class CommentsSection extends Component {
 			<div
 				style={{
 					width: "100%",
-					backgroundColor: "lightgrey",
+					//backgroundColor: "lightgrey",
 					position: "relative"
 				}}
 			>
-				<CollapsibleSection
+				{/* <CollapsibleSection
 					trigger={this._button}
 					collapse={this._section}
-				/>
+				/> */}
+				<div>
+					{this._section()}
+				</div>
 			</div>
 		);
 	}

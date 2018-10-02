@@ -6,7 +6,7 @@ import {
 	Icon
 } from "../../../displayComponents";
 import AttachmentList from "../../attachments/AttachmentList";
-import { darkGrey } from "../../../styles/colors";
+import { darkGrey, getSecondary } from "../../../styles/colors";
 import { addAgendaAttachment, removeAgendaAttachment } from "../../../queries";
 import { MAX_FILE_SIZE } from "../../../constants";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
@@ -145,15 +145,54 @@ class AgendaAttachmentsManager extends React.Component {
 	};
 
 	render() {
+		const secondary = getSecondary();
+
 		return (
 			<div
 				style={{
 					width: "100%",
-					backgroundColor: "lightgrey",
 					position: "relative"
 				}}
 			>
-				<CollapsibleSection
+				{this.props.attachments.length > 0?
+					this._section()
+				:
+					<div style={{display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', paddingTop: '4em'}}>
+						{this.props.translate.no_results}
+					</div>
+				}
+				<div style={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em'}}>
+					<FileUploadButton
+						color={"white"}
+						text={'Añadir adjunto'}//TRADUCCION
+						textStyle={{
+							color: secondary,
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						loading={this.state.uploading}
+						loadingColor={'primary'}
+						buttonStyle={{
+							border: `1px solid ${secondary}`,
+							height: "100%",
+							marginTop: "5px"
+						}}
+						icon={
+							<Icon
+								className="material-icons"
+								style={{
+									fontSize: "1.5em",
+									color: secondary
+								}}
+							>
+								control_point
+							</Icon>
+						}
+						onChange={this.handleFile}
+					/>
+				</div>
+				{/* <CollapsibleSection
 					trigger={this._button}
 					collapse={this._section}
 				/>
@@ -200,7 +239,7 @@ class AgendaAttachmentsManager extends React.Component {
 						}
 						onChange={this.handleFile}
 					/>
-				</div>
+				</div> */}
 			</div>
 		);
 	}

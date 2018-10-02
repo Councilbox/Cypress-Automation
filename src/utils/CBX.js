@@ -645,7 +645,7 @@ export const getAgendaTypeLabel = agenda => {
 			return 'public_act';
 		case AGENDA_TYPES.PRIVATE_VOTING:
 			return 'private_votation';
-		default: 
+		default:
 			return 'informative';
 	}
 }

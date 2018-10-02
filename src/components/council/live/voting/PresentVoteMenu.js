@@ -1,5 +1,6 @@
 import React from "react";
 import { VOTE_VALUES } from "../../../../constants";
+import { agendaVotingsOpened } from '../../../../utils/CBX';
 import VotingValueIcon from "./VotingValueIcon";
 import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
@@ -17,7 +18,7 @@ class PresentVoteMenu extends React.Component {
 			__typename,
 			...agendaVoting
 		} = this.props.agendaVoting;
-		
+
 		const response = await this.props.updateAgendaVoting({
 			variables: {
 				agendaVoting: {
@@ -31,6 +32,13 @@ class PresentVoteMenu extends React.Component {
 	};
 
 	_block = (value, active) => {
+
+		if(!agendaVotingsOpened(this.props.agenda)){
+			if(!active){
+				return <span />
+			}
+		}
+
 		return (
 			<div
 				style={{

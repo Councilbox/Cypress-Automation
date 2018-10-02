@@ -48,7 +48,7 @@ class ActAgreements extends React.Component {
                     message={this.props.translate.revise_text}
                 />, {
                     position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,			
+                    autoClose: true,
                     className: "errorToast"
                 }
             );
@@ -197,14 +197,14 @@ class ActAgreements extends React.Component {
 			<div
 				style={{
 					width: "100%",
-					backgroundColor: "lightgrey",
 					position: "relative"
 				}}
 			>
-				<CollapsibleSection
+				{/* <CollapsibleSection
 					trigger={this._button}
 					collapse={this._section}
-				/>
+				/> */}
+				{this._section()}
 			</div>
 		);
 	}

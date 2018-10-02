@@ -102,8 +102,6 @@ class AgendaMenu extends React.Component {
         const secondary = getSecondary();
         const primary = getPrimary();
 
-        console.log(agenda.votings);
-
         return(
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px'}}>

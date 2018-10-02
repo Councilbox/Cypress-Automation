@@ -28,6 +28,9 @@ class CertificateForm extends React.PureComponent {
 
     createCertificate = async () => {
         if(!this.checkRequiredFields()){
+            this.setState({
+                loading: true
+            })
             const response = await this.props.createCertificate({
                 variables: {
                     certificate: {
@@ -41,6 +44,9 @@ class CertificateForm extends React.PureComponent {
 
             if(!response.errors){
                 if(response.data.createCertificate.success){
+                    this.setState({
+                        loading: false
+                    });
                     this.props.requestClose();
                 }
             }
@@ -197,6 +203,7 @@ class CertificateForm extends React.PureComponent {
                     <BasicButton
                         text={translate.certificate_generate}
                         onClick={this.createCertificate}
+                        loading={this.state.loading}
                         textStyle={{textTransform: 'none', fontWeight: '700', color: 'white'}}
                         color={getSecondary()}
                         buttonStyle={{marginTop: '0.8em'}}

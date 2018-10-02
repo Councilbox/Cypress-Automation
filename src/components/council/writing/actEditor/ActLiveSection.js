@@ -130,14 +130,16 @@ class ActLiveSection extends React.Component {
 			<div
 				style={{
 					width: "100%",
-					backgroundColor: "lightgrey",
 					position: "relative"
 				}}
 			>
-				<CollapsibleSection
+				{/* <CollapsibleSection
 					trigger={this._button}
 					collapse={this._section}
-				/>
+				/> */}
+				{
+					this._section()
+				}
 			</div>
 		);
 	}

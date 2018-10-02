@@ -101,6 +101,7 @@ class Assistance extends React.Component {
 				savingAssistanceComment: false,
 				success: true
 			})
+			this.props.refetch();
 		}else{
 			this.setState({
 				commentError: true
@@ -154,6 +155,7 @@ class Assistance extends React.Component {
 		const { representative, ...participant } = this.state.participant;
 		const selectSimpleOption = this.selectSimpleOption;
 		let canDelegate = canDelegateVotes(council.statute, participant);
+
 		return (
 			<NotLoggedLayout
 				translate={this.props.translate}
@@ -163,7 +165,7 @@ class Assistance extends React.Component {
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer}>
 						{councilIsPreparing(council) ? (
-							<div style={{height: '100%', width: '680px', maxWidth: '98vw'}}>
+							<div style={{height: '100%', width: window.innerWidth * 0.95 > 680? '680px' : '95vw', maxWidth: '98vw'}}>
 								<div style={{height: '4em', borderBottom: '1px solid gainsboro', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '1.2em'}}>
 									<Typography variant="title" style={{fontWeight: '700', fontSize: '1.35rem'}}>
 										{council.name}
@@ -183,7 +185,13 @@ class Assistance extends React.Component {
 												text={translate.council_info}
 												color={primary}
 											/>
-											<p style={{marginTop: '1em'}}>{`${council.street}, ${council.country}`}</p>
+											<p style={{marginTop: '1em'}}>
+												{council.remoteCelebration?
+													translate.remote_celebration
+												:
+													`${council.street}, ${council.country}`
+												}
+											</p>
 											<p>{translate['1st_call_date']}: <DateWrapper date={council.dateStart} format={'LLL'} /></p>
 											<hr />
 

@@ -85,6 +85,22 @@ const theme = createMuiTheme({
 				overflow: 'hidden',
 			}
 		},
+		MuiTab: {
+			root: {
+				outline: 'none !important',
+				userSelect: 'none !important' ,
+				textTransform: 'none',
+				borderBottomWidth: '3px'
+			},
+			selected: {
+				fontWeight: '700'
+			}
+		},
+		MuiTabIndicator: {
+			root: {
+				height: '3px'
+			}
+		},
 		MuiTable: {
 			root: {
 				maxWidth: "90%",

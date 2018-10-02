@@ -21,6 +21,11 @@ import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
 import AddGuestModal from "../AddGuestModal";
 
+const selectedStyle = {
+	borderBottom: `3px solid ${getSecondary()}`,
+	color: getSecondary(),
+	fontWeight: '700'
+}
 
 class AttendanceContainer extends React.Component {
 	state = {
@@ -137,7 +142,6 @@ class AttendanceContainer extends React.Component {
 					lg={12}
 					md={12}
 					style={{
-						backgroundColor: "whiteSmoke",
 						width: "100%",
 						height: "3em",
 						borderBottom: "1px solid gainsboro",
@@ -155,12 +159,15 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus === null &&
-								"lightGrey"
+							...(this.state.attendanceStatus === null?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
+							color={this.state.attendanceStatus === null? getSecondary() : 'grey'}
 							translate={translate}
 							state={"ALL"}
 							number={attendanceRecount.all}
@@ -172,12 +179,15 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus === -1 &&
-								"lightGrey"
+							...(this.state.attendanceStatus === -1?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
+							color={this.state.attendanceStatus === -1? getSecondary() : 'grey'}
 							translate={translate}
 							state={null}
 							number={attendanceRecount.notConfirmed}
@@ -191,14 +201,16 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus ===
-								PARTICIPANT_STATES.NO_PARTICIPATE &&
-								"lightGrey"
+							...(this.state.attendanceStatus === PARTICIPANT_STATES.NO_PARTICIPATE?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
 							translate={translate}
+							color={this.state.attendanceStatus === PARTICIPANT_STATES.NO_PARTICIPATE? getSecondary() : 'grey'}
 							state={PARTICIPANT_STATES.NO_PARTICIPATE}
 							number={attendanceRecount.noParticipate}
 						/>
@@ -209,12 +221,15 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus ===
-								PARTICIPANT_STATES.REMOTE && "lightGrey"
+							...(this.state.attendanceStatus === PARTICIPANT_STATES.REMOTE?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
+							color={this.state.attendanceStatus === PARTICIPANT_STATES.REMOTE? getSecondary() : 'grey'}
 							translate={translate}
 							state={PARTICIPANT_STATES.REMOTE}
 							number={attendanceRecount.remote}
@@ -228,13 +243,15 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus ===
-								PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
-								"lightGrey"
+							...(this.state.attendanceStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
+							color={this.state.attendanceStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT? getSecondary() : 'grey'}
 							translate={translate}
 							state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
 							number={attendanceRecount.present}
@@ -251,12 +268,15 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus ===
-								PARTICIPANT_STATES.DELEGATED && "lightGrey"
+							...(this.state.attendanceStatus === PARTICIPANT_STATES.DELEGATED?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
+							color={this.state.attendanceStatus === PARTICIPANT_STATES.DELEGATED? getSecondary() : 'grey'}
 							translate={translate}
 							state={PARTICIPANT_STATES.DELEGATED}
 							number={attendanceRecount.delegated}
@@ -270,14 +290,16 @@ class AttendanceContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.attendanceStatus ===
-								PARTICIPANT_STATES.REPRESENTATED &&
-								"lightGrey"
+							...(this.state.attendanceStatus === PARTICIPANT_STATES.REPRESENTATED?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<StateIcon
 							translate={translate}
+							color={this.state.attendanceStatus === PARTICIPANT_STATES.REPRESENTATED? getSecondary() : 'grey'}
 							state={PARTICIPANT_STATES.REPRESENTATED}
 							number={attendanceRecount.representated}
 						/>

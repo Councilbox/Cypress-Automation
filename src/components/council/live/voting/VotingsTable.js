@@ -18,7 +18,7 @@ import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
 import { Tooltip } from "material-ui";
-import { isPresentVote } from "../../../../utils/CBX";
+import { isPresentVote, agendaVotingsOpened } from "../../../../utils/CBX";
 
 
 class VotingsTable extends React.Component {
@@ -213,9 +213,9 @@ class VotingsTable extends React.Component {
 
 				{this.props.agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING &&
 					<GridItem
-						xs={8}
-						md={8}
-						lg={8}
+						xs={6}
+						md={6}
+						lg={6}
 						style={{
 							display: "flex",
 							flexDirection: "row",
@@ -278,9 +278,6 @@ class VotingsTable extends React.Component {
 						</div>
 
 						<div
-							xs={4}
-							md={4}
-							lg={4}
 							style={{
 								display: "flex",
 								flexDirection: "row",
@@ -308,6 +305,11 @@ class VotingsTable extends React.Component {
 						</div>
 					</GridItem>
 				}
+				<GridItem xs={2} md={2} lg={2}>
+					{!agendaVotingsOpened(this.props.agenda) &&
+						'Votaciones cerradas'
+					}
+				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
 					<TextInput
 						adornment={<Icon>search</Icon>}
@@ -368,6 +370,7 @@ class VotingsTable extends React.Component {
 																	vote
 																) && (
 																	<PresentVoteMenu
+																		agenda={this.props.agenda}
 																		agendaVoting={
 																			vote
 																		}

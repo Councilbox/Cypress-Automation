@@ -1,5 +1,5 @@
 import React from "react";
-import { MenuItem, Typography, Tooltip } from "material-ui";
+import { MenuItem, Typography, Tooltip, Card } from "material-ui";
 import { GridItem, Grid, BasicButton } from "../../../../displayComponents";
 import FontAwesome from "react-fontawesome";
 import { getSecondary, primary } from "../../../../styles/colors";
@@ -28,7 +28,7 @@ class ParticipantItem extends React.PureComponent {
 			>
 				<div
 					style={{
-						width: '95%',
+						width: '98%',
 						marginRight: '5%',
 						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em'
 					}}
@@ -37,7 +37,8 @@ class ParticipantItem extends React.PureComponent {
 						style={{
 							width: "100%",
 							height: '100%',
-							padding: 0,
+							borderRadius: '2px',
+							padding: '0px 2px',
 							textOverflow: "ellipsis",
 							overflow: "hidden"
 						}}
@@ -165,7 +166,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal }) => (
 	<React.Fragment>
-		<div
+		<Card
 			style={{
 				display: "flex",
 				flexDirection: "row",
@@ -349,7 +350,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 					/>
 				}
 			</div>
-		</div>
+		</Card>
 	</React.Fragment>
 )
 

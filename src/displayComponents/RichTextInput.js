@@ -5,8 +5,8 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 import RichTextEditor from 'react-rte';
-import { isAndroid } from 'react-device-detect';
-import { TextField } from 'material-ui';
+import { isMobile } from 'react-device-detect';
+import { TextArea } from 'antd/lib/input/index';
 //import { Editor } from 'slate-react';
 //import { Value } from 'slate';
 //import Html from 'slate-html-serializer';
@@ -150,6 +150,15 @@ class RichTextInput extends React.Component {
 				"html"
 			)
 		});
+/* 		const richTexts = document.getElementsByClassName('public-DraftEditor-content');
+		console.log(richTexts);
+
+		[...richTexts].forEach(element => {
+			element.setAttribute('autocomplete', 'off');
+			element.setAttribute('autocorrect', 'off');
+			element.setAttribute('autocapitalize', 'off');
+			element.setAttribute('spellcheck', 'false');
+		}) */
 	}
 
 	changeShowTags = () => {
@@ -308,10 +317,9 @@ class RichTextInput extends React.Component {
 								</React.Fragment>
 							)}
 						</div>
-						{isAndroid?
-							<TextField
-								rows={4}
-								multiline
+						{isMobile?
+							<TextArea
+								autosize={{ minRows: 3 }}
 								value={this.props.value}
 								onChange={event => this.props.onChange(event.target.value)}
 							/>
@@ -325,7 +333,6 @@ class RichTextInput extends React.Component {
 								toolbarConfig={toolbarConfig}
 							/>
 						}
-						
 					</GridItem>
 				</Grid>
 			</React.Fragment>
@@ -334,3 +341,6 @@ class RichTextInput extends React.Component {
 }
 
 export default RichTextInput;
+
+
+{/*  */}

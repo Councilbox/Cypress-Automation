@@ -23,7 +23,7 @@ const styles = {
 	},
 	mainContainer: {
 		width: "100%",
-		height: "calc(100% - 48px)",
+		height: "calc(100% - 3em)",
         display: "flex",
         backgroundColor: darkGrey,
 		flexDirection: "column",

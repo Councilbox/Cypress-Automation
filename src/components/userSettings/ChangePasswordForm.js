@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { graphql } from "react-apollo";
 import {
 	BasicButton,
@@ -11,7 +11,21 @@ import {
 import { getPrimary } from "../../styles/colors";
 import { updatePassword } from "../../queries";
 
-class ChangePasswordForm extends Component {
+class ChangePasswordForm extends React.Component {
+
+	state = {
+		success: false,
+		loading: false,
+		error: false,
+		data: {
+			currentPassword: "",
+			newPassword: "",
+			newPasswordConfirm: ""
+		},
+		errors: {}
+	};
+
+
 	updatePassword = async () => {
 		const { data } = this.state;
 		if (!this.checkChangePassword()) {
@@ -56,21 +70,6 @@ class ChangePasswordForm extends Component {
 			success: false
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: false,
-			loading: false,
-			error: false,
-			data: {
-				currentPassword: "",
-				newPassword: "",
-				newPasswordConfirm: ""
-			},
-			errors: {}
-		};
-	}
 
 	checkChangePassword() {
 		const { translate } = this.props;

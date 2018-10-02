@@ -26,6 +26,12 @@ import AddGuestModal from "../AddGuestModal";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import { getSecondary } from "../../../../../styles/colors";
 
+const selectedStyle = {
+	borderBottom: `3px solid ${getSecondary()}`,
+	color: getSecondary(),
+	fontWeight: '700'
+}
+
 
 
 class CredentialsContainer extends React.Component {
@@ -170,7 +176,6 @@ class CredentialsContainer extends React.Component {
 					lg={12}
 					md={12}
 					style={{
-						backgroundColor: "whiteSmoke",
 						width: "100%",
 						height: "3em",
 						borderBottom: "1px solid gainsboro",
@@ -188,12 +193,15 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus === null &&
-								"lightGrey"
+							...(this.state.notificationStatus === null?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
+							color={this.state.notificationStatus === null? getSecondary() : 'grey'}
 							translate={translate}
 							reqCode={"ALL"}
 							number={crendentialSendRecount.all}
@@ -207,9 +215,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.FAILED && "lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.FAILED?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
@@ -226,9 +236,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.NOT_SENT && "lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.NOT_SENT?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
@@ -245,10 +257,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS &&
-								"lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
@@ -263,9 +276,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.SPAM && "lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.SPAM?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
@@ -282,10 +297,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.PENDING_SHIPPING &&
-								"lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.PENDING_SHIPPING?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
@@ -302,9 +318,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.DELIVERED && "lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.DELIVERED?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon
@@ -321,9 +339,11 @@ class CredentialsContainer extends React.Component {
 						}}
 						style={{
 							cursor: "pointer",
-							backgroundColor:
-								this.state.notificationStatus ===
-								EMAIL_TRACK_STATES.OPENED && "lightGrey"
+							...(this.state.notificationStatus === EMAIL_TRACK_STATES.OPENED?
+								selectedStyle
+							:
+								{}
+							)
 						}}
 					>
 						<EmailIcon

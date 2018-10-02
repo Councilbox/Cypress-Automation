@@ -93,7 +93,8 @@ class RecountSection extends React.Component {
 					position: "relative"
 				}}
 			>
-				<CollapsibleSection trigger={this._button} collapse={this._section} />
+				{/* <CollapsibleSection trigger={this._button} collapse={this._section} /> */}
+				{this._section()}
 			</div>
 		);
 	}
