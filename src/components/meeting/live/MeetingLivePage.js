@@ -1,8 +1,11 @@
 import React from "react";
 import LiveHeader from "../../council/live/LiveHeader";
-import { lightGrey } from "../../../styles/colors";
+import { lightGrey, darkGrey } from "../../../styles/colors";
 import { bHistory } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
+import withWindowSize from '../../../HOCs/withWindowSize';
+import { Icon } from '../../../displayComponents';
+
 let logo;
 import("../../../assets/img/logo-white.png").then(data => logo = data);
 
@@ -64,11 +67,76 @@ class MeetingLivePage extends React.Component {
 					fontSize: "1em"
 				}}
 			>
-				<LiveHeader
-					logo={!!company? company.logo : logo}
-					companyName={!!company && company.businessName}
-					councilName={'Meeting'}
-					translate={translate}
+			<div
+				elevation={0}
+				style={{
+					background: '#212121',
+					display: "flex",
+					width: "100%",
+					userSelect: "none",
+					position: "absolute",
+					zIndex: 1000,
+					height: "3em",
+					alignItems: "center",
+					justifyContent: "space-between"
+				}}
+			>
+					<div style={{ width: "20%" }}>
+						<img
+							src={logo}
+							className="App-logo"
+							style={{
+								height: "1.5em",
+								marginLeft: "2em"
+							}}
+							alt="logo"
+						/>
+					</div>
+					<div
+						style={{
+							width: "35%",
+							marginRight: "10%",
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+						}}
+					>
+					</div>
+					<div
+						style={{
+							width: "10%",
+							display: "flex",
+							flexDirection: "row",
+							justifyContent: "flex-end",
+							paddingRight: "2em"
+						}}
+					>
+						{/*<Icon
+                     className="material-icons"
+                     style={{fontSize: '1.5em', color: 'white'}}
+                     >
+                     help
+                     </Icon>*/}
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: "1.5em",
+								color: 'white',
+								cursor: "pointer"
+							}}
+							onClick={() =>
+								bHistory.goBack()
+							}
+						>
+							exit_to_app
+						</Icon>
+					</div>
+				</div>
+				<div
+					style={{
+						height: "3em",
+						width: "100%"
+					}}
 				/>
 				<div
 					style={{
@@ -99,7 +167,7 @@ class MeetingLivePage extends React.Component {
 	}
 }
 
-export default (withSharedProps()(MeetingLivePage));
+export default (withSharedProps()(withWindowSize(MeetingLivePage)));
 
 
 /* graphql(councilLiveQuery, {

@@ -111,6 +111,8 @@ export const agendaVotings = gql`
 					}
 				}
 				authorRepresentative {
+					id
+					participantId
 					name
 					surname
 					position
@@ -126,6 +128,7 @@ export const agendaVotings = gql`
 				}
 				participantId
 				agendaId
+				delegateId
 				presentVote
 				numParticipations
 				comment

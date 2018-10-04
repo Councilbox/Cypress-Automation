@@ -198,6 +198,26 @@ class VotingsTable extends React.Component {
     render(){
         const { translate } = this.props;
 		const total = this.sumTotalVotings();
+		let mappedVotings = [];
+
+		if(this.props.data.agendaVotings){
+			if(this.props.data.agendaVotings.list.length > 0){
+				this.props.data.agendaVotings.list.forEach(voting => {
+					if(voting.authorRepresentative){
+						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId);
+						if(sameRepresentative !== -1){
+							mappedVotings[sameRepresentative].delegatedVotes = [...mappedVotings[sameRepresentative].delegatedVotes, voting];
+						} else {
+							mappedVotings.push({...voting, delegatedVotes: []});
+						}
+					} else {
+						mappedVotings.push({...voting, delegatedVotes: []});
+					}
+				})
+			}
+		}
+
+		console.log(mappedVotings);
 
 		return (
 			<Grid
@@ -334,7 +354,7 @@ class VotingsTable extends React.Component {
 									{ name: translate.votes }
 								]}
 							>
-								{this.props.data.agendaVotings.list.map(
+								{/* {this.props.data.agendaVotings.list.map(
 									vote => {
 										return (
 											<TableRow key={`vote_${vote.id}`}>
@@ -446,7 +466,7 @@ class VotingsTable extends React.Component {
 											</TableRow>
 										);
 									}
-								)}
+								)} */}
 							</Table>
 							<div
 								style={{
