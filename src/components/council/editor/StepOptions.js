@@ -371,12 +371,11 @@ class StepOptions extends React.Component {
 
 								{CBX.hasAct(statute) && (
 									<React.Fragment>
-										<Typography
-											variant="subheading"
-											style={{ marginTop: "1em" }}
-										>
-											{translate.approve_act_draft_at_end}
-										</Typography>
+										<SectionTitle
+											text={translate.approve_act_draft_at_end}
+											color={primary}
+											style={{marginTop: '2em'}}
+										/>
 										<div
 											style={{
 												display: 'flex',

@@ -77,21 +77,27 @@ class AgendaDetailsSection extends React.Component {
 					<GridItem xs={12} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
 						<div style={{ fontWeight: '700' }}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</div>
 						<Grid>
-							<GridItem xs={12} md={12} lg={3}>
+							<GridItem xs={12} md={12} lg={3} style={{display: 'flex', alignItems: 'center'}}>
 								{agenda.subjectType !== CBX.getActPointSubjectType() &&
-									<BasicButton
-										text={translate.description}
-										color={'white'}
-										textStyle={{
-											textTransform: 'none',
-											fontWeight: '700',
-											color: getSecondary(),
-											fontSize: "0.85em",
-										}}
-										onClick={() => this.setState({
-											expanded: !this.state.expanded
-										})}
-									/>
+									<React.Fragment>
+										{agenda.description?
+											<BasicButton
+												text={translate.description}
+												color={'white'}
+												textStyle={{
+													textTransform: 'none',
+													fontWeight: '700',
+													color: getSecondary(),
+													fontSize: "0.85em",
+												}}
+												onClick={() => this.setState({
+													expanded: !this.state.expanded
+												})}
+											/>
+										:
+											'Sin descripción' //TRADUCCION
+										}
+									</React.Fragment>
 								}
 							</GridItem>
 							<GridItem xs={12} md={5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
@@ -103,6 +109,7 @@ class AgendaDetailsSection extends React.Component {
 												agenda={agenda}
 												translate={translate}
 												refetch={this.props.refetchCouncil}
+												active={agenda.orderIndex === this.state.openIndex}
 											/>
 											:
 											<ToggleAgendaButton

@@ -20,7 +20,7 @@ const minVideoHeight = "42vh";
 
 class CouncilLivePage extends React.Component {
 	state = {
-		participants: false,
+		participants: true,
 		confirmModal: false,
 		selectedPoint: 0,
 		wall: false,
@@ -107,7 +107,7 @@ class CouncilLivePage extends React.Component {
 		} else {
 			this.setState({
 				videoWidth: 94,
-				videoHeight: "calc(100vh - 3em)",
+				videoHeight: "100%",
 				fullScreen: true
 			});
 		}
@@ -128,10 +128,10 @@ class CouncilLivePage extends React.Component {
 		return (
 			<div
 				style={{
-					height: "100vh",
+					height: "100%",
 					width: "100vw",
 					overflow: "hidden",
-					backgroundColor: lightGrey,
+					backgroundColor: 'white',
 					fontSize: "1em",
 					position: "relative"
 				}}
@@ -261,7 +261,7 @@ class CouncilLivePage extends React.Component {
 					style={{
 						display: "flex",
 						width: "100%",
-						height: "calc(100vh - 3em)",
+						height: "calc(100% - 3em)",
 						flexDirection: "row",
 						overflow: "hidden"
 					}}
@@ -274,7 +274,7 @@ class CouncilLivePage extends React.Component {
 									? "row"
 									: "column",
 								width: `${this.state.videoWidth}%`,
-								height: "calc(100vh - 3em)",
+								height: "100%",
 								overflow: "hidden",
 								position: "relative",
 								backgroundColor: darkGrey,
@@ -283,7 +283,7 @@ class CouncilLivePage extends React.Component {
 							{this.state.fullScreen && (
 								<div
 									style={{
-										height: "calc(100vh - 3em)",
+										height: "100%",
 										width: "5%",
 										overflow: "hidden",
 										backgroundColor: darkGrey
@@ -358,7 +358,7 @@ class CouncilLivePage extends React.Component {
 							{!this.state.fullScreen && (
 								<div
 									style={{
-										height: `calc(100vh - ${minVideoHeight} - 3em)`,
+										height: `calc(100% - ${minVideoHeight} - 3em)`,
 										width: "100%",
 										overflow: "hidden",
 										backgroundColor: darkGrey
@@ -380,10 +380,10 @@ class CouncilLivePage extends React.Component {
 						style={{
 							width: `${
 								showVideo(council)
-									? 100 - this.state.videoWidth
+									? 100 - this.state.videoWidth - '0.5'
 									: 100
 								}%`,
-							height: "calc(100vh - 3em)"
+							height: "100%"
 						}}
 					>
 						{this.state.participants && !this.state.fullScreen ? (

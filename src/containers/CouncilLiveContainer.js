@@ -5,7 +5,8 @@ import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
 import {
 	BrowserView,
-	MobileView
+	MobileView,
+	isMobile
 } from "react-device-detect";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';
@@ -23,29 +24,27 @@ const CouncilLiveContainer = ({ main, companies, match, translate }) => {
 		<div
 			id="mainContainer"
 			style={{
-				width: '100vw',
-				height: '100vh',
+				width: '100%',
+				height: '100%',
 				overflow: 'hidden'
 			}}
 		>
 			{!main.serverStatus &&
 				<NoConnectionModal open={!main.serverStatus} />
 			}
-			<BrowserView>
+			{!isMobile?
 				<CouncilLivePage
 					companies={companies}
 					translate={translate}
 					councilID={match.params.id}
 				/>
-			</BrowserView>
-
-			<MobileView>
+			:
 				<CouncilLiveMobilePage
 					companies={companies}
 					translate={translate}
 					councilID={match.params.id}
 				/>
-			</MobileView>
+			}
 		</div>
 	);
 };

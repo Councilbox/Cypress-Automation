@@ -9,6 +9,11 @@ import { getSecondary } from "../../../styles/colors";
 import { moment } from "../../../containers/App";
 
 class DownloadCBXDataButton extends Component {
+
+	state = {
+		loading: false
+	};
+	
 	downloadCBXData = async id => {
 		this.setState({
 			loading: true
@@ -33,13 +38,6 @@ class DownloadCBXDataButton extends Component {
 			}
 		}
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: false
-		};
-	}
 
 	render() {
 		const secondary = getSecondary();

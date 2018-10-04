@@ -4,8 +4,7 @@ import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
 import { removeHTMLTags } from '../../../../utils/CBX';
 
-const AttendIntentionIcon = ({ participant, translate, size = '1.3em' }) => {
-    const primary = getPrimary();
+const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
     let icon = 'question';
 
@@ -39,22 +38,21 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em' }) => {
                         name={icon}
                         style={{
                             margin: "0.5em",
-                            color: primary,
+                            color: color,
                             fontSize: size
                         }}
                     />
             </Tooltip>
-            {!!participant.assistanceComment &&
-                <Tooltip title={removeHTMLTags(participant.assistanceComment)}>
-                    <FontAwesome
-                        name={'comment'}
-                        style={{
-                            margin: "0.5em",
-                            color: primary,
-                            fontSize: size
-                        }}
-                    />
-                </Tooltip>
+            {!!participant.assistanceComment && showCommentIcon &&
+                <FontAwesome
+                    onClick={onCommentClick}
+                    name={'comment'}
+                    style={{
+                        margin: "0.5em",
+                        color: color,
+                        fontSize: size
+                    }}
+                />
             }
         </div>
     )

@@ -8,6 +8,7 @@ import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
 import { removeHTMLTags, isRepresented } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
+import AttendIntentionIcon from "./AttendIntentionIcon";
 
 
 class ParticipantItem extends React.PureComponent {
@@ -354,7 +355,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 	</React.Fragment>
 )
 
-const _getIcon = (mode, participant, translate) => {
+const _getIcon = (mode, participant, translate, showCommentModal) => {
 	switch (mode) {
 		case 'STATES':
 			return <StateIcon translate={translate} state={participant.state} />
@@ -365,7 +366,7 @@ const _getIcon = (mode, participant, translate) => {
 		case 'TYPE':
 			return <TypeIcon translate={translate} type={participant.type} />
 		case 'ATTENDANCE':
-			return <StateIcon translate={translate} state={participant.assistanceIntention} />
+			return <AttendIntentionIcon participant={participant} translate={translate} size="2em" color={getSecondary()} />
 		default:
 			break;
 	}

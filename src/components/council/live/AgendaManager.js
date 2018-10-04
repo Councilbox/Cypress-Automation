@@ -86,10 +86,11 @@ class AgendaManager extends React.Component {
 
 		if (this.props.fullScreen) {
 			return (
-				<Card
+				<div
 					style={{
-						width: "100%",
-						height: "calc(100vh - 3em)",
+						width: "calc(100% - 2px)",
+						height: "100%",
+						maxHeight: 'calc(100vh - 3em)',
 						borderLeft: '1px solid gainsboro',
 						overflow: "hidden",
 						backgroundColor: "white"
@@ -101,6 +102,7 @@ class AgendaManager extends React.Component {
 							agendas={agendas}
 							company={company}
 							council={council}
+							fullScreen={true}
 							votingTypes={this.props.data.votingTypes}
 							companyStatutes={this.props.data.companyStatutes}
 							selected={this.state.selectedPoint}
@@ -110,7 +112,7 @@ class AgendaManager extends React.Component {
 							refetch={this.props.data.refetch}
 						/>
 					</Scrollbar>
-				</Card>
+				</div>
 			);
 		}
 
@@ -151,7 +153,7 @@ class AgendaManager extends React.Component {
 				<div
 					style={{
 						width: "calc(100% - 5em)",
-						height: "calc(100vh - 3em)",
+						height: "100%",
 						padding: "0",
 						display: "flex",
 						flexDirection: "row",

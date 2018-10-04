@@ -172,32 +172,12 @@ class ParticipantsManager extends React.Component {
 					alignItems: 'center',
 					backgroundColor: 'white',
 					borderBottom: '1px solid gainsboro',
-					position: "relative"
+					position: "relative",
+					overflow: 'hidden'
 				}}
 			>
-				<div style={{minWidth: '14em'}}>
-					<SelectInput
-						fullWidth
-						floatingText={'Tipo de visualización'} //TRADUCCION
-						value={this.state.view}
-						onChange={(event => this.setState({ view: event.target.value}))}
-					>
-						<MenuItem value={'STATES'} /*TRADUCCION*/>
-							{'Estado de los participantes'}
-						</MenuItem>
-						<MenuItem value={'TYPE'}  /*TRADUCCION*/>
-							{'Tipo de participante'}
-						</MenuItem>
-						<MenuItem value={'ATTENDANCE'}  /*TRADUCCION*/>
-							{'Intención de asistencia'}
-						</MenuItem>
-						<MenuItem value={'CREDENTIALS'} /*TRADUCCION*/>
-							{'Envío de credenciales'}
-						</MenuItem>
-					</SelectInput>
-				</div>
 				{!isMobile &&
-					<React.Fragment>
+					<div style={{overflow: 'hidden', marginRight: '0.6em', display: 'flex'}}>
 						<FilterButton
 							tooltip={translate.grid}
 							onClick={() => this.setState({ layout: 'squares' })}
@@ -226,8 +206,29 @@ class ParticipantsManager extends React.Component {
 								}}
 							/>
 						</FilterButton>
-					</React.Fragment>
+					</div>
 				}
+				<div style={{minWidth: '14em'}}>
+					<SelectInput
+						fullWidth
+						floatingText={'Tipo de visualización'} //TRADUCCION
+						value={this.state.view}
+						onChange={(event => this.setState({ view: event.target.value}))}
+					>
+						<MenuItem value={'STATES'} /*TRADUCCION*/>
+							{'Estado de los participantes'}
+						</MenuItem>
+						<MenuItem value={'TYPE'}  /*TRADUCCION*/>
+							{'Tipo de participante'}
+						</MenuItem>
+						<MenuItem value={'ATTENDANCE'}  /*TRADUCCION*/>
+							{'Intención de asistencia'}
+						</MenuItem>
+						<MenuItem value={'CREDENTIALS'} /*TRADUCCION*/>
+							{'Envío de credenciales'}
+						</MenuItem>
+					</SelectInput>
+				</div>
 			</div>
 		)
 	}
@@ -251,25 +252,27 @@ class ParticipantsManager extends React.Component {
 				onKeyDown={this.handleKeyPress}
 				ref={ref => (this.div = ref)}
 			>
-				<AlertConfirm
-					open={!!this.state.editParticipant}
-					requestClose={() => {
-						this.setState({
-							editParticipant: undefined
-						});
-					}}
-					bodyText={
-						<div style={{height: '70vh'}}>
-							<LiveParticipantEditor
-								translate={translate}
-								council={council}
-								//refetch={this.props.data.refetch}
-								id={this.state.editParticipant}
+				{this.state.editParticipant &&
+					<AlertConfirm
+						open={!!this.state.editParticipant}
+						requestClose={() => {
+							this.setState({
+								editParticipant: undefined
+							});
+						}}
+						bodyText={
+							<div style={{height: '70vh'}}>
+								<LiveParticipantEditor
+									translate={translate}
+									council={council}
+									//refetch={this.props.data.refetch}
+									id={this.state.editParticipant}
 
-							/>
-						</div>
-					}
-				/>
+								/>
+							</div>
+						}
+					/>
+				}
 				<i
 					className="material-icons"
 					style={{
@@ -308,9 +311,7 @@ class ParticipantsManager extends React.Component {
 								collapse={this._renderTableOptions}
 							/>
 							{this.state.editParticipant}
-							{
-								this._renderSection()
-							}
+							{this._renderSection()}
 						</Paper>
 					</GridItem>
 				</Grid>

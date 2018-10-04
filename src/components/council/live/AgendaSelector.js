@@ -5,8 +5,20 @@ import NewAgendaPointModal from "../editor/agenda/modals/NewAgendaPointModal";
 import ReorderPointsModal from "../agendas/ReorderPointsModal";
 import * as CBX from "../../../utils/CBX";
 import { Tooltip } from "material-ui";
+import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
 
 class AgendaSelector extends React.Component {
+
+	canAddPoints = () => {
+		const activePoint = this.props.agendas.find(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
+		if(activePoint){
+			return CBX.canAddPoints(this.props.council) &&
+				activePoint.subjectType !== AGENDA_TYPES.PRIVATE_ACT &&
+				activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
+		}
+		return CBX.canAddPoints(this.props.council)
+	}
+
 	render() {
 		const { agendas, translate, council, onClick, selected } = this.props;
 
@@ -57,7 +69,7 @@ class AgendaSelector extends React.Component {
 						);
 					})}
 				</div>
-				{CBX.canAddPoints(council) && (
+				{this.canAddPoints(council) && (
 					<div style={{ marginBottom: "0.8em" }}>
 						<NewAgendaPointModal
 							translate={translate}

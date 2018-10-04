@@ -90,7 +90,13 @@ const theme = createMuiTheme({
 				outline: 'none !important',
 				userSelect: 'none !important' ,
 				textTransform: 'none',
-				borderBottomWidth: '3px'
+				fontWeight: '700',
+			},
+			disabled: {
+				fontWeight: '400'
+			},
+			label: {
+				fontSize: '14px !important',
 			},
 			selected: {
 				fontWeight: '700'

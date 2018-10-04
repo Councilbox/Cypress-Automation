@@ -450,6 +450,7 @@ const query = gql`
 				surname
 				assistanceIntention
 				assistanceComment
+				assistanceLastDateConfirmed
 			}
 			total
 		}

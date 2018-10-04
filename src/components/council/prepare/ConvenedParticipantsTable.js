@@ -4,6 +4,7 @@ import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import {
+	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
 	LoadingSection,
@@ -20,22 +21,33 @@ import DownloadCBXDataButton from "./DownloadCBXDataButton";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
+import AttendComment from "./modals/AttendComment";
 
 class ConvenedParticipantsTable extends React.Component {
 
 	state = {
 		editingParticipant: false,
 		participant: {},
-		activeStatusFilter: ""
+		activeStatusFilter: "",
+		showCommentModal: false,
+		showComment: ''
 	};
 
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
-	
+
 	refresh = object => {
 		this.table.refresh(object);
 	};
+
+	showModalComment = comment => event => {
+		event.stopPropagation();
+		this.setState({
+			showCommentModal: true,
+			showComment: comment
+		})
+	}
 
 	refreshEmailStates = async () => {
 		const response = await this.props.updateConveneSends({
@@ -203,6 +215,7 @@ class ConvenedParticipantsTable extends React.Component {
 											<HoverableRow
 												translate={translate}
 												participant={participant}
+												showModalComment={this.showModalComment}
 												editParticipant={() =>
 													this.setState({
 														editingParticipant: true,
@@ -342,6 +355,11 @@ class ConvenedParticipantsTable extends React.Component {
 																	<TableCell>
 																		<AttendIntentionIcon
 																			participant={participant.representative.live}
+																			showCommentIcon
+																			onCommentClick={this.showModalComment({
+																				text: participant.representative.live.assistanceComment,
+																				author: `${participant.representative.name} ${participant.representative.surname}`
+																			})}
 																			translate={translate}
 																			size="2em"
 																		/>
@@ -351,7 +369,7 @@ class ConvenedParticipantsTable extends React.Component {
 													}
 
 													<TableCell>
-														
+
 													</TableCell>
 												</TableRow>
 											)}
@@ -379,6 +397,15 @@ class ConvenedParticipantsTable extends React.Component {
 						participant={participant}
 						opened={editingParticipant}
 						refetch={refetch}
+					/>
+					<AttendComment
+					 	requestClose={() => this.setState({
+							showCommentModal: false,
+							showComment: false
+						})}
+						open={this.state.showCommentModal}
+						comment={this.state.showComment}
+						translate={translate}
 					/>
 				</React.Fragment>
 				{this.props.children}
@@ -493,6 +520,11 @@ class HoverableRow extends React.Component {
 							<TableCell>
 								<AttendIntentionIcon
 									participant={participant.live}
+									showCommentIcon
+									onCommentClick={this.props.showModalComment({
+										text: participant.live.assistanceComment,
+										author: `${participant.name} ${participant.surname}`
+									})}
 									translate={translate}
 									size="2em"
 								/>
@@ -513,10 +545,6 @@ class HoverableRow extends React.Component {
 							/>
 						}
 					</div>
-					{
-
-					}
-					
 				</TableCell>
 			</TableRow>
 		)

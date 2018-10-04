@@ -65,6 +65,12 @@ export const showAgendaVotingsToggle = (council, agenda) => {
 	);
 };
 
+export const showSendCredentials = participantState => {
+	return participantState !== PARTICIPANT_STATES.PRESENT &&
+			participantState !== PARTICIPANT_STATES.DELEGATED &&
+			participantState !== PARTICIPANT_STATES.REPRESENTATED;
+}
+
 export const showAgendaVotingsTable = (agenda) => {
 	return (
 		agenda.votingState > 0 &&

@@ -1,7 +1,8 @@
 import React from 'react';
 import { BasicButton } from '../../../../displayComponents';
 import { AGENDA_STATES } from '../../../../constants';
-import { getPrimary } from '../../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { Tooltip } from 'material-ui';
 import ApproveActButton from './ApproveActButton';
 import SendActToVote from './SendActToVote';
 import ToggleAgendaButton from '../ToggleAgendaButton';
@@ -17,7 +18,21 @@ class ActPointStateManager extends React.PureComponent {
     render(){
         const { agenda, council, translate, refetch } = this.props;
         const primary = getPrimary();
-        
+
+        if(!this.props.active){
+            return (
+                <Tooltip title={translate.warning_unclosed_agenda}>
+                    <i
+                        className="fa fa-lock"
+                        style={{
+                            color: getSecondary(),
+                            fontSize: "2em"
+                        }}
+                    />
+                </Tooltip>
+            )
+        }
+
         return (
             <React.Fragment>
                 {agenda.pointState === AGENDA_STATES.INITIAL &&

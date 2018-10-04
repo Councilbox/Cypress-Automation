@@ -3,10 +3,12 @@ import FilterButton from "./FilterButton";
 import Icon from "./Icon";
 import { getSecondary } from "../styles/colors";
 
-const RefreshButton = ({ tooltip, loading, onClick }) => (
+const RefreshButton = ({ tooltip, loading, onClick, elevation, buttonStyle }) => (
 	<FilterButton
 		tooltip={tooltip}
 		loading={loading}
+		buttonStyle={buttonStyle}
+		elevation={elevation}
 		size="2em"
 		onClick={onClick}
 	>
@@ -14,7 +16,7 @@ const RefreshButton = ({ tooltip, loading, onClick }) => (
 			style={{
 				display: "flex",
 				alignItems: "center",
-				justifyContent: "center"
+				justifyContent: "center",
 			}}
 		>
 			<Icon

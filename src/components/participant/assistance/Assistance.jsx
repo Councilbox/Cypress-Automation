@@ -52,6 +52,7 @@ class Assistance extends React.Component {
 		participant: {},
 		savingAssistanceComment: false,
 		delegationModal: false,
+		assistanceIntention: this.props.participant.assistanceIntention
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -85,6 +86,9 @@ class Assistance extends React.Component {
 	saveAssistanceComment = async () => {
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
+
+		const response = await this.selectSimpleOption(this.state.assistanceIntention);
+		console.log(response);
 
 		if(!checkForUnclosedBraces(assistanceComment)){
 			this.setState({
@@ -202,34 +206,43 @@ class Assistance extends React.Component {
 											<AssistanceOption
 												title={translate.attend_remotely_through_cbx}
 												select={() => {
-													selectSimpleOption(PARTICIPANT_STATES.REMOTE)
+													this.setState({
+														assistanceIntention: PARTICIPANT_STATES.REMOTE
+													})
+													//selectSimpleOption(PARTICIPANT_STATES.REMOTE)
 												}}
 												value={PARTICIPANT_STATES.REMOTE}
-												selected={participant.assistanceIntention}
+												selected={this.state.assistanceIntention}
 											/>
 											<AssistanceOption
 												title={translate.attending_in_person}
 												//subtitle={translate.attending_in_person_subtitle}
 												select={() => {
-													selectSimpleOption(PARTICIPANT_STATES.PHYSICALLY_PRESENT)
+													this.setState({
+														assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT
+													})
+													//selectSimpleOption(PARTICIPANT_STATES.PHYSICALLY_PRESENT)
 												}}
 												value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-												selected={participant.assistanceIntention}
+												selected={this.state.assistanceIntention}
 
 											/>
 											<AssistanceOption
 												title={translate.not_attending}
 												select={() => {
-													selectSimpleOption(PARTICIPANT_STATES.NO_PARTICIPATE)
+													this.setState({
+														assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE
+													})
+													//selectSimpleOption(PARTICIPANT_STATES.NO_PARTICIPATE)
 												}}
 												value={PARTICIPANT_STATES.NO_PARTICIPATE}
-												selected={participant.assistanceIntention}
+												selected={this.state.assistanceIntention}
 											/>
 											{canDelegate && <AssistanceOption
 													title={translate.want_to_delegate_in}
 													select={this.showDelegation}
 													value={PARTICIPANT_STATES.DELEGATED}
-													selected={participant.assistanceIntention}
+													selected={this.state.assistanceIntention}
 												/>
 											}
 											{representative &&

@@ -21,7 +21,6 @@ class ToggleAgendaButton extends React.Component {
 				sendCredentials: !nextProps.council.videoEmailsDate
 			}
 		}
-
 		return null;
 	}
 
@@ -49,7 +48,7 @@ class ToggleAgendaButton extends React.Component {
 							message={translate.open_point_error}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
-							autoClose: true,			
+							autoClose: true,
 							className: "errorToast"
 						}
 					);

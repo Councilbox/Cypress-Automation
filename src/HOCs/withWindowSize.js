@@ -34,10 +34,10 @@ const withWindowSize = WrappedComponent => {
 			});
 
 
-			const element = document.getElementById('mainContainer');
+			const element = document.getElementById('root');
 
 			if(element){
-				element.style.height = window.screen? window.screen.avaliableHeight : window.innerHeight;
+				element.style.height = window.innerHeight +'px';
 			}
 		};
 

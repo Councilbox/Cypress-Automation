@@ -52,7 +52,6 @@ class ParticipantContainer extends React.PureComponent {
 					display: "flex",
 					flex: 1,
 					flexDirection: "column",
-					height: "100vh",
 					overflow: "auto",
 					padding: 0,
 					margin: 0

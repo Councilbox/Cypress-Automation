@@ -9,6 +9,7 @@ import {
 	TextInput,
 	BasicButton,
 	ButtonIcon,
+	RefreshButton,
 	LiveToast
 } from "../../../../../displayComponents";
 import { graphql, compose } from "react-apollo";
@@ -393,6 +394,15 @@ class CredentialsContainer extends React.Component {
 						/>
 					</GridItem>
 					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
+						<div style={{marginRight: '0.6em'}}>
+							<RefreshButton
+								elevation={0}
+								buttonStyle={{
+									border: `1px solid ${secondary}`
+								}}
+								onClick={this.refreshEmailStates}
+							/>
+						</div>
 						<div
 							style={{
 								maxWidth: "12em"

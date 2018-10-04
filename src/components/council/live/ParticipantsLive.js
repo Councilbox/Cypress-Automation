@@ -272,7 +272,7 @@ class ParticipantsLive extends React.Component {
 			return <LoadingSection />;
 		}
 
-		return <div style={{ backgroundColor: darkGrey, width: "100%", height: "calc(100vh - 45vh - 6em)", padding: "0.75em", position: "relative", overflow: "hidden" }}>
+		return <div style={{ backgroundColor: darkGrey, width: "100%", height: "calc(100% - 45vh - 4em)", padding: "0.75em", position: "relative", overflow: "hidden" }}>
 				<Scrollbar>
 					{videoParticipants.list.map(participant => {
 						return this._participantEntry(participant);

@@ -9,6 +9,8 @@ const FilterButton = ({
 	onClick,
 	children,
 	active,
+	elevation,
+	buttonStyle,
 	tooltip,
 	size = "2em",
 	loading
@@ -37,10 +39,10 @@ const FilterButton = ({
 					outline: 0,
 					border: `1px solid gainsboro`,
 					borderRadius: "2px",
-					backgroundColor: active ? getLightGrey() : "transparent"
+					backgroundColor: active ? getLightGrey() : "transparent",
+					...buttonStyle
 				}}
-				elevation={active ? 0 : 1}
-				tabIndex="0"
+				elevation={elevation? elevation : active ? 0 : 1}
 				ref={ref => (element = ref)}
 				onKeyUp={onKeyUp}
 				onClick={onClick}

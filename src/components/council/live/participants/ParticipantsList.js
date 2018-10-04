@@ -3,12 +3,13 @@ import { Grid } from "../../../../displayComponents";
 import { LoadMoreButton, Scrollbar, LoadingSection } from "../../../../displayComponents";
 import ParticipantItem from "./ParticipantItem";
 import SignatureModal from "./modals/SignatureModal";
+import AttendComment from "../../prepare/modals/AttendComment";
 
 class ParticipantsList extends React.PureComponent {
 
 	state = {
 		showSignatureModal: false,
-		participantToSign: null
+		participantToSign: null,
 	}
 
 	showSignatureModal = participant => () => {
@@ -56,12 +57,10 @@ class ParticipantsList extends React.PureComponent {
 							<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
 								{participants.list.map(
 									participant =>
-										<React.Fragment>
+										<React.Fragment key={`participant_${participant.id}`}>
 											<ParticipantItem
 												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
+												key={`participant_${participant.id}`}
 												participant={participant}
 												translate={translate}
 												mode={mode}

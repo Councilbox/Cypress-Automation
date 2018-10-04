@@ -247,7 +247,20 @@ class LiveParticipantEditor extends React.Component {
 							</React.Fragment>
 						)}
 
-						{participant.notifications.length > 0 && (
+						{!!participant.assistanceComment &&
+							<GridItem xs={12} md={12} lg={12}>
+								<Typography
+									variant="subheading"
+									style={{
+										marginRight: "1em"
+									}}
+								>
+									{'Comentario de asistencia'}
+								</Typography>
+								<div dangerouslySetInnerHTML={{__html: participant.assistanceComment}} />
+							</GridItem>
+						}
+						{participant.notifications.length > 0? (
 							<React.Fragment>
 								<GridItem
 									xs={12}
@@ -272,12 +285,14 @@ class LiveParticipantEditor extends React.Component {
 										loading={this.state.loadingSends}
 										onClick={this.refreshEmailStates}
 									/>
-									<ResendCredentialsModal
-										participant={participant}
-										council={this.props.council}
-										translate={translate}
-										refetch={this.props.data.refetch}
-									/>
+									{CBX.showSendCredentials(participant.state) &&
+										<ResendCredentialsModal
+											participant={participant}
+											council={this.props.council}
+											translate={translate}
+											refetch={this.props.data.refetch}
+										/>
+									}
 								</GridItem>
 								<GridItem xs={12} lg={12} md={12}>
 									<NotificationsTable
@@ -288,7 +303,12 @@ class LiveParticipantEditor extends React.Component {
 									/>
 								</GridItem>
 							</React.Fragment>
-						)}
+						) : (
+							<GridItem xs={12} md={12} lg={12}/*TRADUCCION*/>
+								No hay envíos para mostrar
+							</GridItem>
+						)
+						}
 					</Grid>
 				</div>
 			</div>

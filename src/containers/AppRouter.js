@@ -164,7 +164,6 @@ class AppRouter extends React.Component {
 				id={"mainContainer"}
 				style={{
 					width: "100%",
-					height: "100vh",
 					position: "relative",
 					overflow: 'hidden'
 				}}
@@ -201,7 +200,7 @@ class AppRouter extends React.Component {
 					/>
 					<div
 						style={{
-							height: `calc(100vh - 3em)`,
+							height: `calc(100% - 3em)`,
 							display: "flex",
 							width: "100%",
 							overflow: 'hidden',
