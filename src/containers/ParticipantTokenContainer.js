@@ -28,7 +28,7 @@ class ParticipantTokenContainer extends React.Component {
                     variables: {},
                     fetchPolicy: "network-only"
                 });
-				const participant = responseQueryMe.data.participantMe;			
+				const participant = responseQueryMe.data.participantMe;		
 
                 this.setState({
                     token: token,
@@ -93,6 +93,7 @@ const getMe = gql`
 		participantMe {
 			id
 			councilId
+			language
 		}
 	}
 `;

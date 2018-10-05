@@ -6,18 +6,23 @@ import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
 import CouncilMenu from './councilMenu/CouncilMenu';
 import * as CBX from "../../../utils/CBX";
-import { AGENDA_TYPES } from "../../../constants";
+import { graphql } from 'react-apollo';
+import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
+import { MenuItem } from 'material-ui';
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
-import { BasicButton, Grid, GridItem, Scrollbar } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem, Scrollbar, SelectInput } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
+import { updateAgenda } from "../../../queries/agenda";
+
 
 class AgendaDetailsSection extends React.Component {
 	state = {
 		openIndex: 1,
-		expanded: false
+		expanded: false,
+		subjectType: this.props.agendas[this.props.selectedPoint].subjectType
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -43,6 +48,28 @@ class AgendaDetailsSection extends React.Component {
 		}
 	}
 
+	changeSubjectType = subjectType => {
+		this.setState({
+			subjectType: subjectType
+		}, () => this.updateSubjectType())
+	}
+
+	updateSubjectType = async () => {
+		const response = await this.props.updateAgenda({
+			variables: {
+				agenda: {
+					id: this.props.agendas[this.props.selectedPoint].id,
+					councilId: this.props.agendas[this.props.selectedPoint].councilId,
+					subjectType: this.state.subjectType
+				}
+			}
+		});
+		if (response) {
+			console.log(response)
+			this.props.refetch();
+		}
+	};
+
 	render() {
 		const {
 			translate,
@@ -53,6 +80,7 @@ class AgendaDetailsSection extends React.Component {
 		} = this.props;
 		const councilStarted = CBX.councilStarted(council);
 		const agenda = agendas[this.props.selectedPoint];
+		const filteredTypes = CBX.filterAgendaVotingTypes(this.props.votingTypes, council.statute);
 
 		return (
 			<div
@@ -75,7 +103,33 @@ class AgendaDetailsSection extends React.Component {
 					}}
 				>
 					<GridItem xs={12} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
-						<div style={{ fontWeight: '700' }}>{`${agenda.orderIndex} - ${agenda.agendaSubject}`}</div>
+						<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+							<div>
+								{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
+							</div>
+							<div style={{paddingRight: '1em'}}>
+								{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL)?
+									<SelectInput
+										floatingText={translate.type}
+										value={"" + this.state.subjectType}
+										onChange={event => this.changeSubjectType(+event.target.value)}
+									>
+										{filteredTypes.map(voting => {
+											return (
+												<MenuItem
+													value={"" + voting.value}
+													key={`voting${voting.value}`}
+												>
+													{translate[voting.label]}
+												</MenuItem>
+											);
+										})}
+									</SelectInput>
+								:
+									translate[CBX.getAgendaTypeLabel(agenda)]
+								}
+							</div>
+						</div>
 						<Grid>
 							<GridItem xs={12} md={12} lg={3} style={{display: 'flex', alignItems: 'center'}}>
 								{agenda.subjectType !== CBX.getActPointSubjectType() &&
@@ -221,4 +275,6 @@ class AgendaDetailsSection extends React.Component {
 	}
 }
 
-export default AgendaDetailsSection;
+export default graphql(updateAgenda, {
+	name: 'updateAgenda'
+})(AgendaDetailsSection);

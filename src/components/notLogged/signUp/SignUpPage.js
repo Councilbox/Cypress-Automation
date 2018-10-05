@@ -93,8 +93,8 @@ class SignUpPage extends React.PureComponent {
 		const response = await this.props.mutate({
 			variables: {
 				user,
-				...(this.state.sendCompany? { company: company } : {}),
-				subscription
+				/* ...(this.state.sendCompany? { company: company } : {}),
+				subscription */
 			}
 		});
 		if (response.errors) {
@@ -282,6 +282,7 @@ class SignUpPage extends React.PureComponent {
 														nextPage={this.nextPage}
 														formData={this.state.data.user}
 														errors={this.state.errors}
+														signUp={this.send}
 														updateState={
 															this.updateUser
 														}

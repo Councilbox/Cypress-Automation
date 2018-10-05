@@ -13,11 +13,23 @@ import ParticipantLogin from "../components/participant/login/Login";
 import ErrorState from "../components/participant/login/ErrorState";
 import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
+import { bindActionCreators } from 'redux';
+import * as mainActions from '../actions/mainActions';
+
 
 class ParticipantContainer extends React.PureComponent {
 
 	componentDidMount(){
 		store.dispatch(setDetectRTC());
+	}
+
+	componentDidUpdate(){
+		//console.log(this.props.translate)
+		if(this.props.data.participant){
+			if(this.props.data.participant.language !== this.props.translate.selectedLanguage){
+				this.props.actions.setLanguage(this.props.data.participant.language);
+			}
+		}
 	}
 
 	render() {
@@ -195,8 +207,15 @@ const participantQuery = gql`
 `;
 
 const mapStateToProps = state => ({
-	main: state.main
+	main: state.main,
+	translate: state.translate
 });
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(mainActions, dispatch)
+    };
+}
 
 export default graphql(participantQuery, {
 	options: props => ({
@@ -207,4 +226,4 @@ export default graphql(participantQuery, {
 		notifyOnNetworkStatusChange: true,
         pollInterval: 5000
 	})
-})(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps)(ParticipantContainer)))));
+})(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));

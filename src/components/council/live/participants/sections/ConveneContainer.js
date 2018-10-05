@@ -31,9 +31,16 @@ class ConveneContainer extends React.Component {
 	state = {
 		notificationStatus: null,
 		filterText: "",
+		onlyNotSigned: false,
 		filterField: "fullName",
 		status: null
 	};
+
+	toggleOnlyNotSigned = () => {
+		this.setState({
+			onlyNotSigned: !this.state.onlyNotSigned
+		}, () => this.refresh());
+	}
 
 	_getFilters = () => {
 		const translate = this.props.translate;
@@ -145,6 +152,13 @@ class ConveneContainer extends React.Component {
 			variables.notificationStatus = this.state.notificationStatus;
 		} else {
 			variables.notificationStatus = null;
+		}
+
+		if(this.state.onlyNotSigned){
+			variables.filters = [
+				...variables.filters,
+				{ field: 'signed', text: 0}
+			];
 		}
 
 		if (this.state.filterText) {

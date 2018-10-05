@@ -7,9 +7,12 @@ import {
 	BasicButton,
 	SelectInput,
 	MenuItem,
-	TextInput
+	TextInput,
+	ButtonIcon
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
+import { Tooltip } from 'material-ui';
+import { isMobile } from 'react-device-detect';
 import gql from "graphql-tag";
 import {
 	PARTICIPANTS_LIMITS,
@@ -33,7 +36,9 @@ class TypesContainer extends React.Component {
 		typeStatus: null,
 		filterText: "",
 		filterField: "fullName",
-		status: null
+		status: null,
+		onlyNotSigned: false,
+		addGuest: false
 	};
 
 	_getFilters = () => {
@@ -53,6 +58,41 @@ class TypesContainer extends React.Component {
 			}
 		];
 	};
+
+	toggleOnlyNotSigned = () => {
+		this.setState({
+			onlyNotSigned: !this.state.onlyNotSigned
+		}, () => this.refresh());
+	}
+
+	_renderAddGuestButton = () => {
+		const secondary = getSecondary();
+
+		return (
+			<Tooltip title="ALT + G">
+				<div>
+					<BasicButton
+						text={isMobile? 'Invitar' : this.props.translate.add_guest} //TRADUCCION
+						color={"white"}
+						textStyle={{
+							color: secondary,
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none",
+						}}
+						textPosition="after"
+						type="flat"
+						icon={<ButtonIcon type="add" color={secondary} />}
+						onClick={() => this.setState({ addGuest: true })}
+						buttonStyle={{
+							marginRight: "1em",
+							border: `1px solid ${secondary}`,
+						}}
+					/>
+				</div>
+			</Tooltip>
+		)
+	}
 
 	settypeStatus = newValue => {
 		this.setState({ typeStatus: newValue }, () => this.refresh());
@@ -120,6 +160,13 @@ class TypesContainer extends React.Component {
 			variables.typeStatus = this.state.typeStatus;
 		} else {
 			variables.typeStatus = null;
+		}
+
+		if(this.state.onlyNotSigned){
+			variables.filters = [
+				...variables.filters,
+				{ field: 'signed', text: 0}
+			];
 		}
 
 		if (this.state.filterText) {
@@ -266,7 +313,7 @@ class TypesContainer extends React.Component {
 				</div>
 				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
-						{this.props.addGuestButton()}
+						{this._renderAddGuestButton()}
 					</GridItem>
 					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
 						<BasicButton
@@ -340,10 +387,10 @@ class TypesContainer extends React.Component {
 					/>
 				</div>
 				<AddGuestModal
-					show={addGuest}
+					show={this.state.addGuest}
 					council={council}
 					refetch={refetch}
-					requestClose={() => updateState({ addGuest: false })}
+					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
 				/>
 			</React.Fragment>

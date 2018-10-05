@@ -36,7 +36,7 @@ class LiveParticipantEditor extends React.Component {
 	};
 
 	componentDidMount() {
-		this.props.data.refetch();
+		//this.props.data.refetch();
 	}
 
 	openSignModal = () => {

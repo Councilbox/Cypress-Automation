@@ -32,7 +32,8 @@ class SignUpUser extends React.Component {
 
 	nextPage = async () => {
 		if (!(await this.checkRequiredFields())) {
-			this.props.nextPage();
+			//this.props.nextPage();
+			this.props.signUp();
 		}
 	};
 
@@ -269,7 +270,7 @@ class SignUpUser extends React.Component {
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<BasicButton
-							text={translate.continue}
+							text={translate.send}
 							color={primary}
 							textStyle={{
 								color: "white",
@@ -280,7 +281,7 @@ class SignUpUser extends React.Component {
 							icon={
 								<ButtonIcon
 									color="white"
-									type="arrow_forward"
+									type="send"
 								/>
 							}
 						/>

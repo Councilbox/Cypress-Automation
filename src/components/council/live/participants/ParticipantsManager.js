@@ -13,7 +13,6 @@ import {
 } from "../../../../displayComponents";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { Paper, Tooltip, MenuItem } from "material-ui";
-import LiveParticipantEditor from "./LiveParticipantEditor";
 import StatesContainer from "./sections/StatesContainer";
 import ConveneContainer from "./sections/ConveneContainer";
 import CredentialsContainer from "./sections/CredentialsContainer";
@@ -25,7 +24,6 @@ import { isMobile } from 'react-device-detect';
 
 class ParticipantsManager extends React.Component {
 	state = {
-		addGuest: false,
 		layout: 'squares', // table, compact
 		loadingMore: false,
 		refreshing: false,
@@ -65,35 +63,6 @@ class ParticipantsManager extends React.Component {
 		});
 	}
 
-	_renderAddGuestButton = () => {
-		const secondary = getSecondary();
-
-		return (
-			<Tooltip title="ALT + G">
-				<div>
-					<BasicButton
-						text={isMobile? 'Invitar' : this.props.translate.add_guest} //TRADUCCION
-						color={"white"}
-						textStyle={{
-							color: secondary,
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none",
-						}}
-						textPosition="after"
-						type="flat"
-						icon={<ButtonIcon type="add" color={secondary} />}
-						onClick={() => this.updateState({ addGuest: true })}
-						buttonStyle={{
-							marginRight: "1em",
-							border: `1px solid ${secondary}`,
-						}}
-					/>
-				</div>
-			</Tooltip>
-		)
-	}
-
 	_renderSection = () => {
 		let { view, layout, addGuest } = this.state;
 		let { council, translate } = this.props;
@@ -102,7 +71,6 @@ class ParticipantsManager extends React.Component {
 				return <StatesContainer
 					council={council}
 					translate={translate}
-					addGuestButton={this._renderAddGuestButton}
 					layout={layout}
 					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
@@ -112,7 +80,6 @@ class ParticipantsManager extends React.Component {
 			case 'CONVENE':
 				return <ConveneContainer
 					council={council}
-					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					menuOpen={this.state.open}
@@ -123,7 +90,6 @@ class ParticipantsManager extends React.Component {
 			case 'CREDENTIALS':
 				return <CredentialsContainer
 					council={council}
-					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					menuOpen={this.state.open}
@@ -134,7 +100,6 @@ class ParticipantsManager extends React.Component {
 			case 'ATTENDANCE':
 				return <AttendanceContainer
 					council={council}
-					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					menuOpen={this.state.open}
@@ -145,7 +110,6 @@ class ParticipantsManager extends React.Component {
 			case 'TYPE':
 				return <TypesContainer
 					council={council}
-					addGuestButton={this._renderAddGuestButton}
 					translate={translate}
 					layout={layout}
 					menuOpen={this.state.open}
@@ -252,27 +216,6 @@ class ParticipantsManager extends React.Component {
 				onKeyDown={this.handleKeyPress}
 				ref={ref => (this.div = ref)}
 			>
-				{this.state.editParticipant &&
-					<AlertConfirm
-						open={!!this.state.editParticipant}
-						requestClose={() => {
-							this.setState({
-								editParticipant: undefined
-							});
-						}}
-						bodyText={
-							<div style={{height: '70vh'}}>
-								<LiveParticipantEditor
-									translate={translate}
-									council={council}
-									//refetch={this.props.data.refetch}
-									id={this.state.editParticipant}
-
-								/>
-							</div>
-						}
-					/>
-				}
 				<i
 					className="material-icons"
 					style={{

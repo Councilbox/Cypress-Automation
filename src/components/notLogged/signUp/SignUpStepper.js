@@ -37,7 +37,7 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 						onClick={() => goToPage(1)}
 						icon={<Icon type="user" style={{color: active === 0? primary : secondary}} />}
 					/>
-					<Step
+					{/* <Step
 						onClick={() => goToPage(2)}
 						title={
 							<React.Fragment>
@@ -57,7 +57,7 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 							</span>
 						}
 						icon={<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />}
-					/>
+					/> */}
 				</Steps>
 			</div>
 		);
@@ -80,12 +80,12 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 			<Tooltip title={translate.user_data}>
 				<Icon type="user" style={{color: active === 0? primary : secondary}} />
 			</Tooltip>
-			<Tooltip title={`Datos de entidad (opcional)`}>
+{/* 			<Tooltip title={`Datos de entidad (opcional)`}>
 				<Icon type="profile" style={{color: active === 1? primary : secondary}} />
 			</Tooltip>
 			<Tooltip title={`${translate.billing_information} (opcional)`}>
 				<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />
-			</Tooltip>
+			</Tooltip> */}
 		</div>
 	);
 };

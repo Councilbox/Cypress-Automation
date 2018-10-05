@@ -1,15 +1,17 @@
 import React from "react";
 import { Grid } from "../../../../displayComponents";
-import { LoadMoreButton, Scrollbar, LoadingSection } from "../../../../displayComponents";
+import { LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from "../../../../displayComponents";
 import ParticipantItem from "./ParticipantItem";
 import SignatureModal from "./modals/SignatureModal";
 import AttendComment from "../../prepare/modals/AttendComment";
+import LiveParticipantEditor from "./LiveParticipantEditor";
 
 class ParticipantsList extends React.PureComponent {
 
 	state = {
 		showSignatureModal: false,
 		participantToSign: null,
+		editParticipant: null
 	}
 
 	showSignatureModal = participant => () => {
@@ -25,7 +27,6 @@ class ParticipantsList extends React.PureComponent {
 			mode,
 			translate,
 			layout,
-			editParticipant,
 			council,
 			loadMore,
 			loading,
@@ -65,7 +66,9 @@ class ParticipantsList extends React.PureComponent {
 												translate={translate}
 												mode={mode}
 												showSignatureModal={this.showSignatureModal(participant)}
-												editParticipant={editParticipant}
+												editParticipant={() => this.setState({
+													editParticipant: participant.id
+												})}
 												council={council}
 											/>
 											{/* <ParticipantItem
@@ -194,6 +197,27 @@ class ParticipantsList extends React.PureComponent {
 									refetch={this.props.refetch}
 									requestClose={() => this.setState({ showSignatureModal: false, participantToSign: null })}
 									translate={translate}
+								/>
+							}
+							{this.state.editParticipant &&
+								<AlertConfirm
+									open={!!this.state.editParticipant}
+									requestClose={() => {
+										this.setState({
+											editParticipant: undefined
+										});
+									}}
+									bodyText={
+										<div style={{height: '70vh'}}>
+											<LiveParticipantEditor
+												translate={translate}
+												council={council}
+												//refetch={this.props.data.refetch}
+												id={this.state.editParticipant}
+
+											/>
+										</div>
+									}
 								/>
 							}
 						</Scrollbar>

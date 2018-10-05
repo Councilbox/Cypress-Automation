@@ -57,19 +57,21 @@ class Assistance extends React.Component {
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		return {
-			participant: nextProps.participant
+			participant: nextProps.participant,
+			assistanceIntention: nextProps.participant.assistanceIntention,
 		};
 	}
 
 	selectSimpleOption = async option => {
 		const { setAssistanceIntention, refetch } = this.props;
 
+
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: option
 			}
 		});
-		console.log(response);
+
 		if (response) {
 			if(response.data.setAssistanceIntention.success){
 				this.setState({
@@ -87,8 +89,10 @@ class Assistance extends React.Component {
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
-		const response = await this.selectSimpleOption(this.state.assistanceIntention);
-		console.log(response);
+		if(this.state.assistanceIntention !== this.props.participant.assistanceIntention){
+			const response = await this.selectSimpleOption(this.state.assistanceIntention);
+			console.log(response);
+		}
 
 		if(!checkForUnclosedBraces(assistanceComment)){
 			this.setState({
@@ -130,7 +134,7 @@ class Assistance extends React.Component {
 		});
 	}
 
-	selectDelegation = async (delegateId) => {
+	selectDelegation = async delegateId => {
 		const { setAssistanceIntention, refetch } = this.props;
 
 		const response = await setAssistanceIntention({
@@ -159,6 +163,7 @@ class Assistance extends React.Component {
 		const { representative, ...participant } = this.state.participant;
 		const selectSimpleOption = this.selectSimpleOption;
 		let canDelegate = canDelegateVotes(council.statute, participant);
+		console.log(this.state)
 
 		return (
 			<NotLoggedLayout

@@ -20,7 +20,7 @@ const minVideoHeight = "42vh";
 
 class CouncilLivePage extends React.Component {
 	state = {
-		participants: false,
+		participants: true,
 		confirmModal: false,
 		selectedPoint: 0,
 		wall: false,

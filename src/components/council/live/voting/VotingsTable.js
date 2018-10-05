@@ -1,7 +1,7 @@
 import React from 'react';
 import { agendaVotings } from "../../../../queries/agenda";
 import { graphql } from 'react-apollo';
-import { VOTE_VALUES, AGENDA_TYPES } from "../../../../constants";
+import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES } from "../../../../constants";
 import { TableRow, TableCell } from "material-ui";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
@@ -204,11 +204,11 @@ class VotingsTable extends React.Component {
 			if(this.props.data.agendaVotings.list.length > 0){
 				this.props.data.agendaVotings.list.forEach(voting => {
 					if(voting.authorRepresentative){
-						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId);
+						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId || vote.participantId === voting.delegateId);
 						if(sameRepresentative !== -1){
 							mappedVotings[sameRepresentative].delegatedVotes = [...mappedVotings[sameRepresentative].delegatedVotes, voting];
 						} else {
-							mappedVotings.push({...voting, delegatedVotes: []});
+							mappedVotings.push({...voting, author: voting.authorRepresentative, delegatedVotes: [voting]});
 						}
 					} else {
 						mappedVotings.push({...voting, delegatedVotes: []});
@@ -342,7 +342,7 @@ class VotingsTable extends React.Component {
 					/>
 				</GridItem>
 				<div style={{ width: "100%" }}>
-					{this.props.data.loading ? (
+					{!this.props.data.agendaVotings ? (
 						<LoadingSection />
 					) : this.props.data.agendaVotings.list.length > 0 ? (
 						<React.Fragment>
@@ -354,6 +354,139 @@ class VotingsTable extends React.Component {
 									{ name: translate.votes }
 								]}
 							>
+								{mappedVotings.map(vote => (
+									<TableRow key={`vote_${vote.id}`}>
+										<TableCell>
+											<div
+												style={{
+													display: "flex",
+													flexDirection:
+														"row",
+													alignItems: "center"
+												}}
+											>
+												{this.props.agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
+													<React.Fragment>
+														{vote.vote !== -1?
+															'Ha votado'
+														:
+															'No ha votado'
+														}
+													</React.Fragment>
+												:
+													<React.Fragment>
+														<Tooltip
+															title={this.getTooltip(
+																vote.vote
+															)}
+														>
+															<VotingValueIcon
+																vote={vote.vote}
+															/>
+														</Tooltip>
+														{isPresentVote(
+															vote
+														) && (
+															<PresentVoteMenu
+																agenda={this.props.agenda}
+																agendaVoting={
+																	vote
+																}
+																active={
+																	vote.vote
+																}
+																refetch={
+																	this.props
+																		.data
+																		.refetch
+																}
+															/>
+														)}
+													</React.Fragment>
+												}
+
+												<Tooltip
+													title={
+														vote.presentVote ===
+														1
+															? translate.customer_present
+															: translate.customer_initial
+													}
+												>
+													{this.getStateIcon(
+														vote.presentVote
+													)}
+												</Tooltip>
+											</div>
+										</TableCell>
+										<TableCell>
+											<span style={{fontWeight: '700'}}>
+												{
+													`${vote.author.name} ${
+														vote.author.surname
+													}`
+												}
+											</span>
+											{!!vote.delegatedVotes &&
+												vote.delegatedVotes.map(delegatedVote => (
+													<React.Fragment>
+														<br/>
+														{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${
+															delegatedVote.author.state === PARTICIPANT_STATES.DELEGATED?
+																`(Voto delegado)`
+															:
+																delegatedVote.author.state === PARTICIPANT_STATES.REPRESENTATED?
+																	`(Representado)`
+																:
+																	''
+														}`}
+													</React.Fragment>
+													
+												))
+											}
+										</TableCell>
+										<TableCell>
+											{vote.author.position}
+											{!!vote.delegatedVotes &&
+												vote.delegatedVotes.map(delegatedVote => (
+													<React.Fragment>
+														<br/>
+														{delegatedVote.author.position}
+													</React.Fragment>
+													
+												))
+											}
+										</TableCell>
+										<TableCell>
+											{vote.author.numParticipations && `${
+												vote.author.numParticipations
+											} (${(
+												(vote.author.numParticipations /
+													total) *
+												100
+											).toFixed(2)}%)`}
+											{!!vote.delegatedVotes &&
+												vote.delegatedVotes.map(delegatedVote => (
+													<React.Fragment>
+														<br/>
+														{`${
+															delegatedVote.author
+																.numParticipations
+														} (${(
+															(delegatedVote.author
+																.numParticipations /
+																total) *
+															100
+														).toFixed(2)}%)`}
+													</React.Fragment>
+													
+												))
+											}
+										</TableCell>
+									</TableRow>
+								))
+
+								}
 								{/* {this.props.data.agendaVotings.list.map(
 									vote => {
 										return (

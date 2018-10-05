@@ -7,6 +7,7 @@ import {
 	MenuItem,
 	GridItem,
 	BasicButton,
+	ButtonIcon,
 	TextInput
 } from "../../../../../displayComponents";
 import { graphql } from "react-apollo";
@@ -15,6 +16,8 @@ import {
 	PARTICIPANTS_LIMITS,
 	PARTICIPANT_STATES
 } from "../../../../../constants";
+import { Tooltip } from 'material-ui';
+import { isMobile } from 'react-device-detect';
 import { getSecondary } from "../../../../../styles/colors";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
@@ -31,9 +34,17 @@ class AttendanceContainer extends React.Component {
 	state = {
 		attendanceStatus: null,
 		filterText: "",
+		onlyNotSigned: false,
 		filterField: "fullName",
-		status: null
+		status: null,
+		addGuest: false
 	};
+
+	toggleOnlyNotSigned = () => {
+		this.setState({
+			onlyNotSigned: !this.state.onlyNotSigned
+		}, () => this.refresh());
+	}
 
 	_getFilters = () => {
 		const translate = this.props.translate;
@@ -74,6 +85,35 @@ class AttendanceContainer extends React.Component {
 		clearTimeout(this.timeout);
 		this.timeout = setTimeout(() => this.refresh(), 450);
 	};
+
+	_renderAddGuestButton = () => {
+		const secondary = getSecondary();
+
+		return (
+			<Tooltip title="ALT + G">
+				<div>
+					<BasicButton
+						text={isMobile? 'Invitar' : this.props.translate.add_guest} //TRADUCCION
+						color={"white"}
+						textStyle={{
+							color: secondary,
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none",
+						}}
+						textPosition="after"
+						type="flat"
+						icon={<ButtonIcon type="add" color={secondary} />}
+						onClick={() => this.setState({ addGuest: true })}
+						buttonStyle={{
+							marginRight: "1em",
+							border: `1px solid ${secondary}`,
+						}}
+					/>
+				</div>
+			</Tooltip>
+		)
+	}
 
 	loadMore = () => {
 		const currentLength = this.props.data.liveParticipantsAttendance.list
@@ -116,8 +156,15 @@ class AttendanceContainer extends React.Component {
 		let variables = {
 			filters: []
 		};
-		if (this.state.attendanceStatus) {
+		//if (this.state.attendanceStatus !== null) {
 			variables.attendanceStatus = this.state.attendanceStatus;
+		//}
+
+		if(this.state.onlyNotSigned){
+			variables.filters = [
+				...variables.filters,
+				{ field: 'signed', text: 0}
+			];
 		}
 
 		if (this.state.filterText) {
@@ -310,7 +357,7 @@ class AttendanceContainer extends React.Component {
 	};
 
 	render() {
-		const { addGuest, updateState, council, translate, orientation } = this.props;
+		const { updateState, council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
@@ -333,7 +380,7 @@ class AttendanceContainer extends React.Component {
 				</div>
 				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
-						{this.props.addGuestButton()}
+						{this._renderAddGuestButton()}
 					</GridItem>
 					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
 						<BasicButton
@@ -409,10 +456,10 @@ class AttendanceContainer extends React.Component {
 					/>
 				</div>
 				<AddGuestModal
-					show={addGuest}
+					show={this.state.addGuest}
 					council={council}
 					refetch={refetch}
-					requestClose={() => updateState({ addGuest: false })}
+					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
 				/>
 			</React.Fragment>

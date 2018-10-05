@@ -35,6 +35,7 @@ class ParticipantStateSelector extends React.Component {
 		});
 
 		if (response) {
+			console.log(response);
 			this.setState({
 				loading: false
 			});
