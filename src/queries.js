@@ -43,6 +43,7 @@ export const getMe = gql`
 			surname
 			id
 			type
+			actived
 			roles
 			phone
 			email
@@ -57,6 +58,8 @@ export const updateUser = gql`
 			name
 			surname
 			id
+			type
+			actived
 			roles
 			phone
 			email
@@ -121,6 +124,7 @@ export const companies = gql`
 				city
 				zipcode
 				country
+				demo
 				countryState
 				linkKey
 				creatorId

@@ -60,6 +60,7 @@ export const corporationUsers = gql`
 				usr 
 				name 
 				surname 
+				actived
 				email 
 				phone 
 				lastConnectionDate 

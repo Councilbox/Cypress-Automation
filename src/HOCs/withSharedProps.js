@@ -6,6 +6,7 @@ const withSharedProps = () => WrappedComponent => {
 		return(
 			<WrappedComponent
 				company={companies.list.length > 0? companies.list[companies.selected] : null}
+				companies={companies}
 				user={user}
 				translate={translate}
 				{...restProps}

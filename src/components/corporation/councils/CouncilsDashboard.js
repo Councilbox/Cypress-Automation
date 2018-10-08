@@ -87,11 +87,6 @@ class CouncilsDashboard extends React.PureComponent {
                         margin: '1.4em'
                     }}
                 >
-                    <span>
-                        {!this.props.data.loading &&
-                            `${this.props.translate.active_rooms}: ${this.props.data.activeCouncilRooms.length}`
-                        }
-                    </span>
                     <BasicButton
                         icon={
                             <FontAwesome
@@ -138,8 +133,6 @@ const corporationCouncils = gql`
                 businessName
             }
         }
-
-        activeCouncilRooms
     }
 `;
 

@@ -23,6 +23,13 @@ export const VOTE_VALUES = {
 	ABSTENTION: 2
 };
 
+export const USER_ACTIVATIONS = {
+	NOT_CONFIRMED: 0,
+	CONFIRMED: 1,
+	PREMIUM: 2,
+	FREE_TRIAL: 3
+};
+
 export const EMAIL_TRACK_STATES = {
 	FAILED: -1,
 	NOT_SENT: 0,

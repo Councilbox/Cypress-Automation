@@ -16,6 +16,9 @@ export const config = {
 	videoVersion: videoVersions.CMP //OLD - CMP
 }
 
+export const CONTACT_URL = "https://www.councilbox.com/contactar/";
+export const TRIAL_DAYS = 5;
+
 // POINT CLIENT TO VPS SERVER
 //const LOCATION_URL = process.env.REACT_APP_MODE === 'dev'? 'localhost:5000/graphql' : 'apicbx.councilbox.com';
 

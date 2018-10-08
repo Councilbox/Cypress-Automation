@@ -1,12 +1,15 @@
 import React from "react";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import { Block, Grid, GridItem, AlertConfirm } from '../../displayComponents';
+import { userCanCreateCompany } from '../../utils/CBX';
 import ToggleRecordings from './ToggleRecordings';
 import ToggleVideo from './ToggleVideo';
 import LogoutUser from './LogoutUser';
 import RefreshUser from './RefreshUser';
 import PremiumModal from './PremiumModal';
 import withSharedProps from '../../HOCs/withSharedProps';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
 class NoCompanyDashboard extends React.Component {
@@ -25,6 +28,14 @@ class NoCompanyDashboard extends React.Component {
 		})
 	}
 
+	stopFreeTrial = async () => {
+		await this.props.stopFreeTrial({
+			variables: {
+				userId: this.props.user.id
+			}
+		});
+	}
+
 	render() {
 		const { translate, company, user } = this.props;
 		return (
@@ -41,6 +52,9 @@ class NoCompanyDashboard extends React.Component {
 				}}
 				id={"mainContainer"}
 			>
+				<div onClick={this.stopFreeTrial}>
+					QUITAR EL FREE TRIAL
+				</div>
 				{user.email === 'aaron.fuentes.cocodin+2@gmail.com'?
 					<Grid>
 						<GridItem xs={12} md={12} lg={12}>
@@ -96,7 +110,7 @@ class NoCompanyDashboard extends React.Component {
 								spacing={8}
 							>
 								<GridItem xs={12} md={6} lg={4}>
-									{true?
+									{!userCanCreateCompany(user)?
 										<div onClick={() => this.setState({premiumModal: true})}>
 											<Block
 												link={`/`}
@@ -144,4 +158,14 @@ class NoCompanyDashboard extends React.Component {
 	}
 }
 
-export default withSharedProps()(NoCompanyDashboard);
+const stopFreeTrial = gql`
+	mutation StopFreeTrial($userId: Int!){
+		stopFreeTrial(userId: $userId){
+			success
+		}
+	}
+`;
+
+export default graphql(stopFreeTrial, {
+	name: 'stopFreeTrial'
+})(withSharedProps()(NoCompanyDashboard));

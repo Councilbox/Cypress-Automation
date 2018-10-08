@@ -14,6 +14,7 @@ import {
 	TextInput
 } from "../../../displayComponents";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
+import { USER_ACTIVATIONS } from '../../../constants';
 import { MenuItem, Typography } from "material-ui";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { provinces } from "../../../queries/masters";
@@ -131,7 +132,10 @@ class NewCompanyPage extends React.PureComponent {
 		if (!await this.checkRequiredFields()) {
 			const response = await this.props.createCompany({
 				variables: {
-					company: this.state.data,
+					company: {
+						...this.state.data,
+						demo: this.props.user.actived === USER_ACTIVATIONS.FREE_TRIAL? 1 : 0
+					},
 					userId: this.props.user.id
 				}
 			});

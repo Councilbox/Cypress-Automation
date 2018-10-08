@@ -56,6 +56,7 @@ class UserEdit extends React.PureComponent {
                     key={`user_${this.props.data.user.id}`}
                     user={this.props.data.user}
                     closeSession={true}
+                    activatePremium={true}
                     translate={this.props.translate}
                 />
                 <CompanyLinksManager
@@ -89,6 +90,7 @@ const user = gql`
             id
             name
             surname
+            actived
             email
             lastConnectionDate
             companies{

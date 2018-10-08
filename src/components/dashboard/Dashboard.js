@@ -3,6 +3,9 @@ import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
 import { Scrollbar } from '../../displayComponents';
+import { moment } from '../../containers/App';
+import { TRIAL_DAYS } from '../../config';
+import { trialDaysLeft } from '../../utils/CBX';
 
 const Dashboard = ({ translate, company, user }) => {
 	return (
@@ -56,7 +59,10 @@ const Dashboard = ({ translate, company, user }) => {
 								<img src={company.logo} alt="company-logo" style={{height: '4.5em', width: 'auto'}} />
 							}
 						</div>
-						{company.businessName}
+						<div>
+							{company.businessName}
+							{company.demo === 1 && ` (Prueba gratuita, restante ${trialDaysLeft(company, moment, TRIAL_DAYS)} días)` /*TRADUCCION*/}
+						</div>
 					</div>
 					<TopSectionBlocks
 						translate={translate}

@@ -3,6 +3,7 @@ import {
 	MAX_COUNCIL_FILE_SIZE,
 	PARTICIPANT_STATES,
 	SEND_TYPES,
+	USER_ACTIVATIONS,
 	COUNCIL_STATES,
 	AGENDA_STATES,
 	SIGNATURE_PARTICIPANTS_STATES,
@@ -49,6 +50,10 @@ export const canAddCouncilAttachment = (council, filesize) => {
 	);
 };
 
+export const trialDaysLeft = (company, moment, trialDays) => (
+	trialDays - moment(new Date()).diff(moment(company.creationDate), 'days')
+)
+
 export const councilStarted = council => {
 	return council.councilStarted === 1;
 };
@@ -71,11 +76,24 @@ export const showSendCredentials = participantState => {
 			participantState !== PARTICIPANT_STATES.REPRESENTATED;
 }
 
-export const showAgendaVotingsTable = (agenda) => {
+export const showAgendaVotingsTable = agenda => {
 	return (
 		agenda.votingState > 0 &&
 		agenda.subjectType !== 0
 	)
+}
+
+export const userCanCreateCompany = (user, companies) => {
+	console.log(user, companies);
+	if(user.actived === USER_ACTIVATIONS.FREE_TRIAL){
+		if(companies){
+			if(companies.length >= 1){
+				return false;
+			}
+		}
+		return true;
+	}
+	return user.actived === USER_ACTIVATIONS.PREMIUM;
 }
 
 export const agendaVotingsOpened = agenda => {
