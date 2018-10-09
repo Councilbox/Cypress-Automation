@@ -27,7 +27,7 @@ class CompaniesManagerButton extends React.Component {
         return(
             <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <div>
-                    {userCanCreateCompany(this.props.user, this.props.companies.list)?
+                    {userCanCreateCompany(this.props.user, this.props.companies.list) || true?
                         <Link to={`/company/${this.props.company.id}/create`}>
                             <BasicButton
                                 text={this.props.translate.companies_add}
@@ -45,7 +45,6 @@ class CompaniesManagerButton extends React.Component {
                             textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
                         />
                     }
-                    
                 </div>
 
                 <Link to={`/company/${this.props.company.id}/link`}>

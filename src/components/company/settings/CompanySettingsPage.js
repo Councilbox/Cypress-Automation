@@ -23,6 +23,7 @@ import { bHistory, store } from "../../../containers/App";
 import { getCompanies, setCompany } from "../../../actions/companyActions";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
+import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButton";
 
 export const info = gql`
 	query info {
@@ -544,6 +545,14 @@ class CompanySettingsPage extends React.Component {
 								})
 							}
 							icon={<ButtonIcon type="link_off" color="white" />}
+						/>
+					}
+
+					{this.props.confirmCompany &&
+						<ConfirmCompanyButton
+							translate={translate}
+							company={this.props.company}
+							refetch={this.props.refetch}
 						/>
 					}
 					<AlertConfirm

@@ -13,11 +13,13 @@ const CompanyEditPage = ({ data, match, translate }) => {
     }
 
     return(
-        <div>
+        <div style={{height: 'calc(100% - 3em)'}}>
             <CompanySettingsPage
                 key={`company_${company.id}`}
                 company={data.company}
                 translate={translate}
+                confirmCompany={true}
+                refetch={data.refetch}
             />
         </div>
     )

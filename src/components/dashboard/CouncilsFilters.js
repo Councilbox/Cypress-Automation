@@ -22,7 +22,7 @@ class CouncilsFilters extends React.Component {
     render(){
         return(
             <Grid style={{paddingRight: '1.2em'}}>
-                <GridItem xs={0} md={9} lg={9}>
+                <GridItem xs={12} md={9} lg={9}>
 
                 </GridItem>
                 <GridItem xs={12} md={3} lg={3}>

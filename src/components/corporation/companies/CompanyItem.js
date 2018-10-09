@@ -11,7 +11,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked }) => (
                     value={checked}
                     onChange={(event, isInputChecked) => {
                         onCheck(company, isInputChecked)
-                    }}  
+                    }}
                 />
             </div>
         }
@@ -24,7 +24,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked }) => (
                 flexDirection: 'row'
             }}
         >
-            <div 
+            <div
                 style={{
                     width: '5em',
                     height: '100%',

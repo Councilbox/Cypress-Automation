@@ -4,37 +4,68 @@ import { bHistory } from '../../containers/App';
 import { TableRow, TableCell } from 'material-ui';
 import TableStyles from "../../styles/table";
 import { getPrimary } from "../../styles/colors";
+import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
+import { TRIAL_DAYS } from "../../config";
+import { trialDaysLeft } from "../../utils/CBX";
+import { moment } from "../../containers/App";
 
-const CouncilsList = ({ councils, translate, openDeleteModal, company, link }) => {
-    let headers = link === '/finished' ? [
-        { name: translate.date_real_start },
-        { name: translate.table_councils_duration },
-        { name: translate.name },
-        { name: '' }
-    ] : [
-        { name: translate.date_real_start },
-        { name: translate.name },
-        { name: '' }
-    ]
-    return(
-        <Table
-            headers={headers}
-            companyID={company.id}
-        >
-            {councils.map(council => {
-                return (
-                    <HoverableRow
-                        council={council}
-                        company={company}
-                        key={`council${council.id}`}
-                        translate={translate}
-                        openDeleteModal={openDeleteModal}
-                        link={link}
-                    />
-                );
-            })}
-        </Table>
-    )
+class CouncilsList extends React.Component {
+
+    state = {
+        open: false
+    }
+
+    openCantAccessModal = () => {
+        this.setState({
+            open: true
+        });
+    }
+
+    closeCantAccessModal = () => {
+        this.setState({
+            open: false
+        })
+    }
+
+    render() {
+        const { councils, translate, openDeleteModal, company, link } = this.props;
+        let headers = link === '/finished' ? [
+            { name: translate.date_real_start },
+            { name: translate.table_councils_duration },
+            { name: translate.name },
+            { name: '' }
+        ] : [
+            { name: translate.date_real_start },
+            { name: translate.name },
+            { name: '' }
+        ]
+        return(
+            <Table
+                headers={headers}
+                companyID={company.id}
+            >
+                {councils.map(council => {
+                    return (
+                        <HoverableRow
+                            council={council}
+                            company={company}
+                            showModal={this.openCantAccessModal}
+                            key={`council${council.id}`}
+                            translate={translate}
+                            disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+                            openDeleteModal={openDeleteModal}
+                            link={link}
+                        />
+                    );
+                })}
+                <CantCreateCouncilsModal
+                    translate={translate}
+                    open={this.state.open}
+                    requestClose={this.closeCantAccessModal}
+                />
+            </Table>
+        )
+    }
 }
 
 class HoverableRow extends React.PureComponent {
@@ -79,11 +110,14 @@ class HoverableRow extends React.PureComponent {
                 hover
                 onMouseEnter={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}
-                style={TableStyles.ROW}
+                style={{...TableStyles.ROW, backgroundColor: this.props.disabled? 'whiteSmoke' : 'inherit'}}
                 onClick={() => {
-                    bHistory.push(
-                        `/company/${company.id}/council/${council.id}${link}`
-                    );
+                    this.props.disabled?
+                        this.props.showModal()
+                    :
+                        bHistory.push(
+                            `/company/${company.id}/council/${council.id}${link}`
+                        )
                 }}
             >
                 <TableCell

@@ -31,19 +31,19 @@ class Sidebar extends React.Component {
 			{
 				path: `/councils`,
 				name: 'councils',
-				sidebarName: props.translate.councils,
+				sidebarName: 'Reuniones',
 				icon: Dashboard
 			},
 			{
 				path: `/companies`,
 				name: "companies",
-				sidebarName: props.translate.companies,
+				sidebarName: 'Entidades',
 				icon: ImportContacts
 			},
 			{
 				path: `/drafts`,
 				name: "drafts",
-				sidebarName: props.translate.drafts,
+				sidebarName: 'Borradores',
 				icon: ContentPaste
 			},
 			{

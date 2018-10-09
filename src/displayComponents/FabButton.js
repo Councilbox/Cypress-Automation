@@ -6,7 +6,7 @@ const FabButton = ({ onClick, color, icon }) => (
 		variant="fab"
 		color="primary"
 		onClick={onClick}
-		style={{ outline: 0 }}
+		style={{ outline: 0, ...(!!color? {backgroundColor: color} : {})}}
 	>
 		{icon}
 	</Button>

@@ -8,6 +8,8 @@ import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
 
 const Dashboard = ({ translate, company, user }) => {
+	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
+
 	return (
 		<div
 			style={{
@@ -61,7 +63,7 @@ const Dashboard = ({ translate, company, user }) => {
 						</div>
 						<div>
 							{company.businessName}
-							{company.demo === 1 && ` (Prueba gratuita, restante ${trialDaysLeft(company, moment, TRIAL_DAYS)} días)` /*TRADUCCION*/}
+							{company.demo === 1 && ` (Prueba gratuita, restante ${trialDays <= 0? 0 : trialDays} días)` /*TRADUCCION*/}
 						</div>
 					</div>
 					<TopSectionBlocks

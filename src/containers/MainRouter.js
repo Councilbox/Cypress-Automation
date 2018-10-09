@@ -32,7 +32,7 @@ const redirect = company => () => (
     <Redirect to={`/company/${company.id}`} />
 )
 
-const MainRouter = ({ company, user, location }) => {
+const MainRouter = ({ company, user, location, disabled }) => {
 
     if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`)){
         return <Redirect to={`/company/${company.id}`} />

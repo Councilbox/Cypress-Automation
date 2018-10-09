@@ -138,8 +138,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 				return () => (sub? sub.unsubscribe() : null);
 			});
 		}
-
-		graphQLErrors.map(error => graphQLErrorHandler(error, toast, store, client, operation));
+		graphQLErrors.map(error => graphQLErrorHandler(error, toast, store, client, operation, bHistory));
 	}
 
 	if(networkError){

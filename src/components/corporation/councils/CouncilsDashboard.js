@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, CollapsibleSection, BasicButton } from '../../../displayComponents';
+import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey, getSecondary } from '../../../styles/colors';
 import FontAwesome from 'react-fontawesome';
@@ -21,7 +21,7 @@ class CouncilsDashboard extends React.PureComponent {
             />
         )
     }
-    
+
     _convenedSection = () => {
         return (
             <div style={{width: '100%'}}>
@@ -78,40 +78,42 @@ class CouncilsDashboard extends React.PureComponent {
                     backgroundColor: lightGrey,
                 }}
             >
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        margin: '1.4em'
-                    }}
-                >
-                    <BasicButton
-                        icon={
-                            <FontAwesome
-                                name={'refresh'}
-                                style={{
-                                    color: getSecondary()
-                                }}
-                            />
-                        }
-                        onClick={() => this.props.data.refetch()}
-                    />
-                </div>
-                {this.props.data.loading?
-                    <LoadingSection />
+                <Scrollbar>
+                    <div
+                        style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            margin: '1.4em'
+                        }}
+                    >
+                        <BasicButton
+                            icon={
+                                <FontAwesome
+                                    name={'refresh'}
+                                    style={{
+                                        color: getSecondary()
+                                    }}
+                                />
+                            }
+                            onClick={() => this.props.data.refetch()}
+                        />
+                    </div>
+                    {this.props.data.loading?
+                        <LoadingSection />
 
-                :
-                    <React.Fragment>
-                        <Card style={{margin: '1.4em'}}>
-                            <CollapsibleSection trigger={this._convenedTrigger} collapse={this._convenedSection} />
-                        </Card>
-                        <Card style={{margin: '1.4em'}}>
-                            <CollapsibleSection trigger={this._celebrationTrigger} collapse={this._celebrationSection} />
-                        </Card>
-                    </React.Fragment>
-                }
+                    :
+                        <React.Fragment>
+                            <Card style={{margin: '1.4em'}}>
+                                <CollapsibleSection trigger={this._convenedTrigger} collapse={this._convenedSection} />
+                            </Card>
+                            {/*<Card style={{margin: '1.4em'}}>
+                                <CollapsibleSection trigger={this._celebrationTrigger} collapse={this._celebrationSection} />
+                            </Card> */}
+                        </React.Fragment>
+                    }
+                </Scrollbar>
             </div>
         )
     }

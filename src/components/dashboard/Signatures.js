@@ -14,12 +14,26 @@ import { TableCell, TableRow } from "material-ui/Table";
 import Scrollbar from "react-perfect-scrollbar";
 import "react-perfect-scrollbar/dist/css/styles.css";
 import { bHistory } from "../../containers/App";
+import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 
 class Signatures extends React.Component {
 	state = {
 		deleteID: "",
-		deleteModal: false
+		deleteModal: false,
+		cantAccessModal: false
 	};
+
+    openCantAccessModal = () => {
+        this.setState({
+            cantAccessModal: true
+        });
+    }
+
+    closeCantAccessModal = () => {
+        this.setState({
+            cantAccessModal: false
+        })
+    }
 
 	componentDidMount() {
 		this.props.data.refetch();
@@ -118,9 +132,11 @@ class Signatures extends React.Component {
 												return (
 													<HoverableRow
 														signature={signature}
+														disabled={this.props.disabled}
 														company={this.props.company}
 														key={`signature_${signature.id}`}
 														translate={translate}
+														showModal={this.openCantAccessModal}
 														openDeleteModal={this.openDeleteModal}
 													/>
 												);
@@ -146,6 +162,11 @@ class Signatures extends React.Component {
 						</div>
 					)}
 				</div>
+				<CantCreateCouncilsModal
+                    translate={translate}
+                    open={this.state.cantAccessModal}
+                    requestClose={this.closeCantAccessModal}
+                />
 			</div>
 		);
 	}
@@ -198,7 +219,7 @@ class HoverableRow extends React.PureComponent {
 
 
     render() {
-        const { signature, translate } = this.props;
+        const { signature, translate, disabled } = this.props;
 
 
         return (
@@ -206,10 +227,14 @@ class HoverableRow extends React.PureComponent {
 				onMouseEnter={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				style={{
-					cursor: "pointer"
+					cursor: "pointer",
+					backgroundColor: disabled? 'whiteSmoke' : 'inherit'
 				}}
 				onClick={() => {
-					bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`
+					disabled?
+                        this.props.showModal()
+					:
+						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`
 					);
 				}}
 				key={`signature${

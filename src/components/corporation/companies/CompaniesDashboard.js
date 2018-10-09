@@ -57,12 +57,12 @@ class CompaniesDashboard extends React.PureComponent {
         return(
             <div
                 style={{
-                    height: 'calc(100vh - 3em)',
+                    height: 'calc(100% - 3em)',
                     position: 'relative',
                     overflow: 'hidden'
                 }}
             >
-                <div 
+                <div
                     style={{
                         marginLeft: '1.4em',
                         marginRight: '1.4em',

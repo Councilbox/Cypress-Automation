@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
 import { MenuItem } from 'material-ui';
@@ -9,7 +9,7 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
 
 const DEFAULT_OPTIONS = {
-    limit: 10,
+    limit: 100,
     offset: 0,
     orderBy: 'lastConnectionDate',
     orderDirection: 'DESC'
@@ -57,7 +57,7 @@ class UsersDashboard extends React.PureComponent {
         return (
             <div
                 style={{
-                    height: 'calc(100vh - 3em)',
+                    height: 'calc(100% - 3em)',
                     position: 'relative',
                     overflow: 'hidden'
                 }}
@@ -113,24 +113,24 @@ class UsersDashboard extends React.PureComponent {
                     </div>
                 </div>
                 <div style={{
-                    height: 'calc(100vh - 6em)',
+                    height: 'calc(100% - 6em)',
                     flexDirection: 'column',
-                    overflowY: 'auto',
-                    overflowX: 'hidden'
                 }}>
-                    {this.props.data.loading?
-                        <LoadingSection />
-                    :
-                        this.props.data.corporationUsers.list.map(user => (
-                            <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
-                                <UserItem
-                                    user={user}
-                                    clickable={true}
-                                    translate={this.props.translate}
-                                />
-                            </Link>
-                        ))
-                    }
+                    <Scrollbar>
+                        {this.props.data.loading?
+                            <LoadingSection />
+                        :
+                            this.props.data.corporationUsers.list.map(user => (
+                                <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
+                                    <UserItem
+                                        user={user}
+                                        clickable={true}
+                                        translate={this.props.translate}
+                                    />
+                                </Link>
+                            ))
+                        }
+                    </Scrollbar>
                 </div>
             </div>
         );
@@ -143,7 +143,7 @@ export default compose(
             variables: {
                 options: DEFAULT_OPTIONS
             },
-            notifyOnNetworkStatusChange: true  
-        })  
-    })  
-)(withTranslations()(UsersDashboard)); 
+            notifyOnNetworkStatusChange: true
+        })
+    })
+)(withTranslations()(UsersDashboard));

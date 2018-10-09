@@ -25,7 +25,7 @@ export const refreshToken = async (apolloClient, toast, store) => {
 			message={printSessionExpiredError()}
 		/>, {
 			position: toast.POSITION.TOP_RIGHT,
-			autoClose: true,			
+			autoClose: true,
 			className: "errorToast"
 		}
 	);
@@ -34,7 +34,7 @@ export const refreshToken = async (apolloClient, toast, store) => {
 }
 
 
-export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClient, operation) => {
+export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClient, operation, bHistory) => {
 	if (graphQLError.message === "Validation error") {
 		if (graphQLError.originalError) {
 			if (graphQLError.originalError.fields) {
@@ -44,12 +44,24 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 							message={printCifAlreadyUsed()}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
-							autoClose: true,			
+							autoClose: true,
 							className: "errorToast"
 						}
 					);
 				}
 			}
 		}
+	}
+	if(graphQLError.message === 'Company trial ended'){
+		toast(
+			<LiveToast
+				message={'Período de prueba finalizado'} //TRADUCCION
+			/>, {
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
+		);
+		bHistory.push('/');
 	}
 };

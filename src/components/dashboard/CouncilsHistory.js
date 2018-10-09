@@ -5,36 +5,68 @@ import { TableRow, TableCell } from 'material-ui';
 import TableStyles from "../../styles/table";
 import { getPrimary } from '../../styles/colors';
 import { COUNCIL_STATES } from '../../constants';
+import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
+import { TRIAL_DAYS } from "../../config";
+import { trialDaysLeft } from "../../utils/CBX";
+import { moment } from "../../containers/App";
 
 const generateLink = (council, company) => {
     return `/company/${company.id}/council/${council.id}/finished`;
 }
 
-const CouncilsHistory = ({ councils, translate, deleteCouncil, openDeleteModal, company, link }) => {
+class CouncilsHistory extends React.Component {
 
-    return(
-        <Table
-            headers={[
-                { name: translate.type },
-                { name: translate.date_real_start },
-                { name: translate.table_councils_duration },
-                { name: translate.name },
-                { name: translate.certificates }
-            ]}
-            companyID={company.id}
-        >
-            {councils.map(council => {
-                return (
-                    <HoverableRow
-                        key={`council_${council.id}`}
-                        translate={translate}
-                        council={council}
-                        company={company}
-                    />
-                );
-            })}
-        </Table>
-    )
+    state = {
+        open: false
+    }
+
+    openCantAccessModal = () => {
+        this.setState({
+            open: true
+        });
+    }
+
+    closeCantAccessModal = () => {
+        this.setState({
+            open: false
+        })
+    }
+
+    render(){
+        const { councils, translate, deleteCouncil, openDeleteModal, company, link } = this.props;
+
+        return(
+            <Table
+                headers={[
+                    { name: translate.type },
+                    { name: translate.date_real_start },
+                    { name: translate.table_councils_duration },
+                    { name: translate.name },
+                    { name: translate.certificates }
+                ]}
+                companyID={company.id}
+            >
+                {councils.map(council => {
+                    return (
+                        <HoverableRow
+                            key={`council_${council.id}`}
+                            translate={translate}
+                            council={council}
+                            disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+                            openDeleteModal={openDeleteModal}
+                            company={company}
+                            showModal={this.openCantAccessModal}
+                        />
+                    );
+                })}
+                <CantCreateCouncilsModal
+                    translate={translate}
+                    open={this.state.open}
+                    requestClose={this.closeCantAccessModal}
+                />
+            </Table>
+        )
+    }
 }
 
 class HoverableRow extends React.Component {
@@ -82,12 +114,15 @@ class HoverableRow extends React.Component {
                 hover
                 onMouseEnter={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
-                style={TableStyles.ROW}
+                style={{...TableStyles.ROW, backgroundColor: this.props.disabled? 'whiteSmoke' : 'inherit'}}
                 key={`council${council.id}`}
                 onClick={() => {
-                    bHistory.push(
-                        generateLink(council, company)
-                    );
+                    this.props.disabled?
+                        this.props.showModal()
+                    :
+                        bHistory.push(
+                            generateLink(council, company)
+                        )
                 }}
             >
                 <TableCell>
