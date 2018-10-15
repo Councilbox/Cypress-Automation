@@ -55,6 +55,7 @@ class UserEdit extends React.PureComponent {
                 <UserItem
                     key={`user_${this.props.data.user.id}`}
                     user={this.props.data.user}
+                    refetch={this.props.data.refetch}
                     closeSession={true}
                     activatePremium={true}
                     translate={this.props.translate}
@@ -117,7 +118,7 @@ export default compose(
         options: props => ({
            variables: {
                id: props.match.params.id
-           } 
+           }
         })
     }),
     graphql(linkCompanies, {

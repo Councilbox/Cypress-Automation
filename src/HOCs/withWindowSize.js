@@ -37,7 +37,7 @@ const withWindowSize = WrappedComponent => {
 			const element = document.getElementById('root');
 
 			if(element){
-				element.style.height = window.innerHeight +'px';
+				element.style.height = window.innerHeight + 'px';
 			}
 		};
 

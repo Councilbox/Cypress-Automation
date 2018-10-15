@@ -27,7 +27,7 @@ class CompaniesManagerButton extends React.Component {
         return(
             <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                 <div>
-                    {userCanCreateCompany(this.props.user, this.props.companies.list) || true?
+                    {userCanCreateCompany(this.props.user, this.props.companies.list)?
                         <Link to={`/company/${this.props.company.id}/create`}>
                             <BasicButton
                                 text={this.props.translate.companies_add}

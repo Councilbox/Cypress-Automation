@@ -11,13 +11,14 @@ import {
 	withStyles
 } from "material-ui";
 import sidebarStyle from "../../../styles/sidebarStyle";
+import icono from "../../../assets/img/logo-icono.png";
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
 import ImportContacts from 'material-ui-icons/ImportContacts';
 import { bHistory, store } from "../../../containers/App";
 import { changeCompany } from "../../../actions/companyActions";
-import FontAwesome from "react-fontawesome";
+
 
 class Sidebar extends React.Component {
 	constructor(props){
@@ -153,32 +154,16 @@ class Sidebar extends React.Component {
 				className={this.props.classes.logoLink}
 				style={{
 					display: "flex",
-					flexDirection: "row"
+					flexDirection: "row",
+					alignItems: 'center',
+					justifyContent: 'center'
 				}}
 			>
-				<div className={this.props.classes.logoImage}>
-					{!!this.props.company.logo ? (
-						<img
-							src={this.props.company.logo}
-							alt="logo"
-							className={this.props.classes.img}
-						/>
-					) : (
-						<FontAwesome
-							name={"building-o"}
-							className={this.props.classes.img}
-						/>
-					)}
-				</div>
-
-				<div
-					style={{
-						fontSize: "0.85em",
-						fontWeight: "700"
-					}}
-				>
-					{this.props.company.businessName}
-				</div>
+				<img
+					src={icono}
+					alt="logo"
+					style={{height: '3em', width: 'auto'}}
+				/>
 			</div>
 		</div>
 	);

@@ -66,12 +66,22 @@ class StepNotice extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState){
+		console.log(nextProps.data.council)
 		if(nextProps.data.council){
 			const council = nextProps.data.council;
 			return {
 				data: {
 					...nextProps.data.council,
 					...(!council.dateStart || !council.dateStart2NdCall? CBX.generateInitialDates(nextProps.data.council.statute) : {}),
+					conveneText: CBX.changeVariablesToValues(nextProps.data.council.conveneText, {
+						company: nextProps.company,
+						council: {
+							...nextProps.data.council,
+							dateStart: nextProps.data.council.dateStart? nextProps.data.council.dateStart : new Date().toISOString(),
+							...prevState.data
+						}
+					}, nextProps.translate),
+					...prevState.data
 				}
 			}
 		}
@@ -129,13 +139,13 @@ class StepNotice extends React.Component {
 		});
 	};
 
-	updateState = object => {
+	updateState = (object, cb) => {
 		this.setState({
 			data: {
 				...this.state.data,
 				...object
 			}
-		});
+		}, cb? cb : null);
 	};
 
 	updateError = object => {
@@ -162,7 +172,7 @@ class StepNotice extends React.Component {
 	}
 
 	changeStatute = async statuteId => {
-		const { statuteId: statute, ...actualState } = this.state.data;
+		//const { statuteId: statute, ...actualState } = this.state.data;
 		const response = await this.props.changeStatute({
 			variables: {
 				councilId: this.props.councilID,
@@ -176,9 +186,10 @@ class StepNotice extends React.Component {
 			});
 			await this.props.data.refetch();
 			this.checkAssociatedCensus(statuteId);
-			this.setState({
+			this.updateDate();
+/* 			this.setState({
 				data: actualState
-			}, this.updateDate);
+			}, this.updateDate); */
 		}
 	};
 
@@ -188,6 +199,8 @@ class StepNotice extends React.Component {
 	) => {
 		const { translate } = this.props;
 		const statute = this.props.data.council.statute;
+		const oldFirstDate = this.state.data.dateStart;
+		const oldSecondDate = this.state.data.dateStart2NdCall;
 		const errors = {
 			dateStart: '',
 			dateStart2NdCall: ''
@@ -195,8 +208,8 @@ class StepNotice extends React.Component {
 
 		this.updateState({
 			dateStart: firstDate,
-			dateStart2NdCall: secondDate
-		});
+			dateStart2NdCall: secondDate,
+		}, () => this.updateConveneText());
 
 		if(!CBX.checkMinimumAdvance(firstDate, statute)){
 			errors.dateStart = translate.new_statutes_warning
@@ -211,7 +224,7 @@ class StepNotice extends React.Component {
 					firstDate,
 					statute
 				)
-			});
+			}, () => this.updateConveneText());
 		} else {
 			if (
 				!CBX.checkMinimumDistanceBetweenCalls(
@@ -227,6 +240,21 @@ class StepNotice extends React.Component {
 		this.updateError(errors);
 	};
 
+	updateConveneText = () => {
+		console.log(this.state.data.conveneText);
+		const correctedText = CBX.changeVariablesToValues(this.state.data.conveneText, {
+			company: this.props.company,
+			council: this.state.data
+		}, this.props.translate);
+		this.setState({
+			data: {
+				...this.state.data,
+				conveneText: correctedText
+			}
+		});
+		this.editor.setValue(correctedText);
+	}
+
 	loadDraft = draft => {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
@@ -234,7 +262,7 @@ class StepNotice extends React.Component {
 		}, this.props.translate);
 		this.updateState({
 			conveneText: correctedText
-		});
+		}, () => console.log(this.state.data.conveneText));
 		this.editor.setValue(correctedText);
 	};
 
@@ -314,6 +342,53 @@ class StepNotice extends React.Component {
 			statute = this.props.data.council.statute;
 		}
 
+		let tags = [];
+
+		if(CBX.hasSecondCall(statute)){
+			tags = [{
+				value: moment(council.dateStart).format(
+					"LLL"
+				),
+				label: translate["1st_call_date"]
+			}, {
+				value: moment(council.dateStart2NdCall).format(
+					"LLL"
+				),
+				label: translate["2nd_call_date"]
+			}]
+		} else {
+			tags.push({
+				value: moment(council.dateStart).format(
+					"LLL"
+				),
+				label: translate.date
+			});
+		}
+
+		tags = [...tags,
+			{
+				value: company.businessName,
+				label: translate.business_name
+			},
+			{
+				value: council.remoteCelebration === 1? translate.remote_celebration : `${council.street}, ${
+					council.country
+				}`,
+				label: translate.new_location_of_celebrate
+			}
+		];
+
+		if(council.remoteCelebration !== 1){
+			tags = [...tags, {
+					value: council.country,
+					label: translate.company_new_country
+				},
+				{
+					value: council.countryState,
+					label: translate.company_new_country_state
+				}
+			];
+		}
 
 		return (
 			<React.Fragment>
@@ -463,28 +538,7 @@ class StepNotice extends React.Component {
 													}
 												/>
 											}
-											tags={[
-												{
-													value: moment(council.dateStart).format(
-														"LLL"
-													),
-													label: translate.date
-												},
-												{
-													value: company.businessName,
-													label: translate.business_name
-												},
-												{
-													value: `${council.street}, ${
-														council.country
-													}`,
-													label: translate.new_location_of_celebrate
-												},
-												{
-													value: council.country,
-													label: translate.company_new_country
-												}
-											]}
+											tags={tags}
 											floatingText={translate.convene_info}
 											value={council.conveneText || ""}
 											onChange={value =>

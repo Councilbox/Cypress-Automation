@@ -169,10 +169,12 @@ class ParticipantsTable extends React.Component {
 												totalSocialCapital={totalSocialCapital}
 												totalVotes={totalVotes}
 												participations={participations}
+												translate={translate}
+												representative={participant.representative}
 												_renderDeleteIcon={() => this._renderDeleteIcon(participant.id)}
 											/>
 
-											{!!participant.representative && (
+											{/* {!!participant.representative && (
 												<TableRow
 													hover={true}
 													style={{
@@ -242,7 +244,7 @@ class ParticipantsTable extends React.Component {
 													<TableCell />
 													<TableCell />
 												</TableRow>
-											)}
+											)} */}
 										</React.Fragment>
 									);
 								}
@@ -276,12 +278,12 @@ class HoverableRow extends React.Component {
 
 	render(){
 
-		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital } = this.props;
+		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative } = this.props;
 
 		return (
 			<TableRow
 				hover={true}
-				onMouseEnter={this.mouseEnterHandler}
+				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				onClick={editParticipant}
 				style={{
@@ -290,13 +292,31 @@ class HoverableRow extends React.Component {
 				}}
 			>
 				<TableCell>
-					{`${participant.name} ${participant.surname}`}
+					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
 					{participant.dni}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{representative.dni}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
 					{participant.position}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{representative.position}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
 					{!CBX.isRepresentative(
@@ -308,7 +328,11 @@ class HoverableRow extends React.Component {
 							(participant.numParticipations /
 								totalVotes) *
 							100
-						).toFixed(2)}%)`}
+						).toFixed(2)}%)`
+					}
+					{!!representative &&
+						<br/>
+					}
 				</TableCell>
 				{this.props.participations && (
 					<TableCell>
@@ -321,7 +345,11 @@ class HoverableRow extends React.Component {
 								(participant.socialCapital /
 									totalSocialCapital) *
 								100
-							).toFixed(2)}%)`}
+							).toFixed(2)}%)`
+						}
+						{!!representative &&
+							<br/>
+						}
 					</TableCell>
 				)}
 				<TableCell>
@@ -335,8 +363,10 @@ class HoverableRow extends React.Component {
 									participant.id
 								)
 						}
+						{!!representative &&
+							<br/>
+						}
 					</div>
-					
 				</TableCell>
 			</TableRow>
 		)

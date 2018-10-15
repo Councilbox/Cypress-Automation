@@ -87,10 +87,11 @@ class CommentMenu extends React.Component {
                         marginTop: '0.6em'
                     }}
                 >
+                    {/*TRADUCCION*/}
                     <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
                         {(!!comment && removeHTMLTags(comment).length > 0)?
                             'Has comentado'
-                        : 
+                        :
                             'No has comentado'
                         }
                     </Typography>

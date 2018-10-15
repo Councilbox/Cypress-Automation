@@ -334,12 +334,12 @@ class HoverableRow extends React.Component {
 		let isChecked = this.props.isChecked(
 			draft.id
 		);
-	
+
 		return (
 			<TableRow
 				key={`draft${draft.id}`}
 				hover={true}
-				onMouseEnter={this.mouseEnterHandler}
+				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 			>
 				<TableCell
@@ -358,7 +358,6 @@ class HoverableRow extends React.Component {
 					:
 						<div style={{width: '3em'}} />
 					}
-					
 				</TableCell>
 				<TableCell
 					style={

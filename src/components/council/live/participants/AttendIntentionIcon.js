@@ -3,26 +3,39 @@ import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
 import { removeHTMLTags } from '../../../../utils/CBX';
+import { PARTICIPANT_STATES } from '../../../../constants';
+
+
 
 const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
-    let icon = 'question';
+    const iconStyle = {
+        margin: "0.5em",
+        color: color,
+        fontSize: size
+    };
+    let icon = <i className='fa fa-question' style={iconStyle}></i>;
 
     if(participant.assistanceLastDateConfirmed){
         switch(participant.assistanceIntention){
-            case 0:
+            case PARTICIPANT_STATES.REMOTE:
                 tooltip = translate.remote_assistance_short;
-                icon = "globe"
+                icon = <i className='fa fa-globe' style={iconStyle}></i>;
                 break;
 
-            case 5:
+            case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
                 tooltip = translate.confirmed_assistance;
-                icon = "user"
+                icon = <i className='fa fa-user' style={iconStyle}></i>;
                 break;
 
-            case 6:
+            case PARTICIPANT_STATES.NO_PARTICIPATE:
                 tooltip = translate.no_assist_assistance;
-                icon = "times"
+                icon = <i className='fa fa-times' style={iconStyle}></i>;
+                break;
+
+            case PARTICIPANT_STATES.DELEGATED:
+                tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
+                icon = <i className='fa fa-users' style={iconStyle}></i>;
                 break;
 
             default:
@@ -34,14 +47,7 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
     return (
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'}}>
             <Tooltip title={tooltip}>
-                    <FontAwesome
-                        name={icon}
-                        style={{
-                            margin: "0.5em",
-                            color: color,
-                            fontSize: size
-                        }}
-                    />
+                {icon}
             </Tooltip>
             {!!participant.assistanceComment && showCommentIcon &&
                 <FontAwesome

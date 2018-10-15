@@ -17,12 +17,14 @@ const CardPageLayout = ({
 		style={{
 			backgroundColor: lightGrey,
 			height: "100%",
+			overflow: 'hidden',
 			width: "100%"
 		}}
 	>
 		<div
 			style={{
 				margin: windowSize !== "xs" ? "1.2em 0 0 0" : "0.4em 0 0 0",
+				overflow: 'hidden',
 				height: windowSize !== "xs" ? "calc(100% - 2em)" : "calc(100%)"
 			}}
 		>

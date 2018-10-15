@@ -58,7 +58,7 @@ class PremiumModal extends React.Component {
                             <React.Fragment>
                                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                                     <div>
-                                        Para poder realizar esta acción necesita <strong>subscribirse a Councilbox.</strong>
+                                        Para poder realizar esta acción necesita <strong>suscribirse a Councilbox.</strong>
                                     </div>
                                     <div>
                                         Descubra como hacerlo:
@@ -123,7 +123,6 @@ class PremiumModal extends React.Component {
                             <div>
                                 Prueba gratuita activada correctamente, ya puedes crear tu primera compañía.
                             </div>
-                            
                         }
                     </React.Fragment>
                 }

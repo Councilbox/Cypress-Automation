@@ -14,10 +14,19 @@
 
 #root {
     overflow: hidden;
+    padding: 0;
+    margin: 0;
+}
+
+.smartTag {
+    padding: 3px;
+    border: 1px solid var(--secondary);
+    font-style: italic;
 }
 
 html {
     font-family: 'Lato';
+    overflow: hidden !important;
 }
 
 body {

@@ -54,7 +54,7 @@ class Agendas extends React.Component {
 
                 if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
                     if(this.agendaStateToastId){
-                        toast.dismiss(this.agendaStateToastId);  
+                        toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
                         `Se ha abierto el punto del día ${agendaToCheck.orderIndex}`,//TRADUCCION
@@ -70,7 +70,6 @@ class Agendas extends React.Component {
                         `Se ha cerrado el punto del día ${agendaToCheck.orderIndex}`,//TRADUCCION
                         () => this.agendaStateToastId = null
                     );
-                    
                 }
 
                 if (!agendaVotingsOpened(agenda) && agendaVotingsOpened(agendaToCheck)){
@@ -82,7 +81,7 @@ class Agendas extends React.Component {
                         () => this.agendaVotingsToastId = null
                     );
                 }
-                
+
                 if (agendaVotingsOpened(agenda) && !agendaVotingsOpened(agendaToCheck)){
                     if(this.agendaVotingsToastId){
                         toast.dismiss(this.agendaVotingsToastId);

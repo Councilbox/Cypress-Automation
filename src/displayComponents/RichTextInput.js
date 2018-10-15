@@ -1,12 +1,15 @@
 import React from "react";
 import { Grid, GridItem } from "./index";
-import { Typography } from "material-ui";
+import { Typography, MenuItem } from "material-ui";
 import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 import RichTextEditor from 'react-rte';
 import { isMobile } from 'react-device-detect';
 import { TextArea } from 'antd/lib/input/index';
+import DropDownMenu from './DropDownMenu';
+import Icon from './Icon';
+
 //import { Editor } from 'slate-react';
 //import { Value } from 'slate';
 //import Html from 'slate-html-serializer';
@@ -161,6 +164,16 @@ class RichTextInput extends React.Component {
 		}) */
 	}
 
+/* 	componentDidUpdate(){
+		if(this.props.value !== this.state.value.toString('html')){
+			this.setState({
+				value: RichTextEditor.createValueFromString(this.props.value, 'html')
+			})
+		}
+		//console.log(this.props.value);
+		//console.log(this.state.value.toString('html'));
+	} */
+
 	changeShowTags = () => {
 		this.setState({
 			showTags: !this.state.showTags
@@ -189,17 +202,21 @@ class RichTextInput extends React.Component {
 
 	paste = text => {
 		let cd = new DataTransfer();
-		cd.setData("text/plain", text);
+		cd.setData("text/html", text);
+		console.log(cd.getData('text/html'));
 		this.rtEditor.refs.editor._onPaste({
 			preventDefault: () => {
 				this.rtEditor.refs.editor.focus();
 			},
 			clipboardData: cd
 		});
+
+		setTimeout(() => this.rtEditor.refs.editor.focus(), 500);
 	};
 
 	render() {
 		const { tags, loadDraft, errorText, required } = this.props;
+		console.log(this.state.value.toString('html'))
 		const secondary = getSecondary();
 		const toolbarConfig = {
 			// Optionally specify the groups to display (displayed in the order listed).
@@ -292,26 +309,34 @@ class RichTextInput extends React.Component {
 											float: "right"
 										}}
 									>
-										{tags.map(tag => {
-											return (
-												<div
-													key={`tag_${tag.label}`}
-													onClick={() =>
-														this.paste(tag.value)
-													}
-													style={{
-														padding: "0.1em 0.25em",
-														border: `1px solid ${secondary}`,
-														cursor: "pointer",
-														marginLeft: "0.2em",
-														borderRadius: "2px",
-														color: secondary
-													}}
-												>
-													{tag.label}
-												</div>
-											);
-										})}
+										<DropDownMenu
+											color="transparent"
+											text={'Etiquetas inteligentes'}
+											textStyle={{ color: secondary }}
+											type="flat"
+											icon={
+												<Icon className="material-icons" style={{ color: secondary }}>
+													keyboard_arrow_down
+												</Icon>
+											}
+											items={
+												<React.Fragment>
+													{tags.map(tag => {
+														return (
+															<MenuItem
+																key={`tag_${tag.label}`}
+																onClick={() =>
+																	this.paste(`<span id="${tag.label}">${tag.value}</span>`)
+																}
+															>
+																{tag.label}
+															</MenuItem>
+														);
+													})}
+
+												</React.Fragment>
+											}
+										/>
 										{!!loadDraft && loadDraft}
 									</div>
 								</React.Fragment>
@@ -343,4 +368,36 @@ class RichTextInput extends React.Component {
 export default RichTextInput;
 
 
-{/*  */}
+{/*
+<React.Fragment>
+	<div
+		style={{
+			display: "flex",
+			float: "right"
+		}}
+	>
+		{tags.map(tag => {
+			return (
+				<div
+					key={`tag_${tag.label}`}
+					onClick={() =>
+						this.paste(tag.value)
+					}
+					style={{
+						padding: "0.1em 0.25em",
+						border: `1px solid ${secondary}`,
+						cursor: "pointer",
+						marginLeft: "0.2em",
+						borderRadius: "2px",
+						color: secondary
+					}}
+				>
+					{tag.label}
+				</div>
+			);
+		})}
+		{!!loadDraft && loadDraft}
+	</div>
+</React.Fragment>
+
+ */}

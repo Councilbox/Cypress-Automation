@@ -28,7 +28,7 @@ class Block extends React.Component {
 		const card = <Card
 			id={id}
 			elevation={6}
-			onMouseEnter={this.handleMouseEnter}
+			onMouseOver={this.handleMouseEnter}
 			onMouseLeave={this.handleMouseLeave}
 			style={{
 				height: "10em",

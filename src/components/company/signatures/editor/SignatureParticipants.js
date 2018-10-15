@@ -232,7 +232,7 @@ class HoverableRow extends React.Component {
 
         return(
             <TableRow
-                onMouseEnter={this.handleMouseEnter}
+                onMouseOver={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
                 hover
                 style={{
@@ -243,7 +243,6 @@ class HoverableRow extends React.Component {
                 <TableCell>
                     {`${participant.name} ${participant.surname}`}
                 </TableCell>
-                
                 <TableCell>
                     {participant.dni}
                 </TableCell>

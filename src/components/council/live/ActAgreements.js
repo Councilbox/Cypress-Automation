@@ -177,7 +177,7 @@ class ActAgreements extends React.Component {
 							label: translate.business_name
 						},
 						{
-							value: `${council.street}, ${council.country}`,
+							value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
 							label: translate.new_location_of_celebrate
 						},
 						{

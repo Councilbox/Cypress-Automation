@@ -16,34 +16,9 @@ import { compose, graphql } from "react-apollo";
 import { getPrimary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import QuorumInput from "../../../displayComponents/QuorumInput";
+import { DRAFT_TYPES } from "../../../constants";
 
 class StatuteEditor extends React.PureComponent {
-	tags = [
-		{
-			value: '{{dateFirstCall}}',
-			label: this.props.translate['1st_call_date']
-		},
-		{
-			value: '{{dateSecondCall}}',
-			label: this.props.translate['2nd_call_date']
-		},
-		{
-			value: '{{business_name}}',
-			label: this.props.translate.business_name
-		},
-		{
-			value: '{{address}}',
-			label: this.props.translate.new_location_of_celebrate
-		},
-		{
-			value: '{{city}}',
-			label: this.props.translate.company_new_locality
-		},
-		{
-			value: '{{country_state}}',
-			label: this.props.translate.company_new_country_state
-		},
-	];
 
 	editor = null;
 
@@ -562,7 +537,7 @@ class StatuteEditor extends React.PureComponent {
 									conveneHeader: value
 								})
 							}
-							tags={this.tags}
+							tags={getTagsByActSection('conveneHeader', translate)}
 							loadDraft={
 								<LoadDraftModal
 									translate={translate}
@@ -601,7 +576,7 @@ class StatuteEditor extends React.PureComponent {
 											intro: value
 										})
 									}
-									tags={this.tags}
+									tags={getTagsByActSection('intro', translate)}
 									loadDraft={
 										<LoadDraftModal
 											translate={translate}
@@ -635,7 +610,7 @@ class StatuteEditor extends React.PureComponent {
 											constitution: value
 										})
 									}
-									tags={this.tags}
+									tags={getTagsByActSection('constitution', translate)}
 									loadDraft={
 										<LoadDraftModal
 											translate={translate}
@@ -669,7 +644,7 @@ class StatuteEditor extends React.PureComponent {
 											conclusion: value
 										})
 									}
-									tags={this.tags}
+									tags={getTagsByActSection('conclusion', translate)}
 									loadDraft={
 										<LoadDraftModal
 											translate={translate}
@@ -711,3 +686,41 @@ export default compose(
 		})
 	})
 )(StatuteEditor);
+
+
+
+const getTagsByActSection = (section, translate) => {
+	switch(section) {
+
+		case 'conveneHeader':
+			return [
+				{
+					value: '{{dateFirstCall}}',
+					label: translate.date
+				},
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: '{{address}}',
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				},
+				{
+					value: '{{country_state}}',
+					label: translate.company_new_country_state
+				},
+			];
+
+		case 'intro':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
+		case 'constitution':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
+		case 'conclusion':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
+	}
+}

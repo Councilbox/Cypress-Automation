@@ -114,7 +114,7 @@ class AdminPrivateMessage extends React.Component {
                 >
                     <IconButton
                         size={'small'}
-                        onMouseEnter={() => this.setState({tooltip: true})}
+                        onMouseOver={() => this.setState({tooltip: true})}
                         onMouseLeave={() => this.setState({tooltip: false})}
                         style={{
                             outline: 0,

@@ -206,9 +206,20 @@ class VotingsTable extends React.Component {
 					if(voting.authorRepresentative){
 						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId || vote.participantId === voting.delegateId);
 						if(sameRepresentative !== -1){
-							mappedVotings[sameRepresentative].delegatedVotes = [...mappedVotings[sameRepresentative].delegatedVotes, voting];
+							if(voting.author.state === PARTICIPANT_STATES.REPRESENTATED){
+								mappedVotings[sameRepresentative].representing = [voting];
+							} else {
+								mappedVotings[sameRepresentative].delegatedVotes = !!mappedVotings[sameRepresentative].delegatedVotes?
+									[...mappedVotings[sameRepresentative].delegatedVotes, voting]
+								:
+									[voting];
+							}
 						} else {
-							mappedVotings.push({...voting, author: voting.authorRepresentative, delegatedVotes: [voting]});
+							if(voting.author.state === PARTICIPANT_STATES.REPRESENTATED){
+								mappedVotings.push({...voting, author: voting.authorRepresentative, representing: [voting]});
+							} else {
+								mappedVotings.push({...voting, author: voting.authorRepresentative, delegatedVotes: [voting]});
+							}
 						}
 					} else {
 						mappedVotings.push({...voting, delegatedVotes: []});
@@ -421,27 +432,19 @@ class VotingsTable extends React.Component {
 										</TableCell>
 										<TableCell>
 											<span style={{fontWeight: '700'}}>
-												{
-													`${vote.author.name} ${
-														vote.author.surname
-													}`
+												{!!vote.representing &&
+													`${vote.representing[0].author.name} ${vote.representing[0].author.surname} - Representado por: `
 												}
+												{`${vote.author.name} ${
+													vote.author.surname
+												}`}
 											</span>
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
 													<React.Fragment>
 														<br/>
-														{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${
-															delegatedVote.author.state === PARTICIPANT_STATES.DELEGATED?
-																`(Voto delegado)`
-															:
-																delegatedVote.author.state === PARTICIPANT_STATES.REPRESENTATED?
-																	`(Representado)`
-																:
-																	''
-														}`}
+														{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${`(Ha delegado su voto)`}`}
 													</React.Fragment>
-													
 												))
 											}
 										</TableCell>
@@ -453,7 +456,6 @@ class VotingsTable extends React.Component {
 														<br/>
 														{delegatedVote.author.position}
 													</React.Fragment>
-													
 												))
 											}
 										</TableCell>
@@ -465,6 +467,15 @@ class VotingsTable extends React.Component {
 													total) *
 												100
 											).toFixed(2)}%)`}
+											{!!vote.representing &&
+												`${
+													vote.representing[0].author.numParticipations
+												} (${(
+													(vote.representing[0].author.numParticipations /
+														total) *
+													100
+												).toFixed(2)}%)`
+											}
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
 													<React.Fragment>
@@ -479,127 +490,11 @@ class VotingsTable extends React.Component {
 															100
 														).toFixed(2)}%)`}
 													</React.Fragment>
-													
 												))
 											}
 										</TableCell>
 									</TableRow>
-								))
-
-								}
-								{/* {this.props.data.agendaVotings.list.map(
-									vote => {
-										return (
-											<TableRow key={`vote_${vote.id}`}>
-												<TableCell>
-													<div
-														style={{
-															display: "flex",
-															flexDirection:
-																"row",
-															alignItems: "center"
-														}}
-													>
-														{this.props.agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-															<React.Fragment>
-																{vote.vote !== -1?
-																	'Ha votado'
-																:
-																	'No ha votado'
-																}
-															</React.Fragment>
-														:
-															<React.Fragment>
-																<Tooltip
-																	title={this.getTooltip(
-																		vote.vote
-																	)}
-																>
-																	<VotingValueIcon
-																		vote={vote.vote}
-																	/>
-																</Tooltip>
-																{isPresentVote(
-																	vote
-																) && (
-																	<PresentVoteMenu
-																		agenda={this.props.agenda}
-																		agendaVoting={
-																			vote
-																		}
-																		active={
-																			vote.vote
-																		}
-																		refetch={
-																			this.props
-																				.data
-																				.refetch
-																		}
-																	/>
-																)}
-															</React.Fragment>
-														}
-
-														<Tooltip
-															title={
-																vote.presentVote ===
-																1
-																	? translate.customer_present
-																	: translate.customer_initial
-															}
-														>
-															{this.getStateIcon(
-																vote.presentVote
-															)}
-														</Tooltip>
-													</div>
-												</TableCell>
-												<TableCell>
-													{vote.authorRepresentative ? (
-														<React.Fragment>
-															{`${
-																vote.author.name
-															} ${
-																vote.author
-																	.surname
-															}`}
-															<br />
-															{`${
-																translate.voting_delegate
-															} - ${
-																vote
-																	.authorRepresentative
-																	.name
-															} ${
-																vote
-																	.authorRepresentative
-																	.surname
-															}`}
-														</React.Fragment>
-													) : (
-														`${vote.author.name} ${
-															vote.author.surname
-														}`
-													)}
-												</TableCell>
-												<TableCell>
-													{vote.author.position}
-												</TableCell>
-												<TableCell>
-													{`${
-														vote.author
-															.numParticipations
-													} (${(
-														(vote.author
-															.numParticipations /
-															total) *
-														100
-													).toFixed(2)}%)`}
-												</TableCell>
-											</TableRow>
-										);
-									}
-								)} */}
+								))}
 							</Table>
 							<div
 								style={{

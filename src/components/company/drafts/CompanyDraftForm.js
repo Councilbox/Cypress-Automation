@@ -60,7 +60,7 @@ const CompanyDraftForm = ({
 						);
 					})}
 				</SelectInput>
-			</GridItem>	
+			</GridItem>
 		}
 		{!!companyTypes &&
 			<GridItem xs={12} lg={3} md={3}>
@@ -85,7 +85,7 @@ const CompanyDraftForm = ({
 						);
 					})}
 				</SelectInput>
-			</GridItem>	
+			</GridItem>
 		}
 		{!!languages &&
 			<GridItem xs={12} lg={3} md={3}>
@@ -107,7 +107,7 @@ const CompanyDraftForm = ({
 						);
 					})}
 				</SelectInput>
-			</GridItem>	
+			</GridItem>
 		}
 		{!!draftTypes &&
 			<GridItem xs={12} lg={3} md={3}>
@@ -229,6 +229,7 @@ const CompanyDraftForm = ({
 						text: value
 					})
 				}
+				tags={CBX.getTagVariablesByDraftType(draft.type, translate)}
 			/>
 		</GridItem>
 	</Grid>

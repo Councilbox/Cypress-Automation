@@ -18,10 +18,6 @@ class NoCompanyDashboard extends React.Component {
 		premiumModal: false
 	}
 
-	openNoPremiumModal = () => {
-
-	}
-
 	closePremiumModal = () => {
 		this.setState({
 			premiumModal: false
@@ -43,7 +39,7 @@ class NoCompanyDashboard extends React.Component {
 				style={{
 					overflowY: "auto",
 					width: "100%",
-					backgroundColor: "white",
+					backgroundColor: lightGrey,
 					padding: 0,
 					height: "100%",
 					display: "flex",
@@ -52,9 +48,6 @@ class NoCompanyDashboard extends React.Component {
 				}}
 				id={"mainContainer"}
 			>
-				<div onClick={this.stopFreeTrial}>
-					QUITAR EL FREE TRIAL
-				</div>
 				{user.email === 'aaron.fuentes.cocodin+2@gmail.com'?
 					<Grid>
 						<GridItem xs={12} md={12} lg={12}>

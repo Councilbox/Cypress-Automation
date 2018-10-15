@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import AppRouter from "./AppRouter";
 import { Route, Router, Switch } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
@@ -174,7 +174,20 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 	store.dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
 }
 
-class App extends Component {
+class App extends React.Component {
+
+	componentDidMount() {
+		bHistory.listen(location => console.log(location));
+		window.addEventListener('popstate', href => console.log(href));
+		window.onbeforeunload = () => {
+			return "You have attempted to leave this page. Are you sure?";
+		}
+	}
+
+	detectRouteChange = (previousRoute, nextRoute) => {
+		console.log(previousRoute, nextRoute);
+	}
+
 	render() {
 		return (
 			<ApolloProvider client={client}>
@@ -209,7 +222,7 @@ class App extends Component {
 											path="/meeting/new"
 											component={MeetingCreateContainer}
 										/>
-										<Route path="/" component={AppRouter} />
+										<Route path="/" onChange={this.detectRouteChange} component={AppRouter} />
 									</Switch>
 									<ToastContainer
 										position="top-right"

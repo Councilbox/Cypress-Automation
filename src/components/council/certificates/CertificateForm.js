@@ -144,7 +144,7 @@ class CertificateForm extends React.PureComponent {
                 <div style={{height: 'calc(100% -  3.5em)'}}>
                     <Scrollbar>
                         <div style={{padding: '2em', paddingTop: '1em', paddingBottom: '1em'}}>
-                            <SectionTitle text={`Datos básicos`} /*TRADUCCION*/ color={primary} style={{marginTop: '1.6em'}}/>
+                            <SectionTitle text={translate.edit_company} color={primary} style={{marginTop: '1.6em'}}/>
                             <div style={{marginBottom: '1.2em', maxWidth: '50em'}}>
                                 <TextInput
                                     floatingText={translate.certificate_title_of}
@@ -178,17 +178,17 @@ class CertificateForm extends React.PureComponent {
                                 ))}
                             </div>
 
-                            <SectionTitle text={translate.certificate_footer} /*TRADUCCION*/ color={primary} style={{marginTop: '1.6em'}}/>
+                            <SectionTitle text={translate.certificate_footer} color={primary} style={{marginTop: '1.6em'}}/>
                             <RichTextInput
                                 value={data.footer}
                                 errorText={this.state.errors.footer}
                                 onChange={value => this.updateCertificateDate({
                                     footer: value
                                 })}
-                            /> 
-                        </div> 
+                            />
+                        </div>
                     </Scrollbar>
-                </div> 
+                </div>
                 <div
                     style={{
                         width: '100%',

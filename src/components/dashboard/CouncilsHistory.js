@@ -112,7 +112,7 @@ class HoverableRow extends React.Component {
         return(
             <TableRow
                 hover
-                onMouseEnter={this.handleMouseEnter}
+                onMouseOver={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
                 style={{...TableStyles.ROW, backgroundColor: this.props.disabled? 'whiteSmoke' : 'inherit'}}
                 key={`council${council.id}`}

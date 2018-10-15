@@ -3,6 +3,7 @@ import {
 	MAX_COUNCIL_FILE_SIZE,
 	PARTICIPANT_STATES,
 	SEND_TYPES,
+	DRAFT_TYPES,
 	USER_ACTIVATIONS,
 	COUNCIL_STATES,
 	AGENDA_STATES,
@@ -84,7 +85,6 @@ export const showAgendaVotingsTable = agenda => {
 }
 
 export const userCanCreateCompany = (user, companies) => {
-	console.log(user, companies);
 	if(user.actived === USER_ACTIVATIONS.FREE_TRIAL){
 		if(companies){
 			if(companies.length >= 1){
@@ -272,7 +272,6 @@ export const addMinimumDistance = (date, statute) => {
 };
 
 export const changeVariablesToValues = (text, data, translate) => {
-	console.log(data.council);
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
 	}
@@ -281,25 +280,69 @@ export const changeVariablesToValues = (text, data, translate) => {
 		return "";
 	}
 
-	text = text.replace(
-		"{{dateFirstCall}}",
-		moment(
-			new Date(data.council.dateStart).toISOString(),
-			moment.ISO_8601
-		).format("LLL")
-	);
-	text = text.replace(
-		"{{dateSecondCall}}",
-		moment(
-			new Date(data.council.dateStart2NdCall).toISOString(),
-			moment.ISO_8601
-		).format("LLL")
-	);
-	text = text.replace("{{dateRealStart}}", !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
+	if(data.council.dateStart){
+		const replaced = /<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/.test(text);
+
+		console.log(replaced);
+
+		if(replaced){
+			text = text.replace(
+				/<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/ig,
+				`<span id="{{dateFirstCall}}">${
+					moment(
+						new Date(data.council.dateStart).toISOString(),
+						moment.ISO_8601
+					).format("LLL")
+				}</span>`
+			);
+		} else {
+			text = text.replace(
+				/{{dateFirstCall}}/g
+				,
+				`<span id="{{dateFirstCall}}">${
+				moment(
+					new Date(data.council.dateStart).toISOString(),
+					moment.ISO_8601
+				).format("LLL")
+				}</span>`
+			);
+		}
+	}
+
+	if(data.council.dateStart2NdCall){
+		const replaced = /<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/.test(text);
+
+		console.log(replaced);
+
+		if(replaced){
+			text = text.replace(
+				/<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/ig,
+				`<span id="{{dateSecondCall}}">${
+					moment(
+						new Date(data.council.dateStart).toISOString(),
+						moment.ISO_8601
+					).format("LLL")
+				}</span>`
+			);
+		} else {
+			text = text.replace(
+				/{{dateSecondCall}}/g
+				,
+				`<span id="{{dateSecondCall}}">${
+				moment(
+					new Date(data.council.dateStart2NdCall).toISOString(),
+					moment.ISO_8601
+				).format("LLL")
+				}</span>`
+			);
+		}
+	}
+
+	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace("{{dateEnd}}", !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
+	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace("{{firstOrSecondCall}}", data.council.firstOrSecondCall === 1 ?
+	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondCall === 1 ?
 		translate.first_call
 		:
 		data.council.firstOrSecondCall === 2 ?
@@ -308,19 +351,182 @@ export const changeVariablesToValues = (text, data, translate) => {
 			''
 	);
 
-	text = text.replace('{{president}}', data.council.president);
-	text = text.replace('{{secretary}}', data.council.secretary);
-	text = text.replace("{{address}}", `${data.council.street} ${data.council.country}`)
-	text = text.replace("{{business_name}}", data.company.businessName);
-	text = text.replace("{{city}}", data.council.city);
-	text = text.replace("{{street}}", data.council.street);
-	text = text.replace("{{country_state}}", data.council.countryState);
+	const base = data.council.quorumPrototype === 1? data.council.socialCapitalTotal : data.council.partTotal;
+
+	text = text.replace(/{{president}}/g, data.council.president);
+	text = text.replace(/{{secretary}}/g, data.council.secretary);
+	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
+	text = text.replace(/{{business_name}}/g, data.company.businessName);
+	text = text.replace(/{{city}}/g, data.council.city);
+
+
+	if(data.council.street){
+		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
+
+		console.log(replaced);
+
+		if(replaced){
+			text = text.replace(
+				/<span id="{{street}}">(.*?|\n)<\/span>/ig,
+				`<span id="{{street}}">${data.council.remoteCelebration === 1? translate.remote_celebration : data.council.street
+				}</span>`
+			);
+		} else {
+			text = text.replace(
+				/{{street}}/g
+				,
+				`<span id="{{street}}">${data.council.remoteCelebration === 1? translate.remote_celebration : data.council.street
+				}</span>`
+			);
+		}
+	}
+
+	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
+	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
+	text = text.replace(/{{percentageOfShares}}/g, (data.council.currentQuorum / parseInt(base) * 100).toFixed(3));
+	text = text.replace(/{{country_state}}/g, data.council.countryState);
 	if (data.votings) {
-		text = text.replace("{{positiveVotings}}", data.votings.positive);
-		text = text.replace("{{negativeVotings}}", data.votings.negative);
+		text = text.replace(/{{positiveVotings}}/g, data.votings.positive);
+		text = text.replace(/{{negativeVotings}}/g, data.votings.negative);
 	}
 	return text;
 };
+
+export const getTagVariablesByDraftType = (draftType, translate) => {
+	switch(draftType){
+		case DRAFT_TYPES.CONVENE_HEADER:
+			return [
+				{
+					value: '{{dateFirstCall}}',
+					label: translate["1st_call_date"]
+				},
+				{
+					value: '{{dateSecondCall}}',
+					label: translate["2nd_call_date"]
+				},
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: `{{street}}`,
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				},
+				{
+					value: '{{country_state}}',
+					label: translate.company_new_country_state
+				}
+			];
+
+		case DRAFT_TYPES.AGENDA:
+			return [
+				{
+					value: `{{street}}`,
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				},
+				{
+					value: '{{country_state}}',
+					label: translate.company_new_country_state
+				}
+			];
+
+		case DRAFT_TYPES.INTRO:
+			return [
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: '{{dateRealStart}}',
+					label: translate.date_real_start
+				},
+				{
+					value: '{{firstOrSecondCall}}',
+					label: translate.first_or_second_call
+				},
+				{
+					value: `{{street}}`,
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				}
+			];
+
+		case DRAFT_TYPES.CONSTITUTION:
+			return [
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: '{{president}}',
+					label: translate.president
+				},
+				{
+					value: '{{secretary}}',
+					label: translate.secretary
+				},
+				{
+					value: '{{numberOfShares}}',
+					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+				},
+				{
+					value: '{{percentageOfShares}}',
+					label: translate.social_capital_percentage
+				},
+				{
+					value: `{{street}}`,
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				},
+				{
+					value: '{{dateRealStart}}',
+					label: translate.date_real_start
+				},
+			];
+
+		case DRAFT_TYPES.CONCLUSION:
+			return [
+				{
+					value: '{{dateEnd}}',
+					label: translate.date_end
+				},
+				{
+					value: '{{president}}',
+					label: translate.president
+				},
+				{
+					value: '{{secretary}}',
+					label: translate.secretary
+				}
+			];
+
+		case DRAFT_TYPES.COMMENTS_AND_AGREEMENTS:
+			return [
+				{
+					value: '{{positiveVotings}}',
+					label: translate.positive_votings
+				},
+				{
+					value: '{{negativeVotings}}',
+					label: translate.negative_votings
+				}
+			];
+	}
+}
 
 export const hasParticipations = (statute = {}) => {
 	return statute.quorumPrototype === 1;

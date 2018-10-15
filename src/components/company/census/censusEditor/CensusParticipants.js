@@ -265,7 +265,7 @@ class HoverableRow extends React.PureComponent {
 		return(
 			<TableRow
 				hover={true}
-				onMouseEnter={this.mouseEnterHandler}
+				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				onClick={() =>
 					this.props.editParticipant(participant)

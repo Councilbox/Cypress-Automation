@@ -33,7 +33,7 @@ const ChangeCensusMenu = ({
 				verticalAlign: "middle"
 			}}
 		>
-		{censuses.list && censuses.list.length > 0?
+		{censuses && censuses.list && censuses.list.length > 0?
 			<SelectInput
 				floatingText={translate.current_census}
 				value={council.selectedCensusId}

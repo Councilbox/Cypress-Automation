@@ -1,6 +1,7 @@
 import React from 'react';
 import { getSecondary } from '../../../styles/colors';
 import { DateWrapper } from '../../../displayComponents';
+import { moment } from '../../../containers/App';
 import FontAwesome from 'react-fontawesome';
 
 const CouncilItem = ({ council, translate }) => (
@@ -14,7 +15,7 @@ const CouncilItem = ({ council, translate }) => (
                 justifyContent: 'center'
             }}
         >
-            <DateWrapper format="dddd, DD/MM/YYYY" date={council.dateStart} style={{color: getSecondary(), fontWeight: '700', textTransform: 'capitalize'}} />
+            <span date={council.dateStart} style={{color: getSecondary(), fontWeight: '700'}}>{moment(council.dateStart).format('LLL')}</span>
         </div>
         <div style={{display: 'flex', flexDirection: 'row', padding: '0.6em'}}>
             <div style={{width: '15%', marginLeft: '5%', color: getSecondary(), display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
@@ -42,7 +43,7 @@ const CouncilItem = ({ council, translate }) => (
                     />
                     <span style={{fontWeight: '700', fontSize: '0.8em', marginLeft: '0.2em'}}>{council.name}</span>
                 </div>
-                <DateWrapper format="DD/MM/YYY HH:mm" date={council.dateStart} style={{fontSize: '0.7em'}} />
+                <span date={council.dateStart}>{moment(council.dateStart).format('LLL')}</span>
             </div>
         </div>
     </div>

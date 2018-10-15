@@ -15,13 +15,14 @@ import {
 import { compose, graphql } from "react-apollo";
 import { downloadCBXData, updateConveneSends } from "../../../queries";
 import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS } from "../../../constants";
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../constants";
 import NotificationFilters from "./NotificationFilters";
 import DownloadCBXDataButton from "./DownloadCBXDataButton";
 import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
+
 
 class ConvenedParticipantsTable extends React.Component {
 
@@ -76,11 +77,6 @@ class ConvenedParticipantsTable extends React.Component {
 			{
 				text: translate.dni,
 				name: "dni",
-				canOrder: true
-			},
-			{
-				text: translate.email,
-				name: "email",
 				canOrder: true
 			},
 			{ text: translate.position },
@@ -196,10 +192,6 @@ class ConvenedParticipantsTable extends React.Component {
 									translation: translate.dni
 								},
 								{
-									value: "email",
-									translation: translate.email
-								},
-								{
 									value: "position",
 									translation: translate.position
 								}
@@ -215,6 +207,7 @@ class ConvenedParticipantsTable extends React.Component {
 											<HoverableRow
 												translate={translate}
 												participant={participant}
+												representative={participant.representative}
 												showModalComment={this.showModalComment}
 												editParticipant={() =>
 													this.setState({
@@ -224,7 +217,7 @@ class ConvenedParticipantsTable extends React.Component {
 												}
 												{...this.props}
 											/>
-											{!!participant.representative && (
+											{/* {!!participant.representative && (
 												<TableRow
 													hover={true}
 													style={{
@@ -372,7 +365,7 @@ class ConvenedParticipantsTable extends React.Component {
 
 													</TableCell>
 												</TableRow>
-											)}
+											)} */}
 										</React.Fragment>
 									);
 								}
@@ -435,10 +428,16 @@ class HoverableRow extends React.Component {
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 
+		let representative = this.props.representative;
+
+		if(participant.live.representative){
+			representative = participant.live.representative;
+		}
+
 		return (
 			<TableRow
 				hover
-				onMouseEnter={this.mouseEnterHandler}
+				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				onClick={editParticipant}
 				style={{
@@ -446,18 +445,33 @@ class HoverableRow extends React.Component {
 				}}
 			>
 				<TableCell>
-					{`${participant.name} ${
+					<span style={{fontWeight: '700'}}>{`${participant.name} ${
 						participant.surname
-					}`}
+					}`}</span>
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{`${participant.live.state === PARTICIPANT_STATES.DELEGATED? translate.delegated_in : this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
 					{participant.dni}
-				</TableCell>
-				<TableCell>
-					{participant.email}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{representative.dni}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
 					{participant.position}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{representative.position}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
 					{`${
@@ -467,6 +481,11 @@ class HoverableRow extends React.Component {
 							totalVotes) *
 						100
 					).toFixed(2)}%)`}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+						</React.Fragment>
+					}
 				</TableCell>
 				{this.props.participations && (
 					<TableCell>
@@ -477,8 +496,14 @@ class HoverableRow extends React.Component {
 								socialCapital) *
 							100
 						).toFixed(2)}%)`}
+						{!!representative &&
+							<React.Fragment>
+								<br/>
+							</React.Fragment>
+						}
 					</TableCell>
 				)}
+
 				{!hideNotifications &&
 					<React.Fragment>
 						<TableCell>

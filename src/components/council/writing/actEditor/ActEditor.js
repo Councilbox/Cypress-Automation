@@ -12,7 +12,7 @@ import {
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES } from "../../../../constants";
+import { DRAFT_TYPES, PARTICIPANT_STATES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
@@ -21,20 +21,23 @@ import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
 import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
+import { isMobile } from "react-device-detect";
 
 const CouncilActData = gql`
-	query CouncilActData($councilID: Int!, $companyId: Int!) {
+	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
 		council(id: $councilID) {
 			id
 			businessName
 			country
 			countryState
 			currentQuorum
+			quorumPrototype
 			secretary
 			president
 			street
 			city
 			name
+			remoteCelebration
 			dateStart
 			dateStart2NdCall
 			dateRealStart
@@ -89,9 +92,30 @@ const CouncilActData = gql`
 			partTotal
 			numTotal
 		}
+
+		participantsWithDelegatedVote(councilId: $councilID){
+			name
+			surname
+			state
+			representative {
+				name
+				surname
+			}
+		}
+
 		votingTypes {
 			label
 			value
+		}
+
+		councilAttendants(
+			councilId: $councilID
+			options: $options
+		) {
+			list {
+				name
+				surname
+			}
 		}
 
 		companyStatutes(companyId: $companyId) {
@@ -223,7 +247,7 @@ class ActEditor extends Component {
 					message={this.props.translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
+					autoClose: true,
 					className: "errorToast"
 				}
 			);
@@ -279,7 +303,7 @@ class ActEditor extends Component {
 			companyStatutes
 		} = this.props.data;
 		const { errors, data } = this.state;
-		const { council } = data;
+		let { council } = data;
 
 		if (loading) {
 			return <LoadingSection />;
@@ -288,6 +312,9 @@ class ActEditor extends Component {
 		if (error) {
 			return <ErrorWrapper error={error} translate={translate} />;
 		}
+
+		council.attendants = this.props.data.councilAttendants.list;
+		council.delegatedVotes = this.props.data.participantsWithDelegatedVote;
 
 		return (
 			<div style={{ height: "100%", background: 'transparent' }}>
@@ -323,34 +350,7 @@ class ActEditor extends Component {
 												}
 											/>
 										}
-										tags={[
-											{
-												value: `${company.businessName} `,
-												label: translate.business_name
-											},
-											{
-												value: `${moment(council.dateRealStart).format(
-													"LLLL"
-												)} `,
-												label: translate.date_real_start
-											},
-											{
-												value: `${
-													council.firstOrSecondConvene
-														? translate.first
-														: translate.second
-												} `,
-												label: translate.first_or_second_call
-											},
-											{
-												value: council.street,
-												label: translate.new_location_of_celebrate
-											},
-											{
-												value: council.city,
-												label: translate.company_new_locality
-											}
-										]}
+										tags={generateActTags('intro', { council, company, recount: this.props.data.councilRecount }, translate)}
 										errorText={errors.intro}
 										value={data.council.act.intro || ''}
 										onChange={value => {
@@ -391,42 +391,7 @@ class ActEditor extends Component {
 												}
 											/>
 										}
-										tags={[
-											{
-												value: `${company.businessName} `,
-												label: translate.business_name
-											},
-											{
-												value: `${council.president} `,
-												label: translate.president
-											},
-											{
-												value: `${council.secretary} `,
-												label: translate.secretary
-											},
-											{
-												value: `${moment(council.dateRealStart).format(
-													"LLLL"
-												)} `,
-												label: translate.date_real_start
-											},
-											{
-												value: `${
-													council.firstOrSecondConvene
-														? translate.first
-														: translate.second
-												} `,
-												label: translate.first_or_second_call
-											},
-											{
-												value: council.street,
-												label: translate.new_location_of_celebrate
-											},
-											{
-												value: council.city,
-												label: translate.company_new_locality
-											}
-										]}
+										tags={generateActTags('constitution', { council, company, recount: this.props.data.councilRecount}, translate)}
 										errorText={errors.constitution}
 										value={data.council.act.constitution || ''}
 										onChange={value => {
@@ -494,22 +459,7 @@ class ActEditor extends Component {
 													}
 												/>
 											}
-											tags={[
-												{
-													value: `${council.president} `,
-													label: translate.president
-												},
-												{
-													value: `${council.secretary} `,
-													label: translate.secretary
-												},
-												{
-													value: `${moment(council.dateEnd).format(
-														"LLLL"
-													)} `,
-													label: translate.date_end
-												}
-											]}
+											tags={generateActTags('conclusion', { council, company, recount: this.props.data.councilRecount }, translate)}
 											errorText={errors.conclusion}
 											value={data.council.act.conclusion || ''}
 											onChange={value => {
@@ -539,7 +489,7 @@ class ActEditor extends Component {
 						{!this.props.liveMode &&
 							<div>
 								<BasicButton
-									text={translate.send_draft_act_review}
+									text={isMobile? 'Enviar borrador' : translate.send_draft_act_review}//TRADUCCION
 									color={"white"}
 									disabled={this.state.disableButtons}
 									textStyle={{
@@ -557,7 +507,7 @@ class ActEditor extends Component {
 									}}
 								/>
 								<BasicButton
-									text={translate.end_writing_act}
+									text={isMobile? 'Finalizar' : translate.end_writing_act} //TRADUCCION
 									loading={this.state.updating}
 									loadingColor={primary}
 									disabled={this.state.updating || this.state.disableButtons}
@@ -621,7 +571,11 @@ export default compose(
 		options: props => ({
 			variables: {
 				councilID: props.councilID,
-				companyId: props.companyID
+				companyId: props.companyID,
+				options: {
+					limit: 10000,
+					offset: 0
+				}
 			}
 		})
 	}),
@@ -629,3 +583,169 @@ export default compose(
 		name: 'updateCouncilAct'
 	})
 )(withSharedProps()(ActEditor));
+
+const generateActTags = (type, data, translate) => {
+	const { council, company } = data;
+	let tags;
+	let attendantsString = '';
+	let delegatedVotesString = '';
+	council.attendants.forEach(attendant => attendantsString += `${attendant.name} ${attendant.surname} <br/>`);
+	council.delegatedVotes.forEach(vote => delegatedVotesString += `${vote.name} ${vote.surname} ${translate.delegates.toLowerCase()} ${vote.representative.name} ${vote.representative.surname} <br/>`)
+
+	switch(type){
+		case 'intro':
+			tags = [
+				{
+					value: `${company.businessName} `,
+					label: translate.business_name
+				},
+				{
+					value: `${moment(council.dateRealStart).format(
+						"LLLL"
+					)} `,
+					label: translate.date_real_start
+				},
+				{
+					value: `${
+						council.firstOrSecondConvene
+							? translate.first
+							: translate.second
+					} `,
+					label: translate.first_or_second_call
+				},
+				{
+					value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
+					label: translate.new_location_of_celebrate
+				},
+			]
+
+			if(council.remoteCelebration !== 1){
+				tags = [...tags,
+					{
+						value: council.city,
+						label: translate.company_new_locality
+					},
+					{
+						value: council.countryState,
+						label: translate.company_new_country_state
+					}
+				];
+			}
+
+			council.attendants.forEach(attendant => attendantsString += `${attendant.name} ${attendant.surname} <br/>`);
+
+			tags = [...tags,
+				{
+					value: attendantsString,
+					label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
+				},
+				{
+					value: delegatedVotesString,
+					label: translate.delegations
+				},
+				{
+					value: council.delegatedVotes.length,
+					label: translate.num_delegations
+				}
+			]
+
+			return tags;
+
+		case 'constitution':
+			const base = council.quorumPrototype === 1? data.recount.socialCapitalTotal : data.recount.partTotal;
+			tags = [
+				{
+					value: `${company.businessName} `,
+					label: translate.business_name
+				},
+				{
+					value: council.president,
+					label: translate.president
+				},
+				{
+					value: council.secretary,
+					label: translate.secretary
+				},
+				{
+					value: council.currentQuorum,
+					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+				},
+				{
+					value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
+					label: translate.social_capital_percentage
+				},
+				{
+					value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: `${moment(council.dateRealStart).format(
+						"LLLL"
+					)} `,
+					label: translate.date_real_start
+				}
+			]
+
+			if(council.remoteCelebration !== 1){
+				tags = [...tags,
+					{
+						value: council.city,
+						label: translate.company_new_locality
+					},
+					{
+						value: council.countryState,
+						label: translate.company_new_country_state
+					}
+				];
+			}
+
+
+			tags = [...tags,
+				{
+					value: attendantsString,
+					label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
+				},
+				{
+					value: delegatedVotesString,
+					label: translate.delegations
+				},
+				{
+					value: council.delegatedVotes.length,
+					label: translate.num_delegations
+				}
+			]
+
+			return tags;
+
+		case 'conclusion':
+			tags = [
+				{
+					value: council.president,
+					label: translate.president
+				},
+				{
+					value: council.secretary,
+					label: translate.secretary
+				},
+				{
+					value: `${moment(council.dateEnd).format(
+						"LLLL"
+					)} `,
+					label: translate.date_end
+				},
+				{
+					value: attendantsString,
+					label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
+				},
+				{
+					value: delegatedVotesString,
+					label: translate.delegations
+				},
+				{
+					value: council.delegatedVotes.length,
+					label: translate.num_delegations
+				}
+			]
+			return tags;
+	}
+}

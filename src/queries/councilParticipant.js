@@ -162,10 +162,15 @@ export const convenedcouncilParticipants = gql`
 				live {
 					name
 					id
+					state
 					surname
 					assistanceComment
 					assistanceLastDateConfirmed
 					assistanceIntention
+					representative {
+						name
+						surname
+					}
 				}
 				city
 				personOrEntity

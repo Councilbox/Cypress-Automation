@@ -242,7 +242,7 @@ class HoverableRow extends React.Component {
 
         return (
             <TableRow
-                onMouseEnter={this.mouseEnterHandler}
+                onMouseOver={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}
             >
                 <TableCell>

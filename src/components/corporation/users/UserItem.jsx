@@ -6,7 +6,7 @@ import { DateWrapper, BasicButton } from '../../../displayComponents';
 import { USER_ACTIVATIONS } from '../../../constants';
 import CloseSessionButton from './CloseSessionButton';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 
 class UserItem extends React.Component {
@@ -19,7 +19,22 @@ class UserItem extends React.Component {
             }
         });
 
-        console.log(response)
+        if(!response.errors){
+            this.props.refetch();
+        }
+    }
+
+    cancelUserPremium = async event => {
+        event.stopPropagation();
+        const response = await this.props.cancelUserPremium({
+            variables: {
+                userId: this.props.user.id
+            }
+        });
+
+        if(!response.errors){
+            this.props.refetch();
+        }
     }
 
     render(){
@@ -149,6 +164,7 @@ class UserItem extends React.Component {
                         :
                             <BasicButton
                                 text="Cancelar Premium"
+                                onClick={this.cancelUserPremium}
                             />
                         }
                     </div>
@@ -196,6 +212,19 @@ const activateUserPremium = gql`
     }
 `;
 
-export default graphql(activateUserPremium, {
-    name: 'activateUserPremium'
-})(UserItem);
+const cancelUserPremium = gql`
+    mutation CancelUserPremium($userId: Int!){
+        cancelUserPremium(userId: $userId){
+            success
+        }
+    }
+`;
+
+export default compose(
+    graphql(activateUserPremium, {
+        name: 'activateUserPremium'
+    }),
+    graphql(cancelUserPremium, {
+        name: 'cancelUserPremium'
+    })
+)(UserItem);

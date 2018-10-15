@@ -3,7 +3,7 @@ import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from "../../../../
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import AgendaRecount from '../../agendas/AgendaRecount';
-import { AGENDA_TYPES, DRAFT_TYPES } from '../../../../constants';
+import { AGENDA_TYPES, DRAFT_TYPES, VOTE_VALUES } from '../../../../constants';
 import { toast } from 'react-toastify';
 import { graphql } from 'react-apollo';
 import VotingsTable from '../../../council/live/voting/VotingsTable';
@@ -22,7 +22,6 @@ class AgendaEditor extends React.Component {
 	}
 
 	updateAgendaState = object => {
-		
 		this.setState({
 			...object
 		}, async () => {
@@ -54,7 +53,7 @@ class AgendaEditor extends React.Component {
 					message={this.props.translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
+					autoClose: true,
 					className: "errorToast"
 				}
 			);
@@ -77,7 +76,7 @@ class AgendaEditor extends React.Component {
 		});
 	}
 
-	render(){	
+	render(){
 		const {
 			agenda,
 			council,
@@ -94,6 +93,28 @@ class AgendaEditor extends React.Component {
 		const primary = getPrimary();
 
 		let tabs = [];
+
+		let positiveVotings = 0;
+		let negativeVotings = 0;
+		let abstentionVotings = 0;
+		let noVotes = 0;
+
+		agenda.votings.forEach(vote => {
+			switch(vote.vote){
+				case VOTE_VALUES.NO_VOTE:
+					noVotes++;
+					break;
+				case VOTE_VALUES.ABSTENTION:
+					abstentionVotings++;
+					break;
+				case VOTE_VALUES.POSITIVE:
+					positiveVotings++;
+					break;
+				case VOTE_VALUES.NEGATIVE:
+					negativeVotings++;
+					break;
+			}
+		})
 
 		if(!readOnly){
 			tabs.push({
@@ -135,6 +156,22 @@ class AgendaEditor extends React.Component {
 									{
 										value: `${agenda.negativeVotings} `,
 										label: translate.negative_votings
+									},
+									{
+										value: positiveVotings,
+										label: translate.num_positive
+									},
+									{
+										value: negativeVotings,
+										label: translate.num_negative
+									},
+									{
+										value: abstentionVotings,
+										label: translate.num_abstention
+									},
+									{
+										value: noVotes,
+										label: translate.num_no_vote
 									}
 								]}
 								value={agenda.comment || ''}

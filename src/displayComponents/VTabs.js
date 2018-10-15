@@ -201,7 +201,7 @@ class HoverableTab extends React.PureComponent {
 
 		return (
 			<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}
-				onMouseEnter={this.mouseEnterHandler}
+				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 			>
 				<Tooltip title={tab.title}>

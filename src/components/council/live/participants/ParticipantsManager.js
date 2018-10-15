@@ -185,8 +185,8 @@ class ParticipantsManager extends React.Component {
 						<MenuItem value={'TYPE'}  /*TRADUCCION*/>
 							{'Tipo de participante'}
 						</MenuItem>
-						<MenuItem value={'ATTENDANCE'}  /*TRADUCCION*/>
-							{'Intención de asistencia'}
+						<MenuItem value={'ATTENDANCE'}>
+							{translate.assistance_intention}
 						</MenuItem>
 						<MenuItem value={'CREDENTIALS'} /*TRADUCCION*/>
 							{'Envío de credenciales'}

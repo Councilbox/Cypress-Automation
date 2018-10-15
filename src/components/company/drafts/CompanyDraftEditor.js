@@ -42,7 +42,7 @@ class CompanyDraftEditor extends React.Component {
 			errors
 		});
 	};
-	
+
 	updateCompanyDraft = async () => {
 		const { translate } = this.props;
 		const { data } = this.state;

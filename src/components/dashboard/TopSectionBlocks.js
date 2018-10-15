@@ -58,6 +58,8 @@ class TopSectionBlocks extends React.Component {
 						link={`/company/${company.id}/book`}
 						icon="contacts"
 						id={'edit-company-block'}
+						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+						disabledOnClick={this.showCouncilsModal}
 						text={translate.book}
 					/>
 				</GridItem>

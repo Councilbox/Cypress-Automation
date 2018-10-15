@@ -19,7 +19,7 @@ class RecordingsSection extends React.Component {
         }
 
         return(
-            <div style={{width: '100%'}}>
+            <div style={{width: '100%', height: '100%'}}>
                 <iframe
                     title="meetingScreen"
                     allow="geolocation; microphone; camera"

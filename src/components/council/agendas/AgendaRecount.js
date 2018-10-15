@@ -269,15 +269,14 @@ class EditableCell extends React.Component {
     render(){
         return (
             <TableCell
-                onMouseEnter={this.show}
-                onMouseLeave={this.hide}   
+                onMouseOver={this.show}
+                onMouseLeave={this.hide}
             >
                 <div
                     style={{
                         display: 'flex',
                         flexDirection: 'row',
-                        
-                    }} 
+                    }}
                 >
                     {this.state.edit?
                         <Tooltip /*TRADUCCION*/title={this.props.max === 0? 'Máximo de votos alcanzado' : `Por favor introduzca un numero entre 0 y ${this.props.max}`}>
