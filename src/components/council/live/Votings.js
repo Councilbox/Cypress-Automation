@@ -1,11 +1,10 @@
 import React from "react";
-import { CollapsibleSection, Icon } from "../../../displayComponents";
+import { Icon } from "../../../displayComponents";
 import { darkGrey } from "../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 import VotingsTable from "./voting/VotingsTable";
 import { canEditPresentVotings, agendaVotingsOpened } from '../../../utils/CBX';
 import ManualVotingsMenu from './voting/ManualVotingsMenu';
-import { getSecondary } from '../../../styles/colors';
 
 class Votings extends React.Component {
 	state = {

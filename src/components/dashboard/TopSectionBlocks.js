@@ -87,7 +87,7 @@ class TopSectionBlocks extends React.Component {
 				<GridItem xs={12} md={6} lg={3}>
 					<Block
 						link={`/company/${company.id}/council/new`}
-						customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} />}
+						customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} alt="councilbox-logo" />}
 						id={'create-council-block'}
 						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 						disabledOnClick={this.showCouncilsModal}

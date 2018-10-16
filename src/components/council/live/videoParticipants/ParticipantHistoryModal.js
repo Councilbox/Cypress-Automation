@@ -44,7 +44,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 												).format("LLL")}
 											</TableCell>
 											<TableCell>
-												{history.typeText}
+												{getLogText(history.typeText, translate)}
 											</TableCell>
 											<TableCell>
 												{`${history.trackInfo.ua.browser
@@ -74,6 +74,31 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 	/>
 );
 
+const getLogText = (type, translate) => {
+	switch(type){
+		case 'CONNECT':
+			return 'Conectado';
+			
+		case 'DISCONNECT':
+			return 'Desconectado';
+
+		case 'ASKED WORD':
+			return 'Petición de palabra';
+
+		case 'CANCELED WORD PETITION':
+			return 'Canceló petición de palabra';
+
+		case 'CANCELED WORD BY ADMIN':
+			return 'El administrador le retiró la palabra';
+
+		case 'GRANTED WORD':
+			return 'Palabra concedida';
+
+		default:
+			return type;
+	}
+}
+
 const participantHistory = gql`
 	query participantHistory($participantId: Int!) {
 		participantHistory(participantId: $participantId) {
@@ -90,6 +115,8 @@ export default graphql(participantHistory, {
 	options: props => ({
 		variables: {
 			participantId: props.participant.id
-		}
+		},
+		notifyOnNetworkStatusChange: true,
+		fetchPolicy: 'network-only'
 	})
 })(ParticipantHistory);

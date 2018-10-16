@@ -14,6 +14,7 @@ import { councilHasVideo } from '../../../utils/CBX';
 import VideoContainer from '../VideoContainer';
 import { toast } from 'react-toastify';
 import { councilStarted } from '../../../utils/CBX';
+import { API_URL } from "../../../config";
 
 const styles = {
 	viewContainer: {
@@ -51,6 +52,13 @@ class ParticipantCouncil extends React.Component {
             }
         });
 
+        if (navigator.userAgent.indexOf("Firefox") !== -1) {
+            window.onbeforeunload = this.leaveRoom;
+        }
+        else {
+            window.onunload = this.leaveRoom;
+        }
+
         if(!councilStarted(this.props.council)){
             this.noStartedToastId = toast(
                 <LiveToast
@@ -65,6 +73,35 @@ class ParticipantCouncil extends React.Component {
                 }
             )
         }
+    }
+
+    leaveRoom = () => {
+        let request = new XMLHttpRequest();
+        request.open('POST', API_URL, false);  // `false` makes the request synchronous
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        request.setRequestHeader("Accept", "application/json");
+        request.setRequestHeader('authorization', sessionStorage.getItem("participantToken"));
+        request.setRequestHeader('x-jwt-token', sessionStorage.getItem("participantToken"));
+        request.onload = function () {
+            let response = JSON.parse(request.responseText);
+        }
+        request.send(JSON.stringify({
+            query: changeParticipantOnlineState,
+            variables: {
+                participantId: this.props.participant.id,
+                online: 0
+            }
+        }));
+    };
+
+
+    componentWillUnmount() {
+        this.props.changeParticipantOnlineState({
+            variables: {
+                participantId: this.props.participant.id,
+                online: 0
+            }
+        });
     }
 
     componentDidUpdate = () => {

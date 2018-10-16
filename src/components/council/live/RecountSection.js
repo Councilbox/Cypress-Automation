@@ -1,5 +1,5 @@
 import React from "react";
-import { Icon, CollapsibleSection } from "../../../displayComponents";
+import { Icon } from "../../../displayComponents";
 import { darkGrey } from "../../../styles/colors";
 //import VotesTable from "./VotesTable";
 import AgendaRecount from '../agendas/AgendaRecount';

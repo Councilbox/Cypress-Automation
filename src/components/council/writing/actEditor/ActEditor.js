@@ -12,7 +12,7 @@ import {
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES, PARTICIPANT_STATES } from "../../../../constants";
+import { DRAFT_TYPES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
@@ -300,7 +300,6 @@ class ActEditor extends Component {
 		const {
 			error,
 			loading,
-			companyStatutes
 		} = this.props.data;
 		const { errors, data } = this.state;
 		let { council } = data;
@@ -671,7 +670,7 @@ const generateActTags = (type, data, translate) => {
 					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
 				},
 				{
-					value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
+					value: (council.currentQuorum / parseInt(base, 10) * 100).toFixed(3),
 					label: translate.social_capital_percentage
 				},
 				{
@@ -747,5 +746,8 @@ const generateActTags = (type, data, translate) => {
 				}
 			]
 			return tags;
+
+		default:
+			return [];
 	}
 }

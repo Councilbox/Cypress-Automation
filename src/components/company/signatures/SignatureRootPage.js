@@ -44,7 +44,8 @@ export default compose(
         options: props => ({
             variables: {
                 id: props.match.params.id
-            }
+            },
+            fetchPolicy: 'network-only'
         })
     }),
     graphql(signersRecount, {

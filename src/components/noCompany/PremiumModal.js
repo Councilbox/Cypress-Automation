@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertConfirm, BasicButton, Grid, GridItem } from '../../displayComponents';
-import { primary, secondary } from '../../styles/colors';
+import { primary } from '../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { store } from '../../containers/App';

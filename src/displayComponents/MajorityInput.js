@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, TextInput } from "./index";
+import { TextInput } from "./index";
 import * as CBX from "../utils/CBX";
 
 const MajorityInput = ({

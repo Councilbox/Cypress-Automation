@@ -219,8 +219,8 @@ export const updateCouncil = gql`
 `;
 
 export const deleteCouncil = gql`
-	mutation DeleteCouncil($councilId: Int!) {
-		deleteCouncil(councilId: $councilId) {
+	mutation DeleteCouncil($councilId: [Int]) {
+		deleteCouncil(ids: $councilId) {
 			success
 			message
 		}

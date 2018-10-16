@@ -1,18 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {
-	SwitchButton,
 	Grid,
 	GridItem,
 	SelectInput,
-	BasicButton,
-	ButtonIcon,
 	CollapsibleSection,
-	AlertConfirm,
 	FilterButton,
 } from "../../../../displayComponents";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
-import { Paper, Tooltip, MenuItem } from "material-ui";
+import { Paper, MenuItem } from "material-ui";
 import StatesContainer from "./sections/StatesContainer";
 import ConveneContainer from "./sections/ConveneContainer";
 import CredentialsContainer from "./sections/CredentialsContainer";
@@ -41,6 +37,10 @@ class ParticipantsManager extends React.Component {
 			editParticipant: id
 		});
 	};
+
+	toggleSettings = () => {
+		this.setState({open: !this.state.open})
+	}
 
 	handleKeyPress = event => {
 		const key = event.nativeEvent;
@@ -123,7 +123,6 @@ class ParticipantsManager extends React.Component {
 	}
 
 	_renderTableOptions = () => {
-		const secondary = getSecondary();
 		const { translate } = this.props;
 		const primary = getPrimary();
 
@@ -198,8 +197,6 @@ class ParticipantsManager extends React.Component {
 	}
 
 	render() {
-		const primary = getPrimary();
-		const { translate, council } = this.props;
 		const secondary = getSecondary();
 
 		return (
@@ -226,7 +223,7 @@ class ParticipantsManager extends React.Component {
 						right: '1em',
 						color: secondary
 					}}
-					onClick={() => this.setState({open: !this.state.open})}
+					onClick={this.toggleSettings}
 				>
 					settings
 				</i>

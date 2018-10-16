@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab, TabContainer, SwipeableViews } from 'material-ui';
+import { Tabs, Tab } from 'material-ui';
 import * as CBX from "../../../../utils/CBX";
 import { Scrollbar } from '../../../../displayComponents';
 import Votings from "../Votings";

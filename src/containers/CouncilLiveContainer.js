@@ -3,11 +3,7 @@ import CouncilLivePage from "../components/council/live/CouncilLivePage";
 import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import { Redirect, withRouter } from "react-router-dom";
-import {
-	BrowserView,
-	MobileView,
-	isMobile
-} from "react-device-detect";
+import { isMobile } from "react-device-detect";
 import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
 import NoConnectionModal from '../components/NoConnectionModal';
 

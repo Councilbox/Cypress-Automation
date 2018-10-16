@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, CloseIcon, DateWrapper } from '../../displayComponents';
+import { Table, CloseIcon, DateWrapper, Checkbox } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 import { TableRow, TableCell } from 'material-ui';
 import TableStyles from "../../styles/table";
@@ -9,10 +9,12 @@ import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
 
+
 class CouncilsList extends React.Component {
 
     state = {
-        open: false
+        open: false,
+        selectedIds: new Map()
     }
 
     openCantAccessModal = () => {
@@ -28,13 +30,15 @@ class CouncilsList extends React.Component {
     }
 
     render() {
-        const { councils, translate, openDeleteModal, company, link } = this.props;
+        const { councils, translate, openDeleteModal, company, link, selectedIds } = this.props;
         let headers = link === '/finished' ? [
+            { selectAll: <Checkbox />},
             { name: translate.date_real_start },
             { name: translate.table_councils_duration },
             { name: translate.name },
             { name: '' }
         ] : [
+            { selectAll: <Checkbox />},
             { name: translate.date_real_start },
             { name: translate.name },
             { name: '' }
@@ -49,6 +53,8 @@ class CouncilsList extends React.Component {
                         <HoverableRow
                             council={council}
                             company={company}
+                            select={this.props.select}
+                            selected={selectedIds.has(council.id)}
                             showModal={this.openCantAccessModal}
                             key={`council${council.id}`}
                             translate={translate}
@@ -102,13 +108,13 @@ class HoverableRow extends React.PureComponent {
 
 
     render() {
-        const { council, company, link, translate } = this.props;
-
+        const { council, company, link, translate, selected } = this.props;
 
         return (
             <TableRow
                 hover
                 onMouseOver={this.mouseEnterHandler}
+                selected={selected}
                 onMouseLeave={this.mouseLeaveHandler}
                 style={{...TableStyles.ROW, backgroundColor: this.props.disabled? 'whiteSmoke' : 'inherit'}}
                 onClick={() => {
@@ -120,6 +126,18 @@ class HoverableRow extends React.PureComponent {
                         )
                 }}
             >
+                <TableCell onClick={event => event.stopPropagation()} style={{cursor: 'auto'}}>
+                    <div style={{width: '2em'}}>
+                        {(this.state.showActions || selected) &&
+                            <Checkbox
+                                value={selected}
+                                onChange={() =>
+                                    this.props.select(council.id)
+                                }
+                            />
+                        }
+                    </div>
+                </TableCell>
                 <TableCell
                     style={TableStyles.TD}
                 >

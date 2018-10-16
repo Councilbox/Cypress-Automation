@@ -89,12 +89,10 @@ class SignUpPage extends React.PureComponent {
 	};
 
 	send = async () => {
-		const { user, company, subscription } = this.state.data;
+		const { user } = this.state.data;
 		const response = await this.props.mutate({
 			variables: {
-				user,
-				/* ...(this.state.sendCompany? { company: company } : {}),
-				subscription */
+				user
 			}
 		});
 		if (response.errors) {

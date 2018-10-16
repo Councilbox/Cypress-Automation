@@ -5,9 +5,13 @@ import {
 	AlertConfirm,
 	ErrorWrapper,
 	Scrollbar,
+	BasicButton,
+	Grid,
+	GridItem,
 	LoadingSection,
 	MainTitle,
 } from "../../displayComponents/index";
+import { getSecondary } from '../../styles/colors';
 import "react-perfect-scrollbar/dist/css/styles.css";
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
@@ -17,31 +21,50 @@ import CouncilsFilters from './CouncilsFilters';
 class Councils extends React.Component {
 	state = {
 		councilToDelete: "",
-		deleteModal: false
+		deleteModal: false,
+		selectedIds: new Map()
 	};
 
 	componentDidMount() {
 		this.props.data.refetch();
 	}
 
+	select = id => {
+        if(this.state.selectedIds.has(id)){
+            this.state.selectedIds.delete(id);
+        } else {
+            this.state.selectedIds.set(id, 'selected');
+        }
+
+        this.setState({
+            selectedIds: new Map(this.state.selectedIds)
+        });
+    }
 
 
 	openDeleteModal = councilID => {
+		if(Number.isInteger(councilID)){
+			if(!this.state.selectedIds.has(councilID)){
+				this.state.selectedIds.set(councilID, 'selected');
+			}
+		}
 		this.setState({
 			deleteModal: true,
-			councilToDelete: councilID
+			selectedIds: new Map(this.state.selectedIds)
 		});
 	};
+
 	deleteCouncil = async () => {
 		this.props.data.loading = true;
 		const response = await this.props.mutate({
 			variables: {
-				councilId: this.state.councilToDelete
+				councilId: Array.from(this.state.selectedIds.keys())
 			}
 		});
 		if (response) {
 			this.setState({
-				deleteModal: false
+				deleteModal: false,
+				selectedIds: new Map()
 			});
 			this.props.data.refetch();
 		}
@@ -66,7 +89,22 @@ class Councils extends React.Component {
 						title={this.props.title}
 						subtitle={this.props.desc}
 					/>
-					<CouncilsFilters refetch={this.props.data.refetch} />
+					<Grid style={{marginTop: '0.6em'}}>
+						<GridItem xs={4} md={8} lg={9}>
+							{this.state.selectedIds.size > 0 &&
+								<BasicButton
+									//TRADUCCION
+									text={this.state.selectedIds.size === 1? 'Borrar 1 elemento' : `Borrar ${this.state.selectedIds.size} elementos`}
+									color={getSecondary()}
+									textStyle={{color: 'white', fontWeight: '700'}}
+									onClick={this.openDeleteModal}
+								/>
+							}
+						</GridItem>
+						<GridItem xs={8} md={4} lg={3}>
+							<CouncilsFilters refetch={this.props.data.refetch} />
+						</GridItem>
+					</Grid>
 					{loading ? (
 						<div style={{
 							width: '100%',
@@ -106,6 +144,8 @@ class Councils extends React.Component {
 													<CouncilsList
 														openDeleteModal={this.openDeleteModal}
 														translate={translate}
+														select={this.select}
+														selectedIds={this.state.selectedIds}
 														councils={councils}
 														company={this.props.company}
 														link={this.props.link}
@@ -116,7 +156,7 @@ class Councils extends React.Component {
 												)}
 										<AlertConfirm
 											title={translate.send_to_trash}
-											bodyText={translate.send_to_trash_desc}
+											bodyText={'¿Desea enviar el elemento/s a la papelera? Una vez allí podrá recuperarlo/s contactando con el soporte técnico'}
 											open={this.state.deleteModal}
 											buttonAccept={translate.send_to_trash}
 											buttonCancel={translate.cancel}

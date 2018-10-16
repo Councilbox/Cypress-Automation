@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, Grid, GridItem, Icon } from '../../displayComponents';
+import { TextInput, Icon } from '../../displayComponents';
 
 
 class CouncilsFilters extends React.Component {
@@ -21,22 +21,17 @@ class CouncilsFilters extends React.Component {
 
     render(){
         return(
-            <Grid style={{paddingRight: '1.2em'}}>
-                <GridItem xs={12} md={9} lg={9}>
-
-                </GridItem>
-                <GridItem xs={12} md={3} lg={3}>
-                    <TextInput
-                        adornment={<Icon>search</Icon>}
-                        floatingText={" "}
-                        type="text"
-                        value={this.state.filterText}
-                        onChange={event => {
-                            this.updateFilterText(event.target.value);
-                        }}
-                    />
-                </GridItem>
-            </Grid>
+            <div style={{width: '100%', float: 'right', paddingRight: '1.2em'}}>
+                <TextInput
+                    adornment={<Icon>search</Icon>}
+                    floatingText={" "}
+                    type="text"
+                    value={this.state.filterText}
+                    onChange={event => {
+                        this.updateFilterText(event.target.value);
+                    }}
+                />
+            </div>
         )
     }
 }

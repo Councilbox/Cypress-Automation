@@ -245,32 +245,37 @@ class EnhancedTable extends React.Component {
 						<TableRow>
 							{headers.map((header, index) => {
 								return (
-									<TableCell
-										key={`header_${index}`}
-										sortDirection={
-											this.state.orderDirection
-										}
-										style={TableStyles.TH}
-									>
-										{header.canOrder ? (
-											<TableSortLabel
-												active={
-													header.name ===
-													this.state.orderBy
-												}
-												direction={
-													this.state.orderDirection
-												}
-												onClick={() =>
-													this.orderBy(header.name)
-												}
-											>
-												{header.text}
-											</TableSortLabel>
-										) : (
-												header.text
-											)}
-									</TableCell>
+									header.selectAll?
+										<TableCell>
+											{header.selectAll}
+										</TableCell>
+									:
+										<TableCell
+											key={`header_${index}`}
+											sortDirection={
+												this.state.orderDirection
+											}
+											style={TableStyles.TH}
+										>
+											{header.canOrder ? (
+												<TableSortLabel
+													active={
+														header.name ===
+														this.state.orderBy
+													}
+													direction={
+														this.state.orderDirection
+													}
+													onClick={() =>
+														this.orderBy(header.name)
+													}
+												>
+													{header.text}
+												</TableSortLabel>
+											) : (
+													header.text
+												)}
+										</TableCell>
 								);
 							})}
 						</TableRow>

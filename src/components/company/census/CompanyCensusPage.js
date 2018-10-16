@@ -162,11 +162,7 @@ class CompanyCensusPage extends React.Component {
 					refetch={this.props.data.refetch}
 					requestClose={() => this.setState({ cloneModal: false, index: null})}
 					open={this.state.cloneModal}
-					census={!!censuses?
-						censuses.list[this.state.index]
-					:
-						[]
-					}
+					census={censuses.list[this.state.index]}
 				/>
 				{!!this.state.editId &&
 					<EditCensusModal

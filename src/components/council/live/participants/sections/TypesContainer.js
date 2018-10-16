@@ -290,7 +290,7 @@ class TypesContainer extends React.Component {
 
 
 	render() {
-		const { addGuest, updateState, council, translate, orientation } = this.props;
+		const { council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const secondary = getSecondary();
 		const { filterText, filterField } = this.state;

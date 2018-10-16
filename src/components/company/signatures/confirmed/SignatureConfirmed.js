@@ -14,6 +14,8 @@ class SignatureConfirmed extends React.Component {
         downloading: false
     }
 
+    signes = null;
+
     componentDidMount(){
         this.refreshStates();
     }
@@ -45,7 +47,14 @@ class SignatureConfirmed extends React.Component {
                 id: this.props.data.signature.id
             }
         });
-        this.props.data.refetch();
+        await this.props.data.refetch();
+        if(this.signers){
+            if(this.signers.wrappedInstance){
+                if(this.signers.wrappedInstance.wrappedInstance){
+                    this.signers.wrappedInstance.wrappedInstance.reloadParticipants();
+                }
+            }
+        }
     }
 
     render(){
@@ -107,6 +116,7 @@ class SignatureConfirmed extends React.Component {
                     :
                         <div style={{width: '100%', height: '100%'}}>
                             <SignersList
+                                ref={ref => this.signers = ref}
                                 signature={signature}
                                 translate={this.props.translate}
                                 refreshStates={this.refreshStates}
@@ -135,9 +145,9 @@ const downloadSignedDocument = gql`
 
 export default compose(
     graphql(updateSignatureStatus, {
-        name: 'updateSignatureStatus'
+        name: 'updateSignatureStatus',
     }),
     graphql(downloadSignedDocument, {
-        name: 'downloadSignedDocument'
+        name: 'downloadSignedDocument',
     })
 )(SignatureConfirmed);

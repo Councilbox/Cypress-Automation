@@ -53,7 +53,7 @@ export default class SignaturePad extends React.Component {
   fromDataURL(dataUrl) {
     var self = this,
       image = new Image(),
-      ratio = window.devicePixelRatio || 1,
+      //ratio = window.devicePixelRatio || 1,
       width = this._canvas.width,
       height = this._canvas.height;
 

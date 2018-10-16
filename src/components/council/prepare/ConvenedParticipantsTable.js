@@ -4,7 +4,6 @@ import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import {
-	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
 	LoadingSection,

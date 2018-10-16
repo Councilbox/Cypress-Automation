@@ -1,6 +1,6 @@
 import React from 'react'
 import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton } from '../../displayComponents';
-import { TableRow, TableCell, Tooltip } from 'material-ui';
+import { TableRow, TableCell } from 'material-ui';
 import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
 import withTranslations from '../../HOCs/withTranslations';

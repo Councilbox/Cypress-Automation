@@ -1,5 +1,5 @@
 import React from "react";
-import { NotLoggedLayout, ButtonIcon, FilterButton } from "../../displayComponents";
+import { NotLoggedLayout, ButtonIcon } from "../../displayComponents";
 import { Paper, Card } from "material-ui";
 import { getPrimary, getLightGrey } from "../../styles/colors";
 import * as mainActions from "../../actions/mainActions";
@@ -91,10 +91,8 @@ class Recommendations extends React.Component {
 
     render() {
         let { translate } = this.props;
-        let platform = this.getBrowserPlatform();
         let { platformActive } = this.state;
         let primary = getPrimary();
-        let lightgrey = getLightGrey()
 
         return (
             <NotLoggedLayout
@@ -201,6 +199,7 @@ class Recommendations extends React.Component {
                                         />
                                         <a
                                             href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8"
+                                            alt="appstore-link"
                                             style={{
                                                 display: "inline-block",
                                                 overflow: "hidden",
@@ -267,10 +266,12 @@ class Recommendations extends React.Component {
                                                 borderRadius: "5px",
                                                 margin: "-5px 0 -10px 12px"
                                             }}
+                                            rel="noopener noreferrer"
                                             target="_blank"
                                         >
                                             <img
                                                 src="https://app.councilbox.com/img/fa-chrome.png"
+                                                alt="chrome-icon"
                                                 width="25"
                                                 style={{
                                                     padding: "5px",

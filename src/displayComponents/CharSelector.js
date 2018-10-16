@@ -22,7 +22,7 @@ const CharSelector = ({ onClick, ...props }) => {
                         {props.translate.all_plural}
                     </MenuItem>
                     {chars.map(char => (
-                        <MenuItem value={char} style={{textTransform: 'uppercase'}}>
+                        <MenuItem key={`character_${char}`} value={char} style={{textTransform: 'uppercase'}}>
                             <span style={{textTransform: 'uppercase'}}>{char}</span>
                         </MenuItem>
                     ))}

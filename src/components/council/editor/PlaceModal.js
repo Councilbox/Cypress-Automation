@@ -1,5 +1,4 @@
 import React from "react";
-import { MenuItem } from "material-ui";
 import Dialog, {
 	DialogActions,
 	DialogContent,
@@ -9,12 +8,9 @@ import {
 	BasicButton,
 	Checkbox,
 	LoadingSection,
-	SelectInput,
 	TextInput
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import { withApollo } from "react-apollo";
-import { provinces } from "../../../queries/masters";
 
 
 class PlaceModal extends React.Component {
@@ -41,15 +37,6 @@ class PlaceModal extends React.Component {
 					council: this.props.council
 				}
 			});
-
-			if (this.props.countries && this.props.council.country) {
-				const country = this.props.countries.filter(
-					country => country.deno === this.props.council.country
-				)[0];
-				if (country) {
-					this.updateCountryStates(country.id);
-				}
-			}
 		}
 	}
 
@@ -64,59 +51,6 @@ class PlaceModal extends React.Component {
 		return null;
 	}
 
-
-	componentDidUpdate(prevProps, prevState){
-		if(this.props.council.country !== prevProps.council.country){
-			const country = this.props.countries.filter(
-				country => country.deno === this.props.council.country
-			)[0];
-			if (country) {
-				this.updateCountryStates(country.id);
-			}
-		}
-	}
-
-	handleCountryChange = event => {
-		this.setState({
-			...this.state,
-			data: {
-				...this.state.data,
-				council: {
-					...this.state.data.council,
-					country: event.target.value
-				}
-			}
-		});
-		const selectedCountry = this.props.countries.find(
-			country => country.deno === event.target.value
-		);
-		this.updateCountryStates(selectedCountry.id);
-	};
-
-	updateCountryStates = async countryID => {
-		const response = await this.props.client.query({
-			query: provinces,
-			variables: {
-				countryId: countryID
-			}
-		});
-		this.setState({
-			country_states: response.data.provinces
-		});
-	};
-
-	handleProvinceChange = event => {
-		this.setState({
-			...this.state,
-			data: {
-				...this.state.data,
-				council: {
-					...this.state.data.council,
-					countryState: event.target.value
-				}
-			}
-		});
-	};
 
 	saveAndClose = () => {
 		if (!this.checkRequiredFields()) {
@@ -135,6 +69,7 @@ class PlaceModal extends React.Component {
 			}
 		}
 	};
+
 	_renderActionButtons = () => {
 		const { translate } = this.props;
 		const primary = getPrimary();
@@ -221,7 +156,7 @@ class PlaceModal extends React.Component {
 	}
 
 	render() {
-		const { translate, countries } = this.props;
+		const { translate } = this.props;
 
 		if (!this.state.data.council) {
 			return <LoadingSection />;
@@ -296,44 +231,6 @@ class PlaceModal extends React.Component {
 									})
 								}
 							/>
-							{/* <SelectInput
-								floatingText={translate.country}
-								value={this.state.data.council.country}
-								onChange={this.handleCountryChange}
-								errorText={this.state.errors.country}
-							>
-								{countries.map(country => {
-									return (
-										<MenuItem
-											key={country.deno}
-											value={country.deno}
-										>
-											{country.deno}
-										</MenuItem>
-									);
-								})}
-							</SelectInput>
-							<SelectInput
-								floatingText={
-									translate.company_new_country_state
-								}
-								value={this.state.data.council.countryState}
-								errorText={this.state.errors.countryState}
-								onChange={this.handleProvinceChange}
-							>
-								{this.state.country_states.map(
-									country_state => {
-										return (
-											<MenuItem
-												key={country_state.deno}
-												value={country_state.deno}
-											>
-												{country_state.deno}
-											</MenuItem>
-										);
-									}
-								)}
-							</SelectInput> */}
 							<TextInput
 								floatingText={translate.company_new_zipcode}
 								type="text"
@@ -403,4 +300,4 @@ class PlaceModal extends React.Component {
 	}
 }
 
-export default withApollo(PlaceModal);
+export default PlaceModal;

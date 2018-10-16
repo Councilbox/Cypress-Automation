@@ -383,7 +383,7 @@ export const changeVariablesToValues = (text, data, translate) => {
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
-	text = text.replace(/{{percentageOfShares}}/g, (data.council.currentQuorum / parseInt(base) * 100).toFixed(3));
+	text = text.replace(/{{percentageOfShares}}/g, (data.council.currentQuorum / parseInt(base, 10) * 100).toFixed(3));
 	text = text.replace(/{{country_state}}/g, data.council.countryState);
 	if (data.votings) {
 		text = text.replace(/{{positiveVotings}}/g, data.votings.positive);
@@ -525,6 +525,9 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 					label: translate.negative_votings
 				}
 			];
+
+		default:
+			return [];
 	}
 }
 
@@ -717,7 +720,7 @@ function dataURItoBlob(dataURI) {
 	return arrayBuffer;
 }
 
-export const getSignerStatusTranslateField = (status) => {
+export const getSignerStatusTranslateField = status => {
 	switch (status){
 		case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
 			return 'in_queue';

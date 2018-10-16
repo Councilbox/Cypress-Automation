@@ -10,13 +10,10 @@ import {
 	ReactSignature,
 	ParticipantDisplay,
 	Checkbox,
-	MenuItem,
-	Tooltip,
 } from "../../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../../styles/colors";
+import { getPrimary } from "../../../../../styles/colors";
 import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
-import { Icon, Card } from "material-ui";
 
 class SignatureModal extends Component {
 	state = {
@@ -193,36 +190,6 @@ class SignatureModal extends Component {
 			</Fragment>
 		);
 	}
-}
-
-
-const SignatureButton = ({ active, action, translate }) => {
-	return (
-		<Tooltip title={translate.to_sign}>
-			<Card
-				style={{
-					margin: '2px 1em 0 0',
-					justifyContent: "center",
-					cursor: "pointer",
-					outline: 0,
-					border: `1px solid ${active ? getPrimary() : getSecondary()}`,
-					borderRadius: "2px",
-					backgroundColor: active ? getPrimary() : getSecondary(),
-
-				}}
-				elevation={active ? 0 : 1}
-				tabIndex="0"
-				onClick={action}
-			>
-				<Icon
-					className="material-icons"
-					style={{ fontSize: '1.5em', paddingTop: '0.1em', color: 'white', margin: '0.2em 0.4em' }}
-				>
-					gesture
-			</Icon>
-			</Card>
-		</Tooltip>
-	);
 }
 
 export default compose(

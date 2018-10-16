@@ -56,8 +56,8 @@ class ActAttachments extends React.PureComponent{
                         this.props.data.council.agendas.map((agenda) =>
                             <React.Fragment key={`agenda_${agenda.id}`}>
                                     {agenda.attachments.length > 0 &&
-                                        agenda.attachments.map((attachment) =>
-                                            <React.Fragment>
+                                        agenda.attachments.map(attachment =>
+                                            <React.Fragment key={`attachment_${attachment.id}`}>
                                                 <GridItem xs={12} lg={12} md={12} style={{display: 'flex', flexDirection: 'column'}}>
                                                     <Typography variant="subheading" style={{fontWeight: '700'}}>
                                                         {`${agenda.orderIndex} - ${agenda.agendaSubject}`}

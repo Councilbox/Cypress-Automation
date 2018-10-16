@@ -97,13 +97,7 @@ class StepOptions extends React.Component {
 	};
 
 	checkRequiredFields = () => {
-		let errors = {
-			majority: ''
-		};
-
 		const { council } = this.state.data;
-
-		let hasError = false;
 
 		if(council.approveActDraft === 1){
 			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);

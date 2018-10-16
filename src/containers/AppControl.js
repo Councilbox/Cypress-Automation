@@ -3,8 +3,8 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
-import { bindActionCreators } from 'redux';
 import { store } from '../containers/App';
+
 const ConfigContext = React.createContext({
     video: true,
     commandBar: false,
@@ -65,11 +65,6 @@ const mapStateToProps = state => ({
 	user: state.user
 });
 
-function mapDispatchToProps(dispatch) {
-	return {
-		actions: bindActionCreators(mainActions, dispatch)
-	};
-}
 
 export default graphql(appConfig, {
     options: props => ({

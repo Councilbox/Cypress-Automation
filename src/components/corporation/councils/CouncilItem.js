@@ -1,6 +1,5 @@
 import React from 'react';
 import { getSecondary } from '../../../styles/colors';
-import { DateWrapper } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import FontAwesome from 'react-fontawesome';
 

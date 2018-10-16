@@ -1,10 +1,5 @@
 import React from "react";
-import {
-	CollapsibleSection,
-	Icon,
-	LiveToast,
-	LoadingSection
-} from "../../../displayComponents";
+import { Icon, LiveToast, LoadingSection } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../styles/colors";
 import { compose, graphql } from "react-apollo";

@@ -7,7 +7,9 @@ import gql from 'graphql-tag';
 import SignatureParticipants from './SignatureParticipants';
 
 class SignatureStepTwo extends React.Component {
-    state = {}
+    state = {
+        loading: false
+    }
 
     updateState = object => {
         this.setState({
@@ -19,14 +21,18 @@ class SignatureStepTwo extends React.Component {
     }
 
     sendSignature = async () => {
+        this.setState({
+            loading: true
+        });
         const response = await this.props.sendSignature({
             variables: {
                 id: this.props.signature.id
             }
         });
-
-        console.log(response);
         if(response.data.sendSignature.success){
+            this.setState({
+                loading: false
+            })
             this.props.refetch();
         }
     }
@@ -35,7 +41,6 @@ class SignatureStepTwo extends React.Component {
         const { translate } = this.props;
         const primary = getPrimary();
         const secondary = getSecondary();
-        
         return(
             <EditorStepLayout
                 body={
@@ -66,6 +71,7 @@ class SignatureStepTwo extends React.Component {
                         <BasicButton
                             text={translate.new_send_to_sign}
                             color={primary}
+                            loading={this.state.loading}
                             textStyle={{color: 'white', textTransform: 'none', fontWeight: '700'}}
                             buttonStyle={{marginLeft: '0.8em'}}
                             onClick={this.sendSignature}

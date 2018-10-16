@@ -9,7 +9,6 @@ import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
 import FontAwesome from "react-fontawesome";
-import SignatureModal from "./modals/SignatureModal";
 import StateIcon from "./StateIcon";
 
 class ParticipantStateSelector extends React.Component {

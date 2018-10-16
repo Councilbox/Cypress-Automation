@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { MenuItem, Card } from "material-ui";
-import { LoadingSection } from "./";
+import { Card } from "material-ui";
 import { getLightGrey } from "../styles/colors";
 
 

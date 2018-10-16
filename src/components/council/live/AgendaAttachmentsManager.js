@@ -1,7 +1,6 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import {
-	CollapsibleSection,
 	FileUploadButton,
 	Icon
 } from "../../../displayComponents";

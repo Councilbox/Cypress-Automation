@@ -3,7 +3,6 @@ import { Grid } from "../../../../displayComponents";
 import { LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from "../../../../displayComponents";
 import ParticipantItem from "./ParticipantItem";
 import SignatureModal from "./modals/SignatureModal";
-import AttendComment from "../../prepare/modals/AttendComment";
 import LiveParticipantEditor from "./LiveParticipantEditor";
 
 class ParticipantsList extends React.PureComponent {

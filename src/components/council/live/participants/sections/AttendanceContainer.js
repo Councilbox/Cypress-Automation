@@ -357,7 +357,7 @@ class AttendanceContainer extends React.Component {
 	};
 
 	render() {
-		const { updateState, council, translate, orientation } = this.props;
+		const { council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();

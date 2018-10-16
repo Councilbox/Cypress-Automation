@@ -1,6 +1,5 @@
 import React from "react";
-import LiveHeader from "../../council/live/LiveHeader";
-import { lightGrey, darkGrey } from "../../../styles/colors";
+import { lightGrey } from "../../../styles/colors";
 import { bHistory } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import withWindowSize from '../../../HOCs/withWindowSize';
@@ -31,14 +30,9 @@ class MeetingLivePage extends React.Component {
 		if(!this.state.url){
 			bHistory.push('/');
 		}
-		/*window.addEventListener("beforeunload", (ev) => {
-         ev.preventDefault();
-         return ev.returnValue = 'Are you sure you want to close?';
-         });*/
 	}
 
 	componentWillUnmount() {
-		//window.removeListener('beforeunload');
 		sessionStorage.removeItem('meetingUrl');
 	}
 
@@ -56,8 +50,6 @@ class MeetingLivePage extends React.Component {
 	rand = Date.now();
 
 	render() {
-		const { translate, company } = this.props;
-
 		return (
 			<div
 				style={{

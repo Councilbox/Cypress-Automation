@@ -12,7 +12,7 @@ import { MenuItem } from 'material-ui';
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
-import { BasicButton, Grid, GridItem, Scrollbar, SelectInput } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem, SelectInput } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
 import { updateAgenda } from "../../../queries/agenda";

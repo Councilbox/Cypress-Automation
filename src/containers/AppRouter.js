@@ -63,11 +63,6 @@ const Welcome = Loadable({
 	loading: LoadingMainApp
 });
 
-const NotFound = Loadable({
-	loader: () => import('../components/NotFound'),
-	loading: LoadingMainApp
-});
-
 const SidebarLite = Loadable({
 	loader: () => import('../components/sideMenu/SideBarLite'),
 	loading: LoadingMainApp

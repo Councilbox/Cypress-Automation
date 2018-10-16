@@ -3,7 +3,6 @@ import { Table, TableBody, TableCell, TableRow, TableHead } from 'material-ui';
 import * as CBX from '../../utils/CBX';
 import { moment } from '../../containers/App';
 import EmailIcon from '../council/live/participants/EmailIcon';
-EmailIcon
 
 const tableCellStyle = {padding:'0.2em'};
 

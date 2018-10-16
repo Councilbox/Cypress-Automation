@@ -19,7 +19,7 @@ class PresentVoteMenu extends React.Component {
 			...agendaVoting
 		} = this.props.agendaVoting;
 
-		const response = await this.props.updateAgendaVoting({
+		await this.props.updateAgendaVoting({
 			variables: {
 				agendaVoting: {
 					id: agendaVoting.id,

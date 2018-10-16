@@ -176,17 +176,14 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 
 class App extends React.Component {
 
-	componentDidMount() {
+/* 	componentDidMount() {
 		bHistory.listen(location => console.log(location));
 		window.addEventListener('popstate', href => console.log(href));
-		window.onbeforeunload = () => {
-			return "You have attempted to leave this page. Are you sure?";
-		}
 	}
 
 	detectRouteChange = (previousRoute, nextRoute) => {
 		console.log(previousRoute, nextRoute);
-	}
+	} */
 
 	render() {
 		return (

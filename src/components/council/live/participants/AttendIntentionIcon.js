@@ -2,10 +2,7 @@ import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 import { getPrimary } from '../../../../styles/colors';
-import { removeHTMLTags } from '../../../../utils/CBX';
 import { PARTICIPANT_STATES } from '../../../../constants';
-
-
 
 const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;

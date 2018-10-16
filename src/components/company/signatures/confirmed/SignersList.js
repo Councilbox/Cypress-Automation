@@ -12,6 +12,10 @@ class SignersList extends React.Component {
         await this.props.refreshStates();
     }
 
+    reloadParticipants = () => {
+        this.props.data.refetch();
+    }
+
     render(){
         const { translate } = this.props;
         const { signatureParticipants = { list: [], total: 0}, loading } = this.props.data;
@@ -27,7 +31,7 @@ class SignersList extends React.Component {
                     limits={PARTICIPANTS_LIMITS}
                     menuButtons={
                         <div style={{marginRight: '0.8em'}}>
-                            <RefreshButton 
+                            <RefreshButton
                                 translate={translate}
                                 tooltip={translate.refresh_convened}
                                 onClick={this.refresh}
@@ -65,7 +69,7 @@ class SignersList extends React.Component {
                             text: translate.dni,
                             canOrder: true
                         },
-                        {   
+                        {
                             name: 'email',
                             text: translate.email,
                             canOrder: true
@@ -78,7 +82,7 @@ class SignersList extends React.Component {
                     ]}
                 >
                     {signatureParticipants.list.length > 0 &&
-                        signatureParticipants.list.map(participant => ( 
+                        signatureParticipants.list.map(participant => (
                             <TableRow
                                 key={`participant_${participant.id}`}
                                 style={{
@@ -88,7 +92,6 @@ class SignersList extends React.Component {
                                 <TableCell>
                                     {`${participant.name} ${participant.surname}`}
                                 </TableCell>
-                                
                                 <TableCell>
                                     {participant.dni}
                                 </TableCell>
@@ -134,7 +137,8 @@ const removeSignatureParticipant = gql`
 
 export default compose(
     graphql(removeSignatureParticipant, {
-        name: 'removeSignatureParticipant'
+        name: 'removeSignatureParticipant',
+        withRef: true
     }),
     graphql(signatureParticipants, {
         options: props => ({
@@ -144,7 +148,10 @@ export default compose(
                     limit: PARTICIPANTS_LIMITS[0],
                     offset: 0
                 }
-            }
-        })
+            },
+            fetchPolicy: 'network-only',
+            notifyOnNetworkStatusChange: true
+        }),
+        withRef: true
     })
 )(SignersList);

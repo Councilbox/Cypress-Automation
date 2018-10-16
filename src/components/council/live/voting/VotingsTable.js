@@ -441,7 +441,7 @@ class VotingsTable extends React.Component {
 											</span>
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
-													<React.Fragment>
+													<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 														<br/>
 														{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${`(Ha delegado su voto)`}`}
 													</React.Fragment>
@@ -478,7 +478,7 @@ class VotingsTable extends React.Component {
 											}
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
-													<React.Fragment>
+													<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 														<br/>
 														{`${
 															delegatedVote.author

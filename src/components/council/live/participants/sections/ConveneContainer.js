@@ -8,7 +8,6 @@ import {
 	TextInput,
 	BasicButton,
 	GridItem,
-	ButtonIcon,
 	LiveToast
 } from "../../../../../displayComponents";
 import { graphql, compose } from "react-apollo";
@@ -18,7 +17,6 @@ import {
 	EMAIL_TRACK_STATES
 } from "../../../../../constants";
 import ParticipantsList from "../ParticipantsList";
-import { Tooltip } from "material-ui";
 import { getSecondary } from "../../../../../styles/colors";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import EmailIcon from "../EmailIcon";

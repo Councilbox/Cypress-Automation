@@ -9,7 +9,7 @@ import { graphql } from 'react-apollo';
 import VotingsTable from '../../../council/live/voting/VotingsTable';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import { updateAgenda } from "../../../../queries/agenda";
 
@@ -83,8 +83,6 @@ class AgendaEditor extends React.Component {
 			typeText,
 			translate,
 			error,
-			updateAgenda,
-			loadDraft,
 			recount,
 			readOnly,
 			majorityTypes
@@ -101,9 +99,6 @@ class AgendaEditor extends React.Component {
 
 		agenda.votings.forEach(vote => {
 			switch(vote.vote){
-				case VOTE_VALUES.NO_VOTE:
-					noVotes++;
-					break;
 				case VOTE_VALUES.ABSTENTION:
 					abstentionVotings++;
 					break;
@@ -113,6 +108,8 @@ class AgendaEditor extends React.Component {
 				case VOTE_VALUES.NEGATIVE:
 					negativeVotings++;
 					break;
+				default:
+					noVotes++;
 			}
 		})
 

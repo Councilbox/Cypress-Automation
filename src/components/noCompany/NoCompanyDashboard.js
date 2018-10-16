@@ -1,6 +1,6 @@
 import React from "react";
 import { darkGrey, lightGrey } from "../../styles/colors";
-import { Block, Grid, GridItem, AlertConfirm } from '../../displayComponents';
+import { Block, Grid, GridItem } from '../../displayComponents';
 import { userCanCreateCompany } from '../../utils/CBX';
 import ToggleRecordings from './ToggleRecordings';
 import ToggleVideo from './ToggleVideo';
@@ -33,7 +33,7 @@ class NoCompanyDashboard extends React.Component {
 	}
 
 	render() {
-		const { translate, company, user } = this.props;
+		const { translate, user } = this.props;
 		return (
 			<div
 				style={{

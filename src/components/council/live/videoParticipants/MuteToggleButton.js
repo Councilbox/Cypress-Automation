@@ -2,7 +2,7 @@ import React from "react";
 import { Card, MenuItem, Tooltip } from "material-ui";
 import { getSecondary } from "../../../../styles/colors";
 import { graphql, compose } from "react-apollo";
-import { haveGrantedWord, isAskingForWord } from "../../../../utils/CBX";
+import { haveGrantedWord } from "../../../../utils/CBX";
 import gql from 'graphql-tag';
 
 class MuteToggleButton extends React.Component {
@@ -19,15 +19,12 @@ class MuteToggleButton extends React.Component {
 
     toggleMuteParticipant = async () => {
 		if(this.state.muted){
-			console.log('unmute');
 			const response = await this.props.unmuteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
 					videoParticipantId: this.props.participant.videoParticipant.id
 				}
 			});
-
-			console.log(response);
 
 			if(response.data){
 				if(response.data.unmuteVideoParticipant.success){
@@ -37,7 +34,6 @@ class MuteToggleButton extends React.Component {
 				}
 			}
 		}else {
-			console.log('mute');
 			const response = await this.props.muteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -57,7 +53,6 @@ class MuteToggleButton extends React.Component {
 
 	render() {
 		const { participant } = this.props;
-		//console.log(participant);
 
 		return (
 			<div style={{marginRight: '0.3em'}}>

@@ -104,6 +104,7 @@ class CouncilCertificates extends React.PureComponent {
                             >
                                 {this.props.data.councilCertificates.map(certificate => (
                                     <HoverableRow
+                                        key={`certificate_${certificate.id}`}
                                         certificate={certificate}
                                         translate={translate}
                                     />

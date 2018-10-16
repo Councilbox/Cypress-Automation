@@ -161,7 +161,6 @@ class Assistance extends React.Component {
 	render() {
 		const { council, company, translate } = this.props;
 		const { representative, ...participant } = this.state.participant;
-		const selectSimpleOption = this.selectSimpleOption;
 		let canDelegate = canDelegateVotes(council.statute, participant);
 		console.log(this.state)
 

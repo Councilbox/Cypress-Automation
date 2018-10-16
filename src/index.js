@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./containers/App";
-import registerServiceWorker from "./registerServiceWorker";
 import Loadable from 'react-loadable';
 import "./styles/index.css";
 import LoadingMainApp from "./displayComponents/LoadingMainApp";
@@ -22,5 +21,4 @@ ReactDOM.render(
 	document.getElementById("root")
 );
 unregister();
-//registerServiceWorker();
 

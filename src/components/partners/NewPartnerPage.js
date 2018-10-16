@@ -24,7 +24,6 @@ class NewPartnerPage extends React.Component {
             landlinePhone: '',
             type: 0,
             address: '',
-            state: '',
             city: '',
             observations: '',
             country: 'España',

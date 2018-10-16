@@ -33,7 +33,7 @@ class CouncilsHistory extends React.Component {
     }
 
     render(){
-        const { councils, translate, deleteCouncil, openDeleteModal, company, link } = this.props;
+        const { councils, translate, openDeleteModal, company } = this.props;
 
         return(
             <Table

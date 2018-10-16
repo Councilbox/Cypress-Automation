@@ -7,7 +7,6 @@ import {
 	SelectInput,
 	BasicButton,
 	ButtonIcon,
-	Scrollbar,
 	CharSelector,
 	MenuItem,
 	TextInput
@@ -373,7 +372,7 @@ class StatesContainer extends React.Component {
 	};
 
 	render() {
-		const { addGuest, updateState, council, translate, orientation } = this.props;
+		const { council, translate, orientation } = this.props;
 		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();

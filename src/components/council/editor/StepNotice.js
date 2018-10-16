@@ -199,8 +199,6 @@ class StepNotice extends React.Component {
 	) => {
 		const { translate } = this.props;
 		const statute = this.props.data.council.statute;
-		const oldFirstDate = this.state.data.dateStart;
-		const oldSecondDate = this.state.data.dateStart2NdCall;
 		const errors = {
 			dateStart: '',
 			dateStart2NdCall: ''

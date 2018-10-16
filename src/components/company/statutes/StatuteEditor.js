@@ -66,7 +66,7 @@ class StatuteEditor extends React.PureComponent {
 								onChange={event => {
 									if (!isNaN(event.target.value) && +event.target.value >= 0) {
 										updateState({
-											advanceNoticeDays: parseInt(event.target.value)
+											advanceNoticeDays: parseInt(event.target.value, 10)
 										})
 									} else {
 										updateState({
@@ -103,7 +103,7 @@ class StatuteEditor extends React.PureComponent {
 								onChange={event => {
 									if (!isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
-											minimumSeparationBetweenCall: parseInt(event.target.value)
+											minimumSeparationBetweenCall: parseInt(event.target.value, 10)
 										})
 									} else {
 										updateState({
@@ -288,7 +288,7 @@ class StatuteEditor extends React.PureComponent {
 								onChange={event => {
 									if (!isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
-											maxNumDelegatedVotes: parseInt(event.target.value)
+											maxNumDelegatedVotes: parseInt(event.target.value, 10)
 										})
 									} else {
 										updateState({
@@ -326,7 +326,7 @@ class StatuteEditor extends React.PureComponent {
 								onChange={event => {
 									if (!isNaN(event.target.value) && +event.target.value > 0) {
 										updateState({
-											limitedAccessRoomMinutes: parseInt(event.target.value)
+											limitedAccessRoomMinutes: parseInt(event.target.value, 10)
 										})
 									} else {
 										updateState({
@@ -722,5 +722,7 @@ const getTagsByActSection = (section, translate) => {
 			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
 		case 'conclusion':
 			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
+		default:
+			return [];
 	}
 }
