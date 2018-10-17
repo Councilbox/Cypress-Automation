@@ -216,7 +216,6 @@ class CouncilboxApi {
 		);
 		const response = await fetch(request);
 		const data = await response.json();
-		console.log(data);
 		return data.result.data;
 	}
 

@@ -33,7 +33,6 @@ class AddCensusButton extends React.Component {
 				}
 			});
 			if (response) {
-				console.log(response);
 				this.props.refetch();
 				this.setState({
 					modal: false,

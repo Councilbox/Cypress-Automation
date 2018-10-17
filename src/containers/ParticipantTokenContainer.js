@@ -39,7 +39,6 @@ class ParticipantTokenContainer extends React.Component {
                 throw new Error("Error getting participant token");
             }
         } catch (error) {
-            console.log(error);
             //TODO ADD TOAST OR LOAD MESSAGE VIEW
             this.setState({
                 error: true,

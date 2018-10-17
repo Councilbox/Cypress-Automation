@@ -25,7 +25,6 @@ class ErrorHandler extends React.Component {
     }
 
     async componentDidCatch(error, info){
-        console.log('saltó pantalla error');
         console.log(error);
         console.log(info);
 /*      console.log(error.message);

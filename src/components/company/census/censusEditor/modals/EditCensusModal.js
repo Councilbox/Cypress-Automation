@@ -26,7 +26,6 @@ class EditCensusButton extends React.Component {
     }
 
     updateCensus = async () => {
-        console.log('update census');
         if(!this.checkRequiredFields()){
             const { __typename, ...census } = this.state.data;
             const response = await this.props.updateCensus({

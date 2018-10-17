@@ -131,7 +131,6 @@ class ImportCensusButton extends React.Component {
 		let uniqueEmails = new Map();
 		let duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
-			console.log(censusP);
 			if (censusP.participant.email) {
 				if (uniqueEmails.get(censusP.participant.email)) {
 					duplicatedEmails.set(censusP.participant.email, [index + 2]);
@@ -174,7 +173,6 @@ class ImportCensusButton extends React.Component {
 
 		if (!response.data.checkUniqueCensusEmails.success) {
 			const json = JSON.parse(response.data.checkUniqueCensusEmails.message);
-			console.log(JSON);
 			const dEmails = [];
 			json.duplicatedEmails.forEach(email => dEmails.push([email, uniqueEmails.get(email)]));
 			dEmails.sort((a, b) => a[1] - b[1]);
@@ -381,7 +379,6 @@ class ImportCensusButton extends React.Component {
 	checkPersonParticipant = participant => {
 		const participantError = this.checkRequiredFields(participant, false);
 		if (participantError) {
-			console.log('participant error');
 			return participantError;
 		}
 		return { participant: participant }

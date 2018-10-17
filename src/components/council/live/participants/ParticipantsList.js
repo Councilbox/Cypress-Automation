@@ -33,8 +33,6 @@ class ParticipantsList extends React.PureComponent {
 			participants
 		} = this.props;
 
-		console.log(this.state);
-
 		return (
 			<React.Fragment>
 				{loading ?

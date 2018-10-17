@@ -263,7 +263,6 @@ class ActEditor extends Component {
 
 	updateCouncilAct = async () => {
 		const { __typename, ...act } = this.state.data.council.act;
-		console.log(act);
 
 		if(!this.checkBraces()){
 			this.setState({

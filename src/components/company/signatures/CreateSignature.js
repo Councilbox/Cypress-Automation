@@ -25,7 +25,6 @@ class CreateSignature extends React.Component {
 			`/company/${this.props.match.params.company}/signature/new` &&
 			!this.state.creating
 		) {
-			console.log("create");
 			this.setState({
 				creating: true
 			});

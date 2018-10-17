@@ -22,7 +22,6 @@ class MeetingCreateContainer extends React.Component {
 
 	async componentDidMount(){
 		const response = await this.props.createMeeting();
-		console.log(response);
 		if(!response.errors){
 			sessionStorage.setItem('sessionId', response.data.openMeetingRoom.sessionId);
 			sessionStorage.setItem('meetingUrl', response.data.openMeetingRoom.url);
@@ -37,7 +36,6 @@ class MeetingCreateContainer extends React.Component {
 	}
 
 	render() {
-		console.log(this.props.data);
 		const primary = getPrimary();
 
 		if(this.state.error){

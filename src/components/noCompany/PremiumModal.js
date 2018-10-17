@@ -23,8 +23,6 @@ class PremiumModal extends React.Component {
                 userId: this.props.user.id
             }
         })
-
-        console.log(response);
         if(!response.error){
             this.setState({
                 success: true,

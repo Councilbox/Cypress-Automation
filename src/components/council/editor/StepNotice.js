@@ -66,7 +66,6 @@ class StepNotice extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState){
-		console.log(nextProps.data.council)
 		if(nextProps.data.council){
 			const council = nextProps.data.council;
 			return {
@@ -239,7 +238,6 @@ class StepNotice extends React.Component {
 	};
 
 	updateConveneText = () => {
-		console.log(this.state.data.conveneText);
 		const correctedText = CBX.changeVariablesToValues(this.state.data.conveneText, {
 			company: this.props.company,
 			council: this.state.data
@@ -260,7 +258,7 @@ class StepNotice extends React.Component {
 		}, this.props.translate);
 		this.updateState({
 			conveneText: correctedText
-		}, () => console.log(this.state.data.conveneText));
+		});
 		this.editor.setValue(correctedText);
 	};
 
@@ -319,7 +317,6 @@ class StepNotice extends React.Component {
 
 	checkAssociatedCensus = (statuteId) => {
 		const statute = this.props.data.companyStatutes.find(statute => statute.id === statuteId);
-		console.log(statute);
 		if(!!statute.censusId){
 			this.setState({
 				changeCensusModal: true

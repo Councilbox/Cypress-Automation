@@ -64,8 +64,6 @@ class ActAgreements extends React.Component {
 				}
 			});
 			this.setState({ loading: false, error: false });
-
-			console.log(response);
 		}
 	};
 

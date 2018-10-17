@@ -48,10 +48,8 @@ class ManualVotingsMenu extends React.Component {
 
     render(){
         const { translate, agenda } = this.props;
-        console.log('Present census', agenda.presentCensus);
         const votesLeft = (agenda.presentCensus - this.state.noVoteManual - this.state.abstentionManual - this.state.negativeManual - this.state.positiveManual);
         const maxVoteManual = votesLeft <= 0? 0 : votesLeft;
-        console.log(votesLeft, maxVoteManual);
 
         return(
             <div style={{width: '100%', backgroundColor: 'white', padding: '0 1em'}}>

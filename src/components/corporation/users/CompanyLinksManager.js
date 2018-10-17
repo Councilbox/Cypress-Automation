@@ -60,8 +60,8 @@ class CompanyLinksManager extends React.PureComponent {
 		if(check){
 			checked = [...checked, email];
 		}else{
-
-			console.log(checked);
+            const index = checked.findIndex(item => item === email);
+			checked.splice(index, 1);
 		}
 		this.setState({
 			checked: checked

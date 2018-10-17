@@ -3,12 +3,10 @@ import Scrollbar from "react-perfect-scrollbar";
 import {
 	TextInput,
 	Icon,
-	ButtonIcon,
-	BasicButton,
 	FilterButton,
 	RefreshButton
 } from "../../../../displayComponents";
-import { Tooltip, Typography } from "material-ui";
+import { Typography } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { getSecondary, getPrimary } from "../../../../styles/colors";
 
@@ -36,7 +34,7 @@ const FilterMenu = ({
 				}}
 			/>
 			<div style={{ display: "flex", flexDirection: "row" }}>
-				
+
 			</div>
 			<Typography
 				variant="subheading"

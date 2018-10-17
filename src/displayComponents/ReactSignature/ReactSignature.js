@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import Point from './Point';
 import Bezier from './Bezier';
 let velocityFilterWeight = 0.7;
@@ -6,12 +6,11 @@ let minWidth = 1;
 let maxWidth = 2.5;
 let dotSize = 1.5;
 let penColor = "black";
-let backgroundColor = "rgba(0,0,0,0)";
 let canvas;
 let context;
 let mouseButtonDown = false;
 
-class ReactSignature extends Component {
+class ReactSignature extends React.Component {
   state = {
     width: 450,
     height: 300
@@ -36,8 +35,8 @@ class ReactSignature extends Component {
   fromDataURL = (dataURL) => {
     let image = new Image(),
       ratio = window.devicePixelRatio || 1,
-      width = canvas.width / ratio,
-      height = canvas.height / ratio;
+      //width = canvas.width / ratio,
+      //height = canvas.height / ratio;
     this.reset();
     image.src = dataURL;
     image.onload = () => {

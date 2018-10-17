@@ -52,7 +52,6 @@ class MeetingEditorConfig extends Component {
 
 	updateCouncil = () => {
 		const { __typename, ...council } = this.state.data;
-		console.log(council);
 		this.props.updateCouncil({
 			variables: {
 				council: {

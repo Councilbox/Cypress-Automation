@@ -357,8 +357,6 @@ class StartCouncilButton extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
-		console.log(this.state.data);
-
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}

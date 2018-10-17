@@ -7,17 +7,11 @@ import { graphql } from 'react-apollo';
 class CloseSessionButton extends React.PureComponent {
 
     closeUserSessions = async () => {
-        const response = await this.props.closeUserSessions({
+        await this.props.closeUserSessions({
             variables: {
                 userId: this.props.user.id
             }
         });
-
-        console.log(response);
-
-        if(!response.errors){
-
-        }
     }
 
     render(){

@@ -56,7 +56,6 @@ class RichTextInput extends React.Component {
 	paste = text => {
 		let cd = new DataTransfer();
 		cd.setData("text/html", text);
-		console.log(cd.getData('text/html'));
 		this.rtEditor.refs.editor._onPaste({
 			preventDefault: () => {
 				this.rtEditor.refs.editor.focus();
@@ -69,7 +68,6 @@ class RichTextInput extends React.Component {
 
 	render() {
 		const { tags, loadDraft, errorText, required } = this.props;
-		console.log(this.state.value.toString('html'))
 		const secondary = getSecondary();
 		const toolbarConfig = {
 			// Optionally specify the groups to display (displayed in the order listed).

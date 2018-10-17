@@ -5,7 +5,7 @@ import { corporationDrafts } from "../../../queries/corporation";
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
-import { DRAFTS_LIMITS, DRAFT_TYPES } from "../../../constants";
+import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 
 class CorporationDrafts extends React.Component {

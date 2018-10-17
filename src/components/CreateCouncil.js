@@ -35,7 +35,6 @@ class CreateCouncil extends Component {
 			`/company/${this.props.match.params.company}/council/new` &&
 			!this.state.creating
 		) {
-			console.log("create");
 			this.setState({
 				creating: true
 			});
@@ -51,7 +50,7 @@ class CreateCouncil extends Component {
 						message={this.props.transalte.no_statutes}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,			
+						autoClose: true,
 						className: "errorToast"
 					}
 				);

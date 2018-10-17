@@ -176,15 +176,6 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 
 class App extends React.Component {
 
-/* 	componentDidMount() {
-		bHistory.listen(location => console.log(location));
-		window.addEventListener('popstate', href => console.log(href));
-	}
-
-	detectRouteChange = (previousRoute, nextRoute) => {
-		console.log(previousRoute, nextRoute);
-	} */
-
 	render() {
 		return (
 			<ApolloProvider client={client}>

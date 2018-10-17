@@ -8,8 +8,9 @@ class AgendaDescription extends React.Component {
     }
 
     toggle = () => {
+        const newValue = !this.state.open;
         this.setState({
-            open: !this.state.open
+            open: newValue
         });
     }
 

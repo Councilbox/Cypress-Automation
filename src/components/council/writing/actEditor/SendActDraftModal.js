@@ -86,7 +86,6 @@ class SendActDraftModal extends React.Component {
 		}else{
 			const index = checked.findIndex(item => item === email);
 			checked.splice(index, 1);
-			console.log(checked);
 		}
 		this.setState({
 			checked: checked

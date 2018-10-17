@@ -11,7 +11,6 @@ class ToggleRecordings extends React.Component {
                 id: 3
             }
         });
-        console.log(response);
     }
 
     render(){

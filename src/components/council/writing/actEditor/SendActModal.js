@@ -82,7 +82,6 @@ class SendActModal extends React.Component {
 		}else{
 			const index = participants.findIndex(item => item.id === participant.id);
 			participants.splice(index, 1);
-			console.log(participants);
 		}
 		this.setState({
 			participants: participants
@@ -188,8 +187,6 @@ class SendActModal extends React.Component {
 				participantsIds
 			}
 		});
-
-		console.log(response);
 		if(!!response){
 			if(!response.data.errors){
 				this.setState({

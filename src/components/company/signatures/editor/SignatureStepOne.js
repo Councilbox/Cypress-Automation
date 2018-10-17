@@ -55,8 +55,6 @@ class SignatureStepOne extends React.Component {
             }
         });
 
-        console.log(response);
-
         if(response.data.removeSignatureDocument.success){
             this.setState({
                 data: {
@@ -92,7 +90,6 @@ class SignatureStepOne extends React.Component {
 				base64: btoa(event.target.result),
 				signatureId: this.state.data.id
             };
-            console.log(fileInfo.filetype);
             if(fileInfo.filetype === 'application/pdf'){
                 this.setState({
                     uploading: true
@@ -139,8 +136,6 @@ class SignatureStepOne extends React.Component {
                 }
             }
         });
-
-        console.log(response);
         return response;
     }
 

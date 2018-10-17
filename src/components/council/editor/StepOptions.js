@@ -101,9 +101,6 @@ class StepOptions extends React.Component {
 
 		if(council.approveActDraft === 1){
 			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);
-
-			console.log(response);
-
 			if(response.error){
 				this.setState({
 					majorityAlert: true,

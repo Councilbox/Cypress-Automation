@@ -57,7 +57,6 @@ class AddCensusParticipantButton extends React.Component {
 					representativeErrors: {}
 				});
 			}
-			console.log(response);
 		}
 	};
 
@@ -113,7 +112,6 @@ class AddCensusParticipantButton extends React.Component {
 			}
 		});
 
-		console.log(response);
 		if(!response.data.checkUniqueCensusEmails.success){
 			const data = JSON.parse(response.data.checkUniqueCensusEmails.message);
 			data.duplicatedEmails.forEach(email => {

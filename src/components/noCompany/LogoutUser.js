@@ -16,7 +16,6 @@ class LogoutUser extends React.Component {
                     userId: this.state.userId
                 }
             });
-            console.log(response);
         }
     }
 

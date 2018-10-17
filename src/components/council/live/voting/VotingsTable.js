@@ -228,8 +228,6 @@ class VotingsTable extends React.Component {
 			}
 		}
 
-		console.log(mappedVotings);
-
 		return (
 			<Grid
 				style={{
@@ -452,7 +450,7 @@ class VotingsTable extends React.Component {
 											{vote.author.position}
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
-													<React.Fragment>
+													<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 														<br/>
 														{delegatedVote.author.position}
 													</React.Fragment>

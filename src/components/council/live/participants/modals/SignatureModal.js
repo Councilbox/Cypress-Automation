@@ -50,7 +50,6 @@ class SignatureModal extends Component {
 				state: this.state.participantState
 			}
 		});
-		console.log(response);
 		if (!response.errors) {
 			this.props.data.refetch();
 			this.props.refetch();

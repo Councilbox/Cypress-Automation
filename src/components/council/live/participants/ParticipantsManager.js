@@ -39,7 +39,8 @@ class ParticipantsManager extends React.Component {
 	};
 
 	toggleSettings = () => {
-		this.setState({open: !this.state.open})
+		const newValue = !this.state.open
+		this.setState({open: newValue});
 	}
 
 	handleKeyPress = event => {

@@ -57,9 +57,6 @@ class RecordingButton extends React.Component {
                 await this.props.stopRecording({ variables })
                 :
                 await this.props.startRecording({ variables });
-
-            console.log(response);
-
             if (response) {
                 await this.props.data.refetch();
                 this.setState({
@@ -71,7 +68,6 @@ class RecordingButton extends React.Component {
 
     render() {
         const { sessionStatus } = this.props.data;
-        console.log(sessionStatus);
         if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
             return <span />
         }

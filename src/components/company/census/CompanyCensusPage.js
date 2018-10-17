@@ -83,69 +83,67 @@ class CompanyCensusPage extends React.Component {
 
 		return (
 			<CardPageLayout title={translate.censuses_list}>
-				{!!censuses && (
-					<EnhancedTable
-						translate={translate}
-						defaultLimit={CENSUS_LIMITS[0]}
-						defaultFilter={"censusName"}
-						limits={CENSUS_LIMITS}
-						page={1}
-						menuButtons={
-							<div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-								<div>
-									<AddCensusButton
-										translate={translate}
-										user={this.props.user}
-										company={company}
-										refetch={this.props.data.refetch}
-									/>
-								</div>
-							</div>
-						}
-						loading={loading}
-						length={censuses.list.length}
-						total={censuses.total}
-						refetch={this.props.data.refetch}
-						action={this._renderDeleteIcon}
-						headers={[
-							{
-								text: translate.name,
-								name: "censusName",
-								canOrder: true
-							},
-							{
-								text: translate.creation_date,
-								name: "creationDate",
-								canOrder: true
-							},
-							{
-								name: "lastEdit",
-								text: translate.last_edit,
-								canOrder: true
-							},
-							{
-								name: "creator",
-								text: translate.creator,
-							},
-							{ name: "" }
-						]}
-					>
-						{censuses.list.map((census, index) => {
-							return (
-								<HoverableRow
-									census={census}
-									key={`census_${census.id}`}
-									changingDefault={this.state.changingDefault}
-									openCensusEdit={this.openCensusEdit}
-									updateState={this.updateState}
-									setDefaultCensus={this.setDefaultCensus}
-									index={index}
+				<EnhancedTable
+					translate={translate}
+					defaultLimit={CENSUS_LIMITS[0]}
+					defaultFilter={"censusName"}
+					limits={CENSUS_LIMITS}
+					page={1}
+					menuButtons={
+						<div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+							<div>
+								<AddCensusButton
 									translate={translate}
+									user={this.props.user}
+									company={company}
+									refetch={this.props.data.refetch}
 								/>
-							);
-						})}
-					</EnhancedTable>
-				)}
+							</div>
+						</div>
+					}
+					loading={loading}
+					length={censuses.list.length}
+					total={censuses.total}
+					refetch={this.props.data.refetch}
+					action={this._renderDeleteIcon}
+					headers={[
+						{
+							text: translate.name,
+							name: "censusName",
+							canOrder: true
+						},
+						{
+							text: translate.creation_date,
+							name: "creationDate",
+							canOrder: true
+						},
+						{
+							name: "lastEdit",
+							text: translate.last_edit,
+							canOrder: true
+						},
+						{
+							name: "creator",
+							text: translate.creator,
+						},
+						{ name: "" }
+					]}
+				>
+					{censuses.list.map((census, index) => {
+						return (
+							<HoverableRow
+								census={census}
+								key={`census_${census.id}`}
+								changingDefault={this.state.changingDefault}
+								openCensusEdit={this.openCensusEdit}
+								updateState={this.updateState}
+								setDefaultCensus={this.setDefaultCensus}
+								index={index}
+								translate={translate}
+							/>
+						);
+					})}
+				</EnhancedTable>
 				<AlertConfirm
 					title={translate.send_to_trash}
 					bodyText={translate.send_to_trash_desc}

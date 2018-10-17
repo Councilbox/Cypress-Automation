@@ -54,6 +54,13 @@ class AgendaDetailsSection extends React.Component {
 		}, () => this.updateSubjectType())
 	}
 
+	toggleDescription = () => {
+		const newValue = !this.state.expanded;
+		this.setState({
+			expanded: newValue
+		});
+	}
+
 	updateSubjectType = async () => {
 		const response = await this.props.updateAgenda({
 			variables: {
@@ -65,7 +72,6 @@ class AgendaDetailsSection extends React.Component {
 			}
 		});
 		if (response) {
-			console.log(response)
 			this.props.refetch();
 		}
 	};
@@ -241,7 +247,7 @@ class AgendaDetailsSection extends React.Component {
 									width: '100%',
 									backgroundColor: 'white',
 								}}
-								onClick={() => this.setState({ expanded: !this.state.expanded })}
+								onClick={this.toggleDescription}
 								dangerouslySetInnerHTML={{
 									__html: agenda.description
 								}}

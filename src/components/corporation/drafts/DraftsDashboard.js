@@ -87,7 +87,6 @@ class DraftsDashboard extends React.PureComponent {
         }
 
         const response = await this.props.data.refetch(variables);
-        console.log(response);
     }
 
     deleteCorporationDraft = async () => {

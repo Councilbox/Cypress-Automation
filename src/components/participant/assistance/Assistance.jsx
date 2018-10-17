@@ -91,7 +91,6 @@ class Assistance extends React.Component {
 
 		if(this.state.assistanceIntention !== this.props.participant.assistanceIntention){
 			const response = await this.selectSimpleOption(this.state.assistanceIntention);
-			console.log(response);
 		}
 
 		if(!checkForUnclosedBraces(assistanceComment)){
@@ -162,7 +161,6 @@ class Assistance extends React.Component {
 		const { council, company, translate } = this.props;
 		const { representative, ...participant } = this.state.participant;
 		let canDelegate = canDelegateVotes(council.statute, participant);
-		console.log(this.state)
 
 		return (
 			<NotLoggedLayout

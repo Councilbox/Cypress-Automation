@@ -55,8 +55,7 @@ class AgendaManager extends React.Component {
 		const key = event.nativeEvent;
 		const { selectedPoint } = this.state;
 
-		if (key.altKey) {
-		} else {
+		if (!key.altKey) {
 			switch (key.keyCode) {
 				case 38:
 					if (selectedPoint > 0) {

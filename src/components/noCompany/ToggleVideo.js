@@ -11,7 +11,6 @@ class ToggleVideo extends React.Component {
                 id: 2
             }
         });
-        console.log(response);
     }
 
     render(){

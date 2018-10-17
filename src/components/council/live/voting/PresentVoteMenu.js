@@ -75,7 +75,6 @@ class PresentVoteMenu extends React.Component {
 	};
 
 	render() {
-		console.log(this.props.agendaVoting)
 		return (
 			<div
 				style={{

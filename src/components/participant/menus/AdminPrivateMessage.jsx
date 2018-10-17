@@ -43,8 +43,6 @@ class AdminPrivateMessage extends React.Component {
                 }
             });
 
-            console.log(response);
-
             if(response.data){
                 if(response.data.addCouncilRoomMessage.success){
                     this.setState({

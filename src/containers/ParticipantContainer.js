@@ -24,7 +24,6 @@ class ParticipantContainer extends React.PureComponent {
 	}
 
 	componentDidUpdate(){
-		//console.log(this.props.translate)
 		if(this.props.data.participant){
 			if(this.props.data.participant.language !== this.props.translate.selectedLanguage){
 				this.props.actions.setLanguage(this.props.data.participant.language);

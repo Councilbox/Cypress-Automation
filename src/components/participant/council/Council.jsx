@@ -82,9 +82,6 @@ class ParticipantCouncil extends React.Component {
         request.setRequestHeader("Accept", "application/json");
         request.setRequestHeader('authorization', sessionStorage.getItem("participantToken"));
         request.setRequestHeader('x-jwt-token', sessionStorage.getItem("participantToken"));
-        request.onload = function () {
-            let response = JSON.parse(request.responseText);
-        }
         request.send(JSON.stringify({
             query: changeParticipantOnlineState,
             variables: {

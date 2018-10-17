@@ -13,7 +13,6 @@ const renderSuggestion = suggestion => (
 );
 
 const getSuggestionValue = suggestion => {
-    console.log(suggestion)
     return suggestion.link;
 }
 
@@ -47,7 +46,6 @@ class CommandLine extends React.Component {
     }
 
     onSuggestionSelected = (event, suggestion) => {
-        console.log(suggestion);
         let link = suggestion.suggestionValue.replace('{{companyId}}', this.props.company.id);
         link = link.replace('{{userId}}', this.props.user.id);
         bHistory.push(`${link}`);

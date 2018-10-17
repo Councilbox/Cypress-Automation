@@ -21,7 +21,6 @@ export const getCompanies = userId => {
 			let selectedCompany = response.data.userCompanies.findIndex(element =>
 				element.actived === 1
 			);
-			console.log(selectedCompany);
 			if(response.data.userCompanies.length === 0){
 				dispatch({
 					type: 'NO_COMPANIES'
@@ -91,26 +90,3 @@ export const getCouncils = info => {
 		});
 	};
 };
-
-/*export const sendNewCompany = (company) => {
- return (dispatch) => {
- return CouncilboxApi.createCompany(company).then(response => {
- if(!!response){
- bHistory.push('/welcome');
- }
- }).catch(error => {
- if(error.code === 602){
- //Aqui hay que poner funcionalidad para error de usuario existe, renderizando la página con el
- //nombre de usuario y señalando el error
- console.log('error 602');
- }
- if(error.code === 603){
- //Aqui hay que poner funcionalidad para error de email existe, renderizando la página con el
- //email y señalando el error
- console.log('error 603');
- }
- //Control de cualquier otro error de servidor
- console.log(error);
- });
- }
- } */

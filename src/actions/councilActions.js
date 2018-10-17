@@ -18,7 +18,7 @@ export const getData = councilInfo => {
 				});
 			})
 			.catch(error => {
-				console.log(error);
+				throw error;
 			});
 	};
 };
@@ -27,10 +27,10 @@ export const saveAttachment = file => {
 	return dispatch => {
 		return CouncilboxApi.saveAttachment(file)
 			.then(response => {
-				console.log(response);
+				return response;
 			})
 			.catch(error => {
-				console.log(error);
+				throw error;
 			});
 	};
 };
@@ -39,7 +39,6 @@ export const deleteAttachment = attachment => {
 	return dispatch => {
 		return CouncilboxApi.deleteAttachment(attachment)
 			.then(response => {
-				console.log(response);
 				if (response.code === 200) {
 					dispatch(
 						getData({
@@ -51,7 +50,7 @@ export const deleteAttachment = attachment => {
 				}
 			})
 			.catch(error => {
-				console.log(error);
+				throw error;
 			});
 	};
 };
@@ -60,9 +59,9 @@ export const saveCouncilData = councilInfo => {
 	return async dispatch => {
 		try {
 			const response = await CouncilboxApi.saveCouncilData(councilInfo);
-			console.log(response);
+			return response;
 		} catch (error) {
-			console.log(error);
+			throw error;
 		}
 	};
 };
@@ -76,7 +75,7 @@ export const getParticipants = councilID => {
 				value: response
 			});
 		} catch (error) {
-			console.log(error);
+			throw error;
 		}
 	};
 };
@@ -93,7 +92,7 @@ export const sendNewParticipant = participant => {
 				);
 			}
 		} catch (error) {
-			console.log(error);
+			throw error;
 		}
 	};
 };
@@ -108,7 +107,7 @@ export const deleteParticipant = participantInfo => {
 				dispatch(getParticipants(participantInfo.data.council_id));
 			}
 		} catch (error) {
-			console.log(error);
+			throw error;
 		}
 	};
 };
@@ -121,7 +120,7 @@ export const sendCensusChange = info => {
 				dispatch(getParticipants(info.council_id));
 			}
 		} catch (error) {
-			console.log(error);
+			throw error;
 		}
 	};
 };
@@ -134,7 +133,7 @@ export const create = (companyID, type) => {
 				bHistory.push(`/company/${companyID}/council/${councilId}`);
 			})
 			.catch(error => {
-				console.log(error);
+				throw error;
 			});
 	};
 };

@@ -18,7 +18,6 @@ class CreateMeeting extends Component {
 			this.props.match.url === `/company/${this.props.match.params.company}/meeting/new` &&
 			!this.state.creating
 		) {
-			console.log("create");
 			this.setState({
 				creating: true
 			});

@@ -36,7 +36,6 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
                 break;
 
             default:
-                tooltip = translate.not_confirmed_assistance;
                 icon = ""
         }
     }

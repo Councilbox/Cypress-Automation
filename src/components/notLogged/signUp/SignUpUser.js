@@ -27,7 +27,6 @@ class SignUpUser extends React.Component {
 		this.setState({
 			languages: languages
 		});
-		console.log(languages);
 	};
 
 	nextPage = async () => {

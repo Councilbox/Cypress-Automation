@@ -24,7 +24,6 @@ class AppControl extends React.Component {
     }
 
     render(){
-        //console.log(this.props.data.appConfig);
         return(
             <ConfigContext.Provider value={this.props.data.appConfig}>
                 {this.props.children}

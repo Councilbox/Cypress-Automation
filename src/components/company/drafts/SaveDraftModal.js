@@ -56,8 +56,6 @@ class SaveDraftModal extends React.Component {
 				}
 			});
 
-			console.log(response);
-
 			if (!response.errors) {
 				this.setState({ success: true });
 				this.props.requestClose();
@@ -66,7 +64,6 @@ class SaveDraftModal extends React.Component {
 	};
 
 	_renderNewPointBody = () => {
-		console.log(this.props);
 		const { translate } = this.props;
 		const { data = {} } = this.state;
 

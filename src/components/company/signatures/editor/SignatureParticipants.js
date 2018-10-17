@@ -19,7 +19,6 @@ class SignatureParticipants extends React.Component {
     }
 
     openCensusChangeModal = event => {
-        console.log(event.target.value);
         this.setState({
             censusModal: true,
             selectedCensus: event.target.value

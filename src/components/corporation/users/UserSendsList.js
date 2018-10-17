@@ -15,8 +15,6 @@ class UserSendsList extends React.PureComponent {
             }
         })
 
-        console.log(response);
-
         if(!response.errors){
             this.props.refetch();
         }

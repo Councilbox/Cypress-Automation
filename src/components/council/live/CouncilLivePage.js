@@ -68,11 +68,15 @@ class CouncilLivePage extends React.Component {
 		return this.props.data.council && this.props.companies.list;
 	};
 
+	toggleWall = () => {
+		this.setState({ wall: !this.state.wall });
+	}
+
 	handleKeyPress = event => {
 		const key = event.nativeEvent;
 		if (key.altKey) {
 			if (key.code === "KeyW") {
-				this.setState({ wall: !this.state.wall });
+				this.toggleWall();
 			}
 			if (key.code === "KeyT") {
 				this.toggleFullScreen();

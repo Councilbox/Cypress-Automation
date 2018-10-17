@@ -29,8 +29,6 @@ class ParticipantsWithActTable extends React.Component {
             }
         });
         this.props.data.refetch();
-
-        console.log(response);
     }
 
     render(){

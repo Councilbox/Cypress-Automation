@@ -34,7 +34,6 @@ class ParticipantStateSelector extends React.Component {
 		});
 
 		if (response) {
-			console.log(response);
 			this.setState({
 				loading: false
 			});
@@ -201,12 +200,10 @@ class ParticipantStateSelector extends React.Component {
 								size="2.8em"
 								onClick={() =>
 									{
-										console.log('añadir voto delegado');
 										this.setState({
 											delegateVote: true
 										})
 									}
-									
 								}
 								active={
 									participant.state ===

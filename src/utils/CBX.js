@@ -283,8 +283,6 @@ export const changeVariablesToValues = (text, data, translate) => {
 	if(data.council.dateStart){
 		const replaced = /<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/.test(text);
 
-		console.log(replaced);
-
 		if(replaced){
 			text = text.replace(
 				/<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/ig,
@@ -311,8 +309,6 @@ export const changeVariablesToValues = (text, data, translate) => {
 
 	if(data.council.dateStart2NdCall){
 		const replaced = /<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/.test(text);
-
-		console.log(replaced);
 
 		if(replaced){
 			text = text.replace(
@@ -362,8 +358,6 @@ export const changeVariablesToValues = (text, data, translate) => {
 
 	if(data.council.street){
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
-
-		console.log(replaced);
 
 		if(replaced){
 			text = text.replace(
