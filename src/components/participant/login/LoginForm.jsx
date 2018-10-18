@@ -162,7 +162,6 @@ class LoginForm extends React.Component {
                         :
                             <i className="fa fa-building-o" style={{fontSize: '75px', color: 'grey', marginBottom: '10px'}} />
                         }
-                        
                     </Tooltip>
                     <h3 style={{ color: secondaryColor }}>{council.name}</h3>
                     <span>
@@ -186,7 +185,7 @@ class LoginForm extends React.Component {
                 </div>
 
                 <div style={styles.loginFormContainer}>
-                    <form style={{width: '100%'}}> 
+                    <form style={{width: '100%'}}>
                         <TextInput
                             floatingText={translate.email}
                             type="email"

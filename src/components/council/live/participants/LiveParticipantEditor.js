@@ -28,6 +28,7 @@ import StateIcon from "./StateIcon";
 import TypeIcon from "./TypeIcon";
 import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
 import ResendCredentialsModal from "./modals/ResendCredentialsModal";
+import { PARTICIPANT_STATES } from "../../../../constants";
 
 class LiveParticipantEditor extends React.Component {
 	state = {
@@ -89,9 +90,11 @@ class LiveParticipantEditor extends React.Component {
 			return <LoadingSection />;
 		}
 
-		const participant = this.props.data.liveParticipant;
+		let participant = {...this.props.data.liveParticipant};
 		const secondary = getSecondary();
 		const primary = getPrimary();
+		participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
+		participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
 
 		return (
 			<div
@@ -226,6 +229,26 @@ class LiveParticipantEditor extends React.Component {
 								</GridItem>
 							)}
 
+						{participant.representing && (
+							<React.Fragment>
+								<GridItem xs={12} lg={12} md={12} style={{marginBottom: '1em'}}>
+									<Typography variant="subheading">
+										{'Representando a'}
+									</Typography>
+									<ParticipantTable
+										translate={translate}
+										participants={
+											[participant.representing]
+										}
+										enableActions
+										quitDelegatedVote={
+											this.removeDelegatedVote
+										}
+										primary={primary}
+									/>
+								</GridItem>
+							</React.Fragment>
+						)}
 						{participant.delegatedVotes.length > 0 && (
 							<React.Fragment>
 								<GridItem xs={12} lg={12} md={12}>

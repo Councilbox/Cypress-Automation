@@ -84,14 +84,14 @@ class CouncilLivePage extends React.Component {
 		} else {
 			switch (key.keyCode) {
 				case 39:
-					this.setState({
+					/* this.setState({
 						participants: true
-					});
+					}); */
 					break;
 				case 37:
-					this.setState({
+					/* this.setState({
 						participants: false
-					});
+					}); */
 					ReactDOM.findDOMNode(this.div).focus();
 					break;
 				default:

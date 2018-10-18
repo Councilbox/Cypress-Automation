@@ -11,7 +11,7 @@ class LogoutUser extends React.Component {
 
     toggle = async () => {
         if(this.state.userId){
-            const response = await this.props.logoutUser({
+            await this.props.logoutUser({
                 variables: {
                     userId: this.state.userId
                 }

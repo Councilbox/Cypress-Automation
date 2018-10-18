@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
+import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getPrimary, getSecondary } from '../styles/colors';
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -12,7 +13,11 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
             flexDirection: "column",
             height: "100vh",
             overflow: "auto",
-            background: `linear-gradient(to right, ${secondary}, ${primary})`,
+            //background: `linear-gradient(to right, ${secondary}, ${primary})`,
+            background: `url(${bg})`,
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
             padding: 0,
             margin: 0
         }}

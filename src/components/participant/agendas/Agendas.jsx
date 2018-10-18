@@ -260,6 +260,17 @@ const agendas = gql`
             participantId
             delegateId
             agendaId
+            author {
+                id
+                state
+                name
+                surname
+                representative {
+                    id
+                    name
+                    surname
+                }
+            }
             vote
         }
     }

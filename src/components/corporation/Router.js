@@ -5,6 +5,7 @@ import CompaniesDashboard from './companies/CompaniesDashboard';
 import DraftsDashboard from './drafts/DraftsDashboard';
 import DraftEditPage from './drafts/DraftEditPage';
 import UsersDashboard from './users/UsersDashboard';
+import TranslationsPage from './translations/TranslationsPage';
 import UserEdit from './users/UserEdit';
 import CompanyEditPage from './companies/CompanyEditPage';
 import { LoadingMainApp } from '../../displayComponents';
@@ -42,6 +43,7 @@ const Router = ({ user, translate, location, data, classes }) => {
                     <Route exact path="/" component={() => <Redirect to="/councils" />} />
                     <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
                     <Route exact path="/companies" component={() => <CompaniesDashboard />} />
+                    <Route exact path="/translations" component={() => <TranslationsPage />} />
                     <Route path="/companies/edit/:id" component={CompanyEditPage} />
                     <Route exact path="/users" component={UsersDashboard} />
                     <Route path="/users/edit/:id" component={UserEdit} />

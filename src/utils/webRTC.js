@@ -1,3 +1,4 @@
+import { COUNCIL_TYPES, PARTICIPANT_STATES } from '../constants';
 export const COMPATIBLE = "COMPATIBLE";
 export const UNSUPORTED_WINDOWS_VERSION = "UNSUPORTED_WINDOWS_VERSION";
 export const iOS_DEVICE = "iOS_DEVICE";
@@ -37,7 +38,16 @@ export const checkIsMobileDevice = detectRTC => {
 	return isMobileDevice;
 };
 
-export const checkIsCompatible = detectRTC => {
+export const checkIsCompatible = (detectRTC, council, participant) => {
+
+	console.log(participant);
+
+ 	if(council.councilType === COUNCIL_TYPES.NO_VIDEO){
+		return COMPATIBLE;
+	}
+	if(participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE){
+		return COMPATIBLE;
+	}
 	let isCompatible = NOT_COMPATIBLE_BROWSER;
 	let isUnsupportedWindowsVersion = checkIsUnsupportedWindowsVersion(
 		detectRTC
@@ -53,13 +63,11 @@ export const checkIsCompatible = detectRTC => {
 	}
 
 	if (isiOSDevice) {
-		isCompatible = iOS_DEVICE;
-		return isCompatible;
+		return iOS_DEVICE;
 	}
 
 	if (isWebRTCCompatibleBrowser) {
-		isCompatible = COMPATIBLE;
-		return isCompatible;
+		return COMPATIBLE;;
 	} else {
 		return isCompatible;
 	}

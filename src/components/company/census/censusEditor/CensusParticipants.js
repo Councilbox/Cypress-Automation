@@ -1,8 +1,8 @@
 import React from "react";
-import { getPrimary } from "../../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { TableCell, TableRow } from "material-ui";
-import { CloseIcon, EnhancedTable, Grid, GridItem } from "../../../../displayComponents";
-import { hasParticipations } from '../../../../utils/CBX';
+import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox } from "../../../../displayComponents";
+import * as CBX from '../../../../utils/CBX';
 import { compose, graphql } from "react-apollo";
 import { censusParticipants } from "../../../../queries/census";
 import gql from "graphql-tag";
@@ -14,12 +14,38 @@ import ImportCensusExcel from '../ImportCensusExcel';
 class CensusParticipants extends React.Component {
 	state = {
 		editingParticipant: false,
-		participant: {}
+		participant: {},
+		selectedIds: new Map()
 	};
 
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
 	};
+
+	select = id => {
+        if(this.state.selectedIds.has(id)){
+            this.state.selectedIds.delete(id);
+        } else {
+            this.state.selectedIds.set(id, 'selected');
+        }
+
+        this.setState({
+            selectedIds: new Map(this.state.selectedIds)
+        });
+	}
+
+	selectAll = () => {
+		const newSelected = new Map();
+		if(this.state.selectedIds.size !== this.props.data.censusParticipants.list.length){
+			this.props.data.censusParticipants.list.forEach(participant => {
+				newSelected.set(participant.id, 'selected');
+			})
+		}
+
+		this.setState({
+			selectedIds: newSelected
+		});
+	}
 
 	editParticipant = participant => {
 		this.setState({
@@ -29,14 +55,23 @@ class CensusParticipants extends React.Component {
 	};
 
 	deleteParticipant = async id => {
+		let toDelete;
+		if(Number.isInteger(id)){
+			toDelete = [id];
+		} else {
+			toDelete = Array.from(this.state.selectedIds.keys());
+		}
 		const response = await this.props.deleteCensusParticipant({
 			variables: {
-				participantId: id,
+				ids: toDelete,
 				censusId: this.props.census.id
 			}
 		});
 
 		if (response) {
+			this.setState({
+				selectedIds: new Map()
+			})
 			this.props.data.refetch();
 			this.props.refetch();
 		}
@@ -62,6 +97,9 @@ class CensusParticipants extends React.Component {
 		const { loading, censusParticipants } = this.props.data;
 
 		const headers = [
+			{
+				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list? censusParticipants.list.length : -1)}/>
+			},
 			{
 				name: "name",
 				text: translate.participant_data,
@@ -114,7 +152,7 @@ class CensusParticipants extends React.Component {
 						<span style={{fontWeight: '700', fontSize: '0.9em'}}>
 							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
 						</span>
-						{hasParticipations({ quorumPrototype: this.props.census.quorumPrototype }) &&
+						{CBX.hasParticipations({ quorumPrototype: this.props.census.quorumPrototype }) &&
 							<span style={{marginLeft: '1em', fontWeight: '700', fontSize: '0.9em'}}>
 								{`${translate.total_social_capital}: ${this.props.recount.socialCapital || 0}`}
 							</span>
@@ -129,6 +167,17 @@ class CensusParticipants extends React.Component {
 						defaultLimit={PARTICIPANTS_LIMITS[0]}
 						limits={PARTICIPANTS_LIMITS}
 						page={1}
+						menuButtons={
+							this.state.selectedIds.size > 0 &&
+								<BasicButton
+									//TRADUCCION
+									text={this.state.selectedIds.size === 1? 'Borrar 1 elemento' : `Borrar ${this.state.selectedIds.size} elementos`}
+									color={getSecondary()}
+									buttonStyle={{marginRight: '0.6em'}}
+									textStyle={{color: 'white', fontWeight: '700'}}
+									onClick={this.deleteParticipant}
+								/>
+						}
 						loading={loading}
 						length={censusParticipants.list.length}
 						total={censusParticipants.total}
@@ -155,71 +204,13 @@ class CensusParticipants extends React.Component {
 									<HoverableRow
 										participant={participant}
 										translate={translate}
+										selected={this.state.selectedIds.has(participant.id)}
+										select={this.select}
 										census={census}
-										renderDeleteIcon={this._renderDeleteIcon}
+										representative={participant.representative}
+										_renderDeleteIcon={this._renderDeleteIcon}
 										editParticipant={this.editParticipant}
 									/>
-									{!!participant.representative && (
-										<TableRow
-											hover={true}
-											style={{
-												cursor: "pointer",
-												backgroundColor: "WhiteSmoke"
-											}}
-										>
-											<TableCell>
-												<div
-													style={{
-														fontSize: "0.9em",
-														width: "100%"
-													}}
-												>
-													{`${
-														translate.represented_by
-													}: ${
-														participant
-															.representative.name
-													} ${
-														participant
-															.representative
-															.surname
-													}`}
-												</div>
-											</TableCell>
-											<TableCell>
-												<div
-													style={{
-														fontSize: "0.9em",
-														width: "100%"
-													}}
-												>
-													{
-														participant
-															.representative.dni
-													}
-												</div>
-											</TableCell>
-											<TableCell>
-												<div
-													style={{
-														fontSize: "0.9em",
-														width: "100%"
-													}}
-												>
-													{
-														participant
-															.representative
-															.position
-													}
-												</div>
-											</TableCell>
-											<TableCell />
-											<TableCell />
-											{census.quorumPrototype === 1 && (
-												<TableCell />
-											)}
-										</TableRow>
-									)}
 								</React.Fragment>
 							);
 						})}
@@ -261,7 +252,7 @@ class HoverableRow extends React.PureComponent {
 	}
 
 	render() {
-		const { participant, census } = this.props;
+		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected } = this.props;
 		return(
 			<TableRow
 				hover={true}
@@ -270,33 +261,90 @@ class HoverableRow extends React.PureComponent {
 				onClick={() =>
 					this.props.editParticipant(participant)
 				}
-				style={{ cursor: "pointer" }}
-				key={`censusParticipant_${
-					participant.id
-				}`}
+				style={{
+					cursor: "pointer",
+					fontSize: "0.5em"
+				}}
 			>
-				<TableCell>
-					{`${participant.name} ${
-						participant.surname
-					}`}
+				<TableCell onClick={event => event.stopPropagation()} style={{cursor: 'auto'}}>
+					<div style={{width: '2em'}}>
+						{(this.state.showActions || selected) &&
+							<Checkbox
+								value={selected}
+								onChange={() =>
+									this.props.select(participant.id)
+								}
+							/>
+						}
+					</div>
 				</TableCell>
-				<TableCell>{participant.dni}</TableCell>
+				<TableCell>
+					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+						</React.Fragment>
+					}
+				</TableCell>
+				<TableCell>
+					{participant.dni}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{representative.dni}
+						</React.Fragment>
+					}
+				</TableCell>
 				<TableCell>
 					{participant.position}
+					{!!representative &&
+						<React.Fragment>
+							<br/>
+							{representative.position}
+						</React.Fragment>
+					}
 				</TableCell>
 				<TableCell>
-					{participant.numParticipations}
+					{!CBX.isRepresentative(
+						participant
+					) &&
+						`${
+							participant.numParticipations
+						}`
+					}
+					{!!representative &&
+						<br/>
+					}
 				</TableCell>
-				{census.quorumPrototype === 1 && (
+				{this.props.participations && (
 					<TableCell>
-						{participant.socialCapital}
+						{!CBX.isRepresentative(
+							participant
+						) &&
+							`${
+								participant.socialCapital
+							}`
+						}
+						{!!representative &&
+							<br/>
+						}
 					</TableCell>
 				)}
 				<TableCell>
-					<div style={{width: '2em'}}>
-						{this.state.showActions && this.props.renderDeleteIcon(
-							participant.id
-						)}
+					<div style={{width: '6em'}}>
+
+						{this.state.showActions &&
+							!CBX.isRepresentative(
+								participant
+							) &&
+								_renderDeleteIcon(
+									participant.id
+								)
+						}
+						{!!representative &&
+							<br/>
+						}
 					</div>
 				</TableCell>
 			</TableRow>
@@ -305,9 +353,9 @@ class HoverableRow extends React.PureComponent {
 }
 
 const deleteCensusParticipant = gql`
-	mutation DeleteParticipant($participantId: Int!, $censusId: Int!) {
+	mutation DeleteParticipant($ids: [Int], $censusId: Int!) {
 		deleteCensusParticipant(
-			participantId: $participantId
+			ids: $ids
 			censusId: $censusId
 		)
 	}

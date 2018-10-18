@@ -58,14 +58,14 @@ class PremiumModal extends React.Component {
                                     <div>
                                         Para poder realizar esta acción necesita <strong>suscribirse a Councilbox.</strong>
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         Descubra como hacerlo:
                                     </div>
                                     <div style={{marginBottom: '0.6em'}}>
                                         <CBXContactButton
                                             translate={translate}
                                         />
-                                    </div>
+                                    </div> */}
                                     <BasicButton
                                         text='Prueba gratuita'
                                         color={primary}

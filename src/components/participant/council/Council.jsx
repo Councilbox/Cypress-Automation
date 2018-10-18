@@ -152,7 +152,7 @@ class ParticipantCouncil extends React.Component {
                             this._renderAgendaSection()
                         }
 
-                        {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE && 
+                        {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                             <Grid item xs={12} sm={12} md={8}>
                                 <div style={{width: '100%', height: '100%', position: 'relative'}}>
                                     <RequestWordMenu

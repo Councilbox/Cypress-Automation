@@ -11,6 +11,11 @@ export const agendaTypes = [
 	"private_voting"
 ];
 
+export const COUNCIL_TYPES = {
+	FORMAL: 0,
+	NO_VIDEO: 1
+}
+
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
 export const CENSUS_LIMITS = [25, 50, 100, 250];
 export const PARTICIPANTS_LIMITS = [25, 50, 100, 250];

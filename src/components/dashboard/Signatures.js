@@ -50,7 +50,7 @@ class Signatures extends React.Component {
 		this.props.data.loading = true;
 		const response = await this.props.mutate({
 			variables: {
-				signatureId: this.state.deleteID
+				id: this.state.deleteID
 			}
 		});
 		if (response) {
@@ -152,7 +152,7 @@ class Signatures extends React.Component {
 										buttonAccept={translate.send_to_trash}
 										buttonCancel={translate.cancel}
 										modal={true}
-										acceptAction={this.deleteCouncil}
+										acceptAction={this.delete}
 										requestClose={() =>
 											this.setState({ deleteModal: false })
 										}

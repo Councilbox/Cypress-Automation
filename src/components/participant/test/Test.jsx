@@ -16,6 +16,8 @@ import withWindowSize from "../../../HOCs/withWindowSize";
 import withTranslations from "../../../HOCs/withTranslations";
 import * as mainActions from "../../../actions/mainActions";
 import DetectRTC from "detectrtc";
+import { IncomingMessage } from "http";
+import IncompatibleDeviceBrowser from "../IncompatibleDeviceBrowser.jsx";
 
 const styles = {
 	viewContainer: {
@@ -106,47 +108,15 @@ class Test extends React.Component {
 							paddingTop: '5em',
 						}}
 					>
-						{translate.video_error} 
+						{translate.video_error}
 					</div>
 				:
 					<React.Fragment>
 						<div style={styles.container}>
 							{isiOSDevice ? (
-								<div style={{ padding: "20px" }}>
-									<div style={{ textAlign: "center" }}>
-										<i
-											className="fa fa-exclamation-triangle"
-											aria-hidden="true"
-											style={{ fontSize: "40px" }}
-										/>
-										<h4 style={{ marginTop: "0px" }}>
-											{translate.app_required}
-										</h4>
-									</div>
-
-									<p>{translate.app_required_msg}</p>
-
-									<div
-										style={{
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "center"
-										}}
-									>
-										<a
-											href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8"
-											style={{
-												display: "inline-block",
-												overflow: "hidden",
-												background:
-													"url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat",
-												width: "135px",
-												height: "40px",
-												backgroundSize: "contain"
-											}}
-										>Councilbox App Logo</a>
-									</div>
-								</div>
+								<IncompatibleDeviceBrowser
+									status={'iOS_DEVICE'}
+								/>
 							) : (
 								<Iframe
 									src={`https://${

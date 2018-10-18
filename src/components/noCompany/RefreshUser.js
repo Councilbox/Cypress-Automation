@@ -11,7 +11,7 @@ class RefreshUser extends React.Component {
 
     toggle = async () => {
         if(this.state.userId){
-            const response = await this.props.refreshUser({
+            await this.props.refreshUser({
                 variables: {
                     userId: this.state.userId
                 }

@@ -124,7 +124,6 @@ class AgendaMenu extends React.Component {
                         {CBX.agendaVotingsOpened(agenda) &&
                             <React.Fragment>
                                 {(agenda.votings && agenda.votings.length > 0)?
-                           
                                     <React.Fragment>
                                         <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
                                             <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
@@ -186,7 +185,7 @@ class AgendaMenu extends React.Component {
                                                 refetch={this.props.refetch}
                                             />
                                         }
-                                    </React.Fragment>
+                                    </React.Fragment>//TRADUCCION
                                 :
                                     'No puedes ejercer el voto por no estar presente en el momento de apertura de votaciones'
                                 }

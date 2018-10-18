@@ -155,6 +155,8 @@ class EnhancedTable extends React.Component {
 			page
 		} = this.state;
 
+		console.log(headers);
+
 		return (
 			<div>
 				<Grid style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -240,7 +242,7 @@ class EnhancedTable extends React.Component {
 						}
 					</div>
 				</Grid>
-				<Table style={{ maxWidth: "100%" }}>
+				<Table style={{ maxWidth: "100%", tableLayout: 'auto'}}>
 					<TableHead>
 						<TableRow>
 							{headers.map((header, index) => {

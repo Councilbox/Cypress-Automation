@@ -131,7 +131,11 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 							{translate.we_are_sorry}
 						</h5>
 
-						<h6 style={{ fontWeight: 'bold' }}>{translate.app_required}</h6>
+						<h6>
+							{translate.unsupported_device}
+						</h6>
+
+						{/* <h6 style={{ fontWeight: 'bold' }}>{translate.app_required}</h6>
 
 						<p>
 							{translate.app_required_msg}
@@ -150,10 +154,10 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 								}}
 							>
 							</a>
-						</div>
+						</div> */}
 					</div>
 
-					{window.location.href.includes('login') &&
+					{/* {window.location.href.includes('login') &&
 						<div
 							style={{
 								...styles.textContainer,
@@ -181,7 +185,7 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 								</a>
 							</div>
 						</div>
-					}
+					} */}
 				</React.Fragment>
 				:
 				<React.Fragment>
@@ -192,7 +196,11 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 							{translate.we_are_sorry}
 						</h5>
 
-						<h6 style={{ fontWeight: 'bold' }}>{translate.app_required}</h6>
+						<h6>
+							{translate.unsupported_device}
+						</h6>
+
+						{/* <h6 style={{ fontWeight: 'bold' }}>{translate.app_required}</h6>
 
 						<p>
 							{translate.app_required_msg}
@@ -236,7 +244,7 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 									</a>
 								</div>
 							</div>
-						}
+						}*/}
 					</div>
 
 					<div style={styles.imageContainer}>

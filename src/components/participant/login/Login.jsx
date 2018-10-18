@@ -39,7 +39,7 @@ class ParticipantLogin extends React.Component {
 	};
 
 	static getDerivedStateFromProps(props, state){
-		const isCompatible = checkIsCompatible(props.detectRTC);
+		const isCompatible = checkIsCompatible(props.detectRTC, props.council, props.participant);
 		return {isCompatible: isCompatible}
 	}
 

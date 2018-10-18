@@ -11,7 +11,7 @@ import {
 	primary
 } from "../../../styles/colors";
 import { PARTICIPANT_ERRORS } from "../../../constants";
-import background from "../../../assets/img/signup3.jpg";
+import background from "../../../assets/img/fondo_test_mundo2.jpg";
 import { moment } from '../../../containers/App';
 //import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
@@ -93,11 +93,14 @@ class ErrorState extends React.Component {
 				<div
 					style={{
 						display: "flex",
-						height: "calc(100% - 48px)",
+						height: "calc(100% - 3em)",
 						width: "100%",
 						alignItems: "center",
 						justifyContent: "center",
-						background: `url(${background})`
+						background: `url(${background})`,
+						backgroundSize: 'cover',
+						backgroundRepeat: 'no-repeat',
+						backgroundPosition: 'center center',
 					}}
 				>
 					<Card style={styles.cardContainer}>

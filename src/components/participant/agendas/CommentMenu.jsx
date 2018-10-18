@@ -5,13 +5,17 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { checkForUnclosedBraces, removeHTMLTags } from '../../../utils/CBX';
+import { PARTICIPANT_STATES } from '../../../constants';
 import { toast } from 'react-toastify';
 import { Typography } from 'material-ui';
 
 class CommentMenu extends React.Component {
 
     state = {
-        vote: this.props.agenda.votings.find(voting => voting.participantId === this.props.participant.id),
+        vote: this.props.agenda.votings.find(voting =>
+            voting.participantId === this.props.participant.id ||
+            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
+        ),
         open: false,
         success: false,
         loading: false
@@ -31,7 +35,7 @@ class CommentMenu extends React.Component {
             });
             const response = await this.props.updateComment({
                 variables: {
-                    id: this.props.agenda.votings[0].id,
+                    id: this.state.vote.id,
                     text: this.state.vote.comment
                 }
             });
@@ -40,7 +44,8 @@ class CommentMenu extends React.Component {
                 await this.props.refetch();
                 this.setState({
                     loading: false,
-                    success: true
+                    success: true,
+                    open: false
                 });
             }
         }
@@ -71,6 +76,14 @@ class CommentMenu extends React.Component {
         const secondary = getSecondary();
         const primary = getPrimary();
         const { vote } = this.state;
+        const savedVote = this.props.agenda.votings.find(voting =>
+            voting.participantId === this.props.participant.id ||
+            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
+        );
+
+        console.log(savedVote);
+
+        //console.log(this.props.agenda.votings, this.props.participant.id);
 
         if(!vote){
             return (<span />);
@@ -89,7 +102,7 @@ class CommentMenu extends React.Component {
                 >
                     {/*TRADUCCION*/}
                     <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                        {(!!comment && removeHTMLTags(comment).length > 0)?
+                        {(!!savedVote.comment && removeHTMLTags(comment).length > 0)?
                             'Has comentado'
                         :
                             'No has comentado'
@@ -97,7 +110,7 @@ class CommentMenu extends React.Component {
                     </Typography>
                     <BasicButton
                         color={this.state.open? primary : 'white'}
-                        text={(!!comment && removeHTMLTags(comment).length > 0)? 'Editar comentario' : 'Enviar comentario acta'} //TRADUCCION
+                        text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0)? 'Editar comentario' : 'Enviar comentario acta'} //TRADUCCION
                         textStyle={{
                             color: this.state.open? 'white' : primary,
                             fontWeight: '700',
@@ -126,7 +139,7 @@ class CommentMenu extends React.Component {
                             }}
                         >
                             <RichTextInput
-                                value={this.state.comment || ''}
+                                value={comment || ''}
                                 onChange={value =>
                                     this.setState({
                                         vote: {

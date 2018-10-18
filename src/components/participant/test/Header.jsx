@@ -31,6 +31,7 @@ class Header extends React.Component {
 				style={{
 					height: "3em",
 					display: "flex",
+					borderBottom: '1px solid gainsboro',
 					flexDirection: "row",
 					width: "100%",
 					justifyContent: "space-between",

@@ -37,12 +37,14 @@ class AgendaDetailsSection extends React.Component {
 			if (openAgenda) {
 				this.setState({
 					openIndex: openAgenda.orderIndex,
-					expanded: false
+					expanded: false,
+					subjectType: nextProps.agendas[nextProps.selectedPoint].subjectType
 				});
 			} else {
 				this.setState({
 					openIndex: 1,
-					expanded: false
+					expanded: false,
+					subjectType: nextProps.agendas[nextProps.selectedPoint].subjectType
 				});
 			}
 		}

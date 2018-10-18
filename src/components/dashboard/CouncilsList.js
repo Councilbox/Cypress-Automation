@@ -32,13 +32,13 @@ class CouncilsList extends React.Component {
     render() {
         const { councils, translate, openDeleteModal, company, link, selectedIds } = this.props;
         let headers = link === '/finished' ? [
-            { selectAll: <Checkbox />},
+            { selectAll: <Checkbox onChange={this.props.selectAll} value={selectedIds.size === councils.length}/>},
             { name: translate.date_real_start },
             { name: translate.table_councils_duration },
             { name: translate.name },
             { name: '' }
         ] : [
-            { selectAll: <Checkbox />},
+            { selectAll: <Checkbox onChange={this.props.selectAll} value={selectedIds.size === councils.length}/>},
             { name: translate.date_real_start },
             { name: translate.name },
             { name: '' }

@@ -172,6 +172,11 @@ export const agendaComments = gql`
 					surname
 					numParticipations
 					position
+					representative {
+						id
+						name
+						surname
+					}
 				}
 				presentVote
 				numParticipations

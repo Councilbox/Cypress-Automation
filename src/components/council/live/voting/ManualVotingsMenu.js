@@ -76,9 +76,12 @@ class ManualVotingsMenu extends React.Component {
                                 min={0}
                                 max={maxVoteManual + this.state.positiveManual}
                                 floatingText={translate.in_favor}
-                                onChange={event => this.setState({
-                                    positiveManual: maxVoteManual + this.state.positiveManual >= event.target.value? event.target.value : (+maxVoteManual + +this.state.positiveManual)
-                                })}
+                                onChange={event => {
+                                    //console.log(maxVoteManual, this.state.positiveManual, event.target.value);
+                                    this.setState({
+                                        positiveManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.positiveManual, 10), parseInt(event.target.value, 10))
+                                    })
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} md={2} lg={2}>
@@ -88,9 +91,12 @@ class ManualVotingsMenu extends React.Component {
                                 min={0}
                                 max={maxVoteManual + this.state.negativeManual}
                                 floatingText={translate.against}
-                                onChange={event => this.setState({
-                                    negativeManual: maxVoteManual + this.state.negativeManual >= event.target.value? event.target.value : (+maxVoteManual + +this.state.negativeManual)
-                                })}
+                                onChange={event => {
+                                    //console.log(maxVoteManual, this.state.negativeManual, event.target.value);
+                                    this.setState({
+                                        negativeManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.negativeManual, 10), parseInt(event.target.value, 10))
+                                    })
+                                }}
                             />
                         </GridItem>
                         <GridItem xs={12} md={2} lg={2}>
@@ -100,9 +106,12 @@ class ManualVotingsMenu extends React.Component {
                                 min={0}
                                 max={maxVoteManual + this.state.abstentionManual}
                                 floatingText={translate.abstentions}
-                                onChange={event => this.setState({
-                                    abstentionManual: maxVoteManual + this.state.abstentionManual >= event.target.value? event.target.value : (+maxVoteManual + +this.state.abstentionManual)
-                                })}
+                                onChange={event => {
+                                    //console.log(maxVoteManual, this.state.abstentionManual, event.target.value);
+                                    this.setState({
+                                        abstentionManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.abstentionManual, 10), parseInt(event.target.value, 10))
+                                    })}
+                                }
                             />
                         </GridItem>
                         <GridItem xs={12} md={2} lg={2}>
@@ -113,7 +122,7 @@ class ManualVotingsMenu extends React.Component {
                                 max={maxVoteManual + this.state.noVoteManual}
                                 floatingText={translate.no_vote}
                                 onChange={event => this.setState({
-                                    noVoteManual: maxVoteManual + this.state.noVoteManual >= event.target.value? event.target.value : (+maxVoteManual + +this.state.noVoteManual)
+                                    noVoteManual: ((maxVoteManual + this.state.noVoteManual) >= +event.target.value)? event.target.value : (+maxVoteManual + +this.state.noVoteManual)
                                 })}
                             />
                         </GridItem>
@@ -132,6 +141,17 @@ class ManualVotingsMenu extends React.Component {
                 </div>
             </div>
         )
+    }
+}
+
+const calculateValidNumber = (max, actual, newValue) => {
+    if(isNaN(newValue)){
+        return 0;
+    }
+    if((max + actual) >= newValue){
+        return newValue;
+    } else {
+        return max + actual;
     }
 }
 

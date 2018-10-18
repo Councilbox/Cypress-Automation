@@ -14,6 +14,11 @@ const TableWrapper = ({ headers = [], children }) => (
 			<TableRow>
 				{headers.map((header, index) => {
 					return (
+						header.selectAll?
+						<TableCell key={`header_${index}`}>
+							{header.selectAll}
+						</TableCell>
+					:
 						<TableCell
 							style={TableStyles.TH}
 							key={`header_${index}`}

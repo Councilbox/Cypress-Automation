@@ -8,12 +8,12 @@ import gql from 'graphql-tag';
 class MuteToggleButton extends React.Component {
 
 	state = {
-		muted: this.props.participant.videoParticipant.mutedMic
+		muted: this.props.participant.videoParticipant? this.props.participant.videoParticipant.mutedMic : false
 	}
 
 	static getDerivedStateFromProps(nextProps){
 		return {
-			muted: nextProps.participant.videoParticipant.mutedMic
+			muted: nextProps.participant.videoParticipant? nextProps.participant.videoParticipant.mutedMic : false
 		}
 	}
 

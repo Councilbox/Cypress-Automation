@@ -1,21 +1,20 @@
 import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
-
-import { getPrimary } from "../../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
-import { CloseIcon, EnhancedTable } from "../../../../displayComponents";
+import { CloseIcon, EnhancedTable, BasicButton, Checkbox } from "../../../../displayComponents";
 import { compose, graphql } from "react-apollo";
-import {
-	deleteParticipant
-} from "../../../../queries/councilParticipant";
+import { deleteParticipant } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
 
+
 class ParticipantsTable extends React.Component {
 	state = {
 		editingParticipant: false,
-		participant: {}
+		participant: {},
+		selectedIds: new Map()
 	};
 
 	componentDidMount() {
@@ -26,16 +25,49 @@ class ParticipantsTable extends React.Component {
 		this.setState({ editingParticipant: false });
 	};
 
+	select = id => {
+        if(this.state.selectedIds.has(id)){
+            this.state.selectedIds.delete(id);
+        } else {
+            this.state.selectedIds.set(id, 'selected');
+        }
+
+        this.setState({
+            selectedIds: new Map(this.state.selectedIds)
+        });
+	}
+
+	selectAll = () => {
+		const newSelected = new Map();
+		if(this.state.selectedIds.size !== this.props.data.councilParticipants.list.length){
+			this.props.data.councilParticipants.list.forEach(participant => {
+				newSelected.set(participant.id, 'selected');
+			})
+		}
+
+		this.setState({
+			selectedIds: newSelected
+		});
+	}
+
 	deleteParticipant = async id => {
+		let toDelete;
+		if(Number.isInteger(id)){
+			toDelete = [id];
+		} else {
+			toDelete = Array.from(this.state.selectedIds.keys());
+		}
 		const response = await this.props.mutate({
 			variables: {
-				participantId: id
+				participantId: toDelete
 			}
 		});
 
 		if (response) {
+			this.setState({
+				selectedIds: new Map()
+			})
 			this.table.refresh();
-			//this.props.data.refetch();
 			this.props.refetch();
 		}
 	};
@@ -69,6 +101,9 @@ class ParticipantsTable extends React.Component {
 		const { editingParticipant, participant } = this.state;
 		const { councilParticipants } = this.props.data;
 		let headers = [
+			{
+				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (councilParticipants.list? councilParticipants.list.length : -1)}/>
+			},
 			{
 				text: translate.participant_data,
 				name: "fullName",
@@ -133,6 +168,17 @@ class ParticipantsTable extends React.Component {
 							defaultOrder={["fullName", "asc"]}
 							limits={PARTICIPANTS_LIMITS}
 							page={1}
+							menuButtons={
+								this.state.selectedIds.size > 0 &&
+									<BasicButton
+										//TRADUCCION
+										text={this.state.selectedIds.size === 1? 'Borrar 1 elemento' : `Borrar ${this.state.selectedIds.size} elementos`}
+										color={getSecondary()}
+										buttonStyle={{marginRight: '0.6em'}}
+										textStyle={{color: 'white', fontWeight: '700'}}
+										onClick={this.deleteParticipant}
+									/>
+							}
 							loading={!councilParticipants}
 							length={councilParticipants.list.length}
 							total={councilParticipants.total}
@@ -166,6 +212,8 @@ class ParticipantsTable extends React.Component {
 													editingParticipant: true,
 													participant: participant
 												})}
+												select={this.select}
+												selected={this.state.selectedIds.has(participant.id)}
 												totalSocialCapital={totalSocialCapital}
 												totalVotes={totalVotes}
 												participations={participations}
@@ -173,78 +221,6 @@ class ParticipantsTable extends React.Component {
 												representative={participant.representative}
 												_renderDeleteIcon={() => this._renderDeleteIcon(participant.id)}
 											/>
-
-											{/* {!!participant.representative && (
-												<TableRow
-													hover={true}
-													style={{
-														cursor: "pointer",
-														backgroundColor:
-															"WhiteSmoke"
-													}}
-													onClick={() =>
-														this.setState({
-															editParticipant: true,
-															editIndex: index
-														})
-													}
-												>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{`${
-																translate.represented_by
-															}: ${
-																participant
-																	.representative
-																	.name
-															} ${
-																participant
-																	.representative
-																	.surname
-															}`}
-														</div>
-													</TableCell>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{
-																participant
-																	.representative
-																	.dni
-															}
-														</div>
-													</TableCell>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{
-																participant.representative.position
-															}
-														</div>
-													</TableCell>
-													{participations && (
-														<TableCell />
-													)}
-													<TableCell />
-													<TableCell />
-												</TableRow>
-											)} */}
 										</React.Fragment>
 									);
 								}
@@ -278,7 +254,7 @@ class HoverableRow extends React.Component {
 
 	render(){
 
-		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative } = this.props;
+		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected } = this.props;
 
 		return (
 			<TableRow
@@ -291,6 +267,18 @@ class HoverableRow extends React.Component {
 					fontSize: "0.5em"
 				}}
 			>
+				<TableCell onClick={event => event.stopPropagation()} style={{cursor: 'auto'}}>
+					<div style={{width: '2em'}}>
+						{(this.state.showActions || selected) &&
+							<Checkbox
+								value={selected}
+								onChange={() =>
+									this.props.select(participant.id)
+								}
+							/>
+						}
+					</div>
+				</TableCell>
 				<TableCell>
 					<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
 					{!!representative &&

@@ -7,7 +7,6 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { BasicButton, ButtonIcon, TextInput, NotLoggedLayout } from "../../displayComponents";
 import { checkValidEmail } from '../../utils/validation';
-//import background from "../../assets/img/signup3.jpg";
 
 class ForgetPwd extends React.PureComponent {
 	state = {

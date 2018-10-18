@@ -146,7 +146,7 @@ class Login extends React.PureComponent {
 							{windowSize !== "xs" && (
 								<span
 									style={{
-										fontSize: "0.95em",
+										fontSize: "0.76rem",
 										marginBottom: "1em",
 										marginTop: "0.7em",
 										textAlign: 'center',

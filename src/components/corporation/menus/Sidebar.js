@@ -15,6 +15,7 @@ import icono from "../../../assets/img/logo-icono.png";
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
+import Language from 'material-ui-icons/Language';
 import ImportContacts from 'material-ui-icons/ImportContacts';
 import { bHistory, store } from "../../../containers/App";
 import { changeCompany } from "../../../actions/companyActions";
@@ -52,6 +53,12 @@ class Sidebar extends React.Component {
 				name: "users",
 				sidebarName: props.translate.users,
 				icon: BorderColor
+			},
+			{
+				path: '/translations',
+				name: 'translations',
+				sidebarName: 'Traducciones',
+				icon: Language
 			}
 		];
 	}

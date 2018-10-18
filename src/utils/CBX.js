@@ -521,7 +521,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			];
 
 		default:
-			return [];
+			return null;
 	}
 }
 

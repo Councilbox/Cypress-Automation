@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { TabsScreen, FabButton, Icon } from "../displayComponents";
+import { TabsScreen, FabButton, Icon, AlertConfirm } from "../displayComponents";
 import { Tooltip } from 'material-ui';
 import Signatures from "../components/dashboard/Signatures";
 import { lightGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
+import CBXContactButton from '../components/noCompany/CBXContactButton';
 import { bHistory } from '../containers/App';
 import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
@@ -15,13 +16,24 @@ import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsM
 class SignatureContainer extends React.Component {
 
 	state = {
-		noPremiumModal: false
+		noPremiumModal: false,
+		cantCreateSignature: false
 	}
 
 	showCantAccessPremiumModal = () => {
 		this.setState({
 			noPremiumModal: true
 		})
+	}
+
+	showCantAccessSignatures = () => {
+		this.setState({
+			cantCreateSignature: true
+		});
+	}
+
+	canCreateSignature = () => {
+		return ['aaron.fuentes.cocodin@gmail.com'].includes(this.props.user.email)
 	}
 
 	closeCantAccessPremiumModal = () => {
@@ -123,7 +135,7 @@ class SignatureContainer extends React.Component {
 					<Tooltip title={`${translate.dashboard_new_signature}`}>
 						<div style={{ marginBottom: "0.3em" }}>
 							<FabButton
-								{...(cantAccessPremium? { color: 'grey'} : {})}
+								{...(cantAccessPremium || !this.canCreateSignature()? { color: 'grey'} : {})}
 								icon={
 									<Icon className="material-icons">
 										add
@@ -133,12 +145,32 @@ class SignatureContainer extends React.Component {
 									cantAccessPremium?
 										this.showCantAccessPremiumModal()
 									:
-										bHistory.push(`/company/${company.id}/signature/new`)
+										!this.canCreateSignature()?
+											this.showCantAccessSignatures()
+										:
+											bHistory.push(`/company/${company.id}/signature/new`)
 								}
 							/>
 						</div>
 					</Tooltip>
 				</div>
+				<AlertConfirm
+					title="Aviso" //TRADUCCION
+					open={this.state.cantCreateSignature}
+					hideAccept
+					buttonCancel={translate.close}
+					requestClose={() => this.setState({ cantCreateSignature: false})}
+					bodyText={
+						<div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+							<div style={{marginBottom: '0.8em'}} /*TRADUCCION*/>
+								No tiene activada esta funcionalidad, puede hacerlo:
+							</div>
+							<CBXContactButton
+								translate={translate}
+							/>
+						</div>
+					}
+				/>
 				<CantCreateCouncilsModal
 					open={this.state.noPremiumModal}
 					requestClose={this.closeCantAccessPremiumModal}
@@ -151,6 +183,7 @@ class SignatureContainer extends React.Component {
 
 const mapStateToProps = state => ({
 	company: state.companies.list[state.companies.selected],
+	user: state.user,
 	translate: state.translate
 });
 

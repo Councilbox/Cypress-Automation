@@ -39,8 +39,20 @@ class Councils extends React.Component {
         this.setState({
             selectedIds: new Map(this.state.selectedIds)
         });
-    }
+	}
 
+	selectAll = () => {
+		const newSelected = new Map();
+		if(this.state.selectedIds.size !== this.props.data.councils.length){
+			this.props.data.councils.forEach(council => {
+				newSelected.set(council.id, 'selected');
+			})
+		}
+
+		this.setState({
+			selectedIds: newSelected
+		});
+	}
 
 	openDeleteModal = councilID => {
 		if(Number.isInteger(councilID)){
@@ -145,6 +157,7 @@ class Councils extends React.Component {
 														openDeleteModal={this.openDeleteModal}
 														translate={translate}
 														select={this.select}
+														selectAll={this.selectAll}
 														selectedIds={this.state.selectedIds}
 														councils={councils}
 														company={this.props.company}
