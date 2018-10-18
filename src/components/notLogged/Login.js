@@ -175,7 +175,7 @@ class Login extends React.PureComponent {
 											color={'transparent'}
 											fullWidth
 											buttonStyle={{backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em'}}
-											textStyle={{color: 'white', fontWeight: '700', fontSize: '0.95em', textTransform: 'none'}}
+											textStyle={{color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'}}
 										/>
 									</Link>
 								</div>
@@ -191,7 +191,7 @@ class Login extends React.PureComponent {
 											textStyle={{
 												color: primary,
 												fontWeight: "700",
-												fontSize: "0.95em",
+												fontSize: "0.8rem",
 												textTransform: "none"
 											}}
 											textPosition="before"

@@ -26,7 +26,7 @@ class TranslationsPage extends React.Component {
     refresh = async () => {
         this.props.data.refetch({
             filters: [{
-                text: this.state.text,
+                text: this.state.filterText,
                 field: 'label'
             }],
         })
