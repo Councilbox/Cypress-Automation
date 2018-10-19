@@ -10,6 +10,7 @@ import { bHistory } from '../containers/App';
 import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
 import { moment } from "./App";
+import { isLandscape } from '../utils/screen';
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 
 class CouncilContainer extends React.Component {
@@ -152,9 +153,9 @@ class CouncilContainer extends React.Component {
 				style={{
 					width: '100%',
 					height: 'calc(100vh - 3em)',
-					padding: '2em',
+					padding: windowSize === 'xs' ? '0.8em' : '2em',
 					position: 'relative',
-					...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
+					...(windowSize === 'xs' && !isLandscape()? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
 					backgroundColor: lightGrey
 				}}
 			>

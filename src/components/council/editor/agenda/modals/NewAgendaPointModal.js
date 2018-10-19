@@ -135,8 +135,7 @@ class NewAgendaPointModal extends React.Component {
 		return (
 			<div
 				style={{
-					width: "90vw",
-					maxWidth: "1000px"
+					width: window.innerWidth > 800? '800px' : '100%'
 				}}
 			>
 				{this.state.loadDraft && (

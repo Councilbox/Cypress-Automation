@@ -11,8 +11,10 @@ import {
 	LoadingSection,
 	MainTitle,
 } from "../../displayComponents/index";
+import { isLandscape } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
 import "react-perfect-scrollbar/dist/css/styles.css";
+import withWindowSize from '../../HOCs/withWindowSize';
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 import CouncilsFilters from './CouncilsFilters';
@@ -82,6 +84,10 @@ class Councils extends React.Component {
 		}
 	};
 
+	mobileLandscape = () => {
+		return this.props.windowSize === 'xs' && isLandscape();
+	}
+
 
 	render() {
 		const { translate } = this.props;
@@ -99,6 +105,7 @@ class Councils extends React.Component {
 					<MainTitle
 						icon={this.props.icon}
 						title={this.props.title}
+						size={this.props.windowSize}
 						subtitle={this.props.desc}
 					/>
 					<Grid style={{marginTop: '0.6em'}}>
@@ -128,7 +135,7 @@ class Councils extends React.Component {
 							<LoadingSection />
 						</div>
 					) : (
-							<div style={{ height: 'calc(100% - 13.5em)', overflow: 'hidden' }}>
+							<div style={{ height: `calc(100% - ${this.mobileLandscape()? '7em' : '13.5em'})`, overflow: 'hidden' }}>
 								<Scrollbar>
 									<div style={{ padding: "1em", paddingTop: '2em'}}>
 										{false ? (
@@ -203,4 +210,4 @@ export default compose(
 			errorPolicy: 'all'
 		})
 	})
-)(Councils);
+)(withWindowSize(Councils));

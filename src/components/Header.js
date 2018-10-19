@@ -12,6 +12,7 @@ import { getSecondary } from "../styles/colors";
 import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import FontAwesome from 'react-fontawesome';
+import { isLandscape } from '../utils/screen';
 
 
 class Header extends React.PureComponent {
@@ -43,6 +44,10 @@ class Header extends React.PureComponent {
 
 	closeUnsavedModal = () => {
 		this.setState({unsavedChanges: false});
+	}
+
+	showVerticalLayout = () => {
+		return this.props.windowSize === 'xs' && !isLandscape();
 	}
 
 	render() {
@@ -79,7 +84,7 @@ class Header extends React.PureComponent {
 						alignItems: "center"
 					}}
 				>
-					{(this.props.companyMenu && this.props.windowSize === 'xs') &&
+					{(this.props.companyMenu && this.showVerticalLayout()) &&
 						<React.Fragment>
 							{!!this.props.company.logo?
 								<img src={this.props.company.logo} style={{maxWidth: '4em', height: '1.8em'}} alt="company-logo" />
@@ -117,11 +122,12 @@ class Header extends React.PureComponent {
 					)}
 					<Link to="/">
 						<img
-							src={windowSize !== "xs" ? logo : icono}
+							src={!this.showVerticalLayout() ? logo : icono}
 							className="App-logo"
 							style={{
 								height: "1.5em",
-								marginLeft: "2em"
+								marginLeft: "2em",
+								userSelect: 'none'
 							}}
 							alt="logo"
 						/>

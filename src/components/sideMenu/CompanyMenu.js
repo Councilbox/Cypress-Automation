@@ -4,16 +4,23 @@ import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary } from '../../styles/colors';
+import { isLandscape } from '../../utils/screen';
 let icon;
 import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
 
+const defaultWidth = 420;
+
 class CompanyMenu extends React.Component {
+
 	render() {
+		const sideWidth = window.innerWidth > 420? 420 : window.innerWidth;
+
 		return (
 			<Drawer
 				style={{
 					zIndex: 100,
-					width: "520px"
+					minWidth: `${sideWidth + isLandscape()? 100 : 0}px`,
+					maxWidth: "100%",
 				}}
 				variant="persistent"
 				anchor="left"
@@ -23,9 +30,10 @@ class CompanyMenu extends React.Component {
 					style={{
 						height: "100%",
 						zIndex: 100,
-						width: "420px",
-						marginTop: this.props.windowSize === 'xs'? '3em' : 0,
-						paddingLeft: this.props.windowSize === 'xs'? 0 : '5em',
+						minWidth: `${sideWidth}px`,
+						maxWidth: '100%',
+						backgroundColor: 'transparent',
+						paddingLeft: !isLandscape()? 0 : '5em',
 						overflow: "hidden",
 						display: 'flex',
 						flexDirection: 'column',

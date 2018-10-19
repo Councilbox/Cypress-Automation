@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
 import appStyle from "../styles/appStyle.jsx";
+import { isLandscape } from '../utils/screen';
 import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
@@ -110,6 +111,10 @@ class AppRouter extends React.Component {
 		this.setState({ mobileOpen: !this.state.mobileOpen });
 	};
 
+	showVerticalLayout = () => {
+		return this.props.windowSize === 'xs' && !isLandscape();
+	}
+
 	state = {
 		sideWidth: 5,
 		mobileOpen: false
@@ -121,6 +126,7 @@ class AppRouter extends React.Component {
 
 	render() {
 		const { translate } = this.props;
+		const verticalLayout = this.showVerticalLayout();
 
 /* 		if(!this.props.main.serverStatus){
 			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR..." />
@@ -174,7 +180,12 @@ class AppRouter extends React.Component {
 					color="blue"
 				/>
 
-				<div className={this.props.classes.mainPanelLite}>
+				<div className={this.props.classes.mainPanelLite} style={{...(!verticalLayout?
+					{
+						marginLeft: '5em',
+						width: `calc(100% - 5em)`
+					} : {}
+				)}}>
 					<Header
 						commandLine={true}
 						companyMenu={true}
@@ -199,7 +210,7 @@ class AppRouter extends React.Component {
 							display: "flex",
 							width: "100%",
 							overflow: 'hidden',
-							...(this.props.windowSize === 'xs'? {
+							...(verticalLayout? {
 								paddingBottom: '3.5em'
 							}: {})
 						}}

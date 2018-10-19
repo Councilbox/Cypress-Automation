@@ -11,6 +11,8 @@ import sidebarStyleLite from "../../styles/sidebarStyleLite";
 import { Link } from '../../displayComponents';
 import withWindowSize from '../../HOCs/withWindowSize';
 import { getSecondary, darkGrey } from "../../styles/colors";
+import { isLandscape } from "../../utils/screen";
+import { isMobile } from 'react-device-detect';
 import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
 
@@ -89,15 +91,19 @@ class Sidebar extends React.Component {
 		return routeIndex;
 	};
 
+	showVerticalLayout = () => {
+		return this.props.windowSize === 'xs' && !isLandscape();
+	}
+
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
-				...(this.props.windowSize === 'xs' ? { margin: 0 } : {}),
+				...(this.showVerticalLayout() ? { margin: 0 } : {}),
 			}}
 		>
-			{this.props.windowSize !== 'xs' ?
+			{!this.showVerticalLayout() ?
 				<React.Fragment>
 					<div
 						className={this.props.classes.logoLink}
@@ -239,6 +245,7 @@ class Sidebar extends React.Component {
 										color: "red"
 									},
 									width: '25%',
+									height: '100%',
 									marginTop: 0
 								}}
 								onClick={() => this.setState({ selectedRoute: key })}
@@ -299,22 +306,39 @@ class Sidebar extends React.Component {
 			<Tooltip title={this.props.translate.manage_entities} >
 				<div
 					style={{
-						width: this.props.windowSize === 'xs' ? '3em' : '100%',
-						height: '3em',
+						width: this.showVerticalLayout() ? '3em' : '100%',
+						height: this.showVerticalLayout() ? '100%' : '3em',
 						cursor: 'pointer',
 						display: 'flex',
 						backgroundColor: this.state.companyMenu ? getSecondary() : 'transparent',
+						...(this.showVerticalLayout()? {
+							padding: 0,
+							margin: 0,
+							backgroundColor: 'transparent'
+						} : {}),
 						alignItems: 'center',
 						justifyContent: 'center'
 					}}
 					onClick={this.toggleCompanyMenu}
 				>
-					<div className={this.props.classes.logo} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-						<Icon
-							style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em' }}
+					<div
+						className={this.props.classes.logo}
+						style={{
+							width: '100%',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							...(this.showVerticalLayout()? {
+								marginTop: '0.6em'
+							} : {}),
+						}}
+					>
+						<i
+							className="material-icons"
+							style={{ color: this.state.companyMenu && this.showVerticalLayout()? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em' }}
 						>
 							apps
-						</Icon>
+						</i>
 					</div>
 				</div>
 			</Tooltip>
@@ -335,7 +359,7 @@ class Sidebar extends React.Component {
 					zIndex: '1000',
 					position: 'absolute',
 					display: 'flex',
-					...(this.props.windowSize === 'xs' ?
+					...(this.showVerticalLayout() ?
 						{
 							flexDirection: 'row',
 							bottom: 0,
@@ -354,14 +378,25 @@ class Sidebar extends React.Component {
 					),
 					alignItems: 'center',
 				}}>
-					{this.props.windowSize !== 'xs' &&
+					{!this.showVerticalLayout() &&
 						this.brand()
 					}
-					<div className={classes.sidebarWrapper}>
+					<div
+						className={classes.sidebarWrapper}
+						style={{
+							...(this.showVerticalLayout()?  {
+								height: '3.5em',
+								display: 'flex',
+								width: '100%',
+								flexDirection: 'row',
+								alignItems: 'center'
+							} : { height: 'calc(100vh - 75px)'})
+						}}
+					>
 						{this.links()}
 					</div>
 				</div>
-				{//this.props.windowSize !== 'xs' &&
+				{// !== 'xs' &&
 					<CompanyMenu
 						open={this.state.companyMenu}
 						company={this.props.company}

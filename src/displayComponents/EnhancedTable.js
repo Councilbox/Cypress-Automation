@@ -16,6 +16,7 @@ import Table, {
 } from "material-ui/Table";
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
+import { isMobile } from 'react-device-detect';
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -242,48 +243,53 @@ class EnhancedTable extends React.Component {
 						}
 					</div>
 				</Grid>
-				<Table style={{ maxWidth: "100%", tableLayout: 'auto'}}>
-					<TableHead>
-						<TableRow>
-							{headers.map((header, index) => {
-								return (
-									header.selectAll?
-										<TableCell>
-											{header.selectAll}
-										</TableCell>
-									:
-										<TableCell
-											key={`header_${index}`}
-											sortDirection={
-												this.state.orderDirection
-											}
-											style={TableStyles.TH}
-										>
-											{header.canOrder ? (
-												<TableSortLabel
-													active={
-														header.name ===
-														this.state.orderBy
-													}
-													direction={
-														this.state.orderDirection
-													}
-													onClick={() =>
-														this.orderBy(header.name)
-													}
-												>
-													{header.text}
-												</TableSortLabel>
-											) : (
-													header.text
-												)}
-										</TableCell>
-								);
-							})}
-						</TableRow>
-					</TableHead>
-					<TableBody>{!loading && children}</TableBody>
-				</Table>
+				{!isMobile?
+					<Table style={{ maxWidth: "100%", tableLayout: 'auto'}}>
+						<TableHead>
+							<TableRow>
+								{headers.map((header, index) => {
+									return (
+										header.selectAll?
+											<TableCell>
+												{header.selectAll}
+											</TableCell>
+										:
+											<TableCell
+												key={`header_${index}`}
+												sortDirection={
+													this.state.orderDirection
+												}
+												style={TableStyles.TH}
+											>
+												{header.canOrder ? (
+													<TableSortLabel
+														active={
+															header.name ===
+															this.state.orderBy
+														}
+														direction={
+															this.state.orderDirection
+														}
+														onClick={() =>
+															this.orderBy(header.name)
+														}
+													>
+														{header.text}
+													</TableSortLabel>
+												) : (
+														header.text
+													)}
+											</TableCell>
+									);
+								})}
+							</TableRow>
+						</TableHead>
+						<TableBody>{!loading && children}</TableBody>
+					</Table>
+				:
+					children
+				}
+				
 				{loading &&
 					<div style={{ marginTop: '3em' }}>
 						<LoadingSection />

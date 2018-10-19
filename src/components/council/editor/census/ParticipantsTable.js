@@ -1,13 +1,15 @@
 import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
+import { Card } from 'material-ui';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
-import { CloseIcon, EnhancedTable, BasicButton, Checkbox } from "../../../../displayComponents";
+import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem } from "../../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { deleteParticipant } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
+import { isMobile } from 'react-device-detect';
 
 
 class ParticipantsTable extends React.Component {
@@ -254,7 +256,89 @@ class HoverableRow extends React.Component {
 
 	render(){
 
-		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected } = this.props;
+		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected, translate } = this.props;
+
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+                    onClick={editParticipant}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.participant_data}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+							{!!representative &&
+								<React.Fragment>
+									<br />
+									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+								</React.Fragment>
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.dni}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!!representative?
+								<React.Fragment>
+									{representative.dni}
+								</React.Fragment>
+							:
+								participant.dni
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.position}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!!representative?
+								<React.Fragment>
+									{representative.position}
+								</React.Fragment>
+							:
+								participant.position
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.votes}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!CBX.isRepresentative(participant) &&
+								`${
+									participant.numParticipations
+								} (${(
+									(participant.numParticipations /
+										totalVotes) *
+									100
+								).toFixed(2)}%)`
+							}
+                        </GridItem>
+						{this.props.participations && (
+							<React.Fragment>
+								<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+									{translate.census_type_social_capital}
+								</GridItem>
+								<GridItem xs={7} md={7}>
+									{!CBX.isRepresentative(participant) &&
+										`${participant.socialCapital} (${(
+										(participant.socialCapital /
+											totalSocialCapital) *
+										100).toFixed(2)}%)`
+									}
+
+								</GridItem>
+							</React.Fragment>
+						)}
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+						{!CBX.isRepresentative(participant) &&
+							_renderDeleteIcon(participant.id)}
+                    </div>
+                </Card>
+            )
+        }
 
 		return (
 			<TableRow

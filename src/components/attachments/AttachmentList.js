@@ -30,7 +30,7 @@ class AttachmentList extends React.Component {
 		const { errors } = this.state;
 
 		return (
-			<div style={{ width: "650px" }}>
+			<div style={{ width: window.innerWidth > 650? "650px" : '100%' }}>
 				<TextInput
 					floatingText={translate.name}
 					type="text"

@@ -89,7 +89,7 @@ const ChangeCensusMenu = ({
 		<GridItem
 			lg={5}
 			md={5}
-			xs={6}
+			xs={12}
 			style={{
 				height: "4em",
 				display: "flex",
@@ -122,9 +122,10 @@ const ChangeCensusMenu = ({
 		<GridItem
 			lg={3}
 			md={3}
-			xs={6}
+			xs={12}
 			style={{
 				height: "4em",
+				display: 'flex',
 				alignItems: "center"
 			}}
 		>
