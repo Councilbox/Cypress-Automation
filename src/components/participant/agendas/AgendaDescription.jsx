@@ -16,13 +16,13 @@ class AgendaDescription extends React.Component {
 
     render(){
         if(!this.props.agenda.description){
-            return 'Sin descripción'; //TRADUCCION
+            return this.props.translate.no_description;
         }
 
         return(
             <CollapsibleSection
                 trigger={() =>
-                    <span onClick={this.toggle} style={{fontSize: '14px'}} /**TRADUCCION*/>Ver descripcion</span>
+                    <span onClick={this.toggle} style={{fontSize: '14px'}}>{this.props.translate.show_description}</span>
                 }
                 open={this.state.open}
                 onTriggerClick={() => {}}

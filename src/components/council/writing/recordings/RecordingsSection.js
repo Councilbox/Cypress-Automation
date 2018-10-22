@@ -12,9 +12,9 @@ class RecordingsSection extends React.Component {
                     <i className="material-icons" style={{color: getSecondary(), fontSize: '8em'}}>
                         videocam_off
                     </i>
-                    No se ha realizado ninguna grabación
+                    {this.props.translate.no_recordings}
                 </div>
-            ) //TRADUCCION
+            )
         }
 
         return(

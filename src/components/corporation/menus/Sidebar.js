@@ -33,7 +33,7 @@ class Sidebar extends React.Component {
 			{
 				path: `/councils`,
 				name: 'councils',
-				sidebarName: 'Reuniones',
+				sidebarName: props.translate.councils_link,
 				icon: Dashboard
 			},
 			{

@@ -45,7 +45,7 @@ class ActAttachments extends React.PureComponent{
                                 </GridItem>
                             )
                         :
-                            'No hay documentos adjuntos a la convocatoria' //TRADUCCION
+                            translate.no_convene_attachments
                     }
                 </Grid>
                 <Grid style={{marginTop: '2.6em'}}>

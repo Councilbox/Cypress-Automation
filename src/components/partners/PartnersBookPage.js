@@ -1,6 +1,7 @@
 import React from 'react'
-import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton } from '../../displayComponents';
-import { TableRow, TableCell } from 'material-ui';
+import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem } from '../../displayComponents';
+import { TableRow, TableCell, Card } from 'material-ui';
+import { isMobile } from 'react-device-detect';
 import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
 import withTranslations from '../../HOCs/withTranslations';
@@ -186,7 +187,74 @@ class HoverableRow extends React.PureComponent {
 
 
     render() {
-        const { participant } = this.props;
+        const { participant, translate } = this.props;
+
+        if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+                    onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.state}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+                            {participant.state === 1 &&
+                                this.props.translate.subscribed
+                            }
+                            {participant.state === 0 &&
+                                this.props.translate.unsubscribed
+                            }
+                            {participant.state === 2 &&
+                                this.props.translate.other
+                            }
+                        </GridItem>
+
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.participant_data}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.dni}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{participant.dni}
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.position}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{participant.position}
+                        </GridItem>
+
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.subscribe_date}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+                            {moment(participant.subscribeDate).format('LLL')}
+                        </GridItem>
+
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.unsubscribe_date}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+                            {moment(participant.unsubscribeDate).format('LLL')}
+                        </GridItem>
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+                        <CloseIcon onClick={event => {
+                            event.stopPropagation();
+                            this.props.deleteBookParticipant(participant.id);
+                        }}/>
+                    </div>
+                </Card>
+            )
+        }
 
         return (
             <TableRow

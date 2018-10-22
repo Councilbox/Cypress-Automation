@@ -163,7 +163,7 @@ class AgendaAttachmentsManager extends React.Component {
 				<div style={{width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em'}}>
 					<FileUploadButton
 						color={"white"}
-						text={'Añadir adjunto'}//TRADUCCION
+						text={this.props.translate.add_attachment}
 						textStyle={{
 							color: secondary,
 							fontWeight: "700",

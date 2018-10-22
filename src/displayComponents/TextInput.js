@@ -27,6 +27,7 @@ const TextInput = ({
 	min,
 	helpPopover,
 	helpTitle,
+	onBlur,
 	helpDescription,
 	id,
 	max,
@@ -39,6 +40,7 @@ const TextInput = ({
 		}}
 	>
 		<TextField
+			onBlur={onBlur}
 			label={
 				<div style={{display: 'flex'}}>
 					{`${floatingText}${required ? "*" : ""}` }

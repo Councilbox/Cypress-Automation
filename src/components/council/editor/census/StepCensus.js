@@ -267,9 +267,8 @@ class StepCensus extends React.Component {
 											display: 'flex',
 											justifyContent: 'center'
 										}}
-										//TRADUCCION
 									>
-										Es necesario añadir al menos un participante.
+										{translate.participants_required}
 									</div>
 
 								}

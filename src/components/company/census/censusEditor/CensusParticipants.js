@@ -1,7 +1,8 @@
 import React from "react";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { TableCell, TableRow } from "material-ui";
+import { TableCell, TableRow, Card } from "material-ui";
 import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox } from "../../../../displayComponents";
+import { isMobile } from 'react-device-detect';
 import * as CBX from '../../../../utils/CBX';
 import { compose, graphql } from "react-apollo";
 import { censusParticipants } from "../../../../queries/census";
@@ -137,18 +138,24 @@ class CensusParticipants extends React.Component {
 			<React.Fragment>
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
-						<AddCensusParticipantButton
-							translate={translate}
-							company={this.props.company}
-							census={this.props.census}
-							refetch={this.props.data.refetch}
-						/>
-						<ImportCensusExcel
-							translate={translate}
-							censusId={census.id}
-							companyId={this.props.company.id}
-							refetch={this.props.data.refetch}
-						/>
+						<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '0.6em'}}>
+							<div>
+								<AddCensusParticipantButton
+									translate={translate}
+									company={this.props.company}
+									census={this.props.census}
+									refetch={this.props.data.refetch}
+								/>
+							</div>
+							<div>
+								<ImportCensusExcel
+									translate={translate}
+									censusId={census.id}
+									companyId={this.props.company.id}
+									refetch={this.props.data.refetch}
+								/>
+							</div>
+						</div>
 						<span style={{fontWeight: '700', fontSize: '0.9em'}}>
 							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
 						</span>
@@ -251,8 +258,93 @@ class HoverableRow extends React.PureComponent {
 		})
 	}
 
+
 	render() {
-		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected } = this.props;
+		const { participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected, translate } = this.props;
+
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+					onClick={() =>
+						this.props.editParticipant(participant)
+					}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.participant_data}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+							{!!representative &&
+								<React.Fragment>
+									<br/>
+									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+								</React.Fragment>
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.dni}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!!representative?
+								<React.Fragment>
+									{representative.dni}
+								</React.Fragment>
+							:
+								participant.dni
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.position}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!!representative?
+								<React.Fragment>
+									{representative.position}
+								</React.Fragment>
+							:
+								participant.position
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.votes}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!CBX.isRepresentative(
+								participant
+							) &&
+								`${
+									participant.numParticipations
+								}`
+							}
+							{!!representative &&
+								<br/>
+							}
+                        </GridItem>
+						{this.props.participations && (
+							<React.Fragment>
+								{!CBX.isRepresentative(
+									participant
+								) &&
+									`${
+										participant.socialCapital
+									}`
+								}
+								{!!representative &&
+									<br/>
+								}
+							</React.Fragment>
+						)}
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+						{!CBX.isRepresentative(participant) &&
+							_renderDeleteIcon(participant.id)}
+                    </div>
+                </Card>
+            )
+        }
+
 		return(
 			<TableRow
 				hover={true}

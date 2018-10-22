@@ -93,7 +93,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     {CBX.haveQualityVoteConditions(agenda, council) &&
                         <div style={itemStyle}>
-                            {CBX.approvedByQualityVote(agenda, council.qualityVoteId)? 
+                            {CBX.approvedByQualityVote(agenda, council.qualityVoteId)?
                                 `${translate.approved} ${translate.by_quality_vote}`
                             :
                                 `${translate.not_approved} ${translate.by_quality_vote}`
@@ -162,15 +162,19 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         <React.Fragment>
                             <EditableCell
                                 value={agenda.positiveManual}
+                                translate={translate}
                             />
                             <EditableCell
                                 value={agenda.negativeManual}
+                                translate={translate}
                             />
                             <EditableCell
                                 value={agenda.abstentionManual}
+                                translate={translate}
                             />
                             <EditableCell
                                 value={agenda.noVoteManual}
+                                translate={translate}
                             />
                         </React.Fragment>
                     :
@@ -189,7 +193,6 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                             </TableCell>
                         </React.Fragment>
                     }
-                    
                 </TableRow>
                 <TableRow>
                     <TableCell>
@@ -279,7 +282,7 @@ class EditableCell extends React.Component {
                     }}
                 >
                     {this.state.edit?
-                        <Tooltip /*TRADUCCION*/title={this.props.max === 0? 'Máximo de votos alcanzado' : `Por favor introduzca un numero entre 0 y ${this.props.max}`}>
+                        <Tooltip title={this.props.max === 0? this.props.translate.max_votes_reached : `${this.props.translate.enter_num_between_0_and} ${this.props.max}`}>
                             <div style={{width: '4em'}}>
                                 <Input
                                     type="number"

@@ -19,24 +19,6 @@ class VotingMenu extends React.Component {
         loading: true
     }
 
-    votingOptions = [
-        {
-            label: this.props.translate.in_favor_btn,
-            value: 1,
-            icon: 'thumb_up'
-        },
-        {
-            label: this.props.translate.in_favor_btn,
-            value: 1,
-            icon: 'thumb_down'
-        },
-        {
-            label: this.props.translate.in_favor_btn,
-            value: 1,
-            icon: 'thumb_up'
-        },
-    ]
-
     updateAgendaVoting = async vote => {
         this.setState({
             loading: vote
@@ -44,7 +26,7 @@ class VotingMenu extends React.Component {
 
         const updateAgendaVoting = this.props.updateAgendaVoting;
 
-        const response = await Promise.all(this.props.agenda.votings.map(voting => 
+        const response = await Promise.all(this.props.agenda.votings.map(voting =>
             updateAgendaVoting({
                 variables: {
                     agendaVoting: {

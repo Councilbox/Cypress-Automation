@@ -111,8 +111,8 @@ class CouncilCertificates extends React.PureComponent {
                                 ))}
                             </Table>
                         :
-                            <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}} /*TRADUCCION*/>
-                                NO HAY CERTIFICADOS GENERADOS
+                            <Typography variant="subheading" style={{fontWeight: '700', marginTop: '0.8em'}}>
+                                {translate.no_certificates}
                             </Typography>
                         }
                     </div>

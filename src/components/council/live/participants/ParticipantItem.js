@@ -149,7 +149,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 		>
 			{!isRepresented(participant) &&
 				<BasicButton
-					text={participant.signed? 'Ha firmado' : "Firmar"}//TRADUCCION
+					text={participant.signed? translate.user_signed : translate.to_sign}
 					fullWidth
 					buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
 					type="flat"
@@ -338,7 +338,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 			>
 				{!isRepresented(participant) &&
 					<BasicButton
-						text={participant.signed? 'Ha firmado' : "Firmar"}//TRADUCCION
+						text={participant.signed? translate.user_signed : translate.to_sign}
 						fullWidth
 						buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
 						type="flat"

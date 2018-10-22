@@ -23,13 +23,21 @@ const QuorumInput = ({
 						max="100"
 						errorText={quorumError}
 						adornment={"%"}
-						onChange={event =>
+						onChange={event => {
 							onChange(event.nativeEvent.target.value)
-						}
+						}}
 					/>
 				</div>
 			</div>
 		);
+	}
+
+	if(value < 1){
+		onChange(1);
+	}
+
+	if(divider < 1){
+		onChangeDivider(1);
 	}
 
 	if (CBX.isQuorumFraction(type)) {
@@ -42,9 +50,10 @@ const QuorumInput = ({
 							value={value}
 							min="1"
 							errorText={quorumError}
-							onChange={event =>
-								onChange(event.nativeEvent.target.value)
-							}
+							onChange={event => {
+								let newValue = event.target.value;
+								onChange(newValue > 0? newValue > divider? divider : newValue : 1)
+							}}
 						/>
 					</GridItem>
 					<GridItem xs={6} lg={6} md={6}>
@@ -52,11 +61,13 @@ const QuorumInput = ({
 							type={"number"}
 							value={divider}
 							min="1"
+							onBlur={() => {if(divider < value) onChangeDivider(value)}}
 							errorText={dividerError}
 							adornment={"/"}
-							onChange={event =>
-								onChangeDivider(event.nativeEvent.target.value)
-							}
+							onChange={event => {
+								let newValue = event.target.value;
+								onChangeDivider(newValue > 0? newValue : 1)
+							}}
 						/>
 					</GridItem>
 				</Grid>

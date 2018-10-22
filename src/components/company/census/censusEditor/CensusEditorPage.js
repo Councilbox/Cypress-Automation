@@ -8,6 +8,7 @@ import {
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
 import CensusParticipants from "./CensusParticipants";
+import { isMobile } from 'react-device-detect';
 
 class CensusEditorPage extends React.Component {
 	state = {
@@ -55,7 +56,7 @@ class CensusEditorPage extends React.Component {
 
 		return (
 			<CardPageLayout title={census.censusName || translate.census}>
-				<div style={{padding: '2.2em', paddingTop: '0'}}>
+				<div style={{padding: isMobile? '0.6em' : '2em', paddingTop: '0'}}>
 					{loading ? (
 						<LoadingSection />
 					) : (

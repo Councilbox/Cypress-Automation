@@ -15,6 +15,7 @@ import {
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
+import { isMobile } from 'react-device-detect';
 
 
 class AddConvenedParticipantButton extends React.Component {
@@ -126,7 +127,7 @@ class AddConvenedParticipantButton extends React.Component {
 					emailList: emailsToCheck
 				}
 			});
-	
+
 			if(!response.data.checkUniqueCouncilEmails.success){
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
@@ -140,13 +141,12 @@ class AddConvenedParticipantButton extends React.Component {
 					}
 				})
 			}
-	
+
 			if(participant.email === representative.email){
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
-	
 		}
 
 		this.setState({
@@ -181,7 +181,7 @@ class AddConvenedParticipantButton extends React.Component {
 						textTransform: "none"
 					}}
 					textPosition="after"
-					icon={<ButtonIcon type="add" color={primary} />}
+					icon={!isMobile? <ButtonIcon type="add" color={primary} /> : null}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
 						marginRight: "1em",

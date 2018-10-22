@@ -9,6 +9,7 @@ import { isMobile } from 'react-device-detect';
 import { TextArea } from 'antd/lib/input/index';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
+import withTranslations from '../HOCs/withTranslations';
 
 class RichTextInput extends React.Component {
 	state = {
@@ -67,10 +68,9 @@ class RichTextInput extends React.Component {
 	};
 
 	render() {
-		const { tags, loadDraft, errorText, required } = this.props;
+		const { tags, loadDraft, errorText, required, translate } = this.props;
 		const secondary = getSecondary();
 		const toolbarConfig = {
-			// Optionally specify the groups to display (displayed in the order listed).
 			display: [
 				"INLINE_STYLE_BUTTONS",
 				"BLOCK_TYPE_BUTTONS",
@@ -81,44 +81,44 @@ class RichTextInput extends React.Component {
 			],
 			INLINE_STYLE_BUTTONS: [
 				{
-					label: "Negrita", //TRADUCCION
+					label: translate.bold,
 					style: "BOLD",
 					className: "custom-css-class"
 				},
 				{
-					label: "Cursiva", //TRADUCCION
+					label: translate.italic,
 					style: "ITALIC"
 				},
 				{
-					label: "Subrayado", //TRADUCCION
+					label: translate.underline,
 					style: "UNDERLINE"
 				}
 			],
 			BLOCK_TYPE_DROPDOWN: [
 				{
-					label: "Normal", //TRADUCCION
+					label: translate.normal,
 					style: "unstyled"
 				},
 				{
-					label: "Cabecera grande", //TRADUCCION
+					label: translate.header_large,
 					style: "header-one"
 				},
 				{
-					label: "Cabecera mediana", //TRADUCCION
+					label: translate.header_medium,
 					style: "header-two"
 				},
 				{
-					label: "Cabecera pequeña", //TRADUCCION
+					label: translate.header_small,
 					style: "header-three"
 				}
 			],
 			BLOCK_TYPE_BUTTONS: [
 				{
-					label: "Lista desordenada", //TRADUCCION
+					label: translate.unsorted_list,
 					style: "unordered-list-item"
 				},
 				{
-					label: "Lista ordenada", //TRADUCCION
+					label: translate.ordered_list,
 					style: "ordered-list-item"
 				}
 			]
@@ -216,4 +216,4 @@ class RichTextInput extends React.Component {
 	}
 }
 
-export default RichTextInput;
+export default withTranslations()(RichTextInput);

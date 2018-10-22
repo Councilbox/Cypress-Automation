@@ -60,7 +60,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				}}
 			>
 				<h3 style={{ fontWeight: "600" }}>{title}</h3>
-				<div>{subtitle}</div>
+				<div style={{fontSize: '13px'}}>{subtitle}</div>
 			</div>
 		</div>
 );

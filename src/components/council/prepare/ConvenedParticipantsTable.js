@@ -1,6 +1,6 @@
 import React from "react";
 import { TableCell, TableRow } from "material-ui/Table";
-import { Tooltip } from "material-ui";
+import { Tooltip, Card } from "material-ui";
 import { getSecondary } from "../../../styles/colors";
 import * as CBX from "../../../utils/CBX";
 import {
@@ -21,6 +21,7 @@ import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton"
 import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
 import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
 import AttendComment from "./modals/AttendComment";
+import { isMobile } from 'react-device-detect';
 
 
 class ConvenedParticipantsTable extends React.Component {
@@ -127,49 +128,53 @@ class ConvenedParticipantsTable extends React.Component {
 							ref={table => (this.table = table)}
 							translate={translate}
 							menuButtons={
-								<React.Fragment>
+								<div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'}}>
 									{!hideNotifications &&
 										<Tooltip
 											title={
 												translate.tooltip_refresh_convene_email_state_assistance
 											}
 										>
-											<BasicButton
-												floatRight
-												text={translate.refresh_convened}
-												color={getSecondary()}
-												buttonStyle={{
-													margin: "0",
-													marginRight: '1.2em'
-												}}
-												textStyle={{
-													color: "white",
-													fontWeight: "700",
-													fontSize: "0.9em",
-													textTransform: "none"
-												}}
-												icon={
-													<ButtonIcon
-														color="white"
-														type="refresh"
-													/>
-												}
-												textPosition="after"
-												onClick={() =>
-													this.refreshEmailStates()
-												}
-											/>
+											<div>
+												<BasicButton
+													floatRight
+													text={translate.refresh_convened}
+													color={getSecondary()}
+													buttonStyle={{
+														margin: "0",
+														marginRight: '1.2em'
+													}}
+													textStyle={{
+														color: "white",
+														fontWeight: "700",
+														fontSize: "0.9em",
+														textTransform: "none"
+													}}
+													icon={
+														<ButtonIcon
+															color="white"
+															type="refresh"
+														/>
+													}
+													textPosition="after"
+													onClick={() =>
+														this.refreshEmailStates()
+													}
+												/>
+											</div>
 										</Tooltip>
 									}
 									{!hideAddParticipant &&
-										<AddConvenedParticipantButton
-											participations={participations}
-											translate={translate}
-											councilId={council.id}
-											refetch={refetch}
-										/>
+										<div>
+											<AddConvenedParticipantButton
+												participations={participations}
+												translate={translate}
+												councilId={council.id}
+												refetch={refetch}
+											/>
+										</div>
 									}
-								</React.Fragment>
+								</div>
 							}
 							defaultLimit={PARTICIPANTS_LIMITS[0]}
 							defaultFilter={"fullName"}
@@ -216,155 +221,6 @@ class ConvenedParticipantsTable extends React.Component {
 												}
 												{...this.props}
 											/>
-											{/* {!!participant.representative && (
-												<TableRow
-													hover={true}
-													style={{
-														cursor: "pointer",
-														backgroundColor:
-															"WhiteSmoke"
-													}}
-													onClick={() =>
-														this.setState({
-															editParticipant: true,
-															editIndex: index
-														})
-													}
-												>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{`${
-																translate.represented_by
-																}: ${
-																participant
-																	.representative
-																	.name
-																} ${
-																participant
-																	.representative
-																	.surname
-																}`}
-														</div>
-													</TableCell>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{
-																participant
-																	.representative
-																	.dni
-															}
-														</div>
-													</TableCell>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{
-																participant
-																	.representative
-																	.email
-															}
-														</div>
-													</TableCell>
-													<TableCell>
-														<div
-															style={{
-																fontSize:
-																	"0.9em",
-																width: "100%"
-															}}
-														>
-															{
-																participant
-																	.representative
-																	.position
-															}
-														</div>
-													</TableCell>
-													<TableCell />
-													{this.props
-														.participations && (
-															<TableCell />
-														)}
-													{!hideNotifications &&
-														<React.Fragment>
-															<TableCell>
-																{participant
-																	.representative
-																	.notifications
-																	.length > 0 ? (
-																		<Tooltip
-																			title={
-																				translate[
-																				CBX.getTranslationReqCode(
-																					participant
-																						.representative
-																						.notifications[0]
-																						.reqCode
-																				)
-																				]
-																			}
-																		>
-																			<img
-																				style={{
-																					height:
-																						"2.1em",
-																					width:
-																						"auto"
-																				}}
-																				src={CBX.getEmailIconByReqCode(
-																					participant
-																						.representative
-																						.notifications[0]
-																						.reqCode
-																				)}
-																				alt="email-state-icon"
-																			/>
-																		</Tooltip>
-																	) : (
-																		""
-																	)}
-															</TableCell>
-															{CBX.councilHasAssistanceConfirmation(
-																council
-															) && (
-																	<TableCell>
-																		<AttendIntentionIcon
-																			participant={participant.representative.live}
-																			showCommentIcon
-																			onCommentClick={this.showModalComment({
-																				text: participant.representative.live.assistanceComment,
-																				author: `${participant.representative.name} ${participant.representative.surname}`
-																			})}
-																			translate={translate}
-																			size="2em"
-																		/>
-																	</TableCell>
-																)}
-														</React.Fragment>
-													}
-
-													<TableCell>
-
-													</TableCell>
-												</TableRow>
-											)} */}
 										</React.Fragment>
 									);
 								}
@@ -432,6 +288,90 @@ class HoverableRow extends React.Component {
 		if(participant.live.representative){
 			representative = participant.live.representative;
 		}
+
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+                    onClick={editParticipant}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.participant_data}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+							{!!representative &&
+								<React.Fragment>
+									<br />
+									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+								</React.Fragment>
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.dni}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!!representative?
+								<React.Fragment>
+									{representative.dni}
+								</React.Fragment>
+							:
+								participant.dni
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.position}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!!representative?
+								<React.Fragment>
+									{representative.position}
+								</React.Fragment>
+							:
+								participant.position
+							}
+                        </GridItem>
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.votes}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{!CBX.isRepresentative(participant) &&
+								`${
+									participant.numParticipations
+								} (${(
+									(participant.numParticipations /
+										totalVotes) *
+									100
+								).toFixed(2)}%)`
+							}
+                        </GridItem>
+						{this.props.participations && (
+							<React.Fragment>
+								<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+									{translate.census_type_social_capital}
+								</GridItem>
+								<GridItem xs={7} md={7}>
+									{!CBX.isRepresentative(participant) &&
+										`${participant.socialCapital} (${(
+										(participant.socialCapital /
+											socialCapital) *
+										100).toFixed(2)}%)`
+									}
+
+								</GridItem>
+							</React.Fragment>
+						)}
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+						<DownloadCBXDataButton
+							translate={translate}
+							participantId={participant.id}
+						/>
+                    </div>
+                </Card>
+            )
+        }
 
 		return (
 			<TableRow
@@ -556,20 +496,6 @@ class HoverableRow extends React.Component {
 						)}
 					</React.Fragment>
 				}
-				<TableCell>
-					<div
-						style={{
-							width: '4em'
-						}}
-					>
-						{this.state.showActions &&
-							<DownloadCBXDataButton
-								translate={translate}
-								participantId={participant.id}
-							/>
-						}
-					</div>
-				</TableCell>
 			</TableRow>
 		)
 	}

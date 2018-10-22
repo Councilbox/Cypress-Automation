@@ -5,9 +5,13 @@ import {
 	ButtonIcon,
 	CardPageLayout,
 	Checkbox,
+	Grid,
+	GridItem,
 	EnhancedTable,
 	ErrorWrapper
 } from "../../../displayComponents";
+import { Card } from 'material-ui';
+import { isMobile } from 'react-device-detect';
 import { compose, graphql, withApollo } from "react-apollo";
 import { cloneDrafts, platformDrafts } from "../../../queries";
 import { TableCell, TableRow } from "material-ui/Table";
@@ -193,14 +197,14 @@ class PlatformDrafts extends React.Component {
 												<BasicButton
 													text={`${translate.download} ${
 														selectedValues.length
-													} ${translate.drafts} ${
-														translate.to
-													} '${translate.my_drafts}'`}
+														} ${translate.drafts} ${
+															translate.to
+														} '${translate.my_drafts}'`
+													}
 													color={"white"}
 													textStyle={{
 														color: primary,
 														fontWeight: "700",
-														fontSize: "1em",
 														textTransform: "none"
 													}}
 													textPosition="after"
@@ -210,9 +214,7 @@ class PlatformDrafts extends React.Component {
 															color={primary}
 														/>
 													}
-													onClick={() =>
-														this.cloneDrafts()
-													}
+													onClick={() => this.cloneDrafts()}
 													buttonStyle={{
 														marginRight: "1em",
 														border: `2px solid ${primary}`,
@@ -329,11 +331,51 @@ class HoverableRow extends React.Component {
 		});
 	}
 
+
+
 	render() {
 		const { draft, translate, draftTypes } = this.props;
 		let isChecked = this.props.isChecked(
 			draft.id
 		);
+
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+					onClick={() => this.props.updateSelectedValues(draft.id)}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.name}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{draft.title}
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.type}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{translate[draftTypes[draft.type].label]}
+                        </GridItem>
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+						{isChecked &&
+							<Checkbox
+								value={isChecked}
+								checked={isChecked}
+								onChange={() =>
+									this.props.updateSelectedValues(
+										draft.id
+									)
+								}
+							/>
+						}
+                    </div>
+                </Card>
+            )
+        }
 
 		return (
 			<TableRow

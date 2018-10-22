@@ -15,6 +15,7 @@ import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../
 import { checkValidEmail } from "../../../utils";
 import { downloadFile } from "../../../utils/CBX";
 import FontAwesome from 'react-fontawesome';
+import { isMobile } from 'react-device-detect';
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
@@ -481,6 +482,10 @@ class ImportCensusButton extends React.Component {
 		const { step, downloading } = this.state;
 		const primary = getPrimary();
 		const secondary = getSecondary();
+
+		if(isMobile){
+			return <span />
+		}
 
 		return (
 			<React.Fragment>

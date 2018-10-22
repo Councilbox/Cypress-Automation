@@ -72,9 +72,8 @@ class RequestWordMenu extends React.Component {
                 style={{
                     maxWidth: '500px'
                 }}
-                //TRADUCCION
             >
-                Lo sentimos, no puede solicitar palabra porque no dispone de un micrófono o dispositivo de entrada de audio.
+                {this.props.translate.sorry_cant_ask_word}
             </div>
         )
     }

@@ -558,7 +558,7 @@ class StepNotice extends React.Component {
 									open={this.state.changeCensusModal}
 									acceptAction={this.changeCensus}
 									buttonAccept={translate.want_census_change}
-									buttonCancel={'No cambiar'}//TRADUCCION
+									buttonCancel={translate.dont_change}
 									bodyText={<div>{translate.census_change_statute}</div>}
 									title={translate.census_change}
 								/>

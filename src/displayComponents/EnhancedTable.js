@@ -160,7 +160,10 @@ class EnhancedTable extends React.Component {
 
 		return (
 			<div>
-				<Grid style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+				{isMobile && !!this.props.menuButtons &&
+					this.props.menuButtons
+				}
+				<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
 					{limits && (
 						<div style={{ width: '5em' }}>
 							<SelectInput
@@ -205,7 +208,7 @@ class EnhancedTable extends React.Component {
 								</div>
 							))
 						)}
-						{!!this.props.menuButtons &&
+						{!!this.props.menuButtons && !isMobile &&
 							this.props.menuButtons
 						}
 						{fields && (
@@ -242,7 +245,7 @@ class EnhancedTable extends React.Component {
 							</div>
 						}
 					</div>
-				</Grid>
+				</div>
 				{!isMobile?
 					<Table style={{ maxWidth: "100%", tableLayout: 'auto'}}>
 						<TableHead>
@@ -289,7 +292,6 @@ class EnhancedTable extends React.Component {
 				:
 					children
 				}
-				
 				{loading &&
 					<div style={{ marginTop: '3em' }}>
 						<LoadingSection />

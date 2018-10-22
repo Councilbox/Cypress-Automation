@@ -172,7 +172,7 @@ class ActEditorPage extends React.Component {
         ];
 
         tabs.push({
-            text: 'Grabaciones', //TRADUCCION
+            text: translate.recordings_tab,
             component: () => {
                 return (
                     <TabContainer>

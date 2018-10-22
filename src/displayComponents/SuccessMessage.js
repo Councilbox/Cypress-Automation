@@ -5,7 +5,7 @@ import { Typography } from 'material-ui';
 const SuccessMessage = ({ message }) => (
 	<div
 		style={{
-			width: "500px",
+			width: "100%",
 			display: "flex",
 			alignItems: "center",
 			alignContent: "center",
@@ -16,7 +16,7 @@ const SuccessMessage = ({ message }) => (
 			className="material-icons"
 			style={{
 				fontSize: "6em",
-				color: "green"
+				color: "limegreen"
 			}}
 		>
 			check_circle

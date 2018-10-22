@@ -79,7 +79,7 @@ class StepPreview extends React.Component {
 						message={this.props.translate.council_sended}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,				
+						autoClose: true,
 						className: "successToast"
 					}
 				)
@@ -188,7 +188,7 @@ class StepPreview extends React.Component {
 						message={this.props.translate.changes_saved}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,				
+						autoClose: true,
 						className: "successToast"
 					}
 				);

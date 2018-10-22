@@ -82,7 +82,7 @@ class AgendaMenu extends React.Component {
     agendaVotingMessage = () => {
         const { translate, agenda } = this.props;
         if(!CBX.agendaVotingsOpened(agenda)) return translate.agenda_votations_closed;
-        return 'Votaciones abiertas'; //TRADUCCION
+        return translate.voting_open;
     }
 
     canComment = (agenda, participant) => {
@@ -128,27 +128,27 @@ class AgendaMenu extends React.Component {
                                         <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
                                             <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
                                                 {agenda.votings[0].vote === -1 &&
-                                                    'Aun no has votado'
+                                                    translate.you_havent_voted_yet
                                                 }
                                                 {agenda.votings[0].vote === 0 &&
-                                                    <React.Fragment /*TRADUCCION*/>
-                                                        {'Has votado: En contra'}
+                                                    <React.Fragment>
+                                                        {`${translate.you_have_voted}: ${translate.against_btn}`}
                                                     </React.Fragment>
                                                 }
                                                 {agenda.votings[0].vote === 1 &&
-                                                    <React.Fragment /*TRADUCCION*/>
-                                                        {'Has votado: A favor'}
+                                                    <React.Fragment>
+                                                        {`${translate.you_have_voted}: ${translate.in_favor_btn}`}
                                                     </React.Fragment>
                                                 }
                                                 {agenda.votings[0].vote === 2 &&
-                                                    <React.Fragment /*TRADUCCION*/>
-                                                        {'Has votado: Abstención'}
+                                                    <React.Fragment>
+                                                        {`${translate.you_have_voted}: ${translate.abstention_btn}`}
                                                     </React.Fragment>
                                                 }
                                             </Typography>
                                             <BasicButton
                                                 color={this.state.voting && this.state.open? primary : 'white'}
-                                                text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : 'Cambiar voto'} //TRADUCCION
+                                                text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : translate.change_vote}
                                                 textStyle={{
                                                     color: this.state.voting && this.state.open? 'white' : primary,
                                                     fontWeight: '700',

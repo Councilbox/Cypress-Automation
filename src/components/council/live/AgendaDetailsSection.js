@@ -157,7 +157,7 @@ class AgendaDetailsSection extends React.Component {
 												})}
 											/>
 										:
-											'Sin descripción' //TRADUCCION
+											translate.no_description
 										}
 									</React.Fragment>
 								}

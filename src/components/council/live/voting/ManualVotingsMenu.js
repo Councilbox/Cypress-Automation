@@ -66,8 +66,8 @@ class ManualVotingsMenu extends React.Component {
                 >
                     <Grid>
                         <GridItem xs={12} md={2} lg={2} style={{display: 'flex', alignItems: 'center'}}>
-                            Votos manuales <br /> {/*TRADUCCION*/}
-                            {`(disponibles ${maxVoteManual})` /*TRADUCCION*/}
+                            {translate.manual_votes} <br />
+                            {`(${translate.avaliable} ${maxVoteManual})`}
                         </GridItem>
                         <GridItem xs={12} md={2} lg={2}>
                             <TextInput

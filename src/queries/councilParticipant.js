@@ -170,6 +170,8 @@ export const convenedcouncilParticipants = gql`
 					representative {
 						name
 						surname
+						dni
+						position
 					}
 				}
 				city

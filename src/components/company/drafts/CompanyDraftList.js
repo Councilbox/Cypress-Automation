@@ -9,10 +9,14 @@ import {
 	ButtonIcon,
 	CardPageLayout,
 	CloseIcon,
+	Grid,
+	GridItem,
 	EnhancedTable,
 	ErrorWrapper
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
+import { Card } from 'material-ui';
+import { isMobile } from 'react-device-detect';
 import { TableCell, TableRow } from "material-ui/Table";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { DRAFTS_LIMITS } from "../../../constants";
@@ -84,38 +88,38 @@ class CompanyDraftList extends React.Component {
 
 		return (
 			<CardPageLayout title={translate.drafts}>
-				<BasicButton
-					text={translate.drafts_new}
-					color={getPrimary()}
-					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						textTransform: 'none'
-					}}
-					onClick={() =>
-						this.setState({
-							newForm: true
-						})
-					}
-					icon={<ButtonIcon type="add" color="white" />}
-				/>
-				<Link
-					to={`/company/${company.id}/platform/drafts/`}
-					style={{ marginLeft: "1em" }}
-				>
+				<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '1em'}}>
 					<BasicButton
-						text={translate.general_drafts}
-						color={getSecondary()}
+						text={translate.drafts_new}
+						color={getPrimary()}
 						textStyle={{
 							color: "white",
 							fontWeight: "700",
 							textTransform: 'none'
 						}}
+						onClick={() =>
+							this.setState({
+								newForm: true
+							})
+						}
 						icon={<ButtonIcon type="add" color="white" />}
 					/>
-				</Link>
-				<br />
-				<br />
+					<Link
+						to={`/company/${company.id}/platform/drafts/`}
+						style={{ marginLeft: "1em" }}
+					>
+						<BasicButton
+							text={translate.general_drafts}
+							color={getSecondary()}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								textTransform: 'none'
+							}}
+							icon={<ButtonIcon type="add" color="white" />}
+						/>
+					</Link>
+				</div>
 				<React.Fragment>
 					{error ? (
 						<div>
@@ -170,7 +174,7 @@ class CompanyDraftList extends React.Component {
 												draft={draft}
 												draftTypes={draftTypes}
 												company={this.props.company}
-											/>	
+											/>
 										);
 									})}
 								</EnhancedTable>
@@ -217,6 +221,35 @@ class HoverableRow extends React.Component {
 	render() {
 		const { draft, draftTypes, translate } = this.props;
 
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+					onClick={() => { bHistory.push(`/company/${this.props.company.id}/draft/${draft.id}`);
+				}}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.name}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{draft.title}
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.type}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{translate[draftTypes[draft.type].label]}
+                        </GridItem>
+                    </Grid>
+                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+						{this.props.renderDeleteIcon(draft.id)}
+                    </div>
+                </Card>
+            )
+        }
+
 		return (
 			<TableRow
 				hover
@@ -237,13 +270,7 @@ class HoverableRow extends React.Component {
 					{draft.title}
 				</TableCell>
 				<TableCell>
-					{
-						translate[
-							draftTypes[
-								draft.type
-							].label
-						]
-					}
+					{translate[draftTypes[draft.type].label]}
 				</TableCell>
 				<TableCell>
 					<div style={{width: '3em'}}>

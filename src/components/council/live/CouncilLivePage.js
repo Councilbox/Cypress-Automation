@@ -319,6 +319,7 @@ class CouncilLivePage extends React.Component {
 										{config.videoEnabled && config.videoVersion === videoVersions.CMP &&
 											<CMPVideoIFrame
 												council={council}
+												translate={translate}
 											/>
 										}
 										{council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP &&

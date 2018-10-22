@@ -42,6 +42,7 @@ class Agendas extends React.Component {
     agendaVotingsToastId = null;
 
     componentDidUpdate(prevProps){
+        const { translate } = this.props;
 
         if(prevProps.data.agendas){
             const { agendas: actualAgendas } = this.props.data;
@@ -57,7 +58,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
-                        `Se ha abierto el punto del día ${agendaToCheck.orderIndex}`,//TRADUCCION
+                        `${translate.point_of_day_opened_number} ${agendaToCheck.orderIndex}`,
                         () => this.agendaStateToastId = null
                     );
                 }
@@ -67,7 +68,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
-                        `Se ha cerrado el punto del día ${agendaToCheck.orderIndex}`,//TRADUCCION
+                        `${translate.point_closed_num} ${agendaToCheck.orderIndex}`,
                         () => this.agendaStateToastId = null
                     );
                 }
@@ -77,7 +78,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `Se han abierto las votaciones del punto del día ${agendaToCheck.orderIndex}`,//TRADUCCION
+                        `${translate.point_num_votings_open} ${agendaToCheck.orderIndex}`,//TRADUCCION
                         () => this.agendaVotingsToastId = null
                     );
                 }
@@ -87,7 +88,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `Se han cerrado las votaciones del punto del día ${agendaToCheck.orderIndex}`,//TRADUCCION
+                        `${translate.point_num_votings_closed} ${agendaToCheck.orderIndex}`,//TRADUCCION
                         () => this.agendaVotingsToastId = null
                     )
                 }

@@ -5,10 +5,9 @@ import Dialog, {
 import withTranslations from '../HOCs/withTranslations';
 import { LoadingSection } from '../displayComponents';
 
-//TRADUCCION
 const NoConnectionModal = ({ open, translate }) => (
     <Dialog open={open}>
-        <DialogTitle id="simple-dialog-title" style={{borderBottom: '1px solid gainsboro'}} /*TRADUCCION*/>Conexión perdida</DialogTitle>
+        <DialogTitle id="simple-dialog-title" style={{borderBottom: '1px solid gainsboro'}}>{translate.connection_lost}</DialogTitle>
         <div style={{
             minWidth: '500px',
             minHeight: '40vh',
@@ -19,8 +18,8 @@ const NoConnectionModal = ({ open, translate }) => (
         }}>
             <img src={'/img/logo-icono.png'} alt={'Icon'} style={{width: '6.5em', height: 'auto', marginBottom: '1.2em'}} />
             <div style={{display: 'flex', flexDirection: 'row'}}>
-                <div style={{fontWeight: '700', fontSize: '1.1em'}} /*TRADUCCION*/>
-                    Reintentando conectar con el servidor...
+                <div style={{fontWeight: '700', fontSize: '1.1em'}}>
+                    {translate.trying_to_reconnect}
                     <LoadingSection size={20} />
                 </div>
             </div>

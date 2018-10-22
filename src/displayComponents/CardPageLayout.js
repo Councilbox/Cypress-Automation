@@ -4,6 +4,7 @@ import { lightGrey, getPrimary, getSecondary, primary, secondary } from "../styl
 import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
 import { Paper } from "material-ui";
+import { isMobile } from 'react-device-detect';
 
 
 const CardPageLayout = ({

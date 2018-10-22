@@ -15,6 +15,7 @@ import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
 } from "../../../../../utils/validation";
+import { isMobile } from 'react-device-detect';
 
 
 class AddCensusParticipantButton extends React.Component {
@@ -184,7 +185,7 @@ class AddCensusParticipantButton extends React.Component {
 						textTransform: "none"
 					}}
 					textPosition="after"
-					icon={<ButtonIcon type="add" color={primary} />}
+					icon={!isMobile? <ButtonIcon type="add" color={primary} /> : null}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
 						marginRight: "1em",

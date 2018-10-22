@@ -51,7 +51,6 @@ class CMPVideoIFrame extends React.Component {
                                     Lo sentimos, algo ha ocurrido con el servidor de video, disculpe las molestias
                                 </div>
                             }
-                            
                         </div>
                     )}
                 </ConfigContext.Consumer>

@@ -136,7 +136,7 @@ class LiveParticipantEditor extends React.Component {
 							>
 								{!CBX.isRepresented(participant) &&
 									<BasicButton
-										text={participant.signed? 'Ha firmado' : "Firmar"}//TRADUCCION
+										text={participant.signed? translate.user_signed : translate.to_sign}
 										fullWidth
 										buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
 										type="flat"
@@ -327,8 +327,8 @@ class LiveParticipantEditor extends React.Component {
 								</GridItem>
 							</React.Fragment>
 						) : (
-							<GridItem xs={12} md={12} lg={12}/*TRADUCCION*/>
-								No hay envíos para mostrar
+							<GridItem xs={12} md={12} lg={12}>
+								{translate.no_files_sent}
 							</GridItem>
 						)
 						}

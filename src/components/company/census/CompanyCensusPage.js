@@ -4,12 +4,14 @@ import {
 	CardPageLayout,
 	CloseIcon,
 	DateWrapper,
+	Grid,
+	GridItem,
 	EnhancedTable,
 	LoadingSection
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { censuses, deleteCensus, setDefaultCensus } from "../../../queries/census";
-import { Tooltip } from 'material-ui';
+import { Tooltip, Card } from 'material-ui';
 import { TableCell, TableRow } from "material-ui/Table";
 import { withRouter } from 'react-router-dom';
 import FontAwesome from "react-fontawesome";
@@ -20,6 +22,7 @@ import AddCensusButton from "./AddCensusButton";
 import EditCensusModal from './censusEditor/modals/EditCensusModal';
 import { bHistory } from "../../../containers/App";
 import { CENSUS_LIMITS } from "../../../constants";
+import { isMobile } from 'react-device-detect';
 
 class CompanyCensusPage extends React.Component {
 	state = {
@@ -90,7 +93,7 @@ class CompanyCensusPage extends React.Component {
 					limits={CENSUS_LIMITS}
 					page={1}
 					menuButtons={
-						<div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+						<div style={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile? 'flex-start' : 'center'}}>
 							<div>
 								<AddCensusButton
 									translate={translate}
@@ -209,12 +212,179 @@ class HoverableRow extends React.PureComponent {
                 }}
             />
         );
-    }
+	}
+
 
     render() {
         const { census, translate } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
+
+		const actions = <React.Fragment>
+			{census.id ===
+			this.props.changingDefault ? (
+				<div
+					style={{
+						display: "inline-block"
+					}}
+				>
+					<LoadingSection size={20} />
+				</div>
+			) : (
+				<Tooltip title={translate.change_default_census_tooltip}>
+					<FontAwesome
+						name={
+							census.defaultCensus ===
+							1
+								? "star"
+								: "star-o"
+						}
+						style={{
+							cursor: "pointer",
+							fontSize: "2em",
+							color: primary
+						}}
+						onClick={event => {
+							event.stopPropagation();
+							this.props.setDefaultCensus(
+								census.id
+							);
+						}}
+					/>
+				</Tooltip>
+
+			)}
+			<Tooltip title={translate.manage_participants}>
+				<FontAwesome
+					name={"users"}
+					style={{
+						cursor: "pointer",
+						fontSize: "1.8em",
+						marginLeft: "0.2em",
+						color: primary
+					}}
+					onClick={event => {
+						event.stopPropagation();
+						this.props.openCensusEdit(census.id)
+					}}
+				/>
+			</Tooltip>
+			<Tooltip title={translate.edit}>
+				<FontAwesome
+					name={"edit"}
+					style={{
+						cursor: "pointer",
+						fontSize: "1.8em",
+						marginLeft: "0.2em",
+						color: primary
+					}}
+					onClick={event => {
+						event.stopPropagation();
+						this.props.updateState({
+							editId: census.id
+						});
+					}}
+				/>
+			</Tooltip>
+			<Tooltip title={translate.clone_census}>
+				<FontAwesome
+					name={"clone"}
+					style={{
+						cursor: "pointer",
+						fontSize: "1.8em",
+						marginLeft: "0.2em",
+						color: primary
+					}}
+					onClick={event => {
+						event.stopPropagation();
+						this.props.updateState({
+							cloneModal: true,
+							index: this.props.index
+						});
+					}}
+				/>
+			</Tooltip>
+			<Tooltip title={translate.delete}>
+				<span>
+					<CloseIcon
+						style={{
+							color: primary,
+							marginTop: "-10px"
+						}}
+						onClick={event => {
+							event.stopPropagation();
+							this.props.updateState({
+								deleteModal: true,
+								deleteCensus: census.id
+							});
+						}}
+					/>
+				</span>
+			</Tooltip>
+		</React.Fragment>
+
+		if(isMobile){
+            return(
+                <Card
+                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+					onClick={() => this.props.openCensusEdit(census.id)}
+                >
+                    <Grid>
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.name}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{census.defaultCensus === 1 &&
+								<Tooltip title={translate.default_census} >
+									<FontAwesome
+										name={"star"}
+										style={{
+											cursor: "pointer",
+											fontSize: "1.2em",
+											marginRight: '0.6em',
+											color: secondary
+										}}
+									/>
+								</Tooltip>
+							}
+							{census.censusName}
+                        </GridItem>
+
+                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.creation_date}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							<DateWrapper
+								format="DD/MM/YYYY HH:mm"
+								date={census.creationDate}
+							/>
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.last_edit}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							<DateWrapper
+								format="DD/MM/YYYY HH:mm"
+								date={census.lastEdit}
+							/>
+                        </GridItem>
+
+						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                            {translate.creator}
+                        </GridItem>
+                        <GridItem xs={7} md={7}>
+							{`${!!census.creator? census.creator.name : ''} ${!!census.creator? census.creator.surname : ''}`}
+                        </GridItem>
+
+                        <GridItem xs={12} md={12} >
+                        	{actions}
+                        </GridItem>
+
+                    </Grid>
+                </Card>
+            )
+        }
 
         return (
 			<TableRow
@@ -258,108 +428,7 @@ class HoverableRow extends React.PureComponent {
 				<TableCell>
 					<div style={{ width: '12.5em', float: "right" }}>
 						{this.state.showActions &&
-							<React.Fragment>
-								{census.id ===
-								this.props.changingDefault ? (
-									<div
-										style={{
-											display: "inline-block"
-										}}
-									>
-										<LoadingSection size={20} />
-									</div>
-								) : (
-									<Tooltip title={translate.change_default_census_tooltip}>
-										<FontAwesome
-											name={
-												census.defaultCensus ===
-												1
-													? "star"
-													: "star-o"
-											}
-											style={{
-												cursor: "pointer",
-												fontSize: "2em",
-												color: primary
-											}}
-											onClick={event => {
-												event.stopPropagation();
-												this.props.setDefaultCensus(
-													census.id
-												);
-											}}
-										/>
-									</Tooltip>
-
-								)}
-								<Tooltip title={translate.manage_participants}>
-									<FontAwesome
-										name={"users"}
-										style={{
-											cursor: "pointer",
-											fontSize: "1.8em",
-											marginLeft: "0.2em",
-											color: primary
-										}}
-										onClick={event => {
-											event.stopPropagation();
-											this.props.openCensusEdit(census.id)
-										}}
-									/>
-								</Tooltip>
-								<Tooltip title={translate.edit}>
-									<FontAwesome
-										name={"edit"}
-										style={{
-											cursor: "pointer",
-											fontSize: "1.8em",
-											marginLeft: "0.2em",
-											color: primary
-										}}
-										onClick={event => {
-											event.stopPropagation();
-											this.props.updateState({
-												editId: census.id
-											});
-										}}
-									/>
-								</Tooltip>
-								<Tooltip title={translate.clone_census}>
-									<FontAwesome
-										name={"clone"}
-										style={{
-											cursor: "pointer",
-											fontSize: "1.8em",
-											marginLeft: "0.2em",
-											color: primary
-										}}
-										onClick={event => {
-											event.stopPropagation();
-											this.props.updateState({
-												cloneModal: true,
-												index: this.props.index
-											});
-										}}
-									/>
-								</Tooltip>
-								<Tooltip title={translate.delete}>
-									<span>
-										<CloseIcon
-											style={{
-												color: primary,
-												marginTop: "-10px"
-											}}
-											onClick={event => {
-												event.stopPropagation();
-												this.props.updateState({
-													deleteModal: true,
-													deleteCensus: census.id
-												});
-											}}
-										/>
-									</span>
-								</Tooltip>
-							</React.Fragment>
+							actions
 						}
 					</div>
 				</TableCell>

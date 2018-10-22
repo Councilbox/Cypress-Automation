@@ -51,9 +51,11 @@ export const canAddCouncilAttachment = (council, filesize) => {
 	);
 };
 
-export const trialDaysLeft = (company, moment, trialDays) => (
-	trialDays - moment(new Date()).diff(moment(company.creationDate), 'days')
-)
+export const trialDaysLeft = (company, moment, trialDays) => {
+	const left = trialDays - moment(new Date()).diff(moment(company.creationDate), 'days');
+
+	return left <= 0 || isNaN(left)? 0 : left;
+}
 
 export const councilStarted = council => {
 	return council.councilStarted === 1;

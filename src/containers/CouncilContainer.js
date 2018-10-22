@@ -122,7 +122,7 @@ class CouncilContainer extends React.Component {
 							state={[60, 70]}
 							link={"/finished"}
 							title={translate.act_book}
-							desc="Reuniones finalizadas con acta aprobada. Puede estar pendiente de envío."//TRADUCCION ORIGINAL{translate.companies_docu_desc}
+							desc={translate.finished_council_act_approved}
 							icon={"clipboard"}
 						/>
 					);

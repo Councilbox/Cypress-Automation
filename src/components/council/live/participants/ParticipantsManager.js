@@ -175,21 +175,21 @@ class ParticipantsManager extends React.Component {
 				<div style={{minWidth: '14em'}}>
 					<SelectInput
 						fullWidth
-						floatingText={'Tipo de visualización'} //TRADUCCION
+						floatingText={translate.visualization_type}
 						value={this.state.view}
 						onChange={(event => this.setState({ view: event.target.value}))}
 					>
-						<MenuItem value={'STATES'} /*TRADUCCION*/>
-							{'Estado de los participantes'}
+						<MenuItem value={'STATES'}>
+							{translate.by_participant_state}
 						</MenuItem>
-						<MenuItem value={'TYPE'}  /*TRADUCCION*/>
-							{'Tipo de participante'}
+						<MenuItem value={'TYPE'}>
+							{translate.by_participant_type}
 						</MenuItem>
 						<MenuItem value={'ATTENDANCE'}>
 							{translate.assistance_intention}
 						</MenuItem>
-						<MenuItem value={'CREDENTIALS'} /*TRADUCCION*/>
-							{'Envío de credenciales'}
+						<MenuItem value={'CREDENTIALS'}>
+							{translate.by_attend_intention}
 						</MenuItem>
 					</SelectInput>
 				</div>

@@ -73,7 +73,7 @@ class PartnerForm extends React.PureComponent {
                     </GridItem>
                 </Grid>
 
-                <SectionTitle color={primary} text={'Datos personales'} /*TRADUCCION*/ style={{ marginTop: '1.2em' }} />
+                <SectionTitle color={primary} text={translate.personal_data} style={{ marginTop: '1.2em' }} />
                 <Paper elevation={0}>
                     <Grid>
                         {participant.personOrEntity ? (
@@ -230,7 +230,7 @@ class PartnerForm extends React.PureComponent {
                     </Grid>
                 </Paper>
 
-                <SectionTitle color={primary} text={'Ficha'} /*TRADUCCION*/ style={{ marginTop: '2.8em' }} />
+                <SectionTitle color={primary} text={translate.partner_file} style={{ marginTop: '2.8em' }} />
                 <Paper elevation={0}>
                     <Grid>
                         <GridItem xs={6} md={4} lg={4}>
@@ -352,7 +352,7 @@ class PartnerForm extends React.PureComponent {
                     </Grid>
                 </Paper>
 
-                <SectionTitle color={primary} text={'Datos adicionales'} /*TRADUCCION*/ style={{ marginTop: '2.8em' }} />
+                <SectionTitle color={primary} text={translate.additional_data} style={{ marginTop: '2.8em' }} />
                 <Paper elevation={0}>
                     <Grid>
                         <GridItem xs={6} md={6} lg={5}>

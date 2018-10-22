@@ -32,13 +32,13 @@ class Sidebar extends React.Component {
 		{
 			path: `/company/${this.props.company.id}/councils/drafts`,
 			name: "council",
-			sidebarName: 'Reuniones', //TRADUCCION
+			sidebarName: this.props.translate.councils_link,
 			icon: 'import_contacts'
 		},
 		{
 			path: `/company/${this.props.company.id}/signatures/drafts`,
 			name: "signature",
-			sidebarName: 'Firmas', //TRADUCCION
+			sidebarName: this.props.translate.signatures_link,
 			icon: 'border_color'
 		}
 	];
@@ -363,6 +363,7 @@ class Sidebar extends React.Component {
 						{
 							flexDirection: 'row',
 							bottom: 0,
+							overflow: 'hidden',
 							left: 0,
 							width: '100%',
 							alignItems: 'center',

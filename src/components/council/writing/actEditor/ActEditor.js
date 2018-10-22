@@ -487,7 +487,7 @@ class ActEditor extends Component {
 						{!this.props.liveMode &&
 							<div>
 								<BasicButton
-									text={isMobile? 'Enviar borrador' : translate.send_draft_act_review}//TRADUCCION
+									text={isMobile? translate.send_draft_phone_button : translate.send_draft_act_review}
 									color={"white"}
 									disabled={this.state.disableButtons}
 									textStyle={{
@@ -505,7 +505,7 @@ class ActEditor extends Component {
 									}}
 								/>
 								<BasicButton
-									text={isMobile? 'Finalizar' : translate.end_writing_act} //TRADUCCION
+									text={isMobile? translate.finish : translate.end_writing_act} //TRADUCCION
 									loading={this.state.updating}
 									loadingColor={primary}
 									disabled={this.state.updating || this.state.disableButtons}

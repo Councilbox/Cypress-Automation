@@ -29,7 +29,7 @@ const PaginationFooter = ({
 
 	return (
 		<React.Fragment>
-			<GridItem xs={6} lg={6} md={6} style={{fontSize: '0.8rem'}}>
+			<GridItem xs={5} lg={6} md={6} style={{fontSize: '0.7rem'}}>
 				{length > 0
 					? `${translate.table_showing_part1} ${(page - 1) * limit +
 							1} ${translate.table_showing_part2} ${(page - 1) *
@@ -39,7 +39,7 @@ const PaginationFooter = ({
 					  }`
 					: translate.table_no_results}
 			</GridItem>
-			<GridItem xs={6} lg={6} md={6}>
+			<GridItem xs={7} lg={6} md={6}>
 				<div style={{ float: "right" }}>
 					{page > 1 && (
 						<React.Fragment>

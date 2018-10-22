@@ -71,7 +71,7 @@ class AssistanceTokenContainer extends React.Component {
 							participant.councilId
 							}`}
 					/>
-				) : <div>No participant</div>}
+				) : <div>No participante</div>}
 			</React.Fragment>
 		);
 	}

@@ -84,7 +84,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-	
+
 		<Tooltip title={translate.absents}>
 			<div
 				style={{
@@ -116,7 +116,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={"Emitiendo"} /*TRADUCCION*/>
+		<Tooltip title={translate.broadcasting}>
 			<div
 				style={{
 					marginLeft: "1em",
@@ -178,7 +178,7 @@ const VideoParticipantsStats = ({
 				</span>
 			</div>
 		</Tooltip>
-		<Tooltip title={'Pidiendo palabra'} /*TRADUCCION*/>
+		<Tooltip title={translate.asking_word}>
 			<div
 				style={{
 					marginLeft: "1em",

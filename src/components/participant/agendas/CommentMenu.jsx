@@ -74,16 +74,13 @@ class CommentMenu extends React.Component {
 
     render(){
         const secondary = getSecondary();
+        const { translate } = this.props;
         const primary = getPrimary();
         const { vote } = this.state;
         const savedVote = this.props.agenda.votings.find(voting =>
             voting.participantId === this.props.participant.id ||
             (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
         );
-
-        console.log(savedVote);
-
-        //console.log(this.props.agenda.votings, this.props.participant.id);
 
         if(!vote){
             return (<span />);
@@ -100,17 +97,16 @@ class CommentMenu extends React.Component {
                         marginTop: '0.6em'
                     }}
                 >
-                    {/*TRADUCCION*/}
                     <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
                         {(!!savedVote.comment && removeHTMLTags(comment).length > 0)?
-                            'Has comentado'
+                            translate.you_have_commented
                         :
-                            'No has comentado'
+                            translate.you_didnt_comment
                         }
                     </Typography>
                     <BasicButton
                         color={this.state.open? primary : 'white'}
-                        text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0)? 'Editar comentario' : 'Enviar comentario acta'} //TRADUCCION
+                        text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0)? translate.edit_comment : translate.send_minutes_comment}
                         textStyle={{
                             color: this.state.open? 'white' : primary,
                             fontWeight: '700',

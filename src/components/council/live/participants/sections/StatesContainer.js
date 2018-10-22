@@ -70,7 +70,7 @@ class StatesContainer extends React.Component {
 			<Tooltip title="ALT + G">
 				<div>
 					<BasicButton
-						text={isMobile? 'Invitar' : this.props.translate.add_guest} //TRADUCCION
+						text={isMobile? this.props.translate.invite_guest : this.props.translate.add_guest}
 						color={"white"}
 						textStyle={{
 							color: secondary,
@@ -399,7 +399,7 @@ class StatesContainer extends React.Component {
 					</GridItem>
 					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
 						<BasicButton
-							text={this.state.onlyNotSigned? 'Mostrar todos' : 'Mostrar sin firmar'}//TRADUCCION
+							text={this.state.onlyNotSigned? translate.show_all : translate.show_unsigned}
 							color='white'
 							type="flat"
 							textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
