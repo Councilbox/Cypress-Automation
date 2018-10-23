@@ -25,7 +25,7 @@ class CouncilsDashboard extends React.PureComponent {
     _convenedSection = () => {
         return (
             <div style={{width: '100%'}}>
-                {this.props.data.corporationCouncils.map(council => {
+                {this.props.data.corporationConvenedCouncils.map(council => {
                     if(council.state === 10){
                         return (
                             <CouncilItem
@@ -53,7 +53,7 @@ class CouncilsDashboard extends React.PureComponent {
     _celebrationSection = () => {
         return (
             <div style={{width: '100%'}}>
-                {this.props.data.corporationCouncils.map(council => {
+                {this.props.data.corporationLiveCouncils.map(council => {
                     if(council.state === 20){
                         return (
                             <CouncilItem
@@ -108,9 +108,9 @@ class CouncilsDashboard extends React.PureComponent {
                             <Card style={{margin: '1.4em'}}>
                                 <CollapsibleSection trigger={this._convenedTrigger} collapse={this._convenedSection} />
                             </Card>
-                            {/*<Card style={{margin: '1.4em'}}>
+                            <Card style={{margin: '1.4em'}}>
                                 <CollapsibleSection trigger={this._celebrationTrigger} collapse={this._celebrationSection} />
-                            </Card> */}
+                            </Card>
                         </React.Fragment>
                     }
                 </Scrollbar>
@@ -121,7 +121,22 @@ class CouncilsDashboard extends React.PureComponent {
 
 const corporationCouncils = gql`
     query corporationCouncils{
-        corporationCouncils{
+        corporationConvenedCouncils{
+            id
+            name
+            state
+            dateStart
+            councilType
+            prototype
+            participants {
+                id
+            }
+            company{
+                businessName
+            }
+        }
+
+        corporationLiveCouncils{
             id
             name
             state

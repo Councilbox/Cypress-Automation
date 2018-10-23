@@ -14,8 +14,8 @@ const CantCreateCouncilsModal = props => {
             requestClose={props.requestClose}
             bodyText={
                 <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-                    <div style={{marginBottom: '0.8em'}} /*TRADUCCION*/>
-                        Para seguir utilizando esta función debe activar su cuenta premium.
+                    <div style={{marginBottom: '0.8em'}}>
+                        {props.translate.action_need_premium}
                     </div>
                     <CBXContactButton
                         translate={props.translate}

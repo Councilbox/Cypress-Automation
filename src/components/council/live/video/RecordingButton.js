@@ -79,7 +79,7 @@ class RecordingButton extends React.Component {
         const { record } = sessionStatus;
 
         return (
-            <Tooltip title={this.props.council.fullVideoRecord === 1 ? this.props.translate.full_record : record ? this.props.translate.to_stop_recording : this.props.translate.to_start_recording} /*TRADUCCION*/>
+            <Tooltip title={this.props.council.fullVideoRecord === 1 ? this.props.translate.full_record : record ? this.props.translate.to_stop_recording : this.props.translate.to_start_recording}>
                 <div
                     style={{
                         position: 'absolute',

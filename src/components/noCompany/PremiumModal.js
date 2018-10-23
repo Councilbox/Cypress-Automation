@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';
-import CBXContactButton from './CBXContactButton';
+import { TRIAL_DAYS } from '../../config';
 
 class PremiumModal extends React.Component {
 
@@ -41,33 +41,25 @@ class PremiumModal extends React.Component {
 
     render(){
         const { translate } = this.props;
+        const modalWidth = window.innerWidth > 650? 650 : window.innerWidth;
 
-        //TRADUCCION TODO
         return (
             <AlertConfirm
                 open={this.props.open}
                 hideAccept
                 buttonCancel={translate.close}
                 requestClose={this.props.requestClose}
-                title={'Función premium'}
+                title={translate.premium_service}
                 bodyText={
-                    <React.Fragment>
+                    <div style={{width: `${modalWidth}px`}}>
                         {this.state.step === 1 &&
                             <React.Fragment>
                                 <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-                                    <div>
-                                        Para poder realizar esta acción necesita <strong>suscribirse a Councilbox.</strong>
-                                    </div>
-                                    {/* <div>
-                                        Descubra como hacerlo:
-                                    </div>
                                     <div style={{marginBottom: '0.6em'}}>
-                                        <CBXContactButton
-                                            translate={translate}
-                                        />
-                                    </div> */}
+                                        {`${translate.you_need}`} <strong>{`${translate.subscribe_to_councilbox}`}</strong>
+                                    </div>
                                     <BasicButton
-                                        text='Prueba gratuita'
+                                        text={translate.free_trial}
                                         color={primary}
                                         textStyle={{fontWeight: '700', color: 'white', fontSize: '18px',}}
                                         onClick={this.showActivateTrialPage}
@@ -77,36 +69,36 @@ class PremiumModal extends React.Component {
                         }
                         {this.state.step === 2 &&
                             <React.Fragment>
-                                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                                    Este periodo de prueba comenzará en el momento que crees tu primera compañía e incluye:
+                                <div style={{display: 'flex', flexDirection: 'column'}}>
+                                    {translate.trial_begin_first_company}
                                 </div>
                                 <Grid style={{width: '100%', display: 'flex'}}>
                                     <GridItem xs={5} lg={5} md={5} style={{fontWeight: '700', padding: '0.6em'}}>
-                                        Máximo de compañías propias:
+                                        {translate.max_own_companies}
                                     </GridItem>
                                     <GridItem xs={7} lg={7} md={7} style={{padding: '0.6em'}}>
                                         1
                                     </GridItem>
                                     <GridItem xs={5} lg={5} md={5} style={{fontWeight: '700', padding: '0.6em'}}>
-                                        Funcionalidades CBX:
+                                        {translate.cbx_functions}
                                     </GridItem>
                                     <GridItem xs={7} lg={7} md={7} style={{padding: '0.6em'}}>
-                                        Acceso completo
+                                        {translate.full_access}
                                     </GridItem>
                                     <GridItem xs={5} lg={5} md={5} style={{fontWeight: '700', padding: '0.6em'}}>
-                                        Duración:
+                                        {translate.duration}
                                     </GridItem>
                                     <GridItem xs={7} lg={7} md={7} style={{padding: '0.6em'}}>
-                                        5 días
+                                        {`${TRIAL_DAYS} ${translate.input_group_days}`}
                                     </GridItem>
                                     <GridItem xs={12} lg={12} md={12} style={{padding: '0.6em'}}>
-                                        Una vez finalizados los 5 días no podrá seguir usando las funciones de pago, pero se mantendrán guardadas todas su acciones, las cuales podrá retomar una vez active su cuenta premium.
+                                        {translate.when_the_trial_ends.replace('{{TRIAL_DAYS}}', TRIAL_DAYS)}
                                     </GridItem>
                                 </Grid>
                                 <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                                     <div>
                                         <BasicButton
-                                            text='Empezar'
+                                            text={translate.start_trial}
                                             loading={this.state.loading}
                                             success={this.state.success}
                                             color={primary}
@@ -119,10 +111,10 @@ class PremiumModal extends React.Component {
                         }
                         {this.state.step === 3 &&
                             <div>
-                                Prueba gratuita activada correctamente, ya puedes crear tu primera compañía.
+                                {translate.trial_started_can_create_company}
                             </div>
                         }
-                    </React.Fragment>
+                    </div>
                 }
             />
         )

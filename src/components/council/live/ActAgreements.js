@@ -149,6 +149,7 @@ class ActAgreements extends React.Component {
 				<RichTextInput
 					ref={editor => (this.editor = editor)}
 					errorText={this.state.error}
+					translate={translate}
 					loadDraft={
 						<LoadDraftModal
 							ref={modal => (this.modal = modal)}

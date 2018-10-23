@@ -2173,6 +2173,11 @@ export const draftDetails = gql`
 			value
 		}
 
+		quorumTypes {
+			label
+			value
+		}
+
 		draftTypes {
 			id
 			label
@@ -2188,6 +2193,8 @@ export const draftDetails = gql`
 			value
 			label
 		}
+
+
 	}
 `;
 

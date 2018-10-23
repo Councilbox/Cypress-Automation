@@ -78,6 +78,7 @@ class ActLiveSection extends React.Component {
 				<RichTextInput
 					ref={editor => (this.editor = editor)}
 					required
+					translate={translate}
 					loadDraft={
 						<LoadDraftModal
 							ref={modal => (this.modal = modal)}

@@ -255,6 +255,7 @@ class Assistance extends React.Component {
 											<h4>{translate.attendance_comment}:</h4>
 											<RichTextInput
 												errorText={this.state.commentError}
+												translate={translate}
 												value={
 													!!participant.assistanceComment
 														? participant.assistanceComment

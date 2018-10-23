@@ -155,15 +155,15 @@ class SignatureContainer extends React.Component {
 					</Tooltip>
 				</div>
 				<AlertConfirm
-					title="Aviso" //TRADUCCION
+					title={translate.warning}
 					open={this.state.cantCreateSignature}
 					hideAccept
 					buttonCancel={translate.close}
 					requestClose={() => this.setState({ cantCreateSignature: false})}
 					bodyText={
 						<div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-							<div style={{marginBottom: '0.8em'}} /*TRADUCCION*/>
-								No tiene activada esta funcionalidad, puede hacerlo:
+							<div style={{marginBottom: '0.8em'}}>
+								{translate.you_dont_have_this_feature}
 							</div>
 							<CBXContactButton
 								translate={translate}

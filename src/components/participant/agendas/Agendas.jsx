@@ -78,7 +78,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_open} ${agendaToCheck.orderIndex}`,//TRADUCCION
+                        `${translate.point_num_votings_open} ${agendaToCheck.orderIndex}`,
                         () => this.agendaVotingsToastId = null
                     );
                 }
@@ -88,7 +88,7 @@ class Agendas extends React.Component {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_closed} ${agendaToCheck.orderIndex}`,//TRADUCCION
+                        `${translate.point_num_votings_closed} ${agendaToCheck.orderIndex}`,
                         () => this.agendaVotingsToastId = null
                     )
                 }

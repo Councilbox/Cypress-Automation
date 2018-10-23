@@ -1,6 +1,6 @@
-import React from "react"; 
-import FontAwesome from "react-fontawesome"; 
-import { getSecondary, getPrimary } from "../../../styles/colors"; 
+import React from "react";
+import FontAwesome from "react-fontawesome";
+import { getSecondary, getPrimary } from "../../../styles/colors";
 import { MenuItem } from 'material-ui';
 import { DateWrapper, BasicButton } from '../../../displayComponents';
 import { USER_ACTIVATIONS } from '../../../constants';
@@ -69,7 +69,7 @@ class UserItem extends React.Component {
                         {user.actived === USER_ACTIVATIONS.FREE_TRIAL &&
                             <React.Fragment>
                                 <i className="fa fa-user" aria-hidden="true" style={{fontSize: '1.7em', color: secondary}}></i>
-                                Prueba gratuita
+                                {translate.free_trial}
                             </React.Fragment>
                         }
                         {user.actived === USER_ACTIVATIONS.PREMIUM &&

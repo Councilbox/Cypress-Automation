@@ -15,6 +15,7 @@
 #root {
     overflow: hidden;
     padding: 0;
+    height: 100%;
     margin: 0;
 }
 
@@ -26,6 +27,7 @@
 
 html {
     font-family: 'Lato';
+    height: 100%;
     overflow: hidden !important;
 }
 

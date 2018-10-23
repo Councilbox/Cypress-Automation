@@ -263,6 +263,7 @@ class SignatureStepOne extends React.Component {
                         >
                             <RichTextInput
                                 value={data.description || ''}
+                                translate={translate}
                                 errorText={errors.description}
                                 floatingText={translate.description}
                                 onChange={value => this.updateState({description: value})}

@@ -250,6 +250,7 @@ class NewAgendaPointModal extends React.Component {
 					<RichTextInput
 						ref={editor => (this.editor = editor)}
 						floatingText={translate.description}
+						translate={translate}
 						type="text"
 						loadDraft={
 							<BasicButton

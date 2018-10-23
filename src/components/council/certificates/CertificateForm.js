@@ -159,6 +159,7 @@ class CertificateForm extends React.PureComponent {
                                 <RichTextInput
                                     floatingText={translate.certificate_header}
                                     value={data.header}
+                                    translate={translate}
                                     errorText={this.state.errors.header}
                                     onChange={value => this.updateCertificateDate({
                                         header: value
@@ -181,6 +182,7 @@ class CertificateForm extends React.PureComponent {
                             <SectionTitle text={translate.certificate_footer} color={primary} style={{marginTop: '1.6em'}}/>
                             <RichTextInput
                                 value={data.footer}
+                                translate={translate}
                                 errorText={this.state.errors.footer}
                                 onChange={value => this.updateCertificateDate({
                                     footer: value

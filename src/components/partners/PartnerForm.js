@@ -454,6 +454,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={12} md={12} lg={12}>
                             <RichTextInput
                                 floatingText={translate.observations}
+                                translate={translate}
                                 value={participant.observations}
                                 onChange={value =>
                                     updateState({

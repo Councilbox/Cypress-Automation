@@ -63,7 +63,7 @@ const Dashboard = ({ translate, company, user }) => {
 						</div>
 						<div>
 							{company.businessName}
-							{company.demo === 1 && ` (Prueba gratuita, restante ${trialDays <= 0? 0 : trialDays} días)` /*TRADUCCION*/}
+							{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0? 0 : trialDays} ${translate.input_group_days})`}
 						</div>
 					</div>
 					<TopSectionBlocks

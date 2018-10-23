@@ -106,6 +106,7 @@ class CloneCensusModal extends Component {
 				<RichTextInput
 					floatingText={translate.description}
 					type="text"
+					translate={translate}
 					errorText={errors.censusDescription}
 					value={census.censusDescription}
 					onChange={value => {

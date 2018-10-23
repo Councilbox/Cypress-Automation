@@ -185,9 +185,9 @@ class AgendaMenu extends React.Component {
                                                 refetch={this.props.refetch}
                                             />
                                         }
-                                    </React.Fragment>//TRADUCCION
+                                    </React.Fragment>
                                 :
-                                    'No puedes ejercer el voto por no estar presente en el momento de apertura de votaciones'
+                                    translate.cant_exercise_vote
                                 }
                             </React.Fragment>
                         }

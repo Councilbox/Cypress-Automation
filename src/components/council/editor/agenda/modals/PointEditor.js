@@ -223,6 +223,7 @@ class PointEditor extends React.Component {
 						ref={editor => (this.editor = editor)}
 						floatingText={translate.description}
 						type="text"
+						translate={translate}
 						loadDraft={
 							<BasicButton
 								text={translate.load_draft}

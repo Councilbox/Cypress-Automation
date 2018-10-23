@@ -322,6 +322,7 @@ class ActEditor extends Component {
 								{!!data.council.act &&
 									<RichTextInput
 										ref={editor => this.intro = editor}
+										translate={translate}
 										floatingText={translate.intro}
 										type="text"
 										id="act-intro"
@@ -364,6 +365,7 @@ class ActEditor extends Component {
 									<RichTextInput
 										ref={editor => (this.constitution = editor)}
 										floatingText={translate.constitution}
+										translate={translate}
 										type="text"
 										id="act-constitution"
 										loadDraft={
@@ -432,6 +434,7 @@ class ActEditor extends Component {
 										<RichTextInput
 											ref={editor => (this.conclusion = editor)}
 											floatingText={translate.conclusion}
+											translate={translate}
 											type="text"
 											id="act-conclusion"
 											loadDraft={
@@ -505,7 +508,7 @@ class ActEditor extends Component {
 									}}
 								/>
 								<BasicButton
-									text={isMobile? translate.finish : translate.end_writing_act} //TRADUCCION
+									text={isMobile? translate.finish : translate.end_writing_act}
 									loading={this.state.updating}
 									loadingColor={primary}
 									disabled={this.state.updating || this.state.disableButtons}

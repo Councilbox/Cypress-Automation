@@ -92,6 +92,7 @@ class NoCelebrateModal extends React.Component {
 			<div style={{ width: "650px" }}>
 				<RichTextInput
 					floatingText={translate.live_no_celebrate}
+					translate={translate}
 					type="text"
 					errorText={this.state.errorText}
 					value={this.state.cancelText}

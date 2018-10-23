@@ -935,6 +935,22 @@ export const printCifAlreadyUsed = () => {
 	return messages["es"];
 };
 
+export const printTrialEnded = () => {
+	//vat_previosly_save
+	const messages = {
+		pt: "Período de prova finalizado",
+		es: "Período de prueba finalizado",
+		en: " Trial period ended",
+		cat: "Període de prova finalitzat",
+		gal: "Período de proba finalizado"
+	};
+	const selectedLanguage = sessionStorage.getItem("language");
+	if (selectedLanguage) {
+		return messages[selectedLanguage];
+	}
+	return messages["es"];
+};
+
 export const showVideo = council => {
 	return (council.state === 20 || council.state === 30) && council.councilType === 0;
 };

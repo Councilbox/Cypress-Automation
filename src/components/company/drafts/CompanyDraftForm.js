@@ -224,6 +224,7 @@ const CompanyDraftForm = ({
 			<RichTextInput
 				value={draft.text || ""}
 				errorText={errors.text}
+				translate={translate}
 				onChange={value =>
 					updateState({
 						text: value

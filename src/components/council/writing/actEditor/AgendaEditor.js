@@ -121,6 +121,7 @@ class AgendaEditor extends React.Component {
 						<div style={{padding: '1em'}}>
 							<RichTextInput
 								ref={editor => (this.editor = editor)}
+								translate={translate}
 								type="text"
 								errorText={error}
 								loadDraft={

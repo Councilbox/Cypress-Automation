@@ -157,38 +157,49 @@ class RichTextInput extends React.Component {
 									<div
 										style={{
 											display: "flex",
-											float: "right"
+											float: "right",
 										}}
 									>
-										<DropDownMenu
-											color="transparent"
-											text={'Etiquetas inteligentes'}
-											textStyle={{ color: secondary }}
-											type="flat"
-											icon={
-												<Icon className="material-icons" style={{ color: secondary }}>
-													keyboard_arrow_down
-												</Icon>
-											}
-											items={
-												<React.Fragment>
-													{tags.map(tag => {
-														return (
-															<MenuItem
-																key={`tag_${tag.label}`}
-																onClick={() =>
-																	this.paste(`<span id="${tag.label}">${tag.value}</span>`)
-																}
-															>
-																{tag.label}
-															</MenuItem>
-														);
-													})}
+										<div style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'flex-end'
+										}}>
+											<DropDownMenu
+												color="transparent"
+												text={'Etiquetas inteligentes'}
+												textStyle={{ color: secondary }}
+												type="flat"
+												icon={
+													<Icon className="material-icons" style={{ color: secondary }}>
+														keyboard_arrow_down
+													</Icon>
+												}
+												items={
+													<React.Fragment>
+														{tags.map(tag => {
+															return (
+																<MenuItem
+																	key={`tag_${tag.label}`}
+																	onClick={() =>
+																		this.paste(`<span id="${tag.label}">${tag.value}</span>`)
+																	}
+																>
+																	{tag.label}
+																</MenuItem>
+															);
+														})}
 
-												</React.Fragment>
+													</React.Fragment>
+												}
+											/>
+											<div>
+												{!!loadDraft && loadDraft}
+											</div>
+											{!!this.props.saveDraft &&
+												this.props.saveDraft
 											}
-										/>
-										{!!loadDraft && loadDraft}
+										</div>
 									</div>
 								</React.Fragment>
 							)}
@@ -216,4 +227,4 @@ class RichTextInput extends React.Component {
 	}
 }
 
-export default withTranslations()(RichTextInput);
+export default RichTextInput;

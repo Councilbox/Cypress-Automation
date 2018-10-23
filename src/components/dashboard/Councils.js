@@ -112,8 +112,7 @@ class Councils extends React.Component {
 						<GridItem xs={4} md={8} lg={9}>
 							{this.state.selectedIds.size > 0 &&
 								<BasicButton
-									//TRADUCCION
-									text={this.state.selectedIds.size === 1? 'Borrar 1 elemento' : `Borrar ${this.state.selectedIds.size} elementos`}
+									text={this.state.selectedIds.size === 1? translate.delete_one_item : `${translate.new_delete} ${this.state.selectedIds.size} ${translate.items}`}
 									color={getSecondary()}
 									textStyle={{color: 'white', fontWeight: '700'}}
 									onClick={this.openDeleteModal}

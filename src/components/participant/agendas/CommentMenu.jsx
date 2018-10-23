@@ -136,6 +136,7 @@ class CommentMenu extends React.Component {
                         >
                             <RichTextInput
                                 value={comment || ''}
+                                translate={translate}
                                 onChange={value =>
                                     this.setState({
                                         vote: {

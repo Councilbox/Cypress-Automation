@@ -212,21 +212,6 @@ class SignUpPay extends React.Component {
 							}
 						/>
 					</GridItem>
-					{/* <GridItem xs={12} md={4} lg={4}>
-						<BasicButton
-							text="Omitir y enviar" //TRADUCCION
-							color={secondary}
-							textStyle={{
-								color: "white",
-								fontWeight: "700"
-							}}
-							onClick={this.jumpStep}
-							fullWidth
-							icon={
-								<ButtonIcon color="white" type="eject" />
-							}
-						/>
-					</GridItem> */}
 					<GridItem xs={12} md={4} lg={4}>
 						<BasicButton
 							text={translate.send}

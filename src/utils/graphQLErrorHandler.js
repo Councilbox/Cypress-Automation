@@ -1,4 +1,4 @@
-import { printCifAlreadyUsed, printSessionExpiredError } from "./CBX";
+import { printCifAlreadyUsed, printSessionExpiredError, printTrialEnded } from "./CBX";
 import { logout } from "../actions/mainActions";
 import { refreshTokenQuery } from '../queries';
 import { LiveToast } from '../displayComponents';
@@ -55,7 +55,7 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 	if(graphQLError.message === 'Company trial ended'){
 		toast(
 			<LiveToast
-				message={'Período de prueba finalizado'} //TRADUCCION
+				message={printTrialEnded()}
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,

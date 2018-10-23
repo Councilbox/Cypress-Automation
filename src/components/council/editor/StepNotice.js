@@ -516,6 +516,7 @@ class StepNotice extends React.Component {
 										<RichTextInput
 											ref={editor => this.editor = editor}
 											key={this.props.versionControl}
+											translate={translate}
 											errorText={errors.conveneText}
 											required
 											loadDraft={

@@ -189,6 +189,7 @@ class MeetingEditorConfig extends Component {
 					>
 						<RichTextInput
 							errorText=""
+							translate={translate}
 							floatingText={translate.convene_info}
 							value={council.conveneText || ""}
 							onChange={value =>
