@@ -3,7 +3,7 @@ const LOCATION_URL =
 		? `http://localhost:5000/graphql`
 		: `${process.env.REACT_APP_API_URL}/graphql`;
 
-export const WS_URL = process.env.REACT_APP_MODE === "dev" ? "ws://localhost:5000/subscriptions" : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;
+export const WS_URL = process.env.REACT_APP_MODE === "dev" ? "ws://localhost:5000/subscriptions" : `ws://${process.env.REACT_APP_API_URL}/subscriptions`;
 
 export const CLIENT_VERSION = '1.0.0';
 export const API_URL = LOCATION_URL;
