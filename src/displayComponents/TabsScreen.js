@@ -38,15 +38,16 @@ class TabsScreen extends React.Component {
 					display: "flex",
 					...(this.props.windowSize === 'xs'? { paddingBottom: '3.5em' } : {}),
 					alignItems: "center",
-					flexDirection: "column"
+					flexDirection: "column",
+					borderBottom: '1px solid gainsboro',
+					borderRadius: '4px',
 				}}
-
 				className="card-container"
 			>
 				<Tabs
 					activeKey={''+this.state.selectedTab}
 					type="card"
-					style={{ width: '100%', height: '100%' }}
+					style={{ width: '100%', height: '100%', paddingBottom: '1em' }}
 					onChange={this.handleChange}
 				>
 					{tabsInfo.map((tab, index) => {

@@ -175,7 +175,9 @@ class HoverableRow extends React.Component {
                 }}
             >
                 <TableCell>
-                    {this.getCouncilState(council.state)}
+                    <div style={{minWidth: '12em'}}>
+                        {this.getCouncilState(council.state)}
+                    </div>
                 </TableCell>
                 <TableCell
                     style={TableStyles.TD}
@@ -191,7 +193,7 @@ class HoverableRow extends React.Component {
                 <TableCell
                     style={TableStyles.TD}
                 >
-                    <div style={{width: '15em', display: 'flex', flexDirection: 'row'}}>
+                    <div style={{width: '10em', display: 'flex', flexDirection: 'row'}}>
                         <DateWrapper
                             format="HH:mm"
                             date={

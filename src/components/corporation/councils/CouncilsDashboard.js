@@ -76,6 +76,7 @@ class CouncilsDashboard extends React.PureComponent {
                     width: '100%',
                     height: '100%',
                     backgroundColor: lightGrey,
+                    paddingBottom: '2em'
                 }}
             >
                 <Scrollbar>

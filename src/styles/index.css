@@ -73,6 +73,11 @@ a:hover {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
+.Scrollbar > div:first-child {
+    margin-right: -17px !important;
+    margin-bottom: -17px !important;
+}
+
 h4 {
     font-size: 1.25em !important;
 }

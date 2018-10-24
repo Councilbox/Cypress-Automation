@@ -28,6 +28,7 @@ class Scrollbar extends React.Component {
             <Scrollbars
                 ref={ref => this.scrollbar = ref}
                 autoHide={autoHide}
+                className='Scrollbar'
                 onScrollStop={onScrollStop}
                 style={{
                     width: '100%',
