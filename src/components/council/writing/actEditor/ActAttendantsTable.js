@@ -1,5 +1,5 @@
 import React from 'react';
-import { downloadAttendPDF, downloadConnectionsExcel } from "../../../../queries";
+import { downloadConnectionsExcel } from "../../../../queries";
 import { graphql, withApollo } from 'react-apollo';
 import { LoadingSection, EnhancedTable, BasicButton, Scrollbar } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
@@ -10,6 +10,7 @@ import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
 import { moment } from '../../../../containers/App';
 import { councilAttendants } from '../../../../queries/council';
+import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
 
 class ActAttendantsTable extends React.Component {
@@ -18,34 +19,6 @@ class ActAttendantsTable extends React.Component {
         downloadingPDF: false,
         downloadingExcel: false
     }
-
-    downloadPDF = async () => {
-        this.setState({
-            downloadingPDF: true
-        })
-        const response = await this.props.client.query({
-            query: downloadAttendPDF,
-            variables: {
-                councilId: this.props.council.id,
-                timezone: moment().utcOffset(),
-            }
-        });
-
-        if (response) {
-            if (response.data.downloadAttendPDF) {
-                this.setState({
-                    downloadingPDF: false
-                });
-                CBX.downloadFile(
-                    response.data.downloadAttendPDF,
-                    "application/pdf",
-                    `${this.props.translate.convene.replace(/ /g, '_')}-${
-                    this.props.council.name.replace(/ /g, '_')
-                    }`
-                );
-            }
-        }
-    };
 
     downloadExcel = async () => {
         this.setState({
@@ -87,29 +60,10 @@ class ActAttendantsTable extends React.Component {
                     <div style={{ padding: '1.5em', overflow: 'hidden' }}>
                         {!!councilAttendants && (
                             <React.Fragment>
-                                <BasicButton
-                                    text={translate.export_participants}
+                                <DownloadAttendantsPDF
+                                    translate={translate}
                                     color={secondary}
-                                    loading={this.state.downloadingPDF}
-                                    buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
-                                    textStyle={{
-                                        color: "white",
-                                        fontWeight: "700",
-                                        fontSize: "0.9em",
-                                        textTransform: "none"
-                                    }}
-                                    icon={
-                                        <FontAwesome
-                                            name={"file-pdf-o"}
-                                            style={{
-                                                fontSize: "1em",
-                                                color: "white",
-                                                marginLeft: "0.3em"
-                                            }}
-                                        />
-                                    }
-                                    textPosition="after"
-                                    onClick={this.downloadPDF}
+                                    council={this.props.council}
                                 />
                                 <EnhancedTable
                                     ref={table => (this.table = table)}

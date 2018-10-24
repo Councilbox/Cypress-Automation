@@ -16,6 +16,7 @@ import Sidebar from "./menus/Sidebar";
 import appStyle from "../../styles/appStyle.jsx";
 import { withStyles } from 'material-ui';
 import { lightGrey } from '../../styles/colors';
+import CouncilDetails from './councils/council/CouncilDetails';
 let image;
 import("../../assets/img/sidebar-2.jpg").then(data => image = data);
 
@@ -42,8 +43,9 @@ const Router = ({ user, translate, location, data, classes }) => {
                 <Switch>
                     <Route exact path="/" component={() => <Redirect to="/councils" />} />
                     <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
-                    <Route exact path="/companies" component={() => <CompaniesDashboard />} />
-                    <Route exact path="/translations" component={() => <TranslationsPage />} />
+                    <Route path="/council/:id" component={CouncilDetails} />
+                    <Route exact path="/companies" component={CompaniesDashboard} />
+                    <Route exact path="/translations" component={TranslationsPage} />
                     <Route path="/companies/edit/:id" component={CompanyEditPage} />
                     <Route exact path="/users" component={UsersDashboard} />
                     <Route path="/users/edit/:id" component={UserEdit} />

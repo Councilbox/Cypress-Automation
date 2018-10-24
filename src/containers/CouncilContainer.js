@@ -152,8 +152,8 @@ class CouncilContainer extends React.Component {
 			<div
 				style={{
 					width: '100%',
-					height: 'calc(100vh - 3em)',
-					padding: windowSize === 'xs' ? '0.8em' : '2em',
+					height: '100%',
+					padding: windowSize === 'xs' ? '0.8em' : '1.6em',
 					position: 'relative',
 					...(windowSize === 'xs' && !isLandscape()? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
 					backgroundColor: lightGrey
