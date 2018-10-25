@@ -11,6 +11,7 @@ import { TRIAL_DAYS } from "../config";
 import { trialDaysLeft } from "../utils/CBX";
 import { moment } from "./App";
 import { isLandscape } from '../utils/screen';
+import { isMobile } from 'react-device-detect';
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
 
 class CouncilContainer extends React.Component {
@@ -166,32 +167,34 @@ class CouncilContainer extends React.Component {
 					linked={true}
 					selected={match.params.section}
 				/>
-				<div
-					style={{
-						position: 'absolute',
-						right: '3%',
-						bottom: '5%'
-					}}
-				>
-					<Tooltip title={`${translate.dashboard_new}`}>
-						<div style={{ marginBottom: "0.3em" }}>
-							<FabButton
-								{...(cantAccessPremium? { color: 'grey'} : {})}
-								icon={
-									<Icon className="material-icons">
-										add
-									</Icon>
-								}
-								onClick={() =>
-									cantAccessPremium?
-										this.showCantAccessPremiumModal()
-									:
-										bHistory.push(`/company/${company.id}/council/new`)
-								}
-							/>
-						</div>
-					</Tooltip>
-				</div>
+				{!isMobile &&
+					<div
+						style={{
+							position: 'absolute',
+							right: '3%',
+							bottom: '5%'
+						}}
+					>
+						<Tooltip title={`${translate.dashboard_new}`}>
+							<div style={{ marginBottom: "0.3em" }}>
+								<FabButton
+									{...(cantAccessPremium? { color: 'grey'} : {})}
+									icon={
+										<Icon className="material-icons">
+											add
+										</Icon>
+									}
+									onClick={() =>
+										cantAccessPremium?
+											this.showCantAccessPremiumModal()
+										:
+											bHistory.push(`/company/${company.id}/council/new`)
+									}
+								/>
+							</div>
+						</Tooltip>
+					</div>
+				}
 				<CantCreateCouncilsModal
 					open={this.state.noPremiumModal}
 					requestClose={this.closeCantAccessPremiumModal}

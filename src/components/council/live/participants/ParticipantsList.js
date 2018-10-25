@@ -4,6 +4,7 @@ import { LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from "../../.
 import ParticipantItem from "./ParticipantItem";
 import SignatureModal from "./modals/SignatureModal";
 import LiveParticipantEditor from "./LiveParticipantEditor";
+import { isMobile } from 'react-device-detect';
 
 class ParticipantsList extends React.PureComponent {
 
@@ -68,114 +69,6 @@ class ParticipantsList extends React.PureComponent {
 												})}
 												council={council}
 											/>
-											{/* <ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												translate={translate}
-												showSignatureModal={this.showSignatureModal(participant)}
-												mode={mode}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												showSignatureModal={this.showSignatureModal(participant)}
-												translate={translate}
-												mode={mode}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												translate={translate}
-												showSignatureModal={this.showSignatureModal(participant)}
-												mode={mode}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												showSignatureModal={this.showSignatureModal(participant)}
-												translate={translate}
-												mode={mode}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												showSignatureModal={this.showSignatureModal(participant)}
-												translate={translate}
-												mode={mode}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												translate={translate}
-												mode={mode}
-												showSignatureModal={this.showSignatureModal(participant)}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												translate={translate}
-												mode={mode}
-												showSignatureModal={this.showSignatureModal(participant)}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												translate={translate}
-												showSignatureModal={this.showSignatureModal(participant)}
-												mode={mode}
-												editParticipant={editParticipant}
-												council={council}
-											/>
-											<ParticipantItem
-												layout={layout}
-												key={`participant_${
-													participant.id
-													}`}
-												participant={participant}
-												translate={translate}
-												mode={mode}
-												showSignatureModal={this.showSignatureModal(participant)}
-												editParticipant={editParticipant}
-												council={council}
-											/> */}
 										</React.Fragment>
 								)}
 								{participants.list.length <
@@ -199,17 +92,18 @@ class ParticipantsList extends React.PureComponent {
 							{this.state.editParticipant &&
 								<AlertConfirm
 									open={!!this.state.editParticipant}
+									bodyStyle={isMobile? { padding: '0.3em'} : {}}
 									requestClose={() => {
 										this.setState({
 											editParticipant: undefined
 										});
 									}}
+
 									bodyText={
 										<div style={{height: '70vh'}}>
 											<LiveParticipantEditor
 												translate={translate}
 												council={council}
-												//refetch={this.props.data.refetch}
 												id={this.state.editParticipant}
 
 											/>

@@ -21,6 +21,7 @@ const AlertConfirm = ({
 	acceptAction,
 	cancelAction,
 	bodyText,
+	bodyStyle = {},
 	hideAccept
 }) => {
 	const primary = getPrimary();
@@ -92,7 +93,8 @@ const AlertConfirm = ({
 			<DialogContent
 				style={{
 					minWidth: "40vw",
-					maxWidth: "95vw"
+					maxWidth: "95vw",
+					...bodyStyle
 				}}
 			>
 				{bodyText}

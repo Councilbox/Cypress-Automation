@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
+import { isLandscape } from "../../../../utils/screen";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
@@ -10,6 +11,7 @@ import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";
 import FontAwesome from "react-fontawesome";
 import StateIcon from "./StateIcon";
+
 
 class ParticipantStateSelector extends React.Component {
 	state = {
@@ -45,6 +47,7 @@ class ParticipantStateSelector extends React.Component {
 		const { translate, participant, council } = this.props;
 		const { loading } = this.state;
 		const secondary = getSecondary();
+		const landscape = isLandscape() || window.innerWidth > 700;
 		const primary = getPrimary();
 
 		return (
@@ -56,7 +59,7 @@ class ParticipantStateSelector extends React.Component {
 					alignItems: "center"
 				}}
 			>
-				<GridItem xs={6} md={6} lg={6}>
+				<GridItem xs={landscape? 6 : 12} md={6} lg={6}>
 					<div style={{display: 'flex', alignItems: 'center'}}>
 						<FilterButton
 							tooltip={translate.change_to_no_participate}
@@ -114,7 +117,7 @@ class ParticipantStateSelector extends React.Component {
 						<span style={{fontSize: '0.9em'}}>Presente</span>
 					</div>
 				</GridItem>
-				<GridItem xs={6} md={6} lg={6}>
+				<GridItem xs={landscape? 6 : 12} md={6} lg={6}>
 					{CBX.canBePresentWithRemoteVote(council.statute) && (
 						<div style={{display: 'flex', alignItems: 'center'}}>
 							<FilterButton

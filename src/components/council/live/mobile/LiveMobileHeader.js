@@ -2,6 +2,9 @@ import React from "react";
 import { getPrimary } from "../../../../styles/colors";
 import { bHistory } from "../../../../containers/App";
 import { AlertConfirm, Icon } from "../../../../displayComponents";
+import logo from "../../../../assets/img/logo.png";
+import icono from "../../../../assets/img/logo-icono.png";
+import withWindowSize from '../../../../HOCs/withWindowSize';
 
 class LiveMobileHeader extends React.Component {
 	state = {
@@ -15,7 +18,7 @@ class LiveMobileHeader extends React.Component {
 	render() {
 		const {
 			councilName,
-			logo,
+			windowSize,
 			translate
 		} = this.props;
 		const primary = getPrimary();
@@ -39,14 +42,13 @@ class LiveMobileHeader extends React.Component {
 				>
 					<div style={{ width: "15%" }}>
 						<img
-							src={logo}
+							src={windowSize !== "xs" ? logo : icono}
+							className="App-logo"
 							style={{
-								height: "2em",
-								width: "auto",
-								marginLeft: "1em",
-								marginRight: "1em"
+								height: "1.5em",
+								marginLeft: "2em"
 							}}
-							alt="councilbox logo"
+							alt="logo"
 						/>
 					</div>
 					<div
@@ -112,4 +114,4 @@ class LiveMobileHeader extends React.Component {
 	}
 }
 
-export default LiveMobileHeader;
+export default withWindowSize(LiveMobileHeader);

@@ -1,6 +1,8 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
+import { isLandscape } from "../../../../utils/screen";
+import { isMobile } from 'react-device-detect';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	Typography,
@@ -21,6 +23,7 @@ import {
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
 import SignatureModal from "./modals/SignatureModal";
+import withWindowSize from '../../../../HOCs/withWindowSize';
 import ParticipantStateSelector from "./ParticipantStateSelector";
 import NotificationsTable from "../../../notifications/NotificationsTable";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
@@ -92,6 +95,7 @@ class LiveParticipantEditor extends React.Component {
 
 		let participant = {...this.props.data.liveParticipant};
 		const secondary = getSecondary();
+		const landscape = isLandscape() || window.innerWidth > 700;
 		const primary = getPrimary();
 		participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 		participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
@@ -101,17 +105,19 @@ class LiveParticipantEditor extends React.Component {
 				style={{
 					width: "100%",
 					height: "100%",
+					paddingTop: '2em',
 					display: "flex",
 					flexDirection: "column",
-					justifyContent: "flex-start" /* align items in Main Axis */,
-					alignItems: "stretch" /* align items in Cross Axis */,
-					alignContent: "stretch" /* Extra space in Cross Axis */,
-					padding: "1em"
+					justifyContent: "flex-start",
+					alignItems: "stretch",
+					overflow: 'auto',
+					alignContent: "stretch",
+					padding: this.props.windowSize === 'xs'? '0.3em' : "1em"
 				}}
 			>
-				<div style={{ paddingBottom: "0.5em" }}>
+				<div style={{ paddingBottom: "0.5em"}}>
 					<Grid>
-						<GridItem md={1}>
+						<GridItem xs={landscape? 2 : 12} md={1}>
 							<TypeIcon
 								translate={translate}
 								type={participant.type}
@@ -123,14 +129,17 @@ class LiveParticipantEditor extends React.Component {
 									marginTop: "0.5em"
 								}}
 							>
-								<DownloadCBXDataButton
-									translate={translate}
-									participantId={participant.participantId}
-								/>
+								{!isMobile &&
+									<DownloadCBXDataButton
+										translate={translate}
+										participantId={participant.participantId}
+									/>
+								}
+
 							</div>
 							<div
 								style={{
-									marginLeft: "-1.5em",
+									marginLeft: isMobile? '0' : "-1em",
 									marginTop: "0.5em"
 								}}
 							>
@@ -157,21 +166,19 @@ class LiveParticipantEditor extends React.Component {
 								}
 							</div>
 						</GridItem>
-						<GridItem md={4}>
+						<GridItem xs={landscape? 4 : 12} md={4} style={{display: 'flex', ...(isMobile? { justifyContent: 'center'} : {})}}>
 							<ParticipantDisplay
 								participant={participant}
 								translate={translate}
 								council={this.props.council}
 							/>
 						</GridItem>
-						<GridItem md={1}>
+						<GridItem xs={landscape? 6: 12} md={7} style={{display: 'flex', ...(isMobile? { justifyContent: 'center'} : {})}}>
 							<StateIcon
 								translate={translate}
 								state={participant.state}
 								ratio={1.3}
 							/>
-						</GridItem>
-						<GridItem md={6}>
 							<Typography variant="body2">
 								<b>{`${translate.current_status}:  `}</b>
 								<br />
@@ -197,9 +204,6 @@ class LiveParticipantEditor extends React.Component {
 				</div>
 				<div
 					style={{
-						flexGrow: 1,
-						overflow: "auto",
-						/* for Firefox */
 						minHeight: 0,
 						paddingRight: "0.5em"
 					}}
@@ -452,4 +456,4 @@ export default compose(
 	graphql(updateParticipantSends, {
 		name: "updateParticipantSends"
 	})
-)(LiveParticipantEditor);
+)(withWindowSize(LiveParticipantEditor));
