@@ -106,6 +106,8 @@ class CouncilCertificates extends React.PureComponent {
                                     <HoverableRow
                                         key={`certificate_${certificate.id}`}
                                         certificate={certificate}
+                                        downloading={certificate.id === this.state.downloading}
+                                        downloadCertificate={this.downloadCertificate}
                                         translate={translate}
                                     />
                                 ))}
@@ -141,6 +143,7 @@ class HoverableRow extends React.Component {
 
     render(){
         const { certificate } = this.props;
+        const secondary = getSecondary();
 
         return(
             <TableRow
@@ -156,15 +159,15 @@ class HoverableRow extends React.Component {
                 </TableCell>
                 <TableCell>
                     <div style={{width: '10em'}}>
-                        {this.state.showActions &&
+                        {(this.state.showActions || this.props.downloading) &&
                             <BasicButton
                                 text={this.props.translate.download}
                                 color='white'
-                                loading={this.state.downloading === certificate.id}
-                                loadingColor="white"
-                                buttonStyle={{border: `1px solid ${getSecondary()}`}}
-                                textStyle={{textTransform: 'none', fontWeight: '700', color: getSecondary()}}
-                                onClick={() => this.downloadCertificate(certificate)}
+                                loading={this.props.downloading}
+                                loadingColor={secondary}
+                                buttonStyle={{border: `1px solid ${secondary}`}}
+                                textStyle={{textTransform: 'none', fontWeight: '700', color: secondary}}
+                                onClick={() => this.props.downloadCertificate(certificate)}
                             />
                         }
                     </div>
