@@ -240,102 +240,105 @@ class VotingsTable extends React.Component {
 				}}
 			>
 
-				{this.props.agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING &&
-					<GridItem
-						xs={6}
-						md={6}
-						lg={6}
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center"
-						}}
-					>
-						<div style={{ display: "flex", flexDirection: "row" }}>
-							<FilterButton
-								onClick={() =>
-									this.changeVoteFilter(VOTE_VALUES.NO_VOTE)
-								}
-								active={
-									this.state.voteFilter === VOTE_VALUES.NO_VOTE
-								}
-								tooltip={`${translate.filter_by} - ${
-									translate.no_vote
-								}`}
-							>
-								<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
-							</FilterButton>
-							<FilterButton
-								onClick={() =>
-									this.changeVoteFilter(VOTE_VALUES.POSITIVE)
-								}
-								active={
-									this.state.voteFilter === VOTE_VALUES.POSITIVE
-								}
-								tooltip={`${translate.filter_by} - ${
-									translate.positive_votings
-								}`}
-							>
-								<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
-							</FilterButton>
-							<FilterButton
-								tooltip={`${translate.filter_by} - ${
-									translate.negative_votings
-								}`}
-								active={
-									this.state.voteFilter === VOTE_VALUES.NEGATIVE
-								}
-								onClick={() =>
-									this.changeVoteFilter(VOTE_VALUES.NEGATIVE)
-								}
-							>
-								<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
-							</FilterButton>
-							<FilterButton
-								tooltip={`${translate.filter_by} - ${
-									translate.abstention
-								}`}
-								active={
-									this.state.voteFilter === VOTE_VALUES.ABSTENTION
-								}
-								onClick={() =>
-									this.changeVoteFilter(VOTE_VALUES.ABSTENTION)
-								}
-							>
-								<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
-							</FilterButton>
-						</div>
+				<GridItem
+					xs={6}
+					md={6}
+					lg={6}
+					style={{
+						display: "flex",
+						flexDirection: "row",
+						alignItems: "center"
+					}}
+				>
+					{this.props.agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING &&
+						<React.Fragment>
+							<div style={{ display: "flex", flexDirection: "row" }}>
+								<FilterButton
+									onClick={() =>
+										this.changeVoteFilter(VOTE_VALUES.NO_VOTE)
+									}
+									active={
+										this.state.voteFilter === VOTE_VALUES.NO_VOTE
+									}
+									tooltip={`${translate.filter_by} - ${
+										translate.no_vote
+									}`}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
+								</FilterButton>
+								<FilterButton
+									onClick={() =>
+										this.changeVoteFilter(VOTE_VALUES.POSITIVE)
+									}
+									active={
+										this.state.voteFilter === VOTE_VALUES.POSITIVE
+									}
+									tooltip={`${translate.filter_by} - ${
+										translate.positive_votings
+									}`}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
+								</FilterButton>
+								<FilterButton
+									tooltip={`${translate.filter_by} - ${
+										translate.negative_votings
+									}`}
+									active={
+										this.state.voteFilter === VOTE_VALUES.NEGATIVE
+									}
+									onClick={() =>
+										this.changeVoteFilter(VOTE_VALUES.NEGATIVE)
+									}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
+								</FilterButton>
+								<FilterButton
+									tooltip={`${translate.filter_by} - ${
+										translate.abstention
+									}`}
+									active={
+										this.state.voteFilter === VOTE_VALUES.ABSTENTION
+									}
+									onClick={() =>
+										this.changeVoteFilter(VOTE_VALUES.ABSTENTION)
+									}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
+								</FilterButton>
+							</div>
 
-						<div
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								marginLeft: "0.9em"
-							}}
-						>
-							<FilterButton
-								onClick={() => this.changeStateFilter(1)}
-								active={this.state.stateFilter === 1}
-								tooltip={`${translate.filter_by} - ${
-									translate.present_vote
-								}`}
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									marginLeft: "0.9em"
+								}}
 							>
-								{this.getStateIcon(1)}
-							</FilterButton>
-							<FilterButton
-								onClick={() => this.changeStateFilter(0)}
-								active={this.state.stateFilter === 0}
-								tooltip={`${translate.filter_by} - ${
-									translate.remote_vote
-								}`}
-							>
-								{this.getStateIcon(0)}
-							</FilterButton>
-						</div>
-					</GridItem>
-				}
+								<FilterButton
+									onClick={() => this.changeStateFilter(1)}
+									active={this.state.stateFilter === 1}
+									tooltip={`${translate.filter_by} - ${
+										translate.present_vote
+									}`}
+								>
+									{this.getStateIcon(1)}
+								</FilterButton>
+								<FilterButton
+									onClick={() => this.changeStateFilter(0)}
+									active={this.state.stateFilter === 0}
+									tooltip={`${translate.filter_by} - ${
+										translate.remote_vote
+									}`}
+								>
+									{this.getStateIcon(0)}
+								</FilterButton>
+							</div>
+						</React.Fragment>
+					}
+				</GridItem>
+
 				<GridItem xs={2} md={2} lg={2}>
-					{!agendaVotingsOpened(this.props.agenda) &&
+					{!agendaVotingsOpened(this.props.agenda) && !this.props.hideStatus &&
 						'Votaciones cerradas'
 					}
 				</GridItem>

@@ -3,6 +3,7 @@ import "../styles/react-tabs.css";
 import Link from './LinkWithoutStyling';
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
+import CBXFooter from './CBXFooter';
 
 
 class TabsScreen extends React.Component {

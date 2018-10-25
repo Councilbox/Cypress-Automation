@@ -1,7 +1,7 @@
 import React from "react";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { TableCell, TableRow, Card } from "material-ui";
-import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox } from "../../../../displayComponents";
+import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from "../../../../displayComponents";
 import { isMobile } from 'react-device-detect';
 import * as CBX from '../../../../utils/CBX';
 import { compose, graphql } from "react-apollo";
@@ -16,6 +16,8 @@ class CensusParticipants extends React.Component {
 	state = {
 		editingParticipant: false,
 		participant: {},
+		deleteModal: false,
+		singleId: null,
 		selectedIds: new Map()
 	};
 
@@ -55,10 +57,10 @@ class CensusParticipants extends React.Component {
 		});
 	};
 
-	deleteParticipant = async id => {
+	deleteParticipant = async () => {
 		let toDelete;
-		if(Number.isInteger(id)){
-			toDelete = [id];
+		if(Number.isInteger(this.state.singleId)){
+			toDelete = [this.state.singleId];
 		} else {
 			toDelete = Array.from(this.state.selectedIds.keys());
 		}
@@ -71,12 +73,27 @@ class CensusParticipants extends React.Component {
 
 		if (response) {
 			this.setState({
-				selectedIds: new Map()
+				selectedIds: new Map(),
+				singleId: null,
+				deleteModal: false
 			})
 			this.props.data.refetch();
 			this.props.refetch();
 		}
 	};
+
+	openDeleteModal = () => {
+		this.setState({
+			deleteModal: true
+		})
+	}
+
+	closeModal = () => {
+		this.setState({
+			deleteModal: false,
+			singleId: null
+		})
+	}
 
 
 	_renderDeleteIcon = (participantID) => {
@@ -87,7 +104,10 @@ class CensusParticipants extends React.Component {
 				style={{ color: primary }}
 				onClick={(event) => {
 					event.stopPropagation();
-					this.deleteParticipant(participantID);
+					this.setState({
+						singleId: participantID,
+						deleteModal: true
+					})
 				}}
 			/>
 		);
@@ -181,7 +201,7 @@ class CensusParticipants extends React.Component {
 									color={getSecondary()}
 									buttonStyle={{marginRight: '0.6em'}}
 									textStyle={{color: 'white', fontWeight: '700'}}
-									onClick={this.deleteParticipant}
+									onClick={this.openDeleteModal}
 								/>
 						}
 						loading={loading}
@@ -213,6 +233,7 @@ class CensusParticipants extends React.Component {
 										selected={this.state.selectedIds.has(participant.id)}
 										select={this.select}
 										census={census}
+										participations={census.quorumPrototype === 1}
 										representative={participant.representative}
 										_renderDeleteIcon={this._renderDeleteIcon}
 										editParticipant={this.editParticipant}
@@ -233,6 +254,16 @@ class CensusParticipants extends React.Component {
 						this.props.data.refetch();
 						this.props.refetch()
 					}}
+				/>
+				<AlertConfirm
+					title={translate.send_to_trash}
+					bodyText={translate.delete_items}
+					open={this.state.deleteModal}
+					buttonAccept={translate.send_to_trash}
+					buttonCancel={translate.cancel}
+					modal={true}
+					acceptAction={this.deleteParticipant}
+					requestClose={this.closeModal}
 				/>
 			</React.Fragment>
 		);

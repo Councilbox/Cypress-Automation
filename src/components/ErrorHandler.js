@@ -25,8 +25,8 @@ class ErrorHandler extends React.Component {
     }
 
     async componentDidCatch(error, info){
-        console.log(error);
-        console.log(info);
+        //console.log(error);
+        //console.log(info);
 /*      console.log(error.message);
         console.log(error.name);
         console.log(error.toString());

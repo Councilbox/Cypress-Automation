@@ -5,6 +5,7 @@ import Scrollbar from './Scrollbar';
 import withWindowSize from "../HOCs/withWindowSize";
 import { Paper } from "material-ui";
 import { isMobile } from 'react-device-detect';
+import CBXFooter from './CBXFooter';
 
 
 const CardPageLayout = ({
@@ -129,6 +130,7 @@ const CardPageLayout = ({
 				}
 			</Paper>
 		</div>
+		<CBXFooter />
 	</div>
 );
 

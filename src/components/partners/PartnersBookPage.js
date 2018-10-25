@@ -1,5 +1,5 @@
 import React from 'react'
-import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem } from '../../displayComponents';
+import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem, AlertConfirm } from '../../displayComponents';
 import { TableRow, TableCell, Card } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { bHistory } from '../../containers/App';
@@ -13,6 +13,11 @@ import { moment } from '../../containers/App';
 
 class PartnersBookPage extends React.Component {
 
+    state = {
+        deleteModal: false,
+        selectedId: null
+    }
+
     componentDidMount() {
         this.props.data.refetch();
     }
@@ -21,15 +26,36 @@ class PartnersBookPage extends React.Component {
         bHistory.push(`/company/${this.props.match.params.company}/book/new`);
     }
 
-    deleteBookParticipant = async id => {
+    showDeleteModal = () => {
+        this.setState({
+            deleteModal: true
+        });
+    }
+
+    closeDeleteModal = () => {
+        this.setState({
+            deleteModal: false,
+            selectedId: null
+        })
+    }
+
+    selectedIdToDelete = id => {
+        this.setState({
+            selectedId: id,
+            deleteModal: true
+        })
+    }
+
+    deleteBookParticipant = async () => {
         const response = await this.props.mutate({
 			variables: {
-				participantId: id
+				participantId: this.state.selectedId
 			}
 		});
 
 		if (response) {
             this.props.data.refetch();
+            this.closeDeleteModal();
 		}
     }
 
@@ -82,6 +108,16 @@ class PartnersBookPage extends React.Component {
 
         return (
             <CardPageLayout title={this.props.translate.simple_book}>
+                <AlertConfirm
+					title={translate.send_to_trash}
+					bodyText={translate.delete_items}
+					open={this.state.deleteModal}
+					buttonAccept={translate.send_to_trash}
+					buttonCancel={translate.cancel}
+					modal={true}
+					acceptAction={this.deleteBookParticipant}
+					requestClose={this.closeDeleteModal}
+				/>
                 <EnhancedTable
                     ref={table => (this.table = table)}
                     translate={translate}
@@ -153,7 +189,7 @@ class PartnersBookPage extends React.Component {
                             return (
                                 <HoverableRow
                                     key={`participant${participant.id}`}
-                                    deleteBookParticipant={this.deleteBookParticipant}
+                                    deleteBookParticipant={this.selectedIdToDelete}
                                     participant={participant}
                                     translate={translate}
                                     companyId={this.props.match.params.company}

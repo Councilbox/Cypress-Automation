@@ -41,6 +41,11 @@ class Agendas extends React.Component {
     agendaStateToastId = null;
     agendaVotingsToastId = null;
 
+    componentWillUnmount(){
+        toast.dismiss(this.agendaStateToastId);
+        toast.dismiss(this.agendaVotingsToastId);
+    }
+
     componentDidUpdate(prevProps){
         const { translate } = this.props;
 

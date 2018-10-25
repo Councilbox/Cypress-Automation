@@ -208,8 +208,6 @@ export default graphql(wallComments, {
 				if (!subscriptionData.data.roomMessageAdded) {
 				  return prev;
 				}
-				console.log(prev);
-				console.log(subscriptionData);
 				return ({
 					councilRoomMessages: [
 						...prev.councilRoomMessages,

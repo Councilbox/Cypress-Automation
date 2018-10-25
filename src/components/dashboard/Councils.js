@@ -175,7 +175,7 @@ class Councils extends React.Component {
 												)}
 										<AlertConfirm
 											title={translate.send_to_trash}
-											bodyText={'¿Desea enviar el elemento/s a la papelera? Una vez allí podrá recuperarlo/s contactando con el soporte técnico'}
+											bodyText={translate.delete_items}
 											open={this.state.deleteModal}
 											buttonAccept={translate.send_to_trash}
 											buttonCancel={translate.cancel}

@@ -40,8 +40,6 @@ export const checkIsMobileDevice = detectRTC => {
 
 export const checkIsCompatible = (detectRTC, council, participant) => {
 
-	console.log(participant);
-
  	if(council.councilType === COUNCIL_TYPES.NO_VIDEO){
 		return COMPATIBLE;
 	}

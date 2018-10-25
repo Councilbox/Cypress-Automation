@@ -81,8 +81,6 @@ export default graphql(appConfig, {
                         userId: params.userId
                     },
 			        updateQuery: (prev, { subscriptionData }) => {
-                        console.log(subscriptionData);
-                        console.log(prev);
 
                         if(subscriptionData.data.appControlChange.command === 'logout'){
                             store.dispatch(mainActions.logout());

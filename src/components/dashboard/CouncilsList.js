@@ -63,7 +63,7 @@ class CouncilsList extends React.Component {
                             disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
                             openDeleteModal={openDeleteModal}
                             link={link}
-                        />  
+                        />
                     );
                 })}
                 <CantCreateCouncilsModal

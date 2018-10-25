@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { TabsScreen, FabButton, Icon } from "../displayComponents";
+import { TabsScreen, FabButton, Icon, CBXFooter } from "../displayComponents";
 import { Tooltip } from 'material-ui';
 import Councils from "../components/dashboard/Councils";
 import { lightGrey } from '../styles/colors';
@@ -157,49 +157,53 @@ class CouncilContainer extends React.Component {
 					padding: windowSize === 'xs' ? '0.8em' : '1.6em',
 					position: 'relative',
 					...(windowSize === 'xs' && !isLandscape()? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
-					backgroundColor: lightGrey
+					backgroundColor: lightGrey,
+					paddingBottom: 0
 				}}
 			>
-				<TabsScreen
-					tabsIndex={tabsIndex}
-					tabsInfo={tabsInfo}
-					controlled={true}
-					linked={true}
-					selected={match.params.section}
-				/>
-				{!isMobile &&
-					<div
-						style={{
-							position: 'absolute',
-							right: '3%',
-							bottom: '5%'
-						}}
-					>
-						<Tooltip title={`${translate.dashboard_new}`}>
-							<div style={{ marginBottom: "0.3em" }}>
-								<FabButton
-									{...(cantAccessPremium? { color: 'grey'} : {})}
-									icon={
-										<Icon className="material-icons">
-											add
-										</Icon>
-									}
-									onClick={() =>
-										cantAccessPremium?
-											this.showCantAccessPremiumModal()
-										:
-											bHistory.push(`/company/${company.id}/council/new`)
-									}
-								/>
+				<div style={{height: 'calc(100% - 2em)', marginBottom: '0.6em'}}>
+						<TabsScreen
+							tabsIndex={tabsIndex}
+							tabsInfo={tabsInfo}
+							controlled={true}
+							linked={true}
+							selected={match.params.section}
+						/>
+						{!isMobile &&
+							<div
+								style={{
+									position: 'absolute',
+									right: '3%',
+									bottom: '5%'
+								}}
+							>
+								<Tooltip title={`${translate.dashboard_new}`}>
+									<div style={{ marginBottom: "0.3em" }}>
+										<FabButton
+											{...(cantAccessPremium? { color: 'grey'} : {})}
+											icon={
+												<Icon className="material-icons">
+													add
+												</Icon>
+											}
+											onClick={() =>
+												cantAccessPremium?
+													this.showCantAccessPremiumModal()
+												:
+													bHistory.push(`/company/${company.id}/council/new`)
+											}
+										/>
+									</div>
+								</Tooltip>
 							</div>
-						</Tooltip>
+						}
+						<CantCreateCouncilsModal
+							open={this.state.noPremiumModal}
+							requestClose={this.closeCantAccessPremiumModal}
+							translate={translate}
+						/>
 					</div>
-				}
-				<CantCreateCouncilsModal
-					open={this.state.noPremiumModal}
-					requestClose={this.closeCantAccessPremiumModal}
-					translate={translate}
-				/>
+				<CBXFooter />
 			</div>
 		);
 	}

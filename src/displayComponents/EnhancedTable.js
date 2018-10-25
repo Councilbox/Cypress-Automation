@@ -156,8 +156,6 @@ class EnhancedTable extends React.Component {
 			page
 		} = this.state;
 
-		console.log(headers);
-
 		return (
 			<div>
 				{isMobile && !!this.props.menuButtons &&
@@ -253,7 +251,7 @@ class EnhancedTable extends React.Component {
 								{headers.map((header, index) => {
 									return (
 										header.selectAll?
-											<TableCell>
+											<TableCell key={`header_${index}`}>
 												{header.selectAll}
 											</TableCell>
 										:

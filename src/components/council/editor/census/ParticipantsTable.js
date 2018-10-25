@@ -3,7 +3,7 @@ import { TableCell, TableRow } from "material-ui/Table";
 import { Card } from 'material-ui';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import * as CBX from "../../../../utils/CBX";
-import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem } from "../../../../displayComponents";
+import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from "../../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { deleteParticipant } from "../../../../queries/councilParticipant";
 import { PARTICIPANTS_LIMITS } from "../../../../constants";
@@ -16,7 +16,9 @@ class ParticipantsTable extends React.Component {
 	state = {
 		editingParticipant: false,
 		participant: {},
-		selectedIds: new Map()
+		selectedIds: new Map(),
+		deleteModal: false,
+		singleId: null
 	};
 
 	componentDidMount() {
@@ -52,10 +54,10 @@ class ParticipantsTable extends React.Component {
 		});
 	}
 
-	deleteParticipant = async id => {
+	deleteParticipant = async () => {
 		let toDelete;
-		if(Number.isInteger(id)){
-			toDelete = [id];
+		if(Number.isInteger(this.state.singleId)){
+			toDelete = [this.state.singleId];
 		} else {
 			toDelete = Array.from(this.state.selectedIds.keys());
 		}
@@ -67,7 +69,9 @@ class ParticipantsTable extends React.Component {
 
 		if (response) {
 			this.setState({
-				selectedIds: new Map()
+				selectedIds: new Map(),
+				singleId: null,
+				deleteModal: false
 			})
 			this.table.refresh();
 			this.props.refetch();
@@ -82,10 +86,25 @@ class ParticipantsTable extends React.Component {
 				style={{ color: primary }}
 				onClick={event => {
 					event.stopPropagation();
-					this.deleteParticipant(participantID);
+					this.setState({
+						singleId: participantID,
+						deleteModal: true
+					})
 				}}
 			/>
 		);
+	}
+
+	openDeleteModal = () => {
+		this.setState({
+			deleteModal: true
+		})
+	}
+
+	closeDeleteModal = () => {
+		this.setState({
+			deleteModal: false
+		})
 	}
 
 	refresh = async () => {
@@ -151,6 +170,16 @@ class ParticipantsTable extends React.Component {
 					totalVotes={this.props.totalVotes}
 					totalSocialCapital={this.props.totalSocialCapital}
 				/>
+				<AlertConfirm
+					title={translate.send_to_trash}
+					bodyText={translate.delete_items}
+					open={this.state.deleteModal}
+					buttonAccept={translate.send_to_trash}
+					buttonCancel={translate.cancel}
+					modal={true}
+					acceptAction={this.deleteParticipant}
+					requestClose={this.closeDeleteModal}
+				/>
 				<CouncilParticipantEditor
 					translate={translate}
 					close={this.closeParticipantEditor}
@@ -177,7 +206,7 @@ class ParticipantsTable extends React.Component {
 										color={getSecondary()}
 										buttonStyle={{marginRight: '0.6em'}}
 										textStyle={{color: 'white', fontWeight: '700'}}
-										onClick={this.deleteParticipant}
+										onClick={this.openDeleteModal}
 									/>
 							}
 							loading={!councilParticipants}

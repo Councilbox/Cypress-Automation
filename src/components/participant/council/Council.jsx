@@ -99,6 +99,8 @@ class ParticipantCouncil extends React.Component {
                 online: 0
             }
         });
+
+        toast.dismiss(this.noStartedToastId);
     }
 
     componentDidUpdate = () => {

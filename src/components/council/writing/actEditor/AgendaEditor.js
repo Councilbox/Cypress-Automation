@@ -203,7 +203,7 @@ class AgendaEditor extends React.Component {
 
 		if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
 			tabs.push({
-				text: translate.recount,
+				text: translate.voting,
 				component: () => {
 					return (
 						<div style={{minHeight: '8em', padding: '1em'}}>
@@ -214,18 +214,9 @@ class AgendaEditor extends React.Component {
 								recount={recount}
 								majorityTypes={majorityTypes}
 							/>
-						</div>
-					);
-				}
-			});
-
-			tabs.push({
-				text: translate.voting,
-				component: () => {
-					return (
-						<div style={{minHeight: '8em', padding: '1em'}}>
 							<VotingsTable
 								translate={translate}
+								hideStatus
 								agenda={agenda}
 							/>
 						</div>

@@ -9,14 +9,12 @@ export const networkErrorHandler = async (networkError, toast, store, apolloClie
         }
     }else{
         if(networkError.message === 'Failed to fetch'){
-            console.log('Dispatching server error');
             store.dispatch(noServerResponse());
         }
 
         if(networkError.statusCode === 400){
             let companies = store.getState().companies;
             let user = store.getState().user;
-            console.log(operation);
             await apolloClient.mutate({
                 mutation: sendGraphQLError,
                 variables: {

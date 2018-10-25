@@ -2,7 +2,7 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar } from '../../displayComponents';
+import { Scrollbar, CBXFooter } from '../../displayComponents';
 import { moment } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
@@ -72,6 +72,7 @@ const Dashboard = ({ translate, company, user }) => {
 						user={user}
 					/>
 				</div>
+				<CBXFooter />
 			</Scrollbar>
 		</div>
 	);
