@@ -1,4 +1,4 @@
-import CouncilboxApi from "../api/CouncilboxApi";
+
 import { client, store } from "../containers/App";
 import { loadingFinished } from "./mainActions";
 import { companies, setCompanyAsSelected } from "../queries";
@@ -63,30 +63,6 @@ export const changeCompany = (index, id) => {
 		dispatch({
 			type: "CHANGE_SELECTED",
 			value: index
-		});
-	};
-};
-
-export const getRecount = companyID => {
-	return dispatch => {
-		return CouncilboxApi.getRecount(companyID).then(response => {
-			dispatch({
-				type: "RECOUNTS",
-				value: response
-			});
-		});
-	};
-};
-
-export const getCouncils = info => {
-	return dispatch => {
-		return CouncilboxApi.getCouncils(info).then(response => {
-			if (response) {
-				dispatch({
-					type: "DRAFTS",
-					value: response
-				});
-			}
 		});
 	};
 };

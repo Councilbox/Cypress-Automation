@@ -10,7 +10,6 @@ import {
 } from "../../../displayComponents";
 import { checkValidEmail } from "../../../utils/index";
 import { getPrimary } from "../../../styles/colors";
-import CouncilboxApi from "../../../api/CouncilboxApi";
 import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
 import { withApollo } from "react-apollo/index";
 
@@ -41,13 +40,6 @@ class SignUpUser extends React.Component {
 				desc: 'Galego'
 			},
 		]
-	};
-
-	componentDidMount = async () => {
-/* 		const languages = await CouncilboxApi.getLanguageList();
-		this.setState({
-			languages: languages
-		}); */
 	};
 
 	nextPage = async () => {

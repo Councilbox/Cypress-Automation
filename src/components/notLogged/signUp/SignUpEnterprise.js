@@ -12,7 +12,6 @@ import { MenuItem } from "material-ui/Menu";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { companyTypes } from "../../../queries/masters";
 import { checkCifExists } from "../../../queries/userAndCompanySignUp";
-import CouncilboxApi from "../../../api/CouncilboxApi";
 import { countries, provinces } from "../../../queries/masters";
 import { graphql, withApollo, compose } from "react-apollo";
 
@@ -24,9 +23,8 @@ class SignUpEnterprise extends React.Component {
 	}
 
 	componentDidMount = async () => {
-		const subscriptions = await CouncilboxApi.getSubscriptions();
 		this.setState({
-			subscriptions: subscriptions
+			subscriptions: []
 		});
 	};
 

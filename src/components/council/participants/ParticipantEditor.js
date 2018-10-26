@@ -11,7 +11,6 @@ import { getPrimary } from "../../../styles/colors";
 import { Paper, Typography } from "material-ui";
 import RepresentativeForm from "./RepresentativeForm";
 import ParticipantForm from "./ParticipantForm";
-import CouncilBoxApi from "../../../api/CouncilboxApi";
 import { checkValidEmail, errorHandler } from "../../../utils";
 import { updateCouncilParticipant } from "../../../queries/councilParticipant";
 
@@ -125,9 +124,29 @@ class ParticipantEditor extends Component {
 	}
 
 	async componentDidMount() {
-		const languages = await CouncilBoxApi.getLanguageList();
 		this.setState({
-			languages: languages
+			languages: [
+				{
+					columnName: 'es',
+					desc: 'Español'
+				},
+				{
+					columnName: 'en',
+					desc: 'English'
+				},
+				{
+					columnName: 'pt',
+					desc: 'Portugués'
+				},
+				{
+					columnName: 'cat',
+					desc: 'Catalá'
+				},
+				{
+					columnName: 'gal',
+					desc: 'Galego'
+				},
+			]
 		});
 	}
 
