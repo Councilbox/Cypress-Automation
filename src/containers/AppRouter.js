@@ -128,13 +128,19 @@ class AppRouter extends React.Component {
 		const { translate } = this.props;
 		const verticalLayout = this.showVerticalLayout();
 
-/* 		if(!this.props.main.serverStatus){
-			return <LoadingMainApp message="NO SE HA PODIDO ESTABLECER CONEXION CON EL SERVIDOR..." />
-		} */
-
 		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
 			return <LoadingMainApp />;
 		}
+
+		if(this.props.main.isLogged && this.props.main.noCompanies){
+			return (
+				<LoadNoCompanyTree
+					translate={this.props.translate}
+					user={this.props.user}
+					location={this.props.location}
+				/>
+			)
+		};
 
 		if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
 			return <LoadingMainApp />
@@ -149,16 +155,6 @@ class AppRouter extends React.Component {
 				/>
 			);
 		}
-
-		if(this.props.main.isLogged && this.props.main.noCompanies){
-			return (
-				<LoadNoCompanyTree
-					translate={this.props.translate}
-					user={this.props.user}
-					location={this.props.location}
-				/>
-			)
-		};
 
 		return this.props.main.isLogged && this.props.user.type === 'company'? (
 			<div
