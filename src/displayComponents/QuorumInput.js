@@ -49,6 +49,7 @@ const QuorumInput = ({
 							type={"number"}
 							value={value}
 							min="1"
+							adornment={"/"}
 							errorText={quorumError}
 							onChange={event => {
 								let newValue = event.target.value;
@@ -63,7 +64,6 @@ const QuorumInput = ({
 							min="1"
 							onBlur={() => {if(divider < value) onChangeDivider(value)}}
 							errorText={dividerError}
-							adornment={"/"}
 							onChange={event => {
 								let newValue = event.target.value;
 								onChangeDivider(newValue > 0? newValue : 1)

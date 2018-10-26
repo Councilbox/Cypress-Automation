@@ -150,7 +150,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />
 		}
 
-		if(this.props.user.type === 'corporation'){
+		if(this.props.user.roles === 'root'){
 			return (
 				<LoadCorporationTree
 					translate={this.props.translate}

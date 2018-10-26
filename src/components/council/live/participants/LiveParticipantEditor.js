@@ -287,6 +287,14 @@ class LiveParticipantEditor extends React.Component {
 								<div dangerouslySetInnerHTML={{__html: participant.assistanceComment}} />
 							</GridItem>
 						}
+						{CBX.showSendCredentials(participant.state) &&
+							<ResendCredentialsModal
+								participant={participant}
+								council={this.props.council}
+								translate={translate}
+								refetch={this.props.data.refetch}
+							/>
+						}
 						{participant.notifications.length > 0? (
 							<React.Fragment>
 								<GridItem
@@ -312,14 +320,6 @@ class LiveParticipantEditor extends React.Component {
 										loading={this.state.loadingSends}
 										onClick={this.refreshEmailStates}
 									/>
-									{CBX.showSendCredentials(participant.state) &&
-										<ResendCredentialsModal
-											participant={participant}
-											council={this.props.council}
-											translate={translate}
-											refetch={this.props.data.refetch}
-										/>
-									}
 								</GridItem>
 								<GridItem xs={12} lg={12} md={12}>
 									<NotificationsTable

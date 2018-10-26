@@ -222,7 +222,10 @@ class VotingsTable extends React.Component {
 							}
 						}
 					} else {
-						mappedVotings.push({...voting, delegatedVotes: []});
+						const authorAlreadyInList = mappedVotings.findIndex(vote => vote.author.id === voting.participantId);
+						if(authorAlreadyInList === -1) {
+							mappedVotings.push({...voting, delegatedVotes: []});
+						}
 					}
 				})
 			}
