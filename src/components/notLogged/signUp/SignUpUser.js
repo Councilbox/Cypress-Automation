@@ -213,7 +213,7 @@ class SignUpUser extends React.Component {
 								return (
 									<MenuItem
 										key={language.id}
-										value={language.column_name}
+										value={language.columnName}
 									>
 										{language.desc}
 									</MenuItem>
