@@ -19,14 +19,35 @@ class SignUpUser extends React.Component {
 		repeatEmail: '',
 		confirmPWD: "",
 		subscriptions: [],
-		languages: []
+		languages: [
+			{
+				columnName: 'es',
+				desc: 'Español'
+			},
+			{
+				columnName: 'en',
+				desc: 'English'
+			},
+			{
+				columnName: 'pt',
+				desc: 'Portugués'
+			},
+			{
+				columnName: 'cat',
+				desc: 'Catalá'
+			},
+			{
+				columnName: 'gal',
+				desc: 'Galego'
+			},
+		]
 	};
 
 	componentDidMount = async () => {
-		const languages = await CouncilboxApi.getLanguageList();
+/* 		const languages = await CouncilboxApi.getLanguageList();
 		this.setState({
 			languages: languages
-		});
+		}); */
 	};
 
 	nextPage = async () => {

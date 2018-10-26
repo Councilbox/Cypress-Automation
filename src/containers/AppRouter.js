@@ -136,16 +136,6 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
-		if(this.props.main.isLogged && this.props.main.noCompanies){
-			return (
-				<LoadNoCompanyTree
-					translate={this.props.translate}
-					user={this.props.user}
-					location={this.props.location}
-				/>
-			)
-		};
-
 		if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
 			return <LoadingMainApp />
 		}
@@ -159,6 +149,16 @@ class AppRouter extends React.Component {
 				/>
 			);
 		}
+
+		if(this.props.main.isLogged && this.props.main.noCompanies){
+			return (
+				<LoadNoCompanyTree
+					translate={this.props.translate}
+					user={this.props.user}
+					location={this.props.location}
+				/>
+			)
+		};
 
 		return this.props.main.isLogged && this.props.user.type === 'company'? (
 			<div
