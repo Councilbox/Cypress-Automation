@@ -255,7 +255,8 @@ class VotingsTable extends React.Component {
 				>
 					{this.props.agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING &&
 						<React.Fragment>
-							<div style={{ display: "flex", flexDirection: "row" }}>
+							<div style={{ display: "flex", flexDirection: "row", alignItems: 'center' }}>
+								<span style={{marginRight: '0.2em'}}>Filtrar por:</span>
 								<FilterButton
 									onClick={() =>
 										this.changeVoteFilter(VOTE_VALUES.NO_VOTE)

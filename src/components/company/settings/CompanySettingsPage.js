@@ -272,20 +272,6 @@ class CompanySettingsPage extends React.Component {
 										required
 									/>
 								</GridItem>
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										floatingText={translate.entity_name}
-										type="text"
-										value={data.alias}
-										errorText={errors.alias}
-										onChange={event =>
-											this.updateState({
-												alias: event.target.value
-											})
-										}
-										required
-									/>
-								</GridItem>
 								<GridItem xs={12} md={6} lg={3}>
 									<SelectInput
 										floatingText={translate.company_type}

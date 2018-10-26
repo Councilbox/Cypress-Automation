@@ -109,7 +109,7 @@ class CommentsTable extends React.Component{
 									xs={6}
 									lg={6}
 									md={6}
-									key={`voting_${voting.author.email}`}
+									key={`voting_${voting.author.id}`}
 									style={{
 										paddingBottom: "0.5em",
 										paddingLeft: "2em",

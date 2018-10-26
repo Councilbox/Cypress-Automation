@@ -483,7 +483,7 @@ class HoverableRow extends React.Component {
 						) && (
 							<TableCell>
 								<AttendIntentionIcon
-									participant={participant.live}
+									participant={!!participant.representative? participant.representative.live : participant.live}
 									showCommentIcon
 									onCommentClick={this.props.showModalComment({
 										text: participant.live.assistanceComment,

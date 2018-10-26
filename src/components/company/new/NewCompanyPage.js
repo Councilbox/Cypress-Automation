@@ -180,11 +180,6 @@ class NewCompanyPage extends React.PureComponent {
 			errors.businessName = translate.field_required;
 		}
 
-		if (!data.alias) {
-			hasError = true;
-			errors.alias = translate.field_required;
-		}
-
 		if (data.type === "") {
 			hasError = true;
 			errors.type = translate.field_required;
@@ -283,20 +278,6 @@ class NewCompanyPage extends React.PureComponent {
 												this.updateState({
 													businessName:
 														event.target.value
-												})
-											}
-											required
-										/>
-									</GridItem>
-									<GridItem xs={12} md={6} lg={4}>
-										<TextInput
-											floatingText={translate.entity_name}
-											type="text"
-											value={data.alias}
-											errorText={errors.alias}
-											onChange={event =>
-												this.updateState({
-													alias: event.target.value
 												})
 											}
 											required

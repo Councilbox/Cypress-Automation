@@ -52,7 +52,7 @@ class Assistance extends React.Component {
 		participant: {},
 		savingAssistanceComment: false,
 		delegationModal: false,
-		assistanceIntention: this.props.participant.assistanceIntention
+		assistanceIntention: PARTICIPANT_STATES.REMOTE
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -72,6 +72,8 @@ class Assistance extends React.Component {
 			}
 		});
 
+		console.log(response);
+
 		if (response) {
 			if(response.data.setAssistanceIntention.success){
 				this.setState({
@@ -89,9 +91,7 @@ class Assistance extends React.Component {
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
-		if(this.state.assistanceIntention !== this.props.participant.assistanceIntention){
-			const response = await this.selectSimpleOption(this.state.assistanceIntention);
-		}
+		await this.selectSimpleOption(this.state.assistanceIntention);
 
 		if(!checkForUnclosedBraces(assistanceComment)){
 			this.setState({
@@ -211,7 +211,6 @@ class Assistance extends React.Component {
 													this.setState({
 														assistanceIntention: PARTICIPANT_STATES.REMOTE
 													})
-													//selectSimpleOption(PARTICIPANT_STATES.REMOTE)
 												}}
 												value={PARTICIPANT_STATES.REMOTE}
 												selected={this.state.assistanceIntention}

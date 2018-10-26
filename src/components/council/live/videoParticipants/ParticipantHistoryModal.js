@@ -12,7 +12,7 @@ import { moment } from '../../../../containers/App';
 const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 	<AlertConfirm
 		requestClose={requestClose}
-		open={participant}
+		open={!!participant}
 		acceptAction={requestClose}
 		buttonAccept={translate.accept}
 		bodyText={
