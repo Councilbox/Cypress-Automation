@@ -285,7 +285,7 @@ class HoverableRow extends React.Component {
 
 		let representative = this.props.representative;
 
-		if(participant.live.representative){
+		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}
 
@@ -371,7 +371,7 @@ class HoverableRow extends React.Component {
                     </div>
                 </Card>
             )
-        }
+		}
 
 		return (
 			<TableRow
@@ -446,48 +446,86 @@ class HoverableRow extends React.Component {
 				{!hideNotifications &&
 					<React.Fragment>
 						<TableCell>
-							{participant.notifications
-								.length > 0 ? (
-								<Tooltip
-									title={
-										translate[
-											CBX.getTranslationReqCode(
+							{!!representative?
+								participant.representative.notifications
+									.length > 0 ? (
+									<Tooltip
+										title={
+											translate[
+												CBX.getTranslationReqCode(
+													participant.representative
+														.notifications[0]
+														.reqCode
+												)
+											]
+										}
+									>
+										<img
+											style={{
+												height:
+													"2.1em",
+												width:
+													"auto"
+											}}
+											src={CBX.getEmailIconByReqCode(
+												participant.representative
+													.notifications[0]
+													.reqCode
+											)}
+											alt="email-state-icon"
+										/>
+									</Tooltip>
+								) : (
+									""
+								)
+
+							:
+								participant.notifications
+									.length > 0 ? (
+									<Tooltip
+										title={
+											translate[
+												CBX.getTranslationReqCode(
+													participant
+														.notifications[0]
+														.reqCode
+												)
+											]
+										}
+									>
+										<img
+											style={{
+												height:
+													"2.1em",
+												width:
+													"auto"
+											}}
+											src={CBX.getEmailIconByReqCode(
 												participant
 													.notifications[0]
 													.reqCode
-											)
-										]
-									}
-								>
-									<img
-										style={{
-											height:
-												"2.1em",
-											width:
-												"auto"
-										}}
-										src={CBX.getEmailIconByReqCode(
-											participant
-												.notifications[0]
-												.reqCode
-										)}
-										alt="email-state-icon"
-									/>
-								</Tooltip>
-							) : (
-								""
-							)}
+											)}
+											alt="email-state-icon"
+										/>
+									</Tooltip>
+								) : (
+									""
+								)
+							}
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(
 							council
 						) && (
 							<TableCell>
 								<AttendIntentionIcon
-									participant={!!participant.representative? participant.representative.live : participant.live}
+									participant={participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live : participant.live}
 									showCommentIcon
 									onCommentClick={this.props.showModalComment({
-										text: participant.live.assistanceComment,
-										author: `${participant.name} ${participant.surname}`
+										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+										author: participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
+											`${participant.name} ${participant.surname} - ${translate.represented_by} ${representative.name} ${representative.surname}`
+										:
+											`${participant.name} ${participant.surname}`
 									})}
 									translate={translate}
 									size="2em"

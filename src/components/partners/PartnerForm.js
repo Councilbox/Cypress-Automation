@@ -384,7 +384,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={2}>
                             <SelectInput
                                 floatingText={translate.company_new_country}
-                                value={participant.country}
+                                value={participant.country? participant.country : '-1'}
                                 onChange={event =>
                                     updateState({
                                         country: event.target.value
@@ -403,7 +403,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={2}>
                             <SelectInput
                                 floatingText={translate.company_new_country_state}
-                                value={participant.countryState}
+                                value={participant.countryState? participant.countryState : '-1'}
                                 onChange={event =>
                                     updateState({
                                         countryState: event.target.value
@@ -435,7 +435,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={2}>
                             <SelectInput
                                 floatingText={translate.language}
-                                value={participant.language}
+                                value={participant.language? participant.language : '-1'}
                                 onChange={event =>
                                     updateState({
                                         language: event.target.value

@@ -164,6 +164,7 @@ export const convenedcouncilParticipants = gql`
 					id
 					state
 					surname
+					delegateId
 					assistanceComment
 					assistanceLastDateConfirmed
 					assistanceIntention

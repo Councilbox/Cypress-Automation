@@ -202,6 +202,7 @@ class VotingsTable extends React.Component {
 
 		if(this.props.data.agendaVotings){
 			if(this.props.data.agendaVotings.list.length > 0){
+				console.log(this.props.data.agendaVotings);
 				this.props.data.agendaVotings.list.forEach(voting => {
 					if(voting.authorRepresentative){
 						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId || vote.participantId === voting.delegateId);
@@ -318,24 +319,30 @@ class VotingsTable extends React.Component {
 									marginLeft: "0.9em"
 								}}
 							>
-								<FilterButton
-									onClick={() => this.changeStateFilter(1)}
-									active={this.state.stateFilter === 1}
-									tooltip={`${translate.filter_by} - ${
-										translate.present_vote
-									}`}
-								>
-									{this.getStateIcon(1)}
-								</FilterButton>
-								<FilterButton
-									onClick={() => this.changeStateFilter(0)}
-									active={this.state.stateFilter === 0}
-									tooltip={`${translate.filter_by} - ${
-										translate.remote_vote
-									}`}
-								>
-									{this.getStateIcon(0)}
-								</FilterButton>
+								{this.props.agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING &&
+									<React.Fragment>
+										<FilterButton
+											onClick={() => this.changeStateFilter(5)}
+											active={this.state.stateFilter === 5}
+											tooltip={`${translate.filter_by} - ${
+												translate.present_vote
+											}`}
+										>
+											{this.getStateIcon(1)}
+										</FilterButton>
+										<FilterButton
+											onClick={() => this.changeStateFilter(0)}
+											active={this.state.stateFilter === 0}
+											tooltip={`${translate.filter_by} - ${
+												translate.remote_vote
+											}`}
+										>
+											{this.getStateIcon(0)}
+										</FilterButton>
+									</React.Fragment>
+
+								}
+
 							</div>
 						</React.Fragment>
 					}

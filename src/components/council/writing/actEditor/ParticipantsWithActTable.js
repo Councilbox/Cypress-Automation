@@ -126,12 +126,11 @@ class ParticipantsWithActTable extends React.Component {
                                                     />
                                                 </TableCell>
                                             )}
-                                        
                                             <TableCell>
                                                 <DownloadCBXDataButton
                                                     translate={translate}
                                                     participantId={
-                                                        participant.id
+                                                        participant.participantId
                                                     }
                                                 />
                                             </TableCell>
@@ -139,7 +138,7 @@ class ParticipantsWithActTable extends React.Component {
                                     </React.Fragment>
                                 );
                             }
-                        )                  
+                        )
                     )}
                 </EnhancedTable>
             </div>

@@ -36,7 +36,7 @@ const ChangeCensusMenu = ({
 		{censuses && censuses.list && censuses.list.length > 0?
 			<SelectInput
 				floatingText={translate.current_census}
-				value={council.selectedCensusId}
+				value={council.selectedCensusId || '-1'}
 				onChange={handleCensusChange}
 			>
 				{censuses.list.map(census => {

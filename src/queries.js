@@ -300,6 +300,7 @@ export const councilParticipantsWithActSends = gql`
 				position
 				email
 				phone
+				participantId
 				dni
 				type
 				numParticipations
@@ -1140,7 +1141,7 @@ export const councilStepFive = gql`
  }*/
 
 export const councilStepSix = gql`
-	query CouncilStepSix($id: Int!) {
+	query CouncilStepSix($id: Int!, $timezone: Int) {
 		council(id: $id) {
 			actPointMajority
 			actPointMajorityDivider
@@ -1161,7 +1162,7 @@ export const councilStepSix = gql`
 			state
 			step
 		}
-		councilPreviewHTML(id: $id)
+		councilPreviewHTML(id: $id, timezone: $timezone)
 	}
 `;
 

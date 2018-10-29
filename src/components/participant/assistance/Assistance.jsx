@@ -64,15 +64,20 @@ class Assistance extends React.Component {
 
 	selectSimpleOption = async option => {
 		const { setAssistanceIntention, refetch } = this.props;
+		let quitRepresentative = false;
 
+		if(option){
+			if(option !== this.state.participant.assistanceIntention){
+				quitRepresentative = true;
+			}
+		}
 
 		const response = await setAssistanceIntention({
 			variables: {
-				assistanceIntention: option
+				assistanceIntention: option,
+				representativeId: !!this.state.participant.delegateId && !quitRepresentative? this.state.participant.delegateId : null
 			}
 		});
-
-		console.log(response);
 
 		if (response) {
 			if(response.data.setAssistanceIntention.success){
@@ -123,7 +128,6 @@ class Assistance extends React.Component {
 				}
 			);
 		}
-
 	}
 
 	resetButtonStates = () => {

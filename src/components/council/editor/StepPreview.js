@@ -546,7 +546,8 @@ export default compose(
 		name: "data",
 		options: props => ({
 			variables: {
-				id: props.councilID
+				id: props.councilID,
+				timezone: moment().utcOffset()
 			},
 			notifyOnNetworkStatusChange: true
 		})

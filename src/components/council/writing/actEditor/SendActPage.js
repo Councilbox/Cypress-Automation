@@ -21,7 +21,7 @@ class SendActPage extends React.Component {
             <div style={{width: '100%', padding: '1.2em', display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
                 <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
                     <Typography style={{marginRight: '0.6em'}}>
-                        {!!council.sendActDate? 
+                        {!!council.sendActDate?
                             `${translate.last_time_sent_act}: ${moment(new Date(council.sendActDate)).format('LLL')}`
                         :
                             this.props.translate.act_has_not_been_sent
@@ -57,7 +57,6 @@ class SendActPage extends React.Component {
                     />
 
                 }
-                
                 <SendActModal
 					council={council}
 					translate={translate}

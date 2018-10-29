@@ -45,6 +45,7 @@ const participantQuery = gql`
 			phone
 			email
 			language
+			delegateId
 			assistanceIntention
 			assistanceComment
 			state

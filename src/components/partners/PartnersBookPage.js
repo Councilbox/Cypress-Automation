@@ -272,14 +272,14 @@ class HoverableRow extends React.PureComponent {
                             {translate.subscribe_date}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-                            {moment(participant.subscribeDate).format('LLL')}
+                            {participant.subscribeDate? moment(participant.subscribeDate).format('LLL') : '-'}
                         </GridItem>
 
                         <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
                             {translate.unsubscribe_date}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-                            {moment(participant.unsubscribeDate).format('LLL')}
+                            {participant.unsubscribeDate? moment(participant.unsubscribeDate).format('LLL') : '-'}
                         </GridItem>
                     </Grid>
                     <div style={{position: 'absolute', top: '5px', right: '5px'}}>
@@ -324,10 +324,10 @@ class HoverableRow extends React.PureComponent {
                     {`${participant.position}`}
                 </TableCell>
                 <TableCell>
-                    {moment(participant.subscribeDate).format('LLL')}
+                    {participant.subscribeDate? moment(participant.subscribeDate).format('LLL') : '-'}
                 </TableCell>
                 <TableCell>
-                    {moment(participant.unsubscribeDate).format('LLL')}
+                    {participant.unsubscribeDate? moment(participant.unsubscribeDate).format('LLL') : '-'}
                 </TableCell>
                 <TableCell>
                     <div style={{ width: '3em' }}>

@@ -119,7 +119,7 @@ class ActEditorPage extends React.Component {
                                 socialCapital={this.props.socialCapital}
                                 translate={translate}
                             />
-                        </TabContainer>   
+                        </TabContainer>
                     );
                 }
             },
