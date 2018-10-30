@@ -524,7 +524,7 @@ export default graphql(agendaVotings, {
 		variables: {
 			agendaId: props.agenda.id,
 			options: {
-				limit: 1,
+				limit: 10,
 				offset: 0
 			}
 		},
