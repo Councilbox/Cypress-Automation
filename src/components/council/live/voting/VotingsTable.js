@@ -185,7 +185,7 @@ class VotingsTable extends React.Component {
     render(){
 		const { translate } = this.props;
 
-		let total = 0;
+		let total = 1;
 		if(this.props.recount){
 			total = this.props.recount.partTotal;
 		}

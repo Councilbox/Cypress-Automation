@@ -32,7 +32,6 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
-    console.log(recount);
 
     return(
         <React.Fragment>
