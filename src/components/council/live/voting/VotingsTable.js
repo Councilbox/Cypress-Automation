@@ -465,11 +465,7 @@ class VotingsTable extends React.Component {
 										<TableCell>
 											{vote.author.numParticipations && `${
 												vote.author.numParticipations
-											} (${(
-												(vote.author.numParticipations /
-													total) *
-												100
-											).toFixed(2)}%)`}
+											}`}
 											{!!vote.representing &&
 												`${
 													vote.representing[0].author.numParticipations
@@ -486,12 +482,7 @@ class VotingsTable extends React.Component {
 														{`${
 															delegatedVote.author
 																.numParticipations
-														} (${(
-															(delegatedVote.author
-																.numParticipations /
-																total) *
-															100
-														).toFixed(2)}%)`}
+														}`}
 													</React.Fragment>
 												))
 											}
