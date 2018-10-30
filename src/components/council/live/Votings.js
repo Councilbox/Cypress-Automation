@@ -77,6 +77,7 @@ class Votings extends React.Component {
 					/>
 				}
 				<VotingsTable
+					recount={this.props.recount}
 					translate={this.props.translate}
 					agenda={this.props.agenda}
 				/>

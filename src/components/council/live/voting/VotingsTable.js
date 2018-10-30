@@ -182,22 +182,10 @@ class VotingsTable extends React.Component {
 	};
 
 
-    sumTotalVotings = () => {
-		if (this.props.data.agendaVotings) {
-			if (this.props.data.agendaVotings.list) {
-				return this.props.data.agendaVotings.list.reduce(
-					(a, b) => a + b.author.numParticipations,
-					0
-				);
-			}
-		}
-
-		return 0;
-	};
-
     render(){
-        const { translate } = this.props;
-		const total = this.sumTotalVotings();
+		const { translate } = this.props;
+
+		const total = this.props.recount.partTotal;
 		let mappedVotings = [];
 
 		if(this.props.data.agendaVotings){
@@ -546,7 +534,7 @@ export default graphql(agendaVotings, {
 		variables: {
 			agendaId: props.agenda.id,
 			options: {
-				limit: 10,
+				limit: 1,
 				offset: 0
 			}
 		},
