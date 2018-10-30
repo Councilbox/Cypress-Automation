@@ -185,10 +185,10 @@ class VotingsTable extends React.Component {
     render(){
 		const { translate } = this.props;
 
-		let total = 1;
+/* 		let total = 1;
 		if(this.props.recount){
 			total = this.props.recount.partTotal;
-		}
+		} */
 		let mappedVotings = [];
 
 		if(this.props.data.agendaVotings){
@@ -469,11 +469,7 @@ class VotingsTable extends React.Component {
 											{!!vote.representing &&
 												`${
 													vote.representing[0].author.numParticipations
-												} (${(
-													(vote.representing[0].author.numParticipations /
-														total) *
-													100
-												).toFixed(2)}%)`
+												}`
 											}
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
