@@ -128,6 +128,12 @@ class AppRouter extends React.Component {
 		const { translate } = this.props;
 		const verticalLayout = this.showVerticalLayout();
 
+		if(window.location.hash){
+			if(window.location.hash.includes('#/videoTest')){
+				return <Redirect to="/test/es" />
+			}
+		}
+
 		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
 			return <LoadingMainApp />;
 		}
@@ -223,7 +229,6 @@ class AppRouter extends React.Component {
 					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 					<Route path="/recommendations/:language" component={LoadRecommendations} />
-
 					<Route
 						exact
 						path="/changePwd/:language/:token"

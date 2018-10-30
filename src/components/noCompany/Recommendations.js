@@ -270,7 +270,7 @@ class Recommendations extends React.Component {
                                             target="_blank"
                                         >
                                             <img
-                                                src="https://app.councilbox.com/img/fa-chrome.png"
+                                                src="https://api.councilbox.com/img/fa-chrome.png"
                                                 alt="chrome-icon"
                                                 width="25"
                                                 style={{

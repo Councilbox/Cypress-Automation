@@ -229,7 +229,6 @@ class SendActModal extends React.Component {
 							this.updateFilterText(event.target.value);
 						}}
 					/>
-	
 					<div
 						style={{
 							height: "300px",
@@ -288,8 +287,6 @@ class SendActModal extends React.Component {
 				{this._renderEmails()}
 			</div>
 		)
-
-		
 	}
 
 	render() {
@@ -300,7 +297,7 @@ class SendActModal extends React.Component {
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={this.state.step === 1? this.secondStep : this.sendAct}
-				hideAccept={(this.state.success || this.state.step === 2) && this.state.participants.length < 1}
+				hideAccept={this.state.success || (this.state.step === 2 && this.state.participants.length < 1)}
 				buttonAccept={this.state.step === 1? translate.continue : translate.send}
 				cancelAction={this.state.success?
 					this.close
@@ -310,7 +307,7 @@ class SendActModal extends React.Component {
 						:
 							null
 				}
-				buttonCancel={this.state.success? 
+				buttonCancel={this.state.success?
 					translate.close
 				:
 					this.state.step === 1? translate.close : translate.back}

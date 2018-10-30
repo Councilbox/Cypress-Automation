@@ -9,12 +9,9 @@ import { toast } from 'react-toastify';
 import withTranslations from "../HOCs/withTranslations";
 
 class CreateCouncil extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			creating: false
-		};
-	}
+	state = {
+		creating: false
+	};
 
 	createCouncil = async (companyId) => {
 		const response = await this.props.createCouncil({
@@ -47,7 +44,7 @@ class CreateCouncil extends Component {
 				bHistory.replace(`/company/${this.props.match.params.company}`);
 				toast(
 					<LiveToast
-						message={this.props.transalte.no_statutes}
+						message={this.props.translate.no_statutes}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,

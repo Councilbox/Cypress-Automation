@@ -29,9 +29,10 @@ const itemStyle = {
 
 
 const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda }) => {
-    
+
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
+    console.log(recount);
 
     return(
         <React.Fragment>
@@ -66,7 +67,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
                     </div>
                     <div style={itemStyle}>
-                        {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numCurrentRemoteCensus : recount.currentRemoteCensus || 0}`}
+                        {`${translate.votes}: ${agenda.currentRemoteCensus || 0}`}
                     </div>
                 </GridItem>
                 <GridItem xs={3} lg={3} md={3} style={{...columnStyle, backgroundColor: 'lightcyan'}}>
@@ -77,7 +78,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
                     </div>
                     <div style={itemStyle}>
-                        {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numCurrentRemoteCensus + agenda.numPresentCensus : agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
+                        {`${translate.votes}: ${agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
                     </div>
                 </GridItem>
             </Grid>

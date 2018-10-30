@@ -176,13 +176,11 @@ class ActEditorPage extends React.Component {
             component: () => {
                 return (
                     <TabContainer>
-                        <Scrollbar>
-                            <RecordingsSection
-                                data={this.props.data}
-                                council={council}
-                                translate={translate}
-                            />
-                        </Scrollbar>
+                        <RecordingsSection
+                            data={this.props.data}
+                            council={council}
+                            translate={translate}
+                        />
                     </TabContainer>
                 );
             }
