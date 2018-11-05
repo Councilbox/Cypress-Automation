@@ -89,6 +89,8 @@ class AgendaDetailsSection extends React.Component {
 		const councilStarted = CBX.councilStarted(council);
 		const agenda = agendas[this.props.selectedPoint];
 		const filteredTypes = CBX.filterAgendaVotingTypes(this.props.votingTypes, council.statute);
+		const smallLayout = window.innerWidth < 500;
+		const normalLayout = window.innerWidth > 750;
 
 		return (
 			<div
@@ -110,7 +112,7 @@ class AgendaDetailsSection extends React.Component {
 						padding: "1em 0 1em 1em",
 					}}
 				>
-					<GridItem xs={12} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
+					<GridItem xs={smallLayout? 12 : 8} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
 						<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 							<div>
 								{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
@@ -139,7 +141,7 @@ class AgendaDetailsSection extends React.Component {
 							</div>
 						</div>
 						<Grid>
-							<GridItem xs={12} md={12} lg={3} style={{display: 'flex', alignItems: 'center'}}>
+							<GridItem xs={normalLayout? 3 : 12} md={normalLayout? 3 : 12} lg={3} style={{display: 'flex', alignItems: 'center'}}>
 								{agenda.subjectType !== CBX.getActPointSubjectType() &&
 									<React.Fragment>
 										{agenda.description?
@@ -162,7 +164,7 @@ class AgendaDetailsSection extends React.Component {
 									</React.Fragment>
 								}
 							</GridItem>
-							<GridItem xs={12} md={5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
+							<GridItem xs={normalLayout? 4 : 12} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
 								{councilStarted && !CBX.agendaClosed(agenda) && (
 									<React.Fragment>
 										{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT ?
@@ -185,7 +187,7 @@ class AgendaDetailsSection extends React.Component {
 									</React.Fragment>
 								)}
 							</GridItem>
-							<GridItem xs={12} md={7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
+							<GridItem xs={normalLayout? 5 : 12} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
 								{CBX.showAgendaVotingsToggle(council, agenda) && agenda.subjectType !== CBX.getActPointSubjectType() ? (
 									<ToggleVotingsButton
 										council={council}
@@ -197,7 +199,7 @@ class AgendaDetailsSection extends React.Component {
 							</GridItem>
 						</Grid>
 					</GridItem>
-					<GridItem xs={12} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
+					<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
 						<div style={{marginLeft: 'auto'}}>
 							{council.state === 20 || council.state === 30 ? (
 								!CBX.councilStarted(council) ? (
@@ -238,7 +240,7 @@ class AgendaDetailsSection extends React.Component {
 						</div>
 					</GridItem>
 				</Grid>
-				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: 'calc(100vh - 11em)', overflow: 'hidden' }}>
+				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: `calc(100vh - ${smallLayout? '20em' : '11em'})`, overflow: 'hidden' }}>
 						<Collapse isOpened={this.state.expanded}>
 							<div
 								style={{

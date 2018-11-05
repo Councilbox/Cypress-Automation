@@ -13,11 +13,14 @@ class DownloadCBXDataButton extends Component {
 	state = {
 		loading: false
 	};
-	
+
 	downloadCBXData = async id => {
 		this.setState({
 			loading: true
 		});
+		if(this.props.updateState){
+			this.props.updateState({loading: true});
+		}
 		const response = await this.props.downloadCBXData({
 			variables: {
 				participantId: id,
@@ -35,6 +38,9 @@ class DownloadCBXDataButton extends Component {
 				this.setState({
 					loading: false
 				});
+				if(this.props.updateState){
+					this.props.updateState({loading: false});
+				}
 			}
 		}
 	};

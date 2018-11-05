@@ -1,20 +1,88 @@
 import React from 'react';
 import SendActModal from './SendActModal';
 import ParticipantsWithActTable from './ParticipantsWithActTable';
-import { getPrimary } from '../../../../styles/colors';
-import { BasicButton } from '../../../../displayComponents';
-import { Typography } from 'material-ui';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { BasicButton, DropDownMenu, AlertConfirm, SuccessMessage } from '../../../../displayComponents';
+import { Typography, MenuItem } from 'material-ui';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { moment } from '../../../../containers/App';
+import { reporters } from 'mocha';
 
 class SendActPage extends React.Component {
 
     state = {
         sendAct: false,
-        updating: false
+        updating: false,
+        attendants: false,
+        allConvened: false,
+        loading: false
+    }
+
+    random = Math.random();
+
+    closeAllConvened = () => {
+        this.setState({
+            allConvened: false,
+        }, () => this.setState({
+            success: false,
+            loading: false,
+            error: false
+        }));
+    }
+
+    closeAttendants = () => {
+        this.setState({
+            attendants: false,
+        }, () => this.setState({
+            success: false,
+            loading: false,
+            error: false
+        }));
+    }
+
+    sendActAllConvened = () => {
+        this.sendAct('convened');
+    }
+
+    sendActAttendants = () => {
+        this.sendAct('attendants');
+    }
+
+    sendAct = async group => {
+        this.setState({
+            loading: true
+        });
+        const response = await this.props.sendAct({
+            variables: {
+                councilId: this.props.council.id,
+                group: group
+            }
+        })
+
+        if(response.data.sendCouncilAct){
+            if(response.data.sendCouncilAct.success){
+                this.setState({
+                    loading: false,
+                    success: true
+                });
+                this.random = Math.random();
+                this.props.refetch();
+            }
+        }
+
+        if(response.errors){
+            this.setState({
+                loading: false,
+                error: true,
+                success: false
+            })
+        }
     }
 
     render(){
         const primary = getPrimary();
+        const secondary = getSecondary();
         const { translate, council } = this.props;
 
         return(
@@ -28,45 +96,132 @@ class SendActPage extends React.Component {
                         }
                     </Typography>
                     <div>
-                        <BasicButton
-                            text={!!council.sendActDate? translate.resend_act : translate.send_act}
-                            loading={this.state.updating}
-                            loadingColor={primary}
-                            disabled={this.state.updating}
-                            color={"white"}
-                            textStyle={{
-                                color: primary,
-                                fontWeight: "700",
-                                fontSize: "0.9em",
-                                textTransform: "none"
-                            }}
-                            onClick={() => this.setState({
-                                sendAct: true
-                            })}
-                            buttonStyle={{
-                                marginRight: "1em",
-                                border: `2px solid ${primary}`
-                            }}
+                        <DropDownMenu
+                            color="transparent"
+                            Component={() =>
+                                <BasicButton
+                                    text={!!council.sendActDate? translate.resend_act : translate.send_act}
+                                    loading={this.state.updating}
+                                    loadingColor={primary}
+                                    disabled={this.state.updating}
+                                    color={"white"}
+                                    textStyle={{
+                                        color: primary,
+                                        fontWeight: "700",
+                                        fontSize: "0.9em",
+                                        textTransform: "none"
+                                    }}
+                                    buttonStyle={{
+                                        marginRight: "1em",
+                                        border: `2px solid ${primary}`
+                                    }}
+                                />
+                            }
+                            textStyle={{ color: primary }}
+                            type="flat"
+                            items={
+                                <React.Fragment>
+                                    <MenuItem
+                                        onClick={() =>
+                                            this.setState({
+                                                sendAct: true
+                                            })
+                                        }
+                                    >
+                                        {'Enviar a participantes seleccionados'/*TRADUCCION*/}
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() =>
+                                            this.setState({
+                                                allConvened: true
+                                            })
+                                        }
+                                    >
+                                        {'Enviar a todos los convocados'/*TRADUCCION*/}
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() =>
+                                            this.setState({
+                                                attendants: true
+                                            })
+                                        }
+                                    >
+                                        {'Enviar a todos los asistentes'/*TRADUCCION*/}
+                                    </MenuItem>
+                                </React.Fragment>
+                            }
                         />
                     </div>
                 </div>
                 {!!council.sendActDate &&
                     <ParticipantsWithActTable
                         council={council}
+                        key={this.random}
                         translate={translate}
                     />
 
                 }
+                <AlertConfirm
+                    requestClose={this.closeAllConvened}
+                    open={this.state.allConvened}
+                    acceptAction={this.sendActAllConvened}
+                    loadingAction={this.state.loading}
+                    hideAccept={this.state.success || this.state.error}
+                    buttonAccept={translate.send}
+                    cancelAction={this.closeAllConvened}
+                    buttonCancel={translate.close}
+                    bodyText={this.state.success?
+                        <SuccessMessage /> :
+                        this.state.error?
+                            'No hay ningún participante al que enviarle el acta en la selección' //TRADUCCION
+                        :
+                            'Se le enviará un correo con el acta a todos los participantes convocados'
+                    }
+                    title={translate.sending_the_minutes}
+                />
+                <AlertConfirm
+                    requestClose={this.closeAttendants}
+                    open={this.state.attendants}
+                    acceptAction={this.sendActAttendants}
+                    loadingAction={this.state.loading}
+                    hideAccept={this.state.success || this.state.error}
+                    buttonAccept={translate.send}
+                    cancelAction={this.closeAttendants}
+                    buttonCancel={translate.close}
+                    bodyText={this.state.success?
+                        <SuccessMessage /> :
+                        this.state.error?
+                            'No hubo ningún asistente a la reunión'
+                        :
+                            'Se le enviará un correo con el acta a todos los asistentes de la reunión'
+                    }
+                    title={translate.sending_the_minutes}
+                />
                 <SendActModal
 					council={council}
 					translate={translate}
 					show={this.state.sendAct}
                     refetch={this.props.refetch}
-					requestClose={() => this.setState({ sendAct: false })}
+					requestClose={() => this.setState({ sendAct: false, success: false })}
 				/>
             </div>
         )
     }
 }
 
-export default SendActPage;
+export const sendAct = gql`
+	mutation SendCouncilAct($councilId: Int!, $participantsIds: [Int], $group: String) {
+		sendCouncilAct(
+			councilId: $councilId
+            participantsIds: $participantsIds,
+            group: $group
+		) {
+			success
+			message
+		}
+	}
+`;
+
+export default graphql(sendAct, {
+    name: 'sendAct'
+})(SendActPage);

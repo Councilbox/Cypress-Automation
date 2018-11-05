@@ -14,6 +14,7 @@ const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital
                         participations={hasParticipations(
                             council
                         )}
+                        cbxData={true}
                         totalVotes={totalVotes}
                         socialCapital={socialCapital}
                         hideNotifications={true}

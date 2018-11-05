@@ -11,17 +11,26 @@ class ToggleVotingsButton extends React.Component {
 	};
 
 	openVoting = async () => {
+		this.setState({
+			loading: true
+		});
 		const response = await this.props.openAgendaVoting({
 			variables: {
 				agendaId: this.props.agenda.id
 			}
 		});
 		if (response) {
+			this.setState({
+				loading: false
+			});
 			this.props.refetch();
 		}
 	};
 
 	closeAgendaVoting = async () => {
+		this.setState({
+			loading: true
+		});
 		const { agenda } = this.props;
 		const response = await this.props.closeAgendaVoting({
 			variables: {
@@ -29,6 +38,9 @@ class ToggleVotingsButton extends React.Component {
 			}
 		});
 		if (response) {
+			this.setState({
+				loading: false
+			});
 			this.props.refetch();
 		}
 	};
@@ -51,6 +63,8 @@ class ToggleVotingsButton extends React.Component {
 					<BasicButton
 						text={translate.active_votings}
 						color={"white"}
+						loading={this.state.loading}
+						disabled={this.state.loading}
 						onClick={this.openVoting}
 						textPosition="before"
 						icon={
@@ -76,6 +90,8 @@ class ToggleVotingsButton extends React.Component {
 					<BasicButton
 						text={translate.close_point_votations}
 						color={primary}
+						loading={this.state.loading}
+						disabled={this.state.loading}
 						textPosition="before"
 						icon={
 							<Icon

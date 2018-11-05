@@ -295,7 +295,6 @@ class SendActDraftModal extends React.Component {
 							this.updateFilterText(event.target.value);
 						}}
 					/>
-	
 					<div
 						style={{
 							height: "300px",
@@ -354,8 +353,6 @@ class SendActDraftModal extends React.Component {
 				{this._renderEmails()}
 			</div>
 		)
-
-		
 	}
 
 	render() {

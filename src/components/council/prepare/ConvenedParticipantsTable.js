@@ -213,6 +213,7 @@ class ConvenedParticipantsTable extends React.Component {
 												participant={participant}
 												representative={participant.representative}
 												showModalComment={this.showModalComment}
+												cbxData={false}
 												editParticipant={() =>
 													this.setState({
 														editingParticipant: true,
@@ -366,7 +367,7 @@ class HoverableRow extends React.Component {
                     <div style={{position: 'absolute', top: '5px', right: '5px'}}>
 						<DownloadCBXDataButton
 							translate={translate}
-							participantId={participant.id}
+							participantId={participant.live.id}
 						/>
                     </div>
                 </Card>
@@ -442,6 +443,20 @@ class HoverableRow extends React.Component {
 						}
 					</TableCell>
 				)}
+
+				{this.props.cbxData &&
+					<TableCell>
+						<div style={{width: '4em'}}>
+							{this.state.showActions &&
+								<DownloadCBXDataButton
+									translate={translate}
+									participantId={participant.live.id}
+								/>
+							}
+						</div>
+					</TableCell>
+
+				}
 
 				{!hideNotifications &&
 					<React.Fragment>

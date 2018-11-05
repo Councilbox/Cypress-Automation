@@ -490,6 +490,24 @@ class ActEditor extends Component {
 						{!this.props.liveMode &&
 							<div>
 								<BasicButton
+									text={translate.save_draft}
+									color={"white"}
+									loadingColor={primary}
+									disabled={this.state.disableButtons}
+									loading={this.state.updating}
+									textStyle={{
+										color: primary,
+										fontWeight: "700",
+										fontSize: "0.9em",
+										textTransform: "none"
+									}}
+									onClick={() => this.updateActState({})}
+									buttonStyle={{
+										marginRight: "1em",
+										border: `2px solid ${primary}`
+									}}
+								/>
+								<BasicButton
 									text={isMobile? translate.send_draft_phone_button : translate.send_draft_act_review}
 									color={"white"}
 									disabled={this.state.disableButtons}

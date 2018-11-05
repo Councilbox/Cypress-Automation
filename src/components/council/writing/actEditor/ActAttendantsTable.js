@@ -139,8 +139,8 @@ class ActAttendantsTable extends React.Component {
                                                                 <TableRow style={{
                                                                     backgroundColor:
                                                                         "WhiteSmoke"
-                                                                }} 
-                                                                    key={`delegatedVote_${delegatedVote.id}`}
+                                                                }}
+                                                                    key={`delegatedVote_${delegatedVote.dni}`}
                                                                     >
                                                                     <TableCell style={{ fontSize: "0.9em" }}>
                                                                         <StateIcon translate={translate} state={delegatedVote.state}/>
@@ -176,7 +176,8 @@ class ActAttendantsTable extends React.Component {
 class HoverableRow extends React.Component {
 
     state = {
-        showActions: false
+        showActions: false,
+        loading: false
     }
 
     mouseEnterHandler = () => {
@@ -189,6 +190,12 @@ class HoverableRow extends React.Component {
         this.setState({
             showActions: false
         });
+    }
+
+    updateState = object => {
+        this.setState({
+            ...object
+        })
     }
 
     render(){
@@ -213,11 +220,12 @@ class HoverableRow extends React.Component {
                 </TableCell>
                 <TableCell>
                     <div style={{width: '4em'}}>
-                        {this.state.showActions &&
+                        {(this.state.showActions || this.props.loading) &&
                             <DownloadCBXDataButton
+                                updateState={this.updateState}
                                 translate={translate}
                                 participantId={
-                                    participant.participantId
+                                    participant.id
                                 }
                             />
                         }

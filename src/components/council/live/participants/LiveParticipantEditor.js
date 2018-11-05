@@ -132,7 +132,7 @@ class LiveParticipantEditor extends React.Component {
 								{!isMobile &&
 									<DownloadCBXDataButton
 										translate={translate}
-										participantId={participant.participantId}
+										participantId={participant.id}
 									/>
 								}
 

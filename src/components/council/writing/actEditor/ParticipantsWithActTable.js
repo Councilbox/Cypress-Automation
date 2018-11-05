@@ -130,7 +130,7 @@ class ParticipantsWithActTable extends React.Component {
                                                 <DownloadCBXDataButton
                                                     translate={translate}
                                                     participantId={
-                                                        participant.participantId
+                                                        participant.id
                                                     }
                                                 />
                                             </TableCell>
@@ -157,7 +157,9 @@ export default compose(
                     offset: 0
                 },
                 // notificationStatus: 6
-            }
+            },
+            notifyOnNetworkStatusChange: true,
+            fetchPolicy: 'network-only'
         })
     }),
     graphql(updateActSends, {
