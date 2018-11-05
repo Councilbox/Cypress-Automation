@@ -17,8 +17,9 @@ import {
 import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
-import { Tooltip } from "material-ui";
+import { Tooltip, Card } from "material-ui";
 import { isPresentVote, agendaVotingsOpened } from "../../../../utils/CBX";
+import { isMobile } from 'react-device-detect';
 
 
 class VotingsTable extends React.Component {
@@ -236,7 +237,7 @@ class VotingsTable extends React.Component {
 			>
 
 				<GridItem
-					xs={6}
+					xs={12}
 					md={6}
 					lg={6}
 					style={{
@@ -339,12 +340,12 @@ class VotingsTable extends React.Component {
 					}
 				</GridItem>
 
-				<GridItem xs={2} md={2} lg={2}>
+				<GridItem xs={4} md={2} lg={2}>
 					{!agendaVotingsOpened(this.props.agenda) && !this.props.hideStatus &&
 						'Votaciones cerradas'
 					}
 				</GridItem>
-				<GridItem xs={4} md={4} lg={4}>
+				<GridItem xs={8} md={4} lg={4}>
 					<TextInput
 						adornment={<Icon>search</Icon>}
 						floatingText={" "}
@@ -361,10 +362,11 @@ class VotingsTable extends React.Component {
 					) : this.props.data.agendaVotings.list.length > 0 ? (
 						<React.Fragment>
 							<Table
+								style={{width: '100%'}}
+								forceMobileTable={true}
 								headers={[
 									{},
 									{ name: translate.participant_data },
-									{ name: translate.position },
 									{ name: translate.votes }
 								]}
 							>
@@ -398,22 +400,12 @@ class VotingsTable extends React.Component {
 																vote={vote.vote}
 															/>
 														</Tooltip>
-														{isPresentVote(
-															vote
-														) && (
+														{isPresentVote(vote) && (
 															<PresentVoteMenu
 																agenda={this.props.agenda}
-																agendaVoting={
-																	vote
-																}
-																active={
-																	vote.vote
-																}
-																refetch={
-																	this.props
-																		.data
-																		.refetch
-																}
+																agendaVoting={vote}
+																active={vote.vote}
+																refetch={this.props.data.refetch}
 															/>
 														)}
 													</React.Fragment>
@@ -434,33 +426,24 @@ class VotingsTable extends React.Component {
 											</div>
 										</TableCell>
 										<TableCell>
-											<span style={{fontWeight: '700'}}>
-												{!!vote.representing &&
-													`${vote.representing[0].author.name} ${vote.representing[0].author.surname} - Representado por: `
+											<div style={{minWidth: '7em', fontSize: '0.9em'}}>
+												<span style={{fontWeight: '700'}}>
+													{!!vote.representing &&
+														`${vote.representing[0].author.name} ${vote.representing[0].author.surname} - Representado por: `
+													}
+													{`${vote.author.name} ${
+														vote.author.surname
+													}`}
+												</span>
+												{!!vote.delegatedVotes &&
+													vote.delegatedVotes.map(delegatedVote => (
+														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+															<br/>
+															{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${`(Ha delegado su voto)`}`}
+														</React.Fragment>
+													))
 												}
-												{`${vote.author.name} ${
-													vote.author.surname
-												}`}
-											</span>
-											{!!vote.delegatedVotes &&
-												vote.delegatedVotes.map(delegatedVote => (
-													<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-														<br/>
-														{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${`(Ha delegado su voto)`}`}
-													</React.Fragment>
-												))
-											}
-										</TableCell>
-										<TableCell>
-											{vote.author.position}
-											{!!vote.delegatedVotes &&
-												vote.delegatedVotes.map(delegatedVote => (
-													<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-														<br/>
-														{delegatedVote.author.position}
-													</React.Fragment>
-												))
-											}
+											</div>
 										</TableCell>
 										<TableCell>
 											{vote.author.numParticipations && `${

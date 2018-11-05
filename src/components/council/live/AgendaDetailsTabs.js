@@ -7,6 +7,7 @@ import Comments from './Comments';
 import RecountSection from './RecountSection';
 import Votings from "./Votings";
 import { AGENDA_TYPES } from '../../../constants';
+import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 
 
@@ -34,12 +35,12 @@ class AgendaDetailsTabs extends React.Component {
                     textColor="secondary"
                     onChange={this.handleChange}
                 >
-                    <Tab label={translate.comments_and_agreements} />
-                    <Tab label={translate.act_comments} disabled={!CBX.councilStarted(council)}/>
+                    <Tab label={isMobile? 'Acuerdos' : translate.comments_and_agreements} /*TRADUCCION*/ />
+                    <Tab label={isMobile? 'Comentarios' : translate.act_comments} disabled={!CBX.councilStarted(council)} /*TRADUCCION*/ />
                     {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
                         <Tab label={translate.voting} disabled={!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda)}/>
                     }
-                    <Tab label={translate.attachment_files} />
+                    <Tab label={isMobile? 'Adjuntos' : translate.attachment_files} /*TRADUCCION*/ />
                 </Tabs>
                 <div style={{borderTop: '1px solid gainsboro', height: 'calc(100% - 48px)'}}>
                     <Scrollbar>
@@ -67,7 +68,7 @@ class AgendaDetailsTabs extends React.Component {
                         {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE?
                             <React.Fragment>
                                 {this.state.selectedTab === 2 &&
-                                    <div style={{padding: '1.5em'}}>
+                                    <div style={{padding: '1em'}}>
                                         <RecountSection
                                             agenda={agenda}
                                             key={`agendaRecount_${agenda.id}`}

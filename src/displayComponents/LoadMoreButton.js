@@ -10,6 +10,7 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
                 width: '90%',
                 border: '2px solid grey',
                 margin: 'auto',
+                marginBottom: '1.2em',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -19,7 +20,7 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
             onClick={onClick}
         >
             <MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
-                LOAD MORE
+                Cargar más
                 {loading &&
                     <div>
                         <LoadingSection size={25} />

@@ -215,10 +215,11 @@ class ConvenedParticipantsTable extends React.Component {
 												showModalComment={this.showModalComment}
 												cbxData={false}
 												editParticipant={() =>
-													this.setState({
-														editingParticipant: true,
-														participant: participant
-													})
+													!this.props.cantEdit &&
+														this.setState({
+															editingParticipant: true,
+															participant: participant
+														})
 												}
 												{...this.props}
 											/>

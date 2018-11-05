@@ -9,9 +9,9 @@ import Table, {
 import TableStyles from "../styles/table";
 import { isMobile } from 'react-device-detect';
 
-const TableWrapper = ({ headers = [], children }) => (
+const TableWrapper = ({ headers = [], children, style, forceMobileTable }) => (
 	<React.Fragment>
-		{isMobile?
+		{isMobile && !forceMobileTable?
 			children
 		:
 		<Table style={{ maxWidth: "100%", width: '100%' }}>

@@ -546,7 +546,10 @@ export default graphql(query, {
 			options: {
 				limit: PARTICIPANTS_LIMITS[0],
 				offset: 0
-			}
+			},
+			pollInterval: 7000,
+			notifyOnNetworkStatusChange: true,
+			fetchPolicy: 'network-only'
 		}
 	})
 })(withWindowSize(StatesContainer));

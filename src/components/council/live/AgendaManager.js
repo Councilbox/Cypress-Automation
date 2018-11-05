@@ -6,6 +6,7 @@ import { graphql } from "react-apollo";
 import { agendaManager } from "../../../queries";
 import { LoadingSection, Scrollbar } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
+import { isMobile } from 'react-device-detect';
 
 class AgendaManager extends React.Component {
 
@@ -126,14 +127,14 @@ class AgendaManager extends React.Component {
 			>
 				<Card
 					style={{
-						width: "5em",
+						width: isMobile? '3em' : "5em",
 						height: "100%",
 						borderLeft: '1px solid gainsboro',
 						overflow: "auto",
 						backgroundColor: "white"
 					}}
 				>
-					<Scrollbar>
+					<Scrollbar autoHide={true}>
 						<AgendaSelector
 							agendas={agendas}
 							company={company}
@@ -151,7 +152,7 @@ class AgendaManager extends React.Component {
 				</Card>
 				<div
 					style={{
-						width: "calc(100% - 5em)",
+						width: `calc(100% - ${isMobile? '3em' : '5em'})`,
 						height: "100%",
 						padding: "0",
 						display: "flex",

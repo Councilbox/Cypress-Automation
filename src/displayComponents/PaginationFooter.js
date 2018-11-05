@@ -39,8 +39,8 @@ const PaginationFooter = ({
 					  }`
 					: translate.table_no_results}
 			</GridItem>
-			<GridItem xs={7} lg={6} md={6}>
-				<div style={{ float: "right" }}>
+			<GridItem xs={7} lg={6} md={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
+				<div>
 					{page > 1 && (
 						<React.Fragment>
 							<span

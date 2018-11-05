@@ -262,27 +262,27 @@ class ActEditor extends Component {
 	}
 
 	updateCouncilAct = async () => {
-		const { __typename, ...act } = this.state.data.council.act;
+		if(this.state.data.council.act){
+			const { __typename, ...act } = this.state.data.council.act;
 
-		if(!this.checkBraces()){
-			this.setState({
-				updating: true,
-				disableButtons: false
-			});
-
-			const response = await this.props.updateCouncilAct({
-				variables: {
-					councilAct: {
-						...act,
-						councilId: this.state.data.council.id
-					}
-				}
-			});
-
-			if(!!response){
+			if(!this.checkBraces()){
 				this.setState({
-					updating: false
+					updating: true,
+					disableButtons: false
 				});
+				const response = await this.props.updateCouncilAct({
+					variables: {
+						councilAct: {
+							...act,
+							councilId: this.state.data.council.id
+						}
+					}
+				});
+				if(!!response){
+					this.setState({
+						updating: false
+					});
+				}
 			}
 		}
 	}

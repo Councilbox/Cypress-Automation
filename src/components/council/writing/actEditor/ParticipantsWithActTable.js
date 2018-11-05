@@ -74,7 +74,7 @@ class ParticipantsWithActTable extends React.Component {
                                             }}
                                         >
                                             <TableCell>
-                                                {`${participant.name}`}
+                                                {`${participant.name} ${participant.surname}`}
                                             </TableCell>
                                             <TableCell>
                                                 {participant.dni}
@@ -153,7 +153,7 @@ export default compose(
             variables: {
                 councilId: props.council.id,
                 options: {
-                    limit: 10,
+                    limit: PARTICIPANTS_LIMITS[0],
                     offset: 0
                 },
                 // notificationStatus: 6

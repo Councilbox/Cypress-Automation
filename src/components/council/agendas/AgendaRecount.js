@@ -129,6 +129,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 </GridItem>
             </Grid>
             <Table
+                forceMobileTable={true}
                 headers={[
                     {name: translate.voting},
                     {name: translate.in_favor},

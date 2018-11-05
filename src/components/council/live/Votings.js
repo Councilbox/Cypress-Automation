@@ -94,26 +94,10 @@ class Votings extends React.Component {
 				}}
 				onKeyUp={this.handleKeyPress}
 			>
-				{/* <CollapsibleSection
-					trigger={this._button}
-					collapse={this._section}
-					open={false}
-				/> */}
 				{this._section()}
 			</div>
 		);
 	}
 }
-
-/*
-{agendaVotingsOpened(this.props.agenda)?
-					this._section()
-	:
-		<div style={{width: '100%', paddingTop: '5em', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-			<i class="fa fa-lock" aria-hidden="true" style={{fontSize: '2em', marginRight: '0.6em', color: getSecondary()}}></i>
-			{this.props.translate.agenda_votations_closed}
-		</div>
-	}
-*/
 
 export default Votings;

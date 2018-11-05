@@ -112,6 +112,50 @@ class AgendaDetailsSection extends React.Component {
 						padding: "1em 0 1em 1em",
 					}}
 				>
+
+					{smallLayout &&
+						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ display: 'flex', marginBottom: '0.6em', flexDirection: 'row', justifyContent: 'flex-end' }}>
+							<div>
+								{council.state === 20 || council.state === 30 ? (
+									!CBX.councilStarted(council) ? (
+										<div>
+											<StartCouncilButton
+												recount={this.props.recount}
+												council={council}
+												translate={translate}
+												participants={participants}
+												refetch={this.props.refetchCouncil}
+											/>
+										</div>
+									) : (
+											<div>
+												<EndCouncilButton
+													council={{
+														...council,
+														agendas: this.props.agendas
+													}}
+													translate={translate}
+												/>
+											</div>
+										)
+								) : (
+										<OpenRoomButton
+											translate={translate}
+											council={council}
+											refetch={this.props.refetchCouncil}
+										/>
+									)
+								}
+							</div>
+							<div>
+								<CouncilMenu
+									council={council}
+									translate={translate}
+								/>
+							</div>
+						</GridItem>
+
+					}
 					<GridItem xs={smallLayout? 12 : 8} md={9} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between' }}>
 						<div style={{ fontWeight: '700',  width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 							<div>
@@ -164,7 +208,7 @@ class AgendaDetailsSection extends React.Component {
 									</React.Fragment>
 								}
 							</GridItem>
-							<GridItem xs={normalLayout? 4 : 12} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
+							<GridItem xs={normalLayout? 4 : 6} md={normalLayout? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
 								{councilStarted && !CBX.agendaClosed(agenda) && (
 									<React.Fragment>
 										{agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PRIVATE_ACT ?
@@ -187,7 +231,7 @@ class AgendaDetailsSection extends React.Component {
 									</React.Fragment>
 								)}
 							</GridItem>
-							<GridItem xs={normalLayout? 5 : 12} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
+							<GridItem xs={normalLayout? 5 : 6} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
 								{CBX.showAgendaVotingsToggle(council, agenda) && agenda.subjectType !== CBX.getActPointSubjectType() ? (
 									<ToggleVotingsButton
 										council={council}
@@ -199,48 +243,50 @@ class AgendaDetailsSection extends React.Component {
 							</GridItem>
 						</Grid>
 					</GridItem>
-					<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
-						<div style={{marginLeft: 'auto'}}>
-							{council.state === 20 || council.state === 30 ? (
-								!CBX.councilStarted(council) ? (
-									<div>
-										<StartCouncilButton
-											recount={this.props.recount}
-											council={council}
-											translate={translate}
-											participants={participants}
-											refetch={this.props.refetchCouncil}
-										/>
-									</div>
-								) : (
+					{!smallLayout &&
+						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
+							<div style={{marginLeft: 'auto'}}>
+								{council.state === 20 || council.state === 30 ? (
+									!CBX.councilStarted(council) ? (
 										<div>
-											<EndCouncilButton
-												council={{
-													...council,
-													agendas: this.props.agendas
-												}}
+											<StartCouncilButton
+												recount={this.props.recount}
+												council={council}
 												translate={translate}
+												participants={participants}
+												refetch={this.props.refetchCouncil}
 											/>
 										</div>
+									) : (
+											<div>
+												<EndCouncilButton
+													council={{
+														...council,
+														agendas: this.props.agendas
+													}}
+													translate={translate}
+												/>
+											</div>
+										)
+								) : (
+										<OpenRoomButton
+											translate={translate}
+											council={council}
+											refetch={this.props.refetchCouncil}
+										/>
 									)
-							) : (
-									<OpenRoomButton
-										translate={translate}
-										council={council}
-										refetch={this.props.refetchCouncil}
-									/>
-								)
-							}
-						</div>
-						<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
-							<CouncilMenu
-								council={council}
-								translate={translate}
-							/>
-						</div>
-					</GridItem>
+								}
+							</div>
+							<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
+								<CouncilMenu
+									council={council}
+									translate={translate}
+								/>
+							</div>
+						</GridItem>
+					}
 				</Grid>
-				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: `calc(100vh - ${smallLayout? '20em' : '11em'})`, overflow: 'hidden' }}>
+				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: `calc(100vh - ${smallLayout? '14em' : '11em'})`, overflow: 'hidden' }}>
 						<Collapse isOpened={this.state.expanded}>
 							<div
 								style={{

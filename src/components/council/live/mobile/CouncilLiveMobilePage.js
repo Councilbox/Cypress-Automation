@@ -9,7 +9,7 @@ import AgendaManager from '../AgendaManager';
 class CouncilLiveMobilePage extends React.Component {
 
     state = {
-        participants: false
+        participants: true
     }
 
     render() {

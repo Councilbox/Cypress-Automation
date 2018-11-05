@@ -58,6 +58,7 @@ class LiveMobileHeader extends React.Component {
 							whiteSpace: 'nowrap',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
+							textAlign: 'center'
 						}}
 					>
 						<span style={{ alignSelf: "center" }}>

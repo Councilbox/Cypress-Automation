@@ -578,7 +578,10 @@ export default compose(
 					limit: PARTICIPANTS_LIMITS[0],
 					offset: 0
 				}
-			}
+			},
+			pollInterval: 7000,
+			notifyOnNetworkStatusChange: true,
+			fetchPolicy: 'network-only'
 		})
 	}),
 	graphql(updateCredentialsSends, {

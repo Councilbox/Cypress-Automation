@@ -11,9 +11,8 @@ const ActConvenedParticipants = ({ council, translate, totalVotes, socialCapital
                 <div style={{padding: '1.5em', overflow: 'hidden'}}>
                     <ConvenedParticipantsTable
                         council={council}
-                        participations={hasParticipations(
-                            council
-                        )}
+                        participations={hasParticipations(council)}
+                        cantEdit={true}
                         cbxData={true}
                         totalVotes={totalVotes}
                         socialCapital={socialCapital}
