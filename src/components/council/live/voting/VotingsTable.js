@@ -522,6 +522,7 @@ export default graphql(agendaVotings, {
 				offset: pageLimit * (page - 1)
 			}
 		},
+		pollInterval: 4000,
 		notifyOnNetworkStatusChange: true
 	})
 })(VotingsTable);

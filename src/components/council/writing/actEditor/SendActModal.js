@@ -50,8 +50,7 @@ class SendActModal extends React.Component {
 		this.props.data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.councilParticipants.list
-						.length,
+					offset: this.props.data.councilParticipantsActSends.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -61,11 +60,11 @@ class SendActModal extends React.Component {
 				}
 				return {
 					...prev,
-					councilParticipants: {
-						...prev.councilParticipants,
+					councilParticipantsActSends: {
+						...prev.councilParticipantsActSends,
 						list: [
-							...prev.councilParticipants.list,
-							...fetchMoreResult.councilParticipants
+							...prev.councilParticipantsActSends.list,
+							...fetchMoreResult.councilParticipantsActSends
 								.list
 						]
 					}
