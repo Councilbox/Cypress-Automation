@@ -21,6 +21,8 @@ import { Tooltip, Card } from "material-ui";
 import { isPresentVote, agendaVotingsOpened } from "../../../../utils/CBX";
 import { isMobile } from 'react-device-detect';
 
+const pageLimit = 20;
+let page = 1;
 
 class VotingsTable extends React.Component {
 
@@ -43,8 +45,15 @@ class VotingsTable extends React.Component {
 				agendaId: nextProps.agenda.id
 			};
 		}
-
 		return null;
+	}
+
+	componentDidUpdate(){
+		console.log('update');
+	}
+
+	componentDidMount(){
+		console.log('mount');
 	}
 
     getTooltip = vote => {
@@ -127,13 +136,11 @@ class VotingsTable extends React.Component {
 	changePage = value => {
 		const variables = this.buildVariables();
 		variables.options = {
-			limit: 10,
-			offset: 10 * (value - 1)
+			limit: pageLimit,
+			offset: pageLimit * (value - 1)
 		};
 
-		this.setState({
-			page: value
-		});
+		page = value;
 		this.props.data.refetch(variables);
 	};
 
@@ -141,6 +148,11 @@ class VotingsTable extends React.Component {
 		let variables = {
 			filters: [],
 			authorFilters: null
+		};
+
+		variables.options = {
+			limit: pageLimit,
+			offset: pageLimit * (page - 1)
 		};
 
 		if (this.state.voteFilter !== "all") {
@@ -185,7 +197,6 @@ class VotingsTable extends React.Component {
 
     render(){
 		const { translate } = this.props;
-
 /* 		let total = 1;
 		if(this.props.recount){
 			total = this.props.recount.partTotal;
@@ -223,6 +234,9 @@ class VotingsTable extends React.Component {
 				})
 			}
 		}
+
+		console.log(this.props.data.agendaVotings);
+
 
 		return (
 			<Grid
@@ -405,7 +419,7 @@ class VotingsTable extends React.Component {
 																agenda={this.props.agenda}
 																agendaVoting={vote}
 																active={vote.vote}
-																refetch={this.props.data.refetch}
+																refetch={this.refreshTable}
 															/>
 														)}
 													</React.Fragment>
@@ -481,14 +495,11 @@ class VotingsTable extends React.Component {
 								}}
 							>
 								<PaginationFooter
-									page={this.state.page}
+									page={page}
 									translate={translate}
-									length={
-										this.props.data.agendaVotings.list
-											.length
-									}
+									length={this.props.data.agendaVotings.list.length}
 									total={this.props.data.agendaVotings.total}
-									limit={10}
+									limit={pageLimit}
 									changePage={this.changePage}
 								/>
 							</div>
@@ -507,10 +518,10 @@ export default graphql(agendaVotings, {
 		variables: {
 			agendaId: props.agenda.id,
 			options: {
-				limit: 10,
-				offset: 0
+				limit: pageLimit,
+				offset: pageLimit * (page - 1)
 			}
 		},
-		pollInterval: 4000
+		notifyOnNetworkStatusChange: true
 	})
 })(VotingsTable);

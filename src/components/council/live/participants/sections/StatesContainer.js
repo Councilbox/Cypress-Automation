@@ -31,6 +31,7 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
+let limit = PARTICIPANTS_LIMITS[0];
 
 class StatesContainer extends React.Component {
 	state = {
@@ -127,6 +128,8 @@ class StatesContainer extends React.Component {
 			loadingMore: true
 		});
 
+		limit = currentLength + PARTICIPANTS_LIMITS[0];
+
 		this.props.data.fetchMore({
 			variables: {
 				options: {
@@ -172,6 +175,11 @@ class StatesContainer extends React.Component {
 			variables.stateStatus = this.state.stateStatus;
 		} else {
 			variables.stateStatus = null;
+		}
+
+		variables.options = {
+			limit: limit,
+			offset: 0
 		}
 
 		if (this.state.filterText) {
@@ -473,7 +481,7 @@ class StatesContainer extends React.Component {
 						loading={this.props.data.loading}
 						loadingMore={this.state.loadingMore}
 						renderHeader={this._renderHeader}
-						refetch={this.props.data.refetch}
+						refetch={this.refresh}
 						participants={this.props.data.liveParticipantsState}
 						layout={this.props.layout}
 						council={this.props.council}
@@ -485,7 +493,7 @@ class StatesContainer extends React.Component {
 				<AddGuestModal
 					show={this.state.addGuest}
 					council={council}
-					refetch={refetch}
+					refetch={this.refresh}
 					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
 				/>
@@ -539,12 +547,14 @@ const query = gql`
 	}
 `;
 
+console.log(limit);
+
 export default graphql(query, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id,
 			options: {
-				limit: PARTICIPANTS_LIMITS[0],
+				limit: limit,
 				offset: 0
 			},
 			pollInterval: 7000,

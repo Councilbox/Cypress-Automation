@@ -30,6 +30,7 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
+let limit = PARTICIPANTS_LIMITS[0];
 
 class TypesContainer extends React.Component {
 	state = {
@@ -123,6 +124,8 @@ class TypesContainer extends React.Component {
 			loadingMore: true
 		});
 
+		limit = currentLength;
+
 		this.props.data.fetchMore({
 			variables: {
 				options: {
@@ -160,6 +163,11 @@ class TypesContainer extends React.Component {
 			variables.typeStatus = this.state.typeStatus;
 		} else {
 			variables.typeStatus = null;
+		}
+
+		variables.options = {
+			offset: 0,
+			limit: limit
 		}
 
 		if(this.state.onlyNotSigned){
@@ -443,7 +451,7 @@ export default graphql(query, {
 		variables: {
 			councilId: props.council.id,
 			options: {
-				limit: PARTICIPANTS_LIMITS[0],
+				limit: limit,
 				offset: 0
 			},
 			pollInterval: 7000,

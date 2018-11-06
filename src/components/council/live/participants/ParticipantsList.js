@@ -36,7 +36,7 @@ class ParticipantsList extends React.PureComponent {
 
 		return (
 			<React.Fragment>
-				{loading ?
+				{loading && false ?
 					<div
 						style={{
 							marginTop: "5em",

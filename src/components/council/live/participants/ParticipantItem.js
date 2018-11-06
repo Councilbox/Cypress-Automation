@@ -23,15 +23,21 @@ class ParticipantItem extends React.PureComponent {
 
 		return (
 			<GridItem
-				xs={this.props.orientation === 'portrait'? 12 : 6}
+				xs={this.props.orientation === 'portrait'? 12 : layout !== 'squares'? 12 : 6}
 				md={layout !== 'squares' ? 12 : 4}
 				lg={layout !== 'squares' ? 12 : 4}
+				{...(layout !== 'squares'? { marginBottom: '0.3em'} : {})}
 			>
 				<div
 					style={{
 						width: '98%',
 						marginRight: '5%',
-						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em'
+						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
+						...(layout !== 'squares'? {
+							height: '3.2em',
+							marginBottom: '0.3em',
+							borderBottom: '1px solid gainsboro'
+						} : {})
 					}}
 				>
 					<MenuItem
@@ -41,7 +47,7 @@ class ParticipantItem extends React.PureComponent {
 							borderRadius: '2px',
 							padding: '0px 2px',
 							textOverflow: "ellipsis",
-							overflow: "hidden"
+							overflow: "hidden",
 						}}
 						onClick={() => editParticipant(participant.id)}
 					// onMouseEnter={() => this.setState({ showIcons: true })}
@@ -90,6 +96,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			alignItems: "center",
 			width: "100%",
 			fontSize: '14px',
+			padding: '1em',
 			textOverflow: "ellipsis",
 			overflow: "hidden"
 		}}
@@ -129,21 +136,14 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			{`${participant.name} ${participant.surname}`}
 		</GridItem>
 		<GridItem
-			xs={2}
+			xs={3}
 			md={2}
 			lg={2}
 		>
 			{`${participant.dni}`}
 		</GridItem>
 		<GridItem
-			xs={2}
-			md={2}
-			lg={2}
-		>
-			{`${participant.position}`}
-		</GridItem>
-		<GridItem
-			xs={2}
+			xs={3}
 			md={2}
 			lg={2}
 		>

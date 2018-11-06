@@ -140,38 +140,37 @@ class ParticipantsManager extends React.Component {
 					overflow: 'hidden'
 				}}
 			>
-				{!isMobile &&
-					<div style={{overflow: 'hidden', marginRight: '0.6em', display: 'flex'}}>
-						<FilterButton
-							tooltip={translate.grid}
-							onClick={() => this.setState({ layout: 'squares' })}
-							active={this.state.layout === "squares"}
-							size= {'2.55em'}
-						>
-							<FontAwesome
-								name={"th-large"}
-								style={{
-									color: primary,
-									fontSize: "0.9em"
-								}}
-							/>
-						</FilterButton>
-						<FilterButton
-							tooltip={translate.table}
-							onClick={() => this.setState({ layout: 'table' })}
-							active={this.state.layout === "table"}
-							size= {'2.55em'}
-						>
-							<FontAwesome
-								name={"th-list"}
-								style={{
-									color: primary,
-									fontSize: "0.9em"
-								}}
-							/>
-						</FilterButton>
-					</div>
-				}
+				<div style={{overflow: 'hidden', marginRight: '0.6em', display: 'flex'}}>
+					<FilterButton
+						tooltip={translate.grid}
+						onClick={() => this.setState({ layout: 'squares' })}
+						active={this.state.layout === "squares"}
+						size= {'2.55em'}
+					>
+						<FontAwesome
+							name={"th-large"}
+							style={{
+								color: primary,
+								fontSize: "0.9em"
+							}}
+						/>
+					</FilterButton>
+					<FilterButton
+						tooltip={translate.table}
+						onClick={() => this.setState({ layout: 'table' })}
+						active={this.state.layout === "table"}
+						size= {'2.55em'}
+					>
+						<FontAwesome
+							name={"th-list"}
+							style={{
+								color: primary,
+								fontSize: "0.9em"
+							}}
+						/>
+					</FilterButton>
+				</div>
+
 				<div style={{minWidth: '14em'}}>
 					<SelectInput
 						fullWidth

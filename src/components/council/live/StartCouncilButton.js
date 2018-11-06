@@ -182,6 +182,15 @@ class StartCouncilButton extends React.Component {
 		});
 	};
 
+	updateFilterText = text => {
+		this.props.data.refetch({
+			filters: [{
+				field: 'fullName',
+				text: text
+			}]
+		});
+	}
+
 	_startCouncilForm = () => {
 		const { translate } = this.props;
 		const { loading } = this.props.data;
@@ -357,7 +366,7 @@ class StartCouncilButton extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
-		if (this.props.data.loading) {
+		if (!this.props.data.councilOfficials) {
 			return <LoadingSection />;
 		}
 
