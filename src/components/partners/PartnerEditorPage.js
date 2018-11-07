@@ -24,11 +24,14 @@ class PartnerEditorPage extends React.PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data.loading) {
-            const { __typename, ...bookParticipant } = nextProps.data.bookParticipant;
+            const { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
             return {
                 data: {
                     ...bookParticipant
-                }
+                },
+                ...(representative? {
+                    representative: representative
+                } : {})
             }
         }
 
@@ -44,9 +47,16 @@ class PartnerEditorPage extends React.PureComponent {
             this.setState({
                 loading: true
             });
+            const { __typename, ...representative } = this.state.representative;
             const response = await this.props.updateBookParticipant({
                 variables: {
-                    participant: this.state.data
+                    participant: this.state.data,
+                    ...(this.state.data.personOrEntity === 1? {
+                        representative: {
+                            ...representative,
+                            companyId: this.state.data.companyId
+                        }
+                    } : {})
                 }
             });
 
@@ -97,17 +107,17 @@ class PartnerEditorPage extends React.PureComponent {
             errors.name = translate.required_field;
         }
 
-        if (!data.surname) {
+        if (data.personOrEntity === 0 && !data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
         }
-
+/*
         if (!data.dni) {
             hasError = true;
             errors.dni = translate.required_field;
         }
 
-        if (!data.phone) {
+         if (!data.phone) {
             hasError = true;
             errors.phone = translate.required_field;
         }
@@ -115,7 +125,7 @@ class PartnerEditorPage extends React.PureComponent {
         if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
-        }
+        } */
 
         if (!data.email) {
             hasError = true;
@@ -143,10 +153,43 @@ class PartnerEditorPage extends React.PureComponent {
         })
     }
 
+    updateRepresentative = object => {
+        this.setState({
+            representative: {
+                ...this.state.representative,
+                ...object
+            }
+        })
+    }
+
     render() {
 
         if (this.props.data.loading) {
             return <LoadingSection />;
+        }
+
+        let representative = this.state.representative;
+
+        if(this.state.data.personOrEntity === 1 && !representative){
+            representative = {
+                name: '',
+                surname: '',
+                dni: '',
+                nationality: '',
+                home: '',
+                language: 'es',
+                email: '',
+                phone: '',
+                landlinePhone: '',
+                type: 0,
+                address: '',
+                city: '',
+                observations: '',
+                country: 'España',
+                countryState: '',
+                zipcode: '',
+                position: ''
+            }
         }
 
         return (
@@ -161,7 +204,9 @@ class PartnerEditorPage extends React.PureComponent {
                         <div style={{ padding: '0.6em 5%' }}>
                             <PartnerForm
                                 translate={this.props.translate}
+                                representative={representative}
                                 updateState={this.updateState}
+                                updateRepresentative={this.updateRepresentative}
                                 participant={this.state.data}
                                 errors={this.state.errors}
                             />
@@ -218,11 +263,33 @@ const getBookParticipant = gql`
             language
             email
             id
+            representative {
+                name
+                surname
+                dni
+                nationality
+                home
+                language
+                email
+                id
+                phone
+                landlinePhone
+                type
+                address
+                state
+                city
+                observations
+                country
+                countryState
+                zipcode
+                position
+            }
             phone
             landlinePhone
             type
             address
             state
+            companyId
             city
             observations
             country
@@ -242,8 +309,8 @@ const getBookParticipant = gql`
 `;
 
 const updateBookParticipant = gql`
-    mutation updateBookParticipant($participant: BookParticipantInput!){
-        updateBookParticipant(participant: $participant){
+    mutation updateBookParticipant($participant: BookParticipantInput!, $representative: BookParticipantInput){
+        updateBookParticipant(participant: $participant, representative: $representative){
             success
             message
         }

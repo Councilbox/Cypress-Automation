@@ -318,10 +318,10 @@ class HoverableRow extends React.PureComponent {
                     {`${participant.name} ${participant.surname}`}
                 </TableCell>
                 <TableCell>
-                    {`${participant.dni}`}
+                    {`${participant.dni || ''}`}
                 </TableCell>
                 <TableCell>
-                    {`${participant.position}`}
+                    {`${participant.position || ''}`}
                 </TableCell>
                 <TableCell>
                     {participant.subscribeDate? moment(participant.subscribeDate).format('LLL') : '-'}

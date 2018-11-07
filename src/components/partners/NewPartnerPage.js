@@ -39,6 +39,25 @@ class NewPartnerPage extends React.Component {
             subscribeActNumber: '',
             unsubscribeActNumber: ''
         },
+        representative: {
+            name: '',
+            surname: '',
+            dni: '',
+            nationality: '',
+            home: '',
+            language: 'es',
+            email: '',
+            phone: '',
+            landlinePhone: '',
+            type: 0,
+            address: '',
+            city: '',
+            observations: '',
+            country: 'España',
+            countryState: '',
+            zipcode: '',
+            position: '',
+        },
         errors: {}
     }
 
@@ -55,9 +74,17 @@ class NewPartnerPage extends React.Component {
                     participant: {
                         ...this.state.data,
                         companyId: this.props.company.id
-                    }
+                    },
+                    ...(this.state.data.personOrEntity === 1? {
+                        representative: {
+                            ...this.state.representative,
+                            companyId: this.props.company.id
+                        }
+                    } : {})
                 }
             });
+
+            console.log(response);
 
             if (response.data) {
                 if (response.data.createSimpleBookParticipant) {
@@ -75,7 +102,6 @@ class NewPartnerPage extends React.Component {
             home: '',
             language: 'es',
             email: '',
-            phone: '',
             landlinePhone: '',
             address: '',
             state: '',
@@ -96,25 +122,20 @@ class NewPartnerPage extends React.Component {
             errors.name = translate.required_field;
         }
 
-        if (!data.surname) {
+        if (data.personOrEntity === 0 && !data.surname) {
             hasError = true;
             errors.surname = translate.required_field;
         }
 
-        if (!data.dni) {
+/*         if (!data.dni) {
             hasError = true;
             errors.dni = translate.required_field;
-        }
-
-        if (!data.phone) {
-            hasError = true;
-            errors.phone = translate.required_field;
         }
 
         if (!data.email) {
             hasError = true;
             errors.email = translate.required_field;
-        }
+        } */
 
         if (!data.email) {
             hasError = true;
@@ -130,6 +151,8 @@ class NewPartnerPage extends React.Component {
             errors
         });
 
+        console.log(errors, hasError);
+
         return hasError;
     }
 
@@ -137,6 +160,15 @@ class NewPartnerPage extends React.Component {
         this.setState({
             data: {
                 ...this.state.data,
+                ...object
+            }
+        })
+    }
+
+    updateRepresentative = object => {
+        this.setState({
+            representative: {
+                ...this.state.representative,
                 ...object
             }
         })
@@ -155,6 +187,8 @@ class NewPartnerPage extends React.Component {
                         <div style={{ padding: '0.6em 5%' }}>
                             <PartnerForm
                                 translate={this.props.translate}
+                                representative={this.state.representative}
+                                updateRepresentative={this.updateRepresentative}
                                 updateState={this.updateState}
                                 participant={this.state.data}
                                 errors={this.state.errors}
@@ -199,8 +233,8 @@ class NewPartnerPage extends React.Component {
 }
 
 const createPartner = gql`
-    mutation CreatePartner($participant: BookParticipantInput!) {
-        createSimpleBookParticipant(participant: $participant){
+    mutation CreatePartner($participant: BookParticipantInput!, $representative: BookParticipantInput) {
+        createSimpleBookParticipant(participant: $participant, representative: $representative){
             id
         }
     }

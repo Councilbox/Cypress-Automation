@@ -34,7 +34,7 @@ class PartnerForm extends React.PureComponent {
     }
 
     render() {
-        const { participant, translate, updateState, errors, checkEmail } = this.props;
+        const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;
         const primary = getPrimary();
 
         return (
@@ -82,7 +82,7 @@ class PartnerForm extends React.PureComponent {
                                     floatingText={translate.entity_name}
                                     type="text"
                                     errorText={errors.name}
-                                    value={participant.name}
+                                    value={participant.name || ''}
                                     onChange={event =>
                                         updateState({
                                             name: event.nativeEvent.target.value
@@ -97,7 +97,7 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.name}
                                             type="text"
                                             errorText={errors.name}
-                                            value={participant.name}
+                                            value={participant.name || ''}
                                             onChange={event =>
                                                 updateState({
                                                     name: event.nativeEvent.target.value
@@ -110,7 +110,7 @@ class PartnerForm extends React.PureComponent {
                                             floatingText={translate.surname}
                                             type="text"
                                             errorText={errors.surname}
-                                            value={participant.surname}
+                                            value={participant.surname || ''}
                                             onChange={event =>
                                                 updateState({
                                                     surname: event.nativeEvent.target.value
@@ -125,7 +125,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
                                 type="text"
                                 errorText={errors.dni}
-                                value={participant.dni}
+                                value={participant.dni || ''}
                                 onChange={event =>
                                     updateState({
                                         dni: event.nativeEvent.target.value
@@ -138,7 +138,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.nationality}
                                 type="text"
                                 errorText={errors.nationality}
-                                value={participant.nationality}
+                                value={participant.nationality || ''}
                                 onChange={event =>
                                     updateState({
                                         nationality: event.nativeEvent.target.value
@@ -152,7 +152,7 @@ class PartnerForm extends React.PureComponent {
                                 {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
                                 type="text"
                                 errorText={errors.email}
-                                value={participant.email}
+                                value={participant.email || ''}
                                 onChange={event =>
                                     updateState({
                                         email: event.nativeEvent.target.value
@@ -165,7 +165,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.phone}
                                 type="text"
                                 errorText={errors.phone}
-                                value={participant.phone}
+                                value={participant.phone || ''}
                                 onChange={event =>
                                     updateState({
                                         phone: event.nativeEvent.target.value
@@ -178,7 +178,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.landline_phone}
                                 type="text"
                                 errorText={errors.landlinePhone}
-                                value={participant.landlinePhone}
+                                value={participant.landlinePhone || ''}
                                 onChange={event =>
                                     updateState({
                                         landlinePhone: event.nativeEvent.target.value
@@ -191,7 +191,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.position}
                                 type="text"
                                 errorText={errors.position}
-                                value={participant.position}
+                                value={participant.position || ''}
                                 onChange={event =>
                                     updateState({
                                         position: event.nativeEvent.target.value
@@ -360,7 +360,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.address}
                                 type="text"
                                 errorText={errors.address}
-                                value={participant.address}
+                                value={participant.address || ''}
                                 onChange={event =>
                                     updateState({
                                         address: event.nativeEvent.target.value
@@ -373,7 +373,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.company_new_locality}
                                 type="text"
                                 errorText={errors.city}
-                                value={participant.city}
+                                value={participant.city || ''}
                                 onChange={event =>
                                     updateState({
                                         city: event.nativeEvent.target.value
@@ -421,7 +421,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={6} lg={3}>
                             <TextInput
-                                floatingText={translate.company_new_zipcode}
+                                floatingText={translate.company_new_zipcode || ''}
                                 type="text"
                                 errorText={errors.zipcode}
                                 value={participant.zipcode}
@@ -455,7 +455,7 @@ class PartnerForm extends React.PureComponent {
                             <RichTextInput
                                 floatingText={translate.observations}
                                 translate={translate}
-                                value={participant.observations}
+                                value={participant.observations || ''}
                                 onChange={value =>
                                     updateState({
                                         observations: value
@@ -464,6 +464,227 @@ class PartnerForm extends React.PureComponent {
                             />
                         </GridItem>
                     </Grid>
+
+
+
+
+                    {participant.personOrEntity === 1 &&
+                        <React.Fragment>
+                            <SectionTitle color={primary} text={translate.representative} style={{ marginTop: '2.8em' }} />
+                            <SectionTitle color={primary} text={translate.personal_data} style={{ marginTop: '1.2em' }} />
+                            <Paper elevation={0}>
+                                <Grid>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.name}
+                                            type="text"
+                                            value={representative.name || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    name: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.surname}
+                                            type="text"
+                                            value={representative.surname || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    surname: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.dni}
+                                            type="text"
+                                            value={representative.dni || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    dni: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.nationality}
+                                            type="text"
+                                            value={representative.nationality || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    nationality: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.email}
+                                            {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
+                                            type="text"
+                                            value={representative.email || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    email: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.phone}
+                                            type="text"
+                                            value={representative.phone || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    phone: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.landline_phone}
+                                            type="text"
+                                            value={representative.landlinePhone || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    landlinePhone: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.position}
+                                            type="text"
+                                            value={representative.position || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    position: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                </Grid>
+                            </Paper>
+                            <SectionTitle color={primary} text={translate.additional_data} style={{ marginTop: '2.8em' }} />
+                            <Paper elevation={0}>
+                                <Grid>
+                                    <GridItem xs={6} md={6} lg={5}>
+                                        <TextInput
+                                            floatingText={translate.address}
+                                            type="text"
+                                            value={representative.address || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    address: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={6} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.company_new_locality}
+                                            type="text"
+                                            value={representative.city || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    city: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={2}>
+                                        <SelectInput
+                                            floatingText={translate.company_new_country}
+                                            value={representative.country? representative.country : '-1'}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    country: event.target.value
+                                                })
+                                            }
+                                        >
+                                            {!this.props.data.loading && (
+                                                this.props.data.countries.map(country =>
+                                                    <MenuItem value={country.deno} key={`country_${country.deno}`}>
+                                                        {country.deno}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </SelectInput>
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={2}>
+                                        <SelectInput
+                                            floatingText={translate.company_new_country_state}
+                                            value={representative.countryState? representative.countryState : '-1'}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    countryState: event.target.value
+                                                })
+                                            }
+                                        >
+                                            {this.state.provinces.length > 0 && (
+                                                this.state.provinces.map(province =>
+                                                    <MenuItem value={province.deno} key={`province_${province.deno}`}>
+                                                        {province.deno}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </SelectInput>
+                                    </GridItem>
+                                    <GridItem xs={6} md={6} lg={3}>
+                                        <TextInput
+                                            floatingText={translate.company_new_zipcode}
+                                            type="text"
+                                            value={representative.zipcode || ''}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    zipcode: event.nativeEvent.target.value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={6} md={4} lg={2}>
+                                        <SelectInput
+                                            floatingText={translate.language}
+                                            value={representative.language? representative.language : '-1'}
+                                            onChange={event =>
+                                                updateRepresentative({
+                                                    language: event.target.value
+                                                })
+                                            }
+                                        >
+                                            {!this.props.data.loading && (
+                                                this.props.data.languages.map(language =>
+                                                    <MenuItem value={language.columnName} key={`language_${language.deno}`}>
+                                                        {language.desc}
+                                                    </MenuItem>
+                                                )
+                                            )}
+                                        </SelectInput>
+                                    </GridItem>
+                                    <GridItem xs={12} md={12} lg={12}>
+                                        <RichTextInput
+                                            floatingText={translate.observations}
+                                            translate={translate}
+                                            value={representative.observations || ''}
+                                            onChange={value =>
+                                                updateRepresentative({
+                                                    observations: value
+                                                })
+                                            }
+                                        />
+                                    </GridItem>
+                                </Grid>
+                            </Paper>
+                        </React.Fragment>
+                    }
                 </Paper>
             </React.Fragment>
         )
