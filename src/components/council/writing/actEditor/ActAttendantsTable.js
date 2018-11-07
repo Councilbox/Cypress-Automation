@@ -4,7 +4,7 @@ import { graphql, withApollo } from 'react-apollo';
 import { LoadingSection, EnhancedTable, BasicButton, Scrollbar } from '../../../../displayComponents';
 import FontAwesome from 'react-fontawesome';
 import { TableRow, TableCell } from 'material-ui';
-import { PARTICIPANTS_LIMITS } from '../../../../constants';
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
 import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 import { getSecondary } from '../../../../styles/colors';
@@ -133,8 +133,9 @@ class ActAttendantsTable extends React.Component {
                                                         <HoverableRow
                                                             translate={translate}
                                                             participant={participant}
+                                                            delegatedVotes={participant.delegationsAndRepresentations}
                                                         />
-                                                        {!!participant.delegationsAndRepresentations && (
+{/*                                                         {!!participant.delegationsAndRepresentations && (
                                                             participant.delegationsAndRepresentations.map(delegatedVote =>
                                                                 <TableRow style={{
                                                                     backgroundColor:
@@ -157,7 +158,7 @@ class ActAttendantsTable extends React.Component {
                                                                     <TableCell />
                                                                 </TableRow>
                                                             )
-                                                        )}
+                                                        )} */}
                                                     </React.Fragment>
                                                 );
                                             }
@@ -199,7 +200,12 @@ class HoverableRow extends React.Component {
     }
 
     render(){
-        const { translate, participant } = this.props;
+        const { translate, participant, delegatedVotes } = this.props;
+
+        console.log(delegatedVotes);
+
+        const representing = delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
+        //const delegated = delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
 
         return (
             <TableRow
@@ -210,7 +216,14 @@ class HoverableRow extends React.Component {
                     <StateIcon translate={translate} state={participant.state}/>
                 </TableCell>
                 <TableCell>
-                    {`${participant.name} ${participant.surname}`}
+                    {!!representing?
+                        <span style={{fontWeight: '700'}}>{`${representing.name} ${representing.surname} - ${translate.represented_by} ${participant.name} ${participant.surname}`}</span>
+                    :
+                        <span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+                    }
+    {/*                 {!!delegated &&
+                        delegated.map(vote => `${vote.name} ${vote.surname}`)
+                    } */}
                 </TableCell>
                 <TableCell>
                     {participant.dni}

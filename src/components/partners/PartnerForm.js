@@ -262,6 +262,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
                                 required
+                                onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
@@ -280,6 +281,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
                                 required
+                                onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
@@ -298,6 +300,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
                                 required
+                                onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
@@ -316,6 +319,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
                                 required
+                                onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
@@ -334,6 +338,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={12} md={4} lg={4}>
                             <DateTimePicker
                                 required
+                                onlyDate
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();

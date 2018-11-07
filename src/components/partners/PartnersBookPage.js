@@ -191,6 +191,7 @@ class PartnersBookPage extends React.Component {
                                     key={`participant${participant.id}`}
                                     deleteBookParticipant={this.selectedIdToDelete}
                                     participant={participant}
+                                    representative={participant.representative}
                                     translate={translate}
                                     companyId={this.props.match.params.company}
                                 />
@@ -223,7 +224,7 @@ class HoverableRow extends React.PureComponent {
 
 
     render() {
-        const { participant, translate } = this.props;
+        const { participant, translate, representative } = this.props;
 
         if(isMobile){
             return(
@@ -315,7 +316,12 @@ class HoverableRow extends React.PureComponent {
                     }
                 </TableCell>
                 <TableCell>
-                    {`${participant.name} ${participant.surname}`}
+                    <span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+                    {representative &&
+                        <React.Fragment>
+                            <br/>{`${representative.name} ${representative.surname}`}
+                        </React.Fragment>
+                    }
                 </TableCell>
                 <TableCell>
                     {`${participant.dni || ''}`}
@@ -352,6 +358,11 @@ const bookParticipants = gql`
                 id
                 dni
                 state
+                representative {
+                    id
+                    name
+                    surname
+                }
                 position
                 surname
                 subscribeDate

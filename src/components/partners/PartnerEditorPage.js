@@ -24,7 +24,7 @@ class PartnerEditorPage extends React.PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data.loading) {
-            const { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
+            let { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
             return {
                 data: {
                     ...bookParticipant
@@ -47,17 +47,20 @@ class PartnerEditorPage extends React.PureComponent {
             this.setState({
                 loading: true
             });
-            const { __typename, ...representative } = this.state.representative;
-            const response = await this.props.updateBookParticipant({
-                variables: {
-                    participant: this.state.data,
-                    ...(this.state.data.personOrEntity === 1? {
-                        representative: {
-                            ...representative,
-                            companyId: this.state.data.companyId
-                        }
-                    } : {})
+            let variables = {
+                participant: this.state.data
+            }
+
+            if(this.state.data.personOrEntity === 1){
+                const { __typename, ...cleanedRepresentative } = this.state.representative;
+                variables.representative = {
+                    ...cleanedRepresentative,
+                    companyId: this.state.data.companyId
                 }
+            }
+
+            const response = await this.props.updateBookParticipant({
+                variables
             });
 
             if (response.data) {
