@@ -660,6 +660,16 @@ export const platformDrafts = gql`
 			value
 		}
 
+		votingTypes {
+			label
+			value
+		}
+
+		majorityTypes {
+			label
+			value
+		}
+
 		companyTypes {
 			label
 			value

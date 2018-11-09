@@ -72,6 +72,7 @@ class Votings extends React.Component {
 				{canEditPresentVotings(this.props.agenda) && agendaVotingsOpened(this.props.agenda) &&
 					<ManualVotingsMenu
 						refetch={this.props.refetch}
+						changeEditedVotings={this.props.changeEditedVotings}
 						translate={this.props.translate}
 						agenda={this.props.agenda}
 					/>

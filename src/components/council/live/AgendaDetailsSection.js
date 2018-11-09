@@ -235,6 +235,8 @@ class AgendaDetailsSection extends React.Component {
 								{CBX.showAgendaVotingsToggle(council, agenda) && agenda.subjectType !== CBX.getActPointSubjectType() ? (
 									<ToggleVotingsButton
 										council={council}
+										showVotingsAlert={this.props.showVotingsAlert}
+										editedVotings={this.props.editedVotings}
 										agenda={agenda}
 										translate={translate}
 										refetch={refetch}
@@ -309,6 +311,9 @@ class AgendaDetailsSection extends React.Component {
 								translate={translate}
 								agenda={agenda}
 								council={council}
+								showVotingsAlert={this.props.showVotingsAlert}
+								changeEditedVotings={this.props.changeEditedVotings}
+								editedVotings={this.props.editedVotings}
 								refetch={this.props.refetch}
                         		data={this.props.data}
 								recount={this.props.recount}

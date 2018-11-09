@@ -28,21 +28,30 @@ class ToggleVotingsButton extends React.Component {
 	};
 
 	closeAgendaVoting = async () => {
-		this.setState({
-			loading: true
-		});
-		const { agenda } = this.props;
-		const response = await this.props.closeAgendaVoting({
-			variables: {
-				agendaId: agenda.id
-			}
-		});
-		if (response) {
+		const cb = async () => {
 			this.setState({
-				loading: false
+				loading: true
 			});
-			this.props.refetch();
+			const { agenda } = this.props;
+			const response = await this.props.closeAgendaVoting({
+				variables: {
+					agendaId: agenda.id
+				}
+			});
+			if (response) {
+				this.setState({
+					loading: false
+				});
+				this.props.refetch();
+			}
 		}
+
+		if(!this.props.editedVotings){
+			cb();
+		} else {
+			this.props.showVotingsAlert(cb);
+		}
+
 	};
 
 	componentWillReceiveProps(nextProps) {

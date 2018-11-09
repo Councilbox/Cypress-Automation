@@ -319,7 +319,7 @@ class NewAgendaPointModal extends React.Component {
 					{children}
 				</div>
 				<AlertConfirm
-					requestClose={() => this.close()}
+					requestClose={this.state.loadDraft? () => this.setState({loadDraft: false}) : () => this.close()}
 					open={this.state.newPointModal}
 					acceptAction={this.addAgenda}
 					buttonAccept={translate.accept}

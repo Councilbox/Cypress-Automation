@@ -285,7 +285,7 @@ class PointEditor extends React.Component {
 
 		return (
 			<AlertConfirm
-				requestClose={requestClose}
+				requestClose={this.state.loadDraft? () => this.setState({loadDraft: false}) : requestClose}
 				open={open}
 				acceptAction={this.saveChanges}
 				buttonAccept={translate.accept}

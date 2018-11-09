@@ -53,7 +53,7 @@ const ParticipantForm = ({
 					/>
 				</GridItem>
 			)}
-			{participant.personOrEntity ? (
+			{participant.personOrEntity === 1 ? (
 				<GridItem xs={6} md={8} lg={6}>
 					<TextInput
 						floatingText={translate.entity_name}
@@ -111,19 +111,21 @@ const ParticipantForm = ({
 					}
 				/>
 			</GridItem>
-			<GridItem xs={6} md={4} lg={3}>
-				<TextInput
-					floatingText={translate.position}
-					type="text"
-					errorText={errors.position}
-					value={participant.position}
-					onChange={event =>
-						updateState({
-							position: event.nativeEvent.target.value
-						})
-					}
-				/>
-			</GridItem>
+			{participant.personOrEntity === 0 &&
+				<GridItem xs={6} md={4} lg={3}>
+					<TextInput
+						floatingText={translate.position}
+						type="text"
+						errorText={errors.position}
+						value={participant.position}
+						onChange={event =>
+							updateState({
+								position: event.nativeEvent.target.value
+							})
+						}
+					/>
+				</GridItem>
+			}
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.email}

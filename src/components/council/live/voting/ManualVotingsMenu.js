@@ -13,6 +13,11 @@ class ManualVotingsMenu extends React.Component {
         noVoteManual: this.props.agenda.noVoteManual,
     }
 
+    updateVoting = voting => {
+        this.setState(voting);
+        this.props.changeEditedVotings(true);
+    }
+
     saveManualVotings = async () => {
         const { attachments, __typename, ...toSend } = this.props.agenda;
         this.setState({
@@ -35,6 +40,7 @@ class ManualVotingsMenu extends React.Component {
                 loading: false,
                 success: true
             });
+            this.props.changeEditedVotings(false);
             this.props.refetch();
         }
     }
@@ -78,7 +84,7 @@ class ManualVotingsMenu extends React.Component {
                                 floatingText={translate.in_favor}
                                 onChange={event => {
                                     //console.log(maxVoteManual, this.state.positiveManual, event.target.value);
-                                    this.setState({
+                                    this.updateVoting({
                                         positiveManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.positiveManual, 10), parseInt(event.target.value, 10))
                                     })
                                 }}
@@ -93,7 +99,7 @@ class ManualVotingsMenu extends React.Component {
                                 floatingText={translate.against}
                                 onChange={event => {
                                     //console.log(maxVoteManual, this.state.negativeManual, event.target.value);
-                                    this.setState({
+                                    this.updateVoting({
                                         negativeManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.negativeManual, 10), parseInt(event.target.value, 10))
                                     })
                                 }}
@@ -108,7 +114,7 @@ class ManualVotingsMenu extends React.Component {
                                 floatingText={translate.abstentions}
                                 onChange={event => {
                                     //console.log(maxVoteManual, this.state.abstentionManual, event.target.value);
-                                    this.setState({
+                                    this.updateVoting({
                                         abstentionManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.abstentionManual, 10), parseInt(event.target.value, 10))
                                     })}
                                 }
@@ -121,7 +127,7 @@ class ManualVotingsMenu extends React.Component {
                                 min={0}
                                 max={maxVoteManual + this.state.noVoteManual}
                                 floatingText={translate.no_vote}
-                                onChange={event => this.setState({
+                                onChange={event => this.updateVoting({
                                     noVoteManual: ((maxVoteManual + this.state.noVoteManual) >= +event.target.value)? event.target.value : (+maxVoteManual + +this.state.noVoteManual)
                                 })}
                             />

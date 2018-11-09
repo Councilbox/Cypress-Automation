@@ -18,9 +18,18 @@ class AgendaDetailsTabs extends React.Component {
     }
 
     handleChange = (event, index) => {
-        this.setState({
-            selectedTab: index
-        })
+        const cb = () => {
+            this.setState({
+                selectedTab: index
+            })
+        }
+
+        if(this.props.editedVotings){
+            this.props.showVotingsAlert(cb);
+        } else {
+            cb();
+        }
+
     }
 
 
@@ -82,6 +91,7 @@ class AgendaDetailsTabs extends React.Component {
                                             key={`agendaVotings_${agenda.id}`}
                                             ref={votings => (this.votings = votings)}
                                             refetch={this.props.refetch}
+                                            changeEditedVotings={this.props.changeEditedVotings}
                                             agenda={agenda}
                                             recount={this.props.recount}
                                             translate={translate}

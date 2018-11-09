@@ -20,6 +20,7 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import { withRouter } from "react-router-dom";
 import PlatformDraftDetails from "./PlatformDraftDetails";
+import DraftDetailsModal from './DraftDetailsModal';
 import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 
@@ -27,7 +28,8 @@ class PlatformDrafts extends React.Component {
 
 	state = {
 		selectedIndex: -1,
-		selectedValues: []
+		selectedValues: [],
+		draft: null
 	};
 
 	componentDidMount() {
@@ -54,6 +56,18 @@ class PlatformDrafts extends React.Component {
 		}
 		return false;
 	};
+
+	showDraftDetails = draft => {
+		this.setState({
+			draftModal: draft
+		});
+	}
+
+	closeDraftDetails = () => {
+		this.setState({
+			draftModal: null
+		})
+	}
 
 	allSelected = () => {
 		const { platformDrafts } = this.props.data;
@@ -293,6 +307,7 @@ class PlatformDrafts extends React.Component {
 														key={`draft_${draft.id}`}
 														translate={translate}
 														index={index}
+														showDraftDetails={this.showDraftDetails}
 														isChecked={this.isChecked}
 														alreadySaved={this.alreadySaved}
 														updateState={this.updateState}
@@ -308,6 +323,15 @@ class PlatformDrafts extends React.Component {
 						)}
 					</React.Fragment>
 				)}
+				<DraftDetailsModal
+					draft={this.state.draftModal}
+					requestClose={this.closeDraftDetails}
+					translate={translate}
+					draftTypes={draftTypes}
+					companyTypes={this.props.data.companyTypes}
+					votingTypes={this.props.data.votingTypes}
+					majorityTypes={this.props.data.majorityTypes}
+				/>
 			</CardPageLayout>
 		);
 	}
@@ -424,11 +448,9 @@ class HoverableRow extends React.Component {
 					)}
 				</TableCell>
 				<TableCell
-					style={TableStyles.TD}
+					style={{...TableStyles.TD, cursor: 'pointer'}}
 					onClick={() =>
-						this.props.updateSelectedValues(
-							draft.id
-						)
+						this.props.showDraftDetails(draft)
 					}
 				>
 					{draft.title}
