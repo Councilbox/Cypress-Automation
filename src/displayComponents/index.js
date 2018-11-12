@@ -45,6 +45,8 @@ export { default as Radio } from "./Radio";
 export { default as RadioGroup } from "./RadioGroup";
 export { default as ReactSignature } from "./ReactSignature";
 export { default as RefreshButton } from "./RefreshButton";
+export { default as RemoteAssistance } from './RemoteAssistance';
+export { default as RemoteMouseTracking } from './RemoteMouseTracking';
 export { default as Scrollbar } from './Scrollbar';
 export { default as ScrollHTMLFixer } from './ScrollHTMLFixer';
 export { default as SectionTitle } from "./SectionTitle";

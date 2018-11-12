@@ -15,8 +15,8 @@ class CommentsTable extends React.Component{
 		agendaId: this.props.agenda.id,
 		filterText: "",
 		page: 1
-	};
-    
+	}
+
     static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.agenda.id !== prevState.agendaId) {
 			return {
@@ -34,8 +34,8 @@ class CommentsTable extends React.Component{
 			},
 			this.refreshTable
 		);
-	};
-    
+	}
+
     changePage = value => {
 		const variables = this.buildVariables();
 		variables.options = {
@@ -47,7 +47,7 @@ class CommentsTable extends React.Component{
 			page: value
 		});
 		this.props.data.refetch(variables);
-	};
+	}
 
 	buildVariables = () => {
 		let variables = {
@@ -64,12 +64,12 @@ class CommentsTable extends React.Component{
 			};
 		}
 		return variables;
-	};
+	}
 
 	refreshTable = async () => {
 		const variables = this.buildVariables();
 		await this.props.data.refetch(variables);
-	};
+	}
 
     render(){
 
