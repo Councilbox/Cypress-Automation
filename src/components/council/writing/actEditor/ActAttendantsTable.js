@@ -202,7 +202,7 @@ class HoverableRow extends React.Component {
     render(){
         const { translate, participant, delegatedVotes } = this.props;
 
-        console.log(delegatedVotes);
+        //console.log(delegatedVotes);
 
         const representing = delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
         //const delegated = delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);

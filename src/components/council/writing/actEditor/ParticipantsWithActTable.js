@@ -80,7 +80,7 @@ class ParticipantsWithActTable extends React.Component {
                                                 {participant.dni}
                                             </TableCell>
                                             <TableCell>
-                                                {participant.position}
+                                                {participant.email}
                                             </TableCell>
                                             <TableCell>
                                                 {participant.actNotifications

@@ -21,8 +21,6 @@ const minVideoHeight = "42vh";
 class CouncilLivePage extends React.Component {
 	state = {
 		participants: true,
-		confirmModal: false,
-		selectedPoint: 0,
 		wall: false,
 		unreadComments: 0,
 		addParticipantModal: false,
@@ -187,7 +185,6 @@ class CouncilLivePage extends React.Component {
 														chat
 													</Icon>
 												}
-												updateState={this.updateState}
 												onClick={() =>
 													this.setState({
 														wall: true
@@ -204,7 +201,6 @@ class CouncilLivePage extends React.Component {
 													chat
 												</Icon>
 											}
-											updateState={this.updateState}
 											onClick={() =>
 												this.setState({
 													wall: true

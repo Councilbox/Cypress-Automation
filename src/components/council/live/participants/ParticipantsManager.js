@@ -217,7 +217,7 @@ class ParticipantsManager extends React.Component {
 					className="material-icons"
 					style={{
 						position: 'absolute',
-						zIndex: 1000,
+						zIndex: 600,
 						cursor: 'pointer',
 						top: isMobile? '2.5em' : '1.8em',
 						right: '1em',

@@ -2,14 +2,36 @@ import React from 'react';
 import { LoadingMainApp, FabButton, Icon } from '../../../../displayComponents';
 import { graphql } from 'react-apollo';
 import { councilLiveQuery } from "../../../../queries";
-import { Tooltip } from 'material-ui';
+import { Badge } from 'material-ui';
 import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
 import AgendaManager from '../AgendaManager';
+import CommentWall from '../CommentWall';
+
+
 class CouncilLiveMobilePage extends React.Component {
 
     state = {
-        participants: true
+        participants: true,
+        wall: false,
+        unreadComments: 0,
+        selectedPoint: 0,
+    }
+
+    updateState = object => {
+        this.setState(object);
+    }
+
+    closeCommentWall = () => {
+        this.setState({
+            wall: false
+        });
+    }
+
+    openCommentWall = () => {
+        this.setState({
+            wall: true
+        })
     }
 
     render() {
@@ -43,36 +65,86 @@ class CouncilLiveMobilePage extends React.Component {
 						zIndex: 2
 					}}
 				>
-					<Tooltip
-						title={
-							this.state.participants
-								? translate.agenda
-								: translate.participants
-						}
-					>
-						<div>
-							<FabButton
-								icon={
-									<React.Fragment>
-										<Icon className="material-icons">
-											{this.state.participants
-												? "developer_board"
-												: "group"}
-										</Icon>
-										<Icon className="material-icons">
-											{this.state.participants
-												? "keyboard_arrow_left"
-												: "keyboard_arrow_right"}
-										</Icon>
-									</React.Fragment>
-								}
-								onClick={() => this.setState({
-									participants: !this.state.participants,
-								})}
-							/>
-						</div>
-					</Tooltip>
+                {(council.state === 20 || council.state === 30) &&
+                        <div>
+                            {this.state.unreadComments > 0 ?
+                                <Badge
+                                    classes={{
+                                        badge: 'fadeToggle'
+                                    }}
+                                    badgeContent={
+                                        <span
+                                            style={{
+                                                color: "white",
+                                                fontWeight: "700",
+                                            }}
+                                        >
+                                            {this.state.unreadComments}
+                                        </span>
+                                    }
+                                    color="secondary"
+                                >
+                                    <div style={{ marginBottom: "0.3em" }}>
+                                        <FabButton
+                                            icon={
+                                                <Icon className="material-icons">
+                                                    chat
+                                                </Icon>
+                                            }
+
+                                            onClick={this.openCommentWall}
+                                        />
+                                    </div>
+                                </Badge>
+                            :
+                                <div style={{ marginBottom: "0.3em" }}>
+                                    <FabButton
+                                        icon={
+                                            <Icon className="material-icons">
+                                                chat
+                                            </Icon>
+                                        }
+                                        updateState={this.updateState}
+                                        onClick={() =>
+                                            this.setState({
+                                                wall: true
+                                            })
+                                        }
+                                    />
+                                </div>
+                            }
+                        </div>
+					}
+	                <div>
+                        <FabButton
+                            icon={
+                                <React.Fragment>
+                                    <Icon className="material-icons">
+                                        {this.state.participants
+                                            ? "developer_board"
+                                            : "group"}
+                                    </Icon>
+                                    <Icon className="material-icons">
+                                        {this.state.participants
+                                            ? "keyboard_arrow_left"
+                                            : "keyboard_arrow_right"}
+                                    </Icon>
+                                </React.Fragment>
+                            }
+                            onClick={() => this.setState({
+                                participants: !this.state.participants,
+                            })}
+                        />
+                    </div>
 				</div>
+                <CommentWall
+					translate={translate}
+					open={this.state.wall}
+					council={council}
+					unreadComments={this.state.unreadComments}
+					updateState={this.updateState}
+					requestClose={this.closeCommentWall}
+				/>
                 <LiveMobileHeader
                     logo={!!company && company.logo}
                     companyName={!!company && company.businessName}

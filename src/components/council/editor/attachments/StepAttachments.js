@@ -212,9 +212,7 @@ class StepAttachments extends React.Component {
 											textTransform: "none"
 										}}
 										loading={this.state.uploading}
-										icon={
-											<ButtonIcon type="publish" color="white" />
-										}
+										icon={<ButtonIcon type="publish" color="white" />}
 										onChange={this.handleFile}
 									/>
 								)}
@@ -231,7 +229,7 @@ class StepAttachments extends React.Component {
 									deleteAction={this.removeCouncilAttachment}
 									translate={translate}
 								/>
-							)	
+							)
 						}
 						<ErrorAlert
 							title={translate.error}

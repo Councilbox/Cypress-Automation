@@ -38,13 +38,7 @@ class ErrorHandler extends React.Component {
                 error: {
                     error: error.stack,
                     componentStack: JSON.stringify(info),
-                    additionalInfo: `Client version: ${
-                        CLIENT_VERSION
-                    }, userId: ${
-                        this.props.user.id
-                    }, companyId: ${
-                        this.props.company.id
-                    }`
+                    additionalInfo: `Client version: ${CLIENT_VERSION}, userId: ${this.props.user.id}, companyId: ${this.props.company.id}`
                 }
             }
         });

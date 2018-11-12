@@ -156,7 +156,7 @@ class Header extends React.PureComponent {
 					)}
 					{drawerIcon && "DRAWER"}
 				</div>
-				<UnsavedChangesModal 
+				<UnsavedChangesModal
 					open={this.state.unsavedChanges}
 					requestClose={this.closeUnsavedModal}
 				/>
