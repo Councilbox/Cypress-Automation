@@ -46,6 +46,15 @@ class StepCensus extends React.Component {
 				return {
 					data: {
 						...council
+					},
+				}
+			}
+			if(nextProps.participants){
+				if(nextProps.participants.councilParticipants){
+					if(nextProps.participants.councilParticipants.total > 0){
+						return {
+							participantsLength: nextProps.participants.councilParticipants.total
+						}
 					}
 				}
 			}
@@ -104,7 +113,7 @@ class StepCensus extends React.Component {
 	};
 
 	nextPage = () => {
-		if(this.props.participants.councilParticipants.list.length > 0){
+		if(this.state.participantsLength > 0){
 			this.saveDraft(3);
 			this.props.nextStep();
 		} else {
@@ -183,14 +192,7 @@ class StepCensus extends React.Component {
 	}
 
 	checkParticipants = () => {
-		if(this.props.participants){
-			if(this.props.participants.councilParticipants){
-				if(this.props.participants.councilParticipants.list){
-					return this.props.participants.councilParticipants.list.length <= 0;
-				}
-			}
-		}
-		return true;
+		return this.state.participantsLength <= 0;
 	}
 
 	render() {
@@ -238,23 +240,26 @@ class StepCensus extends React.Component {
 								<ParticipantsTable
 									translate={translate}
 									data={this.props.participants}
-									refetch={() => {
+									refetch={async type => {
 										this.props.data.refetch();
-										this.props.participants.refetch();
+										const participants = await this.props.participants.refetch();
+										if(type === 'delete'){
+											this.setState({
+												participantsLength: participants.data.councilParticipants.total
+											})
+										}
+										//console.log(participants);
 									}}
 									key={`${this.props.data.council.selectedCensusId}`}
 									council={council}
+									updateParticipantLength={this.updateParticipantLength}
 									handleCensusChange={this.handleCensusChange}
 									reloadCensus={this.reloadCensus}
-									showAddModal={() =>
-										this.setState({ addParticipant: true })
-									}
+									showAddModal={() => this.setState({ addParticipant: true })}
 									censuses={this.props.data.censuses}
 									editable={true}
 									totalVotes={this.props.data.councilTotalVotes}
-									totalSocialCapital={
-										this.props.data.councilSocialCapital
-									}
+									totalSocialCapital={this.props.data.councilSocialCapital}
 									participations={CBX.hasParticipations(council)}
 								/>
 								{this.checkParticipants() &&

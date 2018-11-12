@@ -68,13 +68,13 @@ class ParticipantsTable extends React.Component {
 		});
 
 		if (response) {
+			console.log(response);
 			this.setState({
 				selectedIds: new Map(),
 				singleId: null,
 				deleteModal: false
 			})
-			this.table.refresh();
-			this.props.refetch();
+			await this.props.refetch('delete');
 		}
 	};
 

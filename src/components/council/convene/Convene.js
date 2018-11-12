@@ -10,7 +10,7 @@ import {
 	GridItem,
 	LoadingSection
 } from "../../../displayComponents";
-import { Typography, Paper } from "material-ui";
+import { Typography, Paper, Tooltip } from "material-ui";
 import AttachmentDownload from "../../attachments/AttachmentDownload";
 import { downloadConvenePDF } from "../../../queries";
 import * as CBX from '../../../utils/CBX';
@@ -37,7 +37,8 @@ export const conveneDetails = gql`
 class Convene extends React.Component {
 	state = {
 		loading: false,
-		downloadingPDF: false
+		downloadingPDF: false,
+		htmlCopiedTooltip: false
 	};
 
 	downloadPDF = async () => {
@@ -66,6 +67,23 @@ class Convene extends React.Component {
 			}
 		}
 	};
+
+	showTooltip = () => {
+		this.setState({
+			htmlCopiedTooltip: true
+		});
+		setTimeout(() => this.setState({htmlCopiedTooltip: false}), 3000);
+	}
+
+	copyConveneHTML = () => {
+		console.log('copiar');
+		const html = document.createElement('textarea');
+		document.body.appendChild(html);
+		html.value = this.props.data.council.emailText;
+		html.select();
+		document.execCommand('copy');
+		this.showTooltip();
+	}
 
 	render() {
 		const secondary = getSecondary();
@@ -114,51 +132,71 @@ class Convene extends React.Component {
 						</div>
 					</div>
 				)}
-				<BasicButton
-					text={translate.export_convene}
-					color={secondary}
-					loading={this.state.downloadingPDF}
-					buttonStyle={{ marginTop: "0.5em" }}
-					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					icon={
-						<FontAwesome
-							name={"file-pdf-o"}
-							style={{
-								fontSize: "1em",
-								color: "white",
-								marginLeft: "0.3em"
-							}}
-						/>
-					}
-					textPosition="after"
-					onClick={this.downloadPDF}
-				/>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-						marginTop: '0.8em'
-					}}
-				>
-					<Paper
-						className={this.props.windowSize !== 'xs'? 'htmlPreview' : ''}
-					>
-						<div
-							dangerouslySetInnerHTML={{ __html: council.emailText }}
-							style={{
-								padding: "2em",
-								margin: "0 auto"
-							}}
-						/>
-					</Paper>
+				<div>
+					<BasicButton
+						text={translate.export_convene}
+						color={secondary}
+						loading={this.state.downloadingPDF}
+						buttonStyle={{ marginTop: "0.5em" }}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						icon={
+							<FontAwesome
+								name={"file-pdf-o"}
+								style={{
+									fontSize: "1em",
+									color: "white",
+									marginLeft: "0.3em"
+								}}
+							/>
+						}
+						textPosition="after"
+						onClick={this.downloadPDF}
+					/>
+					<BasicButton
+						text={'Copiar HTML al portapapeles'}//TRADUCCION
+						color={secondary}
+						buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						icon={<i className="fa fa-clipboard" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>}
+						textPosition="after"
+						onClick={this.copyConveneHTML}
+					/>
 				</div>
+				<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '0.8em'
+						}}
+					>
+						<Paper
+							className={this.props.windowSize !== 'xs'? 'htmlPreview' : ''}
+						>
+							<div
+								dangerouslySetInnerHTML={{ __html: council.emailText }}
+								style={{
+									padding: "2em",
+									cursor: 'pointer',
+									margin: "0 auto"
+								}}
+								onClick={this.copyConveneHTML}
+							/>
+						</Paper>
+					</div>
+				</Tooltip>
 			</React.Fragment>
 		);
 	}

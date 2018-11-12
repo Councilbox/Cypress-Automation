@@ -3,6 +3,7 @@ import {
 	MAX_COUNCIL_FILE_SIZE,
 	PARTICIPANT_STATES,
 	SEND_TYPES,
+	MAJORITY_TYPES,
 	DRAFT_TYPES,
 	USER_ACTIVATIONS,
 	COUNCIL_STATES,
@@ -140,7 +141,10 @@ export const pointIsClosed = agendaPoint => {
 };
 
 export const majorityNeedsInput = majorityType => {
-	return majorityType === 0 || majorityType === 5 || majorityType === 6;
+	console.log(majorityType);
+	return majorityType === MAJORITY_TYPES.PERCENTAGE
+		|| majorityType === MAJORITY_TYPES.NUMBER
+		|| majorityType === MAJORITY_TYPES.FRACTION;
 };
 
 export const haveQualityVoteConditions = (agenda, council) => {

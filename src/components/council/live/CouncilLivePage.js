@@ -50,6 +50,28 @@ class CouncilLivePage extends React.Component {
 		}
 	}
 
+	toggleScreens = () => {
+		const cb = () => {
+			this.setState({
+				participants: !this.state.participants,
+				videoWidth: minVideoWidth,
+				videoHeight: minVideoHeight,
+				fullScreen: false
+			});
+		}
+
+		if(this.agendaManager){
+			if(this.agendaManager.wrappedInstance){
+				if(this.agendaManager.wrappedInstance.state.editedVotings){
+					return this.agendaManager.wrappedInstance.showVotingsAlert(cb);
+				} else {
+					return cb();
+				}
+			}
+		}
+		cb();	
+	}
+
 	closeAddParticipantModal = () => {
 		this.setState({
 			addParticipantModal: false
@@ -235,14 +257,7 @@ class CouncilLivePage extends React.Component {
 										</Icon>
 									</React.Fragment>
 								}
-								onClick={() => {
-									this.setState({
-										participants: !this.state.participants,
-										videoWidth: minVideoWidth,
-										videoHeight: minVideoHeight,
-										fullScreen: false
-									});
-								}}
+								onClick={this.toggleScreens}
 							/>
 						</div>
 					</Tooltip>

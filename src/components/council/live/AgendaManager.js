@@ -4,7 +4,7 @@ import AgendaSelector from "./AgendaSelector";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
 import { agendaManager } from "../../../queries";
-import { LoadingSection, Scrollbar } from "../../../displayComponents";
+import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
 
@@ -12,7 +12,9 @@ class AgendaManager extends React.Component {
 
 	state = {
 		selectedPoint: 0,
-		loaded: false
+		loaded: false,
+		editedVotings: false,
+		votingsAlert: false
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState){
@@ -23,6 +25,31 @@ class AgendaManager extends React.Component {
 		}
 
 		return null;
+	}
+
+	changeEditedVotings = value => {
+		this.setState({
+			editedVotings: value
+		})
+	}
+
+	showVotingsAlert = cb => {
+		this.setState({
+			votingsAlert: true,
+			acceptAction: () => {
+				cb();
+				this.setState({
+					editedVotings: false,
+					votingsAlert: false
+				})
+			}
+		})
+	}
+
+	closeVotingsAlert = () => {
+		this.setState({
+			votingsAlert: false
+		})
 	}
 
 	componentDidUpdate(prevProps, prevState){
@@ -39,9 +66,15 @@ class AgendaManager extends React.Component {
 	}
 
 	changeSelectedPoint = index => {
-		this.setState({
+		const cb = () => this.setState({
 			selectedPoint: index
 		});
+
+		if(this.state.editedVotings){
+			this.showVotingsAlert(cb);
+		} else {
+			cb();
+		}
 	};
 
 	nextPoint = () => {
@@ -169,6 +202,9 @@ class AgendaManager extends React.Component {
 						recount={this.props.recount}
 						council={council}
 						agendas={agendas}
+						editedVotings={this.state.editedVotings}
+						changeEditedVotings={this.changeEditedVotings}
+						showVotingsAlert={this.showVotingsAlert}
 						nextPoint={this.nextPoint}
 						data={this.props.data}
 						selectedPoint={this.state.selectedPoint}
@@ -181,6 +217,17 @@ class AgendaManager extends React.Component {
 						refetch={this.props.data.refetch}
 					/>
 				</div>
+				<AlertConfirm
+					requestClose={this.closeVotingsAlert}
+					open={this.state.votingsAlert}
+					acceptAction={this.state.acceptAction}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={<div>
+						Hay votos manuales sin guardar, si acepta se descartarán, desea continuar?
+					</div>}//TRADUCCION
+					title={translate.warning}
+				/>
 			</div>
 		);
 	}
@@ -193,5 +240,6 @@ export default graphql(agendaManager, {
 			councilId: props.council.id
 		},
 		pollInterval: 5000
-	})
+	}),
+	withRef: true
 })(AgendaManager);
