@@ -13,16 +13,17 @@ import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { Collapse } from 'react-collapse';
 import { BasicButton, Grid, GridItem, SelectInput } from '../../../displayComponents';
-import { getSecondary } from '../../../styles/colors';
+import { getSecondary, secondary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
 import { updateAgenda } from "../../../queries/agenda";
+import PointEditorLive from './PointEditorLive';
 
 
 class AgendaDetailsSection extends React.Component {
 	state = {
 		openIndex: 1,
 		expanded: false,
-		subjectType: this.props.agendas[this.props.selectedPoint].subjectType
+		pointEditor: false
 	};
 
 	componentWillReceiveProps(nextProps) {
@@ -48,6 +49,18 @@ class AgendaDetailsSection extends React.Component {
 				});
 			}
 		}
+	}
+
+	showEditPointModal = () => {
+		this.setState({
+			pointEditor: true
+		});
+	}
+
+	closePointEditor = () => {
+		this.setState({
+			pointEditor: false
+		})
 	}
 
 	changeSubjectType = subjectType => {
@@ -88,7 +101,6 @@ class AgendaDetailsSection extends React.Component {
 		} = this.props;
 		const councilStarted = CBX.councilStarted(council);
 		const agenda = agendas[this.props.selectedPoint];
-		const filteredTypes = CBX.filterAgendaVotingTypes(this.props.votingTypes, council.statute);
 		const smallLayout = window.innerWidth < 500;
 		const normalLayout = window.innerWidth > 750;
 
@@ -163,22 +175,31 @@ class AgendaDetailsSection extends React.Component {
 							</div>
 							<div style={{paddingRight: '1em'}}>
 								{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL)?
-									<SelectInput
-										floatingText={translate.type}
-										value={"" + this.state.subjectType}
-										onChange={event => this.changeSubjectType(+event.target.value)}
-									>
-										{filteredTypes.map(voting => {
-											return (
-												<MenuItem
-													value={"" + voting.value}
-													key={`voting${voting.value}`}
-												>
-													{translate[voting.label]}
-												</MenuItem>
-											);
-										})}
-									</SelectInput>
+									<React.Fragment>
+										<span style={{cursor: 'pointer'}} onClick={this.showEditPointModal}>{translate[CBX.getAgendaTypeLabel(agenda)]}</span>
+										<i
+											className="fa fa-pencil-square-o"
+											aria-hidden="true"
+											onClick={this.showEditPointModal}
+											style={{
+												color: secondary,
+												fontSize: '1.3em',
+												cursor: 'pointer',
+												marginLeft: '0.2em'
+											}}
+										></i>
+										<PointEditorLive
+											translate={translate}
+											agenda={agenda}
+											key={`point_editor_${agenda.id}`}
+											votingTypes={this.props.votingTypes}
+											council={council}
+											refetch={this.props.refetch}
+											majorityTypes={this.props.majorityTypes}
+											open={this.state.pointEditor}
+											requestClose={this.closePointEditor}
+										/>
+									</React.Fragment>
 								:
 									translate[CBX.getAgendaTypeLabel(agenda)]
 								}

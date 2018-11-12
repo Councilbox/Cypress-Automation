@@ -303,7 +303,11 @@ class Assistance extends React.Component {
 								/>
 							</div>
 						) : (
-								<CouncilState council={council} company={company} isAssistance />
+								<CouncilState
+									council={council}
+									participant={participant}
+									company={company} isAssistance
+								/>
 							)}
 					</Card>
 				</div>

@@ -14,8 +14,22 @@ class ManualVotingsMenu extends React.Component {
     }
 
     updateVoting = voting => {
-        this.setState(voting);
-        this.props.changeEditedVotings(true);
+        this.setState(voting, () => {
+            if(this.state.positiveManual || this.state.negativeManual || this.state.abstentionManual || this.state.noVoteManual ){
+                this.props.changeEditedVotings(true);
+            } else {
+                this.props.changeEditedVotings(false);
+            }
+        });
+    }
+
+    clean = () => {
+        this.updateVoting({
+            positiveManual: 0,
+            negativeManual: 0,
+            abstentionManual: 0,
+            noVoteManual: 0,
+        })
     }
 
     saveManualVotings = async () => {
@@ -133,6 +147,12 @@ class ManualVotingsMenu extends React.Component {
                             />
                         </GridItem>
                         <div style={{display: 'flex', alignItems: 'center'}}>
+{/*                             <BasicButton
+                                text={translate.clear}
+                                textStyle={{color: 'white', fontWeight: '700'}}
+                                color={getSecondary()}
+                                onClick={this.clean}
+                            /> */}
                             <BasicButton
                                 loading={this.state.loading}
                                 success={this.state.success}

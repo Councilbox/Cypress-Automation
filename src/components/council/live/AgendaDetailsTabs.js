@@ -92,6 +92,7 @@ class AgendaDetailsTabs extends React.Component {
                                             ref={votings => (this.votings = votings)}
                                             refetch={this.props.refetch}
                                             changeEditedVotings={this.props.changeEditedVotings}
+                                            editedVotings={this.props.editedVotings}
                                             agenda={agenda}
                                             recount={this.props.recount}
                                             translate={translate}

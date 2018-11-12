@@ -11,6 +11,7 @@ import { LiveToast } from '../../../displayComponents';
 import { darkGrey } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
+import { isLandscape } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { toast } from 'react-toastify';
 import { councilStarted } from '../../../utils/CBX';
@@ -113,7 +114,7 @@ class ParticipantCouncil extends React.Component {
 
     _renderAgendaSection = () => {
         return (
-            <Grid item xs={12} sm={12} md={this.state.hasVideo? 4 : 6}>
+            <Grid item xs={isLandscape() && this.state.hasVideo? 6 : 12} md={this.state.hasVideo? 4 : 6} style={{minHeight: '45%'}}>
                 <Agendas
                     participant={this.props.participant}
                     council={this.props.council}
@@ -155,7 +156,7 @@ class ParticipantCouncil extends React.Component {
                         }
 
                         {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                            <Grid item xs={12} sm={12} md={8}>
+                            <Grid item xs={isLandscape()? 6 : 12} md={8}>
                                 <div style={{width: '100%', height: '100%', position: 'relative'}}>
                                     <RequestWordMenu
                                         translate={this.props.translate}

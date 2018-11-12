@@ -48,14 +48,6 @@ class VotingsTable extends React.Component {
 		return null;
 	}
 
-	componentDidUpdate(){
-		console.log('update');
-	}
-
-	componentDidMount(){
-		console.log('mount');
-	}
-
     getTooltip = vote => {
 		switch (vote) {
 			case VOTE_VALUES.NO_VOTE:
@@ -205,7 +197,6 @@ class VotingsTable extends React.Component {
 
 		if(this.props.data.agendaVotings){
 			if(this.props.data.agendaVotings.list.length > 0){
-				console.log(this.props.data.agendaVotings);
 				this.props.data.agendaVotings.list.forEach(voting => {
 					if(voting.authorRepresentative){
 						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId || vote.participantId === voting.delegateId);
@@ -234,9 +225,6 @@ class VotingsTable extends React.Component {
 				})
 			}
 		}
-
-		console.log(this.props.data.agendaVotings);
-
 
 		return (
 			<Grid

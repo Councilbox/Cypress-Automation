@@ -19,8 +19,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
         agendas = data.agendas.map(agenda => {
             return {
                 ...agenda,
-                voting: 
-                data.participantVotings.find(voting => voting.agendaId === agenda.id)
+                voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
             }
         });
     }

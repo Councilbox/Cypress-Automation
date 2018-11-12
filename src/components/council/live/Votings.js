@@ -73,6 +73,7 @@ class Votings extends React.Component {
 					<ManualVotingsMenu
 						refetch={this.props.refetch}
 						changeEditedVotings={this.props.changeEditedVotings}
+						editedVotings={this.props.editedVotings}
 						translate={this.props.translate}
 						agenda={this.props.agenda}
 					/>

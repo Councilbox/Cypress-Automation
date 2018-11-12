@@ -8,6 +8,8 @@ export const checkValidEmail = email => {
 	return re.test(email);
 };
 
+
+//TRADUCCION
 export const checkValidMajority = (majority, divider, type, translate) => {
 	if(type === MAJORITY_TYPES.PERCENTAGE){
 		if(majority > 100){
@@ -175,7 +177,7 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,			
+					autoClose: true,
 					className: "errorToast"
 				}
 			);
