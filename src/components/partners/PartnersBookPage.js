@@ -11,6 +11,8 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { moment } from '../../containers/App';
 
+const PARTNERS_LIMIT = 50;
+
 class PartnersBookPage extends React.Component {
 
     state = {
@@ -121,7 +123,7 @@ class PartnersBookPage extends React.Component {
                 <EnhancedTable
                     ref={table => (this.table = table)}
                     translate={translate}
-                    defaultLimit={10}
+                    defaultLimit={PARTNERS_LIMIT}
                     menuButtons={
                         <div style={{ marginRight: '0.9em' }}>
                             <BasicButton
@@ -162,7 +164,7 @@ class PartnersBookPage extends React.Component {
                     ]]}
                     defaultFilter={"fullName"}
                     defaultOrder={["fullName", "asc"]}
-                    limits={[10, 20]}
+                    limits={[50, 100]}
                     page={1}
                     loading={this.props.data.loading}
                     length={this.props.data.bookParticipants.list.length}
@@ -387,6 +389,8 @@ export default compose(
         variables: {
             companyId: props.match.params.company,
             options: {
+                limit: PARTNERS_LIMIT,
+                offset: 0,
                 orderBy: 'fullName',
                 orderDirection: 'asc'
             }

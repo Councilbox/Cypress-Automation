@@ -171,56 +171,52 @@ class AppRouter extends React.Component {
 					overflow: 'hidden'
 				}}
 			>
-				<RemoteMouseTracking>
-					<RemoteAssistance user={this.props.user}>
-						<LoadNoConnectionModal open={!this.props.main.serverStatus} />
-						<SidebarLite
-							companies={this.props.companies.list}
-							company={this.props.companies.list[this.props.companies.selected]}
-							open={this.state.mobileOpen}
-							handleDrawerToggle={this.handleDrawerToggle}
-							image={image}
-							translate={translate}
-							color="blue"
-						/>
+				<LoadNoConnectionModal open={!this.props.main.serverStatus} />
+				<SidebarLite
+					companies={this.props.companies.list}
+					company={this.props.companies.list[this.props.companies.selected]}
+					open={this.state.mobileOpen}
+					handleDrawerToggle={this.handleDrawerToggle}
+					image={image}
+					translate={translate}
+					color="blue"
+				/>
 
-						<div className={this.props.classes.mainPanelLite} style={{...(!verticalLayout?
-							{
-								marginLeft: '5em',
-								width: `calc(100% - 5em)`
-							} : {}
-						)}}>
-							<Header
-								commandLine={true}
-								companyMenu={true}
-								company={this.props.companies.list[this.props.companies.selected]}
-								companies={this.props.companies.list}
-								user={this.props.user}
-								main={this.props.main}
-								drawerIcon={this.state.mobileOpen}
-								translate={this.props.translate}
-								backButton={
-									this.props.location.pathname !==`/company/${
-										this.props.companies.list[this.props.companies.selected].id
-									}`
-								}
-							/>
-							<div
-								style={{
-									height: `calc(100% - 3em)`,
-									display: "flex",
-									width: "100%",
-									overflow: 'hidden',
-									...(verticalLayout? {
-										paddingBottom: '3.5em'
-									}: {})
-								}}
-							>
-								<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
-							</div>
-						</div>
-					</RemoteAssistance>
-				</RemoteMouseTracking>
+				<div className={this.props.classes.mainPanelLite} style={{...(!verticalLayout?
+					{
+						marginLeft: '5em',
+						width: `calc(100% - 5em)`
+					} : {}
+				)}}>
+					<Header
+						commandLine={true}
+						companyMenu={true}
+						company={this.props.companies.list[this.props.companies.selected]}
+						companies={this.props.companies.list}
+						user={this.props.user}
+						main={this.props.main}
+						drawerIcon={this.state.mobileOpen}
+						translate={this.props.translate}
+						backButton={
+							this.props.location.pathname !==`/company/${
+								this.props.companies.list[this.props.companies.selected].id
+							}`
+						}
+					/>
+					<div
+						style={{
+							height: `calc(100% - 3em)`,
+							display: "flex",
+							width: "100%",
+							overflow: 'hidden',
+							...(verticalLayout? {
+								paddingBottom: '3.5em'
+							}: {})
+						}}
+					>
+						<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
+					</div>
+				</div>
 			</div>
 		) : (
 				<Switch>

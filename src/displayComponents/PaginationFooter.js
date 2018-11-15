@@ -99,6 +99,10 @@ const showPages = (numPages, active, changePage) => {
 				{i}
 			</span>
 		);
+		if(i === 3 && numPages > 3){
+			pages.push(<span style={{margin: '0.3em'}}>...</span>);
+			i = numPages-3;
+		}
 	}
 	return pages;
 };

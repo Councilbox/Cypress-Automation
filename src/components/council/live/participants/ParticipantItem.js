@@ -11,7 +11,7 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
 
 
-class ParticipantItem extends React.PureComponent {
+class ParticipantItem extends React.Component {
 
 	// state = {
 	// 	showIcons: false
@@ -20,12 +20,13 @@ class ParticipantItem extends React.PureComponent {
 	render() {
 		const { participant, translate, layout, editParticipant, mode } = this.props;
 		const secondary = getSecondary();
+		const gridSize = window.innerWidth < 1350? 6 : 4
 
 		return (
 			<GridItem
 				xs={this.props.orientation === 'portrait'? 12 : layout !== 'squares'? 12 : 6}
-				md={layout !== 'squares' ? 12 : 4}
-				lg={layout !== 'squares' ? 12 : 4}
+				md={layout !== 'squares' ? 12 : gridSize}
+				lg={layout !== 'squares' ? 12 : gridSize}
 				{...(layout !== 'squares'? { marginBottom: '0.3em'} : {})}
 			>
 				<div

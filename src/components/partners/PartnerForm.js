@@ -13,29 +13,10 @@ class PartnerForm extends React.PureComponent {
         provinces: []
     }
 
-    setProvinces = async () => {
-        const response = await this.props.client.query({
-            query: provinces,
-            variables: {
-                countryId: this.props.data.countries.find(country => country.deno === this.props.participant.country).id
-            }
-        });
-        this.setState({
-            provinces: response.data.provinces
-        });
-    }
-
-    async componentDidUpdate(prevProps, prevState) {
-        if (!this.props.data.loading) {
-            if ((prevProps.participant.country !== this.props.participant.country) || this.state.provinces.length === 0) {
-                this.setProvinces();
-            }
-        }
-    }
-
     render() {
         const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;
         const primary = getPrimary();
+        console.log(participant);
 
         return (
             <React.Fragment>
@@ -188,7 +169,7 @@ class PartnerForm extends React.PureComponent {
                         </GridItem>
                         <GridItem xs={6} md={4} lg={3}>
                             <TextInput
-                                floatingText={translate.position}
+                                floatingText={'Tipo de socio'}
                                 type="text"
                                 errorText={errors.position}
                                 value={participant.position || ''}
@@ -267,7 +248,7 @@ class PartnerForm extends React.PureComponent {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        openDate: dateString
+                                        openDate: date? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -286,7 +267,7 @@ class PartnerForm extends React.PureComponent {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        subscribeDate: dateString
+                                        subscribeDate: date? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -305,7 +286,7 @@ class PartnerForm extends React.PureComponent {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        subscribeActDate: dateString
+                                        subscribeActDate: date? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -324,7 +305,7 @@ class PartnerForm extends React.PureComponent {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        unsubscribeDate: dateString
+                                        unsubscribeDate: date? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -343,7 +324,7 @@ class PartnerForm extends React.PureComponent {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
                                     updateState({
-                                        unsubscribeActDate: dateString
+                                        unsubscribeActDate: date? dateString : date
                                     });
                                 }}
                                 minDateMessage={""}
@@ -387,42 +368,29 @@ class PartnerForm extends React.PureComponent {
                             />
                         </GridItem>
                         <GridItem xs={6} md={4} lg={2}>
-                            <SelectInput
+                            <TextInput
                                 floatingText={translate.company_new_country}
-                                value={participant.country? participant.country : '-1'}
+                                type="text"
+                                value={participant.country || ''}
                                 onChange={event =>
                                     updateState({
-                                        country: event.target.value
+                                        country: event.nativeEvent.target.value
                                     })
                                 }
-                            >
-                                {!this.props.data.loading && (
-                                    this.props.data.countries.map(country =>
-                                        <MenuItem value={country.deno} key={`country_${country.deno}`}>
-                                            {country.deno}
-                                        </MenuItem>
-                                    )
-                                )}
-                            </SelectInput>
+                            />
                         </GridItem>
                         <GridItem xs={6} md={4} lg={2}>
-                            <SelectInput
+                            <TextInput
                                 floatingText={translate.company_new_country_state}
-                                value={participant.countryState? participant.countryState : '-1'}
+                                type="text"
+                                errorText={errors.countryState}
+                                value={participant.countryState || ''}
                                 onChange={event =>
                                     updateState({
-                                        countryState: event.target.value
+                                        countryState: event.nativeEvent.target.value
                                     })
                                 }
-                            >
-                                {this.state.provinces.length > 0 && (
-                                    this.state.provinces.map(province =>
-                                        <MenuItem value={province.deno} key={`province_${province.deno}`}>
-                                            {province.deno}
-                                        </MenuItem>
-                                    )
-                                )}
-                            </SelectInput>
+                            />
                         </GridItem>
                         <GridItem xs={6} md={6} lg={3}>
                             <TextInput
@@ -606,42 +574,28 @@ class PartnerForm extends React.PureComponent {
                                         />
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={2}>
-                                        <SelectInput
+                                        <TextInput
                                             floatingText={translate.company_new_country}
-                                            value={representative.country? representative.country : '-1'}
+                                            type="text"
+                                            value={representative.country || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    country: event.target.value
+                                                    country: event.nativeEvent.target.value
                                                 })
                                             }
-                                        >
-                                            {!this.props.data.loading && (
-                                                this.props.data.countries.map(country =>
-                                                    <MenuItem value={country.deno} key={`country_${country.deno}`}>
-                                                        {country.deno}
-                                                    </MenuItem>
-                                                )
-                                            )}
-                                        </SelectInput>
+                                        />
                                     </GridItem>
                                     <GridItem xs={6} md={4} lg={2}>
-                                        <SelectInput
+                                        <TextInput
                                             floatingText={translate.company_new_country_state}
-                                            value={representative.countryState? representative.countryState : '-1'}
+                                            type="text"
+                                            value={representative.countryState || ''}
                                             onChange={event =>
                                                 updateRepresentative({
-                                                    countryState: event.target.value
+                                                    countryState: event.nativeEvent.target.value
                                                 })
                                             }
-                                        >
-                                            {this.state.provinces.length > 0 && (
-                                                this.state.provinces.map(province =>
-                                                    <MenuItem value={province.deno} key={`province_${province.deno}`}>
-                                                        {province.deno}
-                                                    </MenuItem>
-                                                )
-                                            )}
-                                        </SelectInput>
+                                        />
                                     </GridItem>
                                     <GridItem xs={6} md={6} lg={3}>
                                         <TextInput

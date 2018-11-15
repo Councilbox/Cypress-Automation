@@ -503,6 +503,7 @@ class StepNotice extends React.Component {
 											required
 											floatingText={translate.meeting_title}
 											type="text"
+											placeholder="Título que será el que aparezca en el acta"
 											errorText={errors.name}
 											value={council.name || ""}
 											onChange={event =>

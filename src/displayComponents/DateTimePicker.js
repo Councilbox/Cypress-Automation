@@ -9,6 +9,7 @@ const DateTimePickerWrapper = ({
 	onlyDate,
 	floatingText,
 	clearable = true,
+	clearText = 'Borrar',
 	value,
 	format = "LLL",
 	minDate,
@@ -24,8 +25,10 @@ const DateTimePickerWrapper = ({
 					label={!!label? `${label}${required && "*"}` : ''}
 					format={'LL'}
 					minDateMessage={minDateMessage}
-					okLabel={acceptText}
+					okLabel={'Ok'}
 					style={{width: '100%'}}
+					clearable={clearable}
+					clearLabel={clearText}
 					cancelLabel={cancelText}
 					{...(minDate? {minDate:minDate} : {})}
 					InputProps={{

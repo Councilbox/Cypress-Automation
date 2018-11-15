@@ -531,52 +531,56 @@ class StatuteEditor extends React.PureComponent {
 						</GridItem>
 					</Grid>
 
-					<SectionTitle
-						text={translate.call_template}
-						color={primary}
-						style={{
-							marginTop: "2em",
-							marginBottom: "1em"
-						}}
-					/>
-					<GridItem xs={12} md={12} lg={12}>
-						<RichTextInput
-							ref={editor => this.editor = editor}
-							errorText={errors.conveneHeader}
-							translate={translate}
-							floatingText={translate.convene_header}
-							value={
-								!!statute.conveneHeader
-									? statute.conveneHeader
-									: ""
-							}
-							onChange={value =>
-								updateState({
-									conveneHeader: value
-								})
-							}
-							saveDraft={
-								<SaveDraftIcon
-									onClick={this.showSaveDraft('CONVENE_HEADER')}
+					{statute.conveneHeader !== null && statute.conveneHeader !== undefined && (
+						<React.Fragment>
+							<SectionTitle
+								text={translate.call_template}
+								color={primary}
+								style={{
+									marginTop: "2em",
+									marginBottom: "1em"
+								}}
+							/>
+							<GridItem xs={12} md={12} lg={12}>
+								<RichTextInput
+									ref={editor => this.editor = editor}
+									errorText={errors.conveneHeader}
 									translate={translate}
+									floatingText={translate.convene_header}
+									value={
+										!!statute.conveneHeader
+											? statute.conveneHeader
+											: ""
+									}
+									onChange={value =>
+										updateState({
+											conveneHeader: value
+										})
+									}
+									saveDraft={
+										<SaveDraftIcon
+											onClick={this.showSaveDraft('CONVENE_HEADER')}
+											translate={translate}
+										/>
+									}
+									tags={getTagsByActSection('conveneHeader', translate)}
+									loadDraft={
+										<LoadDraftModal
+											translate={translate}
+											companyId={this.props.company.id}
+											loadDraft={this.loadDraft}
+											statute={{
+												...statute,
+												statuteId: statute.id
+											}}
+											statutes={this.props.companyStatutes}
+											draftType={0}
+										/>
+									}
 								/>
-							}
-							tags={getTagsByActSection('conveneHeader', translate)}
-							loadDraft={
-								<LoadDraftModal
-									translate={translate}
-									companyId={this.props.company.id}
-									loadDraft={this.loadDraft}
-									statute={{
-										...statute,
-										statuteId: statute.id
-									}}
-									statutes={this.props.companyStatutes}
-									draftType={0}
-								/>
-							}
-						/>
-					</GridItem>
+							</GridItem>
+						</React.Fragment>
+					)}
 				</Grid>
 				{statute.existsAct === 1 && (
 					<Fragment>

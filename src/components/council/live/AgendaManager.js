@@ -224,7 +224,7 @@ class AgendaManager extends React.Component {
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
 					bodyText={<div>
-						Hay votos manuales sin guardar, si acepta se descartarán, desea continuar?
+						Hay votos manuales sin guardar. Si acepta se descartarán, ¿desea continuar?
 					</div>}//TRADUCCION
 					title={translate.warning}
 				/>

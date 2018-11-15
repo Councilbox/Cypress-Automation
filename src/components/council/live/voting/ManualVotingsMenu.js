@@ -95,7 +95,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.positiveManual}
-                                floatingText={translate.in_favor}
+                                floatingText={'A favor'}//TRADUCCION
                                 onChange={event => {
                                     //console.log(maxVoteManual, this.state.positiveManual, event.target.value);
                                     this.updateVoting({
@@ -110,7 +110,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.negativeManual}
-                                floatingText={translate.against}
+                                floatingText={'En contra'}//TRADUCCION
                                 onChange={event => {
                                     //console.log(maxVoteManual, this.state.negativeManual, event.target.value);
                                     this.updateVoting({
@@ -125,7 +125,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.abstentionManual}
-                                floatingText={translate.abstentions}
+                                floatingText={'Abstención'}//TRADUCCION
                                 onChange={event => {
                                     //console.log(maxVoteManual, this.state.abstentionManual, event.target.value);
                                     this.updateVoting({
@@ -140,7 +140,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.noVoteManual}
-                                floatingText={translate.no_vote}
+                                floatingText={'No ha votado'}//TRADUCCION
                                 onChange={event => this.updateVoting({
                                     noVoteManual: ((maxVoteManual + this.state.noVoteManual) >= +event.target.value)? event.target.value : (+maxVoteManual + +this.state.noVoteManual)
                                 })}

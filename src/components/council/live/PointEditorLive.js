@@ -19,7 +19,10 @@ class PointEditorLive extends React.Component {
     }
 
     updateState = object => {
-        this.setState(object);
+        this.setState({
+            ...object,
+            majorityError: ''
+        });
     }
 
     updateAgenda = async () => {
@@ -37,7 +40,6 @@ class PointEditorLive extends React.Component {
             }
         })
 
-        console.log(response);
         this.props.refetch();
         this.props.requestClose();
     }

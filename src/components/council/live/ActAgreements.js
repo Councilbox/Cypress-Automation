@@ -127,7 +127,7 @@ class ActAgreements extends React.Component {
 				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual
 			}
 		});
-		this.editor.setValue(correctedText);
+		this.editor.paste(correctedText);
 		this.updateAgreement(correctedText);
 		this.modal.close();
 	};
