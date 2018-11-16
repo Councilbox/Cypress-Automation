@@ -3456,7 +3456,7 @@ fbjs@^0.8.1, fbjs@^0.8.15, fbjs@^0.8.16:
     setimmediate "^1.0.5"
     ua-parser-js "^0.7.9"
 
-fbjs@^0.8.9:
+fbjs@^0.8.4, fbjs@^0.8.9:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -7545,6 +7545,12 @@ react-event-listener@^0.5.1:
     prop-types "^15.6.0"
     warning "^3.0.0"
 
+react-float-button@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-float-button/-/react-float-button-0.1.2.tgz#ebd1b5babc1ee4794382c70dd6e01eac2647c045"
+  dependencies:
+    react "15.4.1"
+
 react-fontawesome@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/react-fontawesome/-/react-fontawesome-1.6.1.tgz#eddce17e7dc731aa09fd4a186688a61793a16c5c"
@@ -7813,6 +7819,14 @@ react-truncate-html@^0.1.7:
   resolved "https://registry.yarnpkg.com/react-truncate-html/-/react-truncate-html-0.1.7.tgz#85a00cab4b31fc766623558ad0433ceefd5122a9"
   dependencies:
     xss "^0.3.4"
+
+react@15.4.1:
+  version "15.4.1"
+  resolved "http://registry.npmjs.org/react/-/react-15.4.1.tgz#498e918602677a3983cd0fd206dfe700389a0dd6"
+  dependencies:
+    fbjs "^0.8.4"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
 
 react@^16.3.1:
   version "16.3.2"
