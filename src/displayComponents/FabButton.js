@@ -1,12 +1,12 @@
 import React from "react";
 import Button from "material-ui/Button";
 
-const FabButton = ({ onClick, color, icon }) => (
+const FabButton = ({ onClick, color, icon, style }) => (
 	<Button
 		variant="fab"
 		color="primary"
 		onClick={onClick}
-		style={{ outline: 0, ...(!!color? {backgroundColor: color} : {})}}
+		style={{ outline: 0, ...(!!color? {backgroundColor: color} : {}), ...style}}
 	>
 		{icon}
 	</Button>

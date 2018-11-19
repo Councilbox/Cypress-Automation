@@ -1,5 +1,5 @@
 import React from "react";
-import { AlertConfirm, Icon } from "../../../../displayComponents";
+import { AlertConfirm, Icon, Radio } from "../../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendVideoEmails } from "../../../../queries";
@@ -9,7 +9,8 @@ class SendCredentialsModal extends React.Component {
 	state = {
 		success: "",
 		error: "",
-		sendAgenda: false
+		sendAgenda: false,
+		sendType: 'all'
 	};
 
 	close = () => {
@@ -22,6 +23,18 @@ class SendCredentialsModal extends React.Component {
 		});
 	};
 
+	sendAll = () => {
+		this.setState({
+			sendType: 'all'
+		});
+	}
+
+	sendNoOpened = () => {
+		this.setState({
+			sendType: 'noOpened'
+		});
+	}
+
 	sendVideoEmails = async () => {
 		this.setState({
 			sending: true
@@ -29,7 +42,8 @@ class SendCredentialsModal extends React.Component {
 		const response = await this.props.sendVideoEmails({
 			variables: {
 				councilId: this.props.council.id,
-				timezone: moment().utcOffset()
+				timezone: moment().utcOffset(),
+				type: this.state.sendType
 			}
 		});
 		if (response.data.sendRoomEmails.success) {
@@ -56,7 +70,26 @@ class SendCredentialsModal extends React.Component {
 			return <SuccessMessage message={translate.sent} />;
 		}
 
-		return <div>{translate.send_video_credentials_question}</div>;
+		//TRADUCCION
+		return (
+			<div>
+				Enviar a:
+				<Radio
+					value={"all"}
+					checked={this.state.sendType === 'all'}
+					onChange={this.sendAll}
+					name="sendType"
+					label="Todos"
+				/>
+				<Radio
+					value={"noOpened"}
+					checked={this.state.sendType === 'noOpened'}
+					onChange={this.sendNoOpened}
+					name="sendType"
+					label='No abrieron email'
+				/>
+			</div>
+		);
 	}
 
 	render() {

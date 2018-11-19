@@ -69,7 +69,7 @@ class CouncilLivePage extends React.Component {
 				}
 			}
 		}
-		cb();	
+		cb();
 	}
 
 	closeAddParticipantModal = () => {

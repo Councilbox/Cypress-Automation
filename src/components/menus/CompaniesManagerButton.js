@@ -59,6 +59,7 @@ class CompaniesManagerButton extends React.Component {
                 </Link>
 
                 <AlertConfirm
+                    //TRADUCCION
                     title="Aviso"
                     open={this.state.cantCreateModal}
                     hideAccept

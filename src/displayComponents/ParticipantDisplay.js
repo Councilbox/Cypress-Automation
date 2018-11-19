@@ -32,7 +32,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						}}
 					/>
 				</div>
-				<Typography variant="subheading">
+				<Typography variant="subheading" className="truncate">
 					<b>{`${participant.name} ${participant.surname}`}</b>
 				</Typography>
 			</div>
@@ -59,7 +59,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						}}
 					/>
 				</div>
-				<Typography variant="body1">{`${participant.dni}`}</Typography>
+				<Typography variant="body1" className="truncate">{`${participant.dni}`}</Typography>
 			</div>
 			<div
 				style={{
@@ -84,7 +84,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						}}
 					/>
 				</div>
-				<Typography variant="body1">
+				<Typography variant="body1" className="truncate">
 					{`${participant.position}`}
 				</Typography>
 			</div>
@@ -111,7 +111,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 						}}
 					/>
 				</div>
-				<Typography variant="body1">
+				<Typography variant="body1" className="truncate">
 					{`${participant.email}`}
 				</Typography>
 			</div>

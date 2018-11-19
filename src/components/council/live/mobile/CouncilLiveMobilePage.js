@@ -1,5 +1,6 @@
 import React from 'react';
-import { LoadingMainApp, FabButton, Icon } from '../../../../displayComponents';
+import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displayComponents';
+import { showVideo } from '../../../../utils/CBX';
 import { graphql } from 'react-apollo';
 import { councilLiveQuery } from "../../../../queries";
 import { Badge, Tooltip } from 'material-ui';
@@ -7,6 +8,8 @@ import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
 import AgendaManager from '../AgendaManager';
 import CommentWall from '../CommentWall';
+import LiveParticipantsDrawer from './LiveParticipantsDrawer';
+import { lightGrey, getSecondary } from '../../../../styles/colors';
 import FloatGroup from 'react-float-button';
 
 class CouncilLiveMobilePage extends React.Component {
@@ -16,10 +19,18 @@ class CouncilLiveMobilePage extends React.Component {
         wall: false,
         unreadComments: 0,
         selectedPoint: 0,
+        liveParticipantsDrawer: false
     }
 
     updateState = object => {
         this.setState(object);
+    }
+
+    toggleLiveParticipantsDrawer = () => {
+        const drawer = this.state.liveParticipantsDrawer;
+        this.setState({
+            liveParticipantsDrawer: !drawer
+        });
     }
 
     closeCommentWall = () => {
@@ -37,6 +48,7 @@ class CouncilLiveMobilePage extends React.Component {
     render() {
         const { council } = this.props.data;
         const { translate } = this.props;
+        const secondary = getSecondary();
 
         const company = this.props.companies.list[
             this.props.companies.selected
@@ -54,7 +66,12 @@ class CouncilLiveMobilePage extends React.Component {
                     position: 'relative'
                 }}
             >
-
+                <LiveParticipantsDrawer
+                    open={this.state.liveParticipantsDrawer}
+                    requestClose={this.toggleLiveParticipantsDrawer}
+                    council={council}
+                    translate={translate}
+                />
                 <div
 					style={{
 						position: "absolute",
@@ -66,7 +83,7 @@ class CouncilLiveMobilePage extends React.Component {
 						zIndex: 2
 					}}
                 >
-                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: '70vw' }}>
+                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: '70vw', marginBottom: '0.4em' }}>
                         <FabButton
                             icon={
                                 <Icon className="material-icons">
@@ -74,25 +91,22 @@ class CouncilLiveMobilePage extends React.Component {
                                 </Icon>
                             }
                         />
-                        <div
-                            style={{
-                                display: 'flex',
-                                width: '50vw'
-                            }}
-                        >
-                            <div>
-                                Muro de comentarios
-                            </div>
-                            <FabButton
-                                icon={
-                                    <Icon className="material-icons">
-                                        chat
-                                    </Icon>
-                                }
-
-                                onClick={this.openCommentWall}
+                        <BasicButton
+                            text={translate.wall}
+                            color={secondary}
+                            textStyle={{color: 'white', fontWeight: '700'}}
+                            buttonStyle={{marginBottom: '1em'}}
+                            onClick={this.openCommentWall}
+                        />
+                        {showVideo(council) &&
+                            <BasicButton
+                                text={'Ver participantes remotos'}
+                                color={secondary}
+                                textStyle={{color: 'white', fontWeight: '700'}}
+                                buttonStyle={{marginBottom: '1em'}}
+                                onClick={this.toggleLiveParticipantsDrawer}
                             />
-                        </div>
+                        }
                     </FloatGroup>
                     <FabButton
                         icon={

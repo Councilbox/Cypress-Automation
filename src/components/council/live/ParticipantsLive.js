@@ -18,6 +18,7 @@ import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton
 import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
 import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
+import { isMobile } from 'react-device-detect';
 
 
 class ParticipantsLive extends React.Component {
@@ -169,22 +170,24 @@ class ParticipantsLive extends React.Component {
 						</div>
 					</Tooltip>
 				</GridItem>
-				<GridItem xs={3} lg={3} md={3}>
-					<div
-						style={{
-							color: lightGrey,
-							marginLeft: "1em",
-							fontSize: "0.8em"
-						}}
-						className="truncate"
-					>
-						{participant.position}
-					</div>
-				</GridItem>
+				{!isMobile &&
+					<GridItem xs={3} lg={3} md={3}>
+						<div
+							style={{
+								color: lightGrey,
+								marginLeft: "1em",
+								fontSize: "0.8em"
+							}}
+							className="truncate"
+						>
+							{participant.position}
+						</div>
+					</GridItem>
+				}
 				<GridItem
-					xs={1}
-					lg={1}
-					md={1}
+					xs={isMobile? 2 : 1}
+					lg={isMobile? 2 : 1}
+					md={isMobile? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -198,9 +201,9 @@ class ParticipantsLive extends React.Component {
 					/>}
 				</GridItem>
 				<GridItem
-					xs={1}
-					lg={1}
-					md={1}
+					xs={isMobile? 2 : 1}
+					lg={isMobile? 2 : 1}
+					md={isMobile? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",
@@ -214,9 +217,9 @@ class ParticipantsLive extends React.Component {
 					/>
 				</GridItem>
 				<GridItem
-					xs={1}
-					lg={1}
-					md={1}
+					xs={isMobile? 2 : 1}
+					lg={isMobile? 2 : 1}
+					md={isMobile? 2 : 1}
 					style={{
 						display: "flex",
 						flexDirection: "row",

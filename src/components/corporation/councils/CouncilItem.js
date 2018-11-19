@@ -2,7 +2,8 @@ import React from 'react';
 import { getSecondary } from '../../../styles/colors';
 import { moment } from '../../../containers/App';
 import FontAwesome from 'react-fontawesome';
-import { Link } from '../../../displayComponents';
+import { Link, BasicButton } from '../../../displayComponents';
+import FixedVideoURLModal from './FixedVideoURLModal';
 
 const CouncilItem = ({ council, translate }) => (
     <div style={{margin: '0.8em'}}>
@@ -45,6 +46,10 @@ const CouncilItem = ({ council, translate }) => (
                         <span style={{fontWeight: '700', fontSize: '0.8em', marginLeft: '0.2em'}}>{council.name}</span>
                     </div>
                     <span date={council.dateStart}>{moment(council.dateStart).format('LLL')}</span>
+                    <FixedVideoURLModal
+                        translate={translate}
+                        council={council}
+                    />
                 </div>
             </div>
         </Link>

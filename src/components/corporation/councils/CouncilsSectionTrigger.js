@@ -4,7 +4,7 @@ import { MenuItem } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 
 const CouncilsSectionTrigger = ({ text, description, icon}) => (
-    <MenuItem 
+    <MenuItem
         style={{
             height: '3.5em',
             display: 'flex',
@@ -36,7 +36,7 @@ const CouncilsSectionTrigger = ({ text, description, icon}) => (
                 style={{
                     display: 'flex',
                     flexDirection: 'column'
-                }}    
+                }}
             >
                 <div>
                     {text}

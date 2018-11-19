@@ -31,6 +31,7 @@ class CouncilsDashboard extends React.PureComponent {
                             <CouncilItem
                                 key={`council_${council.id}`}
                                 council={council}
+                                translate={this.props.translate}
                             />
                         )
                     }
@@ -59,6 +60,7 @@ class CouncilsDashboard extends React.PureComponent {
                             <CouncilItem
                                 key={`council_${council.id}`}
                                 council={council}
+                                translate={this.props.translate}
                             />
                         )
                     }
@@ -69,7 +71,6 @@ class CouncilsDashboard extends React.PureComponent {
     }
 
     render(){
-
         return(
             <div
                 style={{

@@ -15,6 +15,7 @@ const AlertConfirm = ({
 	buttonAccept,
 	buttonCancel,
 	modal = true,
+	successAction = false,
 	open,
 	requestClose,
 	loadingAction,
@@ -46,6 +47,7 @@ const AlertConfirm = ({
 					<BasicButton
 						text={buttonAccept}
 						loading={loadingAction}
+						success={successAction}
 						textStyle={{
 							color: "white",
 							textTransform: "none",

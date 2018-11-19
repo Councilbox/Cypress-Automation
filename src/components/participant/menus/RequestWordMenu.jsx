@@ -94,6 +94,7 @@ class RequestWordMenu extends React.Component {
                             backgroundColor: grantedWord? primary : 'inherit',
                             width: '2em',
                             height: '100%',
+                            marginRight: '0.6em',
                             borderRadius: '0.5em'
                         }}
                         onClick={this.cancelAskForWord}
@@ -110,12 +111,12 @@ class RequestWordMenu extends React.Component {
             <Tooltip title={this.props.translate.ask_to_speak} placement="top">
                 <IconButton
                     size={'small'}
-                    style={{outline: 0, color: secondary}}
+                    style={{outline: 0, color: secondary, marginRight: '0.6em'}}
                     onClick={this.askForWord}
                 >
                     <i className="material-icons">
                         pan_tool
-                    </i>                    
+                    </i>
                 </IconButton>
             </Tooltip>
         )
@@ -135,11 +136,12 @@ class RequestWordMenu extends React.Component {
     render(){
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
+        const COAGMode = this.props.council.companyId === 130;
 
         return(
             <Paper
                 style={{
-                    width: '8em',
+                    width: COAGMode? '5.5em' : '8em',
                     height: '3em',
                     position: 'absolute',
                     backgroundColor: 'white',
@@ -154,8 +156,16 @@ class RequestWordMenu extends React.Component {
                 }}
             >
                 <div>
-                    {this._renderWordButtonIcon()}
-                    {this._renderPrivateMessageIcon()}
+                    {!COAGMode &&
+                        this._renderWordButtonIcon()
+                    }
+                    {COAGMode?
+                        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                            {this._renderPrivateMessageIcon()}
+                        </div>
+                    :
+                        this._renderPrivateMessageIcon()
+                    }
                 </div>
                 <AlertConfirm
 					requestClose={() => this.setState({ alertCantRequestWord: false })}

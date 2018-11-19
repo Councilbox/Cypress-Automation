@@ -14,7 +14,6 @@ class AdminPrivateMessage extends React.Component {
         text: ''
     };
 
-    
     onVisibleChange = visible => {
         this.setState({
             visible
@@ -119,7 +118,6 @@ class AdminPrivateMessage extends React.Component {
                             color: this.state.visible? 'white' : secondary,
                             backgroundColor: this.state.visible? secondary : 'inherit',
                             width: '2em',
-                            marginLeft: '0.6em',
                             height: '100%',
                             borderRadius: '0.5em'
                         }}

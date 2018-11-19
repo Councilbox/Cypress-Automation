@@ -19,7 +19,7 @@ class CouncilMenu extends React.Component {
 	};
 
 	render() {
-		const { translate } = this.props;
+		const { translate, council } = this.props;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
@@ -83,22 +83,22 @@ class CouncilMenu extends React.Component {
 					}
 					items={
 						<React.Fragment>
-							{!(this.props.council.state === 20 || this.props.council.state === 30) &&
+							<MenuItem
+								onClick={() =>
+									this.setState({ sendCredentials: true })
+								}
+							>
+								<FontAwesome
+									name="paper-plane"
+									style={{
+										marginRight: "0.8em",
+										color: secondary
+									}}
+								/>
+								{translate.send_video_emails}
+							</MenuItem>
+							{!(council.state === 20 || council.state === 30) &&
 								<React.Fragment>
-									<MenuItem
-										onClick={() =>
-											this.setState({ sendCredentials: true })
-										}
-									>
-										<FontAwesome
-											name="paper-plane"
-											style={{
-												marginRight: "0.8em",
-												color: secondary
-											}}
-										/>
-										{translate.send_video_emails}
-									</MenuItem>
 									<MenuItem
 										onClick={() =>
 											this.setState({ sendCredentialsTest: true })
