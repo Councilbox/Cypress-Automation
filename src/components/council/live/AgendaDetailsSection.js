@@ -15,6 +15,7 @@ import { Collapse } from 'react-collapse';
 import { BasicButton, Grid, GridItem, SelectInput } from '../../../displayComponents';
 import { getSecondary, secondary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
+import AgendaDescriptionModal from './AgendaDescriptionModal';
 import { updateAgenda } from "../../../queries/agenda";
 import PointEditorLive from './PointEditorLive';
 
@@ -309,12 +310,33 @@ class AgendaDetailsSection extends React.Component {
 						</GridItem>
 					}
 				</Grid>
-				<div style={{ borderTop: '1px solid gainsboro', width: '100%', height: `calc(100vh - ${smallLayout? '14em' : '11em'})`, overflow: 'hidden' }}>
+				<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc(100vh - ${smallLayout? '14em' : '11em'})`, overflow: 'hidden' }}>
 						<Collapse isOpened={this.state.expanded}>
+							<div
+								style={{
+									visibility: this.state.expanded? 'visible' : 'hidden',
+									cursor: 'pointer',
+									marginLeft: '0.2em',
+									position: 'absolute',
+									top: 5,
+									left: '0.5em'
+								}}
+							>
+								<AgendaDescriptionModal
+									agenda={agenda}
+									translate={translate}
+									council={council}
+									companyStatutes={this.props.companyStatutes}
+									majorityTypes={this.props.majorityTypes}
+									draftTypes={this.props.draftTypes}
+									refetch={this.props.refetch}
+								/>
+							</div>
 							<div
 								style={{
 									fontSize: "0.9em",
 									padding: '1em',
+									marginTop: '0.8em',
 									paddingBottom: '1.5em',
 									lineHeight: '1.2em',
 									width: '100%',

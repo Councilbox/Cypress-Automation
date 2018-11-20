@@ -11,6 +11,7 @@ import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import { checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
+import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
 
 class AgendaEditor extends React.Component {
@@ -58,6 +59,11 @@ class AgendaEditor extends React.Component {
 				}
 			);
 		}
+	}
+
+	update = () => {
+		this.props.data.refetch();
+		this.props.updateCouncilAct();
 	}
 
 	loadDraft = draft => {
@@ -251,17 +257,27 @@ class AgendaEditor extends React.Component {
 						<div
 							style={{
 								fontWeight: "600",
-								fontSize: "1em"
+								fontSize: "1.1em",
+								marginBottom: '1em'
 							}}
 						>
 							{agenda.agendaSubject}
 						</div>
+						<AgendaDescriptionModal
+							agenda={agenda}
+							translate={translate}
+							council={council}
+							companyStatutes={this.props.statutes}
+							majorityTypes={this.props.majorityTypes}
+							draftTypes={this.props.draftTypes}
+							refetch={this.update}
+						/>
 						{agenda.description && (
 							<div
 								style={{
 									width: "100%",
-									marginTop: "1em",
-									fontSize: '0.9rem'
+									marginTop: "0.3em",
+									fontSize: '0.87rem'
 								}}
 								dangerouslySetInnerHTML={{ __html: agenda.description }}
 							/>

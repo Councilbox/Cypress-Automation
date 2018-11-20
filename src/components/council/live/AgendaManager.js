@@ -210,6 +210,7 @@ class AgendaManager extends React.Component {
 						selectedPoint={this.state.selectedPoint}
 						majorityTypes={this.props.data.majorityTypes}
 						votingTypes={this.props.data.votingTypes}
+						companyStatutes={this.props.data.companyStatutes}
 						participants={this.props.participants}
 						councilID={this.props.councilID}
 						translate={translate}

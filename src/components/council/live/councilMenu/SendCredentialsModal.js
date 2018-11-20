@@ -29,9 +29,9 @@ class SendCredentialsModal extends React.Component {
 		});
 	}
 
-	sendNoOpened = () => {
+	sendNoEnter = () => {
 		this.setState({
-			sendType: 'noOpened'
+			sendType: 'noEnter'
 		});
 	}
 
@@ -67,26 +67,31 @@ class SendCredentialsModal extends React.Component {
 		}
 
 		if (this.state.success) {
-			return <SuccessMessage message={translate.sent} />;
+			return (
+				<div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					<SuccessMessage message={translate.sent} />
+				</div>
+			);
 		}
 
 		//TRADUCCION
 		return (
 			<div>
 				Enviar a:
+				<br/>
 				<Radio
 					value={"all"}
 					checked={this.state.sendType === 'all'}
 					onChange={this.sendAll}
 					name="sendType"
 					label="Todos"
-				/>
+				/><br/>
 				<Radio
-					value={"noOpened"}
-					checked={this.state.sendType === 'noOpened'}
-					onChange={this.sendNoOpened}
+					value={"noEnter"}
+					checked={this.state.sendType === 'noEnter'}
+					onChange={this.sendNoEnter}
 					name="sendType"
-					label='No abrieron email'
+					label='No han entrado a la sala'
 				/>
 			</div>
 		);

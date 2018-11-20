@@ -413,6 +413,7 @@ class ActEditor extends Component {
 														council={council}
 														updateCouncilAct={this.updateCouncilAct}
 														recount={this.props.data.councilRecount}
+														statutes={this.props.data.companyStatutes}
 														translate={translate}
 														majorityTypes={this.props.data.majorityTypes}
 														typeText={this.getTypeText(agenda.subjectType)}
