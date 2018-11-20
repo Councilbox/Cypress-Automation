@@ -20,11 +20,13 @@ class CMPVideoIFrame extends React.Component {
                         <div style={{width: '100%', height: '100%', position: 'relative'}}>
                             {!!data.roomVideoURL && config.video?
                                 <React.Fragment>
-                                    <RecordingButton
-                                        config={config}
-                                        council={this.props.council}
-                                        translate={this.props.translate}
-                                    />
+                                    {data.roomVideoURL.includes('councilbox') &&
+                                        <RecordingButton
+                                            config={config}
+                                            council={this.props.council}
+                                            translate={this.props.translate}
+                                        />
+                                    }
                                     <iframe
                                         title="meetingScreen"
                                         allow="geolocation; microphone; camera"
