@@ -547,7 +547,6 @@ const query = gql`
 	}
 `;
 
-console.log(limit);
 
 export default graphql(query, {
 	options: props => ({

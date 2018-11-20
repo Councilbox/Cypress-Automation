@@ -24,8 +24,15 @@ class AppControl extends React.Component {
     }
 
     render(){
+        let config = {};
+
+        if(!this.props.data.loading){
+            for(let field of this.props.data.appConfig){
+                config[field.name] = field.active;
+            }
+        }
         return(
-            <ConfigContext.Provider value={this.props.data.appConfig}>
+            <ConfigContext.Provider value={config}>
                 {this.props.children}
             </ConfigContext.Provider>
         )
@@ -39,9 +46,9 @@ const appControlChange = gql`
             command
             userId
             config {
-                video
-                commandBar
-                recording
+                id
+                name
+                active
             }
         }
     }
@@ -50,9 +57,9 @@ const appControlChange = gql`
 const appConfig = gql`
     query AppConfig($userId: String!){
         appConfig(userId: $userId){
-            video
-            commandBar
-            recording
+            id
+            name
+            active
         }
     }
 `;

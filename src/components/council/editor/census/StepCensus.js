@@ -30,6 +30,7 @@ class StepCensus extends React.Component {
 		addParticipant: false,
 		noParticipantsError: false,
 		censusChangeId: "",
+		participantsLength: 0,
 		data: {
 			censuses: []
 		}
@@ -164,8 +165,8 @@ class StepCensus extends React.Component {
 				<BasicButton
 					text={translate.cancel}
 					color={"white"}
+					type="flat"
 					textStyle={{
-						color: primary,
 						fontWeight: "700",
 						fontSize: "0.9em",
 						textTransform: "none"
@@ -192,7 +193,7 @@ class StepCensus extends React.Component {
 	}
 
 	checkParticipants = () => {
-		return this.state.participantsLength <= 0;
+		return !this.props.data.loading && this.state.participantsLength <= 0;
 	}
 
 	render() {
@@ -248,7 +249,6 @@ class StepCensus extends React.Component {
 												participantsLength: participants.data.councilParticipants.total
 											})
 										}
-										//console.log(participants);
 									}}
 									key={`${this.props.data.council.selectedCensusId}`}
 									council={council}

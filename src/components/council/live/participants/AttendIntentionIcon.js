@@ -14,7 +14,6 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
     let icon = <i className='fa fa-question' style={iconStyle}></i>;
 
     if(participant.assistanceLastDateConfirmed){
-        console.log(participant.assistanceIntention);
         switch(participant.assistanceIntention){
             case PARTICIPANT_STATES.REMOTE:
                 tooltip = translate.remote_assistance_short;

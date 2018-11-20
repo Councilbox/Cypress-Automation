@@ -141,7 +141,6 @@ export const pointIsClosed = agendaPoint => {
 };
 
 export const majorityNeedsInput = majorityType => {
-	console.log(majorityType);
 	return majorityType === MAJORITY_TYPES.PERCENTAGE
 		|| majorityType === MAJORITY_TYPES.NUMBER
 		|| majorityType === MAJORITY_TYPES.FRACTION;

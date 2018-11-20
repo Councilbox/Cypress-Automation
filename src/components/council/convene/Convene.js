@@ -76,7 +76,6 @@ class Convene extends React.Component {
 	}
 
 	copyConveneHTML = () => {
-		console.log('copiar');
 		const html = document.createElement('textarea');
 		document.body.appendChild(html);
 		html.value = this.props.data.council.emailText;

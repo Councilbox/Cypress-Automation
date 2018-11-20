@@ -2,10 +2,7 @@ import React from "react";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import { Block, Grid, GridItem } from '../../displayComponents';
 import { userCanCreateCompany } from '../../utils/CBX';
-import ToggleRecordings from './ToggleRecordings';
-import ToggleVideo from './ToggleVideo';
-import LogoutUser from './LogoutUser';
-import RefreshUser from './RefreshUser';
+import DevAdminPage from '../featureControl/DevAdminPage';
 import PremiumModal from './PremiumModal';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { graphql } from 'react-apollo';
@@ -34,6 +31,7 @@ class NoCompanyDashboard extends React.Component {
 
 	render() {
 		const { translate, user } = this.props;
+		console.log(user);
 		return (
 			<div
 				style={{
@@ -48,21 +46,8 @@ class NoCompanyDashboard extends React.Component {
 				}}
 				id={"mainContainer"}
 			>
-				{user.email === 'aaron.fuentes.cocodin+2@gmail.com'?
-					<Grid>
-						<GridItem xs={12} md={12} lg={12}>
-							<ToggleRecordings />
-						</GridItem>
-						<GridItem xs={12} md={12} lg={12}>
-							<ToggleVideo />
-						</GridItem>
-						<GridItem xs={12} md={12} lg={12}>
-							<LogoutUser />
-						</GridItem>
-						<GridItem xs={12} md={12} lg={12}>
-							<RefreshUser />
-						</GridItem>
-					</Grid>
+				{user.roles === 'devAdmin'?
+					<DevAdminPage />
 				:
 					<div className="row" style={{ width: "100%" }}>
 						<div

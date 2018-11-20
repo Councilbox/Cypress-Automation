@@ -34,8 +34,6 @@ const withWindowSize = WrappedComponent => {
 			});
 			const element = document.getElementById('root');
 			const html = document.getElementsByTagName('html');
-			console.log(window.innerHeight);
-
 			if(element){
 				//element.style.height = window.innerHeight + 'px';
 				for(let el of html){
