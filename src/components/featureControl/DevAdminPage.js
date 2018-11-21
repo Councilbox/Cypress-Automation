@@ -4,11 +4,22 @@ import ToggleRecordings from './ToggleRecordings';
 import ToggleVideo from './ToggleVideo';
 import LogoutUser from './LogoutUser';
 import RefreshUser from './RefreshUser';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { ConfigContext } from '../../containers/AppControl';
 import { Switch, FormControlLabel } from 'material-ui';
 
 class DevAdminPage extends React.Component {
 
+    toggleFeature = async name => {
+        const response = await this.props.toggleFeature({
+            variables: {
+                name: name
+            }
+        });
+
+        console.log(response);
+    }
 
     render(){
         return (
@@ -28,7 +39,7 @@ class DevAdminPage extends React.Component {
                             <RefreshUser />
                         </GridItem>
                         <GridItem xs={12} md={12} lg={12}>
-                            <Prueba value={value} />
+                            <Features value={value} toggleFeature={this.toggleFeature} />
                         </GridItem>
                     </Grid>
                 )}
@@ -37,7 +48,7 @@ class DevAdminPage extends React.Component {
     }
 }
 
-const Prueba = ({ value }) => {
+const Features = ({ value, toggleFeature }) => {
     console.log(value);
     const array = Object.keys(value).map(key => ({ name: key, active: value[key] }));
     console.log(array);
@@ -46,10 +57,11 @@ const Prueba = ({ value }) => {
         <React.Fragment>
             {array.map(feature  => (
                 <FormControlLabel
+                    key={`feature_${feature.name}`}
                     control={
                         <Switch
                             checked={feature.active}
-                            onChange={() => {}}
+                            onChange={() => toggleFeature(feature.name)}
                             value='true'
                             color="primary"
                         />
@@ -61,4 +73,13 @@ const Prueba = ({ value }) => {
     )
 }
 
-export default DevAdminPage;
+const toggleFeature = gql`
+    mutation ToggleFeature($name: String!){
+        toggleFeature(name: $name){
+            success
+            message
+        }
+    }
+`;
+
+export default graphql(toggleFeature, { name: 'toggleFeature' })(DevAdminPage);

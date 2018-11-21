@@ -6,6 +6,7 @@ import { getSecondary } from '../../../styles/colors';
 import { Paper } from 'material-ui';
 import { councils } from '../../../queries';
 import { COUNCIL_STATES } from '../../../constants';
+import { ConfigContext } from '../../../containers/AppControl';
 
 class LoadFromPreviousCouncil extends React.Component {
 
@@ -73,35 +74,42 @@ class LoadFromPreviousCouncil extends React.Component {
         const { translate } = this.props;
 
         return (
-            <React.Fragment>
-                <BasicButton
-                    text={'Clonar una reunión existente'}//TRADUCCION
-                    color={getSecondary()}
-                    textStyle={{
-                        color: "white",
-                        fontWeight: "600",
-                        fontSize: "0.9em",
-                        textTransform: "none"
-                    }}
-                    buttonStyle={{
-                        marginBottom: '0.6em'
-                    }}
-                    textPosition="after"
-                    onClick={this.showModal}
-                    icon={
-                        <i className="fa fa-clone" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>
-                    }
-                />
-                <AlertConfirm
-                    requestClose={this.closeModal}
-                    open={this.state.modal}
-                    acceptAction={this.changeCensus}
-                    buttonAccept={translate.accept}
-                    buttonCancel={translate.cancel}
-                    bodyText={this._renderBody()}
-                    title={'Cargar una reunión pasada'}
-                />
-            </React.Fragment>
+            <ConfigContext.Consumer>
+                {value => (
+                    value.cloneCouncil ?
+                        <React.Fragment>
+                            <BasicButton
+                                text={'Clonar una reunión existente'}//TRADUCCION
+                                color={getSecondary()}
+                                textStyle={{
+                                    color: "white",
+                                    fontWeight: "600",
+                                    fontSize: "0.9em",
+                                    textTransform: "none"
+                                }}
+                                buttonStyle={{
+                                    marginBottom: '0.6em'
+                                }}
+                                textPosition="after"
+                                onClick={this.showModal}
+                                icon={
+                                    <i className="fa fa-clone" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>
+                                }
+                            />
+                            <AlertConfirm
+                                requestClose={this.closeModal}
+                                open={this.state.modal}
+                                acceptAction={this.changeCensus}
+                                buttonAccept={translate.accept}
+                                buttonCancel={translate.cancel}
+                                bodyText={this._renderBody()}
+                                title={'Cargar una reunión pasada'}
+                            />
+                        </React.Fragment>
+                    :
+                        <span />
+                )}
+            </ConfigContext.Consumer>
         )
     }
 }
