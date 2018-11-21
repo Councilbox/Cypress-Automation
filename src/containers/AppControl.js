@@ -24,8 +24,17 @@ class AppControl extends React.Component {
     }
 
     render(){
+        let config = {};
+
+        console.log(this.props.data.appConfig);
+
+        if(!this.props.data.loading){
+            for(let field of this.props.data.appConfig){
+                config[field.name] = field.active;
+            }
+        }
         return(
-            <ConfigContext.Provider value={this.props.data.appConfig}>
+            <ConfigContext.Provider value={config}>
                 {this.props.children}
             </ConfigContext.Provider>
         )
@@ -39,9 +48,8 @@ const appControlChange = gql`
             command
             userId
             config {
-                video
-                commandBar
-                recording
+                name
+                active
             }
         }
     }
@@ -50,9 +58,8 @@ const appControlChange = gql`
 const appConfig = gql`
     query AppConfig($userId: String!){
         appConfig(userId: $userId){
-            video
-            commandBar
-            recording
+            name
+            active
         }
     }
 `;
@@ -91,21 +98,24 @@ export default graphql(appConfig, {
                         }
 
                         if(!subscriptionData.data.appControlChange.config) return prev;
+                        const config = subscriptionData.data.appControlChange.config;
+                        let oldConfig = prev.appConfig;
 
-                        const { config } = subscriptionData.data.appControlChange;
+                        oldConfig = {
+                            ...oldConfig,
+                            ...config
+                        };
 
-                        Object.keys(config).forEach(key => {
-                            if (config[key] === null) {
-                                delete config[key];
-                            }
-                        });
+                        console.log(oldConfig);
+
+
                         return({
                             ...prev,
-                            appConfig: {
+                            appConfig: [
                                 ...prev.appConfig,
                                 ...config
-                            }
-                        })
+                            ]
+                        });
 			        }
 			    });
 		    }

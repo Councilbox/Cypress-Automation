@@ -15,6 +15,7 @@ import {
 } from "../../../displayComponents";
 import gql from 'graphql-tag';
 import RichTextInput from "../../../displayComponents/RichTextInput";
+import LoadFromPreviousCouncil from './LoadFromPreviousCouncil';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
@@ -53,13 +54,15 @@ class StepNotice extends React.Component {
 
  	componentDidUpdate(prevProps, prevState){
 		if(!this.props.data.loading){
-			if(prevState.data.dateStart !== this.state.data.dateStart){
-				if(!CBX.checkMinimumAdvance(this.state.data.dateStart, this.props.data.council.statute)){
-					this.updateError({
-						dateStart: this.props.translate.new_statutes_warning
-						.replace('{{council_prototype}}', this.props.translate[this.props.data.council.statute.title] || this.props.data.council.statute.title)
-						.replace('{{days}}', this.props.data.council.statute.advanceNoticeDays)
-					});
+			if(prevState.data.dateStart && this.state.data.dateStart){
+				if(prevState.data.dateStart !== this.state.data.dateStart){
+					if(!CBX.checkMinimumAdvance(this.state.data.dateStart, this.props.data.council.statute)){
+						this.updateError({
+							dateStart: this.props.translate.new_statutes_warning
+							.replace('{{council_prototype}}', this.props.translate[this.props.data.council.statute.title] || this.props.data.council.statute.title)
+							.replace('{{days}}', this.props.data.council.statute.advanceNoticeDays)
+						});
+					}
 				}
 			}
 		}
@@ -70,17 +73,17 @@ class StepNotice extends React.Component {
 			const council = nextProps.data.council;
 			return {
 				data: {
-					...nextProps.data.council,
-					...(!council.dateStart || !council.dateStart2NdCall? CBX.generateInitialDates(nextProps.data.council.statute) : {}),
-					conveneText: CBX.changeVariablesToValues(nextProps.data.council.conveneText, {
+					...council,
+					...(!council.dateStart || !council.dateStart2NdCall? CBX.generateInitialDates(council.statute) : {}),
+					conveneText: CBX.changeVariablesToValues(council.conveneText, {
 						company: nextProps.company,
 						council: {
-							...nextProps.data.council,
-							dateStart: nextProps.data.council.dateStart? nextProps.data.council.dateStart : new Date().toISOString(),
+							...council,
+							dateStart: council.dateStart? council.dateStart : new Date().toISOString(),
 							...prevState.data
 						}
 					}, nextProps.translate),
-					...prevState.data
+					...(prevState.data.name === council.name? prevState.data : {})
 				}
 			}
 		}
@@ -91,6 +94,14 @@ class StepNotice extends React.Component {
 		this.setState({
 			loading: false,
 			success: false
+		});
+	}
+
+	reloadData = () => {
+		this.setState({
+			data: {}
+		}, () => {
+			this.props.data.refetch();
 		});
 	}
 
@@ -171,7 +182,6 @@ class StepNotice extends React.Component {
 	}
 
 	changeStatute = async statuteId => {
-		//const { statuteId: statute, ...actualState } = this.state.data;
 		const response = await this.props.changeStatute({
 			variables: {
 				councilId: this.props.councilID,
@@ -186,9 +196,6 @@ class StepNotice extends React.Component {
 			await this.props.data.refetch();
 			this.checkAssociatedCensus(statuteId);
 			this.updateDate();
-/* 			this.setState({
-				data: actualState
-			}, this.updateDate); */
 		}
 	};
 
@@ -315,7 +322,19 @@ class StepNotice extends React.Component {
 		return hasError;
 	}
 
-	checkAssociatedCensus = (statuteId) => {
+	showPlaceModal = () => {
+		this.setState({
+			placeModal: true
+		});
+	}
+
+	closePlaceModal = () => {
+		this.setState({
+			placeModal: false
+		});
+	}
+
+	checkAssociatedCensus = statuteId => {
 		const statute = this.props.data.companyStatutes.find(statute => statute.id === statuteId);
 		if(!!statute.censusId){
 			this.setState({
@@ -403,6 +422,14 @@ class StepNotice extends React.Component {
 							</div>
 						:
 							<React.Fragment>
+								{
+									<LoadFromPreviousCouncil
+										council={council}
+										translate={translate}
+										company={company}
+										refetch={this.reloadData}
+									/>
+								}
 								<Grid>
 									<GridItem xs={12} md={4} lg={4} style={{paddingRight: '3.5em' }}>
 										<SelectInput
@@ -445,7 +472,7 @@ class StepNotice extends React.Component {
 												textTransform: "none"
 											}}
 											textPosition="after"
-											onClick={() => this.setState({ placeModal: true })}
+											onClick={this.showPlaceModal}
 											icon={
 												<ButtonIcon type="location_on" color="white" />
 											}
@@ -548,7 +575,7 @@ class StepNotice extends React.Component {
 								</Grid>
 								<PlaceModal
 									open={this.state.placeModal}
-									close={() => this.setState({ placeModal: false })}
+									close={this.closePlaceModal}
 									place={this.state.place}
 									countries={this.props.data.countries}
 									translate={this.props.translate}

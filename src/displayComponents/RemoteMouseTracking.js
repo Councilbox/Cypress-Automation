@@ -10,10 +10,7 @@ const RemoteMouseTracking = ({ updatePointer, children }) => {
     let lastCall = 0;
 
     const handleMouseMove = async event => {
-
         const now = (new Date).getTime();
-
-        //console.log(lastCall, now);
 
         if(now - lastCall < 30) {
             return;
@@ -29,8 +26,6 @@ const RemoteMouseTracking = ({ updatePointer, children }) => {
                 }
             }
         })
-
-        //console.log(response);
     }
 
     return (

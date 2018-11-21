@@ -68,7 +68,6 @@ class ParticipantsTable extends React.Component {
 		});
 
 		if (response) {
-			console.log(response);
 			this.setState({
 				selectedIds: new Map(),
 				singleId: null,

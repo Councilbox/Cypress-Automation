@@ -84,8 +84,6 @@ class NewPartnerPage extends React.Component {
                 }
             });
 
-            console.log(response);
-
             if (response.data) {
                 if (response.data.createSimpleBookParticipant) {
                     this.goBack();
@@ -150,9 +148,6 @@ class NewPartnerPage extends React.Component {
         this.setState({
             errors
         });
-
-        console.log(errors, hasError);
-
         return hasError;
     }
 

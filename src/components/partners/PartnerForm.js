@@ -16,7 +16,6 @@ class PartnerForm extends React.PureComponent {
     render() {
         const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;
         const primary = getPrimary();
-        console.log(participant);
 
         return (
             <React.Fragment>

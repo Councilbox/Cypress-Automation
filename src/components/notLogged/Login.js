@@ -233,56 +233,58 @@ class Login extends React.PureComponent {
 							>
 								{`${translate.login_signin_header} Councilbox`}
 							</div>
-							<div
-								style={{
-									marginTop: "2em",
-									width: "95%"
-								}}
-							>
-								<TextInput
-									onKeyUp={this.handleKeyUp}
-									id={'username'}
-									floatingText={translate.login_user}
-									errorText={this.state.errors.user}
-									type="text"
-									value={this.state.user}
-									onChange={event =>
-										this.setState({
-											user: event.nativeEvent.target.value
-										})
-									}
-								/>
-							</div>
-							<div
-								style={{
-									marginTop: "1.5em",
-									width: "95%"
-								}}
-							>
-								<TextInput
-									floatingText={translate.login_password}
-									id={'password'}
-									type={
-										this.state.showPassword
-											? "text"
-											: "password"
-									}
-									passwordToggler={() =>
-										this.setState({
-											showPassword: !this.state.showPassword
-										})
-									}
-									showPassword={this.state.showPassword}
-									onKeyUp={this.handleKeyUp}
-									value={this.state.password}
-									errorText={this.state.errors.password}
-									onChange={event =>
-										this.setState({
-											password: event.nativeEvent.target.value
-										})
-									}
-								/>
-							</div>
+							<form>
+								<div
+									style={{
+										marginTop: "2em",
+										width: "95%"
+									}}
+								>
+									<TextInput
+										onKeyUp={this.handleKeyUp}
+										id={'username'}
+										floatingText={translate.login_user}
+										errorText={this.state.errors.user}
+										type="text"
+										value={this.state.user}
+										onChange={event =>
+											this.setState({
+												user: event.nativeEvent.target.value
+											})
+										}
+									/>
+								</div>
+								<div
+									style={{
+										marginTop: "1.5em",
+										width: "95%"
+									}}
+								>
+									<TextInput
+										floatingText={translate.login_password}
+										id={'password'}
+										type={
+											this.state.showPassword
+												? "text"
+												: "password"
+										}
+										passwordToggler={() =>
+											this.setState({
+												showPassword: !this.state.showPassword
+											})
+										}
+										showPassword={this.state.showPassword}
+										onKeyUp={this.handleKeyUp}
+										value={this.state.password}
+										errorText={this.state.errors.password}
+										onChange={event =>
+											this.setState({
+												password: event.nativeEvent.target.value
+											})
+										}
+									/>
+								</div>
+							</form>
 							<div style={{ marginTop: "3em" }}>
 								<BasicButton
 									text={translate.dashboard_enter}

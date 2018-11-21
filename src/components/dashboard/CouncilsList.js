@@ -94,7 +94,7 @@ class CouncilListItem extends React.PureComponent {
         })
     }
 
-    deleteIcon = (councilID) => {
+    deleteIcon = councilID => {
         const primary = getPrimary();
 
         return (

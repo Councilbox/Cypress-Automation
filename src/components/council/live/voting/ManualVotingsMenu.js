@@ -97,7 +97,6 @@ class ManualVotingsMenu extends React.Component {
                                 max={maxVoteManual + this.state.positiveManual}
                                 floatingText={'A favor'}//TRADUCCION
                                 onChange={event => {
-                                    //console.log(maxVoteManual, this.state.positiveManual, event.target.value);
                                     this.updateVoting({
                                         positiveManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.positiveManual, 10), parseInt(event.target.value, 10))
                                     })
@@ -112,7 +111,6 @@ class ManualVotingsMenu extends React.Component {
                                 max={maxVoteManual + this.state.negativeManual}
                                 floatingText={'En contra'}//TRADUCCION
                                 onChange={event => {
-                                    //console.log(maxVoteManual, this.state.negativeManual, event.target.value);
                                     this.updateVoting({
                                         negativeManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.negativeManual, 10), parseInt(event.target.value, 10))
                                     })
@@ -127,7 +125,6 @@ class ManualVotingsMenu extends React.Component {
                                 max={maxVoteManual + this.state.abstentionManual}
                                 floatingText={'Abstención'}//TRADUCCION
                                 onChange={event => {
-                                    //console.log(maxVoteManual, this.state.abstentionManual, event.target.value);
                                     this.updateVoting({
                                         abstentionManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.abstentionManual, 10), parseInt(event.target.value, 10))
                                     })}
@@ -147,12 +144,6 @@ class ManualVotingsMenu extends React.Component {
                             />
                         </GridItem>
                         <div style={{display: 'flex', alignItems: 'center'}}>
-{/*                             <BasicButton
-                                text={translate.clear}
-                                textStyle={{color: 'white', fontWeight: '700'}}
-                                color={getSecondary()}
-                                onClick={this.clean}
-                            /> */}
                             <BasicButton
                                 loading={this.state.loading}
                                 success={this.state.success}

@@ -95,9 +95,6 @@ const retryLink = new RetryLink({
 	},
 	attempts: {
 		retryIf: (error, _operation) => {
-			/* console.log(error.name);
-			console.log(error.message);
-			console.log(_operation); */
 			networkErrorHandler(error, toast, store, client, _operation);
 			return error.message === 'Failed to fetch';
 		}

@@ -198,7 +198,6 @@ class Councils extends React.Component {
 export default compose(
 	graphql(deleteCouncil),
 	graphql(councils, {
-		name: "data",
 		options: props => ({
 			variables: {
 				state: props.state,
