@@ -427,6 +427,7 @@ class StepNotice extends React.Component {
 										council={council}
 										translate={translate}
 										company={company}
+										companyStatutes={companyStatutes}
 										refetch={this.reloadData}
 									/>
 								}

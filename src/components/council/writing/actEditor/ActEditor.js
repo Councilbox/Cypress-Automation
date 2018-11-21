@@ -287,7 +287,7 @@ class ActEditor extends Component {
 		}
 	}
 
-	getTypeText = (subjectType) => {
+	getTypeText = subjectType => {
 		const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
 		return !!votingType? this.props.translate[votingType.label] : '';
 	}

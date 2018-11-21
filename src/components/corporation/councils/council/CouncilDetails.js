@@ -45,7 +45,7 @@ class CouncilDetails extends React.Component {
                 </div>
                 {this.props.data.councilAttendants.list.map(attendant => (
                     <div>
-                        
+
                     </div>
                 ))
 

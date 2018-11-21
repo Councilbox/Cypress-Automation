@@ -2,21 +2,35 @@ import React from 'react';
 import { AlertConfirm, BasicButton, LoadingSection } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary } from '../../../styles/colors';
+import { getSecondary, getPrimary } from '../../../styles/colors';
 import { Paper } from 'material-ui';
 import { councils } from '../../../queries';
 import { COUNCIL_STATES } from '../../../constants';
 import { ConfigContext } from '../../../containers/AppControl';
+import CouncilDetails from '../display/CouncilDetails'
 
 class LoadFromPreviousCouncil extends React.Component {
 
     state = {
-        modal: false
+        modal: false,
+        council: null
     }
 
     closeModal = () => {
         this.setState({
             modal: false
+        });
+    }
+
+    showCouncilDetails = council => {
+        this.setState({
+            council
+        });
+    }
+
+    closeCouncilDetails = () => {
+        this.setState({
+            council: null
         });
     }
 
@@ -50,6 +64,10 @@ class LoadFromPreviousCouncil extends React.Component {
             return <LoadingSection />;
         }
 
+        if(this.state.council){
+            return <CouncilDetails council={this.state.council} translate={this.props.translate} />;
+        }
+
         return (
             <div>
                 {this.props.data.councils.map(council => (
@@ -59,11 +77,24 @@ class LoadFromPreviousCouncil extends React.Component {
                             width: '100%',
                             marginBottom: '0.6em',
                             padding: '0.6em',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
+                            display: 'flex',
+                            justifyContent: 'space-between'
                         }}
                         onClick={this.loadFromCouncil(council)}
                     >
-                        {council.name}
+                        <div className="truncate" style={{width: '70%'}}>
+                            {council.name}
+                        </div>
+                        <BasicButton
+                            text="Ver detalles"//TRADUCCION
+                            type="flat"
+                            textStyle={{color: getSecondary(), fontWeight: '700'}}
+                            onClick={event => {
+                                event.stopPropagation();
+                                this.showCouncilDetails(council)
+                            }}
+                        />
                     </Paper>
                 ))}
             </div>
@@ -97,11 +128,12 @@ class LoadFromPreviousCouncil extends React.Component {
                                 }
                             />
                             <AlertConfirm
-                                requestClose={this.closeModal}
+                                requestClose={!!this.state.council? this.closeCouncilDetails : this.closeModal}
                                 open={this.state.modal}
+                                hideAccept={!!this.state.council}
                                 acceptAction={this.changeCensus}
                                 buttonAccept={translate.accept}
-                                buttonCancel={translate.cancel}
+                                buttonCancel={!!this.state.council? translate.back : translate.cancel}
                                 bodyText={this._renderBody()}
                                 title={'Cargar una reunión pasada'}
                             />

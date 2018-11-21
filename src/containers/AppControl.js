@@ -25,9 +25,6 @@ class AppControl extends React.Component {
 
     render(){
         let config = {};
-
-        console.log(this.props.data.appConfig);
-
         if(!this.props.data.loading){
             for(let field of this.props.data.appConfig){
                 config[field.name] = field.active;
@@ -105,9 +102,6 @@ export default graphql(appConfig, {
                             ...oldConfig,
                             ...config
                         };
-
-                        console.log(oldConfig);
-
 
                         return({
                             ...prev,

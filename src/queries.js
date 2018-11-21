@@ -144,6 +144,7 @@ export const councils = gql`
 		councils(companyId: $companyId, state: $state, filters: $filters) {
 			id
 			dateStart
+			companyId
 			dateRealStart
 			state
 			dateEnd

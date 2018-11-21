@@ -66,9 +66,7 @@ class StatuteEditor extends React.PureComponent {
 								value={statute.existsAdvanceNoticeDays === 1}
 								onChange={(event, isInputChecked) =>
 									updateState({
-										existsAdvanceNoticeDays: isInputChecked
-											? 1
-											: 0
+										existsAdvanceNoticeDays: isInputChecked? 1 : 0
 									})
 								}
 							/>

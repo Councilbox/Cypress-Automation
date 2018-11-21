@@ -1,13 +1,14 @@
 import React from 'react';
 import { CollapsibleSection, BasicButton, ButtonIcon, AlertConfirm } from '../../../displayComponents';
 import ActHTML from '../../council/writing/actViewer/ActHTML';
-import VotingMenu from './VotingMenu';
 import CommentMenu from './CommentMenu';
 import * as CBX from '../../../utils/CBX';
 import { Typography } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 import { PARTICIPANT_TYPE } from '../../../constants';
+import VotingSection from './VotingSection';
+import VotingMenu from './VotingMenu';
 
 
 class AgendaMenu extends React.Component {
@@ -125,57 +126,14 @@ class AgendaMenu extends React.Component {
                             <React.Fragment>
                                 {(agenda.votings && agenda.votings.length > 0)?
                                     <React.Fragment>
-                                        <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
-                                            <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                                                {agenda.votings[0].vote === -1 &&
-                                                    translate.you_havent_voted_yet
-                                                }
-                                                {agenda.votings[0].vote === 0 &&
-                                                    <React.Fragment>
-                                                        {`${translate.you_have_voted}: ${translate.against_btn}`}
-                                                    </React.Fragment>
-                                                }
-                                                {agenda.votings[0].vote === 1 &&
-                                                    <React.Fragment>
-                                                        {`${translate.you_have_voted}: ${translate.in_favor_btn}`}
-                                                    </React.Fragment>
-                                                }
-                                                {agenda.votings[0].vote === 2 &&
-                                                    <React.Fragment>
-                                                        {`${translate.you_have_voted}: ${translate.abstention_btn}`}
-                                                    </React.Fragment>
-                                                }
-                                            </Typography>
-                                            <BasicButton
-                                                color={this.state.voting && this.state.open? primary : 'white'}
-                                                text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : translate.change_vote}
-                                                textStyle={{
-                                                    color: this.state.voting && this.state.open? 'white' : primary,
-                                                    fontWeight: '700',
-                                                    fontSize: '14px'
-                                                }}
-                                                buttonStyle={{
-                                                    float: 'left',
-                                                    marginLeft: '0.6em',
-                                                    padding: '0.3em',
-                                                    border: `2px solid ${primary}`
-                                                }}
-                                                icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
-                                                onClick={this.activateVoting}
-                                            />
-                                        </div>
-                                        <CollapsibleSection
-                                            trigger={() => <span/>}
-                                            onTriggerClick={() => {}}
+                                        <VotingSection
+                                            agenda={agenda}
                                             open={this.state.open}
-                                            collapse={() =>
-                                                <VotingMenu
-                                                    translate={this.props.translate}
-                                                    close={this.toggle}
-                                                    refetch={this.props.refetch}
-                                                    agenda={agenda}
-                                                />
-                                            }
+                                            voting={this.state.voting}
+                                            translate={translate}
+                                            activateVoting={this.activateVoting}
+                                            refetch={this.props.refetch}
+                                            toggle={this.toggle}
                                         />
                                         {this.canComment(agenda, this.props.participant) &&
                                             <CommentMenu
