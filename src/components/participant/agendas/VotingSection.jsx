@@ -42,7 +42,7 @@ class VotingSection extends React.Component {
     render(){
         const { agenda, translate } = this.props;
         const primary = getPrimary();
-        const singleVoteMode = true;
+        const singleVoteMode = false;
 
         return(
             <React.Fragment>
