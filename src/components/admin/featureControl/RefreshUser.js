@@ -1,9 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, TextInput } from '../../displayComponents';
+import { BasicButton, TextInput } from '../../../displayComponents';
 
-class LogoutUser extends React.Component {
+class RefreshUser extends React.Component {
 
     state = {
         userId: ''
@@ -11,7 +11,7 @@ class LogoutUser extends React.Component {
 
     toggle = async () => {
         if(this.state.userId){
-            await this.props.logoutUser({
+            await this.props.refreshUser({
                 variables: {
                     userId: this.state.userId
                 }
@@ -23,11 +23,11 @@ class LogoutUser extends React.Component {
         return(
             <div style={{display: 'flex'}}>
                 <BasicButton
-                    text="Logout user"
+                    text="Refresh user"
                     onClick={this.toggle}
                 />
                 <TextInput
-                    floatingText={'User to logout'}
+                    floatingText={'User to refresh'}
                     value={this.state.userId}
                     onChange={event => this.setState({ userId: event.target.value })}
                 />
@@ -36,14 +36,14 @@ class LogoutUser extends React.Component {
     }
 }
 
-const logoutUser = gql`
-    mutation LogoutUser($userId: String!) {
-        logoutUser(userId: $userId) {
+const refreshUser = gql`
+    mutation ($userId: String!){
+        refreshParticipantApp(userId: $userId) {
             success
         }
     }
 `;
 
-export default graphql(logoutUser, {
-    name: 'logoutUser'
-})(LogoutUser);
+export default graphql(refreshUser, {
+    name: 'refreshUser'
+})(RefreshUser);

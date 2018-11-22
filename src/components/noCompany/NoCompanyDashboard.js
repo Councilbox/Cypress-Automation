@@ -2,7 +2,7 @@ import React from "react";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import { Block, Grid, GridItem } from '../../displayComponents';
 import { userCanCreateCompany } from '../../utils/CBX';
-import DevAdminPage from '../featureControl/DevAdminPage';
+import DevAdminPanel from '../admin/DevAdminPanel';
 import PremiumModal from './PremiumModal';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { graphql } from 'react-apollo';
@@ -47,7 +47,7 @@ class NoCompanyDashboard extends React.Component {
 				id={"mainContainer"}
 			>
 				{user.roles === 'devAdmin'?
-					<DevAdminPage />
+					<DevAdminPanel />
 				:
 					<div className="row" style={{ width: "100%" }}>
 						<div
@@ -103,7 +103,6 @@ class NoCompanyDashboard extends React.Component {
 											text={translate.companies_add}
 										/>
 									}
-									
 								</GridItem>
 
 								<GridItem xs={12} md={6} lg={4}>

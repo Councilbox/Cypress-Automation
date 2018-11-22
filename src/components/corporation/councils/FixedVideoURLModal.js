@@ -4,6 +4,8 @@ import { primary, secondary } from '../../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+let interval = null;
+
 class FixedVideoURLModal extends React.Component {
 
     state = {
@@ -12,6 +14,8 @@ class FixedVideoURLModal extends React.Component {
         loading: false,
         success: false
     }
+
+    initialState = this.state;
 
     openURLModal = event => {
         event.preventDefault();
@@ -28,6 +32,7 @@ class FixedVideoURLModal extends React.Component {
     }
 
     updateCouncilRoomLink = async () => {
+        clearInterval(interval);
         this.setState({
             loading: true,
             success: false
@@ -43,17 +48,41 @@ class FixedVideoURLModal extends React.Component {
             loading: false,
             success: true
         });
+        interval = setInterval(this.refreshButtons, 3000);
     }
+
+    refreshButtons = () => {
+        this.setState({
+            success: false,
+            loading: false,
+            error: false
+        });
+    }
+
+    componentWillUnmount(){
+        this.setState(this.initialState);
+        clearInterval(interval);
+    }
+
+    handleEnter = event => {
+        this.refreshButtons();
+		if (event.nativeEvent.keyCode === 13) {
+			this.updateCouncilRoomLink();
+		}
+	};
 
     _renderBody = () => {
         return (
             <TextInput
                 value={this.state.url}
+                onKeyUp={this.handleEnter}
                 floatingText="Video URL"
                 onChange={this.setValue}
             />
         )
     }
+
+
 
     setValue = event => {
         this.setState({

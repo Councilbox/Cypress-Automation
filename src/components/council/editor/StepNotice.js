@@ -15,6 +15,7 @@ import {
 } from "../../../displayComponents";
 import gql from 'graphql-tag';
 import RichTextInput from "../../../displayComponents/RichTextInput";
+import StatuteDisplay from '../display/StatuteDisplay';
 import LoadFromPreviousCouncil from './LoadFromPreviousCouncil';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";
@@ -31,6 +32,7 @@ class StepNotice extends React.Component {
 	state = {
 		placeModal: false,
 		changeCensusModal: false,
+		statuteModal: false,
 		loading: false,
 		success: false,
 		alert: false,
@@ -334,6 +336,18 @@ class StepNotice extends React.Component {
 		});
 	}
 
+	showStatuteDetailsModal = () => {
+		this.setState({
+			statuteModal: true
+		})
+	}
+
+	closeStatuteDetailsModal = () => {
+		this.setState({
+			statuteModal: false
+		});
+	}
+
 	checkAssociatedCensus = statuteId => {
 		const statute = this.props.data.companyStatutes.find(statute => statute.id === statuteId);
 		if(!!statute.censusId){
@@ -455,6 +469,9 @@ class StepNotice extends React.Component {
 												);
 											})}
 										</SelectInput>
+										<div onClick={this.showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
+											Ver detalles
+										</div>
 									</GridItem>
 									<GridItem
 										xs={12}
@@ -591,6 +608,19 @@ class StepNotice extends React.Component {
 									buttonCancel={translate.dont_change}
 									bodyText={<div>{translate.census_change_statute}</div>}
 									title={translate.census_change}
+								/>
+								<AlertConfirm
+									requestClose={this.closeStatuteDetailsModal}
+									open={this.state.statuteModal}
+									buttonCancel={translate.close}
+									title={translate[council.statute.title] || council.statute.title}
+									bodyText={
+										<StatuteDisplay
+											statute={council.statute}
+											translate={translate}
+											quorumTypes={this.props.data.quorumTypes}
+										/>
+									}
 								/>
 								<ErrorAlert
 									title={translate.error}

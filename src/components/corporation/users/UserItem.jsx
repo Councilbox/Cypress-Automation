@@ -37,6 +37,17 @@ class UserItem extends React.Component {
         }
     }
 
+    unsubscribeUser = async event => {
+        event.stopPropagation();
+        const response = await this.props.unsubscribeUser({
+            variables: {
+                userId: this.props.user.id
+            }
+        });
+
+        this.props.refetch();
+    }
+
     render(){
         const { user, translate, clickable, closeSession } = this.props;
         const secondary = getSecondary();
@@ -147,6 +158,23 @@ class UserItem extends React.Component {
                     </div>
 
                 }
+                {this.props.unsubscribeUser &&
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            width: '10em'
+                        }}
+                    >
+                        <BasicButton
+                            text="Dar de baja"
+                            color={secondary}
+                            textStyle={{fontWeight: '700', color: 'white'}}
+                            onClick={this.unsubscribeUser}
+                        />
+                    </div>
+                }
                 {this.props.activatePremium &&
                     <div
                         style={{
@@ -159,11 +187,15 @@ class UserItem extends React.Component {
                         {user.actived !== USER_ACTIVATIONS.PREMIUM?
                             <BasicButton
                                 text="Activar Premium"
+                                color={secondary}
+                                textStyle={{fontWeight: '700', color: 'white'}}
                                 onClick={this.activatePremium}
                             />
                         :
                             <BasicButton
                                 text="Cancelar Premium"
+                                color={secondary}
+                                textStyle={{fontWeight: '700', color: 'white'}}
                                 onClick={this.cancelUserPremium}
                             />
                         }

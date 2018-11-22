@@ -42,7 +42,7 @@ class VotingSection extends React.Component {
     render(){
         const { agenda, translate } = this.props;
         const primary = getPrimary();
-        const singleVoteMode = false;
+        const singleVoteMode = this.props.council.companyId === 375 || this.props.council.companyId === 449;
 
         return(
             <React.Fragment>
@@ -85,12 +85,14 @@ class VotingSection extends React.Component {
                                         border: `2px solid ${primary}`
                                     }}
                                     icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
-                                    onClick={this.activateVoting}
+                                    onClick={this.props.activateVoting}
                                 />
                             :
                                 <BasicButton
                                     color={this.props.voting && this.props.open? primary : 'white'}
-                                    text={'Descargar evidencia de voto'}
+                                    text={'Descargar evidencia de voto'}//TRADUCCION
+                                    loading={this.state.loading}
+                                    loadingColor={primary}
                                     textStyle={{
                                         color: this.props.voting && this.props.open? 'white' : primary,
                                         fontWeight: '700',
@@ -135,6 +137,7 @@ class VotingSection extends React.Component {
                         <VotingMenu
                             translate={this.props.translate}
                             close={this.props.toggle}
+                            singleVoteMode={singleVoteMode}
                             refetch={this.props.refetch}
                             agenda={agenda}
                         />

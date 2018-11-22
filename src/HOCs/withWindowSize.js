@@ -34,12 +34,12 @@ const withWindowSize = WrappedComponent => {
 			});
 			const element = document.getElementById('root');
 			const html = document.getElementsByTagName('html');
-			if(element){
+/* 			if(element){
 				//element.style.height = window.innerHeight + 'px';
 				for(let el of html){
 					//el.style.height = window.innerHeight + 'px';
 				}
-			}
+			} */
 		};
 
 		componentDidMount() {

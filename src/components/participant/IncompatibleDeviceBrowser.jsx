@@ -58,7 +58,7 @@ class ErrorState extends React.Component {
 
 			case NOT_COMPATIBLE_BROWSER:
 				return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
-			default: 
+			default:
 				return <div />
 		}
 	};

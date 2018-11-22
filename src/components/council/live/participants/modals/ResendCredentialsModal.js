@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import {
 	resendRoomEmails
 } from "../../../../../queries/liveParticipant";
@@ -13,13 +13,10 @@ import { graphql } from "react-apollo";
 import { moment } from "../../../../../containers/App";
 
 
-class ResendCredentialsModal extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			modal: false
-		};
-	}
+class ResendCredentialsModal extends React.Component {
+	state = {
+		modal: false
+	};
 
 	close = () => {
 		this.setState({ modal: false });
@@ -52,7 +49,7 @@ class ResendCredentialsModal extends Component {
 		);
 
 		return (
-			<Fragment>
+			<React.Fragment>
 				<ResendButton
 					action={this.openModal}
 					translate={translate}
@@ -63,9 +60,10 @@ class ResendCredentialsModal extends Component {
 					requestClose={this.close}
 					open={this.state.modal}
 					actions={
-						<Fragment>
+						<React.Fragment>
 							<BasicButton
 								text={translate.cancel}
+								type="flat"
 								textStyle={{
 									textTransform: "none",
 									fontWeight: "700"
@@ -85,12 +83,12 @@ class ResendCredentialsModal extends Component {
 									this.resend();
 								}}
 							/>
-						</Fragment>
+						</React.Fragment>
 					}
 				>
 					<div style={{ width: "400px" }}>{translation}</div>
 				</CustomDialog>
-			</Fragment>
+			</React.Fragment>
 		);
 	}
 }

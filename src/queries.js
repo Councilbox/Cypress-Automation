@@ -391,14 +391,38 @@ export const councilStepOne = gql`
 			dateStart
 			dateStart2NdCall
 			statute {
-				advanceNoticeDays
-				existsAdvanceNoticeDays
-				existsSecondCall
 				id
 				censusId
-				minimumSeparationBetweenCall
 				statuteId
 				title
+                prototype
+                existsSecondCall
+                existsQualityVote
+                minimumSeparationBetweenCall
+                existsAdvanceNoticeDays
+                advanceNoticeDays
+                quorumPrototype
+                firstCallQuorumType
+                secondCallQuorumType
+                existsDelegatedVote
+                existMaxNumDelegatedVotes
+                maxNumDelegatedVotes
+                limitedAccessRoomMinutes
+                existsLimitedAccessRoom
+                existsComments
+                notifyPoints
+                existsQualityVote
+                existsPresentWithRemoteVote
+                canAddPoints
+                canReorderPoints
+                canUnblock
+                existsAct
+                includedInActBook
+                includeParticipantsList
+                conveneHeader
+                intro
+                constitution
+                conclusion
 			}
 		}
 		companyStatutes(companyId: $companyId) {
@@ -409,6 +433,11 @@ export const councilStepOne = gql`
 		countries {
 			id
 			deno
+		}
+
+		quorumTypes {
+			label
+			value
 		}
 
 		draftTypes {

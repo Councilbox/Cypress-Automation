@@ -129,6 +129,7 @@ class AgendaMenu extends React.Component {
                                         <VotingSection
                                             agenda={agenda}
                                             open={this.state.open}
+                                            council={this.props.council}
                                             voting={this.state.voting}
                                             translate={translate}
                                             activateVoting={this.activateVoting}
@@ -261,56 +262,3 @@ class AgendaMenu extends React.Component {
 }
 
 export default AgendaMenu;
-
-/*
-<CollapsibleSection
-    open={this.state.open}
-    onTriggerClick={() => {}}
-    onClose={() => {
-        if(this.state.reopen){
-            this.setState({
-                open: true,
-                voting: !this.state.voting,
-                reopen: false
-            })
-        }
-    }}
-    style={{
-        cursor: 'auto'
-    }}
-    trigger={() =>
-        <div style={{
-            width: '100%',
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-        }}>
-            
-            {CBX.councilHasComments(this.props.council.statute) &&
-                <BasicButton
-                    color={!this.state.voting && this.state.open? primary : 'white'}
-                    text={translate.act_comment_btn}
-                    textStyle={{
-                        color: !this.state.voting && this.state.open? 'white' : primary,
-                        fontWeight: '700',
-                        fontSize: '14px'
-                    }}
-                    buttonStyle={{
-                        float: 'left',
-                        border: `2px solid ${primary}`
-                    }}
-                    icon={<ButtonIcon type="mode_edit" color={!this.state.voting && this.state.open? 'white' : primary}/>}
-                    onClick={this.activateComment}
-                />
-            }
-        </div>
-    }
-    collapse={() => this.state.voting?
-        <React.Fragment>
-            
-        </React.Fragment>
-    :
-        
-    }
-/>
-*/

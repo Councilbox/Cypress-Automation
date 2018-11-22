@@ -1,5 +1,6 @@
 import React from "react";
 import CouncilEditorPage from "../components/council/editor/CouncilEditorPage";
+import { Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { LoadingMainApp } from "../displayComponents";
@@ -16,6 +17,10 @@ const CouncilEditorContainer = ({
 }) => {
 	if (!company || data.loading) {
 		return <LoadingMainApp />;
+	}
+
+	if (!data.council){
+		return <Redirect to="/" />
 	}
 
 	return (

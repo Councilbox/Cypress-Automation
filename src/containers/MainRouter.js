@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import { LoadingMainApp } from '../displayComponents';
 import Dashboard from "../components/dashboard/Dashboard";
 import CouncilEditorContainer from "./CouncilEditorContainer";
 import CouncilPreparePage from "../components/council/prepare/CouncilPreparePage";
@@ -26,7 +27,12 @@ import MeetingsContainer from "./MeetingsContainer";
 import PartnersBookPage from '../components/partners/PartnersBookPage';
 import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
+import Loadable from 'react-loadable';
 
+const DevAdminPanel = Loadable({
+	loader: () => import('../components/admin/DevAdminPanel'),
+	loading: LoadingMainApp
+});
 
 const redirect = company => () => (
     <Redirect to={`/company/${company.id}`} />
@@ -34,7 +40,7 @@ const redirect = company => () => (
 
 const MainRouter = ({ company, user, location, disabled }) => {
 
-    if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`)){
+    if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')){
         return <Redirect to={`/company/${company.id}`} />
     }
 
@@ -49,6 +55,13 @@ const MainRouter = ({ company, user, location, disabled }) => {
                 path="/"
                 component={redirect(company)}
             />
+            {user.roles === 'devAdmin' &&
+                <Route
+                    exact
+                    path="/admin"
+                    component={DevAdminPanel}
+                />
+            }
             <Route
                 exact
                 path="/company/:company"

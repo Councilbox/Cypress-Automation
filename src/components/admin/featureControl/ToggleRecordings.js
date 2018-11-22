@@ -1,14 +1,14 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton } from '../../displayComponents';
+import { BasicButton } from '../../../displayComponents';
 
-class ToggleVideo extends React.Component {
+class ToggleRecordings extends React.Component {
 
     toggle = async () => {
-        const response = await this.props.toggleVideo({
+        const response = await this.props.toggleRecordings({
             variables: {
-                id: 2
+                id: 3
             }
         });
     }
@@ -16,14 +16,14 @@ class ToggleVideo extends React.Component {
     render(){
         return(
             <BasicButton
-                text="Toggle video"
+                text="Toggle recordings"
                 onClick={this.toggle}
             />
         )
     }
 }
 
-const toggleVideo = gql`
+const toggleRecordings = gql`
     mutation ToggleFeature($id: Int!) {
         toggleFeature(id: $id){
             success
@@ -31,6 +31,6 @@ const toggleVideo = gql`
     }
 `;
 
-export default graphql(toggleVideo, {
-    name: 'toggleVideo'
-})(ToggleVideo);
+export default graphql(toggleRecordings, {
+    name: 'toggleRecordings'
+})(ToggleRecordings);

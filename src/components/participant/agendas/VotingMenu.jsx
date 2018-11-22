@@ -3,6 +3,7 @@ import { BasicButton, Grid, GridItem } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import VoteConfirmationModal from './VoteConfirmationModal';
 
 const styles = {
     division: {
@@ -16,7 +17,23 @@ const styles = {
 class VotingMenu extends React.Component {
 
     state = {
-        loading: true
+        loading: true,
+        modal: false,
+        vote: -1
+    }
+
+    showModal = vote => {
+        this.setState({
+            modal: true,
+            vote: vote
+        });
+    }
+
+    closeModal = () => {
+        this.setState({
+            modal: false,
+            vote: -1
+        });
     }
 
     updateAgendaVoting = async vote => {
@@ -38,13 +55,16 @@ class VotingMenu extends React.Component {
         ));
 
         if(response){
+            this.setState({
+                modal: false
+            });
             await this.props.refetch();
             this.props.close();
         }
     }
 
     render(){
-        const { agenda } = this.props;
+        const { agenda, singleVoteMode } = this.props;
         const primary = getPrimary();
 
         return(
@@ -64,7 +84,13 @@ class VotingMenu extends React.Component {
                         loading={this.state.loading === 1}
                         selected={agenda.votings[0].vote === 1}
                         icon={<i className="fa fa-check" aria-hidden="true" style={{marginLeft: '0.2em', color: agenda.votings[0].vote === 1? 'white': primary}}></i>}
-                        onClick={() => {this.updateAgendaVoting(1)}}
+                        onClick={() => {
+                            if(singleVoteMode){
+                                this.showModal(1)
+                            } else {
+                                this.updateAgendaVoting(1)
+                            }
+                        }}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
@@ -73,7 +99,13 @@ class VotingMenu extends React.Component {
                         loading={this.state.loading === 0}
                         selected={agenda.votings[0].vote === 0}
                         icon={<i className="fa fa-times" aria-hidden="true" style={{marginLeft: '0.2em', color: agenda.votings[0].vote === 0? 'white': primary}}></i>}
-                        onClick={() => {this.updateAgendaVoting(0)}}
+                        onClick={() => {
+                            if(singleVoteMode){
+                                this.showModal(0)
+                            } else {
+                                this.updateAgendaVoting(0)
+                            }
+                        }}
                     />
                 </GridItem>
                 <GridItem xs={4} md={4} lg={4} style={styles.division}>
@@ -82,9 +114,23 @@ class VotingMenu extends React.Component {
                         loading={this.state.loading === 2}
                         icon={<i className="fa fa-circle-o" aria-hidden="true" style={{marginLeft: '0.2em', color: agenda.votings[0].vote === 2? 'white': primary}}></i>}
                         selected={agenda.votings[0].vote === 2}
-                        onClick={() => {this.updateAgendaVoting(2)}}
+                        onClick={() => {
+                            if(singleVoteMode){
+                                this.showModal(2)
+                            } else {
+                                this.updateAgendaVoting(2)
+                            }
+                        }}
                     />
                 </GridItem>
+                {singleVoteMode &&
+                    <VoteConfirmationModal
+                        open={this.state.modal}
+                        requestClose={this.closeModal}
+                        translate={this.props.translate}
+                        acceptAction={() => this.updateAgendaVoting(this.state.vote)}
+                    />
+                }
             </Grid>
         )
     }

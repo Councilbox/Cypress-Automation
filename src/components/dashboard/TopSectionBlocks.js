@@ -102,6 +102,16 @@ class TopSectionBlocks extends React.Component {
 						text={translate.start_conference}
 					/>
 				</GridItem>
+				{this.props.user.roles === 'devAdmin' &&
+					<GridItem xs={12} md={6} lg={3}>
+						<Block
+							link={`/admin`}
+							customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{fontSize: '7em'}}></i>}
+							id={'admin-panel'}
+							text={'Panel devAdmin'}
+						/>
+					</GridItem>
+				}
 			</Grid>
 		);
 	}
