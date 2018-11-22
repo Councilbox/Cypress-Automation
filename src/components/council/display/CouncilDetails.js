@@ -162,7 +162,11 @@ class CouncilDetails extends React.Component {
                             </div>
                         }
                         collapse={() => (
-                            <StatuteDisplay statute={council.statute} translate={translate} />
+                            <StatuteDisplay
+                                statute={council.statute}
+                                translate={translate}
+                                quorumTypes={this.props.data.quorumTypes}
+                            />
                         )}
                     />
                 </div>
@@ -210,6 +214,28 @@ const councilDetails = gql`
                 minimumSeparationBetweenCall
                 existsAdvanceNoticeDays
                 advanceNoticeDays
+                quorumPrototype
+                firstCallQuorumType
+                secondCallQuorumType
+                existsDelegatedVote
+                existMaxNumDelegatedVotes
+                maxNumDelegatedVotes
+                limitedAccessRoomMinutes
+                existsLimitedAccessRoom
+                existsComments
+                notifyPoints
+                existsQualityVote
+                existsPresentWithRemoteVote
+                canAddPoints
+                canReorderPoints
+                canUnblock
+                existsAct
+                includedInActBook
+                includeParticipantsList
+                conveneHeader
+                intro
+                constitution
+                conclusion
 			}
 		}
 
@@ -249,6 +275,11 @@ const councilDetails = gql`
         votingTypes {
             value
             label
+        }
+
+        quorumTypes {
+            label
+            value
         }
     }
 `;
