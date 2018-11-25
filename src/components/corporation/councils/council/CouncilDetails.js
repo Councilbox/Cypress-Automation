@@ -172,7 +172,7 @@ class CouncilDetails extends React.Component {
                         alignItems: 'center'
                     }}
                 >
-					Remotos {`(Online: ${online} || Offline: ${offline} || Emitiendo: ${broadcasting} || Pidiendo Palabra: ${askingForWord})`}
+					Remotos {`(Online: ${online} || Offline: ${offline} || Palabra concedida: ${broadcasting} || Pidiendo Palabra: ${askingForWord})`}
                 </div>
 				<div
                     style={{

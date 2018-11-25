@@ -238,6 +238,7 @@ class AgendaEditor extends React.Component {
 					margin: "0.6em 0",
 				}}
 			>
+				
 				<Grid spacing={16} style={{marginBottom: '1em'}}>
 					<GridItem xs={1}
 						style={{

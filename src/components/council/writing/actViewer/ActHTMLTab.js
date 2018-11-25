@@ -1,45 +1,16 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
-import { councilActEmail, downloadAct } from '../../../../queries';
-import { LoadingSection, BasicButton } from '../../../../displayComponents';
+import { graphql } from 'react-apollo';
+import { councilActEmail } from '../../../../queries';
+import { LoadingSection } from '../../../../displayComponents';
 import { Paper } from 'material-ui';
-import FontAwesome from "react-fontawesome";
-import { getSecondary } from '../../../../styles/colors';
-import { downloadFile } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
+import DownloadActPDF from './DownloadActPDF';
+import DownloadActWord from './DownloadActWord';
 
 
 class ActHTML extends React.Component {
 	state = {
 		loading: false,
-		downloadingPDF: false
-	};
-
-	downloadPDF = async () => {
-		this.setState({
-			downloadingPDF: true
-		})
-		const response = await this.props.client.query({
-			query: downloadAct,
-			variables: {
-				councilId: this.props.council.id
-			}
-		});
-
-		if (response) {
-			if (response.data.downloadAct) {
-				this.setState({
-					downloadingPDF: false
-				});
-				downloadFile(
-					response.data.downloadAct,
-					"application/pdf",
-					`${this.props.translate.act.replace(/ /g, '_')}-${
-					this.props.council.name.replace(/ /g, '_')
-					}`
-				);
-			}
-		}
 	};
 
 	componentDidMount() {
@@ -47,9 +18,6 @@ class ActHTML extends React.Component {
 	}
 
 	render() {
-		const secondary = getSecondary();
-		const { translate } = this.props;
-
 		if (this.props.data.loading) {
 			return (
 				<LoadingSection />
@@ -58,29 +26,13 @@ class ActHTML extends React.Component {
 
 		return (
 			<React.Fragment>
-				<BasicButton
-					text={translate.export_original_act}
-					color={secondary}
-					loading={this.state.downloadingPDF}
-					buttonStyle={{ marginTop: "0.5em" }}
-					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					icon={
-						<FontAwesome
-							name={"file-pdf-o"}
-							style={{
-								fontSize: "1em",
-								color: "white",
-								marginLeft: "0.3em"
-							}}
-						/>
-					}
-					textPosition="after"
-					onClick={this.downloadPDF}
+				<DownloadActPDF
+					translate={this.props.translate}
+					council={this.props.council}
+				/>
+				<DownloadActWord
+					translate={this.props.translate}
+					html={this.props.data.councilAct.emailAct}
 				/>
 				<div
 					style={{
@@ -115,4 +67,4 @@ export default graphql(councilActEmail, {
 		},
 		notifyOnNetworkStatusChange: true
 	})
-})(withApollo(withWindowSize(ActHTML)));
+})(withWindowSize(ActHTML));

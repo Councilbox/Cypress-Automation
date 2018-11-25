@@ -33,7 +33,7 @@ class SignatureConfirmed extends React.Component {
             downloadFile(
                 response.data.downloadSignedDocument,
                 "application/pdf",
-                `${this.props.data.signature.title.split(' ').join('_')}`
+                `${this.props.data.signature.title.split(' ').join('_').replace(/\./, '')}`
             );
             this.setState({
                 downloading: false

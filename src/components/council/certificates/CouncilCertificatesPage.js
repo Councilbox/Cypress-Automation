@@ -36,7 +36,7 @@ class CouncilCertificates extends React.PureComponent {
                 downloadFile(
                     response.data.downloadCertificate,
                     "application/pdf",
-                    `${certificate.title}`
+                    `${certificate.title.replace(/\./, '')}`
                 );
             }
         }

@@ -61,7 +61,7 @@ class Convene extends React.Component {
 					response.data.downloadConvenePDF,
 					"application/pdf",
 					`${this.props.translate.convene.replace(/ /g, '_')}-${
-						this.props.council.name.replace(/ /g, '_')
+						this.props.council.name.replace(/ /g, '_').replace(/\./, '')
 					}`
 				);
 			}

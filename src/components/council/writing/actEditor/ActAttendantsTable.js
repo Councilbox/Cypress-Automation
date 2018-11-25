@@ -40,7 +40,7 @@ class ActAttendantsTable extends React.Component {
                     response.data.downloadConnectionsExcel,
                     "excel",
                     `${this.props.translate.convene.replace(/ /g, '_')}-${
-                    this.props.council.name.replace(/ /g, '_')
+                    this.props.council.name.replace(/ /g, '_').replace(/\./, '')
                     }`
                 );
             }

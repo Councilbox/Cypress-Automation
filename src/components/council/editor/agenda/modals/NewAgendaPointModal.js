@@ -111,7 +111,7 @@ class NewAgendaPointModal extends React.Component {
 			majority: draft.majority,
 			majorityType: draft.majorityType,
 			majorityDivider: draft.majorityDivider,
-			subjectType: draft.type,
+			subjectType: draft.votationType,
 			agendaSubject: draft.title
 		});
 
