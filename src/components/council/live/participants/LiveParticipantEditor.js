@@ -261,13 +261,9 @@ class LiveParticipantEditor extends React.Component {
 									</Typography>
 									<ParticipantTable
 										translate={translate}
-										participants={
-											participant.delegatedVotes
-										}
+										participants={participant.delegatedVotes}
 										enableActions
-										quitDelegatedVote={
-											this.removeDelegatedVote
-										}
+										quitDelegatedVote={this.removeDelegatedVote}
 										primary={primary}
 									/>
 								</GridItem>
@@ -323,9 +319,7 @@ class LiveParticipantEditor extends React.Component {
 								</GridItem>
 								<GridItem xs={12} lg={12} md={12}>
 									<NotificationsTable
-										notifications={
-											participant.notifications
-										}
+										notifications={participant.notifications}
 										translate={translate}
 									/>
 								</GridItem>

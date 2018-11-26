@@ -5,6 +5,8 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { bHistory } from "../../../containers/App";
 import withTranslations from "../../../HOCs/withTranslations";
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
@@ -106,9 +108,26 @@ class LoginForm extends React.Component {
         this.setState(newState, this.checkFieldsValidationState);
     };
 
-    login = () => {
+    login = async () => {
         const { participant, council } = this.props;
         const isValidForm = this.checkFieldsValidationState();
+        if(council.securityType !== 0){
+            const response = await this.props.checkParticipantKey({
+                variables: {
+                    participantId: participant.id,
+                    key: this.state.password
+                }
+            });
+
+            if(!response.data.checkParticipantKey.success){
+                this.setState({
+                    errors: {
+                        password: this.props.translate.password_err
+                    }
+                });
+                return;
+            }
+        }
         if (isValidForm) {
             this.props.actions.participantLoginSuccess();
             bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
@@ -173,9 +192,7 @@ class LoginForm extends React.Component {
                             {translate.room_access_close_at}
                             <span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
                                 {
-                                    moment(
-                                        new Date(council.dateRealStart)
-                                    )
+                                    moment(new Date(council.dateRealStart))
                                         .add(council.statute.limitedAccessRoomMinutes, 'm')
                                         .format("HH:mm")
                                 }
@@ -245,13 +262,24 @@ class LoginForm extends React.Component {
 }
 
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         actions: bindActionCreators(mainActions, dispatch)
     };
 }
 
-export default connect(
+const checkParticipantKey = gql`
+    mutation CheckParticipantKey($participantId: Int!, $key: Int!){
+        checkParticipantKey(participantId: $participantId, key: $key){
+            success
+            message
+        }
+    }
+`;
+
+export default graphql(checkParticipantKey, {
+    name: 'checkParticipantKey'
+})(connect(
     null,
     mapDispatchToProps
-)(withTranslations()(withWindowOrientation(withWindowSize(LoginForm))));
+)(withTranslations()(withWindowOrientation(withWindowSize(LoginForm)))));

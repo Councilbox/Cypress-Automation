@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -10,12 +10,16 @@ import withTranslations from '../../../../HOCs/withTranslations';
 import { exceedsOnlineTimeout, isAskingForWord } from '../../../../utils/CBX';
 import SendCredentialsModal from "../../../council/live/councilMenu/SendCredentialsModal";
 import AgendaManager from "../../../council/live/AgendaManager";
+import StatuteDisplay from '../../../council/display/StatuteDisplay';
+import OptionsDisplay from '../../../council/display/OptionsDisplay';
+import CredentialsManager from './CredentialsManager';
 
 class CouncilDetails extends React.Component {
 
 	state = {
 		sendCredentials: false,
 		showAgenda: false,
+		councilTypeModal: false,
 		locked: true
 	}
 
@@ -28,6 +32,18 @@ class CouncilDetails extends React.Component {
 	closeCredsModal = () => {
 		this.setState({
 			sendCredentials: false
+		});
+	}
+
+	showCouncilType = () => {
+		this.setState({
+			councilTypeModal: true
+		});
+	}
+
+	closeCouncilType = () => {
+		this.setState({
+			councilTypeModal: false
 		});
 	}
 
@@ -172,6 +188,47 @@ class CouncilDetails extends React.Component {
                         alignItems: 'center'
                     }}
                 >
+					<BasicButton
+						text="Ver tipo de reunión"
+						color={secondary}
+						textStyle={{fontWeight: '700', color: 'white'}}
+						onClick={this.showCouncilType}
+					/>
+					<AlertConfirm
+						requestClose={this.closeCouncilType}
+						open={this.state.councilTypeModal}
+						buttonCancel={'Cancelar'}
+						bodyText={
+							<React.Fragment>
+								<h6>Opciones</h6>
+								<OptionsDisplay
+									council={this.props.data.council}
+									translate={translate}
+								/>
+								<h6 style={{marginTop: '1.4em'}}>Tipo de reunión</h6>
+								<StatuteDisplay
+									statute={this.props.data.council.statute}
+									translate={translate}
+									quorumTypes={this.props.data.quorumTypes}
+								/>
+							</React.Fragment>
+						}
+						title={"Detalle del tipo de reunión"}
+					/>
+                </div>
+				<div
+                    style={{
+                        width: '100%',
+                        border: `2px solid ${secondary}`,
+                        fontSize: '18px',
+                        color: secondary,
+                        fontWeight: '700',
+						padding: '1em',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
 					Remotos {`(Online: ${online} || Offline: ${offline} || Palabra concedida: ${broadcasting} || Pidiendo Palabra: ${askingForWord})`}
                 </div>
 				<div
@@ -193,12 +250,24 @@ class CouncilDetails extends React.Component {
 						textStyle={{fontWeight: '700', color: 'white'}}
 						onClick={this.showCredsModal}
 					/>
-					<SendCredentialsModal
+					<AlertConfirm
+						requestClose={this.closeCredsModal}
+						open={this.state.sendCredentials}
+						buttonCancel={'Cancelar'}
+						bodyText={
+							<CredentialsManager
+								council={this.props.data.council}
+								translate={this.props.translate}
+							/>
+						}
+						title={"Detalle del tipo de reunión"}
+					/>
+					{/* <SendCredentialsModal
 						show={this.state.sendCredentials}
 						council={this.props.data.council}
 						requestClose={this.closeCredsModal}
 						translate={translate}
-					/>
+					/> */}
                 </div>
 				<div
                     style={{
@@ -247,7 +316,44 @@ const CouncilDetailsRoot = gql`
 			dateStart2NdCall
 			dateEnd
 			qualityVoteId
-            firstOrSecondConvene
+			firstOrSecondConvene
+			confirmAssistance
+			councilType
+			fullVideoRecord
+			autoClose
+			securityType
+			approveActDraft
+			statute {
+				id
+                prototype
+                existsSecondCall
+                existsQualityVote
+                minimumSeparationBetweenCall
+                existsAdvanceNoticeDays
+                advanceNoticeDays
+                quorumPrototype
+                firstCallQuorumType
+                secondCallQuorumType
+                existsDelegatedVote
+                existMaxNumDelegatedVotes
+                maxNumDelegatedVotes
+                limitedAccessRoomMinutes
+                existsLimitedAccessRoom
+                existsComments
+                notifyPoints
+                existsQualityVote
+                existsPresentWithRemoteVote
+                canAddPoints
+                canReorderPoints
+                canUnblock
+                existsAct
+                includedInActBook
+                includeParticipantsList
+                conveneHeader
+                intro
+                constitution
+                conclusion
+			}
             company{
 				id
                 businessName
@@ -304,7 +410,13 @@ const CouncilDetailsRoot = gql`
 			numCurrentRemoteCensus
 			currentRemoteCensus
 			comment
-        }
+		}
+
+		quorumTypes {
+			label
+			value
+		}
+
         councilAttendants(councilId: $id) {
 			list {
 				id
