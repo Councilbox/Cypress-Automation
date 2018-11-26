@@ -206,7 +206,6 @@ class CompanySettingsPage extends React.Component {
 
 		let errors = {
 			businessName: "",
-			alias: "",
 			tin: ""
 		};
 
@@ -216,11 +215,6 @@ class CompanySettingsPage extends React.Component {
 		if (!data.businessName) {
 			hasError = true;
 			errors.businessName = translate.field_required;
-		}
-
-		if (!data.alias) {
-			hasError = true;
-			errors.alias = translate.field_required;
 		}
 
 		if (!data.tin) {
