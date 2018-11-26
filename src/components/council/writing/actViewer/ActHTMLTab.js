@@ -6,6 +6,7 @@ import { Paper } from 'material-ui';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
 import DownloadActWord from './DownloadActWord';
+import { ConfigContext } from '../../../../containers/AppControl';
 
 
 class ActHTML extends React.Component {
@@ -25,37 +26,44 @@ class ActHTML extends React.Component {
 		}
 
 		return (
-			<React.Fragment>
-				<DownloadActPDF
-					translate={this.props.translate}
-					council={this.props.council}
-				/>
-				<DownloadActWord
-					translate={this.props.translate}
-					html={this.props.data.councilAct.emailAct}
-				/>
-				<div
-					style={{
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-						marginTop: '0.8em'
-					}}
-				>
-					<Paper
-						className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
-					>
-						<div
-							dangerouslySetInnerHTML={{ __html: this.props.data.councilAct.emailAct }}
-							style={{
-								padding: "2em",
-								margin: "0 auto"
-							}}
+			<ConfigContext.Consumer>
+				{config => (
+					<React.Fragment>
+						<DownloadActPDF
+							translate={this.props.translate}
+							council={this.props.council}
 						/>
-					</Paper>
-				</div>
-			</React.Fragment>
+						{config.exportActToWord &&
+							<DownloadActWord
+								translate={this.props.translate}
+								html={this.props.data.councilAct.emailAct}
+							/>
+						}
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '0.8em'
+							}}
+						>
+							<Paper
+								className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
+							>
+								<div
+									dangerouslySetInnerHTML={{ __html: this.props.data.councilAct.emailAct }}
+									style={{
+										padding: "2em",
+										margin: "0 auto"
+									}}
+								/>
+							</Paper>
+						</div>
+					</React.Fragment>
+				)}
+
+			</ConfigContext.Consumer>
 		);
 	}
 }
