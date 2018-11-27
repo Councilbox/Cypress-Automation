@@ -20,6 +20,7 @@ class CouncilDetails extends React.Component {
 		sendCredentials: false,
 		showAgenda: false,
 		councilTypeModal: false,
+		credManager: false,
 		locked: true
 	}
 
@@ -45,6 +46,18 @@ class CouncilDetails extends React.Component {
 		this.setState({
 			councilTypeModal: false
 		});
+	}
+
+	showCredManager = () => {
+		this.setState({
+			credManager: true
+		});
+	}
+
+	closeCredManager = () => {
+		this.setState({
+			credManager: false
+		})
 	}
 
 	toggleLock = event => {
@@ -245,14 +258,21 @@ class CouncilDetails extends React.Component {
                     }}
                 >
 					<BasicButton
+						text="Administrador de credenciales"
+						color={secondary}
+						textStyle={{fontWeight: '700', color: 'white'}}
+						onClick={this.showCredManager}
+					/>
+					<BasicButton
 						text="Reenviar credenciales de acceso a sala"
 						color={secondary}
 						textStyle={{fontWeight: '700', color: 'white'}}
 						onClick={this.showCredsModal}
+						buttonStyle={{marginLeft: '0.6em'}}
 					/>
 					<AlertConfirm
-						requestClose={this.closeCredsModal}
-						open={this.state.sendCredentials}
+						requestClose={this.closeCredManager}
+						open={this.state.credManager}
 						buttonCancel={'Cancelar'}
 						bodyText={
 							<CredentialsManager
@@ -262,12 +282,12 @@ class CouncilDetails extends React.Component {
 						}
 						title={"Detalle del tipo de reunión"}
 					/>
-					{/* <SendCredentialsModal
+					<SendCredentialsModal
 						show={this.state.sendCredentials}
 						council={this.props.data.council}
 						requestClose={this.closeCredsModal}
 						translate={translate}
-					/> */}
+					/>
                 </div>
 				<div
                     style={{
