@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 import NotificationsTable from '../../../notifications/NotificationsTable';
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import ParticipantContactEditor from './ParticipantContactEditor';
+import { PARTICIPANT_STATES } from '../../../../constants';
 
 class CredentialsManager extends React.Component {
 
@@ -19,14 +20,15 @@ class CredentialsManager extends React.Component {
     }
 
     render(){
-        console.log(this.props.council);
         if(this.props.data.loading){
             return <LoadingSection />
         }
 
         return (
             <div>
-                {this.props.data.liveParticipants.list.map(participant => (
+                {this.props.data.liveParticipants.list
+                    .filter(participant => participant.state !== PARTICIPANT_STATES.REPRESENTATED && participant.state !== PARTICIPANT_STATES.DELEGATED)
+                    .map(participant => (
                     <CollapsibleSection
                         trigger={() => (
                             <div style={{width: '100%', padding: '1em', border: '2px solid gainsboro'}} onClick={() => this.refreshSends(participant.id)}>
@@ -34,9 +36,12 @@ class CredentialsManager extends React.Component {
                             </div>
                         )}
                         collapse={() => (
-                            <div>
+                            <div style={{border: '2px solid gainsboro', borderTop: '0px', marginBottom: '1.4em', padding: '1em'}}>
                                 <ParticipantContactEditor
-
+                                    participant={participant}
+                                    translate={this.props.translate}
+                                    key={participant.id}
+                                    council={this.props.council}
                                 />
                                 <NotificationsTable
                                     translate={this.props.translate}
@@ -54,13 +59,14 @@ class CredentialsManager extends React.Component {
 }
 
 const participants = gql`
-    query CredsParticipants($councilId: Int!){
-        liveParticipants(councilId: $councilId){
+    query CredsParticipants($councilId: Int!, $options: OptionsInput){
+        liveParticipants(councilId: $councilId, options: $options){
             list {
                 name
                 surname
                 phone
                 email
+                state
                 id
                 notifications {
                     participantId
@@ -79,7 +85,11 @@ export default compose(
     graphql(participants, {
         options: props => ({
             variables: {
-                councilId: props.council.id
+                councilId: props.council.id,
+                options: {
+                    orderBy: 'fullName',
+                    orderDirection: 'asc'
+                }
             }
         })
     }),
