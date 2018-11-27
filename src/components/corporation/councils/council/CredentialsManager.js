@@ -40,6 +40,7 @@ class CredentialsManager extends React.Component {
                                 <ParticipantContactEditor
                                     participant={participant}
                                     translate={this.props.translate}
+                                    refetch={this.props.data.refetch}
                                     key={participant.id}
                                     council={this.props.council}
                                 />

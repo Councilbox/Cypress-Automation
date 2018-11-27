@@ -7,12 +7,16 @@ const GridWrapper = ({
 	alignContent,
 	style,
 	spacing = 8,
+	className,
 	justify,
 	id,
 	onKeyUp
 }) => (
 	<Grid
 		id={id}
+		classes={{
+			container: className
+		}}
 		container
 		justify={justify}
 		alignItems={alignItems}

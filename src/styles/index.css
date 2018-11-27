@@ -128,6 +128,17 @@ h4 {
     animation: fadeIn 1s infinite alternate;
 }
 
+@keyframes toggleColor {
+    from {
+        background-color: var(--secondary);
+        opacity: 0.3;
+    }
+}
+
+.colorToggle {
+    animation: toggleColor 1.5s infinite alternate;
+}
+
 .liveToast {
     border-radius: 4px !important;
     background-color: purple !important;

@@ -139,9 +139,11 @@ class ParticipantsLive extends React.Component {
 		return (
 			<Grid
 				key={`participant${participant.id}`}
+				className={isAskingForWord(participant)? "colorToggle" : ''}
 				style={{
 					display: "flex",
 					flexDirection: "row",
+					borderRadius: '3px',
 					height: "3em",
 					padding: "0.5em",
 					alignItems: "center"

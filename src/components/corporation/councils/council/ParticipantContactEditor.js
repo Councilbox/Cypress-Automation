@@ -43,7 +43,9 @@ class ParticipantContactEditor extends React.Component {
 				timezone: moment().utcOffset(),
 				participantsIds: [this.props.participant.id]
 			}
-		});
+        });
+
+        this.props.refetch();
 
         this.setState({
             sendsLoading: false

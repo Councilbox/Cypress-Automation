@@ -613,7 +613,7 @@ class StepNotice extends React.Component {
 									requestClose={this.closeStatuteDetailsModal}
 									open={this.state.statuteModal}
 									buttonCancel={translate.close}
-									title={translate[council.statute.title] || council.statute.title}
+									title={council.statute? translate[council.statute.title] || council.statute.title : ''}
 									bodyText={
 										<StatuteDisplay
 											statute={council.statute}

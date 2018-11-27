@@ -202,6 +202,7 @@ class CouncilLivePage extends React.Component {
 									>
 										<div style={{ marginBottom: "0.3em" }}>
 											<FabButton
+												mode="intermitent"
 												icon={
 													<Icon className="material-icons">
 														chat

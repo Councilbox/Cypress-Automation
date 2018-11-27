@@ -13,6 +13,7 @@ import AgendaManager from "../../../council/live/AgendaManager";
 import StatuteDisplay from '../../../council/display/StatuteDisplay';
 import OptionsDisplay from '../../../council/display/OptionsDisplay';
 import CredentialsManager from './CredentialsManager';
+import { COUNCIL_STATES } from '../../../../constants';
 
 class CouncilDetails extends React.Component {
 
@@ -97,48 +98,65 @@ class CouncilDetails extends React.Component {
 						textStyle={{fontWeight: '700', color: 'white'}}
 						onClick={this.closeAgendaManager}
 					/>
-					<div style={{backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative'}}>
-						<AgendaManager
-							recount={this.props.data.councilRecount}
-							council={this.props.data.council}
-							company={this.props.data.council.company}
-							translate={translate}
-							fullScreen={this.state.fullScreen}
-							refetch={this.props.data.refetch}
-							openMenu={() => {}}
-						/>
-						{this.state.locked &&
-							<div style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000}} onClick={() => alert('Se mira pero no se toca')}>
-
-							</div>
-						}
+					{this.props.data.council.state > COUNCIL_STATES.ROOM_OPENED?
 						<div
-							onClick={this.toggleLock}
 							style={{
-								backgroundColor: 'gainsboro',
-								opacity: '0.9',
-								borderRadius: '1.5em',
+								width: '100%',
+								height: 'calc(100% - 6em)',
 								display: 'flex',
 								alignItems: 'center',
-								zIndex: 20000,
-								justifyContent: 'center',
-								backgroundColor: 'red',
-								cursor: 'pointer',
-								width: '3em',
-								height: '3em',
-								position: 'absolute',
-								top: '-15px',
-								right: '20px'
+								flexDirection: 'column',
+								fontWeight: '700',
+								justifyContent: 'center'
 							}}
 						>
-							<i
-								className={this.state.locked? "fa fa-lock" : 'fa fa-unlock-alt'}
-								aria-hidden="true"
-								style={{color: 'white', fontSize: '2em'}}
-							></i>
+							<i className="fa fa-hourglass-end" aria-hidden="true" style={{color: 'grey', fontSize: '6em'}}></i>
+							REUNIÓN FINALIZADA
 						</div>
+					:
+						<div style={{backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative'}}>
+							<AgendaManager
+								recount={this.props.data.councilRecount}
+								council={this.props.data.council}
+								company={this.props.data.council.company}
+								translate={translate}
+								fullScreen={this.state.fullScreen}
+								refetch={this.props.data.refetch}
+								openMenu={() => {}}
+							/>
+							{this.state.locked &&
+								<div style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000}} onClick={() => alert('Se mira pero no se toca')}>
 
-					</div>
+								</div>
+							}
+							<div
+								onClick={this.toggleLock}
+								style={{
+									backgroundColor: 'gainsboro',
+									opacity: '0.9',
+									borderRadius: '1.5em',
+									display: 'flex',
+									alignItems: 'center',
+									zIndex: 20000,
+									justifyContent: 'center',
+									backgroundColor: 'red',
+									cursor: 'pointer',
+									width: '3em',
+									height: '3em',
+									position: 'absolute',
+									top: '-15px',
+									right: '20px'
+								}}
+							>
+								<i
+									className={this.state.locked? "fa fa-lock" : 'fa fa-unlock-alt'}
+									aria-hidden="true"
+									style={{color: 'white', fontSize: '2em'}}
+								></i>
+							</div>
+
+						</div>
+					}
 				</React.Fragment>
 			)
 		}
@@ -280,7 +298,7 @@ class CouncilDetails extends React.Component {
 								translate={this.props.translate}
 							/>
 						}
-						title={"Detalle del tipo de reunión"}
+						title={"Administrador de credenciales"}
 					/>
 					<SendCredentialsModal
 						show={this.state.sendCredentials}
