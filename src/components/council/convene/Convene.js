@@ -157,7 +157,7 @@ class Convene extends React.Component {
 						onClick={this.downloadPDF}
 					/>
 					<BasicButton
-						text={'Copiar HTML al portapapeles'}//TRADUCCION
+						text={translate.copy_html_clipboard}
 						color={secondary}
 						buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
 						textStyle={{

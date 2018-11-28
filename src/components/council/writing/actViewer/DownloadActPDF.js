@@ -23,8 +23,6 @@ class DownloadActPDF extends React.Component {
 				councilId: this.props.council.id
 			}
         });
-        
-        const fraseConPuntos = 'este.nombre.casca'
 
 		if (response) {
 			if (response.data.downloadAct) {
@@ -35,7 +33,7 @@ class DownloadActPDF extends React.Component {
 					response.data.downloadAct,
 					"application/pdf",
 					`${this.props.translate.act.replace(/ /g, '_')}-${
-				    fraseConPuntos.replace(/ /g, '_').replace(/\./g, '_')
+				    this.props.council.name.replace(/ /g, '_').replace(/\./g, '_')
 					}`
 				);
 			}
@@ -45,7 +43,7 @@ class DownloadActPDF extends React.Component {
     render(){
         const secondary = getSecondary();
         const { translate } = this.props;
-        
+
         return (
             <BasicButton
                 text={translate.export_original_act}

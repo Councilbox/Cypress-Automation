@@ -17,7 +17,20 @@ class ActAttendantsTable extends React.Component {
 
     state = {
         downloadingPDF: false,
-        downloadingExcel: false
+        downloadingExcel: false,
+        total: null
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(!nextProps.data.loading){
+            if(prevState.total === null){
+                return {
+                    total: nextProps.data.councilAttendants.total
+                }
+            }
+        }
+
+        return null;
     }
 
     downloadExcel = async () => {
@@ -56,119 +69,104 @@ class ActAttendantsTable extends React.Component {
 
         return (
             <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
-                <Scrollbar>
-                    <div style={{ padding: '1.5em', overflow: 'hidden' }}>
-                        {!!councilAttendants && (
-                            <React.Fragment>
-                                <DownloadAttendantsPDF
-                                    translate={translate}
-                                    color={secondary}
-                                    council={this.props.council}
-                                />
-                                <EnhancedTable
-                                    ref={table => (this.table = table)}
-                                    translate={translate}
-                                    defaultLimit={PARTICIPANTS_LIMITS[0]}
-                                    defaultFilter={"fullName"}
-                                    defaultOrder={["name", "asc"]}
-                                    limits={PARTICIPANTS_LIMITS}
-                                    page={1}
-                                    loading={loading}
-                                    length={councilAttendants.list.length}
-                                    total={councilAttendants.total}
-                                    refetch={this.props.data.refetch}
-                                    fields={[
-                                        {
-                                            value: "fullName",
-                                            translation: translate.participant_data
-                                        },
-                                        {
-                                            value: "dni",
-                                            translation: translate.dni
-                                        },
-                                        {
-                                            value: "position",
-                                            translation: translate.position
-                                        }
-                                    ]}
-                                    headers={[
-                                        {
-                                            text: '',
-                                            name: 'icon',
-                                            canOrder: false
-                                        },
-                                        {
-                                            text: translate.participant_data,
-                                            name: 'surname',
-                                            canOrder: true
-                                        },
-                                        {
-                                            text: translate.dni,
-                                            name: 'dni',
-                                            canOrder: true
-
-                                        },
-                                        {
-                                            text: translate.position,
-                                            name: 'position',
-                                            canOrder: true
-                                        },
-                                        {
-                                            text: '',
-                                            name: 'download',
-                                            canOrder: false
-                                        }
-                                    ]}
-                                >
-                                    {loading ?
-                                        <LoadingSection />
-                                        :
-
-                                        councilAttendants.list.map(
-                                            (participant, index) => {
-                                                return (
-                                                    <React.Fragment
-                                                        key={`participant${participant.id}`}
-                                                    >
-                                                        <HoverableRow
-                                                            translate={translate}
-                                                            participant={participant}
-                                                            delegatedVotes={participant.delegationsAndRepresentations}
-                                                        />
-{/*                                                         {!!participant.delegationsAndRepresentations && (
-                                                            participant.delegationsAndRepresentations.map(delegatedVote =>
-                                                                <TableRow style={{
-                                                                    backgroundColor:
-                                                                        "WhiteSmoke"
-                                                                }}
-                                                                    key={`delegatedVote_${delegatedVote.dni}`}
-                                                                    >
-                                                                    <TableCell style={{ fontSize: "0.9em" }}>
-                                                                        <StateIcon translate={translate} state={delegatedVote.state}/>
-                                                                    </TableCell>
-                                                                    <TableCell style={{ fontSize: "0.9em" }}>
-                                                                        {`${delegatedVote.name} ${delegatedVote.surname}`}
-                                                                    </TableCell>
-                                                                    <TableCell style={{ fontSize: "0.9em" }}>
-                                                                        {delegatedVote.dni}
-                                                                    </TableCell>
-                                                                    <TableCell style={{ fontSize: "0.9em" }}>
-                                                                        {delegatedVote.position}
-                                                                    </TableCell>
-                                                                    <TableCell />
-                                                                </TableRow>
-                                                            )
-                                                        )} */}
-                                                    </React.Fragment>
-                                                );
-                                            }
-                                        )}
-                                </EnhancedTable>
-                            </React.Fragment>
-                        )}
-                        {this.props.children}
+                {this.state.total <= 0?
+                    <div style={{display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center'}}>
+                        <i className="fa fa-user-times" aria-hidden="true" style={{fontSize: '6em', color: secondary}}></i>
+                        No ha asistido ningún participante
                     </div>
-                </Scrollbar>
+                :
+                    <Scrollbar>
+                        <div style={{ padding: '1.5em', overflow: 'hidden' }}>
+                            {!!councilAttendants && (
+                                <React.Fragment>
+                                    {this.state.total > 0 &&
+                                        <DownloadAttendantsPDF
+                                            translate={translate}
+                                            color={secondary}
+                                            council={this.props.council}
+                                        />
+                                    }
+                                    <EnhancedTable
+                                        ref={table => (this.table = table)}
+                                        translate={translate}
+                                        defaultLimit={PARTICIPANTS_LIMITS[0]}
+                                        defaultFilter={"fullName"}
+                                        defaultOrder={["name", "asc"]}
+                                        limits={PARTICIPANTS_LIMITS}
+                                        page={1}
+                                        loading={loading}
+                                        length={councilAttendants.list.length}
+                                        total={councilAttendants.total}
+                                        refetch={this.props.data.refetch}
+                                        fields={[
+                                            {
+                                                value: "fullName",
+                                                translation: translate.participant_data
+                                            },
+                                            {
+                                                value: "dni",
+                                                translation: translate.dni
+                                            },
+                                            {
+                                                value: "position",
+                                                translation: translate.position
+                                            }
+                                        ]}
+                                        headers={[
+                                            {
+                                                text: '',
+                                                name: 'icon',
+                                                canOrder: false
+                                            },
+                                            {
+                                                text: translate.participant_data,
+                                                name: 'surname',
+                                                canOrder: true
+                                            },
+                                            {
+                                                text: translate.dni,
+                                                name: 'dni',
+                                                canOrder: true
+
+                                            },
+                                            {
+                                                text: translate.position,
+                                                name: 'position',
+                                                canOrder: true
+                                            },
+                                            {
+                                                text: '',
+                                                name: 'download',
+                                                canOrder: false
+                                            }
+                                        ]}
+                                    >
+                                        {loading ?
+                                            <LoadingSection />
+                                            :
+
+                                            councilAttendants.list.map(
+                                                (participant, index) => {
+                                                    return (
+                                                        <React.Fragment
+                                                            key={`participant${participant.id}`}
+                                                        >
+                                                            <HoverableRow
+                                                                translate={translate}
+                                                                participant={participant}
+                                                                delegatedVotes={participant.delegationsAndRepresentations}
+                                                            />
+                                                        </React.Fragment>
+                                                    );
+                                                }
+                                            )}
+                                    </EnhancedTable>
+                                </React.Fragment>
+                            )}
+                            {this.props.children}
+                        </div>
+                    </Scrollbar>
+                }
             </div>
         )
     }

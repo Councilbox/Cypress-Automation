@@ -56,8 +56,7 @@ class LoadFromPreviousCouncil extends React.Component {
     _renderBody = () => {
 
         if(!this.props.data.loading && this.props.data.councils.length === 0){
-            //TRADUCCION
-            return <span>No tiene ninguna reunión celebrada</span>
+            return <span>{this.props.translate.no_celebrated_councils}</span>
         }
 
         if(!this.props.data.councils){
@@ -87,7 +86,7 @@ class LoadFromPreviousCouncil extends React.Component {
                             {council.name}
                         </div>
                         <BasicButton
-                            text="Ver detalles"//TRADUCCION
+                            text={this.props.translate.read_details}
                             type="flat"
                             textStyle={{color: getSecondary(), fontWeight: '700'}}
                             onClick={event => {
@@ -110,7 +109,7 @@ class LoadFromPreviousCouncil extends React.Component {
                     value.cloneCouncil ?
                         <React.Fragment>
                             <BasicButton
-                                text={'Clonar una reunión existente'}//TRADUCCION
+                                text={translate.clone_council_btn}
                                 color={getSecondary()}
                                 textStyle={{
                                     color: "white",

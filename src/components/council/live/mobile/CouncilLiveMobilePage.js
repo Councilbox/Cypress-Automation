@@ -19,7 +19,8 @@ class CouncilLiveMobilePage extends React.Component {
         wall: false,
         unreadComments: 0,
         selectedPoint: 0,
-        liveParticipantsDrawer: false
+        liveParticipantsDrawer: false,
+        open: false
     }
 
     updateState = object => {
@@ -29,7 +30,8 @@ class CouncilLiveMobilePage extends React.Component {
     toggleLiveParticipantsDrawer = () => {
         const drawer = this.state.liveParticipantsDrawer;
         this.setState({
-            liveParticipantsDrawer: !drawer
+            liveParticipantsDrawer: !drawer,
+            open: false
         });
     }
 
@@ -41,7 +43,8 @@ class CouncilLiveMobilePage extends React.Component {
 
     openCommentWall = () => {
         this.setState({
-            wall: true
+            wall: true,
+            open: false
         })
     }
 
@@ -83,13 +86,14 @@ class CouncilLiveMobilePage extends React.Component {
 						zIndex: 2
 					}}
                 >
-                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: '70vw', marginBottom: '0.4em' }}>
+                    <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: this.state.open? '13em' : '', marginBottom: '0.4em' }}>
                         <FabButton
                             icon={
                                 <Icon className="material-icons">
                                     add
                                 </Icon>
                             }
+                            onClick={() => this.setState({open: !this.state.open})}
                         />
                         <BasicButton
                             text={translate.wall}

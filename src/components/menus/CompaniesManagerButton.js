@@ -59,8 +59,7 @@ class CompaniesManagerButton extends React.Component {
                 </Link>
 
                 <AlertConfirm
-                    //TRADUCCION
-                    title="Aviso"
+                    title={this.props.translate.warning}
                     open={this.state.cantCreateModal}
                     hideAccept
                     buttonCancel={this.props.translate.close}
@@ -68,7 +67,7 @@ class CompaniesManagerButton extends React.Component {
                     bodyText={
                         <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
                             <div style={{marginBottom: '0.8em'}}>
-                                Para crear más compañías debe dar de alta su cuenta premium
+                                {this.props.translate.to_create_more_need_premium_account}
                             </div>
                             <CBXContactButton
                                 translate={this.props.translate}

@@ -50,9 +50,8 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                         color: "grey"
                     }}
                     onClick={requestClose}
-                    //TRADUCCION
                 >
-                    Live participants
+                    {translate.live_participants_drawer}
                     <Icon
                         className="material-icons"
                         style={{

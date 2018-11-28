@@ -135,7 +135,7 @@ class AgendaDescriptionModal extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Tooltip title="Editar descripción" /*TRADUCCION */>
+                <Tooltip title={this.props.translate.edit_description}>
                     <i
                         className="fa fa-pencil-square-o"
                         aria-hidden="true"
@@ -156,7 +156,7 @@ class AgendaDescriptionModal extends React.Component {
                     loadingAction={this.state.loading}
                     buttonCancel={this.props.translate.close}
                     bodyText={this._renderBody()}
-                    title={'Editar descripción'} //TRADUCCION
+                    title={this.props.translate.edit_description}
                 />
             </React.Fragment>
         )

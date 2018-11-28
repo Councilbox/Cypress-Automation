@@ -28,6 +28,7 @@ class DropDownMenu extends React.Component {
 			id,
 			textStyle,
 			buttonStyle,
+			loading,
 			color,
 			type,
 			icon,
@@ -43,6 +44,7 @@ class DropDownMenu extends React.Component {
 					<BasicButton
 						type={type}
 						id={id}
+						loading={loading}
 						onClick={this.handleClick}
 						textStyle={{
 							...textStyle,

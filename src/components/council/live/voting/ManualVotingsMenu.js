@@ -95,7 +95,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.positiveManual}
-                                floatingText={'A favor'}//TRADUCCION
+                                floatingText={translate.in_favor_lowercase}
                                 onChange={event => {
                                     this.updateVoting({
                                         positiveManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.positiveManual, 10), parseInt(event.target.value, 10))
@@ -109,7 +109,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.negativeManual}
-                                floatingText={'En contra'}//TRADUCCION
+                                floatingText={translate.against_lowercase}
                                 onChange={event => {
                                     this.updateVoting({
                                         negativeManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.negativeManual, 10), parseInt(event.target.value, 10))
@@ -123,7 +123,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.abstentionManual}
-                                floatingText={'Abstención'}//TRADUCCION
+                                floatingText={translate.abstention_lowercase}
                                 onChange={event => {
                                     this.updateVoting({
                                         abstentionManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(this.state.abstentionManual, 10), parseInt(event.target.value, 10))
@@ -137,7 +137,7 @@ class ManualVotingsMenu extends React.Component {
                                 type="number"
                                 min={0}
                                 max={maxVoteManual + this.state.noVoteManual}
-                                floatingText={'No ha votado'}//TRADUCCION
+                                floatingText={translate.no_vote_lowercase}
                                 onChange={event => this.updateVoting({
                                     noVoteManual: ((maxVoteManual + this.state.noVoteManual) >= +event.target.value)? event.target.value : (+maxVoteManual + +this.state.noVoteManual)
                                 })}

@@ -128,7 +128,7 @@ class SendActPage extends React.Component {
                                             })
                                         }
                                     >
-                                        {'Enviar a participantes seleccionados'/*TRADUCCION*/}
+                                        {translate.send_to_selected_participants}
                                     </MenuItem>
                                     <MenuItem
                                         onClick={() =>
@@ -137,7 +137,7 @@ class SendActPage extends React.Component {
                                             })
                                         }
                                     >
-                                        {'Enviar a todos los convocados'/*TRADUCCION*/}
+                                        {translate.send_to_all_convened}
                                     </MenuItem>
                                     <MenuItem
                                         onClick={() =>
@@ -146,7 +146,7 @@ class SendActPage extends React.Component {
                                             })
                                         }
                                     >
-                                        {'Enviar a todos los asistentes'/*TRADUCCION*/}
+                                        {translate.send_to_all_attendants}
                                     </MenuItem>
                                 </React.Fragment>
                             }
@@ -173,9 +173,9 @@ class SendActPage extends React.Component {
                     bodyText={this.state.success?
                         <SuccessMessage /> :
                         this.state.error?
-                            'No hay ningún participante al que enviarle el acta en la selección' //TRADUCCION
+                            translate.no_participants_to_send_act
                         :
-                            'Se le enviará un correo con el acta a todos los participantes convocados'
+                            translate.will_send_email_with_act
                     }
                     title={translate.sending_the_minutes}
                 />
@@ -191,9 +191,9 @@ class SendActPage extends React.Component {
                     bodyText={this.state.success?
                         <SuccessMessage /> :
                         this.state.error?
-                            'No hubo ningún asistente a la reunión'
+                            translate.no_attendees
                         :
-                            'Se le enviará un correo con el acta a todos los asistentes de la reunión'
+                            translate.will_send_email_to_attendees
                     }
                     title={translate.sending_the_minutes}
                 />

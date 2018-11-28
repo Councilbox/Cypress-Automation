@@ -1,12 +1,13 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
-import { LoadingSection } from '../../../../displayComponents';
+import { LoadingSection, DropDownMenu } from '../../../../displayComponents';
 import { Paper } from 'material-ui';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import DownloadActPDF from './DownloadActPDF';
 import DownloadActWord from './DownloadActWord';
 import { ConfigContext } from '../../../../containers/AppControl';
+import ExportActToMenu from './ExportActToMenu';
 
 
 class ActHTML extends React.Component {
@@ -29,7 +30,19 @@ class ActHTML extends React.Component {
 			<ConfigContext.Consumer>
 				{config => (
 					<React.Fragment>
-						<DownloadActPDF
+						{config.exportActToWord?
+							<ExportActToMenu
+								translate={this.props.translate}
+								council={this.props.council}
+								html={this.props.data.councilAct.emailAct}
+							/>
+						:
+							<DownloadActPDF
+								translate={this.props.translate}
+								council={this.props.council}
+							/>
+						}
+						{/* <DownloadActPDF
 							translate={this.props.translate}
 							council={this.props.council}
 						/>
@@ -38,7 +51,7 @@ class ActHTML extends React.Component {
 								translate={this.props.translate}
 								html={this.props.data.councilAct.emailAct}
 							/>
-						}
+						} */}
 						<div
 							style={{
 								display: 'flex',

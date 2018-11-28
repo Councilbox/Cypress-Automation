@@ -11,7 +11,7 @@ class VoteConfirmationModal extends React.Component {
                 acceptAction={this.props.acceptAction}
                 buttonAccept={this.props.translate.accept}
                 buttonCancel={this.props.translate.cancel}
-                bodyText={<div>Esta acción no se puede revertir, confirmar voto?</div>}//TRADUCCION
+                bodyText={<div>{this.props.translate.cant_revert_confirm}</div>}
                 title={this.props.translate.warning}
             />
         )

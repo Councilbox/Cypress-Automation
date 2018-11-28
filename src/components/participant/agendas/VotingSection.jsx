@@ -90,7 +90,7 @@ class VotingSection extends React.Component {
                             :
                                 <BasicButton
                                     color={this.props.voting && this.props.open? primary : 'white'}
-                                    text={'Descargar evidencia de voto'}//TRADUCCION
+                                    text={this.props.translate.download_vote_pdf}
                                     loading={this.state.loading}
                                     loadingColor={primary}
                                     textStyle={{

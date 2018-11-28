@@ -9,13 +9,12 @@ export const checkValidEmail = email => {
 };
 
 
-//TRADUCCION
 export const checkValidMajority = (majority, divider, type, translate) => {
 	if(type === MAJORITY_TYPES.PERCENTAGE){
 		if(majority > 100){
 			return {
 				error: true,
-				message: 'El porcentaje no puede ser superior a 100'
+				message: translate.percentage_error
 			}
 		}
 	}
@@ -24,7 +23,7 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 		if((majority / divider) > 1) {
 			return {
 				error: true,
-				message: 'Fracción inválida, el resultado no puede ser mayor que el total'
+				message: translate.fraction_values_error
 			}
 		}
 	}

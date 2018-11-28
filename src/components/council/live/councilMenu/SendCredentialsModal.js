@@ -74,10 +74,9 @@ class SendCredentialsModal extends React.Component {
 			);
 		}
 
-		//TRADUCCION
 		return (
 			<div>
-				Enviar a:
+				{translate.send_to}
 				<br/>
 				<Radio
 					value={"all"}

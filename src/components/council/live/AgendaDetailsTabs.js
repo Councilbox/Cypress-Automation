@@ -44,12 +44,12 @@ class AgendaDetailsTabs extends React.Component {
                     textColor="secondary"
                     onChange={this.handleChange}
                 >
-                    <Tab label={isMobile? 'Acuerdos' : translate.comments_and_agreements} /*TRADUCCION*/ />
-                    <Tab label={isMobile? 'Comentarios' : translate.act_comments} disabled={!CBX.councilStarted(council)} /*TRADUCCION*/ />
+                    <Tab label={isMobile? translate.agreements : translate.comments_and_agreements} />
+                    <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />
                     {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
                         <Tab label={translate.voting} disabled={!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda)}/>
                     }
-                    <Tab label={isMobile? 'Adjuntos' : translate.attachment_files} /*TRADUCCION*/ />
+                    <Tab label={isMobile? translate.attachments : translate.attachment_files} />
                 </Tabs>
                 <div style={{borderTop: '1px solid gainsboro', height: 'calc(100% - 48px)'}}>
                     <Scrollbar>

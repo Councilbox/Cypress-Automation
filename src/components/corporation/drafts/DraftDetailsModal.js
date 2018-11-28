@@ -63,7 +63,7 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyTypes, draft
             modal={false}
             buttonCancel={translate.cancel}
             bodyText={draft? _renderDraftDetails() : <span/>}
-            title={'Detalle de borrador'}//TRADUCCION
+            title={translate.draft_details}
         />
     )
 }
