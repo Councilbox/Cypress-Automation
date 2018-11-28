@@ -283,7 +283,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							variant="body1"
 							style={{ color: "grey", fontSize: "0.75rem" }}
 						>
-							{`${participant.position}`}
+							{`${participant.position? participant.position : '-'}`}
 						</Typography>
 					</div>
 					{mode === 'ATTENDANCE' && participant.assistanceComment &&

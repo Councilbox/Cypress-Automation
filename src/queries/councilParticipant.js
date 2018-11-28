@@ -159,6 +159,30 @@ export const convenedcouncilParticipants = gql`
 						assistanceIntention
 					}
 				}
+				representing {
+					id
+					name
+					surname
+					numParticipations
+					socialCapital
+					dni
+					email
+					phone
+					position
+					language
+					notifications {
+						reqCode
+						refreshDate
+					}
+					live {
+						name
+						id
+						surname
+						assistanceComment
+						assistanceLastDateConfirmed
+						assistanceIntention
+					}
+				}
 				live {
 					name
 					id

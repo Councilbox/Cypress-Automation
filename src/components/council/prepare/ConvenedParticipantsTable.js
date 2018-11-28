@@ -110,6 +110,7 @@ class ConvenedParticipantsTable extends React.Component {
 
 		headers.push({text: ''});
 
+		console.log(councilParticipants);
 		return (
 			<div style={{ width: "100%", height: '100%' }}>
 				<React.Fragment>
@@ -203,7 +204,8 @@ class ConvenedParticipantsTable extends React.Component {
 							headers={headers}
 						>
 							{councilParticipants.list.map(
-								(participant, index) => {
+								(item, index) => {
+									let participant = formatParticipant(item)
 									return (
 										<React.Fragment
 											key={`participant${participant.id}`}
@@ -214,13 +216,13 @@ class ConvenedParticipantsTable extends React.Component {
 												representative={participant.representative}
 												showModalComment={this.showModalComment}
 												cbxData={false}
-												editParticipant={() =>
+												editParticipant={() => {
 													!this.props.cantEdit &&
 														this.setState({
 															editingParticipant: true,
-															participant: participant
+															participant
 														})
-												}
+												}}
 												{...this.props}
 											/>
 										</React.Fragment>
@@ -338,11 +340,19 @@ class HoverableRow extends React.Component {
                             {translate.votes}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							{!CBX.isRepresentative(participant) &&
+							{!CBX.isRepresentative(participant)?
 								`${
 									participant.numParticipations
 								} (${(
 									(participant.numParticipations /
+										totalVotes) *
+									100
+								).toFixed(2)}%)`
+							:
+								`${
+									participant.representing.numParticipations
+								} (${(
+									(participant.representing.numParticipations /
 										totalVotes) *
 									100
 								).toFixed(2)}%)`
@@ -462,72 +472,37 @@ class HoverableRow extends React.Component {
 				{!hideNotifications &&
 					<React.Fragment>
 						<TableCell>
-							{!!representative?
-								participant.representative.notifications
-									.length > 0 ? (
-									<Tooltip
-										title={
-											translate[
-												CBX.getTranslationReqCode(
-													participant.representative
-														.notifications[0]
-														.reqCode
-												)
-											]
-										}
-									>
-										<img
-											style={{
-												height:
-													"2.1em",
-												width:
-													"auto"
-											}}
-											src={CBX.getEmailIconByReqCode(
-												participant.representative
-													.notifications[0]
-													.reqCode
-											)}
-											alt="email-state-icon"
-										/>
-									</Tooltip>
-								) : (
-									""
-								)
-
-							:
-								participant.notifications
-									.length > 0 ? (
-									<Tooltip
-										title={
-											translate[
-												CBX.getTranslationReqCode(
-													participant
-														.notifications[0]
-														.reqCode
-												)
-											]
-										}
-									>
-										<img
-											style={{
-												height:
-													"2.1em",
-												width:
-													"auto"
-											}}
-											src={CBX.getEmailIconByReqCode(
+							{participant.notifications
+								.length > 0 ? (
+								<Tooltip
+									title={
+										translate[
+											CBX.getTranslationReqCode(
 												participant
 													.notifications[0]
 													.reqCode
-											)}
-											alt="email-state-icon"
-										/>
-									</Tooltip>
-								) : (
-									""
-								)
-							}
+											)
+										]
+									}
+								>
+									<img
+										style={{
+											height:
+												"2.1em",
+											width:
+												"auto"
+										}}
+										src={CBX.getEmailIconByReqCode(
+											participant
+												.notifications[0]
+												.reqCode
+										)}
+										alt="email-state-icon"
+									/>
+								</Tooltip>
+							) : (
+								""
+							)}
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(
 							council
@@ -553,6 +528,19 @@ class HoverableRow extends React.Component {
 			</TableRow>
 		)
 	}
+}
+
+const formatParticipant = participant => {
+	let { representing, ...newParticipant } = participant;
+	if(representing){
+		let { representative, ...rest } = newParticipant;
+		newParticipant = {
+			...representing,
+			notifications: rest.notifications,
+			representative: rest
+		}
+	}
+	return newParticipant;
 }
 
 export default compose(

@@ -348,7 +348,7 @@ class CouncilLivePage extends React.Component {
 													cursor: "pointer",
 													position: "absolute",
 													right: "5%",
-													bottom: "7%",
+													top: "20px",
 													backgroundColor:
 														"rgba(0, 0, 0, 0.5)",
 													width: "2.5em",
