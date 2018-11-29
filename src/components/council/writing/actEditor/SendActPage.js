@@ -7,7 +7,6 @@ import { Typography, MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { moment } from '../../../../containers/App';
-import { reporters } from 'mocha';
 
 class SendActPage extends React.Component {
 

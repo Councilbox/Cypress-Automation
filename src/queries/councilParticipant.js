@@ -159,6 +159,31 @@ export const convenedcouncilParticipants = gql`
 						assistanceIntention
 					}
 				}
+				representing {
+					id
+					name
+					surname
+					numParticipations
+					socialCapital
+					dni
+					email
+					phone
+					position
+					language
+					notifications {
+						reqCode
+						refreshDate
+						sendDate
+					}
+					live {
+						name
+						id
+						surname
+						assistanceComment
+						assistanceLastDateConfirmed
+						assistanceIntention
+					}
+				}
 				live {
 					name
 					id
@@ -179,6 +204,7 @@ export const convenedcouncilParticipants = gql`
 				personOrEntity
 				notifications {
 					reqCode
+					sendDate
 					refreshDate
 				}
 			}
