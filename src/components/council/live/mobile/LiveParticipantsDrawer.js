@@ -10,79 +10,83 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
     const toggleFullScreen = () => false;
 
     return (
-        <Drawer
-            style={{
-                zIndex: -1,
-                minWidth: `${100}px`,
-				maxWidth: "100%",
-            }}
-            anchor="left"
-            variant="persistent"
-            open={open}
-            PaperProps={{
-                style: {
-                    width: '80%'
-                }
-            }}
-            onClose={requestClose}
-        >
-            <div
-                style={{
-                    height: "100%",
-                    width: "100%",
-                    paddingTop: "3em",
-                    overflow: "hidden"
-                }}
-            >
-                <div
+        <React.Fragment>
+            {open &&
+                <Drawer
                     style={{
-                        display: "flex",
-                        cursor: "pointer",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        paddingLeft: "0.8em",
-                        fontSize: "0.90rem",
-                        width: "100%",
-                        height: "3.5em",
-                        fontWeight: '700',
-                        backgroundColor: darkGrey,
-                        textTransform: "uppercase",
-                        color: "grey"
+                        zIndex: -1,
+                        minWidth: `${100}px`,
+                        maxWidth: "100%",
                     }}
-                    onClick={requestClose}
+                    anchor="left"
+                    variant="persistent"
+                    open={open}
+                    PaperProps={{
+                        style: {
+                            width: '80%'
+                        }
+                    }}
+                    onClose={requestClose}
                 >
-                    {translate.live_participants_drawer}
-                    <Icon
-                        className="material-icons"
+                    <div
                         style={{
-                            color: "grey",
-                            marginRight: "1.1em"
+                            height: "100%",
+                            width: "100%",
+                            paddingTop: "3em",
+                            overflow: "hidden"
                         }}
                     >
-                        keyboard_arrow_left
-                    </Icon>
-                </div>
-                <div
-                    style={{
-                        width: "100%",
-                        height: '100%',
-                        overflow: "hidden",
-                        paddingBottom: "3em",
-                        backgroundColor: darkGrey,
-                        position: "relative",
-                        overflow: 'hidden'
-                    }}
-                >
-                    <ParticipantsLive
-                        councilId={council.id}
-                        council={council}
-                        translate={translate}
-                        videoFullScreen={false}
-                        toggleFullScreen={toggleFullScreen}
-                    />
-                </div>
-            </div>
-        </Drawer>
+                        <div
+                            style={{
+                                display: "flex",
+                                cursor: "pointer",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                paddingLeft: "0.8em",
+                                fontSize: "0.90rem",
+                                width: "100%",
+                                height: "3.5em",
+                                fontWeight: '700',
+                                backgroundColor: darkGrey,
+                                textTransform: "uppercase",
+                                color: "grey"
+                            }}
+                            onClick={requestClose}
+                        >
+                            {translate.live_participants_drawer}
+                            <Icon
+                                className="material-icons"
+                                style={{
+                                    color: "grey",
+                                    marginRight: "1.1em"
+                                }}
+                            >
+                                keyboard_arrow_left
+                            </Icon>
+                        </div>
+                        <div
+                            style={{
+                                width: "100%",
+                                height: '100%',
+                                overflow: "hidden",
+                                paddingBottom: "3em",
+                                backgroundColor: darkGrey,
+                                position: "relative",
+                                overflow: 'hidden'
+                            }}
+                        >
+                            <ParticipantsLive
+                                councilId={council.id}
+                                council={council}
+                                translate={translate}
+                                videoFullScreen={false}
+                                toggleFullScreen={toggleFullScreen}
+                            />
+                        </div>
+                    </div>
+                </Drawer>
+            }
+        </React.Fragment>
     )
 }
 

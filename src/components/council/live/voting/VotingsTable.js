@@ -342,9 +342,9 @@ class VotingsTable extends React.Component {
 					}
 				</GridItem>
 
-				<GridItem xs={4} md={2} lg={2}>
+				<GridItem xs={4} md={2} lg={2} >
 					{!agendaVotingsOpened(this.props.agenda) && !this.props.hideStatus &&
-						'Votaciones cerradas'
+						'Votaciones cerradas' //TRADUCCION
 					}
 				</GridItem>
 				<GridItem xs={8} md={4} lg={4}>
@@ -375,57 +375,61 @@ class VotingsTable extends React.Component {
 								{mappedVotings.map(vote => (
 									<TableRow key={`vote_${vote.id}`}>
 										<TableCell>
-											<div
-												style={{
-													display: "flex",
-													flexDirection:
-														"row",
-													alignItems: "center"
-												}}
-											>
-												{this.props.agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-													<React.Fragment>
-														{vote.vote !== -1?
-															'Ha votado'
-														:
-															'No ha votado'
-														}
-													</React.Fragment>
-												:
-													<React.Fragment>
-														<Tooltip
-															title={this.getTooltip(
-																vote.vote
-															)}
-														>
-															<VotingValueIcon
-																vote={vote.vote}
-															/>
-														</Tooltip>
-														{isPresentVote(vote) && (
-															<PresentVoteMenu
-																agenda={this.props.agenda}
-																agendaVoting={vote}
-																active={vote.vote}
-																refetch={this.refreshTable}
-															/>
-														)}
-													</React.Fragment>
-												}
-
-												<Tooltip
-													title={
-														vote.presentVote ===
-														1
-															? translate.customer_present
-															: translate.customer_initial
-													}
+											{vote.author.numParticipations === 0?
+												'-'
+											:
+												<div
+													style={{
+														display: "flex",
+														flexDirection:
+															"row",
+														alignItems: "center"
+													}}
 												>
-													{this.getStateIcon(
-														vote.presentVote
-													)}
-												</Tooltip>
-											</div>
+													{this.props.agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
+														<React.Fragment>
+															{vote.vote !== -1?
+																'Ha votado'
+															:
+																'No ha votado'
+															}
+														</React.Fragment>
+													:
+														<React.Fragment>
+															<Tooltip
+																title={this.getTooltip(
+																	vote.vote
+																)}
+															>
+																<VotingValueIcon
+																	vote={vote.vote}
+																/>
+															</Tooltip>
+															{isPresentVote(vote) && (
+																<PresentVoteMenu
+																	agenda={this.props.agenda}
+																	agendaVoting={vote}
+																	active={vote.vote}
+																	refetch={this.refreshTable}
+																/>
+															)}
+														</React.Fragment>
+													}
+
+													<Tooltip
+														title={
+															vote.presentVote ===
+															1
+																? translate.customer_present
+																: translate.customer_initial
+														}
+													>
+														{this.getStateIcon(
+															vote.presentVote
+														)}
+													</Tooltip>
+												</div>
+											}
 										</TableCell>
 										<TableCell>
 											<div style={{minWidth: '7em', fontSize: '0.9em'}}>

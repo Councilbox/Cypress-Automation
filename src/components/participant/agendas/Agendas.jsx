@@ -266,6 +266,7 @@ const agendas = gql`
             participantId
             delegateId
             agendaId
+            numParticipations
             author {
                 id
                 state

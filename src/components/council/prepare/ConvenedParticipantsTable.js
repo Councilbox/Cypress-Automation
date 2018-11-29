@@ -38,7 +38,9 @@ class ConvenedParticipantsTable extends React.Component {
 			text: 0,
 			field: 'fullName',
 			page: 1,
-			notificationStatus: null
+			notificationStatus: null,
+			orderBy: 'name',
+			orderDirection: 'asc'
 		}
 	};
 
@@ -98,7 +100,9 @@ class ConvenedParticipantsTable extends React.Component {
 			text: value.filters[0]? value.filters[0].text : '',
 			field: value.filters[0]? value.filters[0].field : '',
 			page: (value.options.offset / value.options.limit) + 1,
-			limit: value.options.limit
+			limit: value.options.limit,
+			orderBy: value.options.orderBy,
+			orderDirection: value.options.orderDirection
 		}
 
 		const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
@@ -626,7 +630,7 @@ const formatParticipant = participant => {
 
 const applyFilters = (participants, filters) => {
 
-	return participants.filter(item => {
+	return applyOrder(participants.filter(item => {
 		const participant = formatParticipant(item);
 
 		if(filters.text){
@@ -681,7 +685,17 @@ const applyFilters = (participants, filters) => {
 		}
 
 		return true;
-	})
+	}), filters.orderBy, filters.orderDirection);
+}
+
+const applyOrder = (participants, orderBy, orderDirection) => {
+	console.log('order');
+	return participants.sort((a, b) => {
+		let participantA = formatParticipant(a);
+		let participantB = formatParticipant(b);
+		console.log(participantA[orderBy], participantB[orderBy]);
+		return participantA[orderBy] > participantB[orderBy]
+	});
 }
 
 export default compose(

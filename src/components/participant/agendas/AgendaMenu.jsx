@@ -126,16 +126,18 @@ class AgendaMenu extends React.Component {
                             <React.Fragment>
                                 {(agenda.votings && agenda.votings.length > 0)?
                                     <React.Fragment>
-                                        <VotingSection
-                                            agenda={agenda}
-                                            open={this.state.open}
-                                            council={this.props.council}
-                                            voting={this.state.voting}
-                                            translate={translate}
-                                            activateVoting={this.activateVoting}
-                                            refetch={this.props.refetch}
-                                            toggle={this.toggle}
-                                        />
+                                        {checkVotings(agenda.votings) &&
+                                            <VotingSection
+                                                agenda={agenda}
+                                                open={this.state.open}
+                                                council={this.props.council}
+                                                voting={this.state.voting}
+                                                translate={translate}
+                                                activateVoting={this.activateVoting}
+                                                refetch={this.props.refetch}
+                                                toggle={this.toggle}
+                                            />
+                                        }
                                         {this.canComment(agenda, this.props.participant) &&
                                             <CommentMenu
                                                 agenda={agenda}
@@ -259,6 +261,11 @@ class AgendaMenu extends React.Component {
             </div>
         )
     }
+}
+
+const checkVotings = votings => {
+    const result = votings.find(voting => voting.numParticipations > 0);
+    return !!result;
 }
 
 export default AgendaMenu;

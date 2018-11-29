@@ -42,7 +42,7 @@ class VotingSection extends React.Component {
     render(){
         const { agenda, translate } = this.props;
         const primary = getPrimary();
-        const singleVoteMode = this.props.council.companyId === 375 || this.props.council.companyId === 449;
+        const singleVoteMode = this.props.council.companyId === 449;
 
         return(
             <React.Fragment>

@@ -39,21 +39,12 @@ const Dashboard = ({ translate, company, user }) => {
 				>
 					<div
 						style={{
-							padding: "0.5em",
-							paddingTop: "2em"
-						}}
-					>
-						{translate.we_welcome}
-					</div>
-					<div
-						style={{
 							fontWeight: "700",
 							color: darkGrey,
 							fontSize: "1em",
 							marginBottom: '1em'
 						}}
 					>
-						{`${translate.we_recommend_review_configuration}`}
 					</div>
 					<div style={{display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'}}>
 						<div>

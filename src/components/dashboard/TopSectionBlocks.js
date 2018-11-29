@@ -44,7 +44,7 @@ class TopSectionBlocks extends React.Component {
 					requestClose={this.closeCouncilsModal}
 					translate={translate}
 				/>
-				<GridItem xs={12} md={6} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/statutes`}
 						icon="gavel"
@@ -53,7 +53,7 @@ class TopSectionBlocks extends React.Component {
 					/>
 				</GridItem>
 
-				<GridItem xs={12} md={6} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/book`}
 						icon="contacts"
@@ -64,7 +64,7 @@ class TopSectionBlocks extends React.Component {
 					/>
 				</GridItem>
 
-				<GridItem xs={12} md={6} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/censuses`}
 						icon="person"
@@ -73,7 +73,7 @@ class TopSectionBlocks extends React.Component {
 					/>
 				</GridItem>
 
-				<GridItem xs={12} md={6} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/drafts`}
 						icon="class"
@@ -81,10 +81,10 @@ class TopSectionBlocks extends React.Component {
 						text={translate.drafts}
 					/>
 				</GridItem>
-				<GridItem xs={12} md={false} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 				</GridItem>
 
-				<GridItem xs={12} md={6} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/council/new`}
 						customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} alt="councilbox-logo" />}
@@ -94,7 +94,7 @@ class TopSectionBlocks extends React.Component {
 						text={translate.dashboard_new}
 					/>
 				</GridItem>
-				<GridItem xs={12} md={6} lg={3}>
+				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/meeting/new`}
 						icon="video_call"
@@ -103,13 +103,8 @@ class TopSectionBlocks extends React.Component {
 					/>
 				</GridItem>
 				{this.props.user.roles === 'devAdmin' &&
-					<GridItem xs={12} md={6} lg={3}>
-						<Block
-							link={`/admin`}
-							customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{fontSize: '7em'}}></i>}
-							id={'admin-panel'}
-							text={'Panel devAdmin'}
-						/>
+					<GridItem xs={12} md={3} lg={3}>
+						
 					</GridItem>
 				}
 			</Grid>
