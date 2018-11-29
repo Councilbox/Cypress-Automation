@@ -30,9 +30,47 @@ class ConvenedParticipantsTable extends React.Component {
 		editingParticipant: false,
 		participant: {},
 		activeStatusFilter: "",
+		loadingRefresh: false,
 		showCommentModal: false,
-		showComment: ''
+		showComment: '',
+		appliedFilters: {
+			limit: PARTICIPANTS_LIMITS[0],
+			text: 0,
+			field: 'fullName',
+			page: 1,
+			notificationStatus: null
+		}
 	};
+
+	componentDidMount(){
+		this.refreshEmailStates();
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			const councilParticipants = nextProps.data.councilParticipantsWithNotifications;
+			const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], prevState.appliedFilters)
+			const offset = (prevState.appliedFilters.page - 1) * prevState.appliedFilters.limit;
+			let paginatedParticipants = filteredParticipants.slice(offset, offset + prevState.appliedFilters.limit);
+			return {
+				participants: paginatedParticipants,
+				total: filteredParticipants.length
+			}
+		}
+
+		return null;
+	}
+
+	updateFilteredParticipants = appliedFilters => {
+		const councilParticipants = this.props.data.councilParticipantsWithNotifications;
+		const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], appliedFilters)
+		const offset = (appliedFilters.page - 1) * appliedFilters.limit;
+		let paginatedParticipants = filteredParticipants.slice(offset, offset + appliedFilters.limit);
+		return {
+			participants: paginatedParticipants,
+			total: filteredParticipants.length
+		}
+	}
 
 	closeParticipantEditor = () => {
 		this.setState({ editingParticipant: false });
@@ -42,6 +80,10 @@ class ConvenedParticipantsTable extends React.Component {
 		this.table.refresh(object);
 	};
 
+	resetPage = () => {
+		this.table.setPage(this.state.appliedFilters.page);
+	}
+
 	showModalComment = comment => event => {
 		event.stopPropagation();
 		this.setState({
@@ -50,7 +92,44 @@ class ConvenedParticipantsTable extends React.Component {
 		})
 	}
 
+	updateFilters = value => {
+		const appliedFilters =  {
+			...this.state.appliedFilters,
+			text: value.filters[0]? value.filters[0].text : '',
+			field: value.filters[0]? value.filters[0].field : '',
+			page: (value.options.offset / value.options.limit) + 1,
+			limit: value.options.limit
+		}
+
+		const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
+
+		this.setState({
+			appliedFilters,
+			participants: filteredParticipants.participants,
+			total: filteredParticipants.total
+		}, () => this.resetPage());
+	}
+
+	updateNotificationFilter = value => {
+		const appliedFilters = {
+			...this.state.appliedFilters,
+			notificationStatus: value.notificationStatus,
+			page: 1
+		}
+
+		const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
+
+		this.setState({
+			appliedFilters,
+			participants: filteredParticipants.participants,
+			total: filteredParticipants.total
+		}, () => this.resetPage());
+	}
+
 	refreshEmailStates = async () => {
+		this.setState({
+			loadingRefresh: true
+		});
 		const response = await this.props.updateConveneSends({
 			variables: {
 				councilId: this.props.council.id
@@ -58,7 +137,10 @@ class ConvenedParticipantsTable extends React.Component {
 		});
 
 		if (response.data.updateConveneSends.success) {
-			this.table.refresh();
+			await this.props.data.refetch();
+			this.setState({
+				loadingRefresh: false
+			});
 		}
 	};
 
@@ -109,8 +191,6 @@ class ConvenedParticipantsTable extends React.Component {
 		}
 
 		headers.push({text: ''});
-
-		console.log(councilParticipants);
 		return (
 			<div style={{ width: "100%", height: '100%' }}>
 				<React.Fragment>
@@ -119,7 +199,7 @@ class ConvenedParticipantsTable extends React.Component {
 							{!hideNotifications &&
 								<NotificationFilters
 									translate={translate}
-									refetch={this.refresh}
+									refetch={this.updateNotificationFilter}
 								/>
 							}
 						</GridItem>
@@ -141,6 +221,7 @@ class ConvenedParticipantsTable extends React.Component {
 													floatRight
 													text={translate.refresh_convened}
 													color={getSecondary()}
+													loading={this.state.loadingRefresh}
 													buttonStyle={{
 														margin: "0",
 														marginRight: '1.2em'
@@ -181,11 +262,11 @@ class ConvenedParticipantsTable extends React.Component {
 							defaultFilter={"fullName"}
 							defaultOrder={["name", "asc"]}
 							limits={PARTICIPANTS_LIMITS}
-							page={1}
+							page={this.state.appliedFilters.page}
 							loading={loading}
-							length={councilParticipants.list.length}
-							total={councilParticipants.total}
-							refetch={this.props.data.refetch}
+							length={this.state.participants.length}
+							total={this.state.total}
+							refetch={this.updateFilters}
 							action={this._renderDeleteIcon}
 							fields={[
 								{
@@ -203,12 +284,12 @@ class ConvenedParticipantsTable extends React.Component {
 							]}
 							headers={headers}
 						>
-							{councilParticipants.list.map(
-								(item, index) => {
-									let participant = formatParticipant(item)
+							{this.state.participants.map(
+								item => {
+									let participant = formatParticipant(item);
 									return (
 										<React.Fragment
-											key={`participant${participant.id}`}
+											key={`participant${participant.id}_${this.state.appliedFilters.notificationStatus}`}
 										>
 											<HoverableRow
 												translate={translate}
@@ -543,6 +624,66 @@ const formatParticipant = participant => {
 	return newParticipant;
 }
 
+const applyFilters = (participants, filters) => {
+
+	return participants.filter(item => {
+		const participant = formatParticipant(item);
+
+		if(filters.text){
+			if(filters.field === 'fullName'){
+				const fullName = `${participant.name} ${participant.surname}`;
+				let repreName = '';
+				if(participant.representative){
+					repreName = `${participant.representative.name} ${participant.representative.surname}`;
+				}
+				if(!fullName.toLowerCase().includes(filters.text.toLowerCase()) && !repreName.toLowerCase().includes(filters.text.toLowerCase())){
+					return false;
+				}
+			}
+
+			if(filters.field === 'position'){
+				if(participant.representative){
+					if(!participant.position.toLowerCase().includes(filters.text.toLowerCase()) &&
+						!participant.representative.position.toLowerCase().includes(filters.text.toLowerCase())){
+						return false;
+					}
+				} else {
+					if(!participant.position.toLowerCase().includes(filters.text.toLowerCase())){
+						return false;
+					}
+				}
+			}
+
+			if(filters.field === 'dni'){
+				if(participant.representative){
+					if(!participant.dni.toLowerCase().includes(filters.text.toLowerCase()) &&
+						!participant.representative.dni.toLowerCase().includes(filters.text.toLowerCase())){
+						return false;
+					}
+				} else {
+					if(!participant.dni.toLowerCase().includes(filters.text.toLowerCase())){
+						return false;
+					}
+				}
+			}
+		}
+
+		if(filters.notificationStatus){
+			if(participant.representative){
+				if(participant.representative.notifications[0].reqCode !== filters.notificationStatus){
+					return false;
+				}
+			} else {
+				if(participant.notifications[0].reqCode !== filters.notificationStatus){
+					return false;
+				}
+			}
+		}
+
+		return true;
+	})
+}
+
 export default compose(
 	graphql(updateConveneSends, {
 		name: "updateConveneSends"
@@ -554,12 +695,9 @@ export default compose(
 		options: props => ({
 			variables: {
 				councilId: props.council.id,
-				options: {
-					limit: PARTICIPANTS_LIMITS[0],
-					offset: 0
-				}
 			},
-			forceFetch: true
+			forceFetch: true,
+			pollInterval: 8000
 		})
 	})
 )(ConvenedParticipantsTable);

@@ -33,6 +33,12 @@ class EnhancedTable extends React.Component {
 
 	timeout = null;
 
+	setPage = page => {
+		this.setState({
+			page: page
+		});
+	}
+
 	refresh = object => {
 		let variables = {
 			options: {

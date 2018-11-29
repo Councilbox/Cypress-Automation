@@ -173,6 +173,7 @@ export const convenedcouncilParticipants = gql`
 					notifications {
 						reqCode
 						refreshDate
+						sendDate
 					}
 					live {
 						name
@@ -203,6 +204,7 @@ export const convenedcouncilParticipants = gql`
 				personOrEntity
 				notifications {
 					reqCode
+					sendDate
 					refreshDate
 				}
 			}

@@ -99,7 +99,7 @@ const showPages = (numPages, active, changePage) => {
 				{i}
 			</span>
 		);
-		if(i === 3 && numPages > 3){
+		if(i === 3 && numPages > 6){
 			pages.push(<span key="pagination_collapse" style={{margin: '0.3em'}}>...</span>);
 			i = numPages-3;
 		}
