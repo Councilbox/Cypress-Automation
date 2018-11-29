@@ -165,21 +165,23 @@ class CouncilDetails extends React.Component {
 		let offline = 0;
 		let broadcasting = 0;
 		let askingForWord = 0;
-		this.props.data.videoParticipants.list.forEach(
-			participant => {
-				if(isAskingForWord(participant)){
-					askingForWord++;
-				}
-				if (exceedsOnlineTimeout(participant.lastDateConnection)) {
-					offline++;
-				} else {
-					if (participant.requestWord === 2) {
-						broadcasting++;
+		if(this.props.data.videoParticipants){
+			this.props.data.videoParticipants.list.forEach(
+				participant => {
+					if(isAskingForWord(participant)){
+						askingForWord++;
 					}
-					online++;
+					if (exceedsOnlineTimeout(participant.lastDateConnection)) {
+						offline++;
+					} else {
+						if (participant.requestWord === 2) {
+							broadcasting++;
+						}
+						online++;
+					}
 				}
-			}
-		);
+			);
+		}
 
         return (
             <div>
