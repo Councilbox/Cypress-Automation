@@ -240,6 +240,7 @@ class TextRender extends React.PureComponent {
 						</div>
 					)}
 
+
 				<CouncilInfoCardRender council={council} company={company} />
 
 				<TextDialog
@@ -261,13 +262,18 @@ const CouncilInfoCardRender = ({ council, company }) => (
 			}}
 		>
 			<CardHeader
-				avatar={
+				/* avatar={
 					<Avatar
 						src={company.logo}
 						aria-label="CouncilLogo"
 					/>
+				} */
+				title={
+					<div>
+						<img src={company.logo} style={{height: '2em'}}></img><br />
+						<b>{council.name}</b>
+					</div>
 				}
-				title={<b>{council.name}</b>}
 				subheader={moment(new Date(council.dateStart)).format(
 					"LLL"
 				)}

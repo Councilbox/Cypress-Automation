@@ -12,7 +12,8 @@ const SelectInput = ({
 	children,
 	required,
 	disabled,
-	noLabel
+	noLabel,
+	autoWidth
 }) => (
 	<FormControl
 		style={{
@@ -34,6 +35,7 @@ const SelectInput = ({
 					fontSize: '12px !important'
 				}
 			}}
+			autoWidth={autoWidth}
 			disabled={!!disabled}
 			value={value}
 			onChange={onChange}

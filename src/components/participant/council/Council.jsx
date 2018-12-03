@@ -40,7 +40,8 @@ const styles = {
 class ParticipantCouncil extends React.Component {
 	state = {
         agendasAnchor: 'right',
-        hasVideo: councilHasVideo(this.props.council)
+        hasVideo: councilHasVideo(this.props.council),
+        videoURL: ''
     };
 
     noStartedToastId = null;
@@ -162,11 +163,14 @@ class ParticipantCouncil extends React.Component {
                                         translate={this.props.translate}
                                         participant={participant}
                                         council={council}
+                                        videoURL={this.state.videoURL}
                                         refetchParticipant={this.props.refetchParticipant}
                                     />
                                     <VideoContainer
                                         council={council}
                                         participant={participant}
+                                        videoURL={this.state.videoURL}
+                                        setVideoURL={url => this.setState({videoURL: url})}
                                     />
                                 </div>
                             </Grid>

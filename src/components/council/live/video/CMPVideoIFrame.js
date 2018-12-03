@@ -67,7 +67,6 @@ class CMPVideoIFrame extends React.Component {
 const videoURL = gql`
     query RoomVideoURL($councilId: Int!, $participantId: String!){
         roomVideoURL(councilId: $councilId, participantId: $participantId)
-
     }
 `;
 

@@ -136,12 +136,12 @@ class RequestWordMenu extends React.Component {
     render(){
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
-        const COAGMode = this.props.council.companyId === 130;
+        const fixedURLMode = !this.props.videoURL.includes('councilbox'); //this.props.council.companyId === 130;
 
         return(
             <Paper
                 style={{
-                    width: COAGMode? '5.5em' : '8em',
+                    width: fixedURLMode? '5.5em' : '8em',
                     height: '3em',
                     position: 'absolute',
                     backgroundColor: 'white',
@@ -156,10 +156,10 @@ class RequestWordMenu extends React.Component {
                 }}
             >
                 <div>
-                    {!COAGMode &&
+                    {!fixedURLMode &&
                         this._renderWordButtonIcon()
                     }
-                    {COAGMode?
+                    {fixedURLMode?
                         <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
                             {this._renderPrivateMessageIcon()}
                         </div>

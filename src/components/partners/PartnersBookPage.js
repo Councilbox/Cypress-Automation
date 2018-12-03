@@ -44,7 +44,7 @@ class PartnersBookPage extends React.Component {
 
 		return null;
     }
-    
+
     updateFilteredParticipants = appliedFilters => {
 		const councilParticipants = this.props.data.bookParticipants;
 		const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], appliedFilters)
@@ -55,12 +55,13 @@ class PartnersBookPage extends React.Component {
 			total: filteredParticipants.length
 		}
     }
-    
+
     resetPage = () => {
 		this.table.setPage(this.state.appliedFilters.page);
     }
-    
+
     updateFilters = value => {
+        console.log(value);
 		const appliedFilters =  {
 			...this.state.appliedFilters,
 			text: value.filters[0]? value.filters[0].text : '',
@@ -336,14 +337,14 @@ class HoverableRow extends React.PureComponent {
                             {translate.subscribe_date}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-                            {participant.subscribeDate? moment(participant.subscribeDate).format('LLL') : '-'}
+                            {participant.subscribeDate? moment(participant.subscribeDate).format('LL') : '-'}
                         </GridItem>
 
                         <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
                             {translate.unsubscribe_date}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-                            {participant.unsubscribeDate? moment(participant.unsubscribeDate).format('LLL') : '-'}
+                            {participant.unsubscribeDate? moment(participant.unsubscribeDate).format('LL') : '-'}
                         </GridItem>
                     </Grid>
                     <div style={{position: 'absolute', top: '5px', right: '5px'}}>
@@ -393,10 +394,10 @@ class HoverableRow extends React.PureComponent {
                     {`${participant.position || ''}`}
                 </TableCell>
                 <TableCell>
-                    {participant.subscribeDate? moment(participant.subscribeDate).format('LLL') : '-'}
+                    {participant.subscribeDate? moment(participant.subscribeDate).format('LL') : '-'}
                 </TableCell>
                 <TableCell>
-                    {participant.unsubscribeDate? moment(participant.unsubscribeDate).format('LLL') : '-'}
+                    {participant.unsubscribeDate? moment(participant.unsubscribeDate).format('LL') : '-'}
                 </TableCell>
                 <TableCell>
                     <div style={{ width: '3em' }}>

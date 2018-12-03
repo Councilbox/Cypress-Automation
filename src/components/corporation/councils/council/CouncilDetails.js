@@ -14,6 +14,8 @@ import StatuteDisplay from '../../../council/display/StatuteDisplay';
 import OptionsDisplay from '../../../council/display/OptionsDisplay';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
+import LiveParticipantStats from './LiveParticipantStats';
+
 
 class CouncilDetails extends React.Component {
 
@@ -161,27 +163,7 @@ class CouncilDetails extends React.Component {
 			)
 		}
 
-		let online = 0;
-		let offline = 0;
-		let broadcasting = 0;
-		let askingForWord = 0;
-		if(this.props.data.videoParticipants){
-			this.props.data.videoParticipants.list.forEach(
-				participant => {
-					if(isAskingForWord(participant)){
-						askingForWord++;
-					}
-					if (exceedsOnlineTimeout(participant.lastDateConnection)) {
-						offline++;
-					} else {
-						if (participant.requestWord === 2) {
-							broadcasting++;
-						}
-						online++;
-					}
-				}
-			);
-		}
+
 
         return (
             <div>
@@ -249,21 +231,7 @@ class CouncilDetails extends React.Component {
 						title={"Detalle del tipo de reunión"}
 					/>
                 </div>
-				<div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-						padding: '1em',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-					Remotos {`(Online: ${online} || Offline: ${offline} || Palabra concedida: ${broadcasting} || Pidiendo Palabra: ${askingForWord})`}
-                </div>
+				{/*<LiveParticipantStats council={this.props.data.council} />*/}
 				<div
                     style={{
                         width: '100%',
@@ -464,13 +432,6 @@ const CouncilDetailsRoot = gql`
 				surname
 			}
 		}
-		videoParticipants(councilId: $id){
-			list {
-				id
-				name
-				lastDateConnection
-			}
-		}
     }
 `;
 
@@ -478,7 +439,7 @@ const CouncilDetailsRoot = gql`
 export default graphql(CouncilDetailsRoot, {
     options: props => ({
         variables: {
-            id: props.match.params.id
+			id: props.match.params.id
         }
     })
 })(withRouter(withTranslations()(CouncilDetails)));

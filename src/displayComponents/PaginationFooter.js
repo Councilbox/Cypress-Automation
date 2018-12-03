@@ -2,6 +2,8 @@ import React from "react";
 import { GridItem } from "./";
 import { hasMorePages } from "../utils/pagination";
 import { getPrimary, getSecondary } from "../styles/colors";
+import Select from 'antd/lib/select';
+
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -12,6 +14,7 @@ const paginationButtonStyle = {
 	paddingBottom: "0.2em",
 	border: "1px solid",
 	borderColor: secondary,
+	userSelect: 'none',
 	color: secondary,
 	marginLeft: "1px",
 	marginRight: "1px"
@@ -29,7 +32,7 @@ const PaginationFooter = ({
 
 	return (
 		<React.Fragment>
-			<GridItem xs={5} lg={6} md={6} style={{fontSize: '0.7rem'}}>
+			<GridItem xs={5} lg={5} md={6} style={{fontSize: '0.7rem'}}>
 				{length > 0
 					? `${translate.table_showing_part1} ${(page - 1) * limit +
 							1} ${translate.table_showing_part2} ${(page - 1) *
@@ -39,8 +42,8 @@ const PaginationFooter = ({
 					  }`
 					: translate.table_no_results}
 			</GridItem>
-			<GridItem xs={7} lg={6} md={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
-				<div>
+			<GridItem xs={7} lg={7} md={6} style={{display: 'flex', justifyContent: 'flex-end'}}>
+				<div style={{display: 'flex', justifyContent: 'flex-end'}}>
 					{page > 1 && (
 						<React.Fragment>
 							<span
@@ -57,7 +60,9 @@ const PaginationFooter = ({
 							</span>
 						</React.Fragment>
 					)}
-					{showPages(totalPages, page, changePage)}
+					<div style={{display: 'flex'}}>
+						{showPages(totalPages, page, changePage)}
+					</div>
 					{hasMorePages(page, total, limit) && (
 						<React.Fragment>
 							<span
@@ -85,22 +90,42 @@ const PaginationFooter = ({
 const showPages = (numPages, active, changePage) => {
 	let pages = [];
 	for (let i = 1; i <= numPages; i++) {
+		const index = i;
 		pages.push(
 			<span
-				key={`page_${i}`}
-				onClick={active !== i ? () => changePage(i) : () => {}}
+				key={`page_${index}`}
+				onClick={active !== index ? () => changePage(index) : () => {}}
 				style={{
 					...paginationButtonStyle,
-					borderColor: active === i ? primary : secondary,
-					color: active === i ? primary : secondary,
-					cursor: active === i ? 'auto' : 'pointer'
+					borderColor: active === index ? primary : secondary,
+					color: active === index ? primary : secondary,
+					cursor: active === index ? 'auto' : 'pointer'
 				}}
 			>
-				{i}
+				{index}
 			</span>
 		);
 		if(i === 3 && numPages > 6){
-			pages.push(<span key="pagination_collapse" style={{margin: '0.3em'}}>...</span>);
+			const value = (active > 3 && active < numPages - 3)? active : '...';
+			const options = [];
+			for(let j = 4; j < (numPages - 3); j++){
+				options.push(<Select.Option key={`pagination_${j}`} value={j}><span>{j}</span></Select.Option>)
+			}
+			pages.push(
+				<Select
+					size="small"
+					defaultValue="..."
+					dropdownMatchSelectWidth={false}
+					showSearch
+					value={value}
+					onChange={changePage}
+					style={{
+						padding: '0.1em'
+					}}
+				>
+					{options}
+				</Select>
+			);
 			i = numPages-3;
 		}
 	}

@@ -4,8 +4,12 @@ import gql from 'graphql-tag';
 
 const rand = Math.random();
 
-const VideoContainer = ({data}) => {
+const VideoContainer = ({ data, setVideoURL, videoURL }) => {
     if(!data.loading){
+        if(!videoURL){
+            setVideoURL(data.participantVideoURL);
+        }
+
         return(
             <iframe
                 title="meetingScreen"
