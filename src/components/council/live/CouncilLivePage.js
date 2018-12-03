@@ -23,6 +23,7 @@ class CouncilLivePage extends React.Component {
 		participants: true,
 		wall: false,
 		unreadComments: 0,
+		videoURL: '',
 		addParticipantModal: false,
 		videoWidth: minVideoWidth,
 		videoHeight: minVideoHeight,
@@ -48,6 +49,12 @@ class CouncilLivePage extends React.Component {
 				"live"
 			);
 		}
+	}
+
+	setVideoURL = url => {
+		this.setState({
+			videoURL: url
+		})
 	}
 
 	toggleScreens = () => {
@@ -310,6 +317,7 @@ class CouncilLivePage extends React.Component {
 									<ParticipantsLive
 										councilId={this.props.councilID}
 										council={council}
+										videoURL={this.state.videoURL}
 										translate={translate}
 										videoFullScreen={this.state.fullScreen}
 										toggleFullScreen={this.toggleFullScreen}
@@ -334,6 +342,8 @@ class CouncilLivePage extends React.Component {
 											<CMPVideoIFrame
 												council={council}
 												translate={translate}
+												videoURL={this.state.videoURL}
+												setVideoURL={this.setVideoURL}
 											/>
 										}
 										{council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP &&
@@ -386,6 +396,7 @@ class CouncilLivePage extends React.Component {
 									<ParticipantsLive
 										councilId={this.props.councilID}
 										council={council}
+										videoURL={this.state.videoURL}
 										translate={translate}
 										videoFullScreen={this.state.fullScreen}
 										toggleFullScreen={this.toggleFullScreen}

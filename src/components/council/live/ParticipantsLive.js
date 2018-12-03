@@ -288,49 +288,56 @@ class ParticipantsLive extends React.Component {
 
 	render() {
 		const { videoFullScreen, translate } = this.props;
+		const CMPVideo = this.props.videoURL && this.props.videoURL.includes('councilbox');
 
 		if (videoFullScreen) {
-			return <div style={{ height: "100%" }}>{this._button()}</div>;
+			return <div style={{ height: "100%" }}>{
+				CMPVideo && this._button()
+			}</div>;
 		}
 		return (
 			<div style={{height: '100%'}}>
-				<CollapsibleSection
-					trigger={this._button}
-					controlled={true}
-					collapse={this._section}
-					open={true}
-					style={{ cursor: 'auto'}}
-				/>
-				<AlertConfirm
-					requestClose={() =>
-						this.setState({ banParticipant: false })
-					}
-					open={this.state.banParticipant}
-					acceptAction={this.banParticipant}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					bodyText={
-						<div>
-							{!!this.state.banParticipant &&
-								`${translate.want_eject} ${
-									this.state.banParticipant.name
-								} ${this.state.banParticipant.surname} ${
-									translate.from_room
-								}?`
+				{CMPVideo &&
+					<React.Fragment>
+						<CollapsibleSection
+							trigger={this._button}
+							controlled={true}
+							collapse={this._section}
+							open={true}
+							style={{ cursor: 'auto'}}
+						/>
+						<AlertConfirm
+							requestClose={() =>
+								this.setState({ banParticipant: false })
 							}
-						</div>
-					}
-					title={translate.attention}
-				/>
-				{!!this.state.participantHistory && (
-					<ParticipantHistoryModal
-						requestClose={() =>
-							this.setState({ participantHistory: false })
-						}
-						participant={this.state.participantHistory}
-						translate={translate}
-					/>
-				)}
+							open={this.state.banParticipant}
+							acceptAction={this.banParticipant}
+							buttonAccept={translate.accept}
+							buttonCancel={translate.cancel}
+							bodyText={
+								<div>
+									{!!this.state.banParticipant &&
+										`${translate.want_eject} ${
+											this.state.banParticipant.name
+										} ${this.state.banParticipant.surname} ${
+											translate.from_room
+										}?`
+									}
+								</div>
+							}
+							title={translate.attention}
+						/>
+						{!!this.state.participantHistory && (
+							<ParticipantHistoryModal
+								requestClose={() =>
+									this.setState({ participantHistory: false })
+								}
+								participant={this.state.participantHistory}
+								translate={translate}
+							/>
+						)}
+					</React.Fragment>
+				}
 			</div>
 		);
 	}

@@ -9,6 +9,14 @@ const rand = Date.now();
 
 class CMPVideoIFrame extends React.Component {
 
+    componentDidUpdate(prevProps){
+        if(!this.props.data.loading){
+            if(!this.props.videoURL){
+                this.props.setVideoURL(this.props.data.error? 'Error' : this.props.data.roomVideoURL);
+            }
+        }
+    }
+
 
     render(){
         const { data } = this.props;
