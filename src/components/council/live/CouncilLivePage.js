@@ -145,6 +145,8 @@ class CouncilLivePage extends React.Component {
 			return <LoadingMainApp />;
 		}
 
+		console.log(council);
+
 		const company = this.props.companies.list[
 			this.props.companies.selected
 		];

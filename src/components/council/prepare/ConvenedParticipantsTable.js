@@ -632,27 +632,29 @@ const applyFilters = (participants, filters) => {
 
 	return applyOrder(participants.filter(item => {
 		const participant = formatParticipant(item);
-
 		if(filters.text){
+			const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
+
 			if(filters.field === 'fullName'){
 				const fullName = `${participant.name} ${participant.surname}`;
 				let repreName = '';
 				if(participant.representative){
 					repreName = `${participant.representative.name} ${participant.representative.surname}`;
 				}
-				if(!fullName.toLowerCase().includes(filters.text.toLowerCase()) && !repreName.toLowerCase().includes(filters.text.toLowerCase())){
+				if(!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
+					&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)){
 					return false;
 				}
 			}
 
 			if(filters.field === 'position'){
 				if(participant.representative){
-					if(!participant.position.toLowerCase().includes(filters.text.toLowerCase()) &&
-						!participant.representative.position.toLowerCase().includes(filters.text.toLowerCase())){
+					if(!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
+						!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)){
 						return false;
 					}
 				} else {
-					if(!participant.position.toLowerCase().includes(filters.text.toLowerCase())){
+					if(!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)){
 						return false;
 					}
 				}
@@ -660,12 +662,12 @@ const applyFilters = (participants, filters) => {
 
 			if(filters.field === 'dni'){
 				if(participant.representative){
-					if(!participant.dni.toLowerCase().includes(filters.text.toLowerCase()) &&
-						!participant.representative.dni.toLowerCase().includes(filters.text.toLowerCase())){
+					if(!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
+						!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)){
 						return false;
 					}
 				} else {
-					if(!participant.dni.toLowerCase().includes(filters.text.toLowerCase())){
+					if(!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)){
 						return false;
 					}
 				}

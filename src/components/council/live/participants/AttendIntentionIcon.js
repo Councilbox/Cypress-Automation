@@ -31,7 +31,9 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
                 break;
 
             case PARTICIPANT_STATES.DELEGATED:
-                tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname}`;
+                if(participant.representative){
+                    tooltip = `${translate.delegated_in}: ${participant.representative} ${participant.representative.surname}`;
+                }
                 icon = <i className='fa fa-users' style={iconStyle}></i>;
                 break;
 

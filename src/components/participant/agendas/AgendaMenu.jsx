@@ -138,7 +138,7 @@ class AgendaMenu extends React.Component {
                                                 toggle={this.toggle}
                                             />
                                         }
-                                        {this.canComment(agenda, this.props.participant) &&
+                                        {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
                                             <CommentMenu
                                                 agenda={agenda}
                                                 participant={this.props.participant}

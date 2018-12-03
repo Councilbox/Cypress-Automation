@@ -23,9 +23,9 @@ const CouncilInfoModal = ({ council, requestClose, show, translate }) => (
 				</GridItem>
 				<GridItem xs={12} lg={12} md={12}>
 					{hasSecondCall(council.statute) &&
-						`${translate["2nd_call_date"]}: ${moment(
+						`${translate["2nd_call_date"]}: ${council.dateStart2NdCall? moment(
 							council.dateStart2NdCall
-						).format("LLL")}`}
+						).format("LLL") : '-'}`}
 				</GridItem>
 			</Grid>
 		}

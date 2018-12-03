@@ -354,8 +354,8 @@ class StepPreview extends React.Component {
 									: translate.send
 							}
 							buttonCancel={translate.close}
-							bodyText={this._renderSendConveneWithoutNoticeBody()}
-							title={translate.send_preconvene}
+							bodyText={<div/>}
+							title={translate.new_save_convene}
 						/>
 					</div>
 				}

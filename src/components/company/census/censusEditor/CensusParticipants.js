@@ -113,6 +113,11 @@ class CensusParticipants extends React.Component {
 		);
 	}
 
+	refresh = () => {
+		this.props.data.refetch();
+		this.props.refetch();
+	}
+
 	render() {
 		const { translate, census } = this.props;
 		const { loading, censusParticipants } = this.props.data;
@@ -164,7 +169,7 @@ class CensusParticipants extends React.Component {
 									translate={translate}
 									company={this.props.company}
 									census={this.props.census}
-									refetch={this.props.data.refetch}
+									refetch={this.refresh}
 								/>
 							</div>
 							<div>

@@ -6,14 +6,14 @@ const CouncilInfo = ({ council, translate }) => (
     <div>
         {`${translate.new_location_of_celebrate}: ${council.street}, ${council.country}`}
         {hasSecondCall(council)?
-            <p>
-                {`${translate.celebration_date}: ${moment(council.dateStart).format('LLL')}`}
-            </p>
-        :
             <React.Fragment>
                 <p>{`${translate['1st_call_date']}: ${moment(council.dateStart).format('LLL')}`}</p>
                 <p>{`${translate['2nd_call_date']}: ${moment(council.dateStart2NdCall).format('LLL')}`}</p>
-            </React.Fragment>            
+            </React.Fragment> 
+        :
+            <p>
+                {`${translate.celebration_date}: ${moment(council.dateStart).format('LLL')}`}
+            </p>
         }
         {!!council.dateRealStart &&
             <p>

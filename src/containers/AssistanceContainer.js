@@ -92,6 +92,8 @@ const participantQuery = gql`
 				id
 				councilId
 				existsDelegatedVote
+				existMaxNumDelegatedVotes
+				maxNumDelegatedVotes
 			}
 			street
 			tin

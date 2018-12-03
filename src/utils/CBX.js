@@ -673,6 +673,13 @@ function s2ab(s) {
 	return buf;
 }
 
+export const unaccent = string => {
+	if(!string){
+		return '';
+	}
+	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+};
+
 export const downloadFile = (base64, filetype, filename) => {
 	let bufferArray = dataURItoBlob(base64);
 

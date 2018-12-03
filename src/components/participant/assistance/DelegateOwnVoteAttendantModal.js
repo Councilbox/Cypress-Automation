@@ -78,6 +78,8 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 			: this.props.data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
+		console.log(this.props.council);
+
 		return (
 			<div style={{ width: "600px" }}>
 				<TextInput
@@ -116,6 +118,7 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 																}`}
 															council={this.props.council}
 															toDelegate={true}
+															cantDelegate={false}
 															participant={participant}
 															onClick={() =>
 																this.props.addRepresentative(

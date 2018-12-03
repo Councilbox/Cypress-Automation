@@ -10,15 +10,76 @@ import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { moment } from '../../containers/App';
+import { unaccent } from '../../utils/CBX';
 
-const PARTNERS_LIMIT = 50;
 
 class PartnersBookPage extends React.Component {
 
     state = {
         deleteModal: false,
-        selectedId: null
+        selectedId: null,
+        partners: [],
+        appliedFilters: {
+			limit: 50,
+			text: 0,
+			field: 'fullName',
+			page: 1,
+			notificationStatus: null,
+			orderBy: 'name',
+			orderDirection: 'asc'
+		}
     }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+		if(!nextProps.data.loading){
+			const councilParticipants = nextProps.data.bookParticipants;
+			const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], prevState.appliedFilters)
+			const offset = (prevState.appliedFilters.page - 1) * prevState.appliedFilters.limit;
+			let paginatedParticipants = filteredParticipants.slice(offset, offset + prevState.appliedFilters.limit);
+			return {
+				participants: paginatedParticipants,
+				total: filteredParticipants.length
+			}
+		}
+
+		return null;
+    }
+    
+    updateFilteredParticipants = appliedFilters => {
+		const councilParticipants = this.props.data.bookParticipants;
+		const filteredParticipants = applyFilters(councilParticipants? councilParticipants.list : [], appliedFilters)
+		const offset = (appliedFilters.page - 1) * appliedFilters.limit;
+		let paginatedParticipants = filteredParticipants.slice(offset, offset + appliedFilters.limit);
+		return {
+			participants: paginatedParticipants,
+			total: filteredParticipants.length
+		}
+    }
+    
+    resetPage = () => {
+		this.table.setPage(this.state.appliedFilters.page);
+    }
+    
+    updateFilters = value => {
+		const appliedFilters =  {
+			...this.state.appliedFilters,
+			text: value.filters[0]? value.filters[0].text : '',
+			field: value.filters[0]? value.filters[0].field : '',
+			page: (value.options.offset / value.options.limit) + 1,
+			limit: value.options.limit,
+			orderBy: value.options.orderBy,
+			orderDirection: value.options.orderDirection
+		}
+
+		const filteredParticipants = this.updateFilteredParticipants(appliedFilters);
+
+		this.setState({
+			appliedFilters,
+			participants: filteredParticipants.participants,
+			total: filteredParticipants.total
+		}, () => this.resetPage());
+	}
+
 
     componentDidMount() {
         this.props.data.refetch();
@@ -123,7 +184,7 @@ class PartnersBookPage extends React.Component {
                 <EnhancedTable
                     ref={table => (this.table = table)}
                     translate={translate}
-                    defaultLimit={PARTNERS_LIMIT}
+                    defaultLimit={50}
                     menuButtons={
                         <div style={{ marginRight: '0.9em' }}>
                             <BasicButton
@@ -165,11 +226,11 @@ class PartnersBookPage extends React.Component {
                     defaultFilter={"fullName"}
                     defaultOrder={["fullName", "asc"]}
                     limits={[50, 100]}
-                    page={1}
+                    page={this.state.appliedFilters.page}
                     loading={this.props.data.loading}
-                    length={this.props.data.bookParticipants.list.length}
-                    total={this.props.data.bookParticipants.total}
-                    refetch={this.props.data.refetch}
+                    length={this.state.participants.length}
+                    total={this.state.total}
+                    refetch={this.updateFilters}
                     fields={[
                         {
                             value: "fullName",
@@ -186,7 +247,7 @@ class PartnersBookPage extends React.Component {
                     ]}
                     headers={headers}
                 >
-                    {this.props.data.bookParticipants.list.map(
+                    {this.state.participants.map(
                         (participant, index) => {
                             return (
                                 <HoverableRow
@@ -352,6 +413,78 @@ class HoverableRow extends React.PureComponent {
     }
 }
 
+const applyFilters = (participants, filters) => {
+
+	return applyOrder(participants.filter(participant => {
+		if(filters.text){
+			const unaccentedText = unaccent(filters.text.toLowerCase());
+
+			if(filters.field === 'fullName'){
+				const fullName = `${participant.name} ${participant.surname}`;
+				let repreName = '';
+				if(participant.representative){
+					repreName = `${participant.representative.name} ${participant.representative.surname}`;
+				}
+				if(!unaccent(fullName.toLowerCase()).includes(unaccentedText)
+					&& !unaccent(repreName.toLowerCase()).includes(unaccentedText)){
+					return false;
+				}
+			}
+
+			if(filters.field === 'position'){
+				if(participant.representative){
+					if(!unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
+						!unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)){
+						return false;
+					}
+				} else {
+					if(!unaccent(participant.position.toLowerCase()).includes(unaccentedText)){
+						return false;
+					}
+				}
+			}
+
+			if(filters.field === 'dni'){
+				if(participant.representative){
+					if(!unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
+						!unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)){
+						return false;
+					}
+				} else {
+					if(!unaccent(participant.dni.toLowerCase()).includes(unaccentedText)){
+						return false;
+					}
+				}
+			}
+		}
+
+		if(filters.notificationStatus){
+			if(participant.representative){
+				if(participant.representative.notifications[0].reqCode !== filters.notificationStatus){
+					return false;
+				}
+			} else {
+				if(participant.notifications[0].reqCode !== filters.notificationStatus){
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}), filters.orderBy, filters.orderDirection);
+}
+
+const applyOrder = (participants, orderBy, orderDirection) => {
+    console.log('order');
+    return participants;
+	return participants.sort((a, b) => {
+		let participantA = a;
+		let participantB = b;
+		console.log(participantA[orderBy], participantB[orderBy]);
+		return participantA[orderBy] > participantB[orderBy]
+	});
+}
+
 const bookParticipants = gql`
     query BookParticipants($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
         bookParticipants(companyId: $companyId, filters: $filters, options: $options){
@@ -389,8 +522,6 @@ export default compose(
         variables: {
             companyId: props.match.params.company,
             options: {
-                limit: PARTNERS_LIMIT,
-                offset: 0,
                 orderBy: 'fullName',
                 orderDirection: 'asc'
             }

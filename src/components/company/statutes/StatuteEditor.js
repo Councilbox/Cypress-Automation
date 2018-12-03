@@ -529,7 +529,7 @@ class StatuteEditor extends React.PureComponent {
 						</GridItem>
 					</Grid>
 
-					{statute.conveneHeader !== null && statute.conveneHeader !== undefined && (
+					{statute.conveneHeader !== undefined && (
 						<React.Fragment>
 							<SectionTitle
 								text={translate.call_template}
