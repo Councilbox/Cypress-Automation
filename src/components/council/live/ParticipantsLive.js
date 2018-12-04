@@ -277,6 +277,8 @@ class ParticipantsLive extends React.Component {
 			return <LoadingSection />;
 		}
 
+		console.log(videoParticipants);
+
 		return <div style={{ backgroundColor: darkGrey, width: "100%", height: "calc(100vh - 45vh - 4em)", padding: "0.75em", position: "relative", overflow: "hidden" }}>
 				<Scrollbar>
 					{videoParticipants.list.map(participant => {
@@ -288,7 +290,7 @@ class ParticipantsLive extends React.Component {
 
 	render() {
 		const { videoFullScreen, translate } = this.props;
-		const CMPVideo = this.props.videoURL && this.props.videoURL.includes('councilbox');
+		const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
 		if (videoFullScreen) {
 			return <div style={{ height: "100%" }}>{

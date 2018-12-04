@@ -25,18 +25,13 @@ class CouncilsDashboard extends React.PureComponent {
     _convenedSection = () => {
         return (
             <div style={{width: '100%'}}>
-                {this.props.data.corporationConvenedCouncils.map(council => {
-                    if(council.state === 10){
-                        return (
-                            <CouncilItem
-                                key={`council_${council.id}`}
-                                council={council}
-                                translate={this.props.translate}
-                            />
-                        )
-                    }
-                    return false;
-                })}
+                {this.props.data.corporationConvenedCouncils.map(council =>
+                    <CouncilItem
+                        key={`council_${council.id}`}
+                        council={council}
+                        translate={this.props.translate}
+                    />
+                )}
             </div>
         )
     }
@@ -54,18 +49,13 @@ class CouncilsDashboard extends React.PureComponent {
     _celebrationSection = () => {
         return (
             <div style={{width: '100%'}}>
-                {this.props.data.corporationLiveCouncils.map(council => {
-                    if(council.state === 20){
-                        return (
-                            <CouncilItem
-                                key={`council_${council.id}`}
-                                council={council}
-                                translate={this.props.translate}
-                            />
-                        )
-                    }
-                    return false;
-                })}
+                {this.props.data.corporationLiveCouncils.map(council => (
+                    <CouncilItem
+                        key={`council_${council.id}`}
+                        council={council}
+                        translate={this.props.translate}
+                    />
+                ))}
             </div>
         )
     }
