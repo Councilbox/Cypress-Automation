@@ -68,7 +68,7 @@ class Recommendations extends React.Component {
                         type="android"
                         color={primary} />
                 </Card>
-                <Card
+                {/* <Card
                     elevation={this.state.platformActive === 'IOS' ? 0 : 1}
                     onClick={() => this.setActivePlatform('IOS')}
                     style={{
@@ -84,7 +84,7 @@ class Recommendations extends React.Component {
                             color: primary
                         }}
                     />
-                </Card>
+                </Card> */}
             </div>
         )
     }

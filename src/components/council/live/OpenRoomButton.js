@@ -89,8 +89,11 @@ class OpenRoomButton extends React.Component {
 									})
 								}
 							/>
+							{this.props.council.videoEmailsDate &&
+								<span>{`Enviadas por última vez ${moment(this.props.council.videoEmailsDate).format('LLL')}`}</span>
+							}
 							<a
-								href="https://video.councilbox.com/#/videoInstructions/es"
+								href={`https://app.councilbox.com/recommendations/${this.props.council.language}`}
 								rel="noopener noreferrer"
 								target="_blank"
 							>

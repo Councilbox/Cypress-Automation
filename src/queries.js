@@ -1524,6 +1524,7 @@ export const councilLiveQuery = gql`
 			hasLimitDate
 			headerLogo
 			id
+			language
 			limitDateResponse
 			name
 			neededQuorum

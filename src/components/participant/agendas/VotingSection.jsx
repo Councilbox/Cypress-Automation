@@ -11,7 +11,8 @@ import { downloadFile } from '../../../utils/CBX';
 class VotingSection extends React.Component {
 
     state = {
-        loading: false
+        loading: false,
+        singleVoteMode: this.props.council.companyId === 449
     }
 
     downloadVotePDF = async () => {
@@ -29,7 +30,7 @@ class VotingSection extends React.Component {
 				downloadFile(
 					response.data.downloadVotePDF,
 					"application/pdf",
-					`Voto_${this.props.agenda.votings[0].id}.pdf`
+					`Voto_${this.props.agenda.votings[0].id}`
 				);
 				this.setState({
 					loading: false
@@ -42,7 +43,7 @@ class VotingSection extends React.Component {
     render(){
         const { agenda, translate } = this.props;
         const primary = getPrimary();
-        const singleVoteMode = this.props.council.companyId === 449;
+        const singleVoteMode = this.state.singleVoteMode;
 
         return(
             <React.Fragment>
