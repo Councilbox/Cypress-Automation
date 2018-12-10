@@ -387,7 +387,7 @@ class CouncilLivePage extends React.Component {
 							{!this.state.fullScreen && (
 								<div
 									style={{
-										height: `calc(100% - ${minVideoHeight} - 3em)`,
+										height: `calc(100% - ${minVideoHeight})`,
 										width: "100%",
 										overflow: "hidden",
 										backgroundColor: darkGrey

@@ -8,12 +8,15 @@ import * as CBX from '../../../utils/CBX';
 import AdminPrivateMessage from './AdminPrivateMessage';
 import DetectRTC from 'detectrtc';
 import { AlertConfirm } from '../../../displayComponents';
+import { ConfigContext } from '../../../containers/AppControl';
+import { isSafari } from 'react-device-detect';
 
 
 class RequestWordMenu extends React.Component {
 
     state = {
-        alertCantRequestWord: false
+        alertCantRequestWord: false,
+        safariModal: false
     }
 
     askForWord = async () => {
@@ -111,8 +114,8 @@ class RequestWordMenu extends React.Component {
             <Tooltip title={this.props.translate.ask_to_speak} placement="top">
                 <IconButton
                     size={'small'}
-                    style={{outline: 0, color: secondary, marginRight: '0.6em'}}
-                    onClick={this.askForWord}
+                    style={{outline: 0, color: isSafari? 'grey' : secondary, marginRight: '0.6em'}}
+                    onClick={isSafari? this.showSafariAskingModal : this.askForWord}
                 >
                     <i className="material-icons">
                         pan_tool
@@ -120,6 +123,18 @@ class RequestWordMenu extends React.Component {
                 </IconButton>
             </Tooltip>
         )
+    }
+
+    showSafariAskingModal = () => {
+        this.setState({
+            safariModal: true
+        });
+    }
+
+    closeSafariModal = () => {
+        this.setState({
+            safariModal: false
+        });
     }
 
     _renderPrivateMessageIcon = () => {
@@ -132,11 +147,20 @@ class RequestWordMenu extends React.Component {
         )
     }
 
+    _renderSafariAlertBody = () => {
+        //TRADUCCION
+        return (
+            <div>
+                En estos momentos no está permitido que los usuarios que accedan a través de safari participen en la reunión. Disculpe las molestias
+            </div>
+        )
+    }
+
 
     render(){
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
-        const fixedURLMode = !this.props.videoURL.includes('councilbox'); //this.props.council.companyId === 130;
+        const fixedURLMode = !this.props.videoURL.includes('councilbox');
 
         return(
             <Paper
@@ -155,27 +179,42 @@ class RequestWordMenu extends React.Component {
                     bottom: '10px'
                 }}
             >
-                <div>
-                    {!fixedURLMode &&
-                        this._renderWordButtonIcon()
-                    }
-                    {fixedURLMode?
-                        <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                            {this._renderPrivateMessageIcon()}
-                        </div>
-                    :
-                        this._renderPrivateMessageIcon()
-                    }
-                </div>
-                <AlertConfirm
-					requestClose={() => this.setState({ alertCantRequestWord: false })}
-					open={this.state.alertCantRequestWord}
-					fullWidth={false}
-					acceptAction={this.closeAlertCantRequest}
-					buttonAccept={this.props.translate.accept}
-					bodyText={this._renderAlertBody()}
-					title={this.props.translate.error}
-				/>
+                <ConfigContext.Consumer>
+                    {value => (
+                        <React.Fragment>
+                            <div>
+                                {!fixedURLMode &&
+                                    this._renderWordButtonIcon()
+                                }
+                                {fixedURLMode?
+                                    <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                                        {this._renderPrivateMessageIcon()}
+                                    </div>
+                                :
+                                    this._renderPrivateMessageIcon()
+                                }
+                            </div>
+                            <AlertConfirm
+                                requestClose={() => this.setState({ alertCantRequestWord: false })}
+                                open={this.state.alertCantRequestWord}
+                                fullWidth={false}
+                                acceptAction={this.closeAlertCantRequest}
+                                buttonAccept={this.props.translate.accept}
+                                bodyText={this._renderAlertBody()}
+                                title={this.props.translate.error}
+                            />
+                            <AlertConfirm
+                                requestClose={this.closeSafariModal}
+                                open={this.state.safariModal}
+                                fullWidth={false}
+                                acceptAction={this.closeSafariModal}
+                                buttonAccept={this.props.translate.accept}
+                                bodyText={this._renderSafariAlertBody()}
+                                title={this.props.translate.warning}
+                            />
+                        </React.Fragment>
+                    )}
+                </ConfigContext.Consumer>
             </Paper>
         )
     }

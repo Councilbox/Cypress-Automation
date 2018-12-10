@@ -115,8 +115,8 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 
 
 const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
-	const protocol = window.location.protocol;
-	const appLink = (window.location.href).replace(protocol, 'cbxapp:');
+	//const protocol = window.location.protocol;
+	//const appLink = (window.location.href).replace(protocol, 'cbxapp:');
 	return (
 		<React.Fragment>
 			{(windowSize === "xs" && windowOrientation === "landscape") ?

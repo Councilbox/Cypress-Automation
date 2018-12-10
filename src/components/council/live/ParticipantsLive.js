@@ -21,13 +21,16 @@ import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from 'react-device-detect';
 
 
+
 class ParticipantsLive extends React.Component {
 	state = {
 		online: "-",
 		offline: "-",
 		broadcasting: "-",
 		banned: "-",
-		banParticipant: false
+		banParticipant: false,
+		page: 1,
+		limit: isMobile? 15 : 10
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
@@ -277,16 +280,40 @@ class ParticipantsLive extends React.Component {
 			return <LoadingSection />;
 		}
 
-		console.log(videoParticipants);
+		const slicedParticipants = videoParticipants.list.slice((this.state.page - 1) * this.state.limit, ((this.state.page - 1) * this.state.limit) + this.state.limit);
 
-		return <div style={{ backgroundColor: darkGrey, width: "100%", height: "calc(100vh - 45vh - 4em)", padding: "0.75em", position: "relative", overflow: "hidden" }}>
-				<Scrollbar>
-					{videoParticipants.list.map(participant => {
-						return this._participantEntry(participant);
-					})}
-				</Scrollbar>
-			</div>;
+		return (
+			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${!isMobile? '45vh' : '17vh'} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
+				<div style={{height: `calc(100% - ${videoParticipants.list.length > 10? '1.5em' : '0px'})`}}>
+					<Scrollbar>
+						{slicedParticipants.map(participant => {
+							return this._participantEntry(participant);
+						})}
+					</Scrollbar>
+				</div>
+				{videoParticipants.list.length > this.state.limit &&
+					<div style={{height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'}}>
+							{this._paginationFooter(videoParticipants)}
+					</div>
+				}
+			</div>
+		);
 	};
+
+	_paginationFooter = participants => {
+		return (
+			<div style={{display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'}}>
+				{this.state.page > 1 &&
+					<div onClick={() => this.setState({page: this.state.page - 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
+				}
+				<div style={{margin: '0 0.3em'}}>{this.state.page}</div>
+				{(this.state.page < (participants.list.length / this.state.limit)) &&
+					<div onClick={() => this.setState({page: this.state.page + 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
+				}
+
+			</div>
+		)
+	}
 
 	render() {
 		const { videoFullScreen, translate } = this.props;
@@ -353,7 +380,7 @@ export default compose(
 			},
 			fetchPolicy: "network-only",
 			notifyOnNetworkStatusChange: true,
-			pollInterval: 5000
+			pollInterval: 8000
 		})
 	}),
 

@@ -6,13 +6,13 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { downloadFile } from '../../../utils/CBX';
-
+import { singleVoteCompanies } from '../../../config';
 
 class VotingSection extends React.Component {
 
     state = {
         loading: false,
-        singleVoteMode: this.props.council.companyId === 449
+        singleVoteMode: singleVoteCompanies.includes(this.props.council.companyId)
     }
 
     downloadVotePDF = async () => {

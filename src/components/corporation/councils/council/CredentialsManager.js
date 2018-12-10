@@ -6,6 +6,7 @@ import NotificationsTable from '../../../notifications/NotificationsTable';
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 import ParticipantContactEditor from './ParticipantContactEditor';
 import { PARTICIPANT_STATES } from '../../../../constants';
+import StateIcon from '../../../council/live/participants/StateIcon';
 
 class CredentialsManager extends React.Component {
 
@@ -31,8 +32,9 @@ class CredentialsManager extends React.Component {
                     .map(participant => (
                     <CollapsibleSection
                         trigger={() => (
-                            <div style={{width: '100%', padding: '1em', border: '2px solid gainsboro'}} onClick={() => this.refreshSends(participant.id)}>
-                                {`${participant.name} ${participant.surname} - tlf: ${participant.phone} - @: ${participant.email}`}
+                            <div style={{width: '100%', padding: '1em', border: '2px solid gainsboro', display: 'flex', alignItems: 'center'}} onClick={() => this.refreshSends(participant.id)}>
+                                <StateIcon state={participant.state} translate={this.props.translate} />
+                                <span style={{marginLeft: '0.6em'}}>{`${participant.name} ${participant.surname} - tlf: ${participant.phone} - @: ${participant.email}`}</span>
                             </div>
                         )}
                         collapse={() => (

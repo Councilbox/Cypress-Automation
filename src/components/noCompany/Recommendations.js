@@ -7,7 +7,6 @@ import { bindActionCreators } from "redux";
 import withTranslations from "../../HOCs/withTranslations";
 import { connect } from "react-redux";
 import { bHistory } from "../../containers/App";
-import FontAwesome from "react-fontawesome";
 
 
 class Recommendations extends React.Component {

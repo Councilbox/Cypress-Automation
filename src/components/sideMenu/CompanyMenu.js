@@ -8,7 +8,7 @@ import { isLandscape } from '../../utils/screen';
 let icon;
 import('../../assets/img/imago-councilbox-inverse-xl.png').then(data => icon = data);
 
-const defaultWidth = 420;
+//const defaultWidth = 420;
 
 class CompanyMenu extends React.Component {
 
