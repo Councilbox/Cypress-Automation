@@ -11,6 +11,7 @@ const LoadMoreButton = ({ loading, onClick, translate }) => {
                 border: '2px solid grey',
                 margin: 'auto',
                 marginBottom: '1.2em',
+                marginTop: '0.6em',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',

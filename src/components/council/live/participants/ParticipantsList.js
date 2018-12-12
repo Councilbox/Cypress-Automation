@@ -85,7 +85,9 @@ class ParticipantsList extends React.PureComponent {
 									council={council}
 									participant={this.state.participantToSign}
 									refetch={this.props.refetch}
-									requestClose={() => this.setState({ showSignatureModal: false, participantToSign: null })}
+									requestClose={() => {
+										this.setState({ showSignatureModal: false, participantToSign: null })}
+									}
 									translate={translate}
 								/>
 							}

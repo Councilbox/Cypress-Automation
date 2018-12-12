@@ -11,6 +11,7 @@ import { BasicButton } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
+import { isMobile } from 'react-device-detect';
 import Results from '../Results';
 import OverFlowText from "../../../displayComponents/OverFlowText";
 import {
@@ -170,9 +171,11 @@ class CouncilState extends React.Component {
 					)}
 				</div>
 
-				<div style={styles.imageContainer}>
-					<img src={emptyMeetingTable} style={styles.image} alt="no-room-logo" />
-				</div>
+				{false &&
+					<div style={styles.imageContainer}>
+						<img src={emptyMeetingTable} style={styles.image} alt="no-room-logo" />
+					</div>
+				}
 			</div>
 		);
 	}

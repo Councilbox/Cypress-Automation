@@ -34,8 +34,6 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
-
-
 class CredentialsContainer extends React.Component {
 	state = {
 		notificationStatus: null,
@@ -117,12 +115,13 @@ class CredentialsContainer extends React.Component {
 	};
 
 	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsCredentials.list
-			.length;
+		const currentLength = this.props.data.liveParticipantsCredentials.list.length;
+		this.props.setLimit(currentLength + 24);
 
-		this.setState({
+/* 		this.setState({
 			loadingMore: true
 		});
+
 
 		this.props.data.fetchMore({
 			variables: {
@@ -150,13 +149,18 @@ class CredentialsContainer extends React.Component {
 					}
 				};
 			}
-		});
+		}); */
 	};
 
 	refresh = () => {
 		let variables = {
 			filters: []
 		};
+
+		variables.options = {
+			limit: this.props.limit,
+			offset: 0
+		}
 
 		if (this.state.notificationStatus || this.state.stateStatus === 0) {
 			variables.notificationStatus = this.state.notificationStatus;
@@ -405,7 +409,6 @@ class CredentialsContainer extends React.Component {
 
 	render() {
 		const { council, translate, orientation } = this.props;
-		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 		const secondary = getSecondary();
@@ -498,9 +501,9 @@ class CredentialsContainer extends React.Component {
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
-						loadingMore={this.state.loadingMore}
+						loadingMore={this.props.data.loading}
 						renderHeader={this._renderHeader}
-						refetch={this.props.data.refetch}
+						refetch={this.refresh}
 						participants={
 							this.props.data.liveParticipantsCredentials
 						}
@@ -514,7 +517,7 @@ class CredentialsContainer extends React.Component {
 				<AddGuestModal
 					show={this.state.addGuest}
 					council={council}
-					refetch={refetch}
+					refetch={this.refresh}
 					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
 				/>
@@ -544,6 +547,7 @@ const query = gql`
 				position
 				email
 				phone
+				signed
 				dni
 				type
 				online
@@ -575,12 +579,11 @@ export default compose(
 			variables: {
 				councilId: props.council.id,
 				options: {
-					limit: PARTICIPANTS_LIMITS[0],
+					limit: props.limit,
 					offset: 0
 				}
 			},
 			pollInterval: 7000,
-			notifyOnNetworkStatusChange: true,
 			fetchPolicy: 'network-only'
 		})
 	}),

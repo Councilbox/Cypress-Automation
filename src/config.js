@@ -9,8 +9,6 @@ if(process.env.REACT_APP_MODE === 'dev'){
 	//singleVoteCompanies.push(375);
 }
 
-console.log(navigator);
-
 export const CLIENT_VERSION = '1.0.0';
 export const API_URL = LOCATION_URL;
 export const videoVersions = {

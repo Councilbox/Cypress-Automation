@@ -9,7 +9,7 @@ import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
 
-const width = window.innerWidth > 450 ? '450px' : '100%'
+const width = window.innerWidth > 450 ? '550px' : '100%'
 
 const styles = {
 	viewContainer: {

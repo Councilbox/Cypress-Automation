@@ -116,9 +116,10 @@ class AttendanceContainer extends React.Component {
 	}
 
 	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsAttendance.list
-			.length;
+		const currentLength = this.props.data.liveParticipantsAttendance.list.length;
 
+		this.props.setLimit(24 + currentLength);
+/*
 		this.setState({
 			loadingMore: true
 		});
@@ -149,16 +150,20 @@ class AttendanceContainer extends React.Component {
 					}
 				};
 			}
-		});
+		}); */
 	};
 
 	refresh = () => {
 		let variables = {
 			filters: []
 		};
-		//if (this.state.attendanceStatus !== null) {
-			variables.attendanceStatus = this.state.attendanceStatus;
-		//}
+
+		variables.options = {
+			limit: this.props.limit,
+			offset: 0
+		}
+
+		variables.attendanceStatus = this.state.attendanceStatus;
 
 		if(this.state.onlyNotSigned){
 			variables.filters = [
@@ -358,7 +363,6 @@ class AttendanceContainer extends React.Component {
 
 	render() {
 		const { council, translate, orientation } = this.props;
-		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 		const secondary = getSecondary();
@@ -441,9 +445,9 @@ class AttendanceContainer extends React.Component {
 				>
 					<ParticipantsList
 						loadMore={this.loadMore}
-						refetch={this.props.data.refetch}
+						refetch={this.refresh}
 						loading={this.props.data.loading}
-						loadingMore={this.state.loadingMore}
+						loadingMore={this.props.data.loading}
 						renderHeader={this._renderHeader}
 						participants={
 							this.props.data.liveParticipantsAttendance
@@ -458,7 +462,7 @@ class AttendanceContainer extends React.Component {
 				<AddGuestModal
 					show={this.state.addGuest}
 					council={council}
-					refetch={refetch}
+					refetch={this.refresh}
 					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
 				/>
@@ -517,12 +521,11 @@ export default graphql(query, {
 		variables: {
 			councilId: props.council.id,
 			options: {
-				limit: PARTICIPANTS_LIMITS[0],
+				limit: props.limit,
 				offset: 0
 			}
 		},
 		pollInterval: 7000,
-		notifyOnNetworkStatusChange: true,
 		fetchPolicy: 'network-only'
 	})
 })(withWindowSize(AttendanceContainer));

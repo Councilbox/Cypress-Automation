@@ -190,7 +190,7 @@ class CouncilLivePage extends React.Component {
 					}}
 				>
 					{(council.state === 20 || council.state === 30) &&
-						<Tooltip title={`${translate.wall} - (ALT + W)`}>
+						<Tooltip title={`${translate.wall} - (ALT + W)`} open={this.state.wallTooltip}>
 							<div>
 								{this.state.unreadComments > 0 ?
 									<Badge

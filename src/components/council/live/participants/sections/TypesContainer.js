@@ -30,7 +30,6 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
-let limit = PARTICIPANTS_LIMITS[0];
 
 class TypesContainer extends React.Component {
 	state = {
@@ -120,13 +119,9 @@ class TypesContainer extends React.Component {
 	loadMore = () => {
 		const currentLength = this.props.data.liveParticipantsType.list.length;
 
-		this.setState({
-			loadingMore: true
-		});
+		this.props.setLimit(currentLength + 24);
 
-		limit = currentLength;
-
-		this.props.data.fetchMore({
+/* 		this.props.data.fetchMore({
 			variables: {
 				options: {
 					offset: currentLength,
@@ -152,7 +147,7 @@ class TypesContainer extends React.Component {
 					}
 				};
 			}
-		});
+		}); */
 	};
 
 	refresh = () => {
@@ -167,7 +162,7 @@ class TypesContainer extends React.Component {
 
 		variables.options = {
 			offset: 0,
-			limit: limit
+			limit: this.props.limit
 		}
 
 		if(this.state.onlyNotSigned){
@@ -383,12 +378,12 @@ class TypesContainer extends React.Component {
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
-						loadingMore={this.state.loadingMore}
+						loadingMore={this.props.data.loading}
 						renderHeader={this._renderHeader}
 						participants={this.props.data.liveParticipantsType}
 						layout={this.props.layout}
 						council={this.props.council}
-						refetch={this.props.data.refetch}
+						refetch={this.refresh}
 						translate={this.props.translate}
 						editParticipant={this.props.editParticipant}
 						mode={"TYPE"}
@@ -397,7 +392,7 @@ class TypesContainer extends React.Component {
 				<AddGuestModal
 					show={this.state.addGuest}
 					council={council}
-					refetch={refetch}
+					refetch={this.refresh}
 					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
 				/>
@@ -451,11 +446,10 @@ export default graphql(query, {
 		variables: {
 			councilId: props.council.id,
 			options: {
-				limit: limit,
+				limit: props.limit,
 				offset: 0
 			},
 			pollInterval: 7000,
-			notifyOnNetworkStatusChange: true,
 			fetchPolicy: 'network-only'
 		}
 	}),

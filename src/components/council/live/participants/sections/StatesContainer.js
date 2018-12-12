@@ -31,8 +31,6 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
-let limit = PARTICIPANTS_LIMITS[0];
-
 class StatesContainer extends React.Component {
 	state = {
 		stateStatus: null,
@@ -123,12 +121,10 @@ class StatesContainer extends React.Component {
 
 	loadMore = () => {
 		const currentLength = this.props.data.liveParticipantsState.list.length;
-
+/* 
 		this.setState({
 			loadingMore: true
 		});
-
-		limit = currentLength + PARTICIPANTS_LIMITS[0];
 
 		this.props.data.fetchMore({
 			variables: {
@@ -156,7 +152,9 @@ class StatesContainer extends React.Component {
 					}
 				};
 			}
-		});
+		}); */
+
+		this.props.setLimit(currentLength + 24);
 	};
 
 	toggleOnlyNotSigned = () => {
@@ -178,7 +176,7 @@ class StatesContainer extends React.Component {
 		}
 
 		variables.options = {
-			limit: limit,
+			limit: this.props.limit,
 			offset: 0
 		}
 
@@ -381,7 +379,6 @@ class StatesContainer extends React.Component {
 
 	render() {
 		const { council, translate, orientation } = this.props;
-		const { refetch } = this.props.data;
 		const { filterText, filterField } = this.state;
 		const fields = this._getFilters();
 		const secondary = getSecondary();
@@ -479,7 +476,7 @@ class StatesContainer extends React.Component {
 					<ParticipantsList
 						loadMore={this.loadMore}
 						loading={this.props.data.loading}
-						loadingMore={this.state.loadingMore}
+						loadingMore={this.props.data.loading}
 						renderHeader={this._renderHeader}
 						refetch={this.refresh}
 						participants={this.props.data.liveParticipantsState}
@@ -553,11 +550,10 @@ export default graphql(query, {
 		variables: {
 			councilId: props.council.id,
 			options: {
-				limit: limit,
+				limit: props.limit,
 				offset: 0
 			},
 			pollInterval: 7000,
-			notifyOnNetworkStatusChange: true,
 			fetchPolicy: 'network-only'
 		}
 	})

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput } from '../../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import NotificationsTable from '../../../notifications/NotificationsTable';
@@ -9,6 +9,12 @@ import { PARTICIPANT_STATES } from '../../../../constants';
 import StateIcon from '../../../council/live/participants/StateIcon';
 
 class CredentialsManager extends React.Component {
+
+    state = {
+        page: 1,
+        limit: 10,
+        filterText: ''
+    }
 
     refreshSends = async id => {
         const response = await this.props.updateParticipantSends({
@@ -20,16 +26,28 @@ class CredentialsManager extends React.Component {
         this.props.data.refetch();
     }
 
+    updatePage = page => {
+        this.setState({
+            page: page
+        });
+    }
+
+
     render(){
         if(this.props.data.loading){
             return <LoadingSection />
         }
 
+        const filteredParticipants = filter(this.props.data.liveParticipants.list, this.state.filterText);
+        const slicedParticipants = filteredParticipants.slice((this.state.page - 1 ) * this.state.limit, ((this.state.page  - 1 ) * this.state.limit) + this.state.limit);
+
         return (
             <div>
-                {this.props.data.liveParticipants.list
-                    .filter(participant => participant.state !== PARTICIPANT_STATES.REPRESENTATED && participant.state !== PARTICIPANT_STATES.DELEGATED)
-                    .map(participant => (
+                <TextInput
+                    value={this.state.filterText}
+                    onChange={event => this.setState({filterText: event.target.value})}
+                />
+                {slicedParticipants.map(participant => (
                     <CollapsibleSection
                         trigger={() => (
                             <div style={{width: '100%', padding: '1em', border: '2px solid gainsboro', display: 'flex', alignItems: 'center'}} onClick={() => this.refreshSends(participant.id)}>
@@ -56,9 +74,29 @@ class CredentialsManager extends React.Component {
                     />
 
                 ))}
+                <div style={{display: 'flex', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'}}>
+                    {this.state.page > 1 &&
+                        <div onClick={() => this.updatePage(this.state.page - 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
+                    }
+                    <div style={{margin: '0 0.3em'}}>{this.state.page}</div>
+                    {(this.state.page < (this.props.data.liveParticipants.total / this.state.limit)) &&
+                        <div onClick={() => this.updatePage(this.state.page + 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
+                    }
+
+                </div>
             </div>
         )
     }
+}
+
+const filter = (participants, text) => {
+    if(!text){
+        return participants;
+    }
+    const lText = text.toLowerCase();
+    return participants.filter(participant => {
+        return `${participant.name} ${participant.surname}`.toLowerCase().includes(lText) || participant.email.toLowerCase().includes(lText) || participant.phone.includes(lText)
+    });
 }
 
 const participants = gql`
@@ -80,6 +118,7 @@ const participants = gql`
                     sendType
                 }
             }
+            total
         }
     }
 `;

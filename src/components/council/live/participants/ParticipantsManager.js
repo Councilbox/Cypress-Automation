@@ -23,6 +23,7 @@ class ParticipantsManager extends React.Component {
 		layout: 'squares', // table, compact
 		loadingMore: false,
 		refreshing: false,
+		limit: 24,
 		editParticipant: undefined,
 		view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
 	};
@@ -67,12 +68,15 @@ class ParticipantsManager extends React.Component {
 	_renderSection = () => {
 		let { view, layout, addGuest } = this.state;
 		let { council, translate } = this.props;
+
 		switch (view) {
 			case 'STATES':
 				return <StatesContainer
 					council={council}
 					translate={translate}
 					layout={layout}
+					limit={this.state.limit}
+					setLimit={this.setLimit}
 					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
@@ -83,6 +87,8 @@ class ParticipantsManager extends React.Component {
 					council={council}
 					translate={translate}
 					layout={layout}
+					limit={this.state.limit}
+					setLimit={this.setLimit}
 					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
@@ -93,6 +99,8 @@ class ParticipantsManager extends React.Component {
 					council={council}
 					translate={translate}
 					layout={layout}
+					limit={this.state.limit}
+					setLimit={this.setLimit}
 					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
@@ -104,6 +112,8 @@ class ParticipantsManager extends React.Component {
 					translate={translate}
 					layout={layout}
 					menuOpen={this.state.open}
+					limit={this.state.limit}
+					setLimit={this.setLimit}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
 					updateState={this.updateState}
@@ -113,6 +123,8 @@ class ParticipantsManager extends React.Component {
 					council={council}
 					translate={translate}
 					layout={layout}
+					limit={this.state.limit}
+					setLimit={this.setLimit}
 					menuOpen={this.state.open}
 					editParticipant={this.editParticipant}
 					addGuest={addGuest}
@@ -121,6 +133,12 @@ class ParticipantsManager extends React.Component {
 			default:
 				return 'Error';
 		}
+	}
+
+	setLimit = limit => {
+		this.setState({
+			limit: limit
+		});
 	}
 
 	_renderTableOptions = () => {
@@ -143,7 +161,7 @@ class ParticipantsManager extends React.Component {
 				<div style={{overflow: 'hidden', marginRight: '0.6em', display: 'flex'}}>
 					<FilterButton
 						tooltip={translate.grid}
-						onClick={() => this.setState({ layout: 'squares' })}
+						onClick={() => this.setState({ layout: 'squares', open: false })}
 						active={this.state.layout === "squares"}
 						size= {'2.55em'}
 					>
@@ -157,7 +175,7 @@ class ParticipantsManager extends React.Component {
 					</FilterButton>
 					<FilterButton
 						tooltip={translate.table}
-						onClick={() => this.setState({ layout: 'table' })}
+						onClick={() => this.setState({ layout: 'table', open: false })}
 						active={this.state.layout === "table"}
 						size= {'2.55em'}
 					>
@@ -176,7 +194,7 @@ class ParticipantsManager extends React.Component {
 						fullWidth
 						floatingText={translate.visualization_type}
 						value={this.state.view}
-						onChange={(event => this.setState({ view: event.target.value}))}
+						onChange={(event => this.setState({ view: event.target.value, limit: 24, open: false}))}
 					>
 						<MenuItem value={'STATES'}>
 							{translate.by_participant_state}
@@ -188,7 +206,7 @@ class ParticipantsManager extends React.Component {
 							{translate.assistance_intention}
 						</MenuItem>
 						<MenuItem value={'CREDENTIALS'}>
-							{translate.by_attend_intention}
+							{translate.credentials}
 						</MenuItem>
 					</SelectInput>
 				</div>
