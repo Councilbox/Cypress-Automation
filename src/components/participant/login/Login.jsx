@@ -6,8 +6,10 @@ import { councilIsLive } from "../../../utils/CBX";
 import { checkIsCompatible, COMPATIBLE } from '../../../utils/webRTC';
 import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
-import { NotLoggedLayout } from '../../../displayComponents';
+import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
+
+const width = window.innerWidth > 450 ? '450px' : '100%'
 
 const styles = {
 	viewContainer: {
@@ -27,9 +29,9 @@ const styles = {
 	},
 	cardContainer: {
 		margin: "20px",
-		padding: "20px",
-		minWidth: '350px',
-		maxWidth: "100%"
+		minWidth: width,
+		maxWidth: "100%",
+		height: '65vh'
 	}
 };
 
@@ -54,17 +56,19 @@ class ParticipantLogin extends React.Component {
 			>
 				<div style={styles.mainContainer}>
 					<Card style={styles.cardContainer} elevation={6}>
-						<React.Fragment>
-							{councilIsLive(council) ? (
-								<LoginForm
-									participant={participant}
-									council={council}
-									company={company}
-								/>
-							) : (
-								<CouncilState council={council} company={company} participant={participant} />
-							)}
-						</React.Fragment>
+						<Scrollbar>
+							<React.Fragment>
+								{councilIsLive(council) ? (
+									<LoginForm
+										participant={participant}
+										council={council}
+										company={company}
+									/>
+								) : (
+									<CouncilState council={council} company={company} participant={participant} />
+								)}
+							</React.Fragment>
+						</Scrollbar>
 					</Card>
 				</div>
 			</NotLoggedLayout>

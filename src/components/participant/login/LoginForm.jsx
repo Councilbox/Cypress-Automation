@@ -19,6 +19,7 @@ const styles = {
     loginContainer: {
         width: "100%",
         height: "100%",
+        padding: '1em',
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -28,6 +29,7 @@ const styles = {
     splittedLoginContainer: {
         width: "100%",
         height: "100%",
+        padding: '1em',
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -182,7 +184,7 @@ class LoginForm extends React.Component {
                             <i className="fa fa-building-o" style={{fontSize: '75px', color: 'grey', marginBottom: '10px'}} />
                         }
                     </Tooltip>
-                    <h3 style={{ color: secondaryColor }}>{council.name}</h3>
+                    <h3 style={{ color: secondaryColor, fontSize: '1.8em' }}>{council.name}</h3>
                     <span>
                         {moment(new Date(council.dateStart)).format("LLL")}
                     </span>
