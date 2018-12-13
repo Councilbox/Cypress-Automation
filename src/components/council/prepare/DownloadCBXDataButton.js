@@ -33,7 +33,7 @@ class DownloadCBXDataButton extends Component {
 				downloadFile(
 					response.data.cbxData,
 					"application/pdf",
-					`CbxData_${id}.pdf`
+					`CbxData_${id}`
 				);
 				this.setState({
 					loading: false

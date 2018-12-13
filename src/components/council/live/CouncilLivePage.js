@@ -24,6 +24,7 @@ class CouncilLivePage extends React.Component {
 		wall: false,
 		unreadComments: 0,
 		videoURL: '',
+		wallTooltip: false,
 		addParticipantModal: false,
 		videoWidth: minVideoWidth,
 		videoHeight: minVideoHeight,

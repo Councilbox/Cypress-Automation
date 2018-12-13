@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { graphql, withApollo } from "react-apollo";
+import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
@@ -32,7 +32,7 @@ class ParticipantContainer extends React.PureComponent {
 	}
 
 	render() {
-		const { data, detectRTC, main, match } = this.props;
+		const { data, detectRTC, main, match, council, state } = this.props;
 
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
@@ -52,7 +52,7 @@ class ParticipantContainer extends React.PureComponent {
 			}
 		}
 
-		if (!data.participant || Object.keys(detectRTC).length === 0) {
+		if (!data.participant || !this.props.council.councilVideo || !this.props.state.councilState || Object.keys(detectRTC).length === 0) {
 			return <LoadingMainApp />;
 		}
 
@@ -75,14 +75,20 @@ class ParticipantContainer extends React.PureComponent {
                                 {match.path.includes('meet') ?
                                         <Meet
                                             participant={data.participant}
-                                            council={data.councilVideo}
-                                            company={data.councilVideo.company}
+                                            council={{
+												...this.props.council.councilVideo,
+												state: this.props.state.councilState.state
+											}}
+                                            company={this.props.council.councilVideo.company}
                                         />
                                     :
                                         <Council
                                             participant={data.participant}
-                                            council={data.councilVideo}
-                                            company={data.councilVideo.company}
+                                            council={{
+												...this.props.council.councilVideo,
+												state: this.props.state.councilState.state
+											}}
+                                            company={this.props.council.councilVideo.company}
 											refetchParticipant={data.refetch}
                                         />
                                 }
@@ -90,8 +96,11 @@ class ParticipantContainer extends React.PureComponent {
                         :
                             <ParticipantLogin
                                 participant={data.participant}
-                                council={data.councilVideo}
-                                company={data.councilVideo.company}
+                                council={{
+									...this.props.council.councilVideo,
+									state: this.props.state.councilState.state
+								}}
+                                company={this.props.council.councilVideo.company}
                             />
                     }
                 </React.Fragment>
@@ -100,21 +109,8 @@ class ParticipantContainer extends React.PureComponent {
 	}
 }
 
-const participantQuery = gql`
+const councilQuery = gql`
 	query info($councilId: Int!) {
-		participant {
-			name
-			surname
-			id
-			type
-			phone
-			email
-			state
-			requestWord
-			language
-			online
-			roomType
-		}
 		councilVideo(id: $councilId) {
 			active
 			businessName
@@ -206,6 +202,33 @@ const participantQuery = gql`
 	}
 `;
 
+const stateQuery = gql`
+	query info($councilId: Int!) {
+		councilState(id: $councilId) {
+			state
+			id
+		}
+	}
+`;
+
+const participantQuery = gql`
+	query info {
+		participant {
+			name
+			surname
+			id
+			type
+			phone
+			email
+			state
+			requestWord
+			language
+			online
+			roomType
+		}
+	}
+`;
+
 const mapStateToProps = state => ({
 	main: state.main,
 	translate: state.translate
@@ -217,13 +240,34 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-export default graphql(participantQuery, {
-	options: props => ({
-		variables: {
-			councilId: props.match.params.councilId
-		},
-		fetchPolicy: "network-only",
-		notifyOnNetworkStatusChange: true,
-        pollInterval: 5000
+export default compose(
+	graphql(councilQuery, {
+		name: 'council',
+		options: props => ({
+			variables: {
+				councilId: props.match.params.councilId
+			},
+			fetchPolicy: "network-only",
+			notifyOnNetworkStatusChange: true,
+			pollInterval: 60000
+		})
+	}),
+	graphql(stateQuery, {
+		name: 'state',
+		options: props => ({
+			variables: {
+				councilId: props.match.params.councilId
+			},
+			fetchPolicy: "network-only",
+			notifyOnNetworkStatusChange: true,
+			pollInterval: 6000
+		})
+	}),
+	graphql(participantQuery, {
+		options: props => ({
+			fetchPolicy: "network-only",
+			notifyOnNetworkStatusChange: true,
+			pollInterval: 15000
+		})
 	})
-})(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));
+)(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));
