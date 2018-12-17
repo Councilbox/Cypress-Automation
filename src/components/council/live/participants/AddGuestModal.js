@@ -92,17 +92,17 @@ class AddGuestModal extends React.Component {
 				errors.name = translate.required_field;
 				hasError = true;
 			}
-	
+
 			if(!guest.surname){
 				errors.surname = translate.required_field;
 				hasError = true;
 			}
-	
+
 			if(!guest.dni){
 				errors.dni = translate.required_field;
 				hasError = true;
 			}
-	
+
 			if(!guest.phone){
 				errors.phone = translate.required_field;
 				hasError = true;

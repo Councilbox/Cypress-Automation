@@ -256,13 +256,22 @@ class SendActModal extends React.Component {
 											);
 										})}
 										{participants.length < total - 1 && (
-											<div onClick={this.loadMore}>
-												{`DESCARGAR ${
+											<Card
+												onClick={this.loadMore}
+												style={{
+													width: '100%',
+													border: '1px solid gainsboro',
+													padding: '0.3em',
+													marginTop: '0.6em',
+													borderRadius: '3px'
+												}}
+											>
+												{`Descargar ${
 													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
 														: translate.all_plural.toLowerCase()
 												}`}
-											</div>
+											</Card>
 										)}
 									</div>
 								) : (

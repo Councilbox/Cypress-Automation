@@ -16,6 +16,7 @@ class Login extends React.PureComponent {
 	state = {
 		user: "",
 		password: "",
+		loading: false,
 		showPassword: false,
 		errors: {
 			user: "",
@@ -27,6 +28,9 @@ class Login extends React.PureComponent {
 		const { translate } = this.props;
 		const { user, password } = this.state;
 		if (!this.checkRequiredFields()) {
+			this.setState({
+				loading: true
+			});
 			const response = await this.props.mutate({
 				variables: {
 					email: user,
@@ -63,6 +67,9 @@ class Login extends React.PureComponent {
 				}
 			}
 			if (response.data.login) {
+				this.setState({
+					loading: false
+				});
 				this.props.actions.loginSuccess(response.data.login.token, response.data.login.refreshToken);
 			}
 		}
@@ -289,6 +296,7 @@ class Login extends React.PureComponent {
 								<BasicButton
 									text={translate.dashboard_enter}
 									color={primary}
+									loading={this.state.loading}
 									id={'login-button'}
 									textStyle={{
 										color: "white",

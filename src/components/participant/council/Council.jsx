@@ -88,7 +88,7 @@ class ParticipantCouncil extends React.Component {
             query: changeParticipantOnlineState,
             variables: {
                 participantId: this.props.participant.id,
-                online: 0
+                online: 2
             }
         }));
     };
@@ -98,7 +98,7 @@ class ParticipantCouncil extends React.Component {
         this.props.changeParticipantOnlineState({
             variables: {
                 participantId: this.props.participant.id,
-                online: 0
+                online: 2
             }
         });
 

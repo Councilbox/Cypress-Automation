@@ -113,9 +113,7 @@ class ParticipantsLive extends React.Component {
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: this.participantLiveColor(
-							participant.lastDateConnection
-						)
+						color: this.participantLiveColor(participant)
 					}}
 				>
 					language
@@ -128,9 +126,7 @@ class ParticipantsLive extends React.Component {
 				style={{
 					fontSize: "1.1em",
 					marginRight: "0.3em",
-					color: this.participantLiveColor(
-						participant.lastDateConnection
-					)
+					color: this.participantLiveColor(participant)
 				}}
 			>
 				videocam
@@ -248,8 +244,8 @@ class ParticipantsLive extends React.Component {
 		);
 	};
 
-	participantLiveColor = date => {
-		if (exceedsOnlineTimeout(date)) {
+	participantLiveColor = participant => {
+		if (participant.online !== 1) {
 			return "crimson";
 		}
 		return getSecondary();
@@ -280,7 +276,8 @@ class ParticipantsLive extends React.Component {
 			return <LoadingSection />;
 		}
 
-		const slicedParticipants = videoParticipants.list.slice((this.state.page - 1) * this.state.limit, ((this.state.page - 1) * this.state.limit) + this.state.limit);
+		const preparedParticipants = prepareParticipants([...videoParticipants.list]);
+		const slicedParticipants = preparedParticipants.slice((this.state.page - 1) * this.state.limit, ((this.state.page - 1) * this.state.limit) + this.state.limit);
 
 		return (
 			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${!isMobile? '45vh' : '17vh'} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
@@ -370,6 +367,18 @@ class ParticipantsLive extends React.Component {
 			</div>
 		);
 	}
+}
+
+const prepareParticipants = participants => {
+	return participants.sort((a, b) => {
+		if(a.online === 1 && b.online !== 1) {
+			return -1;
+		}
+		if(a.online !== 1 && b.online === 1){
+			return 1;
+		}
+		return 0;
+	})
 }
 
 export default compose(
