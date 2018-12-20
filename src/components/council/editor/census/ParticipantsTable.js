@@ -335,11 +335,11 @@ class HoverableRow extends React.Component {
 							{!CBX.isRepresentative(participant) &&
 								`${
 									participant.numParticipations
-								} (${(
+								} (${participant.numParticipations > 0?(
 									(participant.numParticipations /
 										totalVotes) *
 									100
-								).toFixed(2)}%)`
+								).toFixed(2): 0}%)`
 							}
                         </GridItem>
 						{this.props.participations && (
@@ -349,10 +349,10 @@ class HoverableRow extends React.Component {
 								</GridItem>
 								<GridItem xs={7} md={7}>
 									{!CBX.isRepresentative(participant) &&
-										`${participant.socialCapital} (${(
+										`${participant.socialCapital} (${participant.socialCapital > 0?(
 										(participant.socialCapital /
 											totalSocialCapital) *
-										100).toFixed(2)}%)`
+										100).toFixed(2): 0}%)`
 									}
 
 								</GridItem>
@@ -423,11 +423,11 @@ class HoverableRow extends React.Component {
 					) &&
 						`${
 							participant.numParticipations
-						} (${(
+						} (${participant.numParticipations > 0?(
 							(participant.numParticipations /
 								totalVotes) *
 							100
-						).toFixed(2)}%)`
+						).toFixed(2): 0}%)`
 					}
 					{!!representative &&
 						<br/>
@@ -440,11 +440,11 @@ class HoverableRow extends React.Component {
 						) &&
 							`${
 								participant.socialCapital
-							} (${(
+							} (${participant.socialCapital > 0?(
 								(participant.socialCapital /
 									totalSocialCapital) *
 								100
-							).toFixed(2)}%)`
+							).toFixed(2): 0}%)`
 						}
 						{!!representative &&
 							<br/>

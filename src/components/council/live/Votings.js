@@ -2,7 +2,7 @@ import React from "react";
 import { Icon } from "../../../displayComponents";
 import { darkGrey } from "../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
-import VotingsTable from "./voting/VotingsTable";
+import VotingsTableFiltersContainer from "./voting/VotingsTableFiltersContainer";
 import { canEditPresentVotings, agendaVotingsOpened } from '../../../utils/CBX';
 import ManualVotingsMenu from './voting/ManualVotingsMenu';
 
@@ -78,7 +78,7 @@ class Votings extends React.Component {
 						agenda={this.props.agenda}
 					/>
 				}
-				<VotingsTable
+				<VotingsTableFiltersContainer
 					recount={this.props.recount}
 					translate={this.props.translate}
 					agenda={this.props.agenda}

@@ -41,6 +41,7 @@ class Login extends React.PureComponent {
 				switch (response.errors[0].message) {
 					case "Incorrect password":
 						this.setState({
+							loading: false,
 							errors: {
 								password: translate.password_err
 							}
@@ -49,6 +50,7 @@ class Login extends React.PureComponent {
 
 					case 'Not actived':
 						this.setState({
+							loading: false,
 							errors: {
 								user: translate.email_not_found
 							}
@@ -56,6 +58,7 @@ class Login extends React.PureComponent {
 						break;
 					case "Not found":
 						this.setState({
+							loading: false,
 							errors: {
 								user: translate.email_not_found
 							}

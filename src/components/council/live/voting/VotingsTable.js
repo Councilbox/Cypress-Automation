@@ -21,8 +21,6 @@ import { Tooltip, Card } from "material-ui";
 import { isPresentVote, agendaVotingsOpened } from "../../../../utils/CBX";
 import { isMobile } from 'react-device-detect';
 
-const pageLimit = 20;
-let page = 1;
 
 class VotingsTable extends React.Component {
 
@@ -45,7 +43,9 @@ class VotingsTable extends React.Component {
 				agendaId: nextProps.agenda.id
 			};
 		}
-		return null;
+		return {
+			...nextProps.state
+		}
 	}
 
     getTooltip = vote => {
@@ -98,101 +98,14 @@ class VotingsTable extends React.Component {
 		}
 	};
 
-	updateFilterText = value => {
-		this.setState(
-			{
-				filterText: value
-			},
-			this.refreshTable
-		);
-	};
-
-	changeVoteFilter = value => {
-		this.setState(
-			{
-				voteFilter: this.state.voteFilter === value ? "all" : value
-			},
-			this.refreshTable
-		);
-	};
-
-	changeStateFilter = value => {
-		this.setState(
-			{
-				stateFilter: this.state.stateFilter === value ? "all" : value
-			},
-			this.refreshTable
-		);
-	};
-
-	changePage = value => {
-		const variables = this.buildVariables();
-		variables.options = {
-			limit: pageLimit,
-			offset: pageLimit * (value - 1)
-		};
-
-		page = value;
-		this.props.data.refetch(variables);
-	};
-
-	buildVariables = () => {
-		let variables = {
-			filters: [],
-			authorFilters: null
-		};
-
-		variables.options = {
-			limit: pageLimit,
-			offset: pageLimit * (page - 1)
-		};
-
-		if (this.state.voteFilter !== "all") {
-			variables.filters = [
-				{
-					field: "vote",
-					text: this.state.voteFilter
-				}
-			];
-		}
-
-		if (this.state.filterText) {
-			variables = {
-				...variables,
-				authorFilters: {
-					username: this.state.filterText
-				}
-			};
-		}
-
-		if (this.state.stateFilter !== "all") {
-			variables = {
-				...variables,
-				filters: [
-					...variables.filters,
-					{
-						field: "presentVote",
-						text: this.state.stateFilter
-					}
-				]
-			};
-		}
-
-		return variables;
-	};
-
-	refreshTable = async () => {
-		const variables = this.buildVariables();
-		await this.props.data.refetch(variables);
+ 	refreshTable = async () => {
+		//const variables = this.buildVariables();
+		await this.props.data.refetch();
 	};
 
 
     render(){
 		const { translate } = this.props;
-/* 		let total = 1;
-		if(this.props.recount){
-			total = this.props.recount.partTotal;
-		} */
 		let mappedVotings = [];
 
 		if(this.props.data.agendaVotings){
@@ -254,7 +167,7 @@ class VotingsTable extends React.Component {
 								<span style={{marginRight: '0.2em'}}>Filtrar por:</span>
 								<FilterButton
 									onClick={() =>
-										this.changeVoteFilter(VOTE_VALUES.NO_VOTE)
+										this.props.changeVoteFilter(VOTE_VALUES.NO_VOTE)
 									}
 									active={
 										this.state.voteFilter === VOTE_VALUES.NO_VOTE
@@ -267,7 +180,7 @@ class VotingsTable extends React.Component {
 								</FilterButton>
 								<FilterButton
 									onClick={() =>
-										this.changeVoteFilter(VOTE_VALUES.POSITIVE)
+										this.props.changeVoteFilter(VOTE_VALUES.POSITIVE)
 									}
 									active={
 										this.state.voteFilter === VOTE_VALUES.POSITIVE
@@ -286,7 +199,7 @@ class VotingsTable extends React.Component {
 										this.state.voteFilter === VOTE_VALUES.NEGATIVE
 									}
 									onClick={() =>
-										this.changeVoteFilter(VOTE_VALUES.NEGATIVE)
+										this.props.changeVoteFilter(VOTE_VALUES.NEGATIVE)
 									}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
@@ -299,7 +212,7 @@ class VotingsTable extends React.Component {
 										this.state.voteFilter === VOTE_VALUES.ABSTENTION
 									}
 									onClick={() =>
-										this.changeVoteFilter(VOTE_VALUES.ABSTENTION)
+										this.props.changeVoteFilter(VOTE_VALUES.ABSTENTION)
 									}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
@@ -316,7 +229,7 @@ class VotingsTable extends React.Component {
 								{this.props.agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING &&
 									<React.Fragment>
 										<FilterButton
-											onClick={() => this.changeStateFilter(5)}
+											onClick={() => this.props.changeStateFilter(5)}
 											active={this.state.stateFilter === 5}
 											tooltip={`${translate.filter_by} - ${
 												translate.present_vote
@@ -325,7 +238,7 @@ class VotingsTable extends React.Component {
 											{this.getStateIcon(1)}
 										</FilterButton>
 										<FilterButton
-											onClick={() => this.changeStateFilter(0)}
+											onClick={() => this.props.changeStateFilter(0)}
 											active={this.state.stateFilter === 0}
 											tooltip={`${translate.filter_by} - ${
 												translate.remote_vote
@@ -354,7 +267,7 @@ class VotingsTable extends React.Component {
 						type="text"
 						value={this.state.filterText}
 						onChange={event => {
-							this.updateFilterText(event.target.value);
+							this.props.updateFilterText(event.target.value);
 						}}
 					/>
 				</GridItem>
@@ -437,15 +350,13 @@ class VotingsTable extends React.Component {
 													{!!vote.representing &&
 														`${vote.representing[0].author.name} ${vote.representing[0].author.surname} - Representado por: `
 													}
-													{`${vote.author.name} ${
-														vote.author.surname
-													}`}
+													{`${vote.author.name} ${vote.author.surname} - ${vote.author.position}`}
 												</span>
 												{!!vote.delegatedVotes &&
 													vote.delegatedVotes.map(delegatedVote => (
 														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 															<br/>
-															{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${`(Ha delegado su voto)`}`}
+															{`${delegatedVote.author.name} ${delegatedVote.author.surname} - ${delegatedVote.author.position} ${`(Ha delegado su voto)`}`}
 														</React.Fragment>
 													))
 												}
@@ -487,12 +398,12 @@ class VotingsTable extends React.Component {
 								}}
 							>
 								<PaginationFooter
-									page={page}
+									page={this.props.page}
 									translate={translate}
 									length={this.props.data.agendaVotings.list.length}
 									total={this.props.data.agendaVotings.total}
-									limit={pageLimit}
-									changePage={this.changePage}
+									limit={this.props.pageLimit}
+									changePage={this.props.changePage}
 								/>
 							</div>
 						</React.Fragment>
@@ -509,10 +420,7 @@ export default graphql(agendaVotings, {
 	options: props => ({
 		variables: {
 			agendaId: props.agenda.id,
-			options: {
-				limit: pageLimit,
-				offset: pageLimit * (page - 1)
-			}
+			...props.variables
 		},
 		pollInterval: 4000,
 		notifyOnNetworkStatusChange: true

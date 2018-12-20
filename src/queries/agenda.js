@@ -120,6 +120,8 @@ export const agendaVotings = gql`
 					type
 					position
 					dni
+					socialCapital
+					numParticipations
 					delegatedVotes {
 						name
 						surname
