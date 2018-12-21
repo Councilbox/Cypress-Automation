@@ -6,7 +6,7 @@ import AgendaRecount from '../../agendas/AgendaRecount';
 import { AGENDA_TYPES, DRAFT_TYPES, VOTE_VALUES } from '../../../../constants';
 import { toast } from 'react-toastify';
 import { graphql } from 'react-apollo';
-import VotingsTable from '../../../council/live/voting/VotingsTable';
+import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import { checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
@@ -220,7 +220,7 @@ class AgendaEditor extends React.Component {
 								recount={recount}
 								majorityTypes={majorityTypes}
 							/>
-							<VotingsTable
+							<VotingsTableFiltersContainer
 								translate={translate}
 								hideStatus
 								agenda={agenda}

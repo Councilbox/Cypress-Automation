@@ -4,6 +4,7 @@ import { getSecondary } from "../../../../styles/colors";
 import FontAwesome from "react-fontawesome";
 
 const VotingValueIcon = ({ vote, color }) => {
+	console.log(vote);
 	switch (vote) {
 		case VOTE_VALUES.NO_VOTE:
 			return (
