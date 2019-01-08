@@ -176,3 +176,12 @@ h4 {
     background-color: gainsboro;
 }
 
+/*Fuente y tamano del editor react-quill */
+.ql-editor {
+    font-family: lato;
+    min-height: 120px;
+    max-height: 250px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
