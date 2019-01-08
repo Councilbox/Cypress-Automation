@@ -288,7 +288,7 @@ class VotingsTable extends React.Component {
 								{mappedVotings.map(vote => (
 									<TableRow key={`vote_${vote.id}`}>
 										<TableCell>
-											{vote.author.numParticipations === 0?
+											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0?
 												'-'
 											:
 												<div
@@ -310,9 +310,7 @@ class VotingsTable extends React.Component {
 													:
 														<React.Fragment>
 															<Tooltip
-																title={this.getTooltip(
-																	vote.vote
-																)}
+																title={this.getTooltip(vote.vote)}
 															>
 																<VotingValueIcon
 																	vote={vote.vote}
@@ -350,25 +348,25 @@ class VotingsTable extends React.Component {
 													{!!vote.representing &&
 														`${vote.representing[0].author.name} ${vote.representing[0].author.surname} - Representado por: `
 													}
-													{`${vote.author.name} ${vote.author.surname} - ${vote.author.position}`}
+													{`${vote.author.name} ${vote.author.surname} ${vote.author.position? ` - ${vote.author.position}` : ''}`}
 												</span>
 												{!!vote.delegatedVotes &&
 													vote.delegatedVotes.map(delegatedVote => (
 														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 															<br/>
-															{`${delegatedVote.author.name} ${delegatedVote.author.surname} - ${delegatedVote.author.position} ${`(Ha delegado su voto)`}`}
+															{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${vote.author.position? ` - ${vote.author.position}` : ''} ${`(Ha delegado su voto)`}`}
 														</React.Fragment>
 													))
 												}
 											</div>
 										</TableCell>
 										<TableCell>
-											{vote.author.numParticipations && `${
-												vote.author.numParticipations
+											{vote.author.numParticipations > 0 && `${
+												vote.author.numParticipations > 0? vote.author.numParticipations : ''
 											}`}
 											{!!vote.representing &&
 												`${
-													vote.representing[0].author.numParticipations
+													vote.representing[0].author.numParticipations > 0 && vote.representing[0].author.numParticipations
 												}`
 											}
 											{!!vote.delegatedVotes &&
@@ -376,8 +374,7 @@ class VotingsTable extends React.Component {
 													<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 														<br/>
 														{`${
-															delegatedVote.author
-																.numParticipations
+															delegatedVote.author.numParticipations > 0 && delegatedVote.author.numParticipations
 														}`}
 													</React.Fragment>
 												))
