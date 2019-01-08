@@ -9,10 +9,10 @@ import {
 	Icon,
 	LoadingSection,
 	ParticipantRow,
-	TextInput
+	TextInput,
+	Scrollbar
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
-import Scrollbar from "react-perfect-scrollbar";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Typography } from "material-ui";
 import { existsQualityVote } from "../../../utils/CBX";
@@ -245,10 +245,18 @@ class StartCouncilButton extends React.Component {
 											/>
 										))}
 										{participants.length < total - 1 && (
-											<div onClick={this.loadMore}>
-												{`DESCARGAR ${
+											<div onClick={this.loadMore} style={{
+												display: 'flex',
+												alignItems: 'center',
+												padding: '0.45em',
+												marginTop: '0.5em',
+												cursor: 'pointer',
+												justifyContent: 'center',
+												border: '1px solid gainsboro'
+											}} className="withShadow">
+												{`Descargar ${
 													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
 														: translate.all_plural.toLowerCase()
 												}`}
 											</div>

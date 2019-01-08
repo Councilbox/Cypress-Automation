@@ -80,7 +80,7 @@ export const logoutParticipant = (participant, council) => {
 };
 
 export const setLanguage = language => {
-	const translationsString = localStorage.getItem(language);
+	const translationsString = null; //localStorage.getItem(language);
 
 	if(!translationsString){
 		return async dispatch => {
@@ -113,6 +113,12 @@ export const setLanguage = language => {
 		};
 	} else {
 		const translations = JSON.parse(translationsString);
+		moment.locale(translations.selectedLanguage, {
+			months: translations.datepicker_months.split(","),
+			monthsShort: translations.datepicker_months
+				.split(",")
+				.map(month => month.substring(0, 3))
+		});
 		return({
 			type: 'LOADED_LANG',
 			value: translations,

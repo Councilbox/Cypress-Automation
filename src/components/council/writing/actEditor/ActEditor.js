@@ -178,6 +178,10 @@ class ActEditor extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
 	loadDraft = draft => {
  		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
@@ -319,7 +323,7 @@ class ActEditor extends Component {
 				<div style={{overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
 						<Scrollbar>
 							<div style={{padding: '1.2em 5%'}}>
-								{!!data.council.act &&
+								{!!data.council.act && data.council.act.intro !== undefined &&
 									<RichTextInput
 										ref={editor => this.intro = editor}
 										translate={translate}
@@ -596,7 +600,8 @@ export default compose(
 					limit: 10000,
 					offset: 0
 				}
-			}
+			},
+			notifyOnNetworkStatusChange: true
 		})
 	}),
 	graphql(updateCouncilAct, {

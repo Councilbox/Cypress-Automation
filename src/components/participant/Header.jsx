@@ -50,7 +50,7 @@ class Header extends React.Component {
 						display: "flex",
 						flexDirection: "row",
 						height: "100%",
-						width: '15em',
+						width: windowSize === "xs"? '5em' : '15em',
 						alignItems: "center"
 					}}
 				>
@@ -70,15 +70,20 @@ class Header extends React.Component {
                 {(council && council.name) &&
                     <div
 						style={{
-							width: "35%",
-							marginRight: "10%",
-							whiteSpace: 'nowrap',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
+							width: windowSize === "xs"? '65%' : "35%",
+							display: 'flex',
+							justifyContent: 'center'
 						}}
 					>
 						<Tooltip title={council.name}>
-							<div style={{ textAlign: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
+							<div style={{
+								color: primary,
+								fontWeight: '700',
+								fontSize: '1.1em',
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis'
+							}}>
 								{council.name}
 							</div>
 						</Tooltip>
@@ -89,7 +94,7 @@ class Header extends React.Component {
 						display: "flex",
 						flexDirection: "row",
 						justifyContent: 'flex-end',
-						width: '15em',
+						width: windowSize === "xs"? '5em' : '15em',
 						alignItems: "center"
 					}}
 				>
@@ -123,7 +128,7 @@ const mapStateToProps = state => ({
 	main: state.main
 });
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
 	return {
 		actions: bindActionCreators(mainActions, dispatch)
 	};

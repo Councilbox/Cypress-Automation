@@ -113,17 +113,11 @@ class Test extends React.Component {
 				:
 					<React.Fragment>
 						<div style={styles.container}>
-							{isiOSDevice ? (
-								<IncompatibleDeviceBrowser
-									status={'iOS_DEVICE'}
-								/>
-							) : (
-								<Iframe
-									src={`https://${
-										getTestIframe.participantTestIframe
-									}?rand=${iframeRandomValue}`}
-								/>
-							)}
+							<Iframe
+								src={`https://${
+									getTestIframe.participantTestIframe
+								}?rand=${iframeRandomValue}`}
+							/>
 
 							{windowSize !== "xs" && (
 								<BasicButton
