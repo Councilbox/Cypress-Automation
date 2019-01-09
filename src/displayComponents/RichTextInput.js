@@ -4,28 +4,30 @@ import { Typography, MenuItem } from "material-ui";
 import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
-import RichTextEditor from 'react-rte';
+// import RichTextEditor from 'react-rte';
 import { isMobile } from 'react-device-detect';
 import { TextArea } from 'antd/lib/input/index';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
 import withTranslations from '../HOCs/withTranslations';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { Link } from 'quill';
 
 class RichTextInput extends React.Component {
 	state = {
-		value: RichTextEditor.createValueFromString(
-			this.props.value,
-			"html"
+		value: (
+			this.props.value
 		)
 	};
 
 	componentDidMount() {
 		this.setState({
-			value: RichTextEditor.createValueFromString(
-				this.props.value,
-				"html"
+			value: (
+				this.props.value
 			)
 		});
+
 	}
 
 	changeShowTags = () => {
@@ -38,11 +40,12 @@ class RichTextInput extends React.Component {
 		this.setState({ value });
 		const html = value.toString('html');
 		if (this.props.onChange) {
-			if(removeHTMLTags(html).length > 0){
+			if (removeHTMLTags(html).length > 0) {
+				console.log(html)
 				this.props.onChange(
 					html.replace(/<a /g, '<a target="_blank" ')
 				);
-			}else{
+			} else {
 				this.props.onChange('');
 			}
 		}
@@ -50,78 +53,43 @@ class RichTextInput extends React.Component {
 
 	setValue = value => {
 		this.setState({
-			value: RichTextEditor.createValueFromString(value, "html")
+			value: (value
+			)
 		});
 	};
 
 	paste = text => {
-		let cd = new DataTransfer();
-		cd.setData("text/html", text);
-		this.rtEditor.refs.editor._onPaste({
-			preventDefault: () => {
-				this.rtEditor.refs.editor.focus();
-			},
-			clipboardData: cd
-		});
-
-		setTimeout(() => this.rtEditor.refs.editor.focus(), 500);
+		const quill = this.rtEditor.getEditor();
+		const selection = quill.getSelection();
+		if (selection !== null) {
+			quill.clipboard.dangerouslyPasteHTML(selection.index, text);
+			setTimeout(this.rtEditor.focus, 500);
+		}
 	};
+
+
 
 	render() {
 		const { tags, loadDraft, errorText, required, translate } = this.props;
 		const secondary = getSecondary();
-		const toolbarConfig = {
-			display: [
-				"INLINE_STYLE_BUTTONS",
-				"BLOCK_TYPE_BUTTONS",
-				"LINK_BUTTONS",
-				"TAGS",
-				"BLOCK_TYPE_DROPDOWN",
-				"HISTORY_BUTTONS"
-			],
-			INLINE_STYLE_BUTTONS: [
-				{
-					label: translate.bold,
-					style: "BOLD",
-					className: "custom-css-class"
-				},
-				{
-					label: translate.italic,
-					style: "ITALIC"
-				},
-				{
-					label: translate.underline,
-					style: "UNDERLINE"
+		const modules = {
+			toolbar: {
+				container: [
+					[{ 'color': [] }, { 'background': [] }], , [ 'bold', /*'font', */'italic', 'underline', 'italic', 'link', /*'size',*/ 'strike'/*, 'script'*/],
+					['blockquote', /*'header', 'indent', 'list',*/ 'align', 'direction', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
+					[{ 'header': 1 }, { 'header': 2 }],
+					
+					// [{ 'size': [ false, 'large', 'huge'] }],
+					['image', 'video'],
+				],
+				handlers: {
+					// 'image': this.imageHandler,
+
 				}
-			],
-			BLOCK_TYPE_DROPDOWN: [
-				{
-					label: translate.normal,
-					style: "unstyled"
-				},
-				{
-					label: translate.header_large,
-					style: "header-one"
-				},
-				{
-					label: translate.header_medium,
-					style: "header-two"
-				},
-				{
-					label: translate.header_small,
-					style: "header-three"
-				}
-			],
-			BLOCK_TYPE_BUTTONS: [
-				{
-					label: translate.unsorted_list,
-					style: "unordered-list-item"
-				},
-				{
-					label: translate.ordered_list,
-					style: "ordered-list-item"
-				}
-			]
+			},
+			clipboard: {
+				matchVisual: false,
+			}
 		};
 
 		return (
@@ -168,7 +136,7 @@ class RichTextInput extends React.Component {
 											<DropDownMenu
 												color="transparent"
 												text={'Etiquetas inteligentes'}
-												textStyle={{ color: secondary }}
+												textStyle={{ color: secondary, paddingTop: '0px' }}
 												type="flat"
 												icon={
 													<Icon className="material-icons" style={{ color: secondary }}>
@@ -184,6 +152,7 @@ class RichTextInput extends React.Component {
 																	onClick={() =>
 																		this.paste(`<span id="${tag.label}">${tag.value}</span>`)
 																	}
+
 																>
 																	{tag.label}
 																</MenuItem>
@@ -204,20 +173,13 @@ class RichTextInput extends React.Component {
 								</React.Fragment>
 							)}
 						</div>
-						{isMobile?
-							<TextArea
-								autosize={{ minRows: 3 }}
-								value={this.props.value}
-								onChange={event => this.props.onChange(event.target.value)}
-							/>
-						:
-							<RichTextEditor
+						{
+							<ReactQuill value={this.state.value}
+								onChange={this.onChange}
+								modules={modules}
 								ref={editor => this.rtEditor = editor}
 								id={this.props.id}
-								className={`text-editor ${!!errorText? 'text-editor-error' : ''}`}
-								value={this.state.value}
-								onChange={this.onChange}
-								toolbarConfig={toolbarConfig}
+								className={`text-editor ${!!errorText ? 'text-editor-error' : ''}`}
 							/>
 						}
 					</GridItem>
