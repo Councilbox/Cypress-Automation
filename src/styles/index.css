@@ -176,3 +176,6 @@ h4 {
     background-color: gainsboro;
 }
 
+.listInModalLive:not(:first-of-type) {
+    margin-top: 0.8em;
+}

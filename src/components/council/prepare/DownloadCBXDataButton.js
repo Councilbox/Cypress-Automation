@@ -64,7 +64,8 @@ class DownloadCBXDataButton extends Component {
 						alignItems: "center",
 						justifyContent: "center",
 						border: `1px solid ${secondary}`,
-						borderRadius: "3px"
+						borderRadius: "3px",
+						...this.props.style
 					}}
 				>
 					{this.state.loading ? (

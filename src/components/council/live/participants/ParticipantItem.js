@@ -9,6 +9,8 @@ import TypeIcon from "./TypeIcon";
 import { removeHTMLTags, isRepresented } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
+import { DropDownMenu, Icon } from '../../../../displayComponents';
+import ParticipantStateList from "./ParticipantStateList";
 
 
 class ParticipantItem extends React.Component {
@@ -20,21 +22,21 @@ class ParticipantItem extends React.Component {
 	render() {
 		const { participant, translate, layout, editParticipant, mode } = this.props;
 		const secondary = getSecondary();
-		const gridSize = window.innerWidth < 1350? 6 : 4
+		const gridSize = window.innerWidth < 1350 ? 6 : 4
 
 		return (
 			<GridItem
-				xs={this.props.orientation === 'portrait'? 12 : layout !== 'squares'? 12 : 6}
+				xs={this.props.orientation === 'portrait' ? 12 : layout !== 'squares' ? 12 : 6}
 				md={layout !== 'squares' ? 12 : gridSize}
 				lg={layout !== 'squares' ? 12 : gridSize}
-				{...(layout !== 'squares'? { marginBottom: '0.3em'} : {})}
+				{...(layout !== 'squares' ? { marginBottom: '0.3em' } : {})}
 			>
 				<div
 					style={{
 						width: '98%',
 						marginRight: '5%',
 						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
-						...(layout !== 'squares'? {
+						...(layout !== 'squares' ? {
 							height: '3.2em',
 							marginBottom: '0.3em',
 							borderBottom: '1px solid gainsboro'
@@ -150,16 +152,16 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 		>
 			{!isRepresented(participant) &&
 				<BasicButton
-					text={participant.signed? translate.user_signed : translate.to_sign}
+					text={participant.signed ? translate.user_signed : translate.to_sign}
 					fullWidth
-					buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+					buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
 					type="flat"
 					color={"white"}
 					onClick={event => {
 						event.stopPropagation();
 						showSignatureModal()
 					}}
-					textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+					textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
 				/>
 			}
 		</GridItem>
@@ -168,6 +170,33 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal }) => (
 	<React.Fragment>
+		{/* <DropDownMenu
+			color="transparent"
+			id={'dropdownEstadosS'}
+			style={{ paddingLeft: '0px', paddingRight: '0px' }}
+			icon={
+				<StateIcon
+					translate={translate}
+					state={participant.state}
+					ratio={1.3}
+				/>
+			}
+			items={
+				<React.Fragment>
+					<ParticipantStateList
+						participant={participant}
+						council={this.props.council}
+						translate={translate}
+						refetch={this.props.data.refetch}
+						inDropDown={true}
+					/>
+				</React.Fragment>
+			}
+			anchorOrigin={{
+				vertical: 'bottom',
+				horizontal: 'left',
+			}}
+		/> */}
 		<Card
 			style={{
 				display: "flex",
@@ -178,8 +207,10 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 				overflow: "hidden"
 			}}
 		>
-			<div style={{width: '65%', display: 'flex'}}>
+			<div style={{ width: '65%', display: 'flex' }}>
+
 				{_getIcon(mode, participant, translate)}
+
 				<div
 					style={{
 						display: "flex",
@@ -283,7 +314,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							variant="body1"
 							style={{ color: "grey", fontSize: "0.75rem" }}
 						>
-							{`${participant.position? participant.position : '-'}`}
+							{`${participant.position ? participant.position : '-'}`}
 						</Typography>
 					</div>
 					{mode === 'ATTENDANCE' && participant.assistanceComment &&
@@ -339,16 +370,16 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 			>
 				{!isRepresented(participant) &&
 					<BasicButton
-						text={participant.signed? translate.user_signed : translate.to_sign}
+						text={participant.signed ? translate.user_signed : translate.to_sign}
 						fullWidth
-						buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
 						type="flat"
 						color={"white"}
 						onClick={event => {
 							event.stopPropagation();
 							showSignatureModal()
 						}}
-						textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+						textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
 					/>
 				}
 			</div>

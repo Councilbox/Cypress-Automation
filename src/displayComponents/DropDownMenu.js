@@ -32,8 +32,9 @@ class DropDownMenu extends React.Component {
 			color,
 			type,
 			icon,
+			anchorOrigin,
 		} = this.props;
-
+		
 		return (
 			<Fragment>
 				{!!Component ? (
@@ -62,6 +63,7 @@ class DropDownMenu extends React.Component {
 					open={Boolean(anchorEl)}
 					anchorEl={anchorEl}
 					onClose={this.handleClose}
+					anchorOrigin={anchorOrigin}
 				>
 					<div
 						onClick={this.props.persistent? () => {} : this.handleClose}
