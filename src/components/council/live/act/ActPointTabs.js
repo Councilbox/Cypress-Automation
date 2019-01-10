@@ -7,8 +7,7 @@ import ActLiveSection from '../../writing/actEditor/ActLiveSection';
 import Comments from '../Comments';
 
 class ActPointTabs extends React.Component {
-
-        state = {
+    state = {
         selectedTab: 0
     }
 
@@ -76,39 +75,3 @@ class ActPointTabs extends React.Component {
 }
 
 export default ActPointTabs;
-
-/*
-    <React.Fragment>
-                            {CBX.councilHasComments(council.statute) && (
-                                <div
-                                    style={{
-                                        width: "100%",
-                                        marginTop: "0.4em"
-                                    }}
-                                    className="withShadow"
-                                >
-                                    <Comments
-                                        agenda={agenda}
-                                        council={council}
-                                        translate={translate}
-                                    />
-                                </div>
-                            )}
-                            {CBX.showAgendaVotingsTable(agenda) &&
-                                <div
-                                    style={{
-                                        width: "100%",
-                                        marginTop: "0.4em"
-                                    }}
-                                    className="withShadow"
-                                >
-                                    <Votings
-                                        ref={votings => (this.votings = votings)}
-                                        agenda={agenda}
-                                        majorities={this.props.data.majorities}
-                                        translate={translate}
-                                    />
-                                </div>
-                            }
-                        </React.Fragment>
-*/

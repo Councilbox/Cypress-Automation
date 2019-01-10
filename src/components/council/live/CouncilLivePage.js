@@ -109,22 +109,6 @@ class CouncilLivePage extends React.Component {
 			if (key.code === "KeyT") {
 				this.toggleFullScreen();
 			}
-		} else {
-			switch (key.keyCode) {
-				case 39:
-					/* this.setState({
-						participants: true
-					}); */
-					break;
-				case 37:
-					/* this.setState({
-						participants: false
-					}); */
-					ReactDOM.findDOMNode(this.div).focus();
-					break;
-				default:
-					return;
-			}
 		}
 	};
 

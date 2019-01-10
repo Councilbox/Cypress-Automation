@@ -388,6 +388,9 @@ export const changeVariablesToValues = (text, data, translate) => {
 	if (data.votings) {
 		text = text.replace(/{{positiveVotings}}/g, data.votings.positive);
 		text = text.replace(/{{negativeVotings}}/g, data.votings.negative);
+	}else {
+		text = text.replace(/{{positiveVotings}}/g, 0);
+		text = text.replace(/{{negativeVotings}}/g, 0);
 	}
 	return text;
 };

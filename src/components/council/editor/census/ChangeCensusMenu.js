@@ -115,7 +115,7 @@ const ChangeCensusMenu = ({
 						fontSize: "1em"
 					}}
 				>
-					{`${translate.total_social_capital}: ${totalSocialCapital}`}
+					{`${translate.total_social_capital}: ${totalSocialCapital? totalSocialCapital : 0}`}
 				</Typography>
 			}
 		</GridItem>

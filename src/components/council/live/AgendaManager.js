@@ -193,7 +193,6 @@ class AgendaManager extends React.Component {
 						outline: 0
 					}}
 					tabIndex="0"
-					onKeyUp={this.handleKeyPress}
 				>
 					<AgendaDetailsSection
 						ref={agendaDetails =>
