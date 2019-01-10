@@ -16,16 +16,12 @@ import { Link } from 'quill';
 
 class RichTextInput extends React.Component {
 	state = {
-		value: (
-			this.props.value
-		)
+		value: this.props.value
 	};
 
 	componentDidMount() {
 		this.setState({
-			value: (
-				this.props.value
-			)
+			value: this.props.value
 		});
 
 	}
@@ -41,7 +37,6 @@ class RichTextInput extends React.Component {
 		const html = value.toString('html');
 		if (this.props.onChange) {
 			if (removeHTMLTags(html).length > 0) {
-				console.log(html)
 				this.props.onChange(
 					html.replace(/<a /g, '<a target="_blank" ')
 				);
@@ -53,18 +48,22 @@ class RichTextInput extends React.Component {
 
 	setValue = value => {
 		this.setState({
-			value: (value
-			)
+			value: value
 		});
 	};
 
 	paste = text => {
 		const quill = this.rtEditor.getEditor();
-		const selection = quill.getSelection();
-		if (selection !== null) {
-			quill.clipboard.dangerouslyPasteHTML(selection.index, text);
-			setTimeout(this.rtEditor.focus, 500);
+		let selection = quill.getSelection();
+		if (!selection) {
+			this.rtEditor.focus();
+			selection = quill.getSelection();
 		}
+		quill.clipboard.dangerouslyPasteHTML(selection.index, text);
+		setTimeout(() => {
+			this.rtEditor.focus();
+			quill.setSelection(selection.index + removeHTMLTags(text).length, 0);
+		}, 500);
 	};
 
 
@@ -75,17 +74,10 @@ class RichTextInput extends React.Component {
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], , [ 'bold', /*'font', */'italic', 'underline', 'italic', 'link', /*'size',*/ 'strike'/*, 'script'*/],
-					['blockquote', /*'header', 'indent', 'list',*/ 'align', 'direction', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
+					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'italic', 'link', 'strike'],
+					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
-					
-					// [{ 'size': [ false, 'large', 'huge'] }],
-					['image', 'video'],
 				],
-				handlers: {
-					// 'image': this.imageHandler,
-
-				}
 			},
 			clipboard: {
 				matchVisual: false,

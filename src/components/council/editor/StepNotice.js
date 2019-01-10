@@ -201,21 +201,46 @@ class StepNotice extends React.Component {
 		}
 	};
 
+	updateConveneDates = (oldDate, newDate, old2Date, new2Date) => {
+		const text = this.state.data.conveneText;
+		const oldDateText = moment(new Date(oldDate)).format("LLL");
+		const newDateText = moment(new Date(newDate)).format("LLL");
+		const old2DateText = moment(new Date(old2Date)).format("LLL");
+		const new2DateText = moment(new Date(new2Date)).format("LLL");
+		console.log(oldDateText, newDateText, old2DateText, new2DateText);
+		const replacedText = text
+			.replace(oldDateText, newDateText)
+			.replace(old2DateText, new2DateText);
+
+		console.log(replacedText);
+		this.setState({
+			data: {
+				...this.state.data,
+				conveneText: replacedText
+			}
+		});
+		this.editor.setValue(replacedText);
+	}
+
 	updateDate = (
 		firstDate = this.state.data.dateStart,
 		secondDate = this.state.data.dateStart2NdCall
 	) => {
 		const { translate } = this.props;
 		const statute = this.props.data.council.statute;
+		const oldDate = this.state.data.dateStart;
+		const old2Date = this.state.data.dateStart2NdCall;
 		const errors = {
 			dateStart: '',
 			dateStart2NdCall: ''
 		};
 
-		this.updateState({
+ 		this.updateState({
 			dateStart: firstDate,
 			dateStart2NdCall: secondDate,
-		}, () => this.updateConveneText());
+		}, () => this.updateConveneDates(oldDate, firstDate, old2Date, secondDate));
+
+		console.log(firstDate, secondDate);
 
 		if(!CBX.checkMinimumAdvance(firstDate, statute)){
 			errors.dateStart = translate.new_statutes_warning
@@ -229,8 +254,8 @@ class StepNotice extends React.Component {
 				dateStart2NdCall: CBX.addMinimumDistance(
 					firstDate,
 					statute
-				)
-			}, () => this.updateConveneText());
+				).toISOString()
+			}, () => this.updateConveneDates(oldDate, firstDate, old2Date, CBX.addMinimumDistance(firstDate, statute)));
 		} else {
 			if (
 				!CBX.checkMinimumDistanceBetweenCalls(
