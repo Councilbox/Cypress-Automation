@@ -108,7 +108,8 @@ class LiveParticipantEditor extends React.Component {
 		const primary = getPrimary();
 		participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 		participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
-
+		console.log("///////////////////////////")
+		console.log(this.props)
 		return (
 			<div
 				style={{
@@ -127,6 +128,7 @@ class LiveParticipantEditor extends React.Component {
 			>
 				<div >
 					<Grid >
+						{/* Titulos en el modal */}
 						<GridItem xs={landscape ? 12 : 6} md={4}
 							style={{
 								display: isMobile ? "none" : "flex",
@@ -209,6 +211,7 @@ class LiveParticipantEditor extends React.Component {
 							/> */}
 								<div >
 									<DropDownMenu
+										claseHover={"classHover"}
 										color="transparent"
 										id={'dropdownEstados'}
 										style={{ paddingLeft: '0px', paddingRight: '0px' }}

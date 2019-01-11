@@ -21,7 +21,8 @@ const BasicButton = ({
 	fullWidth,
 	loading,
 	success,
-	floatRight
+	floatRight,
+	claseHover
 }) => {
 	if ((error || success) && !!reset) {
 		let timeout = setTimeout(() => {
@@ -41,12 +42,13 @@ const BasicButton = ({
 				backgroundColor: success ? "green" : error ? "red" : color,
 				float: floatRight && "right",
 				outline: "0",
-				cursor: loading? 'wait' : 'pointer'
+				cursor: loading? 'wait' : 'pointer',
 			}}
 			disabled={disabled || loading}
 			variant={type}
 			{...(!success && !loading? {onClick: onClick} : {})}
 			fullWidth={fullWidth}
+			className={claseHover}
 		>
 			{text}
 			{success ? (

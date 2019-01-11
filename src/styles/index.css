@@ -179,3 +179,5 @@ h4 {
 .listInModalLive:not(:first-of-type) {
     margin-top: 0.8em;
 }
+
+.classHover:hover{background-color: #ddd!important; border-radius: 0px;}

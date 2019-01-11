@@ -12,17 +12,23 @@ import AttendIntentionIcon from "./AttendIntentionIcon";
 import { DropDownMenu, Icon } from '../../../../displayComponents';
 import ParticipantStateList from "./ParticipantStateList";
 
+import { compose, graphql } from "react-apollo";
+import { liveParticipant, updateParticipantSends } from "../../../../queries";
+
+
 
 class ParticipantItem extends React.Component {
 
 	// state = {
-	// 	showIcons: false
+	// 	// 	showIcons: false
 	// };
 
 	render() {
-		const { participant, translate, layout, editParticipant, mode } = this.props;
+		const { participant, translate, layout, editParticipant, mode, council } = this.props;
 		const secondary = getSecondary();
 		const gridSize = window.innerWidth < 1350 ? 6 : 4
+		console.log("???????????????")
+		console.log(this.props)
 
 		return (
 			<GridItem
@@ -90,7 +96,7 @@ class ParticipantItem extends React.Component {
 	}
 };
 
-const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary }) => (
+const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council }) => (
 	<Grid
 		spacing={0}
 		style={{
@@ -99,7 +105,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			alignItems: "center",
 			width: "100%",
 			fontSize: '14px',
-			padding: '1em',
+			// padding: '1em',
 			textOverflow: "ellipsis",
 			overflow: "hidden"
 		}}
@@ -109,7 +115,38 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			lg={mode === 'ATTENDANCE' ? 1 : 2}
 			md={mode === 'ATTENDANCE' ? 1 : 2}
 		>
-			{_getIcon(mode, participant, translate)}
+			{/* {_getIcon(mode, participant, translate)} */}
+			<div >
+				<DropDownMenu
+					claseHover={"classHover "}
+					color="transparent"
+					style={{ paddingLeft: '0px', paddingRight: '0px' }}
+					textStyle={{ boxShadow: "none", height: '100%',fontSize:"12px"  }}
+					icon={
+						<StateIcon
+							translate={translate}
+							state={participant.state}
+							ratio={1.3}
+						/>
+					}
+					items={
+						<React.Fragment>
+							<ParticipantStateList
+								participant={participant}
+								council={council}
+								translate={translate}
+								// refetch={this.props.data.refetch}
+								inDropDown={true}
+							/>
+						</React.Fragment>
+					}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'left',
+					}}
+
+				/>
+			</div>
 		</GridItem>
 		{
 			mode === 'ATTENDANCE' &&
@@ -168,35 +205,9 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 	</Grid>
 )
 
-const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal }) => (
+const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council }) => (
+
 	<React.Fragment>
-		{/* <DropDownMenu
-			color="transparent"
-			id={'dropdownEstadosS'}
-			style={{ paddingLeft: '0px', paddingRight: '0px' }}
-			icon={
-				<StateIcon
-					translate={translate}
-					state={participant.state}
-					ratio={1.3}
-				/>
-			}
-			items={
-				<React.Fragment>
-					<ParticipantStateList
-						participant={participant}
-						council={this.props.council}
-						translate={translate}
-						refetch={this.props.data.refetch}
-						inDropDown={true}
-					/>
-				</React.Fragment>
-			}
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'left',
-			}}
-		/> */}
 		<Card
 			style={{
 				display: "flex",
@@ -207,9 +218,41 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 				overflow: "hidden"
 			}}
 		>
-			<div style={{ width: '65%', display: 'flex' }}>
+			<div style={{ width: '65%', display: 'flex', height: "84px" }}>
 
-				{_getIcon(mode, participant, translate)}
+				{/* {_getIcon(mode, participant, translate)} */}
+
+				<div>
+					<DropDownMenu
+						claseHover={"classHover "}
+						color="transparent"
+						style={{ paddingLeft: '0px', paddingRight: '0px' }}
+						textStyle={{ boxShadow: "none", height: '100%' }}
+						icon={
+							<StateIcon
+								translate={translate}
+								state={participant.state}
+								ratio={1.3}
+							/>
+						}
+						items={
+							<React.Fragment>
+								<ParticipantStateList
+									participant={participant}
+									council={council}
+									translate={translate}
+									// refetch={this.props.data.refetch}
+									inDropDown={true}
+								/>
+							</React.Fragment>
+						}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left',
+						}}
+
+					/>
+				</div>
 
 				<div
 					style={{
@@ -218,7 +261,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						marginLeft: "0.6em",
 						width: "100%",
 						textOverflow: "ellipsis",
-						overflow: "hidden"
+						overflow: "hidden",
+						paddingTop: '15px'
 					}}
 				>
 					<div
