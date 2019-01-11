@@ -661,7 +661,6 @@ export const printPrettyFilesize = filesize => {
 };
 
 export const isPresentVote = vote => {
-	console.log('present', vote);
 	return vote.presentVote === 5 || vote.presentVote === 7;
 };
 

@@ -37,7 +37,16 @@ class AgendaDetailsTabs extends React.Component {
         const { agenda, translate, council } = this.props;
 
         return (
-            <div style={{width: '100%', height: '100%', backgroundColor: 'white', borderTop: '1px solid gainsboro', display: 'flex', flexDirection: 'column'}}>
+            <div style={{
+                    width: '100%',
+                    height: isMobile? `calc(100% - ${window.screen.availHeight -window.innerHeight}px)` : '100%',
+                    backgroundColor: 'white',
+                    borderTop: '1px solid gainsboro',
+                    paddingBottom: '10px',
+                    display: 'flex', 
+                    flexDirection: 'column'
+                }}
+            >
                 <Tabs
                     value={this.state.selectedTab}
                     indicatorColor="secondary"

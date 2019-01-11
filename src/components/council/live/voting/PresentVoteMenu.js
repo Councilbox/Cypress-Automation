@@ -5,6 +5,9 @@ import VotingValueIcon from "./VotingValueIcon";
 import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
 import { MenuItem } from "material-ui";
+import { LoadingSection } from '../../../../displayComponents';
+import { CircularProgress } from "material-ui/Progress";
+
 
 class PresentVoteMenu extends React.Component {
 	state = {
@@ -19,6 +22,10 @@ class PresentVoteMenu extends React.Component {
 			...agendaVoting
 		} = this.props.agendaVoting;
 
+		this.setState({
+			loading: value
+		})
+
 		await this.props.updateAgendaVoting({
 			variables: {
 				agendaVoting: {
@@ -26,6 +33,10 @@ class PresentVoteMenu extends React.Component {
 					vote: value
 				}
 			}
+		});
+
+		this.setState({
+			loading: false
 		});
 
 		this.props.refetch();
@@ -61,14 +72,21 @@ class PresentVoteMenu extends React.Component {
 						fontSize: "0.9em",
 						alignItems: "center",
 						justifyContent: "center",
+						height: '100%',
+						width: '100%',
 						padding: 0,
 						margin: 0
 					}}
 				>
-					<VotingValueIcon
-						vote={value}
-						color={active ? undefined : "grey"}
-					/>
+					{this.state.loading === value?
+						<CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
+					:
+						<VotingValueIcon
+							vote={value}
+							color={active ? undefined : "grey"}
+						/>
+					}
+
 				</MenuItem>
 			</div>
 		);

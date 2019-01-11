@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { isMobile } from 'react-device-detect';
 
 const withWindowSize = WrappedComponent => {
 	return class WithWindowSize extends Component {
@@ -10,7 +11,7 @@ const withWindowSize = WrappedComponent => {
 
 
 		updateSize = () => {
-			let state = this.state;
+			let state = {...this.state};
 			if (window.innerWidth < 960) {
 				state.size = "xs";
 			} else if (window.innerWidth < 1200) {
@@ -27,19 +28,34 @@ const withWindowSize = WrappedComponent => {
 				state.orientation = "landscape";
 			}
 
-			state.innerHeight = window.innerHeight;
-
-			this.setState({
-				...state
-			});
-			const element = document.getElementById('root');
-			const html = document.getElementsByTagName('html');
-/* 			if(element){
-				//element.style.height = window.innerHeight + 'px';
-				for(let el of html){
-					//el.style.height = window.innerHeight + 'px';
+			if(isMobile){
+				if(state.innerHeight !== window.innerHeight){
+					state.innerHeight = window.innerHeight;
+	
+					const element = document.getElementById('root');
+					const html = document.getElementsByTagName('html');
+					 if(element){
+						//element.style.height = window.innerHeight + 'px';
+						for(let el of html){
+							el.style.height = window.innerHeight + 'px';
+						}
+					}
 				}
-			} */
+				if(state.size !== this.state.size || state.innerHeight !== this.state.innerHeight || state.orientation !== this.state.orientation){
+					this.setState({
+						...state,
+					});
+				}	
+			} else {
+				if(state.size !== this.state.size){
+					this.setState({
+						...state,
+					});
+				}
+			}
+			
+
+			console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
 		};
 
 		componentDidMount() {

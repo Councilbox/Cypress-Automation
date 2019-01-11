@@ -123,7 +123,7 @@ class AgendaManager extends React.Component {
 					style={{
 						width: "calc(100% - 2px)",
 						height: "100%",
-						maxHeight: 'calc(100vh - 3em)',
+						maxHeight: 'calc(100% - 3em)',
 						borderLeft: '1px solid gainsboro',
 						overflow: "hidden",
 						backgroundColor: "white"
