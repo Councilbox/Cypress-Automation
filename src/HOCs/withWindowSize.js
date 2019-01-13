@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import { isMobile } from 'react-device-detect';
 
+if(isMobile){
+	const html = document.getElementsByTagName('html');
+	for(let el of html){
+		el.style.height = window.innerHeight + 'px';
+	}
+}
+
 const withWindowSize = WrappedComponent => {
 	return class WithWindowSize extends Component {
 		state = {
@@ -30,8 +37,11 @@ const withWindowSize = WrappedComponent => {
 
 			if(isMobile){
 				if(state.innerHeight !== window.innerHeight){
-					state.innerHeight = window.innerHeight;
-	
+					if((state.innerHeight - window.innerHeight) > (state.innerHeight * 0.3)){
+						return;
+					} else {
+						state.innerHeight = window.innerHeight;
+					}
 					const element = document.getElementById('root');
 					const html = document.getElementsByTagName('html');
 					 if(element){
@@ -41,6 +51,7 @@ const withWindowSize = WrappedComponent => {
 						}
 					}
 				}
+
 				if(state.size !== this.state.size || state.innerHeight !== this.state.innerHeight || state.orientation !== this.state.orientation){
 					this.setState({
 						...state,
@@ -55,7 +66,7 @@ const withWindowSize = WrappedComponent => {
 			}
 			
 
-			console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
+			//console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
 		};
 
 		componentDidMount() {
