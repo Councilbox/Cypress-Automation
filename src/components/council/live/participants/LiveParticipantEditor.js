@@ -449,7 +449,8 @@ class LiveParticipantEditor extends React.Component {
 									style={{
 										display: "flex",
 										flexDirection: "row",
-										alignItems: "center"
+										alignItems: "center",
+										margin:"0"
 									}}
 								>
 									<div
