@@ -16,6 +16,9 @@ import VideoContainer from '../VideoContainer';
 import { toast } from 'react-toastify';
 import { councilStarted } from '../../../utils/CBX';
 import { API_URL } from "../../../config";
+import AdminAnnouncement from './AdminAnnouncement';
+import { ConfigContext } from '../../../containers/AppControl';
+
 
 const styles = {
 	viewContainer: {
@@ -61,7 +64,7 @@ class ParticipantCouncil extends React.Component {
             window.onunload = this.leaveRoom;
         }
 
-        if(!councilStarted(this.props.council)){
+/*         if(!councilStarted(this.props.council)){
             this.noStartedToastId = toast(
                 <LiveToast
                     message={this.props.translate.council_not_started_yet} //TRADUCCIÓN
@@ -74,7 +77,7 @@ class ParticipantCouncil extends React.Component {
                     className: "liveToast"
                 }
             )
-        }
+        } */
     }
 
     leaveRoom = () => {
@@ -106,11 +109,11 @@ class ParticipantCouncil extends React.Component {
     }
 
     componentDidUpdate = () => {
-        if(this.noStartedToastId){
+     /*    if(this.noStartedToastId){
             if(councilStarted(this.props.council)){
                 toast.dismiss(this.noStartedToastId);
             }
-        }
+        } */
     }
 
     _renderAgendaSection = () => {
@@ -159,6 +162,15 @@ class ParticipantCouncil extends React.Component {
                         {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                             <Grid item xs={isLandscape()? 6 : 12} md={8}>
                                 <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                                    <ConfigContext.Consumer>
+                                        {config => (
+                                            <AdminAnnouncement
+                                                council={council}
+                                                translate={this.props.translate}
+                                                context={config}
+                                            />
+                                        )}
+                                    </ConfigContext.Consumer>
                                     <RequestWordMenu
                                         translate={this.props.translate}
                                         participant={participant}

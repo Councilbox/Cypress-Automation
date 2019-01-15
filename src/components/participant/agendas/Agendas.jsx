@@ -9,7 +9,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
-import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel } from '../../../utils/CBX';
+import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import { toast } from 'react-toastify';
 
@@ -119,6 +119,7 @@ class Agendas extends React.Component {
 		const { translate, council, agendasAnchor, toggleAgendasAnchor, anchorToggle } = this.props;
         const { selected } = this.state;
         const secondary = getSecondary();
+        const primary = getPrimary();
 
         let agendas = [];
 
@@ -172,8 +173,13 @@ class Agendas extends React.Component {
                                 }
                             </div>
                         </div>
-                        <Divider style={{marginBottom: '10px'}}/>
-                        <div style={{padding: '0.8em', paddingLeft: '1.2em'}}>
+                        <Divider/>
+                        {!councilStarted(council) &&
+                            <div style={{backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'}}>
+                                {this.props.translate.council_not_started_yet}
+                            </div>
+                        }
+                        <div style={{padding: '0.8em', paddingLeft: '1.2em', marginTop: '10px'}}>
                             <Steps direction="vertical" size="small" current={selected}>
                                 {this.props.data.agendas?
                                     agendas.map((agenda, index) => {

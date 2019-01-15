@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import RecordingButton from './RecordingButton';
 import { darkGrey } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
+import AdminAnnouncement from '../../../participant/council/AdminAnnouncement';
 
 const rand = Date.now();
 
@@ -26,6 +27,12 @@ class CMPVideoIFrame extends React.Component {
                 <ConfigContext.Consumer>
                     {config => (
                         <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                            <AdminAnnouncement
+                                translate={this.props.translate}
+                                council={this.props.council}
+                                context={config}
+                                closeButton
+                            />
                             {!!data.roomVideoURL && config.video?
                                 <React.Fragment>
                                     {data.roomVideoURL.includes('councilbox') &&
