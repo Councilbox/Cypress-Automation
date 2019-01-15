@@ -17,8 +17,6 @@ class DevAdminPage extends React.Component {
                 name: name
             }
         });
-
-        console.log(response);
     }
 
     render(){
@@ -51,9 +49,7 @@ class DevAdminPage extends React.Component {
 }
 
 const Features = ({ value, toggleFeature }) => {
-    console.log(value);
     const array = Object.keys(value).map(key => ({ name: key, active: value[key] }));
-    console.log(array);
 
     return (
         <React.Fragment>

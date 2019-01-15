@@ -33,6 +33,14 @@ class RichTextInput extends React.Component {
 	};
 
 	onChange = value => {
+		if(!this.rtEditor){
+			return;
+		}
+		const quill = this.rtEditor.getEditor();
+		let selection = quill.getSelection();
+		if (!selection) {
+			return;
+		}
 		this.setState({ value });
 		const html = value.toString('html');
 		if (this.props.onChange) {

@@ -23,6 +23,10 @@ class LoadDraft extends React.Component {
 		loadDraft: false
 	};
 
+	componentDidMount(){
+		this.props.data.refetch();
+	}
+
 
 	render() {
 		const { translate, statutes, statute } = this.props;

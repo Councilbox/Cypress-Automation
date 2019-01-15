@@ -34,6 +34,7 @@ class StatutesPage extends React.Component {
 		selectedStatute: 0,
 		newStatute: false,
 		newStatuteName: "",
+		newLoading: false,
 		statute: {},
 		success: false,
 		editModal: false,
@@ -193,6 +194,7 @@ class StatutesPage extends React.Component {
 					success: true,
 					unsavedChanges: false
 				});
+				await this.props.data.refetch();
 				store.dispatch(setUnsavedChanges(false));
 			}
 		}
@@ -216,6 +218,9 @@ class StatutesPage extends React.Component {
 
 	createStatute = async () => {
 		if (this.state.newStatuteName) {
+			this.setState({
+				newLoading: true
+			});
 			const statute = {
 				title: this.state.newStatuteName,
 				companyId: this.props.company.id
@@ -231,10 +236,11 @@ class StatutesPage extends React.Component {
 					this.setState({
 						newStatute: false
 					});
-					this.handleStatuteChange(
-						this.props.data.companyStatutes.length - 1
-					);
+					this.handleStatuteChange(this.props.data.companyStatutes.length - 1);
 				}
+				this.setState({
+					newLoading: false
+				});
 			}
 		} else {
 			this.setState({
@@ -247,13 +253,14 @@ class StatutesPage extends React.Component {
 	};
 
 	updateState = object => {
-		this.setState({
+ 		this.setState({
 			statute: {
 				...this.state.statute,
 				...object
 			},
 			unsavedChanges: true
 		});
+
 		store.dispatch(setUnsavedChanges(true));
 	};
 
@@ -278,14 +285,15 @@ class StatutesPage extends React.Component {
 
 	restoreStatute = () => {
 		this.setState({
+			statute: null
+		}, () => this.setState({
 			statute: {
-				...this.props.data.companyStatutes[
-					this.state.selectedStatute
-				]
+				...this.props.data.companyStatutes[this.state.selectedStatute]
 			},
 			unsavedChanges: false,
 			rollbackAlert: false
-		});
+		}));
+
 		store.dispatch(setUnsavedChanges(false));
 	}
 
@@ -321,6 +329,7 @@ class StatutesPage extends React.Component {
 								<BasicButton
 									text={translate.add_council_type}
 									fullWidth
+									loading={this.state.newLoading}
 									textStyle={{fontWeight: '700', textTransform: 'none', color: 'white'}}
 									color={secondary}
 									icon={<ButtonIcon type="add" color="white" />}

@@ -91,7 +91,7 @@ class ParticipantItem extends React.Component {
 	}
 };
 
-const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council }) => (
+const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council, refetch }) => (
 	<Grid
 		spacing={0}
 		style={{
@@ -129,7 +129,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 								council={council}
 								translate={translate}
 								inDropDown={true}
-								refetch={this.props.refetch}
+								refetch={refetch}
 							/>
 						</React.Fragment>
 					}

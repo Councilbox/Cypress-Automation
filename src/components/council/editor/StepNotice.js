@@ -207,12 +207,10 @@ class StepNotice extends React.Component {
 		const newDateText = moment(new Date(newDate)).format("LLL");
 		const old2DateText = moment(new Date(old2Date)).format("LLL");
 		const new2DateText = moment(new Date(new2Date)).format("LLL");
-		console.log(oldDateText, newDateText, old2DateText, new2DateText);
 		const replacedText = text
 			.replace(oldDateText, newDateText)
 			.replace(old2DateText, new2DateText);
 
-		console.log(replacedText);
 		this.setState({
 			data: {
 				...this.state.data,
@@ -239,8 +237,6 @@ class StepNotice extends React.Component {
 			dateStart: firstDate,
 			dateStart2NdCall: secondDate,
 		}, () => this.updateConveneDates(oldDate, firstDate, old2Date, secondDate));
-
-		console.log(firstDate, secondDate);
 
 		if(!CBX.checkMinimumAdvance(firstDate, statute)){
 			errors.dateStart = translate.new_statutes_warning
