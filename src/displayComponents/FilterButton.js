@@ -13,7 +13,8 @@ const FilterButton = ({
 	buttonStyle,
 	tooltip,
 	size = "2em",
-	loading
+	loading,
+	styles
 }) => {
 	let element = null;
 
@@ -40,7 +41,8 @@ const FilterButton = ({
 					border: `1px solid gainsboro`,
 					borderRadius: "2px",
 					backgroundColor: active ? getLightGrey() : "transparent",
-					...buttonStyle
+					...buttonStyle,
+					...styles
 				}}
 				elevation={elevation? elevation : active ? 0 : 1}
 				ref={ref => (element = ref)}

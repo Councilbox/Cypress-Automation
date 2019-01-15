@@ -50,7 +50,7 @@ class ParticipantsList extends React.PureComponent {
 					</div>
 
 					:
-
+						
 					participants.list.length > 0 ? (
 						<Scrollbar>
 							<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
@@ -94,7 +94,9 @@ class ParticipantsList extends React.PureComponent {
 							{this.state.editParticipant &&
 								<AlertConfirm
 									open={!!this.state.editParticipant}
-									bodyStyle={isMobile? { padding: '0.3em'} : {}}
+									bodyStyle={
+										isMobile? { padding: '0.3em'} : { minWidth: "95vw",  overflowY: 'hidden' }
+									}
 									requestClose={() => {
 										this.setState({
 											editParticipant: undefined

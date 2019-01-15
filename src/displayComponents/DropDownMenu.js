@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Popover } from 'material-ui';
 import { BasicButton } from "./index";
+import { height } from "window-size";
 
 class DropDownMenu extends React.Component {
 	state = {
@@ -12,10 +13,12 @@ class DropDownMenu extends React.Component {
 	};
 
 	handleClick = event => {
+		event.stopPropagation();
 		this.setState({ anchorEl: event.currentTarget });
 	};
 
-	handleClose = () => {
+	handleClose = event => {
+		event.stopPropagation();
 		this.setState({ anchorEl: null });
 	};
 
@@ -32,43 +35,44 @@ class DropDownMenu extends React.Component {
 			color,
 			type,
 			icon,
+			anchorOrigin,
+			claseHover
 		} = this.props;
-
+		
 		return (
 			<Fragment>
 				{!!Component ? (
-					<div onClick={this.handleClick} id={id} style={{width: '100%'}}>
+					<div onClick={this.handleClick} id={id} style={{ width: '100%' }}>
 						<Component />
 					</div>
 				) : (
-					<BasicButton
-						type={type}
+						<BasicButton
+							claseHover={claseHover}
+							type={type}
+							id={id}
+							loading={loading}
+							onClick={this.handleClick}
+							textStyle={{
+								...textStyle,
+								textTransform: "none"
+							}}
+							color={color}
+							icon={icon}
+							buttonStyle={buttonStyle}
+							text={text}
+						/>
+					)}
+					<Popover
 						id={id}
-						loading={loading}
-						onClick={this.handleClick}
-						textStyle={{
-							...textStyle,
-							textTransform: "none"
-						}}
-						color={color}
-						icon={icon}
-						buttonStyle={buttonStyle}
-						text={text}
-					/>
-				)}
-
-				<Popover
-					id={id}
-					open={Boolean(anchorEl)}
-					anchorEl={anchorEl}
-					onClose={this.handleClose}
-				>
-					<div
-						onClick={this.props.persistent? () => {} : this.handleClose}
+						open={Boolean(anchorEl)}
+						anchorEl={anchorEl}
+						onClose={this.handleClose}
+						anchorOrigin={anchorOrigin}
 					>
-						{items}
-					</div>
-				</Popover>
+						<div onClick={this.props.persistent ? () => { } : this.handleClose}>
+							{items}
+						</div>
+					</Popover>
 			</Fragment>
 		);
 	}

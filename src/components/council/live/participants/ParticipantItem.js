@@ -9,32 +9,40 @@ import TypeIcon from "./TypeIcon";
 import { removeHTMLTags, isRepresented } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
+import { DropDownMenu, Icon } from '../../../../displayComponents';
+import ParticipantStateList from "./ParticipantStateList";
+
+import { compose, graphql } from "react-apollo";
+import { liveParticipant, updateParticipantSends } from "../../../../queries";
+
 
 
 class ParticipantItem extends React.Component {
 
 	// state = {
-	// 	showIcons: false
+	// 	// 	showIcons: false
 	// };
 
 	render() {
-		const { participant, translate, layout, editParticipant, mode } = this.props;
+		const { participant, translate, layout, editParticipant, mode, council } = this.props;
 		const secondary = getSecondary();
-		const gridSize = window.innerWidth < 1350? 6 : 4
+		const gridSize = window.innerWidth < 1350 ? 6 : 4
+		console.log("???????????????")
+		console.log(this.props)
 
 		return (
 			<GridItem
-				xs={this.props.orientation === 'portrait'? 12 : layout !== 'squares'? 12 : 6}
+				xs={this.props.orientation === 'portrait' ? 12 : layout !== 'squares' ? 12 : 6}
 				md={layout !== 'squares' ? 12 : gridSize}
 				lg={layout !== 'squares' ? 12 : gridSize}
-				{...(layout !== 'squares'? { marginBottom: '0.3em'} : {})}
+				{...(layout !== 'squares' ? { marginBottom: '0.3em' } : {})}
 			>
 				<div
 					style={{
 						width: '98%',
 						marginRight: '5%',
 						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
-						...(layout !== 'squares'? {
+						...(layout !== 'squares' ? {
 							height: '3.2em',
 							marginBottom: '0.3em',
 							borderBottom: '1px solid gainsboro'
@@ -88,7 +96,7 @@ class ParticipantItem extends React.Component {
 	}
 };
 
-const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary }) => (
+const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council }) => (
 	<Grid
 		spacing={0}
 		style={{
@@ -97,7 +105,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			alignItems: "center",
 			width: "100%",
 			fontSize: '14px',
-			padding: '1em',
+			// padding: '1em',
 			textOverflow: "ellipsis",
 			overflow: "hidden"
 		}}
@@ -107,7 +115,38 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			lg={mode === 'ATTENDANCE' ? 1 : 2}
 			md={mode === 'ATTENDANCE' ? 1 : 2}
 		>
-			{_getIcon(mode, participant, translate)}
+			{/* {_getIcon(mode, participant, translate)} */}
+			<div >
+				<DropDownMenu
+					claseHover={"classHover "}
+					color="transparent"
+					style={{ paddingLeft: '0px', paddingRight: '0px' }}
+					textStyle={{ boxShadow: "none", height: '100%',fontSize:"12px"  }}
+					icon={
+						<StateIcon
+							translate={translate}
+							state={participant.state}
+							ratio={1.3}
+						/>
+					}
+					items={
+						<React.Fragment>
+							<ParticipantStateList
+								participant={participant}
+								council={council}
+								translate={translate}
+								// refetch={this.props.data.refetch}
+								inDropDown={true}
+							/>
+						</React.Fragment>
+					}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'left',
+					}}
+
+				/>
+			</div>
 		</GridItem>
 		{
 			mode === 'ATTENDANCE' &&
@@ -150,23 +189,24 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 		>
 			{!isRepresented(participant) &&
 				<BasicButton
-					text={participant.signed? translate.user_signed : translate.to_sign}
+					text={participant.signed ? translate.user_signed : translate.to_sign}
 					fullWidth
-					buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+					buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
 					type="flat"
 					color={"white"}
 					onClick={event => {
 						event.stopPropagation();
 						showSignatureModal()
 					}}
-					textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+					textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
 				/>
 			}
 		</GridItem>
 	</Grid>
 )
 
-const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal }) => (
+const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council }) => (
+
 	<React.Fragment>
 		<Card
 			style={{
@@ -178,8 +218,42 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 				overflow: "hidden"
 			}}
 		>
-			<div style={{width: '65%', display: 'flex'}}>
-				{_getIcon(mode, participant, translate)}
+			<div style={{ width: '65%', display: 'flex', height: "84px" }}>
+
+				{/* {_getIcon(mode, participant, translate)} */}
+
+				<div>
+					<DropDownMenu
+						claseHover={"classHover "}
+						color="transparent"
+						style={{ paddingLeft: '0px', paddingRight: '0px' }}
+						textStyle={{ boxShadow: "none", height: '100%' }}
+						icon={
+							<StateIcon
+								translate={translate}
+								state={participant.state}
+								ratio={1.3}
+							/>
+						}
+						items={
+							<React.Fragment>
+								<ParticipantStateList
+									participant={participant}
+									council={council}
+									translate={translate}
+									// refetch={this.props.data.refetch}
+									inDropDown={true}
+								/>
+							</React.Fragment>
+						}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left',
+						}}
+
+					/>
+				</div>
+
 				<div
 					style={{
 						display: "flex",
@@ -187,7 +261,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						marginLeft: "0.6em",
 						width: "100%",
 						textOverflow: "ellipsis",
-						overflow: "hidden"
+						overflow: "hidden",
+						paddingTop: '15px'
 					}}
 				>
 					<div
@@ -283,7 +358,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							variant="body1"
 							style={{ color: "grey", fontSize: "0.75rem" }}
 						>
-							{`${participant.position? participant.position : '-'}`}
+							{`${participant.position ? participant.position : '-'}`}
 						</Typography>
 					</div>
 					{mode === 'ATTENDANCE' && participant.assistanceComment &&
@@ -339,16 +414,16 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 			>
 				{!isRepresented(participant) &&
 					<BasicButton
-						text={participant.signed? translate.user_signed : translate.to_sign}
+						text={participant.signed ? translate.user_signed : translate.to_sign}
 						fullWidth
-						buttonStyle={{border: `1px solid ${participant.signed? primary : secondary}`}}
+						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
 						type="flat"
 						color={"white"}
 						onClick={event => {
 							event.stopPropagation();
 							showSignatureModal()
 						}}
-						textStyle={{color: participant.signed? primary : secondary, fontWeight: '700'}}
+						textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
 					/>
 				}
 			</div>

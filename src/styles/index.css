@@ -184,4 +184,8 @@ h4 {
     overflow: hidden;
     overflow-y: scroll;
 }
+.listInModalLive:not(:first-of-type) {
+    margin-top: 0.8em;
+}
 
+.classHover:hover{background-color: #ddd!important; border-radius: 0px;}

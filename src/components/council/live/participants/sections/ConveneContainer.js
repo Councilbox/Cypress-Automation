@@ -172,7 +172,7 @@ class ConveneContainer extends React.Component {
 	_renderHeader = () => {
 		let { conveneSendRecount } = this.props.data;
 		let { translate } = this.props;
-
+		
 		return (
 			<React.Fragment>
 				<Grid
