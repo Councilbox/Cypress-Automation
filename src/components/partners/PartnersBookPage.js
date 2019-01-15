@@ -61,7 +61,6 @@ class PartnersBookPage extends React.Component {
     }
 
     updateFilters = value => {
-        console.log(value);
 		const appliedFilters =  {
 			...this.state.appliedFilters,
 			text: value.filters[0]? value.filters[0].text : '',
@@ -476,7 +475,6 @@ const applyFilters = (participants, filters) => {
 }
 
 const applyOrder = (participants, orderBy, orderDirection) => {
-    console.log('order');
     return participants;
 	return participants.sort((a, b) => {
 		let participantA = a;

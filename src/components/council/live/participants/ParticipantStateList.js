@@ -55,11 +55,12 @@ class ParticipantStateList extends React.Component {
 					width: "100%",
 					display: "flex",
 					flexDirection: "row",
-					alignItems: "center"
+					alignItems: "center",
+					margin: 0
 				}}
 			>
 				<GridItem xs={landscape ? 6 : 12} md={inDropDown ? 12 : 6} lg={inDropDown ? 12 : 6} style={{padding: "0px" }}>
-					<div style={{ display: 'flex', alignItems: 'center', width: '11em', padding: "0px" }}>
+					<div style={{ display: 'flex', alignItems: 'center',  padding: "0px", width: '100%' }}>
 						<FilterButton
 							styles={{ width: '100%', border: 'none', boxShadow: 'none',margin: "none", borderRadius: "0" }}
 							tooltip={translate.change_to_no_participate}
@@ -83,9 +84,9 @@ class ParticipantStateList extends React.Component {
 							</div>
 						</FilterButton>
 					</div>
-					<div style={{ display: 'flex', alignItems: 'center', width: '11em' }}>
+					<div style={{ display: 'flex', alignItems: 'center', width: '11em', width: '100%' }}>
 						<FilterButton
-							styles={{ width: "100%", border: "none", boxShadow: "none",margin: "none" , borderRadius: "0"}}
+							styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", borderRadius: "0"}}
 							tooltip={translate.change_to_remote}
 							loading={loading === 1}
 							size="2.8em"
@@ -105,9 +106,9 @@ class ParticipantStateList extends React.Component {
 							</div>
 						</FilterButton>
 					</div>
-					<div style={{ display: 'flex', alignItems: 'center', width: '11em',margin: "none", borderRadius: "0" }}>
+					<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
 						<FilterButton
-							styles={{ width: "100%", border: "none", boxShadow: "none" }}
+							styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
 							tooltip={translate.physically_present_assistance}
 							loading={loading === 2}
 							size="2.8em"
@@ -126,10 +127,37 @@ class ParticipantStateList extends React.Component {
 								/>
 							</div>
 							<div style={{ width: '70%' }}>
-								<span style={{ fontSize: '0.9em' }}>Presente</span>
+								<span style={{ fontSize: '0.9em' }}>{translate.physically_present_assistance}</span>
 							</div>
 						</FilterButton>
 					</div>
+					{CBX.canBePresentWithRemoteVote(council.statute) && (
+						<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0" }}>
+							<FilterButton
+								tooltip={translate.change_to_present_with_remote_vote}
+								styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+								loading={loading === 3}
+								size="2.8em"
+								onClick={() => this.changeParticipantState(7, 3, null)}
+								active={
+									participant.state ===
+									PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+								}
+							>
+								<div style={{ width: '30%', marginRight: "20px" }}>
+									<StateIcon
+										translate={translate}
+										state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
+										color={secondary}
+										hideTooltip={true}
+									/>
+								</div>
+								<div style={{ width: '70%' }}>
+									<span style={{ fontSize: '0.9em' }}>Presente con voto remoto</span>
+								</div>
+							</FilterButton>
+						</div>
+					)}
 				</GridItem>
 			</Grid>
 		);

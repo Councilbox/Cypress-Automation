@@ -11,24 +11,15 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import { DropDownMenu, Icon } from '../../../../displayComponents';
 import ParticipantStateList from "./ParticipantStateList";
-
 import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 
-
-
 class ParticipantItem extends React.Component {
-
-	// state = {
-	// 	// 	showIcons: false
-	// };
 
 	render() {
 		const { participant, translate, layout, editParticipant, mode, council } = this.props;
 		const secondary = getSecondary();
-		const gridSize = window.innerWidth < 1350 ? 6 : 4
-		console.log("???????????????")
-		console.log(this.props)
+		const gridSize = window.innerWidth < 1350 ? 6 : 6
 
 		return (
 			<GridItem
@@ -59,14 +50,14 @@ class ParticipantItem extends React.Component {
 							overflow: "hidden",
 						}}
 						onClick={() => editParticipant(participant.id)}
-					// onMouseEnter={() => this.setState({ showIcons: true })}
-					// onMouseLeave={() => this.setState({ showIcons: false })}
 					>
 						{layout === 'compact' &&
 							<CompactItemLayout
 								secondary={secondary}
 								participant={participant}
 								translate={translate}
+								council={council}
+								refetch={this.props.refetch}
 								showSignatureModal={this.props.showSignatureModal}
 								mode={mode}
 							/>
@@ -76,6 +67,8 @@ class ParticipantItem extends React.Component {
 								secondary={secondary}
 								participant={participant}
 								translate={translate}
+								council={council}
+								refetch={this.props.refetch}
 								showSignatureModal={this.props.showSignatureModal}
 								mode={mode}
 							/>
@@ -85,6 +78,8 @@ class ParticipantItem extends React.Component {
 								secondary={secondary}
 								participant={participant}
 								translate={translate}
+								council={council}
+								refetch={this.props.refetch}
 								showSignatureModal={this.props.showSignatureModal}
 								mode={mode}
 							/>
@@ -105,7 +100,6 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			alignItems: "center",
 			width: "100%",
 			fontSize: '14px',
-			// padding: '1em',
 			textOverflow: "ellipsis",
 			overflow: "hidden"
 		}}
@@ -115,7 +109,6 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			lg={mode === 'ATTENDANCE' ? 1 : 2}
 			md={mode === 'ATTENDANCE' ? 1 : 2}
 		>
-			{/* {_getIcon(mode, participant, translate)} */}
 			<div >
 				<DropDownMenu
 					claseHover={"classHover "}
@@ -135,8 +128,8 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 								participant={participant}
 								council={council}
 								translate={translate}
-								// refetch={this.props.data.refetch}
 								inDropDown={true}
+								refetch={this.props.refetch}
 							/>
 						</React.Fragment>
 					}
@@ -205,7 +198,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 	</Grid>
 )
 
-const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council }) => (
+const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => (
 
 	<React.Fragment>
 		<Card
@@ -219,9 +212,6 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 			}}
 		>
 			<div style={{ width: '65%', display: 'flex', height: "84px" }}>
-
-				{/* {_getIcon(mode, participant, translate)} */}
-
 				<div>
 					<DropDownMenu
 						claseHover={"classHover "}
@@ -240,8 +230,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								<ParticipantStateList
 									participant={participant}
 									council={council}
+									refetch={refetch}
 									translate={translate}
-									// refetch={this.props.data.refetch}
 									inDropDown={true}
 								/>
 							</React.Fragment>

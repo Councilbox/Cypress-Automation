@@ -50,7 +50,6 @@ class ParticipantsList extends React.PureComponent {
 					</div>
 
 					:
-						
 					participants.list.length > 0 ? (
 						<Scrollbar>
 							<Grid spacing={0} style={{paddingBottom: '6em', padding: '1em'}}>
@@ -63,6 +62,7 @@ class ParticipantsList extends React.PureComponent {
 												participant={participant}
 												translate={translate}
 												mode={mode}
+												refetch={this.props.refetch}
 												showSignatureModal={this.showSignatureModal(participant)}
 												editParticipant={() => this.setState({
 													editParticipant: participant.id
@@ -108,6 +108,7 @@ class ParticipantsList extends React.PureComponent {
 											<LiveParticipantEditor
 												translate={translate}
 												council={council}
+												refetch={this.props.refetch}
 												id={this.state.editParticipant}
 
 											/>

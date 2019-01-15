@@ -43,7 +43,7 @@ class AgendaDetailsTabs extends React.Component {
                     backgroundColor: 'white',
                     borderTop: '1px solid gainsboro',
                     paddingBottom: '10px',
-                    display: 'flex', 
+                    display: 'flex',
                     flexDirection: 'column'
                 }}
             >

@@ -31,7 +31,6 @@ class NoCompanyDashboard extends React.Component {
 
 	render() {
 		const { translate, user } = this.props;
-		console.log(user);
 		return (
 			<div
 				style={{

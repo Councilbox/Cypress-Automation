@@ -692,11 +692,9 @@ const applyFilters = (participants, filters) => {
 }
 
 const applyOrder = (participants, orderBy, orderDirection) => {
-	console.log('order');
 	return participants.sort((a, b) => {
 		let participantA = formatParticipant(a);
 		let participantB = formatParticipant(b);
-		console.log(participantA[orderBy], participantB[orderBy]);
 		return participantA[orderBy] > participantB[orderBy]
 	});
 }

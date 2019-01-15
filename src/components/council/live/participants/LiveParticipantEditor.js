@@ -102,14 +102,12 @@ class LiveParticipantEditor extends React.Component {
 		}
 
 		let participant = { ...this.props.data.liveParticipant };
-		let inDropDown = false;
 		const secondary = getSecondary();
 		const landscape = isLandscape() || window.innerWidth > 700;
 		const primary = getPrimary();
 		participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 		participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
-		console.log("///////////////////////////")
-		console.log(this.props)
+
 		return (
 			<div
 				style={{
@@ -147,7 +145,7 @@ class LiveParticipantEditor extends React.Component {
 								marginBottom: "0.8em",
 								paddingBottom: "0.5em"
 							}}>
-							<h4 style={{ width: '100%' }}>State</h4>
+							<h4 style={{ width: '100%' }}>{translate.state}</h4>
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 6} md={4}
 							style={{
@@ -157,7 +155,7 @@ class LiveParticipantEditor extends React.Component {
 								marginBottom: "0.8em",
 								paddingBottom: "0.5em"
 							}}>
-							<h4 style={{ width: '100%' }}>Actions</h4>
+							<h4 style={{ width: '100%' }}>{translate.actions}</h4>
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
 							<GridItem xs={landscape ? 2 : 12} xs={3} md={2} style={{ textAlign: "center", display : isMobile ? "none": "block" }}>
@@ -228,7 +226,7 @@ class LiveParticipantEditor extends React.Component {
 													participant={participant}
 													council={this.props.council}
 													translate={translate}
-													refetch={this.props.data.refetch}
+													refetch={this.props.refetch}
 													inDropDown={true}
 												/>
 											</React.Fragment>
@@ -241,18 +239,10 @@ class LiveParticipantEditor extends React.Component {
 								</div>
 								<div
 									style={{
-										// marginLeft: "-1.5em",
+
 										marginTop: "1em"
 									}}
 								>
-									{/* {!isMobile &&
-									<DownloadCBXDataButton 
-										style={{ width: "5.85em", marginLeft: "0px", height: "2.4em" }}
-										translate={translate}
-										participantId={participant.id}
-									/>
-								} */}
-
 								</div>
 								<div
 									style={{
@@ -260,63 +250,14 @@ class LiveParticipantEditor extends React.Component {
 										marginTop: "0.5em"
 									}}
 								>
-									{/* {!CBX.isRepresented(participant) && 
-									<BasicButton
-										text={participant.signed ? translate.user_signed : translate.to_sign}
-										fullWidth
-										buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-										type="flat"
-										color={"white"}
-										onClick={this.openSignModal}
-										textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-									/>
-								} */}
-									{/* {this.state.showSignatureModal &&
-									<SignatureModal
-										show={this.state.showSignatureModal}
-										council={this.props.council}
-										participant={participant}
-										refetch={this.props.data.refetch}
-										requestClose={this.closeSignModal}
-										translate={translate}
-									/>
-								} */}
 								</div>
-								{/* <Typography variant="body2">
-								<b>{`${translate.current_status}:  `}</b>
-								<br />
-								{
-									translate[
-									CBX.getParticipantStateField(
-										participant
-									)
-									]
-								}
-								<br />
-								<div style={{ marginTop: "0.5em" }}>
-									<ParticipantStateSelector
-										participant={participant}
-										council={this.props.council}
-										translate={translate}
-										refetch={this.props.data.refetch}
-									/>
-								</div>
-							</Typography> */}
 							</GridItem>
 							<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
 								<div style={{ marginLeft: '1.3em', width: "100%" }}>
 									<Typography variant="body2" >
 										<div style={{ paddingLeft: landscape ? '1em' : "0", height: "45px", marginBottom: "0.5em" }}>
 											<b>{`${translate.current_status}:  `}</b>
-											{/* <br /> */}
-											{
-												translate[
-												CBX.getParticipantStateField(
-													participant
-												)
-												]
-											}
-											{/* <br /> */}
+											{translate[CBX.getParticipantStateField(participant)]}
 										</div>
 										<div style={{ paddingLeft: '1em', display: isMobile ? "none": "block" }}>
 											<ParticipantStateSelector
@@ -440,86 +381,86 @@ class LiveParticipantEditor extends React.Component {
 								refetch={this.props.data.refetch}
 							/>
 						} */}
-						{participant.notifications.length > 0 ? (
-							<React.Fragment>
-								<GridItem
-									xs={12}
-									lg={12}
-									md={12}
+						<React.Fragment>
+							<GridItem
+								xs={12}
+								lg={12}
+								md={12}
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center",
+									margin:"0"
+								}}
+							>
+								<div
 									style={{
-										display: "flex",
-										flexDirection: "row",
-										alignItems: "center",
-										margin:"0"
+										display: "flex"
 									}}
 								>
-									<div
+									<Typography
+										variant="subheading"
 										style={{
-											display: "flex"
+											marginRight: "1em"
 										}}
 									>
-										<Typography
-											variant="subheading"
-											style={{
-												marginRight: "1em"
-											}}
-										>
-											{translate.sends}
-										</Typography>
-										<RefreshButton
-											tooltip={translate.refresh_emails}
-											loading={this.state.loadingSends}
-											onClick={this.refreshEmailStates}
+										{translate.sends}
+									</Typography>
+									<RefreshButton
+										tooltip={translate.refresh_emails}
+										loading={this.state.loadingSends}
+										onClick={this.refreshEmailStates}
+									/>
+								</div>
+								<div
+									style={{
+										display: "flex",
+										marginLeft: isMobile ? '0' : "0",
+										// marginTop: "0.5em"
+										marginLeft: "auto"
+									}}
+								>
+									{CBX.showSendCredentials(participant.state) &&
+										<ResendCredentialsModal
+											participant={participant}
+											council={this.props.council}
+											translate={translate}
+											refetch={this.props.data.refetch}
 										/>
-									</div>
-									<div
-										style={{
-											display: "flex",
-											marginLeft: isMobile ? '0' : "0",
-											// marginTop: "0.5em"
-											marginLeft: "auto"
-										}}
-									>
-										{CBX.showSendCredentials(participant.state) &&
-											<ResendCredentialsModal
-												participant={participant}
-												council={this.props.council}
-												translate={translate}
-												refetch={this.props.data.refetch}
-											/>
-										}
-										{!CBX.isRepresented(participant) && /*Boton de firmar*/
-											<BasicButton
-												text={participant.signed ? translate.user_signed : translate.to_sign}
-												fullWidth
-												buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-												type="flat"
-												color={"white"}
-												onClick={this.openSignModal}
-												textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-											/>
-										}
-										{this.state.showSignatureModal &&
-											<SignatureModal
-												show={this.state.showSignatureModal}
-												council={this.props.council}
-												participant={participant}
-												refetch={this.props.data.refetch}
-												requestClose={this.closeSignModal}
-												translate={translate}
-											/>
-										}
+									}
+									{!CBX.isRepresented(participant) && /*Boton de firmar*/
+										<BasicButton
+											text={participant.signed ? translate.user_signed : translate.to_sign}
+											fullWidth
+											buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
+											type="flat"
+											color={"white"}
+											onClick={this.openSignModal}
+											textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+										/>
+									}
+									{this.state.showSignatureModal &&
+										<SignatureModal
+											show={this.state.showSignatureModal}
+											council={this.props.council}
+											participant={participant}
+											refetch={this.props.data.refetch}
+											requestClose={this.closeSignModal}
+											translate={translate}
+										/>
+									}
 
-										{!isMobile &&
-											<DownloadCBXDataButton
-												style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
-												translate={translate}
-												participantId={participant.id}
-											/>
-										}
+									{!isMobile &&
+										<DownloadCBXDataButton
+											style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
+											translate={translate}
+											participantId={participant.id}
+										/>
+									}
 
-									</div>
-								</GridItem>
+								</div>
+							</GridItem>
+							{participant.notifications.length > 0 ? (
 								<GridItem xs={12} lg={12} md={12}>
 									<NotificationsTable
 										notifications={participant.notifications}
@@ -528,13 +469,13 @@ class LiveParticipantEditor extends React.Component {
 										visib={this.state.visib}
 									/>
 								</GridItem>
-							</React.Fragment>
-						) : (
+							) : (
 								<GridItem xs={12} md={12} lg={12}>
 									{translate.no_files_sent}
 								</GridItem>
 							)
 						}
+						</React.Fragment>
 					</Grid>
 				</div>
 			</div >

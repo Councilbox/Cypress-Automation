@@ -59,32 +59,6 @@ class ParticipantSelectActions extends React.Component {
 				}}
 			>
 				<GridItem xs={12} md={12} lg={12} >
-					{CBX.canBePresentWithRemoteVote(council.statute) && (
-						<div className="listInModalLive" style={{ display: 'flex', alignItems: 'center' }}>
-							<FilterButton
-								tooltip={translate.change_to_present_with_remote_vote}
-								loading={loading === 3}
-								size="100%"
-								onClick={() => this.changeParticipantState(7, 3, null)}
-								active={
-									participant.state ===
-									PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-								}
-							>
-								<div style={{ display: 'flex', width: '30%' }}>
-									<StateIcon
-										translate={translate}
-										state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
-										color={secondary}
-										hideTooltip={true}
-									/>
-								</div>
-								<div style={{ display: 'flex', width: '30%' }}>
-									<span style={{ fontSize: '0.9em' }}>Presente con voto remoto</span>
-								</div>
-							</FilterButton>
-						</div>
-					)}
 					{CBX.canHaveRepresentative(participant) &&
 						<div className="listInModalLive" style={{ display: 'flex', alignItems: 'center' }}>
 

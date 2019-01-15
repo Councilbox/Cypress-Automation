@@ -38,7 +38,7 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 				>
 					{`${participant.name} ${participant.surname} - ${participant.dni} ${toDelegate && limitReached ? 'NO SE PUEDEN DELEGAR MÁS VOTOS EN ESTE PARTICIPANTE' : ''}`}
 				</div>
-				<div style={{ fontSize: "0.8rem" }}>{`${participant.position} - ${
+				<div style={{ fontSize: "0.8rem" }}>{`${participant.position || '-'} - ${
 					participant.email
 					} - ${participant.phone}`}</div>
 			</div>

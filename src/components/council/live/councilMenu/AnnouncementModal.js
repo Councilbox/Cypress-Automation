@@ -52,8 +52,6 @@ class AnnouncementModal extends React.Component {
             }
         });
 
-        console.log(response);
-
         this.props.requestClose();
     }
 
@@ -83,8 +81,6 @@ class AnnouncementModal extends React.Component {
 
 	render() {
         const { translate } = this.props;
-
-        console.log(this.props.context);
 
 		return (
             <CustomDialog

@@ -74,7 +74,7 @@ class RichTextInput extends React.Component {
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'italic', 'link', 'strike'],
+					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
 				],

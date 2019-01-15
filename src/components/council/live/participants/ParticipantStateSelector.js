@@ -115,8 +115,6 @@ class ParticipantStateSelector extends React.Component {
 						</FilterButton>
 						<span style={{fontSize: '0.9em'}}>Presente</span>
 					</div>
-				</GridItem>
-				<GridItem xs={landscape? 6 : 12} md={6} lg={6} style={{display: inDropDown?"none":"block" }}>
 					{CBX.canBePresentWithRemoteVote(council.statute) && (
 						<div style={{display: 'flex', alignItems: 'center'}}>
 							<FilterButton
@@ -139,6 +137,8 @@ class ParticipantStateSelector extends React.Component {
 							<span style={{fontSize: '0.9em'}}>Presente con voto remoto</span>
 						</div>
 					)}
+				</GridItem>
+				<GridItem xs={landscape? 6 : 12} md={6} lg={6} style={{display: inDropDown?"none":"block" }}>
 					{CBX.canHaveRepresentative(participant) &&
 						<div style={{display: 'flex', alignItems: 'center'}}>
 
