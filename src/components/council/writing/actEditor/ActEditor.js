@@ -187,11 +187,14 @@ class ActEditor extends Component {
 			company: this.props.company,
 			council: this.props.data.council
 		}, this.props.translate);
-		this.updateActState({
-			[this.state.load]: correctedText
-		});
 
-		this[this.state.load].setValue(correctedText);
+		console.log(this.state.data.council.act[this.state.load]);
+
+/* 		this.updateActState({
+			[this.state.load]: this.state.data.council.act[this.state.load] + correctedText
+		}); */
+
+		this[this.state.load].paste(correctedText);
 		this.setState({
 			loadDraft: false
 		});

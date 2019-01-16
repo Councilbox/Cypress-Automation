@@ -72,11 +72,11 @@ class AgendaEditor extends React.Component {
 		   council: this.props.council
 	    }, this.props.translate);
 
-		this.updateAgendaState({
+/* 		this.updateAgendaState({
 			comment: correctedText
-		});
+		}); */
 
-		this.editor.setValue(correctedText);
+		this.editor.paste(correctedText);
 		this.setState({
 			loadDraft: false
 		});

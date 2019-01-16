@@ -393,72 +393,101 @@ class LiveParticipantEditor extends React.Component {
 									margin:"0"
 								}}
 							>
-								<div
-									style={{
-										display: "flex"
-									}}
-								>
-									<Typography
-										variant="subheading"
+								<Grid>
+									{!isMobile &&
+										<GridItem xs={12} md={3} lg={2}
+											style={{
+												display: "flex"
+											}}
+										>
+											<Typography
+												variant="subheading"
+												style={{
+													marginRight: "1em"
+												}}
+											>
+												{translate.sends}
+											</Typography>
+											<RefreshButton
+												tooltip={translate.refresh_emails}
+												loading={this.state.loadingSends}
+												onClick={this.refreshEmailStates}
+											/>
+										</GridItem>
+									}
+									<GridItem xs={12} md={9} lg={10}
 										style={{
-											marginRight: "1em"
+											display: "flex",
+											justifyContent: 'flex-end',
+											marginLeft: isMobile ? '0' : "0",
+											// marginTop: "0.5em"
+											marginLeft: "auto"
 										}}
 									>
-										{translate.sends}
-									</Typography>
-									<RefreshButton
-										tooltip={translate.refresh_emails}
-										loading={this.state.loadingSends}
-										onClick={this.refreshEmailStates}
-									/>
-								</div>
-								<div
-									style={{
-										display: "flex",
-										marginLeft: isMobile ? '0' : "0",
-										// marginTop: "0.5em"
-										marginLeft: "auto"
-									}}
-								>
-									{CBX.showSendCredentials(participant.state) &&
-										<ResendCredentialsModal
-											participant={participant}
-											council={this.props.council}
-											translate={translate}
-											refetch={this.props.data.refetch}
-										/>
-									}
-									{!CBX.isRepresented(participant) && /*Boton de firmar*/
-										<BasicButton
-											text={participant.signed ? translate.user_signed : translate.to_sign}
-											fullWidth
-											buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-											type="flat"
-											color={"white"}
-											onClick={this.openSignModal}
-											textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-										/>
-									}
-									{this.state.showSignatureModal &&
-										<SignatureModal
-											show={this.state.showSignatureModal}
-											council={this.props.council}
-											participant={participant}
-											refetch={this.props.data.refetch}
-											requestClose={this.closeSignModal}
-											translate={translate}
-										/>
-									}
+										{CBX.showSendCredentials(participant.state) &&
+											<div>
+												<ResendCredentialsModal
+													participant={participant}
+													council={this.props.council}
+													translate={translate}
+													refetch={this.props.data.refetch}
+												/>
+											</div>
+										}
+										{!CBX.isRepresented(participant) && /*Boton de firmar*/
+											<div>
+												<BasicButton
+													text={participant.signed ? translate.user_signed : translate.to_sign}
+													fullWidth
+													buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
+													type="flat"
+													color={"white"}
+													onClick={this.openSignModal}
+													textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+												/>
+											</div>
+										}
+										{this.state.showSignatureModal &&
+											<SignatureModal
+												show={this.state.showSignatureModal}
+												council={this.props.council}
+												participant={participant}
+												refetch={this.props.data.refetch}
+												requestClose={this.closeSignModal}
+												translate={translate}
+											/>
+										}
 
-									{!isMobile &&
-										<DownloadCBXDataButton
-											style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
-											translate={translate}
-											participantId={participant.id}
-										/>
+										{!isMobile &&
+											<DownloadCBXDataButton
+												style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
+												translate={translate}
+												participantId={participant.id}
+											/>
+										}
+									</GridItem>
+									{isMobile &&
+										<GridItem xs={12} md={3} lg={2}
+											style={{
+												display: "flex"
+											}}
+										>
+											<Typography
+												variant="subheading"
+												style={{
+													marginRight: "1em"
+												}}
+											>
+												{translate.sends}
+											</Typography>
+											<RefreshButton
+												tooltip={translate.refresh_emails}
+												loading={this.state.loadingSends}
+												onClick={this.refreshEmailStates}
+											/>
+										</GridItem>
 									}
-
-								</div>
+								</Grid>
 							</GridItem>
 							{participant.notifications.length > 0 ? (
 								<GridItem xs={12} lg={12} md={12}>

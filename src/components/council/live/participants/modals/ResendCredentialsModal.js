@@ -11,6 +11,7 @@ import { Card } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { graphql } from "react-apollo";
 import { moment } from "../../../../../containers/App";
+import { isMobile } from 'react-device-detect';
 
 
 class ResendCredentialsModal extends React.Component {
@@ -96,32 +97,32 @@ class ResendCredentialsModal extends React.Component {
 const ResendButton = ({ active, action, translate }) => {
 	return (
 		// <Tooltip title={translate.send_video_credentials}>
-			<Card
-				style={{
-					margin: "2px 1em 0 0",
-					justifyContent: "center",
-					cursor: "pointer",
-					outline: 0,
+			<BasicButton
+				buttonStyle={{
 					border: `1px solid ${getSecondary()}`,
-					borderRadius: "2px",
-					backgroundColor: getSecondary(),
-					marginLeft:'0.5em'
+					marginRight :'0.5em'
 				}}
+				color={'white'}
 				elevation={active ? 0 : 1}
 				tabIndex="0"
+				type="flat"
 				onClick={action}
+				text={
+					<React.Fragment>
+						<FontAwesome
+							name={"share-square"}
+							style={{
+								cursor: "pointer",
+								fontSize: "1.2em",
+								marginRight: '0.2em',
+								color: getSecondary()
+							}}
+						/>
+						<span style={{color: getSecondary()}}>{isMobile? 'Reenviar'/*TRADUCCION*/ : translate.send_video_credentials}</span>
+					</React.Fragment>
+				}
 			>
-				<FontAwesome
-					name={"share-square"}
-					style={{
-						cursor: "pointer",
-						fontSize: "1.2em",
-						padding: "0.3em 0.4em",
-						color: "white",
-					}}
-				/>
-				<span style={{color: 'white', paddingRight: '0.5em'}}>{translate.send_video_credentials}</span>
-			</Card>
+			</BasicButton>
 		// </Tooltip>
 	);
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import VotingsTable from './VotingsTable';
-const pageLimit = 20;
+const pageLimit = 10;
 let page = 1;
 
 class VotingsTableFiltersContainer extends React.Component {
@@ -59,10 +59,10 @@ class VotingsTableFiltersContainer extends React.Component {
 			authorFilters: null
 		};
 
-		variables.options = {
+/* 		variables.options = {
 			limit: pageLimit,
 			offset: pageLimit * (this.state.page - 1)
-		};
+		}; */
 
 		if (this.state.voteFilter !== "all") {
 			variables.filters = [

@@ -85,7 +85,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					/>
 				</div>
 				<Typography variant="body1" className="truncate">
-					{`${participant.position}`}
+					{`${participant.position || '-'}`}
 				</Typography>
 			</div>
 			<div

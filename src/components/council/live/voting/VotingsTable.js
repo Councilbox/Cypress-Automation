@@ -109,6 +109,7 @@ class VotingsTable extends React.Component {
 		let mappedVotings = [];
 
 		if(this.props.data.agendaVotings){
+			console.log(this.props.data.agendaVotings);
 			if(this.props.data.agendaVotings.list.length > 0){
 				this.props.data.agendaVotings.list.forEach(voting => {
 					if(voting.authorRepresentative){
@@ -138,6 +139,10 @@ class VotingsTable extends React.Component {
 				})
 			}
 		}
+
+		const offset = (this.props.page - 1) * this.props.pageLimit;
+		console.log(offset);
+		const slicedVotings = mappedVotings.slice(offset, offset + this.props.pageLimit);
 
 		return (
 			<Grid
@@ -285,7 +290,7 @@ class VotingsTable extends React.Component {
 									{ name: translate.votes }
 								]}
 							>
-								{mappedVotings.map(vote => (
+								{slicedVotings.map(vote => (
 									<TableRow key={`vote_${vote.id}`}>
 										<TableCell>
 											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0?
@@ -397,8 +402,8 @@ class VotingsTable extends React.Component {
 								<PaginationFooter
 									page={this.props.page}
 									translate={translate}
-									length={this.props.data.agendaVotings.list.length}
-									total={this.props.data.agendaVotings.total}
+									length={slicedVotings.length}
+									total={mappedVotings.length}
 									limit={this.props.pageLimit}
 									changePage={this.props.changePage}
 								/>
