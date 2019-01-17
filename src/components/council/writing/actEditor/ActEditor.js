@@ -78,12 +78,18 @@ const CouncilActData = gql`
 				id
 				participantId
 				comment
+				author {
+					socialCapital
+				}
 				vote
 			}
 			numPresentCensus
 			presentCensus
 			numCurrentRemoteCensus
 			currentRemoteCensus
+			socialCapitalPresent
+			socialCapitalRemote
+			socialCapitalNoParticipate
 			comment
 		}
 

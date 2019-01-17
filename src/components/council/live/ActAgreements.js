@@ -6,10 +6,12 @@ import { compose, graphql } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { changeVariablesToValues, checkForUnclosedBraces } from "../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations } from "../../../utils/CBX";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
+import { VOTE_VALUES } from "../../../constants";
+
 
 class ActAgreements extends React.Component {
 
@@ -138,6 +140,113 @@ class ActAgreements extends React.Component {
 			return <LoadingSection />;
 		}
 
+		console.log(agenda);
+
+		let positiveVotings = 0;
+		let negativeVotings = 0;
+		let abstentionVotings = 0;
+		let noVotes = 0;
+
+		const participations = hasParticipations(council);
+		let positiveSC = 0;
+		let negativeSC = 0;
+		let abstentionSC = 0;
+		let noVoteSC = 0;
+
+		agenda.votings.forEach(vote => {
+			switch(vote.vote){
+				case VOTE_VALUES.ABSTENTION:
+					abstentionVotings++;
+					abstentionSC += vote.author.socialCapital;
+					break;
+				case VOTE_VALUES.POSITIVE:
+					positiveVotings++;
+					positiveSC += vote.author.socialCapital;
+					break;
+				case VOTE_VALUES.NEGATIVE:
+					negativeVotings++;
+					negativeSC += vote.author.socialCapital;
+					break;
+				case VOTE_VALUES.NO_VOTE:
+					noVoteSC += vote.author.socialCapital;
+				default:
+					noVotes++;
+			}
+		});
+
+		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+		const totalMinusNoVote = totalSC - noVoteSC;
+		let tags = [
+			{
+				value: moment(council.dateStart).format("LLL"),
+				label: translate.date
+			},
+			{
+				value: company.businessName,
+				label: translate.business_name
+			},
+			{
+				value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: company.country,
+				label: translate.company_new_country
+			},
+			{
+				value: positiveVotings,
+				label: translate.num_positive
+			},
+			{
+				value: negativeVotings,
+				label: translate.num_negative
+			},
+			{
+				value: abstentionVotings,
+				label: translate.num_abstention
+			},
+			{
+				value: noVotes,
+				label: translate.num_no_vote
+			},
+		]
+
+		if(participations){
+			tags.push({
+				value: ((positiveSC / totalSC) * 100).toFixed(3),
+				label: '% a favor / total capital social'
+			},
+			{
+				value: ((negativeSC / totalSC) * 100).toFixed(3),
+				label: '% en contra / total capital social'
+			},
+			{
+				value: ((abstentionSC / totalSC) * 100).toFixed(3),
+				label: '% abstención / total capital social'
+			},
+			{
+				value: ((positiveSC / totalMinusNoVote) * 100).toFixed(3),
+				label: '% a favor / capital social presente'
+			},
+			{
+				value: ((negativeSC / totalMinusNoVote) * 100).toFixed(3),
+				label: '% en contra / capital social presente'
+			},
+			{
+				value: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3),
+				label: '% abstención / capital social presente'
+			});
+		} else {
+			tags.push({
+				value: `${agenda.positiveVotings} `,
+				label: translate.positive_votings
+			},
+			{
+				value: `${agenda.negativeVotings} `,
+				label: translate.negative_votings
+			});
+		}
+
 		return (
 			<div
 				style={{
@@ -161,24 +270,7 @@ class ActAgreements extends React.Component {
 							draftType={5}
 						/>
 					}
-					tags={[
-						{
-							value: moment(council.dateStart).format("LLL"),
-							label: translate.date
-						},
-						{
-							value: company.businessName,
-							label: translate.business_name
-						},
-						{
-							value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
-							label: translate.new_location_of_celebrate
-						},
-						{
-							value: company.country,
-							label: translate.company_new_country
-						}
-					]}
+					tags={tags}
 					value={agenda.comment || ""}
 					onChange={value => this.startUpdateTimeout(value)}
 				/>

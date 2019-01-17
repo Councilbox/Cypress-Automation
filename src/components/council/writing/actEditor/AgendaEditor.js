@@ -9,7 +9,7 @@ import { graphql } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
@@ -103,21 +103,94 @@ class AgendaEditor extends React.Component {
 		let abstentionVotings = 0;
 		let noVotes = 0;
 
+		const participations = hasParticipations(council);
+
+		let positiveSC = 0;
+		let negativeSC = 0;
+		let abstentionSC = 0;
+		let noVoteSC = 0;
+
 		agenda.votings.forEach(vote => {
 			switch(vote.vote){
 				case VOTE_VALUES.ABSTENTION:
 					abstentionVotings++;
+					abstentionSC += vote.author.socialCapital;
 					break;
 				case VOTE_VALUES.POSITIVE:
 					positiveVotings++;
+					positiveSC += vote.author.socialCapital;
 					break;
 				case VOTE_VALUES.NEGATIVE:
 					negativeVotings++;
+					negativeSC += vote.author.socialCapital;
 					break;
+				case VOTE_VALUES.NO_VOTE:
+					noVoteSC += vote.author.socialCapital;
 				default:
 					noVotes++;
 			}
-		})
+		});
+
+		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+		const totalMinusNoVote = totalSC - noVoteSC;
+		const percentagePresentSC = (positiveSC / totalSC) * 100;
+		const percentageTotalSC = (positiveSC / totalMinusNoVote) * 100;
+
+		let tags = [
+			{
+				value: positiveVotings,
+				label: translate.num_positive
+			},
+			{
+				value: negativeVotings,
+				label: translate.num_negative
+			},
+			{
+				value: abstentionVotings,
+				label: translate.num_abstention
+			},
+			{
+				value: noVotes,
+				label: translate.num_no_vote
+			},
+		]
+
+		if(participations){
+			tags.push({
+				value: ((positiveSC / totalSC) * 100).toFixed(3),
+				label: '% a favor / total capital social'
+			},
+			{
+				value: ((negativeSC / totalSC) * 100).toFixed(3),
+				label: '% en contra / total capital social'
+			},
+			{
+				value: ((abstentionSC / totalSC) * 100).toFixed(3),
+				label: '% abstención / total capital social'
+			},
+			{
+				value: ((positiveSC / totalMinusNoVote) * 100).toFixed(3),
+				label: '% a favor / capital social presente'
+			},
+			{
+				value: ((negativeSC / totalMinusNoVote) * 100).toFixed(3),
+				label: '% en contra / capital social presente'
+			},
+			{
+				value: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3),
+				label: '% abstención / capital social presente'
+			});
+		} else {
+			tags.push({
+				value: `${agenda.positiveVotings} `,
+				label: translate.positive_votings
+			},
+			{
+				value: `${agenda.negativeVotings} `,
+				label: translate.negative_votings
+			});
+		}
+
 
 		if(!readOnly){
 			tabs.push({
@@ -152,32 +225,7 @@ class AgendaEditor extends React.Component {
 										}
 									/>
 								}
-								tags={[
-									{
-										value: `${agenda.positiveVotings} `,
-										label: translate.positive_votings
-									},
-									{
-										value: `${agenda.negativeVotings} `,
-										label: translate.negative_votings
-									},
-									{
-										value: positiveVotings,
-										label: translate.num_positive
-									},
-									{
-										value: negativeVotings,
-										label: translate.num_negative
-									},
-									{
-										value: abstentionVotings,
-										label: translate.num_abstention
-									},
-									{
-										value: noVotes,
-										label: translate.num_no_vote
-									}
-								]}
+								tags={tags}
 								value={agenda.comment || ''}
 								onChange={value =>{
 									if(value !== agenda.comment){
@@ -238,7 +286,6 @@ class AgendaEditor extends React.Component {
 					margin: "0.6em 0",
 				}}
 			>
-				
 				<Grid spacing={16} style={{marginBottom: '1em'}}>
 					<GridItem xs={1}
 						style={{
