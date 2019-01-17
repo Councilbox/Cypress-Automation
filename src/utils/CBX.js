@@ -361,7 +361,6 @@ export const changeVariablesToValues = (text, data, translate) => {
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
 
-
 	if(data.council.street){
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
 
@@ -388,6 +387,13 @@ export const changeVariablesToValues = (text, data, translate) => {
 	if (data.votings) {
 		text = text.replace(/{{positiveVotings}}/g, data.votings.positive);
 		text = text.replace(/{{negativeVotings}}/g, data.votings.negative);
+		text = text.replace(/{{positiveSCTotal}}/g, data.votings.SCFavorTotal);
+		text = text.replace(/{{negativeSCTotal}}/g, data.votings.SCAgainstTotal);
+		text = text.replace(/{{abstentionSCTotal}}/g, data.votings.SCAbstentionTotal);
+		text = text.replace(/{{positiveSCPresent}}/g, data.votings.SCFavorPresent);
+		text = text.replace(/{{negativeSCPresent}}/g, data.votings.SCAgainstTotal);
+		text = text.replace(/{{abstentionSCPresent}}/g, data.votings.SCAbstentionTotal);
+
 	}else {
 		text = text.replace(/{{positiveVotings}}/g, 0);
 		text = text.replace(/{{negativeVotings}}/g, 0);
@@ -754,6 +760,7 @@ export const getSignerStatusTranslateField = status => {
 }
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
+	//return;
 	switch (council.state) {
 		case COUNCIL_STATES.DRAFT:
 			if (expected !== "draft") {

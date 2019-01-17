@@ -119,6 +119,32 @@ class ActAgreements extends React.Component {
 
 	loadDraft = draft => {
 		const { agenda } = this.props;
+
+		let positiveSC = 0;
+		let negativeSC = 0;
+		let abstentionSC = 0;
+		let noVoteSC = 0;
+
+		agenda.votings.forEach(vote => {
+			switch(vote.vote){
+				case VOTE_VALUES.ABSTENTION:
+					abstentionSC += vote.author.socialCapital;
+					break;
+				case VOTE_VALUES.POSITIVE:
+					positiveSC += vote.author.socialCapital;
+					break;
+				case VOTE_VALUES.NEGATIVE:
+					negativeSC += vote.author.socialCapital;
+					break;
+				default:
+					noVoteSC += vote.author.socialCapital;
+			}
+		});
+
+		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+		const totalMinusNoVote = totalSC - noVoteSC;
+
+
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,
@@ -126,7 +152,13 @@ class ActAgreements extends React.Component {
 				positive: agenda.positiveVotings + agenda.positiveManual,
 				negative: agenda.negativeVotings + agenda.negativeManual,
 				abstention: agenda.abstentionVotings + agenda.abstentionManual,
-				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual
+				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
+				SCFavorTotal: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
+				SCAgainstTotal: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
+				SCAbstentionTotal: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
+				SCFavorPresent: ((positiveSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				SCAgainstTotal: ((negativeSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				SCAbstentionTotal: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3) + '%'
 			}
 		});
 		this.editor.paste(correctedText);
