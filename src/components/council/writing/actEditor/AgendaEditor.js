@@ -157,27 +157,27 @@ class AgendaEditor extends React.Component {
 
 		if(participations){
 			tags.push({
-				value: ((positiveSC / totalSC) * 100).toFixed(3),
+				value: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
 				label: '% a favor / total capital social'
 			},
 			{
-				value: ((negativeSC / totalSC) * 100).toFixed(3),
+				value: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
 				label: '% en contra / total capital social'
 			},
 			{
-				value: ((abstentionSC / totalSC) * 100).toFixed(3),
+				value: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
 				label: '% abstención / total capital social'
 			},
 			{
-				value: ((positiveSC / totalMinusNoVote) * 100).toFixed(3),
+				value: ((positiveSC / totalMinusNoVote) * 100).toFixed(3) + '%',
 				label: '% a favor / capital social presente'
 			},
 			{
-				value: ((negativeSC / totalMinusNoVote) * 100).toFixed(3),
+				value: ((negativeSC / totalMinusNoVote) * 100).toFixed(3) + '%',
 				label: '% en contra / capital social presente'
 			},
 			{
-				value: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3),
+				value: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3) + '%',
 				label: '% abstención / capital social presente'
 			});
 		} else {
