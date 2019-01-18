@@ -412,27 +412,6 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 	</React.Fragment>
 );
 
-const CouncilInfoCardRender2 = ({ council, company, windowOrientation }) => (
-	<React.Fragment>
-		<div
-			style={{
-				backgroundColor: lightTurquoise,
-				borderRadius: "4px"
-			}}
-		>
-			<div style={{ fontSize: "20px" }}>
-				<img src={company.logo} style={{ height: '2em' }}></img><br />
-				<b>{council.name}</b>
-			</div>
-			<div style={{ fontSize: "15px" }}>
-				{moment(new Date(council.dateStart)).format(
-					"LLL"
-				)}
-			</div>
-		</div>
-	</React.Fragment>
-);
-
 const TextDialog = ({ open, handleClose, title, text }) => (
 	<Dialog
 		open={open}
