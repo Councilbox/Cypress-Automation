@@ -27,6 +27,7 @@ import {
 	getSecondary
 } from "../../../styles/colors";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
+import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
 
 const styles = {
@@ -139,16 +140,12 @@ class CouncilState extends React.Component {
 				>
 					{councilIsInTrash(council) && (
 						// {true && (
-						<div
-							style={{
-								overflow: "hidden",
-								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
-								alignItems: "center",
-								margin: (windowOrientation === "landscape" ? "" : "3em"),
-								justifyContent: 'space-between',
-								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
-							}}>
-							<div>
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div style={{ width: "410px" }}>
 								<TextRender
 									title={translate.we_are_sorry}
 									text={translate.not_held_council}
@@ -164,19 +161,15 @@ class CouncilState extends React.Component {
 								styles={{ marginLeft: "" }}
 							>
 							</Image>
-						</div>
+						</ContenedoState>
 					)}
 
 					{/* {isAssistance && councilIsLive(council) && (
-						<div
-							style={{
-								overflow: "hidden",
-								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
-								alignItems: "center",
-								margin: (windowOrientation === "landscape" ? "" : "3em"),
-								justifyContent: 'space-between',
-								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
-							}}>
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
 							<div>
 								<TextRender
 									title={translate.we_are_sorry}
@@ -195,21 +188,17 @@ class CouncilState extends React.Component {
 								windowOrientation={windowOrientation}
 							>
 							</Image>
-						</div>
+						</ContenedoState>
 					)} */}
 
 					{!isAssistance && councilIsNotLiveYet(council) && (
-						//  {true && (
-						<div
-							style={{
-								overflow: "hidden",
-								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
-								alignItems: "center",
-								margin: (windowOrientation === "landscape" ? "" : "3em"),
-								justifyContent: 'space-between',
-								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
-							}}>
-							<div>
+					// {true && (
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div style={{ width: "410px" }}>
 								<TextRender
 									title={translate.we_are_sorry}
 									text={translate.council_not_started_yet_retry_later}
@@ -225,21 +214,17 @@ class CouncilState extends React.Component {
 								windowOrientation={windowOrientation}
 							>
 							</Image>
-						</div>
+						</ContenedoState>
 					)}
 
-					{councilIsNotCelebrated(council) && (
-						// {true && (
-						<div
-							style={{
-								overflow: "hidden",
-								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
-								alignItems: "center",
-								margin: (windowOrientation === "landscape" ? "" : "3em"),
-								justifyContent: 'space-between',
-								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
-							}}>
-							<div>
+					{/* {councilIsNotCelebrated(council) && ( */}
+						{true && (
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div style={{ width: "410px" }}>
 								<TextRender
 									title={translate.we_are_sorry}
 									text={translate.not_held_council}
@@ -254,22 +239,18 @@ class CouncilState extends React.Component {
 								windowOrientation={windowOrientation}
 							>
 							</Image>
-						</div>
+						</ContenedoState>
 					)}
 
-					{/* {councilIsFinished(council) && ( */}
-					{true && (
+					{councilIsFinished(council) && (
+						// {true && (
 						<React.Fragment>
-							<div
-								style={{
-									overflow: "hidden",
-									display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
-									alignItems: "center",
-									margin: (windowOrientation === "landscape" ? "" : "3em"),
-									justifyContent: 'space-between',
-									fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
-								}}>
-								<div>
+							<ContenedoState
+								widths={this.state.width}
+								heights={this.state.height}
+								windowOrientation={windowOrientation}
+							>
+								<div style={{ width: "410px" }}>
 									<TextRender
 										title={translate.concil_finished}
 										council={council}
@@ -298,9 +279,8 @@ class CouncilState extends React.Component {
 									windowOrientation={windowOrientation}
 								>
 								</Image>
-							</div>
+							</ContenedoState>
 						</React.Fragment>
-
 					)}
 				</div>
 
@@ -340,6 +320,7 @@ class TextRender extends React.PureComponent {
 			windowOrientation
 		} = this.props;
 		const primaryColor = getPrimary();
+
 		return (
 			<React.Fragment>
 				<h3 style={{ color: primaryColor, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
@@ -401,7 +382,7 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 			}}
 		>
 			<CardHeader
-				style={{ padding: windowOrientation === "landscape" ? "0px" : "" }}
+				// style={{ padding: windowOrientation === "landscape" ? "0px" : "" }}
 				// style={{...styles}}
 				/* avatar={
 					<Avatar
@@ -410,12 +391,9 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 					/>
 				} */
 				title={
-					<div
-						style={{
-							lineHeight: windowOrientation === "landscape" ? "1" : ""
-						}}
-					>
-						<img src={company.logo} style={{ height: '2em' }}></img><br />
+					<div style={{ marginBottom: windowOrientation === "landscape" ? "" : "10px" }}>
+						{/* <img src={company.logo} style={{ height: company.logo !== "" ? '2em' : '' }}></img>{company.logo !== "" ? <br /> : ""} */}
+						<img src={logoIcon} style={{ height: logoIcon !== "" ? '2em' : '' }}></img>{logoIcon !== "" ? <br /> : ""}
 						<b>{council.name}</b>
 					</div>
 				}
@@ -430,6 +408,27 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 							}}
 						/>
 					</CardContent> */}
+		</div>
+	</React.Fragment>
+);
+
+const CouncilInfoCardRender2 = ({ council, company, windowOrientation }) => (
+	<React.Fragment>
+		<div
+			style={{
+				backgroundColor: lightTurquoise,
+				borderRadius: "4px"
+			}}
+		>
+			<div style={{ fontSize: "20px" }}>
+				<img src={company.logo} style={{ height: '2em' }}></img><br />
+				<b>{council.name}</b>
+			</div>
+			<div style={{ fontSize: "15px" }}>
+				{moment(new Date(council.dateStart)).format(
+					"LLL"
+				)}
+			</div>
 		</div>
 	</React.Fragment>
 );
@@ -475,6 +474,20 @@ const Image = ({ src, widths, windowOrientation, styles }) => (
 			style={{ width: '100%' }}
 			src={src}
 		/>
+	</div>
+);
+
+const ContenedoState = ({ widths, windowOrientation, heights, children }) => (
+	<div
+		style={{
+			overflow: "hidden",
+			display: widths > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+			alignItems: "center",
+			margin: (windowOrientation === "landscape" ? "" : "3em"),
+			justifyContent: 'space-between',
+			fontSize: windowOrientation === "landscape" && heights < 370 ? "10px" : ""
+		}}>
+		{children}
 	</div>
 );
 
