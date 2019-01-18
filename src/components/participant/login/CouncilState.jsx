@@ -92,7 +92,8 @@ const styles = {
 class CouncilState extends React.Component {
 	state = {
 		modal: false,
-		width: window.innerWidth
+		width: window.innerWidth,
+		height: window.innerHeight
 	}
 
 	componentDidMount() {
@@ -101,7 +102,8 @@ class CouncilState extends React.Component {
 
 	updateDimensions = () => {
 		this.setState({
-			width: window.innerWidth
+			width: window.innerWidth,
+			height: window.innerHeight
 		});
 	}
 
@@ -136,17 +138,45 @@ class CouncilState extends React.Component {
 					}}
 				>
 					{councilIsInTrash(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.not_held_council}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+						// {true && (
+						<div
+							style={{
+								overflow: "hidden",
+								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+								alignItems: "center",
+								margin: (windowOrientation === "landscape" ? "" : "3em"),
+								justifyContent: 'space-between',
+								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
+							}}>
+							<div>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.not_held_council}
+									council={council}
+									company={company}
+									translate={translate}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+								styles={{ marginLeft: "" }}
+							>
+							</Image>
+						</div>
 					)}
 
-					{isAssistance && councilIsLive(council) && (
-						<div style={{ overflow: "hidden", display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"), alignItems: "center", margin: (windowOrientation === "landscape" ? "" : "3em") }}>
+					{/* {isAssistance && councilIsLive(council) && (
+						<div
+							style={{
+								overflow: "hidden",
+								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+								alignItems: "center",
+								margin: (windowOrientation === "landscape" ? "" : "3em"),
+								justifyContent: 'space-between',
+								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
+							}}>
 							<div>
 								<TextRender
 									title={translate.we_are_sorry}
@@ -166,63 +196,121 @@ class CouncilState extends React.Component {
 							>
 							</Image>
 						</div>
-					)}
+					)} */}
 
 					{!isAssistance && councilIsNotLiveYet(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.council_not_started_yet_retry_later}
-							isHtmlText={true}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+						//  {true && (
+						<div
+							style={{
+								overflow: "hidden",
+								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+								alignItems: "center",
+								margin: (windowOrientation === "landscape" ? "" : "3em"),
+								justifyContent: 'space-between',
+								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
+							}}>
+							<div>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.council_not_started_yet_retry_later}
+									isHtmlText={true}
+									council={council}
+									company={company}
+									translate={translate}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+							>
+							</Image>
+						</div>
 					)}
 
 					{councilIsNotCelebrated(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.not_held_council}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+						// {true && (
+						<div
+							style={{
+								overflow: "hidden",
+								display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+								alignItems: "center",
+								margin: (windowOrientation === "landscape" ? "" : "3em"),
+								justifyContent: 'space-between',
+								fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
+							}}>
+							<div>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.not_held_council}
+									council={council}
+									company={company}
+									translate={translate}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+							>
+							</Image>
+						</div>
 					)}
 
-					{councilIsFinished(council) && (
+					{/* {councilIsFinished(council) && ( */}
+					{true && (
 						<React.Fragment>
-							<TextRender
-								title={translate.concil_finished}
-								council={council}
-								company={company}
-								translate={translate}
-							/>
-							<BasicButton
-								text={translate.see_participation}
-								color={secondary}
-								textStyle={{ color: 'white', fontWeight: '700', marginTop: '0.9em' }}
-								onClick={() => this.setState({
-									modal: true
-								})}
-							/>
-							<Results
-								council={council}
-								participant={this.props.participant}
-								requestClose={() => this.setState({ modal: false })}
-								translate={translate}
-								open={this.state.modal}
-							/>
+							<div
+								style={{
+									overflow: "hidden",
+									display: this.state.width > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+									alignItems: "center",
+									margin: (windowOrientation === "landscape" ? "" : "3em"),
+									justifyContent: 'space-between',
+									fontSize: windowOrientation === "landscape" && this.state.height < 370 ? "10px" : ""
+								}}>
+								<div>
+									<TextRender
+										title={translate.concil_finished}
+										council={council}
+										company={company}
+										translate={translate}
+									/>
+									<BasicButton
+										text={translate.see_participation}
+										color={secondary}
+										textStyle={{ color: 'white', fontWeight: '700', marginTop: '0.9em' }}
+										onClick={() => this.setState({
+											modal: true
+										})}
+									/>
+									<Results
+										council={council}
+										participant={this.props.participant}
+										requestClose={() => this.setState({ modal: false })}
+										translate={translate}
+										open={this.state.modal}
+									/>
+								</div>
+								<Image
+									src={emptyMeetingTable}
+									widths={this.state.width}
+									windowOrientation={windowOrientation}
+								>
+								</Image>
+							</div>
 						</React.Fragment>
 
 					)}
 				</div>
 
-				{false &&
+				{
+					false &&
 					<div style={styles.imageContainer}>
 						<img src={emptyMeetingTable} style={styles.image} alt="no-room-logo" />
 					</div>
 				}
-			</div>
+			</div >
 		);
 	}
 }
@@ -292,7 +380,7 @@ class TextRender extends React.PureComponent {
 					)}
 
 
-				<CouncilInfoCardRender council={council} company={company} windowOrientation={windowOrientation}  />
+				<CouncilInfoCardRender council={council} company={company} windowOrientation={windowOrientation} />
 
 				<TextDialog
 					handleClose={this.handleCloseDialog}
@@ -313,7 +401,7 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 			}}
 		>
 			<CardHeader
-				style={{padding: windowOrientation === "landscape" ? "0px" : ""}}
+				style={{ padding: windowOrientation === "landscape" ? "0px" : "" }}
 				// style={{...styles}}
 				/* avatar={
 					<Avatar
@@ -322,7 +410,11 @@ const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 					/>
 				} */
 				title={
-					<div>
+					<div
+						style={{
+							lineHeight: windowOrientation === "landscape" ? "1" : ""
+						}}
+					>
 						<img src={company.logo} style={{ height: '2em' }}></img><br />
 						<b>{council.name}</b>
 					</div>
@@ -370,8 +462,15 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 	</Dialog>
 );
 
-const Image = ({ src, widths, windowOrientation }) => (
-	<div style={{ width: widths < 690 ? "60%" : "33%", minWidth: windowOrientation ? "" : '250px', marginLeft: widths < 690 ? (windowOrientation === "landscape" ? "3em" : "") : "6em", marginTop: widths < 690 ? (windowOrientation === "landscape" ? "" : "3em") : "" }}>
+const Image = ({ src, widths, windowOrientation, styles }) => (
+	<div
+		style={{
+			width: widths < 690 ? "60%" : "33%",
+			minWidth: windowOrientation ? "" : '250px',
+			marginLeft: widths < 690 ? (windowOrientation === "landscape" ? "3em" : "") : "6em",
+			marginTop: widths < 690 ? (windowOrientation === "landscape" ? "" : "3em") : "",
+			...styles
+		}}>
 		<img
 			style={{ width: '100%' }}
 			src={src}
