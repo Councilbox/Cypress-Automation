@@ -139,9 +139,12 @@ h4 {
     animation: toggleColor 1.5s infinite alternate;
 }
 
-.ql-editor {
-    white-space: normal!important;
-}
+
+/* @media screen and (-webkit-min-device-pixel-ratio:0) { 
+    .ql-editor {
+        white-space: normal!important;
+    }
+} */
 
 .liveToast {
     border-radius: 4px !important;

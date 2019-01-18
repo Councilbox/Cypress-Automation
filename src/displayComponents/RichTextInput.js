@@ -5,7 +5,7 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 // import RichTextEditor from 'react-rte';
-import { isMobile } from 'react-device-detect';
+import { isMobile, isChrome } from 'react-device-detect';
 import { TextArea } from 'antd/lib/input/index';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
@@ -13,6 +13,12 @@ import withTranslations from '../HOCs/withTranslations';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Link } from 'quill';
+
+if(isChrome){
+	let style = document.createElement("style");
+	style.innerHTML = '.ql-editor{white-space: normal !important;}';
+	document.head.appendChild(style);
+}
 
 class RichTextInput extends React.Component {
 	state = {
