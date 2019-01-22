@@ -54,7 +54,7 @@ class DropDownMenu extends React.Component {
 							onClick={this.handleClick}
 							textStyle={{
 								...textStyle,
-								textTransform: "none"
+								textTransform: "none",
 							}}
 							color={color}
 							icon={icon}

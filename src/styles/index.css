@@ -196,3 +196,22 @@ h4 {
 }
 
 .classHover:hover{background-color: #ddd!important; border-radius: 0px;}
+
+.imageAfter::before{
+    content: "\f0f7"; 
+    position: absolute;
+    font-family: FontAwesome;
+    font-size: 43px;
+    top: calc(50% - .7em);
+    left: calc(50% - .4em);
+}
+
+.imageAfterHeader::before{
+    content: "\f0f7"; 
+    position: absolute;
+    font-family: FontAwesome;
+    font-size: 28px;
+    top: 27%;
+    left: 25%;
+    color: #000000a6;
+}
