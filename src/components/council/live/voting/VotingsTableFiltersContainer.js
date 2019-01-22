@@ -21,7 +21,6 @@ class VotingsTableFiltersContainer extends React.Component {
                 page: 1,
 				filterText: value
 			}
-			//this.refreshTable
 		);
 	};
 

@@ -131,10 +131,8 @@ class AgendaEditor extends React.Component {
 			}
 		});
 
-		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-		const totalMinusNoVote = totalSC - noVoteSC;
-		const percentagePresentSC = (positiveSC / totalSC) * 100;
-		const percentageTotalSC = (positiveSC / totalMinusNoVote) * 100;
+		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
+		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 
 		let tags = [
 			{
@@ -169,15 +167,15 @@ class AgendaEditor extends React.Component {
 				label: '% abstención / total capital social'
 			},
 			{
-				value: ((positiveSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
 				label: '% a favor / capital social presente'
 			},
 			{
-				value: ((negativeSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
 				label: '% en contra / capital social presente'
 			},
 			{
-				value: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
 				label: '% abstención / capital social presente'
 			});
 		} else {

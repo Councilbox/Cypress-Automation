@@ -142,7 +142,7 @@ class ActAgreements extends React.Component {
 		});
 
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-		const totalMinusNoVote = totalSC - noVoteSC;
+		const totalPresent = totalSC - noVoteSC;
 
 
 		const correctedText = changeVariablesToValues(draft.text, {
@@ -156,9 +156,9 @@ class ActAgreements extends React.Component {
 				SCFavorTotal: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
 				SCAgainstTotal: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
 				SCAbstentionTotal: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
-				SCFavorPresent: ((positiveSC / totalMinusNoVote) * 100).toFixed(3) + '%',
-				SCAgainstTotal: ((negativeSC / totalMinusNoVote) * 100).toFixed(3) + '%',
-				SCAbstentionTotal: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3) + '%'
+				SCFavorPresent: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
+				SCAgainstTotal: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
+				SCAbstentionTotal: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%'
 			}
 		});
 		this.editor.paste(correctedText);
@@ -173,6 +173,7 @@ class ActAgreements extends React.Component {
 		}
 
 		console.log(agenda);
+		console.log(council);
 
 		let positiveVotings = 0;
 		let negativeVotings = 0;
@@ -206,8 +207,8 @@ class ActAgreements extends React.Component {
 			}
 		});
 
-		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-		const totalMinusNoVote = totalSC - noVoteSC;
+		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
+		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 		let tags = [
 			{
 				value: moment(council.dateStart).format("LLL"),
@@ -257,15 +258,15 @@ class ActAgreements extends React.Component {
 				label: '% abstención / total capital social'
 			},
 			{
-				value: ((positiveSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
 				label: '% a favor / capital social presente'
 			},
 			{
-				value: ((negativeSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
 				label: '% en contra / capital social presente'
 			},
 			{
-				value: ((abstentionSC / totalMinusNoVote) * 100).toFixed(3) + '%',
+				value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
 				label: '% abstención / capital social presente'
 			});
 		} else {

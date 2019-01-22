@@ -110,35 +110,51 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={mode === 'ATTENDANCE' ? 1 : 2}
 		>
 			<div >
-				<DropDownMenu
-					claseHover={"classHover "}
-					color="transparent"
-					style={{ paddingLeft: '0px', paddingRight: '0px' }}
-					textStyle={{ boxShadow: "none", height: '100%',fontSize:"12px"  }}
-					icon={
-						<StateIcon
-							translate={translate}
-							state={participant.state}
-							ratio={1.3}
-						/>
-					}
-					items={
-						<React.Fragment>
-							<ParticipantStateList
-								participant={participant}
-								council={council}
+				{ mode === 'STATES'?
+					<DropDownMenu
+						claseHover={"classHover "}
+						color="transparent"
+						style={{ paddingLeft: '0px', paddingRight: '0px' }}
+						textStyle={{ boxShadow: "none", height: '100%',fontSize:"12px"  }}
+						icon={
+							<StateIcon
 								translate={translate}
-								inDropDown={true}
-								refetch={refetch}
+								state={participant.state}
+								ratio={1.3}
 							/>
-						</React.Fragment>
-					}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left',
-					}}
+						}
+						items={
+							<React.Fragment>
+								<ParticipantStateList
+									participant={participant}
+									council={council}
+									translate={translate}
+									inDropDown={true}
+									refetch={refetch}
+								/>
+							</React.Fragment>
+						}
+						anchorOrigin={{
+							vertical: 'bottom',
+							horizontal: 'left',
+						}}
 
-				/>
+					/>
+				:
+					<div
+						style={{
+							width: '88px',
+							height: '100%',
+							display: 'flex',
+							fontSize: '1.3em',
+							paddingLeft: '0.4em',
+							alignItems: 'center',
+							justifyContent: 'center'
+						}}
+					>
+						{_getIcon(mode, participant, translate)}
+					</div>
+				}
 			</div>
 		</GridItem>
 		{
@@ -213,35 +229,51 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 		>
 			<div style={{ width: '65%', display: 'flex', height: "84px" }}>
 				<div>
-					<DropDownMenu
-						claseHover={"classHover "}
-						color="transparent"
-						style={{ paddingLeft: '0px', paddingRight: '0px' }}
-						textStyle={{ boxShadow: "none", height: '100%' }}
-						icon={
-							<StateIcon
-								translate={translate}
-								state={participant.state}
-								ratio={1.3}
-							/>
-						}
-						items={
-							<React.Fragment>
-								<ParticipantStateList
-									participant={participant}
-									council={council}
-									refetch={refetch}
+					{ mode === 'STATES' ?
+						<DropDownMenu
+							claseHover={"classHover "}
+							color="transparent"
+							style={{ paddingLeft: '0px', paddingRight: '0px' }}
+							textStyle={{ boxShadow: "none", height: '100%' }}
+							icon={
+								<StateIcon
 									translate={translate}
-									inDropDown={true}
+									state={participant.state}
+									ratio={1.3}
 								/>
-							</React.Fragment>
-						}
-						anchorOrigin={{
-							vertical: 'bottom',
-							horizontal: 'left',
-						}}
+							}
+							items={
+								<React.Fragment>
+									<ParticipantStateList
+										participant={participant}
+										council={council}
+										refetch={refetch}
+										translate={translate}
+										inDropDown={true}
+									/>
+								</React.Fragment>
+							}
+							anchorOrigin={{
+								vertical: 'bottom',
+								horizontal: 'left',
+							}}
 
-					/>
+						/>
+					:
+						<div
+							style={{
+								width: '88px',
+								height: '100%',
+								display: 'flex',
+								fontSize: '1.3em',
+								paddingLeft: '0.4em',
+								alignItems: 'center',
+								justifyContent: 'center'
+							}}
+						>
+							{_getIcon(mode, participant, translate)}
+						</div>
+					}
 				</div>
 
 				<div
