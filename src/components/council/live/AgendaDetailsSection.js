@@ -253,7 +253,7 @@ class AgendaDetailsSection extends React.Component {
 								)}
 							</GridItem>
 							<GridItem xs={normalLayout? 5 : 6} md={normalLayout? 5 : 7} lg={5} style={{ display: 'flex', alignItems: 'center' }}>
-								{agenda.subjectType !== CBX.getActPointSubjectType() ? (
+								{(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE && agenda.subjectType !== CBX.getActPointSubjectType()) ? (
 									<ToggleVotingsButton
 										council={council}
 										showVotingsAlert={this.props.showVotingsAlert}
