@@ -164,7 +164,7 @@ class CouncilState extends React.Component {
 						</ContenedoState>
 					)}
 
-					{/* {isAssistance && councilIsLive(council) && (
+					{isAssistance && councilIsLive(council) && (
 						<ContenedoState
 							widths={this.state.width}
 							heights={this.state.height}
@@ -189,7 +189,7 @@ class CouncilState extends React.Component {
 							>
 							</Image>
 						</ContenedoState>
-					)} */}
+					)}
 
 					{!isAssistance && councilIsNotLiveYet(council) && (
 					// {true && (
