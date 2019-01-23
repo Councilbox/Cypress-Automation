@@ -5,9 +5,10 @@ import {
 	GridItem,
 	LoadingSection,
 	AlertConfirm,
-	Link
+	Link,
+	BasicButton
 } from "../../displayComponents";
-import { graphql } from "react-apollo";
+import { graphql, compose } from "react-apollo";
 import { councils } from "../../queries.js";
 import logo from '../../assets/img/logo-icono.png';
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
@@ -16,28 +17,22 @@ import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
 import BigCalendar from 'react-big-calendar'
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import { getPrimary, getSecondary } from "../../styles/colors";
+import CouncilDetails from '../../components/council/display/CouncilDetails'
+import { Paper } from 'material-ui';
+import gql from 'graphql-tag';
 
-const messages = {
-	// allDay: 'journée',
-	previous: '< Atrás',
-	next: 'Siguiente >',
-	today: 'Hoy',
-	month: 'Mes',
-	// week: 'semaine',
-	// day: 'jour',
-	agenda: 'Agenda',
-	// date: 'date',
-	// time: 'heure',
-	// event: 'événement', // Or anything you want
-	// showMore: total => `+ ${total} événement(s) supplémentaire(s)`
-  }
+
+const primary = getPrimary();
+const secondary = getSecondary();
 
 class TopSectionBlocks extends React.Component {
 
 	state = {
 		open: false,
 		modal: false,
-		datosModal: false
+		datosModal: false,
+		reunion: null
 	}
 
 	closeCouncilsModal = () => {
@@ -53,28 +48,91 @@ class TopSectionBlocks extends React.Component {
 	}
 
 	selectEvent = (event) => {
-		console.log(event)
+		console.log(" ==== selectEvent ===");
 		this.setState({
 			modal: true,
 			datosModal: event //mirar para que sea la info este en modal - null y dato
 		})
 	}
 
+	showReunionDetails = reunion => {
+		console.log(reunion);
+        this.setState({
+            reunion
+        });
+    }
+
+    closeReunionDetails = () => {
+        this.setState({
+            reunion: null
+        });
+	}
+
+
+	closeModal = () => {
+        this.setState({
+            modal: false
+        });
+    }
+
 	_renderBodyModal = () => {
-		let datosEvento = this.state.modal;
-		console.log(datosEvento);
+		let datosEvento = this.state.datosModal;
+		let { translate } = this.props;
 		return (
-			<div style={{ minWidth: "800px" }}>
-			asdasdasdasdasdasdws
-				{/* <CensusInfoForm
-					translate={this.props.translate}
-					errors={this.state.errors}
-					updateState={this.updateState}
-					census={this.state.data}
-				/> */}
+			<div style={{ height: "350px" }}>
+				<div>{translate.name + ": " + datosEvento.title}</div>
+				<div>{translate.date_real_start + ": " + convertDate(datosEvento.start)}</div>
+				<div>{"Hora" + ": " + new Date(datosEvento.start).getHours() + ":" + addZero(new Date(datosEvento.start).getMinutes())}</div> {/*TRADUCCION*/}
 			</div>
 		);
 	};
+	_renderBody = () => {
+		let datosEvento = this.state.datosModal;
+		console.log(datosEvento);
+		/*Esto no se k hace*/ 
+        // if(!this.props.data.loading && this.props.data.councils.length === 0){
+        //     return <span>{this.props.translate.no_celebrated_councils}</span>
+        // }
+
+        // if(!this.props.data.councils){
+        //     return <LoadingSection />;
+        // }
+
+        if(this.state.council){
+            return <CouncilDetails council={this.state.council} translate={this.props.translate} />;
+        }
+
+        return (
+            <div>
+                {/* {this.props.data.councils.map(council => ( */}
+                    <Paper
+                        key={`loadFromCouncil_${datosEvento.id}`}
+                        style={{
+                            width: '100%',
+                            marginBottom: '0.6em',
+                            padding: '0.6em',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            justifyContent: 'space-between'
+                        }}
+                    >
+                        <div className="truncate" style={{width: '70%'}}>
+                            {datosEvento.title}
+                        </div>
+                        <BasicButton
+                            text={this.props.translate.read_details}
+                            type="flat"
+                            textStyle={{color: getSecondary(), fontWeight: '700'}}
+                            onClick={event => {
+                                event.stopPropagation();
+                                this.showReunionDetails(datosEvento)
+                            }}
+                        />
+                    </Paper>
+                {/* ))} */}
+            </div>
+        )
+    }
 
 	render() {
 		const { translate, company } = this.props;
@@ -86,6 +144,19 @@ class TopSectionBlocks extends React.Component {
 			//Si la dateEnd existe ponerla
 			eventos = councils.map(({ dateStart, dateEnd, name, state, step, id, __typename, companyId }) =>
 				({ start: new Date(dateStart), end: new Date(dateStart), title: name, state, step, id, __typename, companyId }))
+		}
+		const messages = { //TRADUCCION
+			allDay: 'Todo el dia',
+			previous: '< Atrás',
+			next: translate.next + ' >',
+			today: 'Hoy',
+			month: 'Mes',
+			week: 'Semana',
+			day: 'Día',
+			agenda: translate.agenda,
+			date: translate.date,
+			time: 'Hora',
+			event: 'Evento',
 		}
 		return (
 			<Grid
@@ -192,19 +263,36 @@ class TopSectionBlocks extends React.Component {
 									views={allViews}
 									resizable
 									onSelectEvent={this.selectEvent}
+									eventPropGetter={
+										(event, start, end, isSelected) => {
+											return {
+												className: 'rbc-cell-' + event.state,
+											};
+										}
+									}
 								>
 								</BigCalendar>
 							)}
 						{/* crear modal para mostrar bien todo */}
-						<AlertConfirm
+						{/* <AlertConfirm
 							requestClose={() => this.setState({ modal: false })}
 							open={this.state.modal}
-							title={this.state.datosModal.title}
+							title={"Reunion"}
+							// title={this.state.datosModal.title}
 							// acceptAction={this.createCensus}
 							// buttonAccept={translate.accept}
 							// buttonCancel={translate.cancel}
 							bodyText={this._renderBodyModal()}
-							// title={translate.census}
+						/> */}
+						<AlertConfirm
+							requestClose={!!this.state.council ? this.closeCouncilDetails : this.closeModal}
+							open={this.state.modal}
+							hideAccept={!!this.state.council}
+							acceptAction={this.changeCensus}
+							buttonAccept={translate.accept}
+							buttonCancel={!!this.state.council ? translate.back : translate.cancel}
+							bodyText={this._renderBody()}
+							title={'Cargar una reunión pasada'}
 						/>
 					</div>
 				</GridItem>
@@ -214,16 +302,38 @@ class TopSectionBlocks extends React.Component {
 	}
 }
 
+function convertDate(inputFormat) {
+	function pad(s) { return (s < 10) ? '0' + s : s; }
+	var d = new Date(inputFormat);
+	return [pad(d.getDate()), pad(d.getMonth() + 1), d.getFullYear()].join('/');
+}
+function addZero(i) {
+	if (i < 10) {
+		i = "0" + i;
+	}
+	return i;
+}
 
-export default graphql(councils, {
-	options: props => ({
-		variables: {
-			state: [5, 10, 20],
-			companyId: props.company.id,
-			isMeeting: false,
-			active: 1
-		},
-		errorPolicy: 'all'
+const loadFromPreviousCouncil = gql`
+    mutation LoadFromPreviousCouncil($councilId: Int!, $originId: Int!){
+        loadFromAnotherCouncil(councilId: $councilId, originId: $originId){
+            success
+            message
+        }
+    }
+`;
+
+export default compose(
+	graphql(loadFromPreviousCouncil, { name: 'loadFromPreviousCouncil' }),
+	graphql(councils, {
+		options: props => ({
+			variables: {
+				state: [5, 10, 20],
+				companyId: props.company.id,
+				isMeeting: false,
+				active: 1
+			},
+			errorPolicy: 'all'
+		})
 	})
-})(TopSectionBlocks);
-
+)(TopSectionBlocks);
