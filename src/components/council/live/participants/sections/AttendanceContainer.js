@@ -449,9 +449,7 @@ class AttendanceContainer extends React.Component {
 						loading={this.props.data.loading}
 						loadingMore={this.props.data.loading}
 						renderHeader={this._renderHeader}
-						participants={
-							this.props.data.liveParticipantsAttendance
-						}
+						participants={this.props.data.liveParticipantsAttendance}
 						layout={this.props.layout}
 						council={this.props.council}
 						translate={this.props.translate}

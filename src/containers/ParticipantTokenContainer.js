@@ -50,12 +50,14 @@ class ParticipantTokenContainer extends React.Component {
 	render() {
 		const { loading, error, participant } = this.state;
 		const { translate } = this.props;
+
+		console.log(this.props.match.params);
 		if (Object.keys(translate).length === 0 && loading) {
 			return <LoadingMainApp />;
 		}
-
+		
 		if (error) {
-			return <InvalidUrl />;
+			return <InvalidUrl test={this.props.match.params.token === 'fake' || this.props.match.params.token === 'test'} />;
 		}
 
 		return (

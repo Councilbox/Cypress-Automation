@@ -50,12 +50,14 @@ class AssistanceTokenContainer extends React.Component {
 	render() {
 		const { loading, error, participant } = this.state;
 		const { translate, match } = this.props;
+		console.log(this.props.match.params);
+
 		if (Object.keys(translate).length === 0 && loading) {
 			return <LoadingMainApp />;
 		}
 
 		if (error) {
-			return <InvalidUrl />;
+			return <InvalidUrl test={this.props.match.params.token === 'fake' || this.props.match.params.token === 'test'} />;
 		}
 		if (match.params.token === 'fake') {
 			return <div style={{ textAlign: 'center', padding: '20vh' }}>
