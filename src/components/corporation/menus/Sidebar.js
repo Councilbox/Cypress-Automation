@@ -20,7 +20,6 @@ import ImportContacts from 'material-ui-icons/ImportContacts';
 import { bHistory, store } from "../../../containers/App";
 import { changeCompany } from "../../../actions/companyActions";
 
-
 class Sidebar extends React.Component {
 	constructor(props){
 		super(props);

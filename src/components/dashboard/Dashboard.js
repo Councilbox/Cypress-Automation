@@ -2,10 +2,11 @@ import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
 import { darkGrey, lightGrey } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar, CBXFooter } from '../../displayComponents';
+import { Scrollbar, CBXFooter, Block, Icon } from '../../displayComponents';
 import { moment } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
+
 
 const Dashboard = ({ translate, company, user }) => {
 	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
@@ -46,17 +47,17 @@ const Dashboard = ({ translate, company, user }) => {
 						}}
 					>
 					</div>
-					<div style={{display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'}}>
+					{/* <div style={{ display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center' }}>
 						<div>
 							{company.logo &&
-								<img src={company.logo} alt="company-logo" style={{height: '4.5em', width: 'auto'}} />
+								<img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
 							}
 						</div>
 						<div>
 							{company.businessName}
-							{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0? 0 : trialDays} ${translate.input_group_days})`}
+							{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0 ? 0 : trialDays} ${translate.input_group_days})`}
 						</div>
-					</div>
+					</div> */}
 					<TopSectionBlocks
 						translate={translate}
 						company={company}
@@ -65,6 +66,7 @@ const Dashboard = ({ translate, company, user }) => {
 				</div>
 				<CBXFooter />
 			</Scrollbar>
+			
 		</div>
 	);
 }

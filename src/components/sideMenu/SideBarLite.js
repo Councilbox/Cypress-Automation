@@ -15,18 +15,22 @@ import { isLandscape } from "../../utils/screen";
 import { isMobile } from 'react-device-detect';
 import CompanyMenu from "../sideMenu/CompanyMenu";
 import FontAwesome from "react-fontawesome";
+import LateralMenuOptions from "../dashboard/LateralMenuOptions";
+
 
 class Sidebar extends React.Component {
 
 	state = {
 		selectedRoute: 0,
-		companyMenu: false
+		companyMenu: false,
+		openMenu: false
 	};
 
 	routes = [
 		{
 			path: `/company/${this.props.company.id}`,
 			sidebarName: 'Dashboard',
+			name: "dashboard",
 			icon: 'dashboard'
 		},
 		{
@@ -63,6 +67,7 @@ class Sidebar extends React.Component {
 				{
 					path: `/company/${this.props.company.id}`,
 					sidebarName: 'Dashboard',
+					name: 'dashboard',
 					icon: 'dashboard'
 				},
 				{
@@ -155,7 +160,7 @@ class Sidebar extends React.Component {
 						return (
 							<NavLink
 								to={route.path}
-								className={this.props.classes.item}
+								className={`${this.props.classes.item} dropdown-wrapper`}
 								activeClassName="active"
 								key={key}
 								style={{
@@ -201,6 +206,9 @@ class Sidebar extends React.Component {
 										{route.sidebarName}
 									</span>
 								</ListItem>
+								{route.name === "dashboard" && (
+									<LateralMenuOptions company={this.props.company}/>
+								)}
 							</NavLink>
 						);
 					})}
@@ -292,6 +300,7 @@ class Sidebar extends React.Component {
 					})}
 				</div>
 			}
+
 		</div>
 	);
 
@@ -311,7 +320,7 @@ class Sidebar extends React.Component {
 						cursor: 'pointer',
 						display: 'flex',
 						backgroundColor: this.state.companyMenu ? getSecondary() : 'transparent',
-						...(this.showVerticalLayout()? {
+						...(this.showVerticalLayout() ? {
 							padding: 0,
 							margin: 0,
 							backgroundColor: 'transparent'
@@ -328,14 +337,14 @@ class Sidebar extends React.Component {
 							display: 'flex',
 							alignItems: 'center',
 							justifyContent: 'center',
-							...(this.showVerticalLayout()? {
+							...(this.showVerticalLayout() ? {
 								marginTop: '0.6em'
 							} : {}),
 						}}
 					>
 						<i
 							className="material-icons"
-							style={{ color: this.state.companyMenu && this.showVerticalLayout()? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em' }}
+							style={{ color: this.state.companyMenu && this.showVerticalLayout() ? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em' }}
 						>
 							apps
 						</i>
@@ -385,13 +394,13 @@ class Sidebar extends React.Component {
 					<div
 						className={classes.sidebarWrapper}
 						style={{
-							...(this.showVerticalLayout()?  {
+							...(this.showVerticalLayout() ? {
 								height: '3.5em',
 								display: 'flex',
 								width: '100%',
 								flexDirection: 'row',
 								alignItems: 'center'
-							} : { height: 'calc(100vh - 75px)'})
+							} : { height: 'calc(100vh - 75px)' })
 						}}
 					>
 						{this.links()}

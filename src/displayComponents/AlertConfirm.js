@@ -23,7 +23,8 @@ const AlertConfirm = ({
 	cancelAction,
 	bodyText,
 	bodyStyle = {},
-	hideAccept
+	hideAccept,
+	widthModal
 }) => {
 	const primary = getPrimary();
 	const buttons = (
@@ -38,7 +39,7 @@ const AlertConfirm = ({
 					primary={true}
 					color='transparent'
 					type="flat"
-					onClick={!!cancelAction? cancelAction : requestClose}
+					onClick={!!cancelAction ? cancelAction : requestClose}
 				/>
 			)}
 
@@ -69,6 +70,9 @@ const AlertConfirm = ({
 			maxWidth={false}
 			open={open}
 			onClose={requestClose}
+			PaperProps={{
+				style: {...widthModal},
+			}}
 		>
 			<FontAwesome
 				name={"close"}
@@ -86,7 +90,7 @@ const AlertConfirm = ({
 				<DialogTitle
 					style={{
 						padding: "0.6em 2em 0.8em 1.2em",
-						fontSize: "1.2em"
+						fontSize: "1.2em",
 					}}
 				>
 					{title}

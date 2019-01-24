@@ -13,7 +13,9 @@ const AgendaNumber = ({
 	voting,
 	open,
 	style,
-    small
+	small,
+	moreStyles,
+	onlyShowCalendar
 }) => (
 	<div
 		style={{
@@ -24,14 +26,15 @@ const AgendaNumber = ({
 			filter: open && !active ? "opacity(50%)" : "",
 			width: small ? "24px" : "2em",
 			fontSize: small ? "15px" : "1.1em",
-			cursor: "pointer",
+			cursor: onlyShowCalendar ? "" : "pointer",
 			userSelect: "none",
 			position: 'relative',
 			margin: 0,
 			color: active || open ? "white" : secondaryColor,
 			borderRadius: small ? "12px" : "1em",
 			backgroundColor: active || open ? activeColor : "white",
-			border: `3px solid ${active || open ? activeColor : secondaryColor}`
+			border: `3px solid ${active || open ? activeColor : secondaryColor}`,
+			...moreStyles
 		}}
 		onClick={onClick}
 	>

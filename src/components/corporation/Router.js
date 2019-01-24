@@ -26,7 +26,7 @@ const Router = ({ user, translate, location, data, classes }) => {
     if(data.loading){
         return <LoadingMainApp />;
     }
-
+    
     return(
         <div>
             <Sidebar
