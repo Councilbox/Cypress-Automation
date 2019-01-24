@@ -17,7 +17,8 @@ class LateralMenuOptions extends React.Component {
 				height: "100%",
 				paddingTop: "20px",
 				position: "fixed",
-				top: "45px",
+				top: "0",
+				// top: "45px",
 				left: "75px",
 				zIndex: "1",
 			}}>
