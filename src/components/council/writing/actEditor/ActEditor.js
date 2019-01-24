@@ -18,10 +18,12 @@ import { moment } from '../../../../containers/App';
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
+import CouncilMenu from './CouncilMenu';
 import { updateCouncilAct } from '../../../../queries';
 import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
+import { ConfigContext } from '../../../../containers/AppControl';
 
 const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
@@ -34,6 +36,7 @@ const CouncilActData = gql`
 			quorumPrototype
 			secretary
 			president
+			zipcode
 			street
 			city
 			name
@@ -54,6 +57,7 @@ const CouncilActData = gql`
 				id
 				prototype
 				existsQualityVote
+				existsSecondCall
 			}
 		}
 
@@ -328,10 +332,35 @@ class ActEditor extends Component {
 		council.delegatedVotes = this.props.data.participantsWithDelegatedVote;
 
 		return (
-			<div style={{ height: "100%", background: 'transparent' }}>
+			<div style={{ height: "100%", background: 'transparent'}}>
 				<div style={{overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
 						<Scrollbar>
 							<div style={{padding: '1.2em 5%'}}>
+								<div
+									style={{
+										display: 'flex',
+										width: '100%',
+										padding: '0.6em 0px',
+										justifyContent: 'flex-end'
+									}}
+								>
+									<ConfigContext.Consumer>
+										{config => (
+											config.actCouncilInfo?
+												<BasicButton
+													text="Mostrar panel de información"//TRADUCCION
+													color={'white'}
+													type="flat"
+													textStyle={{ fontWeight: '700', color: secondary}}
+													buttonStyle={{border: `1px solid ${secondary}`}}
+													onClick={this.props.toggleInfoMenu}
+												/>
+											:
+												<Config config={config}/>
+										)}
+									</ConfigContext.Consumer>
+
+								</div>
 								{!!data.council.act && data.council.act.intro !== undefined &&
 									<RichTextInput
 										ref={editor => this.intro = editor}
@@ -596,6 +625,12 @@ class ActEditor extends Component {
 			</div>
 		);
 	}
+}
+
+const Config = config => {
+	console.log(config);
+
+	return <span/>
 }
 
 export default compose(

@@ -13,6 +13,7 @@ import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
 import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
+import CouncilSideMenu from './CouncilSideMenu';
 
 class ActEditorPage extends React.Component {
     state = {
@@ -20,8 +21,17 @@ class ActEditorPage extends React.Component {
         sendReminder: false,
         sendConvene: false,
         cancel: false,
-        rescheduleCouncil: false
+        rescheduleCouncil: false,
+        infoMenu: false
     };
+
+    toggleInfoMenu = () => {
+        const menu = this.state.infoMenu;
+
+        this.setState({
+            infoMenu: !menu
+        });
+    }
 
     render(){
         const { translate, council, withoutAct } = this.props;
@@ -75,6 +85,7 @@ class ActEditorPage extends React.Component {
                             :
                                 <div style={{height: '100%'}}>
                                     <ActEditor
+                                        toggleInfoMenu={this.toggleInfoMenu}
                                         councilID={council.id}
                                         companyID={this.props.company.id}
                                         company={this.props.company}
@@ -187,14 +198,22 @@ class ActEditorPage extends React.Component {
         });
 
         return(
-            <CardPageLayout title={council.name} disableScroll={true}>
-                <div style={{width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%'}}>
-                    <TabsScreen
-                        uncontrolled={true}
-                        tabsInfo={tabs}
-                    />
+            <div style={{width: '100%', height: '100%', display: 'flex'}}>
+                <div style={{width: this.state.infoMenu? '65%' : '100%', height: '100%', transition: 'width 0.6s'}}>
+                    <CardPageLayout title={council.name} disableScroll={true}>
+                        <div style={{width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: '100%'}}>
+                            <TabsScreen
+                                uncontrolled={true}
+                                tabsInfo={tabs}
+                            />
+                        </div>
+                    </CardPageLayout>
                 </div>
-            </CardPageLayout>
+                <div style={{backgroundColor: 'white', width: this.state.infoMenu? '35%' : '0', transition: 'width 0.6s', height: '100%'}}>
+                    <CouncilSideMenu council={council} open={this.state.infoMenu} translate={translate} />
+                </div>
+            </div>
+
         )
     }
 }

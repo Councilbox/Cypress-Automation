@@ -25,6 +25,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
 import '../styles/antd.css';
 import moment from "moment/min/moment-with-locales.min";
+import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 export { moment as moment };
 
 const httpLink = new HttpLink({
@@ -191,6 +192,11 @@ class App extends React.Component {
 											exact
 											path="/cmp/:id"
 											component={CouncilLiveTestContainer}
+										/>
+										<Route
+											exact
+											path="/validator/:uuid?"
+											component={ValidatorPage}
 										/>
 										<Route
 											exact
