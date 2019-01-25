@@ -23,6 +23,7 @@ import { Paper, Tooltip } from 'material-ui';
 import gql from 'graphql-tag';
 import AgendaEvent from './AgendaEvent';
 import { isMobile } from "react-device-detect";
+// import Grafica from "./Grafica";
 
 
 
@@ -34,7 +35,8 @@ class TopSectionBlocks extends React.Component {
 	state = {
 		open: false,
 		modal: false,
-		reunion: null
+		reunion: null,
+		grafica: false
 	}
 
 	closeCouncilsModal = () => {
@@ -62,6 +64,13 @@ class TopSectionBlocks extends React.Component {
 		});
 	}
 
+	actualizaEstadoGrafica = () => {
+		this.setState({
+			grafica: true
+		});
+	}
+
+
 	render() {
 		const { translate, company } = this.props;
 		const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
@@ -86,6 +95,55 @@ class TopSectionBlocks extends React.Component {
 			time: 'Hora',
 			event: 'Evento',
 		}
+		console.log(councils)
+
+		const numReunion = []
+		const numMes = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0 }
+
+
+		let data = {
+			labels: [
+				'Enero',
+				'Febrero',
+				'Marzo',
+				'Abril',
+				'Mayo',
+				'Junio',
+				'Julio',
+				'Agosto',
+				'Septiembre',
+				'Octubre',
+				'Nombiembre',
+				'Diciembre',
+			],
+			datasets: [{
+				data: "",
+				backgroundColor: [
+					'#FF6384',
+					'#36A2EB',
+					'#FFCE56'
+				],
+				hoverBackgroundColor: [
+					'#FF6384',
+					'#36A2EB',
+					'#FFCE56'
+				]
+			}],
+			text: '23%'
+		};
+
+		if (!loading) {
+			councils.forEach(reunion => numReunion.push(
+				new Date(reunion.dateStart).getMonth()
+			))
+			for (let i = 0; i < numReunion.length; i++) {
+				numMes[numReunion[i]]++
+			}
+			data.datasets[0].data = numMes
+			// this.actualizaEstadoGrafica();
+		}
+
+
 		return (
 			<Grid
 				style={{
@@ -100,8 +158,8 @@ class TopSectionBlocks extends React.Component {
 					translate={translate}
 				/>
 				{isMobile &&
-					<div style={{width: "100%"}}>
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}} >
+					<div style={{ width: "100%" }}>
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }} >
 							<Block
 								link={`/company/${company.id}/statutes`}
 								icon="gavel"
@@ -111,7 +169,7 @@ class TopSectionBlocks extends React.Component {
 						</GridItem>
 
 
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}} >
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }} >
 							<Block
 								link={`/company/${company.id}/book`}
 								icon="contacts"
@@ -122,7 +180,7 @@ class TopSectionBlocks extends React.Component {
 							/>
 						</GridItem>
 
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}}>
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
 							<Block
 								link={`/company/${company.id}/censuses`}
 								icon="person"
@@ -131,7 +189,7 @@ class TopSectionBlocks extends React.Component {
 							/>
 						</GridItem>
 
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}}>
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
 							<Block
 								link={`/company/${company.id}/drafts`}
 								icon="class"
@@ -139,10 +197,10 @@ class TopSectionBlocks extends React.Component {
 								text={translate.drafts}
 							/>
 						</GridItem>
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}}>
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
 						</GridItem>
 
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}}>
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
 							<Block
 								link={`/company/${company.id}/council/new`}
 								customIcon={<img src={logo} style={{ height: '7em', width: 'auto' }} alt="councilbox-logo" />}
@@ -152,7 +210,7 @@ class TopSectionBlocks extends React.Component {
 								text={translate.dashboard_new}
 							/>
 						</GridItem>
-						<GridItem xs={12} md={3} lg={3} style={{marginBottom:"1em"}}>
+						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
 							<Block
 								link={`/company/${company.id}/meeting/new`}
 								icon="video_call"
@@ -185,33 +243,50 @@ class TopSectionBlocks extends React.Component {
 									<LoadingSection />
 								</div>
 							) : (
+									<React.Fragment>
+										<div style={{ width: "150px", height: '150px', marginBottom: "2em" }}>
+											<div>Reuniones</div>
+											{/* {this.state.grafica ? (<div style={{
+												width: '100%',
+												marginTop: '8em',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center'
+											}}>
+												<LoadingSection />
+											</div>) : ( */}
+													{/* // <Grafica data={data}></Grafica>
+													
+												// )} */}
+										</div>
+										<BigCalendar
+											messages={messages}
+											defaultDate={new Date()}
+											defaultView="agenda"
+											localizer={localizer}
+											events={eventos}
+											startAccessor="start"
+											endAccessor="end"
+											views={allViews}
+											resizable
+											onSelectEvent={this.selectEvent}
+											components={{
+												agenda: {
+													event: AgendaEvent,
+												}
 
-									<BigCalendar
-										messages={messages}
-										defaultDate={new Date()}
-										defaultView="agenda"
-										localizer={localizer}
-										events={eventos}
-										startAccessor="start"
-										endAccessor="end"
-										views={allViews}
-										resizable
-										onSelectEvent={this.selectEvent}
-										components={{
-											agenda: {
-												event: AgendaEvent,
+											}}
+											eventPropGetter={
+												(event, start, end, isSelected) => {
+													return {
+														className: 'rbc-cell-' + event.state,
+													};
+												}
 											}
+										>
+										</BigCalendar>
 
-										}}
-										eventPropGetter={
-											(event, start, end, isSelected) => {
-												return {
-													className: 'rbc-cell-' + event.state,
-												};
-											}
-										}
-									>
-									</BigCalendar>
+									</React.Fragment>
 								)}
 							<AlertConfirm
 								requestClose={!!this.state.council ? this.closeCouncilDetails : this.closeModal}

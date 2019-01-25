@@ -8,11 +8,7 @@ import logo from '../../assets/img/logo-icono.png';
 
 
 class LateralMenuOptions extends React.Component {
-
-	prueba = (number) => {
-		console.log("88888888");
-		console.log(number);
-	}
+	
 
 	render() {
 		const { translate, company } = this.props;
@@ -51,7 +47,6 @@ class LateralMenuOptions extends React.Component {
 							icon={'contacts'}
 							text={translate.book}
 							link={`/company/${company.id}/book`}
-							onClick={this.prueba(2)}
 						/>
 						<LateralOptions
 							link={`/company/${company.id}/censuses`}
