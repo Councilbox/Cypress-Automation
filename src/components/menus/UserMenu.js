@@ -11,7 +11,7 @@ import { Tooltip } from "material-ui";
 const secondary = getSecondary();
 
 const styles = { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }
-
+ 
 const UserMenu = ({ user, actions, translate, company }) => {
 	console.log(company);
 	return (

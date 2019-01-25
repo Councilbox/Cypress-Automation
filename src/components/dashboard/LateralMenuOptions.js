@@ -5,8 +5,14 @@ import { darkGrey } from "../../styles/styles";
 import logo from '../../assets/img/logo-icono.png';
 
 
+
+
 class LateralMenuOptions extends React.Component {
 
+	prueba = (number) => {
+		console.log("88888888");
+		console.log(number);
+	}
 
 	render() {
 		const { translate, company } = this.props;
@@ -24,9 +30,9 @@ class LateralMenuOptions extends React.Component {
 				// left: "75px",
 				zIndex: "1",
 				border: "none",
-				boxShadow:"none"
+				boxShadow: "none"
 			}}>
-				<div style={{ background: darkGrey, height:"100%", width: '83%',left: '21px',position: 'relative' }}>
+				<div style={{ background: darkGrey, height: "100%", width: '117px', left: '12px', position: 'relative', boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)" }}>
 					<div style={{
 						width: "100%",
 						display: 'flex',
@@ -38,11 +44,14 @@ class LateralMenuOptions extends React.Component {
 							icon={'gavel'}
 							text={translate.council_types}
 							link={`/company/${company.id}/statutes`}
+							style={{ marginTop: "10px" }}
 						/>
+
 						<LateralOptions
 							icon={'contacts'}
 							text={translate.book}
 							link={`/company/${company.id}/book`}
+							onClick={this.prueba(2)}
 						/>
 						<LateralOptions
 							link={`/company/${company.id}/censuses`}
@@ -64,6 +73,7 @@ class LateralMenuOptions extends React.Component {
 							link={`/company/${company.id}/meeting/new`}
 							icon={'video_call'}
 							text={translate.start_conference}
+							style={{marginBottom:"10px"}}
 						/>
 					</div>
 				</div>

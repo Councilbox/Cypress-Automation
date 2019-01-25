@@ -2,23 +2,34 @@ import React from "react";
 import withSharedProps from '../../HOCs/withSharedProps';
 import { Icon } from '../../displayComponents';
 import { getPrimary, getSecondary, darkGrey } from "../../styles/colors";
-import { NavLink } from "react-router-dom";
+import { Redirect, withRouter, Switch, Route } from "react-router-dom";
 import { ListItem } from "material-ui";
 
 
 
 class LateralOptions extends React.Component {
 
-	render() {
-		const { icon, text, first, link, customIcon } = this.props;
+	state = {
+		redirect: false,
+	};
 
+	link = (link) => {	
+		this.setState({ 
+			redirect: link ,
+		});
+		
+	}
+
+	render() {
+		const { icon, text, first, link, customIcon, style } = this.props;
+		
 		return (
-			<NavLink
-				to={link}
+			<div
+				// to={link}
 				className={"links"}
-				activeClassName="active"
-				href={link}
-				active={window.location.pathname === link}
+				// activeClassName="active"
+				// href={link}
+				// active={window.location.pathname === link}
 				style={{
 					padding: "0px",
 					display: 'flex',
@@ -26,10 +37,17 @@ class LateralOptions extends React.Component {
 					borderRadius: "3px",
 					alignItems: 'center',
 					justifyContent: 'center',
-					// background: "#00acc1"
+					// background:  "#00acc1" : "",
+					...style
 				}}
-			// onClick={() => this.setState({ selectedRoute: num })}
+				onClick={() => { this.link(link) }}
 			>
+		
+				{this.state.redirect && (
+					<Switch>
+                        <Route path="*" component={() => <Redirect to={this.state.redirect} />} />
+                    </Switch>
+				 )}  
 				<ListItem
 					button
 					style={{
@@ -51,7 +69,7 @@ class LateralOptions extends React.Component {
 							borderRadius: "3px"
 						}}
 					>
-						<div style={{ textAlign: "center",alignItems: 'center',justifyContent: 'center',display: 'flex', }}>
+						<div style={{ textAlign: "center", alignItems: 'center', justifyContent: 'center', display: 'flex', }}>
 							{!customIcon ? (
 								<Icon
 									className="material-icons"
@@ -87,7 +105,7 @@ class LateralOptions extends React.Component {
 						</div>
 					</div>
 				</ListItem>
-			</NavLink>
+			</div>
 		);
 	}
 }
