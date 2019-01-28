@@ -8,12 +8,14 @@ import logo from '../../assets/img/logo-icono.png';
 
 
 class LateralMenuOptions extends React.Component {
-	
+
+
 
 	render() {
 		const { translate, company } = this.props;
+
 		return (
-			<div className={"dropdown-container"} style={{
+			<div className={"dropdown-container"}  style={{
 				background: 'transparent',
 				width: "130px",
 				// height: "500px",
@@ -26,8 +28,9 @@ class LateralMenuOptions extends React.Component {
 				// left: "75px",
 				zIndex: "1",
 				border: "none",
-				boxShadow: "none"
-			}}>
+				boxShadow: "none",
+			}
+			}>
 				<div style={{ background: darkGrey, height: "100%", width: '117px', left: '12px', position: 'relative', boxShadow: "0px 8px 16px 0px rgba(0,0,0,0.2)" }}>
 					<div style={{
 						width: "100%",
@@ -68,11 +71,11 @@ class LateralMenuOptions extends React.Component {
 							link={`/company/${company.id}/meeting/new`}
 							icon={'video_call'}
 							text={translate.start_conference}
-							style={{marginBottom:"10px"}}
+							style={{ marginBottom: "10px" }}
 						/>
 					</div>
 				</div>
-			</div>
+			</div >
 		);
 	}
 }

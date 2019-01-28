@@ -23,8 +23,23 @@ class Sidebar extends React.Component {
 	state = {
 		selectedRoute: 0,
 		companyMenu: false,
-		openMenu: false
+		openMenu: false,
+		hovered: false
 	};
+
+	enter = () => {
+		console.log("Entro")
+		this.setState({
+			hovered: true
+		})
+	}
+	
+	leave = () => {
+		console.log("Salgo")
+		this.setState({
+			hovered: false
+		})
+	}
 
 	routes = [
 		{
@@ -207,7 +222,7 @@ class Sidebar extends React.Component {
 									</span>
 								</ListItem>
 								{route.name === "dashboard" && (
-									<LateralMenuOptions company={this.props.company}/>
+									<LateralMenuOptions company={this.props.company} />
 								)}
 							</NavLink>
 						);

@@ -23,12 +23,28 @@ import { Paper, Tooltip } from 'material-ui';
 import gql from 'graphql-tag';
 import AgendaEvent from './AgendaEvent';
 import { isMobile } from "react-device-detect";
-// import Grafica from "./Grafica";
+import Grafica from "./Grafica";
 
 
 
 const primary = getPrimary();
 const secondary = getSecondary();
+
+const stylesGrafica = {
+	contenedor: {
+		border: "1px solid #ddd",
+		background: "white",
+		boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px",
+		borderRadius: "3px",
+		padding: "1.2em",
+		position: "relative"
+	},
+	grafica: {
+		display: 'inline-flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}
+}
 
 class TopSectionBlocks extends React.Component {
 
@@ -36,7 +52,6 @@ class TopSectionBlocks extends React.Component {
 		open: false,
 		modal: false,
 		reunion: null,
-		grafica: false
 	}
 
 	closeCouncilsModal = () => {
@@ -64,18 +79,13 @@ class TopSectionBlocks extends React.Component {
 		});
 	}
 
-	actualizaEstadoGrafica = () => {
-		this.setState({
-			grafica: true
-		});
-	}
 
 
 	render() {
-		const { translate, company } = this.props;
+		const { translate, company, editMode } = this.props;
 		const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
 		let allViews = ["agenda", "month"] // Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
-		const { loading, councils, error } = this.props.data;
+		const { loading, councils, error, } = this.props.data;
 		let eventos = [];
 		if (!loading) {
 			//Si la dateEnd existe ponerla
@@ -95,43 +105,14 @@ class TopSectionBlocks extends React.Component {
 			time: 'Hora',
 			event: 'Evento',
 		}
-		console.log(councils)
+		// console.log(councils)
 
 		const numReunion = []
 		const numMes = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0 }
 
 
-		let data = {
-			labels: [
-				'Enero',
-				'Febrero',
-				'Marzo',
-				'Abril',
-				'Mayo',
-				'Junio',
-				'Julio',
-				'Agosto',
-				'Septiembre',
-				'Octubre',
-				'Nombiembre',
-				'Diciembre',
-			],
-			datasets: [{
-				data: "",
-				backgroundColor: [
-					'#FF6384',
-					'#36A2EB',
-					'#FFCE56'
-				],
-				hoverBackgroundColor: [
-					'#FF6384',
-					'#36A2EB',
-					'#FFCE56'
-				]
-			}],
-			text: '23%'
-		};
 
+		let conf = [];
 		if (!loading) {
 			councils.forEach(reunion => numReunion.push(
 				new Date(reunion.dateStart).getMonth()
@@ -139,8 +120,6 @@ class TopSectionBlocks extends React.Component {
 			for (let i = 0; i < numReunion.length; i++) {
 				numMes[numReunion[i]]++
 			}
-			data.datasets[0].data = numMes
-			// this.actualizaEstadoGrafica();
 		}
 
 
@@ -148,7 +127,7 @@ class TopSectionBlocks extends React.Component {
 			<Grid
 				style={{
 					width: "90%",
-					marginTop: "4vh"
+					// marginTop: "4vh"
 				}}
 				spacing={8}
 			>
@@ -157,7 +136,7 @@ class TopSectionBlocks extends React.Component {
 					requestClose={this.closeCouncilsModal}
 					translate={translate}
 				/>
-				{isMobile &&
+				{true &&
 					<div style={{ width: "100%" }}>
 						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }} >
 							<Block
@@ -230,8 +209,9 @@ class TopSectionBlocks extends React.Component {
 					</GridItem>
 				}
 				{!isMobile &&
-					<GridItem xs={12} md={12} lg={12} style={{ height: '580px' }}>
-						<div style={{ height: '580px' }}>
+					<GridItem xs={12} md={12} lg={12} style={{ height: '100%' }}>
+						
+						<div style={{ height: '100%' }}>
 							{loading ? (
 								<div style={{
 									width: '100%',
@@ -244,48 +224,66 @@ class TopSectionBlocks extends React.Component {
 								</div>
 							) : (
 									<React.Fragment>
-										<div style={{ width: "150px", height: '150px', marginBottom: "2em" }}>
-											<div>Reuniones</div>
-											{/* {this.state.grafica ? (<div style={{
-												width: '100%',
-												marginTop: '8em',
-												display: 'flex',
-												alignItems: 'center',
-												justifyContent: 'center'
-											}}>
-												<LoadingSection />
-											</div>) : ( */}
-													{/* // <Grafica data={data}></Grafica>
-													
-												// )} */}
-										</div>
-										<BigCalendar
-											messages={messages}
-											defaultDate={new Date()}
-											defaultView="agenda"
-											localizer={localizer}
-											events={eventos}
-											startAccessor="start"
-											endAccessor="end"
-											views={allViews}
-											resizable
-											onSelectEvent={this.selectEvent}
-											components={{
-												agenda: {
-													event: AgendaEvent,
-												}
 
-											}}
-											eventPropGetter={
-												(event, start, end, isSelected) => {
-													return {
-														className: 'rbc-cell-' + event.state,
-													};
-												}
+										<div style={{ overflow: "hidden", width: "220px", height: '260px', marginBottom: "3em", ...stylesGrafica.contenedor }}>
+											{editMode && (
+												<div className={'shakeIcon'} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} onClick={this.optionDash}>
+													<i className={"fa fa-times"}></i>
+												</div>
+											)}
+											<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}> Reuniones</div> {/*TRADUCCION*/}
+											{this.state.grafica ? (
+												<div style={{
+													width: '100%',
+													marginTop: '8em',
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center'
+												}}>
+													<LoadingSection />
+												</div>
+											) : (
+													<div style={{ width: "170px", height: '190px', ...stylesGrafica.grafica }}>
+														<Grafica translate={translate} info={Object.values(numMes)}></Grafica>
+													</div>
+
+												)
 											}
-										>
-										</BigCalendar>
+										</div>
+										<div style={{ ...stylesGrafica.contenedor, minHeight: "580px" }}>
+											{editMode && (
+												<div className={'shakeIcon'} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }}>
+													<i className={"fa fa-times"}></i>
+												</div>
+											)}
+											<BigCalendar
+												messages={messages}
+												defaultDate={new Date()}
+												defaultView="agenda"
+												localizer={localizer}
+												events={eventos}
+												startAccessor="start"
+												endAccessor="end"
+												views={allViews}
+												resizable
+												onSelectEvent={this.selectEvent}
+												components={{
+													agenda: {
+														event: AgendaEvent,
+													}
 
+												}}
+												eventPropGetter={
+													(event, start, end, isSelected) => {
+														return {
+															className: 'rbc-cell-' + event.state,
+														};
+													}
+												}
+
+											>
+											</BigCalendar>
+										</div>
 									</React.Fragment>
 								)}
 							<AlertConfirm
