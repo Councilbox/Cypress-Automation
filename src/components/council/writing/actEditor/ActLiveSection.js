@@ -1,15 +1,52 @@
 import React from "react";
-import { LoadingSection, Icon } from "../../../../displayComponents";
+import { LoadingSection, Icon, LiveToast } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../../styles/colors";
 import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../../styles/constants";
-import { changeVariablesToValues } from "../../../../utils/CBX";
+import { changeVariablesToValues, checkForUnclosedBraces } from "../../../../utils/CBX";
+import { graphql } from 'react-apollo';
 import LoadDraftModal from '../../../company/drafts/LoadDraftModal';
+import { updateCouncilAct } from '../../../../queries';
+
 
 class ActLiveSection extends React.Component {
 	state = {
-        open: false
-    };
+		open: false,
+		conclusion: ''
+	};
+
+	timeout = null;
+
+	startUpdateTimeout = value => {
+		clearTimeout(this.timeout);
+
+		this.timeout = setTimeout(() => {
+			this.updateCouncilAct(value);
+		}, 450);
+	};
+
+
+	updateCouncilAct = async () => {
+		if(!checkForUnclosedBraces(this.state.conclusion)){
+			this.setState({
+				updating: true,
+				disableButtons: false
+			});
+			const response = await this.props.updateCouncilAct({
+				variables: {
+					councilAct: {
+						conclusion: this.state.conclusion,
+						id: this.props.council.act.id
+					}
+				}
+			});
+			if(!!response){
+				this.setState({
+					updating: false
+				});
+			}
+		}
+	}
 
 
 	_button = () => {
@@ -64,6 +101,7 @@ class ActLiveSection extends React.Component {
 
     _section = () => {
 		const { council, translate, companyId } = this.props;
+		console.log(this.props);
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}
@@ -102,7 +140,12 @@ class ActLiveSection extends React.Component {
 					]}
 					floatingText={translate.conclusion}
 					value={this.props.council.act.conclusion || ""}
-					onChange={value => {}}
+					onChange={value => {
+						this.setState({
+							conclusion: value
+						})
+						this.startUpdateTimeout()
+					}}
 				/>
 			</div>
 		);
@@ -118,7 +161,7 @@ class ActLiveSection extends React.Component {
 			}
 		});
 		this.editor.setValue(correctedText);
-		this.updateAgreement(correctedText);
+		this.updateAct(correctedText);
 		this.modal.close();
 	};
 
@@ -142,4 +185,6 @@ class ActLiveSection extends React.Component {
 	}
 }
 
-export default ActLiveSection;
+export default graphql(updateCouncilAct, {
+	name: 'updateCouncilAct'
+})(ActLiveSection);

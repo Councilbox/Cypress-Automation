@@ -84,6 +84,7 @@ const CouncilActData = gql`
 				comment
 				author {
 					socialCapital
+					numParticipations
 				}
 				vote
 			}
@@ -163,12 +164,17 @@ class ActEditor extends Component {
 			if (nextProps.data.council) {
 				return {
 					data: {
+						...nextProps.data,
+						recount: nextProps.data.councilRecount,
 						council: {
 							...nextProps.data.council,
 							agendas: nextProps.data.agendas,
-							act: nextProps.data.council.act || {}
+							act: nextProps.data.council.act || {},
+							attendants: nextProps.data.councilAttendants? nextProps.data.councilAttendants.list : [],
+							delegatedVotes: nextProps.data.participantsWithDelegatedVote? nextProps.data.participantsWithDelegatedVote : []
 						}
-					}
+					},
+					loading: false
 				};
 			}
 		}
@@ -189,7 +195,10 @@ class ActEditor extends Component {
 	}
 
 	componentDidMount() {
-		this.props.data.refetch();
+/* 		this.props.data.refetch();
+		this.setState({
+			loading: true
+		}); */
 	}
 
 	loadDraft = draft => {
@@ -198,7 +207,6 @@ class ActEditor extends Component {
 			council: this.props.data.council
 		}, this.props.translate);
 
-		console.log(this.state.data.council.act[this.state.load]);
 
 /* 		this.updateActState({
 			[this.state.load]: this.state.data.council.act[this.state.load] + correctedText
@@ -305,7 +313,7 @@ class ActEditor extends Component {
 	}
 
 	getTypeText = subjectType => {
-		const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
+		const votingType = this.state.data.votingTypes.find(item => item.value === subjectType)
 		return !!votingType? this.props.translate[votingType.label] : '';
 	}
 
@@ -328,8 +336,10 @@ class ActEditor extends Component {
 			return <ErrorWrapper error={error} translate={translate} />;
 		}
 
-		council.attendants = this.props.data.councilAttendants.list;
-		council.delegatedVotes = this.props.data.participantsWithDelegatedVote;
+		//console.log(this.props.data);
+
+		//council.attendants = this.props.data.councilAttendants? this.props.data.councilAttendants.list : [];
+		//council.delegatedVotes = this.props.data.participantsWithDelegatedVote? this.props.data.participantsWithDelegatedVote : [];
 
 		return (
 			<div style={{ height: "100%", background: 'transparent'}}>
@@ -391,7 +401,7 @@ class ActEditor extends Component {
 												}
 											/>
 										}
-										tags={generateActTags('intro', { council, company, recount: this.props.data.councilRecount }, translate)}
+										tags={generateActTags('intro', { council, company, recount: this.state.data.recount }, translate)}
 										errorText={errors.intro}
 										value={data.council.act.intro || ''}
 										onChange={value => {
@@ -433,7 +443,7 @@ class ActEditor extends Component {
 												}
 											/>
 										}
-										tags={generateActTags('constitution', { council, company, recount: this.props.data.councilRecount}, translate)}
+										tags={generateActTags('constitution', { council, company, recount: this.state.data.recount }, translate)}
 										errorText={errors.constitution}
 										value={data.council.act.constitution || ''}
 										onChange={value => {
@@ -447,27 +457,52 @@ class ActEditor extends Component {
 								</div>
 								{!!council.agendas && (
 									<Fragment>
-										{council.agendas.filter(agenda => agenda.subjectType !== getActPointSubjectType()).map((agenda, index) => {
-											return (
-												<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
-													<AgendaEditor
-														agenda={agenda}
-														council={council}
-														updateCouncilAct={this.updateCouncilAct}
-														recount={this.props.data.councilRecount}
-														statutes={this.props.data.companyStatutes}
-														translate={translate}
-														majorityTypes={this.props.data.majorityTypes}
-														typeText={this.getTypeText(agenda.subjectType)}
-														company={this.props.company}
-														data={this.props.data}
-													/>
-													{index < council.agendas.length -1 &&
-														<hr style={{marginTop: '2.5em'}} />
-													}
-												</div>
-											);
-										})}
+										{this.props.liveMode?
+											council.agendas.filter(agenda => agenda.subjectType !== getActPointSubjectType()).map((agenda, index) => {
+												return (
+													<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
+														<AgendaEditor
+															agenda={agenda}
+															council={council}
+															updateCouncilAct={this.updateCouncilAct}
+															recount={this.state.data.recount}
+															statutes={this.state.data.companyStatutes}
+															translate={translate}
+															majorityTypes={this.state.data.majorityTypes}
+															typeText={this.getTypeText(agenda.subjectType)}
+															company={this.props.company}
+															data={this.state.data}
+														/>
+														{index < council.agendas.length -1 &&
+															<hr style={{marginTop: '2.5em'}} />
+														}
+													</div>
+												);
+											})
+										:
+										council.agendas.map((agenda, index) => {
+												return (
+													<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
+														<AgendaEditor
+															agenda={agenda}
+															council={council}
+															updateCouncilAct={this.updateCouncilAct}
+															recount={this.state.data.recount}
+															statutes={this.state.data.companyStatutes}
+															translate={translate}
+															majorityTypes={this.state.data.majorityTypes}
+															typeText={this.getTypeText(agenda.subjectType)}
+															company={this.props.company}
+															data={this.state.data}
+														/>
+														{index < council.agendas.length -1 &&
+															<hr style={{marginTop: '2.5em'}} />
+														}
+													</div>
+												);
+											})
+										}
+
 									</Fragment>
 								)}
 								{!this.props.liveMode &&
@@ -503,7 +538,7 @@ class ActEditor extends Component {
 													}
 												/>
 											}
-											tags={generateActTags('conclusion', { council, company, recount: this.props.data.councilRecount }, translate)}
+											tags={generateActTags('conclusion', { council, company, recount: this.state.data.recount }, translate)}
 											errorText={errors.conclusion}
 											value={data.council.act.conclusion || ''}
 											onChange={value => {
@@ -628,8 +663,6 @@ class ActEditor extends Component {
 }
 
 const Config = config => {
-	console.log(config);
-
 	return <span/>
 }
 
@@ -645,7 +678,8 @@ export default compose(
 					offset: 0
 				}
 			},
-			notifyOnNetworkStatusChange: true
+			notifyOnNetworkStatusChange: true,
+			fetchPolicy: 'network-only'
 		})
 	}),
 	graphql(updateCouncilAct, {

@@ -153,7 +153,10 @@ export const haveQualityVoteConditions = (agenda, council) => {
 };
 
 export const canEditPresentVotings = agenda => {
-	return agenda.votingState === AGENDA_STATES.DISCUSSION && agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING && agenda.subjectType !== AGENDA_TYPES.INFORMATIVE;
+	return agenda.votingState === AGENDA_STATES.DISCUSSION &&
+			agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING &&
+			agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
+			agenda.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
 }
 
 export const approvedByQualityVote = (agenda, qualityVoteId) => {

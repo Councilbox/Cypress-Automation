@@ -109,7 +109,6 @@ class VotingsTable extends React.Component {
 		let mappedVotings = [];
 
 		if(this.props.data.agendaVotings){
-			console.log(this.props.data.agendaVotings);
 			if(this.props.data.agendaVotings.list.length > 0){
 				this.props.data.agendaVotings.list.forEach(voting => {
 					if(voting.authorRepresentative){
@@ -141,7 +140,6 @@ class VotingsTable extends React.Component {
 		}
 
 		const offset = (this.props.page - 1) * this.props.pageLimit;
-		console.log(offset);
 		const slicedVotings = mappedVotings.slice(offset, offset + this.props.pageLimit);
 
 		return (

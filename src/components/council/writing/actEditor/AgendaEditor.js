@@ -180,11 +180,11 @@ class AgendaEditor extends React.Component {
 			});
 		} else {
 			tags.push({
-				value: `${agenda.positiveVotings} `,
+				value: `${agenda.positiveVotings + agenda.positiveManual} `,
 				label: translate.positive_votings
 			},
 			{
-				value: `${agenda.negativeVotings} `,
+				value: `${agenda.negativeVotings + agenda.negativeManual} `,
 				label: translate.negative_votings
 			});
 		}

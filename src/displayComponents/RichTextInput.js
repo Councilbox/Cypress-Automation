@@ -42,13 +42,13 @@ class RichTextInput extends React.Component {
 		if(!this.rtEditor){
 			return;
 		}
-		console.log('hay editor');
+		//console.log('hay editor');
 		const quill = this.rtEditor.getEditor();
 		let selection = quill.getSelection();
 /* 		if (!selection) {
 			return;
 		} */
-		console.log('hay selection');
+		//console.log('hay selection');
 		this.setState({ value });
 		const html = value.toString('html');
 		if (this.props.onChange) {
