@@ -27,6 +27,7 @@ import {
 	getSecondary
 } from "../../../styles/colors";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
+import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
 
 const styles = {
@@ -56,6 +57,14 @@ const styles = {
 		padding: "15px",
 		textAlign: "center"
 	},
+	// textContainer: {
+	// 	display: "flex",
+	// 	flexDirection: "column",
+	// 	alignItems: "center",
+	// 	justifyContent: "center",
+	// 	padding: "15px",
+	// 	textAlign: "center"
+	// },
 	imageContainer: {
 		display: "flex",
 		alignItems: "center",
@@ -64,12 +73,39 @@ const styles = {
 	},
 	image: {
 		maxWidth: "60%"
-	}
+	},
+	textAndImage: {
+		display: "flex",
+		alignItems: "center",
+		background: "blue"
+	},
+	displaiFlex: {
+		display: "flex"
+	},
+	bottom1: {
+		marginBottom: '1em'
+	},
+	bottom2: {
+		marginBottom: '2em'
+	},
 };
 
 class CouncilState extends React.Component {
 	state = {
-		modal: false
+		modal: false,
+		width: window.innerWidth,
+		height: window.innerHeight
+	}
+
+	componentDidMount() {
+		window.addEventListener("resize", this.updateDimensions);
+	}
+
+	updateDimensions = () => {
+		this.setState({
+			width: window.innerWidth,
+			height: window.innerHeight
+		});
 	}
 
 	render() {
@@ -87,96 +123,174 @@ class CouncilState extends React.Component {
 		return (
 			<div
 				style={
-					windowSize === "xs" && windowOrientation === "portrait"
+					(windowSize === "xs" && windowOrientation === "portrait"
 						? styles.container
-						: styles.splittedContainer
+						: styles.splittedContainer)
 				}
 			>
 				<div
 					style={{
 						...styles.textContainer,
 						...(windowSize === "xs" &&
-						windowOrientation === "portrait"
+							windowOrientation === "portrait"
 							? { maxWidth: "100%" }
-							: { maxWidth: "50%", minWidth: "50%" })
+							: { maxWidth: "85%", minWidth: "50%" }),
+						// : { maxWidth: "50%", minWidth: "50%" }),
 					}}
 				>
 					{councilIsInTrash(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.not_held_council}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+						// {true && (
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div style={{ width: "410px" }}>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.not_held_council}
+									council={council}
+									company={company}
+									translate={translate}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+								styles={{ marginLeft: "" }}
+							>
+							</Image>
+						</ContenedoState>
 					)}
 
 					{isAssistance && councilIsLive(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.council_not_started_yet_retry_later}
-							isHtmlText={true}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.council_not_started_yet_retry_later}
+									isHtmlText={true}
+									council={council}
+									company={company}
+									translate={translate}
+									styles={styles}
+									windowOrientation={windowOrientation}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+							>
+							</Image>
+						</ContenedoState>
 					)}
 
 					{!isAssistance && councilIsNotLiveYet(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.council_not_started_yet_retry_later}
-							isHtmlText={true}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+					// {true && (
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div style={{ width: "410px" }}>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.council_not_started_yet_retry_later}
+									isHtmlText={true}
+									council={council}
+									company={company}
+									translate={translate}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+							>
+							</Image>
+						</ContenedoState>
 					)}
 
-					{councilIsNotCelebrated(council) && (
-						<TextRender
-							title={translate.we_are_sorry}
-							text={translate.not_held_council}
-							council={council}
-							company={company}
-							translate={translate}
-						/>
+					{/* {councilIsNotCelebrated(council) && ( */}
+						{true && (
+						<ContenedoState
+							widths={this.state.width}
+							heights={this.state.height}
+							windowOrientation={windowOrientation}
+						>
+							<div style={{ width: "410px" }}>
+								<TextRender
+									title={translate.we_are_sorry}
+									text={translate.not_held_council}
+									council={council}
+									company={company}
+									translate={translate}
+								/>
+							</div>
+							<Image
+								src={emptyMeetingTable}
+								widths={this.state.width}
+								windowOrientation={windowOrientation}
+							>
+							</Image>
+						</ContenedoState>
 					)}
 
 					{councilIsFinished(council) && (
+						// {true && (
 						<React.Fragment>
-							<TextRender
-								title={translate.concil_finished}
-								council={council}
-								company={company}
-								translate={translate}
-							/>
-							<BasicButton
-								text={translate.see_participation}
-								color={secondary}
-								textStyle={{color: 'white', fontWeight: '700', marginTop: '0.9em'}}
-								onClick={() => this.setState({
-									modal: true
-								})}
-							/>
-							<Results
-								council={council}
-								participant={this.props.participant}
-								requestClose={() => this.setState({ modal: false })}
-								translate={translate}
-								open={this.state.modal}
-							/>
+							<ContenedoState
+								widths={this.state.width}
+								heights={this.state.height}
+								windowOrientation={windowOrientation}
+							>
+								<div style={{ width: "410px" }}>
+									<TextRender
+										title={translate.concil_finished}
+										council={council}
+										company={company}
+										translate={translate}
+									/>
+									<BasicButton
+										text={translate.see_participation}
+										color={secondary}
+										textStyle={{ color: 'white', fontWeight: '700', marginTop: '0.9em' }}
+										onClick={() => this.setState({
+											modal: true
+										})}
+									/>
+									<Results
+										council={council}
+										participant={this.props.participant}
+										requestClose={() => this.setState({ modal: false })}
+										translate={translate}
+										open={this.state.modal}
+									/>
+								</div>
+								<Image
+									src={emptyMeetingTable}
+									widths={this.state.width}
+									windowOrientation={windowOrientation}
+								>
+								</Image>
+							</ContenedoState>
 						</React.Fragment>
-
 					)}
 				</div>
 
-				{false &&
+				{
+					false &&
 					<div style={styles.imageContainer}>
 						<img src={emptyMeetingTable} style={styles.image} alt="no-room-logo" />
 					</div>
 				}
-			</div>
+			</div >
 		);
 	}
 }
@@ -201,20 +315,23 @@ class TextRender extends React.PureComponent {
 			isHtmlText,
 			council,
 			company,
-			translate
+			translate,
+			styles,
+			windowOrientation
 		} = this.props;
 		const primaryColor = getPrimary();
+
 		return (
 			<React.Fragment>
-				<h3 style={{ color: primaryColor }}>{title}</h3>
+				<h3 style={{ color: primaryColor, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
 
 				{text && (
-					<p style={{ marginBottom: "8px" }}>
+					<p style={{ marginBottom: "8px", marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
 						{isHtmlText ? (
 							<span dangerouslySetInnerHTML={{ __html: text }} />
 						) : (
-							text
-						)}
+								text
+							)}
 					</p>
 				)}
 
@@ -244,7 +361,7 @@ class TextRender extends React.PureComponent {
 					)}
 
 
-				<CouncilInfoCardRender council={council} company={company} />
+				<CouncilInfoCardRender council={council} company={company} windowOrientation={windowOrientation} />
 
 				<TextDialog
 					handleClose={this.handleCloseDialog}
@@ -256,7 +373,7 @@ class TextRender extends React.PureComponent {
 	}
 }
 
-const CouncilInfoCardRender = ({ council, company }) => (
+const CouncilInfoCardRender = ({ council, company, windowOrientation }) => (
 	<React.Fragment>
 		<div
 			style={{
@@ -265,6 +382,8 @@ const CouncilInfoCardRender = ({ council, company }) => (
 			}}
 		>
 			<CardHeader
+				// style={{ padding: windowOrientation === "landscape" ? "0px" : "" }}
+				// style={{...styles}}
 				/* avatar={
 					<Avatar
 						src={company.logo}
@@ -272,8 +391,9 @@ const CouncilInfoCardRender = ({ council, company }) => (
 					/>
 				} */
 				title={
-					<div>
-						<img src={company.logo} style={{height: '2em'}}></img><br />
+					<div style={{ marginBottom: windowOrientation === "landscape" ? "" : "10px" }}>
+						{/* <img src={company.logo} style={{ height: company.logo !== "" ? '2em' : '' }}></img>{company.logo !== "" ? <br /> : ""} */}
+						<img src={logoIcon} style={{ height: logoIcon !== "" ? '2em' : '' }}></img>{logoIcon !== "" ? <br /> : ""}
 						<b>{council.name}</b>
 					</div>
 				}
@@ -318,6 +438,36 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 			{text}
 		</DialogContent>
 	</Dialog>
+);
+
+const Image = ({ src, widths, windowOrientation, styles }) => (
+	<div
+		style={{
+			width: widths < 690 ? "60%" : "33%",
+			minWidth: windowOrientation ? "" : '250px',
+			marginLeft: widths < 690 ? (windowOrientation === "landscape" ? "3em" : "") : "6em",
+			marginTop: widths < 690 ? (windowOrientation === "landscape" ? "" : "3em") : "",
+			...styles
+		}}>
+		<img
+			style={{ width: '100%' }}
+			src={src}
+		/>
+	</div>
+);
+
+const ContenedoState = ({ widths, windowOrientation, heights, children }) => (
+	<div
+		style={{
+			overflow: "hidden",
+			display: widths > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
+			alignItems: "center",
+			margin: (windowOrientation === "landscape" ? "" : "3em"),
+			justifyContent: 'space-between',
+			fontSize: windowOrientation === "landscape" && heights < 370 ? "10px" : ""
+		}}>
+		{children}
+	</div>
 );
 
 export default withTranslations()(
