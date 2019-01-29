@@ -21,6 +21,9 @@ export const councilDetails = gql`
 			id
 			dateRealStart
 			dateStart
+			countryState
+			street
+			zipcode
 			dateStart2NdCall
 			state
 			sendActDate
@@ -56,6 +59,7 @@ export const councilDetails = gql`
 				limitedAccessRoomMinutes
 				existsQualityVote
 				qualityVoteOption
+				quorumPrototype
 				canUnblock
 				canAddPoints
 				canReorderPoints
@@ -70,6 +74,88 @@ export const councilDetails = gql`
 				actTemplate
 				censusId
 			}
+		}
+
+		agendas(councilId: $councilID) {
+			id
+			orderIndex
+			agendaSubject
+			subjectType
+			abstentionVotings
+			abstentionManual
+			noVoteVotings
+			noVoteManual
+			positiveVotings
+			positiveManual
+			negativeVotings
+			negativeManual
+			description
+			majorityType
+			majority
+			majorityDivider
+			votings {
+				id
+				participantId
+				comment
+				author {
+					socialCapital
+					numParticipations
+				}
+				vote
+			}
+			numPresentCensus
+			presentCensus
+			numCurrentRemoteCensus
+			currentRemoteCensus
+			socialCapitalPresent
+			socialCapitalRemote
+			socialCapitalNoParticipate
+			comment
+		}
+
+		councilRecount(councilId: $councilID){
+			socialCapitalTotal
+			partTotal
+			numTotal
+			numRemote
+			partRemote
+			socialCapitalRemote
+			numCurrentRemote
+			partCurrentRemote
+			socialCapitalCurrentRemote
+			numPresent
+			partPresent
+			socialCapitalPresent
+			numRightVoting
+			partRightVoting
+			socialCapitalRightVoting
+			numNoParticipate
+			partNoParticipate
+			socialCapitalNoParticipate
+			numDelegations
+			numRepresentations
+			numGuests
+		}
+
+		participantsWithDelegatedVote(councilId: $councilID){
+			name
+			surname
+			state
+			representative {
+				name
+				surname
+			}
+		}
+
+		councilAttendants(
+			councilId: $councilID
+		) {
+			list {
+				name
+				surname
+				state
+			}
+			total
 		}
 
 		councilTotalVotes(councilId: $councilID)
@@ -114,8 +200,12 @@ class CouncilFinishedPage extends React.Component {
 				<ActEditorPage
 					translate={translate}
 					council={council}
+					agendas={this.props.data.agendas}
+					councilRecount={this.props.data.councilRecount}
 					refetch={this.props.data.refetch}
+					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
 					socialCapital={this.props.data.councilSocialCapital}
+					councilAttendants={this.props.data.councilAttendants}
 					totalVotes={this.props.data.councilTotalVotes}
 				/>
 			);
@@ -167,7 +257,7 @@ export default graphql(councilDetails, {
 	name: "data",
 	options: props => ({
 		variables: {
-			councilID: props.match.params.council
+			councilID: props.match.params.council,
 		}
 	})
 })(withSharedProps()(withApollo(withRouter(CouncilFinishedPage))));

@@ -27,28 +27,19 @@ class ActHTML extends React.Component {
 			);
 		}
 
+		const secondary = getSecondary();
+
 		return (
 			<ConfigContext.Consumer>
 				{config => (
 					<React.Fragment>
-						{config.exportActToWord?
-							<div style={{display: 'flex'}}>
-								<ExportActToMenu
-									translate={this.props.translate}
-									council={this.props.council}
-									html={this.props.data.councilAct.emailAct}
-								/>
-								<BasicButton
-									text="Añadir adjunto al acta"
-									textStyle={{color: getSecondary()}}
-								/>
-							</div>
-						:
+						{this.props.data.councilAct.type === 0 &&
 							<DownloadActPDF
 								translate={this.props.translate}
 								council={this.props.council}
 							/>
 						}
+
 						<div
 							style={{
 								display: 'flex',
@@ -58,17 +49,30 @@ class ActHTML extends React.Component {
 								marginTop: '0.8em'
 							}}
 						>
-							<Paper
-								className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
-							>
-								<div
-									dangerouslySetInnerHTML={{ __html: this.props.data.councilAct.emailAct }}
-									style={{
-										padding: "2em",
-										margin: "0 auto"
-									}}
-								/>
-							</Paper>
+							{this.props.data.councilAct.type === 1?
+								<React.Fragment>
+									<div style={{fontSize: '1.1em', fontWeight: '700', color: secondary}}>
+										Acta subida por el usuario.
+									</div>
+									<DownloadActPDF
+										translate={this.props.translate}
+										council={this.props.council}
+									/>
+								</React.Fragment>
+							:
+								<Paper
+									className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
+								>
+									<div
+										dangerouslySetInnerHTML={{ __html: this.props.data.councilAct.emailAct }}
+										style={{
+											padding: "2em",
+											margin: "0 auto"
+										}}
+									/>
+								</Paper>
+							}
+
 						</div>
 					</React.Fragment>
 				)}

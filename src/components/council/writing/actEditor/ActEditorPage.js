@@ -22,7 +22,7 @@ class ActEditorPage extends React.Component {
         sendConvene: false,
         cancel: false,
         rescheduleCouncil: false,
-        infoMenu: false
+        infoMenu: true
     };
 
     toggleInfoMenu = () => {
@@ -210,7 +210,16 @@ class ActEditorPage extends React.Component {
                     </CardPageLayout>
                 </div>
                 <div style={{backgroundColor: 'white', width: this.state.infoMenu? '35%' : '0', transition: 'width 0.6s', height: '100%'}}>
-                    <CouncilSideMenu council={council} open={this.state.infoMenu} translate={translate} />
+                    <CouncilSideMenu
+                        council={council}
+                        open={this.state.infoMenu}
+                        translate={translate}
+                        company={this.props.company}
+                        agendas={this.props.agendas}
+                        participantsWithDelegatedVote={this.props.participantsWithDelegatedVote}
+                        councilAttendants={this.props.councilAttendants}
+					    councilRecount={this.props.councilRecount}
+                    />
                 </div>
             </div>
 
