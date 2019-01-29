@@ -120,6 +120,8 @@ class Sidebar extends React.Component {
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
+				position:isMobile ? "":"absolute",
+				top:"0px",
 				...(this.showVerticalLayout() ? { margin: 0 } : {}),
 			}}
 		>
@@ -415,7 +417,7 @@ class Sidebar extends React.Component {
 								width: '100%',
 								flexDirection: 'row',
 								alignItems: 'center'
-							} : { height: 'calc(100vh - 75px)' })
+							} : { height: 'calc(100vh - 75px)',position: "relative" })
 						}}
 					>
 						{this.links()}

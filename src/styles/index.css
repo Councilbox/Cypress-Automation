@@ -252,3 +252,22 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     0% { transform: rotate(-4deg); }
     100% { transform: rotate(4deg); }
   }
+.shakeItems {
+    animation: shakeItem 0.3s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shakeItem {
+    0% { transform: rotate(-0.08deg); }
+    100% { transform: rotate(0.08deg); }
+  }
+
+.shakeItemSmall {
+    animation: shakeItemSmall 0.3s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shakeItemSmall {
+    0% { transform: rotate(-0.6deg); }
+    100% { transform: rotate(0.6deg); }
+  }

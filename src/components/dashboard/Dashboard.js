@@ -1,20 +1,29 @@
 import React from "react";
 import TopSectionBlocks from "./TopSectionBlocks";
-import { darkGrey, lightGrey } from "../../styles/colors";
+import { darkGrey, lightGrey, primary, getSecondary } from "../../styles/colors";
 import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar, CBXFooter, Block, Icon, BasicButton, ButtonIcon, AlertConfirm } from '../../displayComponents';
+import { Scrollbar, CBXFooter, Block, Icon, BasicButton, ButtonIcon, AlertConfirm, GridItem, Grid } from '../../displayComponents';
 import { moment } from '../../containers/App';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
+import { ButtonBase } from "material-ui";
+import { isMobile } from "react-device-detect";
+import ModalEditDash from "./ModalEditDash";
 
 
+
+
+if (!localStorage.getItem("items")) {
+	localStorage.setItem("items", JSON.stringify({ "calendar": true, "lastActions": true, "buttons": true, "reuniones": true, "noSession": true }))
+}
 
 class Dashboard extends React.Component {
 	// const Dashboard = ({ translate, company, user }) => {
 
 	state = {
 		edit: false,
-		modalEdit:false
+		modalEdit: false,
+		items: JSON.parse(localStorage.getItem("items"))
 	}
 
 	editMode = () => {
@@ -35,9 +44,23 @@ class Dashboard extends React.Component {
 		})
 	}
 
+	itemStorage = (item, value) => {
+		let objectItems = {};
+		if (!localStorage.getItem("items")) {
+			localStorage.setItem("items", JSON.stringify({}))
+		}
+		objectItems = JSON.parse(localStorage.getItem("items"));
+		objectItems[item] = value;
+		localStorage.setItem("items", JSON.stringify(objectItems))
+		this.setState({
+			items: JSON.parse(localStorage.getItem("items"))
+		})
+	}
+
 	render() {
 		const { translate, company, user } = this.props;
 		const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
+		const secondary = getSecondary();
 
 		return (
 			<div
@@ -54,29 +77,31 @@ class Dashboard extends React.Component {
 				className="container-fluid"
 			>
 				<Scrollbar>
-					<div style={{ display: "flex", justifyContent: 'flex-end', marginRight: "1.3em", marginTop: '0.5em' }}>
-						{this.state.edit && (
+					{!isMobile && (
+						<div style={{ marginTop: '0.5em', position: 'absolute', right: '1.35em' }}>
+							{this.state.edit && (
+								<BasicButton
+									text="Select Items"  //TRADUCCION
+									onClick={this.modalEditClick}
+									buttonStyle={{ marginRight: "1em" }}
+								/>
+							)}
 							<BasicButton
-								text="Select Items"  //TRADUCCION
-								onClick={this.modalEditClick}
-								buttonStyle={{ marginRight: "1em" }}
+								text="Edit Dashboard"  //TRADUCCION
+								onClick={this.editMode}
+								icon={this.state.edit ? <ButtonIcon type="lock_open" color={"red"} /> : <ButtonIcon type="lock" color={"black"} />}
 							/>
-						)}
-						<BasicButton
-							text="Edit Dashboard"  //TRADUCCION
-							onClick={this.editMode}
-							icon={this.state.edit ? <ButtonIcon type="lock_open" color={"red"} /> : <ButtonIcon type="lock" color={"black"} />}
-						/>
-					</div>
-					<AlertConfirm
+						</div>
+					)}
+					<ModalEditDash
+						translate={translate}
+						itemStorage={this.itemStorage}
 						requestClose={this.modalEditClickClose}
 						open={this.state.modalEdit}
-						bodyText={
-							<div>ASDASD</div>
-						}
-						title={"Items"}//TRADUCCION
-						widthModal={{ width: "50%" }}
+						title={"Items Dashboard"}//TRADUCCION
+						items={this.state.items}
 					/>
+					
 					<div
 						style={{
 							width: "100%",
@@ -115,6 +140,8 @@ class Dashboard extends React.Component {
 							company={company}
 							user={user}
 							editMode={this.state.edit}
+							itemStorage={this.itemStorage}
+							statesItems={this.state.items}
 						/>
 					</div>
 					<CBXFooter />

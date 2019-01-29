@@ -24,6 +24,9 @@ import gql from 'graphql-tag';
 import AgendaEvent from './AgendaEvent';
 import { isMobile } from "react-device-detect";
 import Grafica from "./Grafica";
+import UltimasAcciones from "./UltimasAcciones";
+import ButtonsDirectAccess from "./ButtonsDirectAccess";
+
 
 
 
@@ -37,7 +40,10 @@ const stylesGrafica = {
 		boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px",
 		borderRadius: "3px",
 		padding: "1.2em",
-		position: "relative"
+		position: "relative",
+		marginBottom: '1em',
+		marginTop: "2em",
+		marginRight: '2em',
 	},
 	grafica: {
 		display: 'inline-flex',
@@ -52,6 +58,7 @@ class TopSectionBlocks extends React.Component {
 		open: false,
 		modal: false,
 		reunion: null,
+		modalAcciones: false
 	}
 
 	closeCouncilsModal = () => {
@@ -79,10 +86,8 @@ class TopSectionBlocks extends React.Component {
 		});
 	}
 
-
-
 	render() {
-		const { translate, company, editMode } = this.props;
+		const { translate, company, editMode, statesItems } = this.props;
 		const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
 		let allViews = ["agenda", "month"] // Object.keys(BigCalendar.Views).map(k => BigCalendar.Views[k])
 		const { loading, councils, error, } = this.props.data;
@@ -104,6 +109,8 @@ class TopSectionBlocks extends React.Component {
 			date: translate.date,
 			time: 'Hora',
 			event: 'Evento',
+			noEventsInRange: 'No hay eventos en este rango.',
+
 		}
 		// console.log(councils)
 
@@ -113,6 +120,8 @@ class TopSectionBlocks extends React.Component {
 
 
 		let conf = [];
+		let totalReuniones = 0;
+		let info = [];
 		if (!loading) {
 			councils.forEach(reunion => numReunion.push(
 				new Date(reunion.dateStart).getMonth()
@@ -120,8 +129,13 @@ class TopSectionBlocks extends React.Component {
 			for (let i = 0; i < numReunion.length; i++) {
 				numMes[numReunion[i]]++
 			}
+			info = Object.values(numMes);
+			for (let i = 0; i < info.length; i++) {
+				totalReuniones = parseInt(info[i]) + parseInt(totalReuniones)
+			}
 		}
 
+		const anoActual = new Date().getFullYear();
 
 		return (
 			<Grid
@@ -136,68 +150,13 @@ class TopSectionBlocks extends React.Component {
 					requestClose={this.closeCouncilsModal}
 					translate={translate}
 				/>
-				{true &&
-					<div style={{ width: "100%" }}>
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }} >
-							<Block
-								link={`/company/${company.id}/statutes`}
-								icon="gavel"
-								id={'edit-statutes-block'}
-								text={translate.council_types}
-							/>
-						</GridItem>
-
-
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }} >
-							<Block
-								link={`/company/${company.id}/book`}
-								icon="contacts"
-								id={'edit-company-block'}
-								disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
-								disabledOnClick={this.showCouncilsModal}
-								text={translate.book}
-							/>
-						</GridItem>
-
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
-							<Block
-								link={`/company/${company.id}/censuses`}
-								icon="person"
-								id={'edit-censuses-block'}
-								text={translate.censuses}
-							/>
-						</GridItem>
-
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
-							<Block
-								link={`/company/${company.id}/drafts`}
-								icon="class"
-								id={'edit-drafts-block'}
-								text={translate.drafts}
-							/>
-						</GridItem>
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
-						</GridItem>
-
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
-							<Block
-								link={`/company/${company.id}/council/new`}
-								customIcon={<img src={logo} style={{ height: '7em', width: 'auto' }} alt="councilbox-logo" />}
-								id={'create-council-block'}
-								disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
-								disabledOnClick={this.showCouncilsModal}
-								text={translate.dashboard_new}
-							/>
-						</GridItem>
-						<GridItem xs={12} md={3} lg={3} style={{ marginBottom: "1em" }}>
-							<Block
-								link={`/company/${company.id}/meeting/new`}
-								icon="video_call"
-								id={'init-meeting-block'}
-								text={translate.start_conference}
-							/>
-						</GridItem>
-					</div>}
+				{isMobile &&
+					<ButtonsDirectAccess
+						company={company}
+						translate={translate}
+						isMobile={isMobile}
+					/>
+				}
 				{this.props.user.roles === 'devAdmin' &&
 					<GridItem xs={12} md={3} lg={3}>
 						<Block
@@ -210,92 +169,181 @@ class TopSectionBlocks extends React.Component {
 				}
 				{!isMobile &&
 					<GridItem xs={12} md={12} lg={12} style={{ height: '100%' }}>
-						
-						<div style={{ height: '100%' }}>
-							{loading ? (
-								<div style={{
-									width: '100%',
-									marginTop: '8em',
-									display: 'flex',
-									alignItems: 'center',
-									justifyContent: 'center'
-								}}>
-									<LoadingSection />
-								</div>
-							) : (
-									<React.Fragment>
-
-										<div style={{ overflow: "hidden", width: "220px", height: '260px', marginBottom: "3em", ...stylesGrafica.contenedor }}>
-											{editMode && (
-												<div className={'shakeIcon'} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} onClick={this.optionDash}>
-													<i className={"fa fa-times"}></i>
-												</div>
-											)}
-											<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}> Reuniones</div> {/*TRADUCCION*/}
-											{this.state.grafica ? (
-												<div style={{
-													width: '100%',
-													marginTop: '8em',
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center'
-												}}>
-													<LoadingSection />
-												</div>
-											) : (
-													<div style={{ width: "170px", height: '190px', ...stylesGrafica.grafica }}>
-														<Grafica translate={translate} info={Object.values(numMes)}></Grafica>
-													</div>
-
-												)
-											}
-										</div>
-										<div style={{ ...stylesGrafica.contenedor, minHeight: "580px" }}>
-											{editMode && (
-												<div className={'shakeIcon'} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }}>
-													<i className={"fa fa-times"}></i>
-												</div>
-											)}
-											<BigCalendar
-												messages={messages}
-												defaultDate={new Date()}
-												defaultView="agenda"
-												localizer={localizer}
-												events={eventos}
-												startAccessor="start"
-												endAccessor="end"
-												views={allViews}
-												resizable
-												onSelectEvent={this.selectEvent}
-												components={{
-													agenda: {
-														event: AgendaEvent,
-													}
-
-												}}
-												eventPropGetter={
-													(event, start, end, isSelected) => {
-														return {
-															className: 'rbc-cell-' + event.state,
-														};
-													}
-												}
-
-											>
-											</BigCalendar>
-										</div>
-									</React.Fragment>
+						{statesItems.buttons && (
+							<div style={{ ...stylesGrafica.contenedor }} className={editMode ? "shakeItems" : ""}>
+								{editMode && (
+									<div className={'shakeIcon'} onClick={() => this.props.itemStorage("buttons", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }}>
+										<i className={"fa fa-times"}></i>
+									</div>
 								)}
-							<AlertConfirm
-								requestClose={!!this.state.council ? this.closeCouncilDetails : this.closeModal}
-								open={this.state.modal}
-								bodyText={
-									<CouncilDetails council={this.state.reunion} translate={this.props.translate} inIndex={true} />
-								}
-								title={translate.meeting_header}
-								widthModal={{ width: "75%" }}
-							/>
+								<div style={{ marginBottom: "1em", marginTop: "0.5em" }}><b> Quick Links </b></div> {/*TRADUCCION*/}
+								<ButtonsDirectAccess
+									company={company}
+									translate={translate}
+									isMobile={isMobile}
+								/>
+
+							</div>
+						)}
+						<div style={{ display: 'flex' }}>
+							<Grid>
+								<GridItem xs={12} md={2} lg={2}  style={{maxWidth: "220px",marginRight: '2em',}}>
+									<div>
+										{statesItems.reuniones && (
+											<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
+												{editMode && (
+													<div className={'shakeIcon'} onClick={() => this.props.itemStorage("reuniones", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
+														<i className={"fa fa-times"}></i>
+													</div>
+												)}
+												<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b> Reuniones </b></div> {/*TRADUCCION*/}
+												<div style={{}}> Año: {anoActual} </div> {/*TRADUCCION*/}
+												{loading ? (
+													<div style={{
+														width: '100%',
+														marginTop: '8em',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center'
+													}}>
+														<LoadingSection />
+													</div>
+												) : (
+														<Grafica textCentral={"Reuniones"} styles={stylesGrafica.grafica} translate={translate} info={info} totalReuniones={totalReuniones} />//TRADUCCION
+													)
+												}
+											</div>
+										)}
+									</div>
+								</GridItem>
+								<GridItem xs={12} md={4} lg={4} style={{maxWidth: "420px",marginRight: '2em',}}>
+									<div>
+										{statesItems.lastActions && (
+											<div style={{ overflow: "hidden", width: "420px", height: '475px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
+												{editMode && (
+													<div className={'shakeIcon'} onClick={() => this.props.itemStorage("lastActions", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
+														<i className={"fa fa-times"}></i>
+													</div>
+												)}
+												<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b>Ultimas Acciones</b></div> {/*TRADUCCION*/}
+												{loading ? (
+													<div style={{
+														width: '100%',
+														marginTop: '8em',
+													}}>
+														<LoadingSection />
+													</div>
+												) : (
+														<div>
+															<UltimasAcciones
+																translate={translate}
+																reuniones={councils}
+															/>
+														</div>
+
+													)
+												}
+											</div>
+										)}
+									</div>
+								</GridItem>
+								<GridItem xs={12} md={2} lg={2} style={{maxWidth: "220px",marginRight: '2em',}} >
+									<div>
+										{statesItems.noSession && (
+											<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
+												{editMode && (
+													<div className={'shakeIcon'} onClick={() => this.props.itemStorage("noSession", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
+														<i className={"fa fa-times"}></i>
+													</div>
+												)}
+												<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b> Reuniones sin sesión </b></div> {/*TRADUCCION*/}
+												{loading ? (
+													<div style={{
+														width: '100%',
+														marginTop: '8em',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center'
+													}}>
+														<LoadingSection />
+													</div>
+												) : (
+														<div style={{ width: "170px", height: '220px', ...stylesGrafica.grafica }}>
+															{/* <Grafica textCentral={"Reuniones"} translate={translate} info={info} totalReuniones={totalReuniones}></Grafica>TRADUCCION */}
+														</div>
+
+													)
+												}
+											</div>
+										)}
+									</div>
+								</GridItem>
+
+							</Grid>
 						</div>
+						{statesItems.calendar && (
+							<div style={{ height: '100%' }} className={editMode ? "shakeItems" : ""}>
+								{loading ? (
+									<div style={{
+										width: '100%',
+										marginTop: '8em',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center'
+									}}>
+										<LoadingSection />
+									</div>
+								) : (
+										<React.Fragment>
+											<div style={{ ...stylesGrafica.contenedor, minHeight: "580px" }}>
+												{editMode && (
+													<div className={'shakeIcon'} onClick={() => this.props.itemStorage("calendar", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }}>
+														<i className={"fa fa-times"}></i>
+													</div>
+												)}
+												<BigCalendar
+													messages={messages}
+													defaultDate={new Date()}
+													defaultView="agenda"
+													localizer={localizer}
+													events={eventos}
+													startAccessor="start"
+													endAccessor="end"
+													views={allViews}
+													resizable
+													onSelectEvent={this.selectEvent}
+													components={{
+														agenda: {
+															event: AgendaEvent,
+														}
+
+													}}
+													style={{ height: "580px" }}
+													eventPropGetter={
+														(event, start, end, isSelected) => {
+															return {
+																className: 'rbc-cell-' + event.state,
+															};
+														}
+													}
+
+												>
+												</BigCalendar>
+											</div>
+										</React.Fragment>
+									)}
+
+								<AlertConfirm
+									requestClose={!!this.state.council ? this.closeCouncilDetails : this.closeModal}
+									open={this.state.modal}
+									bodyText={
+										<CouncilDetails council={this.state.reunion} translate={this.props.translate} inIndex={true} />
+									}
+									title={translate.meeting_header}
+									widthModal={{ width: "75%" }}
+								/>
+							</div>
+						)}
 					</GridItem>
 				}
 			</Grid >
@@ -306,12 +354,12 @@ class TopSectionBlocks extends React.Component {
 
 const loadFromPreviousCouncil = gql`
     mutation LoadFromPreviousCouncil($councilId: Int!, $originId: Int!){
-        loadFromAnotherCouncil(councilId: $councilId, originId: $originId){
-            success
+					loadFromAnotherCouncil(councilId: $councilId, originId: $originId){
+					success
             message
-        }
-    }
-`;
+				}
+			}
+		`;
 
 export default compose(
 	graphql(loadFromPreviousCouncil, { name: 'loadFromPreviousCouncil' }),

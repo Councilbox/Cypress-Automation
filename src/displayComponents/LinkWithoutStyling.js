@@ -7,7 +7,8 @@ export default ({ to, children, id, styles }) => (
 		id={id}
 		style={{
 			textDecoration: "none",
-			color: "inherit"
+			color: "inherit",
+			...styles
 		}}
 	>
 		{children}

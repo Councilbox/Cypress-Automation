@@ -33,9 +33,9 @@ const secondary = getSecondary();
 class Grafica extends React.Component {
 
 	render() {
-		const { translate, info } = this.props;
+		const { translate, info, totalReuniones, textCentral, stylesGrafica } = this.props;
 		const mesesArray = translate.datepicker_months.split(",");
-		
+
 		let originalDoughnutDraw = Chart.controllers.doughnut.prototype.draw;
 		Chart.helpers.extend(Chart.controllers.doughnut.prototype, {
 			draw: function () {
@@ -45,14 +45,13 @@ class Grafica extends React.Component {
 				let width = chart.chart.width,
 					height = chart.chart.height,
 					ctx = chart.chart.ctx;
-					ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
-				console.log(ctx)
+				ctx.fillStyle = "rgba(0, 0, 0, 0.65)";
 
-				let fontSize ="14px";
-				ctx.font = fontSize + "em sans-serif";
+				let fontSize = "14px";
+				ctx.font = "sans-serif";
 				ctx.textBaseline = "middle";
 
-				let sum = "Reuniones";
+				let sum = textCentral;
 
 				let text = sum,
 					textX = Math.round((width - ctx.measureText(text).width) / 2),
@@ -62,10 +61,10 @@ class Grafica extends React.Component {
 			}
 		});
 
+
 		let data = {
 			labels: mesesArray,
 			datasets: [{
-				// data: [5,4,7,8,5,9,7,5,6,4,5,1],
 				data: info,
 				backgroundColor: [
 					'#FF6384',
@@ -98,22 +97,31 @@ class Grafica extends React.Component {
 			}],
 			text: '23%'
 		};
-
-		return (
-			<Doughnut
-				data={data}
-				width={170}
-				height={180}
-				options={{
-					legend: {
-						display: false
-					},
-					maintainAspectRatio: false,
-					responsive: true,
-					cutoutPercentage: 60
-				}}
-			/>
-		)
+		if (totalReuniones) {
+			return (
+				<div style={{ width: "170px", height: '220px', ...stylesGrafica }}>
+					<Doughnut
+						data={data}
+						width={170}
+						height={180}
+						options={{
+							legend: {
+								display: false
+							},
+							maintainAspectRatio: false,
+							responsive: true,
+							cutoutPercentage: 60
+						}}
+					/>
+				</div >
+			)
+		} else {
+			return (
+				<div style={{ display: 'inline-flex', alignItems: 'center', justifontent: 'center', height: '220px' }}>
+					<div>Aun no hay reuniones</div>
+				</div>
+			)
+		}
 	}
 
 }
