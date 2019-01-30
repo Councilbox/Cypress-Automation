@@ -73,6 +73,15 @@ class AgendaMenu extends React.Component {
         return <i className={icon} aria-hidden="true" style={{marginRight: '0.6em'}}></i>;
     }
 
+    findOwnVote = (votings, participant) => {
+        //console.log(votings, participant);
+        return votings.find(voting => (
+            voting.participantId === participant.id
+            || voting.delegateId === participant.id ||
+            voting.author.representative.id === participant.id
+        ));
+    }
+
     agendaVotingIcon = () => {
         const { agenda } = this.props;
         let icon = 'fa fa-lock';
@@ -103,6 +112,9 @@ class AgendaMenu extends React.Component {
         const secondary = getSecondary();
         const primary = getPrimary();
 
+        const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
+        console.log(ownVote);
+
         return(
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px'}}>
@@ -127,16 +139,22 @@ class AgendaMenu extends React.Component {
                                 {(agenda.votings && agenda.votings.length > 0)?
                                     <React.Fragment>
                                         {checkVotings(agenda.votings) &&
-                                            <VotingSection
-                                                agenda={agenda}
-                                                open={this.state.open}
-                                                council={this.props.council}
-                                                voting={this.state.voting}
-                                                translate={translate}
-                                                activateVoting={this.activateVoting}
-                                                refetch={this.props.refetch}
-                                                toggle={this.toggle}
-                                            />
+                                            <React.Fragment>
+                                                {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id)?
+                                                    'Tu voto ha sido delegado en esta votación'//TRADUCCION
+                                                :
+                                                    <VotingSection
+                                                        agenda={agenda}
+                                                        open={this.state.open}
+                                                        council={this.props.council}
+                                                        voting={this.state.voting}
+                                                        translate={translate}
+                                                        activateVoting={this.activateVoting}
+                                                        refetch={this.props.refetch}
+                                                        toggle={this.toggle}
+                                                    />
+                                                }
+                                            </React.Fragment>
                                         }
                                         {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
                                             <CommentMenu
@@ -170,76 +188,42 @@ class AgendaMenu extends React.Component {
                                         showModal: true
                                     })}
                                 />
-                                <CollapsibleSection
-                                    open={this.state.open}
-                                    onTriggerClick={() => {}}
-                                    onClose={() => {
-                                        if(this.state.reopen){
-                                            this.setState({
-                                                open: true,
-                                                voting: !this.state.voting,
-                                                reopen: false
-                                            })
+                                <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
+                                    <Typography style={{ fontWeight: '700', fontSize: '16px'}}>
+                                        {this.agendaVotingIcon()}
+                                        {this.agendaVotingMessage()}
+                                    </Typography>
+                                </div>
+                                {CBX.agendaVotingsOpened(agenda) &&
+                                    <React.Fragment>
+                                        {(agenda.votings && agenda.votings.length > 0)?
+                                            <React.Fragment>
+                                                {checkVotings(agenda.votings) &&
+                                                    <VotingSection
+                                                        agenda={agenda}
+                                                        open={this.state.open}
+                                                        council={this.props.council}
+                                                        voting={this.state.voting}
+                                                        translate={translate}
+                                                        activateVoting={this.activateVoting}
+                                                        refetch={this.props.refetch}
+                                                        toggle={this.toggle}
+                                                    />
+                                                }
+                                                {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
+                                                    <CommentMenu
+                                                        agenda={agenda}
+                                                        participant={this.props.participant}
+                                                        translate={this.props.translate}
+                                                        refetch={this.props.refetch}
+                                                    />
+                                                }
+                                            </React.Fragment>
+                                        :
+                                            translate.cant_exercise_vote
                                         }
-                                    }}
-                                    style={{
-                                        cursor: 'auto'
-                                    }}
-                                    trigger={() =>
-                                        <div style={{
-                                            width: '100%',
-                                            display: 'flex',
-                                            flexDirection: 'row',
-                                            justifyContent: 'space-between',
-                                        }}>
-                                            <BasicButton
-                                                color={this.state.voting && this.state.open? primary : 'white'}
-                                                text={this.props.translate.exercise_voting}
-                                                textStyle={{
-                                                    color: this.state.voting && this.state.open? 'white' : primary,
-                                                    fontWeight: '700',
-                                                    fontSize: '14px'
-                                                }}
-                                                buttonStyle={{
-                                                    float: 'left',
-                                                    border: `2px solid ${primary}`
-                                                }}
-                                                icon={<ButtonIcon type="thumbs_up_down" color={this.state.voting && this.state.open? 'white' : primary}/>}
-                                                onClick={this.activateVoting}
-                                            />
-                                            {CBX.councilHasComments(this.props.council.statute) &&
-                                                <BasicButton
-                                                    color={!this.state.voting && this.state.open? primary : 'white'}
-                                                    text={translate.act_comment_btn}
-                                                    textStyle={{
-                                                        color: !this.state.voting && this.state.open? 'white' : primary,
-                                                        fontWeight: '700',
-                                                        fontSize: '14px'
-                                                    }}
-                                                    buttonStyle={{
-                                                        float: 'left',
-                                                        border: `2px solid ${primary}`
-                                                    }}
-                                                    icon={<ButtonIcon type="mode_edit" color={!this.state.voting && this.state.open? 'white' : primary}/>}
-                                                    onClick={this.activateComment}
-                                                />
-                                            }
-                                        </div>
-                                    }
-                                    collapse={() => this.state.voting?
-                                        <VotingMenu
-                                            translate={this.props.translate}
-                                            refetch={this.props.refetch}
-                                            agenda={agenda}
-                                        />
-                                    :
-                                        <CommentMenu
-                                            agenda={agenda}
-                                            translate={this.props.translate}
-                                            refetch={this.props.refetch}
-                                        />
-                                    }
-                                />
+                                    </React.Fragment>
+                                }
                             </React.Fragment>
                     }
                     </div>

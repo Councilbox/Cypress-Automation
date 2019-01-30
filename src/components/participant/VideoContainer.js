@@ -7,7 +7,7 @@ const rand = Math.random();
 const VideoContainer = ({ data, setVideoURL, videoURL, announcement }) => {
     if(!data.loading){
         if(!videoURL){
-            setVideoURL(data.participantVideoURL);
+            setVideoURL(data.participantVideoURL? data.participantVideoURL : 'Error reaching CMP');
         }
         return(
             <iframe

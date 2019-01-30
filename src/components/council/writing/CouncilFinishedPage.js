@@ -147,6 +147,16 @@ export const councilDetails = gql`
 			}
 		}
 
+		votingTypes {
+			label
+			value
+		}
+
+		majorityTypes {
+			label
+			value
+		}
+
 		councilAttendants(
 			councilId: $councilID
 		) {
@@ -214,11 +224,14 @@ class CouncilFinishedPage extends React.Component {
 		if(council.state === COUNCIL_STATES.APPROVED || council.state === COUNCIL_STATES.FINAL_ACT_SENT){
 			return (
 				<ActEditorPage
-					confirmed={true}
-					refetch={this.props.data.refetch}
 					translate={translate}
 					council={council}
+					agendas={this.props.data.agendas}
+					councilRecount={this.props.data.councilRecount}
+					refetch={this.props.data.refetch}
+					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
 					socialCapital={this.props.data.councilSocialCapital}
+					councilAttendants={this.props.data.councilAttendants}
 					totalVotes={this.props.data.councilTotalVotes}
 				/>
 			)
@@ -229,11 +242,16 @@ class CouncilFinishedPage extends React.Component {
 				<ActEditorPage
 					confirmed={true}
 					withoutAct={true}
-					refetch={this.props.data.refetch}
 					translate={translate}
 					council={council}
+					agendas={this.props.data.agendas}
+					councilRecount={this.props.data.councilRecount}
+					refetch={this.props.data.refetch}
+					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
 					socialCapital={this.props.data.councilSocialCapital}
+					councilAttendants={this.props.data.councilAttendants}
 					totalVotes={this.props.data.councilTotalVotes}
+					{...this.props.data}
 				/>
 			)
 		}

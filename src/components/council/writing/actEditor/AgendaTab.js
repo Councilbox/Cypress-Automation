@@ -14,13 +14,14 @@ const AgendaTab = ({ council, translate, data }) => {
 		return !!votingType? translate[votingType.label] : '';
 	}
 
+	console.log(data);
 
 	return(
 		<div style={{ height: "100%", overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
 			<Scrollbar>
-				{!!data.council.agendas && (
+				{!!data.agendas && (
 					<React.Fragment>
-						{data.council.agendas.map((agenda, index) => {
+						{data.agendas.map((agenda, index) => {
 							return (
 								<div style={{marginTop: '2.5em', padding: '1em' }} key={`agenda${agenda.id}`}>
 									<AgendaEditor
@@ -32,7 +33,7 @@ const AgendaTab = ({ council, translate, data }) => {
 										majorityTypes={data.majorityTypes}
 										typeText={getTypeText(agenda.subjectType)}
 									/>
-									{index < data.council.agendas.length -1 &&
+									{index < data.agendas.length -1 &&
 										<hr style={{marginTop: '2.5em'}} />
 									}
 								</div>
@@ -53,11 +54,15 @@ const CouncilActData = gql`
 			country
 			countryState
 			currentQuorum
+			quorumPrototype
 			secretary
 			president
 			street
 			city
 			name
+			remoteCelebration
+			dateStart
+			dateStart2NdCall
 			dateRealStart
 			dateEnd
 			qualityVoteId
@@ -68,49 +73,76 @@ const CouncilActData = gql`
 				constitution
 				conclusion
 			}
-			agendas {
-				id
-				orderIndex
-				agendaSubject
-				subjectType
-				abstentionVotings
-				abstentionManual
-				noVoteVotings
-				noVoteManual
-				positiveVotings
-				positiveManual
-				negativeVotings
-				negativeManual
-				description
-				majorityType
-				majority
-				majorityDivider
-				votings {
-					id
-					participantId
-					comment
-					vote
-				}
-				numPresentCensus
-				presentCensus
-				numCurrentRemoteCensus
-				currentRemoteCensus
-				comment
-			}
 			statute {
 				id
 				prototype
 				existsQualityVote
 			}
 		}
+
+		agendas(councilId: $councilId) {
+			id
+			orderIndex
+			agendaSubject
+			subjectType
+			abstentionVotings
+			abstentionManual
+			noVoteVotings
+			noVoteManual
+			positiveVotings
+			positiveManual
+			negativeVotings
+			negativeManual
+			description
+			majorityType
+			majority
+			majorityDivider
+			votings {
+				id
+				participantId
+				comment
+				vote
+				author {
+					id
+					socialCapital
+					numParticipations
+				}
+			}
+			numPresentCensus
+			presentCensus
+			numCurrentRemoteCensus
+			currentRemoteCensus
+			comment
+		}
+
 		councilRecount(councilId: $councilId){
 			socialCapitalTotal
 			partTotal
 			numTotal
 		}
+
+		participantsWithDelegatedVote(councilId: $councilId){
+			name
+			surname
+			state
+			representative {
+				name
+				surname
+			}
+		}
+
 		votingTypes {
 			label
 			value
+		}
+
+		councilAttendants(
+			councilId: $councilId
+		) {
+			list {
+				name
+				surname
+			}
 		}
 
 		majorityTypes {
@@ -120,11 +152,5 @@ const CouncilActData = gql`
 	}
 `;
 
-export default graphql(CouncilActData, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id
-        }
-    })
-})(AgendaTab);
+export default AgendaTab;
 

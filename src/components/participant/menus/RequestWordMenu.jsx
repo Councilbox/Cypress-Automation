@@ -160,7 +160,7 @@ class RequestWordMenu extends React.Component {
     render(){
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
-        const fixedURLMode = !this.props.videoURL.includes('councilbox');
+        const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
 
         return(
             <Paper

@@ -15,15 +15,19 @@ import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
 import CouncilSideMenu from './CouncilSideMenu';
 
-class ActEditorPage extends React.Component {
+class ActEditorPage extends React.PureComponent {
     state = {
         participants: false,
         sendReminder: false,
         sendConvene: false,
         cancel: false,
         rescheduleCouncil: false,
-        infoMenu: true
+        infoMenu: false
     };
+
+    shouldComponentUpdate(){
+        return false;
+    }
 
     toggleInfoMenu = () => {
         const menu = this.state.infoMenu;
@@ -34,6 +38,7 @@ class ActEditorPage extends React.Component {
     }
 
     render(){
+        console.log('a partir de aquí')
         const { translate, council, withoutAct } = this.props;
         let tabs = [];
         if(withoutAct){
@@ -46,6 +51,7 @@ class ActEditorPage extends React.Component {
                                 <AgendaTab
                                     council={council}
                                     translate={translate}
+                                    data={{...this.props}}
                                 />
                             </TabContainer>
                         );
@@ -196,6 +202,8 @@ class ActEditorPage extends React.Component {
                 );
             }
         });
+
+        console.log('act editor page')
 
         return(
             <div style={{width: '100%', height: '100%', display: 'flex'}}>

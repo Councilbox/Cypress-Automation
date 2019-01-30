@@ -277,6 +277,7 @@ const agendas = gql`
                 id
                 state
                 name
+                type
                 surname
                 representative {
                     id

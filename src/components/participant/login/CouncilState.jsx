@@ -140,7 +140,7 @@ class CouncilState extends React.Component {
 				>
 					{councilIsInTrash(council) && (
 						// {true && (
-						<ContenedoState
+						<StateContainer
 							widths={this.state.width}
 							heights={this.state.height}
 							windowOrientation={windowOrientation}
@@ -161,11 +161,11 @@ class CouncilState extends React.Component {
 								styles={{ marginLeft: "" }}
 							>
 							</Image>
-						</ContenedoState>
+						</StateContainer>
 					)}
 
 					{isAssistance && councilIsLive(council) && (
-						<ContenedoState
+						<StateContainer
 							widths={this.state.width}
 							heights={this.state.height}
 							windowOrientation={windowOrientation}
@@ -173,7 +173,7 @@ class CouncilState extends React.Component {
 							<div>
 								<TextRender
 									title={translate.we_are_sorry}
-									text={translate.council_not_started_yet_retry_later}
+									text={'La sala ya ha sido abierta, para entrar necesita usar el email de acceso.'}//TRADUCCION
 									isHtmlText={true}
 									council={council}
 									company={company}
@@ -188,12 +188,11 @@ class CouncilState extends React.Component {
 								windowOrientation={windowOrientation}
 							>
 							</Image>
-						</ContenedoState>
+						</StateContainer>
 					)}
 
 					{!isAssistance && councilIsNotLiveYet(council) && (
-					// {true && (
-						<ContenedoState
+						<StateContainer
 							widths={this.state.width}
 							heights={this.state.height}
 							windowOrientation={windowOrientation}
@@ -214,12 +213,11 @@ class CouncilState extends React.Component {
 								windowOrientation={windowOrientation}
 							>
 							</Image>
-						</ContenedoState>
+						</StateContainer>
 					)}
 
-					{/* {councilIsNotCelebrated(council) && ( */}
-						{true && (
-						<ContenedoState
+					{councilIsNotCelebrated(council) && (
+						<StateContainer
 							widths={this.state.width}
 							heights={this.state.height}
 							windowOrientation={windowOrientation}
@@ -239,13 +237,12 @@ class CouncilState extends React.Component {
 								windowOrientation={windowOrientation}
 							>
 							</Image>
-						</ContenedoState>
+						</StateContainer>
 					)}
 
 					{councilIsFinished(council) && (
-						// {true && (
 						<React.Fragment>
-							<ContenedoState
+							<StateContainer
 								widths={this.state.width}
 								heights={this.state.height}
 								windowOrientation={windowOrientation}
@@ -279,17 +276,10 @@ class CouncilState extends React.Component {
 									windowOrientation={windowOrientation}
 								>
 								</Image>
-							</ContenedoState>
+							</StateContainer>
 						</React.Fragment>
 					)}
 				</div>
-
-				{
-					false &&
-					<div style={styles.imageContainer}>
-						<img src={emptyMeetingTable} style={styles.image} alt="no-room-logo" />
-					</div>
-				}
 			</div >
 		);
 	}
@@ -326,7 +316,7 @@ class TextRender extends React.PureComponent {
 				<h3 style={{ color: primaryColor, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
 
 				{text && (
-					<p style={{ marginBottom: "8px", marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
+					<p style={{ marginBottom: "8px", fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
 						{isHtmlText ? (
 							<span dangerouslySetInnerHTML={{ __html: text }} />
 						) : (
@@ -456,7 +446,7 @@ const Image = ({ src, widths, windowOrientation, styles }) => (
 	</div>
 );
 
-const ContenedoState = ({ widths, windowOrientation, heights, children }) => (
+const StateContainer = ({ widths, windowOrientation, heights, children }) => (
 	<div
 		style={{
 			overflow: "hidden",
