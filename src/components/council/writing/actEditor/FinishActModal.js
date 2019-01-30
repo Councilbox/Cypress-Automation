@@ -161,8 +161,14 @@ class FinishActModal extends React.Component {
 			<AlertConfirm
 				requestClose={this.close}
 				open={this.props.show}
-				hideAccept={this.state.step === 1 || (this.state.step === 3 && !this.state.file)}
-				acceptAction={this.state.step === 3? this.approveActWithUserPDF : this.approveAct}
+				{...(this.props.config.exportActToWord ?
+					{
+						hideAccept: this.state.step === 1 || (this.state.step === 3 && !this.state.file),
+						acceptAction: this.state.step === 3? this.approveActWithUserPDF : this.approveAct
+					}
+				:
+					{acceptAction: this.approveAct}
+				)}
 				loadingAction={this.state.loading}
 				buttonAccept={translate.finish_and_aprove_act}
 				buttonCancel={translate.close}

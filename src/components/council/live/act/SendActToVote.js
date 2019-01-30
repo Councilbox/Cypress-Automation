@@ -49,10 +49,10 @@ class SendActToVote extends React.Component {
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={this.sendActToVote}
-				buttonAccept={translate.finish_and_aprove_act}
+				buttonAccept={translate.save_preview_act}
 				buttonCancel={translate.close}
 				bodyText={this._modalBody()}
-				title={translate.finish_and_aprove_act}
+				title={translate.save_preview_act}
 			/>
 		);
 	}

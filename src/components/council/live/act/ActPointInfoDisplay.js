@@ -26,6 +26,7 @@ class ActPointInfoDisplay extends React.Component {
                     }
                     {(agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === AGENDA_STATES.CLOSED)  &&
                         <ActPointTabs
+                            {...this.props}
                             agenda={agenda}
                             council={council}
                             translate={translate}

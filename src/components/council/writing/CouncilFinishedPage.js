@@ -98,6 +98,7 @@ export const councilDetails = gql`
 				participantId
 				comment
 				author {
+					id
 					socialCapital
 					numParticipations
 				}
@@ -139,9 +140,11 @@ export const councilDetails = gql`
 
 		participantsWithDelegatedVote(councilId: $councilID){
 			name
+			id
 			surname
 			state
 			representative {
+				id
 				name
 				surname
 			}
@@ -161,6 +164,7 @@ export const councilDetails = gql`
 			councilId: $councilID
 		) {
 			list {
+				id
 				name
 				surname
 				state
@@ -226,6 +230,7 @@ class CouncilFinishedPage extends React.Component {
 				<ActEditorPage
 					translate={translate}
 					council={council}
+					confirmed={true}
 					agendas={this.props.data.agendas}
 					councilRecount={this.props.data.councilRecount}
 					refetch={this.props.data.refetch}

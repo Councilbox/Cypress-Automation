@@ -96,6 +96,7 @@ export const agendaVotings = gql`
 			list {
 				id
 				author {
+					id
 					name
 					surname
 					numParticipations
@@ -104,6 +105,7 @@ export const agendaVotings = gql`
 					socialCapital
 					position
 					delegatedVotes {
+						id
 						name
 						surname
 						dni
@@ -123,6 +125,7 @@ export const agendaVotings = gql`
 					socialCapital
 					numParticipations
 					delegatedVotes {
+						id
 						name
 						surname
 						dni

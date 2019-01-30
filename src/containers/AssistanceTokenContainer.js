@@ -50,7 +50,6 @@ class AssistanceTokenContainer extends React.Component {
 	render() {
 		const { loading, error, participant } = this.state;
 		const { translate, match } = this.props;
-		console.log(this.props.match.params);
 
 		if (Object.keys(translate).length === 0 && loading) {
 			return <LoadingMainApp />;

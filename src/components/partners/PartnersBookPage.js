@@ -479,7 +479,6 @@ const applyOrder = (participants, orderBy, orderDirection) => {
 	return participants.sort((a, b) => {
 		let participantA = a;
 		let participantB = b;
-		console.log(participantA[orderBy], participantB[orderBy]);
 		return participantA[orderBy] > participantB[orderBy]
 	});
 }

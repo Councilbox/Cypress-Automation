@@ -113,7 +113,6 @@ class AgendaMenu extends React.Component {
         const primary = getPrimary();
 
         const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
-        console.log(ownVote);
 
         return(
             <div>

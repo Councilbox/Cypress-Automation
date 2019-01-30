@@ -4,6 +4,7 @@ import * as CBX from "../../../../utils/CBX";
 import { Scrollbar } from '../../../../displayComponents';
 import Votings from "../Votings";
 import ActLiveSection from '../../writing/actEditor/ActLiveSection';
+import RecountSection from '../RecountSection';
 import Comments from '../Comments';
 
 class ActPointTabs extends React.Component {
@@ -50,7 +51,16 @@ class ActPointTabs extends React.Component {
                             </div>
                         }
                         {this.state.selectedTab === 1 &&
-                            <div style={{padding: '1.5em', paddingRight: '4.5em'}}>
+                            <div style={{padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em'}}>
+                                <RecountSection
+                                    agenda={agenda}
+                                    key={`agendaRecount_${agenda.id}`}
+                                    council={this.props.council}
+                                    translate={translate}
+                                    recount={this.props.recount}
+                                    refetch={this.props.refetch}
+                                    majorityTypes={this.props.majorityTypes}
+                                />
                                 <Votings
                                     ref={votings => (this.votings = votings)}
                                     agenda={agenda}

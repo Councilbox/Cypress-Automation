@@ -101,7 +101,6 @@ class ActLiveSection extends React.Component {
 
     _section = () => {
 		const { council, translate, companyId } = this.props;
-		console.log(this.props);
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}

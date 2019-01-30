@@ -368,6 +368,10 @@ class AgendaDetailsSection extends React.Component {
 								agenda={agenda}
 								companyID={this.props.council.companyId}
 								translate={translate}
+								recount={this.props.recount}
+								showVotingsAlert={this.props.showVotingsAlert}
+								changeEditedVotings={this.props.changeEditedVotings}
+								majorityTypes={this.props.majorityTypes}
 								refetch={this.props.refetch}
 							/>
 						}

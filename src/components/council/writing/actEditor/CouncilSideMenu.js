@@ -13,9 +13,6 @@ class CouncilSideMenu extends React.Component {
     render(){
         const { council, translate, company, councilRecount } = this.props;
 
-        console.log(this.props.councilRecount);
-        console.log(council.statute);
-
         //TRADUCCION
         if(!this.props.open){
             return <span />

@@ -111,7 +111,6 @@ class AgendaEditor extends React.Component {
 		let noVoteSC = 0;
 
 		agenda.votings.forEach(vote => {
-			console.log(vote);
 			switch(vote.vote){
 				case VOTE_VALUES.ABSTENTION:
 					abstentionVotings++;

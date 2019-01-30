@@ -15,7 +15,7 @@ import RecordingsSection from '../recordings/RecordingsSection';
 import ActHTMLTab from '../actViewer/ActHTMLTab';
 import CouncilSideMenu from './CouncilSideMenu';
 
-class ActEditorPage extends React.PureComponent {
+class ActEditorPage extends React.Component {
     state = {
         participants: false,
         sendReminder: false,
@@ -25,9 +25,6 @@ class ActEditorPage extends React.PureComponent {
         infoMenu: false
     };
 
-    shouldComponentUpdate(){
-        return false;
-    }
 
     toggleInfoMenu = () => {
         const menu = this.state.infoMenu;
@@ -38,7 +35,6 @@ class ActEditorPage extends React.PureComponent {
     }
 
     render(){
-        console.log('a partir de aquí')
         const { translate, council, withoutAct } = this.props;
         let tabs = [];
         if(withoutAct){
@@ -96,6 +92,7 @@ class ActEditorPage extends React.PureComponent {
                                         companyID={this.props.company.id}
                                         company={this.props.company}
                                         translate={translate}
+                                        {...this.props}
                                         refetch={this.props.refetch}
                                     />
                                 </div>
@@ -202,8 +199,6 @@ class ActEditorPage extends React.PureComponent {
                 );
             }
         });
-
-        console.log('act editor page')
 
         return(
             <div style={{width: '100%', height: '100%', display: 'flex'}}>

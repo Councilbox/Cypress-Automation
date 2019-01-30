@@ -172,8 +172,6 @@ class ActAgreements extends React.Component {
 			return <LoadingSection />;
 		}
 
-		console.log(agenda);
-		console.log(council);
 
 		let positiveVotings = 0;
 		let negativeVotings = 0;

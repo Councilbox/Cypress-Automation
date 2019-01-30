@@ -19,6 +19,9 @@ import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
 import SendActDraftModal from './SendActDraftModal';
 import FinishActModal from "./FinishActModal";
 import { updateCouncilAct } from '../../../../queries';
+import DownloadActPDF from '../actViewer/DownloadActPDF';
+import ExportActToMenu from '../actViewer/ExportActToMenu';
+import { ConfigContext } from '../../../../containers/AppControl';
 import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
@@ -47,6 +50,7 @@ const CouncilActData = gql`
 			act {
 				id
 				intro
+				emailAct
 				constitution
 				conclusion
 			}
@@ -158,6 +162,7 @@ class ActEditor extends Component {
 			if (nextProps.data.council) {
 				return {
 					data: {
+						...nextProps.data,
 						council: {
 							...nextProps.data.council,
 							agendas: nextProps.data.agendas,
@@ -190,10 +195,9 @@ class ActEditor extends Component {
 	loadDraft = draft => {
  		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
-			council: this.props.data.council
+			council: this.state.data.council
 		}, this.props.translate);
 
-		console.log(this.state.data.council.act[this.state.load]);
 
 /* 		this.updateActState({
 			[this.state.load]: this.state.data.council.act[this.state.load] + correctedText
@@ -300,7 +304,7 @@ class ActEditor extends Component {
 	}
 
 	getTypeText = subjectType => {
-		const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
+		const votingType = this.state.data.votingTypes.find(item => item.value === subjectType)
 		return !!votingType? this.props.translate[votingType.label] : '';
 	}
 
@@ -323,281 +327,332 @@ class ActEditor extends Component {
 			return <ErrorWrapper error={error} translate={translate} />;
 		}
 
-		council.attendants = this.props.data.councilAttendants.list;
-		council.delegatedVotes = this.props.data.participantsWithDelegatedVote;
+		council.attendants = this.state.data.councilAttendants.list;
+		council.delegatedVotes = this.state.data.participantsWithDelegatedVote;
 
-		console.log(council);
 
 		return (
-			<div style={{ height: "100%", background: 'transparent' }}>
-				<div style={{overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
-						<Scrollbar>
-							<div style={{padding: '1.2em 5%'}}>
-								{!!data.council.act && data.council.act.intro !== undefined &&
-									<RichTextInput
-										ref={editor => this.intro = editor}
-										translate={translate}
-										floatingText={translate.intro}
-										type="text"
-										id="act-intro"
-										loadDraft={
-											<BasicButton
-												text={translate.load_draft}
-												color={secondary}
-												textStyle={{
-													color: "white",
-													fontWeight: "600",
-													fontSize: "0.8em",
-													textTransform: "none",
-													marginLeft: "0.4em",
-													minHeight: 0,
-													lineHeight: "1em"
-												}}
-												textPosition="after"
-												onClick={() =>
-													this.setState({
-														loadDraft: true,
-														load: 'intro',
-														draftType: DRAFT_TYPES.INTRO
-													})
-												}
-											/>
-										}
-										tags={generateActTags('intro', { council, company, recount: this.props.data.councilRecount }, translate)}
-										errorText={errors.intro}
-										value={data.council.act.intro || ''}
-										onChange={value => {
-											if(value !== data.council.act.intro){
-												this.updateActState({
-													intro: value
-												})
-											}
-										}}
-									/>
-								}
-								<div style={{marginTop: '1em'}}>
-									<RichTextInput
-										ref={editor => (this.constitution = editor)}
-										floatingText={translate.constitution}
-										translate={translate}
-										type="text"
-										id="act-constitution"
-										loadDraft={
-											<BasicButton
-												text={translate.load_draft}
-												color={secondary}
-												textStyle={{
-													color: "white",
-													fontWeight: "600",
-													fontSize: "0.8em",
-													textTransform: "none",
-													marginLeft: "0.4em",
-													minHeight: 0,
-													lineHeight: "1em"
-												}}
-												textPosition="after"
-												onClick={() =>
-													this.setState({
-														loadDraft: true,
-														load: 'constitution',
-														draftType: DRAFT_TYPES.CONSTITUTION
-													})
-												}
-											/>
-										}
-										tags={generateActTags('constitution', { council, company, recount: this.props.data.councilRecount}, translate)}
-										errorText={errors.constitution}
-										value={data.council.act.constitution || ''}
-										onChange={value => {
-											if(value !== data.council.act.constitution){
-												this.updateActState({
-													constitution: value
-												})
-											}
-										}}
-									/>
-								</div>
-								{!!council.agendas && (
-									<Fragment>
-										{council.agendas.filter(agenda => agenda.subjectType !== getActPointSubjectType()).map((agenda, index) => {
-											return (
-												<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
-													{/* <AgendaEditor
-														agenda={agenda}
+			<ConfigContext.Consumer>
+				{config => (
+					<div style={{ height: "100%", background: 'transparent' }}>
+						<div style={{overflow: 'hidden', height: 'calc(100% - 3.5em)'}}>
+								<Scrollbar>
+									<div style={{padding: '1.2em 5%'}}>
+										<div
+											style={{
+												display: 'flex',
+												width: '100%',
+												padding: '0.6em 0px',
+												justifyContent: 'flex-end'
+											}}
+										>
+											{config.exportActToWord?
+												<div style={{display: 'flex'}}>
+													<ExportActToMenu
+														translate={this.props.translate}
 														council={council}
-														updateCouncilAct={this.updateCouncilAct}
-														recount={this.props.data.councilRecount}
-														statutes={this.props.data.companyStatutes}
-														translate={translate}
-														majorityTypes={this.props.data.majorityTypes}
-														typeText={this.getTypeText(agenda.subjectType)}
-														company={this.props.company}
-														data={this.props.data}
+														html={this.state.data.council.act.emailAct}
+													/>
+													{/* <BasicButton
+														text="Añadir adjunto al acta"
+														textStyle={{color: getSecondary()}}
 													/> */}
-													{index < council.agendas.length -1 &&
-														<hr style={{marginTop: '2.5em'}} />
-													}
 												</div>
-											);
-										})}
-									</Fragment>
-								)}
-								{!this.props.liveMode &&
-									<div
-										ref={ref => this.conclusionSection = ref}
-									>
-										<RichTextInput
-											ref={editor => (this.conclusion = editor)}
-											floatingText={translate.conclusion}
-											translate={translate}
-											type="text"
-											id="act-conclusion"
-											loadDraft={
-												<BasicButton
-													text={translate.load_draft}
-													color={secondary}
-													textStyle={{
-														color: "white",
-														fontWeight: "600",
-														fontSize: "0.8em",
-														textTransform: "none",
-														marginLeft: "0.4em",
-														minHeight: 0,
-														lineHeight: "1em"
-													}}
-													textPosition="after"
-													onClick={() =>
-														this.setState({
-															loadDraft: true,
-															load: 'conclusion',
-															draftType: DRAFT_TYPES.CONCLUSION
-														})
-													}
+											:
+												<DownloadActPDF
+													translate={this.props.translate}
+													council={this.props.council}
 												/>
 											}
-											tags={generateActTags('conclusion', { council, company, recount: this.props.data.councilRecount }, translate)}
-											errorText={errors.conclusion}
-											value={data.council.act.conclusion || ''}
-											onChange={value => {
-												this.updateActState({
-													conclusion: value
-												})
+											{config.actCouncilInfo?
+												<BasicButton
+													text="Mostrar panel de información"//TRADUCCION
+													color={'white'}
+													type="flat"
+													textStyle={{ fontWeight: '700', color: secondary}}
+													buttonStyle={{border: `1px solid ${secondary}`, marginLeft: '0.6em'}}
+													onClick={this.props.toggleInfoMenu}
+												/>
+											:
+												<Config config={config}/>
+											}
+
+
+										</div>
+										{!!data.council.act && data.council.act.intro !== undefined &&
+											<RichTextInput
+												ref={editor => this.intro = editor}
+												translate={translate}
+												floatingText={translate.intro}
+												type="text"
+												id="act-intro"
+												loadDraft={
+													<BasicButton
+														text={translate.load_draft}
+														color={secondary}
+														textStyle={{
+															color: "white",
+															fontWeight: "600",
+															fontSize: "0.8em",
+															textTransform: "none",
+															marginLeft: "0.4em",
+															minHeight: 0,
+															lineHeight: "1em"
+														}}
+														textPosition="after"
+														onClick={() =>
+															this.setState({
+																loadDraft: true,
+																load: 'intro',
+																draftType: DRAFT_TYPES.INTRO
+															})
+														}
+													/>
+												}
+												tags={generateActTags('intro', { council, company, recount: this.state.data.councilRecount }, translate)}
+												errorText={errors.intro}
+												value={data.council.act.intro || ''}
+												onChange={value => {
+													if(value !== data.council.act.intro){
+														this.updateActState({
+															intro: value
+														})
+													}
+												}}
+											/>
+										}
+										<div style={{marginTop: '1em'}}>
+											<RichTextInput
+												ref={editor => (this.constitution = editor)}
+												floatingText={translate.constitution}
+												translate={translate}
+												type="text"
+												id="act-constitution"
+												loadDraft={
+													<BasicButton
+														text={translate.load_draft}
+														color={secondary}
+														textStyle={{
+															color: "white",
+															fontWeight: "600",
+															fontSize: "0.8em",
+															textTransform: "none",
+															marginLeft: "0.4em",
+															minHeight: 0,
+															lineHeight: "1em"
+														}}
+														textPosition="after"
+														onClick={() =>
+															this.setState({
+																loadDraft: true,
+																load: 'constitution',
+																draftType: DRAFT_TYPES.CONSTITUTION
+															})
+														}
+													/>
+												}
+												tags={generateActTags('constitution', { council, company, recount: this.state.data.councilRecount}, translate)}
+												errorText={errors.constitution}
+												value={data.council.act.constitution || ''}
+												onChange={value => {
+													if(value !== data.council.act.constitution){
+														this.updateActState({
+															constitution: value
+														})
+													}
+												}}
+											/>
+										</div>
+										{!!council.agendas && (
+											<Fragment>
+												{council.agendas.filter(agenda => agenda.subjectType !== getActPointSubjectType()).map((agenda, index) => {
+													return (
+														<div style={{marginTop: '2.5em' }} key={`agenda${agenda.id}`}>
+															<AgendaEditor
+																agenda={agenda}
+																council={council}
+																updateCouncilAct={this.updateCouncilAct}
+																recount={this.state.data.councilRecount}
+																statutes={this.state.data.companyStatutes}
+																translate={translate}
+																majorityTypes={this.state.data.majorityTypes}
+																typeText={this.getTypeText(agenda.subjectType)}
+																company={this.props.company}
+																data={this.state.data}
+															/>
+															{index < council.agendas.length -1 &&
+																<hr style={{marginTop: '2.5em'}} />
+															}
+														</div>
+													);
+												})}
+											</Fragment>
+										)}
+										{!this.props.liveMode &&
+											<div
+												ref={ref => this.conclusionSection = ref}
+											>
+												<RichTextInput
+													ref={editor => (this.conclusion = editor)}
+													floatingText={translate.conclusion}
+													translate={translate}
+													type="text"
+													id="act-conclusion"
+													loadDraft={
+														<BasicButton
+															text={translate.load_draft}
+															color={secondary}
+															textStyle={{
+																color: "white",
+																fontWeight: "600",
+																fontSize: "0.8em",
+																textTransform: "none",
+																marginLeft: "0.4em",
+																minHeight: 0,
+																lineHeight: "1em"
+															}}
+															textPosition="after"
+															onClick={() =>
+																this.setState({
+																	loadDraft: true,
+																	load: 'conclusion',
+																	draftType: DRAFT_TYPES.CONCLUSION
+																})
+															}
+														/>
+													}
+													tags={generateActTags('conclusion', { council, company, recount: this.state.data.councilRecount }, translate)}
+													errorText={errors.conclusion}
+													value={data.council.act.conclusion || ''}
+													onChange={value => {
+														this.updateActState({
+															conclusion: value
+														})
+													}}
+												/>
+											</div>
+										}
+									</div>
+								</Scrollbar>
+							</div>
+							<div
+								style={{
+									height: '3.5em',
+									zIndex: '100',
+									width: '100%',
+									borderTop: '1px solid gainsboro',
+									borderBottom: '1px solid gainsboro',
+									display: 'flex',
+									borderBottomRadius: '3px',
+									justifyContent: 'flex-end',
+									alignItems: 'center'
+								}}
+							>
+								{!this.props.liveMode &&
+									<div>
+										<BasicButton
+											text={translate.save_draft}
+											color={"white"}
+											loadingColor={primary}
+											disabled={this.state.disableButtons}
+											loading={this.state.updating}
+											textStyle={{
+												color: primary,
+												fontWeight: "700",
+												fontSize: "0.9em",
+												textTransform: "none"
+											}}
+											onClick={() => this.updateActState({})}
+											buttonStyle={{
+												marginRight: "1em",
+												border: `2px solid ${primary}`
+											}}
+										/>
+										<BasicButton
+											text={isMobile? translate.send_draft_phone_button : translate.send_draft_act_review}
+											color={"white"}
+											disabled={this.state.disableButtons}
+											textStyle={{
+												color: primary,
+												fontWeight: "700",
+												fontSize: "0.9em",
+												textTransform: "none"
+											}}
+											onClick={() => this.setState({
+												sendActDraft: true
+											})}
+											buttonStyle={{
+												marginRight: "1em",
+												border: `2px solid ${primary}`
+											}}
+										/>
+										<BasicButton
+											text={isMobile? translate.finish : translate.end_writing_act}
+											loading={this.state.updating}
+											loadingColor={primary}
+											disabled={this.state.updating || this.state.disableButtons}
+											color={"white"}
+											textStyle={{
+												color: primary,
+												fontWeight: "700",
+												fontSize: "0.9em",
+												textTransform: "none"
+											}}
+											onClick={() => this.setState({
+												finishActModal: true
+											})}
+											buttonStyle={{
+												marginRight: "1em",
+												border: `2px solid ${primary}`
 											}}
 										/>
 									</div>
+
 								}
 							</div>
-						</Scrollbar>
-					</div>
-					<div
-						style={{
-							height: '3.5em',
-							zIndex: '100',
-							width: '100%',
-							borderTop: '1px solid gainsboro',
-							borderBottom: '1px solid gainsboro',
-							display: 'flex',
-							borderBottomRadius: '3px',
-							justifyContent: 'flex-end',
-							alignItems: 'center'
-						}}
-					>
-						{!this.props.liveMode &&
-							<div>
-								<BasicButton
-									text={translate.save_draft}
-									color={"white"}
-									loadingColor={primary}
-									disabled={this.state.disableButtons}
-									loading={this.state.updating}
-									textStyle={{
-										color: primary,
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									onClick={() => this.updateActState({})}
-									buttonStyle={{
-										marginRight: "1em",
-										border: `2px solid ${primary}`
-									}}
+						<Dialog
+							open={this.state.loadDraft}
+							maxWidth={false}
+							onClose={() => this.setState({ loadDraft: false })}
+						>
+							<DialogTitle>{translate.load_draft}</DialogTitle>
+							<DialogContent style={{ width: "800px" }}>
+								<LoadDraft
+									translate={translate}
+									companyId={this.props.company.id}
+									loadDraft={this.loadDraft}
+									statute={council.statute}
+									statutes={this.state.data.companyStatutes}
+									draftType={this.state.draftType}
 								/>
-								<BasicButton
-									text={isMobile? translate.send_draft_phone_button : translate.send_draft_act_review}
-									color={"white"}
-									disabled={this.state.disableButtons}
-									textStyle={{
-										color: primary,
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									onClick={() => this.setState({
-										sendActDraft: true
-									})}
-									buttonStyle={{
-										marginRight: "1em",
-										border: `2px solid ${primary}`
-									}}
-								/>
-								<BasicButton
-									text={isMobile? translate.finish : translate.end_writing_act}
-									loading={this.state.updating}
-									loadingColor={primary}
-									disabled={this.state.updating || this.state.disableButtons}
-									color={"white"}
-									textStyle={{
-										color: primary,
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									onClick={() => this.setState({
-										finishActModal: true
-									})}
-									buttonStyle={{
-										marginRight: "1em",
-										border: `2px solid ${primary}`
-									}}
-								/>
-							</div>
-
-						}
-					</div>
-				<Dialog
-					open={this.state.loadDraft}
-					maxWidth={false}
-					onClose={() => this.setState({ loadDraft: false })}
-				>
-					<DialogTitle>{translate.load_draft}</DialogTitle>
-					<DialogContent style={{ width: "800px" }}>
-						<LoadDraft
+							</DialogContent>
+						</Dialog>
+						<SendActDraftModal
+							council={council}
 							translate={translate}
-							companyId={this.props.company.id}
-							loadDraft={this.loadDraft}
-							statute={council.statute}
-							statutes={this.props.data.companyStatutes}
-							draftType={this.state.draftType}
+							show={this.state.sendActDraft}
+							requestClose={() => this.setState({ sendActDraft: false })}
 						/>
-					</DialogContent>
-				</Dialog>
-				<SendActDraftModal
-					council={council}
-					translate={translate}
-					show={this.state.sendActDraft}
-					requestClose={() => this.setState({ sendActDraft: false })}
-				/>
-				<FinishActModal
-					refetch={this.props.refetch}
-					council={council}
-					translate={translate}
-					show={this.state.finishActModal}
-					requestClose={() => this.setState({ finishActModal: false })}
-				/>
-			</div>
+						<FinishActModal
+							refetch={this.props.refetch}
+							council={council}
+							config={config}
+							liveMode={this.props.liveMode}
+							translate={translate}
+							show={this.state.finishActModal}
+							requestClose={() => this.setState({ finishActModal: false })}
+						/>
+					</div>
+				)}
+			</ConfigContext.Consumer>
 		);
 	}
 }
+
+const Config = config => {
+	return <span/>
+}
+
 
 export default compose(
 	graphql(CouncilActData, {
