@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { councilParticipantsWithActSends } from '../../../../queries';
-import { LoadingSection, EnhancedTable } from '../../../../displayComponents';
+import { LoadingSection, EnhancedTable, RefreshButton } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import { TableRow, TableCell, Tooltip } from 'material-ui';
 import * as CBX from '../../../../utils/CBX';
@@ -23,6 +23,10 @@ const updateActSends = gql`
 class ParticipantsWithActTable extends React.Component {
 
     async componentDidMount(){
+        this.refreshEmails();
+    }
+
+    refreshEmails = async () => {
         const response = await this.props.updateActSends({
             variables: {
                 councilId: this.props.council.id
@@ -36,6 +40,11 @@ class ParticipantsWithActTable extends React.Component {
 
         return(
             <div>
+                <RefreshButton
+                    translate={translate}
+                    tooltip={'Refrescar estado emails'} //TRADUCCION
+                    onClick={this.refreshEmails}
+                />
                 <EnhancedTable
                     ref={table => (this.table = table)}
                     translate={translate}
