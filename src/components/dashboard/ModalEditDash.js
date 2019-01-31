@@ -33,8 +33,8 @@ class ModalEditDash extends React.Component {
 									</div>
 							<div>
 								<BasicButton
-									text={items.buttons ? "Desactive" : "Active"}  //TRADUCCION
-									onClick={() => itemStorage("buttons", items.buttons ? false : true)}
+									text={items[0].buttons ? "Desactive" : "Active"}  //TRADUCCION
+									onClick={() => itemStorage("buttons", items[0].buttons ? false : true)}
 									backgroundColor={{ backgroundColor: secondary }}
 								/>
 							</div>
@@ -46,8 +46,8 @@ class ModalEditDash extends React.Component {
 									</div>
 							<div>
 								<BasicButton
-									text={items.reuniones ? "Desactive" : "Active"}  //TRADUCCION
-									onClick={() => itemStorage("reuniones", items.reuniones ? false : true)}
+									text={items[0].reuniones ? "Desactive" : "Active"}  //TRADUCCION
+									onClick={() => itemStorage("reuniones", items[0].reuniones ? false : true)}
 									backgroundColor={{ backgroundColor: secondary }}
 								/>
 							</div>
@@ -59,8 +59,8 @@ class ModalEditDash extends React.Component {
 									</div>
 							<div>
 								<BasicButton
-									text={items.calendar ? "Desactive" : "Active"}  //TRADUCCION
-									onClick={() => itemStorage("calendar", items.calendar ? false : true)}
+									text={items[0].calendar ? "Desactive" : "Active"}  //TRADUCCION
+									onClick={() => itemStorage("calendar", items[0].calendar ? false : true)}
 									backgroundColor={{ backgroundColor: secondary }}
 								/>
 							</div>
@@ -72,8 +72,8 @@ class ModalEditDash extends React.Component {
 									</div>
 							<div>
 								<BasicButton
-									text={items.lastActions ? "Desactive" : "Active"}  //TRADUCCION
-									onClick={() => itemStorage("lastActions", items.lastActions ? false : true)}
+									text={items[0].lastActions? "Desactive" : "Active"}  //TRADUCCION
+									onClick={() => itemStorage("lastActions", items[0].lastActions ? false : true)}
 									backgroundColor={{ backgroundColor: secondary }}
 								/>
 							</div>
@@ -85,8 +85,21 @@ class ModalEditDash extends React.Component {
 									</div>
 							<div>
 								<BasicButton
-									text={items.noSession ? "Desactive" : "Active"}  //TRADUCCION
-									onClick={() => itemStorage("noSession", items.noSession ? false : true)}
+									text={items[0].noSession? "Desactive" : "Active"}  //TRADUCCION
+									onClick={() => itemStorage("noSession", items[0].noSession ? false : true)}
+									backgroundColor={{ backgroundColor: secondary }}
+								/>
+							</div>
+						</GridItem>
+						<GridItem xs={12} md={4} lg={4} style={{ display: "inline-block", textAlign: "center", alignItems: "center" }}>
+							<b>Sección para reuniones</b>
+							<div>
+								Descripcion de reuniones sin sesion
+									</div>
+							<div>
+								<BasicButton
+									text={items[0].sectionReuniones ? "Desactive" : "Active"}  //TRADUCCION
+									onClick={() => itemStorage("sectionReuniones", items[0].sectionReuniones ? false : true)}
 									backgroundColor={{ backgroundColor: secondary }}
 								/>
 							</div>

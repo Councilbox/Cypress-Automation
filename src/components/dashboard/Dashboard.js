@@ -12,13 +12,32 @@ import ModalEditDash from "./ModalEditDash";
 
 
 
+const json = [
+	{	///// visible //////
+		"buttons": true,
+		"sectionReuniones": true,
+		"lastActions": true,
+		"reuniones": true,
+		"noSession": true,
+		"calendar": true,
+	},
+	[	///// info //////
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.6, },
+		{ i: 'sectionReuniones', x: 0, y: 3, w: 12, h: 3.3, },
+		{ i: 'calendar', x: 0, y: 6, w: 12, h: 4, },
+	],
+	[
+		{ i: 'reuniones', x: 0, y: 0, w: 2.3, h: 2.2, },
+		{ i: 'lastActions', x: 3.3, y: 0, w: 4.2, h: 3.3, },
+		{ i: 'noSession', x: 6, y: 0, w: 2.4, h: 2.2, },
+	]
+]
 
 if (!localStorage.getItem("items")) {
-	localStorage.setItem("items", JSON.stringify({ "calendar": true, "lastActions": true, "buttons": true, "reuniones": true, "noSession": true }))
+	localStorage.setItem("items", JSON.stringify(json));
 }
 
 class Dashboard extends React.Component {
-	// const Dashboard = ({ translate, company, user }) => {
 
 	state = {
 		edit: false,
@@ -44,13 +63,26 @@ class Dashboard extends React.Component {
 		})
 	}
 
-	itemStorage = (item, value) => {
+	resetDash = () => {
+		localStorage.removeItem("items")
+		localStorage.setItem("items", JSON.stringify(json));
+		this.setState({
+			items: JSON.parse(localStorage.getItem("items"))
+		})
+	}
+
+	itemStorage = (item, value, object, grid) => {
 		let objectItems = {};
 		if (!localStorage.getItem("items")) {
 			localStorage.setItem("items", JSON.stringify({}))
 		}
 		objectItems = JSON.parse(localStorage.getItem("items"));
-		objectItems[item] = value;
+		// grid = grid ? grid : 0
+		if (item) {
+			objectItems[0][item] = value;
+		} else {
+			objectItems.splice(grid, grid, object)
+		}
 		localStorage.setItem("items", JSON.stringify(objectItems))
 		this.setState({
 			items: JSON.parse(localStorage.getItem("items"))
@@ -78,15 +110,23 @@ class Dashboard extends React.Component {
 			>
 				<Scrollbar>
 					{!isMobile && (
-						<div style={{ marginTop: '0.5em', position: 'absolute', right: '1.35em' }}>
+						<div style={{ marginTop: '0.5em', position: 'absolute', right: '1.35em', display: "flex" }}>
 							{this.state.edit && (
-								<BasicButton
-									text="Select Items"  //TRADUCCION
-									onClick={this.modalEditClick}
-									buttonStyle={{ marginRight: "1em" }}
-								/>
+								<div style={{ display: "flex" }}>
+									<BasicButton
+										text="Reset Dashboard"  //TRADUCCION
+										onClick={this.resetDash}
+										buttonStyle={{ marginRight: "1em", zIndex: "3" }}
+									/>
+									<BasicButton
+										text="Select Items"  //TRADUCCION
+										onClick={this.modalEditClick}
+										buttonStyle={{ marginRight: "1em", zIndex: "3" }}
+									/>
+								</div>
 							)}
 							<BasicButton
+								buttonStyle={{ zIndex: "3" }}
 								text="Edit Dashboard"  //TRADUCCION
 								onClick={this.editMode}
 								icon={this.state.edit ? <ButtonIcon type="lock_open" color={"red"} /> : <ButtonIcon type="lock" color={"black"} />}
@@ -101,7 +141,7 @@ class Dashboard extends React.Component {
 						title={"Items Dashboard"}//TRADUCCION
 						items={this.state.items}
 					/>
-					
+
 					<div
 						style={{
 							width: "100%",
@@ -111,7 +151,8 @@ class Dashboard extends React.Component {
 							flexDirection: "column",
 							padding: '1em',
 							textAlign: 'center',
-							paddingBottom: "4em"
+							paddingBottom: "4em",
+							// marginLeft:"2%"
 						}}
 					>
 						<div

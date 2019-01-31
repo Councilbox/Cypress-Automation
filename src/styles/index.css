@@ -271,3 +271,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     0% { transform: rotate(-0.6deg); }
     100% { transform: rotate(0.6deg); }
   }
+
+  .react-grid-layout {
+    position: relative;
+  }
