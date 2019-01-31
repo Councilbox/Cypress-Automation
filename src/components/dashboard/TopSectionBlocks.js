@@ -99,6 +99,11 @@ class TopSectionBlocks extends React.Component {
 		event.stopPropagation();
 	};
 
+	onLayoutChange = (layout) => {
+		console.log(layout)
+	};
+
+
 	render() {
 		const { translate, company, editMode, statesItems } = this.props;
 		const localizer = BigCalendar.momentLocalizer(moment)
@@ -149,11 +154,14 @@ class TopSectionBlocks extends React.Component {
 
 		const anoActual = new Date().getFullYear();
 
-		const layout = [
-			{ i: 'reuniones', x: 0, y: 0, w: 2.3, h: 2.2, },
-			{ i: 'lastActions', x: 3.3, y: 0, w: 4.2, h: 3.3, },
-			{ i: 'noSession', x: 6, y: 0, w: 2.4, h: 2.2, },
-		]
+
+		var layouts = {
+			lg: [
+				{ i: 'reuniones', x: 9, y: 0, w: 2.3, h: 2.2, },
+				{ i: 'lastActions', x: 3.3, y: 0, w: 4.2, h: 3.3, },
+				{ i: 'noSession', x: 6, y: 0, w: 2.4, h: 2.2, },
+			], md: statesItems[2]
+		};
 
 		return (
 			<Grid
@@ -222,14 +230,19 @@ class TopSectionBlocks extends React.Component {
 											</div>
 										)}
 										<div style={{ width: "100%", }}  >
-											<ReactGridLayout
+											<ResponsiveGridLayout
+												breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+												cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 1 }}
 												onDragStop={(layout, oldItem, newItem, placeholder, e, element) => this.handleStop(layout, oldItem, newItem, placeholder, e, element, 2)}
 												onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.handleStart(layout, oldItem, newItem, placeholder, e, element, 2)}
 												isDraggable={editMode}
 												className={"layout2"}
-												layout={statesItems[2]}
-												compactType={"horizontal"}
-												style={{ width: "100%", height: '520px', overflow: "hidden" }}
+												layout={layouts}
+												// layout={statesItems[2]}
+												compactType={"vertical"}
+												width={1}
+												onLayoutChange={this.onLayoutChange}
+												style={{ width: "100%", height: '520px', overflow: "hidden", display:"flex" }}
 											>
 												<div id={"reuniones"} key={"reuniones"} style={{  /*maxWidth: "220px",*/ }} >
 
@@ -321,8 +334,7 @@ class TopSectionBlocks extends React.Component {
 														</div>
 													)}
 												</div>
-
-											</ReactGridLayout>
+											</ResponsiveGridLayout>
 										</div>
 									</div>
 								)}
