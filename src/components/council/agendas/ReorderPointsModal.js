@@ -25,7 +25,7 @@ class ReorderPointsModal extends React.PureComponent {
 
 	updateOrder = async () => {
 		const reorderedAgenda = this.state.agendas.map((agenda, index) => {
-			const { __typename, attachments, ...updatedAgenda } = agenda;
+			const { __typename, attachments, votings, ...updatedAgenda } = agenda;
 			updatedAgenda.orderIndex = index + 1;
 			return updatedAgenda;
 		});

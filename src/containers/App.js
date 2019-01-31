@@ -193,11 +193,13 @@ class App extends React.Component {
 											path="/cmp/:id"
 											component={CouncilLiveTestContainer}
 										/>
-										<Route
-											exact
-											path="/validator/:uuid?"
-											component={ValidatorPage}
-										/>
+										{!window.location.hostname.includes('app.councilbox') &&
+											<Route
+												exact
+												path="/validator/:uuid?"
+												component={ValidatorPage}
+											/>
+										}
 										<Route
 											exact
 											path="/company/:company/meeting/live"
