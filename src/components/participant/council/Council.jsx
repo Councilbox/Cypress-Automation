@@ -63,21 +63,6 @@ class ParticipantCouncil extends React.Component {
         else {
             window.onunload = this.leaveRoom;
         }
-
-/*         if(!councilStarted(this.props.council)){
-            this.noStartedToastId = toast(
-                <LiveToast
-                    message={this.props.translate.council_not_started_yet} //TRADUCCIÓN
-                />, {
-                    position: toast.POSITION.TOP_CENTER,
-                    autoClose: false,
-                    closeOnClick: false,
-                    draggable: false,
-                    closeButton: false,
-                    className: "liveToast"
-                }
-            )
-        } */
     }
 
     leaveRoom = () => {

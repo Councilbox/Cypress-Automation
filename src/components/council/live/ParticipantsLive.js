@@ -9,6 +9,7 @@ import {
 	GridItem,
 	AlertConfirm
 } from "../../../displayComponents";
+import gql from 'graphql-tag';
 import { compose, graphql } from "react-apollo";
 import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
 import { Tooltip } from "material-ui";
@@ -50,7 +51,7 @@ class ParticipantsLive extends React.Component {
 							if(isAskingForWord(participant)){
 								askingForWord++;
 							}
-							if (exceedsOnlineTimeout(participant.lastDateConnection)) {
+							if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
 								offline++;
 							} else {
 								if (participant.requestWord === 2) {
@@ -247,6 +248,18 @@ class ParticipantsLive extends React.Component {
 	participantLiveColor = participant => {
 		if (participant.online !== 1) {
 			return "crimson";
+		} else {
+			console.log(participant);
+			if(exceedsOnlineTimeout(participant.lastDateConnection)){
+				console.log('desconectar', new Date().toISOString());
+				this.props.changeParticipantOnlineState({
+					variables: {
+						participantId: participant.id,
+						online: 2
+					}
+				});
+				return 'crimson';
+			}
 		}
 		return getSecondary();
 	};
@@ -381,6 +394,15 @@ const prepareParticipants = participants => {
 	})
 }
 
+const changeParticipantOnlineState = gql`
+    mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
+        changeParticipantOnlineState(participantId: $participantId, online: $online){
+            success
+            message
+        }
+    }
+`;
+
 export default compose(
 	graphql(videoParticipants, {
 		options: props => ({
@@ -399,5 +421,9 @@ export default compose(
 
 	graphql(banParticipant, {
 		name: "banParticipant"
+	}),
+
+	graphql(changeParticipantOnlineState, {
+		name: 'changeParticipantOnlineState'
 	})
 )(ParticipantsLive);
