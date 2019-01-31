@@ -18,13 +18,22 @@ class ValidatorPage extends React.Component {
     }
 
     async componentDidMount(){
-        await this.searchCode(this.props.match.params.uuid)
+        if(this.props.match.params.uuid){
+            await this.searchCode(this.props.match.params.uuid)
+        }
     }
 
     componentDidUpdate(prevProps, prevState){
-        if(this.props.match.params.uuid !== prevProps.match.params.uuid){
-            this.searchCode(this.props.match.params.uuid);
+        if(this.props.match.params.uuid){
+            if(this.props.match.params.uuid !== prevState.code){
+                this.searchCode(this.props.match.params.uuid);
+            }
         }
+
+    }
+
+    componentWillUnmount(){
+        console.log('se desmonta');
     }
 
     updateCode = event => {
@@ -60,15 +69,21 @@ class ValidatorPage extends React.Component {
 
         if(response.errors){
             if(response.errors[0].code === 404){
-                this.setState({
+                return this.setState({
                     error: 'Evidencia no encontrada', //TRADUCCION
                     loading: false,
                     data: null
                 });
-                return;
+            }
+            if(response.errors[0].code === 401){
+                return this.setState({
+                    error: 'No tienes acceso a esta información',
+                    loading: false,
+                    data: null
+                });
             }
         }
-        
+
         this.setState({
             loading: false,
             error: '',
@@ -79,6 +94,7 @@ class ValidatorPage extends React.Component {
     render(){
         //TRADUCCION
         const primary = getPrimary();
+        console.log(this.state);
         return(
             <NotLoggedLayout
 				translate={this.props.translate}
