@@ -147,6 +147,7 @@ export const convenedcouncilParticipants = gql`
 					position
 					language
 					notifications {
+						id
 						reqCode
 						refreshDate
 					}
@@ -194,6 +195,7 @@ export const convenedcouncilParticipants = gql`
 					assistanceLastDateConfirmed
 					assistanceIntention
 					representative {
+						id
 						name
 						surname
 						dni
@@ -203,6 +205,7 @@ export const convenedcouncilParticipants = gql`
 				city
 				personOrEntity
 				notifications {
+					id
 					reqCode
 					sendDate
 					refreshDate

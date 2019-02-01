@@ -174,7 +174,7 @@ class AgendaDetailsSection extends React.Component {
 								{`${agenda.orderIndex} - ${agenda.agendaSubject}`}
 							</div>
 							<div style={{paddingRight: '1em'}}>
-								{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL)?
+								{(agenda.pointState === AGENDA_STATES.INITIAL && agenda.votingState === AGENDA_STATES.INITIAL && agenda.subjectType !== CBX.getActPointSubjectType())?
 									<React.Fragment>
 										<span style={{cursor: 'pointer'}} onClick={this.showEditPointModal}>{translate[CBX.getAgendaTypeLabel(agenda)]}</span>
 										<i

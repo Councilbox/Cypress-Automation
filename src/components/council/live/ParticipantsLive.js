@@ -249,9 +249,7 @@ class ParticipantsLive extends React.Component {
 		if (participant.online !== 1) {
 			return "crimson";
 		} else {
-			console.log(participant);
 			if(exceedsOnlineTimeout(participant.lastDateConnection)){
-				console.log('desconectar', new Date().toISOString());
 				this.props.changeParticipantOnlineState({
 					variables: {
 						participantId: participant.id,

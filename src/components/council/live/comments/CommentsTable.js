@@ -72,6 +72,7 @@ class CommentsTable extends React.Component{
 	}
 
     render(){
+		console.log(this.props.data.agendaComments);
 
         return (
 			<Grid
@@ -101,7 +102,7 @@ class CommentsTable extends React.Component{
 				</GridItem>
 				{this.props.data.loading ? (
 					<LoadingSection />
-				) : this.props.data.agendaComments.list.length > 0 ? (
+				) : this.props.data.agendaComments && this.props.data.agendaComments.list.length > 0 ? (
 					<React.Fragment>
 						{this.props.data.agendaComments.list.map(voting => {
 							return (
@@ -188,6 +189,7 @@ export default graphql(agendaComments, {
 				offset: 0
 			}
 		},
-		pollInterval: 4000
+		pollInterval: 4000,
+		fetchPolicy: 'network-only'
 	})
 })(CommentsTable);
