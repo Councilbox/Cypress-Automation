@@ -274,4 +274,5 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 
   .react-grid-layout {
     position: relative;
+    height: 700px;
   }

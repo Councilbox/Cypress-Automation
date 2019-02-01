@@ -22,14 +22,14 @@ const json = [
 		"calendar": true,
 	},
 	[	///// info //////
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.6, },
-		{ i: 'sectionReuniones', x: 0, y: 3, w: 12, h: 3.3, },
-		{ i: 'calendar', x: 0, y: 6, w: 12, h: 4, },
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2},
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 2, h: 2, },
+		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5, },
 	],
 	[
-		{ i: 'reuniones', x: 0, y: 0, w: 2.3, h: 2.2, },
-		{ i: 'lastActions', x: 3.3, y: 0, w: 4.2, h: 3.3, },
-		{ i: 'noSession', x: 6, y: 0, w: 2.4, h: 2.2, },
+		{ i: 'reuniones', x: 0, y: 0, w: 2.2, h: 2.3 },
+		{ i: 'lastActions', x: 3, y: 0, w: 3.9, h: 3.5  },
+		{ i: 'noSession', x: 3, y: 0, w: 2, h: 2.3 },
 	]
 ]
 
@@ -73,14 +73,20 @@ class Dashboard extends React.Component {
 
 	itemStorage = (item, value, object, grid) => {
 		let objectItems = {};
+		console.log("===================================================")
+		console.log(item)
+		console.log(value)
+		console.log(object)
+		console.log(grid)
+		console.log("===================================================")
 		if (!localStorage.getItem("items")) {
 			localStorage.setItem("items", JSON.stringify({}))
 		}
 		objectItems = JSON.parse(localStorage.getItem("items"));
-		// grid = grid ? grid : 0
-		if (item) {
+		if (value) {
 			objectItems[0][item] = value;
-		} else {
+		} else if(grid){
+			// console.log(objectItems[])
 			objectItems.splice(grid, grid, object)
 		}
 		localStorage.setItem("items", JSON.stringify(objectItems))
