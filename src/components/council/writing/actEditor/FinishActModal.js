@@ -38,7 +38,8 @@ class FinishActModal extends React.Component {
 		});
 		const response = await this.props.approveAct({
 			variables: {
-				councilId: this.props.council.id
+				councilId: this.props.council.id,
+				closeCouncil: this.props.liveMode
 			}
 		});
 

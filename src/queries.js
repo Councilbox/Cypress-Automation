@@ -204,8 +204,8 @@ export const councilActEmail = gql`
 `;
 
 export const approveAct = gql`
-	mutation ApproveAct($councilId: Int!) {
-		approveCouncilAct(councilId: $councilId) {
+	mutation ApproveAct($councilId: Int!, $closeCouncil: Boolean) {
+		approveCouncilAct(councilId: $councilId, closeCouncil: $closeCouncil) {
 			success
 			message
 		}

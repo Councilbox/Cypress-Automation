@@ -49,6 +49,7 @@ class ApproveActButton extends React.Component {
                             refetch={refetch}
                             council={council}
                             config={config}
+                            liveMode={true}
                             translate={translate}
                             show={this.state.showModal}
                             requestClose={() => this.setState({ showModal: false })}

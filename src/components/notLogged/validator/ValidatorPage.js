@@ -67,6 +67,8 @@ class ValidatorPage extends React.Component {
 			}
         });
 
+        console.log(response)
+
         if(response.errors){
             if(response.errors[0].code === 404){
                 return this.setState({
@@ -94,7 +96,6 @@ class ValidatorPage extends React.Component {
     render(){
         //TRADUCCION
         const primary = getPrimary();
-        console.log(this.state);
         return(
             <NotLoggedLayout
 				translate={this.props.translate}
@@ -145,6 +146,15 @@ const getData = gql`
             participantId
             content
             type
+            uuid
+            validated
+            cbxEvidence {
+                evhash
+                tx_hash
+                prvhash
+                uuid
+                data
+            }
         }
     }
 `;
