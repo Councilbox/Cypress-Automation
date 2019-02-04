@@ -21,20 +21,79 @@ const json = [
 		"noSession": true,
 		"calendar": true,
 	},
-	[	///// info //////
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2},
+	[
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2 },
 		{ i: 'sectionReuniones', x: 0, y: 0, w: 2, h: 2, },
 		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5, },
 	],
 	[
-		{ i: 'reuniones', x: 0, y: 0, w: 2.2, h: 2.3 },
-		{ i: 'lastActions', x: 3, y: 0, w: 3.9, h: 3.5  },
-		{ i: 'noSession', x: 3, y: 0, w: 2, h: 2.3 },
-	]
+		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
+		{ i: 'lastActions', x: 5.5, y: 0, w: 3.8, h: 3.5 },
+		{ i: 'noSession', x: 8.5, y: 0, w: 2, h: 2.3 },
+	],
 ]
+
+const layoutsResize = {
+	lg: [
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.5 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 3.5 },
+		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
+	],
+	md: [
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.5 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 5.3 },
+		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
+	],
+	sm: [
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2.5 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 5.3 },
+		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
+	],
+	xs: [
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 3.5 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 6 },
+		{ i: 'calendar', x: 0, y: 6, w: 12, h: 4 },
+	],
+	xxs: [
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 3 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 2 },
+		{ i: 'calendar', x: 0, y: 6, w: 12, h: 4 },
+	]
+}
+
+const layoutsResize2 = {
+	lg: [
+		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
+		{ i: 'lastActions', x: 5.5, y: 0, w: 3.8, h: 3.5 },
+		{ i: 'noSession', x: 8.5, y: 0, w: 2.1, h: 2.3 },
+	],
+	md: [
+		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
+		{ i: 'lastActions', x: 5.5, y: 0, w: 3.7, h: 3.5 },
+		{ i: 'noSession', x: 8.3, y: 0, w: 2.1, h: 2.3 },
+	],
+	sm: [
+		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
+		{ i: 'lastActions', x: 4.5, y: 0, w: 3.7, h: 3.5 },
+		{ i: 'noSession', x: 7.2, y: 0, w: 2, h: 2.3 },
+	],
+	xs: [
+		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.5 },
+		{ i: 'lastActions', x: 2, y: 0, w: 3, h: 3 },
+		{ i: 'noSession', x: 5.5, y: 0, w: 2, h: 2.5 },
+	],
+	xxs: [
+		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 3 },
+		{ i: 'lastActions', x: 2, y: 0, w: 3.5, h: 3 },
+		{ i: 'noSession', x: 5.5, y: 0, w: 2, h: 3 },
+	]
+}
+
 
 if (!localStorage.getItem("items")) {
 	localStorage.setItem("items", JSON.stringify(json));
+	localStorage.setItem("layoutsResize", JSON.stringify(layoutsResize));
+	localStorage.setItem("layoutsResizeHorizontal", JSON.stringify(layoutsResize2));
 }
 
 class Dashboard extends React.Component {
@@ -42,7 +101,9 @@ class Dashboard extends React.Component {
 	state = {
 		edit: false,
 		modalEdit: false,
-		items: JSON.parse(localStorage.getItem("items"))
+		items: JSON.parse(localStorage.getItem("items")),
+		layout: JSON.parse(localStorage.getItem("layoutsResize")),
+		layoutHorizontal: JSON.parse(localStorage.getItem("layoutsResizeHorizontal"))
 	}
 
 	editMode = () => {
@@ -65,40 +126,63 @@ class Dashboard extends React.Component {
 
 	resetDash = () => {
 		localStorage.removeItem("items")
+		localStorage.removeItem("layoutsResize")
+		localStorage.removeItem("layoutsResizeHorizontal")
 		localStorage.setItem("items", JSON.stringify(json));
+		localStorage.setItem("layoutsResize", JSON.stringify(layoutsResize));
+		localStorage.setItem("layoutsResizeHorizontal", JSON.stringify(layoutsResize2));
 		this.setState({
-			items: JSON.parse(localStorage.getItem("items"))
+			items: JSON.parse(localStorage.getItem("items")),
+			layout: JSON.parse(localStorage.getItem("layoutsResize")),
+			layoutHorizontal: JSON.parse(localStorage.getItem("layoutsResizeHorizontal"))
 		})
 	}
 
-	itemStorage = (item, value, object, grid) => {
+	itemStorage = (item, value, object, grid, layout, size) => {
 		let objectItems = {};
-		console.log("===================================================")
-		console.log(item)
-		console.log(value)
-		console.log(object)
-		console.log(grid)
-		console.log("===================================================")
 		if (!localStorage.getItem("items")) {
 			localStorage.setItem("items", JSON.stringify({}))
 		}
-		objectItems = JSON.parse(localStorage.getItem("items"));
-		if (value) {
-			objectItems[0][item] = value;
-		} else if(grid){
-			// console.log(objectItems[])
-			objectItems.splice(grid, grid, object)
+		if (layout) {
+			//guardamos el orden segun el tamaño
+			console.log("ENTRO EN LAYOUT ITEMSTORAGE")
+			objectItems = JSON.parse(localStorage.getItem(layout));
+			delete objectItems[size]
+			objectItems[size] = object
+			localStorage.setItem(layout, JSON.stringify(objectItems))
+			if (layout === "layoutsResize") {
+				console.log("if")
+				console.log(layout)
+				this.setState({
+					layout: JSON.parse(localStorage.getItem(layout))
+				})
+			} else {
+				console.log("ELSE")
+				console.log(layout)
+				this.setState({
+					layoutHorizontal: JSON.parse(localStorage.getItem(layout))
+				})
+			}
+		} else {
+			//guardamos en localstorage si se ve en pantalla
+			objectItems = JSON.parse(localStorage.getItem("items"));
+			if (value !== "") {
+				objectItems[0][item] = value;
+			} else if (grid) {
+				objectItems.splice(grid, grid, object)
+			}
+			localStorage.setItem("items", JSON.stringify(objectItems))
+			this.setState({
+				items: JSON.parse(localStorage.getItem("items"))
+			})
 		}
-		localStorage.setItem("items", JSON.stringify(objectItems))
-		this.setState({
-			items: JSON.parse(localStorage.getItem("items"))
-		})
 	}
 
 	render() {
 		const { translate, company, user } = this.props;
 		const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
 		const secondary = getSecondary();
+
 
 		return (
 			<div
@@ -189,6 +273,8 @@ class Dashboard extends React.Component {
 							editMode={this.state.edit}
 							itemStorage={this.itemStorage}
 							statesItems={this.state.items}
+							layoutsResize={this.state.layout}
+							layoutsResizeHorizontal={this.state.layoutHorizontal}
 						/>
 					</div>
 					<CBXFooter />
@@ -198,6 +284,5 @@ class Dashboard extends React.Component {
 		)
 	}
 }
-
 
 export default withSharedProps()(Dashboard);
