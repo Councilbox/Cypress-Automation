@@ -159,8 +159,8 @@ class TopSectionBlocks extends React.Component {
 	};
 
 	onLayoutChange = (layout, layouts) => {
-		// this.setState({ layout: this.props.statesItems });
-		// this.state.onLayoutChange(this.state.layout[1]);
+		this.setState({ layout: this.props.statesItems });
+		this.state.onLayoutChange(this.state.layout[1]);
 		// this.props.itemStorage("", "", layout, 1);
 	};
 
