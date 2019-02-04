@@ -22,68 +22,13 @@ import UltimasAcciones from "./UltimasAcciones";
 import ButtonsDirectAccess from "./ButtonsDirectAccess";
 import Draggable, { DraggableCore } from "react-draggable";
 import _ from "lodash";
-import RGL, { WidthProvider, Responsive } from "react-grid-layout";
-import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
+import RGL, { WidthProvider } from "react-grid-layout";
+import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
 
-
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const ReactGridLayout = WidthProvider(RGL);
 
-const layoutsResize = {
-	lg: [
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 3.5 },
-		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5 },
-	],
-	md: [
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 5.2 },
-		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5 },
-	],
-	sm: [
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 6 },
-		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5, },
-	],
-	xs: [
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 3.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 6 },
-		{ i: 'calendar', x: 0, y: 6, w: 12, h: 5, },
-	],
-	xxs: [
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 3 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 2 },
-		{ i: 'calendar', x: 0, y: 6, w: 12, h: 5, },
-	]
-}
-const layoutsResize2 = {
-	lg: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
-		{ i: 'lastActions', x: 3, y: 0, w: 3.6, h: 3.5 },
-		{ i: 'noSession', x: 7, y: 0, w: 2, h: 2.3 },
-	],
-	md: [
-		{ i: 'reuniones', x: 0, y: 0, w: 3, h: 2.3 },
-		{ i: 'lastActions', x: 4, y: 0, w: 3.9, h: 3.5 },
-		{ i: 'noSession', x: 5, y: 0, w: 2, h: 2.3 },
-	],
-	sm: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
-		{ i: 'lastActions', x: 0, y: 0, w: 3.6, h: 3.5 },
-		{ i: 'noSession', x: 2, y: 0, w: 2, h: 2.3 },
-	],
-	xs: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.5 },
-		{ i: 'lastActions', x: 2, y: 0, w: 3, h: 3 },
-		{ i: 'noSession', x: 5.5, y: 0, w: 2, h: 2.5 },
-	],
-	xxs: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 3 },
-		{ i: 'lastActions', x: 2, y: 0, w: 3.5, h: 3 },
-		{ i: 'noSession', x: 5.5, y: 0, w: 2, h: 3 },
-	]
-}
+const primary = getPrimary();
+const secondary = getSecondary();
 
 const stylesGrafica = {
 	contenedor: {
@@ -92,9 +37,10 @@ const stylesGrafica = {
 		boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px",
 		borderRadius: "3px",
 		padding: "1.2em",
+		position: "relative",
 		marginBottom: '1em',
 		marginTop: "2em",
-		// marginRight: '2em',
+		marginRight: '2em',
 	},
 	grafica: {
 		display: 'inline-flex',
@@ -111,9 +57,7 @@ class TopSectionBlocks extends React.Component {
 		reunion: null,
 		modalAcciones: false,
 		activeDrags: 0,
-		desactiveItem: false,
-		layout: this.props.statesItems,
-		onLayoutChange: function () { }
+		desactiveItem: false
 	}
 
 	closeCouncilsModal = () => {
@@ -149,11 +93,8 @@ class TopSectionBlocks extends React.Component {
 	handleStop = (layout, oldItem, newItem, placeholder, e, element, grid) => {
 		e.preventDefault()
 		e.stopPropagation()
-		if (!grid) { grid = 2 }
-	
 		this.props.itemStorage("", "", layout, grid);
 	}
-
 	stopPropagation = (event) => {
 		event.stopPropagation();
 	};
@@ -163,6 +104,7 @@ class TopSectionBlocks extends React.Component {
 		this.state.onLayoutChange(this.state.layout[1]);
 		// this.props.itemStorage("", "", layout, 1);
 	};
+
 
 	render() {
 		const { translate, company, editMode, statesItems } = this.props;
@@ -215,12 +157,19 @@ class TopSectionBlocks extends React.Component {
 		const anoActual = new Date().getFullYear();
 
 
+		var layouts = {
+			lg: [
+				{ i: 'reuniones', x: 9, y: 0, w: 2.3, h: 2.2, },
+				{ i: 'lastActions', x: 3.3, y: 0, w: 4.2, h: 3.3, },
+				{ i: 'noSession', x: 6, y: 0, w: 2.4, h: 2.2, },
+			], md: statesItems[2]
+		};
+
 		return (
 			<Grid
 				style={{
 					width: "90%",
 					// marginTop: "4vh"
-					height: "100%"
 				}}
 				spacing={8}
 			>
@@ -248,24 +197,15 @@ class TopSectionBlocks extends React.Component {
 				}
 				{!isMobile &&
 
-					<GridItem xs={12} md={12} lg={12} style={{ height: '100%', minHeight: "800px" }}>
-
-						<ResponsiveReactGridLayout
-							breakpoints={{ lg: 1200, md: 1100, sm: 768, xs: 480, xxs: 0 }}
-							cols={{ lg: 12, md: 8, sm: 6, xs: 4, xxs: 2 }}
-							// rowHeight={}
-							isResizable={false}
-							layouts={layoutsResize}
-							onLayoutChange={(layout, layouts) =>
-								this.onLayoutChange(statesItems[1], layouts)
-							}
+					<GridItem xs={12} md={12} lg={12} style={{ height: '100%', }}>
+						<ReactGridLayout
 							onDragStop={(layout, oldItem, newItem, placeholder, e, element) => this.handleStop(layout, oldItem, newItem, placeholder, e, element, 1)}
-							onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.handleStart(layout, oldItem, newItem, placeholder, e, element, 1)}
 							isDraggable={editMode}
-							compactType={"vertical"}
-							style={{ width: "100%", overflow: "hidden", display: "flex", }}
+							className={"layout"}
+							layout={statesItems[1]}
+							style={{ overflow: "hidden", }}
 						>
-							<div key={"buttons"} data-grid={statesItems[1][0]} >
+							<div id={'buttons'} key={"buttons"} style={{ height: "100%" }}>
 								{statesItems[0].buttons && (
 									<div style={{ ...stylesGrafica.contenedor, }} className={editMode ? "shakeItems " : ""}>
 										{editMode && (
@@ -283,7 +223,7 @@ class TopSectionBlocks extends React.Component {
 								)}
 							</div>
 
-							<div key={"sectionReuniones"} data-grid={statesItems[1][1]}>
+							<div key={"sectionReuniones"} id={'sectionReuniones'} >
 								{statesItems[0].sectionReuniones && (
 									<div style={{ marginLeft: editMode ? "" : "-5px", paddingLeft: editMode ? "1em" : "", marginTop: editMode ? "2em" : "", overflow: "hidden", width: "100%", height: '100%', border: editMode ? "1px solid #ddd" : "", background: editMode ? "white" : "", boxShadow: editMode ? "rgba(0, 0, 0, 0.2) 0px 2px 4px" : "", borderRadius: editMode ? "3px" : "", }} className={editMode ? "shakeItems " : ""} >
 										{editMode && (
@@ -291,32 +231,32 @@ class TopSectionBlocks extends React.Component {
 												<i className={"fa fa-times"}></i>
 											</div>
 										)}
-										<div style={{ width: "100%", height: "100%" }}  >
-											<ResponsiveReactGridLayout
-												breakpoints={{ lg: 1200, md: 1100, sm: 768, xs: 480, xxs: 0 }}
-												cols={{ lg: 12, md: 8, sm: 6, xs: 4, xxs: 2 }}
-												isResizable={false}
-												layouts={layoutsResize2}
-												onLayoutChange={(layout, layouts) =>
-													this.onLayoutChange(layout, layouts)
-												}
+										<div style={{ width: "100%", }}  >
+											<ResponsiveGridLayout
+												breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+												cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 1 }}
 												onDragStop={(layout, oldItem, newItem, placeholder, e, element) => this.handleStop(layout, oldItem, newItem, placeholder, e, element, 2)}
 												onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.handleStart(layout, oldItem, newItem, placeholder, e, element, 2)}
 												isDraggable={editMode}
+												className={"layout2"}
+												layout={layouts}
+												// layout={statesItems[2]}
 												compactType={"horizontal"}
-												style={{ width: "100%", display: "flex", height: "100%" }}
+												width={1}
+												onLayoutChange={this.onLayoutChange}
+												style={{ width: "100%", height: '520px', overflow: "hidden", display:"flex" }}
 											>
-												<div key={"reuniones"} data-grid={statesItems[2][0]} >
+												<div id={"reuniones"} key={"reuniones"} style={{  /*maxWidth: "220px",*/ }} >
 
 													{statesItems[0].reuniones && (
 														<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
 															{editMode && (
-																<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={(i) => this.props.itemStorage("reuniones", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
+																<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={() => this.props.itemStorage("reuniones", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
 																	<i className={"fa fa-times"}></i>
 																</div>
 															)}
 															<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b> Reuniones </b></div> {/*TRADUCCION*/}
-															<div > A�o: {anoActual} </div> {/*TRADUCCION*/}
+															<div > Año: {anoActual} </div> {/*TRADUCCION*/}
 															{loading ? (
 																<div style={{
 																	width: '100%',
@@ -335,8 +275,7 @@ class TopSectionBlocks extends React.Component {
 													)}
 
 												</div>
-
-												<div key={"lastActions"} data-grid={statesItems[2][1]}>
+												<div id={'lastActions'} key={"lastActions"} style={{ /*maxWidth: "420px"*/ }}>
 
 													{statesItems[0].lastActions && (
 														<div style={{ overflow: "hidden", width: "420px", height: '475px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
@@ -367,7 +306,7 @@ class TopSectionBlocks extends React.Component {
 													)}
 
 												</div>
-												<div key={"noSession"} data-grid={statesItems[2][2]}>
+												<div id={'noSession'} key={"noSession"} style={{/* maxWidth: "220px"*/ }}>
 
 													{statesItems[0].noSession && (
 														<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
@@ -376,7 +315,7 @@ class TopSectionBlocks extends React.Component {
 																	<i className={"fa fa-times"}></i>
 																</div>
 															)}
-															<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b> Reuniones sin sesi�n </b></div> {/*TRADUCCION*/}
+															<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b> Reuniones sin sesión </b></div> {/*TRADUCCION*/}
 															{loading ? (
 																<div style={{
 																	width: '100%',
@@ -397,14 +336,13 @@ class TopSectionBlocks extends React.Component {
 														</div>
 													)}
 												</div>
-											</ResponsiveReactGridLayout>
+											</ResponsiveGridLayout>
 										</div>
 									</div>
 								)}
 							</div>
 
-
-							<div key={"calendar"} key="calendar" data-grid={statesItems[1][2]}>
+							<div key={"calendar"} id={'calendar'}>
 								{statesItems[0].calendar && (
 									<div style={{ height: '100%' }} className={editMode ? "shakeItems" : ""}>
 										{loading ? (
@@ -468,8 +406,7 @@ class TopSectionBlocks extends React.Component {
 									</div>
 								)}
 							</div>
-						</ResponsiveReactGridLayout>
-
+						</ReactGridLayout>
 					</GridItem>
 				}
 			</Grid >
@@ -478,40 +415,15 @@ class TopSectionBlocks extends React.Component {
 	}
 }
 
-function getFromLS(key) {
-	let ls = {};
-	if (global.localStorage) {
-	  try {
-		ls = JSON.parse(global.localStorage.getItem("rgl-8")) || {};
-	  } catch (e) {
-		/*Ignore*/
-	  }
-	}
-	return ls[key];
-  }
-  
-  function saveToLS(key, value) {
-	if (global.localStorage) {
-	  global.localStorage.setItem(
-		"rgl-8",
-		JSON.stringify({
-		  [key]: value
-		})
-	  );
-	}
-  }
-  
-
-
 
 const loadFromPreviousCouncil = gql`
     mutation LoadFromPreviousCouncil($councilId: Int!, $originId: Int!){
-					loadFromAnotherCouncil(councilId: $councilId, originId: $originId){
-					success
+							loadFromAnotherCouncil(councilId: $councilId, originId: $originId){
+							success
             message
-				}
-			}
-		`;
+						}
+					}
+				`;
 
 export default compose(
 	graphql(loadFromPreviousCouncil, { name: 'loadFromPreviousCouncil' }),
@@ -527,7 +439,3 @@ export default compose(
 		})
 	})
 )(TopSectionBlocks);
-
-
-
-
