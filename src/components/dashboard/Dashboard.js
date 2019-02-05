@@ -27,9 +27,9 @@ const json = [
 		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5, },
 	],
 	[
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
-		{ i: 'lastActions', x: 5.5, y: 0, w: 3.8, h: 3.5 },
-		{ i: 'noSession', x: 8.5, y: 0, w: 2, h: 2.3 },
+		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
+		{ i: 'lastActions', x: 5.5, y: 0, w: 3.5, h: 3.5 },
+		{ i: 'noSession', x: 7.5, y: 0, w: 2.1, h: 2.3 },
 	],
 ]
 
@@ -61,11 +61,11 @@ const layoutsResize = {
 	]
 }
 
-const layoutsResize2 = {
+const layoutsResizeHorizontal = {
 	lg: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
-		{ i: 'lastActions', x: 5.5, y: 0, w: 3.8, h: 3.5 },
-		{ i: 'noSession', x: 8.5, y: 0, w: 2.1, h: 2.3 },
+		{ i: 'reuniones', x: 0, y: 0, w: 2.4, h: 2.3 },
+		{ i: 'lastActions', x: 6, y: 0, w: 4.4, h: 3.5 },
+		{ i: 'noSession', x: 8, y: 0, w: 2.4, h: 2.3 },
 	],
 	md: [
 		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
@@ -73,9 +73,12 @@ const layoutsResize2 = {
 		{ i: 'noSession', x: 8.3, y: 0, w: 2.1, h: 2.3 },
 	],
 	sm: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
-		{ i: 'lastActions', x: 4.5, y: 0, w: 3.7, h: 3.5 },
-		{ i: 'noSession', x: 7.2, y: 0, w: 2, h: 2.3 },
+		{ w: 2, h: 2.3, x: 0, y: 1, i: "reuniones", moved: true, static: false },
+		{ w: 3.7, h: 3.5, x: 3, y: 0, i: "lastActions", moved: true, static: false },
+		{ w: 2, h: 2.3, x: 1, y: 2.3, i: "noSession", moved: true, static: false }
+		// { i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
+		// { i: 'lastActions', x: 4.5, y: 0, w: 3.7, h: 3.5 },
+		// { i: 'noSession', x: 7.2, y: 0, w: 2, h: 2.3 },
 	],
 	xs: [
 		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.5 },
@@ -93,7 +96,7 @@ const layoutsResize2 = {
 if (!localStorage.getItem("items")) {
 	localStorage.setItem("items", JSON.stringify(json));
 	localStorage.setItem("layoutsResize", JSON.stringify(layoutsResize));
-	localStorage.setItem("layoutsResizeHorizontal", JSON.stringify(layoutsResize2));
+	localStorage.setItem("layoutsResizeHorizontal", JSON.stringify(layoutsResizeHorizontal));
 }
 
 class Dashboard extends React.Component {
@@ -130,7 +133,7 @@ class Dashboard extends React.Component {
 		localStorage.removeItem("layoutsResizeHorizontal")
 		localStorage.setItem("items", JSON.stringify(json));
 		localStorage.setItem("layoutsResize", JSON.stringify(layoutsResize));
-		localStorage.setItem("layoutsResizeHorizontal", JSON.stringify(layoutsResize2));
+		localStorage.setItem("layoutsResizeHorizontal", JSON.stringify(layoutsResizeHorizontal));
 		this.setState({
 			items: JSON.parse(localStorage.getItem("items")),
 			layout: JSON.parse(localStorage.getItem("layoutsResize")),
@@ -145,22 +148,17 @@ class Dashboard extends React.Component {
 		}
 		if (layout) {
 			//guardamos el orden segun el tamaño
-			console.log("ENTRO EN LAYOUT ITEMSTORAGE")
 			objectItems = JSON.parse(localStorage.getItem(layout));
 			delete objectItems[size]
 			objectItems[size] = object
 			localStorage.setItem(layout, JSON.stringify(objectItems))
 			if (layout === "layoutsResize") {
-				console.log("if")
-				console.log(layout)
 				this.setState({
-					layout: JSON.parse(localStorage.getItem(layout))
+					layout: objectItems
 				})
 			} else {
-				console.log("ELSE")
-				console.log(layout)
 				this.setState({
-					layoutHorizontal: JSON.parse(localStorage.getItem(layout))
+					layoutHorizontal: objectItems
 				})
 			}
 		} else {
@@ -173,7 +171,7 @@ class Dashboard extends React.Component {
 			}
 			localStorage.setItem("items", JSON.stringify(objectItems))
 			this.setState({
-				items: JSON.parse(localStorage.getItem("items"))
+				items: objectItems
 			})
 		}
 	}

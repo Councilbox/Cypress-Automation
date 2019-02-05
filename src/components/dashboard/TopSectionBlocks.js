@@ -63,22 +63,6 @@ class TopSectionBlocks extends React.Component {
 
 	}
 
-	updateDimensions = () => {
-		this.setState({ width: window.innerWidth, height: window.innerHeight });
-	}
-
-	componentWillMount = () => {
-		this.updateDimensions();
-	}
-
-	componentDidMount = () => {
-		window.addEventListener("resize", this.updateDimensions);
-	}
-
-	componentWillUnmount = () => {
-		window.removeEventListener("resize", this.updateDimensions);
-	}
-
 	closeCouncilsModal = () => {
 		this.setState({
 			open: false
@@ -113,10 +97,10 @@ class TopSectionBlocks extends React.Component {
 		e.preventDefault()
 		e.stopPropagation()
 		let breakpoint = this.state.breakpoint
-		if (!grid) {
+		if (grid === 2) {
 			grid = 2
 			breakpoint = this.state.breakpointHorizontal
-			element.click
+			layout = layoutPositivo(layout)
 		}
 		this.props.itemStorage("", "", layout, grid, nameLayout, breakpoint);
 	}
@@ -130,10 +114,17 @@ class TopSectionBlocks extends React.Component {
 		this.setState({ breakpoint: breakpoint })
 	}
 
-	onBreakpointChangeHorizontal = (breakpoint) => {
+	onBreakpointChangeHorizontal = (breakpoint, cols) => {
+		console.log(cols);
+		console.log(breakpoint);
 		this.setState({ breakpointHorizontal: breakpoint })
 	}
 
+
+	onLayoutChangeHorizontal = (layout, layouts) => {
+		this.setState({ layoutHorizontal: layouts });
+		this.state.onLayoutChange(this.state.layoutHorizontal);
+	};
 
 	render() {
 		const { translate, company, editMode, statesItems, layoutsResize, layoutsResizeHorizontal } = this.props;
@@ -182,12 +173,13 @@ class TopSectionBlocks extends React.Component {
 		}
 
 		const anoActual = new Date().getFullYear();
-
+		
+		
 		return (
 			<Grid
 				style={{
 					width: "90%",
-					// marginTop: "4vh"
+					// marginTop: "4vh"company/577
 					height: "100%"
 				}}
 				spacing={8}
@@ -251,7 +243,7 @@ class TopSectionBlocks extends React.Component {
 
 							<div key={"sectionReuniones"} data-grid={statesItems[1][1]} >
 								{statesItems[0].sectionReuniones && (
-									<div  style={{ marginLeft: editMode ? "" : "-5px", paddingLeft: editMode ? "1em" : "", marginTop: editMode ? "2em" : "", overflow: "hidden", width: "100%", height: '100%', border: editMode ? "1px solid #ddd" : "", background: editMode ? "white" : "", boxShadow: editMode ? "rgba(0, 0, 0, 0.2) 0px 2px 4px" : "", borderRadius: editMode ? "3px" : "", }} className={editMode ? "shakeItems " : ""} >
+									<div  style={{ marginLeft: editMode ? "" : "-9px", paddingLeft: editMode ? "1em" : "", marginTop: editMode ? "2em" : "", overflow: "hidden", width: "100%", height: '100%', border: editMode ? "1px solid #ddd" : "", background: editMode ? "white" : "", boxShadow: editMode ? "rgba(0, 0, 0, 0.2) 0px 2px 4px" : "", borderRadius: editMode ? "3px" : "", }} className={editMode ? "shakeItems " : ""} >
 										{editMode && (
 											<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={() => this.props.itemStorage("sectionReuniones", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer", zIndex: "10" }} >
 												<i className={"fa fa-times"}></i>
@@ -259,11 +251,13 @@ class TopSectionBlocks extends React.Component {
 										)}
 										<div style={{ width: "100%", height: "100%" }}  >
 											<ResponsiveReactGridLayout
-												{...this.props}
-												breakpoints={{ lg: 1400, md: 1200, sm: 768, xs: 480, xxs: 0 }}
+												// breakpoints={{ lg: 1200, md: 1100, sm: 768, xs: 480, xxs: 0 }}
+												// cols={{ lg: 12, md: 8, sm: 6, xs: 4, xxs: 2 }}
+												breakpoints={{ lg: 1200, md: 1100, sm: 768, xs: 480, xxs: 0 }}
 												cols={{ lg: 12, md: 8, sm: 6, xs: 4, xxs: 2 }}
 												isResizable={false}
 												autoSize={false}
+												layouts={layoutsResizeHorizontal}
 												onBreakpointChange={(breakpoint, cols) => this.onBreakpointChangeHorizontal(breakpoint, cols)}
 												onDragStop={(layout, oldItem, newItem, placeholder, e, element) => this.handleStop(layout, oldItem, newItem, placeholder, e, element, 2, 'layoutsResizeHorizontal')}
 												onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.handleStart(layout, oldItem, newItem, placeholder, e, element, 2)}
@@ -440,6 +434,18 @@ class TopSectionBlocks extends React.Component {
 
 		);
 	}
+}
+
+function layoutPositivo(layout){
+	let aux = [];
+	layout.forEach(element => {
+		let datoX = element.x;
+		if(Math.sign(element.x) === -1){
+			datoX = 0
+		}
+		aux.push({ w: element.w, h: element.h, x: Math.round(datoX), y: element.y, i: element.i, moved: element.moved, static: element.static })
+	});
+	return aux;
 }
 
 
