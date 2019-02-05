@@ -368,8 +368,8 @@ class ImportCensusButton extends React.Component {
 				phone: participant.r_phone,
 				personOrEntity: 1,
 				language: participant.language,
-				numParticipations: participant.numParticipations,
-				socialCapital: participant.socialCapital,
+				numParticipations: participant.numParticipations.replace(/[.,]/g, ''),
+				socialCapital: participant.socialCapital.replace(/[.,]/g, ''),
 				position: participant.position,
 			},
 			...mappedParticipant
@@ -382,7 +382,13 @@ class ImportCensusButton extends React.Component {
 		if (participantError) {
 			return participantError;
 		}
-		return { participant: participant }
+		return {
+			participant: {
+				...participant,
+				numParticipations: participant.numParticipations.replace(/[.,]/g, ''),
+				socialCapital: participant.socialCapital.replace(/[.,]/g, ''),
+			}
+		}
 	}
 
 	checkRequiredFields = (participant, isEntity) => {

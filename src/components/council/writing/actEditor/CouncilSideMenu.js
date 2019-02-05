@@ -3,6 +3,7 @@ import { Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import * as CBX from '../../../../utils/CBX';
 import { Tooltip } from 'material-ui';
+import { PARTICIPANT_STATES } from '../../../../constants';
 
 class CouncilSideMenu extends React.Component {
 
@@ -10,13 +11,19 @@ class CouncilSideMenu extends React.Component {
         loaded: false
     }
 
+    copy = () => {
+        CBX.copyStringToClipboard(createAttendantsString(this.props.councilAttendants, this.props.translate));
+    }
+
     render(){
-        const { council, translate, company, councilRecount } = this.props;
+        const { council, translate, company, councilRecount, councilAttendants } = this.props;
 
         //TRADUCCION
         if(!this.props.open){
             return <span />
         }
+
+        console.log(this.props);
 
         return (
             <div style={{width: '100%', height: '100%', borderLeft: '1px solid gainsboro'}}>
@@ -50,6 +57,16 @@ class CouncilSideMenu extends React.Component {
                         <Row field={'Remotos'} value={councilRecount.numRemote} />
                         <Row field={'Votos delegados'} value={this.props.participantsWithDelegatedVote.length} />
 
+                        {councilAttendants.list.length > 0 &&
+                            <React.Fragment>
+                                <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Asistencia</h6>
+                                <div onClick={this.copyAttendants}>Click para copiar la lista completa</div>
+                                {councilAttendants.list.map(attendant => (
+                                    <AttendantRow key={`attendant_${attendant.id}`} translate={translate} attendant={attendant} />
+                                )) }
+                            </React.Fragment>
+                        }
+
                         {CBX.hasParticipations(council.statute)?
                             <React.Fragment>
                                 <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Capital social</h6>
@@ -73,7 +90,7 @@ class CouncilSideMenu extends React.Component {
                             </React.Fragment>
                         :
                             <React.Fragment>
-                                <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Votos</h6>
+                                <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>{translate.votes}</h6>
                                 <Row field={'Total'} value={councilRecount.partTotal} />
                                 <Row
                                     field={'Asistente a la reunión'}
@@ -98,6 +115,36 @@ class CouncilSideMenu extends React.Component {
             </div>
         )
     }
+}
+
+const createAttendantsString = (attendants, translate) => {
+    let string = '';
+
+    attendants.forEach((attendant, index) => {
+        const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
+        string += represent?
+            `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname}`
+            :
+            `${attendant.name} ${attendant.surname}`;
+        string += '\n';
+    });
+
+    return string;
+}
+
+const AttendantRow = ({ attendant, translate} ) => {
+    const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
+
+    const dataString = !!represent?
+        `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname}`
+        :
+        `${attendant.name} ${attendant.surname}`
+
+    return (
+        <React.Fragment>
+            <div>{dataString}</div>
+        </React.Fragment>
+    )
 }
 
 const getPercentage = (value, total) => {
@@ -144,7 +191,7 @@ class Row extends React.Component {
                         </Tooltip>
                     </div>
                 :
-                    <div style={{width: '67%', marginLeft: '1%'}} onClick={this.copy}>
+                    <div style={{width: '67%', marginLeft: '1%', cursor: 'pointer'}} onClick={this.copy}>
                         {this.props.value}
                     </div>
                 }

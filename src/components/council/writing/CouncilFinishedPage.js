@@ -168,6 +168,13 @@ export const councilDetails = gql`
 				name
 				surname
 				state
+				delegationsAndRepresentations {
+					id
+					state
+					type
+					name
+					surname
+				}
 			}
 			total
 		}

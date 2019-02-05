@@ -111,17 +111,17 @@ class FinishActModal extends React.Component {
 								<Grid>
 									<GridItem xs={12} md={5} lg={5}>
 										<Block
-											text='Usar acta generada por Councilbox'//TRADUCCION
-											onClick={this.goToCBXAct}
-											icon={<img src={logo} style={{height: '4em', width: 'auto'}} />}
+											icon={<i className="fa fa-upload" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
+											text='Subir acta en PDF'//TRADUCCION
+											onClick={this.goToDropZone}
 										/>
 									</GridItem>
 									<GridItem xs={12} md={2} lg={2}></GridItem>
 									<GridItem xs={12} md={5} lg={5}>
 										<Block
-											icon={<i className="fa fa-upload" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-											text='Subir acta en PDF'//TRADUCCION
-											onClick={this.goToDropZone}
+											text='Usar acta generada por Councilbox'//TRADUCCION
+											onClick={this.goToCBXAct}
+											icon={<img src={logo} style={{height: '4em', width: 'auto'}} />}
 										/>
 									</GridItem>
 								</Grid>

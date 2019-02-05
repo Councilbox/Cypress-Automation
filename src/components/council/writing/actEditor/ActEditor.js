@@ -369,7 +369,7 @@ class ActEditor extends Component {
 													text="Mostrar panel de información"//TRADUCCION
 													color={'white'}
 													type="flat"
-													textStyle={{ fontWeight: '700', color: secondary}}
+													textStyle={{ color: secondary }}
 													buttonStyle={{border: `1px solid ${secondary}`, marginLeft: '0.6em'}}
 													onClick={this.props.toggleInfoMenu}
 												/>
