@@ -115,8 +115,6 @@ class TopSectionBlocks extends React.Component {
 	}
 
 	onBreakpointChangeHorizontal = (breakpoint, cols) => {
-		console.log(cols);
-		console.log(breakpoint);
 		this.setState({ breakpointHorizontal: breakpoint })
 	}
 
@@ -174,7 +172,7 @@ class TopSectionBlocks extends React.Component {
 
 		const anoActual = new Date().getFullYear();
 		
-		
+			///Se cambia error minimos por alerta  en /councilbox_client/node_modules/react-grid-layout/build/GridItem.js
 		return (
 			<Grid
 				style={{
@@ -220,7 +218,7 @@ class TopSectionBlocks extends React.Component {
 							onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.handleStart(layout, oldItem, newItem, placeholder, e, element, 1)}
 							isDraggable={editMode}
 							compactType={"vertical"}
-							style={{ width: "100%", overflow: "hidden", display: "flex", }}
+							style={{ width: "100%",  display: "flex", }}
 						>
 							<div key={"buttons"} data-grid={statesItems[1][0]} >
 								{statesItems[0].buttons && (

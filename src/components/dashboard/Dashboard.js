@@ -22,9 +22,9 @@ const json = [
 		"calendar": true,
 	},
 	[
-		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 2, h: 2, },
-		{ i: 'calendar', x: 0, y: 0, w: 12, h: 5, },
+		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.5 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 3.5 },
+		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
 	],
 	[
 		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
@@ -63,8 +63,8 @@ const layoutsResize = {
 
 const layoutsResizeHorizontal = {
 	lg: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2.4, h: 2.3 },
-		{ i: 'lastActions', x: 6, y: 0, w: 4.4, h: 3.5 },
+		{ i: 'reuniones', x: 0, y: 0, w: 2.5, h: 2.3 },
+		{ i: 'lastActions', x: 6, y: 0, w: 4.3, h: 3.5, minW: 4.3 },
 		{ i: 'noSession', x: 8, y: 0, w: 2.4, h: 2.3 },
 	],
 	md: [
@@ -153,8 +153,9 @@ class Dashboard extends React.Component {
 			objectItems[size] = object
 			localStorage.setItem(layout, JSON.stringify(objectItems))
 			if (layout === "layoutsResize") {
+				let info = mantenerEnTodasLasMedidasPosicionEnResize(size)
 				this.setState({
-					layout: objectItems
+					layout: info
 				})
 			} else {
 				this.setState({
@@ -164,15 +165,24 @@ class Dashboard extends React.Component {
 		} else {
 			//guardamos en localstorage si se ve en pantalla
 			objectItems = JSON.parse(localStorage.getItem("items"));
+			let info
 			if (value !== "") {
 				objectItems[0][item] = value;
+				if (value == true) {
+					info = removeAddItem("add", value, item)
+				} else {
+					info = removeAddItem("remove", value, item)
+				}
 			} else if (grid) {
 				objectItems.splice(grid, grid, object)
 			}
 			localStorage.setItem("items", JSON.stringify(objectItems))
+			localStorage.setItem("layoutsResize", JSON.stringify(info))
 			this.setState({
-				items: objectItems
+				items: objectItems,
+				layout: info
 			})
+
 		}
 	}
 
@@ -281,6 +291,70 @@ class Dashboard extends React.Component {
 			</div>
 		)
 	}
+}
+
+function mantenerEnTodasLasMedidasPosicionEnResize(size) {
+	let dato = JSON.parse(localStorage.getItem("layoutsResize"));
+	let aux = [];
+	let auxArray = {};
+	dato[size].forEach(element => {
+		aux.push({ y: element.y })
+	});
+	Object.keys(dato).map(function (key) {
+		let index = 0
+		auxArray[key] = [];
+		dato[key].forEach(el => {
+			auxArray[key].push({ i: el.i, x: el.x, y: aux[index].y, w: el.w, h: el.h })
+			index = index + 1
+		})
+	});
+
+	return auxArray
+}
+
+function removeAddItem(removeAdd, layout, title) {
+	let dato = JSON.parse(localStorage.getItem("layoutsResize"));
+	let item = JSON.parse(localStorage.getItem("items"));
+	let aux = [];
+	let auxArray = {};
+	let indexItem = 1;
+	let width = 0.1 
+	let height = 0.1
+	if (removeAdd === "add") {
+		item[indexItem].forEach(el => {
+			if (el.i === title) {
+				width = el.w;
+				height = el.h;
+			}
+		})
+		Object.keys(dato).map(function (key) {
+			let index = 0
+			auxArray[key] = [];
+			dato[key].forEach(el => {
+				if (title == el.i) {
+					auxArray[key].push({ i: el.i, x: el.x, y: el.y, w: width, h: height })
+				} else {
+					auxArray[key].push({ i: el.i, x: el.x, y: el.y, w: el.w, h: el.h })
+				}
+				index = index + 1
+			})
+		});
+	} else {
+		Object.keys(dato).map(function (key) {
+			let index = 0
+			auxArray[key] = [];
+			dato[key].forEach(el => {
+				if (title == el.i) {
+					auxArray[key].push({ i: el.i, x: el.x, y: el.y, w: width, h: height })
+				} else {
+					auxArray[key].push({ i: el.i, x: el.x, y: el.y, w: el.w, h: el.h })
+				}
+				index = index + 1
+			})
+		});
+	}
+
+	return auxArray
 }
 
 export default withSharedProps()(Dashboard);
