@@ -17,13 +17,17 @@ import UltimasAcciones from "./UltimasAcciones";
 import ButtonsDirectAccess from "./ButtonsDirectAccess";
 import _ from "lodash";
 import RGL, { WidthProvider, Responsive } from "react-grid-layout";
+//import RGL, { WidthProvider, Responsive } from "../../displayComponents/react-grid-layout-master";
+// import Responsive from "../../displayComponents/react-grid-layout-master/build/ResponsiveReactGridLayout";
+// import WidthProvider from "../../displayComponents/react-grid-layout-master/build/components/WidthProvider";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+
+
 import withWindowSize from "../../HOCs/withWindowSize";
 
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const ReactGridLayout = WidthProvider(RGL);
 
 //añadir en node modules utils antes del return  / l.y = Math.max(l.y, 0); l.x = Math.max(l.x, 0); / para que funcione todo bien
 
@@ -48,7 +52,6 @@ const stylesGrafica = {
 class TopSectionBlocks extends React.Component {
 
 	state = {
-		open: false,
 		modal: false,
 		reunion: null,
 		modalAcciones: false,
@@ -61,18 +64,6 @@ class TopSectionBlocks extends React.Component {
 		breakpoint: "lg",
 		breakpointHorizontal: "lg",
 
-	}
-
-	closeCouncilsModal = () => {
-		this.setState({
-			open: false
-		})
-	}
-
-	showCouncilsModal = () => {
-		this.setState({
-			open: true
-		});
 	}
 
 	selectEvent = (event) => {
@@ -183,11 +174,6 @@ class TopSectionBlocks extends React.Component {
 				}}
 				spacing={8}
 			>
-				<CantCreateCouncilsModal
-					open={this.state.open}
-					requestClose={this.closeCouncilsModal}
-					translate={translate}
-				/>
 				{isMobile &&
 					<ButtonsDirectAccess
 						company={company}
@@ -204,7 +190,7 @@ class TopSectionBlocks extends React.Component {
 							text={'Panel devAdmin'}
 						/>
 					</GridItem>
-				}
+				 } 
 				{!isMobile &&
 
 					<GridItem xs={12} md={12} lg={12} style={{ height: '100%', minHeight: "800px" }}>
