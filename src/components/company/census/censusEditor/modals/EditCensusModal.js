@@ -14,7 +14,7 @@ class EditCensusButton extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(!nextProps.data.loading){
+        if(!nextProps.data.loading && !prevState.data.id){
             return {
                 data: {
                     ...nextProps.data.census
@@ -35,7 +35,8 @@ class EditCensusButton extends React.Component {
             })
 
             if(!response.errors){
-                this.props.refetch();
+                const response = await this.props.refetch();
+                console.log(response);
                 this.props.requestClose();
             }
         }

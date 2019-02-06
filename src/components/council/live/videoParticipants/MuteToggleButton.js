@@ -4,6 +4,7 @@ import { getSecondary } from "../../../../styles/colors";
 import { graphql, compose } from "react-apollo";
 import { haveGrantedWord } from "../../../../utils/CBX";
 import gql from 'graphql-tag';
+import { LoadingSection } from "../../../../displayComponents";
 
 class MuteToggleButton extends React.Component {
 
@@ -11,13 +12,21 @@ class MuteToggleButton extends React.Component {
 		muted: this.props.participant.videoParticipant? this.props.participant.videoParticipant.mutedMic : false
 	}
 
-	static getDerivedStateFromProps(nextProps){
-		return {
-			muted: nextProps.participant.videoParticipant? nextProps.participant.videoParticipant.mutedMic : false
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(nextProps.participant.videoParticipant){
+			if(nextProps.participant.videoParticipant.mutedMic !== prevState.muted){
+				return {
+					muted: nextProps.participant.videoParticipant.mutedMic
+				}
+			}
 		}
+		return null
 	}
 
     toggleMuteParticipant = async () => {
+		this.setState({
+			loading: true
+		});
 		if(this.state.muted){
 			const response = await this.props.unmuteParticipant({
 				variables: {
@@ -29,7 +38,8 @@ class MuteToggleButton extends React.Component {
 			if(response.data){
 				if(response.data.unmuteVideoParticipant.success){
 					this.setState({
-						muted: false
+						muted: false,
+						loading: false
 					});
 				}
 			}
@@ -44,7 +54,8 @@ class MuteToggleButton extends React.Component {
 			if(response.data){
 				if(response.data.muteVideoParticipant.success){
 					this.setState({
-						muted: true
+						muted: true,
+						loading: false
 					});
 				}
 			}
@@ -88,9 +99,9 @@ class MuteToggleButton extends React.Component {
 								}}
 							>
 								{this.state.muted?
-                                	<i className="fa fa-microphone-slash" aria-hidden="true" style={{transform: 'scaleX(-1)'}}></i>
+									<i className="fa fa-microphone-slash" aria-hidden="true" style={{transform: 'scaleX(-1)'}}></i>
 								:
-                                	<i className="fa fa-microphone" aria-hidden="true"></i>
+									<i className="fa fa-microphone" aria-hidden="true"></i>
 								}
 							</MenuItem>
 						</Card>

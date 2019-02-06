@@ -71,7 +71,7 @@ class StepNotice extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState){
-		if(nextProps.data.council){
+		if(nextProps.data.council && !prevState.data.id){
 			const council = nextProps.data.council;
 			return {
 				data: {
@@ -85,7 +85,7 @@ class StepNotice extends React.Component {
 							...prevState.data
 						}
 					}, nextProps.translate),
-					...(prevState.data.name === council.name? prevState.data : {})
+					...prevState.data
 				}
 			}
 		}

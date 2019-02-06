@@ -56,26 +56,29 @@ class Assistance extends React.Component {
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		return {
-			participant: nextProps.participant,
-			assistanceIntention: nextProps.participant.assistanceIntention,
-		};
+		if(!prevState.participant.id){
+			return {
+				participant: nextProps.participant,
+				assistanceIntention: nextProps.participant.assistanceIntention,
+			};
+		}
+		console.log(nextProps.participant);
+		if(prevState.participant.delegateId !== nextProps.delegateId){
+			return {
+				participant: nextProps.participant
+			};
+		}
+		return null;
 	}
 
 	selectSimpleOption = async option => {
 		const { setAssistanceIntention, refetch } = this.props;
-		let quitRepresentative = false;
-
-		if(option){
-			if(option !== this.state.participant.assistanceIntention){
-				quitRepresentative = true;
-			}
-		}
+		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
 
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: option,
-				representativeId: !!this.state.participant.delegateId && !quitRepresentative? this.state.participant.delegateId : null
+				representativeId: quitRepresentative? null : this.state.participant.delegateId
 			}
 		});
 
@@ -84,11 +87,12 @@ class Assistance extends React.Component {
 				this.setState({
 					participant: {
 						...this.state.participant,
-						assistanteIntention: option
+						assistanteIntention: option,
+						...(quitRepresentative? { representative: null} : {})
 					}
 				})
 			}
-			refetch();
+			await refetch();
 		}
 	}
 
@@ -96,6 +100,7 @@ class Assistance extends React.Component {
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
+		console.log(this.state.assistanceIntention);
 		await this.selectSimpleOption(this.state.assistanceIntention);
 
 		if(!checkForUnclosedBraces(assistanceComment)){
@@ -150,7 +155,8 @@ class Assistance extends React.Component {
 		if (response) {
 			refetch();
 			this.setState({
-				delegationModal: false
+				delegationModal: false,
+				assistanceIntention: PARTICIPANT_STATES.DELEGATED,
 			})
 		}
 	}

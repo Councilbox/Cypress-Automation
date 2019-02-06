@@ -38,7 +38,7 @@ class UpdateUserForm extends React.Component {
 			this.setState({
 				loading: true
 			});
-			const { __typename, ...data } = this.state.data;
+			const { __typename, type, ...data } = this.state.data;
 
 			const response = await this.props.updateUser({
 				variables: {

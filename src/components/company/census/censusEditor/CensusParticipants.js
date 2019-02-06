@@ -248,18 +248,21 @@ class CensusParticipants extends React.Component {
 						})}
 					</EnhancedTable>
 				)}
-				<CensusParticipantEditor
-					translate={translate}
-					close={this.closeParticipantEditor}
-					company={this.props.company}
-					census={this.props.census}
-					participant={this.state.participant}
-					opened={this.state.editingParticipant}
-					refetch={() => {
-						this.props.data.refetch();
-						this.props.refetch()
-					}}
-				/>
+				{this.state.editingParticipant &&
+					<CensusParticipantEditor
+						translate={translate}
+						key={this.state.participant.id}
+						close={this.closeParticipantEditor}
+						company={this.props.company}
+						census={this.props.census}
+						participant={this.state.participant}
+						opened={this.state.editingParticipant}
+						refetch={() => {
+							this.props.data.refetch();
+							this.props.refetch()
+						}}
+					/>
+				}
 				<AlertConfirm
 					title={translate.send_to_trash}
 					bodyText={translate.delete_items}

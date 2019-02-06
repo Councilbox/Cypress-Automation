@@ -21,9 +21,17 @@ class ConvenedParticipantEditor extends React.Component {
 		representativeErrors: {}
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState) {
+	componentDidMount(){
+		this.setParticipantData();
+	}
+
+	componentWillUnmount(){
+		this.setParticipantData();
+	}
+
+	setParticipantData(){
 		let { representative, ...participant } = extractTypeName(
-			nextProps.participant
+			this.props.participant
 		);
 
 		representative = representative
@@ -38,12 +46,11 @@ class ConvenedParticipantEditor extends React.Component {
 		delete participant.live;
 		delete participant.notifications;
 
-		return {
+		this.setState({
 			data: participant,
 			representative: representative
-		};
+		});
 	}
-
 
 	updateConvenedParticipant = async sendConvene => {
 		const { hasRepresentative, ...data } = this.state.representative;

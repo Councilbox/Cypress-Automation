@@ -20,9 +20,9 @@ class CouncilParticipantEditor extends React.Component {
 		representativeErrors: {}
 	};
 
-	static getDerivedStateFromProps(nextProps, prevState) {
+	updateParticipantData(){
 		let { representative, ...participant } = extractTypeName(
-			nextProps.participant
+			this.props.participant
 		);
 		representative = representative
 			? {
@@ -30,10 +30,18 @@ class CouncilParticipantEditor extends React.Component {
 					...extractTypeName(representative)
 			  }
 			: initialRepresentative;
-		return {
+		this.setState({
 			data: participant,
 			representative: representative
-		};
+		});
+	}
+
+	componentDidMount() {
+		this.updateParticipantData();
+	}
+
+	componentWillUnmount(){
+		this.updateParticipantData();
 	}
 
 

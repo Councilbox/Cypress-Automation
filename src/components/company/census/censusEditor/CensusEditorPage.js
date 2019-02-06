@@ -25,21 +25,6 @@ class CensusEditorPage extends React.Component {
 		this.props.data.refetch();
 	}
 
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!nextProps.data.loading) {
-			if (prevState.data.id !== nextProps.data.census.id) {
-				return {
-					data: {
-						...nextProps.data.census,
-						censusDescription:
-							nextProps.data.census.censusDescription || ""
-					}
-				};
-			}
-		}
-		return null;
-	}
-
 	updateState = object => {
 		this.setState({
 			data: {
@@ -64,7 +49,7 @@ class CensusEditorPage extends React.Component {
 							recount={this.props.data.censusRecount}
 							translate={translate}
 							refetch={this.props.data.refetch}
-							census={census}
+							census={this.props.data.census}
 							company={this.props.company}
 						/>
 					)}

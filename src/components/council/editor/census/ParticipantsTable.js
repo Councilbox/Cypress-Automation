@@ -179,15 +179,18 @@ class ParticipantsTable extends React.Component {
 					acceptAction={this.deleteParticipant}
 					requestClose={this.closeDeleteModal}
 				/>
-				<CouncilParticipantEditor
-					translate={translate}
-					close={this.closeParticipantEditor}
-					councilId={council.id}
-					participations={participations}
-					participant={participant}
-					opened={editingParticipant}
-					refetch={this.refresh}
-				/>
+				{editingParticipant &&
+					<CouncilParticipantEditor
+						translate={translate}
+						close={this.closeParticipantEditor}
+						key={participant.id}
+						councilId={council.id}
+						participations={participations}
+						participant={participant}
+						opened={editingParticipant}
+						refetch={this.refresh}
+					/>
+				}
 				{!!councilParticipants && (
 					<React.Fragment>
 						<EnhancedTable

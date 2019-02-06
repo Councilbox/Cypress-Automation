@@ -157,9 +157,9 @@ class ActEditor extends Component {
 
 	timeout = null;
 
-	static getDerivedStateFromProps(nextProps) {
+	static getDerivedStateFromProps(nextProps, prevState) {
 		if (!nextProps.data.loading) {
-			if (nextProps.data.council) {
+			if (!prevState.data.council) {
 				return {
 					data: {
 						...nextProps.data,

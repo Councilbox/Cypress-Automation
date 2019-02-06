@@ -33,8 +33,10 @@ class ParticipantEditorModal extends React.Component {
     static getDerivedStateFromProps(nextProps, prevState){
         if(!nextProps.data.loading){
             const { __typename, ...participant } = nextProps.data.signatureParticipant;
-            return {
-                data: participant
+            if(participant.id !== prevState.data.id){
+                return {
+                    data: participant
+                }
             }
         }
 
@@ -155,6 +157,7 @@ class ParticipantEditorModal extends React.Component {
 
     render(){
         const { translate } = this.props;
+        console.log('sitio correcto');
         return (
             <AlertConfirm
                 requestClose={this.props.requestClose}

@@ -40,8 +40,8 @@ class PlaceModal extends React.Component {
 		}
 	}
 
-	static getDerivedStateFromProps(nextProps){
-		if(nextProps.council){
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(nextProps.council && !prevState.data.council){
 			return ({
 				data: {
 					council: nextProps.council

@@ -20,9 +20,9 @@ class CensusParticipantEditor extends React.Component {
 		representativeErrors: {}
 	};
 
-	static getDerivedStateFromProps(nextProps) {
+	componentDidMount() {
 		let { representative, ...participant } = extractTypeName(
-			nextProps.participant
+			this.props.participant
 		);
 		representative = representative
 			? {
@@ -30,10 +30,26 @@ class CensusParticipantEditor extends React.Component {
 					...extractTypeName(representative)
 			  }
 			: initialRepresentative;
-		return {
+		this.setState({
 			data: participant,
 			representative: representative
-		};
+		});
+	}
+
+	componentWillUnmount(){
+		let { representative, ...participant } = extractTypeName(
+			this.props.participant
+		);
+		representative = representative
+			? {
+					hasRepresentative: true,
+					...extractTypeName(representative)
+			  }
+			: initialRepresentative;
+		this.setState({
+			data: participant,
+			representative: representative
+		});
 	}
 
 	updateCensusParticipant = async () => {

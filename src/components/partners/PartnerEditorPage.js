@@ -9,7 +9,7 @@ import { withRouter } from 'react-router-dom';
 import PartnerForm from './PartnerForm';
 import { checkValidEmail } from "../../utils";
 
-class PartnerEditorPage extends React.PureComponent {
+class Page extends React.PureComponent {
 
     state = {
         data: {},
@@ -24,14 +24,16 @@ class PartnerEditorPage extends React.PureComponent {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data.loading) {
-            let { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
-            return {
-                data: {
-                    ...bookParticipant
-                },
-                ...(representative? {
-                    representative: representative
-                } : {})
+            if(!prevState.data.id){
+                let { __typename, representative, ...bookParticipant } = nextProps.data.bookParticipant;
+                return {
+                    data: {
+                        ...bookParticipant
+                    },
+                    ...(representative? {
+                        representative: representative
+                    } : {})
+                }
             }
         }
 
@@ -332,4 +334,4 @@ export default compose(
     graphql(updateBookParticipant, {
         name: 'updateBookParticipant'
     })
-)(withTranslations()(withRouter(PartnerEditorPage)));
+)(withTranslations()(withRouter(Page)));

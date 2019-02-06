@@ -327,15 +327,18 @@ class ConvenedParticipantsTable extends React.Component {
 							<LoadingSection/>
 						</div>
 					}
-					<ConvenedParticipantEditor
-						translate={translate}
-						close={this.closeParticipantEditor}
-						councilId={council.id}
-						participations={participations}
-						participant={participant}
-						opened={editingParticipant}
-						refetch={refetch}
-					/>
+					{editingParticipant &&
+						<ConvenedParticipantEditor
+							key={participant.id}
+							translate={translate}
+							close={this.closeParticipantEditor}
+							councilId={council.id}
+							participations={participations}
+							participant={participant}
+							opened={editingParticipant}
+							refetch={refetch}
+						/>
+					}
 					<AttendComment
 					 	requestClose={() => this.setState({
 							showCommentModal: false,

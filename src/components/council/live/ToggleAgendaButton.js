@@ -10,19 +10,6 @@ import { toast } from 'react-toastify';
 import { AGENDA_STATES } from '../../../constants';
 
 class ToggleAgendaButton extends React.Component {
-	state = {
-		sendCredentials: true,
-		confirmModal: false
-	}
-
-	static getDerivedStateFromProps(nextProps){
-		if(nextProps.council){
-			return {
-				sendCredentials: !nextProps.council.videoEmailsDate
-			}
-		}
-		return null;
-	}
 
 	openAgenda = async () => {
 		const { agenda, translate } = this.props;

@@ -12,9 +12,12 @@ class SaveDraftModal extends React.Component {
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		return {
-			data: nextProps.data
-		};
+		if(prevState.data.id !== nextProps.data.id){
+			return {
+				data: nextProps.data
+			};
+		}
+		return null;
 	}
 
 

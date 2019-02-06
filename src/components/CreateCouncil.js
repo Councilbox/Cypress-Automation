@@ -11,20 +11,48 @@ import withTranslations from "../HOCs/withTranslations";
 import { darkGrey } from "../styles/styles";
 import { getSecondary } from "../styles/colors";
 
-const CreateWithConfig = Component => {
-	const configContext = React.useContext(ConfigContext);
-	console.log(configContext);
-	return () => <Component config={configContext} />
-}
 
 
-class CreateCouncil extends React.Component {
-	state = {
+const CreateCouncil = props => {
+	const [state, setState] = React.useState({
 		creating: false
-	};
+	});
+	const config = React.useContext(ConfigContext);
 
-	createCouncil = async companyId => {
-		const response = await this.props.createCouncil({
+	React.useEffect(() => {
+		if(!config.newCreateFlow){
+			createCouncilOneStep();
+		}
+	});
+
+	const createCouncilOneStep = async () => {
+		if (props.match.url === `/company/${props.match.params.company}/council/new` && !state.creating) {
+			setState({
+				creating: true
+			});
+			let newCouncilId = await createCouncil(
+				props.match.params.company
+			);
+			if(newCouncilId){
+				bHistory.replace(`/company/${props.match.params.company}/council/${newCouncilId}`);
+			}else{
+				bHistory.replace(`/company/${props.match.params.company}`);
+				toast(
+					<LiveToast
+						message={props.translate.no_statutes}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "errorToast"
+					}
+				);
+			}
+		}
+	}
+
+
+	const createCouncil = async companyId => {
+		const response = await props.createCouncil({
 			variables: {
 				companyId: companyId
 			}
@@ -36,55 +64,21 @@ class CreateCouncil extends React.Component {
 		}
 	}
 
-	async componentDidMount() {
-		console.log(this.props);
-		if(!this.props.config.newCreateFlow){
-			if (
-				this.props.match.url ===
-				`/company/${this.props.match.params.company}/council/new` &&
-				!this.state.creating
-			) {
-				this.setState({
-					creating: true
-				});
-				let newCouncilId = await this.createCouncil(
-					this.props.match.params.company
-				);
-				if(newCouncilId){
-					bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
-				}else{
-					bHistory.replace(`/company/${this.props.match.params.company}`);
-					toast(
-						<LiveToast
-							message={this.props.translate.no_statutes}
-						/>, {
-							position: toast.POSITION.TOP_RIGHT,
-							autoClose: true,
-							className: "errorToast"
-						}
-					);
-				}
-			}
-		}
-	}
-
-	render() {
-		const newMode = this.props.config.newCreateFlow;
-		return (
-			newMode?
-				<CreateCouncilModal
-					history={this.props.history}
-					createCouncil={this.props.createCouncil}
-					company={this.props.match.params.company}
-				/>
-			:
-				<LoadingMainApp />
-		);
-	}
+	return (
+		config.newCreateFlow?
+			<CreateCouncilModal
+				history={props.history}
+				createCouncil={props.createCouncil}
+				company={props.match.params.company}
+				translate={props.translate}
+			/>
+		:
+			<LoadingMainApp />
+	);
 }
 
 
-const CreateCouncilModal = ({ history, company, createCouncil }) => {
+const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 
 	const secondary = getSecondary();
 
@@ -97,12 +91,12 @@ const CreateCouncilModal = ({ history, company, createCouncil }) => {
 		});
 		const newCouncilId = response.data.createCouncil.id;
 		if(newCouncilId){
-			bHistory.replace(`/company/${this.props.match.params.company}/council/${newCouncilId}`);
+			bHistory.replace(`/company/${company}/council/${newCouncilId}`);
 		}else{
-			bHistory.replace(`/company/${this.props.match.params.company}`);
+			bHistory.replace(`/company/${company}`);
 			toast(
 				<LiveToast
-					message={this.props.translate.no_statutes}
+					message={translate.no_statutes}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
@@ -157,6 +151,6 @@ export const createCouncil = gql`
 	}
 `;
 
-export default CreateWithConfig(graphql(createCouncil, { name: 'createCouncil' })(connect(
+export default graphql(createCouncil, { name: 'createCouncil' })(connect(
 	mapStateToProps
-)(withRouter(withTranslations()(CreateCouncil)))));
+)(withRouter(withTranslations()(CreateCouncil))));

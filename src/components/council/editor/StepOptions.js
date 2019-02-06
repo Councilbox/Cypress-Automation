@@ -50,11 +50,16 @@ class StepOptions extends React.Component {
 	static getDerivedStateFromProps(nextProps, prevState){
 		primary = getPrimary();
 		if (!nextProps.data.loading) {
-			return {
-				data: {
-					council: nextProps.data.council
-				}
-			};
+			if(!prevState.data.council){
+				return {
+					data: {
+						council: {
+							...nextProps.data.council,
+							...prevState.data.council
+						}
+					}
+				};
+			}
 		}
 
 		return null;
@@ -524,7 +529,8 @@ export default compose(
 			variables: {
 				id: props.councilID
 			},
-			notifyOnNetworkStatusChange: true
+			notifyOnNetworkStatusChange: true,
+			fetchPolicy: 'network-only'
 		})
 	}),
 

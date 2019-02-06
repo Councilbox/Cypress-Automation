@@ -447,7 +447,8 @@ export default compose(
 					limit: CENSUS_LIMITS[0],
 					offset: 0
 				}
-			}
+			},
+			fetchPolicy: 'network-only'
 		})
 	}),
 	graphql(deleteCensus, {

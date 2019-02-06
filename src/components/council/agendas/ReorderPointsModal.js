@@ -12,17 +12,6 @@ class ReorderPointsModal extends React.PureComponent {
 		agendas: this.props.agendas
 	};
 
-
-	static getDerivedStateFromProps(nextProps){
-		if(nextProps.agendas){
-			return {
-				agendas: nextProps.agendas
-			}
-		}
-
-		return null;
-	}
-
 	updateOrder = async () => {
 		const reorderedAgenda = this.state.agendas.map((agenda, index) => {
 			const { __typename, attachments, votings, ...updatedAgenda } = agenda;

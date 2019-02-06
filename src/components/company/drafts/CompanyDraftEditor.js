@@ -23,9 +23,14 @@ class CompanyDraftEditor extends React.Component {
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		return {
-			data: nextProps.data.companyDraft
-		};
+		if(!nextProps.data.loading){
+			if(nextProps.data.companyDraft.id !== prevState.data.id) {
+				return {
+					data: nextProps.data.companyDraft
+				};
+			}
+		}
+		return null;
 	}
 
 	updateState = object => {
