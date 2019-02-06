@@ -56,7 +56,7 @@ const withWindowSize = WrappedComponent => {
 					this.setState({
 						...state,
 					});
-				}	
+				}
 			} else {
 				if(state.size !== this.state.size){
 					this.setState({
@@ -64,7 +64,6 @@ const withWindowSize = WrappedComponent => {
 					});
 				}
 			}
-			
 
 			//console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
 		};

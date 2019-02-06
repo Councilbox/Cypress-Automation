@@ -180,13 +180,13 @@ class FinishActModal extends React.Component {
 	}
 }
 
-const Block = ({ text, icon, onClick }) => {
+const Block = ({ text, icon, onClick, color = darkGrey }) => {
 
 	return (
 		<Card
 			onClick={onClick}
 			style={{
-				backgroundColor: darkGrey,
+				backgroundColor: color,
 				color: 'white',
 				cursor: 'pointer',
 				display: 'flex',

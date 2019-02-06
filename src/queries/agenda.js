@@ -95,6 +95,14 @@ export const agendaVotings = gql`
 		) {
 			list {
 				id
+				evidence {
+					cbxEvidence {
+						uuid
+						tx_hash
+					}
+					id
+					uuid
+				}
 				author {
 					id
 					name

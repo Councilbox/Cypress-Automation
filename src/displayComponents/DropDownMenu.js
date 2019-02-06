@@ -1,7 +1,6 @@
 import React, { Fragment } from "react";
 import { Popover } from 'material-ui';
 import { BasicButton } from "./index";
-import { height } from "window-size";
 
 class DropDownMenu extends React.Component {
 	state = {

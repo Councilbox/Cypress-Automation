@@ -129,7 +129,7 @@ class LoadFromPreviousCouncil extends React.Component {
                             <AlertConfirm
                                 requestClose={!!this.state.council? this.closeCouncilDetails : this.closeModal}
                                 open={this.state.modal}
-                                hideAccept={!!this.state.council}
+                                hideAccept={!!this.state.council || this.props.data.loading || (!this.props.data.loading && this.props.data.councils.length === 0)}
                                 acceptAction={this.changeCensus}
                                 buttonAccept={translate.accept}
                                 buttonCancel={!!this.state.council? translate.back : translate.cancel}
