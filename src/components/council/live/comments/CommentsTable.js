@@ -56,10 +56,11 @@ class CommentsTable extends React.Component{
 		};
 
 		if (this.state.filterText) {
+			let filterText = this.state.filterText;
 			variables = {
 				...variables,
 				authorFilters: {
-					username: this.state.filterText
+					username: filterText.trim()
 				}
 			};
 		}
@@ -72,8 +73,6 @@ class CommentsTable extends React.Component{
 	}
 
     render(){
-		console.log(this.props.data.agendaComments);
-
         return (
 			<Grid
 				style={{
