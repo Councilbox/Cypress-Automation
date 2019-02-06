@@ -22,17 +22,17 @@ import "react-resizable/css/styles.css";
 import withWindowSize from "../../HOCs/withWindowSize";
 
 
-
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 const ReactGridLayout = WidthProvider(RGL);
 
+//añadir en node modules utils antes del return  / l.y = Math.max(l.y, 0); l.x = Math.max(l.x, 0); / para que funcione todo bien
 
 const stylesGrafica = {
 	contenedor: {
 		border: "1px solid #ddd",
 		background: "white",
 		boxShadow: "rgba(0, 0, 0, 0.2) 0px 2px 4px",
-		borderRadius: "3px",
+		// borderRadius: "3px",
 		padding: "1.2em",
 		marginBottom: '1em',
 		marginTop: "2em",
@@ -59,7 +59,7 @@ class TopSectionBlocks extends React.Component {
 		layoutHorizontal: this.props.statesItems[2],
 		onLayoutChangeHorizontal: function () { },
 		breakpoint: "lg",
-		breakpointHorizontal: "lg"
+		breakpointHorizontal: "lg",
 
 	}
 
@@ -96,11 +96,11 @@ class TopSectionBlocks extends React.Component {
 	handleStop = (layout, oldItem, newItem, placeholder, e, element, grid, nameLayout) => {
 		e.preventDefault()
 		e.stopPropagation()
+		
 		let breakpoint = this.state.breakpoint
 		if (grid === 2) {
 			grid = 2
 			breakpoint = this.state.breakpointHorizontal
-			layout = layoutPositivo(layout)
 		}
 		this.props.itemStorage("", "", layout, grid, nameLayout, breakpoint);
 	}
@@ -123,6 +123,7 @@ class TopSectionBlocks extends React.Component {
 		this.setState({ layoutHorizontal: layouts });
 		this.state.onLayoutChange(this.state.layoutHorizontal);
 	};
+
 
 	render() {
 		const { translate, company, editMode, statesItems, layoutsResize, layoutsResizeHorizontal } = this.props;
@@ -171,8 +172,8 @@ class TopSectionBlocks extends React.Component {
 		}
 
 		const anoActual = new Date().getFullYear();
-		
-			///Se cambia error minimos por alerta  en /councilbox_client/node_modules/react-grid-layout/build/GridItem.js
+
+		///Se cambia error minimos por alerta  en /councilbox_client/node_modules/react-grid-layout/build/GridItem.js
 		return (
 			<Grid
 				style={{
@@ -218,7 +219,7 @@ class TopSectionBlocks extends React.Component {
 							onDragStart={(layout, oldItem, newItem, placeholder, e, element) => this.handleStart(layout, oldItem, newItem, placeholder, e, element, 1)}
 							isDraggable={editMode}
 							compactType={"vertical"}
-							style={{ width: "100%",  display: "flex", }}
+							style={{ width: "100%", display: "flex", }}
 						>
 							<div key={"buttons"} data-grid={statesItems[1][0]} >
 								{statesItems[0].buttons && (
@@ -239,9 +240,9 @@ class TopSectionBlocks extends React.Component {
 							</div>
 
 
-							<div key={"sectionReuniones"} data-grid={statesItems[1][1]} >
+							<div key={"sectionReuniones"} data-grid={statesItems[1][1]}>
 								{statesItems[0].sectionReuniones && (
-									<div  style={{ marginLeft: editMode ? "" : "-9px", paddingLeft: editMode ? "1em" : "", marginTop: editMode ? "2em" : "", overflow: "hidden", width: "100%", height: '100%', border: editMode ? "1px solid #ddd" : "", background: editMode ? "white" : "", boxShadow: editMode ? "rgba(0, 0, 0, 0.2) 0px 2px 4px" : "", borderRadius: editMode ? "3px" : "", }} className={editMode ? "shakeItems " : ""} >
+									<div style={{ marginLeft: editMode ? "" : "-9px", paddingLeft: editMode ? "1em" : "", marginTop: editMode ? "2em" : "", overflow: "hidden", width: "100%", height: '100%', border: editMode ? "1px solid #ddd" : "", background: editMode ? "white" : "", boxShadow: editMode ? "rgba(0, 0, 0, 0.2) 0px 2px 4px" : "", borderRadius: editMode ? "3px" : "", }} className={editMode ? "shakeItems " : ""} >
 										{editMode && (
 											<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={() => this.props.itemStorage("sectionReuniones", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer", zIndex: "10" }} >
 												<i className={"fa fa-times"}></i>
@@ -255,6 +256,7 @@ class TopSectionBlocks extends React.Component {
 												cols={{ lg: 12, md: 8, sm: 6, xs: 4, xxs: 2 }}
 												isResizable={false}
 												autoSize={false}
+												className={'sectionReuniones'}
 												layouts={layoutsResizeHorizontal}
 												onBreakpointChange={(breakpoint, cols) => this.onBreakpointChangeHorizontal(breakpoint, cols)}
 												onDragStop={(layout, oldItem, newItem, placeholder, e, element) => this.handleStop(layout, oldItem, newItem, placeholder, e, element, 2, 'layoutsResizeHorizontal')}
@@ -434,11 +436,11 @@ class TopSectionBlocks extends React.Component {
 	}
 }
 
-function layoutPositivo(layout){
+function layoutPositivo(layout) {
 	let aux = [];
 	layout.forEach(element => {
 		let datoX = element.x;
-		if(Math.sign(element.x) === -1){
+		if (Math.sign(element.x) === -1) {
 			datoX = 0
 		}
 		aux.push({ w: element.w, h: element.h, x: Math.round(datoX), y: element.y, i: element.i, moved: element.moved, static: element.static })

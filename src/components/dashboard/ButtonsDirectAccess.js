@@ -83,24 +83,27 @@ const ButtonsDirectAccess = ({ company, translate, isMobile }) => {
 	let itemsPc = (
 		<React.Fragment >
 			<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? "1em" : "", display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-					<Card elevation={6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
-						<Link to={`/company/${company.id}/statutes`} >
-							<div style={{ background: "#a0000b", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
-								<Icon
-									className="material-icons"
-									style={{
-										fontSize: "4em",
-										color: "white"
-									}}
-								>
-									{'gavel'}
-								</Icon>
-							</div>
-							<div style={{ marginTop: "1px", background: darkGrey, maxWidth: "155px", padding: '1em', borderRadius: "0px 0px 5px 5px", color: 'white' }}>
-								{translate.council_types}
-							</div>
-						</Link>
-					</Card>
+				<Card elevation={6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
+					<Link to={`/company/${company.id}/statutes`}
+						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+						disabledOnClick={this.showCouncilsModal}
+					>
+						<div style={{ background: "#a0000b", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
+							<Icon
+								className="material-icons"
+								style={{
+									fontSize: "4em",
+									color: "white"
+								}}
+							>
+								{'gavel'}
+							</Icon>
+						</div>
+						<div style={{ marginTop: "1px", background: darkGrey, maxWidth: "155px", padding: '1em', borderRadius: "0px 0px 5px 5px", color: 'white' }}>
+							{translate.council_types}
+						</div>
+					</Link>
+				</Card>
 			</GridItem>
 
 			<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? "1em" : "", display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
@@ -168,7 +171,10 @@ const ButtonsDirectAccess = ({ company, translate, isMobile }) => {
 
 			<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? "1em" : "", display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
 				<Card elevation={6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
-					<Link to={`/company/${company.id}/council/new`} >
+					<Link to={`/company/${company.id}/council/new`}
+						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+						disabledOnClick={this.showCouncilsModal}
+					>
 						<div style={{ background: "#cecece", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
 							<img src={logo} style={{ height: '4.4em', width: 'auto' }} alt="councilbox-logo" />
 						</div>

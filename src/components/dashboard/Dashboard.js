@@ -146,7 +146,7 @@ class Dashboard extends React.Component {
 		if (!localStorage.getItem("items")) {
 			localStorage.setItem("items", JSON.stringify({}))
 		}
-		if (layout) {
+		if (layout) { 
 			//guardamos el orden segun el tamaño
 			objectItems = JSON.parse(localStorage.getItem(layout));
 			delete objectItems[size]
@@ -190,7 +190,6 @@ class Dashboard extends React.Component {
 		const { translate, company, user } = this.props;
 		const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
 		const secondary = getSecondary();
-
 
 		return (
 			<div
