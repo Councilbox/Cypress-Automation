@@ -35,12 +35,22 @@ class RecordingButton extends React.Component {
 
         if (!sessionStatus.record) {
             setTimeout(async () => {
-                await this.toggleRecordings();
+                await this.startRecording();
                 this.setState({
                     disabled: true
                 });
             }, 5000);
         }
+    }
+
+    startRecording = async () => {
+        const response = await this.props.startRecording({
+            variables: {
+                councilId: this.props.council.id
+            }
+        });
+        console.log(response);
+        this.props.data.refetch();
     }
 
     toggleRecordings = async () => {
@@ -68,6 +78,7 @@ class RecordingButton extends React.Component {
 
     render() {
         const { sessionStatus } = this.props.data;
+        console.error(sessionStatus);
         if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
             return <span />
         }

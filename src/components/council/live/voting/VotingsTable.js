@@ -142,6 +142,8 @@ class VotingsTable extends React.Component {
 		const offset = (this.props.page - 1) * this.props.pageLimit;
 		const slicedVotings = mappedVotings.slice(offset, offset + this.props.pageLimit);
 
+		console.log(slicedVotings);
+
 		return (
 			<Grid
 				style={{

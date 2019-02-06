@@ -240,13 +240,6 @@ export const council = gql`
 	}
 `;
 
-export const createCouncil = gql`
-	mutation CreateCouncil($companyId: Int!) {
-		createCouncil(companyId: $companyId) {
-			id
-		}
-	}
-`;
 
 export const sendActDraft = gql`
 	mutation SendActDraft($councilId: Int!, $emailList: [String]) {

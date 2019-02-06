@@ -2,6 +2,7 @@ export { default as AgendaNumber } from "./AgendaNumber";
 export { default as AlertConfirm } from "./AlertConfirm";
 export { default as AllSelector } from "./AllSelector";
 export { default as BasicButton } from "./BasicButton";
+export { default as BlockButton } from './BlockButton';
 export { default as Block } from './Block';
 export { default as ButtonIcon } from "./ButtonIcon";
 export { default as CardPageLayout } from "./CardPageLayout";
