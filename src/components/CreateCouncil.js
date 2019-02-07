@@ -12,11 +12,15 @@ import { darkGrey } from "../styles/styles";
 import { getSecondary } from "../styles/colors";
 
 
+//props.council.id
 
 const CreateCouncil = props => {
 	const [state, setState] = React.useState({
 		creating: false
 	});
+
+	const [loading, setLoading] = React.useState(false);
+
 	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {

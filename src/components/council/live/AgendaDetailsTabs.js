@@ -68,6 +68,7 @@ class AgendaDetailsTabs extends React.Component {
                                     agenda={agenda}
                                     key={`agendaAgreements_${agenda.id}`}
                                     translate={translate}
+                                    recount={this.props.recount}
                                     council={this.props.council}
                                     refetch={this.props.refetch}
                                     data={this.props.data}

@@ -43,7 +43,7 @@ class RecordingsSection extends React.Component {
                     scrolling="yes"
                     className="temp_video"
                     src={`https://${this.props.data.recordingsIframe}?rand=${rand}`}
-                    allowFullScreen="true"
+                    allowFullScreen={true}
                     style={{
                         border: "none !important",
                     }}

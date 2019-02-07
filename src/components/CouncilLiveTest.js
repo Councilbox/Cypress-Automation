@@ -75,7 +75,7 @@ class CouncilLiveTest extends React.Component {
 						scrolling="no"
 						className="temp_video"
 						src={`https://${this.state.url}?rand=${Date.now()}`}
-						allowFullScreen="true"
+						allowFullScreen={true}
 						style={{
 							border: "none !important"
 						}}

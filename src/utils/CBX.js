@@ -407,8 +407,11 @@ export const changeVariablesToValues = (text, data, translate) => {
 		text = text.replace(/{{positiveSCPresent}}/g, data.votings.SCFavorPresent);
 		text = text.replace(/{{negativeSCPresent}}/g, data.votings.SCAgainstTotal);
 		text = text.replace(/{{abstentionSCPresent}}/g, data.votings.SCAbstentionTotal);
-
-	}else {
+		text = text.replace(/{{numPositive}}/g, data.votings.numPositive);
+		text = text.replace(/{{numAbstention}}/g, data.votings.numAbstention);
+		text = text.replace(/{{numNegative}}/g, data.votings.numNegative);
+		text = text.replace(/{{numNoVote}}/g, data.votings.numNoVote);
+	} else {
 		text = text.replace(/{{positiveVotings}}/g, 0);
 		text = text.replace(/{{negativeVotings}}/g, 0);
 	}
@@ -537,8 +540,20 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				}
 			];
 
-		case DRAFT_TYPES.COMMENTS_AND_AGREEMENTS:
+		case DRAFT_TYPES.COMMENTS_AND_AGREEMENTS://TRADUCCION
 			return [
+				{
+					value: '{{dateFirstCall}}',
+					label: translate["1st_call_date"]
+				},
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: `{{street}}`,
+					label: translate.new_location_of_celebrate
+				},
 				{
 					value: '{{positiveVotings}}',
 					label: translate.positive_votings
@@ -546,7 +561,47 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				{
 					value: '{{negativeVotings}}',
 					label: translate.negative_votings
-				}
+				},
+				{
+					value: '{{numPositive}}',
+					label: translate.num_positive
+				},
+				{
+					value: '{{numAbstention}}',
+					label: translate.num_abstention
+				},
+				{
+					value: '{{numNegative}}',
+					label: translate.num_negative
+				},
+				{
+					value: '{{numNoVote}}',
+					label: translate.num_no_vote
+				},
+				{
+					value: '{{positiveSCTotal}}',
+					label: '% a favor / total capital social'
+				},
+				{
+					value: '{{negativeSCTotal}}',
+					label: '% en contra / total capital social'
+				},
+				{
+					value: '{{abstentionSCTotal}}',
+					label: '% abstención / total capital social'
+				},
+				{
+					value: '{{positiveSCPresent}}',
+					label: '% a favor / capital social presente'
+				},
+				{
+					value: '{{negativeSCPresent}}',
+					label: '% en contra / capital social presente'
+				},
+				{
+					value: '{{abstentionSCPresent}}',
+					label: '% abstención / capital social presente'
+				},
 			];
 
 		default:
@@ -1135,17 +1190,18 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 	if (hasVotation(draft.votationType) && draft.majorityType === -1) {
 		hasError = true;
 		errors.majorityType = translate.required_field;
+		if (majorityNeedsInput(draft.majorityType)) {
+			hasError = true;
+			errors.majority = translate.required_field;
+		}
+
+		if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
+			hasError = true;
+			errors.majorityDivider = translate.required_field;
+		}
 	}
 
-	if (majorityNeedsInput(draft.majorityType) && !draft.majority) {
-		hasError = true;
-		errors.majority = translate.required_field;
-	}
 
-	if (isMajorityFraction(draft.majorityType) && !draft.majorityDivider) {
-		hasError = true;
-		errors.majorityDivider = translate.required_field;
-	}
 
 	updateErrors(errors);
 

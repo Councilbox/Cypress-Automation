@@ -27,7 +27,7 @@ class ParticipantPage extends Component {
 					src={`https://${roomURL}?rand=${Math.round(
 						Math.random() * 10000000
 					)}`}
-					allowFullScreen="true"
+					allowFullScreen={true}
 					style={{ border: "none !important" }}
 				>
 					Something wrong...

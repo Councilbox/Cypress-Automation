@@ -15,7 +15,7 @@ class Iframe extends Component {
 				allow="geolocation; microphone; camera"
 				scrolling="no"
 				src={src}
-				allowFullScreen="true"
+				allowFullScreen={true}
 				style={{
 					border: "none",
 					width: "100%",

@@ -22,7 +22,7 @@ class RecordingButton extends React.Component {
     componentDidUpdate(prevProps) {
         if (prevProps.data.loading && !this.props.data.loading) {
             if (this.props.council.fullVideoRecord === 1) {
-                this.startFullRecording();
+                //this.startFullRecording();
             }
         }
     }

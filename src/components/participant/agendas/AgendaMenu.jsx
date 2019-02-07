@@ -121,7 +121,7 @@ class AgendaMenu extends React.Component {
                     {this.agendaStateMessage()}
                 </Typography>
                 {agenda.attachments &&
-                    agenda.attachments.map(attachment =>
+                    agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment =>
                         <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda/>
                     )
                 }

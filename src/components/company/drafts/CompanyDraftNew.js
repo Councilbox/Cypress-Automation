@@ -45,7 +45,7 @@ class CompanyDraftNew extends Component {
 			}
 		}
 	};
-	
+
 	resetAndClose = () => {
 		clearTimeout(this.timeout);
 		this.setState({

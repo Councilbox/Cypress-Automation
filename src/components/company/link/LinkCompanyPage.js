@@ -170,6 +170,9 @@ class LinkCompanyPage extends React.Component {
 								}
 								showPassword={this.state.showPassword}
 								required
+								helpPopover={true}
+								helpTitle={translate.company_new_key}
+								helpDescription={'Un usuario autorizado puede proporcionarte esta clave accediendo al panel de configuración de la empresa'}//TRADUCCION
 								value={data.linkKey}
 								errorText={errors.linkKey}
 								onChange={event =>

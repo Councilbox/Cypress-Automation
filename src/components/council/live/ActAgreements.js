@@ -120,30 +120,40 @@ class ActAgreements extends React.Component {
 	loadDraft = draft => {
 		const { agenda } = this.props;
 
+		let positiveVotings = 0;
+		let negativeVotings = 0;
+		let abstentionVotings = 0;
+		let noVotes = 0;
+
 		let positiveSC = 0;
 		let negativeSC = 0;
 		let abstentionSC = 0;
 		let noVoteSC = 0;
 
+		const participations = hasParticipations(this.props.council);
+
 		agenda.votings.forEach(vote => {
 			switch(vote.vote){
 				case VOTE_VALUES.ABSTENTION:
+					abstentionVotings++;
 					abstentionSC += vote.author.socialCapital;
 					break;
 				case VOTE_VALUES.POSITIVE:
+					positiveVotings++;
 					positiveSC += vote.author.socialCapital;
 					break;
 				case VOTE_VALUES.NEGATIVE:
+					negativeVotings++;
 					negativeSC += vote.author.socialCapital;
 					break;
 				default:
+					noVotes++;
 					noVoteSC += vote.author.socialCapital;
 			}
 		});
 
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 		const totalPresent = totalSC - noVoteSC;
-
 
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
@@ -153,12 +163,16 @@ class ActAgreements extends React.Component {
 				negative: agenda.negativeVotings + agenda.negativeManual,
 				abstention: agenda.abstentionVotings + agenda.abstentionManual,
 				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-				SCFavorTotal: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
-				SCAgainstTotal: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
-				SCAbstentionTotal: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
-				SCFavorPresent: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
-				SCAgainstTotal: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
-				SCAbstentionTotal: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%'
+				SCFavorTotal: participations? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
+				SCAgainstTotal: participations? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionTotal: participations? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				numPositive: positiveVotings,
+				numNegative: negativeVotings,
+				numAbstention: abstentionVotings,
+				numNoVote: noVotes,
 			}
 		});
 		this.editor.paste(correctedText);
@@ -198,10 +212,9 @@ class ActAgreements extends React.Component {
 					negativeVotings++;
 					negativeSC += vote.author.socialCapital;
 					break;
-				case VOTE_VALUES.NO_VOTE:
-					noVoteSC += vote.author.socialCapital;
 				default:
 					noVotes++;
+					noVoteSC += vote.author.socialCapital;
 			}
 		});
 

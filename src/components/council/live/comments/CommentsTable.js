@@ -10,53 +10,42 @@ import {
 	PaginationFooter
 } from "../../../../displayComponents";
 
-class CommentsTable extends React.Component{
-	state = {
-		agendaId: this.props.agenda.id,
-		filterText: "",
+const CommentsTable = props => {
+	const [state, setState] = React.useState({
+		agendaId: props.agenda.id,
+		filterText: '',
 		page: 1
+	});
+
+	const updateFilterText = value => {
+		setState({
+			...state,
+			filterText: value
+		}, refreshTable);
 	}
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-		if (nextProps.agenda.id !== prevState.agendaId) {
-			return {
-				filterText: "",
-				agendaId: nextProps.agenda.id
-			};
-		}
-		return null;
-    }
-
-    updateFilterText = value => {
-		this.setState(
-			{
-				filterText: value
-			},
-			this.refreshTable
-		);
-	}
-
-    changePage = value => {
-		const variables = this.buildVariables();
+	const changePage = value => {
+		const variables = buildVariables();
 		variables.options = {
 			limit: 10,
 			offset: 10 * (value - 1)
 		};
 
-		this.setState({
+		setState({
+			...state,
 			page: value
 		});
-		this.props.data.refetch(variables);
+		props.data.refetch(variables);
 	}
 
-	buildVariables = () => {
+	const buildVariables = () => {
 		let variables = {
 			filters: [],
 			authorFilters: null
 		};
 
 		if (this.state.filterText) {
-			let filterText = this.state.filterText;
+			let filterText = state.filterText;
 			variables = {
 				...variables,
 				authorFilters: {
@@ -67,116 +56,113 @@ class CommentsTable extends React.Component{
 		return variables;
 	}
 
-	refreshTable = async () => {
-		const variables = this.buildVariables();
-		await this.props.data.refetch(variables);
+	const refreshTable = async () => {
+		const variables = buildVariables();
+		await props.data.refetch(variables);
 	}
 
-    render(){
-        return (
-			<Grid
-				style={{
-					width: "100%",
-					backgroundColor: "white",
-					paddingBottom: "1em",
-					paddingLeft: "1em"
-				}}
+	return (
+		<Grid
+			style={{
+				width: "100%",
+				backgroundColor: "white",
+				paddingBottom: "1em",
+				paddingLeft: "1em"
+			}}
+		>
+			<GridItem xs={8} md={8} lg={8} />
+			<GridItem
+				xs={4}
+				md={4}
+				lg={4}
+				style={{ paddingRight: "1.3em" }}
 			>
-				<GridItem xs={8} md={8} lg={8} />
-				<GridItem
-					xs={4}
-					md={4}
-					lg={4}
-					style={{ paddingRight: "1.3em" }}
-				>
-					<TextInput
-						adornment={<Icon>search</Icon>}
-						floatingText={" "}
-						type="text"
-						value={this.state.filterText}
-						onChange={event => {
-							this.updateFilterText(event.target.value);
-						}}
-					/>
-				</GridItem>
-				{this.props.data.loading ? (
-					<LoadingSection />
-				) : this.props.data.agendaComments && this.props.data.agendaComments.list.length > 0 ? (
-					<React.Fragment>
-						{this.props.data.agendaComments.list.map(voting => {
-							return (
-								<GridItem
-									xs={6}
-									lg={6}
-									md={6}
-									key={`voting_${voting.author.id}`}
+				<TextInput
+					adornment={<Icon>search</Icon>}
+					floatingText={" "}
+					type="text"
+					value={state.filterText}
+					onChange={event => {
+						updateFilterText(event.target.value);
+					}}
+				/>
+			</GridItem>
+			{props.data.loading ? (
+				<LoadingSection />
+			) : props.data.agendaComments && props.data.agendaComments.list.length > 0 ? (
+				<React.Fragment>
+					{props.data.agendaComments.list.map(voting => {
+						return (
+							<GridItem
+								xs={6}
+								lg={6}
+								md={6}
+								key={`voting_${voting.author.id}`}
+								style={{
+									paddingBottom: "0.5em",
+									paddingLeft: "2em",
+									paddingRight: "2em"
+								}}
+							>
+								<div
 									style={{
-										paddingBottom: "0.5em",
-										paddingLeft: "2em",
-										paddingRight: "2em"
+										borderBottom: "1px solid black"
 									}}
 								>
 									<div
-										style={{
-											borderBottom: "1px solid black"
+										dangerouslySetInnerHTML={{
+											__html: voting.comment
 										}}
-									>
-										<div
-											dangerouslySetInnerHTML={{
-												__html: voting.comment
-											}}
-											style={{
-												fontStyle: "italic",
-												fontSize: "0.85em"
-											}}
-										></div>
-										<span
-											style={{ fontSize: "0.73rem", fontWeight: '700' }}
-										>{`${voting.author.name} ${voting.author.surname} ${voting.author.representative? `- Representado por: ${
-												voting.author.representative.name} ${
-												voting.author.representative.surname
-												}`: ''}`}
-										</span>
-										<span style={{ fontSize: "0.73rem" }}>{` - ${
-											voting.author.position
-										}`}</span>
-									</div>
-								</GridItem>
-							);
-						})}
-						<GridItem
-							xs={11}
-							lg={11}
-							md={11}
-							style={{
-								width: "90%",
-								margin: "1em",
-								marginLeft: "2em",
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								justifyContent: "space-between",
-								paddinRight: "10em"
-							}}
-						>
-							<PaginationFooter
-								page={this.state.page}
-								translate={this.props.translate}
-								length={
-									this.props.data.agendaComments.list.length
-								}
-								total={this.props.data.agendaComments.total}
-								limit={10}
-								changePage={this.changePage}
-							/>
-						</GridItem>
-					</React.Fragment>
-				) : (
-					this.props.translate.no_results
-				)}
-			</Grid>
-		);
-    }
+										style={{
+											fontStyle: "italic",
+											fontSize: "0.85em"
+										}}
+									></div>
+									<span
+										style={{ fontSize: "0.73rem", fontWeight: '700' }}
+									>{`${voting.author.name} ${voting.author.surname} ${voting.author.representative? `- Representado por: ${
+											voting.author.representative.name} ${
+											voting.author.representative.surname
+											}`: ''}`}
+									</span>
+									<span style={{ fontSize: "0.73rem" }}>{` - ${
+										voting.author.position
+									}`}</span>
+								</div>
+							</GridItem>
+						);
+					})}
+					<GridItem
+						xs={11}
+						lg={11}
+						md={11}
+						style={{
+							width: "90%",
+							margin: "1em",
+							marginLeft: "2em",
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center",
+							justifyContent: "space-between",
+							paddinRight: "10em"
+						}}
+					>
+						<PaginationFooter
+							page={state.page}
+							translate={props.translate}
+							length={props.data.agendaComments.list.length}
+							total={props.data.agendaComments.total}
+							limit={10}
+							changePage={changePage}
+						/>
+					</GridItem>
+				</React.Fragment>
+			) : (
+				props.translate.no_results
+			)}
+		</Grid>
+	);
+
 }
 
 export default graphql(agendaComments, {
@@ -188,7 +174,7 @@ export default graphql(agendaComments, {
 				offset: 0
 			}
 		},
-		pollInterval: 4000,
+		pollInterval: 6000,
 		fetchPolicy: 'network-only'
 	})
 })(CommentsTable);

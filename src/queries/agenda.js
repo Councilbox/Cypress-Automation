@@ -181,6 +181,7 @@ export const agendaComments = gql`
 			list {
 				id
 				author {
+					id
 					name
 					surname
 					numParticipations

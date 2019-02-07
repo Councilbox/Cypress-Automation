@@ -68,6 +68,7 @@ class CommentsSection extends Component {
 				<CommentsTable
 					translate={this.props.translate}
 					agenda={this.props.agenda}
+					key={this.props.agenda.id}
 				/>
 			:
 				<div style={{padding: '1em'}}>Los comentarios están desactivados en esta reunión</div>
