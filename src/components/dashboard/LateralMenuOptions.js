@@ -41,8 +41,8 @@ class LateralMenuOptions extends React.Component {
 							justifyContent: 'center',
 						}}>
 							<LateralOptions
-								icon={'gavel'}
-								text={translate.council_types}
+								customIcon={<i className="fa-pencil-square-o"></i>}
+								text={"Borradores"}//translate.council_types}
 								link={`/company/${company.id}/statutes`}
 								style={{ marginTop: "10px" }}
 							/>
@@ -52,7 +52,7 @@ class LateralMenuOptions extends React.Component {
 								text={translate.book}
 								link={`/company/${company.id}/book`}
 							/>
-							{/* <LateralOptions
+							<LateralOptions
 								link={`/company/${company.id}/censuses`}
 								icon={'person'}
 								text={translate.censuses}
@@ -73,7 +73,7 @@ class LateralMenuOptions extends React.Component {
 								icon={'video_call'}
 								text={translate.start_conference}
 								style={{ marginBottom: "10px" }}
-							/> */}
+							/>
 						</div>
 					</div>
 				</div >
