@@ -52,7 +52,7 @@ class AgendaEvent extends React.Component {
 						<CouncilDetails council={event} translate={translate} inIndex={true}/>
 					}
 					title={translate.meeting_header}
-					widthModal={{width:"75%"}}
+					widthModal={{width:"50%"}}
 				/>
 			</div>
 		);

@@ -12,8 +12,8 @@ class TabsScreen extends React.Component {
 	};
 
 	static getDerivedStateFromProps(nextProps) {
-		if(nextProps.controlled){
-			return{
+		if (nextProps.controlled) {
+			return {
 				selectedTab: nextProps.tabsIndex[nextProps.selected]
 			}
 		}
@@ -29,6 +29,7 @@ class TabsScreen extends React.Component {
 
 	render() {
 		const tabsInfo = this.props.tabsInfo;
+		const { stylesTabPane, stylesInTabPane, stylesTab } = this.props;
 
 		return (
 			<div
@@ -37,7 +38,7 @@ class TabsScreen extends React.Component {
 					width: "100%",
 					height: "100%",
 					display: "flex",
-					...(this.props.windowSize === 'xs'? { paddingBottom: '3.5em' } : {}),
+					...(this.props.windowSize === 'xs' ? { paddingBottom: '3.5em' } : {}),
 					alignItems: "center",
 					flexDirection: "column",
 					borderBottom: '1px solid gainsboro',
@@ -46,21 +47,21 @@ class TabsScreen extends React.Component {
 				className="card-container"
 			>
 				<Tabs
-					activeKey={''+this.state.selectedTab}
+					activeKey={'' + this.state.selectedTab}
 					type="card"
-					style={{ width: '100%', height: '100%', paddingBottom: '1em' }}
+					style={{ width: '100%', height: '100%', paddingBottom: '1em', ...stylesTab }}
 					onChange={this.handleChange}
 				>
 					{tabsInfo.map((tab, index) => {
 						return (
 							<Tabs.TabPane
 								tab={
-									this.props.linked?
-									 <Link to={tab.link}>{tab.text}</Link>
-									:
+									this.props.linked ?
+										<Link to={tab.link}>{tab.text}</Link>
+										:
 										tab.text
 								}
-								key={''+index}
+								key={'' + index}
 								style={{
 									height: "calc(100% - 40px) !important",
 									overflow: "hidden",
@@ -68,10 +69,11 @@ class TabsScreen extends React.Component {
 									borderTop: 'none',
 									boxShadow:
 										"0 1px 4px 0 rgba(0, 0, 0, 0.14)",
-									borderRadius: "0px 5px 5px 5px"
+									borderRadius: "0px 5px 5px 5px",
+									...stylesTabPane
 								}}
 							>
-								<div style={{width: '100%', height: '100%'}}>
+								<div style={{ width: '100%', height: '100%', ...stylesInTabPane }}>
 									{!!tab.component && tab.component()}
 								</div>
 							</Tabs.TabPane>

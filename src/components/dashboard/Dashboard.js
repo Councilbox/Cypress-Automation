@@ -27,9 +27,9 @@ const json = [
 		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
 	],
 	[
-		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
-		{ i: 'lastActions', x: 5.5, y: 0, w: 3.5, h: 3.5 },
-		{ i: 'noSession', x: 7.5, y: 0, w: 2.1, h: 2.3 },
+		{ i: 'reuniones', x: 8, y: 0, w: 2.2, h: 2.3 },
+		{ i: 'lastActions', x: 0, y: 0, w: 4.1, h: 3.5, minW: 4.3 },
+		{ i: 'noSession', x: 6, y: 0, w: 4.1, h: 3.5 },
 	],
 ]
 
@@ -41,17 +41,17 @@ const layoutsResize = {
 	],
 	md: [
 		{ i: 'buttons', x: 0, y: 0, w: 12, h: 1.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 5.3 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 7 },
 		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
 	],
 	sm: [
 		{ i: 'buttons', x: 0, y: 0, w: 12, h: 2.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 5.3 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 7 },
 		{ i: 'calendar', x: 0, y: 0, w: 12, h: 4 },
 	],
 	xs: [
 		{ i: 'buttons', x: 0, y: 0, w: 12, h: 3.5 },
-		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 6 },
+		{ i: 'sectionReuniones', x: 0, y: 0, w: 12, h: 9 },
 		{ i: 'calendar', x: 0, y: 6, w: 12, h: 4 },
 	],
 	xxs: [
@@ -63,27 +63,24 @@ const layoutsResize = {
 
 const layoutsResizeHorizontal = {
 	lg: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2.5, h: 2.3 },
-		{ i: 'lastActions', x: 6, y: 0, w: 4.3, h: 3.5, minW: 4.3 },
-		{ i: 'noSession', x: 8, y: 0, w: 2.4, h: 2.3 },
+		{ i: 'reuniones', x: 8, y: 0, w: 2.2, h: 2.3 },
+		{ i: 'lastActions', x: 0, y: 0, w: 4.1, h: 3.5, minW: 4.3 },
+		{ i: 'noSession', x: 6, y: 0, w: 4.1, h: 3.5 },
 	],
 	md: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2.1, h: 2.3 },
-		{ i: 'lastActions', x: 5.5, y: 0, w: 3.7, h: 3.5 },
-		{ i: 'noSession', x: 8.3, y: 0, w: 2.1, h: 2.3 },
+		{ i: 'reuniones', x: 4, y: 0, w: 1.9, h: 2.3 },
+		{ i: 'lastActions', x: 0, y: 5, w: 3.5, h: 3.4 },
+		{ i: 'noSession', x: 0, y: 0, w: 3.5, h: 3.4 },
 	],
 	sm: [
-		{ w: 2, h: 2.3, x: 0, y: 1, i: "reuniones", moved: true, static: false },
-		{ w: 3.7, h: 3.5, x: 3, y: 0, i: "lastActions", moved: true, static: false },
-		{ w: 2, h: 2.3, x: 1, y: 2.3, i: "noSession", moved: true, static: false }
-		// { i: 'reuniones', x: 0, y: 0, w: 2, h: 2.3 },
-		// { i: 'lastActions', x: 4.5, y: 0, w: 3.7, h: 3.5 },
-		// { i: 'noSession', x: 7.2, y: 0, w: 2, h: 2.3 },
+		{ i: 'reuniones', x: 4, y: 0, w: 1.9, h: 2.3 },
+		{ i: 'lastActions', x: 0, y: 5, w: 3.5, h: 3.4 },
+		{ i: 'noSession', x: 0, y: 0, w: 3.5, h: 3.4 },
 	],
 	xs: [
-		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 2.5 },
-		{ i: 'lastActions', x: 2, y: 0, w: 3, h: 3 },
-		{ i: 'noSession', x: 5.5, y: 0, w: 2, h: 2.5 },
+		{ i: 'reuniones', x: 4, y: 0, w: 1.9, h: 2.3 },
+		{ i: 'lastActions', x: 0, y: 5, w: 3.5, h: 3.4 },
+		{ i: 'noSession', x: 0, y: 0, w: 3.5, h: 3.4 },
 	],
 	xxs: [
 		{ i: 'reuniones', x: 0, y: 0, w: 2, h: 3 },

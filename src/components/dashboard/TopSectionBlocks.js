@@ -17,11 +17,9 @@ import UltimasAcciones from "./UltimasAcciones";
 import ButtonsDirectAccess from "./ButtonsDirectAccess";
 import _ from "lodash";
 import RGL, { WidthProvider, Responsive } from "react-grid-layout";
-//import RGL, { WidthProvider, Responsive } from "../../displayComponents/react-grid-layout-master";
-// import Responsive from "../../displayComponents/react-grid-layout-master/build/ResponsiveReactGridLayout";
-// import WidthProvider from "../../displayComponents/react-grid-layout-master/build/components/WidthProvider";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import SinSesion from "./SinSesion"
 
 
 import withWindowSize from "../../HOCs/withWindowSize";
@@ -87,11 +85,12 @@ class TopSectionBlocks extends React.Component {
 	handleStop = (layout, oldItem, newItem, placeholder, e, element, grid, nameLayout) => {
 		e.preventDefault()
 		e.stopPropagation()
-		
+
 		let breakpoint = this.state.breakpoint
 		if (grid === 2) {
 			grid = 2
 			breakpoint = this.state.breakpointHorizontal
+			layout = layoutPositivo(layout)
 		}
 		this.props.itemStorage("", "", layout, grid, nameLayout, breakpoint);
 	}
@@ -122,10 +121,17 @@ class TopSectionBlocks extends React.Component {
 		let allViews = ["agenda", "month"]
 		const { loading, councils, error, } = this.props.data;
 		let eventos = [];
+		let filtro = [5, 10, 20, 30]
 		if (!loading) {
 			//Si la dateEnd existe ponerla
 			eventos = councils.map(({ dateStart, dateEnd, name, state, step, id, __typename, companyId }) =>
 				({ start: new Date(dateStart), end: new Date(dateStart), title: name, state, step, id, __typename, companyId }))
+			if (filtro) {
+				eventos = Object.keys(eventos).filter(key => filtro.includes(eventos[key].state)).reduce((obj, key) => {
+					obj[key] = eventos[key];
+					return obj;
+				}, []);
+			}
 		}
 		const messages = { //TRADUCCION
 			allDay: 'Todo el dia',
@@ -190,7 +196,7 @@ class TopSectionBlocks extends React.Component {
 							text={'Panel devAdmin'}
 						/>
 					</GridItem>
-				 } 
+				}
 				{!isMobile &&
 
 					<GridItem xs={12} md={12} lg={12} style={{ height: '100%', minHeight: "800px" }}>
@@ -251,7 +257,7 @@ class TopSectionBlocks extends React.Component {
 												compactType={"horizontal"}
 												style={{ width: "100%", display: "flex", height: "100%" }}
 											>
-												<div key={"reuniones"} data-grid={statesItems[2][0]} >
+												<div key={"reuniones"}  data-grid={statesItems[2][0]} >
 
 													{statesItems[0].reuniones && (
 														<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
@@ -301,11 +307,11 @@ class TopSectionBlocks extends React.Component {
 															) : (
 																	<div>
 																		<UltimasAcciones
+																			estados={[5, 10, 20, 30]}
 																			translate={translate}
 																			reuniones={councils}
 																		/>
 																	</div>
-
 																)
 															}
 														</div>
@@ -315,26 +321,28 @@ class TopSectionBlocks extends React.Component {
 												<div key={"noSession"} data-grid={statesItems[2][2]}>
 
 													{statesItems[0].noSession && (
-														<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
+														<div style={{ overflow: "hidden", width: "420px", height: '475px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
 															{editMode && (
-																<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={() => this.props.itemStorage("noSession", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
+																<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={() => this.props.itemStorage("lastActions", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }} >
 																	<i className={"fa fa-times"}></i>
 																</div>
 															)}
-															<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b> Reuniones sin sesión </b></div> {/*TRADUCCION*/}
+															<div style={{ marginBottom: "0.5em", marginTop: "0.5em" }}><b>Reuniones sin sesion</b></div> {/*TRADUCCION*/}
 															{loading ? (
 																<div style={{
 																	width: '100%',
 																	marginTop: '8em',
-																	display: 'flex',
-																	alignItems: 'center',
-																	justifyContent: 'center'
 																}}>
 																	<LoadingSection />
 																</div>
 															) : (
-																	<div style={{ width: "170px", height: '220px', ...stylesGrafica.grafica }}>
-																		{/* <Grafica textCentral={"Reuniones"} translate={translate} info={info} totalReuniones={totalReuniones}></Grafica>TRADUCCION */}
+																	<div>
+																		<SinSesion
+
+																			translate={translate}
+																			reuniones={councils}
+																			company={company}
+																		/>
 																	</div>
 
 																)
@@ -407,7 +415,7 @@ class TopSectionBlocks extends React.Component {
 												<CouncilDetails council={this.state.reunion} translate={this.props.translate} inIndex={true} />
 											}
 											title={translate.meeting_header}
-											widthModal={{ width: "75%" }}
+											widthModal={{width:"50%"}}
 										/>
 									</div>
 								)}
@@ -449,7 +457,7 @@ export default compose(
 	graphql(councils, {
 		options: props => ({
 			variables: {
-				state: [5, 10, 20, 30],
+				state: [5, 10, 20, 30, 40, 60, 70],
 				companyId: props.company.id,
 				isMeeting: false,
 				active: 1
@@ -459,6 +467,16 @@ export default compose(
 	})
 )(TopSectionBlocks);
 
-
-
-
+	// CANCELED: -1,
+	// DRAFT: 0,
+	// PRECONVENE: 3,
+	// SAVED: 5,
+	// PREPARING: 10,
+	// ROOM_OPENED: 20,
+	// APPROVING_ACT_DRAFT: 30,
+	// FINISHED: 40,
+	// APPROVED: 60,
+	// FINAL_ACT_SENT: 70,
+	// NOT_CELEBRATED: 80,
+	// FINISHED_WITHOUT_ACT: 90,
+	// MEETING_FINISHED: 100

@@ -27,22 +27,22 @@ export const OptionsDisplay = ({ council, translate }) => (
 
 export const OptionsDisplayIconIzq = ({ council, translate }) => (
     <div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} className={"colorTable"}>
             <div style={{ width: "30px" }}>{getSelectionIcon(council.confirmAssistance)}</div><span style={{width:"100%"}}>{translate.confirm_assistance}</span>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }}  className={"colorTable"}>
             <div style={{ width: "30px" }}>{getSelectionIcon(council.councilType ? 0 : 1)}</div><span style={{width:"100%"}}>{translate.room_video_broadcast}</span>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} className={"colorTable"}>
             <div style={{ width: "30px" }}> {getSelectionIcon(council.fullVideoRecord)} </div><span style={{width:"100%"}}>{translate.full_video_record}</span>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} className={"colorTable"}>
             <div style={{ width: "30px" }}>{getSelectionIcon(council.autoClose)}  </div> <span style={{width:"100%"}}>{translate.auto_close}</span>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} className={"colorTable"}>
             <div style={{ width: "30px" }}></div> <span style={{width:"100%"}}> {`${translate.security}: ${getSecurityTypeText(council.securityType, translate)}`}</span>
         </div>
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex' }} className={"colorTable"}>
             <div style={{ width: "30px" }}> {getSelectionIcon(council.approveActDraft)}</div> <span style={{width:"100%"}}>{translate.approve_act_draft_at_end}</span>
         </div>
     </div>

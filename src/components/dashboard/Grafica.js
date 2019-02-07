@@ -99,7 +99,7 @@ class Grafica extends React.Component {
 		};
 		if (totalReuniones) {
 			return (
-				<div style={{ width: "90%", height: '220px', ...stylesGrafica }}>{/*width: "170px"*/}
+				<div style={{ width: "100%", height: '220px', ...stylesGrafica }}>{/*width: "170px"*/}
 					<Doughnut
 						data={data}
 						width={170}

@@ -11,7 +11,7 @@ class ContentButtonDirectAccess extends React.Component {
 		const card =
 			<div
 				style={{
-					...(!disabled ? {} : { filter: 'grayscale(100%)' })
+					...(!disabled ? {} : { filter: 'grayscale(80%)' })
 				}}
 			>
 				{children}

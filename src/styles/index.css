@@ -218,7 +218,9 @@ h4 {
 }
 
 /*Calendario*/
-.rbc-agenda-table tbody td, .rbc-agenda-table tbody tr {background: #f5f5f5; color: black;}
+.rbc-agenda-table tbody td, .rbc-agenda-table tbody tr { color: black;}
+.rbc-agenda-table tbody tr:nth-child(odd) { background: #f5f5f5;}
+.rbc-agenda-date-cell {background: #f5f5f5;}
 button.rbc-cell-20{display: flex;color: white; background:#9c27b0}
 button.rbc-cell-20 div {margin-left: 2em;}
 button.rbc-cell-20::before {content: "\f0c0"; position: absolute;font-family: FontAwesome;font-size: 18px;color: white;}
@@ -276,3 +278,6 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     position: relative;
     height: 700px;
   }
+
+
+.colorTable:nth-child(odd) { background: gainsboro }

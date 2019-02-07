@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, Grid, GridItem, CollapsibleSection, AgendaNumber } from '../../../displayComponents';
+import { LoadingSection, Grid, GridItem, CollapsibleSection, AgendaNumber, TabsScreen } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { Paper } from 'material-ui';
 import { OptionsDisplay, OptionsDisplayIconIzq } from './OptionsDisplay';
@@ -56,7 +56,7 @@ class CouncilDetails extends React.Component {
 
         const { council } = this.props.data;
         const { translate, inIndex } = this.props;
-        
+
 
         return (
             <div>
@@ -178,106 +178,116 @@ class CouncilDetails extends React.Component {
                         </div>
                     </div>
                 ) : (
-                        <div style={{ display: "flex" }}>
-                            <Grid>
-                                <GridItem xs={12} md={6} lg={4} style={{ marginTop: "1em" }}>
-                                    {/* <div style={{ width: "33%", marginRight: "2em" }}> */}
+                        <div style={{ paddingTop: "1em" }}>
+                            <TabsScreen
+                                uncontrolled={true}
+                                stylesTabPane={{padding: '1em', minHeight: '425px'}}
+                                stylesInTabPane={{ width: '90%', margin: '0 auto' }}
+                                stylesTab={{ paddingBottom: "0" }}
+                                tabsInfo={[
+                                    {
+                                        text: translate.agenda,
+                                        component: () => {
+                                            return (
+                                                <div style={{ marginTop: "0.8em" }}>
+                                                    <div style={{ display: "flex", marginLeft: '58px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: "10px" }}>
+                                                        <div>{translate.certificate_title}</div>
+                                                        <div style={{ marginRight: "57px" }}>{translate.type}</div>
+                                                    </div>
 
-                                        <div style={{
-                                            fontWeight: '700',
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            fontSize: "16px"
-                                        }}>
-                                            {translate.agenda}
-                                        </div>
+                                                    {this.props.data.agendas.map((agenda, index) => (
+                                                        <React.Fragment key={`agendaSelector${agenda.id}`}>
+                                                            {index > 0 && (
+                                                                <div
+                                                                    style={{
+                                                                        margin: 0,
+                                                                        padding: "11px",
+                                                                        width: "1px",
+                                                                        borderRight: `3px solid ${getSecondary()}`,
+                                                                        height: "3em",
+                                                                    }}
+                                                                />
+                                                            )}
+                                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                                <AgendaNumber
+                                                                    index={index + 1}
+                                                                    open={agenda.pointState === 1}
+                                                                    activeColor={getPrimary()}
+                                                                    voting={agenda.votingState === 1 && agenda.subjectType !== 0}
+                                                                    translate={translate}
+                                                                    secondaryColor={getSecondary()}
+                                                                    moreStyles={{ minWidth: '44px', minHeight: '44px', width: "50px", height: "44px", maxWidth: "53px", maxHeight: "44px", borderRadius: "2em" }}
+                                                                    onlyShowCalendar={true}
 
-                                        <div style={{ marginTop: "0.8em" }}>
-                                            <div style={{ display: "flex", marginLeft: '65px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: "10px" }}>
-                                                <div>{translate.certificate_title}</div>
-                                                <div style={{ marginRight: "57px" }}>{translate.type}</div>
-                                            </div>
-
-                                            {this.props.data.agendas.map((agenda, index) => (
-                                                <React.Fragment key={`agendaSelector${agenda.id}`}>
-                                                    {index > 0 && (
-                                                        <div
-                                                            style={{
-                                                                margin: 0,
-                                                                padding: "11px",
-                                                                width: "1px",
-                                                                borderRight: `3px solid ${getSecondary()}`,
-                                                                height: "3em",
-                                                            }}
-                                                        />
-                                                    )}
-                                                    <div style={{ display: "flex", alignItems: "center" }}>
-                                                        <AgendaNumber
-                                                            index={index + 1}
-                                                            open={agenda.pointState === 1}
-                                                            activeColor={getPrimary()}
-                                                            voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-                                                            translate={translate}
-                                                            secondaryColor={getSecondary()}
-                                                            moreStyles={{    minWidth: '44px', minHeight: '44px', width: "53px", height: "44px",maxWidth: "53px", maxHeight: "44px", borderRadius: "2em" }}
-                                                            onlyShowCalendar={true}
-
-                                                        />
-                                                        <div style={{ marginLeft: "15px", display: "flex", justifyContent: 'space-between', width: "100%" }}>
-                                                            <div>
-                                                                <div style={{ whiteSpace: 'nowrap', maxWidth: '160px', maxHeight: '45px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                                                    {agenda.agendaSubject}
-                                                                </div>
-                                                                {/* <div>
+                                                                />
+                                                                <div style={{ marginLeft: "15px", display: "flex", justifyContent: 'space-between', width: "100%" }}>
+                                                                    <div>
+                                                                        <div style={{ whiteSpace: 'nowrap', maxWidth: '215px', maxHeight: '45px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                            {agenda.agendaSubject}
+                                                                        </div>
+                                                                        {/* <div>
                                                             {agenda.description}
                                                         </div> */}
+                                                                    </div>
+                                                                    <div style={{ width: "150px", textAlign: "center" }}>
+                                                                        <div>{this.getTypeText(agenda.subjectType)}</div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <div style={{ width: "150px", textAlign: "center" }}>
-                                                                <div>{this.getTypeText(agenda.subjectType)}</div>
-                                                            </div>
-                                                        </div>
+                                                        </React.Fragment>
+                                                    ))}
+                                                </div>
+                                            );
+                                        }
+                                    },
+                                    {
+                                        text: translate.options,
+                                        component: () => {
+                                            return (
+                                                <React.Fragment>
+                                                    <div style={{
+                                                        fontWeight: '700',
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        fontWeight: ' 700'
+                                                    }}>
+                                                        {translate.options}
+                                                    </div>
+                                                    <div style={{ marginTop: "1em" }}>
+                                                        <OptionsDisplayIconIzq council={council} translate={translate} />
+
                                                     </div>
                                                 </React.Fragment>
-                                            ))}
-                                        </div>
-                                    {/* </div> */}
-                                </GridItem>
-                                <GridItem xs={12} md={6} lg={4} style={{ marginTop: "1em" }}>
-                                    {/* <div style={{ width: "33%", marginRight: "2em" }}> */}
-                                        <div style={{
-                                            fontWeight: '700',
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            fontWeight: ' 700'
-                                        }}>
-                                            {translate.options}
-                                        </div>
-                                        <div style={{ marginTop: "1em" }}>
-                                            <OptionsDisplayIconIzq council={council} translate={translate} />
-
-                                        </div>
-                                    {/* </div> */}
-                                </GridItem>
-                                <GridItem xs={12} md={12} lg={4} style={{ marginTop: "1em" }}>
-                                    {/* <div style={{ width: "33%" }}> */}
-                                        <div style={{
-                                            fontWeight: '700',
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            fontWeight: ' 700'
-                                        }}>
-                                            {translate.council_type}
-                                        </div>
-                                        <div style={{ marginTop: "1em" }}>
-                                            <StatuteDisplayIconsIzq
-                                                statute={council.statute}
-                                                translate={translate}
-                                                quorumTypes={this.props.data.quorumTypes}
-                                            />
-                                        </div>
-                                    {/* </div> */}
-                                </GridItem>
-                            </Grid>
+                                            );
+                                        }
+                                    },
+                                    {
+                                        text: translate.council_type,
+                                        component: () => {
+                                            return (
+                                                <React.Fragment>
+                                                    <div style={{
+                                                        fontWeight: '700',
+                                                        display: 'flex',
+                                                        justifyContent: 'space-between',
+                                                        fontWeight: ' 700'
+                                                    }}>
+                                                        {translate.council_type}
+                                                    </div>
+                                                    <div style={{ marginTop: "1em" }}>
+                                                        <StatuteDisplayIconsIzq
+                                                            statute={council.statute}
+                                                            translate={translate}
+                                                            quorumTypes={this.props.data.quorumTypes}
+                                                        />
+                                                    </div>
+                                                </React.Fragment>
+                                            );
+                                        }
+                                    },
+                                ]
+                                }
+                            ></TabsScreen>
                         </div>
                     )}
             </div>

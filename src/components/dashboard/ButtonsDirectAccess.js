@@ -135,13 +135,13 @@ class ButtonsDirectAccess extends React.Component {
 				</GridItem>
 
 				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? "1em" : "", display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-					<Card elevation={6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
+					<Card elevation={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? 0 : 6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
 						<ContentButtonDirectAccess
 							link={`/company/${company.id}/book`}
 							disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 							disabledOnClick={this.showCouncilsModal}
 						>
-							<div style={{ background: "#005184", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
+							<div style={{ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? "#0051844a" : "#005184", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
 								<Icon
 									className="material-icons"
 									style={{
@@ -152,7 +152,7 @@ class ButtonsDirectAccess extends React.Component {
 									{'contacts'}
 								</Icon>
 							</div>
-							<div style={{ marginTop: "1px", background: darkGrey, maxWidth: "155px", padding: '1em', borderRadius: "0px 0px 5px 5px", color: 'white' }}>
+							<div style={{ marginTop: "1px", background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? "#3b3b3b4a" : darkGrey, maxWidth: "155px", padding: '1em', borderRadius: "0px 0px 5px 5px", color: 'white' }}>
 								{translate.book}
 							</div>
 						</ContentButtonDirectAccess>
@@ -202,16 +202,21 @@ class ButtonsDirectAccess extends React.Component {
 				</GridItem>
 
 				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? "1em" : "", display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
-					<Card elevation={6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
+					<Card elevation={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? 0 : 6} style={{ width: "155px", borderRadius: "5px 5px 5px 5px", backgroundColor: "transparent" }} >
 						<ContentButtonDirectAccess
 							link={`/company/${company.id}/book`}
 							disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 							disabledOnClick={this.showCouncilsModal}
 						>
-							<div style={{ background: "#cecece", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
-								<img src={logo} style={{ height: '4.4em', width: 'auto' }} alt="councilbox-logo" />
+							<div style={{ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? "#cecece4a" : "#cecece", maxWidth: "155px", padding: "1em", borderRadius: "5px 5px 0px 0px" }}>
+								<img src={logo} style={{
+									height: '4.4em',
+									 width: 'auto',
+									 opacity: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? "0.5" : "1"
+								}}
+									alt="councilbox-logo" />
 							</div>
-							<div style={{ marginTop: "1px", background: darkGrey, maxWidth: "155px", padding: '1em', borderRadius: "0px 0px 5px 5px", color: 'white' }}>
+							<div style={{ marginTop: "1px", background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? "#3b3b3b4a" : darkGrey, maxWidth: "155px", padding: '1em', borderRadius: "0px 0px 5px 5px", color: 'white' }}>
 								{translate.dashboard_new}
 							</div>
 

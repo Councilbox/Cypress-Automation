@@ -7,13 +7,15 @@ import { MenuItem, Divider } from "material-ui";
 import { DropDownMenu, Icon, Link, BasicButton } from "../../displayComponents";
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from "material-ui";
+import { isMobile } from "react-device-detect";
+
 
 const secondary = getSecondary();
 
 const styles = { whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }
- 
+
 const UserMenu = ({ user, actions, translate, company }) => {
-	console.log(company);
+
 	return (
 		company ? (
 			<DropDownMenu
@@ -47,7 +49,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 				}}
 				items={
 					<Fragment >
-						<div style={{ margin: "1em", width: "91%", minWidth: "300px" }} >
+						<div style={{ margin: "1em", width: "91%", minWidth: isMobile ? "270px" : '300px' }} >
 							<Link to={`/user/${user.id}`} >
 								<MenuItem style={{ height: '100%' }}>
 									<div style={{ display: "flex", paddingBottom: "0.5em", justifyContent: 'center', alignItems: 'center', width: "100%" }}>
@@ -144,6 +146,23 @@ const UserMenu = ({ user, actions, translate, company }) => {
 									</div>
 								</MenuItem>
 							</Link>
+							{user.roles === 'devAdmin' &&
+								<React.Fragment>
+									<Divider />
+									<Link to={`/admin`} >
+										<MenuItem style={{ height: '100%', background: "#2d2d2d" }}>
+											<div style={{ display: "flex", paddingBottom: "0.5em", paddingTop: "0.5em", justifyContent: 'center', alignItems: 'center', width: "100%" }}>
+												<div style={{ width: '90%', marginRight: "3%", color: "white" }}>
+													Panel devAdmin
+												</div>
+												<div style={{ width: '10%', alignItems: "center", textAlign: "right" }}>
+													<i className="fa fa-user-secret" aria-hidden="true" style={{ cursor: "pointer", fontSize: "1.6em", color: 'white' }}></i>
+												</div>
+											</div>
+										</MenuItem>
+									</Link>
+								</React.Fragment>
+							}
 							<Divider />
 							<MenuItem onClick={() => actions.logout()} style={{ height: "100%" }}>
 								<div style={{ display: "flex", paddingTop: "0.5em", paddingBottom: "0.5em", justifyContent: 'flex-end', width: "100%" }}>

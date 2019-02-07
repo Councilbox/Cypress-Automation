@@ -2,14 +2,15 @@ import React from "react";
 import {
 	AlertConfirm,
 	BasicButton,
-	CollapsibleSection
+	CollapsibleSection,
+	Link
 } from "../../displayComponents";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 
 
 
-class UltimasAcciones extends React.Component {
+class SinSesion extends React.Component {
 
 	state = {
 		modalAcciones: false,
@@ -34,10 +35,9 @@ class UltimasAcciones extends React.Component {
 	}
 
 	render() {
-		const { translate, reuniones, estados } = this.props;
+		const { translate, reuniones, estados, company } = this.props;
 		//Filtramos primero por los estados 5,10,20,30
 		let reunionesFiltradasPorEstado
-		console.log(reuniones)
 		if (estados) {
 			reunionesFiltradasPorEstado = Object.keys(reuniones).filter(key => estados.includes(reuniones[key].state)).reduce((obj, key) => {
 				obj[key] = reuniones[key];
@@ -53,6 +53,9 @@ class UltimasAcciones extends React.Component {
 			}
 			return obj;
 		}, {});
+
+		let textStates = { 5: "Guardada", 10: "Preparada", 20: "Celebrándose", 30: "Celebrándose", 40: "Finalizada" }//TRADUCCIONES
+		console.log(reuniones)
 		if (reuniones.length) {
 			return (
 				<React.Fragment >
@@ -77,11 +80,14 @@ class UltimasAcciones extends React.Component {
 									</div>
 									<div style={{ display: "flex", justifyContent: "flex-end", marginTop: "5px" }}>
 										<div>
-											<BasicButton
-												claseHover={"classHover"}
-												backgroundColor={{ background: "none", boxShadow: "none", border: "1px solid gainsboro" }}
-												text={"Continuar editando"} //TRADUCCION
-											/>
+											<Link to={`/company/${company.id}/council/${reunionesFiltradas[key].id}`}>
+												<BasicButton
+													buttonStyle={{ minWidth: '155px' }}
+													claseHover={"classHover"}
+													backgroundColor={{ background: "none", boxShadow: "none", border: "1px solid gainsboro" }}
+													text={textStates[reunionesFiltradas[key].state]} //TRADUCCION
+												/>
+											</Link>
 										</div>
 									</div>
 								</div>
@@ -122,12 +128,22 @@ class UltimasAcciones extends React.Component {
 												</div>
 												<div style={{ display: "flex", justifyContent: "flex-end", marginTop: "10px", marginRight: "20px" }}>
 													<div>
-														<BasicButton
+														<Link to={`/company/${company.id}/council/${reuniones[key].id}`}>
+															<BasicButton
+																buttonStyle={{ minWidth: '155px' }}
+																claseHover={"classHover"}
+																backgroundColor={{ background: "none", boxShadow: "none", border: "1px solid gainsboro" }}
+																text={textStates[reuniones[key].state]} //TRADUCCION
+																onClick={(event) => this.onClickContinuarEditando(event, reuniones[key].id)}
+															/>
+														</Link>
+														{/* <BasicButton
+															buttonStyle={{ minWidth: '155px' }}
 															claseHover={"classHover"}
 															onClick={(event) => this.onClickContinuarEditando(event, reuniones[key].id)}
 															backgroundColor={{ background: "none", boxShadow: "none", border: "1px solid gainsboro" }}
-															text={"Continuar editando"} //TRADUCCION
-														/>
+															text={"Celebrandose"} //TRADUCCION
+														/> */}
 													</div>
 												</div>
 											</div>
@@ -161,4 +177,4 @@ class UltimasAcciones extends React.Component {
 
 
 
-export default UltimasAcciones;
+export default SinSesion;
