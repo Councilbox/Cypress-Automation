@@ -33,7 +33,7 @@ class Sidebar extends React.Component {
 			hovered: true
 		})
 	}
-	
+
 	leave = () => {
 		console.log("Salgo")
 		this.setState({
@@ -120,8 +120,8 @@ class Sidebar extends React.Component {
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
-				position:isMobile ? "":"absolute",
-				top:"0px",
+				position: isMobile ? "" : "absolute",
+				top: "0px",
 				...(this.showVerticalLayout() ? { margin: 0 } : {}),
 			}}
 		>
@@ -224,7 +224,10 @@ class Sidebar extends React.Component {
 									</span>
 								</ListItem>
 								{route.name === "dashboard" && (
-									<LateralMenuOptions company={this.props.company} />
+									<LateralMenuOptions company={this.props.company} clase={"dropdown-container"} cambioMenu={"dashboard"} />
+								)}
+								{route.name === "council" && (
+									<LateralMenuOptions company={this.props.company} clase={"dropdown-container-reunion"} cambioMenu={"council"}/>
 								)}
 							</NavLink>
 						);
@@ -417,7 +420,7 @@ class Sidebar extends React.Component {
 								width: '100%',
 								flexDirection: 'row',
 								alignItems: 'center'
-							} : { height: 'calc(100vh - 75px)',position: "relative" })
+							} : { height: 'calc(100vh - 75px)', position: "relative" })
 						}}
 					>
 						{this.links()}

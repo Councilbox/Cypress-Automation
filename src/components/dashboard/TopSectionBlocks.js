@@ -20,12 +20,11 @@ import RGL, { WidthProvider, Responsive } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import SinSesion from "./SinSesion"
-
-
-import withWindowSize from "../../HOCs/withWindowSize";
+import { Tooltip } from "material-ui";
 
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
+
 
 //añadir en node modules utils antes del return  / l.y = Math.max(l.y, 0); l.x = Math.max(l.x, 0); / para que funcione todo bien
 
@@ -168,6 +167,7 @@ class TopSectionBlocks extends React.Component {
 			}
 		}
 
+
 		const anoActual = new Date().getFullYear();
 
 		///Se cambia error minimos por alerta  en /councilbox_client/node_modules/react-grid-layout/build/GridItem.js
@@ -257,7 +257,7 @@ class TopSectionBlocks extends React.Component {
 												compactType={"horizontal"}
 												style={{ width: "100%", display: "flex", height: "100%" }}
 											>
-												<div key={"reuniones"}  data-grid={statesItems[2][0]} >
+												<div key={"reuniones"} data-grid={statesItems[2][0]} >
 
 													{statesItems[0].reuniones && (
 														<div style={{ overflow: "hidden", width: "220px", height: '300px', ...stylesGrafica.contenedor }} className={editMode ? "shakeItemSmall" : ""}>
@@ -371,7 +371,7 @@ class TopSectionBlocks extends React.Component {
 											</div>
 										) : (
 												<React.Fragment>
-													<div style={{ ...stylesGrafica.contenedor, minHeight: "580px" }}>
+													<div style={{ ...stylesGrafica.contenedor, minHeight: "480px" }}>
 														{editMode && (
 															<div onMouseDown={this.stopPropagation} onTouchStart={this.stopPropagation} className={'shakeIcon'} onClick={() => this.props.itemStorage("calendar", false)} style={{ position: "absolute", top: "0", right: "5px", cursor: "pointer" }}>
 																<i className={"fa fa-times"}></i>
@@ -389,12 +389,13 @@ class TopSectionBlocks extends React.Component {
 															resizable
 															onSelectEvent={this.selectEvent}
 															components={{
+																event: Event,
 																agenda: {
 																	event: AgendaEvent,
 																}
 
 															}}
-															style={{ height: "580px" }}
+															style={{ height: "470px", width: "80%", margin: "0 auto" }}
 															eventPropGetter={
 																(event, start, end, isSelected) => {
 																	return {
@@ -415,7 +416,7 @@ class TopSectionBlocks extends React.Component {
 												<CouncilDetails council={this.state.reunion} translate={this.props.translate} inIndex={true} />
 											}
 											title={translate.meeting_header}
-											widthModal={{width:"50%"}}
+											widthModal={{ width: "50%" }}
 										/>
 									</div>
 								)}
@@ -429,6 +430,21 @@ class TopSectionBlocks extends React.Component {
 		);
 	}
 }
+
+function Event({ event }) {
+	const objectNames = {5: "Convocadas", 10: "Convocadas", 20: "En celebración", 30: "En celebración"} //TRADUCCION
+	const objectClass = {5: "fa fa-calendar-o", 10: "fa fa-calendar-o", 20: "fa fa-users", 30: "fa fa-users"}
+	return (
+		<div style={{display: "flex"}}>
+			<Tooltip title={objectNames[event.state]}>
+				<div style={{marginRight: "7px"}}><i class={objectClass[event.state]}></i></div>
+			</Tooltip>
+			<div style={{textOverflow: 'ellipsis',whiteSpace: 'nowrap',overflow: 'hidden'}}>{event.title}</div>
+		</div>
+	)
+
+}
+
 
 function layoutPositivo(layout) {
 	let aux = [];

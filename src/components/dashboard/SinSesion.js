@@ -55,7 +55,7 @@ class SinSesion extends React.Component {
 		}, {});
 
 		let textStates = { 5: "Guardada", 10: "Preparada", 20: "Celebrándose", 30: "Celebrándose", 40: "Finalizada" }//TRADUCCIONES
-		console.log(reuniones)
+	
 		if (reuniones.length) {
 			return (
 				<React.Fragment >

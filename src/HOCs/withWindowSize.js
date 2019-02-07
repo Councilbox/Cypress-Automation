@@ -12,13 +12,15 @@ const withWindowSize = WrappedComponent => {
 	return class WithWindowSize extends Component {
 		state = {
 			size: "lg",
-			innerHeight: window.innerHeight
+			innerHeight: window.innerHeight,
+			innerWidth: window.innerWidth
 		};
 
 
 
 		updateSize = () => {
 			let state = {...this.state};
+			state.innerWidth = window.innerWidth 
 			if (window.innerWidth < 960) {
 				state.size = "xs";
 			} else if (window.innerWidth < 1200) {
@@ -52,7 +54,7 @@ const withWindowSize = WrappedComponent => {
 					}
 				}
 
-				if(state.size !== this.state.size || state.innerHeight !== this.state.innerHeight || state.orientation !== this.state.orientation){
+				if(state.size !== this.state.size || state.innerHeight !== this.state.innerHeight || state.innerWidth !== this.state.innerWidth || state.orientation !== this.state.orientation){
 					this.setState({
 						...state,
 					});
@@ -84,6 +86,7 @@ const withWindowSize = WrappedComponent => {
 					updateSize={this.updateSize}
 					orientation={this.state.orientation}
 					innherHeight={this.state.innerHeight}
+					innerWidth={this.state.innerWidth}
 					windowSize={this.state.size}
 					{...this.props}
 				/>

@@ -37,7 +37,6 @@ class UltimasAcciones extends React.Component {
 		const { translate, reuniones, estados } = this.props;
 		//Filtramos primero por los estados 5,10,20,30
 		let reunionesFiltradasPorEstado
-		console.log(reuniones)
 		if (estados) {
 			reunionesFiltradasPorEstado = Object.keys(reuniones).filter(key => estados.includes(reuniones[key].state)).reduce((obj, key) => {
 				obj[key] = reuniones[key];
