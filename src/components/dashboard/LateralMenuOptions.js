@@ -12,7 +12,9 @@ class LateralMenuOptions extends React.Component {
 
 
 	render() {
+
 		const { translate, company, stylesMenu, clase, cambioMenu } = this.props;
+		console.log(translate)
 		if (cambioMenu == "council") {
 			return (
 				<div className={clase} style={{
@@ -41,38 +43,41 @@ class LateralMenuOptions extends React.Component {
 							justifyContent: 'center',
 						}}>
 							<LateralOptions
-								customIcon={<i className="fa-pencil-square-o"></i>}
-								text={"Borradores"}//translate.council_types}
-								link={`/company/${company.id}/statutes`}
-								style={{ marginTop: "10px" }}
+								customIcon={<i className="fa fa-pencil-square-o"></i>}
+								text={translate.drafts}
+								link={`/company/${company.id}/councils/drafts`}
+								style={{  marginTop: "10px", color: "#ffffffcc" }}
 							/>
 
-							<LateralOptions
-								icon={'contacts'}
-								text={translate.book}
-								link={`/company/${company.id}/book`}
+							<LateralOptions 
+								customIcon={<i className="fa fa-calendar-o"></i>}
+								text={translate.companies_calendar}
+								link={`/company/${company.id}/councils/calendar`}
+								style={{ color: "#ffffffcc" }}
 							/>
 							<LateralOptions
-								link={`/company/${company.id}/censuses`}
-								icon={'person'}
-								text={translate.censuses}
+								link={`/company/${company.id}/councils/live`}
+								customIcon={<i className="fa  fa-users"></i>}
+								text={translate.companies_live}
+								style={{ color: "#ffffffcc" }}
 							/>
 							<LateralOptions
-								link={`/company/${company.id}/drafts`}
-								icon={'class'}
-								text={translate.drafts}
+								link={`/company/${company.id}/councils/act`}
+								customIcon={<i className="fa fa-clipboard"></i>}
+								text={translate.companies_writing}
+								style={{ color: "#ffffffcc" }}
 							/>
 							<LateralOptions
-								link={`/company/${company.id}/council/new`}
-								icon={'Nueva reunion'}
-								customIcon={<img src={logo} style={{ height: '100%', width: '100%' }} alt="councilbox-logo" />}
-								text={translate.dashboard_new}
+								link={`/company/${company.id}/councils/confirmed`}
+								customIcon={<i className="fa fa-clipboard"></i>}
+								text={translate.act_book}
+								style={{ color: "#ffffffcc" }}
 							/>
 							<LateralOptions
-								link={`/company/${company.id}/meeting/new`}
-								icon={'video_call'}
-								text={translate.start_conference}
-								style={{ marginBottom: "10px" }}
+								link={`/company/${company.id}/councils/history`}
+								customIcon={<i className="fa fa-history"></i>}
+								text={translate.dashboard_historical}
+								style={{ marginBottom: "10px", color: "#ffffffcc" }}
 							/>
 						</div>
 					</div>
