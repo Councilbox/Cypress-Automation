@@ -6,6 +6,7 @@ import { darkGrey } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import AdminAnnouncement from '../../../participant/council/AdminAnnouncement';
 import { useInterval } from '../../../../hooks';
+import { LoadingSection } from '../../../../displayComponents';
 
 const rand = Date.now();
 
@@ -13,26 +14,81 @@ if(!sessionStorage.getItem('adminId')){
     sessionStorage.setItem('adminId', rand);
 }
 
-const CMPVideoIFrame = ({ data, ...props }) => {
+const CMPVideoIFrame = props => {
+    const [loading, setLoading] = React.useState(true);
+    const [data, setData] = React.useState(null);
     const config = React.useContext(ConfigContext);
+
     React.useEffect(() => {
-        if(!data.loading){
-            if(!props.videoURL){
-                props.setVideoURL(data.error? 'Error' : data.roomVideoURL);
+        if(!data){
+            fetchVideoURL(setData, props.client, );
+        }
+    }, []);
+
+    console.log(data);
+
+
+    React.useEffect(() => {
+        if(!loading){
+            if(data.errors){
+                console.log('already', data.errors[0].message === 'Admin already in the room');
+                props.setVideoURL(data.errors[0].message === 'Admin already in the room'? 'Admin already logued' : 'Error');
+            } else {
+                console.log('deberia enviar el puto ping');
+                sendAdminPing();
+                props.setVideoURL(data.roomVideoURL);
             }
         }
-    }, [data.loading]);
+    }, [loading]);
 
-    useInterval(() => {
-        if(props.videoURL !== 'Error'){
-            props.adminPing({
-                variables: {
-                    councilId: props.council.id,
-                    adminId: sessionStorage.getItem('adminId')
-                }
-            })
+  /*   useInterval(() => {
+        if(props.videoURL !== 'Error' && props.videoURL !== 'Admin already logued'){
+            
+        }
+    }, data && data.roomVideoURL? 10000 : null); */
+
+    useInterval(async () => {
+        if(data && data.roomVideoURL){
+            sendAdminPing();
+        } else {
+            setLoading(true);
+            await fetchVideoURL();
+            setLoading(false);
         }
     }, 10000);
+
+    const fetchVideoURL = async () => {
+        setLoading(true);
+        const response = await props.client.query({
+            query: videoURL,
+            variables: {
+                councilId: props.council.id,
+                participantId: 'Mod',
+                adminId: sessionStorage.getItem('adminId')
+            },
+        });
+        setData({
+            ...response.data,
+            errors: response.errors
+        });
+        setLoading(false);
+    } 
+    
+
+    const sendAdminPing = () => {
+        console.log('envia ping');
+        props.adminPing({
+            variables: {
+                councilId: props.council.id,
+                adminId: sessionStorage.getItem('adminId')
+            }
+        });
+    }
+
+    if(loading){
+        return <LoadingSection />
+    }
+
 
     return (
         <div style={{width: '100%', height: '100%', position: 'relative'}}>
@@ -72,14 +128,41 @@ const CMPVideoIFrame = ({ data, ...props }) => {
                         backgroundColor: darkGrey,
                         height: '100%',
                         color: 'white'
-                    }}
+                    }}//TRADUCCION
                 >
-                    Lo sentimos, algo ha ocurrido con el servidor de video, disculpe las molestias
+                    {props.videoURL === 'Admin already logued'?
+                        <AdminAlreadyLoguedScreen translate={props.translate} />
+                    :
+                        <CMPVideoError translate={props.translate} />
+                    }
+                    
                 </div>
             }
         </div>
     )
 }
+
+const AdminAlreadyLoguedScreen = ({ translate}) => (
+    <div style={{width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{fontWeight: '700'}}>
+            Esta sala ya está abierta en otro dispositivo, reintentando...
+        </div>
+        <div style={{marginTop: '0.6em'}}>
+            <LoadingSection size={20} />
+        </div>
+    </div>
+)
+
+const CMPVideoError = ({ translate}) => (
+    <div style={{width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+        <div style={{fontWeight: '700'}}>
+            Lo sentimos, algo ha ocurrido con el servidor de video, disculpe las molestias
+        </div>
+        <div style={{marginTop: '0.6em'}}>
+            <LoadingSection size={20} />
+        </div>
+    </div>
+)
 
 const videoURL = gql`
     query RoomVideoURL($councilId: Int!, $participantId: String!, $adminId: String){
@@ -97,16 +180,7 @@ const adminPing = gql`
 `;
 
 export default compose(
-    graphql(videoURL, {
-        options: props => ({
-            variables: {
-                councilId: props.council.id,
-                participantId: 'Mod',
-                adminId: sessionStorage.getItem('adminId')
-            }
-        })
-    }),
     graphql(adminPing, {
         name: 'adminPing'
     })
-)(CMPVideoIFrame);
+)(withApollo(CMPVideoIFrame));

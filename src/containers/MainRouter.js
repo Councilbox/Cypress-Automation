@@ -10,7 +10,7 @@ import CompanyCensusPage from "../components/company/census/CompanyCensusPage";
 import SignatureRootPage from '../components/company/signatures/SignatureRootPage';
 import CreateSignature from '../components/company/signatures/CreateSignature';
 import UserSettingsPage from "../components/userSettings/UserSettingsPage";
-import CreateCouncil from "../components/CreateCouncil";
+import CreateCouncil from "../components/create/CreateCouncil";
 import MeetingCreateContainer from "../components/meeting/MeetingCreateContainer";
 import NewCompanyPage from "../components/company/new/NewCompanyPage";
 import LinkCompanyPage from "../components/company/link/LinkCompanyPage";

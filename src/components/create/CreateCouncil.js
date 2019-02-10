@@ -1,15 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import { LoadingMainApp, LiveToast, AlertConfirm, BlockButton, Grid, GridItem } from "../displayComponents";
+import { LoadingMainApp, LiveToast, AlertConfirm, BlockButton, Grid, GridItem } from "../../displayComponents";
 import { withRouter } from "react-router-dom";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { bHistory } from "../containers/App";
-import { ConfigContext } from '../containers/AppControl';
+import { bHistory } from "../../containers/App";
+import { ConfigContext } from '../../containers/AppControl';
 import { toast } from 'react-toastify';
-import withTranslations from "../HOCs/withTranslations";
-import { darkGrey } from "../styles/styles";
-import { getSecondary } from "../styles/colors";
+import withTranslations from "../../HOCs/withTranslations";
+import { darkGrey } from "../../styles/styles";
+import { getSecondary } from "../../styles/colors";
+import CreateWithSession from "./CreateWithSession";
+import CreateWithoutSession from "./CreateWithoutSession";
 
 
 //props.council.id
@@ -81,8 +83,15 @@ const CreateCouncil = props => {
 	);
 }
 
+const steps = {
+	NO_SESSION: 'NO_SESSION',
+	COUNCIL: 'COUNCIL'
+}
 
 const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
+	const [options, setOptions] = React.useState(null);
+	const [step, setStep] = React.useState(1);
+	const [title, setTitle] = React.useState("Seleccionar tipo de reunión");//TRADUCCION
 
 	const secondary = getSecondary();
 
@@ -90,7 +99,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		const response = await createCouncil({
 			variables: {
 				companyId: company,
-				type
+				type, 
+				councilOptions: options
 			}
 		});
 		const newCouncilId = response.data.createCouncil.id;
@@ -110,29 +120,57 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		}
 	}
 
+	const councilStep = () => {
+		sendCreateCouncil(0);
+		//setStep(steps.COUNCIL);
+	}
+
+	const noSessionStep = () => {
+		setStep(steps.NO_SESSION);
+	}
+
+	console.log(step !== steps.NO_SESSION);
+
 	return (
 		<AlertConfirm
 			open={true}
-			title="Seleccionar tipo de reunión"//TRADUCCION
+			title={title}
 			bodyText={
-				<Grid style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-					<GridItem xs={12} md={5} lg={5}>
-						<BlockButton
-							onClick={() => sendCreateCouncil(0)}
-							icon={<i className="fa fa-users" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-							text="Con sesión"
+				<React.Fragment>
+					{step === 1 &&
+						<Grid style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
+							<GridItem xs={12} md={5} lg={5}>
+								<BlockButton
+									onClick={councilStep}
+									icon={<i className="fa fa-users" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
+									text="Con sesión"
+								/>
+							</GridItem>
+							<GridItem xs={12} md={5} lg={5}>
+								<BlockButton
+									onClick={noSessionStep}
+									icon={<i className="fa fa-list-alt" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
+									text="Sin sesión"
+								/>
+							</GridItem>
+						</Grid>
+					}
+					{step === steps.NO_SESSION &&
+						<CreateWithoutSession
+							setOptions={setOptions}
+							translate={translate}
+							setTitle={setTitle}
 						/>
-					</GridItem>
-					<GridItem xs={12} md={5} lg={5}>
-						<BlockButton
-							onClick={() => sendCreateCouncil(2)}
-							icon={<i className="fa fa-list-alt" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-							text="Sin sesión"
-						/>
-					</GridItem>
-				</Grid>
+					}
+					{step === steps.COUNCIL &&
+						<CreateWithSession setOptions={setOptions} />
+					}
+				</React.Fragment>
+
 			}
-			hideAccept={true}
+			hideAccept={step !== steps.NO_SESSION}
+			buttonAccept={translate.accept}
+			acceptAction={() => sendCreateCouncil(2)}
 			requestClose={history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel='Cancelar'
@@ -148,8 +186,8 @@ const mapStateToProps = state => ({
 });
 
 export const createCouncil = gql`
-	mutation CreateCouncil($companyId: Int!, $type: Int) {
-		createCouncil(companyId: $companyId, type: $type) {
+	mutation CreateCouncil($companyId: Int!, $type: Int, $councilOptions: CouncilInput) {
+		createCouncil(companyId: $companyId, type: $type, councilOptions: $councilOptions) {
 			id
 		}
 	}

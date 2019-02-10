@@ -82,10 +82,8 @@ class StepNotice extends React.Component {
 						council: {
 							...council,
 							dateStart: council.dateStart? council.dateStart : new Date().toISOString(),
-							...prevState.data
 						}
-					}, nextProps.translate),
-					...prevState.data
+					}, nextProps.translate)
 				}
 			}
 		}
