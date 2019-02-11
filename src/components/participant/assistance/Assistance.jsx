@@ -24,7 +24,7 @@ const styles = {
 	},
 	mainContainer: {
 		width: "100%",
-		height: "calc(100% - 3em)",
+		height: "100%",
 		display: "flex",
 		flexDirection: "column",
 		alignItems: "center",
@@ -35,7 +35,7 @@ const styles = {
 	cardContainer: {
 		margin: "20px",
 		maxWidth: "100%",
-		height: '100%'
+		height: 'calc(100% - 40px)'
 	},
 	buttonSection: {
 		height: '3.5em',

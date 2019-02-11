@@ -14,6 +14,7 @@ if(!sessionStorage.getItem('adminId')){
     sessionStorage.setItem('adminId', rand);
 }
 
+
 const CMPVideoIFrame = props => {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState(null);
@@ -53,7 +54,7 @@ const CMPVideoIFrame = props => {
             variables: {
                 councilId: props.council.id,
                 participantId: 'Mod',
-                adminId: sessionStorage.getItem('adminId')
+                adminId: sessionStorage.getItem('adminId'),
             },
         });
         setData({
@@ -122,7 +123,6 @@ const CMPVideoIFrame = props => {
                     :
                         <CMPVideoError translate={props.translate} />
                     }
-                    
                 </div>
             }
         </div>
