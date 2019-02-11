@@ -211,6 +211,7 @@ export const councilAttendants = gql`
 				surname
 				state
 				delegationsAndRepresentations {
+					id
 					name
 					position
 					dni

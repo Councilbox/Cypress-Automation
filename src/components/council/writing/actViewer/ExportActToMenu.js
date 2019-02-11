@@ -48,12 +48,9 @@ class ExportActToMenu extends React.Component {
 				councilId: this.props.council.id
 			}
         });
-        const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
+        const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
         const postHtml = "</body></html>";
-        const body = response.data.councilAct.emailAct.replace(/[\u0080-\u024F]/g,
-            function(a) {
-              return '&#'+a.charCodeAt(0)+';';
-        }).replace(/<!--[\s\S]*?-->/g, '').replace(/style="page-break-before: always"/g, '').replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)').replace(/font-size: 11px/g, 'font-size: 12.5px');
+        const body = response.data.councilAct.emailAct.replace(/<!--[\s\S]*?-->/g, '').replace(/style="page-break-before: always"/g, '').replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)').replace(/font-size: 11px/g, 'font-size: 12.5px');
         const html = preHtml+body+postHtml;
         const css = (`\
             <style>\

@@ -6,40 +6,46 @@ import SortableList from "../../../displayComponents/SortableList";
 import { arrayMove } from "react-sortable-hoc";
 import * as CBX from '../../../utils/CBX';
 
-class ReorderPointsModal extends React.PureComponent {
-	state = {
-		reorderModal: false,
-		agendas: this.props.agendas
-	};
 
-	updateOrder = async () => {
-		const reorderedAgenda = this.state.agendas.map((agenda, index) => {
+const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
+	const [agendas, setAgendas] = React.useState(props.agendas);
+	const [reorderModal, setReorderModal] = React.useState(false);
+
+	React.useEffect(() => {
+		setAgendas(props.agendas);
+	}, [props.agendas]);
+
+	const updateOrder = async () => {
+		const reorderedAgenda = agendas.map((agenda, index) => {
 			const { __typename, attachments, votings, ...updatedAgenda } = agenda;
 			updatedAgenda.orderIndex = index + 1;
 			return updatedAgenda;
 		});
 
-		const response = await this.props.updateAgendas({
+		const response = await updateAgendas({
 			variables: {
 				agendaList: [...reorderedAgenda]
 			}
 		});
 		if (response) {
-			this.props.refetch();
-			this.setState({ reorderModal: false });
+			props.refetch();
+			setReorderModal(false);
 		}
 	};
 
-	onSortEnd = ({ oldIndex, newIndex }) => {
-		this.setState({
-			agendas: arrayMove(this.state.agendas, oldIndex, newIndex)
-		});
+	const reset = () => {
+		setReorderModal(false);
+		setAgendas(props.agendas);
+	}
+
+	const onSortEnd = ({ oldIndex, newIndex }) => {
+		setAgendas(arrayMove(agendas, oldIndex, newIndex));
 	};
 
-	_renderNewPointBody = () => {
+	const _renderNewPointBody = () => {
 		let opened = [];
 		let unOpened = [];
-		this.state.agendas.forEach((agenda) => {
+		agendas.forEach(agenda => {
 			if(CBX.agendaPointNotOpened(agenda)){
 				unOpened.push(agenda);
 			} else {
@@ -72,42 +78,33 @@ class ReorderPointsModal extends React.PureComponent {
 				<SortableList
 					items={unOpened}
 					offset={opened.length}
-					onSortEnd={this.onSortEnd}
+					onSortEnd={onSortEnd}
 					helperClass="draggable"
 				/>
 			</React.Fragment>
 		);
 	};
 
-	render() {
-		const { translate } = this.props;
-
-		return (
-			<React.Fragment>
-				<div
-					onClick={() => this.setState({ reorderModal: true })}
-					style={this.props.style}
-				>
-					{this.props.children}
-				</div>
-				<AlertConfirm
-					requestClose={() =>
-						this.setState({
-							reorderModal: false,
-							agendas: this.props.agendas
-						})
-					}
-					open={this.state.reorderModal}
-					acceptAction={this.updateOrder}
-					buttonAccept={translate.save}
-					scrollable={true}
-					buttonCancel={translate.cancel}
-					bodyText={this._renderNewPointBody()}
-					title={translate.reorder_agenda_points}
-				/>
-			</React.Fragment>
-		);
-	}
+	return (
+		<React.Fragment>
+			<div
+				onClick={() => setReorderModal(true)}
+				style={props.style}
+			>
+				{props.children}
+			</div>
+			<AlertConfirm
+				requestClose={reset}
+				open={reorderModal}
+				acceptAction={updateOrder}
+				buttonAccept={translate.save}
+				scrollable={true}
+				buttonCancel={translate.cancel}
+				bodyText={_renderNewPointBody()}
+				title={translate.reorder_agenda_points}
+			/>
+		</React.Fragment>
+	);
 }
 
 export default graphql(updateAgendas, {

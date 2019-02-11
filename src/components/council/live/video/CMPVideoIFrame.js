@@ -41,12 +41,6 @@ const CMPVideoIFrame = props => {
         }
     }, [loading]);
 
-  /*   useInterval(() => {
-        if(props.videoURL !== 'Error' && props.videoURL !== 'Admin already logued'){
-            
-        }
-    }, data && data.roomVideoURL? 10000 : null); */
-
     useInterval(async () => {
         if(data && data.roomVideoURL){
             sendAdminPing();

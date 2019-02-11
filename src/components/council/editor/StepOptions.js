@@ -337,7 +337,7 @@ class StepOptions extends React.Component {
 									}
 								/>
 								{council.autoClose === 1 &&
-									<div style={{maxWidth: '18em', marginLeft: '0.9em'}}>
+									<div style={{width: '22em', marginLeft: '0.9em'}}>
 										<DateTimePicker
 											required
 											minDate={moment(new Date(council.dateStart)).add(1, 'm')}

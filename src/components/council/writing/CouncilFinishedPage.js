@@ -13,6 +13,108 @@ import ActEditorPage from "./actEditor/ActEditorPage";
 import { COUNCIL_STATES } from '../../../constants';
 import CanceledCouncil from './canceled/CanceledCouncil';
 
+class CouncilFinishedPage extends React.Component {
+
+	state = {
+		council: null
+	}
+
+	componentDidMount() {
+		this.props.data.refetch();
+	}
+
+	componentDidUpdate(){
+		if(!this.props.data.loading){
+			checkCouncilState(
+				{
+					state: this.props.data.council.state,
+					id: this.props.data.council.id
+				},
+				this.props.company,
+				bHistory,
+				"finished"
+			);
+		}
+	}
+
+	render() {
+		const { council, error, loading } = this.props.data;
+		const { translate } = this.props;
+
+		if (loading) {
+			return <LoadingSection />;
+		}
+
+		if (error) {
+			return <ErrorWrapper error={error} translate={translate} />;
+		}
+
+		if(council.state === COUNCIL_STATES.FINISHED) {
+			return (
+				<ActEditorPage
+					translate={translate}
+					council={council}
+					agendas={this.props.data.agendas}
+					councilRecount={this.props.data.councilRecount}
+					refetch={this.props.data.refetch}
+					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
+					socialCapital={this.props.data.councilSocialCapital}
+					councilAttendants={this.props.data.councilAttendants}
+					totalVotes={this.props.data.councilTotalVotes}
+				/>
+			);
+		}
+
+		if(council.state === COUNCIL_STATES.APPROVED || council.state === COUNCIL_STATES.FINAL_ACT_SENT){
+			return (
+				<ActEditorPage
+					translate={translate}
+					council={council}
+					confirmed={true}
+					agendas={this.props.data.agendas}
+					councilRecount={this.props.data.councilRecount}
+					refetch={this.props.data.refetch}
+					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
+					socialCapital={this.props.data.councilSocialCapital}
+					councilAttendants={this.props.data.councilAttendants}
+					totalVotes={this.props.data.councilTotalVotes}
+				/>
+			)
+		}
+
+		if(council.state === COUNCIL_STATES.FINISHED_WITHOUT_ACT){
+			return(
+				<ActEditorPage
+					confirmed={true}
+					withoutAct={true}
+					translate={translate}
+					council={council}
+					agendas={this.props.data.agendas}
+					councilRecount={this.props.data.councilRecount}
+					refetch={this.props.data.refetch}
+					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
+					socialCapital={this.props.data.councilSocialCapital}
+					councilAttendants={this.props.data.councilAttendants}
+					totalVotes={this.props.data.councilTotalVotes}
+					{...this.props.data}
+				/>
+			)
+		}
+
+		if(council.state === COUNCIL_STATES.NOT_CELEBRATED || council.state === COUNCIL_STATES.CANCELED){
+			return(
+				<CanceledCouncil
+					council={council}
+					translate={translate}
+					socialCapital={this.props.data.councilSocialCapital}
+					totalVotes={this.props.data.councilTotalVotes}
+				/>
+			)
+		}
+
+		return <LoadingSection />;
+	}
+}
 
 export const councilDetails = gql`
 	query CouncilDetails($councilID: Int!) {
@@ -183,105 +285,6 @@ export const councilDetails = gql`
 		councilSocialCapital(councilId: $councilID)
 	}
 `;
-
-class CouncilFinishedPage extends React.Component {
-
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
-	componentDidUpdate(){
-		if(!this.props.data.loading){
-			checkCouncilState(
-				{
-					state: this.props.data.council.state,
-					id: this.props.data.council.id
-				},
-				this.props.company,
-				bHistory,
-				"finished"
-			);
-		}
-	}
-
-	render() {
-		const { council, error, loading } = this.props.data;
-		const { translate } = this.props;
-
-		if (loading) {
-			return <LoadingSection />;
-		}
-
-		if (error) {
-			return <ErrorWrapper error={error} translate={translate} />;
-		}
-
-		if(council.state === COUNCIL_STATES.FINISHED) {
-			return (
-				<ActEditorPage
-					translate={translate}
-					council={council}
-					agendas={this.props.data.agendas}
-					councilRecount={this.props.data.councilRecount}
-					refetch={this.props.data.refetch}
-					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
-					socialCapital={this.props.data.councilSocialCapital}
-					councilAttendants={this.props.data.councilAttendants}
-					totalVotes={this.props.data.councilTotalVotes}
-				/>
-			);
-		}
-
-		if(council.state === COUNCIL_STATES.APPROVED || council.state === COUNCIL_STATES.FINAL_ACT_SENT){
-			return (
-				<ActEditorPage
-					translate={translate}
-					council={council}
-					confirmed={true}
-					agendas={this.props.data.agendas}
-					councilRecount={this.props.data.councilRecount}
-					refetch={this.props.data.refetch}
-					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
-					socialCapital={this.props.data.councilSocialCapital}
-					councilAttendants={this.props.data.councilAttendants}
-					totalVotes={this.props.data.councilTotalVotes}
-				/>
-			)
-		}
-
-		if(council.state === COUNCIL_STATES.FINISHED_WITHOUT_ACT){
-			return(
-				<ActEditorPage
-					confirmed={true}
-					withoutAct={true}
-					translate={translate}
-					council={council}
-					agendas={this.props.data.agendas}
-					councilRecount={this.props.data.councilRecount}
-					refetch={this.props.data.refetch}
-					participantsWithDelegatedVote={this.props.data.participantsWithDelegatedVote}
-					socialCapital={this.props.data.councilSocialCapital}
-					councilAttendants={this.props.data.councilAttendants}
-					totalVotes={this.props.data.councilTotalVotes}
-					{...this.props.data}
-				/>
-			)
-		}
-
-		if(council.state === COUNCIL_STATES.NOT_CELEBRATED || council.state === COUNCIL_STATES.CANCELED){
-			return(
-				<CanceledCouncil
-					council={council}
-					translate={translate}
-					socialCapital={this.props.data.councilSocialCapital}
-					totalVotes={this.props.data.councilTotalVotes}
-				/>
-			)
-		}
-
-		return <LoadingSection />;
-	}
-}
 
 export default graphql(councilDetails, {
 	name: "data",
