@@ -25,16 +25,11 @@ const CMPVideoIFrame = props => {
         }
     }, []);
 
-    console.log(data);
-
-
     React.useEffect(() => {
         if(!loading){
             if(data.errors){
-                console.log('already', data.errors[0].message === 'Admin already in the room');
                 props.setVideoURL(data.errors[0].message === 'Admin already in the room'? 'Admin already logued' : 'Error');
             } else {
-                console.log('deberia enviar el puto ping');
                 sendAdminPing();
                 props.setVideoURL(data.roomVideoURL);
             }
@@ -66,11 +61,9 @@ const CMPVideoIFrame = props => {
             errors: response.errors
         });
         setLoading(false);
-    } 
-    
+    }
 
     const sendAdminPing = () => {
-        console.log('envia ping');
         props.adminPing({
             variables: {
                 councilId: props.council.id,
