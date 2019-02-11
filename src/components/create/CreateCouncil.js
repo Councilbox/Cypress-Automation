@@ -12,6 +12,7 @@ import { darkGrey } from "../../styles/styles";
 import { getSecondary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
+import { checkSecondDateAfterFirst } from "../../utils/CBX";
 
 
 //props.council.id
@@ -91,33 +92,63 @@ const steps = {
 const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
+	const [errors, setErrors] = React.useState({});
 	const [title, setTitle] = React.useState("Seleccionar tipo de reunión");//TRADUCCION
 
 	const secondary = getSecondary();
 
 	const sendCreateCouncil = async type => {
-		const response = await createCouncil({
-			variables: {
-				companyId: company,
-				type, 
-				councilOptions: options
-			}
-		});
-		const newCouncilId = response.data.createCouncil.id;
-		if(newCouncilId){
-			bHistory.replace(`/company/${company}/council/${newCouncilId}`);
-		}else{
-			bHistory.replace(`/company/${company}`);
-			toast(
-				<LiveToast
-					message={translate.no_statutes}
-				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: "errorToast"
+		if(!checkRequiredFields()){
+			const response = await createCouncil({
+				variables: {
+					companyId: company,
+					type,
+					councilOptions: options
 				}
-			);
+			});
+			const newCouncilId = response.data.createCouncil.id;
+			if(newCouncilId){
+				bHistory.replace(`/company/${company}/council/${newCouncilId}`);
+			}else{
+				bHistory.replace(`/company/${company}`);
+				toast(
+					<LiveToast
+						message={translate.no_statutes}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: "errorToast"
+					}
+				);
+			}
 		}
+	}
+
+	const checkRequiredFields = () => {
+		let hasError = false;
+		let errors = {}
+
+		if(step === steps.NO_SESSION){
+			if(!options.dateStart){
+				hasError = true;
+				errors.dateStart = translate.required_field;
+			}
+			if(!options.closeDate){
+				hasError = true;
+				errors.closeDate = translate.required_field;
+			}
+
+			if(options.dateStart && options.closeDate){
+				if(!checkSecondDateAfterFirst(options.dateStart, options.closeDate)){
+					hasError = true;
+					errors.errorMessage = 'La fecha de fin no puede ser anterior a la fecha de comienzo.';
+				}
+			}
+		}
+
+		setErrors(errors);
+
+		return hasError;
 	}
 
 	const councilStep = () => {
@@ -160,6 +191,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 							setOptions={setOptions}
 							translate={translate}
 							setTitle={setTitle}
+							errors={errors}
 						/>
 					}
 					{step === steps.COUNCIL &&

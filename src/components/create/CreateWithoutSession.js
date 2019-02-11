@@ -1,18 +1,12 @@
 import React from 'react';
 import { Grid, GridItem, BlockButton, DateTimePicker } from '../../displayComponents';
 import { moment } from '../../containers/App';
+import { checkSecondDateAfterFirst } from '../../utils/CBX';
 
-const CreateWithoutSession = ({ setOptions, translate, ...props }) => {
-
+const CreateWithoutSession = ({ setOptions, translate, errors, ...props }) => {
     const [dates, setDates] = React.useState({
-        dateStart: new Date().toISOString(),
-        closeDate: moment().add(30, 'minutes').toString()
-    });
-
-    const [errors, setErrors] = React.useState({
-        dateStart: '',
-        dateStart2NdCall: '',
-        closeDate: ''
+        dateStart: null,
+        closeDate: null
     });
 
     React.useEffect(() => {
@@ -80,6 +74,9 @@ const CreateWithoutSession = ({ setOptions, translate, ...props }) => {
                     value={dates.closeDate}
                 />
             </div>
+            {errors.errorMessage &&
+                <span style={{color: 'red', marginTop: '1em'}}>{errors.errorMessage}</span>
+            }
         </div>
     )
 }

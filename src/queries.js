@@ -375,6 +375,7 @@ export const councilStepOne = gql`
 			conveneText
 			name
 			street
+			councilType
 			selectedCensusId
 			fullVideoRecord
 			remoteCelebration
