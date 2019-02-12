@@ -191,13 +191,11 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
 								isMobile={isMobile}
 								list={
-									<div>
-									 {/* <ul> */}
-										<p>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgflam ornsaresfg justo arcu, ut ultricies turpis lusfgctus id. Done</p>
-										<p>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit. Nullam ornaresfg sdgjsgusto srcu, ut dfgsudf sdfg sdfg ltricies turpis luctus id. Done</p>
-										<p>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.sdfg Nulsdfg lsdfg ams dgsdf gsdf forn areg justo arcu, ut ultricies turpis luctus id. Done</p>
-									 {/* </ul> */}
-									</div>
+									 <ul>
+										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgflam ornsaresfg justo arcu, ut ultricies turpis lusfgctus id. Done</li>
+										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit. Nullam ornaresfg sdgjsgusto srcu, ut dfgsudf sdfg sdfg ltricies turpis luctus id. Done</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.sdfg Nulsdfg lsdfg ams dgsdf gsdf forn areg justo arcu, ut ultricies turpis luctus id. Done</li>
+									 </ul>
 								}
 							/>
 						</div>
