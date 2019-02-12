@@ -14,6 +14,7 @@ import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
 import { isMobile } from "react-device-detect";
+import { Paper } from "material-ui";
 
 
 //props.council.id
@@ -169,55 +170,36 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 			bodyText={
 				<React.Fragment>
 					{step === 1 &&
-						<div style={{ display: 'flex', margin: "2em 0 1.5em 0", justifyContent: 'center', alignItems: 'center' }}>
+						<div style={{ display: isMobile ? "" : 'flex', margin: isMobile ? "" : "2em 0 1.5em 0", justifyContent: 'center', alignItems: 'center' }}>
 							<ButtonCreateCouncil
+								onClick={councilStep}
 								title={'Con sesión'}
 								styleButton={{ marginRight: "3%" }}
-								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: ".5em", fontSize: '4em', color: secondary }}></i>}
+								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
 								isMobile={isMobile}
 								list={
 									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipdasdassum dolor sit amet, condasectetur adidaspiscidasdng elit. Nullamdasdornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amsdfdet, consectetur adipiscing g sdfgs dfg ssdfgdelit. Nullam ornare g sgf justo arcu,sdfgsf uasdggsdfgasdt ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor s sdfgdfgit amet, conseasctetur adipiscing elit. Nullam ornsdfgasfgre justasdfsdo argdfcugsdfg, ut ultricies turpis luctus id. Done</li>
 									</ul>
 								}
 							/>
 							<ButtonCreateCouncil
+								onClick={noSessionStep}
 								title={'Sin sesión'}
-								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
 								isMobile={isMobile}
 								list={
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-									</ul>
+									<div>
+									 {/* <ul> */}
+										<p>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgflam ornsaresfg justo arcu, ut ultricies turpis lusfgctus id. Done</p>
+										<p>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit. Nullam ornaresfg sdgjsgusto srcu, ut dfgsudf sdfg sdfg ltricies turpis luctus id. Done</p>
+										<p>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.sdfg Nulsdfg lsdfg ams dgsdf gsdf forn areg justo arcu, ut ultricies turpis luctus id. Done</p>
+									 {/* </ul> */}
+									</div>
 								}
-
 							/>
-							{/* <div style={{ width: "45%", border: "1px solid gainsboro", marginRight: "3%" }}>
-								<div style={{ textAlign: " center", }}>
-									<h2>Con sesión</h2>
-									<i className="fa fa-users" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>que dapibus. Integer venenatis varius massa, eu vehicula magna dapibus ac. Morbi quis ipsum non eros maximus viverra at vi</li>
-										<li> felis quam. Donec orci nulla, tincidunt vel elementum sed, ultrices et metus. Donec mattis, eros quis tincidunt porttitor, massa diam laor</li>
-									</ul>
-								</div>
-							</div>
-							<div style={{ width: "45%", border: "1px solid gainsboro" }}>
-								<div style={{ textAlign: " center" }}>
-									<h2>Sin sesión</h2>
-									<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>que dapibus. Integer venenatis varius massa, eu vehicula magna dapibus ac. Morbi quis ipsum non eros maximus viverra at vi</li>
-										<li> felis quam. Donec orci nulla, tincidunt vel elementum sed, ultrices et metus. Donec mattis, eros quis tincidunt porttitor, massa diam laor</li>
-									</ul>
-								</div>
-							</div> */}
 						</div>
 					}
 					{step === steps.NO_SESSION &&
@@ -264,30 +246,64 @@ class ButtonCreateCouncil extends React.Component {
 
 
 	render() {
-		const { isMobile, title, icon, list, styleButton } = this.props
+		const { isMobile, title, icon, list, styleButton, onClick } = this.props
 		if (isMobile) {
 			return (
-				<div></div>
+				<Paper
+					elevation={6}
+					style={{
+						width:'100%',
+						marginTop: "15px"
+					}}
+				>
+					<div
+						onClick={onClick}
+						onMouseOver={this.mouseEnterHandler}
+						onMouseLeave={this.mouseLeaveHandler}
+						style={{
+							cursor: "pointer",
+							width: "100%",
+							border: "1px solid gainsboro",
+							background: this.state.showActions ? "gainsboro" : "",
+							paddingTop: '0.5em',
+						}}
+					>
+						<div style={{ textAlign: " center", }}>
+							<h2>{title}</h2>
+							{icon}
+							<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
+						</div>
+					</div>
+				</ Paper>
 			);
 		} else {
 			return (
-				<div
-					onMouseOver={this.mouseEnterHandler}
-					onMouseLeave={this.mouseLeaveHandler}
+				<Paper
+					elevation={6}
 					style={{
 						width: "45%",
-						border: "1px solid gainsboro",
-						background: this.state.showActions ? "gainsboro" : "",
-						padding: '1.5em',
 						...styleButton
 					}}
 				>
-					<div style={{ textAlign: " center", }}>
-						<h2>{title}</h2>
-						{icon}
-						{list}
+					<div
+						onClick={onClick}
+						onMouseOver={this.mouseEnterHandler}
+						onMouseLeave={this.mouseLeaveHandler}
+						style={{
+							cursor: "pointer",
+							width: "100%",
+							border: "1px solid gainsboro",
+							background: this.state.showActions ? "gainsboro" : "",
+							padding: '1.5em',
+						}}
+					>
+						<div style={{ textAlign: " center", }}>
+							<h2>{title}</h2>
+							{icon}
+							{list}
+						</div>
 					</div>
-				</div>
+				</ Paper>
 			);
 		}
 	}
@@ -304,11 +320,11 @@ const mapStateToProps = state => ({
 
 export const createCouncil = gql`
 	mutation CreateCouncil($companyId: Int!, $type: Int, $councilOptions: CouncilInput) {
-		createCouncil(companyId: $companyId, type: $type, councilOptions: $councilOptions) {
-			id
-		}
-	}
-`;
+						createCouncil(companyId: $companyId, type: $type, councilOptions: $councilOptions) {
+						id
+					}
+					}
+				`;
 
 export default graphql(createCouncil, { name: 'createCouncil' })(connect(
 	mapStateToProps
