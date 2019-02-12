@@ -19,6 +19,8 @@ import { getPrimary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendActDraft } from '../../../../queries';
+import { isMobile } from "react-device-detect";
+
 
 
 class SendActDraftModal extends React.Component {
@@ -281,7 +283,7 @@ class SendActDraftModal extends React.Component {
 		
 		if (this.state.step === 1) {
 			return (
-				<div style={{ width: "600px" }}>
+				<div style={{ width: isMobile ? "" : "600px" }}>
 					<CollapsibleSection
 						trigger={this._button}
 						collapse={this._section}
