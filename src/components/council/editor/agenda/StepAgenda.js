@@ -432,7 +432,7 @@ const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftT
 
 	return (
 		<React.Fragment>
-			{config.customPoints ?
+			{config.customPoints && council.councilType === 2 ?
 				<DropDownMenu
 					color={primary}
 					id={'new-agenda-trigger'}
@@ -486,6 +486,7 @@ const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftT
 				<BasicButton
 					text={translate.add_agenda_point}
 					color={primary}
+					onClick={showYesNoModal}
 					textStyle={buttonStyle}
 					icon={
 						<ButtonIcon type="add" color="white" />

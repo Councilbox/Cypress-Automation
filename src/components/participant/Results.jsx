@@ -102,7 +102,7 @@ const VoteDisplay = ({ vote, translate }) => {
 
 const getVote = (vote, translate) => {
     switch(vote){
-        case 1: 
+        case 1:
             return translate.in_favor_btn;
 
         case 0:

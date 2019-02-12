@@ -167,9 +167,20 @@ export const AGENDA_TYPES = {
 	PUBLIC_ACT: 2,
 	FAKE_PUBLIC_VOTING: 3,
 	PRIVATE_ACT: 4,
-	PRIVATE_VOTING: 5,
-	CUSTOM_POINT: 6
+	PRIVATE_VOTING: 5
 };
+
+//CONTINUATION OF AGENDA_TYPES
+export const CUSTOM_AGENDA_VOTING_TYPES = [
+	{
+		label: 'public_voting',
+		value: 6
+	},
+	{
+		label: 'private_voting',
+		value: 7
+	}
+];
 
 export const PARTICIPANT_ERRORS = {
 	PARTICIPANT_BLOCKED: 470,
