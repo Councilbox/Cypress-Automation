@@ -248,7 +248,9 @@ class NewAgendaPointModal extends React.Component {
 						<span style={{color: 'red'}}>{this.state.majorityError}</span>
 					</div>
 					{CBX.isCustomPoint(agenda.subjectType) &&
-						<CustomPointEditor />
+						<CustomPointEditor
+							translate={translate}
+						/>
 					}
 					<RichTextInput
 						ref={editor => (this.editor = editor)}
