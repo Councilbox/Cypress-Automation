@@ -244,16 +244,23 @@ export const delegatedVotesLimitReached = (statute, length) => {
 	);
 };
 
+export const isCustomPoint = subjectType => {
+	return subjectType === AGENDA_TYPES.CUSTOM_POINT;
+}
+
 export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
 
 
-export const filterAgendaVotingTypes = (votingTypes, statute) => {
-	if (statute.existsPresentWithRemoteVote === 1) {
+export const filterAgendaVotingTypes = (votingTypes, statute, council) => {
+	if (statute.existsPresentWithRemoteVote === 1 && council.councilType !== 2) {
 		return votingTypes.filter(
 			type => type.label === "text" || type.label === "public_votation"
 		);
+	}
+	if(council.councilType !== 2){
+		return votingTypes.filter(type => type.label !== 'custom_point');
 	}
 	return votingTypes;
 };
@@ -964,6 +971,8 @@ export const getAgendaTypeLabel = agenda => {
 			return 'public_act';
 		case AGENDA_TYPES.PRIVATE_VOTING:
 			return 'private_votation';
+		case AGENDA_TYPES.CUSTOM_POINT:
+			return 'custom_point';
 		default:
 			return 'informative';
 	}

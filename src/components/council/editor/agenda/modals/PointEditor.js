@@ -17,6 +17,7 @@ import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
+import CustomPointEditor from './CustomPointEditor';
 
 class PointEditor extends React.Component {
 
@@ -103,7 +104,7 @@ class PointEditor extends React.Component {
 		const errors = this.state.errors;
 		const agenda = this.state.data;
 
-		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
+		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 
 		return (
 			<div

@@ -17,6 +17,7 @@ import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
+import CustomPointEditor from './CustomPointEditor';
 
 
 class NewAgendaPointModal extends React.Component {
@@ -129,7 +130,7 @@ class NewAgendaPointModal extends React.Component {
 		} = this.props;
 		const errors = this.state.errors;
 		const agenda = this.state.newPoint;
-		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute);
+		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 		const secondary = getSecondary();
 
 		return (
@@ -246,7 +247,9 @@ class NewAgendaPointModal extends React.Component {
 					<div>
 						<span style={{color: 'red'}}>{this.state.majorityError}</span>
 					</div>
-
+					{CBX.isCustomPoint(agenda.subjectType) &&
+						<CustomPointEditor />
+					}
 					<RichTextInput
 						ref={editor => (this.editor = editor)}
 						floatingText={translate.description}

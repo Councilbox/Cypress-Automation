@@ -94,6 +94,17 @@ const StepOptions = ({ translate, data, ...props }) => {
 			return response.error;
 		}
 
+		if(!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)){
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					closeDate: `La fecha de fin no puede ser anterior a la de comienzo (${moment(council.dateStart).format('LLL')})`
+				}
+			});
+			return true;
+		}
+
 		return false;
 	}
 
@@ -281,20 +292,11 @@ const StepOptions = ({ translate, data, ...props }) => {
 									/>
 
 									<div style={{display: 'flex'}}>
-										<Checkbox
-											disabled={council.councilType === 0}
-											label={translate.auto_close}
-											value={council.autoClose !== 0}
-											onChange={(event, isInputChecked) =>
-												updateCouncilData({
-													autoClose: isInputChecked ? 1 : 0
-												})
-											}
-										/>
 										{council.autoClose === 1 &&
 											<div style={{width: '22em'}}>
 												<DateTimePicker
 													required
+													errorText={state.errors.closeDate}
 													minDate={moment(new Date(council.dateStart)).add(1, 'm')}
 													onChange={date => {
 														const newDate = new Date(date);
@@ -354,7 +356,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 							/>
 							{_renderSecurityForm()}
 
-							{CBX.hasAct(council.statute) && (
+							{CBX.hasAct(council.statute) && council.councilType !== 2 && (
 								<React.Fragment>
 									<SectionTitle
 										text={translate.approve_act_draft_at_end}

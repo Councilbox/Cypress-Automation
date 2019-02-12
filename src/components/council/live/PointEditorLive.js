@@ -45,7 +45,7 @@ class PointEditorLive extends React.Component {
     }
 
     _renderModalBody = () => {
-        const filteredTypes = filterAgendaVotingTypes(this.props.votingTypes, this.props.council.statute);
+        const filteredTypes = filterAgendaVotingTypes(this.props.votingTypes, this.props.council.statute, this.props.council);
         const { translate, agenda } = this.props;
 
         return (

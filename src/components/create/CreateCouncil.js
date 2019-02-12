@@ -160,8 +160,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		setStep(steps.NO_SESSION);
 	}
 
-	console.log(step !== steps.NO_SESSION);
-
 	return (
 		<AlertConfirm
 			open={true}

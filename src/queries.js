@@ -924,6 +924,7 @@ export const councilStepThree = gql`
 			businessName
 			city
 			name
+			councilType
 			country
 			companyId
 			countryState
