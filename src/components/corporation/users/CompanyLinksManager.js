@@ -24,7 +24,7 @@ class CompanyLinksManager extends React.PureComponent {
     }
 
     static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.linkedCompanies.length !== prevState.checked.length){
+        if(nextProps.linkedCompanies.length && !prevState.checked.length){
             return {
                 checked: nextProps.linkedCompanies
             }
