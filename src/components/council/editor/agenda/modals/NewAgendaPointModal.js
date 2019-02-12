@@ -17,7 +17,6 @@ import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
-import CustomPointEditor from './CustomPointEditor';
 
 
 class NewAgendaPointModal extends React.Component {
@@ -88,6 +87,7 @@ class NewAgendaPointModal extends React.Component {
 			}
 		});
 		this.sending = false;
+		this.props.requestClose();
 	};
 
 	updateState = object => {
@@ -247,11 +247,6 @@ class NewAgendaPointModal extends React.Component {
 					<div>
 						<span style={{color: 'red'}}>{this.state.majorityError}</span>
 					</div>
-					{CBX.isCustomPoint(agenda.subjectType) &&
-						<CustomPointEditor
-							translate={translate}
-						/>
-					}
 					<RichTextInput
 						ref={editor => (this.editor = editor)}
 						floatingText={translate.description}
@@ -320,12 +315,9 @@ class NewAgendaPointModal extends React.Component {
 
 		return (
 			<React.Fragment>
-				<div onClick={() => this.setState({ newPointModal: true })}>
-					{children}
-				</div>
 				<AlertConfirm
-					requestClose={this.state.loadDraft? () => this.setState({loadDraft: false}) : () => this.close()}
-					open={this.state.newPointModal}
+					requestClose={this.props.requestClose}
+					open={this.props.open}
 					acceptAction={this.addAgenda}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}

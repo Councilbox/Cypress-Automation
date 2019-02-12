@@ -5,12 +5,14 @@ import {
 	ErrorWrapper,
 	Grid,
 	GridItem,
+	DropDownMenu,
 	LoadingSection
 } from "../../../../displayComponents/index";
 import { compose, graphql } from "react-apollo";
 import { Typography } from "material-ui";
 import { councilStepThree, updateCouncil } from "../../../../queries";
 import { removeAgenda } from "../../../../queries/agenda";
+import { MenuItem, Divider } from 'material-ui';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import NewAgendaPointModal from "./modals/NewAgendaPointModal";
 import PointEditor from "./modals/PointEditor";
@@ -18,6 +20,8 @@ import ReorderPointsModal from "../../agendas/ReorderPointsModal";
 import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
 import AgendaItem from "./AgendaItem";
 import EditorStepLayout from '../EditorStepLayout';
+import NewCustomPointModal from './modals/NewCustomPointModal';
+import { ConfigContext } from "../../../../containers/AppControl";
 
 const buttonStyle = {
 	color: "white",
@@ -168,7 +172,7 @@ class StepAgenda extends React.Component {
 					body={
 						<React.Fragment>
 							<Grid>
-								{this.props.data.loading ?
+								{this.props.data.loading?
 									<div
 										style={{
 											height: "300px",
@@ -192,7 +196,7 @@ class StepAgenda extends React.Component {
 													flexDirection: "row"
 												}}
 											>
-												<NewAgendaPointModal
+												<AddAgendaPoint
 													translate={translate}
 													agendas={council.agendas}
 													votingTypes={votingTypes}
@@ -203,17 +207,7 @@ class StepAgenda extends React.Component {
 													council={council}
 													companyStatutes={this.props.data.companyStatutes}
 													refetch={this.props.data.refetch}
-												>
-													<BasicButton
-														text={translate.add_agenda_point}
-														color={primary}
-														textStyle={buttonStyle}
-														icon={
-															<ButtonIcon type="add" color="white" />
-														}
-														textPosition="after"
-													/>
-												</NewAgendaPointModal>
+												/>
 												<ReorderPointsModal
 													translate={translate}
 													agendas={council.agendas}
@@ -278,7 +272,7 @@ class StepAgenda extends React.Component {
 												</Typography>
 												<br />
 												<div>
-													<NewAgendaPointModal
+													<AddAgendaPoint
 														translate={translate}
 														agendas={council.agendas}
 														votingTypes={votingTypes}
@@ -287,25 +281,9 @@ class StepAgenda extends React.Component {
 														statute={council.statute}
 														company={this.props.company}
 														council={council}
-														companyStatutes={
-															this.props.data.companyStatutes
-														}
+														companyStatutes={this.props.data.companyStatutes}
 														refetch={this.props.data.refetch}
-													>
-														<BasicButton
-															type="raised"
-															buttonStyle={buttonStyle}
-															text={translate.add_agenda_point}
-															color={primary}
-															icon={
-																<ButtonIcon type="add" color="white" />
-															}
-															textStyle={{
-																color: "white",
-																textTransform: "none"
-															}}
-														/>
-													</NewAgendaPointModal>
+													/>
 												</div>
 												<Typography variant="subheading" style={{ color: "red", fontWeight: '700', marginTop: '1.2em'}}>
 													{errors.emptyAgendas}
@@ -414,6 +392,140 @@ class StepAgenda extends React.Component {
 	}
 }
 
+const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftTypes, ...props }) => {
+	const config = React.useContext(ConfigContext);
+	const [state, setState] = React.useState({
+		yesNoModal: false,
+		customPointModal: false
+	})
+	const [loading, setLoading] = React.useState(false);
+	const primary = getPrimary();
+	const secondary = getSecondary();
+
+	const showCustomPointModal = () => {
+		setState({
+			...state,
+			customPointModal: true
+		});
+	}
+
+	const closeCustomPointModal = () => {
+		setState({
+			...state,
+			customPointModal: false
+		});
+	}
+
+	const showYesNoModal = () => {
+		setState({
+			...state,
+			yesNoModal: true
+		})
+	}
+
+	const closeYesNoModal = () => {
+		setState({
+			...state,
+			yesNoModal: false
+		})
+	}
+
+	return (
+		<React.Fragment>
+			{config.customPoints ?
+				<DropDownMenu
+					color={primary}
+					id={'new-agenda-trigger'}
+					loading={loading}
+					text={translate.add_agenda_point}
+					textStyle={buttonStyle}
+					icon={
+						<ButtonIcon type="add" color="white" />
+					}
+					items={
+						<React.Fragment>
+							<MenuItem onClick={showYesNoModal}>
+								<div
+									style={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between'
+									}}
+								>
+									<i className="material-icons" style={{fontSize: '1.2em', color: secondary}}>
+										thumbs_up_down
+									</i>
+									<span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+										Punto si / no / abstención
+									</span>
+								</div>
+							</MenuItem>
+							<Divider />
+							<MenuItem onClick={showCustomPointModal}>
+								<div
+									style={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between'
+									}}
+								>
+									<i className="material-icons" style={{fontSize: '1.2em', color: secondary}}>
+										poll
+									</i>
+									<span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+										Punto personalizado
+									</span>
+								</div>
+							</MenuItem>
+						</React.Fragment>
+					}
+				/>
+			:
+				<BasicButton
+					text={translate.add_agenda_point}
+					color={primary}
+					textStyle={buttonStyle}
+					icon={
+						<ButtonIcon type="add" color="white" />
+					}
+					textPosition="after"
+				/>
+			}
+
+			<NewAgendaPointModal
+				translate={translate}
+				agendas={council.agendas}
+				votingTypes={votingTypes}
+				open={state.yesNoModal}
+				requestClose={closeYesNoModal}
+				majorityTypes={majorityTypes}
+				draftTypes={draftTypes}
+				statute={council.statute}
+				company={props.company}
+				council={council}
+				companyStatutes={props.companyStatutes}
+				refetch={props.refetch}
+			/>
+			<NewCustomPointModal
+				translate={translate}
+				agendas={council.agendas}
+				votingTypes={votingTypes}
+				open={state.customPointModal}
+				requestClose={closeCustomPointModal}
+				majorityTypes={majorityTypes}
+				draftTypes={draftTypes}
+				statute={council.statute}
+				company={props.company}
+				council={council}
+				companyStatutes={props.companyStatutes}
+				refetch={props.refetch}
+			/>
+		</React.Fragment>
+	)
+}
+
 export default compose(
 	graphql(councilStepThree, {
 		name: "data",
@@ -421,8 +533,7 @@ export default compose(
 			variables: {
 				id: props.councilID,
 				companyId: props.company.id
-			},
-			notifyOnNetworkStatusChange: true
+			}
 		})
 	}),
 	graphql(removeAgenda, { name: "removeAgenda" }),

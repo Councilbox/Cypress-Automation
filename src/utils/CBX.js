@@ -259,10 +259,8 @@ export const filterAgendaVotingTypes = (votingTypes, statute, council) => {
 			type => type.label === "text" || type.label === "public_votation"
 		);
 	}
-	if(council.councilType !== 2){
-		return votingTypes.filter(type => type.label !== 'custom_point');
-	}
-	return votingTypes;
+	return votingTypes.filter(type => type.label !== 'custom_point');
+	//return votingTypes;
 };
 
 export const hasSecondCall = statute => {

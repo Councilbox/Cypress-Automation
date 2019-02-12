@@ -17,7 +17,6 @@ import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
-import CustomPointEditor from './CustomPointEditor';
 
 class PointEditor extends React.Component {
 
