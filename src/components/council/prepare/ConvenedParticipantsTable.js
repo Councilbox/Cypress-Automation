@@ -195,6 +195,8 @@ class ConvenedParticipantsTable extends React.Component {
 			}
 		}
 
+		console.log(this.state.participants);
+
 		headers.push({text: ''});
 		return (
 			<div style={{ width: "100%", height: '100%' }}>
@@ -381,6 +383,8 @@ class HoverableRow extends React.Component {
 		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}
+
+		console.log(representative);
 
 		if(isMobile){
             return(
@@ -621,7 +625,7 @@ class HoverableRow extends React.Component {
 
 const formatParticipant = participant => {
 	let { representing, ...newParticipant } = participant;
-	if(representing){
+	if(representing && representing.type === 3){
 		let { representative, ...rest } = newParticipant;
 		newParticipant = {
 			...representing,
