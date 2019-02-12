@@ -29,7 +29,7 @@ class SendActDraftModal extends React.Component {
 		success: false,
 		emailList: [],
 		loading: false,
-		errors: {}
+		errors: {},
 	};
 
 	componentDidUpdate(prevProps) {
@@ -81,9 +81,9 @@ class SendActDraftModal extends React.Component {
 
 	checkRow = (email, check) => {
 		let checked = [...this.state.checked];
-		if(check){
+		if (check) {
 			checked = [...checked, email];
-		}else{
+		} else {
 			const index = checked.findIndex(item => item === email);
 			checked.splice(index, 1);
 		}
@@ -109,20 +109,20 @@ class SendActDraftModal extends React.Component {
 	};
 
 	addEmail = () => {
-		if(checkValidEmail(this.state.newEmail)){
-			if(this.state.emailList.findIndex(item => item === this.state.newEmail) === -1){
+		if (checkValidEmail(this.state.newEmail)) {
+			if (this.state.emailList.findIndex(item => item === this.state.newEmail) === -1) {
 				this.setState({
 					emailList: [...this.state.emailList, this.state.newEmail],
 					newEmail: ''
 				});
-			}else{
+			} else {
 				this.setState({
 					errors: {
 						newEmail: this.props.translate.repeated_email
 					}
 				});
 			}
-		}else{
+		} else {
 			this.setState({
 				errors: {
 					newEmail: this.props.translate.tooltip_invalid_email_address
@@ -138,16 +138,18 @@ class SendActDraftModal extends React.Component {
 		list.splice(index, 1);
 		checked.splice(index, 1);
 		this.setState({
-			emailList: [...list],
-			checked: [...checked]
+			emailList: list,
+			checked: checked
+			// emailList: [...list],
+			// checked: [...checked]
 		});
 	}
 
 	_section = () => {
-		return(
-			<div style={{width: '100%', display: 'flex', flexDirection: 'column'}}>
-				<div style={{width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row'}}>
-					<div style={{width: '75%', marginRight: '0.8em'}}>
+		return (
+			<div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
+					<div style={{ width: '75%', marginRight: '0.8em' }}>
 						<TextInput
 							value={this.state.newEmail}
 							onChange={(event) => this.setState({
@@ -158,12 +160,12 @@ class SendActDraftModal extends React.Component {
 					</div>
 					<BasicButton
 						text={this.props.translate.add_email}
-						textStyle={{textTransform: 'none', color: 'white', fontSize: '700'}}
+						textStyle={{ textTransform: 'none', color: 'white', fontSize: '700' }}
 						color={getPrimary()}
 						onClick={() => this.addEmail()}
 					/>
 				</div>
-				<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+				<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
 					{this._renderEmails()}
 				</div>
 			</div>
@@ -172,50 +174,32 @@ class SendActDraftModal extends React.Component {
 	}
 
 	_renderEmails = () => {
-		return(
-			<div style={{width: '100%'}}>
-				{this.state.emailList.length > 0?
+		return (
+			<div style={{ width: '100%' }}>
+				{this.state.emailList.length > 0 ?
 					this.state.emailList.map((email, index) => (
-						<Card
-							style={{
-								width: '98%',
-								padding: '0.8em',
-								margin: 'auto',
-								marginBottom: '0.8em',
-								display: 'flex',
-								justifyContent: 'space-between',
-								alignItems: 'center',
-								flexDirection: 'row'
-							}}
-							key={`emailList_${email}`}
-							elevation={2}
-						>
-							{email}
-							<FontAwesome
-								name={"times"}
-								style={{
-									fontSize: "0.9em",
-									color: 'red',
-									cursor: 'pointer'
-								}}
-								onClick={() => this.deleteEmailFromList(email)}
+						<div key={`emailList_${email}_${index}`}>
+							<RowTabla
+								email={email}
+								index={index}
+								deleteEmailFromList={this.deleteEmailFromList}
 							/>
-						</Card>
+						</div>
 					))
-				:
+					:
 					<div>
 						{this.props.translate.not_added}
 					</div>
 				}
 			</div>
-	
+
 		)
 	}
 
 	_button = () => {
 		const primary = getPrimary();
 
-		return(
+		return (
 			<BasicButton
 				text={this.props.translate.add_email}
 				color={"white"}
@@ -244,8 +228,8 @@ class SendActDraftModal extends React.Component {
 			}
 		});
 
-		if(!!response){
-			if(!response.data.errors){
+		if (!!response) {
+			if (!response.data.errors) {
 				this.setState({
 					success: true
 				});
@@ -260,11 +244,27 @@ class SendActDraftModal extends React.Component {
 			const index = this.state.emailList.findIndex(email => email === item);
 			return !!index;
 		});
-		const emails = [...this.state.emailList, ...filteredEmails];
+		let emails=[]
+		emails.push(...this.state.emailList)
+		for (let i = 0; i < filteredEmails.length; i++) {
+			if(emails.findIndex(email => email === filteredEmails[i])===-1){
+				emails.push(filteredEmails[i])
+			}
+		}
 		this.setState({
 			emailList: emails,
 			step: 2
 		});
+	}
+
+	cambiarCheck = (mail) => {
+		let isChecked = this.isChecked(mail);
+		if (isChecked) {
+			isChecked = false
+		} else {
+			isChecked = true
+		}
+		this.checkRow(mail, isChecked)
 	}
 
 	_modalBody() {
@@ -278,8 +278,8 @@ class SendActDraftModal extends React.Component {
 			? 0
 			: this.props.data.councilParticipants;
 		const rest = total - participants.length - 1;
-
-		if(this.state.step === 1){
+		
+		if (this.state.step === 1) {
 			return (
 				<div style={{ width: "600px" }}>
 					<CollapsibleSection
@@ -305,50 +305,54 @@ class SendActDraftModal extends React.Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<div style={{marginTop: '1.2em'}}>
-										{participants.map(participant => {
-											return (
-												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>
-													<ParticipantRow
-														checkBox={true}
-														selected={this.isChecked(participant.email)}
-														onChange={(event, isInputChecked) =>
-															this.checkRow(participant.email, isInputChecked)
-														}
-														participant={participant}
-													/>
+								<Scrollbar style={{ height: "100%", marginBottom: '0.5em' }} option={{ suppressScrollX: true }}>
+									{participants.length > 0 ? (
+										<div style={{ marginTop: '1em' }}>
+											{participants.map(participant => {
+												return (
+													<div onClick={() => this.cambiarCheck(participant.email)} style={{ display: 'flex', flexDirection: 'row', width: '99.7%', margin: '0 auto', }} key={`participant_${participant.id}`}>
+														<ParticipantRow
+															stylesPaper={{ marginTop: "10px", marginBottom: "10px" }}
+															checkBox={true}
+															selected={this.isChecked(participant.email)}
+															onChange={(event, isInputChecked) =>
+																this.checkRow(participant.email, isInputChecked)
+															}
+															participant={participant}
+														/>
+													</div>
+												);
+											})}
+											{participants.length < total - 1 && (
+												<div onClick={this.loadMore}>
+													{`DESCARGAR ${
+														rest > DELEGATION_USERS_LOAD
+															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+															: translate.all_plural.toLowerCase()
+														}`}
 												</div>
-											);
-										})}
-										{participants.length < total - 1 && (
-											<div onClick={this.loadMore}>
-												{`DESCARGAR ${
-													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
-												}`}
-											</div>
+											)}
+										</div>
+									) : (
+											<Typography>{translate.no_results}</Typography>
 										)}
-									</div>
-								) : (
-									<Typography>{translate.no_results}</Typography>
-								)}
-							</Scrollbar>
-						)}
+								</Scrollbar>
+							)}
 					</div>
 				</div>
 			);
 		}
 
-		if(this.state.success){
-			return(
-				<SuccessMessage />
+		if (this.state.success) {
+			return (
+				<SuccessMessage
+					changeImage={true}
+					message={"Email enviado correctamente"}//TRADUCCION
+				/>
 			)
 		}
 
-		return(
+		return (
 			<div style={{ width: "600px" }}>
 				{this._renderEmails()}
 			</div>
@@ -357,19 +361,75 @@ class SendActDraftModal extends React.Component {
 
 	render() {
 		const { translate } = this.props;
+		let sylesSend = this.state.success ? {
+			height: '100%',
+			paddingTop: '24px',
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center'
+		} : {};
 
 		return (
 			<AlertConfirm
+				bodyStyle={{ minHeight: "430px", paddingTop: this.state.step === 2 ? "5px" : "0", ...sylesSend }}
 				requestClose={this.close}
 				open={this.props.show}
-				acceptAction={this.state.step === 1? this.secondStep : this.sendActDraft}
-				hideAccept={this.state.step === 2 && this.state.emailList.length < 1}
-				buttonAccept={this.state.step === 1? translate.continue : translate.send}
-				cancelAction={this.state.step !== 1? () => this.setState({step: 1, success: false}): null}
-				buttonCancel={this.state.step === 1? translate.close : translate.back}
+				acceptAction={this.state.step === 1 ? this.secondStep : this.sendActDraft}
+				hideAccept={(this.state.step === 2 && this.state.emailList.length < 1) || this.state.success}
+				buttonAccept={this.state.step === 1 ? translate.continue : translate.send}
+				cancelAction={this.state.step !== 1 ? () => this.setState({ step: 1, success: false }) : null}
+				buttonCancel={this.state.step === 1 ? translate.close : translate.back}
 				bodyText={this._modalBody()}
 				title={translate.send_draft_act_review}
 			/>
+		);
+	}
+}
+
+class RowTabla extends React.Component {
+
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
+
+	render() {
+		const { email, index, deleteEmailFromList } = this.props;
+		return (
+			< div
+				onMouseOver={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				className={"hoverEnTabla"}
+				style={{ display: 'flex', padding: '15px', background: (index % 2) ? "" : "#f2f2f2", }}
+			>
+				<div style={{ width: "80%" }}>
+					{email}
+				</div>
+				<div style={{ width: "20%", textAlign: "center" }}>
+					{this.state.showActions && (
+						< FontAwesome
+							name={"times"}
+							style={{
+								fontSize: "0.9em",
+								color: 'red',
+								cursor: 'pointer'
+							}}
+							onClick={() => deleteEmailFromList(email)}
+						/>
+					)}
+				</div>
+			</div>
 		);
 	}
 }

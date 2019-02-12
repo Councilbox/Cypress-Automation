@@ -3,7 +3,7 @@ import { Checkbox } from './';
 import { delegatedVotesLimitReached } from '../utils/CBX';
 import { Paper } from 'material-ui';
 
-const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange }) => {
+const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper }) => {
 
 	let limitReached = null;
 	if (toDelegate) {
@@ -11,7 +11,7 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 	}
 
 	return (
-		<Paper style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '0.2em', padding: '0.3em', paddingLeft: '0.5em', cursor: 'pointer' }}>
+		<Paper style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '0.2em', padding: '0.3em', paddingLeft: '0.5em', cursor: 'pointer', ...stylesPaper }}>
 			{checkBox &&
 				<Checkbox
 					value={selected}
