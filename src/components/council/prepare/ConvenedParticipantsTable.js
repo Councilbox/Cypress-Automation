@@ -195,8 +195,6 @@ class ConvenedParticipantsTable extends React.Component {
 			}
 		}
 
-		console.log(this.state.participants);
-
 		headers.push({text: ''});
 		return (
 			<div style={{ width: "100%", height: '100%' }}>
@@ -384,7 +382,6 @@ class HoverableRow extends React.Component {
 			representative = participant.live.representative;
 		}
 
-		console.log(representative);
 
 		if(isMobile){
             return(
