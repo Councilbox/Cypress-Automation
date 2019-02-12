@@ -13,6 +13,7 @@ import { getSecondary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
+import { isMobile } from "react-device-detect";
 
 
 //props.council.id
@@ -27,7 +28,7 @@ const CreateCouncil = props => {
 	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {
-		if(!config.newCreateFlow){
+		if (!config.newCreateFlow) {
 			createCouncilOneStep();
 		}
 	});
@@ -40,9 +41,9 @@ const CreateCouncil = props => {
 			let newCouncilId = await createCouncil(
 				props.match.params.company
 			);
-			if(newCouncilId){
+			if (newCouncilId) {
 				bHistory.replace(`/company/${props.match.params.company}/council/${newCouncilId}`);
-			}else{
+			} else {
 				bHistory.replace(`/company/${props.match.params.company}`);
 				toast(
 					<LiveToast
@@ -64,22 +65,22 @@ const CreateCouncil = props => {
 				companyId: companyId
 			}
 		});
-		if(response.data.createCouncil){
+		if (response.data.createCouncil) {
 			return response.data.createCouncil.id;
-		}else{
+		} else {
 			return null;
 		}
 	}
 
 	return (
-		config.newCreateFlow?
+		config.newCreateFlow ?
 			<CreateCouncilModal
 				history={props.history}
 				createCouncil={props.createCouncil}
 				company={props.match.params.company}
 				translate={props.translate}
 			/>
-		:
+			:
 			<LoadingMainApp />
 	);
 }
@@ -89,16 +90,17 @@ const steps = {
 	COUNCIL: 'COUNCIL'
 }
 
+const secondary = getSecondary();
+
 const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
 	const [title, setTitle] = React.useState("Seleccionar tipo de reunión");//TRADUCCION
 
-	const secondary = getSecondary();
 
 	const sendCreateCouncil = async type => {
-		if(!checkRequiredFields()){
+		if (!checkRequiredFields()) {
 			const response = await createCouncil({
 				variables: {
 					companyId: company,
@@ -107,9 +109,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 				}
 			});
 			const newCouncilId = response.data.createCouncil.id;
-			if(newCouncilId){
+			if (newCouncilId) {
 				bHistory.replace(`/company/${company}/council/${newCouncilId}`);
-			}else{
+			} else {
 				bHistory.replace(`/company/${company}`);
 				toast(
 					<LiveToast
@@ -128,18 +130,18 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		let hasError = false;
 		let errors = {}
 
-		if(step === steps.NO_SESSION){
-			if(!options.dateStart){
+		if (step === steps.NO_SESSION) {
+			if (!options.dateStart) {
 				hasError = true;
 				errors.dateStart = translate.required_field;
 			}
-			if(!options.closeDate){
+			if (!options.closeDate) {
 				hasError = true;
 				errors.closeDate = translate.required_field;
 			}
 
-			if(options.dateStart && options.closeDate){
-				if(!checkSecondDateAfterFirst(options.dateStart, options.closeDate)){
+			if (options.dateStart && options.closeDate) {
+				if (!checkSecondDateAfterFirst(options.dateStart, options.closeDate)) {
 					hasError = true;
 					errors.errorMessage = 'La fecha de fin no puede ser anterior a la fecha de comienzo.';
 				}
@@ -167,22 +169,56 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 			bodyText={
 				<React.Fragment>
 					{step === 1 &&
-						<Grid style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-							<GridItem xs={12} md={5} lg={5}>
-								<BlockButton
-									onClick={councilStep}
-									icon={<i className="fa fa-users" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-									text="Con sesión"
-								/>
-							</GridItem>
-							<GridItem xs={12} md={5} lg={5}>
-								<BlockButton
-									onClick={noSessionStep}
-									icon={<i className="fa fa-list-alt" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-									text="Sin sesión"
-								/>
-							</GridItem>
-						</Grid>
+						<div style={{ display: 'flex', margin: "2em 0 1.5em 0", justifyContent: 'center', alignItems: 'center' }}>
+							<ButtonCreateCouncil
+								title={'Con sesión'}
+								styleButton={{ marginRight: "3%" }}
+								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: ".5em", fontSize: '4em', color: secondary }}></i>}
+								isMobile={isMobile}
+								list={
+									<ul>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+									</ul>
+								}
+							/>
+							<ButtonCreateCouncil
+								title={'Sin sesión'}
+								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+								isMobile={isMobile}
+								list={
+									<ul>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+									</ul>
+								}
+
+							/>
+							{/* <div style={{ width: "45%", border: "1px solid gainsboro", marginRight: "3%" }}>
+								<div style={{ textAlign: " center", }}>
+									<h2>Con sesión</h2>
+									<i className="fa fa-users" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>
+									<ul>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>que dapibus. Integer venenatis varius massa, eu vehicula magna dapibus ac. Morbi quis ipsum non eros maximus viverra at vi</li>
+										<li> felis quam. Donec orci nulla, tincidunt vel elementum sed, ultrices et metus. Donec mattis, eros quis tincidunt porttitor, massa diam laor</li>
+									</ul>
+								</div>
+							</div>
+							<div style={{ width: "45%", border: "1px solid gainsboro" }}>
+								<div style={{ textAlign: " center" }}>
+									<h2>Sin sesión</h2>
+									<i className="fa fa-list-alt" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>
+									<ul>
+										<li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>que dapibus. Integer venenatis varius massa, eu vehicula magna dapibus ac. Morbi quis ipsum non eros maximus viverra at vi</li>
+										<li> felis quam. Donec orci nulla, tincidunt vel elementum sed, ultrices et metus. Donec mattis, eros quis tincidunt porttitor, massa diam laor</li>
+									</ul>
+								</div>
+							</div> */}
+						</div>
 					}
 					{step === steps.NO_SESSION &&
 						<CreateWithoutSession
@@ -207,6 +243,57 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		/>
 	)
 }
+
+class ButtonCreateCouncil extends React.Component {
+
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
+
+
+	render() {
+		const { isMobile, title, icon, list, styleButton } = this.props
+		if (isMobile) {
+			return (
+				<div></div>
+			);
+		} else {
+			return (
+				<div
+					onMouseOver={this.mouseEnterHandler}
+					onMouseLeave={this.mouseLeaveHandler}
+					style={{
+						width: "45%",
+						border: "1px solid gainsboro",
+						background: this.state.showActions ? "gainsboro" : "",
+						padding: '1.5em',
+						...styleButton
+					}}
+				>
+					<div style={{ textAlign: " center", }}>
+						<h2>{title}</h2>
+						{icon}
+						{list}
+					</div>
+				</div>
+			);
+		}
+	}
+
+}
+
 
 const mapStateToProps = state => ({
 	main: state.main,
