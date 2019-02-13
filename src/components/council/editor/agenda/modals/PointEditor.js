@@ -64,7 +64,7 @@ class PointEditor extends React.Component {
 
 	saveChanges = async () => {
 		if (!this.checkRequiredFields()) {
-			const { __typename, ...data } = this.state.data;
+			const { __typename, items, options, ...data } = this.state.data;
 			const response = await this.props.updateAgenda({
 				variables: {
 					agenda: {

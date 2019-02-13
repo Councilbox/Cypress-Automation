@@ -941,6 +941,14 @@ export const councilStepThree = gql`
 				agendaSubject
 				comment
 				councilId
+				items {
+					id
+					value
+				}
+				options {
+					id
+					maxSelections
+				}
 				currentRemoteCensus
 				dateEnd
 				dateEndVotation

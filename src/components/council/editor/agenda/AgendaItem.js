@@ -55,6 +55,18 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 								/>
 							)}
 						</GridItem>
+						{agenda.items.length > 0 &&
+							<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
+								{`Respuestas posibles (${agenda.options.maxSelections} por participante)`/*TRADUCCION*/}
+								<ul>
+									{agenda.items.map(item => (
+										<li key={`agenda_item_${item.id}`}>
+											{item.value}
+										</li>
+									))}
+								</ul>
+							</GridItem>
+						}
 					</Grid>
 				</GridItem>
 				<GridItem xs={3} md={3}>

@@ -699,6 +699,21 @@ export const councilIsNotLiveYet = council => {
 	);
 };
 
+export const checkRepeatedItemValue = items => {
+    const differentValues = new Map();
+    let found = new Set();
+    items.forEach((item, index) => {
+        if(item.value){
+            if(differentValues.has(item.value)){
+                found.add(differentValues.get(item.value));
+                found.add(index);
+            }
+            differentValues.set(item.value, index);
+        }
+    });
+    return Array.from(found.values());
+}
+
 export const councilIsPreparing = council => {
 	return (
 		council.state === COUNCIL_STATES.PREPARING

@@ -17,7 +17,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
 
 	const updateOrder = async () => {
 		const reorderedAgenda = agendas.map((agenda, index) => {
-			const { __typename, attachments, votings, ...updatedAgenda } = agenda;
+			const { __typename, attachments, votings, items, options, ...updatedAgenda } = agenda;
 			updatedAgenda.orderIndex = index + 1;
 			return updatedAgenda;
 		});

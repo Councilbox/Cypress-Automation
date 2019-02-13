@@ -21,6 +21,7 @@ import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
 import AgendaItem from "./AgendaItem";
 import EditorStepLayout from '../EditorStepLayout';
 import NewCustomPointModal from './modals/NewCustomPointModal';
+import CustomPointEditor from './modals/CustomPointEditor';
 import { ConfigContext } from "../../../../containers/AppControl";
 
 const buttonStyle = {
@@ -92,10 +93,20 @@ class StepAgenda extends React.Component {
 	};
 
 	selectAgenda = index => {
-		this.setState({
-			edit: true,
-			editIndex: index
-		});
+		const agenda = this.props.data.council.agendas.find(
+			item => item.orderIndex === index
+		);
+
+		if(agenda.items.length > 0){
+			this.setState({
+				editCustomAgenda: agenda
+			});
+		} else {
+			this.setState({
+				editAgenda: agenda
+			});
+		}
+
 	};
 
 	nextPage = async () => {
@@ -140,8 +151,6 @@ class StepAgenda extends React.Component {
 		const { translate } = this.props;
 		const {
 			errors,
-			edit,
-			editIndex,
 			saveAsDraft,
 			saveAsDraftId
 		} = this.state;
@@ -301,15 +310,29 @@ class StepAgenda extends React.Component {
 										company={this.props.company}
 										council={council}
 										companyStatutes={this.props.data.companyStatutes}
-										open={edit}
-										agenda={council.agendas.find(
-											item => item.orderIndex === editIndex
-										)}
+										open={!!this.state.editAgenda}
+										agenda={this.state.editAgenda}
 										votingTypes={votingTypes}
 										majorityTypes={majorityTypes}
 										refetch={this.props.data.refetch}
-										requestClose={() => this.setState({ edit: false })}
+										requestClose={() => this.setState({ editAgenda: null })}
 									/>
+									{!!this.state.editCustomAgenda &&
+										<CustomPointEditor
+											translate={translate}
+											draftTypes={draftTypes}
+											statute={council.statute}
+											company={this.props.company}
+											council={council}
+											companyStatutes={this.props.data.companyStatutes}
+											open={!!this.state.editCustomAgenda}
+											agenda={this.state.editCustomAgenda}
+											votingTypes={votingTypes}
+											majorityTypes={majorityTypes}
+											refetch={this.props.data.refetch}
+											requestClose={() => this.setState({ editCustomAgenda: null })}
+										/>
+									}
 									{saveAsDraft &&
 										newDraft && (
 											<SaveDraftModal
@@ -494,35 +517,38 @@ const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftT
 					textPosition="after"
 				/>
 			}
-
-			<NewAgendaPointModal
-				translate={translate}
-				agendas={council.agendas}
-				votingTypes={votingTypes}
-				open={state.yesNoModal}
-				requestClose={closeYesNoModal}
-				majorityTypes={majorityTypes}
-				draftTypes={draftTypes}
-				statute={council.statute}
-				company={props.company}
-				council={council}
-				companyStatutes={props.companyStatutes}
-				refetch={props.refetch}
-			/>
-			<NewCustomPointModal
-				translate={translate}
-				agendas={council.agendas}
-				votingTypes={votingTypes}
-				open={state.customPointModal}
-				requestClose={closeCustomPointModal}
-				majorityTypes={majorityTypes}
-				draftTypes={draftTypes}
-				statute={council.statute}
-				company={props.company}
-				council={council}
-				companyStatutes={props.companyStatutes}
-				refetch={props.refetch}
-			/>
+			{state.yesNoModal &&
+				<NewAgendaPointModal
+					translate={translate}
+					agendas={council.agendas}
+					votingTypes={votingTypes}
+					open={state.yesNoModal}
+					requestClose={closeYesNoModal}
+					majorityTypes={majorityTypes}
+					draftTypes={draftTypes}
+					statute={council.statute}
+					company={props.company}
+					council={council}
+					companyStatutes={props.companyStatutes}
+					refetch={props.refetch}
+				/>
+			}
+			{state.customPointModal &&
+				<NewCustomPointModal
+					translate={translate}
+					agendas={council.agendas}
+					votingTypes={votingTypes}
+					open={state.customPointModal}
+					requestClose={closeCustomPointModal}
+					majorityTypes={majorityTypes}
+					draftTypes={draftTypes}
+					statute={council.statute}
+					company={props.company}
+					council={council}
+					companyStatutes={props.companyStatutes}
+					refetch={props.refetch}
+				/>
+			}
 		</React.Fragment>
 	)
 }

@@ -6,41 +6,22 @@ import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
 
 
-const defaultPollOptions = {
-    writeIn: false,
-    maxSelections: 1,
-    multiselect: false
-}
-
-const defaultValues = {
-    agendaSubject: "",
-    subjectType: 6,
-    description: "",
-}
-
-const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
-    const [agenda, setAgenda] = React.useState({
-        ...defaultValues,
-        councilId: props.council.id,
-        orderIndex: props.agendas.length + 1
-    });
+const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
+    const [agenda, setAgenda] = React.useState(cleanObject(props.agenda));
     const [errors, setErrors] = React.useState({});
-    const [items, setItems] = React.useState([{
-        value: ''
-    }]);
-    const [options, setOptions] = React.useState(defaultPollOptions);
+    const [items, setItems] = React.useState(props.agenda.items.map(item => cleanObject(item)));
+    const [options, setOptions] = React.useState(cleanObject(props.agenda.options));
 
     const addCustomPoint = async () => {
         if(!validateCustomAgenda()){
-            const response = await addCustomAgenda({
+            const response = await updateCustomAgenda({
                 variables: {
-                    agenda,
-                    items,
-                    options
+                    agenda: agenda,
+                    items: items,
+                    options: options
                 }
             });
 
-            console.log(response);
             await props.refetch();
             props.requestClose();
         }
@@ -78,8 +59,6 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         });
     }
 
-    console.log(options);
-
     const validateCustomAgenda = () => {
         let hasError = false;
         let newErrors = {
@@ -115,7 +94,6 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
                 newErrors.items[repeated].error = 'Valor repetido en otra opción';
             });
         }
-
 
         setErrors(newErrors);
         return hasError;
@@ -164,20 +142,28 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     )
 }
 
-const addCustomAgenda = gql`
-    mutation AddCustomAgenda($agenda: AgendaInput!, $options: PollOptionsInput!, $items: [PollItemInput]!){
-        addCustomAgenda(agenda: $agenda, options: $options, items: $items){
+const updateCustomAgenda = gql`
+    mutation UpdateCustomAgenda($agenda: AgendaInput!, $options: PollOptionsInput!, $items: [PollItemInput]!){
+        updateCustomAgenda(agenda: $agenda, options: $options, items: $items){
             id
             items {
+                id
                 value
             }
             options {
+                id
                 maxSelections
             }
         }
     }
 `;
 
-export default graphql(addCustomAgenda, {
-    name: 'addCustomAgenda'
-})(NewCustomPointModal);
+
+const cleanObject = object => {
+    const { __typename, items, options, ...rest } = object;
+    return rest;
+}
+
+export default graphql(updateCustomAgenda, {
+    name: 'updateCustomAgenda'
+})(CustomPointEditor);
