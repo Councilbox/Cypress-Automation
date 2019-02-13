@@ -18,8 +18,8 @@ const LoadingMainApp = ({ message }) => (
 			color={getPrimary()}
 			className="spinner"
 		/> */}
+		{/* Prueba1 */}
 		<img src="/img/logo-icono.png" class="element-animation" alt="councilbox logo"></img>
-		{/* <img src="/static/media/logo.a533b7e7.png" class="element-animation2" alt="councilbox logo"></img> */}
 		{/* <img src="icono" alt="councilbox logo" className='splash' /> */}
 
 		<div>
