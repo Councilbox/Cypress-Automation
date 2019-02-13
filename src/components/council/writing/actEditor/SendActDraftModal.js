@@ -423,7 +423,7 @@ class RowTabla extends React.Component {
 						< FontAwesome
 							name={"times"}
 							style={{
-								fontSize: "0.9em",
+								fontSize: "1.2em",
 								color: 'red',
 								cursor: 'pointer'
 							}}
