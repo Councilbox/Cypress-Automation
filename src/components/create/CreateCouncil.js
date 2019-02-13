@@ -167,6 +167,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		<AlertConfirm
 			open={true}
 			title={title}
+			bodyStyle={{maxWidth: "75vw"}}
 			bodyText={
 				<React.Fragment>
 					{step === 1 &&
