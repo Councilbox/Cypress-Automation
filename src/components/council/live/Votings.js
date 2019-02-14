@@ -67,6 +67,7 @@ class Votings extends React.Component {
 	};
 
 	_section = () => {
+
 		return(
 			<div style={{backgroundColor: 'white', paddingTop: '1em'}}>
 				{canEditPresentVotings(this.props.agenda) && agendaVotingsOpened(this.props.agenda) &&
@@ -94,7 +95,7 @@ class Votings extends React.Component {
 					width: "100%",
 					position: "relative"
 				}}
-				onKeyUp={this.handleKeyPress}
+				//onKeyUp={this.handleKeyPress}
 			>
 				{this._section()}
 			</div>

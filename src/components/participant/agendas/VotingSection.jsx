@@ -49,24 +49,7 @@ class VotingSection extends React.Component {
             <React.Fragment>
                 <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
                     <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                        {agenda.votings[0].vote === -1 &&
-                            translate.you_havent_voted_yet
-                        }
-                        {agenda.votings[0].vote === 0 &&
-                            <React.Fragment>
-                                {`${translate.you_have_voted}: ${translate.against_btn}`}
-                            </React.Fragment>
-                        }
-                        {agenda.votings[0].vote === 1 &&
-                            <React.Fragment>
-                                {`${translate.you_have_voted}: ${translate.in_favor_btn}`}
-                            </React.Fragment>
-                        }
-                        {agenda.votings[0].vote === 2 &&
-                            <React.Fragment>
-                                {`${translate.you_have_voted}: ${translate.abstention_btn}`}
-                            </React.Fragment>
-                        }
+                        {getVotingInfoText(agenda.votings[0].vote, translate)}
                     </Typography>
                     {singleVoteMode?
                         <React.Fragment>
@@ -146,6 +129,22 @@ class VotingSection extends React.Component {
                 />
             </React.Fragment>
         )
+    }
+}
+
+const getVotingInfoText = (vote, translate) => {
+    switch(vote){
+        case -1:
+            return translate.you_havent_voted_yet;
+        case 0:
+            return `${translate.you_have_voted}: ${translate.against_btn}`;
+        case 1:
+            return `${translate.you_have_voted}: ${translate.in_favor_btn}`;
+        case 2:
+            return `${translate.you_have_voted}: ${translate.abstention_btn}`;
+
+        default:
+            return translate.you_have_voted
     }
 }
 

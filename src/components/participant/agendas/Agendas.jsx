@@ -255,6 +255,19 @@ const agendas = gql`
                 councilId
                 state
             }
+            options {
+                maxSelections
+                id
+            }
+            items {
+                id
+                value
+            }
+            ballots {
+                id
+                value
+                itemId
+            }
             councilId
             dateEndVotation
             dateStart

@@ -11,7 +11,8 @@ import {
 	SIGNATURE_PARTICIPANTS_STATES,
 	AGENDA_TYPES,
 	VOTE_VALUES,
-	PARTICIPANT_TYPE
+	PARTICIPANT_TYPE,
+	CUSTOM_AGENDA_VOTING_TYPES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
 import React from 'react';
@@ -130,7 +131,7 @@ export const councilHasParticipations = council => {
 };
 
 export const hasVotation = pointType => {
-	return pointType === 1 || pointType === 3 || pointType === 5;
+	return pointType !== AGENDA_TYPES.INFORMATIVE;
 };
 
 export const pointIsClosed = agendaPoint => {
@@ -245,7 +246,8 @@ export const delegatedVotesLimitReached = (statute, length) => {
 };
 
 export const isCustomPoint = subjectType => {
-	return subjectType === AGENDA_TYPES.CUSTOM_POINT;
+	const customPoint = CUSTOM_AGENDA_VOTING_TYPES.find(type => subjectType === type.value);
+	return !!customPoint;
 }
 
 export const canBePresentWithRemoteVote = statute => {

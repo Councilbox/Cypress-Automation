@@ -125,7 +125,7 @@ class AgendaMenu extends React.Component {
                         <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda/>
                     )
                 }
-                {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
+                {CBX.hasVotation(agenda.subjectType) && agenda.subjectType !== CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
                     <React.Fragment>
                         <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
                             <Typography style={{ fontWeight: '700', fontSize: '16px'}}>

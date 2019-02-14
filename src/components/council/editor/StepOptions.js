@@ -48,6 +48,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 		}
 	});
 	const council = state.data.council;
+	console.log(council);
 
 	const updateCouncil = async step => {
 		setState({
@@ -94,15 +95,17 @@ const StepOptions = ({ translate, data, ...props }) => {
 			return response.error;
 		}
 
-		if(!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)){
-			setState({
-				...state,
-				errors: {
-					...state.errors,
-					closeDate: `La fecha de fin no puede ser anterior a la de comienzo (${moment(council.dateStart).format('LLL')})`
-				}
-			});
-			return true;
+		if(council.autoClose === 1){
+			if(!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)){
+				setState({
+					...state,
+					errors: {
+						...state.errors,
+						closeDate: `La fecha de fin no puede ser anterior a la de comienzo (${moment(council.dateStart).format('LLL')})`
+					}
+				});
+				return true;
+			}
 		}
 
 		return false;

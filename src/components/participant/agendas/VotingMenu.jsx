@@ -4,6 +4,8 @@ import { getPrimary } from '../../../styles/colors';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
+import CustomPointVotingMenu from './CustomPointVotingMenu';
+import { isCustomPoint } from '../../../utils/CBX';
 
 const styles = {
     division: {
@@ -66,6 +68,16 @@ class VotingMenu extends React.Component {
     render(){
         const { agenda, singleVoteMode } = this.props;
         const primary = getPrimary();
+
+        if(isCustomPoint(agenda.subjectType)){
+            return(
+                <CustomPointVotingMenu
+                    agenda={agenda}
+                    translate={this.props.translate}
+                />
+            )
+        }
+
 
         return(
             <Grid

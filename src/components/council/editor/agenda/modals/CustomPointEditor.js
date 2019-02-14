@@ -113,6 +113,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             <div style={{marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720? '720px' : '100%'}}>
                 <CustomPointForm
                     {...{
+                        ...props,
                         agenda,
                         options,
                         items,
@@ -122,7 +123,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
                         updateItem,
                         updateOptions,
                         removeItem,
-                        addOption
+                        addOption,
                     }}
                 />
             </div>

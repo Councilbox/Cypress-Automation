@@ -9,6 +9,7 @@ import Votings from "./Votings";
 import { AGENDA_TYPES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
+import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
 
 
 class AgendaDetailsTabs extends React.Component {
@@ -88,25 +89,40 @@ class AgendaDetailsTabs extends React.Component {
                             <React.Fragment>
                                 {this.state.selectedTab === 2 &&
                                     <div style={{padding: '1em'}}>
-                                        <RecountSection
-                                            agenda={agenda}
-                                            key={`agendaRecount_${agenda.id}`}
-                                            council={council}
-                                            translate={translate}
-                                            recount={this.props.recount}
-                                            refetch={this.props.refetch}
-                                            majorityTypes={this.props.majorityTypes}
-                                        />
-                                        <Votings
-                                            key={`agendaVotings_${agenda.id}`}
-                                            ref={votings => (this.votings = votings)}
-                                            refetch={this.props.refetch}
-                                            changeEditedVotings={this.props.changeEditedVotings}
-                                            editedVotings={this.props.editedVotings}
-                                            agenda={agenda}
-                                            recount={this.props.recount}
-                                            translate={translate}
-                                        />
+                                        {CBX.isCustomPoint(agenda.subjectType)?
+                                            <CustomPointVotingsLive
+                                                agenda={agenda}
+                                                key={`agendaVotings_${agenda.id}`}
+                                                refetch={this.props.refetch}
+                                                changeEditedVotings={this.props.changeEditedVotings}
+                                                editedVotings={this.props.editedVotings}
+                                                agenda={agenda}
+                                                recount={this.props.recount}
+                                                translate={translate}
+                                            />
+                                        :
+                                            <React.Fragment>
+                                                <RecountSection
+                                                    agenda={agenda}
+                                                    key={`agendaRecount_${agenda.id}`}
+                                                    council={council}
+                                                    translate={translate}
+                                                    recount={this.props.recount}
+                                                    refetch={this.props.refetch}
+                                                    majorityTypes={this.props.majorityTypes}
+                                                />
+                                                <Votings
+                                                    key={`agendaVotings_${agenda.id}`}
+                                                    ref={votings => (this.votings = votings)}
+                                                    refetch={this.props.refetch}
+                                                    changeEditedVotings={this.props.changeEditedVotings}
+                                                    editedVotings={this.props.editedVotings}
+                                                    agenda={agenda}
+                                                    recount={this.props.recount}
+                                                    translate={translate}
+                                                />
+                                            </React.Fragment>
+                                        }
                                     </div>
                                 }
                             </React.Fragment>

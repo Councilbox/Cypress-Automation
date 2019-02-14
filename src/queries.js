@@ -536,6 +536,21 @@ export const agendaManager = gql`
 			abstentionManual
 			abstentionVotings
 			agendaSubject
+			items {
+				id
+				value
+			}
+			ballots {
+				id
+				value
+				participantId
+				itemId
+			}
+			options {
+				maxSelections
+				id
+				writeIn
+			}
 			attachments {
 				id
 				agendaId
