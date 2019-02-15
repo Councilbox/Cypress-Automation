@@ -989,7 +989,7 @@ export const getAgendaTypeLabel = agenda => {
 		case AGENDA_TYPES.CUSTOM_POINT:
 			return 'custom_point';
 		default:
-			return 'informative';
+			return 'custom_point';
 	}
 }
 

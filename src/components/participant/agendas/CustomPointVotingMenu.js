@@ -4,12 +4,15 @@ import gql from 'graphql-tag';
 import { BasicButton, Radio, Checkbox } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 
-const CustomPointVotingMenu = ({ agenda, translate, ...props }) => {
+const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...props }) => {
     const [selections, setSelections] = React.useState([]);
+    const [loading, setLoading] = React.useState(false);
     const primary = getPrimary();
 
-    const addSelection = value => {
-        const newSelections = [...selections, value];
+    console.log(agenda);
+
+    const addSelection = item => {
+        const newSelections = [...selections, cleanObject(item)];
         setSelections(newSelections);
     }
 
@@ -22,11 +25,21 @@ const CustomPointVotingMenu = ({ agenda, translate, ...props }) => {
     }
 
     const setSelection = item => {
-        setSelections([item]);
+        setSelections([cleanObject(item)]);
     }
 
     const sendCustomAgendaVote = async () => {
-        console.log(selections)
+        setLoading(true);
+        const response = await updateCustomPointVoting({
+            variables: {
+                selections,
+                votingId: props.ownVote.id
+            }
+        });
+        console.log(response);
+        setLoading(false);
+        //console.log(selections)
+
     }
 
     return (
@@ -64,10 +77,26 @@ const CustomPointVotingMenu = ({ agenda, translate, ...props }) => {
                 text="Enviar selección"
                 textStyle={{fontWeight: '700', color: 'white'}}
                 color={primary}
+                loading={loading}
                 onClick={sendCustomAgendaVote}
             />
         </div>
     )
 }
 
-export default CustomPointVotingMenu;
+const updateCustomPointVoting = gql`
+    mutation updateCustomPointVoting($selections: [PollItemInput]!, $votingId: Int!){
+        updateCustomPointVoting(selections: $selections, votingId: $votingId){
+            success
+        }
+    }
+`;
+
+const cleanObject = object => {
+    const { __typename, ...rest } = object;
+    return rest;
+}
+
+export default graphql(updateCustomPointVoting, {
+    name: 'updateCustomPointVoting'
+})(CustomPointVotingMenu);

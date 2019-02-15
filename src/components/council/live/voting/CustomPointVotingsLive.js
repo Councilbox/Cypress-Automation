@@ -6,6 +6,8 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
 
     //console.log(agenda.items);
 
+    console.log(agenda);
+
     const totalParticipations = 100;
 
     const ballots = [
@@ -58,16 +60,20 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
             {agenda.agendaSubject}
             {itemsWithBallots.map(item => (
                 <div key={`custom_item_${item.id}`}>
-                    <ProgressBar value={item.ballots.reduce((a, b) => {
-                        return a + b.numParticipations
-                    }, 0) / totalParticipations * 100} />
-                    {`${item.value} - ${item.id}`} Votos {`${item.ballots.reduce((a, b) => {
-                        return a + b.numParticipations
-                    }, 0)}`}
+                   {`${item.value}: Votos ${agenda.ballots.filter(ballot => ballot.itemId === item.id).length}`}
                 </div>
             ))}
         </div>
     )
 }
+
+/*
+<ProgressBar value={item.ballots.reduce((a, b) => {
+        return a + b.numParticipations
+    }, 0) / totalParticipations * 100} />
+    {`${item.value} - ${item.id}`} Votos {`${item.ballots.reduce((a, b) => {
+        return a + b.numParticipations
+    }, 0)}`}
+*/
 
 export default CustomPointVotingsLive;

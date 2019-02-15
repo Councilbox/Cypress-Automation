@@ -121,6 +121,7 @@ class VotingSection extends React.Component {
                         <VotingMenu
                             translate={this.props.translate}
                             close={this.props.toggle}
+                            ownVote={this.props.ownVote}
                             singleVoteMode={singleVoteMode}
                             refetch={this.props.refetch}
                             agenda={agenda}
