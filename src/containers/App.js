@@ -7,7 +7,7 @@ import Loadable from 'react-loadable';
 import configureStore from "../store/store";
 import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
-import { initUserData, loadingFinished, setLanguage} from "../actions/mainActions";
+import { initUserData, loadingFinished, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
 import { ApolloClient } from "apollo-client";
 import { RetryLink } from 'apollo-link-retry';
 import AppControl from './AppControl';
@@ -143,6 +143,14 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 		networkErrorHandler(networkError, toast, store, client, operation);
 	}
 });
+
+window.addEventListener('offline', () => {
+	store.dispatch(noServerResponse());
+})
+
+window.addEventListener('online', () => {
+	store.dispatch(serverRestored());
+})
 
 export const client = new ApolloClient({
 	link: ApolloLink.from([retryLink, addStatusLink, logoutLink, authLink, link]),

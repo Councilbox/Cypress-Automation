@@ -73,6 +73,7 @@ class VotingMenu extends React.Component {
             return(
                 <CustomPointVotingMenu
                     agenda={agenda}
+                    refetch={this.props.refetch}
                     ownVote={this.props.ownVote}
                     translate={this.props.translate}
                 />

@@ -4,20 +4,31 @@ import gql from 'graphql-tag';
 import { BasicButton, Radio, Checkbox } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 
+const createSelectionsFromBallots = (ballots = [], participantId) => {
+    return ballots
+        .filter(ballot => ballot.participantId === participantId)
+        .map(ballot => {
+            return {
+                id: ballot.itemId,
+                value: ballot.value
+            }
+        })
+}
+
 const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...props }) => {
-    const [selections, setSelections] = React.useState([]);
+    const [selections, setSelections] = React.useState(createSelectionsFromBallots(agenda.ballots, props.ownVote.participantId));
     const [loading, setLoading] = React.useState(false);
     const primary = getPrimary();
-
-    console.log(agenda);
 
     const addSelection = item => {
         const newSelections = [...selections, cleanObject(item)];
         setSelections(newSelections);
     }
 
-    const getSelectedRadio = value => {
-        return !!selections.find(selection => selection.value === value)
+    const getSelectedRadio = id => {
+        console.log(id);
+        console.log(!!selections.find(selection => selection.id === id));
+        return !!selections.find(selection => selection.id === id)
     }
 
     const removeSelection = item => {
@@ -36,11 +47,13 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
                 votingId: props.ownVote.id
             }
         });
-        console.log(response);
+        const newValues = await props.refetch();
+        console.log(newValues.data.agendas.find(a => agenda.id).ballots);
+        //setSelections(createSelectionsFromBallots(newValues.data.agendas.find(a => agenda.id).ballots))
         setLoading(false);
-        //console.log(selections)
-
     }
+
+    console.log(selections);
 
     return (
         <div>
@@ -48,7 +61,7 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
                 agenda.items.map(item => (
                     <div key={`item_${item.id}`}>
                         <Radio
-                            checked={getSelectedRadio(item.value)}
+                            checked={getSelectedRadio(item.id)}
                             onChange={() => setSelection(item)}
                             name="security"
                             label={item.value}//TRADUCCION
@@ -60,7 +73,8 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
                     <div key={`item_${item.id}`}>
                         <Checkbox
                             label={item.value}
-                            checked={getSelectedRadio(item.value)}
+                            value={getSelectedRadio(item.id)}
+                            disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
                             onChange={(event, isInputChecked) => {
                                 if(isInputChecked){
                                     addSelection(item)

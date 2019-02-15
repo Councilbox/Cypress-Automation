@@ -77,8 +77,7 @@ class AgendaMenu extends React.Component {
         //console.log(votings, participant);
         return votings.find(voting => (
             voting.participantId === participant.id
-            || voting.delegateId === participant.id ||
-            voting.author.representative.id === participant.id
+            || ((voting.author.representative.id === participant.id) && voting.author.representative.type ===  PARTICIPANT_TYPE.REPRESENTATIVE)
         ));
     }
 

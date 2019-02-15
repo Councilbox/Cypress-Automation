@@ -562,7 +562,9 @@ export const agendaManager = gql`
 			}
 			votings {
 				vote
+				id
 				author {
+					id
 					socialCapital
 				}
 			}

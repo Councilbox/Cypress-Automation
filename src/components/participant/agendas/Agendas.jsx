@@ -266,6 +266,7 @@ const agendas = gql`
             ballots {
                 id
                 value
+                participantId
                 itemId
             }
             councilId

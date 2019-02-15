@@ -19,7 +19,7 @@ const NoConnectionModal = ({ open, translate }) => (
             <img src={'/img/logo-icono.png'} alt={'Icon'} style={{width: '6.5em', height: 'auto', marginBottom: '1.2em'}} />
             <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{fontWeight: '700', fontSize: '1.1em'}}>
-                    {translate.trying_to_reconnect}
+                    {!navigator.onLine? `Sin conexión a internet: ${translate.trying_to_reconnect}` : translate.trying_to_reconnect}
                     <LoadingSection size={20} />
                 </div>
             </div>
