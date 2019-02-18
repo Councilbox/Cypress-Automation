@@ -143,7 +143,7 @@ class Dashboard extends React.Component {
 		if (!localStorage.getItem("items")) {
 			localStorage.setItem("items", JSON.stringify({}))
 		}
-		if (layout) { 
+		if (layout) {
 			//guardamos el orden segun el tamaño
 			objectItems = JSON.parse(localStorage.getItem(layout));
 			delete objectItems[size]
@@ -208,12 +208,12 @@ class Dashboard extends React.Component {
 							{this.state.edit && (
 								<div style={{ display: "flex" }}>
 									<BasicButton
-										text="Reset Dashboard"  //TRADUCCION
+										text="Por defecto"  //TRADUCCION
 										onClick={this.resetDash}
 										buttonStyle={{ marginRight: "1em", zIndex: "3" }}
 									/>
 									<BasicButton
-										text="Select Items"  //TRADUCCION
+										text="Seleccionar menus"  //TRADUCCION
 										onClick={this.modalEditClick}
 										buttonStyle={{ marginRight: "1em", zIndex: "3" }}
 									/>
@@ -221,7 +221,7 @@ class Dashboard extends React.Component {
 							)}
 							<BasicButton
 								buttonStyle={{ zIndex: "3" }}
-								text="Edit Dashboard"  //TRADUCCION
+								text="Configurar dashboard"  //TRADUCCION
 								onClick={this.editMode}
 								icon={this.state.edit ? <ButtonIcon type="lock_open" color={"red"} /> : <ButtonIcon type="lock" color={"black"} />}
 							/>
@@ -232,7 +232,7 @@ class Dashboard extends React.Component {
 						itemStorage={this.itemStorage}
 						requestClose={this.modalEditClickClose}
 						open={this.state.modalEdit}
-						title={"Items Dashboard"}//TRADUCCION
+						title={"Seleccionar menús"}//TRADUCCION
 						items={this.state.items}
 					/>
 
@@ -259,17 +259,6 @@ class Dashboard extends React.Component {
 							}}
 						>
 						</div>
-						{/* <div style={{ display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center' }}>
-						<div>
-							{company.logo &&
-								<img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
-							}
-						</div>
-						<div>
-							{company.businessName}
-							{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0 ? 0 : trialDays} ${translate.input_group_days})`}
-						</div>
-					</div> */}
 						<TopSectionBlocks
 							translate={translate}
 							company={company}

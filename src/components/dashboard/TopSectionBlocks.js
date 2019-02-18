@@ -187,16 +187,6 @@ class TopSectionBlocks extends React.Component {
 						isMobile={isMobile}
 					/>
 				}
-				{this.props.user.roles === 'devAdmin' &&
-					<GridItem xs={12} md={3} lg={3}>
-						<Block
-							link={`/admin`}
-							customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
-							id={'admin-panel'}
-							text={'Panel devAdmin'}
-						/>
-					</GridItem>
-				}
 				{!isMobile &&
 
 					<GridItem xs={12} md={12} lg={12} style={{ height: '100%', minHeight: "800px" }}>
@@ -307,9 +297,9 @@ class TopSectionBlocks extends React.Component {
 															) : (
 																	<div>
 																		<UltimasAcciones
-																			estados={[5, 10, 20, 30]}
+																			states={[5, 10, 20, 30]}
 																			translate={translate}
-																			reuniones={councils}
+																			councils={councils}
 																		/>
 																	</div>
 																)
