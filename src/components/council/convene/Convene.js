@@ -1,10 +1,12 @@
 import React from "react";
-import { graphql, withApollo } from "react-apollo";
+import { graphql, withApollo, compose } from "react-apollo";
 import FontAwesome from "react-fontawesome";
 import { getPrimary, getSecondary } from "../../../styles/colors";
+import { updateCouncil } from "../../../queries";
 import gql from "graphql-tag";
 import {
 	BasicButton,
+	AlertConfirm,
 	ErrorWrapper,
 	Grid,
 	GridItem,
@@ -15,12 +17,13 @@ import AttachmentDownload from "../../attachments/AttachmentDownload";
 import { downloadConvenePDF } from "../../../queries";
 import * as CBX from '../../../utils/CBX';
 import withWindowSize from '../../../HOCs/withWindowSize';
-
+import { Switch, FormControlLabel } from 'material-ui';
 
 export const conveneDetails = gql`
 	query CouncilDetails($councilID: Int!) {
 		council(id: $councilID) {
 			id
+			publicConvene
 			attachments {
 				councilId
 				filename
@@ -38,7 +41,8 @@ class Convene extends React.Component {
 	state = {
 		loading: false,
 		downloadingPDF: false,
-		htmlCopiedTooltip: false
+		htmlCopiedTooltip: false,
+		publicConveneModal: false
 	};
 
 	downloadPDF = async () => {
@@ -67,6 +71,33 @@ class Convene extends React.Component {
 			}
 		}
 	};
+
+	handlePublicChange = () => {
+		if(this.props.data.council.publicConvene === 0){
+			this.setState({
+				publicConveneModal: true
+			});
+			return;
+		}
+
+		this.togglePublicConvene();
+	}
+
+	togglePublicConvene = async () => {
+		const response = await this.props.updateCouncil({
+			variables: {
+				council: {
+					id: this.props.data.council.id,
+					publicConvene: this.props.data.council.publicConvene === 1? 0 : 1
+				}
+			}
+		});
+
+		this.props.data.refetch();
+		this.setState({
+			publicConveneModal: false
+		});
+	}
 
 	showTooltip = () => {
 		this.setState({
@@ -171,6 +202,25 @@ class Convene extends React.Component {
 						onClick={this.copyConveneHTML}
 					/>
 				</div>
+				<div style={{marginTop: '0.6em'}}>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={council.publicConvene === 1}
+								onChange={this.handlePublicChange}
+								value='true'
+								color="primary"
+							/>
+						}
+						label={council.publicConvene === 1? 'Convocatoria pública' : 'Convocatoria privada'}
+					/>
+					{council.publicConvene === 1 &&
+						<div style={{userSelect: 'text'}}>
+							{`Enlace para compartir: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
+						</div>
+					}
+
+				</div>
 				<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
 					<div
 						style={{
@@ -196,16 +246,32 @@ class Convene extends React.Component {
 						</Paper>
 					</div>
 				</Tooltip>
+				<AlertConfirm
+					requestClose={() => this.setState({ publicConveneModal: false })}
+					open={this.state.publicConveneModal}
+					acceptAction={this.togglePublicConvene}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={<div>
+						Al realizar está acción se mostrará un link el cual cualquier persona podrá ver la convocatoria, para deshacer está acción puede volver a configurar su convocatoria como privada.
+					</div>}
+					title={translate.warning}
+				/>
 			</React.Fragment>
 		);
 	}
 }
 
-export default graphql(conveneDetails, {
-	name: "data",
-	options: props => ({
-		variables: {
-			councilID: props.council.id
-		}
+export default compose(
+	graphql(conveneDetails, {
+		name: "data",
+		options: props => ({
+			variables: {
+				councilID: props.council.id
+			}
+		})
+	}),
+	graphql(updateCouncil, {
+		name: 'updateCouncil'
 	})
-})(withApollo(withWindowSize(Convene)));
+)(withApollo(withWindowSize(Convene)));

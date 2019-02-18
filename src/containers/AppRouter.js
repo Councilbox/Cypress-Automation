@@ -1,18 +1,18 @@
 import React from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { LoadingMainApp, RemoteAssistance, RemoteMouseTracking } from "../displayComponents";
+import { LoadingMainApp } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
 import appStyle from "../styles/appStyle.jsx";
 import { isLandscape } from '../utils/screen';
 import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
-
 const LoadRecommendations = Loadable({
 	loader: () => import('../components/noCompany/Recommendations'),
 	loading: LoadingMainApp
 });
+
 
 const LoadCorporationTree = Loadable({
 	loader: () => import('../components/corporation/Router'),

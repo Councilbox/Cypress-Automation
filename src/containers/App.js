@@ -26,7 +26,9 @@ import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils
 import '../styles/antd.css';
 import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
+import ConveneDisplay from "../components/council/convene/ConveneDisplay";
 export { moment as moment };
+
 
 const httpLink = new HttpLink({
 	uri: API_URL
@@ -200,6 +202,11 @@ class App extends React.Component {
 												component={ValidatorPage}
 											/>
 										}
+										<Route
+											exact
+											path="/convene/:id"
+											component={ConveneDisplay}
+										/>
 										<Route
 											exact
 											path="/company/:company/meeting/live"
