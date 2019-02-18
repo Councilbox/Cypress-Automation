@@ -7,6 +7,7 @@ import Dialog, {
 import BasicButton from "./BasicButton";
 import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
+import { BorderBottom } from "material-ui-icons";
 
 const AlertConfirm = ({
 	title,
@@ -38,7 +39,7 @@ const AlertConfirm = ({
 					primary={true}
 					color='transparent'
 					type="flat"
-					onClick={!!cancelAction? cancelAction : requestClose}
+					onClick={!!cancelAction ? cancelAction : requestClose}
 				/>
 			)}
 
@@ -78,15 +79,17 @@ const AlertConfirm = ({
 					color: getSecondary(),
 					position: "absolute",
 					right: "12px",
-					top: "9px"
+					top: "18px"
 				}}
 				onClick={() => requestClose()}
 			/>
 			{!!title && (
 				<DialogTitle
 					style={{
-						padding: "0.6em 2em 0.8em 1.2em",
-						fontSize: "1.2em"
+						margin: '0px 8px 0.8em',
+						padding: "1.1em 2em 1.1em 1em",
+						fontSize: "1.2em",
+						borderBottom: "1px solid gainsboro",
 					}}
 				>
 					{title}
@@ -103,7 +106,10 @@ const AlertConfirm = ({
 			</DialogContent>
 			<DialogActions
 				style={{
-					paddingRight: "0.6em"
+					paddingRight: "0.6em",
+					borderTop: "1px solid gainsboro",
+					paddingTop: '0.5em',
+					margin: '8px 8px'
 				}}
 			>
 				{buttons}

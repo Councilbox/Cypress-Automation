@@ -4,6 +4,8 @@ import { moment } from '../../../../containers/App';
 import * as CBX from '../../../../utils/CBX';
 import { Tooltip } from 'material-ui';
 import { PARTICIPANT_STATES } from '../../../../constants';
+import FontAwesome from "react-fontawesome";
+
 
 class CouncilSideMenu extends React.Component {
 
@@ -15,61 +17,63 @@ class CouncilSideMenu extends React.Component {
         CBX.copyStringToClipboard(createAttendantsString(this.props.councilAttendants, this.props.translate));
     }
 
-    render(){
+    render() {
         const { council, translate, company, councilRecount, councilAttendants } = this.props;
 
         //TRADUCCION
-        if(!this.props.open){
+        if (!this.props.open) {
             return <span />
         }
 
         console.log(this.props);
 
         return (
-            <div style={{width: '100%', height: '100%', borderLeft: '1px solid gainsboro'}}>
+            <div style={{ width: '100%', height: '100%', borderLeft: '1px solid gainsboro' }}>
                 <Scrollbar>
-                    <div style={{padding: '0.6em', fontSize: '14px'}}>
-                        <h6 style={{fontWeight: '700'}}>Reunión</h6>
+                    <div style={{ padding: '2.5em 1.3em', fontSize: '14px' }}>
+                        <h4 style={{ textAlign: "center" }}>Información</h4> {/*TRADUCCION*/}
+                        <hr></hr>
+                        <h6 style={{ fontWeight: '700', paddingLeft: "0.25em" }}>Reunión</h6>
                         <Row field={translate.name} value={council.name} />
                         <Row field={translate['1st_call_date']} value={`${moment(council.dateStart).format("LLL")}`} />
                         {CBX.hasSecondCall(council.statute) &&
                             <Row field={translate['2nd_call_date']} value={`${moment(council.dateStart2NdCall).format("LLL")}`} />
                         }
                         <Row field={translate.new_location_of_celebrate} value={`${
-                                council.street
+                            council.street
                             }, ${council.zipcode}, ${council.countryState}, (${
-                                council.country
+                            council.country
                             })`}
                         />
                         <Row field={translate.date_end} value={`${moment(council.dateEnd).format("LLL")}`} />
-
-                        <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Entidad</h6>
+                        <hr></hr>
+                        <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Entidad</h6>
                         <Row field={translate.name} value={company.businessName} />
                         <Row field={translate.address} value={company.address} />
                         <Row field={translate.company_new_locality} value={company.city} />
                         <Row field={translate.company_new_country} value={company.country} />
                         <Row field={translate.company_new_country_state} value={company.countryState} />
                         <Row field={translate.company_new_zipcode} value={company.zipcode} />
-
-                        <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Asistencia</h6>
+                        <hr></hr>
+                        <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Asistencia</h6>
                         <Row field={translate.census_type_assistants} value={this.props.councilAttendants.total} />
                         <Row field={'Presentes'} value={councilRecount.numPresent} />
                         <Row field={'Remotos'} value={councilRecount.numRemote} />
                         <Row field={'Votos delegados'} value={this.props.participantsWithDelegatedVote.length} />
-
+                        <hr></hr>
                         {councilAttendants.list.length > 0 &&
                             <React.Fragment>
-                                <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Asistencia</h6>
+                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Asistencia</h6>
                                 <div onClick={this.copyAttendants}>Click para copiar la lista completa</div>
                                 {councilAttendants.list.map(attendant => (
                                     <AttendantRow key={`attendant_${attendant.id}`} translate={translate} attendant={attendant} />
-                                )) }
+                                ))}
                             </React.Fragment>
                         }
-
-                        {CBX.hasParticipations(council.statute)?
+                        <hr></hr>
+                        {CBX.hasParticipations(council.statute) ?
                             <React.Fragment>
-                                <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>Capital social</h6>
+                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Capital social</h6>
                                 <Row field={'Total'} value={councilRecount.socialCapitalTotal} />
                                 <Row
                                     field={'Asistente a la reunión'}
@@ -88,9 +92,9 @@ class CouncilSideMenu extends React.Component {
                                     value={getPercentage(councilRecount.socialCapitalNoParticipate, councilRecount.socialCapitalTotal)}
                                 />
                             </React.Fragment>
-                        :
+                            :
                             <React.Fragment>
-                                <h6 style={{fontWeight: '700', marginTop: '1.2em'}}>{translate.votes}</h6>
+                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.votes}</h6>
                                 <Row field={'Total'} value={councilRecount.partTotal} />
                                 <Row
                                     field={'Asistente a la reunión'}
@@ -122,7 +126,7 @@ const createAttendantsString = (attendants, translate) => {
 
     attendants.forEach((attendant, index) => {
         const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
-        string += represent?
+        string += represent ?
             `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname}`
             :
             `${attendant.name} ${attendant.surname}`;
@@ -132,10 +136,10 @@ const createAttendantsString = (attendants, translate) => {
     return string;
 }
 
-const AttendantRow = ({ attendant, translate} ) => {
+const AttendantRow = ({ attendant, translate }) => {
     const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
 
-    const dataString = !!represent?
+    const dataString = !!represent ?
         `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname}`
         :
         `${attendant.name} ${attendant.surname}`
@@ -154,16 +158,17 @@ const getPercentage = (value, total) => {
 class Row extends React.Component {
 
     state = {
-        showCopyTooltip: false
+        showCopyTooltip: false,
+        showActions: false
     }
 
     timeout = null;
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         clearTimeout(this.timeout);
     }
 
-    startCloseTimeout(){
+    startCloseTimeout() {
         this.timeout = setTimeout(() => {
             this.setState({
                 showCopyTooltip: false
@@ -179,22 +184,49 @@ class Row extends React.Component {
         CBX.copyStringToClipboard(this.props.value);
     }
 
-    render(){
+    mouseEnterHandler = () => {
+        this.setState({
+            showActions: true
+        })
+    }
+
+    mouseLeaveHandler = () => {
+        this.setState({
+            showActions: false
+        })
+    }
+
+    render() {
         //TRADUCCION
         return (
-            <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
-                <div style={{fontWeight: '700', width: '32%'}}>{`${this.props.field}:`}</div>
-                {this.state.showCopyTooltip?
-                    <div style={{width: '67%', marginLeft: '1%'}} onClick={this.copy}>
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: this.state.showActions ? "gainsboro" : "", paddingRight: "0.25em", paddingLeft: "0.25em", paddingBottom: "0.25em", paddingTop: "0.25em", }}
+                onMouseOver={this.mouseEnterHandler}
+                onMouseLeave={this.mouseLeaveHandler}
+            >
+                <div style={{ fontWeight: '700', width: '32%' }}>{`${this.props.field}:`}</div>
+                {this.state.showCopyTooltip ?
+                    <div style={{ width: '64%', marginLeft: '1%' }} onClick={this.copy}>
                         <Tooltip title="Copiado" open={this.state.showCopyTooltip} placement="top">
                             <span>{this.props.value}</span>
                         </Tooltip>
                     </div>
-                :
-                    <div style={{width: '67%', marginLeft: '1%', cursor: 'pointer'}} onClick={this.copy}>
+                    :
+                    <div style={{ width: '64%', marginLeft: '1%', cursor: 'pointer' }} onClick={this.copy}>
                         {this.props.value}
                     </div>
                 }
+                <div onClick={this.copy} style={{ overflow: "hidden", width: '3%' }}>
+                    {this.state.showActions && (
+                        <FontAwesome
+                            name={"copy"}
+                            style={{
+                                textAlign: "right",
+                                fontSize: "0.9em",
+                                cursor: 'pointer'
+                            }}
+                        />
+                    )}
+                </div>
 
             </div>
         )
