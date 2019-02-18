@@ -34,18 +34,18 @@ class CouncilsList extends React.Component {
     render() {
         const { councils, translate, openDeleteModal, company, link, selectedIds } = this.props;
         let headers = link === '/finished' ? [
-            { selectAll: <Checkbox onChange={this.props.selectAll} value={selectedIds.size === councils.length}/>},
+            { selectAll: <Checkbox onChange={this.props.selectAll} value={selectedIds.size === councils.length} /> },
             { name: translate.date_real_start },
             { name: translate.table_councils_duration },
             { name: translate.name },
             { name: '' }
         ] : [
-            { selectAll: <Checkbox onChange={this.props.selectAll} value={selectedIds.size === councils.length}/>},
-            { name: translate.date_real_start },
-            { name: translate.name },
-            { name: '' }
-        ]
-        return(
+                { selectAll: <Checkbox onChange={this.props.selectAll} value={selectedIds.size === councils.length} /> },
+                { name: translate.date_real_start },
+                { name: translate.name },
+                { name: '' }
+            ]
+        return (
             <Table
                 headers={headers}
                 companyID={company.id}
@@ -111,31 +111,31 @@ class CouncilListItem extends React.PureComponent {
 
     render() {
         const { council, company, link, translate, selected } = this.props;
-
-        if(isMobile){
-            return(
+        
+        if (isMobile) {
+            return (
                 <Card
-                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+                    style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
                     onClick={() => {
-                        this.props.disabled?
+                        this.props.disabled ?
                             this.props.showModal()
-                        :
+                            :
                             bHistory.push(
                                 `/company/${company.id}/council/${council.id}${link}`
                             )
                     }}
                 >
                     <Grid>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.name}
                         </GridItem>
                         <GridItem xs={7} md={7}>
                             {council.name || translate.dashboard_new}
                         </GridItem>
 
-                        {link === '/finished'?
+                        {link === '/finished' ?
                             <React.Fragment>
-                                <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                                <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                                     {translate.table_councils_duration}
                                 </GridItem>
                                 <GridItem xs={7} md={7}>
@@ -153,9 +153,9 @@ class CouncilListItem extends React.PureComponent {
                                     />
                                 </GridItem>
                             </React.Fragment>
-                        :
+                            :
                             <React.Fragment>
-                               <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+                                <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                                     {translate.date_real_start}
                                 </GridItem>
                                 <GridItem xs={7} md={7}>
@@ -169,7 +169,7 @@ class CouncilListItem extends React.PureComponent {
                             </React.Fragment>
                         }
                     </Grid>
-                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
+                    <div style={{ position: 'absolute', top: '5px', right: '5px' }}>
                         {this.deleteIcon(council.id)}
                     </div>
                 </Card>
@@ -182,18 +182,18 @@ class CouncilListItem extends React.PureComponent {
                 onMouseOver={this.mouseEnterHandler}
                 selected={selected}
                 onMouseLeave={this.mouseLeaveHandler}
-                style={{...TableStyles.ROW, backgroundColor: this.props.disabled? 'whiteSmoke' : 'inherit'}}
+                style={{ ...TableStyles.ROW, backgroundColor: this.props.disabled ? 'whiteSmoke' : 'inherit' }}
                 onClick={() => {
-                    this.props.disabled?
+                    this.props.disabled ?
                         this.props.showModal()
-                    :
+                        :
                         bHistory.push(
                             `/company/${company.id}/council/${council.id}${link}`
                         )
                 }}
             >
-                <TableCell onClick={event => event.stopPropagation()} style={{cursor: 'auto'}}>
-                    <div style={{width: '2em'}}>
+                <TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
+                    <div style={{ width: '2em' }}>
                         {(this.state.showActions || selected) &&
                             <Checkbox
                                 value={selected}
@@ -217,7 +217,7 @@ class CouncilListItem extends React.PureComponent {
                 {link === '/finished' && <TableCell
                     style={TableStyles.TD}
                 >
-                    <div style={{width: '15em', display: 'flex', flexDirection: 'row'}}>
+                    <div style={{ width: '15em', display: 'flex', flexDirection: 'row' }}>
                         <DateWrapper
                             format="HH:mm"
                             date={
@@ -244,7 +244,7 @@ class CouncilListItem extends React.PureComponent {
                 <TableCell
                     style={TableStyles.TD}
                 >
-                    <div style={{width: '3em'}}>
+                    <div style={{ width: '3em' }}>
                         {this.state.showActions &&
                             this.deleteIcon(
                                 council.id

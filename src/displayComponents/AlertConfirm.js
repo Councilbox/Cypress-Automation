@@ -24,7 +24,8 @@ const AlertConfirm = ({
 	cancelAction,
 	bodyText,
 	bodyStyle = {},
-	hideAccept
+	hideAccept,
+	widthModal
 }) => {
 	const primary = getPrimary();
 	const buttons = (
@@ -70,6 +71,9 @@ const AlertConfirm = ({
 			maxWidth={false}
 			open={open}
 			onClose={requestClose}
+			PaperProps={{
+				style: {...widthModal},
+			}}
 		>
 			<FontAwesome
 				name={"close"}
