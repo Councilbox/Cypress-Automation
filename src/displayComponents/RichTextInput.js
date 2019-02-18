@@ -10,15 +10,19 @@ import { TextArea } from 'antd/lib/input/index';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
 import withTranslations from '../HOCs/withTranslations';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { Link } from 'quill';
 
-if(isChrome){
+if (isChrome) {
 	let style = document.createElement("style");
 	style.innerHTML = '.ql-editor{white-space: normal !important;}';
 	document.head.appendChild(style);
 }
+
+
+var AlignStyle = Quill.import('attributors/style/align');
+Quill.register(AlignStyle, true);
 
 class RichTextInput extends React.Component {
 	state = {
@@ -42,13 +46,11 @@ class RichTextInput extends React.Component {
 		if(!this.rtEditor){
 			return;
 		}
-		//console.log('hay editor');
 		const quill = this.rtEditor.getEditor();
 		let selection = quill.getSelection();
-/* 		if (!selection) {
+		if (!selection) {
 			return;
-		} */
-		//console.log('hay selection');
+		}
 		this.setState({ value });
 		const html = value.toString('html');
 		if (this.props.onChange) {
@@ -93,6 +95,7 @@ class RichTextInput extends React.Component {
 					[{ 'color': [] }, { 'background': [] }], , [ 'bold', 'italic', 'underline', 'link', 'strike'],
 					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
 					[{ 'header': 1 }, { 'header': 2 }],
+					[{ 'align': 'justify'}]
 				],
 			},
 			clipboard: {
