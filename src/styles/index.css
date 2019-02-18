@@ -204,3 +204,115 @@ h4 {
 }
 
 .classHover:hover{background-color: #ddd!important; border-radius: 0px;}
+
+/*estilos para icono*/
+.element-animation{
+    width: 150px;
+    animation: animationFrames linear 4s;
+    animation-iteration-count: infinite;
+    transform-origin: 50% 50%;
+    -webkit-animation: animationFrames linear 4s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-transform-origin: 50% 50%;
+    -moz-animation: animationFrames linear 4s;
+    -moz-animation-iteration-count: infinite;
+    -moz-transform-origin: 50% 50%;
+    -o-animation: animationFrames linear 4s;
+    -o-animation-iteration-count: infinite;
+    -o-transform-origin: 50% 50%;
+    -ms-animation: animationFrames linear 4s;
+    -ms-animation-iteration-count: infinite;
+    -ms-transform-origin: 50% 50%;
+  }
+  
+  @keyframes animationFrames{
+    0% {
+      transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;
+    }
+    20% {
+      transform:  scaleX(2.00) scaleY(2.00) ;
+    }
+    46% {
+      transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+    }
+    70% {
+      transform:  rotate(360deg) scaleX(2.00) scaleY(2.00) ;
+    }
+    100% {
+      transform:  rotate(720deg) scaleX(1.00) scaleY(1.00) ;
+    }
+  }
+  
+  @-moz-keyframes animationFrames{
+    0% {
+      -moz-transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;
+    }
+    20% {
+      -moz-transform:  scaleX(2.00) scaleY(2.00) ;
+    }
+    46% {
+      -moz-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+    }
+    70% {
+      -moz-transform:  rotate(360deg) scaleX(2.00) scaleY(2.00) ;
+    }
+    100% {
+      -moz-transform:  rotate(720deg) scaleX(1.00) scaleY(1.00) ;
+    }
+  }
+  
+  @-webkit-keyframes animationFrames {
+    0% {
+      -webkit-transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;
+    }
+    20% {
+      -webkit-transform:  scaleX(2.00) scaleY(2.00) ;
+    }
+    46% {
+      -webkit-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+    }
+    70% {
+      -webkit-transform:  rotate(360deg) scaleX(2.00) scaleY(2.00) ;
+    }
+    100% {
+      -webkit-transform:  rotate(720deg) scaleX(1.00) scaleY(1.00) ;
+    }
+  }
+  
+  @-o-keyframes animationFrames {
+    0% {
+      -o-transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;
+    }
+    20% {
+      -o-transform:  scaleX(2.00) scaleY(2.00) ;
+    }
+    46% {
+      -o-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+    }
+    70% {
+      -o-transform:  rotate(360deg) scaleX(2.00) scaleY(2.00) ;
+    }
+    100% {
+      -o-transform:  rotate(720deg) scaleX(1.00) scaleY(1.00) ;
+    }
+  }
+  
+  @-ms-keyframes animationFrames {
+    0% {
+      -ms-transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;
+    }
+    20% {
+      -ms-transform:  scaleX(2.00) scaleY(2.00) ;
+    }
+    46% {
+      -ms-transform:  rotate(0deg) scaleX(1.00) scaleY(1.00) ;
+    }
+    70% {
+      -ms-transform:  rotate(360deg) scaleX(2.00) scaleY(2.00) ;
+    }
+    100% {
+      -ms-transform:  rotate(720deg) scaleX(1.00) scaleY(1.00) ;
+    }
+  }
+
+  
