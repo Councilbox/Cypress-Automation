@@ -6,12 +6,12 @@ import { connect } from "react-redux";
 import { bHistory } from "../../../containers/App";
 import withTranslations from "../../../HOCs/withTranslations";
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { ButtonIcon, TextInput, BasicButton } from "../../../displayComponents";
+import { ButtonIcon, TextInput, BasicButton, AlertConfirm } from "../../../displayComponents";
 import { councilStarted, participantNeverConnected } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 
@@ -64,6 +64,7 @@ class LoginForm extends React.Component {
     state = {
         email: this.props.participant.email,
         password: "",
+        sendPassModal: false,
         showPassword: false,
         errors: {
             email: "",
@@ -104,6 +105,19 @@ class LoginForm extends React.Component {
         return errors.email === "" && errors.password === "";
     };
 
+    showSendPassModal = () => {
+        this.setState({
+            sendPassModal: true
+        });
+    }
+
+    closeSendPassModal = () => {
+        this.setState({
+            sendPassModal: false,
+            phoneError: ''
+        })
+    }
+
     handleChange = (field, event) => {
         const newState = {};
         newState[field] = event.target.value;
@@ -114,14 +128,23 @@ class LoginForm extends React.Component {
         const { participant, council } = this.props;
         const isValidForm = this.checkFieldsValidationState();
         if(council.securityType !== 0){
-            const response = await this.props.checkParticipantKey({
-                variables: {
-                    participantId: participant.id,
-                    key: this.state.password
-                }
-            });
+            try {
+                const response = await this.props.checkParticipantKey({
+                    variables: {
+                        participantId: participant.id,
+                        key: this.state.password
+                    }
+                });
 
-            if(!response.data.checkParticipantKey.success){
+                if(!response.data.checkParticipantKey.success){
+                    this.setState({
+                        errors: {
+                            password: this.props.translate.password_err
+                        }
+                    });
+                    return;
+                }
+            }catch(error){
                 this.setState({
                     errors: {
                         password: this.props.translate.password_err
@@ -142,6 +165,52 @@ class LoginForm extends React.Component {
             this.login();
         }
     };
+
+    _sendPassModalBody = () => {
+        return (
+            <div>
+                {this.props.council.securityType === 1 &&
+                    `Recibir la contraseña en el email indicado por el administrador`
+                }
+                {this.props.council.securityType === 2 &&
+                    `Recibir la contraseña en el teléfono indicado por el administrador`
+                }
+                {!!this.state.phoneError &&
+                    <div style={{color: 'red'}}>{this.state.phoneError}</div>
+                }
+            </div>
+        )
+    }
+
+    sendParticipantRoomKey = async () => {
+        this.setState({
+            loading: true
+        });
+        const response = await this.props.sendParticipantRoomKey({
+            variables: {
+                councilId: this.props.council.id,
+                participantIds: [this.props.participant.id],
+                timezone: moment().utcOffset()
+            }
+        });
+
+        if(response.errors){
+            if(response.errors[0].message = 'Invalid phone number'){
+                this.setState({
+                    phoneError: 'El teléfono indicado no es válido, por favor póngase en contacto con el administrador',
+                    loading: false
+                });
+            }
+        } else {
+            this.setState({
+                loading: false,
+                phoneError: ''
+            });
+            this.closeSendPassModal();
+        }
+
+        console.log(response);
+    }
 
     render() {
         const {
@@ -218,23 +287,38 @@ class LoginForm extends React.Component {
                         />
 
                         {council.securityType !== 0 && (
-                            <TextInput
-                                onKeyUp={this.handleKeyUp}
-                                floatingText={translate.login_password}
-                                type={showPassword ? "text" : "password"}
-                                errorText={errors.password}
-                                value={password}
-                                onChange={event =>
-                                    this.handleChange("password", event)
-                                }
-                                required={true}
-                                showPassword={showPassword}
-                                passwordToggler={() =>
-                                    this.setState({
-                                        showPassword: !showPassword
-                                    })
-                                }
-                            />
+                            <React.Fragment>
+                                <TextInput
+                                    onKeyUp={this.handleKeyUp}
+                                    floatingText={translate.login_password}
+                                    type={showPassword ? "text" : "password"}
+                                    errorText={errors.password}
+                                    value={password}
+                                    onChange={event =>
+                                        this.handleChange("password", event)
+                                    }
+                                    required={true}
+                                    showPassword={showPassword}
+                                    passwordToggler={() =>
+                                        this.setState({
+                                            showPassword: !showPassword
+                                        })
+                                    }
+                                />
+                                <span style={{cursor: 'pointer'}} onClick={this.showSendPassModal}>
+                                    No he recibido esta contraseña
+                                </span>
+                                <AlertConfirm
+                                    requestClose={this.closeSendPassModal}
+                                    open={this.state.sendPassModal}
+                                    loadingAction={this.state.loading}
+                                    acceptAction={this.sendParticipantRoomKey}
+                                    buttonAccept={translate.accept}
+                                    buttonCancel={translate.cancel}
+                                    bodyText={this._sendPassModalBody()}
+                                    title={'Reenviar contraseña de acceso'/*TRADUCCION*/}
+                                />
+                            </React.Fragment>
                         )}
 
                         <div style={styles.enterButtonContainer}>
@@ -279,9 +363,22 @@ const checkParticipantKey = gql`
     }
 `;
 
-export default graphql(checkParticipantKey, {
-    name: 'checkParticipantKey'
-})(connect(
+const sendParticipantRoomKey = gql`
+    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
+        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+            success
+        }
+    }
+`;
+
+export default compose(
+    graphql(checkParticipantKey, {
+        name: 'checkParticipantKey'
+    }),
+    graphql(sendParticipantRoomKey, {
+        name: 'sendParticipantRoomKey'
+    })
+)(connect(
     null,
     mapDispatchToProps
 )(withTranslations()(withWindowOrientation(withWindowSize(LoginForm)))));
