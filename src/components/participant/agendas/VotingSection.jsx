@@ -47,8 +47,8 @@ class VotingSection extends React.Component {
 
         return(
             <React.Fragment>
-                <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
-                    <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
+                <div style={{ alignItems: 'center', marginTop: '0.6em'}}>
+                    <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px"}}>
                         {agenda.votings[0].vote === -1 &&
                             translate.you_havent_voted_yet
                         }
@@ -80,8 +80,9 @@ class VotingSection extends React.Component {
                                         fontSize: '14px'
                                     }}
                                     buttonStyle={{
+                                        width: "160px",
                                         float: 'left',
-                                        marginLeft: '0.6em',
+                                        // marginLeft: '0.6em',
                                         padding: '0.3em',
                                         border: `2px solid ${primary}`
                                     }}
@@ -100,8 +101,9 @@ class VotingSection extends React.Component {
                                         fontSize: '14px'
                                     }}
                                     buttonStyle={{
+                                        width: "160px",
                                         float: 'left',
-                                        marginLeft: '0.6em',
+                                        // marginLeft: '0.6em',
                                         padding: '0.3em',
                                         border: `2px solid ${primary}`
                                     }}
@@ -120,10 +122,11 @@ class VotingSection extends React.Component {
                                 fontSize: '14px'
                             }}
                             buttonStyle={{
+                                width: "160px",
                                 float: 'left',
-                                marginLeft: '0.6em',
+                                // marginLeft: '0.6em',
                                 padding: '0.3em',
-                                border: `2px solid ${primary}`
+                                border: `2px solid ${primary}`,
                             }}
                             icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
                             onClick={this.props.activateVoting}

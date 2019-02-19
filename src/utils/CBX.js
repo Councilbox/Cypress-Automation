@@ -11,7 +11,8 @@ import {
 	SIGNATURE_PARTICIPANTS_STATES,
 	AGENDA_TYPES,
 	VOTE_VALUES,
-	PARTICIPANT_TYPE
+	PARTICIPANT_TYPE,
+	COUNCIL_TYPES
 } from "../constants";
 import dropped from "../assets/img/dropped.png";
 import React from 'react';
@@ -31,12 +32,12 @@ export const canReorderPoints = council => {
 
 export const splitExtensionFilename = (filename) => {
 	const array = filename.split('.');
-	if(array.length < 2){
+	if (array.length < 2) {
 		return 'That`s not a filename';
 	}
 	return {
 		filename: array.slice(0, -1).join('.'),
-		extension: array[array.length-1]
+		extension: array[array.length - 1]
 	}
 }
 
@@ -55,7 +56,7 @@ export const canAddCouncilAttachment = (council, filesize) => {
 export const trialDaysLeft = (company, moment, trialDays) => {
 	const left = trialDays - moment(new Date()).diff(moment(company.creationDate), 'days');
 
-	return left <= 0 || isNaN(left)? 0 : left;
+	return left <= 0 || isNaN(left) ? 0 : left;
 }
 
 export const councilStarted = council => {
@@ -76,9 +77,9 @@ export const showAgendaVotingsToggle = (council, agenda) => {
 
 export const showSendCredentials = participantState => {
 	return participantState !== PARTICIPANT_STATES.PRESENT &&
-			participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
-			participantState !== PARTICIPANT_STATES.DELEGATED &&
-			participantState !== PARTICIPANT_STATES.REPRESENTATED;
+		participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
+		participantState !== PARTICIPANT_STATES.DELEGATED &&
+		participantState !== PARTICIPANT_STATES.REPRESENTATED;
 }
 
 export const showAgendaVotingsTable = agenda => {
@@ -89,9 +90,9 @@ export const showAgendaVotingsTable = agenda => {
 }
 
 export const userCanCreateCompany = (user, companies) => {
-	if(user.actived === USER_ACTIVATIONS.FREE_TRIAL){
-		if(companies){
-			if(companies.length >= 1){
+	if (user.actived === USER_ACTIVATIONS.FREE_TRIAL) {
+		if (companies) {
+			if (companies.length >= 1) {
 				return false;
 			}
 		}
@@ -116,9 +117,9 @@ export const censusHasParticipations = census => {
 };
 
 export const checkForUnclosedBraces = text => {
-	if(text){
-		const open = text.split('{').length-1;
-		const close = text.split('}').length-1;
+	if (text) {
+		const open = text.split('{').length - 1;
+		const close = text.split('}').length - 1;
 		return open !== close;
 	}
 
@@ -141,14 +142,14 @@ export const pointIsClosed = agendaPoint => {
 };
 
 export const copyStringToClipboard = str => {
-    var el = document.createElement('textarea');
-    el.value = str;
-    el.setAttribute('readonly', '');
-    el.style = {position: 'absolute', left: '-9999px'};
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
+	var el = document.createElement('textarea');
+	el.value = str;
+	el.setAttribute('readonly', '');
+	el.style = { position: 'absolute', left: '-9999px' };
+	document.body.appendChild(el);
+	el.select();
+	document.execCommand('copy');
+	document.body.removeChild(el);
 }
 
 export const majorityNeedsInput = majorityType => {
@@ -165,9 +166,9 @@ export const haveQualityVoteConditions = (agenda, council) => {
 
 export const canEditPresentVotings = agenda => {
 	return agenda.votingState === AGENDA_STATES.DISCUSSION &&
-			agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING &&
-			agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
-			agenda.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
+		agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING &&
+		agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
+		agenda.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
 }
 
 export const approvedByQualityVote = (agenda, qualityVoteId) => {
@@ -300,17 +301,17 @@ export const changeVariablesToValues = (text, data, translate) => {
 		return "";
 	}
 
-	if(data.council.dateStart){
+	if (data.council.dateStart) {
 		const replaced = /<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/.test(text);
 
-		if(replaced){
+		if (replaced) {
 			text = text.replace(
 				/<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/ig,
 				`<span id="{{dateFirstCall}}">${
-					moment(
-						new Date(data.council.dateStart).toISOString(),
-						moment.ISO_8601
-					).format("LLL")
+				moment(
+					new Date(data.council.dateStart).toISOString(),
+					moment.ISO_8601
+				).format("LLL")
 				}</span>`
 			);
 		} else {
@@ -327,17 +328,17 @@ export const changeVariablesToValues = (text, data, translate) => {
 		}
 	}
 
-	if(data.council.dateStart2NdCall){
+	if (data.council.dateStart2NdCall) {
 		const replaced = /<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/.test(text);
 
-		if(replaced){
+		if (replaced) {
 			text = text.replace(
 				/<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/ig,
 				`<span id="{{dateSecondCall}}">${
-					moment(
-						new Date(data.council.dateStart).toISOString(),
-						moment.ISO_8601
-					).format("LLL")
+				moment(
+					new Date(data.council.dateStart).toISOString(),
+					moment.ISO_8601
+				).format("LLL")
 				}</span>`
 			);
 		} else {
@@ -367,7 +368,7 @@ export const changeVariablesToValues = (text, data, translate) => {
 			''
 	);
 
-	const base = data.council.quorumPrototype === 1? data.council.socialCapitalTotal : data.council.partTotal;
+	const base = data.council.quorumPrototype === 1 ? data.council.socialCapitalTotal : data.council.partTotal;
 
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
@@ -375,20 +376,20 @@ export const changeVariablesToValues = (text, data, translate) => {
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
 
-	if(data.council.street){
+	if (data.council.street) {
 		const replaced = /<span id="{{street}}">(.*?|\n)<\/span>/.test(text);
 
-		if(replaced){
+		if (replaced) {
 			text = text.replace(
 				/<span id="{{street}}">(.*?|\n)<\/span>/ig,
-				`<span id="{{street}}">${data.council.remoteCelebration === 1? translate.remote_celebration : data.council.street
+				`<span id="{{street}}">${data.council.remoteCelebration === 1 ? translate.remote_celebration : data.council.street
 				}</span>`
 			);
 		} else {
 			text = text.replace(
 				/{{street}}/g
 				,
-				`<span id="{{street}}">${data.council.remoteCelebration === 1? translate.remote_celebration : data.council.street
+				`<span id="{{street}}">${data.council.remoteCelebration === 1 ? translate.remote_celebration : data.council.street
 				}</span>`
 			);
 		}
@@ -419,7 +420,7 @@ export const changeVariablesToValues = (text, data, translate) => {
 };
 
 export const getTagVariablesByDraftType = (draftType, translate) => {
-	switch(draftType){
+	switch (draftType) {
 		case DRAFT_TYPES.CONVENE_HEADER:
 			return [
 				{
@@ -752,7 +753,7 @@ function s2ab(s) {
 }
 
 export const unaccent = string => {
-	if(!string){
+	if (!string) {
 		return '';
 	}
 	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
@@ -806,7 +807,7 @@ function dataURItoBlob(dataURI) {
 }
 
 export const getSignerStatusTranslateField = status => {
-	switch (status){
+	switch (status) {
 		case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
 			return 'in_queue';
 		case SIGNATURE_PARTICIPANTS_STATES.SENT:
@@ -951,7 +952,7 @@ export const agendaPointNotOpened = agenda => {
 };
 
 export const getAgendaTypeLabel = agenda => {
-	switch(agenda.subjectType){
+	switch (agenda.subjectType) {
 		case AGENDA_TYPES.INFORMATIVE:
 			return 'informative';
 		case AGENDA_TYPES.PUBLIC_VOTING:
@@ -1157,7 +1158,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		//hasError = true;
 		//errors.text = translate.required_field;
 	} else {
-		if(checkForUnclosedBraces(draft.text)){
+		if (checkForUnclosedBraces(draft.text)) {
 			errors.text = true;
 			hasError = true;
 			toast(
@@ -1243,3 +1244,9 @@ export const calculateQuorum = (council, recount) => {
 
 	return LiveUtil.calculateQuorum(base, council.statute.secondCallQuorumType, council.statute.secondCallQuorum, council.statute.secondCallQuorumDivider);
 }
+
+
+export const councilHasSession = council => {
+	return !((council.councilType === 2) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
+}
+
