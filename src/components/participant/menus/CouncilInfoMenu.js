@@ -10,7 +10,8 @@ class CouncilInfoMenu extends React.Component {
 
     state = {
         showConvene: false,
-        showCouncilInfo: false
+        showCouncilInfo: false,
+        showParticipantInfo: false
     }
 
     closeConveneModal = () => {
@@ -22,6 +23,12 @@ class CouncilInfoMenu extends React.Component {
     closeInfoModal = () => {
         this.setState({
             showCouncilInfo: false
+        })
+    }
+
+    closeParticipantInfoModal = () => {
+        this.setState({
+            showParticipantInfo: false
         })
     }
 
@@ -41,6 +48,34 @@ class CouncilInfoMenu extends React.Component {
                     council={this.props.council}
                     translate={this.props.translate}
                 />
+            </div>
+        )
+    }
+
+    calculateParticipantVotes = () => {
+        return this.props.participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, this.props.participant.numParticipations);
+    }
+
+    _renderParticipantInfo = () => {
+        const { translate, participant } = this.props;
+
+        return (
+            <div>
+                <div>
+                    {`${translate.name}: ${participant.name} ${participant.surname}`}
+                </div>
+                <div style={{marginBottom: '1em'}}>
+                    {`${translate.email}: ${participant.email}`}
+                </div>
+                <div>
+                Votos delegados:
+                {participant.delegatedVotes.map(vote => (
+                    <div key={`delegatedVote_${vote.id}`}>
+                        {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
+                    </div>
+                ))}
+                Total de votos: {this.calculateParticipantVotes()}
+            </div>
             </div>
         )
     }
@@ -103,25 +138,60 @@ class CouncilInfoMenu extends React.Component {
                                 </Icon>
                                 {translate.council_info}
                             </MenuItem>
+                            <MenuItem
+                                onClick={() =>
+                                    this.setState({
+                                        showParticipantInfo: true
+                                    })
+                                }
+                                style={{
+                                    fontSize: '1em'
+                                }}
+                            >
+                                <Icon
+                                    className="material-icons"
+                                    style={{
+                                        color: secondary,
+                                        marginRight: "0.4em"
+                                    }}
+                                >
+                                    person
+                                </Icon>
+                                {translate.participant_data}
+                            </MenuItem>
                         </React.Fragment>
                     }
                 />
-                <AlertConfirm
-					requestClose={this.closeConveneModal}
-					open={this.state.showConvene}
-					acceptAction={this.closeConveneModal}
-					buttonAccept={translate.accept}
-					bodyText={this._renderConveneBody()}
-					title={translate.original_convene}
-				/>
-                <AlertConfirm
-					requestClose={this.closeInfoModal}
-					open={this.state.showCouncilInfo}
-					acceptAction={this.closeInfoModal}
-					buttonAccept={translate.accept}
-					bodyText={this._renderCouncilInfo()}
-					title={translate.council_info}
-				/>
+                {this.state.showConvene &&
+                    <AlertConfirm
+                        requestClose={this.closeConveneModal}
+                        open={this.state.showConvene}
+                        acceptAction={this.closeConveneModal}
+                        buttonAccept={translate.accept}
+                        bodyText={this._renderConveneBody()}
+                        title={translate.original_convene}
+                    />
+                }
+                {this.state.showCouncilInfo &&
+                    <AlertConfirm
+                        requestClose={this.closeInfoModal}
+                        open={this.state.showCouncilInfo}
+                        acceptAction={this.closeInfoModal}
+                        buttonAccept={translate.accept}
+                        bodyText={this._renderCouncilInfo()}
+                        title={translate.council_info}
+                    />
+                }
+                {this.state.showParticipantInfo &&
+                    <AlertConfirm
+                        requestClose={this.closeParticipantInfoModal}
+                        open={this.state.showParticipantInfo}
+                        acceptAction={this.closeParticipantInfoModal}
+                        buttonAccept={translate.accept}
+                        bodyText={this._renderParticipantInfo()}
+                        title={translate.participant_data}
+                    />
+                }
             </React.Fragment>
         );
     }

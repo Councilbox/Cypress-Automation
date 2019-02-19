@@ -2,7 +2,7 @@ import React from "react";
 import { Steps } from 'antd';
 import { Paper, Typography, Divider, IconButton } from "material-ui";
 import Scrollbar from '../../../displayComponents/Scrollbar';
-import { AgendaNumber, LoadingSection, LiveToast } from '../../../displayComponents';
+import { AgendaNumber, LoadingSection, LiveToast, AlertConfirm } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { graphql } from 'react-apollo';
@@ -29,7 +29,8 @@ const styles = {
 
 class Agendas extends React.Component {
     state = {
-        selected: 0
+        selected: 0,
+        delegationsModal: false
     }
 
     updated = 0;
@@ -40,6 +41,30 @@ class Agendas extends React.Component {
 
     agendaStateToastId = null;
     agendaVotingsToastId = null;
+
+    componentDidMount(){
+        if(this.props.participant.delegatedVotes.length > 0){
+            if(!sessionStorage.getItem('delegationsNotify')){
+                this.setState({
+                    delegationsModal: true
+                });
+                sessionStorage.setItem('delegationsNotify', true);
+            }
+        }
+
+    }
+
+    showDelegationsModal = () => {
+        this.setState({
+            delegationsModal: true
+        });
+    }
+
+    closeDelegationsModal = () => {
+        this.setState({
+            delegationsModal: false
+        });
+    }
 
     componentWillUnmount(){
         toast.dismiss(this.agendaStateToastId);
@@ -115,6 +140,24 @@ class Agendas extends React.Component {
         )
     )
 
+    _renderDelegationsModalBody = () => {
+        return (
+            <div>
+                Tiene los siguientes votos delegados en usted:
+                {this.props.participant.delegatedVotes.map(vote => (
+                    <div key={`delegatedVote_${vote.id}`}>
+                        {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
+                    </div>
+                ))}
+                Total de votos: {this.calculateParticipantVotes()}
+            </div>
+        )
+    }
+
+    calculateParticipantVotes = () => {
+        return this.props.participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, this.props.participant.numParticipations);
+    }
+
 	render() {
 		const { translate, council, agendasAnchor, toggleAgendasAnchor, anchorToggle } = this.props;
         const { selected } = this.state;
@@ -134,6 +177,14 @@ class Agendas extends React.Component {
 
 		return (
             <Paper style={styles.container} elevation={4}>
+                <AlertConfirm
+					requestClose={this.closeDelegationsModal}
+					open={this.state.delegationsModal}
+					fullWidth={false}
+					buttonCancel={translate.close}
+					bodyText={this._renderDelegationsModalBody()}
+					title={translate.warning}
+				/>
                 <Scrollbar>
                     <div>
                         <div style={styles.agendasHeader}>
@@ -168,6 +219,7 @@ class Agendas extends React.Component {
                                 :
                                     <CouncilInfoMenu
                                         translate={translate}
+                                        participant={this.props.participant}
                                         council={council}
                                     />
                                 }

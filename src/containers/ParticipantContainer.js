@@ -219,6 +219,15 @@ const participantQuery = gql`
 			id
 			type
 			phone
+			numParticipations
+			delegatedVotes {
+				id
+				name
+				surname
+				numParticipations
+				state
+				type
+			}
 			email
 			state
 			requestWord
