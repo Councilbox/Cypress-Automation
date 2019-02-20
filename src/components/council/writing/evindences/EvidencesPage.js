@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Card } from 'material-ui';
 import { LoadingSection, Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
-import { getTranslateFieldFromType, ExplorerLink } from '../../../notLogged/validator/ValidatorPage';
+import { getTranslateFieldFromType, ExplorerLink, ValidatorLink } from '../../../notLogged/validator/ValidatorPage';
 
 const EvidencesPage = ({ data, translate, ...props }) => {
 
@@ -18,7 +18,6 @@ const EvidencesPage = ({ data, translate, ...props }) => {
         <div>
             {data.councilEvidences.map(evidence => {
                 const parsedContent = JSON.parse(evidence.content);
-                console.log(parsedContent);
                 return(
                     <Card key={`${evidence.id}`} style={{padding: '0.6em', margin: '0.6em', userSelect: 'text'}}>
                         <div>
@@ -28,12 +27,18 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                             <b>{`Fecha de registro: `}</b> {moment(evidence.date).format('LLL')}
                         </div>
                         <div>
-                            <span style={{fontWeight: '700'}}>{`Identificador: `}</span>{`${parsedContent.prvhash}`}
+                            <b>{`${translate.state}: `}</b> {
+                                evidence.cbxEvidence?
+                                    <span style={{color: 'green'}}>
+                                        {'Registrada'/*TRADUCCION*/}
+                                    </span>
+                                :
+                                    'Pendiente de registro'
+                            }
                         </div>
-                        {evidence.cbxEvidence?
+                        <ValidatorLink prvHash={parsedContent.prvhash} translate={translate} />
+                        {evidence.cbxEvidence &&
                             <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} />
-                        :
-                            'Pendiente de ser registrada en blockchain'
                         }
                     </Card>
                 )

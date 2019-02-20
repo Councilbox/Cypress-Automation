@@ -161,7 +161,7 @@ const TransactionResult = validated => {
     )
 }
 
-export const ExplorerLink = ({ txHash }) => {
+export const ExplorerLink = ({ txHash, translate }) => {
     return(
         <Card style={{padding: '0.9em', marginTop: '0.6em'}}>
             {txHash?
@@ -177,6 +177,18 @@ export const ExplorerLink = ({ txHash }) => {
                 'Transacción pendiente de registro'
             }
 
+        </Card>
+    )
+}
+
+export const ValidatorLink = ({ prvHash, translate }) => {
+    return(
+        <Card style={{padding: '0.9em', marginTop: '0.6em'}}>
+            <a href={`${window.location.origin}/validator/${prvHash}`} target="_blank" rel="noreferrer noopener" >
+                <Grid>
+                    <GridItem xs={12} md={12} lg={12} style={{fontWeight: '700'}}>Link al visualizador de evidencias de Councilbox {/*TRADUCCION*/}<i className="fa fa-external-link" aria-hidden="true" style={{marginLeft: '1em'}}></i></GridItem>
+                </Grid>
+            </a>
         </Card>
     )
 }
