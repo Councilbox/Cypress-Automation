@@ -161,7 +161,7 @@ const TransactionResult = validated => {
     )
 }
 
-const ExplorerLink = ({ txHash }) => {
+export const ExplorerLink = ({ txHash }) => {
     return(
         <Card style={{padding: '0.9em', marginTop: '0.6em'}}>
             {txHash?
@@ -199,12 +199,15 @@ const UserEvidence = withTranslations()(({ evidence, translate }) => {
     )
 });
 
-const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
+export const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
     return (
         <div>
             <EvidenceDisplay evidence={evidence} translate={translate} />
             {evidence.data.user &&
                 <UserSection evidence={evidence} translate={translate} />
+            }
+            {evidence.data.agendaPoint &&
+                <AgendaPointSection evidence={evidence.data} translate={translate} />
             }
             {evidence.data.participant?
                 <React.Fragment>
@@ -253,22 +256,53 @@ const ParticipantSection = ({ evidence, translate }) => {
     )
 }
 
+const AgendaPointSection = ({ evidence, translate }) => {
+    console.log(evidence);
+    return (
+        <React.Fragment>
+            <h5 style={{marginTop: '1em'}}>{'Punto del día' /*TRADUCCION*/}</h5>
+            <Grid>
+                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.type}</GridItem>
+                <GridItem xs={12} md={9} lg={10}>{translate[getTypeTranslation(evidence.agendaPoint.type)]}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.name}</GridItem>
+            </Grid>
+        </React.Fragment>
+    )
+}
+
 const CouncilSection = ({ evidence, translate }) => {
     return (
         <React.Fragment>
             <h5 style={{marginTop: '1em'}}>{translate.council_info}</h5>
-            <Grid>
-                {evidence.council.company &&
-                    <React.Fragment>
-                        <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Compañía {/*TRADUCCION*/}</GridItem>
-                        <GridItem xs={12} md={9} lg={10}>{evidence.council.company.businessName}</GridItem>
-                    </React.Fragment>
-                }
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.council.name}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.date_real_start}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{moment(evidence.council.dateRealStart).format('LLL')}</GridItem>
-            </Grid>
+            {evidence.agendaPoint &&
+                <Grid>
+                    {evidence.agendaPoint.company &&
+                        <React.Fragment>
+                            <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Compañía {/*TRADUCCION*/}</GridItem>
+                            <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.company.businessName}</GridItem>
+                        </React.Fragment>
+                    }
+                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                    <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.council.name}</GridItem>
+                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.date_real_start}</GridItem>
+                    <GridItem xs={12} md={9} lg={10}>{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}</GridItem>
+                </Grid>
+            }
+            {evidence.council &&
+                <Grid>
+                    {evidence.council.company &&
+                        <React.Fragment>
+                            <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Compañía {/*TRADUCCION*/}</GridItem>
+                            <GridItem xs={12} md={9} lg={10}>{evidence.council.company.businessName}</GridItem>
+                        </React.Fragment>
+                    }
+                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                    <GridItem xs={12} md={9} lg={10}>{evidence.council.name}</GridItem>
+                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.date_real_start}</GridItem>
+                    <GridItem xs={12} md={9} lg={10}>{moment(evidence.council.dateRealStart).format('LLL')}</GridItem>
+                </Grid>
+            }
         </React.Fragment>
     )
 }
@@ -288,7 +322,7 @@ const EvidenceDisplay = ({ evidence, translate }) => {
     )
 };
 
-const getTranslateFieldFromType = type => {
+export const getTranslateFieldFromType = type => {
 
     switch(type){
         case 'START_COUNCIL':
@@ -319,6 +353,19 @@ const getTranslateFieldFromType = type => {
             return 'Desconexión del participante';//TRADUCCION
     }
 }
+
+const getTypeTranslation = type => {
+    const translations = {
+        INFORMATIVE: 'informative',
+        NOMINAL: 'public_voting',
+        ANONYMOUS: 'private_voting',
+        NOMINAL_ACT: 'public_act',
+        DEFAULT: 'custom_point'
+    }
+
+    return translations[type] || translations['default'];
+}
+
 
 const getEvidenceComponent = evidence => {
     if(evidence.data.type === 'LOGIN'){

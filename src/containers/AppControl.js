@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
 import { store } from '../containers/App';
+import { company } from '../queries';
 
 const ConfigContext = React.createContext({
     video: true,
@@ -16,12 +17,35 @@ export { ConfigContext };
 
 class AppControl extends React.Component {
 
+    state = {
+        configForCompany: ''
+    }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps, prevState){
         if(!prevProps.user.id && !!this.props.user.id){
             this.props.subscribeToAppControl({userId: this.props.user.id});
         }
+        if(this.props.companies){
+            if(this.props.companies.list[this.props.companies.selected] && prevProps.companies.list[this.props.companies.selected]){
+                if(this.props.companies.list[this.props.companies.selected].id !== this.state.configForCompany){
+                    this.updateCompanyConfig();
+                }
+            }
+
+        }
     }
+
+    updateCompanyConfig = () => {
+        const company = this.props.companies.list[this.props.companies.selected];
+        this.setState({
+            configForCompany: company.id
+        });
+
+        this.props.data.refetch({
+            companyId: company.id
+        })
+    }
+
 
     render(){
         let config = {};
@@ -30,6 +54,9 @@ class AppControl extends React.Component {
                 config[field.name] = field.active;
             }
         }
+
+        console.log(config);
+
         return(
             <ConfigContext.Provider value={config}>
                 {this.props.children}
@@ -53,8 +80,8 @@ const appControlChange = gql`
 `;
 
 const appConfig = gql`
-    query AppConfig($userId: String!){
-        appConfig(userId: $userId){
+    query AppConfig($userId: String!, $companyId: Int){
+        appConfig(userId: $userId, companyId: $companyId){
             name
             active
         }
