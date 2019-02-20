@@ -22,7 +22,7 @@ class FinishActModal extends React.Component {
 		loading: false,
 		step: 1,
 		file: '',
-		filename: ''
+		filename: '',
 	}
 
 	close = () => {
@@ -105,48 +105,27 @@ class FinishActModal extends React.Component {
 		const secondary = getSecondary();
 
 		return (
-			<div >
+			<div style={{marginTop: '12px'}}>
 				{this.props.show &&
 					this.props.config.exportActToWord ?
 					<React.Fragment>
 						{this.state.step === 1 &&
-							<Grid style={{ marginTop: "5px", height: '12em',justifyContent: 'center', alignItems: 'center' }}>
-								<GridItem xs={12} md={5} lg={5} style={{ height: "100%"}} >
-									<Card elevation="5" onClick={this.goToDropZone} style={{ height: "100%", cursor: "pointer", textAlign: "center", padding: "25px" }}>
-										<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
-											<i className="fa fa-upload" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>
-										</div>
-										<div>
-											Subir acta en PDF {/* //TRADUCCION */}
-										</div>
-									</Card>
+							<Grid style={{ marginTop: "5px", height: '12em', justifyContent: 'center', alignItems: 'center' }}>
+								<GridItem xs={12} md={5} lg={5} style={{ height: "100%", }} >
+									<ButtonInModal
+										click={this.goToDropZone}
+										img={<i className="fa fa-upload" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+										body={'Subir acta en PDF'}
+									/>
 								</GridItem>
 								<GridItem xs={12} md={1} lg={1}></GridItem>
-								<GridItem xs={12} md={5} lg={5}  style={{ height: "100%"}} >
-									<Card elevation="5" onClick={this.goToCBXAct} style={{ height: "100%", cursor: "pointer", textAlign: "center", padding: "25px" }}>
-										<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
-											<img src={logo} style={{ height: '4em', width: 'auto' }} />
-										</div>
-										<div>
-											Usar acta generada por Councilbox {/* //TRADUCCION */}
-										</div>
-									</Card>
+								<GridItem xs={12} md={5} lg={5} style={{ height: "100%" }} >
+									<ButtonInModal
+										click={this.goToCBXAct}
+										img={<img src={logo} style={{ height: '4em', width: 'auto' }} />}
+										body={'Usar acta generada por Councilbox'}
+									/>
 								</GridItem>
-								{/* <GridItem xs={12} md={5} lg={5}>
-										<Block
-											icon={<i className="fa fa-upload" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-											text='Subir acta en PDF'//TRADUCCION
-											onClick={this.goToDropZone}
-										/>
-									</GridItem>
-									<GridItem xs={12} md={2} lg={2}></GridItem>
-									<GridItem xs={12} md={5} lg={5}>
-										<Block
-											text='Usar acta generada por Councilbox'//TRADUCCION
-											onClick={this.goToCBXAct}
-											icon={<img src={logo} style={{height: '4em', width: 'auto'}} />}
-										/>
-									</GridItem> */}
 							</Grid>
 
 						}
@@ -183,7 +162,7 @@ class FinishActModal extends React.Component {
 
 		return (
 			<AlertConfirm
-				bodyStyle={{minWidth: "50vw", height: isMobile ? '26em' : ""}}
+				bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "" }}
 				requestClose={this.close}
 				open={this.props.show}
 				{...(this.props.config.exportActToWord ?
@@ -226,6 +205,37 @@ const Block = ({ text, icon, onClick, color = darkGrey }) => {
 	)
 }
 
+class ButtonInModal extends React.Component {
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
+	render() {
+		const { body, img, click } = this.props;
+		return (
+			<Card elevation={5} onClick={click} style={{ height: "100%", cursor: "pointer", textAlign: "center", padding: "25px", background: this.state.showActions ? "gainsboro" : "" }} onMouseOver={this.mouseEnterHandler} onMouseLeave={this.mouseLeaveHandler} >
+				<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
+					{img}
+				</div>
+				<div>
+					{body}
+				</div>
+			</Card>
+		);
+	}
+
+}
 
 class UploadAct extends React.Component {
 
