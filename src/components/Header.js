@@ -13,6 +13,7 @@ import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import FontAwesome from 'react-fontawesome';
 import { isLandscape } from '../utils/screen';
+import { CLIENT_VERSION } from "../config";
 
 
 class Header extends React.PureComponent {
@@ -145,6 +146,11 @@ class Header extends React.PureComponent {
 						alignItems: "center"
 					}}
 				>
+					{languageSelector &&
+						<span style={{fontSize: '0.85em'}}>
+							{`v${CLIENT_VERSION}`}
+						</span>
+					}
 					{languageSelector && (
 						<LanguageSelector selectedLanguage={language} />
 					)}
