@@ -128,7 +128,7 @@ class AgendaNoSession extends React.Component {
                 }
             });
         }
-
+        
         return (
             <Paper style={styles.container} elevation={4}>
                 <Scrollbar>
@@ -180,7 +180,7 @@ class AgendaNoSession extends React.Component {
                             {this.props.data.agendas ?
                                 agendas.map((agenda, index) => {
                                     return (
-                                        <div style={{marginBottom: "15px", width: "98%",  }}>
+                                        <div style={{marginBottom: "15px", width: "98%",  }} key={agenda.id}>
                                             <Card style={{padding: "1em"}}>
                                                 {/* <React.Fragment key={agenda.id}> */}
                                                 <div
@@ -206,13 +206,13 @@ class AgendaNoSession extends React.Component {
                                                             fontSize: '16px',
                                                             display: "flex"
                                                         }}>
-                                                            <div style={{ width: "55px" }}>Título:</div> {agenda.agendaSubject}
+                                                            <div style={{ width: "55px" }}>{translate.title}:</div> {agenda.agendaSubject}
                                                         </div>
                                                         <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
-                                                            <div style={{ width: "38px" }}>Tipo:</div> <div>{translate[getAgendaTypeLabel(agenda)]}</div>
+                                                            <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
                                                         </Typography>
                                                         <div style={{ display: "flex", height: '25px', display: "flex" }}>
-                                                            <div style={{ width: "90px" }}> Descripción:</div>  <div dangerouslySetInnerHTML={{ __html: agenda.description }}></div>
+                                                            <div style={{ width: "90px" }}>{translate.description}:</div>  <div dangerouslySetInnerHTML={{ __html: agenda.description }}></div>
                                                         </div>
                                                         <AgendaMenu
                                                             horizontal={true}

@@ -108,87 +108,85 @@ class AgendaMenu extends React.Component {
     }
 
     render() {
-        const { translate, agenda, horizontal} = this.props;
+        const { translate, agenda, horizontal } = this.props;
         const secondary = getSecondary();
         const primary = getPrimary();
 
         const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
-        // if (horizontal) {
-            return (
-                <div>
-                    <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-                        {this.agendaStateIcon()}
-                        {this.agendaStateMessage()}
-                    </Typography>
-                    {agenda.attachments &&
-                        agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment =>
-                            <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />
-                        )
-                    }
-                    {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
-                        <React.Fragment>
-                            <div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
-                                <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-                                    {this.agendaVotingIcon()}
-                                    {this.agendaVotingMessage()}
-                                </Typography>
-                            </div>
-                            {CBX.agendaVotingsOpened(agenda) &&
-                                <React.Fragment>
-                                    {(agenda.votings && agenda.votings.length > 0) ?
-                                        <React.Fragment>
-                                            {checkVotings(agenda.votings) &&
-                                                <React.Fragment>
-                                                    {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                        'Tu voto ha sido delegado en esta votación'//TRADUCCION
-                                                        :
-                                                        <VotingSection
-                                                            agenda={agenda}
-                                                            open={this.state.open}
-                                                            council={this.props.council}
-                                                            voting={this.state.voting}
-                                                            translate={translate}
-                                                            activateVoting={this.activateVoting}
-                                                            refetch={this.props.refetch}
-                                                            toggle={this.toggle}
-                                                        />
-                                                    }
-                                                </React.Fragment>
-                                            }
-                                            {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
-                                                <CommentMenu
-                                                    agenda={agenda}
-                                                    participant={this.props.participant}
-                                                    translate={this.props.translate}
-                                                    refetch={this.props.refetch}
-                                                />
-                                            }
-                                        </React.Fragment>
-                                        :
-                                        translate.cant_exercise_vote
-                                    }
-                                </React.Fragment>
-                            }
-                        </React.Fragment>
-                    }
-                    
-                    <AlertConfirm
-                        requestClose={() => this.setState({ showModal: false })}
-                        open={this.state.showModal}
-                        acceptAction={() => this.setState({ showModal: false })}
-                        buttonAccept={translate.accept}
-                        bodyText={
-                            <div>
-                                <ActHTML
-                                    council={this.props.council}
-                                />
-                            </div>
+        return (
+            <div>
+                <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
+                    {this.agendaStateIcon()}
+                    {this.agendaStateMessage()}
+                </Typography>
+                {agenda.attachments &&
+                    agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment =>
+                        <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />
+                    )
+                }
+                {CBX.hasVotation(agenda.subjectType) && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
+                    <React.Fragment>
+                        <div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
+                            <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
+                                {this.agendaVotingIcon()}
+                                {this.agendaVotingMessage()}
+                            </Typography>
+                        </div>
+                        {CBX.agendaVotingsOpened(agenda) &&
+                            <React.Fragment>
+                                {(agenda.votings && agenda.votings.length > 0) ?
+                                    <React.Fragment>
+                                        {checkVotings(agenda.votings) &&
+                                            <React.Fragment>
+                                                {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
+                                                    'Tu voto ha sido delegado en esta votación'//TRADUCCION
+                                                    :
+                                                    <VotingSection
+                                                        agenda={agenda}
+                                                        open={this.state.open}
+                                                        council={this.props.council}
+                                                        voting={this.state.voting}
+                                                        translate={translate}
+                                                        activateVoting={this.activateVoting}
+                                                        refetch={this.props.refetch}
+                                                        toggle={this.toggle}
+                                                    />
+                                                }
+                                            </React.Fragment>
+                                        }
+                                        {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
+                                            <CommentMenu
+                                                agenda={agenda}
+                                                participant={this.props.participant}
+                                                translate={this.props.translate}
+                                                refetch={this.props.refetch}
+                                            />
+                                        }
+                                    </React.Fragment>
+                                    :
+                                    translate.cant_exercise_vote
+                                }
+                            </React.Fragment>
                         }
-                        title={translate.edit}
-                    />
-                </div>
-            )
-        // } else {
+                    </React.Fragment>
+                }
+
+                <AlertConfirm
+                    requestClose={() => this.setState({ showModal: false })}
+                    open={this.state.showModal}
+                    acceptAction={() => this.setState({ showModal: false })}
+                    buttonAccept={translate.accept}
+                    bodyText={
+                        <div>
+                            <ActHTML
+                                council={this.props.council}
+                            />
+                        </div>
+                    }
+                    title={translate.edit}
+                />
+            </div>
+        )
         //     return (
         //         <div>
         //             <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
@@ -318,7 +316,6 @@ class AgendaMenu extends React.Component {
         //             />
         //         </div>
         //     )
-        // }
     }
 }
 

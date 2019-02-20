@@ -122,9 +122,6 @@ class Agendas extends React.Component {
         const secondary = getSecondary();
         const primary = getPrimary();
 
-        console.log(council);
-        console.log(councilHasSession(council));
-
         let agendas = [];
 
         if (this.props.data.agendas) {
