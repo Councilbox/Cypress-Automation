@@ -9,17 +9,18 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
-import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
+import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel, councilStarted, councilHasSession } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import { toast } from 'react-toastify';
+import AgendaNoSession from "./AgendaNoSession";
 
 const styles = {
-	container: {
-		width: "100%",
-		height: "100%",
+    container: {
+        width: "100%",
+        height: "100%",
         overflow: 'hidden'
-	},
-    agendasHeader:{
+    },
+    agendasHeader: {
         display: 'flex',
         alignItems: 'center',
         padding: '8px',
@@ -36,7 +37,7 @@ class Agendas extends React.Component {
     updated = 0;
 
     selectAgenda = (index) => {
-        this.setState({selected: index});
+        this.setState({ selected: index });
     }
 
     agendaStateToastId = null;
@@ -71,20 +72,20 @@ class Agendas extends React.Component {
         toast.dismiss(this.agendaVotingsToastId);
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps) {
         const { translate } = this.props;
 
-        if(prevProps.data.agendas){
+        if (prevProps.data.agendas) {
             const { agendas: actualAgendas } = this.props.data;
             prevProps.data.agendas.forEach((agenda, index) => {
-                let agendaToCheck = agenda.id === actualAgendas[index].id?
+                let agendaToCheck = agenda.id === actualAgendas[index].id ?
                     actualAgendas[index]
-                :
+                    :
                     actualAgendas.find(item => item.id === agenda.id)
-                ;
+                    ;
 
                 if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
-                    if(this.agendaStateToastId){
+                    if (this.agendaStateToastId) {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
@@ -94,7 +95,7 @@ class Agendas extends React.Component {
                 }
 
                 if (agendaPointOpened(agenda) && !agendaPointOpened(agendaToCheck)) {
-                    if(this.agendaStateToastId){
+                    if (this.agendaStateToastId) {
                         toast.dismiss(this.agendaStateToastId);
                     }
                     this.agendaStateToastId = this.toastChanges(
@@ -103,8 +104,8 @@ class Agendas extends React.Component {
                     );
                 }
 
-                if (!agendaVotingsOpened(agenda) && agendaVotingsOpened(agendaToCheck)){
-                    if(this.agendaVotingsToastId){
+                if (!agendaVotingsOpened(agenda) && agendaVotingsOpened(agendaToCheck)) {
+                    if (this.agendaVotingsToastId) {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
@@ -113,8 +114,8 @@ class Agendas extends React.Component {
                     );
                 }
 
-                if (agendaVotingsOpened(agenda) && !agendaVotingsOpened(agendaToCheck)){
-                    if(this.agendaVotingsToastId){
+                if (agendaVotingsOpened(agenda) && !agendaVotingsOpened(agendaToCheck)) {
+                    if (this.agendaVotingsToastId) {
                         toast.dismiss(this.agendaVotingsToastId);
                     }
                     this.agendaVotingsToastId = this.toastChanges(
@@ -166,7 +167,7 @@ class Agendas extends React.Component {
 
         let agendas = [];
 
-        if(this.props.data.agendas){
+        if (this.props.data.agendas) {
             agendas = this.props.data.agendas.map(agenda => {
                 return {
                     ...agenda,
@@ -194,25 +195,25 @@ class Agendas extends React.Component {
                                         <IconButton
                                             size={'small'}
                                             onClick={toggleAgendasAnchor}
-                                            style={{outline: 0}}
+                                            style={{ outline: 0 }}
                                         >
-                                        <i className="fa fa-caret-left"></i>
-                                    </IconButton>
-                                :
-                                    <CouncilInfoMenu
-                                        translate={translate}
-                                        council={council}
-                                    />
-                                }
-                            </div>
-                            <Typography variant="title" style={{fontWeight: '700'}}>{translate.agenda}</Typography>
-                            <div style={{width: '3em'}}>
-                                {agendasAnchor === 'left'?
-                                    anchorToggle &&
+                                            <i className="fa fa-caret-left"></i>
+                                        </IconButton>
+                                        :
+                                        <CouncilInfoMenu
+                                            translate={translate}
+                                            council={council}
+                                        />
+                                    }
+                                </div>
+                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                                <div style={{ width: '3em' }}>
+                                    {agendasAnchor === 'left' ?
+                                        anchorToggle &&
                                         <IconButton
                                             size={'small'}
                                             onClick={toggleAgendasAnchor}
-                                            style={{outline: 0}}
+                                            style={{ outline: 0 }}
                                         >
                                             <i className="fa fa-caret-right"></i>
                                         </IconButton>
@@ -224,46 +225,45 @@ class Agendas extends React.Component {
                                     />
                                 }
                             </div>
-                        </div>
-                        <Divider/>
-                        {!councilStarted(council) &&
-                            <div style={{backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'}}>
-                                {this.props.translate.council_not_started_yet}
-                            </div>
-                        }
-                        <div style={{padding: '0.8em', paddingLeft: '1.2em', marginTop: '10px'}}>
-                            <Steps direction="vertical" size="small" current={selected}>
-                                {this.props.data.agendas?
-                                    agendas.map((agenda, index) => {
-                                        return (
-                                            <Steps.Step
-                                                icon={
-                                                    <AgendaNumber
-                                                        index={index + 1}
-                                                        open={agenda.pointState === 1}
-                                                        active={selected === index}
-                                                        activeColor={getPrimary()}
-                                                        voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-                                                        translate={translate}
-                                                        secondaryColor={getSecondary()}
-                                                        onClick={() => this.selectAgenda(index)}
-                                                        small={true}
-                                                        style={{
-                                                            position: 'static'
-                                                        }}
-                                                    />
-                                                }
-                                                title={
-                                                    <div onClick={() => this.selectAgenda(index)} style={{cursor: 'pointer'}}>
-                                                        {agenda.agendaSubject}
-                                                    </div>
-                                                }
-                                                description={ selected === index ?
+                            <Divider />
+                            {!councilStarted(council) &&
+                                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                                    {this.props.translate.council_not_started_yet}
+                                </div>
+                            }
+                            <div style={{ padding: '0.8em', paddingLeft: '1.2em', marginTop: '10px' }}>
+                                <Steps direction="vertical" size="small" current={selected}>
+                                    {this.props.data.agendas ?
+                                        agendas.map((agenda, index) => {
+                                            return (
+                                                <Steps.Step
+                                                    icon={
+                                                        <AgendaNumber
+                                                            index={index + 1}
+                                                            open={agenda.pointState === 1}
+                                                            active={selected === index}
+                                                            activeColor={getPrimary()}
+                                                            voting={agenda.votingState === 1 && agenda.subjectType !== 0}
+                                                            translate={translate}
+                                                            secondaryColor={getSecondary()}
+                                                            onClick={() => this.selectAgenda(index)}
+                                                            small={true}
+                                                            style={{
+                                                                position: 'static'
+                                                            }}
+                                                        />
+                                                    }
+                                                    title={
+                                                        <div onClick={() => this.selectAgenda(index)} style={{ cursor: 'pointer' }}>
+                                                            {agenda.agendaSubject}
+                                                        </div>
+                                                    }
+                                                    description={selected === index ?
                                                         <React.Fragment>
-                                                            <Typography variant="body1" style={{color: secondary, fontWeight: '700'}}>
+                                                            <Typography variant="body1" style={{ color: secondary, fontWeight: '700' }}>
                                                                 {translate[getAgendaTypeLabel(agenda)]}
                                                             </Typography>
-                                                            <div style={{marginBottom: '0.6em'}}>
+                                                            <div style={{ marginBottom: '0.6em' }}>
                                                                 <AgendaDescription agenda={agenda} translate={translate} />
                                                             </div>
                                                             <AgendaMenu
@@ -274,23 +274,30 @@ class Agendas extends React.Component {
                                                                 refetch={this.props.data.refetch}
                                                             />
                                                         </React.Fragment>
-                                                    :
+                                                        :
                                                         ''
-                                                }
-                                                key={agenda.id}
-                                            />
-                                        )
-                                    })
-                                :
-                                    <LoadingSection />
-                                }
-                            </Steps>
+                                                    }
+                                                    key={agenda.id}
+                                                />
+                                            )
+                                        })
+                                        :
+                                        <LoadingSection />
+                                    }
+                                </Steps>
+                            </div>
                         </div>
-                    </div>
-                </Scrollbar>
-			</Paper>
-		);
-	}
+                    </Scrollbar>
+                </Paper>
+            );
+        } else {
+            return (
+                <AgendaNoSession
+                     {...this.props}
+                ></AgendaNoSession>
+            );
+        }
+    }
 }
 
 
