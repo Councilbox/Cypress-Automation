@@ -156,6 +156,7 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 
 		return (
 			<AlertConfirm
+				bodyStyle={{ minWidth: "" }}
 				classNameDialog={"modalParticipant"}
 				requestClose={this.close}
 				open={this.props.show}

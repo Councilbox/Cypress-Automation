@@ -193,7 +193,7 @@ class Assistance extends React.Component {
 									overflow: 'hidden'
 								}}>
 									<Scrollbar>
-										<div style={{ height: '100%', padding: '2em', width: '100%' }}>
+										<div style={{ height: '100%', padding: '2em', width: '99%' }}>
 											<Typography variant="subheading" style={{ fontWeight: '700', marginBottom: '1.2em' }}>
 												{translate.welcome} {participant.name} {participant.surname}
 											</Typography>
