@@ -106,23 +106,22 @@ class CommentMenu extends React.Component {
                         }
                     </Typography>
                     <BasicButton
-                        color={this.state.open ? primary : 'white'}
+                        color={'white'}
                         text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0) ? translate.edit_comment : translate.send_minutes_comment}
                         textStyle={{
-                            color: this.state.open ? 'black' : "black",
-                            // fontWeight: '700',
+                            color: secondary,
+                            //fontWeight: '700',
                             fontSize: '14px'
                         }}
-                        // type={'flat'}
+                        //type={'flat'}
                         buttonStyle={{
                             width: "160px",
                             float: 'left',
                             // marginLeft: '0.6em',
                             padding: '0.3em',
-                            // border: `1px solid ${secondary}`
+                            border: `1px solid ${secondary}`
                             // background: "grey",
                         }}
-                        backgroundColorFondo={{backgroundColor:"gainsboro"}}
                         onClick={this.toggle}
                     />
 

@@ -84,7 +84,7 @@ class VotingSection extends React.Component {
                                         float: 'left',
                                         // marginLeft: '0.6em',
                                         padding: '0.3em',
-                                        border: `2px solid ${primary}`
+                                        border: `1px solid ${primary}`
                                     }}
                                     icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
                                     onClick={this.props.activateVoting}
@@ -105,7 +105,7 @@ class VotingSection extends React.Component {
                                         float: 'left',
                                         // marginLeft: '0.6em',
                                         padding: '0.3em',
-                                        border: `2px solid ${primary}`
+                                        border: `1px solid ${primary}`
                                     }}
                                     icon={<ButtonIcon type="save_alt" color={this.props.voting && this.props.open? 'white' : primary}/>}
                                     onClick={this.downloadVotePDF}
@@ -126,7 +126,7 @@ class VotingSection extends React.Component {
                                 float: 'left',
                                 // marginLeft: '0.6em',
                                 padding: '0.3em',
-                                border: `2px solid ${primary}`,
+                                border: `1px solid ${primary}`,
                             }}
                             icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
                             onClick={this.props.activateVoting}

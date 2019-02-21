@@ -128,7 +128,7 @@ class AgendaNoSession extends React.Component {
                 }
             });
         }
-        
+
         return (
             <Paper style={styles.container} elevation={4}>
                 <Scrollbar>
@@ -147,6 +147,7 @@ class AgendaNoSession extends React.Component {
                                     :
                                     <CouncilInfoMenu
                                         translate={translate}
+                                        participant={this.props.participant}
                                         council={council}
                                     />
                                 }
@@ -165,6 +166,7 @@ class AgendaNoSession extends React.Component {
                                     :
                                     <CouncilInfoMenu
                                         translate={translate}
+                                        participant={this.props.participant}
                                         council={council}
                                     />
                                 }
@@ -182,7 +184,6 @@ class AgendaNoSession extends React.Component {
                                     return (
                                         <div style={{marginBottom: "15px", width: "98%",  }} key={agenda.id}>
                                             <Card style={{padding: "1em"}}>
-                                                {/* <React.Fragment key={agenda.id}> */}
                                                 <div
                                                     style={{
                                                         display: "flex",
@@ -224,52 +225,8 @@ class AgendaNoSession extends React.Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                {/* <hr></hr> */}
-                                                {/* </React.Fragment> */}
                                             </Card>
                                         </div>
-                                        // <Steps.Step
-                                        //     icon={
-                                        //         <AgendaNumber
-                                        //             index={index + 1}
-                                        //             open={agenda.pointState === 1}
-                                        //             active={selected === index}
-                                        //             activeColor={getPrimary()}
-                                        //             voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-                                        //             translate={translate}
-                                        //             secondaryColor={getSecondary()}
-                                        //             onClick={() => this.selectAgenda(index)}
-                                        //             small={true}
-                                        //             style={{
-                                        //                 position: 'static'
-                                        //             }}
-                                        //         />
-                                        //     }
-                                        //     title={
-                                        //         <div onClick={() => this.selectAgenda(index)} style={{ cursor: 'pointer' }}>
-                                        //             {agenda.agendaSubject}
-                                        //         </div>
-                                        //     }
-                                        //     description={
-                                        //         <React.Fragment>
-                                        //             <Typography variant="body1" style={{ color: secondary, fontWeight: '700' }}>
-                                        //                 {translate[getAgendaTypeLabel(agenda)]}
-                                        //             </Typography>
-                                        //             <div style={{ marginBottom: '0.6em' }}>
-                                        //                 <AgendaDescription agenda={agenda} translate={translate} />
-                                        //             </div>
-                                        // <AgendaMenu
-                                        //                 agenda={agenda}
-                                        //                 council={council}
-                                        //                 participant={this.props.participant}
-                                        //                 translate={translate}
-                                        //                 refetch={this.props.data.refetch}
-                                        //             />
-                                        //         </React.Fragment>
-
-                                        //     }
-                                        //     key={agenda.id}
-                                        // />
                                     )
                                 })
                                 :
