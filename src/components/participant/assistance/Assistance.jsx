@@ -52,10 +52,12 @@ class Assistance extends React.Component {
 		participant: {},
 		savingAssistanceComment: false,
 		delegationModal: false,
-		assistanceIntention: PARTICIPANT_STATES.REMOTE
+		assistanceIntention: PARTICIPANT_STATES.REMOTE,
+		idDelegate: null
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
+		console.log("====getDerivedStateFromProps====")
 		if (!prevState.participant.id) {
 			return {
 				participant: nextProps.participant,
@@ -72,6 +74,7 @@ class Assistance extends React.Component {
 	}
 
 	selectSimpleOption = async option => {
+		console.log("====selectSimpleOption====")
 		const { setAssistanceIntention, refetch } = this.props;
 		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
 
@@ -97,6 +100,7 @@ class Assistance extends React.Component {
 	}
 
 	saveAssistanceComment = async () => {
+		console.log("====saveAssistanceComment====")
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
@@ -143,22 +147,28 @@ class Assistance extends React.Component {
 	}
 
 	selectDelegation = async delegateId => {
+		console.log("====selectDelegation====")
+		this.setState({
+			idDelegate: delegateId
+		})
 		const { setAssistanceIntention, refetch } = this.props;
 
-		const response = await setAssistanceIntention({
-			variables: {
-				assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-				representativeId: delegateId
-			}
-		});
+		// const response = await setAssistanceIntention({
+		// 	variables: {
+		// 		assistanceIntention: PARTICIPANT_STATES.DELEGATED,
+		// 		representativeId: delegateId
+		// 	}
+		// });
 
-		if (response) {
-			refetch();
-			this.setState({
-				delegationModal: false,
-				assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-			})
-		}
+		// if (response) {
+
+		this.setState({
+			idDelegate: delegateId,
+			delegationModal: false,
+			assistanceIntention: PARTICIPANT_STATES.DELEGATED,
+		})
+
+		// }
 	}
 
 	showDelegation = () => {
@@ -171,7 +181,8 @@ class Assistance extends React.Component {
 		const { council, company, translate } = this.props;
 		const { representative, ...participant } = this.state.participant;
 		let canDelegate = canDelegateVotes(council.statute, participant);
-		console.log(this.state.assistanceIntention)
+
+		
 		return (
 			<NotLoggedLayout
 				translate={this.props.translate}
@@ -262,11 +273,9 @@ class Assistance extends React.Component {
 														selected={this.state.assistanceIntention}
 													/>
 												}
-												{representative && this.state.assistanceIntention === 4 ?
+												{/* { this.state.idDelegate &&
 													<DelegationItem participant={representative} />
-													:
-													""
-												}
+												} */}
 												<br />
 											</Card>
 											<Card style={{ padding: '1.5em', width: '100%', }}>
