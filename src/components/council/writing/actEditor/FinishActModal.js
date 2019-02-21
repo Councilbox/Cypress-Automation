@@ -228,7 +228,7 @@ class ButtonInModal extends React.Component {
 				<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
 					{img}
 				</div>
-				<div>
+				<div style={{fontSize: "1.1em"}}>
 					{body}
 				</div>
 			</Card>
