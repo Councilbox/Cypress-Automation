@@ -324,12 +324,6 @@ const agendas = gql`
                 id
                 value
             }
-            ballots {
-                id
-                value
-                participantId
-                itemId
-            }
             councilId
             dateEndVotation
             dateStart
@@ -356,6 +350,7 @@ const agendas = gql`
                 surname
                 representative {
                     id
+                    type
                     name
                     surname
                 }

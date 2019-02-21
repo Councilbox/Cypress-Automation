@@ -24,7 +24,7 @@ import { isMobile } from 'react-device-detect';
 
 class VotingsTable extends React.Component {
 
-    state = {
+  state = {
 		open: false,
 		voteFilter: "all",
 		stateFilter: "all",
