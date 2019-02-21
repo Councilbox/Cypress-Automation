@@ -228,3 +228,5 @@ h4 {
   }
 
   .hoverEnTabla:hover {background: #ddd!important;}
+
+  .modalParticipant>div:nth-child(2n) {max-width: 660px;width: 100%} 
