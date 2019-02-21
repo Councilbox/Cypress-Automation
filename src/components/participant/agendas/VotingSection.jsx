@@ -47,10 +47,13 @@ class VotingSection extends React.Component {
 
         return(
             <React.Fragment>
-                <div style={{display: 'flex', alignItems: 'center', marginTop: '0.6em'}}>
-                    <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                        {getVotingInfoText(agenda.votings[0].vote, translate)}
-                    </Typography>
+                <div style={{alignItems: 'center', marginTop: '0.6em'}}>
+                    <div style={{marginBottom: '5px'}}>
+                        <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
+                            {getVotingInfoText(agenda.votings[0].vote, translate)}
+                        </Typography>
+                    </div>
+
                     {singleVoteMode?
                         <React.Fragment>
                             {agenda.votings[0].vote === -1?
@@ -97,10 +100,10 @@ class VotingSection extends React.Component {
                         </React.Fragment>
                     :
                         <BasicButton
-                            color={this.props.voting && this.props.open? primary : 'white'}
+                            color={'white'}
                             text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : translate.change_vote}
                             textStyle={{
-                                color: this.props.voting && this.props.open? 'white' : primary,
+                                color: primary,
                                 fontWeight: '700',
                                 fontSize: '14px'
                             }}
@@ -109,9 +112,9 @@ class VotingSection extends React.Component {
                                 float: 'left',
                                 // marginLeft: '0.6em',
                                 padding: '0.3em',
-                                border: `1px solid ${primary}`,
+                                border: `${this.props.voting && this.props.open? '2' : '1'}px solid ${primary}`,
                             }}
-                            icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
+                            icon={<ButtonIcon type="thumbs_up_down" color={primary}/>}
                             onClick={this.props.activateVoting}
                         />
                     }

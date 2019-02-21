@@ -40,7 +40,6 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
                 }
             });
 
-            console.log(response);
             await props.refetch();
             props.requestClose();
         }
@@ -78,7 +77,6 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         });
     }
 
-    console.log(options);
 
     const validateCustomAgenda = () => {
         let hasError = false;
@@ -128,7 +126,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         });
     }
 
-    console.log(errors);
+    //console.log(errors);
 
     const renderBody = () => {
         return (

@@ -207,24 +207,24 @@ h4 {
 
 /*estilos para icono*/
 .element-animation{
-    width: 150px;
-    animation: animationFrames linear 4s;
+    width: 90px;
+    animation: animationFrames linear 6s;
     animation-iteration-count: infinite;
     transform-origin: 50% 50%;
-    -webkit-animation: animationFrames linear 4s;
+    -webkit-animation: animationFrames linear 6s;
     -webkit-animation-iteration-count: infinite;
     -webkit-transform-origin: 50% 50%;
-    -moz-animation: animationFrames linear 4s;
+    -moz-animation: animationFrames linear 6s;
     -moz-animation-iteration-count: infinite;
     -moz-transform-origin: 50% 50%;
-    -o-animation: animationFrames linear 4s;
+    -o-animation: animationFrames linear 6s;
     -o-animation-iteration-count: infinite;
     -o-transform-origin: 50% 50%;
-    -ms-animation: animationFrames linear 4s;
+    -ms-animation: animationFrames linear 6s;
     -ms-animation-iteration-count: infinite;
     -ms-transform-origin: 50% 50%;
   }
-  
+
   @keyframes animationFrames{
     0% {
       transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;
@@ -242,7 +242,7 @@ h4 {
       transform:  rotate(720deg) scaleX(1.00) scaleY(1.00) ;
     }
   }
-  
+
   @-moz-keyframes animationFrames{
     0% {
       -moz-transform:  rotate(NaNdeg) scaleX(1.00) scaleY(1.00) ;

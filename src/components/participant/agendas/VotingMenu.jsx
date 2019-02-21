@@ -51,7 +51,6 @@ class VotingMenu extends React.Component {
         });
 
         const updateAgendaVoting = this.props.updateAgendaVoting;
-        console.log(this.props)
         const response = await Promise.all(this.props.agenda.votings.map(voting =>
             updateAgendaVoting({
                 variables: {

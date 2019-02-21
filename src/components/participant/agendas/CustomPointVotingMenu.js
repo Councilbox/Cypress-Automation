@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, Radio, Checkbox } from '../../../displayComponents';
+import { BasicButton, Radio, Checkbox, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
@@ -91,7 +91,9 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
                 text="Enviar selección"
                 textStyle={{fontWeight: '700', color: 'white'}}
                 color={primary}
+                icon={<ButtonIcon type="save" color={'white'} />}
                 loading={loading}
+                loadingColor={'white'}
                 onClick={sendCustomAgendaVote}
             />
         </div>
