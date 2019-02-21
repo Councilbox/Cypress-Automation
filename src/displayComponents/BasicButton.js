@@ -22,7 +22,7 @@ const BasicButton = ({
 	loading,
 	success,
 	floatRight,
-	claseHover
+	claseHover,
 }) => {
 	if ((error || success) && !!reset) {
 		let timeout = setTimeout(() => {

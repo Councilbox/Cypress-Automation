@@ -4,7 +4,7 @@ import ToggleRecordings from './featureControl/ToggleRecordings';
 import ToggleVideo from './featureControl/ToggleVideo';
 import LogoutUser from './featureControl/LogoutUser';
 import RefreshUser from './featureControl/RefreshUser';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { ConfigContext } from '../../containers/AppControl';
 import { Switch, FormControlLabel } from 'material-ui';
@@ -20,29 +20,36 @@ class DevAdminPage extends React.Component {
     }
 
     render(){
+        let config = {};
+        console.log(this.props.data);
+
+        if(!this.props.data.loading){
+            for(let field of this.props.data.adminFeatures.features){
+                config[field.name] = field.active;
+            }
+        }
+
+        console.log(this.props.data.adminFeatures);
+
         return (
             <div style={{width: '100%', height: '100%', padding: '1em'}}>
-                <ConfigContext.Consumer>
-                    {value => (
-                        <Grid>
-                            <GridItem xs={12} md={12} lg={12}>
-                                <ToggleRecordings />
-                            </GridItem>
-                            <GridItem xs={12} md={12} lg={12}>
-                                <ToggleVideo />
-                            </GridItem>
-                            <GridItem xs={12} md={12} lg={12}>
-                                <LogoutUser />
-                            </GridItem>
-                            <GridItem xs={12} md={12} lg={12}>
-                                <RefreshUser />
-                            </GridItem>
-                            <GridItem xs={12} md={12} lg={12}>
-                                <Features value={value} toggleFeature={this.toggleFeature} />
-                            </GridItem>
-                        </Grid>
-                    )}
-                </ConfigContext.Consumer>
+                <Grid>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <ToggleRecordings />
+                    </GridItem>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <ToggleVideo />
+                    </GridItem>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <LogoutUser />
+                    </GridItem>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <RefreshUser />
+                    </GridItem>
+                    <GridItem xs={12} md={12} lg={12}>
+                        <Features value={config} toggleFeature={this.toggleFeature} />
+                    </GridItem>
+                </Grid>
             </div>
         )
     }
@@ -53,7 +60,7 @@ const Features = ({ value, toggleFeature }) => {
 
     return (
         <React.Fragment>
-            {array.map(feature  => (
+            {array.filter(feature => feature.name !== 'exceptions').map(feature  => (
                 <FormControlLabel
                     key={`feature_${feature.name}`}
                     control={
@@ -80,4 +87,25 @@ const toggleFeature = gql`
     }
 `;
 
-export default graphql(toggleFeature, { name: 'toggleFeature' })(DevAdminPage);
+const appConfig = gql`
+    query AppConfig{
+        adminFeatures{
+            features {
+                name
+                active
+            }
+            exceptions {
+                id
+                featureName
+                companyId
+                active
+            }
+        }
+    }
+`;
+
+
+export default compose(
+    graphql(toggleFeature, { name: 'toggleFeature' }),
+    graphql(appConfig)
+)(DevAdminPage);

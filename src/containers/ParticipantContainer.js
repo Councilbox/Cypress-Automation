@@ -113,6 +113,7 @@ const councilQuery = gql`
 	query info($councilId: Int!) {
 		councilVideo(id: $councilId) {
 			active
+			autoClose
 			businessName
 			city
 			companyId
@@ -219,6 +220,15 @@ const participantQuery = gql`
 			id
 			type
 			phone
+			numParticipations
+			delegatedVotes {
+				id
+				name
+				surname
+				numParticipations
+				state
+				type
+			}
 			email
 			state
 			requestWord

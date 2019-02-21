@@ -316,3 +316,30 @@ h4 {
   }
 
   
+
+.scale-up-center{ animation: scale-up-center 0.4s cubic-bezier(0.550, 0.055, 0.675, 0.190) 0.5s both;}
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  @keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+
+  .hoverEnTabla:hover {background: #ddd!important;}
+
+  .colorRed {color: #bd0000}
+  .colorGren {color: #009034}

@@ -4,13 +4,13 @@ import {
 	Icon,
 	LoadingSection,
 	ParticipantRow,
+	Scrollbar,
 	TextInput
 } from "../../../displayComponents";
 import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
-import Scrollbar from "react-perfect-scrollbar";
 
 class DelegateOwnVoteAttendantModal extends React.Component {
 	state = {
@@ -110,20 +110,22 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 													this.props.participant.id
 												) {
 													return (
-														<ParticipantRow
-															key={`delegateVote_${
-																participant.id
-																}`}
-															council={this.props.council}
-															toDelegate={true}
-															cantDelegate={false}
-															participant={participant}
-															onClick={() =>
-																this.props.addRepresentative(
+														<React.Fragment>
+															<ParticipantRow
+																key={`delegateVote_${
 																	participant.id
-																)
-															}
-														/>
+																	}`}
+																council={this.props.council}
+																toDelegate={true}
+																cantDelegate={false}
+																participant={participant}
+																onClick={() =>
+																	this.props.addRepresentative(
+																		participant.id
+																	)
+																}
+															/>
+														</React.Fragment>
 													);
 												}
 												return false;

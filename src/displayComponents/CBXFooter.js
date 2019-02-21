@@ -1,7 +1,7 @@
 import React from 'react';
 import { isMobile } from 'react-device-detect';
 import { darkGrey } from '../styles/colors';
-
+import { CLIENT_VERSION } from '../config';
 const date = new Date()
 
 const year = date.getFullYear();
@@ -11,7 +11,7 @@ const CBXFooter = () => (
         <div
             dangerouslySetInnerHTML={{ __html: `Copyright &copy ${year}`}}
         />
-        <span style={{marginLeft: '0.2em', marginRight: '0.2em', color: darkGrey}}>Councilbox Technology S.L.</span>
+        <span style={{marginLeft: '0.2em', marginRight: '0.2em', color: darkGrey}}>{`v${CLIENT_VERSION} - Councilbox Technology S.L.`}</span>
     </div>
 );
 

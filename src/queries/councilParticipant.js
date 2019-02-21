@@ -168,6 +168,7 @@ export const convenedcouncilParticipants = gql`
 					socialCapital
 					dni
 					email
+					type
 					phone
 					position
 					language

@@ -382,6 +382,7 @@ class HoverableRow extends React.Component {
 			representative = participant.live.representative;
 		}
 
+
 		if(isMobile){
             return(
                 <Card
@@ -621,7 +622,7 @@ class HoverableRow extends React.Component {
 
 const formatParticipant = participant => {
 	let { representing, ...newParticipant } = participant;
-	if(representing){
+	if(representing && representing.type === 3){
 		let { representative, ...rest } = newParticipant;
 		newParticipant = {
 			...representing,

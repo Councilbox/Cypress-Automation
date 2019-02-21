@@ -63,10 +63,11 @@ class VotingSection extends React.Component {
                                         fontSize: '14px'
                                     }}
                                     buttonStyle={{
+                                        width: "160px",
                                         float: 'left',
-                                        marginLeft: '0.6em',
+                                        // marginLeft: '0.6em',
                                         padding: '0.3em',
-                                        border: `2px solid ${primary}`
+                                        border: `1px solid ${primary}`
                                     }}
                                     icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
                                     onClick={this.props.activateVoting}
@@ -83,10 +84,11 @@ class VotingSection extends React.Component {
                                         fontSize: '14px'
                                     }}
                                     buttonStyle={{
+                                        width: "160px",
                                         float: 'left',
-                                        marginLeft: '0.6em',
+                                        // marginLeft: '0.6em',
                                         padding: '0.3em',
-                                        border: `2px solid ${primary}`
+                                        border: `1px solid ${primary}`
                                     }}
                                     icon={<ButtonIcon type="save_alt" color={this.props.voting && this.props.open? 'white' : primary}/>}
                                     onClick={this.downloadVotePDF}
@@ -103,10 +105,11 @@ class VotingSection extends React.Component {
                                 fontSize: '14px'
                             }}
                             buttonStyle={{
+                                width: "160px",
                                 float: 'left',
-                                marginLeft: '0.6em',
+                                // marginLeft: '0.6em',
                                 padding: '0.3em',
-                                border: `2px solid ${primary}`
+                                border: `1px solid ${primary}`,
                             }}
                             icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
                             onClick={this.props.activateVoting}

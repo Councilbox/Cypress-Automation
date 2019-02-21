@@ -110,7 +110,7 @@ class AnnouncementModal extends React.Component {
                     </React.Fragment>
                 }
                 children={this._renderBody()}
-                title={translate.send_convene_reminder}
+                title={'Mostrar aviso a los participantes'}//TRADUCCION
             />
 		);
 	}

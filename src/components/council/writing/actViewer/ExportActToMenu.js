@@ -6,6 +6,14 @@ import { downloadFile } from '../../../../utils/CBX';
 import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
+import gql from 'graphql-tag';
+
+
+const exportActPDF = gql`
+    query exportActPDF($councilId: Int!){
+        exportActPDF(councilId: $councilId)
+    }
+`;
 
 
 class ExportActToMenu extends React.Component {
@@ -19,19 +27,19 @@ class ExportActToMenu extends React.Component {
 			loading: true
 		})
 		const response = await this.props.client.query({
-			query: downloadAct,
+			query: exportActPDF,
 			variables: {
 				councilId: this.props.council.id
 			}
         });
 
 		if (response) {
-			if (response.data.downloadAct) {
+			if (response.data.exportActPDF) {
 				this.setState({
 					loading: false
 				});
 				downloadFile(
-					response.data.downloadAct,
+					response.data.exportActPDF,
 					"application/pdf",
 					`${this.props.translate.act.replace(/ /g, '_')}-${
 				    this.props.council.name.replace(/ /g, '_').replace(/\./g, '_')

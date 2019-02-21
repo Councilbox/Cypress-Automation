@@ -29,7 +29,7 @@ class CommentMenu extends React.Component {
     }
 
     updateComment = async () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             this.setState({
                 loading: true
             });
@@ -40,7 +40,7 @@ class CommentMenu extends React.Component {
                 }
             });
 
-            if(!!response){
+            if (!!response) {
                 await this.props.refetch();
                 this.setState({
                     loading: false,
@@ -52,7 +52,7 @@ class CommentMenu extends React.Component {
     }
 
     checkRequiredFields = () => {
-        if(checkForUnclosedBraces(this.state.comment)){
+        if (checkForUnclosedBraces(this.state.comment)) {
             toast(
                 <LiveToast
                     message={this.props.translate.revise_text}
@@ -72,7 +72,7 @@ class CommentMenu extends React.Component {
         });
     }
 
-    render(){
+    render() {
         const secondary = getSecondary();
         const { translate } = this.props;
         const primary = getPrimary();
@@ -82,41 +82,45 @@ class CommentMenu extends React.Component {
             (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
         );
 
-        if(!vote){
+        if (!vote) {
             return (<span />);
         }
 
         const comment = vote.comment;
 
-        return(
+        return (
             <React.Fragment>
                 <div
                     style={{
-                        display: 'flex',
+                        width: "100%",
+                        // display: 'flex',
                         alignItems: 'center',
                         marginTop: '0.6em'
                     }}
                 >
-                    <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                        {(!!savedVote.comment && removeHTMLTags(comment).length > 0)?
+                    <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px" }}>
+                        {(!!savedVote.comment && removeHTMLTags(comment).length > 0) ?
                             translate.you_have_commented
-                        :
+                            :
                             translate.you_didnt_comment
                         }
                     </Typography>
                     <BasicButton
-                        color={this.state.open? primary : 'white'}
-                        text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0)? translate.edit_comment : translate.send_minutes_comment}
+                        color={'white'}
+                        text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0) ? translate.edit_comment : translate.send_minutes_comment}
                         textStyle={{
-                            color: this.state.open? 'white' : primary,
-                            fontWeight: '700',
+                            color: secondary,
+                            //fontWeight: '700',
                             fontSize: '14px'
                         }}
+                        //type={'flat'}
                         buttonStyle={{
+                            width: "160px",
                             float: 'left',
-                            marginLeft: '0.6em',
+                            // marginLeft: '0.6em',
                             padding: '0.3em',
-                            border: `2px solid ${primary}`
+                            border: `1px solid ${secondary}`
+                            // background: "grey",
                         }}
                         onClick={this.toggle}
                     />
@@ -162,7 +166,7 @@ class CommentMenu extends React.Component {
                                     reset={this.resetButtonStates}
                                     color={secondary}
                                     icon={<ButtonIcon type="save" color="white" />}
-                                    textStyle={{ color: 'white', fontWeight: '700'}}
+                                    textStyle={{ color: 'white', fontWeight: '700' }}
                                 />
                             </div>
                         </div>
