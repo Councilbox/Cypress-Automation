@@ -85,6 +85,14 @@ const CouncilLiveTestContainer = Loadable({
 	loader: () => import('./CouncilLiveTestContainer'),
 	loading: LoadingMainApp
 });
+const DocsPage = Loadable({
+	loader: () => import("../components/docs/DocsPage"),
+	loading: LoadingMainApp
+})
+const PlaygroundPage = Loadable({
+	loader: () => import("../components/docs/PlaygroundPage"),
+	loading: LoadingMainApp
+})
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
@@ -129,7 +137,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, response, 
 							authorization: token
 								? `Bearer ${token}`
 								: `Bearer ${participantToken}`,
-							"x-jwt-token": token ? token : participantToken
+							//"x-jwt-token": token ? token : participantToken
 						}
 					});
 					sub = forward(operation).subscribe(observable);
@@ -207,6 +215,21 @@ class App extends React.Component {
 											path="/convene/:id"
 											component={ConveneDisplay}
 										/>
+										{!window.location.hostname.includes('app.councilbox') &&
+											<Route
+												exact
+												path="/docs"
+												component={DocsPage}
+											/>
+										}
+									
+										{!window.location.hostname.includes('app.councilbox') &&
+											<Route
+												exact
+												path="/docs/tryit"
+												component={PlaygroundPage}
+											/>
+										}
 										<Route
 											exact
 											path="/company/:company/meeting/live"

@@ -20,16 +20,18 @@ export const refreshToken = async (apolloClient, toast, store) => {
 		}
 	}
 
-	toast(
-		<LiveToast
-			message={printSessionExpiredError()}
-		/>, {
-			position: toast.POSITION.TOP_RIGHT,
-			autoClose: true,
-			className: "errorToast"
-		}
-	);
-	store.dispatch(logout());
+	if(!sessionStorage.getItem('token') && !sessionStorage.getItem('participantToken')){
+		toast(
+			<LiveToast
+				message={printSessionExpiredError()}
+			/>, {
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: "errorToast"
+			}
+		);
+		store.dispatch(logout());
+	}
 
 }
 
