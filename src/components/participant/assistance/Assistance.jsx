@@ -14,6 +14,7 @@ import DelegationItem from "./DelegationItem";
 import { canDelegateVotes } from "../../../utils/CBX"
 import { primary } from "../../../styles/colors";
 import { toast } from 'react-toastify';
+import { participantsToDelegate } from "../../../queries";
 
 
 const styles = {
@@ -53,28 +54,34 @@ class Assistance extends React.Component {
 		savingAssistanceComment: false,
 		delegationModal: false,
 		assistanceIntention: PARTICIPANT_STATES.REMOTE,
-		idDelegate: null
+		delegateId: null,
+		delegateInfoUser: null
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState) {
-		console.log("====getDerivedStateFromProps====")
 		if (!prevState.participant.id) {
+			console.log(1)
 			return {
 				participant: nextProps.participant,
 				assistanceIntention: nextProps.participant.assistanceIntention,
 			};
 		}
-		console.log(nextProps.participant);
+
 		if (prevState.participant.delegateId !== nextProps.delegateId) {
+			if (nextProps.participant.representative) {
+				return {
+					participant: nextProps.participant,
+					delegateInfoUser: nextProps.participant.representative
+				};
+			}
 			return {
-				participant: nextProps.participant
+				participant: nextProps.participant,
 			};
 		}
 		return null;
 	}
 
 	selectSimpleOption = async option => {
-		console.log("====selectSimpleOption====")
 		const { setAssistanceIntention, refetch } = this.props;
 		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
 
@@ -100,14 +107,37 @@ class Assistance extends React.Component {
 	}
 
 	saveAssistanceComment = async () => {
-		console.log("====saveAssistanceComment====")
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
-		console.log(this.state.assistanceIntention);
 		await this.selectSimpleOption(this.state.assistanceIntention);
 
+		const { setAssistanceIntention, refetch } = this.props;
+		if (this.state.delegateId !== null) {
+			const response = await setAssistanceIntention({
+				variables: {
+					assistanceIntention: PARTICIPANT_STATES.DELEGATED,
+					representativeId: this.state.delegateId
+				}
+			});
+
+			if (response) {
+				this.setState({
+					delegateId: this.state.delegateId,
+					delegationModal: false,
+					assistanceIntention: PARTICIPANT_STATES.DELEGATED,
+				})
+			}
+		}
 		if (!checkForUnclosedBraces(assistanceComment)) {
+			const response = await setAssistanceIntention({
+				variables: {
+					assistanceIntention: this.state.assistanceIntention,
+					representativeId: this.state.delegateId
+				}
+			});
+			3
+
 			this.setState({
 				savingAssistanceComment: true
 			})
@@ -147,28 +177,22 @@ class Assistance extends React.Component {
 	}
 
 	selectDelegation = async delegateId => {
-		console.log("====selectDelegation====")
+
+		const delegateInfoUser = this.props.data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
+
 		this.setState({
-			idDelegate: delegateId
+			delegateId: delegateId,
+			delegateInfoUser: delegateInfoUser
 		})
 		const { setAssistanceIntention, refetch } = this.props;
 
-		// const response = await setAssistanceIntention({
-		// 	variables: {
-		// 		assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-		// 		representativeId: delegateId
-		// 	}
-		// });
-
-		// if (response) {
-
 		this.setState({
-			idDelegate: delegateId,
+			delegateId: delegateId,
 			delegationModal: false,
 			assistanceIntention: PARTICIPANT_STATES.DELEGATED,
 		})
 
-		// }
+
 	}
 
 	showDelegation = () => {
@@ -182,7 +206,6 @@ class Assistance extends React.Component {
 		const { representative, ...participant } = this.state.participant;
 		let canDelegate = canDelegateVotes(council.statute, participant);
 
-		
 		return (
 			<NotLoggedLayout
 				translate={this.props.translate}
@@ -235,7 +258,8 @@ class Assistance extends React.Component {
 													title={translate.attend_remotely_through_cbx}
 													select={() => {
 														this.setState({
-															assistanceIntention: PARTICIPANT_STATES.REMOTE
+															assistanceIntention: PARTICIPANT_STATES.REMOTE,
+															delegateId: null
 														})
 													}}
 													value={PARTICIPANT_STATES.REMOTE}
@@ -246,7 +270,8 @@ class Assistance extends React.Component {
 													//subtitle={translate.attending_in_person_subtitle}
 													select={() => {
 														this.setState({
-															assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT
+															assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+															delegateId: null
 														})
 														//selectSimpleOption(PARTICIPANT_STATES.PHYSICALLY_PRESENT)
 													}}
@@ -258,7 +283,8 @@ class Assistance extends React.Component {
 													title={translate.not_attending}
 													select={() => {
 														this.setState({
-															assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE
+															assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+															delegateId: null
 														})
 														//selectSimpleOption(PARTICIPANT_STATES.NO_PARTICIPATE)
 													}}
@@ -273,9 +299,9 @@ class Assistance extends React.Component {
 														selected={this.state.assistanceIntention}
 													/>
 												}
-												{/* { this.state.idDelegate &&
-													<DelegationItem participant={representative} />
-												} */}
+												{this.state.delegateInfoUser && this.state.assistanceIntention === 4 ?
+													<DelegationItem participant={this.state.delegateInfoUser} /> : ""
+												}
 												<br />
 											</Card>
 											<Card style={{ padding: '1.5em', width: '100%', }}>
@@ -352,4 +378,11 @@ export default compose(graphql(setAssistanceIntention, {
 	name: "setAssistanceIntention"
 }), graphql(setAssistanceComment, {
 	name: "setAssistanceComment"
-}))(withTranslations()(Assistance));
+}), graphql(participantsToDelegate, {
+	options: props => ({
+		variables: {
+			councilId: props.council.id
+		}
+	})
+})
+)(withTranslations()(Assistance));
