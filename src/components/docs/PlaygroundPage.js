@@ -2,6 +2,7 @@ import React from 'react';
 import DocsLayout from './DocsLayout';
 import { withApollo } from 'react-apollo';
 import { DocsContext } from './DocsLayout';
+import { Card } from 'material-ui';
 import PlaygroundSideMenu from './PlaygroundSideMenu';
 import Playground from './Playground';
 import gql from 'graphql-tag';
@@ -83,7 +84,14 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                             /> */}
                         </PlaygroundContext.Provider>
                     :
-                        'Para interactuar con esta sección necesita loguearse con una API key subministrada por Councilbox'
+                        <div style={{width: '100%', height: '100%', padding: '1em', paddingTop: '3em'}}>
+                            <Card style={{
+                                backgroundColor: '#212121',
+                                padding: '2em'
+                            }}>
+                                Para interactuar con esta sección necesita loguearse con una API key subministrada por Councilbox
+                            </Card>
+                        </div>
                 )}
             </DocsContext.Consumer>
         </DocsLayout>

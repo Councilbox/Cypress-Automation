@@ -19,8 +19,8 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
     const apiToken = React.useRef(sessionStorage.getItem('apiToken'));
     const docsContext = React.useContext(DocsContext);
     const [state, setState] = React.useState({
-        apikey: 'F39D46293E996768',
-        secret: 'uNyDzx6Hpj'
+        apikey: '',
+        secret: ''
     });
 
     React.useEffect(() => {
