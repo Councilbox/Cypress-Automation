@@ -47,14 +47,16 @@ const wsLink = new WebSocketLink({
 
 const authLink = setContext((_, { headers }) => {
 	const token = sessionStorage.getItem("token");
+	const apiToken = sessionStorage.getItem('apiToken');
 	const participantToken = sessionStorage.getItem("participantToken");
 	return {
 		headers: {
 			...headers,
-			authorization: token
+			/* authorization: token
 				? `Bearer ${token}`
-				: `Bearer ${participantToken}`,
-			"x-jwt-token": token ? token : participantToken,
+				: apiToken? `Bearer ${apiToken}` :
+				`Bearer ${participantToken}`, */
+			"x-jwt-token": token ? token : apiToken? apiToken : participantToken,
 			"cbx-client-v": CLIENT_VERSION
 		}
 	};
@@ -222,7 +224,6 @@ class App extends React.Component {
 												component={DocsPage}
 											/>
 										}
-									
 										{!window.location.hostname.includes('app.councilbox') &&
 											<Route
 												exact

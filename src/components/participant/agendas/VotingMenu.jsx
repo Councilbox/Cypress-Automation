@@ -74,7 +74,7 @@ class VotingMenu extends React.Component {
     render() {
         const { agenda, singleVoteMode } = this.props;
         const primary = getPrimary();
-        
+
         return (
             <Grid
                 style={{

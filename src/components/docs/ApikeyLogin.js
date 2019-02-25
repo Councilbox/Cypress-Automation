@@ -1,16 +1,41 @@
 import React from 'react';
 import { BasicButton, DropDownMenu, TextInput } from '../../displayComponents';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { primary } from '../../styles/colors';
+import { DocsContext } from './DocsLayout';
 
+export const getApiAccount = gql`
+    query TokenAccount {
+        tokenAccount{
+            name
+            type
+        }
+    }
+`;
 
-const ApiKeyLogin = ({ apiLogin }) => {
+const ApiKeyLogin = ({ apiLogin, client }) => {
     const [loading, setLoading] = React.useState(false);
+    const apiToken = React.useRef(sessionStorage.getItem('apiToken'));
+    const docsContext = React.useContext(DocsContext);
     const [state, setState] = React.useState({
-        apikey: '',
-        secret: ''
+        apikey: 'F39D46293E996768',
+        secret: 'uNyDzx6Hpj'
     });
+
+    React.useEffect(() => {
+        if(apiToken.current){
+            getAccountInfo();
+        }
+    }, apiToken.current);
+
+    const getAccountInfo = async () => {
+        const account = await client.query({
+            query: getApiAccount,
+            fetchPolicy: "network-only"
+        });
+        docsContext.loginSuccess(account.data.tokenAccount);
+    }
 
     const updateApikey = event => {
         setState({
@@ -34,53 +59,70 @@ const ApiKeyLogin = ({ apiLogin }) => {
             }
         })
 
-        console.log(response);
-
         if(response.data.apiLogin){
-            sessionStorage.setItem("token", response.data.apiLogin.token);
+            sessionStorage.removeItem('participantToken');
+            sessionStorage.removeItem('token');
+            sessionStorage.setItem("apiToken", response.data.apiLogin.token);
             sessionStorage.setItem("refreshToken", response.data.apiLogin.refreshToken);
+            await getAccountInfo();
         }
 
         setLoading(false);
     }
 
+
     return (
         <div>
-            <DropDownMenu
-                color="transparent"
-                Component={() =>
-                    <BasicButton
-                        type="flat"
-                        color="transparent"
-                        text="Login"
-                        textStyle={{color: 'white', fontWeight: '700'}}
-                        buttonStyle={{border: '1px solid white'}}
-                    />
-                }
-                type="flat"
-                persistent
-                items={
-                    <div style={{padding: '1em'}}>
-                        <TextInput
-                            floatingText="Apikey"
-                            value={state.apikey}
-                            onChange={updateApikey}
-                        />
-                        <TextInput
-                            floatingText="Secret"
-                            value={state.secret}
-                            onChange={updateSecret}
-                        />
+            {!docsContext.login?
+                <DropDownMenu
+                    color="transparent"
+                    Component={() =>
                         <BasicButton
-                            color={primary}
-                            text="Enviar"
-                            onClick={login}
+                            type="flat"
+                            color="transparent"
+                            text="Login"
                             textStyle={{color: 'white', fontWeight: '700'}}
                             buttonStyle={{border: '1px solid white'}}
                         />
-                    </div>
-                }
-            />
+                    }
+                    type="flat"
+                    persistent
+                    items={
+                        <div style={{padding: '1em'}}>
+                            <TextInput
+                                floatingText="Apikey"
+                                value={state.apikey}
+                                onChange={updateApikey}
+                            />
+                            <TextInput
+                                floatingText="Secret"
+                                type="password"
+                                value={state.secret}
+                                onChange={updateSecret}
+                            />
+                            <BasicButton
+                                color={primary}
+                                text="Enviar"
+                                onClick={login}
+                                textStyle={{color: 'white', fontWeight: '700'}}
+                            />
+                        </div>
+                    }
+                />
+            :
+                <div>
+                    <span style={{fontWeight: '700', color: 'white', marginRight: '1em'}}>{docsContext.login.name}</span>
+                    <BasicButton
+                        type="flat"
+                        color="transparent"
+                        text="Logout"
+                        onClick={docsContext.logout}
+                        textStyle={{color: 'white', fontWeight: '700'}}
+                        buttonStyle={{border: '1px solid white'}}
+                    />
+                </div>
+            }
+
         </div>
     )
 }
@@ -96,4 +138,4 @@ const apiKeyLogin = gql`
 
 export default graphql(apiKeyLogin, {
     name: 'apiLogin'
-})(ApiKeyLogin);
+})(withApollo(ApiKeyLogin));
