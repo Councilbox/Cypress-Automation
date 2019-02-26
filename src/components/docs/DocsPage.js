@@ -3,6 +3,7 @@ import { BasicButton, Link } from '../../displayComponents';
 import DocsLayout from './DocsLayout';
 import { Card, CardHeader, CardContent } from 'material-ui';
 
+
 const DocsPage = () => {
 
 //HEADER #212121
@@ -19,7 +20,7 @@ const DocsPage = () => {
                     ></CardHeader>
                     <CardContent>
                         Carácteristicas:<br/>
-                        La API para desarrolladores de Councilbox usa el lenguaje de consulta y manipulación de datos <a href="www.graphql.org" rel="noreferrer noopener" target="_blank">GraphQL.</a>
+                        La API para desarrolladores de Councilbox usa el lenguaje de consulta y manipulación de datos <a href="https://www.graphql.org" rel="noreferrer noopener" target="_blank">GraphQL.</a>
                         <br/>
                         Sobre GraphQL:
                             <ul>Determina la validez de los esquemas y los esquemas definen las peticiones de la API</ul>
@@ -29,7 +30,7 @@ const DocsPage = () => {
                         Ejemplo de petición en JavaScript (la misma petición puede ser realizada por POST o GET):
                             <ul>GET:</ul>
                             <div style={{backgroundColor:"#424242", color: 'white', padding: '1em'}}>
-                                fetch('http://localhost:5000/graphql?query=query%20%7B%0A%20%20languages%7B%0A%20%20%20%20columnName%0A%20%20%7D%0A%7D');
+                                fetch('http://api-pre.councilbox.com/graphql?query=query%20%7B%0A%20%20languages%7B%0A%20%20%20%20columnName%0A%20%20%7D%0A%7D');
                             </div>
 
                             <ul style={{marginTop: '1em'}}>POST:</ul>
@@ -69,13 +70,13 @@ const DocsPage = () => {
 }
 
 
-const postRequest = `fetch('http://localhost:5000/graphql', {
+const postRequest = `fetch('http://api-pre.councilbox.com/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query: '{ languages { columnName } }' }),
 });`
 
-const postRequest2 = `fetch('http://localhost:5000/graphql', {
+const postRequest2 = `fetch('http://api-pre.councilbox.com/graphql', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

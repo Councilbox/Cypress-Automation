@@ -67,6 +67,9 @@ const PlaygroundSideMenu = () => {
                         <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.linkCompanyUser)}>
                             Vincular compañía / usuario
                         </li>
+                        <li style={{cursor: 'pointer'}} onClick={() => playgroundContext.setOperation(operations.unlinkCompanyUser)}>
+                            Desvincular compañía / usuario
+                        </li>
                     </ul>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -139,6 +142,15 @@ const linkCompany = `
     }
 `;
 
+const unlinkCompany = `
+    mutation unlinkCompanyUser($companyTin: String!, $userId: Int!){
+        unlinkCompanyUser(companyTin: $companyTin, userId: $userId){
+            success
+            message
+        }
+    }
+`;
+
 const operations = {
     account: {
         query: getAccount,
@@ -154,6 +166,13 @@ const operations = {
     },
     linkCompanyUser: {
         query: linkCompany,
+        variables: JSON.stringify({
+            userId: 0,
+            companyTin: 0
+        })
+    },
+    unlinkCompanyUser: {
+        query: unlinkCompany,
         variables: JSON.stringify({
             userId: 0,
             companyTin: 0

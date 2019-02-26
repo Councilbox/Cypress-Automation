@@ -31,32 +31,41 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
         const request = gql`${operation.query}`;
         const operationName = request.definitions["0"].name.value;
 
-        let response;
-        if(request.definitions[0].operation === 'query'){
-            response = await client.query({
-                query: request,
-                variables: JSON.parse(operation.variables)
-            });
-        } else {
-            response = await client.mutate({
-                mutation: request,
-                variables: JSON.parse(operation.variables)
-            });
-        }
+        try {
+            let response;
+            if(request.definitions[0].operation === 'query'){
+                response = await client.query({
+                    query: request,
+                    variables: JSON.parse(operation.variables),
+                    errorPolicy: 'all'
+                });
+            } else {
+                response = await client.mutate({
+                    mutation: request,
+                    variables: JSON.parse(operation.variables),
+                    errorPolicy: 'all'
+                });
+            }
+            console.log(response);
 
 
-        if(response.data[operationName]){
+            if(response.data[operationName]){
+                setOperation({
+                    ...operation,
+                    response: JSON.stringify(response.data[operationName])
+                });
+            }
+            if(response.errors){
+                setOperation({
+                    ...operation,
+                    response: JSON.stringify(response.errors)
+                });
+            }
+        } catch (e){
             setOperation({
                 ...operation,
-                response: JSON.stringify(response.data[operationName])
-            });
-        }
-
-        if(response.errors){
-            setOperation({
-                ...operation,
-                response: JSON.stringify(response.errors)
-            });
+                response: e.message
+            })
         }
     }
 

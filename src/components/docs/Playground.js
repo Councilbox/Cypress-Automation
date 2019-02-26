@@ -33,6 +33,7 @@ const Playground = () => {
                             mode: 'javascript',
                             theme: 'darcula',
                             lineNumbers: true,
+                            readOnly: true,
                             json: true
                         }}
                         value={playgroundContext.operation && playgroundContext.operation.query}
@@ -65,6 +66,7 @@ const Playground = () => {
                     options={{
                         mode: 'javascript',
                         lineNumbers: true,
+                        readOnly: true,
                         theme: 'darcula',
                         json: true
                     }}
