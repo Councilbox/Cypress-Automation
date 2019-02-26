@@ -55,8 +55,6 @@ class AppControl extends React.Component {
             }
         }
 
-        console.log(config);
-
         return(
             <ConfigContext.Provider value={config}>
                 {this.props.children}

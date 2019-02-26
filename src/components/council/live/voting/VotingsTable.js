@@ -302,7 +302,8 @@ class VotingsTable extends React.Component {
 														alignItems: "center"
 													}}
 												>
-													{this.props.agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
+													{this.props.agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ||
+													this.props.agenda.subjectType === 7 /*PRIVATE CUSTOM AGENDA*/?
 														<React.Fragment>
 															{vote.vote !== -1?
 																'Ha votado'
@@ -312,21 +313,27 @@ class VotingsTable extends React.Component {
 														</React.Fragment>
 													:
 														<React.Fragment>
-															<Tooltip
-																title={this.getTooltip(vote.vote)}
-															>
-																<VotingValueIcon
-																	vote={vote.vote}
-																/>
-															</Tooltip>
-															{isPresentVote(vote) && (
-																<PresentVoteMenu
-																	agenda={this.props.agenda}
-																	agendaVoting={vote}
-																	active={vote.vote}
-																	refetch={this.refreshTable}
-																/>
-															)}
+															{this.props.agenda.subjectType === 6? //CUSTOM_VOTING
+																<CustomParticipantVote vote={vote} />
+															:
+																<React.Fragment>
+																	<Tooltip
+																		title={this.getTooltip(vote.vote)}
+																	>
+																		<VotingValueIcon
+																			vote={vote.vote}
+																		/>
+																	</Tooltip>
+																	{isPresentVote(vote) && (
+																		<PresentVoteMenu
+																			agenda={this.props.agenda}
+																			agendaVoting={vote}
+																			active={vote.vote}
+																			refetch={this.refreshTable}
+																		/>
+																	)}
+																</React.Fragment>
+															}
 														</React.Fragment>
 													}
 
@@ -414,6 +421,22 @@ class VotingsTable extends React.Component {
 			</Grid>
 		);
     }
+}
+
+const CustomParticipantVote = ({ vote }) => {
+	console.log(vote);
+
+	return (
+		<div>
+			{vote.ballots.map(ballot => {
+				return (
+					<div>
+						{ballot.value}
+					</div>
+				)
+			})}
+		</div>
+	)
 }
 
 export default graphql(agendaVotings, {
