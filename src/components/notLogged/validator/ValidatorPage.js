@@ -1,7 +1,7 @@
 import React from 'react';
 import { NotLoggedLayout, TextInput, BasicButton, SectionTitle, LoadingSection, Grid, GridItem } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Card, Button } from 'material-ui';
+import { Card, Button, CardHeader, Avatar } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { getPrimary } from '../../../styles/colors';
 import { EXPLORER_URL } from '../../../config';
@@ -101,6 +101,7 @@ class ValidatorPage extends React.Component {
 
         console.log(this.state.data);
         const primary = getPrimary();
+
         return (
             <NotLoggedLayout
                 translate={this.props.translate}
@@ -132,15 +133,21 @@ class ValidatorPage extends React.Component {
                                 {this.state.error}
                             </div>
                         }
+
                         {this.state.data &&
-                            <div style={{ fontWeight: '700', marginTop: '1em', fonSize: '1.1em', wordWrap: 'break-word' }}>
-                                {this.state.data.cbxEvidence.tx_hash &&
-                                    <TransactionResult validated={this.state.data.validated} />
-                                }
-                                <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} />
-                                <br />
+                            // <div style={{ fontWeight: '700', marginTop: '1em', fonSize: '1.1em', wordWrap: 'break-word' }}>
+                            <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
                                 <EvidenceContentDisplay content={this.state.data.content} />
-                            </div>
+                                <hr></hr>
+                                {/* {this.state.data.cbxEvidence.tx_hash &&
+                                    <TransactionResult validated={this.state.data.validated} />
+                                } Contenido registrasdo en blockchain*/}
+
+                                {/* <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} /> Explorador*/}
+                                <br />
+
+                            </Card>
+                            // </div>
                         }
                     </Card>
                 </div>
@@ -152,13 +159,30 @@ class ValidatorPage extends React.Component {
 const TransactionResult = validated => {
 
     return (
-        <Card style={{ padding: '0.9em', color: 'green' }}>
+        <div>
             {validated ?
-                'Contenido registrado en blockchain'
+                <div style={{ display: "flex" }}>
+                    <i className="material-icons" style={{ width: '30px', color: "green" }}>
+                        verified_user
+                    </i>
+                    <div style={{ lineHeight: "2" }}>Contenido registrado en blockchain</div>
+                </div>
                 :
-                'Contenido pendiente de registro en blockchain'
+                <div style={{ display: "flex" }}>
+                    <i className="material-icons" style={{ width: '20px' }}>
+                        query_builder
+                    </i>
+                    <div style={{ lineHeight: "2" }}>Contenido pendiente de registro en blockchain</div>
+                </div>
             }
-        </Card>
+        </div>
+        // <Card style={{ padding: '0.9em', color: 'green' }}>
+        //     {validated ?
+        //         'Contenido registrado en blockchain'
+        //         :
+        //         'Contenido pendiente de registro en blockchain'
+        //     }
+        // </Card>
     )
 }
 
@@ -219,10 +243,31 @@ const UserEvidence = withTranslations()(({ evidence, translate }) => {
 });
 
 export const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
+    const primerasLetras="";
+    console.log(getTranslateFieldFromType(evidence.data.type))
     return (
+        // <CardHeader
+        //     avatar={
+        //         <div style={{ position: 'relative' }}>
+        //             <Avatar aria-label="Recipe" /*style={{background:secondary}}*/>
+        //                 {primerasLetras}
+        //             </Avatar>
+
+        //             {/* <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red' }}>
+        //                 {evidence.cbxEvidence ?
+        //                     'verified_user'
+        //                     :
+        //                     'query_builder'
+        //                 }
+        //             </i> */}
+        //         </div>
+        //     }
+        //     title={`${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`}
+        //     subheader={moment(evidence.date).format('LLL')}
+        // />
         <div>
             <EvidenceDisplay evidence={evidence} translate={translate} />
-            {evidence.data.user &&
+            {/* {evidence.data.user &&
                 <UserSection evidence={evidence} translate={translate} />
             }
             {evidence.data.agendaPoint &&
@@ -235,7 +280,7 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
                 </React.Fragment>
                 :
                 <CouncilSection evidence={evidence.data} translate={translate} />
-            }
+            } */}
         </div>
     )
 });
