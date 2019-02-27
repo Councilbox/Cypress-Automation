@@ -98,6 +98,8 @@ class Sidebar extends React.Component {
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
+				position:'absolute',
+				top:'0',
 				display: 'flex',
 				flexDirection: 'column',
 				...(this.showVerticalLayout() ? { margin: 0 } : {}),
@@ -258,6 +260,7 @@ class Sidebar extends React.Component {
 										this.props.classes.itemLink + listItemClasses
 									}
 									style={{
+										borderRadius: '0',
 										display: "flex",
 										flexDirection: "column",
 										alignItems: 'center',
@@ -269,6 +272,7 @@ class Sidebar extends React.Component {
 								>
 									<div
 										style={{
+											paddingTop:'0.35rem',
 											width: "24px",
 											// height: "30px",
 											display: 'flex',
@@ -309,8 +313,9 @@ class Sidebar extends React.Component {
 		<React.Fragment>
 			<div onClick={this.toggleCompanyMenu}>
 				<div
-				className={this.props.classes.logo} 
+				className={`${this.props.classes.logo} intento`} 
 				style={{
+					borderRadius: '0',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
@@ -407,6 +412,7 @@ class Sidebar extends React.Component {
 					<div
 						className={classes.sidebarWrapper}
 						style={{
+							position:"relative",
 							...(this.showVerticalLayout() ? {
 								height: '3.5em',
 								display: 'flex',
