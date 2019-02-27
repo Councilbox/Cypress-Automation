@@ -157,7 +157,6 @@ class ParticipantEditorModal extends React.Component {
 
     render(){
         const { translate } = this.props;
-        console.log('sitio correcto');
         return (
             <AlertConfirm
                 requestClose={this.props.requestClose}

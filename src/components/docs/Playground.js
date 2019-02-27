@@ -8,9 +8,6 @@ import 'codemirror/theme/darcula.css';
 
 const Playground = () => {
     const playgroundContext = React.useContext(PlaygroundContext);
-
-    console.log(playgroundContext)
-
     const updateVariables = value => {
         playgroundContext.setVariables(value);
     }

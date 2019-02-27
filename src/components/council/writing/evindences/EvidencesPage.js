@@ -8,8 +8,6 @@ import { getTranslateFieldFromType, ExplorerLink, ValidatorLink } from '../../..
 
 const EvidencesPage = ({ data, translate, ...props }) => {
 
-    console.log(data);
-
     if(data.loading){
         return <LoadingSection />
     }

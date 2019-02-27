@@ -12,10 +12,6 @@ export const PlaygroundContext = React.createContext();
 const PlaygroundPage = ({ apiLogin, createUser, client }) => {
     const [loading, setLoading] = React.useState(false);
     const [operation, setOperation] = React.useState(null);
-    //secret: uNyDzx6Hpj
-    //apikey: F39D46293E996768
-
-    console.log(operation);
 
     const setVariables = variables => {
         if(operation){
@@ -46,8 +42,6 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                     errorPolicy: 'all'
                 });
             }
-            console.log(response);
-
 
             if(response.data[operationName]){
                 setOperation({

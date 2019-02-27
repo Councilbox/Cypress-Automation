@@ -42,8 +42,8 @@ class CompanyDraftEditor extends React.Component {
 			success: false
 		});
 	};
+	
 	updateErrors = errors => {
-		console.log(errors);
 		this.setState({
 			errors
 		});

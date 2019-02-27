@@ -60,7 +60,6 @@ class Assistance extends React.Component {
 
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (!prevState.participant.id) {
-			console.log(1)
 			return {
 				participant: nextProps.participant,
 				assistanceIntention: nextProps.participant.assistanceIntention,
@@ -106,7 +105,10 @@ class Assistance extends React.Component {
 		}
 	}
 
-	saveAssistanceComment = async () => {
+	sendAttendanceIntention = async () => {
+		this.setState({
+			loading: true
+		});
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
 
@@ -136,11 +138,6 @@ class Assistance extends React.Component {
 					representativeId: this.state.delegateId
 				}
 			});
-			3
-
-			this.setState({
-				savingAssistanceComment: true
-			})
 
 			await setAssistanceComment({
 				variables: {
@@ -149,7 +146,7 @@ class Assistance extends React.Component {
 			});
 
 			this.setState({
-				savingAssistanceComment: false,
+				loading: false,
 				success: true
 			})
 			this.props.refetch();
@@ -182,17 +179,10 @@ class Assistance extends React.Component {
 
 		this.setState({
 			delegateId: delegateId,
-			delegateInfoUser: delegateInfoUser
-		})
-		const { setAssistanceIntention, refetch } = this.props;
-
-		this.setState({
-			delegateId: delegateId,
 			delegationModal: false,
-			assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-		})
-
-
+			delegateInfoUser: delegateInfoUser,
+			assistanceIntention: PARTICIPANT_STATES.DELEGATED
+		});
 	}
 
 	showDelegation = () => {
@@ -336,7 +326,7 @@ class Assistance extends React.Component {
 								</div>
 								<div style={styles.buttonSection}>
 									<BasicButton
-										text={translate.send}
+										text={this.state.success? translate.tooltip_sent : translate.send}
 										color={primary}
 										floatRight
 										success={this.state.success}
@@ -345,8 +335,8 @@ class Assistance extends React.Component {
 											color: "white",
 											fontWeight: "700"
 										}}
-										loading={this.state.savingAssistanceComment}
-										onClick={this.saveAssistanceComment}
+										loading={this.state.loading}
+										onClick={this.sendAttendanceIntention}
 										icon={<ButtonIcon type="save" color="white" />}
 									/>
 								</div>

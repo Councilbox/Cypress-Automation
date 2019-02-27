@@ -49,7 +49,6 @@ class RecordingButton extends React.Component {
                 councilId: this.props.council.id
             }
         });
-        console.log(response);
         this.props.data.refetch();
     }
 

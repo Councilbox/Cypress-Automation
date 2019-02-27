@@ -21,15 +21,12 @@ class DevAdminPage extends React.Component {
 
     render(){
         let config = {};
-        console.log(this.props.data);
 
         if(!this.props.data.loading){
             for(let field of this.props.data.adminFeatures.features){
                 config[field.name] = field.active;
             }
         }
-
-        console.log(this.props.data.adminFeatures);
 
         return (
             <div style={{width: '100%', height: '100%', padding: '1em'}}>

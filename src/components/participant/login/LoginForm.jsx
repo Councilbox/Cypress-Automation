@@ -208,8 +208,6 @@ class LoginForm extends React.Component {
             });
             this.closeSendPassModal();
         }
-
-        console.log(response);
     }
 
     render() {

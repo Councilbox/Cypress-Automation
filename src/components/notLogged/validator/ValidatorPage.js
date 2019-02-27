@@ -34,10 +34,6 @@ class ValidatorPage extends React.Component {
 
     }
 
-    componentWillUnmount(){
-        console.log('se desmonta');
-    }
-
     updateCode = event => {
         this.setState({
             code: event.target.value
@@ -69,8 +65,6 @@ class ValidatorPage extends React.Component {
 			}
         });
 
-        console.log(response)
-
         if(response.errors){
             if(response.errors[0].code === 404){
                 return this.setState({
@@ -98,7 +92,6 @@ class ValidatorPage extends React.Component {
     render(){
         //TRADUCCION
 
-        console.log(this.state.data);
         const primary = getPrimary();
         return(
             <NotLoggedLayout
@@ -269,7 +262,6 @@ const ParticipantSection = ({ evidence, translate }) => {
 }
 
 const AgendaPointSection = ({ evidence, translate }) => {
-    console.log(evidence);
     return (
         <React.Fragment>
             <h5 style={{marginTop: '1em'}}>{'Punto del día' /*TRADUCCION*/}</h5>
