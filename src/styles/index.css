@@ -231,3 +231,6 @@ h4 {
 
   .colorRed {color: #bd0000}
   .colorGren {color: #009034}
+
+
+  .modalParticipant>div:nth-child(2n) {max-width: 660px;width: 100%} 

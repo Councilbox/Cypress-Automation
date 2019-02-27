@@ -79,7 +79,7 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 		const rest = total - participants.length - 1;
 
 		return (
-			<div style={{ width: "600px" }}>
+			<div >
 				<TextInput
 					adornment={<Icon>search</Icon>}
 					floatingText={" "}
@@ -103,18 +103,16 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 							<div style={{ height: '100%' }}>
 								<Scrollbar>
 									{participants.length > 0 ? (
-										<React.Fragment>
+										<div style={{ width: "99%" }}>
+											{/* <React.Fragment> */}
 											{participants.map(participant => {
 												if (
 													participant.id !==
 													this.props.participant.id
 												) {
 													return (
-														<React.Fragment>
+														<React.Fragment key={`delegateVote_${participant.id}`}>
 															<ParticipantRow
-																key={`delegateVote_${
-																	participant.id
-																	}`}
 																council={this.props.council}
 																toDelegate={true}
 																cantDelegate={false}
@@ -139,10 +137,12 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 														}`}
 												</div>
 											)}
-										</React.Fragment>
+										</div>
+										// </React.Fragment>
 									) : (
 											<Typography>{translate.no_results}</Typography>
-										)}
+										)
+									}
 								</Scrollbar>
 							</div>
 						)}
@@ -156,11 +156,13 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 
 		return (
 			<AlertConfirm
+				bodyStyle={{ minWidth: "" }}
+				classNameDialog={"modalParticipant"}
 				requestClose={this.close}
 				open={this.props.show}
 				// acceptAction={this.delegateVote}
 				// buttonAccept={translate.send}
-				// buttonCancel={translate.close}
+				buttonCancel={translate.close}
 				bodyText={this._renderBody()}
 				title={translate.to_delegate_vote}
 			/>
