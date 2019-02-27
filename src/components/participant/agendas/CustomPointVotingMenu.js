@@ -12,11 +12,11 @@ const createSelectionsFromBallots = (ballots = [], participantId) => {
                 id: ballot.itemId,
                 value: ballot.value
             }
-        })
+        });
 }
 
 const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...props }) => {
-    const [selections, setSelections] = React.useState(createSelectionsFromBallots(agenda.ballots, props.ownVote.participantId));
+    const [selections, setSelections] = React.useState(createSelectionsFromBallots(props.ownVote.ballots, props.ownVote.participantId));
     const [loading, setLoading] = React.useState(false);
     const primary = getPrimary();
 
@@ -26,8 +26,6 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
     }
 
     const getSelectedRadio = id => {
-        console.log(id);
-        console.log(!!selections.find(selection => selection.id === id));
         return !!selections.find(selection => selection.id === id)
     }
 
@@ -48,12 +46,9 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
             }
         });
         const newValues = await props.refetch();
-        console.log(newValues.data.agendas.find(a => agenda.id).ballots);
         //setSelections(createSelectionsFromBallots(newValues.data.agendas.find(a => agenda.id).ballots))
         setLoading(false);
     }
-
-    console.log(selections);
 
     return (
         <div>

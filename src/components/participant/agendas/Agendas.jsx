@@ -177,6 +177,7 @@ class Agendas extends React.Component {
         }
 
 
+
         return (
             <React.Fragment>
                 <AlertConfirm
@@ -341,6 +342,12 @@ const agendas = gql`
             participantId
             delegateId
             agendaId
+            ballots {
+                participantId
+                value
+                itemId
+                id
+            }
             numParticipations
             author {
                 id

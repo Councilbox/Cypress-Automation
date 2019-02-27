@@ -74,7 +74,6 @@ class AgendaMenu extends React.Component {
     }
 
     findOwnVote = (votings, participant) => {
-        console.log(votings, participant);
         return votings.find(voting => (
             voting.participantId === participant.id
             || (voting.author.representative.id === participant.id && voting.author.representative.type ===  PARTICIPANT_TYPE.REPRESENTATIVE)
@@ -107,12 +106,9 @@ class AgendaMenu extends React.Component {
     }
 
     render() {
-        const { translate, agenda, horizontal } = this.props;
-        const secondary = getSecondary();
-        const primary = getPrimary();
+        const { translate, agenda } = this.props;
 
         const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
-        console.log(ownVote);
         return (
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px' }}>

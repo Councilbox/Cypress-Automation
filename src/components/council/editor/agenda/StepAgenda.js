@@ -415,7 +415,7 @@ class StepAgenda extends React.Component {
 	}
 }
 
-const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftTypes, ...props }) => {
+export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftTypes, Component, ...props }) => {
 	const config = React.useContext(ConfigContext);
 	const [state, setState] = React.useState({
 		yesNoModal: false,
@@ -460,6 +460,7 @@ const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftT
 					color={primary}
 					id={'new-agenda-trigger'}
 					loading={loading}
+					{...(!!Component? Component={Component} : {})}
 					text={translate.add_agenda_point}
 					textStyle={buttonStyle}
 					icon={
@@ -506,16 +507,22 @@ const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftT
 					}
 				/>
 			:
-				<BasicButton
-					text={translate.add_agenda_point}
-					color={primary}
-					onClick={showYesNoModal}
-					textStyle={buttonStyle}
-					icon={
-						<ButtonIcon type="add" color="white" />
-					}
-					textPosition="after"
-				/>
+				!!Component?
+					<Component
+						onClick={showYesNoModal}
+					/>
+				:
+					<BasicButton
+						text={translate.add_agenda_point}
+						color={primary}
+						onClick={showYesNoModal}
+						textStyle={buttonStyle}
+						icon={
+							<ButtonIcon type="add" color="white" />
+						}
+						textPosition="after"
+					/>
+
 			}
 			{state.yesNoModal &&
 				<NewAgendaPointModal

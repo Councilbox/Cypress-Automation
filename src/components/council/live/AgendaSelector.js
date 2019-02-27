@@ -6,6 +6,7 @@ import ReorderPointsModal from "../agendas/ReorderPointsModal";
 import * as CBX from "../../../utils/CBX";
 import { Tooltip } from "material-ui";
 import { AGENDA_TYPES, AGENDA_STATES } from "../../../constants";
+import { AddAgendaPoint } from "../editor/agenda/StepAgenda";
 
 class AgendaSelector extends React.Component {
 
@@ -71,30 +72,33 @@ class AgendaSelector extends React.Component {
 				</div>
 				{this.canAddPoints(council) && (
 					<div style={{ marginBottom: "0.8em" }}>
-						<NewAgendaPointModal
+						<AddAgendaPoint
 							translate={translate}
-							agendas={agendas}
+							Component={() => (
+								<Tooltip
+									title={translate.add_agenda_point}
+									placement="top-end"
+								>
+									<div>
+										<AgendaNumber
+											index={"+"}
+											active={false}
+											secondaryColor={"#888888"}
+										/>
+									</div>
+								</Tooltip>
+							)}
 							statute={council.statute}
 							companyStatutes={this.props.companyStatutes}
 							majorityTypes={this.props.majorityTypes}
 							votingTypes={this.props.votingTypes}
-							council={council}
+							council={{
+								...council,
+								agendas
+							}}
 							company={this.props.company}
 							refetch={this.props.refetch}
-						>
-							<Tooltip
-								title={translate.add_agenda_point}
-								placement="top-end"
-							>
-								<div>
-									<AgendaNumber
-										index={"+"}
-										active={false}
-										secondaryColor={"#888888"}
-									/>
-								</div>
-							</Tooltip>
-						</NewAgendaPointModal>
+						/>
 					</div>
 				)}
 
