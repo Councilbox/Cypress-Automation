@@ -5,6 +5,8 @@ import Icon from 'antd/lib/icon';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Tooltip } from 'material-ui';
+import { isMobile } from 'react-device-detect';
+
 
 
 const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
@@ -70,7 +72,7 @@ const EditorStepper = ( { translate, active, goToPage, windowSize }) => {
             <div
                 style={{
                     width: '100%',
-                    height: '2em',
+                    height: isMobile?'1em':'2em',
                     display: 'flex',
                     flexDirection: 'row',
                     paddingLeft: '15%',

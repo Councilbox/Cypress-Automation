@@ -114,7 +114,7 @@ class SignatureContainer extends React.Component {
 					height: '100%',
 					padding: '2em',
 					position: 'relative',
-					...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
+					...(windowSize === 'xs'? { padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)',width: '98%',margin: '0px auto'} : {}),
 					backgroundColor: lightGrey
 				}}
 			>
