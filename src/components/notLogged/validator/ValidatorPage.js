@@ -1,13 +1,14 @@
 import React from 'react';
 import { NotLoggedLayout, TextInput, BasicButton, SectionTitle, LoadingSection, Grid, GridItem } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Card } from 'material-ui';
+import { Card, Button } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { getPrimary } from '../../../styles/colors';
 import { EXPLORER_URL } from '../../../config';
 import { moment } from '../../../containers/App';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
+
 
 //3f055426-0770-419c-a609-e42efe1a4fe1
 
@@ -19,22 +20,22 @@ class ValidatorPage extends React.Component {
         data: ''
     }
 
-    async componentDidMount(){
-        if(this.props.match.params.uuid){
+    async componentDidMount() {
+        if (this.props.match.params.uuid) {
             await this.searchCode(this.props.match.params.uuid)
         }
     }
 
-    componentDidUpdate(prevProps, prevState){
-        if(this.props.match.params.uuid){
-            if(this.props.match.params.uuid !== prevProps.match.params.uuid){
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.match.params.uuid) {
+            if (this.props.match.params.uuid !== prevProps.match.params.uuid) {
                 this.searchCode(this.props.match.params.uuid);
             }
         }
 
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         console.log('se desmonta');
     }
 
@@ -51,8 +52,8 @@ class ValidatorPage extends React.Component {
     handleEnter = event => {
         const key = event.nativeEvent;
 
-        if(key.keyCode === 13){
-            if(this.state.code !== this.props.match.params.uuid){
+        if (key.keyCode === 13) {
+            if (this.state.code !== this.props.match.params.uuid) {
                 this.sendCode();
             }
         }
@@ -63,23 +64,23 @@ class ValidatorPage extends React.Component {
             loading: true
         });
         const response = await this.props.client.query({
-			query: getData,
-			variables: {
-				code: code
-			}
+            query: getData,
+            variables: {
+                code: code
+            }
         });
 
         console.log(response)
 
-        if(response.errors){
-            if(response.errors[0].code === 404){
+        if (response.errors) {
+            if (response.errors[0].code === 404) {
                 return this.setState({
-                    error: response.errors[0].message === 'Evidence not found'? 'Evidencia pendiente de ser procesada' : 'El código no corresponde con ninguna evidencia de Councilbox', //TRADUCCION
+                    error: response.errors[0].message === 'Evidence not found' ? 'Evidencia pendiente de ser procesada' : 'El código no corresponde con ninguna evidencia de Councilbox', //TRADUCCION
                     loading: false,
                     data: null
                 });
             }
-            if(response.errors[0].code === 401){
+            if (response.errors[0].code === 401) {
                 return this.setState({
                     error: 'No tienes acceso a esta información',
                     loading: false,
@@ -95,18 +96,18 @@ class ValidatorPage extends React.Component {
         })
     }
 
-    render(){
+    render() {
         //TRADUCCION
 
         console.log(this.state.data);
         const primary = getPrimary();
-        return(
+        return (
             <NotLoggedLayout
-				translate={this.props.translate}
-				languageSelector={true}
-			>
-                <div style={{width: '100%', overflow: 'auto'}}>
-                    <Card style={{width: isMobile? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block'}}>
+                translate={this.props.translate}
+                languageSelector={true}
+            >
+                <div style={{ width: '100%', overflow: 'auto' }}>
+                    <Card style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
                         <SectionTitle
                             text="Introduce el código a comprobar"
                             color={primary}
@@ -121,38 +122,38 @@ class ValidatorPage extends React.Component {
                             text={'Enviar'}
                             onClick={this.sendCode}
                             color={primary}
-                            textStyle={{ color: 'white', fontWeight: '700'}}
+                            textStyle={{ color: 'white', fontWeight: '700' }}
                         />
                         {this.state.loading &&
                             <LoadingSection />
                         }
                         {this.state.error &&
-                            <div style={{fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em'}}>
+                            <div style={{ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em' }}>
                                 {this.state.error}
                             </div>
                         }
                         {this.state.data &&
-                            <div style={{fontWeight: '700', marginTop: '1em', fonSize: '1.1em', wordWrap: 'break-word'}}>
+                            <div style={{ fontWeight: '700', marginTop: '1em', fonSize: '1.1em', wordWrap: 'break-word' }}>
                                 {this.state.data.cbxEvidence.tx_hash &&
                                     <TransactionResult validated={this.state.data.validated} />
                                 }
-                                <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash}/>
-                                <br/>
+                                <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} />
+                                <br />
                                 <EvidenceContentDisplay content={this.state.data.content} />
                             </div>
                         }
                     </Card>
                 </div>
-			</NotLoggedLayout>
+            </NotLoggedLayout>
         )
     }
 }
 
 const TransactionResult = validated => {
 
-    return(
-        <Card style={{padding: '0.9em', color: 'green'}}>
-            {validated?
+    return (
+        <Card style={{ padding: '0.9em', color: 'green' }}>
+            {validated ?
                 'Contenido registrado en blockchain'
                 :
                 'Contenido pendiente de registro en blockchain'
@@ -162,34 +163,40 @@ const TransactionResult = validated => {
 }
 
 export const ExplorerLink = ({ txHash, translate }) => {
-    return(
-        <Card style={{padding: '0.9em', marginTop: '0.6em'}}>
-            {txHash?
-                <a href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener" >
-                    <Grid>
-                        <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Link al explorador de bloques</GridItem>
-                        <GridItem xs={12} md={9} lg={10}>
-                            <i className="fa fa-external-link" aria-hidden="true"></i>
-                        </GridItem>
-                    </Grid>
-                </a>
-            :
-                'Transacción pendiente de registro'
+    return (
+        <React.Fragment>
+            {txHash ?
+                <Button size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}{/*Link al explorador de bloques*/}
+                    Explorador
+                </Button>
+                :
+                ''
             }
+        </React.Fragment>
+        // <Card style={{ padding: '0.9em', marginTop: '0.6em' }}>
+        //     {txHash ?
+        //         <a href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener" >
+        //             <Grid>
+        //                 <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Link al explorador de bloques</GridItem>
+        //                 <GridItem xs={12} md={9} lg={10}>
+        //                     <i className="fa fa-external-link" aria-hidden="true"></i>
+        //                 </GridItem>
+        //             </Grid>
+        //         </a>
+        //         :
+        //         'Transacción pendiente de registro'
+        //     }
 
-        </Card>
+        // </Card>
     )
 }
 
 export const ValidatorLink = ({ prvHash, translate }) => {
-    return(
-        <Card style={{padding: '0.9em', marginTop: '0.6em'}}>
-            <a href={`${window.location.origin}/validator/${prvHash}`} target="_blank" rel="noreferrer noopener" >
-                <Grid>
-                    <GridItem xs={12} md={12} lg={12} style={{fontWeight: '700'}}>Link al visualizador de evidencias de Councilbox {/*TRADUCCION*/}<i className="fa fa-external-link" aria-hidden="true" style={{marginLeft: '1em'}}></i></GridItem>
-                </Grid>
-            </a>
-        </Card>
+    const primary = getPrimary();
+    return (
+        <Button size="small" color="primary" href={`${window.location.origin}/validator/${prvHash}`} target="_blank" rel="noreferrer noopener">
+            Visualizador {/*TRADUCCION*/}{/* Link al visualizador de evidencias de Councilbox */}
+        </Button>
     )
 }
 
@@ -221,12 +228,12 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
             {evidence.data.agendaPoint &&
                 <AgendaPointSection evidence={evidence.data} translate={translate} />
             }
-            {evidence.data.participant?
+            {evidence.data.participant ?
                 <React.Fragment>
                     <CouncilSection evidence={evidence.data.participant} translate={translate} />
                     <ParticipantSection evidence={evidence} translate={translate} />
                 </React.Fragment>
-            :
+                :
                 <CouncilSection evidence={evidence.data} translate={translate} />
             }
         </div>
@@ -236,13 +243,13 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
 const UserSection = ({ evidence, translate }) => {
     return (
         <React.Fragment>
-            <h5 style={{marginTop: '1em'}}>{translate.user_data}</h5>
+            <h5 style={{ marginTop: '1em' }}>{translate.user_data}</h5>
             <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.email}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.user.email}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.user.name}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.surname}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.user.surname}</GridItem>
 
             </Grid>
@@ -253,15 +260,15 @@ const UserSection = ({ evidence, translate }) => {
 const ParticipantSection = ({ evidence, translate }) => {
     return (
         <React.Fragment>
-            <h5 style={{marginTop: '1em'}}>{translate.participant}</h5>
+            <h5 style={{ marginTop: '1em' }}>{translate.participant}</h5>
             <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.email}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.email}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.name}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.surname}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.surname}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.dni}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.dni}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.dni}</GridItem>
             </Grid>
         </React.Fragment>
@@ -272,11 +279,11 @@ const AgendaPointSection = ({ evidence, translate }) => {
     console.log(evidence);
     return (
         <React.Fragment>
-            <h5 style={{marginTop: '1em'}}>{'Punto del día' /*TRADUCCION*/}</h5>
+            <h5 style={{ marginTop: '1em' }}>{'Punto del día' /*TRADUCCION*/}</h5>
             <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.type}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{translate[getTypeTranslation(evidence.agendaPoint.type)]}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.name}</GridItem>
             </Grid>
         </React.Fragment>
@@ -286,18 +293,18 @@ const AgendaPointSection = ({ evidence, translate }) => {
 const CouncilSection = ({ evidence, translate }) => {
     return (
         <React.Fragment>
-            <h5 style={{marginTop: '1em'}}>{translate.council_info}</h5>
+            <h5 style={{ marginTop: '1em' }}>{translate.council_info}</h5>
             {evidence.agendaPoint &&
                 <Grid>
                     {evidence.agendaPoint.company &&
                         <React.Fragment>
-                            <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Compañía {/*TRADUCCION*/}</GridItem>
+                            <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
                             <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.company.businessName}</GridItem>
                         </React.Fragment>
                     }
-                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
                     <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.council.name}</GridItem>
-                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.date_real_start}</GridItem>
+                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
                     <GridItem xs={12} md={9} lg={10}>{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}</GridItem>
                 </Grid>
             }
@@ -305,13 +312,13 @@ const CouncilSection = ({ evidence, translate }) => {
                 <Grid>
                     {evidence.council.company &&
                         <React.Fragment>
-                            <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Compañía {/*TRADUCCION*/}</GridItem>
+                            <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
                             <GridItem xs={12} md={9} lg={10}>{evidence.council.company.businessName}</GridItem>
                         </React.Fragment>
                     }
-                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.name}</GridItem>
+                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
                     <GridItem xs={12} md={9} lg={10}>{evidence.council.name}</GridItem>
-                    <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.date_real_start}</GridItem>
+                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
                     <GridItem xs={12} md={9} lg={10}>{moment(evidence.council.dateRealStart).format('LLL')}</GridItem>
                 </Grid>
             }
@@ -325,9 +332,9 @@ const EvidenceDisplay = ({ evidence, translate }) => {
         <div>
             <h5>Contenido</h5>
             <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>{translate.type}</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{translate[type] || type || ''}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{fontWeight: '700'}}>Fecha de registro</GridItem>
+                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Fecha de registro</GridItem>
                 <GridItem xs={12} md={9} lg={10}>{moment(evidence.data.date).format('LLL')}</GridItem>
             </Grid>
         </div>
@@ -336,7 +343,7 @@ const EvidenceDisplay = ({ evidence, translate }) => {
 
 export const getTranslateFieldFromType = type => {
 
-    switch(type){
+    switch (type) {
         case 'START_COUNCIL':
             return 'start_council';
         case 'LOGIN':
@@ -380,7 +387,7 @@ const getTypeTranslation = type => {
 
 
 const getEvidenceComponent = evidence => {
-    if(evidence.data.type === 'LOGIN'){
+    if (evidence.data.type === 'LOGIN') {
         return <UserEvidence evidence={evidence} />
     }
 
@@ -389,8 +396,8 @@ const getEvidenceComponent = evidence => {
 
 const getData = gql`
     query EvidenceContent($code: String!){
-        evidenceContent(code: $code){
-            userId
+                evidenceContent(code: $code){
+                userId
             participantId
             content
             type
@@ -399,12 +406,12 @@ const getData = gql`
             cbxEvidence {
                 evhash
                 tx_hash
-                prvhash
-                uuid
-                data
-            }
+            prvhash
+            uuid
+            data
         }
     }
+}
 `;
 
 export default withApollo(withTranslations()(ValidatorPage));
