@@ -71,7 +71,7 @@ class AgendaDescriptionModal extends React.Component {
 
     _renderBody = () => {
         const { translate, council, agenda, company } = this.props;
-        const width = window.innerWidth < 800? window.innerWidth : 800;
+        // const width = window.innerWidth < 800? window.innerWidth : 800;
         return (
             <React.Fragment>
                 {this.state.loadDraft &&
@@ -85,7 +85,7 @@ class AgendaDescriptionModal extends React.Component {
                         draftType={1}
                     />
                 }
-                <div style={{width: width, display: this.state.loadDraft && 'none'}}>
+                <div style={{/*width: width,*/ display: this.state.loadDraft && 'none'}}>
                     <RichTextInput
                         ref={editor => (this.editor = editor)}
                         floatingText={translate.description}
@@ -148,6 +148,7 @@ class AgendaDescriptionModal extends React.Component {
                     ></i>
                 </Tooltip>
                 <AlertConfirm
+					bodyStyle={{width: "75vw",minWidth: "50vw",}}
                     requestClose={this.closeModal}
                     open={this.state.modal}
                     loadingAction={this.state.sending}

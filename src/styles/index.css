@@ -74,7 +74,7 @@ a:hover {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
-.Scrollbar > div:first-child {
+.Scrollbar>div:first-child {
     margin-right: -17px !important;
     margin-bottom: -17px !important;
 }
@@ -110,19 +110,21 @@ h4 {
     font-family: 'Lato' !important;
 }
 
-.ant-steps-item-process > .ant-steps-item-content > .ant-steps-item-title {
+.ant-steps-item-process>.ant-steps-item-content>.ant-steps-item-title {
     font-size: 16px;
     font-weight: 700;
 }
 
-.ant-steps-item-process > .ant-steps-item-icon {
+.ant-steps-item-process>.ant-steps-item-icon {
     font-size: 16px;
     font-weight: 600;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0.3; }
-  }
+    from {
+        opacity: 0.3;
+    }
+}
 
 .fadeToggle {
     animation: fadeIn 1s infinite alternate;
@@ -138,7 +140,6 @@ h4 {
 .colorToggle {
     animation: toggleColor 1.5s infinite alternate;
 }
-
 
 /* @media screen and (-webkit-min-device-pixel-ratio:0) { 
     .ql-editor {
@@ -167,7 +168,7 @@ h4 {
     border: 2px dashed red;
 }
 
-.successToast{
+.successToast {
     border-radius: 4px !important;
     background-color: green !important;
     color: white !important;
@@ -192,6 +193,7 @@ h4 {
 }
 
 /*Fuente y tamano del editor react-quill */
+
 .ql-editor {
     font-family: lato;
     min-height: 120px;
@@ -199,35 +201,58 @@ h4 {
     overflow: hidden;
     overflow-y: scroll;
 }
+
 .listInModalLive:not(:first-of-type) {
     margin-top: 0.8em;
 }
 
-.classHover:hover{background-color: #ddd!important; border-radius: 0px;}
+.classHover:hover {
+    background-color: #ddd!important;
+    border-radius: 0px;
+}
 
-.scale-up-center{ animation: scale-up-center 0.4s cubic-bezier(0.550, 0.055, 0.675, 0.190) 0.5s both;}
+.scale-up-center {
+    animation: scale-up-center 0.4s cubic-bezier(0.550, 0.055, 0.675, 0.190) 0.5s both;
+}
+
 @-webkit-keyframes scale-up-center {
     0% {
-      -webkit-transform: scale(0.5);
-              transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
     }
     100% {
-      -webkit-transform: scale(1);
-              transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
     }
-  }
-  @keyframes scale-up-center {
+}
+
+@keyframes scale-up-center {
     0% {
-      -webkit-transform: scale(0.5);
-              transform: scale(0.5);
+        -webkit-transform: scale(0.5);
+        transform: scale(0.5);
     }
     100% {
-      -webkit-transform: scale(1);
-              transform: scale(1);
+        -webkit-transform: scale(1);
+        transform: scale(1);
     }
-  }
+}
 
-  .hoverEnTabla:hover {background: #ddd!important;}
+.hoverEnTabla:hover {
+    background: #ddd!important;
+}
 
-  .colorRed {color: #bd0000}
-  .colorGren {color: #009034}
+.colorRed {
+    color: #bd0000
+}
+
+.colorGren {
+    color: #009034
+}
+
+@media only screen and (max-width: 960px) and (orientation: portrait) {
+    #root {
+        width:100%;
+        /* margin-left:2%; */
+        position: fixed;
+    }
+ }

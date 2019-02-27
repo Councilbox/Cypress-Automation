@@ -2,10 +2,23 @@ import React, { Component } from "react";
 import { isMobile } from 'react-device-detect';
 
 if(isMobile){
-	const html = document.getElementsByTagName('html');
-	for(let el of html){
-		el.style.height = window.innerHeight + 'px';
+	window.addEventListener("resize", updateHeights);
+
+	const updateHeights = () => {
+		const html = document.getElementsByTagName('html');
+		console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
+		for(let el of html){
+			el.style.height = window.innerHeight+ 'px';
+		}	
+		const body = document.getElementsByTagName('body');
+		for(let el of body){
+			el.style.height = window.innerHeight + 'px';
+		}
+		
+		document.getElementById('root').height = window.innerHeight + 'px';
 	}
+
+	updateHeights();
 }
 
 const withWindowSize = WrappedComponent => {

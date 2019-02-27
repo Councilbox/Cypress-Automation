@@ -220,7 +220,8 @@ class Sidebar extends React.Component {
 							height: '100%',
 							display: 'flex',
 							justifyContent: 'center',
-							alignItems: 'center'
+							alignItems: 'center',
+							overflow: 'hidden'
 						}}
 					>
 						{this.brand()}
@@ -246,7 +247,8 @@ class Sidebar extends React.Component {
 									},
 									width: '25%',
 									height: '100%',
-									marginTop: 0
+									marginTop: 0,
+									padding: '0px'
 								}}
 								onClick={() => this.setState({ selectedRoute: key })}
 							>
@@ -262,12 +264,13 @@ class Sidebar extends React.Component {
 										margin: 0,
 										height: '100%',
 										justifyContent: 'center',
+										padding: '0px'
 									}}
 								>
 									<div
 										style={{
 											width: "24px",
-											height: "30px",
+											// height: "30px",
 											display: 'flex',
 											alignItems: 'center',
 											justifyContent: 'center',
@@ -291,6 +294,7 @@ class Sidebar extends React.Component {
 						);
 					})}
 				</div>
+
 			}
 		</div>
 	);
@@ -303,45 +307,63 @@ class Sidebar extends React.Component {
 
 	brand = () => (
 		<React.Fragment>
-			<Tooltip title={this.props.translate.manage_entities} >
+			<div onClick={this.toggleCompanyMenu}>
 				<div
-					style={{
-						width: this.showVerticalLayout() ? '3em' : '100%',
-						height: this.showVerticalLayout() ? '100%' : '3em',
-						cursor: 'pointer',
-						display: 'flex',
-						backgroundColor: this.state.companyMenu ? getSecondary() : 'transparent',
-						...(this.showVerticalLayout()? {
-							padding: 0,
-							margin: 0,
-							backgroundColor: 'transparent'
-						} : {}),
-						alignItems: 'center',
-						justifyContent: 'center'
-					}}
-					onClick={this.toggleCompanyMenu}
+				className={this.props.classes.logo} 
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					right:'0px'
+				}}
 				>
-					<div
-						className={this.props.classes.logo}
-						style={{
-							width: '100%',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							...(this.showVerticalLayout()? {
-								marginTop: '0.6em'
-							} : {}),
-						}}
+					<i
+						className="material-icons"
+						style={{ color: this.state.companyMenu && this.showVerticalLayout() ? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.em' }}
 					>
-						<i
-							className="material-icons"
-							style={{ color: this.state.companyMenu && this.showVerticalLayout()? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.8em' }}
-						>
-							apps
-						</i>
-					</div>
+						apps
+					</i>
 				</div>
-			</Tooltip>
+			</div>
+			{/* <Tooltip title={this.props.translate.manage_entities} >
+			<div
+				style={{
+					// width: this.showVerticalLayout() ? '3em' : '100%',
+					// // height: this.showVerticalLayout() ? '100%' : '3em',
+					// cursor: 'pointer',
+					// display: 'flex',
+					// backgroundColor: this.state.companyMenu ? getSecondary() : 'transparent',
+					// ...(this.showVerticalLayout()? {
+					// 	padding: 0,
+					// 	margin: 0,
+					// 	backgroundColor: 'transparent'
+					// } : {}),
+					// alignItems: 'center',
+					// justifyContent: 'center'
+				}}
+				onClick={this.toggleCompanyMenu}
+			>
+				<div
+					className={this.props.classes.logo}
+				// style={{
+				// 	width: '100%',
+				// 	display: 'flex',
+				// 	alignItems: 'center',
+				// 	justifyContent: 'center',
+				// 	...(this.showVerticalLayout()? {
+				// 		marginTop: '0.6em'
+				// 	} : {}),
+				// }}
+				>
+					<i
+						className="material-icons"
+						style={{ color: this.state.companyMenu && this.showVerticalLayout() ? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.em' }}
+					>
+						apps
+						</i>
+				</div> 
+			 </div>
+			</Tooltip>  */}
 		</React.Fragment>
 	);
 
@@ -385,13 +407,13 @@ class Sidebar extends React.Component {
 					<div
 						className={classes.sidebarWrapper}
 						style={{
-							...(this.showVerticalLayout()?  {
+							...(this.showVerticalLayout() ? {
 								height: '3.5em',
 								display: 'flex',
 								width: '100%',
 								flexDirection: 'row',
 								alignItems: 'center'
-							} : { height: 'calc(100vh - 75px)'})
+							} : { height: 'calc(100vh - 75px)' })
 						}}
 					>
 						{this.links()}

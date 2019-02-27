@@ -1,74 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <meta http-equiv="cache-control" content="max-age=0" />
-    <meta http-equiv="cache-control" content="no-cache" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-    <link href="/styles/styles.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
-    <title>Councilbox</title>
-    <style>
-      #loadingIcon {
-        width: 100%;
-        height: 100vh;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link href="/styles/styles.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+  <title>Councilbox</title>
+  <style>
+    #loadingIcon {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    @keyframes grow {
+      0% {
+        width: 25px;
+        height: auto;
+        margin-bottom: 185px;
       }
 
-      @keyframes grow {
-          0% {width: 25px; height: auto; margin-bottom: 185px;}
-          50% {width: 200px; height: auto; margin-bottom: 10px;}
-      }
-
-      .splash {
-        animation-name: grow;
-        animation-duration: 5s;
+      50% {
         width: 200px;
         height: auto;
+        margin-bottom: 10px;
       }
-    </style>
-  </head>
-  <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
-    <div id="root">
+    }
+
+    .splash {
+      animation-name: grow;
+      animation-duration: 5s;
+      width: 200px;
+      height: auto;
+    }
+  </style>
+</head>
+
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root">
+  </div>
+  <div id=landingPage>
+    <div id="loadingIcon">
+      <img src="/img/logo-icono.png" class="splash" alt="councilbox logo">
     </div>
-    <div id=landingPage>
-      <div id="loadingIcon">
-        <img src="/img/logo-icono.png" class="splash" alt="councilbox logo">
-      </div>
-    </div>
-    <script>
-      function detectIE() {
-        var ua = window.navigator.userAgent;
+  </div>
+  <script>
 
-        var msie = ua.indexOf('MSIE ');
-        if (msie > 0) {
-          return true;
-        }
+    function detectIE() {
+      var ua = window.navigator.userAgent;
 
-        var trident = ua.indexOf('Trident/');
-        if (trident > 0) {
-          return true
-        }
-        // other browser
-        return false;
+      var msie = ua.indexOf('MSIE ');
+      if (msie > 0) {
+        return true;
       }
 
-      if(detectIE()){
-        document.location.replace('/error.html');
+      var trident = ua.indexOf('Trident/');
+      if (trident > 0) {
+        return true
       }
-    </script>
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated"></script>
-  </body>
+      // other browser
+      return false;
+    }
+
+    if (detectIE()) {
+      document.location.replace('/error.html');
+    }
+  </script>
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=String.prototype.startsWith,Array.from,Array.prototype.fill,Array.prototype.keys,Array.prototype.findIndex,Number.isInteger&flags=gated"></script>
+</body>
+
 </html>
