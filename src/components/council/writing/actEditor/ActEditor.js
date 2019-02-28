@@ -78,6 +78,20 @@ const CouncilActData = gql`
 			majorityType
 			majority
 			majorityDivider
+			items {
+				id
+				value
+			}
+			options {
+				id
+				maxSelections
+			}
+			ballots {
+				id
+				participantId
+				value
+				itemId
+			}
 			votings {
 				id
 				participantId
@@ -103,10 +117,12 @@ const CouncilActData = gql`
 		}
 
 		participantsWithDelegatedVote(councilId: $councilID){
+			id
 			name
 			surname
 			state
 			representative {
+				id
 				name
 				surname
 			}
@@ -122,6 +138,7 @@ const CouncilActData = gql`
 			options: $options
 		) {
 			list {
+				id
 				name
 				surname
 			}

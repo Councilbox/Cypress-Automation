@@ -9,10 +9,11 @@ import { graphql } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations } from '../../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
+import CustomAgendaRecount from "../../live/voting/CustomAgendaRecount";
 
 class AgendaEditor extends React.Component {
 
@@ -37,7 +38,7 @@ class AgendaEditor extends React.Component {
 				updating: true
 			});
 
-			const { __typename, votings, ...agenda } = this.props.agenda;
+			const { __typename, votings, items, ballots, options, ...agenda } = this.props.agenda;
 			await this.props.updateAgenda({
 				variables: {
 					agenda: {
@@ -259,13 +260,19 @@ class AgendaEditor extends React.Component {
 				component: () => {
 					return (
 						<div style={{minHeight: '8em', padding: '1em'}}>
-							<AgendaRecount
-								agenda={agenda}
-								council={council}
-								translate={translate}
-								recount={recount}
-								majorityTypes={majorityTypes}
-							/>
+							{!isCustomPoint(agenda.subjectType)?
+								<AgendaRecount
+									agenda={agenda}
+									council={council}
+									translate={translate}
+									recount={recount}
+									majorityTypes={majorityTypes}
+								/>
+							:
+								<CustomAgendaRecount
+									agenda={agenda}
+								/>
+							}
 							<VotingsTableFiltersContainer
 								translate={translate}
 								hideStatus

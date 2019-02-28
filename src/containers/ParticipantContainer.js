@@ -149,7 +149,6 @@ const councilQuery = gql`
 			sendDate
 			sendPointsMode
 			shortname
-			state
 			statute {
 				id
 				prototype
