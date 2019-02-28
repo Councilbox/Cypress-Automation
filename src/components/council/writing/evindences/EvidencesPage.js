@@ -7,6 +7,7 @@ import { moment } from '../../../../containers/App';
 import { getTranslateFieldFromType, ExplorerLink, ValidatorLink } from '../../../notLogged/validator/ValidatorPage';
 import { getSecondary } from '../../../../styles/colors';
 import { isMobile } from 'react-device-detect';
+import ToolTip from '../../../../displayComponents/Tooltip';
 
 
 const EvidencesPage = ({ data, translate, ...props }) => {
@@ -25,21 +26,22 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                 const secondary = getSecondary();
                 return (
 
-                    <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile? '90%' : '50%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
+                    <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '50%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
                         <CardHeader
                             avatar={
                                 <div style={{ position: 'relative' }}>
                                     <Avatar aria-label="Recipe" /*style={{background:secondary}}*/>
                                         {primerasLetras}
                                     </Avatar>
-
-                                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red' }}>
-                                        {evidence.cbxEvidence ?
-                                            'verified_user'
-                                            :
-                                            'query_builder'
-                                        }
-                                    </i>
+                                    <ToolTip text={evidence.cbxEvidence ? 'Contenido registrado en blockchain' : 'Contenido pendiente de registro en blockchain'}>
+                                        <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red' }}>
+                                            {evidence.cbxEvidence ?
+                                                'verified_user'
+                                                :
+                                                'query_builder'
+                                            }
+                                        </i>
+                                    </ToolTip>
                                 </div>
                             }
                             title={`${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`}

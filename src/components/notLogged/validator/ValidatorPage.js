@@ -1,14 +1,14 @@
 import React from 'react';
-import { NotLoggedLayout, TextInput, BasicButton, SectionTitle, LoadingSection, Grid, GridItem } from '../../../displayComponents';
+import { NotLoggedLayout, TextInput, BasicButton, SectionTitle, LoadingSection, Grid, GridItem, DropDownMenu } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
-import { Card, Button, CardHeader, Avatar } from 'material-ui';
+import { Card, Button, CardHeader, Avatar, CardContent, IconButton, Popover } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { getPrimary } from '../../../styles/colors';
 import { EXPLORER_URL } from '../../../config';
 import { moment } from '../../../containers/App';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-
+import ToolTip from '../../../displayComponents/Tooltip';
 
 //3f055426-0770-419c-a609-e42efe1a4fe1
 
@@ -108,12 +108,10 @@ class ValidatorPage extends React.Component {
                 languageSelector={true}
             >
                 <div style={{ width: '100%', overflow: 'auto' }}>
-                    <Card style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
-                        <SectionTitle
-                            text="Introduce el código a comprobar"
-                            color={primary}
-                        />
-                        <TextInput
+                    {/* <Card style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}> */}
+                     <div style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
+
+                        {/* <TextInput
                             floatingText="Código"
                             value={this.state.code}
                             onChange={this.updateCode}
@@ -124,7 +122,7 @@ class ValidatorPage extends React.Component {
                             onClick={this.sendCode}
                             color={primary}
                             textStyle={{ color: 'white', fontWeight: '700' }}
-                        />
+                        /> */}
                         {this.state.loading &&
                             <LoadingSection />
                         }
@@ -137,19 +135,19 @@ class ValidatorPage extends React.Component {
                         {this.state.data &&
                             // <div style={{ fontWeight: '700', marginTop: '1em', fonSize: '1.1em', wordWrap: 'break-word' }}>
                             <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
-                                <EvidenceContentDisplay content={this.state.data.content} />
+                                <EvidenceContentDisplay content={this.state.data.content} txHash={this.state.data.cbxEvidence.tx_hash} />
                                 <hr></hr>
                                 {/* {this.state.data.cbxEvidence.tx_hash &&
                                     <TransactionResult validated={this.state.data.validated} />
-                                } Contenido registrasdo en blockchain*/}
-
-                                {/* <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} /> Explorador*/}
+                                }Contenido registrasdo en blockchain */}
+                                <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} /> {/*Explorador*/}
                                 <br />
 
                             </Card>
                             // </div>
                         }
-                    </Card>
+                    {/* </Card> */}
+                </div>
                 </div>
             </NotLoggedLayout>
         )
@@ -189,8 +187,9 @@ const TransactionResult = validated => {
 export const ExplorerLink = ({ txHash, translate }) => {
     return (
         <React.Fragment>
+            { /*Boton de Explorador*/}
             {txHash ?
-                <Button size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}{/*Link al explorador de bloques*/}
+                <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}
                     Explorador
                 </Button>
                 :
@@ -224,11 +223,11 @@ export const ValidatorLink = ({ prvHash, translate }) => {
     )
 }
 
-const EvidenceContentDisplay = data => {
+const EvidenceContentDisplay = (data, txHash) => {
     const parsedContent = JSON.parse(data.content);
     return (
         <div>
-            {getEvidenceComponent(parsedContent)}
+            {getEvidenceComponent(parsedContent, txHash)}
         </div>
     )
 }
@@ -242,147 +241,388 @@ const UserEvidence = withTranslations()(({ evidence, translate }) => {
     )
 });
 
-export const CouncilEvidence = withTranslations()(({ evidence, translate }) => {
-    const primerasLetras="";
-    console.log(getTranslateFieldFromType(evidence.data.type))
+export const CouncilEvidence = withTranslations()(({ evidence, translate, txHash }) => {
+    const primary = getPrimary()
     return (
-        // <CardHeader
-        //     avatar={
-        //         <div style={{ position: 'relative' }}>
-        //             <Avatar aria-label="Recipe" /*style={{background:secondary}}*/>
-        //                 {primerasLetras}
-        //             </Avatar>
+        <React.Fragment>
+            <CardHeader
+                avatar={
+                    <EvidenceDisplay evidence={evidence} translate={translate} txHash={txHash} />
+                }
+                action={
+                    // <IconButton>
+                    //     <i className="material-icons" style={{}}>
+                    //         more_vert
+                    //     </i>
+                    // </IconButton>
+                    <DropDownMenu
+                        // claseHover={"classHover "}
+                        color="transparent"
+                        style={{ paddingLeft: '0px', paddingRight: '0px' }}
+                        buttonStyle={{ boxShadow: 'none', borderRadius: '90px' }}
+                        //textStyle={{ boxShadow: "none", height: '100%', fontSize: "12px" }}
+                        icon={
+                            <i className="material-icons" style={{}}>
+                                more_vert
+                            </i>
+                        }
+                        items={
+                            <div style={{ margin: '1em', width: '500px' }}>
+                                <SectionTitle
+                                    text="Introduce el código a comprobar"
+                                    color={primary}
+                                />
+                                <TextInput
+                                    floatingText="Código"
+                                    value={'gyfcdt6r5d5f765fitytyf58rf6yftuyf765876ftuyuyi768'}
+                                    // onChange={this.updateCode}
+                                    // onKeyUp={this.handleEnter}
+                                />
+                                <BasicButton
+                                    text={'Enviar'}
+                                    // onClick={this.sendCode}
+                                    color={primary}
+                                    textStyle={{ color: 'white', fontWeight: '700' }}
+                                />
+                            </div>
+                        }
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                    />
 
-        //             {/* <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red' }}>
-        //                 {evidence.cbxEvidence ?
-        //                     'verified_user'
-        //                     :
-        //                     'query_builder'
-        //                 }
-        //             </i> */}
-        //         </div>
+                }
+            />
+            <hr></hr>
+            <CardContent style={{ paddingBottom: '10px' }}>
+                {evidence.data.user &&
+                    <UserSection evidence={evidence} translate={translate} />
+                }
+                {evidence.data.agendaPoint &&
+                    <AgendaPointSection evidence={evidence.data} translate={translate} />
+                }
+                {evidence.data.participant ?
+                    <React.Fragment>
+                        <CouncilSection evidence={evidence.data.participant} translate={translate} />
+                        <ParticipantSection evidence={evidence} translate={translate} />
+                    </React.Fragment>
+                    :
+                    <CouncilSection evidence={evidence.data} translate={translate} />
+                }
+            </CardContent>
+        </React.Fragment>
+        // <div>
+        //     <EvidenceDisplay evidence={evidence} translate={translate} />
+        //     {evidence.data.user &&
+        //         <UserSection evidence={evidence} translate={translate} />
         //     }
-        //     title={`${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`}
-        //     subheader={moment(evidence.date).format('LLL')}
-        // />
-        <div>
-            <EvidenceDisplay evidence={evidence} translate={translate} />
-            {/* {evidence.data.user &&
-                <UserSection evidence={evidence} translate={translate} />
-            }
-            {evidence.data.agendaPoint &&
-                <AgendaPointSection evidence={evidence.data} translate={translate} />
-            }
-            {evidence.data.participant ?
-                <React.Fragment>
-                    <CouncilSection evidence={evidence.data.participant} translate={translate} />
-                    <ParticipantSection evidence={evidence} translate={translate} />
-                </React.Fragment>
-                :
-                <CouncilSection evidence={evidence.data} translate={translate} />
-            } */}
-        </div>
+        // {evidence.data.agendaPoint &&
+        //     <AgendaPointSection evidence={evidence.data} translate={translate} />
+        // }
+        //     {evidence.data.participant ?
+        //         <React.Fragment>
+        //             <CouncilSection evidence={evidence.data.participant} translate={translate} />
+        //             <ParticipantSection evidence={evidence} translate={translate} />
+        //         </React.Fragment>
+        //         :
+        //         <CouncilSection evidence={evidence.data} translate={translate} />
+        //     }
+        // </div>
     )
 });
 
 const UserSection = ({ evidence, translate }) => {
     return (
-        <React.Fragment>
-            <h5 style={{ marginTop: '1em' }}>{translate.user_data}</h5>
-            <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.user.email}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.user.name}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.user.surname}</GridItem>
+        <div style={{ /*paddingLeft: '1.5em' */ marginBottom: '1em' }}>
+            {/* <h5>{translate.user_data}</h5> */}
+            <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
+                {translate.user_data}
+                <hr style={{ margin: '0.5em 0em' }}></hr>
+            </div>
+            <div style={{ marginLeft: '1em' }}>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.email}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.user.email}
+                    </div>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.name}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.user.name}
+                    </div>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.surname}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.user.surname}
+                    </div>
+                </div>
+            </div>
+        </div>
+        // <React.Fragment>
+        //     <h5 style={{ marginTop: '1em' }}>{translate.user_data}</h5>
+        //     <Grid>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.user.email}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.user.name}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.user.surname}</GridItem>
 
-            </Grid>
-        </React.Fragment>
+        //     </Grid>
+        // </React.Fragment>
     )
 }
 
 const ParticipantSection = ({ evidence, translate }) => {
     return (
-        <React.Fragment>
-            <h5 style={{ marginTop: '1em' }}>{translate.participant}</h5>
-            <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.email}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.name}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.surname}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.dni}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.dni}</GridItem>
-            </Grid>
-        </React.Fragment>
+        <div style={{ /*paddingLeft: '1.5em' */ marginBottom: '1em' }}>
+            {/* <h5>{translate.user_data}</h5> */}
+            <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
+                {translate.participant}
+                <hr style={{ margin: '0.5em 0em' }}></hr>
+            </div>
+            <div style={{ marginLeft: '1em' }}>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.email}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.participant.email}
+                    </div>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.name}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.participant.name}
+                    </div>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.surname}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.participant.surname}
+                    </div>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>{translate.dni}:</b>
+                    </div>
+                    <div>
+                        {evidence.data.participant.dni}
+                    </div>
+                </div>
+            </div>
+        </div>
+        // <React.Fragment>
+        //     <h5 style={{ marginTop: '1em' }}>{translate.participant}</h5>
+        //     <Grid>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.email}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.name}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.surname}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.dni}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.dni}</GridItem>
+        //     </Grid>
+        // </React.Fragment>
     )
 }
 
 const AgendaPointSection = ({ evidence, translate }) => {
-    console.log(evidence);
     return (
-        <React.Fragment>
-            <h5 style={{ marginTop: '1em' }}>{'Punto del día' /*TRADUCCION*/}</h5>
-            <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{translate[getTypeTranslation(evidence.agendaPoint.type)]}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.name}</GridItem>
-            </Grid>
-        </React.Fragment>
+        <div style={{ /*paddingLeft: '1.5em'*/ marginBottom: '1em' }}>
+            <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
+                {'Punto del día' /*TRADUCCION*/}
+                <hr style={{ margin: '0.5em 0em' }}></hr>
+            </div>
+
+            <div style={{ display: "flex" }}>
+                <div style={{ width: '100px' }}>
+                    <b>{translate.type}:</b>
+                </div>
+                <div>
+                    {translate[getTypeTranslation(evidence.agendaPoint.type)]}
+                </div>
+            </div>
+            <div style={{ display: "flex" }}>
+                <div style={{ width: '100px' }}>
+                    <b>{translate.name}:</b>
+                </div>
+                <div>
+                    {evidence.agendaPoint.name}
+                </div>
+            </div>
+
+        </div>
+        // <React.Fragment>
+        //     <h5 style={{ marginTop: '1em' }}>{'Punto del día' /*TRADUCCION*/}</h5>
+        //     <Grid>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{translate[getTypeTranslation(evidence.agendaPoint.type)]}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.name}</GridItem>
+        //     </Grid>
+        // </React.Fragment>
     )
 }
 
 const CouncilSection = ({ evidence, translate }) => {
     return (
-        <React.Fragment>
-            <h5 style={{ marginTop: '1em' }}>{translate.council_info}</h5>
-            {evidence.agendaPoint &&
-                <Grid>
-                    {evidence.agendaPoint.company &&
-                        <React.Fragment>
-                            <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
-                            <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.company.businessName}</GridItem>
-                        </React.Fragment>
-                    }
-                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-                    <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.council.name}</GridItem>
-                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
-                    <GridItem xs={12} md={9} lg={10}>{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}</GridItem>
-                </Grid>
-            }
-            {evidence.council &&
-                <Grid>
-                    {evidence.council.company &&
-                        <React.Fragment>
-                            <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
-                            <GridItem xs={12} md={9} lg={10}>{evidence.council.company.businessName}</GridItem>
-                        </React.Fragment>
-                    }
-                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-                    <GridItem xs={12} md={9} lg={10}>{evidence.council.name}</GridItem>
-                    <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
-                    <GridItem xs={12} md={9} lg={10}>{moment(evidence.council.dateRealStart).format('LLL')}</GridItem>
-                </Grid>
-            }
-        </React.Fragment>
+        <div style={{ /*paddingLeft: '1.5em'*/ marginBottom: '1em' }}>
+            <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
+                {translate.council_info}
+                <hr style={{ margin: '0.5em 0em' }}></hr>
+            </div>
+            <div style={{ marginLeft: '1em' }}>
+                {evidence.agendaPoint &&
+                    <React.Fragment>
+                        {evidence.agendaPoint.company &&
+                            <div style={{ display: "flex" }}>
+                                <div style={{ width: '100px' }}>
+                                    <b>Compañía:</b>{/*TRADUCCION*/}
+                                </div>
+                                <div>
+                                    {evidence.agendaPoint.company.businessName}
+                                </div>
+                            </div>
+                        }
+                        <div style={{ display: "flex" }}>
+                            <div style={{ width: '100px' }}>
+                                <b>{translate.name}:</b>
+                            </div>
+                            <div>
+                                {evidence.agendaPoint.council.name}
+                            </div>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <div style={{ width: '100px' }}>
+                                <b>{translate.date_real_start}:</b>
+                            </div>
+                            <div>
+                                {moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}
+                            </div>
+                        </div>
+                    </React.Fragment>
+                }
+                {evidence.council &&
+                    <React.Fragment>
+                        {evidence.council.company &&
+                            <div style={{ display: "flex" }}>
+                                <div style={{ width: '100px' }}>
+                                    <b>Compañía:</b>{/*TRADUCCION*/}
+                                </div>
+                                <div>
+                                    {evidence.council.company.businessName}
+                                </div>
+                            </div>
+                        }
+                        <div style={{ display: "flex" }}>
+                            <div style={{ width: '100px' }}>
+                                <b>{translate.name}:</b>
+                            </div>
+                            <div>
+                                {evidence.council.name}
+                            </div>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <div style={{ width: '100px' }}>
+                                <b>{translate.date_real_start}:</b>
+                            </div>
+                            <div>
+                                {moment(evidence.council.dateRealStart).format('LLL')}
+                            </div>
+                        </div>
+                    </React.Fragment>
+                }
+            </div>
+        </div>
+        //         {/* <React.Fragment> */ }
+        // <h5 style={{ marginTop: '1em' }}>{translate.council_info}</h5>
+        // {
+        //     evidence.agendaPoint &&
+        //         <Grid>
+        //             {evidence.agendaPoint.company &&
+        //                 <React.Fragment>
+        //                     <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
+        //                     <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.company.businessName}</GridItem>
+        //                 </React.Fragment>
+        //             }
+        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
+        //             <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.council.name}</GridItem>
+        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
+        //             <GridItem xs={12} md={9} lg={10}>{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}</GridItem>
+        //         </Grid>
+        // }
+        // {
+        //     evidence.council &&
+        //         <Grid>
+        //             {evidence.council.company &&
+        //                 <React.Fragment>
+        //                     <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
+        //                     <GridItem xs={12} md={9} lg={10}>{evidence.council.company.businessName}</GridItem>
+        //                 </React.Fragment>
+        //             }
+        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
+        //             <GridItem xs={12} md={9} lg={10}>{evidence.council.name}</GridItem>
+        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
+        //             <GridItem xs={12} md={9} lg={10}>{moment(evidence.council.dateRealStart).format('LLL')}</GridItem>
+        //         </Grid>
+        // }
+        //     </React.Fragment >
     )
 }
 
-const EvidenceDisplay = ({ evidence, translate }) => {
+const EvidenceDisplay = ({ evidence, translate, txHash }) => {
     const type = getTranslateFieldFromType(evidence.data.type);
+    const primerasLetras = translate[type].split(' ').map(palabra => palabra.toUpperCase().substr(0, 1))
+
     return (
-        <div>
-            <h5>Contenido</h5>
-            <Grid>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{translate[type] || type || ''}</GridItem>
-                <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Fecha de registro</GridItem>
-                <GridItem xs={12} md={9} lg={10}>{moment(evidence.data.date).format('LLL')}</GridItem>
-            </Grid>
+        <div style={{ display: 'flex' }}>
+            <div style={{ position: 'relative', width: '40px', marginRight: '1em' }}>
+                <Avatar>
+                    {primerasLetras}
+                </Avatar>
+                <ToolTip text={txHash ? 'Contenido registrado en blockchain' : 'Contenido pendiente de registro en blockchain'}>
+                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: txHash ? 'green' : 'red' }}>
+                        {txHash ?
+                            'verified_user'
+                            :
+                            'query_builder'
+                        }
+                    </i>
+                </ToolTip>
+            </div>
+            <div>
+                <div>
+                    {translate[type] || type || ''}
+                </div>
+                <div>
+                    {moment(evidence.data.date).format('LLL')}
+                </div>
+            </div>
         </div>
+        // <div>
+        //     <h5>Contenido</h5>
+        //     <Grid>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{translate[type] || type || ''}</GridItem>
+        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Fecha de registro</GridItem>
+        //         <GridItem xs={12} md={9} lg={10}>{moment(evidence.data.date).format('LLL')}</GridItem>
+        //     </Grid>
+        // </div> 
     )
 };
 
@@ -431,12 +671,12 @@ const getTypeTranslation = type => {
 }
 
 
-const getEvidenceComponent = evidence => {
+const getEvidenceComponent = (evidence, txHash) => {
     if (evidence.data.type === 'LOGIN') {
         return <UserEvidence evidence={evidence} />
     }
 
-    return <CouncilEvidence evidence={evidence} />
+    return <CouncilEvidence evidence={evidence} txHash={txHash} />
 }
 
 const getData = gql`
