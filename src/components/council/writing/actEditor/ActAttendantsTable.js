@@ -52,7 +52,7 @@ class ActAttendantsTable extends React.Component {
                 CBX.downloadFile(
                     response.data.downloadConnectionsExcel,
                     "excel",
-                    `${this.props.translate.convene.replace(/ /g, '_')}-${
+                    `${this.props.translate.assistants_list.replace(/ /g, '_')}-${
                     this.props.council.name.replace(/ /g, '_').replace(/\./, '')
                     }`
                 );
