@@ -4,10 +4,10 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getAgendaTypeLabel, hasVotation, getActPointSubjectType } from '../../utils/CBX';
 import { getPrimary, getSecondary } from '../../styles/colors';
+import { AGENDA_TYPES } from '../../constants';
 
 
 const Results = ({ data, translate, requestClose, open, participant, council }) => {
-
     if(data.loading){
         return <LoadingSection />;
     }
@@ -66,7 +66,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                                 {hasVotation(agenda.subjectType) &&
                                     <React.Fragment>
                                         {agenda.voting?
-                                            <VoteDisplay vote={agenda.voting.vote} translate={translate} />
+                                            <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
                                         :
                                             translate.not_present_at_time_of_voting
                                         }
@@ -75,7 +75,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                                 {agenda.subjectType === getActPointSubjectType() &&
                                     <React.Fragment>
                                         {agenda.voting?
-                                            <VoteDisplay vote={agenda.voting.vote} translate={translate} />
+                                            <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
                                         :
                                         translate.not_present_at_time_of_voting 
                                         }
@@ -91,11 +91,28 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
     )
 }
 
-const VoteDisplay = ({ vote, translate }) => {
+const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
+    const votes = new Set();
+
+    voting.ballots.forEach(ballot => votes.add(ballot.value));
+    
+    if(agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE){
+        return  (
+            <div>
+                {`${'Su voto'}: `/* TRADUCCION */}
+                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${voting.vote !== -1? translate.has_voted : 'No ha votado'}`/* TRADUCCION */}</span>
+            </div>
+        )
+    }
+
     return (
         <div>
-            {`${translate.has_voted}: `}
-            <span style={{color: getPrimary(), fontWeight: '700'}}>{`${getVote(vote, translate)}`}</span>
+            {`${'Su voto'}: `/* TRADUCCION */}
+            {agenda.subjectType === AGENDA_TYPES.CUSTOM_NOMINAL?
+                Array.from(votes.values()).map((ballot, index) => <span>{index > 0? ' / ' : '' }{ballot}</span>)
+            :
+                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${getVote(voting.vote, translate)}`}</span>    
+            }
         </div>
     )
 }
@@ -128,6 +145,14 @@ const agendas = gql`
                 councilId
                 state
             }
+            options {
+                maxSelections
+                id
+            }
+            items {
+                id
+                value
+            }
             councilId
             dateEndVotation
             dateStart
@@ -142,7 +167,30 @@ const agendas = gql`
         participantVotings(participantId: $participantId){
             id
             comment
+            participantId
+            delegateId
             agendaId
+            ballots {
+                participantId
+                value
+                weight
+                itemId
+                id
+            }
+            numParticipations
+            author {
+                id
+                state
+                name
+                type
+                surname
+                representative {
+                    id
+                    type
+                    name
+                    surname
+                }
+            }
             vote
         }
     }

@@ -89,6 +89,7 @@ const CouncilActData = gql`
 			ballots {
 				id
 				participantId
+				weight
 				value
 				itemId
 			}

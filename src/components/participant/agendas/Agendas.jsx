@@ -345,6 +345,7 @@ const agendas = gql`
             ballots {
                 participantId
                 value
+                weight
                 itemId
                 id
             }

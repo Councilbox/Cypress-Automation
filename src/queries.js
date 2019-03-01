@@ -542,6 +542,7 @@ export const agendaManager = gql`
 			}
 			ballots {
 				id
+				weight
 				value
 				participantId
 				itemId
