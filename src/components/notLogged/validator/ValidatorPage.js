@@ -210,7 +210,7 @@ export const ExplorerLink = ({ txHash, translate }) => {
 export const ValidatorLink = ({ prvHash, translate }) => {
     const primary = getPrimary();
     return (
-        <Button size="small" color="primary" href={`${window.location.origin}/validator/${prvHash}`} target="_blank" rel="noreferrer noopener">
+        <Button size="small" color="primary" href={`${window.location.origin}/evidence/${prvHash}`} target="_blank" rel="noreferrer noopener">
             Visualizador {/*TRADUCCION*/}{/* Link al visualizador de evidencias de Councilbox */}
         </Button>
     )
@@ -242,7 +242,7 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, txHash
                 avatar={
                     <EvidenceDisplay evidence={evidence} translate={translate} txHash={txHash} />
                 }
-                action={
+                /* action={
                     // <IconButton>
                     //     <i className="material-icons" style={{}}>
                     //         more_vert
@@ -285,7 +285,7 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, txHash
                         }}
                     />
 
-                }
+                } */
             />
             <hr></hr>
             <CardContent style={{ paddingBottom: '10px' }}>
@@ -333,7 +333,7 @@ const UserSection = ({ evidence, translate }) => {
                 {translate.user_data}
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
-            <div style={{ marginLeft: '1em' }}>
+            <div>
                 <div style={{ display: "flex" }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.email}:</b>
@@ -383,7 +383,7 @@ const ParticipantSection = ({ evidence, translate }) => {
                 {translate.participant}
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
-            <div style={{ marginLeft: '1em' }}>
+            <div>
                 <div style={{ display: "flex" }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.email}:</b>
@@ -479,7 +479,7 @@ const CouncilSection = ({ evidence, translate }) => {
                 {translate.council_info}
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
-            <div style={{ marginLeft: '1em' }}>
+            <div>
                 {evidence.agendaPoint &&
                     <React.Fragment>
                         {evidence.agendaPoint.company &&

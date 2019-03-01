@@ -208,7 +208,7 @@ class App extends React.Component {
 										{!window.location.hostname.includes('app.councilbox') &&
 											<Route
 												exact
-												path="/validator/:uuid?"
+												path="/evidence/:uuid?"
 												component={ValidatorPage}
 											/>
 										}

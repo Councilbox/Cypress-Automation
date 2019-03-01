@@ -24,7 +24,7 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                 const secondary = getSecondary();
                 return (
 
-                    <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '50%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
+                    <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '65%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
                         <CardHeader
                             avatar={
                                 <div style={{ position: 'relative' }}>
