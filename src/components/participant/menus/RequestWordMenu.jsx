@@ -95,10 +95,9 @@ class RequestWordMenu extends React.Component {
                             outline: 0,
                             color: grantedWord? 'white' : primary,
                             backgroundColor: grantedWord? primary : 'inherit',
-                            width: '2em',
+                            width: '50%',
                             height: '100%',
-                            marginRight: '0.6em',
-                            borderRadius: '0.5em'
+                            borderRadius: 0
                         }}
                         onClick={this.cancelAskForWord}
                     >
@@ -114,7 +113,13 @@ class RequestWordMenu extends React.Component {
             <Tooltip title={this.props.translate.ask_to_speak} placement="top">
                 <IconButton
                     size={'small'}
-                    style={{outline: 0, color: isSafari? 'grey' : secondary, marginRight: '0.6em'}}
+                    style={{
+                        outline: 0,
+                        color: isSafari? 'grey' : secondary,
+                        borderRadius: 0,
+                        width: '50%',
+                        height: '100%',
+                    }}
                     onClick={isSafari? this.showSafariAskingModal : this.askForWord}
                 >
                     <i className="material-icons">
@@ -163,59 +168,58 @@ class RequestWordMenu extends React.Component {
         const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
 
         return(
-            <Paper
-                style={{
-                    width: fixedURLMode? '5.5em' : '8em',
-                    height: '3em',
-                    position: 'absolute',
-                    backgroundColor: 'white',
-                    color: grantedWord? 'white' : primary,
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    overflow: 'hidden',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    bottom: '10px'
-                }}
-            >
-                <ConfigContext.Consumer>
-                    {value => (
-                        <React.Fragment>
-                            <div>
-                                {!fixedURLMode &&
-                                    this._renderWordButtonIcon()
-                                }
-                                {fixedURLMode?
-                                    <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                        {this._renderPrivateMessageIcon()}
-                                    </div>
-                                :
-                                    this._renderPrivateMessageIcon()
-                                }
-                            </div>
-                            <AlertConfirm
-                                requestClose={() => this.setState({ alertCantRequestWord: false })}
-                                open={this.state.alertCantRequestWord}
-                                fullWidth={false}
-                                acceptAction={this.closeAlertCantRequest}
-                                buttonAccept={this.props.translate.accept}
-                                bodyText={this._renderAlertBody()}
-                                title={this.props.translate.error}
-                            />
-                            <AlertConfirm
-                                requestClose={this.closeSafariModal}
-                                open={this.state.safariModal}
-                                fullWidth={false}
-                                acceptAction={this.closeSafariModal}
-                                buttonAccept={this.props.translate.accept}
-                                bodyText={this._renderSafariAlertBody()}
-                                title={this.props.translate.warning}
-                            />
-                        </React.Fragment>
-                    )}
-                </ConfigContext.Consumer>
-            </Paper>
+            <ConfigContext.Consumer>
+                {value => (
+                    <React.Fragment>
+                        <Paper
+                            style={{
+                                width: fixedURLMode? '5.5em' : '8em',
+                                height: '2.2em',
+                                position: 'absolute',
+                                backgroundColor: 'white',
+                                color: grantedWord? 'white' : primary,
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                overflow: 'hidden',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                bottom: '0px'
+                            }}
+                        >
+                            {!fixedURLMode &&
+                                this._renderWordButtonIcon()
+                            }
+                            {fixedURLMode?
+                                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
+                                    {this._renderPrivateMessageIcon()}
+                                </div>
+                            :
+                                this._renderPrivateMessageIcon()
+                            }
+                        </Paper>
+                        <AlertConfirm
+                            requestClose={() => this.setState({ alertCantRequestWord: false })}
+                            open={this.state.alertCantRequestWord}
+                            fullWidth={false}
+                            acceptAction={this.closeAlertCantRequest}
+                            buttonAccept={this.props.translate.accept}
+                            bodyText={this._renderAlertBody()}
+                            title={this.props.translate.error}
+                        />
+                        <AlertConfirm
+                            requestClose={this.closeSafariModal}
+                            open={this.state.safariModal}
+                            fullWidth={false}
+                            acceptAction={this.closeSafariModal}
+                            buttonAccept={this.props.translate.accept}
+                            bodyText={this._renderSafariAlertBody()}
+                            title={this.props.translate.warning}
+                        />
+                    </React.Fragment>
+                )}
+            </ConfigContext.Consumer>
         )
     }
 }
