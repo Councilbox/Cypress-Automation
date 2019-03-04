@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton, Radio, Checkbox, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
+import { AGENDA_TYPES } from '../../../constants';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -45,9 +46,14 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
                 votingId: props.ownVote.id
             }
         });
-        const newValues = await props.refetch();
-        //setSelections(createSelectionsFromBallots(newValues.data.agendas.find(a => agenda.id).ballots))
+        await props.refetch();
         setLoading(false);
+    }
+
+
+    if(props.ownVote.vote !== -1 && props.ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE){
+        //TRADUCCION
+        return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
     return (
