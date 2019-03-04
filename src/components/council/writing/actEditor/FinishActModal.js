@@ -12,6 +12,8 @@ import gql from 'graphql-tag';
 import { darkGrey, getSecondary } from "../../../../styles/colors";
 import { Card, MenuItem } from 'material-ui';
 import logo from '../../../../assets/img/logo-icono.png';
+import { isMobile } from "react-device-detect";
+
 
 
 class FinishActModal extends React.Component {
@@ -20,7 +22,7 @@ class FinishActModal extends React.Component {
 		loading: false,
 		step: 1,
 		file: '',
-		filename: ''
+		filename: '',
 	}
 
 	close = () => {
@@ -43,8 +45,8 @@ class FinishActModal extends React.Component {
 			}
 		});
 
-		if(!!response){
-			if(!response.data.errors){
+		if (!!response) {
+			if (!response.data.errors) {
 				this.setState({
 					success: true,
 					loading: false
@@ -65,7 +67,7 @@ class FinishActModal extends React.Component {
 			}
 		});
 
-		if(!response.data.errors){
+		if (!response.data.errors) {
 			this.setState({
 				loading: false,
 				success: true
@@ -102,54 +104,54 @@ class FinishActModal extends React.Component {
 	_modalBody() {
 		const secondary = getSecondary();
 
-        return (
-			<div style={{width: '650px'}}>
+		return (
+			<div style={{marginTop: '12px'}}>
 				{this.props.show &&
-					this.props.config.exportActToWord?
-						<React.Fragment>
-							{this.state.step === 1 &&
-								<Grid>
-									<GridItem xs={12} md={5} lg={5}>
-										<Block
-											icon={<i className="fa fa-upload" aria-hidden="true" style={{fontSize: '4em', color: secondary}}></i>}
-											text='Subir acta en PDF'//TRADUCCION
-											onClick={this.goToDropZone}
-										/>
-									</GridItem>
-									<GridItem xs={12} md={2} lg={2}></GridItem>
-									<GridItem xs={12} md={5} lg={5}>
-										<Block
-											text='Usar acta generada por Councilbox'//TRADUCCION
-											onClick={this.goToCBXAct}
-											icon={<img src={logo} style={{height: '4em', width: 'auto'}} />}
-										/>
-									</GridItem>
-								</Grid>
+					this.props.config.exportActToWord ?
+					<React.Fragment>
+						{this.state.step === 1 &&
+							<Grid style={{ marginTop: "5px", height: '12em', justifyContent: 'center', alignItems: 'center' }}>
+								<GridItem xs={12} md={5} lg={5} style={{ height: "100%", }} >
+									<ButtonInModal
+										click={this.goToDropZone}
+										img={<i className="fa fa-upload" aria-hidden="true" style={{ fontSize: '4em', color: secondary }}></i>}
+										body={'Subir acta en PDF'}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={1} lg={1}></GridItem>
+								<GridItem xs={12} md={5} lg={5} style={{ height: "100%" }} >
+									<ButtonInModal
+										click={this.goToCBXAct}
+										img={<img src={logo} style={{ height: '4em', width: 'auto' }} />}
+										body={'Usar acta generada por Councilbox'}
+									/>
+								</GridItem>
+							</Grid>
 
-							}
-							{this.state.step === 2 &&
-								<ActHTML
-									ref={(ref => this.actViewer = ref)}
-									council={this.props.council}
-								/>
-							}
-							{this.state.step === 3 &&
-								<div>
-									{this.state.file?
-										<div>
-											{this.state.filename}
-										</div>
+						}
+						{this.state.step === 2 &&
+							<ActHTML
+								ref={(ref => this.actViewer = ref)}
+								council={this.props.council}
+							/>
+						}
+						{this.state.step === 3 &&
+							<div>
+								{this.state.file ?
+									<div>
+										{this.state.filename}
+									</div>
 									:
-										<UploadAct council={this.props.council} setFile={this.setFile} />
-									}
-								</div>
-							}
-						</React.Fragment>
+									<UploadAct council={this.props.council} setFile={this.setFile} />
+								}
+							</div>
+						}
+					</React.Fragment>
 					:
-						<ActHTML
-							ref={(ref => this.actViewer = ref)}
-							council={this.props.council}
-						/>
+					<ActHTML
+						ref={(ref => this.actViewer = ref)}
+						council={this.props.council}
+					/>
 				}
 			</div>
 		);
@@ -160,15 +162,16 @@ class FinishActModal extends React.Component {
 
 		return (
 			<AlertConfirm
+				bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "" }}
 				requestClose={this.close}
 				open={this.props.show}
 				{...(this.props.config.exportActToWord ?
 					{
 						hideAccept: this.state.step === 1 || (this.state.step === 3 && !this.state.file),
-						acceptAction: this.state.step === 3? this.approveActWithUserPDF : this.approveAct
+						acceptAction: this.state.step === 3 ? this.approveActWithUserPDF : this.approveAct
 					}
-				:
-					{acceptAction: this.approveAct}
+					:
+					{ acceptAction: this.approveAct }
 				)}
 				loadingAction={this.state.loading}
 				buttonAccept={translate.finish_and_aprove_act}
@@ -202,6 +205,37 @@ const Block = ({ text, icon, onClick, color = darkGrey }) => {
 	)
 }
 
+class ButtonInModal extends React.Component {
+	state = {
+		showActions: false
+	}
+
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		})
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		})
+	}
+	render() {
+		const { body, img, click } = this.props;
+		return (
+			<Card elevation={5} onClick={click} style={{ height: "100%", cursor: "pointer", textAlign: "center", padding: "25px", background: this.state.showActions ? "gainsboro" : "" }} onMouseOver={this.mouseEnterHandler} onMouseLeave={this.mouseLeaveHandler} >
+				<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
+					{img}
+				</div>
+				<div style={{fontSize: "1.1em"}}>
+					{body}
+				</div>
+			</Card>
+		);
+	}
+
+}
 
 class UploadAct extends React.Component {
 
@@ -210,7 +244,7 @@ class UploadAct extends React.Component {
 	}
 
 	onDrop = (accepted, rejected) => {
-		if(accepted.length === 0){
+		if (accepted.length === 0) {
 			this.setState({
 				error: 'Tipo de archivo no válido, solo son admiten archivos PDF'//TRADUCCION
 			});
@@ -239,39 +273,39 @@ class UploadAct extends React.Component {
 
 
 
-	render(){
+	render() {
 		return (
 			<Dropzone
 				onDrop={this.onDrop}
 				multiple={false}
 				accept="application/pdf"
 			>
-				{({getRootProps, getInputProps, isDragActive}) => {
-				return (
-					<div
-					{...getRootProps()}
-					className={`dropzone`}
-					style={{
-						height: '8em',
-						border: '2px dashed gainsboro',
-						borderRadius: '3px',
-						padding: '0.6em',
-						...(this.state.error? dropzoneStyles.invalid : {} ),
-						...(isDragActive? dropzoneStyles.active : {})
-					}}
-					>
-					<input {...getInputProps()} />
-					{this.state.error?
-						this.state.error
+				{({ getRootProps, getInputProps, isDragActive }) => {
+					return (
+						<div
+							{...getRootProps()}
+							className={`dropzone`}
+							style={{
+								height: '8em',
+								border: '2px dashed gainsboro',
+								borderRadius: '3px',
+								padding: '0.6em',
+								...(this.state.error ? dropzoneStyles.invalid : {}),
+								...(isDragActive ? dropzoneStyles.active : {})
+							}}
+						>
+							<input {...getInputProps()} />
+							{this.state.error ?
+								this.state.error
 
-					:
-						isDragActive ?
-							<p>Arrastre los archivos aquí</p>//TRADUCCION
-						:
-							<p>Arrastre el archivo o haga click para seleccionarlo.</p>
-					}
-					</div>
-				)
+								:
+								isDragActive ?
+									<p>Arrastre los archivos aquí</p>//TRADUCCION
+									:
+									<p>Arrastre el archivo o haga click para seleccionarlo.</p>
+							}
+						</div>
+					)
 				}}
 			</Dropzone>
 		)
