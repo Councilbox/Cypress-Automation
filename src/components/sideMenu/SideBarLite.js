@@ -313,13 +313,14 @@ class Sidebar extends React.Component {
 		<React.Fragment>
 			<div onClick={this.toggleCompanyMenu}>
 				<div
-				className={`${this.props.classes.logo} intento`} 
+				className={`${this.props.classes.logo} intento`}
 				style={{
 					borderRadius: '0',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					right:'0px'
+					right:'0px',
+					cursor: 'pointer'
 				}}
 				>
 					<i
@@ -330,45 +331,6 @@ class Sidebar extends React.Component {
 					</i>
 				</div>
 			</div>
-			{/* <Tooltip title={this.props.translate.manage_entities} >
-			<div
-				style={{
-					// width: this.showVerticalLayout() ? '3em' : '100%',
-					// // height: this.showVerticalLayout() ? '100%' : '3em',
-					// cursor: 'pointer',
-					// display: 'flex',
-					// backgroundColor: this.state.companyMenu ? getSecondary() : 'transparent',
-					// ...(this.showVerticalLayout()? {
-					// 	padding: 0,
-					// 	margin: 0,
-					// 	backgroundColor: 'transparent'
-					// } : {}),
-					// alignItems: 'center',
-					// justifyContent: 'center'
-				}}
-				onClick={this.toggleCompanyMenu}
-			>
-				<div
-					className={this.props.classes.logo}
-				// style={{
-				// 	width: '100%',
-				// 	display: 'flex',
-				// 	alignItems: 'center',
-				// 	justifyContent: 'center',
-				// 	...(this.showVerticalLayout()? {
-				// 		marginTop: '0.6em'
-				// 	} : {}),
-				// }}
-				>
-					<i
-						className="material-icons"
-						style={{ color: this.state.companyMenu && this.showVerticalLayout() ? getSecondary() : 'rgba(255, 255, 255, 0.8)', fontSize: '1.em' }}
-					>
-						apps
-						</i>
-				</div> 
-			 </div>
-			</Tooltip>  */}
 		</React.Fragment>
 	);
 
@@ -425,15 +387,13 @@ class Sidebar extends React.Component {
 						{this.links()}
 					</div>
 				</div>
-				{// !== 'xs' &&
-					<CompanyMenu
-						open={this.state.companyMenu}
-						company={this.props.company}
-						companies={this.props.companies}
-						translate={this.props.translate}
-						requestClose={this.toggleCompanyMenu}
-					/>
-				}
+				<CompanyMenu
+					open={this.state.companyMenu}
+					company={this.props.company}
+					companies={this.props.companies}
+					translate={this.props.translate}
+					requestClose={this.toggleCompanyMenu}
+				/>
 			</div>
 		);
 	}
