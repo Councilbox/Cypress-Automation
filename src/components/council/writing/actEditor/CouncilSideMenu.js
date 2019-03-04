@@ -25,8 +25,6 @@ class CouncilSideMenu extends React.Component {
             return <span />
         }
 
-        console.log(this.props);
-
         return (
             <div style={{ width: '100%', height: '100%', borderLeft: '1px solid gainsboro' }}>
                 <Scrollbar>

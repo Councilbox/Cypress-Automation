@@ -2,9 +2,11 @@ import React from "react";
 import FontAwesome from "react-fontawesome";
 import { getPrimary } from "../styles/colors";
 import { isLandscape } from '../utils/screen';
+import { isMobile } from "react-device-detect";
+
 
 const MainTitle = ({ icon, title, subtitle, size }) => (
-	size === 'xs' && isLandscape()?
+	size === 'xs' && isLandscape() ?
 		<div
 			style={{
 				display: "flex",
@@ -33,13 +35,13 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				<h5 style={{ fontWeight: "700" }}>{title}</h5>
 			</div>
 		</div>
-	:
+		:
 		<div
 			style={{
 				display: "flex",
 				flexDirection: "row",
 				height: '8em',
-				paddingLeft: '2em',
+				paddingLeft: isMobile?'':'2em',
 				borderBottom: '1px solid gainsboro',
 				alignItems: "center",
 			}}
@@ -48,7 +50,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				name={icon}
 				color={getPrimary()}
 				style={{
-					margin: "0.2em 0.4em",
+					margin:  !isMobile?"0.2em 0.4em":'0.2em 0.2em',
 					color: getPrimary(),
 					fontSize: "4em"
 				}}
@@ -56,11 +58,14 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 			<div
 				style={{
 					display: "flex",
-					flexDirection: "column"
+					flexDirection: "column",
+					overflow: 'hidden'
 				}}
 			>
-				<h3 style={{ fontWeight: "600" }}>{title}</h3>
-				<div style={{fontSize: '13px'}}>{subtitle}</div>
+				<h3 style={{ fontWeight: "600", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis', width: '100%' }}>{title}</h3>
+				{!isMobile &&
+					<div style={{ fontSize: '13px' }}>{subtitle}</div>
+				}
 			</div>
 		</div>
 );

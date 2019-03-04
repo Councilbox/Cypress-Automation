@@ -24,7 +24,8 @@ const AlertConfirm = ({
 	cancelAction,
 	bodyText,
 	bodyStyle = {},
-	hideAccept
+	hideAccept,
+	classNameDialog
 }) => {
 	const primary = getPrimary();
 	const buttons = (
@@ -64,6 +65,7 @@ const AlertConfirm = ({
 
 	return (
 		<Dialog
+			className={classNameDialog}
 			disableBackdropClick={modal}
 			fullWidth={fullWidth}
 			fullScreen={fullScreen}
@@ -109,7 +111,8 @@ const AlertConfirm = ({
 					paddingRight: "0.6em",
 					borderTop: "1px solid gainsboro",
 					paddingTop: '0.5em',
-					margin: '8px 8px'
+					margin: '8px 8px',
+					minHeight: '25px'
 				}}
 			>
 				{buttons}

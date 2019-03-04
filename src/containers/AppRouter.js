@@ -1,13 +1,17 @@
 import React from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { LoadingMainApp } from "../displayComponents";
+import { LoadingMainApp, Link } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
 import appStyle from "../styles/appStyle.jsx";
 import { isLandscape } from '../utils/screen';
 import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
+import { isMobile } from "react-device-detect";
+import FontAwesome from "react-fontawesome";
+import { Tooltip, Icon } from "material-ui";
+
 const LoadRecommendations = Loadable({
 	loader: () => import('../components/noCompany/Recommendations'),
 	loading: LoadingMainApp
@@ -128,8 +132,8 @@ class AppRouter extends React.Component {
 		const { translate } = this.props;
 		const verticalLayout = this.showVerticalLayout();
 
-		if(window.location.hash){
-			if(window.location.hash.includes('#/videoTest')){
+		if (window.location.hash) {
+			if (window.location.hash.includes('#/videoTest')) {
 				return <Redirect to="/test/es" />
 			}
 		}
@@ -138,7 +142,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
-		if(this.props.main.isLogged && this.props.main.noCompanies){
+		if (this.props.main.isLogged && this.props.main.noCompanies) {
 			return (
 				<LoadNoCompanyTree
 					translate={this.props.translate}
@@ -152,7 +156,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />
 		}
 
-		if(this.props.user.roles === 'root'){
+		if (this.props.user.roles === 'root') {
 			return (
 				<LoadCorporationTree
 					translate={this.props.translate}
@@ -162,16 +166,8 @@ class AppRouter extends React.Component {
 			);
 		}
 
-		return this.props.main.isLogged && this.props.user.type === 'company'? (
-			<div
-				style={{
-					width: "100%",
-					height: '100%',
-					position: "relative",
-					overflow: 'hidden'
-				}}
-			>
-				<LoadNoConnectionModal open={!this.props.main.serverStatus} />
+		return this.props.main.isLogged && this.props.user.type === 'company' ? (
+			<div style={{ width: "100%", height: '100%', position: isMobile ? "relative" : "", background: "#f5f5f5" }}>
 				<SidebarLite
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}
@@ -182,39 +178,57 @@ class AppRouter extends React.Component {
 					color="blue"
 				/>
 
-				<div className={this.props.classes.mainPanelLite} style={{...(!verticalLayout?
-					{
-						marginLeft: '5em',
-						width: `calc(100% - 5em)`
-					} : {}
-				)}}>
-					<Header
-						commandLine={true}
-						companyMenu={true}
-						company={this.props.companies.list[this.props.companies.selected]}
-						companies={this.props.companies.list}
-						user={this.props.user}
-						main={this.props.main}
-						drawerIcon={this.state.mobileOpen}
-						translate={this.props.translate}
-						backButton={
-							this.props.location.pathname !==`/company/${
+				<div
+					style={{
+						width: "100%",
+						height: '100%',
+						position: "relative",
+						overflow: 'hidden'
+					}}
+				>
+					<LoadNoConnectionModal open={!this.props.main.serverStatus} />
+
+
+					<div className={this.props.classes.mainPanelLite} style={{
+						width: "100%",
+						height: '100%',
+						...(!verticalLayout ?
+							{
+								marginLeft: '5em',
+								width: `calc(100% - 5em)`
+							} : {}
+						)
+					}}>
+						<Header
+							commandLine={true}
+							companyMenu={true}
+							company={this.props.companies.list[this.props.companies.selected]}
+							companies={this.props.companies.list}
+							user={this.props.user}
+							main={this.props.main}
+							drawerIcon={this.state.mobileOpen}
+							translate={this.props.translate}
+							backButton={
+								this.props.location.pathname !== `/company/${
 								this.props.companies.list[this.props.companies.selected].id
-							}`
-						}
-					/>
-					<div
-						style={{
-							height: `calc(100% - 3em)`,
-							display: "flex",
-							width: "100%",
-							overflow: 'hidden',
-							...(verticalLayout? {
-								paddingBottom: '3.5em'
-							}: {})
-						}}
-					>
-						<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
+								}`
+							}
+						/>
+						<div
+							style={{
+								// height: '100%',
+								height: `calc(100% - ${isMobile ? '6.5rem' : '3rem'})`,
+								display: "flex",
+								width: "100%",
+								overflow: 'hidden',
+								...(verticalLayout ? {
+									// paddingBottom: '3.5rem'
+									// paddingBottom: '10.5rem'
+								} : {})
+							}}
+						>
+							<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
+						</div>
 					</div>
 				</div>
 			</div>

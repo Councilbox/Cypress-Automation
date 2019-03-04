@@ -156,12 +156,13 @@ class CouncilContainer extends React.Component {
 					height: '100%',
 					padding: windowSize === 'xs' ? '0.8em' : '1.6em',
 					position: 'relative',
-					...(windowSize === 'xs' && !isLandscape()? { padding: 0, paddingTop: '1em', height: 'calc(100vh - 6.5em)' } : {}),
+					...(windowSize === 'xs' && !isLandscape()? { padding: 0, paddingTop: '1em', height: '100%' } : {}),// height: 'calc(100vh - 6.5em)
 					backgroundColor: lightGrey,
-					paddingBottom: 0
+					paddingBottom: 0,
 				}}
 			>
-				<div style={{height: 'calc(100% - 2em)', marginBottom: '0.6em'}}>
+				{/* <div style={{ height: 'calc(100% - 3.5rem)', marginBottom: '0.6em'}}> */}
+				<div style={{ height: 'calc(100% - 1.6rem)', width:'98%', margin: '0 auto'}}>
 						<TabsScreen
 							tabsIndex={tabsIndex}
 							tabsInfo={tabsInfo}
