@@ -28,7 +28,7 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                         <CardHeader
                             avatar={
                                 <div style={{ position: 'relative' }}>
-                                    <Avatar aria-label="Recipe" /*style={{background:secondary}}*/>
+                                    <Avatar aria-label="Recipe">
                                         {primerasLetras}
                                     </Avatar>
                                     <ToolTip text={evidence.cbxEvidence ? 'Contenido registrado en blockchain' : 'Contenido pendiente de registro en blockchain'}>
@@ -53,56 +53,11 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                             }
                         </CardActions>
                     </Card>
-                    // {<Card key={`${evidence.id}`} style={{ padding: '0.6em', margin: '0.6em', userSelect: 'text' }}>
-                    //     <div>
-                    //         <span style={{ fontWeight: '700' }}>{`${translate.type}: `}</span>{`${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`}
-                    //     </div>
-                    //     <div>
-                    //         <b>{`Fecha de registro: `}</b> {moment(evidence.date).format('LLL')}
-                    //     </div>
-                    //     <div>
-                    //         <b>{`${translate.state}: `}</b> {
-                    //             evidence.cbxEvidence ?
-                    //                 <span style={{ color: 'green' }}>
-                    //                     {'Registrada'/*TRADUCCION*/}
-                    //                 </span>
-                    //                 :
-                    //                 'Pendiente de registro'
-                    //         }
-                    //     </div>
-                    //     <ValidatorLink prvHash={parsedContent.prvhash} translate={translate} />
-                    //     {evidence.cbxEvidence &&
-                    //         <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} />
-                    //     }
-                    // </Card>}
                 )
             })}
         </div>
     )
 }
-
-// {<Card key={`${evidence.id}`} style={{ padding: '0.6em', margin: '0.6em', userSelect: 'text' }}>
-//     <div>
-//         <span style={{ fontWeight: '700' }}>{`${translate.type}: `}</span>{`${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`}
-//     </div>
-//     <div>
-//         <b>{`Fecha de registro: `}</b> {moment(evidence.date).format('LLL')}
-//     </div>
-//     <div>
-//         <b>{`${translate.state}: `}</b> {
-//             evidence.cbxEvidence ?
-//                 <span style={{ color: 'green' }}>
-//                     {'Registrada'/*TRADUCCION*/}
-//                 </span>
-//                 :
-//                 'Pendiente de registro'
-//         }
-//     </div>
-//     <ValidatorLink prvHash={parsedContent.prvhash} translate={translate} />
-//     {evidence.cbxEvidence &&
-//         <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} />
-//     }
-// </Card>}
 
 
 const councilEvidences = gql`
