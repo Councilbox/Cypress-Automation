@@ -16,6 +16,7 @@ import VideoContainer from '../VideoContainer';
 import { toast } from 'react-toastify';
 import { councilStarted } from '../../../utils/CBX';
 import { API_URL } from "../../../config";
+import TimelineSection from '../timeline/TimelineSection';
 import AdminAnnouncement from './AdminAnnouncement';
 import { ConfigContext } from '../../../containers/AppControl';
 
@@ -104,12 +105,15 @@ class ParticipantCouncil extends React.Component {
     _renderAgendaSection = () => {
         return (
             <Grid item xs={isLandscape() && this.state.hasVideo? 6 : 12} md={this.state.hasVideo? 4 : 6} style={{minHeight: '45%'}}>
-                <Agendas
+                {/* <Agendas
                     participant={this.props.participant}
                     council={this.props.council}
                     anchorToggle={this.state.hasVideo}
                     agendasAnchor={this.state.agendasAnchor}
                     toggleAgendasAnchor={this.toggleAgendasAnchor}
+                /> */}
+                <TimelineSection
+                    council={this.props.council}
                 />
             </Grid>
         )
