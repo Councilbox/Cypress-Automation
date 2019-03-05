@@ -22,7 +22,7 @@ const TimelineSection = React.memo(({ data }) => {
                 :
                     <Stepper orientation="vertical">
                         {data.councilTimeline.map(event => (
-                            <Step active>
+                            <Step active key={`event_${event.id}`}>
                                 <StepLabel>
                                     <b>{getTimelineTranslation(event.type, event.content)}</b><br/>
                                     <span style={{fontSize: '0.9em'}}>{moment(event.date).format('LLL')}</span>
@@ -40,6 +40,7 @@ const TimelineSection = React.memo(({ data }) => {
 const councilTimeline = gql`
     query CouncilTimeline($councilId: Int!){
         councilTimeline(councilId: $councilId){
+            id
             type
             date
             content
