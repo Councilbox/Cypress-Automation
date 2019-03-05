@@ -383,8 +383,6 @@ const showSendsRecount = sends => {
 		recount[list[send.sendType]]++;
 	});
 
-	console.log(sends.filter(send => send.sendType === 0));
-
 	return (
 		<div>
 			{Object.keys(recount).filter(key => recount[key] > 0).map(key => (
