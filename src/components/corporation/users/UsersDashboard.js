@@ -57,7 +57,7 @@ class UsersDashboard extends React.PureComponent {
         return (
             <div
                 style={{
-                    height: 'calc(100% - 3em)',
+                    height: '100%',
                     position: 'relative',
                     overflow: 'hidden'
                 }}

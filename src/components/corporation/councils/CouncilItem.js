@@ -5,7 +5,7 @@ import FontAwesome from 'react-fontawesome';
 import { Link, BasicButton } from '../../../displayComponents';
 import FixedVideoURLModal from './FixedVideoURLModal';
 
-const CouncilItem = ({ council, translate }) => (
+const CouncilItem = ({ council, translate, hideFixedUrl }) => (
     <div style={{margin: '0.8em'}}>
         <div
             style={{
@@ -45,11 +45,20 @@ const CouncilItem = ({ council, translate }) => (
                         />
                         <span style={{fontWeight: '700', fontSize: '0.8em', marginLeft: '0.2em'}}>{council.name}</span>
                     </div>
-                    <span date={council.dateStart}>{moment(council.dateStart).format('LLL')}</span>
-                    <FixedVideoURLModal
-                        translate={translate}
-                        council={council}
-                    />
+                    <span>{moment(council.dateStart).format('LLL')}</span>
+                    {council.autoClose === 1 &&
+                        <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span>
+                    }
+                    {council.dateEnd &&
+                        <span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span>
+                    }
+                    <span>Estado: {getCouncilStateString(council.state, council.councilStarted)}</span>
+                    {!hideFixedUrl &&
+                        <FixedVideoURLModal
+                            translate={translate}
+                            council={council}
+                        />
+                    }
                 </div>
             </div>
         </Link>
@@ -57,3 +66,23 @@ const CouncilItem = ({ council, translate }) => (
 )
 
 export default CouncilItem;
+
+const getCouncilStateString = (state, councilStarted) => {
+    const stateStrings = {
+        '-1': 'Cancelada',
+        '0': 'Borrador',
+        '3': 'Preconvocada',
+        '5': 'Convocada sin notificar',
+        '10': 'Convocada y notificada',
+        '20': councilStarted? 'Reunión iniciada' : 'Sala abierta',
+        '30': 'Aprobando acta en celebración',
+        '40': 'Finalizada',
+        '60': 'Acta aprobada',
+        '70': 'Acta enviada',
+        '80': 'No celebrada',
+        '90': 'Finalizada sin acta',
+        default: 'Estado no contemplado'
+    }
+
+    return stateStrings[state]? stateStrings[state] : stateStrings.default
+}

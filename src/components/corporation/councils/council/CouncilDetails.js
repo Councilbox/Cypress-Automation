@@ -163,11 +163,11 @@ class CouncilDetails extends React.Component {
 			)
 		}
 
-
+		const { council } = this.props.data;
 
         return (
-            <div>
-                <CouncilItem council={this.props.data.council} />
+            <div style={{width: '100%', height: '100%', overflow: 'auto'}}>
+                <CouncilItem council={this.props.data.council} hideFixedUrl={council.state > 30} />
                 <div
                     style={{
                         width: '100%',
@@ -176,11 +176,14 @@ class CouncilDetails extends React.Component {
                         color: secondary,
                         fontWeight: '700',
                         display: 'flex',
+						flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}
                 >
-                    Asistentes {`(Total: ${this.props.data.councilAttendants.list.length})`}
+                    Asistentes
+					{showGroupAttendees(this.props.data.councilAttendants.list)}
+					{`(Total: ${this.props.data.councilAttendants.list.length})`}
                     <div style={{fontSize: '1rem', marginLeft: '0.6em'}}>
                         <DownloadAttendantsPDF
                             council={this.props.data.council}
@@ -231,7 +234,23 @@ class CouncilDetails extends React.Component {
 						title={"Detalle del tipo de reunión"}
 					/>
                 </div>
-				{/*<LiveParticipantStats council={this.props.data.council} />*/}
+				<div
+                    style={{
+                        width: '100%',
+                        border: `2px solid ${secondary}`,
+                        fontSize: '18px',
+                        color: secondary,
+                        fontWeight: '700',
+						padding: '1em',
+                        display: 'flex',
+						flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+					Envios: <br/>
+					{showSendsRecount(this.props.data.rootCouncilSends)}
+                </div>
 				<div
                     style={{
                         width: '100%',
@@ -302,6 +321,82 @@ class CouncilDetails extends React.Component {
     }
 }
 
+const showGroupAttendees = attendees => {
+	const list = {
+		remotos: 0,
+		presenciales: 0,
+		'presente con voto telématico': 0
+	};
+
+	attendees.forEach(attendee => {
+		if(attendee.state === 5){
+			list.presenciales++;
+		}
+		if(attendee.state === 0){
+			list.remotos++;
+		}
+		if(attendee.state === 7){
+			list.presenteVotoRemoto++;
+		}
+	})
+
+	return (
+		<div>
+			{Object.keys(list).map((key, index) => (
+				<li key={key}>
+					{`${key}: ${list[key]}`}
+				</li>
+			))}
+		</div>
+	)
+}
+
+const showSendsRecount = sends => {
+	const list = {
+		'-1': 'Preconvocatoria',
+		'0': 'Convocatoria',
+		'1': 'Recordatorio',
+		'2': 'Aviso de reprogramación',
+		'3': 'Reunión cancelada',
+		'4': 'Acceso a sala',
+		'5': 'Clave de acceso',
+		'6': 'Acta',
+		'13': 'Propuesta de acta',
+		'16': 'Notificación de apertura de votación'
+	}
+
+	const recount = {
+		Preconvocatoria: 0,
+		Convocatoria: 0,
+		Recordatorio: 0,
+		'Aviso de reprogramación': 0,
+		'Reunión cancelada': 0,
+		'Acceso a sala': 0,
+		'Clave de acceso': 0,
+		'Acta': 0,
+		'Propuesta de acta': 0,
+		'Notificación de apertura de votación': 0,
+		'Otros': 0
+	}
+
+	sends.forEach(send => {
+		recount[list[send.sendType]]++;
+	});
+
+	console.log(sends.filter(send => send.sendType === 0));
+
+	return (
+		<div>
+			{Object.keys(recount).filter(key => recount[key] > 0).map(key => (
+				<li key={key}>{`${key}: ${recount[key]}`}</li>
+			))}
+			{`Total: ${sends.length}`}
+		</div>
+	)
+
+
+}
+
 const CouncilDetailsRoot = gql`
     query CouncilDetailsRoot($id: Int!){
         council(id: $id) {
@@ -329,6 +424,7 @@ const CouncilDetailsRoot = gql`
 			councilType
 			fullVideoRecord
 			autoClose
+			closeDate
 			securityType
 			approveActDraft
 			statute {
@@ -425,11 +521,22 @@ const CouncilDetailsRoot = gql`
 			value
 		}
 
+		rootCouncilSends(councilId: $id){
+			id
+			sendType
+			reqCode
+			sendDate
+			participantId
+			liveParticipantId
+		}
+
         councilAttendants(councilId: $id) {
 			list {
 				id
 				name
 				surname
+				state
+				type
 			}
 		}
     }
