@@ -21,14 +21,31 @@ const TimelineSection = React.memo(({ data }) => {
                     <LoadingSection />
                 :
                     <Stepper orientation="vertical">
-                        {data.councilTimeline.map(event => (
-                            <Step active key={`event_${event.id}`}>
-                                <StepLabel>
-                                    <b>{getTimelineTranslation(event.type, event.content)}</b><br/>
-                                    <span style={{fontSize: '0.9em'}}>{moment(event.date).format('LLL')}</span>
-                                </StepLabel>
-                            </Step>
-                        ))}
+                        {data.councilTimeline.map(event => {
+                            const content = JSON.parse(event.content);
+                            return(
+                                <Step active key={`event_${event.id}`}>
+                                    <StepLabel>
+                                        <b>{getTimelineTranslation(event.type, content)}</b><br/>
+                                        <span style={{fontSize: '0.9em'}}>{moment(event.date).format('LLL')}</span>
+                                    </StepLabel>
+                                    <StepContent style={{fontSize: '0.9em'}}>
+                                        {event.type === 'CLOSE_VOTING' &&
+                                            <React.Fragment>
+                                                <span>
+                                                    {`Resultados:`}
+                                                    <br/>A favor: {content.data.agendaPoint.results.positive}
+                                                    <br/>En contra: {content.data.agendaPoint.results.negative}
+                                                    <br/>Abstención: {content.data.agendaPoint.results.abstention}
+                                                    <br/>No vota: {content.data.agendaPoint.results.noVote}
+                                                </span>
+                                                <br />
+                                            </React.Fragment>
+                                        }
+                                    </StepContent>
+                                </Step>
+                            )
+                        })}
 
                     </Stepper>
                 }
@@ -50,14 +67,13 @@ const councilTimeline = gql`
 
 //TRADUCCION
 const getTimelineTranslation = (type, content) => {
-    const parsedContent = JSON.parse(content);
     const types = {
         'START_COUNCIL': () => 'Comienzo de reunión',
-        'OPEN_VOTING': () => `${parsedContent.data.agendaPoint.name} - Apertura de votaciones`,
+        'OPEN_VOTING': () => `${content.data.agendaPoint.name} - Apertura de votaciones`,
         'END_COUNCIL': () => 'Fin de reunión',
-        'CLOSE_POINT_DISCUSSION': () => `${parsedContent.data.agendaPoint.name} - Cierre de discusión de punto`,
-        'CLOSE_VOTING': () => `${parsedContent.data.agendaPoint.name} - Cierre de votaciones`,
-        'REOPEN_VOTING': () => `${parsedContent.data.agendaPoint.name} - Reapertura de votaciones`,
+        'CLOSE_POINT_DISCUSSION': () => `${content.data.agendaPoint.name} - Cierre de discusión de punto`,
+        'CLOSE_VOTING': () => `${content.data.agendaPoint.name} - Cierre de votaciones`,
+        'REOPEN_VOTING': () => `${content.data.agendaPoint.name} - Reapertura de votaciones`,
         default: () => 'Tipo no reconocido'
     }
 

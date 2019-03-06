@@ -94,27 +94,19 @@ class ParticipantCouncil extends React.Component {
         toast.dismiss(this.noStartedToastId);
     }
 
-    componentDidUpdate = () => {
-     /*    if(this.noStartedToastId){
-            if(councilStarted(this.props.council)){
-                toast.dismiss(this.noStartedToastId);
-            }
-        } */
-    }
-
     _renderAgendaSection = () => {
         return (
             <Grid item xs={isLandscape() && this.state.hasVideo? 6 : 12} md={this.state.hasVideo? 4 : 6} style={{minHeight: '45%'}}>
-                {/* <Agendas
+                <Agendas
                     participant={this.props.participant}
                     council={this.props.council}
                     anchorToggle={this.state.hasVideo}
                     agendasAnchor={this.state.agendasAnchor}
                     toggleAgendasAnchor={this.toggleAgendasAnchor}
-                /> */}
-                <TimelineSection
-                    council={this.props.council}
                 />
+                {/* <TimelineSection
+                    council={this.props.council}
+                /> */}
             </Grid>
         )
     }
