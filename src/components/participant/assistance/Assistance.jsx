@@ -4,7 +4,7 @@ import withTranslations from "../../../HOCs/withTranslations";
 import { councilIsPreparing, checkForUnclosedBraces } from "../../../utils/CBX";
 import CouncilState from "../login/CouncilState";
 import AssistanceOption from "./AssistanceOption";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
 import { PARTICIPANT_STATES } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
@@ -12,9 +12,10 @@ import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
 import DelegationItem from "./DelegationItem";
 import { canDelegateVotes } from "../../../utils/CBX"
-import { primary } from "../../../styles/colors";
+import { primary, secondary } from "../../../styles/colors";
 import { toast } from 'react-toastify';
 import { participantsToDelegate } from "../../../queries";
+import gql from "graphql-tag";
 
 
 const styles = {
@@ -111,33 +112,19 @@ class Assistance extends React.Component {
 		});
 		const { setAssistanceComment } = this.props;
 		const { assistanceComment } = this.state.participant;
-
-		await this.selectSimpleOption(this.state.assistanceIntention);
-
 		const { setAssistanceIntention, refetch } = this.props;
-		if (this.state.delegateId !== null) {
-			const response = await setAssistanceIntention({
-				variables: {
-					assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-					representativeId: this.state.delegateId
-				}
-			});
 
-			if (response) {
-				this.setState({
-					delegateId: this.state.delegateId,
-					delegationModal: false,
-					assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-				})
-			}
-		}
 		if (!checkForUnclosedBraces(assistanceComment)) {
-			const response = await setAssistanceIntention({
-				variables: {
-					assistanceIntention: this.state.assistanceIntention,
-					representativeId: this.state.delegateId
-				}
-			});
+			if (this.state.delegateId !== null) {
+				const response = await setAssistanceIntention({
+					variables: {
+						assistanceIntention: PARTICIPANT_STATES.DELEGATED,
+						representativeId: this.state.delegateId
+					}
+				});
+			} else {
+				await this.selectSimpleOption(this.state.assistanceIntention);
+			}
 
 			await setAssistanceComment({
 				variables: {
@@ -174,7 +161,6 @@ class Assistance extends React.Component {
 	}
 
 	selectDelegation = async delegateId => {
-
 		const delegateInfoUser = this.props.data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
 
 		this.setState({
@@ -195,6 +181,8 @@ class Assistance extends React.Component {
 		const { council, company, translate } = this.props;
 		const { representative, ...participant } = this.state.participant;
 		let canDelegate = canDelegateVotes(council.statute, participant);
+
+		console.log(participant);
 
 		return (
 			<NotLoggedLayout
@@ -237,6 +225,13 @@ class Assistance extends React.Component {
 												</p>
 												<p>{translate['1st_call_date']}: <DateWrapper date={council.dateStart} format={'LLL'} /></p>
 											</Card>
+											{participant.delegatedVotes.length > 0 &&
+												<DelegationSection
+													participant={participant}
+													translate={translate}
+													refetch={this.props.refetch}
+												/>
+											}
 											<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
 												<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
 													<SectionTitle
@@ -362,6 +357,74 @@ class Assistance extends React.Component {
 		);
 	}
 }
+
+const refuseDelegationMutation = gql`
+	mutation RefuseDelegation($participantId: Int!){
+		refuseDelegation(participantId: $participantId){
+			success
+		}
+	}
+`;
+
+const DelegationSection = withApollo(({ participant, translate, client, refetch}) => {
+	const [loading, setLoading] = React.useState(false);
+
+	const refuseDelegation = async participantId => {
+		setLoading(participantId);
+
+		const response = await client.mutate({
+			mutation: refuseDelegationMutation,
+			variables: {
+				participantId
+			}
+		});
+
+		console.log(response);
+		if(response.data.refuseDelegation.success){
+			refetch();
+		}
+		setLoading(false);
+	}
+
+	return (
+		<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+			<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+				<SectionTitle
+					text={`${'Votos delegados en usted'}:`/*TRADUCCION*/}
+					color={primary}
+				/>
+			</div>
+			{participant.delegatedVotes.map(vote => {
+				return (
+					<div
+						style={{
+							width: '100%',
+							display: 'flex',
+							borderBottom: '1px solid gainsboro',
+							justifyContent: 'space-between',
+							padding: '0.3em',
+							alignItems: 'center'
+						}}
+					>
+						<span>{vote.name}</span>
+						<div>
+							<BasicButton
+								text="Rechazar"//TRADUCCION
+								textStyle={{color: secondary}}
+								color="transparent"
+								loadingColor={secondary}
+								loading={loading === vote.id}
+								onClick={() => refuseDelegation(vote.id)}
+								buttonStyle={{border: `1px solid ${secondary}`}}
+							/>
+						</div>
+					</div>
+				)
+			})}
+		</Card>
+	)
+})
+
 
 
 export default compose(graphql(setAssistanceIntention, {
