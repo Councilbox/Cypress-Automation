@@ -15,6 +15,7 @@ import icono from "../../../assets/img/logo-icono.png";
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
+import History from 'material-ui-icons/History';
 import Language from 'material-ui-icons/Language';
 import ImportContacts from 'material-ui-icons/ImportContacts';
 import { bHistory, store } from "../../../containers/App";
@@ -35,6 +36,12 @@ class Sidebar extends React.Component {
 				name: 'councils',
 				sidebarName: props.translate.councils_link,
 				icon: Dashboard
+			},
+			{
+				path: `/finished`,
+				name: 'finished',
+				sidebarName: 'Histórico',
+				icon: History
 			},
 			{
 				path: `/companies`,

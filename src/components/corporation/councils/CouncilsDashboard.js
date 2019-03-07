@@ -66,8 +66,7 @@ class CouncilsDashboard extends React.PureComponent {
                 style={{
                     width: '100%',
                     height: '100%',
-                    backgroundColor: lightGrey,
-                    paddingBottom: '2em'
+                    backgroundColor: lightGrey
                 }}
             >
                 <Scrollbar>
@@ -75,6 +74,7 @@ class CouncilsDashboard extends React.PureComponent {
                         style={{
                             display: 'flex',
                             flexDirection: 'row',
+                            paddingBottom: '2em',
                             justifyContent: 'space-between',
                             alignItems: 'center',
                             margin: '1.4em'
@@ -124,6 +124,7 @@ const corporationCouncils = gql`
                 id
             }
             company{
+                id
                 businessName
             }
         }
@@ -139,6 +140,7 @@ const corporationCouncils = gql`
                 id
             }
             company{
+                id
                 businessName
             }
         }

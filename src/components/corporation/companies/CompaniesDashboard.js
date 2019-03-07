@@ -9,7 +9,7 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
 
 const DEFAULT_OPTIONS = {
-    limit: 10,
+    limit: 25,
     offset: 0,
     orderBy: 'id',
     orderDirection: 'DESC'
@@ -57,7 +57,7 @@ class CompaniesDashboard extends React.PureComponent {
         return(
             <div
                 style={{
-                    height: 'calc(100% - 3em)',
+                    height: '100%',
                     position: 'relative',
                     overflow: 'hidden'
                 }}
@@ -113,7 +113,7 @@ class CompaniesDashboard extends React.PureComponent {
                     </div>
                 </div>
                 <div style={{
-                    height: 'calc(100vh - 6em)',
+                    height: 'calc(100vh - 6.5em)',
                     flexDirection: 'column',
                     overflowY: 'auto',
                     overflowX: 'hidden'

@@ -51,7 +51,7 @@ class UserEdit extends React.PureComponent {
         }
 
         return(
-            <div style={{height: 'calc(100vh - 3m)', padding: '1.2em'}}>
+            <div style={{height: '100%', overflow: 'auto', padding: '1.2em'}}>
                 <UserItem
                     key={`user_${this.props.data.user.id}`}
                     user={this.props.data.user}
