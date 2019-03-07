@@ -212,8 +212,8 @@ class AgendaNoSession extends React.Component {
                                                         <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
                                                             <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
                                                         </Typography>
-                                                        <div style={{ display: "flex", height: '25px', display: "flex" }}>
-                                                            <div style={{ width: "90px" }}>{translate.description}:</div>  <div dangerouslySetInnerHTML={{ __html: agenda.description }}></div>
+                                                        <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
+                                                            <AgendaDescription agenda={agenda} translate={translate} />
                                                         </div>
                                                         <AgendaMenu
                                                             horizontal={true}
@@ -239,6 +239,8 @@ class AgendaNoSession extends React.Component {
         );
     }
 }
+
+//<div style={{ width: "90px" }}>{translate.description}:</div>  <div dangerouslySetInnerHTML={{ __html: agenda.description }}></div>
 
 
 
