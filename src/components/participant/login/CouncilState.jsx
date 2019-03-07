@@ -29,6 +29,7 @@ import {
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 import logoIcon from "../../../assets/img/logo-icono.png";
 import { moment } from '../../../containers/App';
+import TimelineModal from "./TimelineModal";
 
 const styles = {
 	container: {
@@ -254,6 +255,7 @@ class CouncilState extends React.Component {
 										company={company}
 										translate={translate}
 									/>
+									<TimelineModal council={council} translate={translate} />
 									<BasicButton
 										text={translate.see_participation}
 										color={secondary}
