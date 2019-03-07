@@ -1,7 +1,7 @@
 import React from "react";
 import { compose, graphql } from "react-apollo";
 import { closeAgendaVoting, openAgendaVoting } from "../../../queries";
-import { BasicButton, Icon } from "../../../displayComponents";
+import { BasicButton, ButtonIcon } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
 import gql from 'graphql-tag';
 
@@ -95,15 +95,10 @@ class ToggleVotingsButton extends React.Component {
 						onClick={this.openVoting}
 						textPosition="before"
 						icon={
-							<Icon
-								className="material-icons"
-								style={{
-									fontSize: "1.1em",
-									color: primary
-								}}
-							>
-								thumbs_up_down
-							</Icon>
+							<ButtonIcon
+								type="thumbs_up_down"
+								color={primary}
+							/>
 						}
 						buttonStyle={{ minWidth: "11em" }}
 						textStyle={{
@@ -122,15 +117,10 @@ class ToggleVotingsButton extends React.Component {
 						disabled={this.state.loading}
 						textPosition="before"
 						icon={
-							<Icon
-								className="material-icons"
-								style={{
-									fontSize: "1.1em",
-									color: "white"
-								}}
-							>
-								lock_open
-							</Icon>
+							<ButtonIcon
+								type="lock_open"
+								color="white"
+							/>
 						}
 						buttonStyle={{ width: "18em" }}
 						onClick={this.closeAgendaVoting}
@@ -144,21 +134,16 @@ class ToggleVotingsButton extends React.Component {
 				)}
 				{agenda.votingState === 2 &&(
 					<BasicButton
-						text={'Reabrir votaciones'}//TRADUCCION
+						text={translate.reopen_voting}
 						color={'white'}
 						loading={this.state.loading}
 						disabled={this.state.loading}
 						textPosition="before"
 						icon={
-							<Icon
-								className="material-icons"
-								style={{
-									fontSize: "1.1em",
-									color: primary
-								}}
-							>
-								thumbs_up_down
-							</Icon>
+							<ButtonIcon
+								type="thumbs_up_down"
+								color={primary}
+							/>
 						}
 						buttonStyle={{ width: "18em" }}
 						onClick={this.reopenAgendaVoting}

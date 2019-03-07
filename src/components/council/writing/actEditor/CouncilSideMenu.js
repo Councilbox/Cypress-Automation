@@ -29,7 +29,7 @@ class CouncilSideMenu extends React.Component {
             <div style={{ width: '100%', height: '100%', borderLeft: '1px solid gainsboro' }}>
                 <Scrollbar>
                     <div style={{ padding: '2.5em 1.3em', fontSize: '14px' }}>
-                        <h4 style={{ textAlign: "center" }}>Información</h4> {/*TRADUCCION*/}
+                        <h4 style={{ textAlign: "center" }}>{translate.council_info}</h4>
                         <hr></hr>
                         <h6 style={{ fontWeight: '700', paddingLeft: "0.25em" }}>Reunión</h6>
                         <Row field={translate.name} value={council.name} />

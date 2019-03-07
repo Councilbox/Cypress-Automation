@@ -186,7 +186,7 @@ class CouncilMenu extends React.Component {
 													color: secondary
 												}}
 											/>
-											{'Mostrar mensaje a los participantes' /*TRADUCCION*/}
+											{translate.show_announcement}
 										</MenuItem>
 									}
 								</React.Fragment>
