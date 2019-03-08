@@ -141,7 +141,7 @@ class RichTextInput extends React.Component {
 										}}>
 											<DropDownMenu
 												color="transparent"
-												text={'Etiquetas inteligentes'}
+												text={translate.markers}
 												textStyle={{ color: secondary, paddingTop: '0px' }}
 												type="flat"
 												icon={

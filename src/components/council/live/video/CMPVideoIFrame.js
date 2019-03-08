@@ -116,7 +116,7 @@ const CMPVideoIFrame = props => {
                         backgroundColor: darkGrey,
                         height: '100%',
                         color: 'white'
-                    }}//TRADUCCION
+                    }}
                 >
                     {props.videoURL === 'Admin already logued'?
                         <AdminAlreadyLoguedScreen translate={props.translate} />
@@ -129,10 +129,10 @@ const CMPVideoIFrame = props => {
     )
 }
 
-const AdminAlreadyLoguedScreen = ({ translate}) => (
+const AdminAlreadyLoguedScreen = ({ translate }) => (
     <div style={{width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
         <div style={{fontWeight: '700'}}>
-            Esta sala ya está abierta en otro dispositivo, reintentando...
+            {translate.mod_already_streaming_retrying}
         </div>
         <div style={{marginTop: '0.6em'}}>
             <LoadingSection size={20} />
@@ -140,10 +140,10 @@ const AdminAlreadyLoguedScreen = ({ translate}) => (
     </div>
 )
 
-const CMPVideoError = ({ translate}) => (
+const CMPVideoError = ({ translate }) => (
     <div style={{width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
         <div style={{fontWeight: '700'}}>
-            Lo sentimos, algo ha ocurrido con el servidor de video, disculpe las molestias
+            {translate.something_failed_cmp}
         </div>
         <div style={{marginTop: '0.6em'}}>
             <LoadingSection size={20} />

@@ -170,10 +170,10 @@ class LoginForm extends React.Component {
         return (
             <div>
                 {this.props.council.securityType === 1 &&
-                    `Recibir la contraseña en el email indicado por el administrador`
+                    this.props.translate.receive_access_key_email
                 }
                 {this.props.council.securityType === 2 &&
-                    `Recibir la contraseña en el teléfono indicado por el administrador`
+                    this.props.translate.receive_access_key_phone
                 }
                 {!!this.state.phoneError &&
                     <div style={{color: 'red'}}>{this.state.phoneError}</div>
@@ -197,7 +197,7 @@ class LoginForm extends React.Component {
         if(response.errors){
             if(response.errors[0].message = 'Invalid phone number'){
                 this.setState({
-                    phoneError: 'El teléfono indicado no es válido, por favor póngase en contacto con el administrador',
+                    phoneError: this.props.translate.invalid_phone_number,
                     loading: false
                 });
             }
@@ -304,7 +304,7 @@ class LoginForm extends React.Component {
                                     }
                                 />
                                 <span style={{cursor: 'pointer'}} onClick={this.showSendPassModal}>
-                                    No he recibido esta contraseña
+                                    {translate.didnt_receive_access_key}
                                 </span>
                                 <AlertConfirm
                                     requestClose={this.closeSendPassModal}
@@ -314,7 +314,7 @@ class LoginForm extends React.Component {
                                     buttonAccept={translate.accept}
                                     buttonCancel={translate.cancel}
                                     bodyText={this._sendPassModalBody()}
-                                    title={'Reenviar contraseña de acceso'/*TRADUCCION*/}
+                                    title={translate.resend_access_key}
                                 />
                             </React.Fragment>
                         )}

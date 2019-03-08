@@ -49,7 +49,7 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                         <CardActions>
                             <ValidatorLink prvHash={parsedContent.prvhash} translate={translate} />
                             {evidence.cbxEvidence &&
-                                <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} />
+                                <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} translate={translate} />
                             }
                         </CardActions>
                     </Card>

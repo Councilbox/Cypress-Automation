@@ -173,7 +173,7 @@ class CouncilState extends React.Component {
 							<div>
 								<TextRender
 									title={translate.we_are_sorry}
-									text={'La sala ya ha sido abierta, para entrar necesita usar el email de acceso.'}//TRADUCCION
+									text={translate.room_opened_use_access_link}
 									isHtmlText={true}
 									council={council}
 									company={company}

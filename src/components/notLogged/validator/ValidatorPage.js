@@ -10,8 +10,6 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import ToolTip from '../../../displayComponents/Tooltip';
 
-//3f055426-0770-419c-a609-e42efe1a4fe1
-
 class ValidatorPage extends React.Component {
 
     state = {
@@ -69,14 +67,14 @@ class ValidatorPage extends React.Component {
         if(response.errors){
             if(response.errors[0].code === 404){
                 return this.setState({
-                    error: response.errors[0].message === 'Evidence not found' ? 'Evidencia pendiente de ser procesada' : 'El código no corresponde con ninguna evidencia de Councilbox', //TRADUCCION
+                    error: response.errors[0].message === 'Evidence not found' ? this.props.translate.evidence_pending : this.props.translate.invalid_evidence_code,
                     loading: false,
                     data: null
                 });
             }
             if (response.errors[0].code === 401) {
                 return this.setState({
-                    error: 'No tienes acceso a esta información',
+                    error: this.props.translate.you_cant_access_info,
                     loading: false,
                     data: null
                 });
@@ -91,8 +89,6 @@ class ValidatorPage extends React.Component {
     }
 
     render() {
-        //TRADUCCION
-
         const primary = getPrimary();
 
         return (
@@ -101,21 +97,7 @@ class ValidatorPage extends React.Component {
                 languageSelector={true}
             >
                 <div style={{ width: '100%', overflow: 'auto' }}>
-                    {/* <Card style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}> */}
                      <div style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
-
-                        {/* <TextInput
-                            floatingText="Código"
-                            value={this.state.code}
-                            onChange={this.updateCode}
-                            onKeyUp={this.handleEnter}
-                        />
-                        <BasicButton
-                            text={'Enviar'}
-                            onClick={this.sendCode}
-                            color={primary}
-                            textStyle={{ color: 'white', fontWeight: '700' }}
-                        /> */}
                         {this.state.loading &&
                             <LoadingSection />
                         }
@@ -126,57 +108,28 @@ class ValidatorPage extends React.Component {
                         }
 
                         {this.state.data &&
-                            // <div style={{ fontWeight: '700', marginTop: '1em', fonSize: '1.1em', wordWrap: 'break-word' }}>
                             <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
                                 <EvidenceContentDisplay content={this.state.data.content} txHash={this.state.data.cbxEvidence.tx_hash} />
                                 <hr></hr>
-                                {/* {this.state.data.cbxEvidence.tx_hash &&
-                                    <TransactionResult validated={this.state.data.validated} />
-                                }Contenido registrasdo en blockchain */}
-                                <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} /> {/*Explorador*/}
+                                <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} translate={this.props.translate} />
                                 <br />
 
                             </Card>
-                            // </div>
                         }
-                    {/* </Card> */}
-                </div>
+                    </div>
                 </div>
             </NotLoggedLayout>
         )
     }
 }
 
-const TransactionResult = validated => {
-
-    return (
-        <div>
-            {validated ?
-                <div style={{ display: "flex" }}>
-                    <i className="material-icons" style={{ width: '30px', color: "green" }}>
-                        verified_user
-                    </i>
-                    <div style={{ lineHeight: "2" }}>Contenido registrado en blockchain</div>
-                </div>
-                :
-                <div style={{ display: "flex" }}>
-                    <i className="material-icons" style={{ width: '20px' }}>
-                        query_builder
-                    </i>
-                    <div style={{ lineHeight: "2" }}>Contenido pendiente de registro en blockchain</div>
-                </div>
-            }
-        </div>
-    )
-}
 
 export const ExplorerLink = ({ txHash, translate }) => {
     return (
         <React.Fragment>
-            { /*Boton de Explorador*/}
             {txHash ?
                 <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}
-                    VER EN BLOCKCHAIN
+                    {translate.see_blockchain_explorer.toUpperCase()}
                 </Button>
                 :
                 ''
@@ -189,7 +142,7 @@ export const ValidatorLink = ({ prvHash, translate }) => {
     const primary = getPrimary();
     return (
         <Button size="small" color="primary" href={`${window.location.origin}/evidence/${prvHash}`} target="_blank" rel="noreferrer noopener">
-            VER DETALLES {/*TRADUCCION*/}{/* Link al visualizador de evidencias de Councilbox */}
+            {translate.read_details.toUpperCase()}
         </Button>
     )
 }
@@ -282,8 +235,7 @@ const UserSection = ({ evidence, translate }) => {
 
 const ParticipantSection = ({ evidence, translate }) => {
     return (
-        <div style={{ /*paddingLeft: '1.5em' */ marginBottom: '1em' }}>
-            {/* <h5>{translate.user_data}</h5> */}
+        <div style={{ marginBottom: '1em' }}>
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
                 {translate.participant}
                 <hr style={{ margin: '0.5em 0em' }}></hr>
@@ -328,9 +280,9 @@ const ParticipantSection = ({ evidence, translate }) => {
 
 const AgendaPointSection = ({ evidence, translate }) => {
     return (
-        <div style={{ /*paddingLeft: '1.5em'*/ marginBottom: '1em' }}>
+        <div style={{ marginBottom: '1em' }}>
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
-                {'Punto del día' /*TRADUCCION*/}
+                {translate.agenda_point}
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
 
@@ -368,7 +320,7 @@ const CouncilSection = ({ evidence, translate }) => {
                         {evidence.agendaPoint.company &&
                             <div style={{ display: "flex" }}>
                                 <div style={{ width: '100px' }}>
-                                    <b>Compañía:</b>{/*TRADUCCION*/}
+                                    <b>{`${translate.company}:`}</b>
                                 </div>
                                 <div>
                                     {evidence.agendaPoint.company.businessName}
@@ -398,7 +350,7 @@ const CouncilSection = ({ evidence, translate }) => {
                         {evidence.council.company &&
                             <div style={{ display: "flex" }}>
                                 <div style={{ width: '100px' }}>
-                                    <b>Compañía:</b>{/*TRADUCCION*/}
+                                    <b>{`${translate.company}:`}</b>
                                 </div>
                                 <div>
                                     {evidence.council.company.businessName}
@@ -438,7 +390,7 @@ const EvidenceDisplay = ({ evidence, translate, txHash }) => {
                 <Avatar>
                     {primerasLetras}
                 </Avatar>
-                <ToolTip text={txHash ? 'Contenido registrado en blockchain' : 'Contenido pendiente de registro en blockchain'}>
+                <ToolTip text={txHash ? translate.blockchain_registered_content : translate.blockchain_pending_content}>
                     <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: txHash ? 'green' : 'red' }}>
                         {txHash ?
                             'verified_user'
@@ -476,19 +428,19 @@ export const getTranslateFieldFromType = type => {
         case 'CLOSE_VOTING':
             return 'closed_votings';
         case 'REOPEN_VOTING':
-            return 'Reabrir votaciones';//TRADUCCION
+            return 'reopen_voting';
         case 'END_COUNCIL':
             return 'finish_council';
         case 'VOTE':
             return 'has_voted';
         case 'UPDATE_VOTE':
-            return 'Cambio de voto';//TRADUCCION
+            return 'update_vote';
         case 'PARTICIPANT_LOGIN':
-            return 'Login de participante';//TRADUCCION
+            return 'participant_login';
         case 'PARTICIPANT_CONNECT':
-            return 'Conexión del participante a la sala';//TRADUCCION
+            return 'participant_enter_room';
         case 'PARTICIPANT_DISCONNECT':
-            return 'Desconexión del participante';//TRADUCCION
+            return 'participant_disconnect';
     }
 }
 
