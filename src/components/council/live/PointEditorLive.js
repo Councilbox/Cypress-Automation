@@ -33,7 +33,7 @@ class PointEditorLive extends React.Component {
             });
             return;
         }
-        const { majorityError, ...agenda } = this.state;
+        const { majorityError, items, ballots, options, ...agenda } = this.state;
         const response = await this.props.updateAgenda({
             variables: {
                 agenda: agenda

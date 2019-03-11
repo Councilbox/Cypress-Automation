@@ -33,7 +33,7 @@ class ManualVotingsMenu extends React.Component {
     }
 
     saveManualVotings = async () => {
-        const { attachments, votings, __typename, ...toSend } = this.props.agenda;
+        const { attachments, votings, ballots, items, options, __typename, ...toSend } = this.props.agenda;
         this.setState({
             loading: true
         });

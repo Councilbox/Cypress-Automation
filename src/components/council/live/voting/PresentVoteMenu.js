@@ -18,6 +18,9 @@ class PresentVoteMenu extends React.Component {
 		const {
 			author,
 			authorRepresentative,
+			items,
+			ballots,
+			options,
 			__typename,
 			...agendaVoting
 		} = this.props.agendaVoting;
