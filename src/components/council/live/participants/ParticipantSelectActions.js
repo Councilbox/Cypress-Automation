@@ -86,7 +86,7 @@ class ParticipantSelectActions extends React.Component {
 										/>
 									</div>
 									<div style={{ display: 'flex', width: '70%' }}>
-										<span style={{ fontSize: '0.9em' }}>Añadir representante</span>
+										<span style={{ fontSize: '0.9em' }}>{translate.add_representative}</span>
 									</div>
 								</FilterButton>
 							)}
@@ -117,7 +117,7 @@ class ParticipantSelectActions extends React.Component {
 									/>
 								</div>
 								<div style={{ display: 'flex', width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>Delegar su voto</span>
+									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
 								</div>
 							</FilterButton>
 						</div>
@@ -161,7 +161,7 @@ class ParticipantSelectActions extends React.Component {
 									/>
 								</div>
 								<div style={{ display: 'flex', width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>Añadir voto delegado</span>
+									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 								</div>
 							</FilterButton>
 						</div>

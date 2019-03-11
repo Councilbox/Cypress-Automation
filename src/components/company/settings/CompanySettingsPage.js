@@ -143,7 +143,7 @@ class CompanySettingsPage extends React.Component {
 			this.setState({
 				loading: true
 			});
-			const { __typename, ...data } = this.state.data;
+			const { __typename, creatorId, creationDate, corporationId, ...data } = this.state.data;
 
 			const response = await this.props.updateCompany({
 				variables: {
@@ -339,6 +339,20 @@ class CompanySettingsPage extends React.Component {
 										}
 									/>
 								</GridItem>
+								{this.props.root &&
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={'Saldo'}
+											type="text"
+											value={data.balance || ''}
+											onChange={event =>
+												this.updateState({
+													balance: event.target.value
+												})
+											}
+										/>
+									</GridItem>
+								}
 							</Grid>
 						</GridItem>
 						<GridItem

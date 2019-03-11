@@ -32,86 +32,6 @@ class AgendaNoSession extends React.Component {
 
     updated = 0;
 
-    selectAgenda = (index) => {
-        this.setState({ selected: index });
-    }
-
-    agendaStateToastId = null;
-    agendaVotingsToastId = null;
-
-    componentWillUnmount() {
-        toast.dismiss(this.agendaStateToastId);
-        toast.dismiss(this.agendaVotingsToastId);
-    }
-
-    componentDidUpdate(prevProps) {
-        const { translate } = this.props;
-
-        if (prevProps.data.agendas) {
-            const { agendas: actualAgendas } = this.props.data;
-            prevProps.data.agendas.forEach((agenda, index) => {
-                let agendaToCheck = agenda.id === actualAgendas[index].id ?
-                    actualAgendas[index]
-                    :
-                    actualAgendas.find(item => item.id === agenda.id)
-                    ;
-
-                if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
-                    if (this.agendaStateToastId) {
-                        toast.dismiss(this.agendaStateToastId);
-                    }
-                    this.agendaStateToastId = this.toastChanges(
-                        `${translate.point_of_day_opened_number} ${agendaToCheck.orderIndex}`,
-                        () => this.agendaStateToastId = null
-                    );
-                }
-
-                if (agendaPointOpened(agenda) && !agendaPointOpened(agendaToCheck)) {
-                    if (this.agendaStateToastId) {
-                        toast.dismiss(this.agendaStateToastId);
-                    }
-                    this.agendaStateToastId = this.toastChanges(
-                        `${translate.point_closed_num} ${agendaToCheck.orderIndex}`,
-                        () => this.agendaStateToastId = null
-                    );
-                }
-
-                if (!agendaVotingsOpened(agenda) && agendaVotingsOpened(agendaToCheck)) {
-                    if (this.agendaVotingsToastId) {
-                        toast.dismiss(this.agendaVotingsToastId);
-                    }
-                    this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_open} ${agendaToCheck.orderIndex}`,
-                        () => this.agendaVotingsToastId = null
-                    );
-                }
-
-                if (agendaVotingsOpened(agenda) && !agendaVotingsOpened(agendaToCheck)) {
-                    if (this.agendaVotingsToastId) {
-                        toast.dismiss(this.agendaVotingsToastId);
-                    }
-                    this.agendaVotingsToastId = this.toastChanges(
-                        `${translate.point_num_votings_closed} ${agendaToCheck.orderIndex}`,
-                        () => this.agendaVotingsToastId = null
-                    )
-                }
-            });
-        }
-    }
-
-    toastChanges = (message, onClose) => (
-        toast(
-            <LiveToast
-                message={message}
-                action={() => this.selectAgenda}
-            />, {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: false,
-                onClose: onClose,
-                className: "liveToast"
-            }
-        )
-    )
 
     render() {
         const { translate, council, agendasAnchor, toggleAgendasAnchor, anchorToggle } = this.props;
@@ -212,8 +132,8 @@ class AgendaNoSession extends React.Component {
                                                         <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
                                                             <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
                                                         </Typography>
-                                                        <div style={{ display: "flex", height: '25px', display: "flex" }}>
-                                                            <div style={{ width: "90px" }}>{translate.description}:</div>  <div dangerouslySetInnerHTML={{ __html: agenda.description }}></div>
+                                                        <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
+                                                            <AgendaDescription agenda={agenda} translate={translate} />
                                                         </div>
                                                         <AgendaMenu
                                                             horizontal={true}
@@ -239,6 +159,8 @@ class AgendaNoSession extends React.Component {
         );
     }
 }
+
+//<div style={{ width: "90px" }}>{translate.description}:</div>  <div dangerouslySetInnerHTML={{ __html: agenda.description }}></div>
 
 
 

@@ -211,6 +211,8 @@ class ActEditor extends Component {
 	}
 
 	loadDraft = draft => {
+
+		console.log(this.state.data.council)
  		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.state.data.council
@@ -384,7 +386,7 @@ class ActEditor extends Component {
 											}
 											{config.actCouncilInfo?
 												<BasicButton
-													text="Mostrar panel de información"//TRADUCCION
+													text={this.props.translate.show_info_panel}
 													color={'white'}
 													type="flat"
 													textStyle={{ color: secondary }}

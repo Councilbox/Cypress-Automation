@@ -169,16 +169,6 @@ class LiveParticipantEditor extends React.Component {
 								<div style={{ marginLeft: "-1.4em" }}>
 									<Typography variant="body2" >
 										<div style={{ paddingLeft: '1em' }}>
-											{/* <b>{`${translate.current_status}:  `}</b>
-										<br />
-										{
-											translate[
-											CBX.getParticipantStateField(
-												participant
-											)
-											]
-										}
-										<br /> */}
 										</div>
 										<div >
 											<ParticipantDisplay //lista de datos
@@ -186,13 +176,6 @@ class LiveParticipantEditor extends React.Component {
 												translate={translate}
 												council={this.props.council}
 											/>
-
-											{/* <ParticipantStateSelector
-										participant={participant}
-										council={this.props.council}
-										translate={translate}
-										refetch={this.props.data.refetch}
-									/> */}
 										</div>
 									</Typography>
 
@@ -201,12 +184,6 @@ class LiveParticipantEditor extends React.Component {
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
 							<GridItem xs={landscape ? 1 : 12} xs={3} md={3} >
-								{/* <StateIcon
-								translate={translate}
-								state={participant.state}
-								ratio={1.3}
-
-							/> */}
 								<div >
 									<DropDownMenu
 										claseHover={"classHover"}

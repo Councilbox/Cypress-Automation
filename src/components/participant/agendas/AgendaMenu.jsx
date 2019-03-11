@@ -134,8 +134,8 @@ class AgendaMenu extends React.Component {
                                     <React.Fragment>
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
-                                                {!!ownVote && !!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                    'Tu voto ha sido delegado en esta votación'//TRADUCCION
+                                                {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
+                                                        translate.your_vote_is_delegated
                                                     :
                                                     <VotingSection
                                                         agenda={agenda}

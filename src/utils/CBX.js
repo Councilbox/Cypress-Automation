@@ -366,7 +366,7 @@ export const changeVariablesToValues = (text, data, translate) => {
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondCall === 1 ?
+	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
 		:
 		data.council.firstOrSecondCall === 2 ?

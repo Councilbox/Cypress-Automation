@@ -259,9 +259,7 @@ class VotingsTable extends React.Component {
 				</GridItem>
 
 				<GridItem xs={4} md={2} lg={2} >
-					{!agendaVotingsOpened(this.props.agenda) && !this.props.hideStatus &&
-						'Votaciones cerradas' //TRADUCCION
-					}
+					{!agendaVotingsOpened(this.props.agenda) && !this.props.hideStatus && translate.closed_votings}
 				</GridItem>
 				<GridItem xs={8} md={4} lg={4}>
 					<TextInput

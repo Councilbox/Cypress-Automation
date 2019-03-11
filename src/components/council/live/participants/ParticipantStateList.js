@@ -153,7 +153,7 @@ class ParticipantStateList extends React.Component {
 									/>
 								</div>
 								<div style={{ width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>Presente con voto remoto</span>
+									<span style={{ fontSize: '0.9em' }}>{translate.physically_present_with_remote_vote}</span>
 								</div>
 							</FilterButton>
 						</div>
@@ -167,15 +167,3 @@ class ParticipantStateList extends React.Component {
 export default graphql(changeParticipantState, {
 	name: "changeParticipantState"
 })(ParticipantStateList);
-
-
-/*
-<SignatureModal
-	show={this.state.signature}
-	council={council}
-	participant={participant}
-	refetch={this.props.refetch}
-	requestClose={() => this.setState({ signature: false })}
-	translate={translate}
-/>
-*/

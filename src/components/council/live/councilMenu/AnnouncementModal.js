@@ -1,18 +1,11 @@
 import React from "react";
 import {
 	CustomDialog,
-    Icon,
     BasicButton,
-    LoadingSection,
-	LiveToast
+    LoadingSection
 } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { Typography } from "material-ui";
 import { graphql, compose } from "react-apollo";
-import { noCelebrateCouncil } from "../../../../queries";
-import { bHistory } from "../../../../containers/App";
-import { checkForUnclosedBraces } from '../../../../utils/CBX';
-import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 
@@ -94,13 +87,15 @@ class AnnouncementModal extends React.Component {
                             type="flat"
                             textStyle={{fontWeight: '700', textTransform: 'none'}}
                         />
-                        <BasicButton
-                            text={'Ocultar mensaje'}
-                            onClick={this.closeAnnouncement}
-                            color={getSecondary()}
-                            textStyle={{fontWeight: '700', color: 'white', textTransform: 'none'}}
-                            buttonStyle={{marginLeft: '0.3em', marginRight: '0.3em'}}
-                        />
+                        {this.props.data.adminAnnouncement && this.props.data.adminAnnouncement  &&
+                            <BasicButton
+                                text={translate.hide_announcement}
+                                onClick={this.closeAnnouncement}
+                                color={getSecondary()}
+                                textStyle={{fontWeight: '700', color: 'white', textTransform: 'none'}}
+                                buttonStyle={{marginLeft: '0.3em', marginRight: '0.3em'}}
+                            />
+                        }
                         <BasicButton
                             text={translate.save}
                             onClick={this.addAnnouncement}
@@ -110,7 +105,7 @@ class AnnouncementModal extends React.Component {
                     </React.Fragment>
                 }
                 children={this._renderBody()}
-                title={'Mostrar aviso a los participantes'}//TRADUCCION
+                title={translate.show_announcement}
             />
 		);
 	}

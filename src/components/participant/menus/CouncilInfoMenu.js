@@ -68,13 +68,13 @@ class CouncilInfoMenu extends React.Component {
                     {`${translate.email}: ${participant.email}`}
                 </div>
                 <div>
-                Votos delegados:
+                {`${this.props.translate.you_have_following_delegated_votes}:`}
                 {participant.delegatedVotes.map(vote => (
                     <div key={`delegatedVote_${vote.id}`}>
-                        {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
+                        {`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}
                     </div>
                 ))}
-                Total de votos: {this.calculateParticipantVotes()}
+                {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
             </div>
             </div>
         )

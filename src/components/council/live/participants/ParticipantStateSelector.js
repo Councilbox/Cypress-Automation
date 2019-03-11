@@ -113,7 +113,7 @@ class ParticipantStateSelector extends React.Component {
 								hideTooltip={true}
 							/>
 						</FilterButton>
-						<span style={{fontSize: '0.9em'}}>Presente</span>
+						<span style={{fontSize: '0.9em'}}>{translate.customer_present}</span>
 					</div>
 					{CBX.canBePresentWithRemoteVote(council.statute) && (
 						<div style={{display: 'flex', alignItems: 'center'}}>
@@ -134,7 +134,7 @@ class ParticipantStateSelector extends React.Component {
 									hideTooltip={true}
 								/>
 							</FilterButton>
-							<span style={{fontSize: '0.9em'}}>Presente con voto remoto</span>
+							<span style={{fontSize: '0.9em'}}>{translate.physically_present_with_remote_vote}</span>
 						</div>
 					)}
 				</GridItem>
@@ -165,7 +165,7 @@ class ParticipantStateSelector extends React.Component {
 									/>
 								</FilterButton>
 							)}
-							<span style={{fontSize: '0.9em'}}>Añadir representante</span>
+							<span style={{fontSize: '0.9em'}}>{translate.add_representative}</span>
 						</div>
 					}
 					{CBX.canDelegateVotes(council.statute, participant) && (
@@ -191,7 +191,7 @@ class ParticipantStateSelector extends React.Component {
 									hideTooltip={true}
 								/>
 							</FilterButton>
-							<span style={{fontSize: '0.9em'}}>Delegar su voto</span>
+							<span style={{fontSize: '0.9em'}}>{translate.to_delegate_vote}</span>
 						</div>
 					)}
 					{CBX.canAddDelegateVotes(council.statute, participant) && (
@@ -230,7 +230,7 @@ class ParticipantStateSelector extends React.Component {
 									}}
 								/>
 							</FilterButton>
-							<span style={{fontSize: '0.9em'}}>Añadir voto delegado</span>
+							<span style={{fontSize: '0.9em'}}>{translate.add_delegated}</span>
 						</div>
 					)}
 

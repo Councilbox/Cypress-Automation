@@ -19,6 +19,7 @@ const CompanyEditPage = ({ data, match, translate }) => {
                 company={data.company}
                 translate={translate}
                 confirmCompany={true}
+                root={true}
                 refetch={data.refetch}
             />
         </div>
@@ -29,6 +30,8 @@ export default graphql(company, {
     options: props => ({
         variables: {
             id: props.match.params.id
-        }
+        },
+        notifyOnNetworkStatusChange: true,
+        fetchPolicy: 'network-only'
     })
 })(withRouter(withTranslations()(CompanyEditPage)));

@@ -144,13 +144,13 @@ class Agendas extends React.Component {
     _renderDelegationsModalBody = () => {
         return (
             <div>
-                Tiene los siguientes votos delegados en usted:
+                {`${this.props.translate.you_have_following_delegated_votes}:`}
                 {this.props.participant.delegatedVotes.map(vote => (
                     <div key={`delegatedVote_${vote.id}`}>
-                        {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
+                        {`${vote.name} ${vote.surname} - ${this.props.translate.votes}: ${vote.numParticipations}`}
                     </div>
                 ))}
-                Total de votos: {this.calculateParticipantVotes()}
+                {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
             </div>
         )
     }
