@@ -90,6 +90,7 @@ export const company = gql`
 		company(id: $id) {
 			alias
 			tin
+			balance
 			logo
 			id
 			businessName

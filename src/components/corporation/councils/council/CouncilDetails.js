@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -12,6 +12,7 @@ import SendCredentialsModal from "../../../council/live/councilMenu/SendCredenti
 import AgendaManager from "../../../council/live/AgendaManager";
 import StatuteDisplay from '../../../council/display/StatuteDisplay';
 import OptionsDisplay from '../../../council/display/OptionsDisplay';
+import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import LiveParticipantStats from './LiveParticipantStats';
@@ -260,6 +261,24 @@ class CouncilDetails extends React.Component {
                         fontWeight: '700',
 						padding: '1em',
                         display: 'flex',
+						flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+					<CostManager
+						council={this.props.data.council}
+					/>
+                </div>
+				<div
+                    style={{
+                        width: '100%',
+                        border: `2px solid ${secondary}`,
+                        fontSize: '18px',
+                        color: secondary,
+                        fontWeight: '700',
+						padding: '1em',
+                        display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center'
                     }}
@@ -407,6 +426,8 @@ const CouncilDetailsRoot = gql`
 			secretary
 			president
 			street
+			price
+			priceObservations
 			city
 			state
 			dateStart
