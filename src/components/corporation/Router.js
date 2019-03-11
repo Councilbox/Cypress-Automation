@@ -18,6 +18,7 @@ import { withStyles } from 'material-ui';
 import { lightGrey } from '../../styles/colors';
 import CouncilDetails from './councils/council/CouncilDetails';
 import RootUserSettings from './users/RootUserSettings';
+import FinishedPage from './finished/FinishedPage';
 let image;
 import("../../assets/img/sidebar-2.jpg").then(data => image = data);
 
@@ -41,20 +42,24 @@ const Router = ({ user, translate, location, data, classes }) => {
                     translate={translate}
                     backButton={location.pathname !== `/`}
                 />
-                <Switch>
-                    <Route exact path="/" component={() => <Redirect to="/councils" />} />
-                    <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
-                    <Route path="/council/:id" component={CouncilDetails} />
-                    <Route path="/user/:id" component={RootUserSettings} />
-                    <Route exact path="/companies" component={CompaniesDashboard} />
-                    <Route exact path="/translations" component={TranslationsPage} />
-                    <Route path="/companies/edit/:id" component={CompanyEditPage} />
-                    <Route exact path="/users" component={UsersDashboard} />
-                    <Route path="/users/edit/:id" component={UserEdit} />
-                    <Route exact path="/drafts" component={DraftsDashboard} />
-                    <Route path="/drafts/edit/:id" component={DraftEditPage} />
-                    <Route path="*" component={() => <Redirect to="/" />} />
-                </Switch>
+                <div style={{width: '100%', height: 'calc(100% - 3em)'}}>
+                    <Switch>
+                        <Route exact path="/" component={() => <Redirect to="/councils" />} />
+                        <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
+                        <Route path="/finished" component={FinishedPage} />
+                        <Route path="/council/:id" component={CouncilDetails} />
+                        <Route path="/user/:id" component={RootUserSettings} />
+                        <Route exact path="/companies" component={CompaniesDashboard} />
+                        <Route exact path="/translations" component={TranslationsPage} />
+                        <Route path="/companies/edit/:id" component={CompanyEditPage} />
+                        <Route exact path="/users" component={UsersDashboard} />
+                        <Route path="/users/edit/:id" component={UserEdit} />
+                        <Route exact path="/drafts" component={DraftsDashboard} />
+                        <Route path="/drafts/edit/:id" component={DraftEditPage} />
+                        <Route path="*" component={() => <Redirect to="/" />} />
+                    </Switch>
+                </div>
+
             </div>
         </div>
 	)

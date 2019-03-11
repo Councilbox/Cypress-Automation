@@ -167,13 +167,6 @@ const TransactionResult = validated => {
                 </div>
             }
         </div>
-        // <Card style={{ padding: '0.9em', color: 'green' }}>
-        //     {validated ?
-        //         'Contenido registrado en blockchain'
-        //         :
-        //         'Contenido pendiente de registro en blockchain'
-        //     }
-        // </Card>
     )
 }
 
@@ -183,27 +176,12 @@ export const ExplorerLink = ({ txHash, translate }) => {
             { /*Boton de Explorador*/}
             {txHash ?
                 <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}
-                    Explorador
+                    VER EN BLOCKCHAIN
                 </Button>
                 :
                 ''
             }
         </React.Fragment>
-        // <Card style={{ padding: '0.9em', marginTop: '0.6em' }}>
-        //     {txHash ?
-        //         <a href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener" >
-        //             <Grid>
-        //                 <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Link al explorador de bloques</GridItem>
-        //                 <GridItem xs={12} md={9} lg={10}>
-        //                     <i className="fa fa-external-link" aria-hidden="true"></i>
-        //                 </GridItem>
-        //             </Grid>
-        //         </a>
-        //         :
-        //         'Transacción pendiente de registro'
-        //     }
-
-        // </Card>
     )
 }
 
@@ -211,7 +189,7 @@ export const ValidatorLink = ({ prvHash, translate }) => {
     const primary = getPrimary();
     return (
         <Button size="small" color="primary" href={`${window.location.origin}/evidence/${prvHash}`} target="_blank" rel="noreferrer noopener">
-            Visualizador {/*TRADUCCION*/}{/* Link al visualizador de evidencias de Councilbox */}
+            VER DETALLES {/*TRADUCCION*/}{/* Link al visualizador de evidencias de Councilbox */}
         </Button>
     )
 }
@@ -242,50 +220,6 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, txHash
                 avatar={
                     <EvidenceDisplay evidence={evidence} translate={translate} txHash={txHash} />
                 }
-                /* action={
-                    // <IconButton>
-                    //     <i className="material-icons" style={{}}>
-                    //         more_vert
-                    //     </i>
-                    // </IconButton>
-                    <DropDownMenu
-                        // claseHover={"classHover "}
-                        color="transparent"
-                        style={{ paddingLeft: '0px', paddingRight: '0px' }}
-                        buttonStyle={{ boxShadow: 'none', borderRadius: '90px' }}
-                        //textStyle={{ boxShadow: "none", height: '100%', fontSize: "12px" }}
-                        icon={
-                            <i className="material-icons" style={{}}>
-                                more_vert
-                            </i>
-                        }
-                        items={
-                            <div style={{ margin: '1em', width: '500px' }}>
-                                <SectionTitle
-                                    text="Introduce el código a comprobar"
-                                    color={primary}
-                                />
-                                <TextInput
-                                    floatingText="Código"
-                                    value={'gyfcdt6r5d5f765fitytyf58rf6yftuyf765876ftuyuyi768'}
-                                    // onChange={this.updateCode}
-                                    // onKeyUp={this.handleEnter}
-                                />
-                                <BasicButton
-                                    text={'Enviar'}
-                                    // onClick={this.sendCode}
-                                    color={primary}
-                                    textStyle={{ color: 'white', fontWeight: '700' }}
-                                />
-                            </div>
-                        }
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                    />
-
-                } */
             />
             <hr></hr>
             <CardContent style={{ paddingBottom: '10px' }}>
@@ -305,23 +239,6 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, txHash
                 }
             </CardContent>
         </React.Fragment>
-        // <div>
-        //     <EvidenceDisplay evidence={evidence} translate={translate} />
-        //     {evidence.data.user &&
-        //         <UserSection evidence={evidence} translate={translate} />
-        //     }
-        // {evidence.data.agendaPoint &&
-        //     <AgendaPointSection evidence={evidence.data} translate={translate} />
-        // }
-        //     {evidence.data.participant ?
-        //         <React.Fragment>
-        //             <CouncilSection evidence={evidence.data.participant} translate={translate} />
-        //             <ParticipantSection evidence={evidence} translate={translate} />
-        //         </React.Fragment>
-        //         :
-        //         <CouncilSection evidence={evidence.data} translate={translate} />
-        //     }
-        // </div>
     )
 });
 
@@ -360,18 +277,6 @@ const UserSection = ({ evidence, translate }) => {
                 </div>
             </div>
         </div>
-        // <React.Fragment>
-        //     <h5 style={{ marginTop: '1em' }}>{translate.user_data}</h5>
-        //     <Grid>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.user.email}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.user.name}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.user.surname}</GridItem>
-
-        //     </Grid>
-        // </React.Fragment>
     )
 }
 
@@ -418,19 +323,6 @@ const ParticipantSection = ({ evidence, translate }) => {
                 </div>
             </div>
         </div>
-        // <React.Fragment>
-        //     <h5 style={{ marginTop: '1em' }}>{translate.participant}</h5>
-        //     <Grid>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.email}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.email}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.name}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.surname}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.surname}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.dni}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.data.participant.dni}</GridItem>
-        //     </Grid>
-        // </React.Fragment>
     )
 }
 
@@ -460,15 +352,6 @@ const AgendaPointSection = ({ evidence, translate }) => {
             </div>
 
         </div>
-        // <React.Fragment>
-        //     <h5 style={{ marginTop: '1em' }}>{'Punto del día' /*TRADUCCION*/}</h5>
-        //     <Grid>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{translate[getTypeTranslation(evidence.agendaPoint.type)]}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.name}</GridItem>
-        //     </Grid>
-        // </React.Fragment>
     )
 }
 
@@ -542,39 +425,6 @@ const CouncilSection = ({ evidence, translate }) => {
                 }
             </div>
         </div>
-        //         {/* <React.Fragment> */ }
-        // <h5 style={{ marginTop: '1em' }}>{translate.council_info}</h5>
-        // {
-        //     evidence.agendaPoint &&
-        //         <Grid>
-        //             {evidence.agendaPoint.company &&
-        //                 <React.Fragment>
-        //                     <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
-        //                     <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.company.businessName}</GridItem>
-        //                 </React.Fragment>
-        //             }
-        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-        //             <GridItem xs={12} md={9} lg={10}>{evidence.agendaPoint.council.name}</GridItem>
-        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
-        //             <GridItem xs={12} md={9} lg={10}>{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}</GridItem>
-        //         </Grid>
-        // }
-        // {
-        //     evidence.council &&
-        //         <Grid>
-        //             {evidence.council.company &&
-        //                 <React.Fragment>
-        //                     <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Compañía {/*TRADUCCION*/}</GridItem>
-        //                     <GridItem xs={12} md={9} lg={10}>{evidence.council.company.businessName}</GridItem>
-        //                 </React.Fragment>
-        //             }
-        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.name}</GridItem>
-        //             <GridItem xs={12} md={9} lg={10}>{evidence.council.name}</GridItem>
-        //             <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.date_real_start}</GridItem>
-        //             <GridItem xs={12} md={9} lg={10}>{moment(evidence.council.dateRealStart).format('LLL')}</GridItem>
-        //         </Grid>
-        // }
-        //     </React.Fragment >
     )
 }
 
@@ -607,15 +457,6 @@ const EvidenceDisplay = ({ evidence, translate, txHash }) => {
                 </div>
             </div>
         </div>
-        // <div>
-        //     <h5>Contenido</h5>
-        //     <Grid>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>{translate.type}</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{translate[type] || type || ''}</GridItem>
-        //         <GridItem xs={12} md={3} lg={2} style={{ fontWeight: '700' }}>Fecha de registro</GridItem>
-        //         <GridItem xs={12} md={9} lg={10}>{moment(evidence.data.date).format('LLL')}</GridItem>
-        //     </Grid>
-        // </div> 
     )
 };
 
@@ -674,8 +515,8 @@ const getEvidenceComponent = (evidence, txHash) => {
 
 const getData = gql`
     query EvidenceContent($code: String!){
-                evidenceContent(code: $code){
-                userId
+        evidenceContent(code: $code){
+            userId
             participantId
             content
             type
@@ -684,12 +525,12 @@ const getData = gql`
             cbxEvidence {
                 evhash
                 tx_hash
-            prvhash
-            uuid
-            data
+                prvhash
+                uuid
+                data
+            }
         }
     }
-}
 `;
 
 export default withApollo(withTranslations()(ValidatorPage));

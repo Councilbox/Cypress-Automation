@@ -8,6 +8,16 @@ import { graphql } from 'react-apollo';
 
 class UserSendsList extends React.PureComponent {
 
+    state = {
+        visible: false
+    }
+
+    toggleVisible = () => {
+        this.setState({
+            visible: !this.state.visible
+        });
+    }
+
     refreshUserSends = async () => {
         const response = await this.props.refreshUserSends({
             variables: {
@@ -37,7 +47,7 @@ class UserSendsList extends React.PureComponent {
                     />
                 </div>
                 <div style={{width: '100%', display: 'flex'}}>
-                    <NotificationsTable notifications={this.props.user.sends} translate={translate} />
+                    <NotificationsTable notifications={this.props.user.sends} translate={translate} visib={this.state.visible} handleToggleVisib={this.toggleVisible} />
                 </div>
             </React.Fragment>
         )
