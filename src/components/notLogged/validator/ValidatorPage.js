@@ -99,12 +99,16 @@ class ValidatorPage extends React.Component {
                 <div style={{ width: '100%', overflow: 'auto' }}>
                      <div style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
                         {this.state.loading &&
-                            <LoadingSection />
+                            <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
+                                <LoadingSection />
+                            </Card>
                         }
                         {this.state.error &&
-                            <div style={{ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em' }}>
-                                {this.state.error}
-                            </div>
+                            <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
+                                <div style={{ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em' }}>
+                                    {this.state.error}
+                                </div>
+                            </Card>
                         }
 
                         {this.state.data &&
