@@ -106,6 +106,7 @@ class ParticipantCouncil extends React.Component {
             <Grid item xs={isLandscape() && this.state.hasVideo? 6 : 12} md={this.state.hasVideo? 4 : 6} style={{minHeight: '45%'}}>
                 <Agendas
                     participant={this.props.participant}
+                    refetchParticipant={this.props.refetchParticipant}
                     council={this.props.council}
                     anchorToggle={this.state.hasVideo}
                     agendasAnchor={this.state.agendasAnchor}
