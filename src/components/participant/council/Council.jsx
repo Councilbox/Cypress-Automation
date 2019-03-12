@@ -147,7 +147,7 @@ class ParticipantCouncil extends React.Component {
                         }}>
                             <div style={{ height: '3.5rem', width: "100%", display: 'flex', color: '#ffffffcc' }}>
 
-                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
                                     <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
                                         <div style={{ display: "unset" }}>
                                             <div>
@@ -172,7 +172,7 @@ class ParticipantCouncil extends React.Component {
                                         </div>
                                     </Button>
                                 </div>
-                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
                                     <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
                                         <div style={{ display: "unset" }}>
                                             <div>
@@ -197,10 +197,10 @@ class ParticipantCouncil extends React.Component {
                                         </div>
                                     </Button>
                                 </div>
-                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
                                     <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
                                         <div style={{ display: "unset" }}>
-                                            <Badge  badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                            <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
                                                 <div>
                                                     <FontAwesome
                                                         name={"file-text-o"}
@@ -224,47 +224,43 @@ class ParticipantCouncil extends React.Component {
                                         </div>
                                     </Button>
                                 </div>
-                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
-                                    <FloatGroup delay={0.02}>
-                                        <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
-                                            <div style={{ display: "unset" }}>
-                                                <div>
-                                                    <FontAwesome
-                                                        name={"gear"}
-                                                        style={{
-                                                            fontSize: '24px',
-                                                            width: '1em',
-                                                            height: '1em',
-                                                            overflow: 'hidden',
-                                                            userSelect: 'none'
-                                                        }}
-                                                    />
-                                                </div>
-                                                <div style={{
-                                                    color: 'white',
-                                                    fontSize: '0.55rem',
-                                                    textTransform: "none"
-                                                }}>
-                                                    Acciones {/*TRADUCCION */}
-                                                </div>
-                                            </div>
-                                        </Button>
-                                        <Button style={{ background: "white", color: secondary, width: "80px", border: "1px solid gainsboro" }}>
+                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
+                                        <div style={{ display: "unset" }}>
                                             <div>
                                                 <i className="material-icons" style={{ width: '20px' }}>
                                                     chat_buble_outline
                                                 </i>
                                             </div>
-                                        </Button>
-                                        <Button style={{ background: "white", color: 'grey', width: "80px", border: "1px solid gainsboro" }}>
+                                            <div style={{
+                                                color: 'white',
+                                                fontSize: '0.55rem',
+                                                textTransform: "none"
+                                            }}>
+                                                Comentario {/*TRADUCCION*/}
+                                            </div>
+                                        </div>
+                                    </Button>
+                                </div>
+                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
+                                        <div style={{ display: "unset" }}>
                                             <div>
                                                 <i className="material-icons" style={{ width: '80px' }}>
                                                     pan_tool
                                                 </i>
                                             </div>
-                                        </Button>
-                                    </FloatGroup>
+                                            <div style={{
+                                                color: 'white',
+                                                fontSize: '0.55rem',
+                                                textTransform: "none"
+                                            }}>
+                                                Palabra {/*TRADUCCION*/}
+                                            </div>
+                                        </div>
+                                    </Button>
                                 </div>
+
                             </div>
                         </div>
 
