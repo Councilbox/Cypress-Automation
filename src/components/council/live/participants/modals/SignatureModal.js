@@ -1,9 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import { compose, graphql } from "react-apollo";
-import {
-	liveParticipantSignature,
-	setLiveParticipantSignature
-} from "../../../../../queries/liveParticipant";
+import { liveParticipantSignature, setLiveParticipantSignature } from "../../../../../queries/liveParticipant";
 import {
 	CustomDialog,
 	BasicButton,
@@ -15,7 +12,9 @@ import { getPrimary } from "../../../../../styles/colors";
 import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
 
-class SignatureModal extends Component {
+
+class SignatureModal extends React.Component {
+
 	state = {
 		success: "",
 		loading: false,

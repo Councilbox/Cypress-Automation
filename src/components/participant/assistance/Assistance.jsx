@@ -130,14 +130,15 @@ class Assistance extends React.Component {
 					assistanceIntention: PARTICIPANT_STATES.DELEGATED,
 				})
 			}
-		}
-		if (!checkForUnclosedBraces(assistanceComment)) {
+		} else {
 			const response = await setAssistanceIntention({
 				variables: {
 					assistanceIntention: this.state.assistanceIntention,
 					representativeId: this.state.delegateId
 				}
 			});
+		}
+		if (!checkForUnclosedBraces(assistanceComment)) {
 
 			await setAssistanceComment({
 				variables: {
