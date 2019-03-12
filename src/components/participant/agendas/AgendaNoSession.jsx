@@ -9,6 +9,8 @@ import AgendaDescription from './AgendaDescription';
 import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel, councilStarted, councilHasSession } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import { toast } from 'react-toastify';
+import { isMobile } from "react-device-detect";
+
 
 
 const styles = {
@@ -182,8 +184,8 @@ class AgendaNoSession extends React.Component {
                             {this.props.data.agendas ?
                                 agendas.map((agenda, index) => {
                                     return (
-                                        <div style={{marginBottom: "15px", width: "98%",  }} key={agenda.id}>
-                                            <Card style={{padding: "1em"}}>
+                                        <div style={{ marginBottom: "15px", width: "98%", }} key={agenda.id}>
+                                            <Card style={{ padding: "1em" }}>
                                                 <div
                                                     style={{
                                                         display: "flex",

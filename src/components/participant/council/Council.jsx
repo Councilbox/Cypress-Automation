@@ -1,14 +1,14 @@
 import React from "react";
 import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { Grid } from "material-ui";
+import { Grid, Button, Badge, withStyles } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { PARTICIPANT_STATES } from '../../../constants';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
 import { LiveToast } from '../../../displayComponents';
-import { darkGrey } from '../../../styles/colors';
+import { darkGrey, secondary } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
 import { isLandscape } from '../../../utils/screen';
@@ -19,30 +19,34 @@ import { API_URL } from "../../../config";
 import TimelineSection from '../timeline/TimelineSection';
 import AdminAnnouncement from './AdminAnnouncement';
 import { ConfigContext } from '../../../containers/AppControl';
+import { isMobile } from "react-device-detect";
+import FontAwesome from "react-fontawesome";
+import FloatGroup from 'react-float-button';
 
-
+const RedBadge = withStyles(() => ({ badge: { backgroundColor: '#F00' } }))(Badge);
 const styles = {
-	viewContainer: {
-		width: "100vw",
-		height: "100vh",
+    viewContainer: {
+        width: "100vw",
+        height: "100vh",
         position: "relative"
-	},
-	mainContainer: {
-		width: "100%",
-		height: "calc(100% - 3em)",
+    },
+    mainContainer: {
+        width: "100%",
+        height: "calc(100% - 3em)",
         display: "flex",
         backgroundColor: darkGrey,
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative",
-		backgroundImage: 'red',
-		padding: "10px"
-	}
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        backgroundImage: 'red',
+        padding: "10px"
+    }
 };
 
+
 class ParticipantCouncil extends React.Component {
-	state = {
+    state = {
         agendasAnchor: 'right',
         hasVideo: councilHasVideo(this.props.council),
         videoURL: ''
@@ -96,7 +100,7 @@ class ParticipantCouncil extends React.Component {
 
     _renderAgendaSection = () => {
         return (
-            <Grid item xs={isLandscape() && this.state.hasVideo? 6 : 12} md={this.state.hasVideo? 4 : 6} style={{minHeight: '45%'}}>
+            <Grid item xs={isLandscape() && this.state.hasVideo ? 6 : 12} md={this.state.hasVideo ? 4 : 6} style={{ minHeight: '45%', paddingBottom: '3em' }}>
                 <Agendas
                     participant={this.props.participant}
                     council={this.props.council}
@@ -113,25 +117,169 @@ class ParticipantCouncil extends React.Component {
 
     toggleAgendasAnchor = () => {
         const anchor = this.state.agendasAnchor === 'left' ? 'right' : 'left';
-        this.setState({agendasAnchor: anchor});
+        this.setState({ agendasAnchor: anchor });
     }
 
-	render() {
-		const { participant, council } = this.props;
+    render() {
+        const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
 
-		return (
-			<div style={styles.viewContainer}>
-				<Header
+        return (
+            <div style={styles.viewContainer}>
+                {isMobile &&
+                    <div style={{
+                        float: 'left',
+                        zIndex: '0'
+                    }}>
+                        <div style={{
+                            backgroundColor: darkGrey,
+                            height: '3.5rem',
+                            zIndex: '1000',
+                            position: 'absolute',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            left: '0px',
+                            width: '100vw',
+                            alignItems: 'center',
+                            bottom: '0px',
+                            // overflow: 'hidden',
+                            fontSize: "0.55em"
+                        }}>
+                            <div style={{ height: '3.5rem', width: "100%", display: 'flex', color: '#ffffffcc' }}>
+
+                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
+                                        <div style={{ display: "unset" }}>
+                                            <div>
+                                                <FontAwesome
+                                                    name={"video-camera"}
+                                                    style={{
+                                                        fontSize: '24px',
+                                                        width: '1em',
+                                                        height: '1em',
+                                                        overflow: 'hidden',
+                                                        userSelect: 'none'
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{
+                                                color: 'white',
+                                                fontSize: '0.55rem',
+                                                textTransform: "none"
+                                            }}>
+                                                Video {/*TRADUCCION*/}
+                                            </div>
+                                        </div>
+                                    </Button>
+                                </div>
+                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
+                                        <div style={{ display: "unset" }}>
+                                            <div>
+                                                <FontAwesome
+                                                    name={"calendar"}
+                                                    style={{
+                                                        fontSize: '24px',
+                                                        width: '1em',
+                                                        height: '1em',
+                                                        overflow: 'hidden',
+                                                        userSelect: 'none'
+                                                    }}
+                                                />
+                                            </div>
+                                            <div style={{
+                                                color: 'white',
+                                                fontSize: '0.55rem',
+                                                textTransform: "none"
+                                            }}>
+                                                Agenda {/*TRADUCCION*/}
+                                            </div>
+                                        </div>
+                                    </Button>
+                                </div>
+                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
+                                        <div style={{ display: "unset" }}>
+                                            <Badge  badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                                <div>
+                                                    <FontAwesome
+                                                        name={"file-text-o"}
+                                                        style={{
+                                                            fontSize: '24px',
+                                                            width: '1em',
+                                                            height: '1em',
+                                                            overflow: 'hidden',
+                                                            userSelect: 'none'
+                                                        }}
+                                                    />
+                                                </div>
+                                            </Badge>
+                                            <div style={{
+                                                color: 'white',
+                                                fontSize: '0.55rem',
+                                                textTransform: "none"
+                                            }}>
+                                                Resumen {/*TRADUCCION*/}
+                                            </div>
+                                        </div>
+                                    </Button>
+                                </div>
+                                <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem' }}>
+                                    <FloatGroup delay={0.02}>
+                                        <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
+                                            <div style={{ display: "unset" }}>
+                                                <div>
+                                                    <FontAwesome
+                                                        name={"gear"}
+                                                        style={{
+                                                            fontSize: '24px',
+                                                            width: '1em',
+                                                            height: '1em',
+                                                            overflow: 'hidden',
+                                                            userSelect: 'none'
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div style={{
+                                                    color: 'white',
+                                                    fontSize: '0.55rem',
+                                                    textTransform: "none"
+                                                }}>
+                                                    Acciones {/*TRADUCCION */}
+                                                </div>
+                                            </div>
+                                        </Button>
+                                        <Button style={{ background: "white", color: secondary, width: "80px", border: "1px solid gainsboro" }}>
+                                            <div>
+                                                <i className="material-icons" style={{ width: '20px' }}>
+                                                    chat_buble_outline
+                                                </i>
+                                            </div>
+                                        </Button>
+                                        <Button style={{ background: "white", color: 'grey', width: "80px", border: "1px solid gainsboro" }}>
+                                            <div>
+                                                <i className="material-icons" style={{ width: '80px' }}>
+                                                    pan_tool
+                                                </i>
+                                            </div>
+                                        </Button>
+                                    </FloatGroup>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+                <Header
                     logoutButton={true}
                     participant={participant}
                     council={council}
                     primaryColor={'white'}
                 />
-				<div style={styles.mainContainer}>
+                <div style={styles.mainContainer}>
                     <Grid container spacing={8} style={{
                         height: '100%',
-                        ...(!this.state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE? {
+                        ...(!this.state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
                             display: 'flex',
                             justifyContent: 'center'
                         } : {})
@@ -141,8 +289,8 @@ class ParticipantCouncil extends React.Component {
                         }
 
                         {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                            <Grid item xs={isLandscape()? 6 : 12} md={8}>
-                                <div style={{width: '100%', height: '100%', position: 'relative'}}>
+                            <Grid item xs={isLandscape() ? 6 : 12} md={8}>
+                                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                                     <ConfigContext.Consumer>
                                         {config => (
                                             <AdminAnnouncement
@@ -159,12 +307,12 @@ class ParticipantCouncil extends React.Component {
                                         videoURL={this.state.videoURL}
                                         refetchParticipant={this.props.refetchParticipant}
                                     />
-                                    <div style={{height: 'calc(100% - 2.5em)', width: '100%'}}>
+                                    <div style={{ height: 'calc(100% - 2.5em)', width: '100%' }}>
                                         <VideoContainer
                                             council={council}
                                             participant={participant}
                                             videoURL={this.state.videoURL}
-                                            setVideoURL={url => this.setState({videoURL: url})}
+                                            setVideoURL={url => this.setState({ videoURL: url })}
                                         />
                                     </div>
                                 </div>
@@ -174,10 +322,10 @@ class ParticipantCouncil extends React.Component {
                             this._renderAgendaSection()
                         }
                     </Grid>
-				</div>
-			</div>
-		);
-	}
+                </div>
+            </div>
+        );
+    }
 }
 
 

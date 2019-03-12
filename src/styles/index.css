@@ -258,6 +258,8 @@ h4 {
     right: 10px!important;
 }
 
+.NoOutline:focus{outline: none}
+
 @media only screen and (max-width: 960px) and (orientation: portrait) {
     #root {
         width:100%;
