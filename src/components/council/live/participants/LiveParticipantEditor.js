@@ -290,10 +290,9 @@ class LiveParticipantEditor extends React.Component {
 									)}
 									{participant.representative && (
 										<ParticipantTable
+											representative={true}
 											translate={translate}
-											participants={[
-												participant.representative
-											]}
+											participants={[participant.representative]}
 										/>
 									)}
 								</GridItem>
@@ -307,13 +306,9 @@ class LiveParticipantEditor extends React.Component {
 									</Typography>
 									<ParticipantTable
 										translate={translate}
-										participants={
-											[participant.representing]
-										}
+										participants={[participant.representing]}
 										enableActions
-										quitDelegatedVote={
-											this.removeDelegatedVote
-										}
+										quitDelegatedVote={this.removeDelegatedVote}
 										primary={primary}
 									/>
 								</GridItem>
@@ -401,7 +396,7 @@ class LiveParticipantEditor extends React.Component {
 												/>
 											</div>
 										}
-										{!CBX.isRepresented(participant) && participant.personOrEntity !== 1 &&
+										{!CBX.isRepresented(participant) && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
 												<BasicButton
 													text={participant.signed ? translate.user_signed : translate.to_sign}
@@ -481,6 +476,7 @@ class LiveParticipantEditor extends React.Component {
 
 const ParticipantTable = ({
 	participants,
+	representative,
 	translate,
 	enableActions,
 	quitDelegatedVote,
@@ -499,11 +495,10 @@ const ParticipantTable = ({
 						{translate.position}
 					</TableCell>
 					<TableCell style={{ padding: "0.2em" }}>
-						{translate.votes}
+						{!representative && translate.votes}
 					</TableCell>
-					{enableActions && <TableCell style={{ padding: "0.2em" }}>
-						&nbsp;
-					</TableCell>}
+					<TableCell style={{ padding: "0.2em" }}>
+					</TableCell>
 				</TableRow>
 			</TableHead>
 			<TableBody style={{ height: "100px", overflowY: 'auto', overflowX: 'hidden' }}>
@@ -513,6 +508,7 @@ const ParticipantTable = ({
 						primary={primary}
 						participant={participant}
 						enableActions={enableActions}
+						representative={representative}
 						quitDelegatedVote={quitDelegatedVote}
 					/>
 				))}
@@ -555,9 +551,7 @@ class HoverableRow extends React.PureComponent {
 				<TableCell style={{ padding: "0.2em" }}>{`${
 					participant.position
 					}`}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{`${
-					participant.numParticipations
-					}`}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{!this.props.representative && participant.numParticipations}</TableCell>
 				<TableCell style={{ padding: "0.2em" }}>
 					<div style={{ width: '4em' }}>
 						{showActions &&

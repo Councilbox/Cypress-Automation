@@ -6,7 +6,7 @@ import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
-import { removeHTMLTags, isRepresented } from '../../../../utils/CBX';
+import { removeHTMLTags, isRepresented, hasHisVoteDelegated } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import { DropDownMenu, Icon } from '../../../../displayComponents';
@@ -17,10 +17,6 @@ import { liveParticipant, updateParticipantSends } from "../../../../queries";
 const ParticipantItem = ({ participant, translate, layout, editParticipant, mode, council, ...props }) => {
 	const secondary = getSecondary();
 	const gridSize = window.innerWidth < 1350 ? 6 : 6;
-	console.log(participant);
-	if(participant.personOrEntity === 1){
-		console.log(participant);
-	}
 
 	return (
 		<GridItem
@@ -196,7 +192,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={2}
 			lg={2}
 		>
-			{!isRepresented(participant) && participant.personOrEntity !== 1 &&
+			{!isRepresented(participant) && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 				<BasicButton
 					text={participant.signed ? translate.user_signed : translate.to_sign}
 					fullWidth
@@ -434,7 +430,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 					justifyContent: 'center'
 				}}
 			>
-				{!isRepresented(participant) && participant.personOrEntity !== 1 &&
+				{!isRepresented(participant) && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 					<BasicButton
 						text={participant.signed ? translate.user_signed : translate.to_sign}
 						fullWidth
