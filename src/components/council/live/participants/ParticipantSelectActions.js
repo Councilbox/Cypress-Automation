@@ -103,10 +103,7 @@ class ParticipantSelectActions extends React.Component {
 										delegateOwnVote: true
 									})
 								}
-								active={
-									participant.state ===
-									PARTICIPANT_STATES.DELEGATED
-								}
+								active={participant.state === PARTICIPANT_STATES.DELEGATED}
 							>
 								<div style={{ display: 'flex', width: '30%' }}>
 									<StateIcon

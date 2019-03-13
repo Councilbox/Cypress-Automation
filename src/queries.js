@@ -2033,11 +2033,13 @@ export const noCelebrateCouncil = gql`
 export const participantsToDelegate = gql`
 	query liveParticipantsToDelegate(
 		$councilId: Int!
+		$participantId: Int
 		$filters: [FilterInput]
 		$options: OptionsInput
 	) {
 		liveParticipantsToDelegate(
-			councilId: $councilId
+			councilId: $councilId,
+			participantId: $participantId
 			filters: $filters
 			options: $options
 		) {
