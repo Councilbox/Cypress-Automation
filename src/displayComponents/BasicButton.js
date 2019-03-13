@@ -23,6 +23,7 @@ const BasicButton = ({
 	success,
 	floatRight,
 	claseHover,
+	backgroundColor
 }) => {
 	if ((error || success) && !!reset) {
 		let timeout = setTimeout(() => {
@@ -43,6 +44,7 @@ const BasicButton = ({
 				float: floatRight && "right",
 				outline: "0",
 				cursor: loading? 'wait' : 'pointer',
+				...backgroundColor
 			}}
 			disabled={disabled || loading}
 			variant={type}

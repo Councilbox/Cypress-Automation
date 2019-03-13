@@ -50,6 +50,7 @@ class Header extends React.PureComponent {
 	showVerticalLayout = () => {
 		return this.props.windowSize === 'xs' && !isLandscape();
 	}
+	
 
 	render() {
 		const secondary = getSecondary();
@@ -85,7 +86,8 @@ class Header extends React.PureComponent {
 						alignItems: "center"
 					}}
 				>
-					{(this.props.companyMenu && this.showVerticalLayout()) &&
+					{/* Quitado porque en el header ya se coloca el logo de la empresa en otro lado */}
+					{/* {(this.props.companyMenu && this.showVerticalLayout()) &&
 						<React.Fragment>
 							{!!this.props.company.logo?
 								<img src={this.props.company.logo} style={{maxWidth: '4em', height: '1.8em'}} alt="company-logo" />
@@ -94,7 +96,7 @@ class Header extends React.PureComponent {
 									name={"building-o"}
 								/>}
 						</React.Fragment>
-					}
+					} */}
 					{backButton && (
 						<Tooltip
 							title={this.props.translate.back}
@@ -127,7 +129,8 @@ class Header extends React.PureComponent {
 							className="App-logo"
 							style={{
 								height: "1.5em",
-								marginLeft: "2em",
+								marginLeft: "1em",
+								// marginLeft: "2em",
 								userSelect: 'none'
 							}}
 							alt="logo"
@@ -158,6 +161,7 @@ class Header extends React.PureComponent {
 						<UserMenu
 							user={this.props.user}
 							translate={this.props.translate}
+							company={this.props.company}
 						/>
 					)}
 					{drawerIcon && "DRAWER"}

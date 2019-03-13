@@ -64,7 +64,7 @@ class LoadFromPreviousCouncil extends React.Component {
         }
 
         if(this.state.council){
-            return <CouncilDetails council={this.state.council} translate={this.props.translate} />;
+            return <CouncilDetails council={this.state.council} translate={this.props.translate} inIndex={true} />;
         }
 
         return (

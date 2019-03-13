@@ -350,9 +350,6 @@ h4 {
     }
 }
 
-.hoverEnTabla:hover {
-    background: #ddd!important;
-}
 
 .colorRed {
     color: #bd0000
@@ -379,3 +376,93 @@ h4 {
         position: fixed;
     }
 }
+  .hoverEnTabla:hover {background: #ddd!important;}
+
+.imageAfter::before{
+    content: "\f0f7"; 
+    position: absolute;
+    font-family: FontAwesome;
+    font-size: 43px;
+    top: 45%;
+    left: calc(50% - .4em);
+    color: #000000a6;
+}
+
+.imageAfterHeader::before{
+    content: "\f0f7"; 
+    position: absolute;
+    font-family: FontAwesome;
+    font-size: 28px;
+    top: 27%;
+    left: 25%;
+    color: #000000a6;
+}
+
+/*Calendario*/
+.rbc-agenda-table tbody td, .rbc-agenda-table tbody tr { color: black;}
+.rbc-agenda-table tbody tr:nth-child(odd) { background: #f5f5f5;}
+.rbc-agenda-date-cell {background: #f5f5f5;}
+button.rbc-cell-20{display: flex;color: white; background:#9c27b0}
+/* button.rbc-cell-20 div {margin-left: 2em;} */
+/* button.rbc-cell-20::before {content: "\f0c0"; position: absolute;font-family: FontAwesome;font-size: 18px;color: white;} */
+button.rbc-cell-30{display: flex;color: white; background:#9c27b0}
+/* button.rbc-cell-30 div {margin-left: 2em;} */
+/* button.rbc-cell-30::before {content: "\f0c0"; position: absolute;font-family: FontAwesome;font-size: 18px;color: white;} */
+button.rbc-cell-5{display: flex;color: white; background:#9c27b0}
+/* button.rbc-cell-5 div {margin-left: 2em;} */
+/* button.rbc-cell-5::before {content: "\f133"; position: absolute;font-family: FontAwesome;font-size: 18px;color: white;} */
+button.rbc-cell-10{display: flex;color: white; background:#9c27b0}
+/* button.rbc-cell-10 div {margin-left: 2em;} */
+/* button.rbc-cell-10::before {content: "\f133"; position: absolute;font-family: FontAwesome;font-size: 18px;color: white;} */
+/* tr.rbc-cell-20 td:last-child::before {content: "\f0c0"; position: absolute;font-family: FontAwesome;font-size: 18px;color: #000000a6;display: flex;}
+tr.rbc-cell-30 td:last-child::before {content: "\f0c0"; position: absolute;font-family: FontAwesome;font-size: 18px;color: #000000a6;display: flex;}
+tr.rbc-cell-5 td:last-child::before {content: "\f133"; position: absolute;font-family: FontAwesome;font-size: 18px;color: #000000a6;display: flex;} 
+tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-family: FontAwesome;font-size: 18px;color: #000000a6;display: flex;}  */
+.rbc-row-segment .rbc-event-content{max-width: 115px;}
+
+/* Dropdown de menu lateral  */
+.dropdown-wrapper { cursor: pointer;}
+.dropdown-wrapper:hover .dropdown-container{display:block;}
+.dropdown-wrapper:hover .dropdown-container-reunion{display:block;}
+.dropdown-container { background-color: white; min-width: 75px; z-index: 1000; position: absolute;  display: none; padding-left: 0px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);margin-top: 0;}
+.dropdown-container-reunion { background-color: white; min-width: 75px; z-index: 1000; position: absolute;  display: none; padding-left: 0px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);margin-top: 0;}
+.dropdown-container:after {  content: " "; border-right: 19px solid #3B3B3B; border-bottom: 18px solid transparent;border-top: 18px solid transparent; position: absolute; top: 63px; right: 112px;}
+.dropdown-container-reunion:after {  content: " "; border-right: 19px solid #3B3B3B; border-bottom: 18px solid transparent;border-top: 18px solid transparent; position: absolute; top: 145px; right: 112px;}
+
+.shakeIcon {
+    animation: shake 0.2s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shake {
+    0% { transform: rotate(-4deg); }
+    100% { transform: rotate(4deg); }
+  }
+.shakeItems {
+    animation: shakeItem 0.3s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shakeItem {
+    0% { transform: rotate(-0.08deg); }
+    100% { transform: rotate(0.08deg); }
+  }
+
+.shakeItemSmall {
+    animation: shakeItemSmall 0.3s;
+    animation-iteration-count: infinite;
+  }
+  
+  @keyframes shakeItemSmall {
+    0% { transform: rotate(-0.6deg); }
+    100% { transform: rotate(0.6deg); }
+  }
+
+  .react-grid-layout {
+    position: relative;
+    height: 700px;
+  }
+
+
+.colorTable:nth-child(odd) { background: gainsboro }
+.colorTable { padding-left: 5px }
