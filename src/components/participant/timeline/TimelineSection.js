@@ -7,14 +7,15 @@ import { Stepper, Step, StepLabel, StepContent }  from 'material-ui';
 import { moment } from '../../../containers/App';
 
 const TimelineSection = React.memo(({ data }) => {
+
     return (
         <Paper
             style={{
                 width: "100%",
-                height: "100%",
+                height: "100vh",
                 overflow: 'hidden'
             }}
-            elevation={4}
+            elevation={0}
         >
             <Scrollbar>
                 {data.loading?

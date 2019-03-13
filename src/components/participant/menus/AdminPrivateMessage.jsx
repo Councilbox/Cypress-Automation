@@ -28,7 +28,7 @@ class AdminPrivateMessage extends React.Component {
     }
 
     sendCouncilRoomMessage = async () => {
-        if(this.state.text){
+        if (this.state.text) {
             this.setState({
                 loading: true
             })
@@ -42,8 +42,8 @@ class AdminPrivateMessage extends React.Component {
                 }
             });
 
-            if(response.data){
-                if(response.data.addCouncilRoomMessage.success){
+            if (response.data) {
+                if (response.data.addCouncilRoomMessage.success) {
                     this.setState({
                         success: true,
                         loading: false,
@@ -51,7 +51,7 @@ class AdminPrivateMessage extends React.Component {
                     })
                 }
             }
-        }else{
+        } else {
             this.setState({
                 errorText: this.props.translate.required_field
             })
@@ -68,16 +68,16 @@ class AdminPrivateMessage extends React.Component {
 
     renderMenu = () => {
 
-        return(
+        return (
             <div>
                 <TextInput
                     floatingText={this.props.translate.message}
                     value={this.state.text}
                     multiline={true}
-                    onChange={event => this.setState({ text: event.target.value, success: false})}
+                    onChange={event => this.setState({ text: event.target.value, success: false })}
                 />
                 <BasicButton
-                    text={this.state.success? this.props.translate.tooltip_sent : this.props.translate.send}
+                    text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
                     onClick={this.sendCouncilRoomMessage}
                     loading={this.state.loading}
                     success={this.state.success}
@@ -93,43 +93,52 @@ class AdminPrivateMessage extends React.Component {
     }
 
 
-    render(){
+    render() {
         const secondary = getSecondary();
+        const { menuRender } = this.props
 
-        return(
-            <Popover
-                title={this.props.translate.private_comment_for_room_admin}
-                content={this.renderMenu()}
-                visible={this.state.visible}
-                onVisibleChange={this.onVisibleChange}
-                trigger={'click'}
-            >
-                <Tooltip
+
+        if (menuRender) {
+            return (
+                this.renderMenu()
+            )
+        } else {
+            return (
+                <Popover
                     title={this.props.translate.private_comment_for_room_admin}
-                    placement="top"
-                    open={this.state.tooltip}
+                    content={this.renderMenu()}
+                    visible={this.state.visible}
+                    onVisibleChange={this.onVisibleChange}
+                    trigger={'click'}
                 >
-                    <IconButton
-                        size={'small'}
-                        onMouseOver={() => this.setState({tooltip: true})}
-                        onMouseLeave={() => this.setState({tooltip: false})}
-                        style={{
-                            outline: 0,
-                            color: this.state.visible? 'white' : secondary,
-                            backgroundColor: this.state.visible? secondary : 'inherit',
-                            width: '50%',
-                            borderRadius: 0,
-                            height: '100%'
-                        }}
-                        onClick={this.toggleVisible}
+                    <Tooltip
+                        title={this.props.translate.private_comment_for_room_admin}
+                        placement="top"
+                        open={this.state.tooltip}
                     >
-                        <i className="material-icons" style={{width: '1em'}}>
-                            chat_buble_outline
+                        <IconButton
+                            size={'small'}
+                            onMouseOver={() => this.setState({ tooltip: true })}
+                            onMouseLeave={() => this.setState({ tooltip: false })}
+                            style={{
+                                outline: 0,
+                                color: this.state.visible ? 'white' : secondary,
+                                backgroundColor: this.state.visible ? secondary : 'inherit',
+                                width: '50%',
+                                borderRadius: 0,
+                                height: '100%'
+                            }}
+                            onClick={this.toggleVisible}
+                        >
+                            <i className="material-icons" style={{ width: '1em' }}>
+                                chat_buble_outline
                         </i>
-                    </IconButton>
-                </Tooltip>
-            </Popover>
-        )
+                        </IconButton>
+                    </Tooltip>
+                </Popover>
+            )
+        }
+        // )
     }
 }
 
@@ -143,5 +152,5 @@ const addCouncilRoomMessage = gql`
 `;
 
 export default graphql(addCouncilRoomMessage, {
-   name: 'addCouncilRoomMessage'
+    name: 'addCouncilRoomMessage'
 })(AdminPrivateMessage);

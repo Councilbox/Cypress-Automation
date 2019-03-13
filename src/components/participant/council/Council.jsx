@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql, withApollo, compose } from "react-apollo";
 import gql from "graphql-tag";
-import { Grid, Button, Badge, withStyles } from "material-ui";
+import { Grid, Button, Badge, SwipeableDrawer } from "material-ui";
 import withTranslations from "../../../HOCs/withTranslations";
 import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { PARTICIPANT_STATES } from '../../../constants';
@@ -16,14 +16,13 @@ import VideoContainer from '../VideoContainer';
 import { toast } from 'react-toastify';
 import { councilStarted } from '../../../utils/CBX';
 import { API_URL } from "../../../config";
-import TimelineSection from '../timeline/TimelineSection';
 import AdminAnnouncement from './AdminAnnouncement';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from "react-device-detect";
-import FontAwesome from "react-fontawesome";
-import FloatGroup from 'react-float-button';
+import CouncilSidebar from './CouncilSidebar';
+import AdminPrivateMessage from "../menus/AdminPrivateMessage";
 
-const RedBadge = withStyles(() => ({ badge: { backgroundColor: '#F00' } }))(Badge);
+
 const styles = {
     viewContainer: {
         width: "100vw",
@@ -49,7 +48,7 @@ class ParticipantCouncil extends React.Component {
     state = {
         agendasAnchor: 'right',
         hasVideo: councilHasVideo(this.props.council),
-        videoURL: ''
+        videoURL: '',
     };
 
     noStartedToastId = null;
@@ -115,6 +114,19 @@ class ParticipantCouncil extends React.Component {
         )
     }
 
+    _renderAgendaSectionMobile = () => {
+        return (
+            <Agendas
+                participant={this.props.participant}
+                council={this.props.council}
+                anchorToggle={this.state.hasVideo}
+                agendasAnchor={this.state.agendasAnchor}
+                toggleAgendasAnchor={this.toggleAgendasAnchor}
+                sinCabecera={true}
+            />
+        )
+    }
+
     toggleAgendasAnchor = () => {
         const anchor = this.state.agendasAnchor === 'left' ? 'right' : 'left';
         this.setState({ agendasAnchor: anchor });
@@ -127,144 +139,19 @@ class ParticipantCouncil extends React.Component {
         return (
             <div style={styles.viewContainer}>
                 {isMobile &&
-                    <div style={{
-                        float: 'left',
-                        zIndex: '0'
-                    }}>
-                        <div style={{
-                            backgroundColor: darkGrey,
-                            height: '3.5rem',
-                            zIndex: '1000',
-                            position: 'absolute',
-                            display: 'flex',
-                            flexDirection: 'row',
-                            left: '0px',
-                            width: '100vw',
-                            alignItems: 'center',
-                            bottom: '0px',
-                            // overflow: 'hidden',
-                            fontSize: "0.55em"
-                        }}>
-                            <div style={{ height: '3.5rem', width: "100%", display: 'flex', color: '#ffffffcc' }}>
-
-                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
-                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
-                                        <div style={{ display: "unset" }}>
-                                            <div>
-                                                <FontAwesome
-                                                    name={"video-camera"}
-                                                    style={{
-                                                        fontSize: '24px',
-                                                        width: '1em',
-                                                        height: '1em',
-                                                        overflow: 'hidden',
-                                                        userSelect: 'none'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div style={{
-                                                color: 'white',
-                                                fontSize: '0.55rem',
-                                                textTransform: "none"
-                                            }}>
-                                                Video {/*TRADUCCION*/}
-                                            </div>
-                                        </div>
-                                    </Button>
-                                </div>
-                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
-                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
-                                        <div style={{ display: "unset" }}>
-                                            <div>
-                                                <FontAwesome
-                                                    name={"calendar"}
-                                                    style={{
-                                                        fontSize: '24px',
-                                                        width: '1em',
-                                                        height: '1em',
-                                                        overflow: 'hidden',
-                                                        userSelect: 'none'
-                                                    }}
-                                                />
-                                            </div>
-                                            <div style={{
-                                                color: 'white',
-                                                fontSize: '0.55rem',
-                                                textTransform: "none"
-                                            }}>
-                                                Agenda {/*TRADUCCION*/}
-                                            </div>
-                                        </div>
-                                    </Button>
-                                </div>
-                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
-                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
-                                        <div style={{ display: "unset" }}>
-                                            <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
-                                                <div>
-                                                    <FontAwesome
-                                                        name={"file-text-o"}
-                                                        style={{
-                                                            fontSize: '24px',
-                                                            width: '1em',
-                                                            height: '1em',
-                                                            overflow: 'hidden',
-                                                            userSelect: 'none'
-                                                        }}
-                                                    />
-                                                </div>
-                                            </Badge>
-                                            <div style={{
-                                                color: 'white',
-                                                fontSize: '0.55rem',
-                                                textTransform: "none"
-                                            }}>
-                                                Resumen {/*TRADUCCION*/}
-                                            </div>
-                                        </div>
-                                    </Button>
-                                </div>
-                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
-                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
-                                        <div style={{ display: "unset" }}>
-                                            <div>
-                                                <i className="material-icons" style={{ width: '20px' }}>
-                                                    chat_buble_outline
-                                                </i>
-                                            </div>
-                                            <div style={{
-                                                color: 'white',
-                                                fontSize: '0.55rem',
-                                                textTransform: "none"
-                                            }}>
-                                                Comentario {/*TRADUCCION*/}
-                                            </div>
-                                        </div>
-                                    </Button>
-                                </div>
-                                <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem' }}>
-                                    <Button className={"NoOutline"} style={{ color: '#ffffffcc', padding: '0', fontSize: '10px', }} >
-                                        <div style={{ display: "unset" }}>
-                                            <div>
-                                                <i className="material-icons" style={{ width: '80px' }}>
-                                                    pan_tool
-                                                </i>
-                                            </div>
-                                            <div style={{
-                                                color: 'white',
-                                                fontSize: '0.55rem',
-                                                textTransform: "none"
-                                            }}>
-                                                Palabra {/*TRADUCCION*/}
-                                            </div>
-                                        </div>
-                                    </Button>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
+                    <CouncilSidebar
+                        council={council}
+                        translate={this.props.translate}
+                        agenda={this._renderAgendaSectionMobile()}
+                        comentario={
+                            <AdminPrivateMessage
+                                translate={this.props.translate}
+                                council={council}
+                                participant={participant}
+                                menuRender={true}
+                            />
+                        }
+                    />
                 }
                 <Header
                     logoutButton={true}
@@ -280,7 +167,7 @@ class ParticipantCouncil extends React.Component {
                             justifyContent: 'center'
                         } : {})
                     }}>
-                        {agendasAnchor === 'left' &&
+                        {agendasAnchor === 'left' && !isMobile &&
                             this._renderAgendaSection()
                         }
 
@@ -314,7 +201,7 @@ class ParticipantCouncil extends React.Component {
                                 </div>
                             </Grid>
                         }
-                        {agendasAnchor === 'right' &&
+                        {agendasAnchor === 'right' && !isMobile &&
                             this._renderAgendaSection()
                         }
                     </Grid>

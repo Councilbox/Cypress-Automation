@@ -135,46 +135,59 @@ class AgendaNoSession extends React.Component {
             <Paper style={styles.container} elevation={4}>
                 <Scrollbar>
                     <div>
-                        <div style={styles.agendasHeader}>
-                            <div style={{ width: '3em' }}>
-                                {agendasAnchor === 'right' ?
-                                    anchorToggle &&
-                                    <IconButton
-                                        size={'small'}
-                                        onClick={toggleAgendasAnchor}
-                                        style={{ outline: 0 }}
-                                    >
-                                        <i className="fa fa-caret-left"></i>
-                                    </IconButton>
-                                    :
-                                    <CouncilInfoMenu
-                                        translate={translate}
-                                        participant={this.props.participant}
-                                        council={council}
-                                    />
-                                }
+                        {!this.props.sinCabecera &&
+                            <React.Fragment>
+                                <div style={styles.agendasHeader}>
+                                    <div style={{ width: '3em' }}>
+                                        {agendasAnchor === 'right' ?
+                                            anchorToggle &&
+                                            <IconButton
+                                                size={'small'}
+                                                onClick={toggleAgendasAnchor}
+                                                style={{ outline: 0 }}
+                                            >
+                                                <i className="fa fa-caret-left"></i>
+                                            </IconButton>
+                                            :
+                                            <CouncilInfoMenu
+                                                translate={translate}
+                                                participant={this.props.participant}
+                                                council={council}
+                                            />
+                                        }
+                                    </div>
+                                    <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                                    <div style={{ width: '3em' }}>
+                                        {agendasAnchor === 'left' ?
+                                            anchorToggle &&
+                                            <IconButton
+                                                size={'small'}
+                                                onClick={toggleAgendasAnchor}
+                                                style={{ outline: 0 }}
+                                            >
+                                                <i className="fa fa-caret-right"></i>
+                                            </IconButton>
+                                            :
+                                            <CouncilInfoMenu
+                                                translate={translate}
+                                                participant={this.props.participant}
+                                                council={council}
+                                            />
+                                        }
+                                    </div>
+                                </div>
+                                <Divider />
+                            </React.Fragment>
+                        }
+                        {this.props.sinCabecera &&
+                            <div style={{position: "fixed", top: '50px', right: "15px",background: "gainsboro", width:"47px", height: "32px", borderRadius: "25px"}}>
+                                <CouncilInfoMenu
+                                    translate={translate}
+                                    participant={this.props.participant}
+                                    council={council}
+                                />
                             </div>
-                            <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-                            <div style={{ width: '3em' }}>
-                                {agendasAnchor === 'left' ?
-                                    anchorToggle &&
-                                    <IconButton
-                                        size={'small'}
-                                        onClick={toggleAgendasAnchor}
-                                        style={{ outline: 0 }}
-                                    >
-                                        <i className="fa fa-caret-right"></i>
-                                    </IconButton>
-                                    :
-                                    <CouncilInfoMenu
-                                        translate={translate}
-                                        participant={this.props.participant}
-                                        council={council}
-                                    />
-                                }
-                            </div>
-                        </div>
-                        <Divider />
+                        }
                         {!councilStarted(council) &&
                             <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
                                 {this.props.translate.council_not_started_yet}

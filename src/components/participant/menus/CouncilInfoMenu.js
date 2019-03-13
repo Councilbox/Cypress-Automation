@@ -33,7 +33,7 @@ class CouncilInfoMenu extends React.Component {
     }
 
     _renderCouncilInfo = () => {
-        return(
+        return (
             <CouncilInfo
                 council={this.props.council}
                 translate={this.props.translate}
@@ -42,7 +42,7 @@ class CouncilInfoMenu extends React.Component {
     }
 
     _renderConveneBody = () => {
-        return(
+        return (
             <div>
                 <Convene
                     council={this.props.council}
@@ -64,23 +64,23 @@ class CouncilInfoMenu extends React.Component {
                 <div>
                     {`${translate.name}: ${participant.name} ${participant.surname}`}
                 </div>
-                <div style={{marginBottom: '1em'}}>
+                <div style={{ marginBottom: '1em' }}>
                     {`${translate.email}: ${participant.email}`}
                 </div>
                 <div>
-                Votos delegados:
+                    Votos delegados:
                 {participant.delegatedVotes.map(vote => (
-                    <div key={`delegatedVote_${vote.id}`}>
-                        {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
-                    </div>
-                ))}
-                Total de votos: {this.calculateParticipantVotes()}
-            </div>
+                        <div key={`delegatedVote_${vote.id}`}>
+                            {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
+                        </div>
+                    ))}
+                    Total de votos: {this.calculateParticipantVotes()}
+                </div>
             </div>
         )
     }
 
-    render(){
+    render() {
         const primary = getPrimary();
         const secondary = getSecondary();
         const { translate } = this.props;
@@ -88,11 +88,15 @@ class CouncilInfoMenu extends React.Component {
         return (
             <React.Fragment>
                 <DropDownMenu
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
                     color="transparent"
                     Component={() =>
                         <IconButton
                             size={'small'}
-                            style={{outline: 0, color: secondary}}
+                            style={{ outline: 0, color: secondary }}
                         >
                             <i className="fa fa-info"></i>
                         </IconButton>
@@ -101,7 +105,7 @@ class CouncilInfoMenu extends React.Component {
                     items={
                         <React.Fragment>
                             <MenuItem
-                                onClick={() => this.setState({showConvene: true})}
+                                onClick={() => this.setState({ showConvene: true })}
                                 style={{
                                     fontSize: '1em'
                                 }}
