@@ -174,7 +174,7 @@ class ActAgreements extends React.Component {
 				numAbstention: abstentionVotings,
 				numNoVote: noVotes,
 			}
-		});
+		}, this.props.translate);
 		this.editor.paste(correctedText);
 		this.updateAgreement(correctedText);
 		this.modal.close();
