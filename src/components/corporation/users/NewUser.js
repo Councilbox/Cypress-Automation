@@ -15,8 +15,7 @@ class NewUser extends React.PureComponent {
             email: '',
             surname: '',
             name: '',
-            preferredLanguage: 'es',
-            roles: 'secretary'
+            preferredLanguage: 'es'
         },
         companies: [],
         errors: {}
