@@ -619,7 +619,7 @@ export const isRepresentative = participant => {
 };
 
 export const isRepresented = participant => {
-	return participant.state === PARTICIPANT_STATES.REPRESENTATED;
+	return participant.state === PARTICIPANT_STATES.REPRESENTATED || participant.state === PARTICIPANT_STATES.DELEGATED;
 };
 
 export const getSendType = value => {

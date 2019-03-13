@@ -117,39 +117,6 @@ class CredentialsContainer extends React.Component {
 	loadMore = () => {
 		const currentLength = this.props.data.liveParticipantsCredentials.list.length;
 		this.props.setLimit(currentLength + 24);
-
-/* 		this.setState({
-			loadingMore: true
-		});
-
-
-		this.props.data.fetchMore({
-			variables: {
-				options: {
-					offset: currentLength,
-					limit: PARTICIPANTS_LIMITS[0]
-				}
-			},
-			updateQuery: (prev, { fetchMoreResult }) => {
-				if (!fetchMoreResult) {
-					return prev;
-				}
-				this.setState({
-					loadingMore: false
-				});
-
-				return {
-					...prev,
-					liveParticipantsCredentials: {
-						...prev.liveParticipantsCredentials,
-						list: [
-							...prev.liveParticipantsCredentials.list,
-							...fetchMoreResult.liveParticipantsCredentials.list
-						]
-					}
-				};
-			}
-		}); */
 	};
 
 	refresh = () => {
@@ -548,6 +515,7 @@ const query = gql`
 				email
 				phone
 				signed
+				personOrEntity
 				dni
 				type
 				online

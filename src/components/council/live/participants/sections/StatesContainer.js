@@ -517,6 +517,7 @@ const query = gql`
 				state
 				councilId
 				name
+				personOrEntity
 				position
 				email
 				phone

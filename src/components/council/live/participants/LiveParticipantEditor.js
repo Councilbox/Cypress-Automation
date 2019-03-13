@@ -124,9 +124,8 @@ class LiveParticipantEditor extends React.Component {
 					padding: this.props.windowSize === 'xs' ? '1.3em' : "1em",
 				}}
 			>
-				<div >
+				<div>
 					<Grid >
-						{/* Titulos en el modal */}
 						<GridItem xs={landscape ? 12 : 6} md={4}
 							style={{
 								display: isMobile ? "none" : "flex",
@@ -171,7 +170,7 @@ class LiveParticipantEditor extends React.Component {
 										<div style={{ paddingLeft: '1em' }}>
 										</div>
 										<div >
-											<ParticipantDisplay //lista de datos
+											<ParticipantDisplay
 												participant={participant}
 												translate={translate}
 												council={this.props.council}
@@ -263,7 +262,7 @@ class LiveParticipantEditor extends React.Component {
 							</GridItem>
 						</GridItem>
 					</Grid>
-				</div >
+				</div>
 				<hr
 					style={{
 						width: "100%"
@@ -350,14 +349,6 @@ class LiveParticipantEditor extends React.Component {
 								<div dangerouslySetInnerHTML={{ __html: participant.assistanceComment }} />
 							</GridItem>
 						}
-						{/* {CBX.showSendCredentials(participant.state) &&
-							<ResendCredentialsModal
-								participant={participant}
-								council={this.props.council}
-								translate={translate}
-								refetch={this.props.data.refetch}
-							/>
-						} */}
 						<React.Fragment>
 							<GridItem
 								xs={12}
@@ -397,7 +388,6 @@ class LiveParticipantEditor extends React.Component {
 											display: "flex",
 											justifyContent: 'flex-end',
 											marginLeft: isMobile ? '0' : "0",
-											// marginTop: "0.5em"
 											marginLeft: "auto"
 										}}
 									>
@@ -411,7 +401,7 @@ class LiveParticipantEditor extends React.Component {
 												/>
 											</div>
 										}
-										{!CBX.isRepresented(participant) && /*Boton de firmar*/
+										{!CBX.isRepresented(participant) && participant.personOrEntity !== 1 &&
 											<div>
 												<BasicButton
 													text={participant.signed ? translate.user_signed : translate.to_sign}
@@ -484,7 +474,7 @@ class LiveParticipantEditor extends React.Component {
 						</React.Fragment>
 					</Grid>
 				</div>
-			</div >
+			</div>
 		);
 	}
 }
