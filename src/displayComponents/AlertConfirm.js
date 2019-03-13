@@ -25,7 +25,7 @@ const AlertConfirm = ({
 	bodyText,
 	bodyStyle = {},
 	hideAccept,
-	classNameDialog
+	classNameDialog,
 	widthModal
 }) => {
 	const primary = getPrimary();

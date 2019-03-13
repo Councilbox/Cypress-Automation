@@ -57,6 +57,7 @@ const AgendaNumber = ({
 		<div>
 			{index}
 		</div>
-	);
+	</div>
+);
 
 export default AgendaNumber;
