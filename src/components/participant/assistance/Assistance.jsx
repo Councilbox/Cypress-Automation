@@ -10,6 +10,8 @@ import { PARTICIPANT_STATES } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
+import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
+import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning';
 import DelegationItem from "./DelegationItem";
 import { canDelegateVotes } from "../../../utils/CBX"
 import { primary, secondary } from "../../../styles/colors";
@@ -56,6 +58,7 @@ class Assistance extends React.Component {
 		delegationModal: false,
 		assistanceIntention: PARTICIPANT_STATES.REMOTE,
 		delegateId: null,
+		noAttendWarning: false,
 		delegateInfoUser: null
 	};
 
@@ -160,9 +163,14 @@ class Assistance extends React.Component {
 		});
 	}
 
+	showWarning = () => {
+		this.setState({
+			noAttendWarning: true
+		});
+	}
+
 	selectDelegation = async delegateId => {
 		const delegateInfoUser = this.props.data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
-
 		this.setState({
 			delegateId: delegateId,
 			delegationModal: false,
@@ -267,6 +275,7 @@ class Assistance extends React.Component {
 														<AssistanceOption
 															title={translate.not_attending}
 															select={() => {
+																this.showWarning();
 																this.setState({
 																	assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
 																	delegateId: null
@@ -315,6 +324,12 @@ class Assistance extends React.Component {
 															}
 														/>
 													</Card>
+													{this.state.noAttendWarning &&
+														<NoAttendDelegationWarning
+															translate={translate}
+															requestClose={() => this.setState({noAttendWarning: false})}
+														/>
+													}
 												</React.Fragment>
 											}
 											<br />
@@ -362,31 +377,12 @@ class Assistance extends React.Component {
 	}
 }
 
-const refuseDelegationMutation = gql`
-	mutation RefuseDelegation($participantId: Int!){
-		refuseDelegation(participantId: $participantId){
-			success
-		}
-	}
-`;
 
-const DelegationSection = withApollo(({ participant, translate, client, refetch}) => {
-	const [loading, setLoading] = React.useState(false);
+const DelegationSection = ({ participant, translate, refetch}) => {
+	const [delegation, setDelegation] = React.useState(null);
 
-	const refuseDelegation = async participantId => {
-		setLoading(participantId);
-
-		const response = await client.mutate({
-			mutation: refuseDelegationMutation,
-			variables: {
-				participantId
-			}
-		});
-
-		if(response.data.refuseDelegation.success){
-			refetch();
-		}
-		setLoading(false);
+	const closeConfirm = () => {
+		setDelegation(null);
 	}
 
 	return (
@@ -397,6 +393,15 @@ const DelegationSection = withApollo(({ participant, translate, client, refetch}
 					color={primary}
 				/>
 			</div>
+			{delegation &&
+				<RefuseDelegationConfirm
+					delegation={delegation}
+					translate={translate}
+					requestClose={closeConfirm}
+					refetch={refetch}
+				/>
+			}
+
 			{participant.delegatedVotes.map(vote => {
 				return (
 					<div
@@ -408,6 +413,7 @@ const DelegationSection = withApollo(({ participant, translate, client, refetch}
 							padding: '0.3em',
 							alignItems: 'center'
 						}}
+						key={vote.id}
 					>
 						<span>{vote.name}</span>
 						<div>
@@ -416,8 +422,7 @@ const DelegationSection = withApollo(({ participant, translate, client, refetch}
 								textStyle={{color: secondary}}
 								color="transparent"
 								loadingColor={secondary}
-								loading={loading === vote.id}
-								onClick={() => refuseDelegation(vote.id)}
+								onClick={() => setDelegation(vote)}
 								buttonStyle={{border: `1px solid ${secondary}`}}
 							/>
 						</div>
@@ -426,7 +431,7 @@ const DelegationSection = withApollo(({ participant, translate, client, refetch}
 			})}
 		</Card>
 	)
-});
+};
 
 
 

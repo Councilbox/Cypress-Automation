@@ -2045,6 +2045,7 @@ export const participantsToDelegate = gql`
 				name
 				surname
 				phone
+				assistanceIntention
 				delegatedVotes {
 					id
 					name

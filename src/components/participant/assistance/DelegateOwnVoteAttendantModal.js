@@ -104,12 +104,8 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 								<Scrollbar>
 									{participants.length > 0 ? (
 										<div style={{ width: "99%" }}>
-											{/* <React.Fragment> */}
 											{participants.map(participant => {
-												if (
-													participant.id !==
-													this.props.participant.id
-												) {
+												if (participant.id !== this.props.participant.id ) {
 													return (
 														<React.Fragment key={`delegateVote_${participant.id}`}>
 															<ParticipantRow

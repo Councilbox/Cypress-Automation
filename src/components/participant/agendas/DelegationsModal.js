@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
+import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
 
 const reducer = (state, { type, payload }) => {
     const actions = {
@@ -31,25 +32,10 @@ const reducer = (state, { type, payload }) => {
 }
 
 const DelegationsModal = ({ open, requestClose, translate, refuseDelegation, refetch, participant }) => {
-    const [loading, setLoading] = React.useState(false);
-    const [state, dispatch] = React.useReducer(reducer, { loading: false, success: false, error: false });
+    const [delegation, setDelegation] = React.useState(false);
 
-    const sendRefuseDelegation = async participantId => {
-        dispatch({ type: 'loading', payload: participantId });
-        const response = await refuseDelegation({
-            variables: {
-                participantId
-            }
-        })
-
-        if(response.data.refuseDelegation && response.data.refuseDelegation.success){
-            dispatch({ type: 'success'});
-            refetch();
-        }
-
-        if(response.errors){
-            dispatch({ type: 'error', payload: response.errors })
-        }
+    const closeConfirm = () => {
+        setDelegation(false);
     }
 
     function _renderDelegationsModalBody() {
@@ -64,8 +50,7 @@ const DelegationsModal = ({ open, requestClose, translate, refuseDelegation, ref
                         <BasicButton
                             text="Rechazar"
                             color="white"
-                            loading={state.loading === vote.id}
-                            onClick={() => sendRefuseDelegation(vote.id)}
+                            onClick={() => setDelegation(vote)}
                             buttonStyle={{ border: `1px solid ${getSecondary()}`}}
                             textStyle={{ color: getSecondary() }}
                         />
@@ -81,25 +66,26 @@ const DelegationsModal = ({ open, requestClose, translate, refuseDelegation, ref
     }
 
     return (
-        <AlertConfirm
-            requestClose={requestClose}
-            open={open}
-            fullWidth={false}
-            buttonCancel={translate.close}
-            bodyText={_renderDelegationsModalBody()}
-            title={translate.warning}
-        />
+        <React.Fragment>
+            <AlertConfirm
+                requestClose={requestClose}
+                open={open}
+                fullWidth={false}
+                buttonCancel={translate.close}
+                bodyText={_renderDelegationsModalBody()}
+                title={translate.warning}
+            />
+            {delegation &&
+				<RefuseDelegationConfirm
+					delegation={delegation}
+					translate={translate}
+					requestClose={closeConfirm}
+					refetch={refetch}
+				/>
+			}
+        </React.Fragment>
     )
 }
 
-const refuseDelegationMutation = gql`
-	mutation RefuseDelegation($participantId: Int!){
-		refuseDelegation(participantId: $participantId){
-			success
-		}
-	}
-`;
 
-export default graphql(refuseDelegationMutation, {
-    name: 'refuseDelegation'
-})(DelegationsModal);
+export default DelegationsModal;
