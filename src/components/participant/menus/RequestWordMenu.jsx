@@ -182,7 +182,7 @@ class RequestWordMenu extends React.Component {
                                         <FontAwesome
                                             name={"hourglass-start "}
                                             style={{
-                                                top: "-8px",
+                                                top: "-6px",
                                                 fontWeight: "bold",
                                                 right: "-10px",
                                                 position: "absolute",

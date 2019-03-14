@@ -34,6 +34,7 @@ class CouncilSidebar extends React.Component {
                 zIndex: '0'
             }}>
                 <div style={{
+                    borderTop:"1px solid dimgrey",
                     backgroundColor: darkGrey,
                     height: '3.5rem',
                     zIndex: '1000',
@@ -49,14 +50,75 @@ class CouncilSidebar extends React.Component {
                 }}>
                     <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
 
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem',  }}>
-                            <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden" }} onClick={() => this.cerrarTodo()}>
-                                <div style={{ display: "unset" }}>
+                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                            <FloatGroup delay={0.02} style={{ margin: '0 10px' }} >
+                                <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden" }} onClick={() => this.cerrarTodo()}>
+                                    <div style={{ display: "unset" }}>
+                                        <div>
+                                            <FontAwesome
+                                                name={"video-camera"}
+                                                style={{
+                                                    color: !this.state.modalContent ? secondary : "",
+                                                    padding: '0', margin: "0",
+                                                    fontSize: '24px',
+                                                    width: '1em',
+                                                    height: '1em',
+                                                    overflow: 'hidden',
+                                                    userSelect: 'none'
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{
+                                            color: 'white',
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Video {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>
+                                <Button style={{
+                                    background: "white",
+                                    width: "45px",
+                                    borderRadius: "45px",
+                                    height: "45px",
+                                    padding: '0',
+                                    margin: "0px",
+                                    minWidth: "0",
+                                    boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
+                                }} 
+                                onClick={this.props.middle}>
                                     <div>
                                         <FontAwesome
-                                            name={"video-camera"}
+                                            name={"compress"}
                                             style={{
-                                                color: !this.state.modalContent ? secondary : "",
+                                                color: 'grey',
+                                                padding: '0', margin: "0",
+                                                fontSize: '24px',
+                                                // width: '1em',
+                                                // height: '1em',
+                                                overflow: 'hidden',
+                                                userSelect: 'none'
+                                            }}
+                                        />
+                                    </div>
+                                </Button>
+                                <Button style={{
+                                    background: "white",
+                                    width: "45px",
+                                    borderRadius: "45px",
+                                    height: "45px"
+                                    , padding: '0',
+                                    margin: "0",
+                                    minWidth: "0",
+                                    boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
+                                }}
+                                onClick={this.props.full}>
+                                    <div>
+                                        <FontAwesome
+                                            name={"expand"}
+                                            style={{
+                                                color: 'grey',
                                                 padding: '0', margin: "0",
                                                 fontSize: '24px',
                                                 width: '1em',
@@ -66,17 +128,10 @@ class CouncilSidebar extends React.Component {
                                             }}
                                         />
                                     </div>
-                                    <div style={{
-                                        color: 'white',
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Video {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
+                                </Button>
+                            </FloatGroup>
                         </div>
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem',  }}>
+                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <Button
                                 className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}
                                 onClick={() => this.toggle('agenda')}
@@ -155,7 +210,7 @@ class CouncilSidebar extends React.Component {
                                 </div>
                             </Button>
                         </div>
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem',  }}>
+                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <Button
                                 className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
                                 onClick={() => this.toggle('timeline')}

@@ -43,12 +43,64 @@ const styles = {
     }
 };
 
+const stylesVideo = {
+    portrait: [{
+        fullPadre: {
+            width: '100%',
+             height: '100%',
+            position: 'relative',
+        },
+        fullHijo: {
+            width: '100%' ,
+            height: 'calc(100% - 2.5em)'
+        },
+        middlePadre: {
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        middleHijo: {
+            width: '100%', 
+            height: 'calc(50% - 2.5em)'
+        },
+    }],
+    landscape: [{
+        fullPadre: {
+            width: '100%',
+             height: '100%',
+            position: 'relative',
+        },
+        middlePadre: {
+            width: '100%' ,
+            height: 'calc(100% - 2.5em)'
+        },
+        middlePadre: {
+            width: '100%',
+             height: '100%',
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+        },
+        middleHijo: {
+            width: '100%', 
+            height: 'calc(50% - 2.5em)'
+        },
+    }],
+    
+}
+
 
 class ParticipantCouncil extends React.Component {
     state = {
         agendasAnchor: 'right',
         hasVideo: councilHasVideo(this.props.council),
         videoURL: '',
+        full: true,
+        middle:false
     };
 
     noStartedToastId = null;
@@ -143,6 +195,8 @@ class ParticipantCouncil extends React.Component {
                         council={council}
                         translate={this.props.translate}
                         agenda={this._renderAgendaSectionMobile()}
+                        full={() => this.setState({full: true, middle:false})}
+                        middle={() => this.setState({full: false, middle:true})}
                         comentario={
                             <AdminPrivateMessage
                                 translate={this.props.translate}
@@ -183,7 +237,7 @@ class ParticipantCouncil extends React.Component {
 
                         {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                             <Grid item xs={isLandscape() ? 6 : 12} md={8}>
-                                <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                <div style={this.state.full? stylesVideo.portrait[0].fullPadre: stylesVideo.portrait[0].middlePadre}>
                                     <ConfigContext.Consumer>
                                         {config => (
                                             <AdminAnnouncement
@@ -200,23 +254,23 @@ class ParticipantCouncil extends React.Component {
                                         videoURL={this.state.videoURL}
                                         refetchParticipant={this.props.refetchParticipant}
                                     />
-                                    <div style={{ height: 'calc(100% - 2.5em)', width: '100%' }}>
+                                    <div style={this.state.full? stylesVideo.portrait[0].fullHijo: stylesVideo.portrait[0].middleHijo}>
                                         <VideoContainer
-                                            council={council}
-                                            participant={participant}
-                                            videoURL={this.state.videoURL}
-                                            setVideoURL={url => this.setState({ videoURL: url })}
-                                        />
-                                    </div>
+                                        council={council}
+                                        participant={participant}
+                                        videoURL={this.state.videoURL}
+                                        setVideoURL={url => this.setState({ videoURL: url })}
+                                    />
+                                </div>
                                 </div>
                             </Grid>
-                        }
+            }
                         {agendasAnchor === 'right' && !isMobile &&
                             this._renderAgendaSection()
                         }
                     </Grid>
                 </div>
-            </div>
+            </div >
         );
     }
 }
