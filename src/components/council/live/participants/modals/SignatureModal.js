@@ -11,6 +11,7 @@ import {
 import { getPrimary } from "../../../../../styles/colors";
 import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
+import gql from "graphql-tag";
 
 
 class SignatureModal extends React.Component {
@@ -21,6 +22,7 @@ class SignatureModal extends React.Component {
 		errors: {},
 		liveParticipantSignature: {},
 		participant: {},
+		clean: true,
 		participantState: PARTICIPANT_STATES.PHYSICALLY_PRESENT
 	};
 
@@ -32,23 +34,33 @@ class SignatureModal extends React.Component {
 
 
 	componentDidUpdate(prevProps) {
-		if(!this.props.data.loading){
+		if(!this.props.data.loading && !this.signature){
 			this.setSignature();
 		}
 	}
 
 	save = async () => {
 		let signatureData = this.signature.toDataURL();
-		const response = await this.props.setLiveParticipantSignature({
-			variables: {
-				signature: {
-					...(this.props.data.liveParticipantSignature? { id: this.props.data.liveParticipantSignature.id } : {}),
-					data: signatureData,
+		let response;
+		if(this.state.clean){
+			response = await this.props.removeLiveParticipantSignature({
+				variables: {
 					participantId: this.props.participant.id
-				},
-				state: this.state.participantState
-			}
-		});
+				}
+			});
+		} else {
+			response = await this.props.setLiveParticipantSignature({
+				variables: {
+					signature: {
+						...(this.props.data.liveParticipantSignature? { id: this.props.data.liveParticipantSignature.id } : {}),
+						data: signatureData,
+						participantId: this.props.participant.id
+					},
+					state: this.state.participantState
+				}
+			});
+		}
+
 		if (!response.errors) {
 			await this.props.data.refetch();
 			await this.props.refetch();
@@ -61,6 +73,9 @@ class SignatureModal extends React.Component {
 	};
 
 	clear = () => {
+		this.setState({
+			clean: true
+		});
 		this.signature.clear();
 	};
 
@@ -173,7 +188,7 @@ class SignatureModal extends React.Component {
 							) : (
 									<br />
 								)}
-							<div style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}>
+							<div style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }} onClick={() => this.setState({clean: false})}>
 								<ReactSignature
 									height={height}
 									width={width}
@@ -190,6 +205,15 @@ class SignatureModal extends React.Component {
 	}
 }
 
+const removeLiveParticipantSignature = gql`
+	mutation RemoveLiveParticipantSignature($participantId: Int!){
+		removeLiveParticipantSignature(participantId: $participantId){
+			success
+			message
+		}
+	}
+`;
+
 export default compose(
 	graphql(liveParticipantSignature, {
 		options: props => ({
@@ -202,6 +226,13 @@ export default compose(
 	}),
 	graphql(setLiveParticipantSignature, {
 		name: "setLiveParticipantSignature",
+		options: {
+			errorPolicy: "all"
+		}
+	}),
+
+	graphql(removeLiveParticipantSignature, {
+		name: 'removeLiveParticipantSignature',
 		options: {
 			errorPolicy: "all"
 		}
