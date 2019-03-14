@@ -230,7 +230,8 @@ export const canAddDelegateVotes = (statute, participant) => {
 	return (
 		statute.existsDelegatedVote === 1 &&
 		(participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) &&
-		(participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
+		(participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED) &&
+		participant.personOrEntity !== 1
 	);
 };
 
@@ -359,7 +360,7 @@ export const changeVariablesToValues = (text, data, translate) => {
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
-	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondCall === 1 ?
+	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
 		:
 		data.council.firstOrSecondCall === 2 ?
@@ -697,7 +698,7 @@ export const councilIsNotLiveYet = council => {
 
 export const councilIsPreparing = council => {
 	return (
-		council.state === COUNCIL_STATES.PREPARING
+		council.state === COUNCIL_STATES.PREPARING || council.state === COUNCIL_STATES.SAVED
 	);
 };
 

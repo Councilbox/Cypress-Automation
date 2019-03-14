@@ -172,7 +172,7 @@ class LinkCompanyPage extends React.Component {
 								required
 								helpPopover={true}
 								helpTitle={translate.company_new_key}
-								helpDescription={'Un usuario autorizado puede proporcionarte esta clave accediendo al panel de configuración de la empresa'}//TRADUCCION
+								helpDescription={translate.link_key_tooltip}
 								value={data.linkKey}
 								errorText={errors.linkKey}
 								onChange={event =>

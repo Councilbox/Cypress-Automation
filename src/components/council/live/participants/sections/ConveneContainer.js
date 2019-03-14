@@ -478,6 +478,7 @@ const query = gql`
 				name
 				position
 				email
+				personOrEntity
 				phone
 				dni
 				type

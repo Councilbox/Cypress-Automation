@@ -148,10 +148,9 @@ class RequestWordMenu extends React.Component {
     }
 
     _renderSafariAlertBody = () => {
-        //TRADUCCION
         return (
             <div>
-                En estos momentos no está permitido que los usuarios que accedan a través de safari participen en la reunión. Disculpe las molestias
+                {this.props.translate.safari_word_ask_info}
             </div>
         )
     }

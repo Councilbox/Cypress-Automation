@@ -492,6 +492,7 @@ const query = gql`
 				phone
 				dni
 				signed
+				personOrEntity
 				type
 				online
 				requestWord

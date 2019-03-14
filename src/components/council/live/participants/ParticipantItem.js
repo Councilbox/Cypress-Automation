@@ -6,7 +6,7 @@ import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
-import { removeHTMLTags, isRepresented } from '../../../../utils/CBX';
+import { removeHTMLTags, isRepresented, hasHisVoteDelegated } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import { DropDownMenu, Icon } from '../../../../displayComponents';
@@ -14,81 +14,77 @@ import ParticipantStateList from "./ParticipantStateList";
 import { compose, graphql } from "react-apollo";
 import { liveParticipant, updateParticipantSends } from "../../../../queries";
 
-class ParticipantItem extends React.Component {
+const ParticipantItem = ({ participant, translate, layout, editParticipant, mode, council, ...props }) => {
+	const secondary = getSecondary();
+	const gridSize = window.innerWidth < 1350 ? 6 : 6;
 
-	render() {
-		const { participant, translate, layout, editParticipant, mode, council } = this.props;
-		const secondary = getSecondary();
-		const gridSize = window.innerWidth < 1350 ? 6 : 6
-
-		return (
-			<GridItem
-				xs={this.props.orientation === 'portrait' ? 12 : layout !== 'squares' ? 12 : 6}
-				md={layout !== 'squares' ? 12 : gridSize}
-				lg={layout !== 'squares' ? 12 : gridSize}
-				{...(layout !== 'squares' ? { marginBottom: '0.3em' } : {})}
+	return (
+		<GridItem
+			xs={props.orientation === 'portrait' ? 12 : layout !== 'squares' ? 12 : 6}
+			md={layout !== 'squares' ? 12 : gridSize}
+			lg={layout !== 'squares' ? 12 : gridSize}
+			{...(layout !== 'squares' ? { marginBottom: '0.3em' } : {})}
+		>
+			<div
+				style={{
+					width: '98%',
+					marginRight: '5%',
+					height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
+					...(layout !== 'squares' ? {
+						height: '3.2em',
+						marginBottom: '0.3em',
+						borderBottom: '1px solid gainsboro'
+					} : {})
+				}}
 			>
-				<div
+				<MenuItem
 					style={{
-						width: '98%',
-						marginRight: '5%',
-						height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
-						...(layout !== 'squares' ? {
-							height: '3.2em',
-							marginBottom: '0.3em',
-							borderBottom: '1px solid gainsboro'
-						} : {})
+						width: "100%",
+						height: '100%',
+						borderRadius: '2px',
+						padding: '0px 2px',
+						textOverflow: "ellipsis",
+						overflow: "hidden",
 					}}
+					onClick={() => editParticipant(participant.id)}
 				>
-					<MenuItem
-						style={{
-							width: "100%",
-							height: '100%',
-							borderRadius: '2px',
-							padding: '0px 2px',
-							textOverflow: "ellipsis",
-							overflow: "hidden",
-						}}
-						onClick={() => editParticipant(participant.id)}
-					>
-						{layout === 'compact' &&
-							<CompactItemLayout
-								secondary={secondary}
-								participant={participant}
-								translate={translate}
-								council={council}
-								refetch={this.props.refetch}
-								showSignatureModal={this.props.showSignatureModal}
-								mode={mode}
-							/>
-						}
-						{layout === 'table' &&
-							<CompactItemLayout
-								secondary={secondary}
-								participant={participant}
-								translate={translate}
-								council={council}
-								refetch={this.props.refetch}
-								showSignatureModal={this.props.showSignatureModal}
-								mode={mode}
-							/>
-						}
-						{layout === 'squares' &&
-							<TabletItem
-								secondary={secondary}
-								participant={participant}
-								translate={translate}
-								council={council}
-								refetch={this.props.refetch}
-								showSignatureModal={this.props.showSignatureModal}
-								mode={mode}
-							/>
-						}
-					</MenuItem>
-				</div>
-			</GridItem>
-		);
-	}
+					{layout === 'compact' &&
+						<CompactItemLayout
+							secondary={secondary}
+							participant={participant}
+							translate={translate}
+							council={council}
+							refetch={props.refetch}
+							showSignatureModal={props.showSignatureModal}
+							mode={mode}
+						/>
+					}
+					{layout === 'table' &&
+						<CompactItemLayout
+							secondary={secondary}
+							participant={participant}
+							translate={translate}
+							council={council}
+							refetch={props.refetch}
+							showSignatureModal={props.showSignatureModal}
+							mode={mode}
+						/>
+					}
+					{layout === 'squares' &&
+						<TabletItem
+							secondary={secondary}
+							participant={participant}
+							translate={translate}
+							council={council}
+							refetch={props.refetch}
+							showSignatureModal={props.showSignatureModal}
+							mode={mode}
+						/>
+					}
+				</MenuItem>
+			</div>
+		</GridItem>
+	);
 };
 
 const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council, refetch }) => (
@@ -196,7 +192,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={2}
 			lg={2}
 		>
-			{!isRepresented(participant) &&
+			{!isRepresented(participant) && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 				<BasicButton
 					text={participant.signed ? translate.user_signed : translate.to_sign}
 					fullWidth
@@ -434,7 +430,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 					justifyContent: 'center'
 				}}
 			>
-				{!isRepresented(participant) &&
+				{!isRepresented(participant) && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 					<BasicButton
 						text={participant.signed ? translate.user_signed : translate.to_sign}
 						fullWidth

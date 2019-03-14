@@ -118,7 +118,7 @@ const ResendButton = ({ active, action, translate }) => {
 								color: getSecondary()
 							}}
 						/>
-						<span style={{color: getSecondary()}}>{isMobile? 'Reenviar'/*TRADUCCION*/ : translate.send_video_credentials}</span>
+						<span style={{color: getSecondary()}}>{isMobile? translate.resend : translate.send_video_credentials}</span>
 					</React.Fragment>
 				}
 			>

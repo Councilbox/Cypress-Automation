@@ -77,7 +77,6 @@ class RecordingButton extends React.Component {
 
     render() {
         const { sessionStatus } = this.props.data;
-        console.error(sessionStatus);
         if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
             return <span />
         }
