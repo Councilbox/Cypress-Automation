@@ -144,7 +144,9 @@ class LiveParticipantEditor extends React.Component {
 								marginBottom: "0.8em",
 								paddingBottom: "0.5em"
 							}}>
-							<h4 style={{ width: '100%' }}>{translate.state}</h4>
+							{participant.personOrEntity !== 1 &&
+								<h4 style={{ width: '100%' }}>{translate.state}</h4>
+							}
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 6} md={4}
 							style={{
@@ -182,72 +184,76 @@ class LiveParticipantEditor extends React.Component {
 							</GridItem>
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
-							<GridItem xs={landscape ? 1 : 12} xs={3} md={3} >
-								<div >
-									<DropDownMenu
-										claseHover={"classHover"}
-										color="transparent"
-										id={'dropdownEstados'}
-										style={{ paddingLeft: '0px', paddingRight: '0px' }}
-										icon={
-											<StateIcon
-												translate={translate}
-												state={participant.state}
-												ratio={1.3}
-											/>
-										}
-										items={
-											<React.Fragment>
-												<ParticipantStateList
+						{participant.personOrEntity !== 1 &&
+							<React.Fragment>
+								<GridItem xs={landscape ? 1 : 12} xs={3} md={3}>
+									<div >
+										<DropDownMenu
+											claseHover={"classHover"}
+											color="transparent"
+											id={'dropdownEstados'}
+											style={{ paddingLeft: '0px', paddingRight: '0px' }}
+											icon={
+												<StateIcon
+													translate={translate}
+													state={participant.state}
+													ratio={1.3}
+												/>
+											}
+											items={
+												<React.Fragment>
+													<ParticipantStateList
+														participant={participant}
+														council={this.props.council}
+														translate={translate}
+														refetch={this.props.refetch}
+														inDropDown={true}
+													/>
+												</React.Fragment>
+											}
+											anchorOrigin={{
+												vertical: 'bottom',
+												horizontal: 'left',
+											}}
+										/>
+									</div>
+									<div
+										style={{
+
+											marginTop: "1em"
+										}}
+									>
+									</div>
+									<div
+										style={{
+											marginLeft: isMobile ? '0' : "0",
+											marginTop: "0.5em"
+										}}
+									>
+									</div>
+								</GridItem>
+								<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
+									<div style={{ marginLeft: '1.3em', width: "100%" }}>
+										<Typography variant="body2" >
+											<div style={{ paddingLeft: landscape ? '1em' : "0", height: "45px", marginBottom: "0.5em" }}>
+												<b>{`${translate.current_status}:  `}</b>
+												{translate[CBX.getParticipantStateField(participant)]}
+											</div>
+											<div style={{ paddingLeft: '1em', display: isMobile ? "none": "block" }}>
+												<ParticipantStateSelector
+													inDropDown={true}
 													participant={participant}
 													council={this.props.council}
 													translate={translate}
-													refetch={this.props.refetch}
-													inDropDown={true}
+													refetch={this.props.data.refetch}
 												/>
-											</React.Fragment>
-										}
-										anchorOrigin={{
-											vertical: 'bottom',
-											horizontal: 'left',
-										}}
-									/>
-								</div>
-								<div
-									style={{
+											</div>
+										</Typography>
 
-										marginTop: "1em"
-									}}
-								>
-								</div>
-								<div
-									style={{
-										marginLeft: isMobile ? '0' : "0",
-										marginTop: "0.5em"
-									}}
-								>
-								</div>
-							</GridItem>
-							<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
-								<div style={{ marginLeft: '1.3em', width: "100%" }}>
-									<Typography variant="body2" >
-										<div style={{ paddingLeft: landscape ? '1em' : "0", height: "45px", marginBottom: "0.5em" }}>
-											<b>{`${translate.current_status}:  `}</b>
-											{translate[CBX.getParticipantStateField(participant)]}
-										</div>
-										<div style={{ paddingLeft: '1em', display: isMobile ? "none": "block" }}>
-											<ParticipantStateSelector
-												inDropDown={true}
-												participant={participant}
-												council={this.props.council}
-												translate={translate}
-												refetch={this.props.data.refetch}
-											/>
-										</div>
-									</Typography>
-
-								</div>
-							</GridItem>
+									</div>
+								</GridItem>
+							</React.Fragment>
+						}
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
 							<GridItem xs={landscape ? 3 : 12} xs={12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
