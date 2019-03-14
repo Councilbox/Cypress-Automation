@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, IconButton, Tooltip } from "material-ui";
+import { Paper, IconButton, Tooltip, Button } from "material-ui";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -7,22 +7,26 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import AdminPrivateMessage from './AdminPrivateMessage';
 import DetectRTC from 'detectrtc';
-import { AlertConfirm } from '../../../displayComponents';
+import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isSafari } from 'react-device-detect';
+import FontAwesome from "react-fontawesome";
+
 
 
 class RequestWordMenu extends React.Component {
 
     state = {
         alertCantRequestWord: false,
-        safariModal: false
+        safariModal: false,
+        confirmWordModal: false
     }
 
     askForWord = async () => {
-        if(await this.checkWordRequisites()){
+        if (await this.checkWordRequisites()) {
             this.setState({
-                loading: true
+                loading: true,
+                confirmWordModal: false
             });
             await this.props.changeRequestWord({
                 variables: {
@@ -86,15 +90,15 @@ class RequestWordMenu extends React.Component {
         const primary = getPrimary();
 
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
-        if(grantedWord || CBX.isAskingForWord(this.props.participant)){
-            return(
+        if (grantedWord || CBX.isAskingForWord(this.props.participant)) {
+            return (
                 <Tooltip title={this.props.translate.cancel_ask_word} placement="top">
                     <IconButton
                         size={'small'}
                         style={{
                             outline: 0,
-                            color: grantedWord? 'white' : primary,
-                            backgroundColor: grantedWord? primary : 'inherit',
+                            color: grantedWord ? 'white' : primary,
+                            backgroundColor: grantedWord ? primary : 'inherit',
                             width: '50%',
                             height: '100%',
                             borderRadius: 0
@@ -109,24 +113,191 @@ class RequestWordMenu extends React.Component {
             )
         }
 
-        return(
+        return (
             <Tooltip title={this.props.translate.ask_to_speak} placement="top">
                 <IconButton
                     size={'small'}
                     style={{
                         outline: 0,
-                        color: isSafari? 'grey' : secondary,
+                        color: isSafari ? 'grey' : secondary,
                         borderRadius: 0,
                         width: '50%',
                         height: '100%',
                     }}
-                    onClick={isSafari? this.showSafariAskingModal : this.askForWord}
+                    onClick={isSafari ? this.showSafariAskingModal : this.askForWord}
                 >
                     <i className="material-icons">
                         pan_tool
                     </i>
                 </IconButton>
             </Tooltip>
+        )
+    }
+
+    _renderWordButtonIconMobil = () => {
+        const secondary = getSecondary();
+        const primary = getPrimary();
+
+        const grantedWord = CBX.haveGrantedWord(this.props.participant);
+        if (grantedWord || CBX.isAskingForWord(this.props.participant)) {
+            return (
+                <div style={{
+                    width: "20%", textAlign: "center", paddingTop: '0.35rem',
+                    color: grantedWord ? 'grey' : secondary,
+                    // backgroundColor: grantedWord ? secondary : 'inherit',
+                }}>
+                    <Button
+                        className={"NoOutline"}
+                        style={{
+                            width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px',
+                            color: grantedWord ? 'grey' : secondary,
+                        }}
+                        onClick={this.cancelAskForWord}
+                    >
+                        <div style={{ display: "unset" }}>
+                            <div style={{ position: "relative" }}>
+                                {/* <i className="material-icons" style={{
+                                    fontSize: '24px', padding: '0', margin: "0",
+                                    width: '1em',
+                                    height: '1em',
+                                    overflow: 'hidden',
+                                    userSelect: 'none',
+                                    color: grantedWord ? primary : secondary,
+                                }}>
+                                    pan_tool
+                                </i> */}
+                                {grantedWord ? (
+                                    <i className="material-icons" style={{
+                                        fontSize: '24px', padding: '0', margin: "0",
+                                        width: '1em',
+                                        height: '1em',
+                                        overflow: 'hidden',
+                                        userSelect: 'none',
+                                        color: primary,
+                                    }}>
+                                        pan_tool
+                                    </i>
+                                ) :
+                                    <React.Fragment>
+                                        <FontAwesome
+                                            name={"hourglass-start "}
+                                            style={{
+                                                top: "-8px",
+                                                fontWeight: "bold",
+                                                right: "-10px",
+                                                position: "absolute",
+                                                fontSize: "1rem",
+                                                marginRight: '0.3em',
+                                                color: primary
+                                            }}
+                                        />
+                                        <i className="material-icons" style={{
+                                            fontSize: '24px', padding: '0', margin: "0",
+                                            width: '1em',
+                                            height: '1em',
+                                            overflow: 'hidden',
+                                            userSelect: 'none',
+                                            color: primary,
+                                        }}>
+                                            pan_tool
+                                        </i>
+                                    </React.Fragment>
+                                    // <FontAwesome
+                                    //     name={"hand-paper-o"}
+                                    //     style={{
+                                    //         color: primary ,
+                                    //         // color: grantedWord ? primary : secondary,
+                                    //         fontSize: '24px',
+                                    //         width: '1em',
+                                    //         height: '1em',
+                                    //         overflow: 'hidden',
+                                    //         userSelect: 'none'
+                                    //     }}
+                                    // />
+
+                                }
+                                {/* <FontAwesome
+                                    name={"hand-paper-o"}
+                                    style={{
+                                        color: grantedWord ? primary : secondary,
+                                        fontSize: '24px',
+                                        width: '1em',
+                                        height: '1em',
+                                        overflow: 'hidden',
+                                        userSelect: 'none'
+                                    }}
+                                /> */}
+                            </div>
+                            <div style={{
+                                color: 'white',
+                                fontSize: '0.55rem',
+                                textTransform: "none"
+                            }}>
+                                Palabra {/*TRADUCCION*/}
+                            </div>
+                        </div>
+                    </Button>
+                </div>
+            )
+        }
+
+        return (
+            <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', color: isSafari ? 'grey' : secondary, }}>
+                <Button
+                    className={"NoOutline"}
+                    style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
+                    onClick={isSafari ? this.showSafariAskingModal : () => this.setState({ confirmWordModal: true })}
+                // onClick={isSafari ? this.showSafariAskingModal : this.askForWord}
+                >
+                    <div style={{ display: "unset" }}>
+                        <div style={{ position: "relative" }}>
+                            {this.state.loading &&
+                                <FontAwesome
+                                    name={"circle-o-notch fa-spin"}
+                                    style={{
+                                        top: "-8px",
+                                        fontWeight: "bold",
+                                        right: "-10px",
+                                        position: "absolute",
+                                        fontSize: "1rem",
+                                        marginRight: '0.3em',
+                                        color: secondary
+                                    }}
+                                />
+                            }
+                            {/* <i className="material-icons" style={{
+                                fontSize: '24px', padding: '0', margin: "0",
+                                width: '1em',
+                                height: '1em',
+                                overflow: 'hidden',
+                                userSelect: 'none',
+                                color: isSafari ? 'grey' : "#ffffffcc",
+                            }}>
+                                pan_tool
+                            </i> */}
+                            <FontAwesome
+                                name={"hand-paper-o"}
+                                style={{
+                                    color: isSafari ? 'grey' : "#ffffffcc",
+                                    fontSize: '24px',
+                                    width: '1em',
+                                    height: '1em',
+                                    overflow: 'hidden',
+                                    userSelect: 'none'
+                                }}
+                            />
+                        </div>
+                        <div style={{
+                            // color: 'white',
+                            fontSize: '0.55rem',
+                            textTransform: "none",
+                            color: isSafari ? 'grey' : "#ffffffcc",
+                        }}>
+                            Palabra {/*TRADUCCION*/}
+                        </div>
+                    </div>
+                </Button>
+            </div>
         )
     }
 
@@ -142,8 +313,14 @@ class RequestWordMenu extends React.Component {
         });
     }
 
+    closeWordModal = () => {
+        this.setState({
+            confirmWordModal: false
+        });
+    }
+
     _renderPrivateMessageIcon = () => {
-        return(
+        return (
             <AdminPrivateMessage
                 translate={this.props.translate}
                 council={this.props.council}
@@ -162,65 +339,110 @@ class RequestWordMenu extends React.Component {
     }
 
 
-    render(){
+    render() {
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
         const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
 
-        return(
-            <ConfigContext.Consumer>
-                {value => (
-                    <React.Fragment>
-                        <Paper
-                            style={{
-                                width: fixedURLMode? '5.5em' : '8em',
-                                height: '2.2em',
-                                position: 'absolute',
-                                backgroundColor: 'white',
-                                color: grantedWord? 'white' : primary,
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                                display: 'flex',
-                                flexDirection: 'row',
-                                overflow: 'hidden',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                bottom: '0px'
-                            }}
-                        >
+        if (this.props.isSidebar) {
+            return (
+                <ConfigContext.Consumer>
+                    {value => (
+                        <React.Fragment>
+
                             {!fixedURLMode &&
-                                this._renderWordButtonIcon()
+                                this._renderWordButtonIconMobil()
                             }
-                            {fixedURLMode?
-                                <div style={{width: '100%', display: 'flex', justifyContent: 'center'}}>
-                                    {this._renderPrivateMessageIcon()}
-                                </div>
-                            :
-                                this._renderPrivateMessageIcon()
-                            }
-                        </Paper>
-                        <AlertConfirm
-                            requestClose={() => this.setState({ alertCantRequestWord: false })}
-                            open={this.state.alertCantRequestWord}
-                            fullWidth={false}
-                            acceptAction={this.closeAlertCantRequest}
-                            buttonAccept={this.props.translate.accept}
-                            bodyText={this._renderAlertBody()}
-                            title={this.props.translate.error}
-                        />
-                        <AlertConfirm
-                            requestClose={this.closeSafariModal}
-                            open={this.state.safariModal}
-                            fullWidth={false}
-                            acceptAction={this.closeSafariModal}
-                            buttonAccept={this.props.translate.accept}
-                            bodyText={this._renderSafariAlertBody()}
-                            title={this.props.translate.warning}
-                        />
-                    </React.Fragment>
-                )}
-            </ConfigContext.Consumer>
-        )
+
+
+                            <AlertConfirm
+                                requestClose={() => this.setState({ alertCantRequestWord: false })}
+                                open={this.state.alertCantRequestWord}
+                                fullWidth={false}
+                                acceptAction={this.closeAlertCantRequest}
+                                buttonAccept={this.props.translate.accept}
+                                bodyText={this._renderAlertBody()}
+                                title={this.props.translate.error}
+                            />
+                            <AlertConfirm
+                                requestClose={this.closeSafariModal}
+                                open={this.state.safariModal}
+                                fullWidth={false}
+                                acceptAction={this.closeSafariModal}
+                                buttonAccept={this.props.translate.accept}
+                                bodyText={this._renderSafariAlertBody()}
+                                title={this.props.translate.warning}
+                            />
+                            <AlertConfirm
+                                requestClose={this.closeWordModal}
+                                open={this.state.confirmWordModal}
+                                acceptAction={this.askForWord}
+                                cancelAction={this.closeWordModal}
+                                title={this.props.translate.warning}
+                                bodyText={"Va a pedir palabra."}/*TRADUCCION*/
+                                buttonAccept={this.props.translate.accept}
+                                buttonCancel={this.props.translate.cancel}
+                            />
+                        </React.Fragment>
+                    )}
+                </ConfigContext.Consumer>
+            )
+        } else {
+            return (
+                <ConfigContext.Consumer>
+                    {value => (
+                        <React.Fragment>
+                            <Paper
+                                style={{
+                                    width: fixedURLMode ? '5.5em' : '8em',
+                                    height: '2.2em',
+                                    position: 'absolute',
+                                    backgroundColor: 'white',
+                                    color: grantedWord ? 'white' : primary,
+                                    left: '50%',
+                                    transform: 'translateX(-50%)',
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                    overflow: 'hidden',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    bottom: '0px'
+                                }}
+                            >
+                                {!fixedURLMode &&
+                                    this._renderWordButtonIcon()
+                                }
+                                {fixedURLMode ?
+                                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+                                        {this._renderPrivateMessageIcon()}
+                                    </div>
+                                    :
+                                    this._renderPrivateMessageIcon()
+                                }
+                            </Paper>
+                            <AlertConfirm
+                                requestClose={() => this.setState({ alertCantRequestWord: false })}
+                                open={this.state.alertCantRequestWord}
+                                fullWidth={false}
+                                acceptAction={this.closeAlertCantRequest}
+                                buttonAccept={this.props.translate.accept}
+                                bodyText={this._renderAlertBody()}
+                                title={this.props.translate.error}
+                            />
+                            <AlertConfirm
+                                requestClose={this.closeSafariModal}
+                                open={this.state.safariModal}
+                                fullWidth={false}
+                                acceptAction={this.closeSafariModal}
+                                buttonAccept={this.props.translate.accept}
+                                bodyText={this._renderSafariAlertBody()}
+                                title={this.props.translate.warning}
+                            />
+                        </React.Fragment>
+                    )}
+                </ConfigContext.Consumer>
+            )
+        }
     }
 }
 

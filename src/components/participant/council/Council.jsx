@@ -151,6 +151,16 @@ class ParticipantCouncil extends React.Component {
                                 menuRender={true}
                             />
                         }
+                        pedirPalabra={
+                            <RequestWordMenu
+                                translate={this.props.translate}
+                                participant={participant}
+                                council={council}
+                                videoURL={this.state.videoURL}
+                                refetchParticipant={this.props.refetchParticipant}
+                                isSidebar={true}
+                            />
+                        }
                     />
                 }
                 <Header
