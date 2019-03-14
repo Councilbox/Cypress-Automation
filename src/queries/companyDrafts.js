@@ -27,11 +27,13 @@ export const deleteDraft = gql`
 export const companyDrafts = gql`
 	query companyDrafts(
 		$companyId: Int!
+		$prototype: Int
 		$filters: [FilterInput]
 		$options: OptionsInput
 	) {
 		companyDrafts(
 			companyId: $companyId
+			prototype: $prototype
 			filters: $filters
 			options: $options
 		) {
