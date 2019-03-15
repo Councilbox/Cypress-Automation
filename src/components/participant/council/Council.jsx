@@ -29,6 +29,24 @@ const styles = {
         height: "100vh",
         position: "relative"
     },
+    viewContainerM: {
+        width: "100vw",
+        height: "100%",
+        // height: "calc( 100vh - 50px )",
+        position: "relative"
+    },
+    mainContainerM: {
+        width: "100%",
+        height: "calc(100% - 6.33rem)",
+        display: "flex",
+        backgroundColor: darkGrey,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative",
+        backgroundImage: 'red',
+        padding: "10px"
+    },
     mainContainer: {
         width: "100%",
         height: "calc(100% - 3em)",
@@ -47,12 +65,12 @@ const stylesVideo = {
     portrait: [{
         fullPadre: {
             width: '100%',
-             height: '100%',
+            height: '100%',
             position: 'relative',
         },
         fullHijo: {
-            width: '100%' ,
-            height: 'calc(100% - 2.5em)'
+            width: '100%',
+            height: '100%'
         },
         middlePadre: {
             width: '100%',
@@ -63,34 +81,34 @@ const stylesVideo = {
             alignItems: 'center'
         },
         middleHijo: {
-            width: '100%', 
-            height: 'calc(50% - 2.5em)'
+            width: '100%',
+            height: '50% '
         },
     }],
     landscape: [{
         fullPadre: {
             width: '100%',
-             height: '100%',
+            height: '100%',
             position: 'relative',
         },
         middlePadre: {
-            width: '100%' ,
-            height: 'calc(100% - 2.5em)'
+            width: '100%',
+            height: 'calc(100% - 3.5em)'
         },
         middlePadre: {
             width: '100%',
-             height: '100%',
+            height: '100%',
             position: 'relative',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
         },
         middleHijo: {
-            width: '100%', 
-            height: 'calc(50% - 2.5em)'
+            width: '100%',
+            height: 'calc(50% - 3.5em)'
         },
     }],
-    
+
 }
 
 
@@ -100,7 +118,7 @@ class ParticipantCouncil extends React.Component {
         hasVideo: councilHasVideo(this.props.council),
         videoURL: '',
         full: true,
-        middle:false
+        middle: false
     };
 
     noStartedToastId = null;
@@ -187,16 +205,15 @@ class ParticipantCouncil extends React.Component {
     render() {
         const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
-
-        return (
-            <div style={styles.viewContainer}>
-                {isMobile &&
+        if (isMobile) {
+            return (
+                <div style={styles.viewContainerM}>
                     <CouncilSidebar
                         council={council}
                         translate={this.props.translate}
                         agenda={this._renderAgendaSectionMobile()}
-                        full={() => this.setState({full: true, middle:false})}
-                        middle={() => this.setState({full: false, middle:true})}
+                        full={() => this.setState({ full: true, middle: false })}
+                        middle={() => this.setState({ full: false, middle: true })}
                         comentario={
                             <AdminPrivateMessage
                                 translate={this.props.translate}
@@ -216,62 +233,106 @@ class ParticipantCouncil extends React.Component {
                             />
                         }
                     />
-                }
-                <Header
-                    logoutButton={true}
-                    participant={participant}
-                    council={council}
-                    primaryColor={'white'}
-                />
-                <div style={styles.mainContainer}>
-                    <Grid container spacing={8} style={{
-                        height: '100%',
-                        ...(!this.state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
-                            display: 'flex',
-                            justifyContent: 'center'
-                        } : {})
-                    }}>
-                        {agendasAnchor === 'left' && !isMobile &&
-                            this._renderAgendaSection()
-                        }
-
-                        {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                            <Grid item xs={isLandscape() ? 6 : 12} md={8}>
-                                <div style={this.state.full? stylesVideo.portrait[0].fullPadre: stylesVideo.portrait[0].middlePadre}>
-                                    <ConfigContext.Consumer>
-                                        {config => (
-                                            <AdminAnnouncement
+                    <Header
+                        logoutButton={true}
+                        participant={participant}
+                        council={council}
+                        primaryColor={'white'}
+                    />
+                    <div style={styles.mainContainerM}>
+                        <Grid container spacing={8} style={{
+                            height: '100%',
+                            ...(!this.state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
+                                display: 'flex',
+                                justifyContent: 'center'
+                            } : {})
+                        }}>
+                            {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
+                                <Grid item xs={isLandscape() ? 6 : 12} md={8} style={{height:"100%"}}>
+                                    <div style={this.state.full? stylesVideo.portrait[0].fullPadre: stylesVideo.portrait[0].middlePadre}>
+                                        <ConfigContext.Consumer>
+                                            {config => (
+                                                <AdminAnnouncement
+                                                    council={council}
+                                                    translate={this.props.translate}
+                                                    context={config}
+                                                />
+                                            )}
+                                        </ConfigContext.Consumer>
+                                        <div style={this.state.full? stylesVideo.portrait[0].fullHijo: stylesVideo.portrait[0].middleHijo}>
+                                            <VideoContainer
                                                 council={council}
-                                                translate={this.props.translate}
-                                                context={config}
+                                                participant={participant}
+                                                videoURL={this.state.videoURL}
+                                                setVideoURL={url => this.setState({ videoURL: url })}
                                             />
-                                        )}
-                                    </ConfigContext.Consumer>
-                                    <RequestWordMenu
-                                        translate={this.props.translate}
-                                        participant={participant}
-                                        council={council}
-                                        videoURL={this.state.videoURL}
-                                        refetchParticipant={this.props.refetchParticipant}
-                                    />
-                                    <div style={this.state.full? stylesVideo.portrait[0].fullHijo: stylesVideo.portrait[0].middleHijo}>
-                                        <VideoContainer
-                                        council={council}
-                                        participant={participant}
-                                        videoURL={this.state.videoURL}
-                                        setVideoURL={url => this.setState({ videoURL: url })}
-                                    />
-                                </div>
-                                </div>
-                            </Grid>
-            }
-                        {agendasAnchor === 'right' && !isMobile &&
-                            this._renderAgendaSection()
-                        }
-                    </Grid>
-                </div>
-            </div >
-        );
+                                        </div>
+                                    </div>
+                                </Grid>
+                            }
+                        </Grid>
+                    </div>
+                </div >
+            )
+        } else {
+            return (
+                <div style={styles.viewContainer}>
+                    <Header
+                        logoutButton={true}
+                        participant={participant}
+                        council={council}
+                        primaryColor={'white'}
+                    />
+                    <div style={styles.mainContainer}>
+                        <Grid container spacing={8} style={{
+                            height: '100%',
+                            ...(!this.state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
+                                display: 'flex',
+                                justifyContent: 'center'
+                            } : {})
+                        }}>
+                            {agendasAnchor === 'left' &&
+                                this._renderAgendaSection()
+                            }
+
+                            {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
+                                <Grid item xs={isLandscape() ? 6 : 12} md={8}>
+                                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                        <ConfigContext.Consumer>
+                                            {config => (
+                                                <AdminAnnouncement
+                                                    council={council}
+                                                    translate={this.props.translate}
+                                                    context={config}
+                                                />
+                                            )}
+                                        </ConfigContext.Consumer>
+                                        <RequestWordMenu
+                                            translate={this.props.translate}
+                                            participant={participant}
+                                            council={council}
+                                            videoURL={this.state.videoURL}
+                                            refetchParticipant={this.props.refetchParticipant}
+                                        />
+                                        <div style={{ height: '100%', width: '100%' }}>
+                                            <VideoContainer
+                                                council={council}
+                                                participant={participant}
+                                                videoURL={this.state.videoURL}
+                                                setVideoURL={url => this.setState({ videoURL: url })}
+                                            />
+                                        </div>
+                                    </div>
+                                </Grid>
+                            }
+                            {agendasAnchor === 'right' &&
+                                this._renderAgendaSection()
+                            }
+                        </Grid>
+                    </div>
+                </div >
+            );
+        }
     }
 }
 

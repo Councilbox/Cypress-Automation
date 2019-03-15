@@ -34,9 +34,9 @@ class CouncilSidebar extends React.Component {
                 zIndex: '0'
             }}>
                 <div style={{
-                    borderTop:"1px solid dimgrey",
+                    borderTop: "1px solid dimgrey",
                     backgroundColor: darkGrey,
-                    height: '3.5rem',
+                    height: 'calc( 3.5rem + 1px )',
                     zIndex: '1000',
                     position: 'absolute',
                     display: 'flex',
@@ -51,20 +51,21 @@ class CouncilSidebar extends React.Component {
                     <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
 
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <FloatGroup delay={0.02} style={{ margin: '0 10px' }} >
-                                <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden" }} onClick={() => this.cerrarTodo()}>
+                            {!this.state.modalContent ?
+                            <FloatGroup delay={0.02} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}  >
+                                <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden", }} onClick={() => this.cerrarTodo()}>
                                     <div style={{ display: "unset" }}>
                                         <div>
                                             <FontAwesome
                                                 name={"video-camera"}
                                                 style={{
                                                     color: !this.state.modalContent ? secondary : "",
-                                                    padding: '0', margin: "0",
-                                                    fontSize: '24px',
+                                                    fontSize: '24px', padding: '0', margin: "0",
+                                                    marginTop: "4px",
                                                     width: '1em',
                                                     height: '1em',
                                                     overflow: 'hidden',
-                                                    userSelect: 'none'
+                                                    userSelect: 'none',
                                                 }}
                                             />
                                         </div>
@@ -78,6 +79,8 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                                 <Button style={{
+                                    left: '0.9em',
+                                    bottom: '20px',
                                     background: "white",
                                     width: "45px",
                                     borderRadius: "45px",
@@ -86,8 +89,8 @@ class CouncilSidebar extends React.Component {
                                     margin: "0px",
                                     minWidth: "0",
                                     boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
-                                }} 
-                                onClick={this.props.middle}>
+                                }}
+                                    onClick={this.props.middle}>
                                     <div>
                                         <FontAwesome
                                             name={"compress"}
@@ -104,6 +107,8 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                                 <Button style={{
+                                    left: '0.9em',
+                                    bottom: '20px',
                                     background: "white",
                                     width: "45px",
                                     borderRadius: "45px",
@@ -113,7 +118,7 @@ class CouncilSidebar extends React.Component {
                                     minWidth: "0",
                                     boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
                                 }}
-                                onClick={this.props.full}>
+                                    onClick={this.props.full}>
                                     <div>
                                         <FontAwesome
                                             name={"expand"}
@@ -130,6 +135,32 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                             </FloatGroup>
+                            :
+                            <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden", }} onClick={() => this.cerrarTodo()}>
+                                    <div style={{ display: "unset" }}>
+                                        <div>
+                                            <FontAwesome
+                                                name={"video-camera"}
+                                                style={{
+                                                    color: !this.state.modalContent ? secondary : "",
+                                                    fontSize: '24px', padding: '0', margin: "0",
+                                                    marginTop: "0px",
+                                                    width: '1em',
+                                                    height: '1em',
+                                                    overflow: 'hidden',
+                                                    userSelect: 'none',
+                                                }}
+                                            />
+                                        </div>
+                                        <div style={{
+                                            color: 'white',
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Video {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>}
                         </div>
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <Button
@@ -248,7 +279,7 @@ class CouncilSidebar extends React.Component {
                     open={!!this.state.modalContent}
                     classNameDialog={'modal100'}
                     PaperProps={{
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%', boxShadow: 'none' }
+                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top:"0px" }
                     }}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
                     bodyText={
@@ -281,26 +312,3 @@ class CouncilSidebar extends React.Component {
 }
 
 export default CouncilSidebar
-
-// <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }} >
-//                                 <div style={{ display: "unset" }}>
-//                                     <div>
-//                                         <i className="material-icons" style={{
-//                                             fontSize: '24px', padding: '0', margin: "0",
-//                                             width: '1em',
-//                                             height: '1em',
-//                                             overflow: 'hidden',
-//                                             userSelect: 'none'
-//                                         }}>
-//                                             pan_tool
-//                                                 </i>
-//                                     </div>
-//                                     <div style={{
-//                                         color: 'white',
-//                                         fontSize: '0.55rem',
-//                                         textTransform: "none"
-//                                     }}>
-//                                         Palabra {/*TRADUCCION*/}
-//                                     </div>
-//                                 </div>
-//                             </Button>
