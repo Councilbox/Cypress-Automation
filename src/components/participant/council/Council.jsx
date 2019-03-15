@@ -118,7 +118,8 @@ class ParticipantCouncil extends React.Component {
         hasVideo: councilHasVideo(this.props.council),
         videoURL: '',
         full: true,
-        middle: false
+        middle: false,
+        activeInput:false
     };
 
     noStartedToastId = null;
@@ -214,12 +215,15 @@ class ParticipantCouncil extends React.Component {
                         agenda={this._renderAgendaSectionMobile()}
                         full={() => this.setState({ full: true, middle: false })}
                         middle={() => this.setState({ full: false, middle: true })}
+                        click={this.state.activeInput}
                         comentario={
                             <AdminPrivateMessage
                                 translate={this.props.translate}
                                 council={council}
                                 participant={participant}
                                 menuRender={true}
+                                activeInput={() => this.setState({ activeInput: true })}//onFocus puede ser
+                                onblur={() => this.setState({ activeInput: false })}
                             />
                         }
                         pedirPalabra={

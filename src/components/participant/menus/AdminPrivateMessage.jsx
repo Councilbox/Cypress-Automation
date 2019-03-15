@@ -75,6 +75,36 @@ class AdminPrivateMessage extends React.Component {
                     value={this.state.text}
                     multiline={true}
                     onChange={event => this.setState({ text: event.target.value, success: false })}
+                    onClick={this.props.activeInput}
+                    onBlur={this.props.onblur}
+                />
+                <BasicButton
+                    text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
+                    onClick={this.sendCouncilRoomMessage}
+                    loading={this.state.loading}
+                    success={this.state.success}
+                    reset={this.resetButtonStates}
+                    color={getSecondary()}
+                    textStyle={{
+                        color: 'white',
+                        fontWeight: '700'
+                    }}
+                />
+            </div>
+        )
+    }
+    renderMenuMobil = () => {
+
+        return (
+            <div>   
+                {/*Crear forma redonda rollo watsapp y cambiar un poco de tamaño para hacer rollo chat*/}
+                <TextInput
+                    floatingText={this.props.translate.message}
+                    value={this.state.text}
+                    multiline={true}
+                    onChange={event => this.setState({ text: event.target.value, success: false })}
+                    onClick={this.props.activeInput}
+                    onBlur={this.props.onblur}
                 />
                 <BasicButton
                     text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
@@ -100,7 +130,7 @@ class AdminPrivateMessage extends React.Component {
 
         if (menuRender) {
             return (
-                this.renderMenu()
+                this.renderMenuMobil()
             )
         } else {
             return (
