@@ -260,13 +260,11 @@ class Assistance extends React.Component {
 														/>
 														<AssistanceOption
 															title={translate.attending_in_person}
-															//subtitle={translate.attending_in_person_subtitle}
 															select={() => {
 																this.setState({
 																	assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
 																	delegateId: null
 																})
-																//selectSimpleOption(PARTICIPANT_STATES.PHYSICALLY_PRESENT)
 															}}
 															value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
 															selected={this.state.assistanceIntention}
@@ -275,12 +273,11 @@ class Assistance extends React.Component {
 														<AssistanceOption
 															title={translate.not_attending}
 															select={() => {
-																this.showWarning();
 																this.setState({
 																	assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+																	noAttendWarning: participant.delegatedVotes.length > 0? true : false,
 																	delegateId: null
 																})
-																//selectSimpleOption(PARTICIPANT_STATES.NO_PARTICIPATE)
 															}}
 															value={PARTICIPANT_STATES.NO_PARTICIPATE}
 															selected={this.state.assistanceIntention}

@@ -284,7 +284,13 @@ class VotingsTable extends React.Component {
 								style={{width: '100%'}}
 								forceMobileTable={true}
 								headers={[
-									presentVotes > 0? {name: <SelectAllMenu translate={this.props.translate} agenda={this.props.agenda} />} : {name: ''},
+									presentVotes > 0? {name: 
+										<SelectAllMenu
+											translate={this.props.translate}
+											agenda={this.props.agenda}
+											refetch={this.props.data.refetch}
+										/>
+									} : {name: ''},
 									{ name: translate.participant_data },
 									{ name: translate.votes }
 								]}
@@ -430,7 +436,7 @@ const setAllPresentVotingsMutation = gql`
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'
-})(({ translate, agenda, setAllPresentVotings }) => {
+})(({ translate, agenda, setAllPresentVotings, refetch }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const setAllPresents = async vote => {
@@ -444,6 +450,7 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		});
 
 		console.log(response);
+		refetch();
 
 		setLoading(false);
 	}
@@ -453,7 +460,7 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 			color="transparent"
 			Component={() =>
 				<div style={{cursor: 'pointer'}}>
-					Marcar presentes como:
+					Marcar presentes como: {loading && <LoadingSection />}
 				</div>
 			}
 			type="flat"
