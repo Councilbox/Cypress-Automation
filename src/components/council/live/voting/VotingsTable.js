@@ -1,11 +1,13 @@
 import React from 'react';
 import { agendaVotings } from "../../../../queries/agenda";
 import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES } from "../../../../constants";
 import { TableRow, TableCell } from "material-ui";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
 	LoadingSection,
+	DropDownMenu,
 	PaginationFooter,
 	Icon,
 	FilterButton,
@@ -17,7 +19,7 @@ import {
 import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
-import { Tooltip, Card } from "material-ui";
+import { Tooltip, MenuItem } from "material-ui";
 import { isPresentVote, agendaVotingsOpened } from "../../../../utils/CBX";
 import { isMobile } from 'react-device-detect';
 
@@ -99,7 +101,6 @@ class VotingsTable extends React.Component {
 	};
 
  	refreshTable = async () => {
-		//const variables = this.buildVariables();
 		await this.props.data.refetch();
 	};
 
@@ -107,10 +108,12 @@ class VotingsTable extends React.Component {
     render(){
 		const { translate } = this.props;
 		let mappedVotings = [];
+		let presentVotes = 0;
 
 		if(this.props.data.agendaVotings){
 			if(this.props.data.agendaVotings.list.length > 0){
 				this.props.data.agendaVotings.list.forEach(voting => {
+					if (voting.presentVote === 5) presentVotes++;
 					if(voting.authorRepresentative){
 						const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId || vote.participantId === voting.delegateId);
 						if(sameRepresentative !== -1){
@@ -141,7 +144,7 @@ class VotingsTable extends React.Component {
 
 		const offset = (this.props.page - 1) * this.props.pageLimit;
 		const slicedVotings = mappedVotings.slice(offset, offset + this.props.pageLimit);
-		
+
 		return (
 			<Grid
 				style={{
@@ -281,7 +284,7 @@ class VotingsTable extends React.Component {
 								style={{width: '100%'}}
 								forceMobileTable={true}
 								headers={[
-									{},
+									presentVotes > 0? {name: <SelectAllMenu translate={this.props.translate} agenda={this.props.agenda} />} : {name: ''},
 									{ name: translate.participant_data },
 									{ name: translate.votes }
 								]}
@@ -413,6 +416,64 @@ class VotingsTable extends React.Component {
 		);
     }
 }
+
+const setAllPresentVotingsMutation = gql`
+	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
+		setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+			success
+			message
+		}
+	}
+`;
+
+
+
+const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
+	name: 'setAllPresentVotings'
+})(({ translate, agenda, setAllPresentVotings }) => {
+	const [loading, setLoading] = React.useState(false);
+
+	const setAllPresents = async vote => {
+		setLoading(true);
+
+		const response = await setAllPresentVotings({
+			variables: {
+				agendaId: agenda.id,
+				vote
+			}
+		});
+
+		console.log(response);
+
+		setLoading(false);
+	}
+
+	return (
+		<DropDownMenu
+			color="transparent"
+			Component={() =>
+				<div style={{cursor: 'pointer'}}>
+					Marcar presentes como:
+				</div>
+			}
+			type="flat"
+			items={
+				<React.Fragment>
+					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.POSITIVE)}>
+						A favor
+					</MenuItem>
+					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.NEGATIVE)}>
+						En contra
+					</MenuItem>
+					<MenuItem onClick={() => setAllPresents(VOTE_VALUES.ABSTENTION)}>
+						Abstención
+					</MenuItem>
+				</React.Fragment>
+			}
+		/>
+	)
+})
+
 
 export default graphql(agendaVotings, {
 	options: props => ({
