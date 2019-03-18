@@ -10,86 +10,38 @@ import { isMobile } from 'react-device-detect';
 
 
 const TimelineSection = React.memo(({ data }) => {
-    if (isMobile) {
-        return (
-            data.loading ?
-                <LoadingSection />
-                :
-                <Stepper orientation="vertical">
-                    {data.councilTimeline.map(event => {
-                        const content = JSON.parse(event.content);
-                        return (
-                            <Step active key={`event_${event.id}`}>
-                                <StepLabel>
-                                    <b>{getTimelineTranslation(event.type, content)}</b><br />
-                                    <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
-                                </StepLabel>
-                                <StepContent style={{ fontSize: '0.9em' }}>
-                                    {event.type === 'CLOSE_VOTING' &&
-                                        <React.Fragment>
-                                            <span>
-                                                {`Resultados:`}
-                                                <br />A favor: {content.data.agendaPoint.results.positive}
-                                                <br />En contra: {content.data.agendaPoint.results.negative}
-                                                <br />Abstención: {content.data.agendaPoint.results.abstention}
-                                                <br />No vota: {content.data.agendaPoint.results.noVote}
-                                            </span>
-                                            <br />
-                                        </React.Fragment>
-                                    }
-                                </StepContent>
-                            </Step>
-                        )
-                    })}
-                </Stepper>
-        );
-    } else {
-        return (
-            <Paper
-                style={{
-                    width: "100%",
-                    height: "100vh",
-                    overflow: 'hidden'
-                }}
-                elevation={0}
-            >
-                <Scrollbar>
-                    {data.loading ?
-                        <LoadingSection />
-                        :
-                        <Stepper orientation="vertical">
-                            {data.councilTimeline.map(event => {
-                                const content = JSON.parse(event.content);
-                                return (
-                                    <Step active key={`event_${event.id}`}>
-                                        <StepLabel>
-                                            <b>{getTimelineTranslation(event.type, content)}</b><br />
-                                            <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
-                                        </StepLabel>
-                                        <StepContent style={{ fontSize: '0.9em' }}>
-                                            {event.type === 'CLOSE_VOTING' &&
-                                                <React.Fragment>
-                                                    <span>
-                                                        {`Resultados:`}
-                                                        <br />A favor: {content.data.agendaPoint.results.positive}
-                                                        <br />En contra: {content.data.agendaPoint.results.negative}
-                                                        <br />Abstención: {content.data.agendaPoint.results.abstention}
-                                                        <br />No vota: {content.data.agendaPoint.results.noVote}
-                                                    </span>
-                                                    <br />
-                                                </React.Fragment>
-                                            }
-                                        </StepContent>
-                                    </Step>
-                                )
-                            })}
-
-                        </Stepper>
-                    }
-                </Scrollbar>
-            </Paper>
-        )
-    }
+    return (
+        data.loading ?
+            <LoadingSection />
+            :
+            <Stepper orientation="vertical">
+                {data.councilTimeline.map(event => {
+                    const content = JSON.parse(event.content);
+                    return (
+                        <Step active key={`event_${event.id}`}>
+                            <StepLabel>
+                                <b>{getTimelineTranslation(event.type, content)}</b><br />
+                                <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
+                            </StepLabel>
+                            <StepContent style={{ fontSize: '0.9em' }}>
+                                {event.type === 'CLOSE_VOTING' &&
+                                    <React.Fragment>
+                                        <span>
+                                            {`Resultados:`}
+                                            <br />A favor: {content.data.agendaPoint.results.positive}
+                                            <br />En contra: {content.data.agendaPoint.results.negative}
+                                            <br />Abstención: {content.data.agendaPoint.results.abstention}
+                                            <br />No vota: {content.data.agendaPoint.results.noVote}
+                                        </span>
+                                        <br />
+                                    </React.Fragment>
+                                }
+                            </StepContent>
+                        </Step>
+                    )
+                })}
+            </Stepper>
+    );
 })
 
 const councilTimeline = gql`

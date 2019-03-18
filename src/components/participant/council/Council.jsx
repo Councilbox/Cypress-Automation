@@ -21,6 +21,8 @@ import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from "react-device-detect";
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
+import TimelineSection from "../timeline/TimelineSection";
+
 
 
 const styles = {
@@ -119,7 +121,8 @@ class ParticipantCouncil extends React.Component {
         videoURL: '',
         full: true,
         middle: false,
-        activeInput:false
+        activeInput: false,
+        modalContent: "agenda"
     };
 
     noStartedToastId = null;
@@ -138,6 +141,12 @@ class ParticipantCouncil extends React.Component {
         else {
             window.onunload = this.leaveRoom;
         }
+    }
+
+    toggle(type) {
+        this.setState({
+            modalContent: type
+        });
     }
 
     leaveRoom = () => {
@@ -170,17 +179,29 @@ class ParticipantCouncil extends React.Component {
 
     _renderAgendaSection = () => {
         return (
-            <Grid item xs={isLandscape() && this.state.hasVideo ? 6 : 12} md={this.state.hasVideo ? 4 : 6} style={{ minHeight: '45%', paddingBottom: '3em' }}>
-                <Agendas
-                    participant={this.props.participant}
-                    council={this.props.council}
-                    anchorToggle={this.state.hasVideo}
-                    agendasAnchor={this.state.agendasAnchor}
-                    toggleAgendasAnchor={this.toggleAgendasAnchor}
-                />
-                {/* <TimelineSection
-                    council={this.props.council}
-                /> */}
+            <Grid item xs={isLandscape() && this.state.hasVideo ? 6 : 12} md={this.state.hasVideo ? 4 : 6} style={{ minHeight: '45%', }}>
+                {this.state.modalContent === "agenda" ?
+                    <Agendas
+                        participant={this.props.participant}
+                        council={this.props.council}
+                        anchorToggle={this.state.hasVideo}
+                        agendasAnchor={this.state.agendasAnchor}
+                        toggleAgendasAnchor={this.toggleAgendasAnchor}
+                        inPc={true}
+                    />
+                    :
+                    <Agendas
+                        participant={this.props.participant}
+                        council={this.props.council}
+                        anchorToggle={this.state.hasVideo}
+                        agendasAnchor={this.state.agendasAnchor}
+                        toggleAgendasAnchor={this.toggleAgendasAnchor}
+                        inPc={true}
+                        timeline={< TimelineSection
+                            council={this.props.council}
+                        />}
+                    />
+                }
             </Grid>
         )
     }
@@ -206,10 +227,12 @@ class ParticipantCouncil extends React.Component {
     render() {
         const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
+        let type = "agenda"
         if (isMobile) {
             return (
                 <div style={styles.viewContainerM}>
                     <CouncilSidebar
+                        isMobile={isMobile}
                         council={council}
                         translate={this.props.translate}
                         agenda={this._renderAgendaSectionMobile()}
@@ -252,8 +275,8 @@ class ParticipantCouncil extends React.Component {
                             } : {})
                         }}>
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={isLandscape() ? 6 : 12} md={8} style={{height:"100%"}}>
-                                    <div style={this.state.full? stylesVideo.portrait[0].fullPadre: stylesVideo.portrait[0].middlePadre}>
+                                <Grid item xs={isLandscape() ? 6 : 12} md={8} style={{ height: "100%" }}>
+                                    <div style={this.state.full ? stylesVideo.portrait[0].fullPadre : stylesVideo.portrait[0].middlePadre}>
                                         <ConfigContext.Consumer>
                                             {config => (
                                                 <AdminAnnouncement
@@ -263,7 +286,7 @@ class ParticipantCouncil extends React.Component {
                                                 />
                                             )}
                                         </ConfigContext.Consumer>
-                                        <div style={this.state.full? stylesVideo.portrait[0].fullHijo: stylesVideo.portrait[0].middleHijo}>
+                                        <div style={this.state.full ? stylesVideo.portrait[0].fullHijo : stylesVideo.portrait[0].middleHijo}>
                                             <VideoContainer
                                                 council={council}
                                                 participant={participant}
@@ -300,7 +323,7 @@ class ParticipantCouncil extends React.Component {
                             }
 
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={isLandscape() ? 6 : 12} md={8}>
+                                <Grid item xs={5} md={8} style={{ height: "calc( 100% - 3.5em + 1px )" }}>
                                     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
                                         <ConfigContext.Consumer>
                                             {config => (
@@ -311,13 +334,13 @@ class ParticipantCouncil extends React.Component {
                                                 />
                                             )}
                                         </ConfigContext.Consumer>
-                                        <RequestWordMenu
+                                        {/* <RequestWordMenu
                                             translate={this.props.translate}
                                             participant={participant}
                                             council={council}
                                             videoURL={this.state.videoURL}
                                             refetchParticipant={this.props.refetchParticipant}
-                                        />
+                                        /> */}
                                         <div style={{ height: '100%', width: '100%' }}>
                                             <VideoContainer
                                                 council={council}
@@ -332,6 +355,41 @@ class ParticipantCouncil extends React.Component {
                             {agendasAnchor === 'right' &&
                                 this._renderAgendaSection()
                             }
+                            <div style={{ width: '100%', height: "calc( 3.5rem + 1px )" }}>
+                                <CouncilSidebar
+                                    isMobile={isMobile}
+                                    council={council}
+                                    translate={this.props.translate}
+                                    full={() => this.setState({ full: true, middle: false })}
+                                    middle={() => this.setState({ full: false, middle: true })}
+                                    click={this.state.activeInput}
+                                    agenda={this._renderAgendaSection()}
+                                    toogleAgenda={()=>this.toggle("agenda")}
+                                    toogleResumen={()=>this.toggle("timeline")}
+                                    modalContent={this.state.modalContent}
+                                    comentario={
+                                        <AdminPrivateMessage
+                                            translate={this.props.translate}
+                                            council={council}
+                                            participant={participant}
+                                            menuRender={true}
+                                            activeInput={() => this.setState({ activeInput: true })}//onFocus puede ser
+                                            onblur={() => this.setState({ activeInput: false })}
+                                        />
+                                    }
+                                    pedirPalabra={
+                                        <RequestWordMenu
+                                            translate={this.props.translate}
+                                            participant={participant}
+                                            council={council}
+                                            videoURL={this.state.videoURL}
+                                            refetchParticipant={this.props.refetchParticipant}
+                                            isSidebar={true}
+                                            isPc={true}
+                                        />
+                                    }
+                                />
+                            </div>
                         </Grid>
                     </div>
                 </div >

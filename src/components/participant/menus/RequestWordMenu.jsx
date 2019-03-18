@@ -242,7 +242,7 @@ class RequestWordMenu extends React.Component {
         }
 
         return (
-            <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', color: isSafari ? 'grey' : secondary, }}>
+            <div style={{ width: this.props.isPc ? "25%" :"20%", textAlign: "center", paddingTop: '0.35rem', color: isSafari ? 'grey' : secondary, }}>
                 <Button
                     className={"NoOutline"}
                     style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
@@ -344,7 +344,7 @@ class RequestWordMenu extends React.Component {
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
         const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
 
-        if (this.props.isSidebar) {
+        // if (this.props.isSidebar) {
             return (
                 <ConfigContext.Consumer>
                     {value => (
@@ -387,62 +387,105 @@ class RequestWordMenu extends React.Component {
                     )}
                 </ConfigContext.Consumer>
             )
-        } else {
-            return (
-                <ConfigContext.Consumer>
-                    {value => (
-                        <React.Fragment>
-                            <Paper
-                                style={{
-                                    width: fixedURLMode ? '5.5em' : '8em',
-                                    height: '2.2em',
-                                    position: 'absolute',
-                                    backgroundColor: 'white',
-                                    color: grantedWord ? 'white' : primary,
-                                    left: '50%',
-                                    transform: 'translateX(-50%)',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    overflow: 'hidden',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    bottom: '0px'
-                                }}
-                            >
-                                {!fixedURLMode &&
-                                    this._renderWordButtonIcon()
-                                }
-                                {fixedURLMode ?
-                                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-                                        {this._renderPrivateMessageIcon()}
-                                    </div>
-                                    :
-                                    this._renderPrivateMessageIcon()
-                                }
-                            </Paper>
-                            <AlertConfirm
-                                requestClose={() => this.setState({ alertCantRequestWord: false })}
-                                open={this.state.alertCantRequestWord}
-                                fullWidth={false}
-                                acceptAction={this.closeAlertCantRequest}
-                                buttonAccept={this.props.translate.accept}
-                                bodyText={this._renderAlertBody()}
-                                title={this.props.translate.error}
-                            />
-                            <AlertConfirm
-                                requestClose={this.closeSafariModal}
-                                open={this.state.safariModal}
-                                fullWidth={false}
-                                acceptAction={this.closeSafariModal}
-                                buttonAccept={this.props.translate.accept}
-                                bodyText={this._renderSafariAlertBody()}
-                                title={this.props.translate.warning}
-                            />
-                        </React.Fragment>
-                    )}
-                </ConfigContext.Consumer>
-            )
-        }
+        // } else {
+        //     return (
+        //         <ConfigContext.Consumer>
+        //             {value => (
+        //                 <React.Fragment>
+
+        //                     {!fixedURLMode &&
+        //                         this._renderWordButtonIconMobil()
+        //                     }
+
+
+        //                     <AlertConfirm
+        //                         requestClose={() => this.setState({ alertCantRequestWord: false })}
+        //                         open={this.state.alertCantRequestWord}
+        //                         fullWidth={false}
+        //                         acceptAction={this.closeAlertCantRequest}
+        //                         buttonAccept={this.props.translate.accept}
+        //                         bodyText={this._renderAlertBody()}
+        //                         title={this.props.translate.error}
+        //                     />
+        //                     <AlertConfirm
+        //                         requestClose={this.closeSafariModal}
+        //                         open={this.state.safariModal}
+        //                         fullWidth={false}
+        //                         acceptAction={this.closeSafariModal}
+        //                         buttonAccept={this.props.translate.accept}
+        //                         bodyText={this._renderSafariAlertBody()}
+        //                         title={this.props.translate.warning}
+        //                     />
+        //                     <AlertConfirm
+        //                         requestClose={this.closeWordModal}
+        //                         open={this.state.confirmWordModal}
+        //                         acceptAction={this.askForWord}
+        //                         cancelAction={this.closeWordModal}
+        //                         title={this.props.translate.warning}
+        //                         bodyText={"Va a pedir palabra."}/*TRADUCCION*/
+        //                         buttonAccept={this.props.translate.accept}
+        //                         buttonCancel={this.props.translate.cancel}
+        //                     />
+        //                 </React.Fragment>
+        //             )}
+        //         </ConfigContext.Consumer>
+        //     )
+            //     return (
+            //         <ConfigContext.Consumer>
+            //             {value => (
+            //                 <React.Fragment>
+            //                     <Paper
+            //                         style={{
+            //                             width: fixedURLMode ? '5.5em' : '8em',
+            //                             height: '2.2em',
+            //                             position: 'absolute',
+            //                             backgroundColor: 'white',
+            //                             color: grantedWord ? 'white' : primary,
+            //                             left: '50%',
+            //                             transform: 'translateX(-50%)',
+            //                             display: 'flex',
+            //                             flexDirection: 'row',
+            //                             overflow: 'hidden',
+            //                             alignItems: 'center',
+            //                             justifyContent: 'center',
+            //                             bottom: '0px'
+            //                         }}
+            //                     >
+            //                         {!fixedURLMode &&
+            //                             this._renderWordButtonIcon()
+            //                         }
+            //                         {fixedURLMode ?
+            //                             <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            //                                 {this._renderPrivateMessageIcon()}
+            //                             </div>
+            //                             :
+            //                             this._renderPrivateMessageIcon()
+            //                         }
+            //                     </Paper>
+            //                     <AlertConfirm
+            //                         requestClose={() => this.setState({ alertCantRequestWord: false })}
+            //                         open={this.state.alertCantRequestWord}
+            //                         fullWidth={false}
+            //                         acceptAction={this.closeAlertCantRequest}
+            //                         buttonAccept={this.props.translate.accept}
+            //                         bodyText={this._renderAlertBody()}
+            //                         title={this.props.translate.error}
+            //                     />
+            //                     <AlertConfirm
+            //                         requestClose={this.closeSafariModal}
+            //                         open={this.state.safariModal}
+            //                         fullWidth={false}
+            //                         acceptAction={this.closeSafariModal}
+            //                         buttonAccept={this.props.translate.accept}
+            //                         bodyText={this._renderSafariAlertBody()}
+            //                         title={this.props.translate.warning}
+            //                     />
+            //                 </React.Fragment>
+            //             )}
+            //         </ConfigContext.Consumer>
+            //     )
+            // }
+        // }
     }
 }
 

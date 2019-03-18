@@ -25,35 +25,120 @@ class CouncilSidebar extends React.Component {
     cerrarTodo() {
         this.setState({
             modalContent: false,
+            showModalComentario: false,
         });
     }
 
     render() {
-        return (
-            <div style={{
-                float: 'left',
-                zIndex: '0'
-            }}>
+        if (this.props.isMobile) {
+            return (
                 <div style={{
-                    borderTop: "1px solid dimgrey",
-                    backgroundColor: darkGrey,
-                    height: 'calc( 3.5rem + 1px )',
-                    zIndex: '1000',
-                    position: 'absolute',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    left: '0px',
-                    width: '100vw',
-                    alignItems: 'center',
-                    bottom: '0px',
-                    // overflow: 'hidden',
-                    fontSize: "0.55em"
+                    float: 'left',
+                    zIndex: '0'
                 }}>
-                    <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
+                    <div style={{
+                        borderTop: "1px solid dimgrey",
+                        backgroundColor: darkGrey,
+                        height: 'calc( 3.5rem + 1px )',
+                        zIndex: '1000',
+                        position: 'absolute',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        left: '0px',
+                        width: '100vw',
+                        alignItems: 'center',
+                        bottom: '0px',
+                        // overflow: 'hidden',
+                        fontSize: "0.55em"
+                    }}>
+                        <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
 
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            {!this.state.modalContent ?
-                                <FloatGroup delay={0.02} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}  >
+                            <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                {!this.state.modalContent ?
+                                    <FloatGroup delay={0.02} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}  >
+                                        <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden", }} onClick={() => this.cerrarTodo()}>
+                                            <div style={{ display: "unset" }}>
+                                                <div>
+                                                    <FontAwesome
+                                                        name={"video-camera"}
+                                                        style={{
+                                                            color: !this.state.modalContent ? secondary : "",
+                                                            fontSize: '24px', padding: '0', margin: "0",
+                                                            marginTop: "4px",
+                                                            width: '1em',
+                                                            height: '1em',
+                                                            overflow: 'hidden',
+                                                            userSelect: 'none',
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div style={{
+                                                    color: 'white',
+                                                    fontSize: '0.55rem',
+                                                    textTransform: "none"
+                                                }}>
+                                                    Video {/*TRADUCCION*/}
+                                                </div>
+                                            </div>
+                                        </Button>
+                                        <Button style={{
+                                            left: '0.9em',
+                                            bottom: '20px',
+                                            background: "white",
+                                            width: "45px",
+                                            borderRadius: "45px",
+                                            height: "45px",
+                                            padding: '0',
+                                            margin: "0px",
+                                            minWidth: "0",
+                                            boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
+                                        }}
+                                            onClick={this.props.middle}>
+                                            <div>
+                                                <FontAwesome
+                                                    name={"compress"}
+                                                    style={{
+                                                        color: 'grey',
+                                                        padding: '0', margin: "0",
+                                                        fontSize: '24px',
+                                                        // width: '1em',
+                                                        // height: '1em',
+                                                        overflow: 'hidden',
+                                                        userSelect: 'none'
+                                                    }}
+                                                />
+                                            </div>
+                                        </Button>
+                                        <Button style={{
+                                            left: '0.9em',
+                                            bottom: '20px',
+                                            background: "white",
+                                            width: "45px",
+                                            borderRadius: "45px",
+                                            height: "45px"
+                                            , padding: '0',
+                                            margin: "0",
+                                            minWidth: "0",
+                                            boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
+                                        }}
+                                            onClick={this.props.full}>
+                                            <div>
+                                                <FontAwesome
+                                                    name={"expand"}
+                                                    style={{
+                                                        color: 'grey',
+                                                        padding: '0', margin: "0",
+                                                        fontSize: '24px',
+                                                        width: '1em',
+                                                        height: '1em',
+                                                        overflow: 'hidden',
+                                                        userSelect: 'none'
+                                                    }}
+                                                />
+                                            </div>
+                                        </Button>
+                                    </FloatGroup>
+                                    :
                                     <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden", }} onClick={() => this.cerrarTodo()}>
                                         <div style={{ display: "unset" }}>
                                             <div>
@@ -62,7 +147,7 @@ class CouncilSidebar extends React.Component {
                                                     style={{
                                                         color: !this.state.modalContent ? secondary : "",
                                                         fontSize: '24px', padding: '0', margin: "0",
-                                                        marginTop: "4px",
+                                                        marginTop: "0px",
                                                         width: '1em',
                                                         height: '1em',
                                                         overflow: 'hidden',
@@ -78,100 +163,17 @@ class CouncilSidebar extends React.Component {
                                                 Video {/*TRADUCCION*/}
                                             </div>
                                         </div>
-                                    </Button>
-                                    <Button style={{
-                                        left: '0.9em',
-                                        bottom: '20px',
-                                        background: "white",
-                                        width: "45px",
-                                        borderRadius: "45px",
-                                        height: "45px",
-                                        padding: '0',
-                                        margin: "0px",
-                                        minWidth: "0",
-                                        boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
-                                    }}
-                                        onClick={this.props.middle}>
-                                        <div>
-                                            <FontAwesome
-                                                name={"compress"}
-                                                style={{
-                                                    color: 'grey',
-                                                    padding: '0', margin: "0",
-                                                    fontSize: '24px',
-                                                    // width: '1em',
-                                                    // height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none'
-                                                }}
-                                            />
-                                        </div>
-                                    </Button>
-                                    <Button style={{
-                                        left: '0.9em',
-                                        bottom: '20px',
-                                        background: "white",
-                                        width: "45px",
-                                        borderRadius: "45px",
-                                        height: "45px"
-                                        , padding: '0',
-                                        margin: "0",
-                                        minWidth: "0",
-                                        boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
-                                    }}
-                                        onClick={this.props.full}>
-                                        <div>
-                                            <FontAwesome
-                                                name={"expand"}
-                                                style={{
-                                                    color: 'grey',
-                                                    padding: '0', margin: "0",
-                                                    fontSize: '24px',
-                                                    width: '1em',
-                                                    height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none'
-                                                }}
-                                            />
-                                        </div>
-                                    </Button>
-                                </FloatGroup>
-                                :
-                                <Button className={"NoOutline prueba"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', overflow: "hidden", }} onClick={() => this.cerrarTodo()}>
+                                    </Button>}
+                            </div>
+                            <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                <Button
+                                    className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}
+                                    onClick={() => this.toggle('agenda')}
+                                >
                                     <div style={{ display: "unset" }}>
-                                        <div>
-                                            <FontAwesome
-                                                name={"video-camera"}
-                                                style={{
-                                                    color: !this.state.modalContent ? secondary : "",
-                                                    fontSize: '24px', padding: '0', margin: "0",
-                                                    marginTop: "0px",
-                                                    width: '1em',
-                                                    height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none',
-                                                }}
-                                            />
-                                        </div>
-                                        <div style={{
-                                            color: 'white',
-                                            fontSize: '0.55rem',
-                                            textTransform: "none"
-                                        }}>
-                                            Video {/*TRADUCCION*/}
-                                        </div>
-                                    </div>
-                                </Button>}
-                        </div>
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <Button
-                                className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}
-                                onClick={() => this.toggle('agenda')}
-                            >
-                                <div style={{ display: "unset" }}>
-                                    <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
-                                        <div>
-                                            {/* <FontAwesome
+                                        <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                            <div>
+                                                {/* <FontAwesome
                                                 name={"calendar"}
                                                 style={{
                                                     padding: '0', margin: "0",
@@ -182,46 +184,46 @@ class CouncilSidebar extends React.Component {
                                                     userSelect: 'none'
                                                 }}
                                             /> */}
+                                                <i className="material-icons" style={{
+                                                    color: this.state.modalContent === "agenda" ? secondary : "",
+                                                    fontSize: '24px', padding: '0', margin: "0",
+                                                    width: '1em',
+                                                    height: '1em',
+                                                    overflow: 'hidden',
+                                                    userSelect: 'none',
+                                                }}>
+                                                    calendar_today
+                                                </i>
+                                            </div>
+                                        </Badge>
+                                        <div style={{
+                                            color: 'white',
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Agenda {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>
+                            </div>
+                            {this.props.pedirPalabra}
+
+                            <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
+                                    onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
+                                    <div style={{ display: "unset" }}>
+                                        <div>
                                             <i className="material-icons" style={{
-                                                color: this.state.modalContent === "agenda" ? secondary : "",
                                                 fontSize: '24px', padding: '0', margin: "0",
                                                 width: '1em',
                                                 height: '1em',
                                                 overflow: 'hidden',
                                                 userSelect: 'none',
+                                                color: this.state.showModalComentario ? primary : "#ffffffcc",
                                             }}>
-                                                calendar_today
+                                                chat_bubble_outline
                                                 </i>
-                                        </div>
-                                    </Badge>
-                                    <div style={{
-                                        color: 'white',
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Agenda {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
-                        </div>
-                        {this.props.pedirPalabra}
-
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
-                             onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
-                                <div style={{ display: "unset" }}>
-                                    <div>
-                                        <i className="material-icons" style={{
-                                            fontSize: '24px', padding: '0', margin: "0",
-                                            width: '1em',
-                                            height: '1em',
-                                            overflow: 'hidden',
-                                            userSelect: 'none',
-                                            color: this.state.showModalComentario ? primary : "#ffffffcc",
-                                        }}>
-                                            chat_bubble_outline
-                                                </i>
-                                        {/* <FontAwesome
+                                            {/* <FontAwesome
                                             name={"comment-o"}
                                             style={{
                                                 color: this.state.showModalComentario ? primary : "#ffffffcc",
@@ -232,93 +234,93 @@ class CouncilSidebar extends React.Component {
                                                 userSelect: 'none'
                                             }}
                                         /> */}
-                                    </div>
-                                    <div style={{
-                                        color: "white",
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Comentario {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
-                        </div>
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <Button
-                                className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
-                                onClick={() => this.toggle('timeline')}
-                            >
-                                <div style={{ display: "unset" }}>
-                                    <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
-                                        <div>
-                                            <FontAwesome
-                                                // name={"list-ul"}
-                                                name={"file-text-o"}
-                                                style={{
-                                                    color: this.state.modalContent === "timeline" ? secondary : "",
-                                                    fontSize: '24px',
-                                                    width: '1em',
-                                                    height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none'
-                                                }}
-                                            />
                                         </div>
-                                    </Badge>
-                                    <div style={{
-                                        color: 'white',
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Resumen {/*TRADUCCION*/}
+                                        <div style={{
+                                            color: "white",
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Comentario {/*TRADUCCION*/}
+                                        </div>
                                     </div>
-                                </div>
-                            </Button>
-                        </div>
-                    </div>
-                </div >
-                <AlertConfirm
-                    open={!!this.state.modalContent}
-                    classNameDialog={'modal100'}
-                    PaperProps={{
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
-                    }}
-                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
-                    bodyText={
-                        <div style={{ height: '100%' }}>
-                            {this.state.modalContent === 'agenda' &&
-                                this.props.agenda
-                            }
-                            {this.state.modalContent === 'timeline' &&
-                                <TimelineSection
-                                    council={this.props.council}
-                                />
-                            }
-                        </div>
-                    }
-                />
-                {this.state.showModalComentario &&
-                    <div style={{
-                        transition: "bottom 0.7s",
-                        display: "flex",
-                        position: "fixed",
-                        minHeight: '50px',
-                        width: "100vw",
-                        bottom: this.props.click ? "0" : "3.7rem",
-                        left: "0",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        zIndex: '1010',
-                        borderTop: "1px solid gainsboro"
-                    }}>
-                        <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%" }}>
-                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                {this.props.comentario}
+                                </Button>
+                            </div>
+                            <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                <Button
+                                    className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
+                                    onClick={() => this.toggle('timeline')}
+                                >
+                                    <div style={{ display: "unset" }}>
+                                        <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                            <div>
+                                                <FontAwesome
+                                                    // name={"list-ul"}
+                                                    name={"file-text-o"}
+                                                    style={{
+                                                        color: this.state.modalContent === "timeline" ? secondary : "",
+                                                        fontSize: '24px',
+                                                        width: '1em',
+                                                        height: '1em',
+                                                        overflow: 'hidden',
+                                                        userSelect: 'none'
+                                                    }}
+                                                />
+                                            </div>
+                                        </Badge>
+                                        <div style={{
+                                            color: 'white',
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Resumen {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>
                             </div>
                         </div>
-                    </div>
-                }
-                {/* <AlertConfirm
+                    </div >
+                    <AlertConfirm
+                        open={!!this.state.modalContent}
+                        classNameDialog={'modal100'}
+                        PaperProps={{
+                            style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
+                        }}
+                        bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
+                        bodyText={
+                            <div style={{ height: '100%' }}>
+                                {this.state.modalContent === 'agenda' &&
+                                    this.props.agenda
+                                }
+                                {this.state.modalContent === 'timeline' &&
+                                    <TimelineSection
+                                        council={this.props.council}
+                                    />
+                                }
+                            </div>
+                        }
+                    />
+                    {this.state.showModalComentario &&
+                        <div style={{
+                            transition: "bottom 0.7s",
+                            display: "flex",
+                            position: "fixed",
+                            minHeight: '50px',
+                            width: "100vw",
+                            bottom: this.props.click ? "0" : "3.7rem",
+                            left: "0",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: '1010',
+                            borderTop: "1px solid gainsboro"
+                        }}>
+                            <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                    {this.props.comentario}
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    {/* <AlertConfirm
                     PaperProps={{
                         style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '30%  ', boxShadow: 'none', bottom: "3.5rem" }
                     }}
@@ -332,8 +334,158 @@ class CouncilSidebar extends React.Component {
                     }
                 /> */}
 
-            </div >
-        );
+                </div >
+            );
+        } else {
+            return (
+                <div style={{
+                    float: 'left',
+                    zIndex: '0'
+                }}>
+                    <div style={{
+                        borderTop: "1px solid dimgrey",
+                        backgroundColor: darkGrey,
+                        height: 'calc( 3.5rem + 1px )',
+                        zIndex: '1000',
+                        position: 'absolute',
+                        display: 'flex',
+                        flexDirection: 'row',
+                        left: '0px',
+                        width: '100vw',
+                        alignItems: 'center',
+                        bottom: '0px',
+                        // overflow: 'hidden',
+                        fontSize: "0.55em"
+                    }}>
+                        <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
+                           
+                            {this.props.pedirPalabra}
+                            <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
+                                    onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
+                                    <div style={{ display: "unset" }}>
+                                        <div>
+                                            <i className="material-icons" style={{
+                                                fontSize: '24px', padding: '0', margin: "0",
+                                                width: '1em',
+                                                height: '1em',
+                                                overflow: 'hidden',
+                                                userSelect: 'none',
+                                                color: this.state.showModalComentario ? primary : "#ffffffcc",
+                                            }}>
+                                                chat_bubble_outline
+                                                </i>
+                                        </div>
+                                        <div style={{
+                                            color: "white",
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Comentario {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>
+                            </div>
+                            <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                <Button
+                                    className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}
+                                    onClick={this.props.toogleAgenda}
+                                >
+                                    <div style={{ display: "unset" }}>
+                                        <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                            <div>
+                                                {/* <FontAwesome
+                                                name={"calendar"}
+                                                style={{
+                                                    padding: '0', margin: "0",
+                                                    fontSize: '24px',
+                                                    width: '1em',
+                                                    height: '1em',
+                                                    overflow: 'hidden',
+                                                    userSelect: 'none'
+                                                }}
+                                            /> */}
+                                                <i className="material-icons" style={{
+                                                    color: this.props.modalContent === "agenda" ? secondary : "",
+                                                    fontSize: '24px', padding: '0', margin: "0",
+                                                    width: '1em',
+                                                    height: '1em',
+                                                    overflow: 'hidden',
+                                                    userSelect: 'none',
+                                                }}>
+                                                    calendar_today
+                                                </i>
+                                            </div>
+                                        </Badge>
+                                        <div style={{
+                                            color: 'white',
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Agenda {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>
+                            </div>
+                            <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem', }}>
+                                <Button
+                                    className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
+                                    onClick={this.props.toogleResumen}
+                                >
+                                    <div style={{ display: "unset" }}>
+                                        <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                            <div>
+                                                <FontAwesome
+                                                    // name={"list-ul"}
+                                                    name={"file-text-o"}
+                                                    style={{
+                                                        color: this.props.modalContent === "timeline" ? secondary : "",
+                                                        fontSize: '24px',
+                                                        width: '1em',
+                                                        height: '1em',
+                                                        overflow: 'hidden',
+                                                        userSelect: 'none'
+                                                    }}
+                                                />
+                                            </div>
+                                        </Badge>
+                                        <div style={{
+                                            color: 'white',
+                                            fontSize: '0.55rem',
+                                            textTransform: "none"
+                                        }}>
+                                            Resumen {/*TRADUCCION*/}
+                                        </div>
+                                    </div>
+                                </Button>
+                            </div>
+                        </div>
+                    </div >
+                    
+                    {this.state.showModalComentario &&
+                        <div style={{
+                            transition: "bottom 0.7s",
+                            display: "flex",
+                            position: "fixed",
+                            minHeight: '50px',
+                            width: "100vw",
+                            bottom:  "3.7rem",
+                            left: "0",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: '1010',
+                            borderTop: "1px solid gainsboro"
+                        }}>
+                            <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                    {this.props.comentario}
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div >
+            );
+        }
     }
 }
 
