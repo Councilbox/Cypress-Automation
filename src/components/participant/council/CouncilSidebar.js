@@ -17,7 +17,8 @@ class CouncilSidebar extends React.Component {
 
     toggle(type) {
         this.setState({
-            modalContent: this.state.modalContent === type ? false : type
+            modalContent: this.state.modalContent === type ? false : type,
+            showModalComentario: false
         });
     }
 
@@ -206,7 +207,8 @@ class CouncilSidebar extends React.Component {
                         {this.props.pedirPalabra}
 
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }} onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario })}  >
+                            <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
+                             onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
                                 <div style={{ display: "unset" }}>
                                     <div>
                                         <i className="material-icons" style={{
@@ -296,13 +298,25 @@ class CouncilSidebar extends React.Component {
                     }
                 />
                 {this.state.showModalComentario &&
-                <div style={{ transition: "bottom 0.7s" ,display:  "flex",position: "fixed", height: '100px', width: "100%", bottom: this.props.click ? "0":"3.7rem", left: "0",  alignItems: "center", justifyContent: "center", zIndex: '1001' }}>
-                    <div style={{borderRadiusTopLeft: "5px" ,position: "relative", width: "100%", background: "white", height: "100%" }}>
-                        <div >
-                            {this.props.comentario}
+                    <div style={{
+                        transition: "bottom 0.7s",
+                        display: "flex",
+                        position: "fixed",
+                        minHeight: '50px',
+                        width: "100vw",
+                        bottom: this.props.click ? "0" : "3.7rem",
+                        left: "0",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: '1010',
+                        borderTop: "1px solid gainsboro"
+                    }}>
+                        <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%" }}>
+                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                {this.props.comentario}
+                            </div>
                         </div>
                     </div>
-                </div>
                 }
                 {/* <AlertConfirm
                     PaperProps={{

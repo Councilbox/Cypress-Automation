@@ -23,6 +23,8 @@ const BasicButton = ({
 	success,
 	floatRight,
 	claseHover,
+	resetSuccess,
+	successSoloColor
 }) => {
 	if ((error || success) && !!reset) {
 		let timeout = setTimeout(() => {
@@ -42,31 +44,50 @@ const BasicButton = ({
 				backgroundColor: success ? "green" : error ? "red" : color,
 				float: floatRight && "right",
 				outline: "0",
-				cursor: loading? 'wait' : 'pointer',
+				cursor: loading ? 'wait' : 'pointer',
 			}}
 			disabled={disabled || loading}
 			variant={type}
-			{...(!success && !loading? {onClick: onClick} : {})}
+			{...(!success && !loading ? { onClick: onClick } : {})}
 			fullWidth={fullWidth}
 			className={claseHover}
 		>
 			{text}
 			{success ? (
-				<ButtonIcon type="checkIcon" color="white" />
+				successSoloColor ?
+					(
+						<div></div>
+					) :
+					(
+						<ButtonIcon type="checkIcon" color="white" />
+					)
+
 			) : error ? (
-				<ButtonIcon type="clear" color="white" />
+				successSoloColor ?
+					(
+						<div></div>
+					) :
+					(
+						<ButtonIcon type="clear" color="white" />
+					)
 			) : loading ? (
-				<div
-					style={{
-						color: loadingColor,
-						marginLeft: "0.3em"
-					}}
-				>
-					<CircularProgress size={12} color={"inherit"} />
-				</div>
+				successSoloColor ?
+					(
+						<div></div>
+					) :
+					(
+						<div
+							style={{
+								color: loadingColor,
+								marginLeft: "0.3em"
+							}}
+						>
+							<CircularProgress size={12} color={"inherit"} />
+						</div>
+					)
 			) : (
-				icon
-			)}
+							icon
+						)}
 		</Button>
 	);
 };

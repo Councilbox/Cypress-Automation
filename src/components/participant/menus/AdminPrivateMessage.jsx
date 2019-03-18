@@ -5,6 +5,7 @@ import { TextInput, BasicButton } from '../../../displayComponents';
 import Popover from 'antd/lib/popover';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import TextInputChat from '../../../displayComponents/TextInputChat';
 
 
 class AdminPrivateMessage extends React.Component {
@@ -94,28 +95,63 @@ class AdminPrivateMessage extends React.Component {
         )
     }
     renderMenuMobil = () => {
-
         return (
-            <div>   
-                {/*Crear forma redonda rollo watsapp y cambiar un poco de tamaño para hacer rollo chat*/}
-                <TextInput
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "95px", minHeight: "50px", width: '95%' }}>
+                <TextInputChat
                     floatingText={this.props.translate.message}
                     value={this.state.text}
                     multiline={true}
                     onChange={event => this.setState({ text: event.target.value, success: false })}
                     onClick={this.props.activeInput}
                     onBlur={this.props.onblur}
+                    style={{
+                        margin: "2.5px 0 2.5px 0 ",
+                        border: "1px solid gainsboro",
+                        paddingLeft: "16px",
+                        paddingRight: "16px",
+                        overflow: "hidden",
+                        minHeight: '32px',
+                        maxHeight: '75px',
+                        borderRadius: '25px',
+                    }}
                 />
                 <BasicButton
-                    text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
+                    text={
+                        <i className="material-icons"
+                            style={{
+                                fontSize: '15px',
+                                padding: '0',
+                                margin: "0",
+                                width: '1em',
+                                height: '1em',
+                                overflow: 'hidden',
+                                userSelect: 'none',
+                                color: 'white',
+                            }}
+                        >
+                            send
+                        </i>
+                    }
+                    // text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
                     onClick={this.sendCouncilRoomMessage}
                     loading={this.state.loading}
                     success={this.state.success}
                     reset={this.resetButtonStates}
+                    successSoloColor={true}
                     color={getSecondary()}
                     textStyle={{
                         color: 'white',
-                        fontWeight: '700'
+                        fontSize: '15px'
+                    }}
+                    buttonStyle={{
+                        width: '32px',
+                        height: '28px',
+                        borderRadius: '1em',
+                        padding: "0px",
+                        margin: "0px",
+                        minHeight: "0px",
+                        minWidth: "0px",
+                        marginLeft: "10px",
                     }}
                 />
             </div>
