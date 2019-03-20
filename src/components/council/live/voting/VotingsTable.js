@@ -156,7 +156,6 @@ class VotingsTable extends React.Component {
 					bottomRightBorderRadius: "5px"
 				}}
 			>
-
 				<GridItem
 					xs={12}
 					md={6}
