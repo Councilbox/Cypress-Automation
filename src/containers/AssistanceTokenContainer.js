@@ -94,6 +94,7 @@ const getMe = gql`
 		participantMe {
 			id
 			councilId
+			language
 		}
 	}
 `;

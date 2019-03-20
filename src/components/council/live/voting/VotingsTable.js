@@ -141,7 +141,7 @@ class VotingsTable extends React.Component {
 
 		const offset = (this.props.page - 1) * this.props.pageLimit;
 		const slicedVotings = mappedVotings.slice(offset, offset + this.props.pageLimit);
-		
+
 		return (
 			<Grid
 				style={{
@@ -153,7 +153,6 @@ class VotingsTable extends React.Component {
 					bottomRightBorderRadius: "5px"
 				}}
 			>
-
 				<GridItem
 					xs={12}
 					md={6}
