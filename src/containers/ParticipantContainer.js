@@ -77,7 +77,8 @@ class ParticipantContainer extends React.PureComponent {
                                             participant={data.participant}
                                             council={{
 												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state
+												state: this.props.state.councilState.state,
+												councilStarted: this.props.state.councilState.councilStarted,
 											}}
                                             company={this.props.council.councilVideo.company}
                                         />
@@ -86,7 +87,8 @@ class ParticipantContainer extends React.PureComponent {
                                             participant={data.participant}
                                             council={{
 												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state
+												state: this.props.state.councilState.state,
+												councilStarted: this.props.state.councilState.councilStarted,
 											}}
                                             company={this.props.council.councilVideo.company}
 											refetchParticipant={data.refetch}
@@ -98,7 +100,8 @@ class ParticipantContainer extends React.PureComponent {
                                 participant={data.participant}
                                 council={{
 									...this.props.council.councilVideo,
-									state: this.props.state.councilState.state
+									state: this.props.state.councilState.state,
+									councilStarted: this.props.state.councilState.councilStarted,
 								}}
                                 company={this.props.council.councilVideo.company}
                             />
@@ -207,6 +210,7 @@ const stateQuery = gql`
 	query info($councilId: Int!) {
 		councilState(id: $councilId) {
 			state
+			councilStarted
 			id
 		}
 	}
