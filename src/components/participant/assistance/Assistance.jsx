@@ -77,10 +77,8 @@ class Assistance extends React.Component {
 					delegateInfoUser: nextProps.participant.representative
 				};
 			}
-			return {
-				participant: nextProps.participant,
-			};
 		}
+
 		return null;
 	}
 
@@ -128,6 +126,8 @@ class Assistance extends React.Component {
 			} else {
 				await this.selectSimpleOption(this.state.assistanceIntention);
 			}
+
+			console.log(assistanceComment);
 
 			await setAssistanceComment({
 				variables: {
@@ -189,6 +189,8 @@ class Assistance extends React.Component {
 		const { council, company, translate } = this.props;
 		const { representative, ...participant } = this.state.participant;
 		let canDelegate = canDelegateVotes(council.statute, participant);
+
+		console.log(this.state);
 
 		return (
 			<NotLoggedLayout
