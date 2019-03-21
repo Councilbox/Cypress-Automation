@@ -59,7 +59,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
 		delegateId: null,
 		noAttendWarning: false,
-		delegateInfoUser: null
+		delegateInfoUser: participant.representative
 	});
 
 
