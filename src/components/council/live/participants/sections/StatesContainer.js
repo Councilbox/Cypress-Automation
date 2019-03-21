@@ -24,6 +24,7 @@ import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
 import AddGuestModal from "../AddGuestModal";
+import { useOldState } from "../../../../../hooks";
 
 const selectedStyle = {
 	borderBottom: `3px solid ${getSecondary()}`,
@@ -31,8 +32,9 @@ const selectedStyle = {
 	fontWeight: '700'
 }
 
-class StatesContainer extends React.Component {
-	state = {
+
+const StatesContainer = ({ translate, council, orientation, ...props }) => {
+	const [state, setState] = useOldState({
 		stateStatus: null,
 		filterText: "",
 		charFilter: null,
@@ -40,12 +42,19 @@ class StatesContainer extends React.Component {
 		onlyNotSigned: false,
 		filterField: "fullName",
 		status: null
-	};
+	});
 
-	header = null;
+	React.useEffect(() => {
+		refresh();
+	}, [state.charFilter, state.stateStatus, state.filterField, state.onlyNotSigned])
 
-	_getFilters = () => {
-		const translate = this.props.translate;
+
+	const secondary = getSecondary();
+
+	let header = null;
+	let timeout = null;
+
+	const _getFilters = () => {
 		return [
 			{
 				value: "fullName",
@@ -62,14 +71,12 @@ class StatesContainer extends React.Component {
 		];
 	};
 
-	_renderAddGuestButton = () => {
-		const secondary = getSecondary();
-
+	const _renderAddGuestButton = () => {
 		return (
 			<Tooltip title="ALT + G">
 				<div>
 					<BasicButton
-						text={isMobile? this.props.translate.invite_guest : this.props.translate.add_guest}
+						text={isMobile? translate.invite_guest : translate.add_guest}
 						color={"white"}
 						textStyle={{
 							color: secondary,
@@ -80,7 +87,7 @@ class StatesContainer extends React.Component {
 						textPosition="after"
 						type="flat"
 						icon={<ButtonIcon type="add" color={secondary} />}
-						onClick={() => this.setState({ addGuest: true })}
+						onClick={() => setState({ addGuest: true })}
 						buttonStyle={{
 							marginRight: "1em",
 							border: `1px solid ${secondary}`,
@@ -91,123 +98,88 @@ class StatesContainer extends React.Component {
 		)
 	}
 
-	toggleCharFilter = char => {
-		this.setState({
-			charFilter: char === this.state.charFilter? null : char
-		}, () => this.refresh());
+
+	const toggleCharFilter = char => {
+		setState({
+			charFilter: char === state.charFilter? null : char
+		});
 	}
 
-	setStateStatus = newValue => {
-		this.setState({ stateStatus: newValue }, () => this.refresh());
+	const setStateStatus = newValue => {
+		setState({ stateStatus: newValue });
+		refresh();
 	};
 
-	updateFilterField = value => {
-		this.setState(
-			{
-				filterField: value
-			},
-			() => this.refresh()
-		);
+	const updateFilterField = value => {
+		setState({
+			filterField: value
+		});
 	};
 
-	updateFilterText = async value => {
-		this.setState({
+
+	const updateFilterText = async value => {
+		setState({
 			filterText: value
 		});
 
-		clearTimeout(this.timeout);
-		this.timeout = setTimeout(() => this.refresh(), 450);
+		clearTimeout(timeout);
+		timeout = setTimeout(() => refresh(), 450);
 	};
 
-	loadMore = () => {
-		const currentLength = this.props.data.liveParticipantsState.list.length;
-/* 
-		this.setState({
-			loadingMore: true
-		});
-
-		this.props.data.fetchMore({
-			variables: {
-				options: {
-					offset: currentLength,
-					limit: PARTICIPANTS_LIMITS[0]
-				}
-			},
-			updateQuery: (prev, { fetchMoreResult }) => {
-				if (!fetchMoreResult) {
-					return prev;
-				}
-				this.setState({
-					loadingMore: false
-				});
-
-				return {
-					...prev,
-					liveParticipantsState: {
-						...prev.liveParticipantsState,
-						list: [
-							...prev.liveParticipantsState.list,
-							...fetchMoreResult.liveParticipantsState.list
-						]
-					}
-				};
-			}
-		}); */
-
-		this.props.setLimit(currentLength + 24);
-	};
-
-	toggleOnlyNotSigned = () => {
-		this.setState({
-			onlyNotSigned: !this.state.onlyNotSigned
-		}, () => this.refresh());
-	}
-
-
-	refresh = () => {
+	const refresh = () => {
+		console.log('se refresca');
 		let variables = {
 			filters: []
 		};
 
-		if (this.state.stateStatus || this.state.stateStatus === 0) {
-			variables.stateStatus = this.state.stateStatus;
+		if (state.stateStatus || state.stateStatus === 0) {
+			variables.stateStatus = state.stateStatus;
 		} else {
 			variables.stateStatus = null;
 		}
 
 		variables.options = {
-			limit: this.props.limit,
+			limit: props.limit,
 			offset: 0
 		}
 
-		if (this.state.filterText) {
+		if (state.filterText) {
 			variables.filters = [
 				...variables.filters,
-				{ field: this.state.filterField, text: this.state.filterText }
+				{ field: state.filterField, text: state.filterText }
 			];
 		}
 
-		if(this.state.onlyNotSigned){
+		if(state.onlyNotSigned){
 			variables.filters = [
 				...variables.filters,
 				{ field: 'signed', text: 0}
 			];
 		}
 
-		if(this.state.charFilter){
+		if(state.charFilter){
 			variables.filters = [
 				...variables.filters,
-				{ field: 'surname', text: this.state.charFilter}
+				{ field: 'surname', text: state.charFilter}
 			]
 		}
 
-		this.props.data.refetch(variables);
+		props.data.refetch(variables);
 	};
 
-	_renderHeader = () => {
-		let { stateRecount } = this.props.data;
-		let { translate } = this.props;
+	const loadMore = () => {
+		const currentLength = props.data.liveParticipantsState.list.length;
+		props.setLimit(currentLength + 24);
+	};
 
+	const toggleOnlyNotSigned = () => {
+		setState({
+			onlyNotSigned: !state.onlyNotSigned
+		})
+	}
+
+	const _renderHeader = () => {
+		let { stateRecount } = props.data;
 		return (
 			<React.Fragment>
 				<Grid
@@ -226,11 +198,11 @@ class StatesContainer extends React.Component {
 				>
 					<div
 						onClick={() => {
-							this.setStateStatus(null);
+							setStateStatus(null);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === null?
+							...(state.stateStatus === null?
 								selectedStyle
 							:
 								{}
@@ -238,7 +210,7 @@ class StatesContainer extends React.Component {
 						}}
 					>
 						<StateIcon
-							color={this.state.stateStatus === null? getSecondary() : 'grey'}
+							color={state.stateStatus === null? getSecondary() : 'grey'}
 							translate={translate}
 							state={"ALL"}
 							number={stateRecount.all}
@@ -246,13 +218,13 @@ class StatesContainer extends React.Component {
 					</div>
 					<div
 						onClick={() => {
-							this.setStateStatus(
+							setStateStatus(
 								PARTICIPANT_STATES.NO_PARTICIPATE
 							);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE?
+							...(state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE?
 								selectedStyle
 							:
 								{}
@@ -260,7 +232,7 @@ class StatesContainer extends React.Component {
 						}}
 					>
 						<StateIcon
-							color={this.state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE? getSecondary() : 'grey'}
+							color={state.stateStatus === PARTICIPANT_STATES.NO_PARTICIPATE? getSecondary() : 'grey'}
 							translate={translate}
 							state={PARTICIPANT_STATES.NO_PARTICIPATE}
 							number={stateRecount.noParticipate}
@@ -268,11 +240,11 @@ class StatesContainer extends React.Component {
 					</div>
 					<div
 						onClick={() => {
-							this.setStateStatus(PARTICIPANT_STATES.REMOTE);
+							setStateStatus(PARTICIPANT_STATES.REMOTE);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === PARTICIPANT_STATES.REMOTE?
+							...(state.stateStatus === PARTICIPANT_STATES.REMOTE?
 								selectedStyle
 							:
 								{}
@@ -280,7 +252,7 @@ class StatesContainer extends React.Component {
 						}}
 					>
 						<StateIcon
-							color={this.state.stateStatus === PARTICIPANT_STATES.REMOTE? getSecondary() : 'grey'}
+							color={state.stateStatus === PARTICIPANT_STATES.REMOTE? getSecondary() : 'grey'}
 							translate={translate}
 							state={PARTICIPANT_STATES.REMOTE}
 							number={stateRecount.remote}
@@ -288,13 +260,13 @@ class StatesContainer extends React.Component {
 					</div>
 					<div
 						onClick={() => {
-							this.setStateStatus(
+							setStateStatus(
 								PARTICIPANT_STATES.PHYSICALLY_PRESENT
 							);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT?
+							...(state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT?
 								selectedStyle
 							:
 								{}
@@ -302,7 +274,7 @@ class StatesContainer extends React.Component {
 						}}
 					>
 						<StateIcon
-							color={this.state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT? getSecondary() : 'grey'}
+							color={state.stateStatus === PARTICIPANT_STATES.PHYSICALLY_PRESENT? getSecondary() : 'grey'}
 							translate={translate}
 							state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
 							number={stateRecount.present}
@@ -310,13 +282,13 @@ class StatesContainer extends React.Component {
 					</div>
 					<div
 						onClick={() => {
-							this.setStateStatus(
+							setStateStatus(
 								PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 							);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE?
+							...(state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE?
 								selectedStyle
 							:
 								{}
@@ -325,18 +297,18 @@ class StatesContainer extends React.Component {
 					>
 						<StateIcon
 							translate={translate}
-							color={this.state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE? getSecondary() : 'grey'}
+							color={state.stateStatus === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE? getSecondary() : 'grey'}
 							state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
 							number={stateRecount.presentWithElectronicVote}
 						/>
 					</div>
 					<div
 						onClick={() => {
-							this.setStateStatus(PARTICIPANT_STATES.DELEGATED);
+							setStateStatus(PARTICIPANT_STATES.DELEGATED);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === PARTICIPANT_STATES.DELEGATED?
+							...(state.stateStatus === PARTICIPANT_STATES.DELEGATED?
 								selectedStyle
 							:
 								{}
@@ -345,20 +317,20 @@ class StatesContainer extends React.Component {
 					>
 						<StateIcon
 							translate={translate}
-							color={this.state.stateStatus === PARTICIPANT_STATES.DELEGATED? getSecondary() : 'grey'}
+							color={state.stateStatus === PARTICIPANT_STATES.DELEGATED? getSecondary() : 'grey'}
 							state={PARTICIPANT_STATES.DELEGATED}
 							number={stateRecount.delegated}
 						/>
 					</div>
 					<div
 						onClick={() => {
-							this.setStateStatus(
+							setStateStatus(
 								PARTICIPANT_STATES.REPRESENTATED
 							);
 						}}
 						style={{
 							cursor: "pointer",
-							...(this.state.stateStatus === PARTICIPANT_STATES.REPRESENTATED?
+							...(state.stateStatus === PARTICIPANT_STATES.REPRESENTATED?
 								selectedStyle
 							:
 								{}
@@ -367,7 +339,7 @@ class StatesContainer extends React.Component {
 					>
 						<StateIcon
 							translate={translate}
-							color={this.state.stateStatus === PARTICIPANT_STATES.REPRESENTATED? getSecondary() : 'grey'}
+							color={state.stateStatus === PARTICIPANT_STATES.REPRESENTATED? getSecondary() : 'grey'}
 							state={PARTICIPANT_STATES.REPRESENTATED}
 							number={stateRecount.representated}
 						/>
@@ -377,127 +349,126 @@ class StatesContainer extends React.Component {
 		);
 	};
 
-	render() {
-		const { council, translate, orientation } = this.props;
-		const { filterText, filterField } = this.state;
-		const fields = this._getFilters();
-		const secondary = getSecondary();
 
-		if (!this.props.data.liveParticipantsState) {
-			return <LoadingSection />;
-		}
+	const { filterText, filterField } = state;
+	const fields = _getFilters();
 
-		return (
-			<React.Fragment>
-				<div
-					style={{
-						minHeight: "3em",
-						maxHeight: '6em',
-						overflow: "hidden"
-					}}
-				>
-					{this._renderHeader()}
-				</div>
-				<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-					<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
-						{this._renderAddGuestButton()}
-					</GridItem>
-					<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
-						<BasicButton
-							text={this.state.onlyNotSigned? translate.show_all : translate.show_unsigned}
-							color='white'
-							type="flat"
-							textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
-							onClick={this.toggleOnlyNotSigned}
-						/>
-					</GridItem>
-					<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
-						{orientation === 'landscape' && isMobile &&
-							<CharSelector
-								onClick={this.toggleCharFilter}
-								translate={translate}
-								selectedChar={this.state.charFilter}
-							/>
-						}
-						<div
-							style={{
-								maxWidth: "12em"
-							}}
-						>
-							<SelectInput
-								// floatingText={translate.filter_by}
-								value={filterField}
-								onChange={event =>
-									this.updateFilterField(event.target.value)
-								}
-							>
-								{fields.map(field => (
-									<MenuItem
-										key={`field_${field.value}`}
-										value={field.value}
-									>
-										{field.translation}
-									</MenuItem>
-								))}
-							</SelectInput>
-						</div>
-						<div
-							style={{
-								marginLeft: "0.8em",
-								width: '10em'
-							}}
-						>
-							<TextInput
-								adornment={<Icon>search</Icon>}
-								floatingText={" "}
-								type="text"
-								value={filterText}
-								onChange={event => {
-									this.updateFilterText(event.target.value);
-								}}
-							/>
-						</div>
-					</GridItem>
-				</Grid>
-				<div
-					style={{
-						height: `calc(100% - 3em - ${isMobile && orientation === 'portrait'? '8em' : `${this.props.menuOpen? '6.5' : '3.5'}em`} )`,
-						overflow: "hidden",
-						display: 'flex',
-					}}
-				>
-					{(!isMobile || orientation !== 'landscape') &&
+	if (!props.data.liveParticipantsState) {
+		return <LoadingSection />;
+	}
+
+
+	return (
+		<React.Fragment>
+			<div
+				style={{
+					minHeight: "3em",
+					maxHeight: '6em',
+					overflow: "hidden"
+				}}
+			>
+				{_renderHeader()}
+			</div>
+			<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+				<GridItem xs={orientation === 'landscape'? 2 : 6} md={3} lg={3} style={{display: 'flex', alignItems: 'center', height: '3.5em'}}>
+					{_renderAddGuestButton()}
+				</GridItem>
+				<GridItem xs={orientation === 'landscape'? 4 : 6} md={3} lg={3} style={{display: 'flex', justifyContent: orientation === 'landscape'? 'flex-start' : 'flex-end'}}>
+					<BasicButton
+						text={state.onlyNotSigned? translate.show_all : translate.show_unsigned}
+						color='white'
+						type="flat"
+						textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
+						onClick={toggleOnlyNotSigned}
+					/>
+				</GridItem>
+				<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
+					{orientation === 'landscape' && isMobile &&
 						<CharSelector
-							onClick={this.toggleCharFilter}
+							onClick={toggleCharFilter}
 							translate={translate}
-							selectedChar={this.state.charFilter}
+							selectedChar={state.charFilter}
 						/>
 					}
-					<ParticipantsList
-						loadMore={this.loadMore}
-						loading={this.props.data.loading}
-						loadingMore={this.props.data.loading}
-						renderHeader={this._renderHeader}
-						refetch={this.refresh}
-						participants={this.props.data.liveParticipantsState}
-						layout={this.props.layout}
-						council={this.props.council}
-						translate={this.props.translate}
-						editParticipant={this.props.editParticipant}
-						mode={"STATES"}
+					<div
+						style={{
+							maxWidth: "12em"
+						}}
+					>
+						<SelectInput
+							// floatingText={translate.filter_by}
+							value={filterField}
+							onChange={event =>
+								updateFilterField(event.target.value)
+							}
+						>
+							{fields.map(field => (
+								<MenuItem
+									key={`field_${field.value}`}
+									value={field.value}
+								>
+									{field.translation}
+								</MenuItem>
+							))}
+						</SelectInput>
+					</div>
+					<div
+						style={{
+							marginLeft: "0.8em",
+							width: '10em'
+						}}
+					>
+						<TextInput
+							adornment={<Icon>search</Icon>}
+							floatingText={" "}
+							type="text"
+							value={filterText}
+							onChange={event => {
+								updateFilterText(event.target.value);
+							}}
+						/>
+					</div>
+				</GridItem>
+			</Grid>
+			<div
+				style={{
+					height: `calc(100% - 3em - ${isMobile && orientation === 'portrait'? '8em' : `${props.menuOpen? '6.5' : '3.5'}em`} )`,
+					overflow: "hidden",
+					display: 'flex',
+				}}
+			>
+				{(!isMobile || orientation !== 'landscape') &&
+					<CharSelector
+						onClick={toggleCharFilter}
+						translate={translate}
+						selectedChar={state.charFilter}
 					/>
-				</div>
-				<AddGuestModal
-					show={this.state.addGuest}
+				}
+				<ParticipantsList
+					loadMore={loadMore}
+					loading={props.data.loading}
+					loadingMore={props.data.loading}
+					renderHeader={_renderHeader}
+					refetch={refresh}
+					participants={props.data.liveParticipantsState}
+					layout={props.layout}
 					council={council}
-					refetch={this.refresh}
-					requestClose={() => this.setState({ addGuest: false })}
 					translate={translate}
+					editParticipant={props.editParticipant}
+					mode={"STATES"}
 				/>
-			</React.Fragment>
-		);
-	}
+			</div>
+			<AddGuestModal
+				show={state.addGuest}
+				council={council}
+				refetch={refresh}
+				requestClose={() => setState({ addGuest: false })}
+				translate={translate}
+			/>
+		</React.Fragment>
+	)
 }
+
 
 const query = gql`
 	query liveParticipantsState(
