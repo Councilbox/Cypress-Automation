@@ -14,7 +14,7 @@ const NoAttendDelegationWarning = ({ translate, requestClose }) => {
             buttonCancel={translate.close}
             bodyText={
                 <div>
-                    Ha seleccionado no asistir, pero <b>tiene votos delegados</b>, piense si quiere rechazarlos. <br/>Si finalmente no asiste esos votos no se usarán en la reunión.
+                    Antes de confirmar, recuerde que tiene votos delegados.
                 </div>
             }
         />

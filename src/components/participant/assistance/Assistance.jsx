@@ -137,6 +137,7 @@ class Assistance extends React.Component {
 
 			this.setState({
 				loading: false,
+				locked: true,
 				success: true
 			})
 			this.props.refetch();
@@ -173,6 +174,7 @@ class Assistance extends React.Component {
 		const delegateInfoUser = this.props.data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
 		this.setState({
 			delegateId: delegateId,
+			locked: false,
 			delegationModal: false,
 			delegateInfoUser: delegateInfoUser,
 			assistanceIntention: PARTICIPANT_STATES.DELEGATED
@@ -254,6 +256,7 @@ class Assistance extends React.Component {
 															select={() => {
 																this.setState({
 																	assistanceIntention: PARTICIPANT_STATES.REMOTE,
+																	locked: false,
 																	delegateId: null
 																})
 															}}
@@ -265,6 +268,7 @@ class Assistance extends React.Component {
 															select={() => {
 																this.setState({
 																	assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																	locked: false,
 																	delegateId: null
 																})
 															}}
@@ -277,6 +281,7 @@ class Assistance extends React.Component {
 															select={() => {
 																this.setState({
 																	assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+																	locked: false,
 																	noAttendWarning: participant.delegatedVotes.length > 0? true : false,
 																	delegateId: null
 																})
@@ -318,7 +323,8 @@ class Assistance extends React.Component {
 																	participant: {
 																		...this.state.participant,
 																		assistanceComment: value
-																	}
+																	},
+																	locked: false
 																})
 															}
 														/>
@@ -338,10 +344,11 @@ class Assistance extends React.Component {
 								{council.confirmAssistance !== 0 &&
 									<div style={styles.buttonSection}>
 										<BasicButton
-											text={this.state.success? translate.tooltip_sent : translate.send}
-											color={primary}
+											text={this.state.success || this.state.locked? translate.tooltip_sent : translate.send}
+											color={this.state.locked? 'grey' : primary}
 											floatRight
 											success={this.state.success}
+											disabled={this.state.locked}
 											reset={this.resetButtonStates}
 											textStyle={{
 												color: "white",
