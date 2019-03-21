@@ -173,17 +173,6 @@ class CouncilSidebar extends React.Component {
                                     <div style={{ display: "unset" }}>
                                         <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
                                             <div>
-                                                {/* <FontAwesome
-                                                name={"calendar"}
-                                                style={{
-                                                    padding: '0', margin: "0",
-                                                    fontSize: '24px',
-                                                    width: '1em',
-                                                    height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none'
-                                                }}
-                                            /> */}
                                                 <i className="material-icons" style={{
                                                     color: this.state.modalContent === "agenda" ? secondary : "",
                                                     fontSize: '24px', padding: '0', margin: "0",
@@ -206,8 +195,7 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                             </div>
-                            {this.props.pedirPalabra}
-
+                            {this.props.pedirPalabra }
                             <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                                 <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
                                     onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
@@ -223,17 +211,6 @@ class CouncilSidebar extends React.Component {
                                             }}>
                                                 chat_bubble_outline
                                                 </i>
-                                            {/* <FontAwesome
-                                            name={"comment-o"}
-                                            style={{
-                                                color: this.state.showModalComentario ? primary : "#ffffffcc",
-                                                fontSize: '24px',
-                                                width: '1em',
-                                                height: '1em',
-                                                overflow: 'hidden',
-                                                userSelect: 'none'
-                                            }}
-                                        /> */}
                                         </div>
                                         <div style={{
                                             color: "white",
@@ -320,20 +297,6 @@ class CouncilSidebar extends React.Component {
                             </div>
                         </div>
                     }
-                    {/* <AlertConfirm
-                    PaperProps={{
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '30%  ', boxShadow: 'none', bottom: "3.5rem" }
-                    }}
-                    open={this.state.showModalComentario}
-                    requestClose={() => this.setState({ showModalComentario: false })}
-                    // title={this.props.translate.private_comment_for_room_admin}
-                    bodyText={
-                        <div >
-                            {this.props.comentario}
-                        </div>
-                    }
-                /> */}
-
                 </div >
             );
         } else {
@@ -343,7 +306,6 @@ class CouncilSidebar extends React.Component {
                     zIndex: '0'
                 }}>
                     <div style={{
-                        borderTop: "1px solid dimgrey",
                         backgroundColor: darkGrey,
                         height: 'calc( 3.5rem + 1px )',
                         zIndex: '1000',
@@ -351,16 +313,18 @@ class CouncilSidebar extends React.Component {
                         display: 'flex',
                         flexDirection: 'row',
                         left: '0px',
-                        width: '100vw',
+                        width: 'calc( 100vw - 20px )',
                         alignItems: 'center',
                         bottom: '0px',
-                        // overflow: 'hidden',
-                        fontSize: "0.55em"
+                        fontSize: "0.55em",
+                        marginLeft: "10px",
+                        marginRight: "10px"
                     }}>
-                        <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
-                           
+                        <Grid item xs={6} md={8} style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', paddingRight: "3px" }}>
+                            {/* <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}> */}
+
                             {this.props.pedirPalabra}
-                            <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem', }}>
+                            <div style={{ width: "50%", textAlign: "center", paddingTop: '0.35rem', borderTop: "1px solid dimgrey", borderRight: "1px solid dimgrey", }}>
                                 <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
                                     onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
                                     <div style={{ display: "unset" }}>
@@ -386,7 +350,9 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                             </div>
-                            <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem', }}>
+                        </Grid>
+                        <Grid item xs={6} md={4} style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', paddingLeft: "6px" }}>
+                            <div style={{ width: "50%", textAlign: "center", paddingTop: '0.35rem', borderTop: "1px solid dimgrey", borderLeft: "1px solid dimgrey", }}>
                                 <Button
                                     className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', margin: "0", fontSize: '10px', }}
                                     onClick={this.props.toogleAgenda}
@@ -394,17 +360,6 @@ class CouncilSidebar extends React.Component {
                                     <div style={{ display: "unset" }}>
                                         <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
                                             <div>
-                                                {/* <FontAwesome
-                                                name={"calendar"}
-                                                style={{
-                                                    padding: '0', margin: "0",
-                                                    fontSize: '24px',
-                                                    width: '1em',
-                                                    height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none'
-                                                }}
-                                            /> */}
                                                 <i className="material-icons" style={{
                                                     color: this.props.modalContent === "agenda" ? secondary : "",
                                                     fontSize: '24px', padding: '0', margin: "0",
@@ -426,8 +381,8 @@ class CouncilSidebar extends React.Component {
                                         </div>
                                     </div>
                                 </Button>
-                            </div>
-                            <div style={{ width: "25%", textAlign: "center", paddingTop: '0.35rem', }}>
+                            </div >
+                            <div style={{ width: "50%", textAlign: "center", paddingTop: '0.35rem', borderTop: "1px solid dimgrey", borderRight: "1px solid dimgrey", }}>
                                 <Button
                                     className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
                                     onClick={this.props.toogleResumen}
@@ -436,7 +391,6 @@ class CouncilSidebar extends React.Component {
                                         <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
                                             <div>
                                                 <FontAwesome
-                                                    // name={"list-ul"}
                                                     name={"file-text-o"}
                                                     style={{
                                                         color: this.props.modalContent === "timeline" ? secondary : "",
@@ -459,32 +413,39 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                             </div>
-                        </div>
+                        </Grid>
                     </div >
-                    
-                    {this.state.showModalComentario &&
-                        <div style={{
+
+                    {
+                        this.state.showModalComentario &&
+                        <Grid item xs={6} md={8} style={{
                             transition: "bottom 0.7s",
                             display: "flex",
                             position: "fixed",
                             minHeight: '50px',
-                            width: "100vw",
-                            bottom:  "3.7rem",
+                            bottom: "3.7rem",
                             left: "0",
                             alignItems: "center",
                             justifyContent: "center",
                             zIndex: '1010',
-                            borderTop: "1px solid gainsboro"
                         }}>
-                            <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
-                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                    {this.props.comentario}
+                            <div style={{
+                                width: '100vw',
+                                marginLeft: "10px",
+                                paddingRight: "6px"
+                            }}
+                            >
+                                <div style={{ borderTop: "1px solid gainsboro", borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                        {this.props.comentario}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </Grid>
                     }
                 </div >
             );
+
         }
     }
 }

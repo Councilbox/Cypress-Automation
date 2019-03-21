@@ -14,7 +14,7 @@ const TimelineSection = React.memo(({ data }) => {
         data.loading ?
             <LoadingSection />
             :
-            <Stepper orientation="vertical">
+            <Stepper orientation="vertical" style={{margin: '0', padding:isMobile ? '20px' : '10px' }}>
                 {data.councilTimeline.map(event => {
                     const content = JSON.parse(event.content);
                     return (

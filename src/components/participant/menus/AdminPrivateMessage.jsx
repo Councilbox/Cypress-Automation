@@ -1,11 +1,12 @@
 import React from 'react';
 import { getSecondary } from '../../../styles/colors';
 import { Tooltip, IconButton } from 'material-ui';
-import { TextInput, BasicButton } from '../../../displayComponents';
+import { TextInput, BasicButton, LiveToast } from '../../../displayComponents';
 import Popover from 'antd/lib/popover';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import TextInputChat from '../../../displayComponents/TextInputChat';
+import { toast } from 'react-toastify';
 
 
 class AdminPrivateMessage extends React.Component {
@@ -50,6 +51,15 @@ class AdminPrivateMessage extends React.Component {
                         loading: false,
                         text: ''
                     })
+                    toast(
+                        <LiveToast
+                            message={'Se ha enviado su comentario'} /*TRADUCCION*/
+                        />, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            autoClose: true,
+                            className: "successToast"
+                        }
+                    );
                 }
             }
         } else {

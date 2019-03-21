@@ -122,7 +122,8 @@ class ParticipantCouncil extends React.Component {
         full: true,
         middle: false,
         activeInput: false,
-        modalContent: "agenda"
+        modalContent: "agenda",
+        // avisoVideo: true
     };
 
     noStartedToastId = null;
@@ -197,9 +198,11 @@ class ParticipantCouncil extends React.Component {
                         agendasAnchor={this.state.agendasAnchor}
                         toggleAgendasAnchor={this.toggleAgendasAnchor}
                         inPc={true}
-                        timeline={< TimelineSection
-                            council={this.props.council}
-                        />}
+                        timeline={
+                            < TimelineSection
+                                council={this.props.council}
+                            />
+                        }
                     />
                 }
             </Grid>
@@ -218,16 +221,12 @@ class ParticipantCouncil extends React.Component {
             />
         )
     }
-
-    toggleAgendasAnchor = () => {
-        const anchor = this.state.agendasAnchor === 'left' ? 'right' : 'left';
-        this.setState({ agendasAnchor: anchor });
-    }
-
+    
     render() {
         const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
         let type = "agenda"
+
         if (isMobile) {
             return (
                 <div style={styles.viewContainerM}>
@@ -318,13 +317,9 @@ class ParticipantCouncil extends React.Component {
                                 justifyContent: 'center'
                             } : {})
                         }}>
-                            {agendasAnchor === 'left' &&
-                                this._renderAgendaSection()
-                            }
-
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={5} md={8} style={{ height: "calc( 100% - 3.5em + 1px )" }}>
-                                    <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                                <Grid item xs={6} md={8} style={{ height: "calc( 100% - 3.5em + 1px )" }}>
+                                    <div style={{ width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )": '100%', position: 'relative',  top: this.state.avisoVideo ? "55px": "0px" }}>
                                         <ConfigContext.Consumer>
                                             {config => (
                                                 <AdminAnnouncement
@@ -334,14 +329,7 @@ class ParticipantCouncil extends React.Component {
                                                 />
                                             )}
                                         </ConfigContext.Consumer>
-                                        {/* <RequestWordMenu
-                                            translate={this.props.translate}
-                                            participant={participant}
-                                            council={council}
-                                            videoURL={this.state.videoURL}
-                                            refetchParticipant={this.props.refetchParticipant}
-                                        /> */}
-                                        <div style={{ height: '100%', width: '100%' }}>
+                                        <div style={{ height: '100%', width: '100%',}}>
                                             <VideoContainer
                                                 council={council}
                                                 participant={participant}
@@ -364,8 +352,8 @@ class ParticipantCouncil extends React.Component {
                                     middle={() => this.setState({ full: false, middle: true })}
                                     click={this.state.activeInput}
                                     agenda={this._renderAgendaSection()}
-                                    toogleAgenda={()=>this.toggle("agenda")}
-                                    toogleResumen={()=>this.toggle("timeline")}
+                                    toogleAgenda={() => this.toggle("agenda")}
+                                    toogleResumen={() => this.toggle("timeline")}
                                     modalContent={this.state.modalContent}
                                     comentario={
                                         <AdminPrivateMessage
@@ -373,7 +361,7 @@ class ParticipantCouncil extends React.Component {
                                             council={council}
                                             participant={participant}
                                             menuRender={true}
-                                            activeInput={() => this.setState({ activeInput: true })}//onFocus puede ser
+                                            activeInput={() => this.setState({ activeInput: true })}
                                             onblur={() => this.setState({ activeInput: false })}
                                         />
                                     }
@@ -386,8 +374,11 @@ class ParticipantCouncil extends React.Component {
                                             refetchParticipant={this.props.refetchParticipant}
                                             isSidebar={true}
                                             isPc={true}
+                                            avisoVideoState={this.state.avisoVideo}
+                                            avisoVideoStateCerrar={this.setState({avisoVideo:false})}
                                         />
                                     }
+                                    // avisoVideo={()=>this.setState({avisoVideo:true})}
                                 />
                             </div>
                         </Grid>

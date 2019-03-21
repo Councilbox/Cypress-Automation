@@ -1,9 +1,10 @@
 import React from 'react';
 import { DropDownMenu, Icon, AlertConfirm } from '../../../displayComponents';
-import { MenuItem, IconButton } from 'material-ui';
+import { MenuItem, IconButton, Card } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
+
 
 
 class CouncilInfoMenu extends React.Component {
@@ -61,22 +62,25 @@ class CouncilInfoMenu extends React.Component {
 
         return (
             <div>
-                <div>
-                    {`${translate.name}: ${participant.name} ${participant.surname}`}
-                </div>
-                <div style={{ marginBottom: '1em' }}>
-                    {`${translate.email}: ${participant.email}`}
-                </div>
-                <div>
-                    Votos delegados:
+                <Card style={{ padding: "20px" }}>
+                    <div>
+                        <b>{`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
+                    </div>
+                    <div style={{ marginBottom: '1em' }}>
+                        <b> {`${translate.email}`}</b>: {`${participant.email}`}
+                    </div>
+                    <div>
+                        <b>Votos delegados:</b>
                 {participant.delegatedVotes.map(vote => (
-                        <div key={`delegatedVote_${vote.id}`}>
-                            {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
-                        </div>
-                    ))}
-                    Total de votos: {this.calculateParticipantVotes()}
-                </div>
-            </div>
+                            <div key={`delegatedVote_${vote.id}`}>
+                                <b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
+                            </div>
+                        ))}
+                        <br></br>
+                       <b>Total de votos</b>: {this.calculateParticipantVotes()}
+                    </div>
+                </Card>
+            </div >
         )
     }
 
@@ -184,6 +188,7 @@ class CouncilInfoMenu extends React.Component {
                         buttonAccept={translate.accept}
                         bodyText={this._renderCouncilInfo()}
                         title={translate.council_info}
+                        bodyStyle={{paddingTop: "5px", margin: "10px"}}
                     />
                 }
                 {this.state.showParticipantInfo &&
@@ -194,6 +199,7 @@ class CouncilInfoMenu extends React.Component {
                         buttonAccept={translate.accept}
                         bodyText={this._renderParticipantInfo()}
                         title={translate.participant_data}
+                        bodyStyle={{paddingTop: "5px", margin: "10px"}}
                     />
                 }
             </React.Fragment>

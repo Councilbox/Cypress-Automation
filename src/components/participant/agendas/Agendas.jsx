@@ -160,7 +160,7 @@ class Agendas extends React.Component {
     }
 
 	render() {
-		const { translate, council, agendasAnchor, toggleAgendasAnchor, anchorToggle } = this.props;
+		const { translate, council, } = this.props;
         const { selected } = this.state;
         const secondary = getSecondary();
         const primary = getPrimary();

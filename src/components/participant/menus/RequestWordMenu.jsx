@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, IconButton, Tooltip, Button } from "material-ui";
+import { Paper, IconButton, Tooltip, Button, Grid } from "material-ui";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -7,11 +7,12 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import * as CBX from '../../../utils/CBX';
 import AdminPrivateMessage from './AdminPrivateMessage';
 import DetectRTC from 'detectrtc';
-import { AlertConfirm, BasicButton } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, LiveToast } from '../../../displayComponents';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isSafari } from 'react-device-detect';
 import FontAwesome from "react-fontawesome";
-
+import { toast } from 'react-toastify';
+import { RvHookup } from 'material-ui-icons';
 
 
 class RequestWordMenu extends React.Component {
@@ -19,7 +20,7 @@ class RequestWordMenu extends React.Component {
     state = {
         alertCantRequestWord: false,
         safariModal: false,
-        confirmWordModal: false
+        confirmWordModal: false,
     }
 
     askForWord = async () => {
@@ -31,12 +32,12 @@ class RequestWordMenu extends React.Component {
             await this.props.changeRequestWord({
                 variables: {
                     participantId: this.props.participant.id,
-                    requestWord: 1
+                    requestWord: 1,
                 }
             });
             await this.props.refetchParticipant();
             this.setState({
-                loading: false
+                loading: false,
             });
         } else {
             this.setState({
@@ -142,9 +143,12 @@ class RequestWordMenu extends React.Component {
         if (grantedWord || CBX.isAskingForWord(this.props.participant)) {
             return (
                 <div style={{
-                    width: "20%", textAlign: "center", paddingTop: '0.35rem',
+                    width: this.props.isPc ? "50%" : "20%",
+                    textAlign: "center",
+                    paddingTop: '0.35rem',
                     color: grantedWord ? 'grey' : secondary,
-                    // backgroundColor: grantedWord ? secondary : 'inherit',
+                    borderLeft: this.props.isPc ? "1px solid dimgrey" : "",
+                    borderTop: this.props.isPc ? "1px solid dimgrey" : "",
                 }}>
                     <Button
                         className={"NoOutline"}
@@ -156,16 +160,6 @@ class RequestWordMenu extends React.Component {
                     >
                         <div style={{ display: "unset" }}>
                             <div style={{ position: "relative" }}>
-                                {/* <i className="material-icons" style={{
-                                    fontSize: '24px', padding: '0', margin: "0",
-                                    width: '1em',
-                                    height: '1em',
-                                    overflow: 'hidden',
-                                    userSelect: 'none',
-                                    color: grantedWord ? primary : secondary,
-                                }}>
-                                    pan_tool
-                                </i> */}
                                 {grantedWord ? (
                                     <i className="material-icons" style={{
                                         fontSize: '24px', padding: '0', margin: "0",
@@ -202,31 +196,7 @@ class RequestWordMenu extends React.Component {
                                             pan_tool
                                         </i>
                                     </React.Fragment>
-                                    // <FontAwesome
-                                    //     name={"hand-paper-o"}
-                                    //     style={{
-                                    //         color: primary ,
-                                    //         // color: grantedWord ? primary : secondary,
-                                    //         fontSize: '24px',
-                                    //         width: '1em',
-                                    //         height: '1em',
-                                    //         overflow: 'hidden',
-                                    //         userSelect: 'none'
-                                    //     }}
-                                    // />
-
                                 }
-                                {/* <FontAwesome
-                                    name={"hand-paper-o"}
-                                    style={{
-                                        color: grantedWord ? primary : secondary,
-                                        fontSize: '24px',
-                                        width: '1em',
-                                        height: '1em',
-                                        overflow: 'hidden',
-                                        userSelect: 'none'
-                                    }}
-                                /> */}
                             </div>
                             <div style={{
                                 color: 'white',
@@ -242,7 +212,7 @@ class RequestWordMenu extends React.Component {
         }
 
         return (
-            <div style={{ width: this.props.isPc ? "25%" :"20%", textAlign: "center", paddingTop: '0.35rem', color: isSafari ? 'grey' : secondary, }}>
+            <div style={{ width: this.props.isPc ? "50%" : "20%", textAlign: "center", paddingTop: '0.35rem', color: isSafari ? 'grey' : secondary, borderTop: this.props.isPc ? "1px solid dimgrey" : "", borderLeft: this.props.isPc ? "1px solid dimgrey" : "" }}>
                 <Button
                     className={"NoOutline"}
                     style={{ width: '100%', height: "100%", minWidth: "0", padding: '0', margin: "0", fontSize: '10px', }}
@@ -265,16 +235,6 @@ class RequestWordMenu extends React.Component {
                                     }}
                                 />
                             }
-                            {/* <i className="material-icons" style={{
-                                fontSize: '24px', padding: '0', margin: "0",
-                                width: '1em',
-                                height: '1em',
-                                overflow: 'hidden',
-                                userSelect: 'none',
-                                color: isSafari ? 'grey' : "#ffffffcc",
-                            }}>
-                                pan_tool
-                            </i> */}
                             <FontAwesome
                                 name={"hand-paper-o"}
                                 style={{
@@ -344,159 +304,121 @@ class RequestWordMenu extends React.Component {
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
         const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
 
+
         // if (this.props.isSidebar) {
-            return (
-                <ConfigContext.Consumer>
-                    {value => (
-                        <React.Fragment>
+        return (
+            <ConfigContext.Consumer>
+                {value => (
+                    <React.Fragment>
 
-                            {!fixedURLMode &&
-                                this._renderWordButtonIconMobil()
-                            }
-
-
-                            <AlertConfirm
-                                requestClose={() => this.setState({ alertCantRequestWord: false })}
-                                open={this.state.alertCantRequestWord}
-                                fullWidth={false}
-                                acceptAction={this.closeAlertCantRequest}
-                                buttonAccept={this.props.translate.accept}
-                                bodyText={this._renderAlertBody()}
-                                title={this.props.translate.error}
-                            />
-                            <AlertConfirm
-                                requestClose={this.closeSafariModal}
-                                open={this.state.safariModal}
-                                fullWidth={false}
-                                acceptAction={this.closeSafariModal}
-                                buttonAccept={this.props.translate.accept}
-                                bodyText={this._renderSafariAlertBody()}
-                                title={this.props.translate.warning}
-                            />
-                            <AlertConfirm
-                                requestClose={this.closeWordModal}
-                                open={this.state.confirmWordModal}
-                                acceptAction={this.askForWord}
-                                cancelAction={this.closeWordModal}
-                                title={this.props.translate.warning}
-                                bodyText={"Va a pedir palabra."}/*TRADUCCION*/
-                                buttonAccept={this.props.translate.accept}
-                                buttonCancel={this.props.translate.cancel}
-                            />
-                        </React.Fragment>
-                    )}
-                </ConfigContext.Consumer>
-            )
-        // } else {
-        //     return (
-        //         <ConfigContext.Consumer>
-        //             {value => (
-        //                 <React.Fragment>
-
-        //                     {!fixedURLMode &&
-        //                         this._renderWordButtonIconMobil()
-        //                     }
+                        {!fixedURLMode ?
+                            this._renderWordButtonIconMobil()
+                            :
+                            <div style={{ width: this.props.isPc ? "50%" : "20%" }}></div>
+                        }
 
 
-        //                     <AlertConfirm
-        //                         requestClose={() => this.setState({ alertCantRequestWord: false })}
-        //                         open={this.state.alertCantRequestWord}
-        //                         fullWidth={false}
-        //                         acceptAction={this.closeAlertCantRequest}
-        //                         buttonAccept={this.props.translate.accept}
-        //                         bodyText={this._renderAlertBody()}
-        //                         title={this.props.translate.error}
-        //                     />
-        //                     <AlertConfirm
-        //                         requestClose={this.closeSafariModal}
-        //                         open={this.state.safariModal}
-        //                         fullWidth={false}
-        //                         acceptAction={this.closeSafariModal}
-        //                         buttonAccept={this.props.translate.accept}
-        //                         bodyText={this._renderSafariAlertBody()}
-        //                         title={this.props.translate.warning}
-        //                     />
-        //                     <AlertConfirm
-        //                         requestClose={this.closeWordModal}
-        //                         open={this.state.confirmWordModal}
-        //                         acceptAction={this.askForWord}
-        //                         cancelAction={this.closeWordModal}
-        //                         title={this.props.translate.warning}
-        //                         bodyText={"Va a pedir palabra."}/*TRADUCCION*/
-        //                         buttonAccept={this.props.translate.accept}
-        //                         buttonCancel={this.props.translate.cancel}
-        //                     />
-        //                 </React.Fragment>
-        //             )}
-        //         </ConfigContext.Consumer>
-        //     )
-            //     return (
-            //         <ConfigContext.Consumer>
-            //             {value => (
-            //                 <React.Fragment>
-            //                     <Paper
-            //                         style={{
-            //                             width: fixedURLMode ? '5.5em' : '8em',
-            //                             height: '2.2em',
-            //                             position: 'absolute',
-            //                             backgroundColor: 'white',
-            //                             color: grantedWord ? 'white' : primary,
-            //                             left: '50%',
-            //                             transform: 'translateX(-50%)',
-            //                             display: 'flex',
-            //                             flexDirection: 'row',
-            //                             overflow: 'hidden',
-            //                             alignItems: 'center',
-            //                             justifyContent: 'center',
-            //                             bottom: '0px'
-            //                         }}
-            //                     >
-            //                         {!fixedURLMode &&
-            //                             this._renderWordButtonIcon()
-            //                         }
-            //                         {fixedURLMode ?
-            //                             <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-            //                                 {this._renderPrivateMessageIcon()}
-            //                             </div>
-            //                             :
-            //                             this._renderPrivateMessageIcon()
-            //                         }
-            //                     </Paper>
-            //                     <AlertConfirm
-            //                         requestClose={() => this.setState({ alertCantRequestWord: false })}
-            //                         open={this.state.alertCantRequestWord}
-            //                         fullWidth={false}
-            //                         acceptAction={this.closeAlertCantRequest}
-            //                         buttonAccept={this.props.translate.accept}
-            //                         bodyText={this._renderAlertBody()}
-            //                         title={this.props.translate.error}
-            //                     />
-            //                     <AlertConfirm
-            //                         requestClose={this.closeSafariModal}
-            //                         open={this.state.safariModal}
-            //                         fullWidth={false}
-            //                         acceptAction={this.closeSafariModal}
-            //                         buttonAccept={this.props.translate.accept}
-            //                         bodyText={this._renderSafariAlertBody()}
-            //                         title={this.props.translate.warning}
-            //                     />
-            //                 </React.Fragment>
-            //             )}
-            //         </ConfigContext.Consumer>
-            //     )
-            // }
-        // }
+                        <AlertConfirm
+                            requestClose={() => this.setState({ alertCantRequestWord: false })}
+                            open={this.state.alertCantRequestWord}
+                            fullWidth={false}
+                            acceptAction={this.closeAlertCantRequest}
+                            buttonAccept={this.props.translate.accept}
+                            bodyText={this._renderAlertBody()}
+                            title={this.props.translate.error}
+                        />
+                        <AlertConfirm
+                            requestClose={this.closeSafariModal}
+                            open={this.state.safariModal}
+                            fullWidth={false}
+                            acceptAction={this.closeSafariModal}
+                            buttonAccept={this.props.translate.accept}
+                            bodyText={this._renderSafariAlertBody()}
+                            title={this.props.translate.warning}
+                        />
+                        <AlertConfirm
+                            requestClose={this.closeWordModal}
+                            open={this.state.confirmWordModal}
+                            acceptAction={this.askForWord}
+                            cancelAction={this.closeWordModal}
+                            title={this.props.translate.warning}
+                            bodyText={"Va a pedir palabra."}/*TRADUCCION*/
+                            buttonAccept={this.props.translate.accept}
+                            buttonCancel={this.props.translate.cancel}
+                        />
+                        {this.props.avisoVideoState &&
+                            <Grid item xs={6} md={8} style={{
+                                transition: "top 0.7s",
+                                display: "flex",
+                                position: "fixed",
+                                minHeight: '50px',
+                                top: "3.7rem",
+                                left: "0",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                zIndex: '1010',
+                            }}
+                            >
+                                <div style={{
+                                    width: '100vw',
+                                    marginLeft: "10px",
+                                    paddingRight: "6px",
+                                    height: '50px',
+                                }}
+                                >
+                                    <div style={{
+                                        borderTop: "1px solid gainsboro",
+                                        borderRadiusTopLeft: "5px",
+                                        position: "relative",
+                                        width: "100%", height: "100%",
+                                        background: "white",
+                                    }}>
+                                        <div style={{ display: "flex", alignItems: "center", height: "100%", fontSize: "15px", color: getSecondary(), paddingLeft: '10px' }}>
+                                            <div style={{marginRight: "10px", marginTop: "4px"}}>
+                                                < FontAwesome
+                                                    name={"info-circle"}
+                                                    style={{
+                                                        fontSize: "1.4em",
+                                                    }}
+                                                />
+                                            </div>
+                                            <div>
+                                                Le han concedido la palabra
+                                            </div>
+                                            <div>
+                                                < FontAwesome
+                                                    name={"close"}
+                                                    style={{
+                                                        cursor: "pointer",
+                                                        fontSize: "1.5em",
+                                                        color: getSecondary(),
+                                                        position: "absolute",
+                                                        right: "12px",
+                                                        top: "8px"
+                                                    }}
+                                                    onClick={this.props.avisoVideoStateCerrar}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Grid>
+                        }
+                    </React.Fragment>
+                )}
+            </ConfigContext.Consumer>
+        )
     }
 }
 
 const changeRequestWord = gql`
     mutation ChangeRequestWord($participantId: Int!, $requestWord: Int!){
-        changeRequestWord(participantId: $participantId, requestWord: $requestWord){
-            success
+                    changeRequestWord(participantId: $participantId, requestWord: $requestWord){
+                    success
             message
-        }
-    }
-`;
+                }
+            }
+        `;
 
 export default graphql(changeRequestWord, {
     name: 'changeRequestWord'
