@@ -51,53 +51,54 @@ const styles = {
 	}
 };
 
-class Assistance extends React.Component {
-	state = {
+const Assistance = ({ participant, data, translate, council, company, refetch, setAssistanceComment, setAssistanceIntention }) => {
+	const [state, setState] = React.useState({
 		participant: {},
 		savingAssistanceComment: false,
 		delegationModal: false,
-		assistanceIntention: PARTICIPANT_STATES.REMOTE,
+		assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
 		delegateId: null,
 		noAttendWarning: false,
 		delegateInfoUser: null
-	};
+	});
 
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!prevState.participant.id) {
-			return {
-				participant: nextProps.participant,
-				assistanceIntention: nextProps.participant.assistanceIntention,
-			};
-		}
 
-		if (prevState.participant.delegateId !== nextProps.delegateId) {
-			if (nextProps.participant.representative) {
-				return {
-					participant: nextProps.participant,
-					delegateInfoUser: nextProps.participant.representative
-				};
-			}
-		}
-
-		return null;
+	const resetButtonStates = () => {
+		setState({
+			...state,
+			success: false,
+			savingAssistanceComment: false,
+		});
 	}
 
-	selectSimpleOption = async option => {
-		const { setAssistanceIntention, refetch } = this.props;
+	const selectDelegation = async delegateId => {
+		const delegateInfoUser = data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
+		setState({
+			...state,
+			delegateId: delegateId,
+			locked: false,
+			delegationModal: false,
+			delegateInfoUser: delegateInfoUser,
+			assistanceIntention: PARTICIPANT_STATES.DELEGATED
+		});
+	}
+
+	const selectSimpleOption = async option => {
 		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
 
 		const response = await setAssistanceIntention({
 			variables: {
 				assistanceIntention: option,
-				representativeId: quitRepresentative ? null : this.state.participant.delegateId
+				representativeId: quitRepresentative ? null : state.participant.delegateId
 			}
 		});
 
 		if (response) {
 			if (response.data.setAssistanceIntention.success) {
-				this.setState({
+				setState({
+					...state,
 					participant: {
-						...this.state.participant,
+						...state.participant,
 						assistanteIntention: option,
 						...(quitRepresentative ? { representative: null } : {})
 					}
@@ -107,24 +108,23 @@ class Assistance extends React.Component {
 		}
 	}
 
-	sendAttendanceIntention = async () => {
-		this.setState({
+
+	const sendAttendanceIntention = async () => {
+		setState({
+			...state,
 			loading: true
 		});
-		const { setAssistanceComment } = this.props;
-		const { assistanceComment } = this.state.participant;
-		const { setAssistanceIntention, refetch } = this.props;
-
+		const { assistanceComment } = state.participant;
 		if (!checkForUnclosedBraces(assistanceComment)) {
-			if (this.state.delegateId !== null) {
+			if (state.delegateId !== null) {
 				const response = await setAssistanceIntention({
 					variables: {
 						assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-						representativeId: this.state.delegateId
+						representativeId: state.delegateId
 					}
 				});
 			} else {
-				await this.selectSimpleOption(this.state.assistanceIntention);
+				await selectSimpleOption(state.assistanceIntention);
 			}
 
 			console.log(assistanceComment);
@@ -135,19 +135,21 @@ class Assistance extends React.Component {
 				}
 			});
 
-			this.setState({
+			setState({
+				...state,
 				loading: false,
 				locked: true,
 				success: true
 			})
-			this.props.refetch();
+			refetch();
 		} else {
-			this.setState({
+			setState({
+				...state,
 				commentError: true
 			})
 			toast(
 				<LiveToast
-					message={this.props.translate.revise_text}
+					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
@@ -157,230 +159,205 @@ class Assistance extends React.Component {
 		}
 	}
 
-	resetButtonStates = () => {
-		this.setState({
-			success: false,
-			savingAssistanceComment: false,
-		});
-	}
-
-	showWarning = () => {
-		this.setState({
-			noAttendWarning: true
-		});
-	}
-
-	selectDelegation = async delegateId => {
-		const delegateInfoUser = this.props.data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
-		this.setState({
-			delegateId: delegateId,
-			locked: false,
-			delegationModal: false,
-			delegateInfoUser: delegateInfoUser,
-			assistanceIntention: PARTICIPANT_STATES.DELEGATED
-		});
-	}
-
-	showDelegation = () => {
-		this.setState({
+	const showDelegation = () => {
+		setState({
+			...state,
 			delegationModal: true
-		})
+		});
 	}
 
-	render() {
-		const { council, company, translate } = this.props;
-		const { representative, ...participant } = this.state.participant;
-		let canDelegate = canDelegateVotes(council.statute, participant);
+	let canDelegate = canDelegateVotes(council.statute, participant);
 
-		console.log(this.state);
-
-		return (
-			<NotLoggedLayout
-				translate={this.props.translate}
-				helpIcon={true}
-				languageSelector={true}
-			>
-				<div style={styles.mainContainer}>
-					<Card style={styles.cardContainer}>
-						{councilIsPreparing(council) ? (
-							<div style={{ height: '100%', width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw', maxWidth: '98vw' }}>
-								<div style={{ height: '4em', borderBottom: '1px solid gainsboro', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '2em' }}>
-									<Typography variant="title" style={{ fontWeight: '700', fontSize: '1.35rem' }}>
-										{council.name}
-									</Typography>
-								</div>
-								<div style={{
-									height: 'calc(100% - 7.5em)',
-									width: '100%',
-									overflow: 'hidden'
-								}}>
-									<Scrollbar>
-										<div style={{ height: '100%', padding: '2em', width: '99%' }}>
-											<Typography variant="subheading" style={{ fontWeight: '700', marginBottom: '1.2em' }}>
-												{translate.welcome} {participant.name} {participant.surname}
-											</Typography>
-											<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
-												<div style={{ borderBottom: '1px solid gainsboro', width: '100%', }}>
-													<SectionTitle
-														text={translate.council_info}
-														color={primary}
-													/>
-												</div>
-												<p style={{ marginTop: '1em' }}>
-													{council.remoteCelebration ?
-														translate.remote_celebration
-														:
-														`${council.street}, ${council.country}`
-													}
-												</p>
-												<p>{translate['1st_call_date']}: <DateWrapper date={council.dateStart} format={'LLL'} /></p>
-											</Card>
-											{participant.delegatedVotes.length > 0 &&
-												<DelegationSection
-													participant={participant}
-													translate={translate}
-													refetch={this.props.refetch}
-												/>
-											}
-											{council.confirmAssistance !== 0 &&
-												<React.Fragment>
-													<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
-														<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
-															<SectionTitle
-																text={`${translate.indicate_status}:`}
-																color={primary}
-															/>
-														</div>
-														<AssistanceOption
-															title={translate.attend_remotely_through_cbx}
-															select={() => {
-																this.setState({
-																	assistanceIntention: PARTICIPANT_STATES.REMOTE,
-																	locked: false,
-																	delegateId: null
-																})
-															}}
-															value={PARTICIPANT_STATES.REMOTE}
-															selected={this.state.assistanceIntention}
-														/>
-														<AssistanceOption
-															title={translate.attending_in_person}
-															select={() => {
-																this.setState({
-																	assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-																	locked: false,
-																	delegateId: null
-																})
-															}}
-															value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-															selected={this.state.assistanceIntention}
-
-														/>
-														<AssistanceOption
-															title={translate.not_attending}
-															select={() => {
-																this.setState({
-																	assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
-																	locked: false,
-																	noAttendWarning: participant.delegatedVotes.length > 0? true : false,
-																	delegateId: null
-																})
-															}}
-															value={PARTICIPANT_STATES.NO_PARTICIPATE}
-															selected={this.state.assistanceIntention}
-														/>
-														{canDelegate &&
-															<AssistanceOption
-																title={translate.want_to_delegate_in}
-																select={this.showDelegation}
-																value={PARTICIPANT_STATES.DELEGATED}
-																selected={this.state.assistanceIntention}
-															/>
-														}
-														{this.state.delegateInfoUser && this.state.assistanceIntention === 4 ?
-															<DelegationItem participant={this.state.delegateInfoUser} /> : ""
-														}
-														<br />
-													</Card>
-													<Card style={{ padding: '1.5em', width: '100%', }}>
-														<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
-															<SectionTitle
-																text={`${translate.comments}:`}
-																color={primary}
-															/>
-														</div>
-														<h4 style={{ paddingBottom: "0.6em" }}>{translate.attendance_comment}:</h4>
-														<RichTextInput
-															errorText={this.state.commentError}
-															translate={translate}
-															value={
-																!!participant.assistanceComment
-																	? participant.assistanceComment
-																	: ""
-															}
-															onChange={value =>
-																this.setState({
-																	participant: {
-																		...this.state.participant,
-																		assistanceComment: value
-																	},
-																	locked: false
-																})
-															}
-														/>
-													</Card>
-													{this.state.noAttendWarning &&
-														<NoAttendDelegationWarning
-															translate={translate}
-															requestClose={() => this.setState({noAttendWarning: false})}
-														/>
-													}
-												</React.Fragment>
-											}
-											<br />
-										</div>
-									</Scrollbar>
-								</div>
-								{council.confirmAssistance !== 0 &&
-									<div style={styles.buttonSection}>
-										<BasicButton
-											text={this.state.success || this.state.locked? translate.tooltip_sent : translate.send}
-											color={this.state.locked? 'grey' : primary}
-											floatRight
-											success={this.state.success}
-											disabled={this.state.locked}
-											reset={this.resetButtonStates}
-											textStyle={{
-												color: "white",
-												fontWeight: "700"
-											}}
-											loading={this.state.loading}
-											onClick={this.sendAttendanceIntention}
-											icon={<ButtonIcon type="save" color="white" />}
-										/>
-									</div>
-								}
-								<DelegateOwnVoteAttendantModal
-									show={this.state.delegationModal}
-									council={council}
-									participant={participant}
-									addRepresentative={this.selectDelegation}
-									requestClose={() => this.setState({ delegationModal: false })}
-									translate={translate}
-								/>
+	return (
+		<NotLoggedLayout
+			translate={translate}
+			helpIcon={true}
+			languageSelector={true}
+		>
+			<div style={styles.mainContainer}>
+				<Card style={styles.cardContainer}>
+					{councilIsPreparing(council) ? (
+						<div style={{ height: '100%', width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw', maxWidth: '98vw' }}>
+							<div style={{ height: '4em', borderBottom: '1px solid gainsboro', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', paddingLeft: '2em' }}>
+								<Typography variant="title" style={{ fontWeight: '700', fontSize: '1.35rem' }}>
+									{council.name}
+								</Typography>
 							</div>
-						) : (
-								<CouncilState
-									council={council}
-									participant={participant}
-									company={company} isAssistance
-								/>
-							)}
-					</Card>
-				</div>
-			</NotLoggedLayout>
-		);
-	}
+							<div style={{
+								height: 'calc(100% - 7.5em)',
+								width: '100%',
+								overflow: 'hidden'
+							}}>
+								<Scrollbar>
+									<div style={{ height: '100%', padding: '2em', width: '99%' }}>
+										<Typography variant="subheading" style={{ fontWeight: '700', marginBottom: '1.2em' }}>
+											{translate.welcome} {participant.name} {participant.surname}
+										</Typography>
+										<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+											<div style={{ borderBottom: '1px solid gainsboro', width: '100%', }}>
+												<SectionTitle
+													text={translate.council_info}
+													color={primary}
+												/>
+											</div>
+											<p style={{ marginTop: '1em' }}>
+												{council.remoteCelebration ?
+													translate.remote_celebration
+													:
+													`${council.street}, ${council.country}`
+												}
+											</p>
+											<p>{translate['1st_call_date']}: <DateWrapper date={council.dateStart} format={'LLL'} /></p>
+										</Card>
+										{participant.delegatedVotes.length > 0 &&
+											<DelegationSection
+												participant={participant}
+												translate={translate}
+												refetch={refetch}
+											/>
+										}
+										{council.confirmAssistance !== 0 &&
+											<React.Fragment>
+												<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+													<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+														<SectionTitle
+															text={`${translate.indicate_status}:`}
+															color={primary}
+														/>
+													</div>
+													<AssistanceOption
+														title={translate.attend_remotely_through_cbx}
+														select={() => {
+															setState({
+																...state,
+																assistanceIntention: PARTICIPANT_STATES.REMOTE,
+																locked: false,
+																delegateId: null
+															})
+														}}
+														value={PARTICIPANT_STATES.REMOTE}
+														selected={state.assistanceIntention}
+													/>
+													<AssistanceOption
+														title={translate.attending_in_person}
+														select={() => {
+															setState({
+																...state,
+																assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																locked: false,
+																delegateId: null
+															})
+														}}
+														value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+														selected={state.assistanceIntention}
+
+													/>
+													<AssistanceOption
+														title={translate.not_attending}
+														select={() => {
+															setState({
+																...state,
+																assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+																locked: false,
+																noAttendWarning: participant.delegatedVotes.length > 0? true : false,
+																delegateId: null
+															})
+														}}
+														value={PARTICIPANT_STATES.NO_PARTICIPATE}
+														selected={state.assistanceIntention}
+													/>
+													{canDelegate &&
+														<AssistanceOption
+															title={translate.want_to_delegate_in}
+															select={showDelegation}
+															value={PARTICIPANT_STATES.DELEGATED}
+															selected={state.assistanceIntention}
+														/>
+													}
+													{state.delegateInfoUser && state.assistanceIntention === 4 ?
+														<DelegationItem participant={state.delegateInfoUser} /> : ""
+													}
+													<br />
+												</Card>
+												<Card style={{ padding: '1.5em', width: '100%', }}>
+													<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+														<SectionTitle
+															text={`${translate.comments}:`}
+															color={primary}
+														/>
+													</div>
+													<h4 style={{ paddingBottom: "0.6em" }}>{translate.attendance_comment}:</h4>
+													<RichTextInput
+														errorText={state.commentError}
+														translate={translate}
+														value={
+															!!participant.assistanceComment
+																? participant.assistanceComment
+																: ""
+														}
+														onChange={value =>
+															setState({
+																...state,
+																participant: {
+																	...state.participant,
+																	assistanceComment: value
+																},
+																locked: false
+															})
+														}
+													/>
+												</Card>
+												{state.noAttendWarning &&
+													<NoAttendDelegationWarning
+														translate={translate}
+														requestClose={() => setState({ ...state, noAttendWarning: false})}
+													/>
+												}
+											</React.Fragment>
+										}
+										<br />
+									</div>
+								</Scrollbar>
+							</div>
+							{council.confirmAssistance !== 0 &&
+								<div style={styles.buttonSection}>
+									<BasicButton
+										text={state.success || state.locked? translate.tooltip_sent : translate.send}
+										color={state.locked? 'grey' : primary}
+										floatRight
+										success={state.success}
+										disabled={state.locked}
+										reset={resetButtonStates}
+										textStyle={{
+											color: "white",
+											fontWeight: "700"
+										}}
+										loading={state.loading}
+										onClick={sendAttendanceIntention}
+										icon={<ButtonIcon type="save" color="white" />}
+									/>
+								</div>
+							}
+							<DelegateOwnVoteAttendantModal
+								show={state.delegationModal}
+								council={council}
+								participant={participant}
+								addRepresentative={selectDelegation}
+								requestClose={() => setState({ ...state, delegationModal: false })}
+								translate={translate}
+							/>
+						</div>
+					) : (
+							<CouncilState
+								council={council}
+								participant={participant}
+								company={company} isAssistance
+							/>
+						)}
+				</Card>
+			</div>
+		</NotLoggedLayout>
+	);
 }
 
 
