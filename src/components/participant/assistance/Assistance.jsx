@@ -398,7 +398,7 @@ const DelegationSection = ({ participant, translate, refetch}) => {
 						}}
 						key={vote.id}
 					>
-						<span>{vote.name}</span>
+						<span>{`${vote.name} ${vote.surname}`}</span>
 						<div>
 							<BasicButton
 								text="Rechazar"//TRADUCCION
