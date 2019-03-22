@@ -1,6 +1,6 @@
 const LOCATION_URL =
 	process.env.REACT_APP_MODE === "dev"
-		? `http://172.18.2.39:5000/graphql`
+		? `http://192.168.1.12:5000/graphql`
 		// ? `http://localhost:5000/graphql`
 		: `https://${process.env.REACT_APP_API_URL}/graphql`;
 

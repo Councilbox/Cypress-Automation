@@ -22,7 +22,7 @@ import { isMobile } from "react-device-detect";
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
 import TimelineSection from "../timeline/TimelineSection";
-
+import * as CBX from '../../../utils/CBX';
 
 
 const styles = {
@@ -93,21 +93,22 @@ const stylesVideo = {
             height: '100%',
             position: 'relative',
         },
-        middlePadre: {
+        fullHijo: {
             width: '100%',
-            height: 'calc(100% - 3.5em)'
+            height: '100%'
         },
         middlePadre: {
-            width: '100%',
+            width: '50%',
             height: '100%',
             position: 'relative',
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            left:"25%"
         },
         middleHijo: {
             width: '100%',
-            height: 'calc(50% - 3.5em)'
+            height: '100% '
         },
     }],
 
@@ -123,11 +124,11 @@ class ParticipantCouncil extends React.Component {
         middle: false,
         activeInput: false,
         modalContent: "agenda",
-        // avisoVideo: true
+        avisoVideo: false
     };
 
     noStartedToastId = null;
-
+  
     componentDidMount = () => {
         this.props.changeParticipantOnlineState({
             variables: {
@@ -143,6 +144,16 @@ class ParticipantCouncil extends React.Component {
             window.onunload = this.leaveRoom;
         }
     }
+  
+    componentDidUpdate(prevProps){
+        if(!CBX.haveGrantedWord(prevProps.participant) && CBX.haveGrantedWord(this.props.participant)){
+            this.setState({avisoVideo: true});
+        }
+        if(CBX.haveGrantedWord(prevProps.participant) && !CBX.haveGrantedWord(this.props.participant)){
+            this.setState({avisoVideo: false});
+        }
+    }
+
 
     toggle(type) {
         this.setState({
@@ -221,11 +232,13 @@ class ParticipantCouncil extends React.Component {
             />
         )
     }
-    
+
+
     render() {
         const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
         let type = "agenda"
+        
 
         if (isMobile) {
             return (
@@ -274,8 +287,8 @@ class ParticipantCouncil extends React.Component {
                             } : {})
                         }}>
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={isLandscape() ? 6 : 12} md={8} style={{ height: "100%" }}>
-                                    <div style={this.state.full ? stylesVideo.portrait[0].fullPadre : stylesVideo.portrait[0].middlePadre}>
+                                <Grid item xs={isLandscape() ? 12 : 12} md={8} style={{ height: "100%" }}>
+                                    <div style={this.state.full ? stylesVideo.portrait[0].fullPadre : isLandscape() ? stylesVideo.landscape[0].middlePadre : stylesVideo.portrait[0].middlePadre}>
                                         <ConfigContext.Consumer>
                                             {config => (
                                                 <AdminAnnouncement
@@ -285,7 +298,7 @@ class ParticipantCouncil extends React.Component {
                                                 />
                                             )}
                                         </ConfigContext.Consumer>
-                                        <div style={this.state.full ? stylesVideo.portrait[0].fullHijo : stylesVideo.portrait[0].middleHijo}>
+                                        <div style={this.state.full ? stylesVideo.portrait[0].fullHijo :  isLandscape() ? stylesVideo.landscape[0].middleHijo :  stylesVideo.portrait[0].middleHijo}>
                                             <VideoContainer
                                                 council={council}
                                                 participant={participant}
@@ -319,7 +332,7 @@ class ParticipantCouncil extends React.Component {
                         }}>
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                                 <Grid item xs={6} md={8} style={{ height: "calc( 100% - 3.5em + 1px )" }}>
-                                    <div style={{ width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )": '100%', position: 'relative',  top: this.state.avisoVideo ? "55px": "0px" }}>
+                                    <div style={{ width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: this.state.avisoVideo ? "55px" : "0px" }}>
                                         <ConfigContext.Consumer>
                                             {config => (
                                                 <AdminAnnouncement
@@ -329,7 +342,7 @@ class ParticipantCouncil extends React.Component {
                                                 />
                                             )}
                                         </ConfigContext.Consumer>
-                                        <div style={{ height: '100%', width: '100%',}}>
+                                        <div style={{ height: '100%', width: '100%', }}>
                                             <VideoContainer
                                                 council={council}
                                                 participant={participant}
@@ -375,10 +388,10 @@ class ParticipantCouncil extends React.Component {
                                             isSidebar={true}
                                             isPc={true}
                                             avisoVideoState={this.state.avisoVideo}
-                                            avisoVideoStateCerrar={this.setState({avisoVideo:false})}
+                                            avisoVideoStateCerrar={()=>this.setState({avisoVideo: false})}
                                         />
                                     }
-                                    // avisoVideo={()=>this.setState({avisoVideo:true})}
+                                // avisoVideo={()=>this.setState({avisoVideo:true})}
                                 />
                             </div>
                         </Grid>
