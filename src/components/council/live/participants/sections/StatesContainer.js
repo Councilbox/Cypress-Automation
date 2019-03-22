@@ -45,8 +45,9 @@ const StatesContainer = ({ translate, council, orientation, ...props }) => {
 	});
 
 	React.useEffect(() => {
-		refresh();
-	}, [state.charFilter, state.stateStatus, state.filterField, state.onlyNotSigned])
+		let timeout = setTimeout(() => refresh(), 350);
+		return () => clearTimeout(timeout);
+	}, [state.charFilter, state.stateStatus, state.filterField, state.filterText, state.onlyNotSigned])
 
 
 	const secondary = getSecondary();
@@ -121,13 +122,9 @@ const StatesContainer = ({ translate, council, orientation, ...props }) => {
 		setState({
 			filterText: value
 		});
-
-		clearTimeout(timeout);
-		timeout = setTimeout(() => refresh(), 450);
 	};
 
 	const refresh = () => {
-		console.log('se refresca');
 		let variables = {
 			filters: []
 		};
