@@ -456,7 +456,10 @@ const _getIcon = (mode, participant, translate, showCommentModal) => {
 		case 'CONVENE':
 			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />
 		case 'CREDENTIALS':
-			return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />
+			if(participant.sendCredentials){
+				return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />
+			}
+			return '-';
 		case 'TYPE':
 			return <TypeIcon translate={translate} type={participant.type} />
 		case 'ATTENDANCE':
