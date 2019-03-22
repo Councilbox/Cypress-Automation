@@ -127,8 +127,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 				await selectSimpleOption(state.assistanceIntention);
 			}
 
-			console.log(assistanceComment);
-
 			await setAssistanceComment({
 				variables: {
 					assistanceComment: assistanceComment || ''

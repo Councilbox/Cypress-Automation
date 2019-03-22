@@ -11,20 +11,12 @@ import {
 	MenuItem,
 	TextInput
 } from "../../../../../displayComponents";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
 import { Tooltip } from 'material-ui';
 import { isMobile } from 'react-device-detect';
-import {
-	PARTICIPANTS_LIMITS,
-	PARTICIPANT_STATES
-} from "../../../../../constants";
 import { getSecondary } from "../../../../../styles/colors";
 import withWindowSize from "../../../../../HOCs/withWindowSize";
 import ParticipantsList from "../ParticipantsList";
-import StateIcon from "../StateIcon";
 import AddGuestModal from "../AddGuestModal";
-import { useOldState } from "../../../../../hooks";
 import StatesHeader from './StatesHeader';
 import TypesHeader from './TypesHeader';
 import AttendanceHeader from './AttendanceHeader';
@@ -36,9 +28,6 @@ import ConveneHeader from './ConveneHeader';
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
 	const [addGuest, setAddGuest] = React.useState(false);
 	const secondary = getSecondary();
-
-	let header = null;
-	let timeout = null;
 
 	const _getFilters = () => {
 		return [
@@ -108,7 +97,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 
 	const loadMore = () => {
 		const currentLength = data.liveParticipantsState.list.length;
-		setFilters({ limit: currentLength + 24});
+		setFilters({ limit: currentLength + 24 });
 	};
 
 	const toggleOnlyNotSigned = () => {
@@ -163,12 +152,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		}
 		return headers[props.view];
 	};
-
-
-	const { filterText, filterField } = filters;
 	const fields = _getFilters();
-
-
 
 	return (
 		<React.Fragment>

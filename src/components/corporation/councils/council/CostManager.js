@@ -36,8 +36,6 @@ const CostManager = ({ council, updateCouncil}) => {
             }
         });
 
-        console.log(response);
-
         setLoading(false);
     }
 

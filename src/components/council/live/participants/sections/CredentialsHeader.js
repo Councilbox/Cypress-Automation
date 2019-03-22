@@ -1,30 +1,7 @@
 import React from "react";
-import {
-	LoadingSection,
-	Grid,
-	GridItem,
-	Icon,
-	SelectInput,
-	BasicButton,
-	ButtonIcon,
-	CharSelector,
-	MenuItem,
-	TextInput
-} from "../../../../../displayComponents";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
-import { Tooltip } from 'material-ui';
-import { isMobile } from 'react-device-detect';
-import {
-	PARTICIPANTS_LIMITS,
-	EMAIL_TRACK_STATES
-} from "../../../../../constants";
+import { Grid } from "../../../../../displayComponents";
+import { EMAIL_TRACK_STATES } from "../../../../../constants";
 import { getSecondary } from "../../../../../styles/colors";
-import withWindowSize from "../../../../../HOCs/withWindowSize";
-import ParticipantsList from "../ParticipantsList";
-import StateIcon from "../StateIcon";
-import AddGuestModal from "../AddGuestModal";
-import { useOldState } from "../../../../../hooks";
 import EmailIcon from "../EmailIcon";
 
 

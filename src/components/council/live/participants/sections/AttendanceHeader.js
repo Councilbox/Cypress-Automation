@@ -1,28 +1,8 @@
 import React from "react";
-import {
-	LoadingSection,
-	Grid,
-	Icon,
-	SelectInput,
-	MenuItem,
-	GridItem,
-	BasicButton,
-	ButtonIcon,
-	TextInput
-} from "../../../../../displayComponents";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
-import {
-	PARTICIPANTS_LIMITS,
-	PARTICIPANT_STATES
-} from "../../../../../constants";
-import { Tooltip } from 'material-ui';
-import { isMobile } from 'react-device-detect';
+import { Grid } from "../../../../../displayComponents";
+import { PARTICIPANT_STATES } from "../../../../../constants";
 import { getSecondary } from "../../../../../styles/colors";
-import withWindowSize from "../../../../../HOCs/withWindowSize";
-import ParticipantsList from "../ParticipantsList";
 import StateIcon from "../StateIcon";
-import AddGuestModal from "../AddGuestModal";
 
 const selectedStyle = {
 	borderBottom: `3px solid ${getSecondary()}`,

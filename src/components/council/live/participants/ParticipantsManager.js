@@ -8,8 +8,6 @@ import ParticipantsPage from "./sections/ParticipantsPage";
 import { useOldState } from '../../../../hooks';
 import gql from 'graphql-tag';
 
-
-
 const initialState = {
     layout: 'squares', // table, compact
     loadingMore: false,
@@ -129,13 +127,6 @@ const ParticipantsManager = ({ client, translate, council }) => {
 			editParticipant: id
 		});
 	};
-
-    
-    const changeTableLayout = () => {
-		setState({
-			layout: state.layout === 'compact' ? 'full' : 'compact'
-		});
-	}
 
     const _renderSection = () => {
         let { layout, addGuest } = state;

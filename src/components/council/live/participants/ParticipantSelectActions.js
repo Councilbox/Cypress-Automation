@@ -45,7 +45,6 @@ class ParticipantSelectActions extends React.Component {
 
 	render() {
 		const { translate, participant, council } = this.props;
-		console.log(participant);
 		const { loading } = this.state;
 		const secondary = getSecondary();
 		const landscape = isLandscape() || window.innerWidth > 700;

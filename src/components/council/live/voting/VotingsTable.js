@@ -448,7 +448,6 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 			}
 		});
 
-		console.log(response);
 		refetch();
 
 		setLoading(false);

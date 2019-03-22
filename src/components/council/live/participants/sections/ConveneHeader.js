@@ -1,28 +1,7 @@
 import React from "react";
-import {
-	LoadingSection,
-	Grid,
-	Icon,
-	SelectInput,
-	MenuItem,
-	TextInput,
-	BasicButton,
-	GridItem,
-	LiveToast
-} from "../../../../../displayComponents";
-import { graphql, compose } from "react-apollo";
-import gql from "graphql-tag";
-import {
-	PARTICIPANTS_LIMITS,
-	EMAIL_TRACK_STATES
-} from "../../../../../constants";
-import ParticipantsList from "../ParticipantsList";
-import { getSecondary } from "../../../../../styles/colors";
-import withWindowSize from "../../../../../HOCs/withWindowSize";
+import { Grid } from "../../../../../displayComponents";
+import { EMAIL_TRACK_STATES } from "../../../../../constants";
 import EmailIcon from "../EmailIcon";
-import { toast } from "react-toastify";
-import { updateConveneSends } from "../../../../../queries";
-import AddGuestModal from "../AddGuestModal";
 
 
 const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate }) => {	

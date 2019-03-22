@@ -6,7 +6,6 @@ if(isMobile){
 
 	const updateHeights = () => {
 		const html = document.getElementsByTagName('html');
-		console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
 		for(let el of html){
 			el.style.height = window.innerHeight+ 'px';
 		}	
