@@ -159,6 +159,7 @@ class AgendaNoSession extends React.Component {
                                             translate={translate}
                                             participant={this.props.participant}
                                             council={council}
+                                            agendaNoSession={true}
                                         />
 
                                     </div>

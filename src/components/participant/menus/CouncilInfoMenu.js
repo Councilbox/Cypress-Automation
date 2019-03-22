@@ -48,6 +48,7 @@ class CouncilInfoMenu extends React.Component {
                 <Convene
                     council={this.props.council}
                     translate={this.props.translate}
+                    agendaNoSession={this.props.agendaNoSession}
                 />
             </div>
         )
@@ -64,10 +65,10 @@ class CouncilInfoMenu extends React.Component {
             <div>
                 <Card style={{ padding: "20px" }}>
                     <div>
-                        <b>{`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
+                        <b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname}`}
                     </div>
                     <div style={{ marginBottom: '1em' }}>
-                        <b> {`${translate.email}`}</b>: {`${participant.email}`}
+                        <b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
                     </div>
                     <div>
                         <b>Votos delegados:</b>
@@ -88,7 +89,7 @@ class CouncilInfoMenu extends React.Component {
         const primary = getPrimary();
         const secondary = getSecondary();
         const { translate } = this.props;
-
+        
         return (
             <React.Fragment>
                 <DropDownMenu

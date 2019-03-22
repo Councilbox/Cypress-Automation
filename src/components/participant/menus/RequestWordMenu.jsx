@@ -303,7 +303,7 @@ class RequestWordMenu extends React.Component {
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
         const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
-       
+      
 
         // if (this.props.isSidebar) {
         return (
@@ -348,7 +348,7 @@ class RequestWordMenu extends React.Component {
                         />
                         
                         {grantedWord && this.props.avisoVideoState &&
-                            <Grid item xs={6} md={8} style={{
+                            <Grid item xs={12} md={8} style={{
                                 transition: "top 0.7s",
                                 display: "flex",
                                 position: "fixed",

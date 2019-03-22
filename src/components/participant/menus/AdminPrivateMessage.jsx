@@ -106,7 +106,7 @@ class AdminPrivateMessage extends React.Component {
     }
     renderMenuMobil = () => {
         return (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "95px", minHeight: "50px", width: '95%',  }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "130px", minHeight: "50px", width: '95%',  }}>
                 <TextInputChat
                     floatingText={this.props.translate.message}
                     value={this.state.text}
@@ -121,7 +121,7 @@ class AdminPrivateMessage extends React.Component {
                         paddingRight: "16px",
                         overflow: "hidden",
                         minHeight: '32px',
-                        maxHeight: '75px',
+                        maxHeight: '120px',
                         borderRadius: '25px',
                         backgroundColor: "white"
                     }}

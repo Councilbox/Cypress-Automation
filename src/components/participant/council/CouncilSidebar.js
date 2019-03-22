@@ -195,7 +195,7 @@ class CouncilSidebar extends React.Component {
                                     </div>
                                 </Button>
                             </div>
-                            {this.props.pedirPalabra }
+                            {this.props.pedirPalabra}
                             <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                                 <Button className={"NoOutline"} style={{ width: '100%', height: "100%", minWidth: "0", color: '#ffffffcc', padding: '0', fontSize: '10px', }}
                                     onClick={() => this.setState({ showModalComentario: !this.state.showModalComentario, modalContent: false, })}  >
@@ -271,6 +271,8 @@ class CouncilSidebar extends React.Component {
                                 {this.state.modalContent === 'timeline' &&
                                     <TimelineSection
                                         council={this.props.council}
+                                        translate={this.props.translate}
+                                        participant={this.props.participant}
                                     />
                                 }
                             </div>

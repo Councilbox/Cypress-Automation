@@ -104,7 +104,7 @@ const stylesVideo = {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            left:"25%"
+            left: "25%"
         },
         middleHijo: {
             width: '100%',
@@ -128,7 +128,7 @@ class ParticipantCouncil extends React.Component {
     };
 
     noStartedToastId = null;
-  
+
     componentDidMount = () => {
         this.props.changeParticipantOnlineState({
             variables: {
@@ -144,13 +144,13 @@ class ParticipantCouncil extends React.Component {
             window.onunload = this.leaveRoom;
         }
     }
-  
-    componentDidUpdate(prevProps){
-        if(!CBX.haveGrantedWord(prevProps.participant) && CBX.haveGrantedWord(this.props.participant)){
-            this.setState({avisoVideo: true});
+
+    componentDidUpdate(prevProps) {
+        if (!CBX.haveGrantedWord(prevProps.participant) && CBX.haveGrantedWord(this.props.participant)) {
+            this.setState({ avisoVideo: true });
         }
-        if(CBX.haveGrantedWord(prevProps.participant) && !CBX.haveGrantedWord(this.props.participant)){
-            this.setState({avisoVideo: false});
+        if (CBX.haveGrantedWord(prevProps.participant) && !CBX.haveGrantedWord(this.props.participant)) {
+            this.setState({ avisoVideo: false });
         }
     }
 
@@ -238,7 +238,7 @@ class ParticipantCouncil extends React.Component {
         const { participant, council } = this.props;
         const { agendasAnchor } = this.state;
         let type = "agenda"
-        
+
 
         if (isMobile) {
             return (
@@ -251,6 +251,7 @@ class ParticipantCouncil extends React.Component {
                         full={() => this.setState({ full: true, middle: false })}
                         middle={() => this.setState({ full: false, middle: true })}
                         click={this.state.activeInput}
+                        participant={participant}
                         comentario={
                             <AdminPrivateMessage
                                 translate={this.props.translate}
@@ -269,6 +270,8 @@ class ParticipantCouncil extends React.Component {
                                 videoURL={this.state.videoURL}
                                 refetchParticipant={this.props.refetchParticipant}
                                 isSidebar={true}
+                                avisoVideoState={this.state.avisoVideo}
+                                avisoVideoStateCerrar={() => this.setState({ avisoVideo: false })}
                             />
                         }
                     />
@@ -289,22 +292,24 @@ class ParticipantCouncil extends React.Component {
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                                 <Grid item xs={isLandscape() ? 12 : 12} md={8} style={{ height: "100%" }}>
                                     <div style={this.state.full ? stylesVideo.portrait[0].fullPadre : isLandscape() ? stylesVideo.landscape[0].middlePadre : stylesVideo.portrait[0].middlePadre}>
-                                        <ConfigContext.Consumer>
-                                            {config => (
-                                                <AdminAnnouncement
+                                        <div style={{ width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: this.state.avisoVideo ? "55px" : "0px" }}>
+                                            <ConfigContext.Consumer>
+                                                {config => (
+                                                    <AdminAnnouncement
+                                                        council={council}
+                                                        translate={this.props.translate}
+                                                        context={config}
+                                                    />
+                                                )}
+                                            </ConfigContext.Consumer>
+                                            <div style={this.state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
+                                                <VideoContainer
                                                     council={council}
-                                                    translate={this.props.translate}
-                                                    context={config}
+                                                    participant={participant}
+                                                    videoURL={this.state.videoURL}
+                                                    setVideoURL={url => this.setState({ videoURL: url })}
                                                 />
-                                            )}
-                                        </ConfigContext.Consumer>
-                                        <div style={this.state.full ? stylesVideo.portrait[0].fullHijo :  isLandscape() ? stylesVideo.landscape[0].middleHijo :  stylesVideo.portrait[0].middleHijo}>
-                                            <VideoContainer
-                                                council={council}
-                                                participant={participant}
-                                                videoURL={this.state.videoURL}
-                                                setVideoURL={url => this.setState({ videoURL: url })}
-                                            />
+                                            </div>
                                         </div>
                                     </div>
                                 </Grid>
@@ -368,6 +373,7 @@ class ParticipantCouncil extends React.Component {
                                     toogleAgenda={() => this.toggle("agenda")}
                                     toogleResumen={() => this.toggle("timeline")}
                                     modalContent={this.state.modalContent}
+                                    participant={participant}
                                     comentario={
                                         <AdminPrivateMessage
                                             translate={this.props.translate}
@@ -388,10 +394,9 @@ class ParticipantCouncil extends React.Component {
                                             isSidebar={true}
                                             isPc={true}
                                             avisoVideoState={this.state.avisoVideo}
-                                            avisoVideoStateCerrar={()=>this.setState({avisoVideo: false})}
+                                            avisoVideoStateCerrar={() => this.setState({ avisoVideo: false })}
                                         />
                                     }
-                                // avisoVideo={()=>this.setState({avisoVideo:true})}
                                 />
                             </div>
                         </Grid>

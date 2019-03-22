@@ -56,7 +56,7 @@ const TextInputChat = ({
 				helperText={errorText}
 				error={!!errorText}
 				rows={1}
-				rowsMax={4}
+				rowsMax={6}
 			/>
 		</FormControl>
 	);
