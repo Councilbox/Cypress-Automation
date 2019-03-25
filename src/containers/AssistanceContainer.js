@@ -61,6 +61,7 @@ const participantQuery = gql`
 			position
 			phone
 			email
+			personOrEntity
 			language
 			delegateId
 			assistanceIntention

@@ -375,13 +375,11 @@ class HoverableRow extends React.Component {
 
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
-
 		let representative = this.props.representative;
 
 		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}
-
 
 		if(isMobile){
             return(
@@ -602,7 +600,7 @@ class HoverableRow extends React.Component {
 									participant={participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live : participant.live}
 									showCommentIcon
 									onCommentClick={this.props.showModalComment({
-										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live && participant.representative.live.assistanceComment : participant.live.assistanceComment,
 										author: participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
 											`${participant.name} ${participant.surname} - ${translate.represented_by} ${representative.name} ${representative.surname}`
 										:
