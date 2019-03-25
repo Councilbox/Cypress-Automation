@@ -164,12 +164,14 @@ class ParticipantCouncil extends React.Component {
                                         videoURL={this.state.videoURL}
                                         refetchParticipant={this.props.refetchParticipant}
                                     />
-                                    <VideoContainer
-                                        council={council}
-                                        participant={participant}
-                                        videoURL={this.state.videoURL}
-                                        setVideoURL={url => this.setState({videoURL: url})}
-                                    />
+                                    <div style={{height: 'calc(100% - 2.5em)', width: '100%'}}>
+                                        <VideoContainer
+                                            council={council}
+                                            participant={participant}
+                                            videoURL={this.state.videoURL}
+                                            setVideoURL={url => this.setState({videoURL: url})}
+                                        />
+                                    </div>
                                 </div>
                             </Grid>
                         }
