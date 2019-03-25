@@ -1,17 +1,28 @@
 import React from "react";
-import { Radio } from '../../../displayComponents';
+import { Radio, HelpPopover } from '../../../displayComponents';
 
-const AssistanceOption = ({ title, value, subtitle, selected, select }) => {
-
+const AssistanceOption = ({ title, value, disabled, subtitle, selected, select }) => {
     return (
         <div>
             <Radio
-                onClick={select}
+                onClick={!disabled && select}
                 value={value}
+                disabled={disabled}
                 checked={selected === value}
-                onChange={select}
+                onChange={!disabled && select}
                 name="security"
-                label={title}
+                label={
+                    <HelpPopover
+                        title="Advertencia"//TRADUCCION
+                        content="Un participante con votos delegados no puede delegar su voto"//TRADUCCION
+                        TriggerComponent={props =>
+                            <div onClick={disabled && props.onClick}>
+                                {title}
+                            </div>
+                        }
+                    >
+                    </HelpPopover>
+                }
             />
         </div>
     )

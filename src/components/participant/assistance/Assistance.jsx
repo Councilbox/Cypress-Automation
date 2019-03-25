@@ -305,14 +305,13 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 															}
 														</React.Fragment>
 													}
-													{canDelegate &&
-														<AssistanceOption
-															title={translate.want_to_delegate_in}
-															select={showDelegation}
-															value={PARTICIPANT_STATES.DELEGATED}
-															selected={state.assistanceIntention}
-														/>
-													}
+													<AssistanceOption
+														title={translate.want_to_delegate_in}
+														select={showDelegation}
+														disabled={!canDelegate}
+														value={PARTICIPANT_STATES.DELEGATED}
+														selected={state.assistanceIntention}
+													/>
 													{state.delegateInfoUser && state.assistanceIntention === 4 ?
 														<DelegationItem participant={state.delegateInfoUser} /> : ""
 													}
@@ -400,7 +399,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 }
 
 
-const DelegationSection = ({ participant, translate, refetch}) => {
+const DelegationSection = ({ participant, translate, refetch }) => {
 	const [delegation, setDelegation] = React.useState(null);
 
 	const closeConfirm = () => {
