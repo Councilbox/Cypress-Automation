@@ -36,7 +36,7 @@ const RefuseDelegationConfirm = withApollo(({ delegation, client, translate, ref
             loadingAction={loading}
             bodyText={
                 <div>
-                    {`Va a rechazar los votos delegados del participante ${delegation.name} ${delegation.surname}, está acción no se puede deshacer, está seguro?`}
+                    {`Va a rechazar los votos delegados del participante ${delegation.name} ${delegation.surname}, está acción no se puede deshacer, ¿Desea continuar?`}
                 </div>
             }
         />
