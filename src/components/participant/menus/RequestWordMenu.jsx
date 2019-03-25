@@ -9,7 +9,7 @@ import AdminPrivateMessage from './AdminPrivateMessage';
 import DetectRTC from 'detectrtc';
 import { AlertConfirm, BasicButton, LiveToast } from '../../../displayComponents';
 import { ConfigContext } from '../../../containers/AppControl';
-import { isSafari } from 'react-device-detect';
+import { isSafari, isMobile } from 'react-device-detect';
 import FontAwesome from "react-fontawesome";
 import { toast } from 'react-toastify';
 import { RvHookup } from 'material-ui-icons';
@@ -352,8 +352,8 @@ class RequestWordMenu extends React.Component {
                         />
 
                         {grantedWord && this.props.avisoVideoState &&
-                            <Grid item xs={12} md={8} style={{
-                                transition: "top 0.7s",
+                            <Grid item xs={isMobile?8:12} md={8} style={{
+                                transition: "all .3s ease-in-out",
                                 display: "flex",
                                 position: "fixed",
                                 minHeight: '50px',

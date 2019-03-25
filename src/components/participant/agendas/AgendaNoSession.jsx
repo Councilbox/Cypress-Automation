@@ -156,6 +156,7 @@ class AgendaNoSession extends React.Component {
                                     <div style={{ width: '3em' }}>
 
                                         <CouncilInfoMenu
+                                            {...this.props}
                                             translate={translate}
                                             participant={this.props.participant}
                                             council={council}
@@ -170,6 +171,7 @@ class AgendaNoSession extends React.Component {
                         {this.props.sinCabecera &&
                             <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
                                 <CouncilInfoMenu
+                                    {...this.props}
                                     translate={translate}
                                     participant={this.props.participant}
                                     council={council}
@@ -256,6 +258,7 @@ class AgendaNoSession extends React.Component {
                                         <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
                                         <div style={{ width: '3em' }}>
                                             <CouncilInfoMenu
+                                                {...this.props}
                                                 translate={translate}
                                                 participant={this.props.participant}
                                                 council={council}
@@ -268,6 +271,7 @@ class AgendaNoSession extends React.Component {
                             {this.props.sinCabecera &&
                                 <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
                                     <CouncilInfoMenu
+                                        {...this.props}
                                         translate={translate}
                                         participant={this.props.participant}
                                         council={council}

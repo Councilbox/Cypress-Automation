@@ -10,21 +10,23 @@ import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 
 
 
-const TimelineSection = React.memo(({ data, translate, participant, council }) => {
+const TimelineSection = React.memo(({ data, translate, participant, council, isMobile }) => {
 
     return (
         data.loading ?
             <LoadingSection />
             :
             <React.Fragment>
-                <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
-                    <CouncilInfoMenu
-                        translate={translate}
-                        participant={participant}
-                        council={council}
-                        agendaNoSession={true}
-                    />
-                </div>
+                {isMobile &&
+                    <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                        <CouncilInfoMenu
+                            translate={translate}
+                            participant={participant}
+                            council={council}
+                            agendaNoSession={true}
+                        />
+                    </div>
+                }
                 <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
                     {data.councilTimeline.map(event => {
                         const content = JSON.parse(event.content);

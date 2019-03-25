@@ -4,6 +4,7 @@ import { MenuItem, IconButton, Card } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
+import withTranslations from '../../../HOCs/withTranslations';
 
 
 
@@ -208,4 +209,4 @@ class CouncilInfoMenu extends React.Component {
     }
 }
 
-export default CouncilInfoMenu;
+export default (withTranslations()(CouncilInfoMenu));

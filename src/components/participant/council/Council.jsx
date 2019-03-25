@@ -212,6 +212,7 @@ class ParticipantCouncil extends React.Component {
                         timeline={
                             < TimelineSection
                                 council={this.props.council}
+                                isMobile={isMobile}
                             />
                         }
                     />
@@ -292,7 +293,7 @@ class ParticipantCouncil extends React.Component {
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                                 <Grid item xs={isLandscape() ? 12 : 12} md={8} style={{ height: "100%" }}>
                                     <div style={this.state.full ? stylesVideo.portrait[0].fullPadre : isLandscape() ? stylesVideo.landscape[0].middlePadre : stylesVideo.portrait[0].middlePadre}>
-                                        <div style={{ width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: this.state.avisoVideo ? "55px" : "0px" }}>
+                                        <div style={{transition: "all .3s ease-in-out", width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: this.state.avisoVideo ? "55px" : "0px" }}>
                                             <ConfigContext.Consumer>
                                                 {config => (
                                                     <AdminAnnouncement
@@ -337,7 +338,7 @@ class ParticipantCouncil extends React.Component {
                         }}>
                             {this.state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                                 <Grid item xs={6} md={8} style={{ height: "calc( 100% - 3.5em + 1px )" }}>
-                                    <div style={{ width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: this.state.avisoVideo ? "55px" : "0px" }}>
+                                    <div style={{transition: "all .3s ease-in-out", width: '100%', height: this.state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: this.state.avisoVideo ? "55px" : "0px" }}>
                                         <ConfigContext.Consumer>
                                             {config => (
                                                 <AdminAnnouncement
