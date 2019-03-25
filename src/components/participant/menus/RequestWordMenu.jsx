@@ -298,14 +298,12 @@ class RequestWordMenu extends React.Component {
         )
     }
 
-   
+
     render() {
         const primary = getPrimary();
         const grantedWord = CBX.haveGrantedWord(this.props.participant);
         const fixedURLMode = this.props.videoURL && !this.props.videoURL.includes('councilbox');
-      
 
-        // if (this.props.isSidebar) {
         return (
             <ConfigContext.Consumer>
                 {value => (
@@ -314,7 +312,11 @@ class RequestWordMenu extends React.Component {
                         {!fixedURLMode ?
                             this._renderWordButtonIconMobil()
                             :
-                            <div style={{ width: this.props.isPc ? "50%" : "20%" }}></div>
+                            <div style={{
+                                width: this.props.isPc ? "50%" : "20%",
+                                borderLeft: this.props.isPc ? "1px solid dimgrey" : "",
+                                borderTop: this.props.isPc ? "1px solid dimgrey" : "",
+                            }}></div>
                         }
 
 
@@ -346,7 +348,7 @@ class RequestWordMenu extends React.Component {
                             buttonAccept={this.props.translate.accept}
                             buttonCancel={this.props.translate.cancel}
                         />
-                        
+
                         {grantedWord && this.props.avisoVideoState &&
                             <Grid item xs={12} md={8} style={{
                                 transition: "top 0.7s",
@@ -375,7 +377,7 @@ class RequestWordMenu extends React.Component {
                                         background: "white",
                                     }}>
                                         <div style={{ display: "flex", alignItems: "center", height: "100%", fontSize: "15px", color: getSecondary(), paddingLeft: '10px' }}>
-                                            <div style={{marginRight: "10px", marginTop: "4px"}}>
+                                            <div style={{ marginRight: "10px", marginTop: "4px" }}>
                                                 < FontAwesome
                                                     name={"info-circle"}
                                                     style={{
