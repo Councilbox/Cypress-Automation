@@ -316,7 +316,9 @@ class RequestWordMenu extends React.Component {
                                 width: this.props.isPc ? "50%" : "20%",
                                 borderLeft: this.props.isPc ? "1px solid dimgrey" : "",
                                 borderTop: this.props.isPc ? "1px solid dimgrey" : "",
-                            }}></div>
+                            }}
+                            >
+                            </div>
                         }
 
 
