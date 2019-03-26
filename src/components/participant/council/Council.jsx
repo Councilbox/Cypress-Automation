@@ -317,7 +317,7 @@ class ParticipantCouncil extends React.Component {
                             }
                         </Grid>
                     </div>
-                </div >
+                </div>
             )
         } else {
             return (
@@ -402,7 +402,7 @@ class ParticipantCouncil extends React.Component {
                             </div>
                         </Grid>
                     </div>
-                </div >
+                </div>
             );
         }
     }

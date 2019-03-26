@@ -255,7 +255,7 @@ class CouncilSidebar extends React.Component {
                                 </Button>
                             </div>
                         </div>
-                    </div >
+                    </div>
                     <AlertConfirm
                         open={!!this.state.modalContent}
                         classNameDialog={'modal100'}
@@ -299,7 +299,7 @@ class CouncilSidebar extends React.Component {
                             </div>
                         </div>
                     }
-                </div >
+                </div>
             );
         } else {
             return (
