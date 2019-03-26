@@ -161,8 +161,8 @@ class Convene extends React.Component {
 								</Grid>
 							</div>
 						</div>
-					</div>
-				)}
+					)
+				}
 				<div>
 					<BasicButton
 						text={translate.export_convene}
