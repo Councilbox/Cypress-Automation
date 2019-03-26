@@ -9,7 +9,7 @@ if(process.env.REACT_APP_MODE === 'dev'){
 	//singleVoteCompanies.push(375);
 }
 
-export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
+export const EXPLORER_URL = 'https://arrakis.alastria.councilbox.com';
 
 export const CLIENT_VERSION = '2.2.3';
 export const API_URL = LOCATION_URL;
