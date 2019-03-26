@@ -268,9 +268,7 @@ const StatutesPage = ({ data, translate, ...props }) => {
 			if (!state.unsavedChanges) {
 				setState({
 					selectedStatute: index,
-					statute: {
-						...data.companyStatutes[index]
-					}
+					statute: null
 				})
 			} else{
 				setState({
