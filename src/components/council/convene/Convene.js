@@ -161,7 +161,68 @@ class Convene extends React.Component {
 								</Grid>
 							</div>
 						</div>
-					)}
+					</div>
+				)}
+				<div>
+					<BasicButton
+						text={translate.export_convene}
+						color={secondary}
+						loading={this.state.downloadingPDF}
+						buttonStyle={{ marginTop: "0.5em" }}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						icon={
+							<FontAwesome
+								name={"file-pdf-o"}
+								style={{
+									fontSize: "1em",
+									color: "white",
+									marginLeft: "0.3em"
+								}}
+							/>
+						}
+						textPosition="after"
+						onClick={this.downloadPDF}
+					/>
+					<BasicButton
+						text={translate.copy_html_clipboard}
+						color={secondary}
+						buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						icon={<i className="fa fa-clipboard" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>}
+						textPosition="after"
+						onClick={this.copyConveneHTML}
+					/>
+				</div>
+				<div style={{marginTop: '0.6em'}}>
+					<FormControlLabel
+						control={
+							<Switch
+								checked={council.publicConvene === 1}
+								onChange={this.handlePublicChange}
+								value='true'
+								color="primary"
+							/>
+						}
+						label={council.publicConvene === 1? translate.public_convene : translate.private_convene}
+					/>
+					{council.publicConvene === 1 &&
+						<div style={{userSelect: 'text'}}>
+							{`${translate.link_share_convene}: ${window.location.origin}/convene/${this.props.data.council.id}`}
+						</div>
+					}
+
+				</div>
+				<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
 					<div
 						style={{
 							display: 'flex',
@@ -183,14 +244,15 @@ class Convene extends React.Component {
 							/>
 						</div>
 					</div>
-					<AlertConfirm
-						requestClose={() => this.setState({ publicConveneModal: false })}
-						open={this.state.publicConveneModal}
-						acceptAction={this.togglePublicConvene}
-						buttonAccept={translate.accept}
-						buttonCancel={translate.cancel}
-						bodyText={<div>
-							Al realizar está acción se mostrará un link el cual cualquier persona podrá ver la convocatoria, para deshacer está acción puede volver a configurar su convocatoria como privada.
+				</Tooltip>
+				<AlertConfirm
+					requestClose={() => this.setState({ publicConveneModal: false })}
+					open={this.state.publicConveneModal}
+					acceptAction={this.togglePublicConvene}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={<div>
+						{translate.share_convene_warning}
 					</div>}
 						title={translate.warning}
 					/>

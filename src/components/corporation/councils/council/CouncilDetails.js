@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -12,6 +12,7 @@ import SendCredentialsModal from "../../../council/live/councilMenu/SendCredenti
 import AgendaManager from "../../../council/live/AgendaManager";
 import StatuteDisplay from '../../../council/display/StatuteDisplay';
 import OptionsDisplay from '../../../council/display/OptionsDisplay';
+import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import LiveParticipantStats from './LiveParticipantStats';
@@ -24,7 +25,20 @@ class CouncilDetails extends React.Component {
 		showAgenda: false,
 		councilTypeModal: false,
 		credManager: false,
-		locked: true
+		locked: true,
+		data: null
+	}
+
+	static getDerivedStateFromProps(nextProps, prevState){
+		if(!prevState.data){
+			if(!nextProps.data.loading){
+				return {
+					data: nextProps.data
+				}
+			}
+		}
+
+		return null;
 	}
 
 	showCredsModal = () => {
@@ -91,7 +105,9 @@ class CouncilDetails extends React.Component {
             return <LoadingSection />
 		}
 
-		if(this.state.showAgenda){
+		const { council } = this.state.data;
+
+		if(this.state.showAgenda && council){
 			return (
 				<React.Fragment>
 					<BasicButton
@@ -100,7 +116,7 @@ class CouncilDetails extends React.Component {
 						textStyle={{fontWeight: '700', color: 'white'}}
 						onClick={this.closeAgendaManager}
 					/>
-					{this.props.data.council.state > COUNCIL_STATES.ROOM_OPENED?
+					{council.state > COUNCIL_STATES.ROOM_OPENED?
 						<div
 							style={{
 								width: '100%',
@@ -118,9 +134,9 @@ class CouncilDetails extends React.Component {
 					:
 						<div style={{backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative'}}>
 							<AgendaManager
-								recount={this.props.data.councilRecount}
-								council={this.props.data.council}
-								company={this.props.data.council.company}
+								recount={this.state.data.councilRecount}
+								council={council}
+								company={council.company}
 								translate={translate}
 								fullScreen={this.state.fullScreen}
 								refetch={this.props.data.refetch}
@@ -163,11 +179,11 @@ class CouncilDetails extends React.Component {
 			)
 		}
 
-		const { council } = this.props.data;
+		//const { council } = this.props.data;
 
         return (
             <div style={{width: '100%', height: '100%', overflow: 'auto'}}>
-                <CouncilItem council={this.props.data.council} hideFixedUrl={council.state > 30} />
+                <CouncilItem council={council} hideFixedUrl={council.state > 30} />
                 <div
                     style={{
                         width: '100%',
@@ -182,11 +198,11 @@ class CouncilDetails extends React.Component {
                     }}
                 >
                     Asistentes
-					{showGroupAttendees(this.props.data.councilAttendants.list)}
-					{`(Total: ${this.props.data.councilAttendants.list.length})`}
+					{showGroupAttendees(this.state.data.councilAttendants.list)}
+					{`(Total: ${this.state.data.councilAttendants.list.length})`}
                     <div style={{fontSize: '1rem', marginLeft: '0.6em'}}>
                         <DownloadAttendantsPDF
-                            council={this.props.data.council}
+                            council={council}
                             translate={translate}
                             color={secondary}
                         />
@@ -220,14 +236,14 @@ class CouncilDetails extends React.Component {
 							<React.Fragment>
 								<h6>Opciones</h6>
 								<OptionsDisplay
-									council={this.props.data.council}
+									council={council}
 									translate={translate}
 								/>
 								<h6 style={{marginTop: '1.4em'}}>Tipo de reunión</h6>
 								<StatuteDisplay
-									statute={this.props.data.council.statute}
+									statute={council.statute}
 									translate={translate}
-									quorumTypes={this.props.data.quorumTypes}
+									quorumTypes={this.state.data.quorumTypes}
 								/>
 							</React.Fragment>
 						}
@@ -249,7 +265,25 @@ class CouncilDetails extends React.Component {
                     }}
                 >
 					Envios: <br/>
-					{showSendsRecount(this.props.data.rootCouncilSends)}
+					{showSendsRecount(this.state.data.rootCouncilSends)}
+                </div>
+				<div
+                    style={{
+                        width: '100%',
+                        border: `2px solid ${secondary}`,
+                        fontSize: '18px',
+                        color: secondary,
+                        fontWeight: '700',
+						padding: '1em',
+                        display: 'flex',
+						flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+					<CostManager
+						council={council}
+					/>
                 </div>
 				<div
                     style={{
@@ -283,7 +317,7 @@ class CouncilDetails extends React.Component {
 						buttonCancel={'Cancelar'}
 						bodyText={
 							<CredentialsManager
-								council={this.props.data.council}
+								council={council}
 								translate={this.props.translate}
 							/>
 						}
@@ -291,7 +325,7 @@ class CouncilDetails extends React.Component {
 					/>
 					<SendCredentialsModal
 						show={this.state.sendCredentials}
-						council={this.props.data.council}
+						council={council}
 						requestClose={this.closeCredsModal}
 						translate={translate}
 					/>
@@ -407,6 +441,8 @@ const CouncilDetailsRoot = gql`
 			secretary
 			president
 			street
+			price
+			priceObservations
 			city
 			state
 			dateStart

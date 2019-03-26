@@ -191,7 +191,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     if(config.blockchain){
         tabs.push({
-            text: 'Evidencias',//TRADUCCION
+            text: translate.evidences,
             component: () => {
                 return (
                     <TabContainer>

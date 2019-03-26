@@ -19,3 +19,16 @@ export const useInterval = (callback, delay) =>{
       }
     }, [delay]);
   }
+
+export const useOldState = initialValue => {
+  const [state, setState] = React.useState(initialValue);
+
+  const oldSetState = object => {
+    setState({
+      ...state,
+      ...object
+    });
+  }
+
+  return [state, oldSetState];
+}

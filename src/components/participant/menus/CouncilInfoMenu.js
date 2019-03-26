@@ -72,15 +72,15 @@ class CouncilInfoMenu extends React.Component {
                         <b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
                     </div>
                     <div>
-                        <b>Votos delegados:</b>
+                {`${this.props.translate.you_have_following_delegated_votes}:`}
                 {participant.delegatedVotes.map(vote => (
                             <div key={`delegatedVote_${vote.id}`}>
                                 <b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
                             </div>
                         ))}
                         <br></br>
-                       <b>Total de votos</b>: {this.calculateParticipantVotes()}
                     </div>
+                {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
                 </Card>
             </div >
         )

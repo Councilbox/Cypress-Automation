@@ -1,32 +1,14 @@
 import React from "react";
-import { Steps } from 'antd';
-import { Paper, Typography, Divider, IconButton } from "material-ui";
-import Scrollbar from '../../../displayComponents/Scrollbar';
-import { AgendaNumber, LoadingSection, LiveToast, AlertConfirm } from '../../../displayComponents';
+import { LiveToast } from '../../../displayComponents';
 import withTranslations from "../../../HOCs/withTranslations";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import AgendaMenu from './AgendaMenu';
-import AgendaDescription from './AgendaDescription';
-import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel, councilStarted, councilHasSession } from '../../../utils/CBX';
-import CouncilInfoMenu from '../menus/CouncilInfoMenu';
+import DelegationsModal from './DelegationsModal';
+import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
 
-const styles = {
-    container: {
-        width: "100%",
-        height: "100%",
-        overflow: 'hidden'
-    },
-    agendasHeader: {
-        display: 'flex',
-        alignItems: 'center',
-        padding: '8px',
-        justifyContent: 'space-between'
-    }
-};
 
 class Agendas extends React.Component {
     state = {
@@ -141,52 +123,19 @@ class Agendas extends React.Component {
         )
     )
 
-    _renderDelegationsModalBody = () => {
-        return (
-            <div>
-                Tiene los siguientes votos delegados en usted:
-                {this.props.participant.delegatedVotes.map(vote => (
-                    <div key={`delegatedVote_${vote.id}`}>
-                        {`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}
-                    </div>
-                ))}
-                Total de votos: {this.calculateParticipantVotes()}
-            </div>
-        )
-    }
-
-    calculateParticipantVotes = () => {
-        return this.props.participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, this.props.participant.numParticipations);
-    }
-
 	render() {
-		const { translate, council, } = this.props;
-        const { selected } = this.state;
-        const secondary = getSecondary();
-        const primary = getPrimary();
-
-        let agendas = [];
-
-        if (this.props.data.agendas) {
-            agendas = this.props.data.agendas.map(agenda => {
-                return {
-                    ...agenda,
-                    votings: this.props.data.participantVotings.filter(voting => voting.agendaId === agenda.id)
-                }
-            });
-        }
-
-
         return (
             <React.Fragment>
-                <AlertConfirm
-                    requestClose={this.closeDelegationsModal}
-                    open={this.state.delegationsModal}
-                    fullWidth={false}
-                    buttonCancel={translate.close}
-                    bodyText={this._renderDelegationsModalBody()}
-                    title={translate.warning}
-                />
+                {this.state.delegationsModal &&
+                    <DelegationsModal
+                        refetch={this.props.refetchParticipant}
+                        participant={this.props.participant}
+                        requestClose={this.closeDelegationsModal}
+                        open={this.state.delegationsModal}
+                        fullWidth={false}
+                        translate={this.props.translate}
+                    />
+                }
                 <AgendaNoSession {...this.props} />
             </React.Fragment>
         )

@@ -64,7 +64,7 @@ class ParticipantSelectActions extends React.Component {
 
 							{!(participant.delegatedVotes.length > 0) && (
 								<FilterButton
-									tooltip={translate.add_representative}
+									tooltip={participant.representative? translate.change_representative : translate.add_representative}
 									loading={loading === 4}
 									size="100%"
 									onClick={() =>
@@ -86,7 +86,7 @@ class ParticipantSelectActions extends React.Component {
 										/>
 									</div>
 									<div style={{ display: 'flex', width: '70%' }}>
-										<span style={{ fontSize: '0.9em' }}>Añadir representante</span>
+										<span style={{ fontSize: '0.9em' }}>{participant.representative? translate.change_representative : translate.add_representative}</span>
 									</div>
 								</FilterButton>
 							)}
@@ -103,10 +103,7 @@ class ParticipantSelectActions extends React.Component {
 										delegateOwnVote: true
 									})
 								}
-								active={
-									participant.state ===
-									PARTICIPANT_STATES.DELEGATED
-								}
+								active={participant.state === PARTICIPANT_STATES.DELEGATED}
 							>
 								<div style={{ display: 'flex', width: '30%' }}>
 									<StateIcon
@@ -117,7 +114,7 @@ class ParticipantSelectActions extends React.Component {
 									/>
 								</div>
 								<div style={{ display: 'flex', width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>Delegar su voto</span>
+									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
 								</div>
 							</FilterButton>
 						</div>
@@ -161,7 +158,7 @@ class ParticipantSelectActions extends React.Component {
 									/>
 								</div>
 								<div style={{ display: 'flex', width: '70%' }}>
-									<span style={{ fontSize: '0.9em' }}>Añadir voto delegado</span>
+									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 								</div>
 							</FilterButton>
 						</div>
@@ -214,15 +211,3 @@ class ParticipantSelectActions extends React.Component {
 export default graphql(changeParticipantState, {
 	name: "changeParticipantState"
 })(ParticipantSelectActions);
-
-
-/*
-<SignatureModal
-	show={this.state.signature}
-	council={council}
-	participant={participant}
-	refetch={this.props.refetch}
-	requestClose={() => this.setState({ signature: false })}
-	translate={translate}
-/>
-*/

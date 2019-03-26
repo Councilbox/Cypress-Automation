@@ -9,11 +9,8 @@ import { Icon } from "../displayComponents";
 import { getPrimary } from "../styles/colors";
 
 class Welcome extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			page: 1
-		};
+	state = {
+		page: 1
 	}
 
 	render() {

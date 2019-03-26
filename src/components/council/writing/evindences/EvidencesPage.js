@@ -23,7 +23,6 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                 const primerasLetras = `${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`.split(' ').map(palabra => palabra.toUpperCase().substr(0, 1))
                 const secondary = getSecondary();
                 return (
-
                     <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '65%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
                         <CardHeader
                             avatar={
@@ -49,7 +48,7 @@ const EvidencesPage = ({ data, translate, ...props }) => {
                         <CardActions>
                             <ValidatorLink prvHash={parsedContent.prvhash} translate={translate} />
                             {evidence.cbxEvidence &&
-                                <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} />
+                                <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} translate={translate} />
                             }
                         </CardActions>
                     </Card>

@@ -104,12 +104,8 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 								<Scrollbar>
 									{participants.length > 0 ? (
 										<div style={{ width: "99%" }}>
-											{/* <React.Fragment> */}
 											{participants.map(participant => {
-												if (
-													participant.id !==
-													this.props.participant.id
-												) {
+												if (participant.id !== this.props.participant.id ) {
 													return (
 														<React.Fragment key={`delegateVote_${participant.id}`}>
 															<ParticipantRow
@@ -160,8 +156,6 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 				classNameDialog={"modalParticipant"}
 				requestClose={this.close}
 				open={this.props.show}
-				// acceptAction={this.delegateVote}
-				// buttonAccept={translate.send}
 				buttonCancel={translate.close}
 				bodyText={this._renderBody()}
 				title={translate.to_delegate_vote}
@@ -173,7 +167,8 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 export default graphql(participantsToDelegate, {
 	options: props => ({
 		variables: {
-			councilId: props.council.id
+			councilId: props.council.id,
+			participantId: props.participant.id
 		}
 	})
 })(DelegateOwnVoteAttendantModal);

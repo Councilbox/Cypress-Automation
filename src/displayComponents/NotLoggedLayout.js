@@ -11,7 +11,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
             display: "flex",
             flex: 1,
             flexDirection: "column",
-            height: "100vh",
+            height: "100%",
             overflow: "auto",
             background: `url(${bg})`,
             backgroundSize: 'cover',

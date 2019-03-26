@@ -42,14 +42,14 @@ class InvalidUrl extends React.Component {
 						/>
 						<h2 style={{ color: secondary }}>
 							{this.props.test?
-								'ENLACE DE PRUEBA'
+								this.props.translate.test_link.toUpperCase()
 							:
 								this.props.translate.invalid_url
 							}
 						</h2>
-						<h5 style={{ color: darkGrey }} /* TRADUCCION */>
+						<h5 style={{ color: darkGrey }}>
 							{
-								'El email recibido es una prueba, espere a que le envíen el email final para realizar esta acción.'
+								this.props.translate.this_is_test_link
 							}
 						</h5>
 					</div>

@@ -69,12 +69,10 @@ class AgendaMenu extends React.Component {
         if (CBX.agendaPointNotOpened(agenda)) icon = "fa fa-lock colorRed";
         if (CBX.agendaPointOpened(agenda)) icon = "fa fa-unlock-alt colorGren";
         if (CBX.agendaClosed(agenda)) icon = "fa fa-lock colorRed";
-        //if(CBX.agendaVotingsOpened(agenda)) icon = "fa fa-lock";
         return <i className={icon} aria-hidden="true" style={{ marginRight: '0.6em' }}></i>;
     }
 
     findOwnVote = (votings, participant) => {
-        //console.log(votings, participant);
         return votings.find(voting => (
             voting.participantId === participant.id
             || voting.delegateId === participant.id ||
@@ -139,7 +137,7 @@ class AgendaMenu extends React.Component {
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                    'Tu voto ha sido delegado en esta votación'//TRADUCCION
+                                                        translate.your_vote_is_delegated
                                                     :
                                                     <VotingSection
                                                         agenda={agenda}

@@ -4,9 +4,20 @@ import { graphql, withApollo } from "react-apollo";
 import gql from "graphql-tag";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl";
+import { bindActionCreators } from 'redux';
+import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
 
 class AssistanceContainer extends React.PureComponent {
+
+	componentDidUpdate(){
+		if(!this.props.data.loading){
+			if(this.props.translate.selectedLanguage !== this.props.data.participant.language){
+				this.props.actions.setLanguage(this.props.data.participant.language);
+			}
+		}
+	}
+
 	render() {
 		const { data } = this.props;
 
@@ -34,6 +45,12 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(mainActions, dispatch)
+    };
+}
+
 const participantQuery = gql`
 	query info($councilId: Int!) {
 		participant {
@@ -44,6 +61,7 @@ const participantQuery = gql`
 			position
 			phone
 			email
+			personOrEntity
 			language
 			delegateId
 			assistanceIntention
@@ -110,4 +128,4 @@ export default graphql(participantQuery, {
 		},
 		fetchPolicy: "network-only"
 	})
-})(withApollo(connect(mapStateToProps)(AssistanceContainer)));
+})(withApollo(connect(mapStateToProps, mapDispatchToProps)(AssistanceContainer)));

@@ -29,9 +29,9 @@ class CouncilSideMenu extends React.Component {
             <div style={{ width: '100%', height: '100%', borderLeft: '1px solid gainsboro' }}>
                 <Scrollbar>
                     <div style={{ padding: '2.5em 1.3em', fontSize: '14px' }}>
-                        <h4 style={{ textAlign: "center" }}>Información</h4> {/*TRADUCCION*/}
+                        <h4 style={{ textAlign: "center" }}>{translate.council_info}</h4>
                         <hr></hr>
-                        <h6 style={{ fontWeight: '700', paddingLeft: "0.25em" }}>Reunión</h6>
+                        <h6 style={{ fontWeight: '700', paddingLeft: "0.25em" }}>{translate.council}</h6>
                         <Row field={translate.name} value={council.name} />
                         <Row field={translate['1st_call_date']} value={`${moment(council.dateStart).format("LLL")}`} />
                         {CBX.hasSecondCall(council.statute) &&
@@ -45,7 +45,7 @@ class CouncilSideMenu extends React.Component {
                         />
                         <Row field={translate.date_end} value={`${moment(council.dateEnd).format("LLL")}`} />
                         <hr></hr>
-                        <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Entidad</h6>
+                        <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.company}</h6>
                         <Row field={translate.name} value={company.businessName} />
                         <Row field={translate.address} value={company.address} />
                         <Row field={translate.company_new_locality} value={company.city} />
@@ -53,15 +53,15 @@ class CouncilSideMenu extends React.Component {
                         <Row field={translate.company_new_country_state} value={company.countryState} />
                         <Row field={translate.company_new_zipcode} value={company.zipcode} />
                         <hr></hr>
-                        <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Asistencia</h6>
+                        <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.assistance}</h6>
                         <Row field={translate.census_type_assistants} value={this.props.councilAttendants.total} />
-                        <Row field={'Presentes'} value={councilRecount.numPresent} />
-                        <Row field={'Remotos'} value={councilRecount.numRemote} />
-                        <Row field={'Votos delegados'} value={this.props.participantsWithDelegatedVote.length} />
+                        <Row field={translate.present_vote} value={councilRecount.numPresent} />
+                        <Row field={translate.remote_vote} value={councilRecount.numRemote} />
+                        <Row field={translate.customer_delegated} value={this.props.participantsWithDelegatedVote.length} />
                         <hr></hr>
                         {councilAttendants.list.length > 0 &&
                             <React.Fragment>
-                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Asistencia</h6>
+                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.assistance}</h6>
                                 <div onClick={this.copyAttendants}>Click para copiar la lista completa</div>
                                 {councilAttendants.list.map(attendant => (
                                     <AttendantRow key={`attendant_${attendant.id}`} translate={translate} attendant={attendant} />
@@ -69,10 +69,11 @@ class CouncilSideMenu extends React.Component {
                             </React.Fragment>
                         }
                         <hr></hr>
+                        {/*TRADUCCION*/}
                         {CBX.hasParticipations(council.statute) ?
                             <React.Fragment>
-                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>Capital social</h6>
-                                <Row field={'Total'} value={councilRecount.socialCapitalTotal} />
+                                <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.social_capital_desc}</h6>
+                                <Row field={translate.total_social_capital} value={councilRecount.socialCapitalTotal} />
                                 <Row
                                     field={'Asistente a la reunión'}
                                     value={getPercentage(councilRecount.socialCapitalRightVoting, councilRecount.socialCapitalTotal)}

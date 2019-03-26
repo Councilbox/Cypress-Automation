@@ -349,7 +349,7 @@ class SendActDraftModal extends React.Component {
 			return (
 				<SuccessMessage
 					changeImage={true}
-					message={"Email enviado correctamente"}//TRADUCCION
+					message={translate.email_sent_success}
 				/>
 			)
 		}

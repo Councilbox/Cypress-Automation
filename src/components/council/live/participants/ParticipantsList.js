@@ -101,6 +101,7 @@ class ParticipantsList extends React.PureComponent {
 										this.setState({
 											editParticipant: undefined
 										});
+										this.props.refetch();
 									}}
 
 									bodyText={

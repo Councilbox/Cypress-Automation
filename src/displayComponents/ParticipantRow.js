@@ -4,7 +4,7 @@ import { delegatedVotesLimitReached } from '../utils/CBX';
 import { Paper } from 'material-ui';
 
 const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper }) => {
-
+	/*TRADUCCION*/
 	let limitReached = null;
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length);
@@ -23,7 +23,6 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 				style={{
 					width: "100%",
 					padding: "0.4em",
-					//...(toDelegate? !limitReached? {cursor: "pointer"} : {} : {cursor: "pointer"}),
 					paddingLeft: "0.8em",
 					backgroundColor: `${toDelegate ? !limitReached ? 'transparent' : 'gainsboro' : 'transparent'}`,
 					display: "flex",
@@ -36,11 +35,11 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 						fontSize: "0.9rem"
 					}}
 				>
-					{`${participant.name} ${participant.surname} - ${participant.dni} ${toDelegate && limitReached ? 'NO SE PUEDEN DELEGAR MÁS VOTOS EN ESTE PARTICIPANTE' : ''}`}
+					{`${participant.name} ${participant.surname} ${toDelegate && limitReached ? ' - NO SE PUEDEN DELEGAR MÁS VOTOS EN ESTE PARTICIPANTE' : ''}`}
 				</div>
-				<div style={{ fontSize: "0.8rem" }}>{`${participant.position || '-'} - ${
-					participant.email
-					} - ${participant.phone}`}</div>
+				{toDelegate && participant.assistanceIntention === 6 &&
+					<div style={{ fontSize: "0.9rem", fontWeight: '700' }}>Ha marcado que posiblemente no asista</div>
+				}
 			</div>
 		</Paper>
 	);

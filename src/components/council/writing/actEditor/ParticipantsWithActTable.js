@@ -42,7 +42,7 @@ class ParticipantsWithActTable extends React.Component {
             <div>
                 <RefreshButton
                     translate={translate}
-                    tooltip={'Refrescar estado emails'} //TRADUCCION
+                    tooltip={translate.refresh_emails}
                     onClick={this.refreshEmails}
                 />
                 <EnhancedTable
