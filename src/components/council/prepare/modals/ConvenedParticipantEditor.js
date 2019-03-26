@@ -10,6 +10,7 @@ import {
 } from "../../../../utils/validation";
 import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
+import { PARTICIPANT_STATES } from "../../../../constants";
 
 class ConvenedParticipantEditor extends React.Component {
 
@@ -34,7 +35,7 @@ class ConvenedParticipantEditor extends React.Component {
 			this.props.participant
 		);
 
-		representative = representative
+		representative = (!!representative && this.props.participant.live.state !== PARTICIPANT_STATES.DELEGATED)
 			? {
 					hasRepresentative: true,
 					...extractTypeName(representative)
@@ -146,7 +147,7 @@ class ConvenedParticipantEditor extends React.Component {
 					emailList: emailsToCheck
 				}
 			});
-	
+
 			if(!response.data.checkUniqueCouncilEmails.success){
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
@@ -160,7 +161,6 @@ class ConvenedParticipantEditor extends React.Component {
 					}
 				})
 			}
-	
 			if(participant.email === representative.email){
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;

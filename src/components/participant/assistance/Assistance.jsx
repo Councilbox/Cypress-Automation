@@ -57,7 +57,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		delegationModal: false,
 		addRepresentative: false,
 		assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
-		delegateId: null,
+		delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
 		noAttendWarning: false,
 		delegateInfoUser: participant.representative
 	});
