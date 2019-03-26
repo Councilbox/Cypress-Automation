@@ -62,6 +62,15 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		delegateInfoUser: participant.representative
 	});
 
+	React.useEffect(() => {
+		setState({
+			...state,
+			assistanceIntention: participant.assistanceIntention || PARTICIPANT_STATES.REMOTE,
+			delegateId: participant.state === PARTICIPANT_STATES.REPRESENTATED? participant.delegateId : null,
+			delegateInfoUser: participant.representative
+		});
+	}, [participant.state]);
+
 
 	const resetButtonStates = () => {
 		setState({
