@@ -395,8 +395,8 @@ class HoverableRow extends React.Component {
 							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
 							{!!representative &&
 								<React.Fragment>
-									<br />
-									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+									<br/>
+									{`${participant.live.state === PARTICIPANT_STATES.DELEGATED? translate.delegated_in : this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
 								</React.Fragment>
 							}
                         </GridItem>
@@ -600,7 +600,7 @@ class HoverableRow extends React.Component {
 									participant={participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live : participant.live}
 									showCommentIcon
 									onCommentClick={this.props.showModalComment({
-										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live && participant.representative.live.assistanceComment : participant.live.assistanceComment,
+										text: participant.live.state === PARTICIPANT_STATES.REPRESENTATED? participant.representative.live.assistanceComment : participant.live.assistanceComment,
 										author: participant.live.state === PARTICIPANT_STATES.REPRESENTATED?
 											`${participant.name} ${participant.surname} - ${translate.represented_by} ${representative.name} ${representative.surname}`
 										:

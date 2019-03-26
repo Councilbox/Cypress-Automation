@@ -38,7 +38,7 @@ const AttendIntentionIcon = ({ participant, translate, size = '1.3em', color = g
                 break;
 
             default:
-                icon = ""
+                break;
         }
     }
 
