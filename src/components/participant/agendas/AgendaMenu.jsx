@@ -208,14 +208,14 @@ class AgendaMenu extends React.Component {
                                                         toggle={this.toggle}
                                                     />
                                                 }
-{/*                                                 {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
+                                                {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
                                                     <CommentMenu
                                                         agenda={agenda}
                                                         participant={this.props.participant}
                                                         translate={this.props.translate}
                                                         refetch={this.props.refetch}
                                                     />
-                                                } */}
+                                                }
                                             </React.Fragment>
                                         :
                                             translate.cant_exercise_vote
