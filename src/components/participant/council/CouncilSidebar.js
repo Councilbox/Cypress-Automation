@@ -217,7 +217,7 @@ class CouncilSidebar extends React.Component {
                                             fontSize: '0.55rem',
                                             textTransform: "none"
                                         }}>
-                                            Comentario {/*TRADUCCION*/}
+                                            Mensaje al admin {/*TRADUCCION*/}
                                         </div>
                                     </div>
                                 </Button>
@@ -347,7 +347,7 @@ class CouncilSidebar extends React.Component {
                                             fontSize: '0.55rem',
                                             textTransform: "none"
                                         }}>
-                                            Comentario {/*TRADUCCION*/}
+                                            Mensaje al admin {/*TRADUCCION*/}
                                         </div>
                                     </div>
                                 </Button>
