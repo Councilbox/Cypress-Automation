@@ -170,7 +170,62 @@ class AgendaMenu extends React.Component {
                         }
                     </React.Fragment>
                 }
+                {agenda.subjectType === CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
+                    <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
 
+                    {!CBX.agendaVotingsOpened(agenda)?
+                            <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
+                        :
+                            <React.Fragment>
+                                <BasicButton
+                                    text={this.props.translate.show_act_draft}
+                                    textStyle={{color: secondary, fontWeight: '700'}}
+                                    buttonStyle={{border: `2px solid ${secondary}`, marginBottom: '1.2em'}}
+                                    color={'white'}
+                                    onClick={() => this.setState({
+                                        showModal: true
+                                    })}
+                                />
+                                <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
+                                    <Typography style={{ fontWeight: '700', fontSize: '16px'}}>
+                                        {this.agendaVotingIcon()}
+                                        {this.agendaVotingMessage()}
+                                    </Typography>
+                                </div>
+                                {CBX.agendaVotingsOpened(agenda) &&
+                                    <React.Fragment>
+                                        {(agenda.votings && agenda.votings.length > 0)?
+                                            <React.Fragment>
+                                                {checkVotings(agenda.votings) &&
+                                                    <VotingSection
+                                                        agenda={agenda}
+                                                        open={this.state.open}
+                                                        council={this.props.council}
+                                                        voting={this.state.voting}
+                                                        translate={translate}
+                                                        activateVoting={this.activateVoting}
+                                                        refetch={this.props.refetch}
+                                                        toggle={this.toggle}
+                                                    />
+                                                }
+{/*                                                 {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
+                                                    <CommentMenu
+                                                        agenda={agenda}
+                                                        participant={this.props.participant}
+                                                        translate={this.props.translate}
+                                                        refetch={this.props.refetch}
+                                                    />
+                                                } */}
+                                            </React.Fragment>
+                                        :
+                                            translate.cant_exercise_vote
+                                        }
+                                    </React.Fragment>
+                                }
+                            </React.Fragment>
+                    }
+                    </div>
+                }
                 <AlertConfirm
                     requestClose={() => this.setState({ showModal: false })}
                     open={this.state.showModal}
