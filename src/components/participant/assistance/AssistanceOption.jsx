@@ -14,7 +14,7 @@ const AssistanceOption = ({ title, value, disabled, subtitle, selected, select }
                 label={
                     <HelpPopover
                         title="Advertencia"//TRADUCCION
-                        content="Un participante con votos delegados no puede delegar su voto"//TRADUCCION
+                        content="Un representante o un participante con votos delegados no puede delegar su voto"//TRADUCCION
                         TriggerComponent={props =>
                             <div onClick={disabled? props.onClick : () => {}}>
                                 {title}

@@ -6,7 +6,7 @@ import CouncilState from "../login/CouncilState";
 import AssistanceOption from "./AssistanceOption";
 import { compose, graphql, withApollo } from "react-apollo";
 import { setAssistanceIntention, setAssistanceComment } from "../../../queries/liveParticipant";
-import { PARTICIPANT_STATES } from "../../../constants";
+import { PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
 import { BasicButton, ButtonIcon, NotLoggedLayout, Scrollbar, DateWrapper, SectionTitle, LiveToast } from '../../../displayComponents';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import DelegateOwnVoteAttendantModal from "./DelegateOwnVoteAttendantModal";
@@ -419,7 +419,7 @@ const DelegationSection = ({ participant, translate, refetch }) => {
 		<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
 			<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
 				<SectionTitle
-					text={`${'Votos delegados en usted'}:`/*TRADUCCION*/}
+					text={`${'Representaciones / Delegaciones'}:`/*TRADUCCION*/}
 					color={primary}
 				/>
 			</div>
@@ -432,7 +432,12 @@ const DelegationSection = ({ participant, translate, refetch }) => {
 				/>
 			}
 
-			{participant.delegatedVotes.map(vote => {
+			{[...participant.delegatedVotes].sort((a, b) => {
+				if(a.state === PARTICIPANT_STATES.REPRESENTATED){
+					return -1;
+				}
+				return 1;
+			}).map(vote => {
 				return (
 					<div
 						style={{
@@ -445,16 +450,18 @@ const DelegationSection = ({ participant, translate, refetch }) => {
 						}}
 						key={vote.id}
 					>
-						<span>{`${vote.name} ${vote.surname}`}</span>
+						<span>{`${vote.state === PARTICIPANT_STATES.REPRESENTATED? 'Representante de: ' : 'Voto delegado: '}`}<b>{`${vote.name} ${vote.surname}`}</b></span>
 						<div>
-							<BasicButton
-								text="Rechazar"//TRADUCCION
-								textStyle={{color: secondary}}
-								color="transparent"
-								loadingColor={secondary}
-								onClick={() => setDelegation(vote)}
-								buttonStyle={{border: `1px solid ${secondary}`}}
-							/>
+							{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&
+								<BasicButton
+									text="Rechazar"//TRADUCCION
+									textStyle={{color: secondary}}
+									color="transparent"
+									loadingColor={secondary}
+									onClick={() => setDelegation(vote)}
+									buttonStyle={{border: `1px solid ${secondary}`}}
+								/>
+							}
 						</div>
 					</div>
 				)

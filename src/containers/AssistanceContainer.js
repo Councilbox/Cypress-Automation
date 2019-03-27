@@ -78,6 +78,7 @@ const participantQuery = gql`
 			delegatedVotes {
 				id
 				name
+				state
 				surname
 				dni
 				position

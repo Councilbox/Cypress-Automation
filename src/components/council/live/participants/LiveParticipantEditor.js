@@ -345,7 +345,7 @@ class LiveParticipantEditor extends React.Component {
 										marginRight: "1em"
 									}}
 								>
-									{'Comentario de asistencia'}
+									{'Comentario de asistencia'/* TRADUCCION */}
 								</Typography>
 								<div dangerouslySetInnerHTML={{ __html: participant.assistanceComment }} />
 							</GridItem>

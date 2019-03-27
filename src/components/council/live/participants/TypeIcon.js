@@ -40,6 +40,7 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 				</Tooltip>
 			);
 		case PARTICIPANT_TYPE.PARTICIPANT:
+		case PARTICIPANT_TYPE.REPRESENTATED:
 			return (
 				<Tooltip title={translate.participant}>
 					<div  style={{ padding: "0.5em" }}>
