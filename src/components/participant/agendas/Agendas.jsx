@@ -167,9 +167,7 @@ const agendas = gql`
             subjectType
             votingState
         }
-        councilTimeline(councilId: $councilId){
-            id
-        }
+
         participantVotings(participantId: $participantId){
             id
             comment
