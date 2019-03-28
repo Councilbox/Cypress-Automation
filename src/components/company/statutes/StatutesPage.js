@@ -238,6 +238,7 @@ const StatutesPage = ({ data, translate, ...props }) => {
 					handleStatuteChange(data.companyStatutes.length - 1);
 				}
 				setState({
+					newStatute: false,
 					newLoading: false
 				});
 			}
@@ -495,7 +496,7 @@ const StatutesPage = ({ data, translate, ...props }) => {
 					key={companyStatutes[state.editModal].id}
 					statute={companyStatutes[state.editModal]}
 					translate={translate}
-					refetch={props.data.refetch}
+					refetch={data.refetch}
 				/>
 			}
 		</CardPageLayout>
