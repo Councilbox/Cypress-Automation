@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { Scrollbar, LoadingSection } from '../../../displayComponents';
 import { Paper } from 'material-ui';
 import { Stepper, Step, StepLabel, StepContent } from 'material-ui';
@@ -10,10 +10,29 @@ import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 
 
 
-const TimelineSection = React.memo(({ data, translate, participant, council, isMobile }) => {
+const TimelineSection = ({ translate, participant, council, isMobile, client }) => {
+    const [councilTimeline, setTimeline] = React.useState([]);
+    const [loading, setLoading] = React.useState(true);
 
+    React.useEffect(() => {
+        const getTimeline = async() => {
+            const response = await client.query({
+                query: councilTimelineQuery,
+                variables: {
+                    councilId: council.id
+                }
+            });
+
+            setLoading(false);
+            setTimeline(response.data.councilTimeline);
+        }
+
+        getTimeline();
+    }, [council.id]);
+
+    //TRADUCCION
     return (
-        data.loading ?
+        loading ?
             <LoadingSection />
             :
             <React.Fragment>
@@ -28,7 +47,7 @@ const TimelineSection = React.memo(({ data, translate, participant, council, isM
                     </div>
                 }
                 <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
-                    {data.councilTimeline.map(event => {
+                    {councilTimeline.map(event => {
                         const content = JSON.parse(event.content);
                         return (
 
@@ -59,9 +78,9 @@ const TimelineSection = React.memo(({ data, translate, participant, council, isM
                 </Stepper>
             </React.Fragment>
     );
-})
+}
 
-const councilTimeline = gql`
+const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!){
         councilTimeline(councilId: $councilId){
             id
@@ -87,10 +106,13 @@ const getTimelineTranslation = (type, content) => {
     return types[type] ? types[type]() : types.default();
 }
 
-export default graphql(councilTimeline, {
+export default withApollo(TimelineSection);
+
+/*
+graphql(councilTimeline, {
     options: props => ({
         variables: {
             councilId: props.council.id
         }
     })
-})(TimelineSection);
+})*/
