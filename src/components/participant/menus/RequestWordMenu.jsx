@@ -18,6 +18,16 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
         confirmWordModal: false,
     });
 
+    React.useEffect(() => {
+        let interval;
+        if(CBX.isAskingForWord(participant)){
+            interval = setInterval(() => {
+                props.refetchParticipant();
+            }, 3000);
+        }
+        return () => clearInterval(interval);
+    }, [participant.requestWord]);
+
     const secondary = getSecondary();
     const primary = getPrimary();
 
@@ -92,13 +102,10 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
     }
 
     const showConfirmWord = () => {
-        console.log('se ejecuta');
         setState({
             confirmWordModal: true
         });
     }
-
-    console.log(state);
 
     const _renderAlertBody = () => {
         return (
