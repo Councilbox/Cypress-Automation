@@ -477,7 +477,7 @@ const StatutesPage = ({ data, translate, ...props }) => {
 						required
 						type="text"
 						errorText={errors.newStatuteName}
-						value={statute? statute.newStatuteName : ''}
+						value={statute? statute.newStatuteName : state.newStatuteName}
 						onChange={event =>
 							setState({
 								newStatuteName:
