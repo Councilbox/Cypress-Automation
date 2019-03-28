@@ -279,7 +279,7 @@ export default compose(
 		options: props => ({
 			fetchPolicy: "network-only",
 			notifyOnNetworkStatusChange: true,
-			pollInterval: 15000
+			pollInterval: 8000
 		})
 	})
 )(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));
