@@ -11,7 +11,7 @@ import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 
 
 const TimelineSection = ({ translate, participant, council, isMobile, client }) => {
-    const [councilTimeline, setTimeline] = React.useState([]);
+    const [timeline, setTimeline] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
@@ -47,7 +47,7 @@ const TimelineSection = ({ translate, participant, council, isMobile, client }) 
                     </div>
                 }
                 <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
-                    {councilTimeline.map(event => {
+                    {timeline.map(event => {
                         const content = JSON.parse(event.content);
                         return (
 

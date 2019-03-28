@@ -10,8 +10,7 @@ import { agendaPointOpened, agendaVotingsOpened, getAgendaTypeLabel, councilStar
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
-
-
+import TimelineSection from "../timeline/TimelineSection";
 
 const styles = {
     container: {
@@ -27,243 +26,236 @@ const styles = {
     }
 };
 
-class AgendaNoSession extends React.Component {
-    state = {
-        selected: 0
+const AgendaNoSession = ({ translate, council, participant, data, ...props }) => {
+    const secondary = getSecondary();
+    const primary = getPrimary();
+    let agendas = [];
+
+    if (data.agendas) {
+        agendas = data.agendas.map(agenda => {
+            return {
+                ...agenda,
+                votings: data.participantVotings.filter(voting => voting.agendaId === agenda.id)
+            }
+        });
     }
 
-    updated = 0;
 
+    if (props.inPc) {
+        return (
+            <Paper style={styles.container} elevation={4}>
+                <div style={{ height: "100%" }}>
+                    {!props.sinCabecera &&
+                        <React.Fragment>
+                            <div style={styles.agendasHeader}>
+                                <div style={{ width: '3em' }}>
 
-    render() {
-        const { translate, council, } = this.props;
-        const { selected } = this.state;
-        const secondary = getSecondary();
-        const primary = getPrimary();
-        let agendas = [];
-
-        if (this.props.data.agendas) {
-            agendas = this.props.data.agendas.map(agenda => {
-                return {
-                    ...agenda,
-                    votings: this.props.data.participantVotings.filter(voting => voting.agendaId === agenda.id)
-                }
-            });
-        }
-        if (this.props.inPc) {
-            return (
-                <Paper style={styles.container} elevation={4}>
-                    <div style={{ height: "100%" }}>
-                        {!this.props.sinCabecera &&
-                            <React.Fragment>
-                                <div style={styles.agendasHeader}>
-                                    <div style={{ width: '3em' }}>
-
-                                    </div>
-                                    {this.props.timeline ?
-                                        (
-                                            <React.Fragment>
-                                                <Typography variant="title" style={{ fontWeight: '700' }}>Resumen</Typography>{/*TRADUCCION*/}
-
-                                            </React.Fragment>
-                                        ) : (
-                                            <React.Fragment>
-                                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-
-                                            </React.Fragment>
-                                        )
-                                    }
-                                    <div style={{ width: '3em' }}>
-
-                                        <CouncilInfoMenu
-                                            {...this.props}
-                                            translate={translate}
-                                            participant={this.props.participant}
-                                            council={council}
-                                            agendaNoSession={true}
-                                        />
-
-                                    </div>
                                 </div>
-                                <Divider />
-                            </React.Fragment>
-                        }
-                        {this.props.sinCabecera &&
-                            <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
-                                <CouncilInfoMenu
-                                    {...this.props}
-                                    translate={translate}
-                                    participant={this.props.participant}
-                                    council={council}
-                                />
+                                {props.timeline ?
+                                    (
+                                        <React.Fragment>
+                                            <Typography variant="title" style={{ fontWeight: '700' }}>Resumen</Typography>{/*TRADUCCION*/}
+                                        </React.Fragment>
+                                    ) : (
+                                        <React.Fragment>
+                                            <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                                        </React.Fragment>
+                                    )
+                                }
+                                <div style={{ width: '3em' }}>
+
+                                    <CouncilInfoMenu
+                                        {...props}
+                                        translate={translate}
+                                        participant={participant}
+                                        council={council}
+                                        agendaNoSession={true}
+                                    />
+
+                                </div>
+                            </div>
+                            <Divider />
+                        </React.Fragment>
+                    }
+                    {props.sinCabecera &&
+                        <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                            <CouncilInfoMenu
+                                {...props}
+                                translate={translate}
+                                participant={participant}
+                                council={council}
+                            />
+                        </div>
+                    }
+                    <Scrollbar>
+                        {!councilStarted(council) &&
+                            <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                                {translate.council_not_started_yet}
                             </div>
                         }
-                        <Scrollbar>
-                            {!councilStarted(council) &&
-                                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                                    {this.props.translate.council_not_started_yet}
-                                </div>
-                            }
-                            <div style={{ paddingLeft: '1.2em', marginTop: '20px', marginBottom: '5rem', }}>
-                                {this.props.data.agendas ?
-                                    this.props.timeline ? (
-                                        this.props.timeline
-                                    ) : (
-                                            agendas.map((agenda, index) => {
-                                                return (
-                                                    <div style={{ marginBottom: "15px", width: "98%", }} key={agenda.id}>
-                                                        <Card style={{ padding: "1em" }}>
-                                                            <div
-                                                                style={{
-                                                                    display: "flex",
-                                                                    marginRight: "10px",
-                                                                    marginBottom: "1.5em"
-                                                                }}
+                        <div style={{ paddingLeft: '1.2em', marginTop: '20px', marginBottom: '5rem', }}>
+                            {data.agendas ?
+                                props.timeline ? (
+                                    <TimelineSection
+                                        council={council}
+                                        councilTimeline={data.councilTimeline}
+                                        isMobile={isMobile}
+                                    />
+                                ) : (
+                                        agendas.map((agenda, index) => {
+                                            return (
+                                                <div style={{ marginBottom: "15px", width: "98%", }} key={agenda.id}>
+                                                    <Card style={{ padding: "1em" }}>
+                                                        <div
+                                                            style={{
+                                                                display: "flex",
+                                                                marginRight: "10px",
+                                                                marginBottom: "1.5em"
+                                                            }}
+                                                        >
+                                                            <div style={{
+                                                                marginRight: "10px",
+                                                                color: "#000000de",
+                                                                fontWeight: '700',
+                                                                fontSize: '16px'
+                                                            }}
                                                             >
+                                                                {index + 1}. </div>
+                                                            <div>
+
                                                                 <div style={{
-                                                                    marginRight: "10px",
                                                                     color: "#000000de",
                                                                     fontWeight: '700',
-                                                                    fontSize: '16px'
-                                                                }}
-                                                                >
-                                                                    {index + 1}. </div>
-                                                                <div>
-
-                                                                    <div style={{
-                                                                        color: "#000000de",
-                                                                        fontWeight: '700',
-                                                                        fontSize: '16px',
-                                                                        display: "flex"
-                                                                    }}>
-                                                                        <div style={{ width: "55px" }}>{translate.title}:</div> {agenda.agendaSubject}
-                                                                    </div>
-                                                                    <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
-                                                                        <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
-                                                                    </Typography>
-                                                                    <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
-                                                                        <AgendaDescription agenda={agenda} translate={translate} />
-                                                                    </div>
-                                                                    <AgendaMenu
-                                                                        horizontal={true}
-                                                                        agenda={agenda}
-                                                                        council={council}
-                                                                        participant={this.props.participant}
-                                                                        translate={translate}
-                                                                        refetch={this.props.data.refetch}
-                                                                    />
+                                                                    fontSize: '16px',
+                                                                    display: "flex"
+                                                                }}>
+                                                                    <div style={{ width: "55px" }}>{translate.title}:</div> {agenda.agendaSubject}
                                                                 </div>
+                                                                <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
+                                                                    <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
+                                                                </Typography>
+                                                                <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
+                                                                    <AgendaDescription agenda={agenda} translate={translate} />
+                                                                </div>
+                                                                <AgendaMenu
+                                                                    horizontal={true}
+                                                                    agenda={agenda}
+                                                                    council={council}
+                                                                    participant={participant}
+                                                                    translate={translate}
+                                                                    refetch={data.refetch}
+                                                                />
                                                             </div>
-                                                        </Card>
-                                                    </div>
-                                                )
-                                            })
-                                        )
-                                    :
-                                    <LoadingSection />
-                                }
-                            </div>
-                        </Scrollbar>
-                    </div>
-                </Paper>
-            );
-        } else {
-            return (
-                <Paper style={styles.container} elevation={4}>
-                    <Scrollbar>
-                        <div>
-                            {!this.props.sinCabecera &&
-                                <React.Fragment>
-                                    <div style={styles.agendasHeader}>
-                                        <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-                                        <div style={{ width: '3em' }}>
-                                            <CouncilInfoMenu
-                                                {...this.props}
-                                                translate={translate}
-                                                participant={this.props.participant}
-                                                council={council}
-                                            />
-                                        </div>
-                                    </div>
-                                    <Divider />
-                                </React.Fragment>
+                                                        </div>
+                                                    </Card>
+                                                </div>
+                                            )
+                                        })
+                                    )
+                                :
+                                <LoadingSection />
                             }
-                            {this.props.sinCabecera &&
-                                <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                        </div>
+                    </Scrollbar>
+                </div>
+            </Paper>
+        );
+    }
+
+    return (
+        <Paper style={styles.container} elevation={4}>
+            <Scrollbar>
+                <div>
+                    {!props.sinCabecera &&
+                        <React.Fragment>
+                            <div style={styles.agendasHeader}>
+                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                                <div style={{ width: '3em' }}>
                                     <CouncilInfoMenu
-                                        {...this.props}
+                                        {...props}
                                         translate={translate}
-                                        participant={this.props.participant}
+                                        participant={participant}
                                         council={council}
                                     />
                                 </div>
-                            }
-                            {!councilStarted(council) &&
-                                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                                    {this.props.translate.council_not_started_yet}
-                                </div>
-                            }
-                            <div style={{ padding: '0.8em', paddingLeft: '1.2em', marginTop: '10px', }}>
-                                {this.props.data.agendas ?
-                                    agendas.map((agenda, index) => {
-                                        return (
-                                            <div style={{ marginBottom: "15px", width: "98%", }} key={agenda.id}>
-                                                <Card style={{ padding: "1em" }}>
-                                                    <div
-                                                        style={{
-                                                            display: "flex",
-                                                            marginRight: "10px",
-                                                            marginBottom: "1.5em"
-                                                        }}
-                                                    >
-                                                        <div style={{
-                                                            marginRight: "10px",
-                                                            color: "#000000de",
-                                                            fontWeight: '700',
-                                                            fontSize: '16px'
-                                                        }}
-                                                        >
-                                                            {index + 1}. </div>
-                                                        <div>
-
-                                                            <div style={{
-                                                                color: "#000000de",
-                                                                fontWeight: '700',
-                                                                fontSize: '16px',
-                                                                display: "flex"
-                                                            }}>
-                                                                <div style={{ width: "55px" }}>{translate.title}:</div> {agenda.agendaSubject}
-                                                            </div>
-                                                            <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
-                                                                <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
-                                                            </Typography>
-                                                            <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
-                                                                <AgendaDescription agenda={agenda} translate={translate} />
-                                                            </div>
-                                                            <AgendaMenu
-                                                                horizontal={true}
-                                                                agenda={agenda}
-                                                                council={council}
-                                                                participant={this.props.participant}
-                                                                translate={translate}
-                                                                refetch={this.props.data.refetch}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </Card>
-                                            </div>
-                                        )
-                                    })
-                                    :
-                                    <LoadingSection />
-                                }
                             </div>
+                            <Divider />
+                        </React.Fragment>
+                    }
+                    {props.sinCabecera &&
+                        <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                            <CouncilInfoMenu
+                                {...props}
+                                translate={translate}
+                                participant={participant}
+                                council={council}
+                            />
                         </div>
-                    </Scrollbar>
-                </Paper>
-            );
-        }
-    }
+                    }
+                    {!councilStarted(council) &&
+                        <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                            {translate.council_not_started_yet}
+                        </div>
+                    }
+                    <div style={{ padding: '0.8em', paddingLeft: '1.2em', marginTop: '10px', }}>
+                        {data.agendas ?
+                            agendas.map((agenda, index) => {
+                                return (
+                                    <div style={{ marginBottom: "15px", width: "98%", }} key={agenda.id}>
+                                        <Card style={{ padding: "1em" }}>
+                                            <div
+                                                style={{
+                                                    display: "flex",
+                                                    marginRight: "10px",
+                                                    marginBottom: "1.5em"
+                                                }}
+                                            >
+                                                <div style={{
+                                                    marginRight: "10px",
+                                                    color: "#000000de",
+                                                    fontWeight: '700',
+                                                    fontSize: '16px'
+                                                }}
+                                                >
+                                                    {index + 1}. </div>
+                                                <div>
+
+                                                    <div style={{
+                                                        color: "#000000de",
+                                                        fontWeight: '700',
+                                                        fontSize: '16px',
+                                                        display: "flex"
+                                                    }}>
+                                                        <div style={{ width: "55px" }}>{translate.title}:</div> {agenda.agendaSubject}
+                                                    </div>
+                                                    <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
+                                                        <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
+                                                    </Typography>
+                                                    <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
+                                                        <AgendaDescription agenda={agenda} translate={translate} />
+                                                    </div>
+                                                    <AgendaMenu
+                                                        horizontal={true}
+                                                        agenda={agenda}
+                                                        council={council}
+                                                        participant={participant}
+                                                        translate={translate}
+                                                        refetch={data.refetch}
+                                                    />
+                                                </div>
+                                            </div>
+                                        </Card>
+                                    </div>
+                                )
+                            })
+                            :
+                            <LoadingSection />
+                        }
+                    </div>
+                </div>
+            </Scrollbar>
+        </Paper>
+    );
 }
 
 

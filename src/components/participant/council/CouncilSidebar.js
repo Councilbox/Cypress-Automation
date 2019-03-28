@@ -30,6 +30,7 @@ class CouncilSidebar extends React.Component {
     }
 
     render() {
+        const Agenda = this.props.agenda;
         if (this.props.isMobile) {
             return (
                 <div style={{

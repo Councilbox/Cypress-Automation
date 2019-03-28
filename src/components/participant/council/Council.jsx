@@ -21,7 +21,6 @@ import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from "react-device-detect";
 import CouncilSidebar from './CouncilSidebar';
 import AdminPrivateMessage from "../menus/AdminPrivateMessage";
-import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 
 
@@ -209,12 +208,7 @@ class ParticipantCouncil extends React.Component {
                         agendasAnchor={this.state.agendasAnchor}
                         toggleAgendasAnchor={this.toggleAgendasAnchor}
                         inPc={true}
-                        timeline={
-                            < TimelineSection
-                                council={this.props.council}
-                                isMobile={isMobile}
-                            />
-                        }
+                        timeline={true}
                     />
                 }
             </Grid>
