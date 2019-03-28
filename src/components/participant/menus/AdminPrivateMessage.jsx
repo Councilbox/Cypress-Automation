@@ -77,7 +77,7 @@ class AdminPrivateMessage extends React.Component {
                     onChange={event => this.setState({ text: event.target.value, success: false})}
                 />
                 <BasicButton
-                    text={this.props.translate.send}
+                    text={this.state.success? this.props.translate.tooltip_sent : this.props.translate.send}
                     onClick={this.sendCouncilRoomMessage}
                     loading={this.state.loading}
                     success={this.state.success}
@@ -117,9 +117,9 @@ class AdminPrivateMessage extends React.Component {
                             outline: 0,
                             color: this.state.visible? 'white' : secondary,
                             backgroundColor: this.state.visible? secondary : 'inherit',
-                            width: '2em',
-                            height: '100%',
-                            borderRadius: '0.5em'
+                            width: '50%',
+                            borderRadius: 0,
+                            height: '100%'
                         }}
                         onClick={this.toggleVisible}
                     >
