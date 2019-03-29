@@ -352,8 +352,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
                                 middle={() => setState({ ...state, full: false, middle: true })}
                                 click={state.activeInput}
                                 agenda={_renderAgendaSection()}
-                                toogleAgenda={() => toggle("agenda")}
-                                toogleResumen={() => toggle("timeline")}
+                                toggle={toggle}
                                 modalContent={state.modalContent}
                                 participant={participant}
                                 comentario={

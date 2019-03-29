@@ -1,10 +1,12 @@
 import React from 'react';
 import FontAwesome from "react-fontawesome";
 import FloatGroup from 'react-float-button';
-import { Grid, Button, Badge } from "material-ui";
+import { Grid, Button } from "material-ui";
+import { withApollo } from 'react-apollo';
 import TimelineSection from '../timeline/TimelineSection';
+import gql from 'graphql-tag';
 import { darkGrey, secondary, primary } from '../../../styles/colors';
-import { AlertConfirm, BasicButton } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, Badge } from '../../../displayComponents';
 
 const styles = {
     button: {
@@ -257,6 +259,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         </div>
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <TimelineButton
+                                council={council}
                                 onClick={() => toggle('timeline')}
                                 actived={props.modalContent === "timeline"}
                             />
@@ -401,10 +404,10 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                             <Button
                                 className={"NoOutline"}
                                 style={styles.button}
-                                onClick={props.toogleAgenda}
+                                onClick={() => props.toggle('agenda')}
                             >
                                 <div style={{ display: "unset" }}>
-                                    <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
+                                    <Badge badgeContent={8} color="primary" dot={true} /*className={'fadeToggle'}*/>
                                         <div>
                                             <i className="material-icons" style={{
                                                 color: props.modalContent === "agenda" ? secondary : "",
@@ -430,7 +433,8 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         </div>
                         <div style={{ width: "50%", textAlign: "center", paddingTop: '0.35rem', borderTop: "1px solid dimgrey", borderRight: "1px solid dimgrey", }}>
                             <TimelineButton
-                                onClick={props.toggleTimeline}
+                                council={council}
+                                onClick={() => props.toggle('timeline')}
                                 actived={props.modalContent === "timeline"}
                             />
                         </div>
@@ -468,15 +472,45 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
     }
 }
 
-const TimelineButton = ({ onClick, actived }) => {
+
+const TimelineButton = withApollo(({ onClick, actived, council, client }) => {
+    const [total , setTotal] = React.useState(0);
+    const [readed, setReaded] = React.useState(0);
+
+    React.useEffect(() => {
+        const getTimeline = async () => {
+            const response = await client.query({
+                query: councilTimelineQuery,
+                variables: {
+                    councilId: council.id
+                }
+            });
+
+            if(response.data && response.data.councilTimeline){
+                setTotal(response.data.councilTimeline.length);
+            }
+        }
+        getTimeline();
+        const interval = setInterval(getTimeline, 10000);
+        return () => clearInterval(interval);
+    }, [council.id, client, councilTimelineQuery]);
+
+    const enterTimeline = () => {
+        setReaded(total);
+        onClick();
+    }
+
+    const unread = total - readed;
+
+
     return (
         <Button
             className={"NoOutline"}
             style={styles.button}
-            onClick={onClick}
+            onClick={enterTimeline}
         >
             <div style={{ display: "unset" }}>
-                <Badge badgeContent={8} color="primary">
+                <Badge badgeContent={unread} hide={unread === 0} color="primary">
                     <div>
                         <FontAwesome
                             name={"file-text-o"}
@@ -501,7 +535,15 @@ const TimelineButton = ({ onClick, actived }) => {
             </div>
         </Button>
     )
-}
+})
+
+const councilTimelineQuery = gql`
+    query CouncilTimeline($councilId: Int!){
+        councilTimeline(councilId: $councilId){
+            id
+        }
+    }
+`;
 
 
 export default CouncilSidebar
