@@ -22,26 +22,105 @@ const styles = {
 
 
 const CouncilSidebar = ({ translate, council, participant, ...props }) => {
-    const [state, setState] = React.useState({
-        showModalComentario: false,
-        modalContent: false,
-    })
-
-    const toggle = type => {
-        setState({
-            ...state,
-            modalContent: state.modalContent === type ? false : type,
-            showModalComentario: false
-        });
-    }
-
     const closeAll = () => {
-        setState({
-            ...state,
-            modalContent: false,
-            showModalComentario: false,
-        });
+        props.setContent(null);
+        props.toggl();
     }
+
+    const renderVideoButton = () => {
+        return (
+            <Button
+                className={"NoOutline prueba"}
+                style={styles.button}
+                onClick={closeAll}
+            >
+                <div style={{ display: "unset" }}>
+                    <div>
+                        <i
+                            className="fa fa-video-camera"
+                            style={{
+                                color: !props.modalContent ? secondary : "",
+                                fontSize: '24px', padding: '0', margin: "0",
+                                marginTop: "4px",
+                                width: '1em',
+                                height: '1em',
+                                overflow: 'hidden',
+                                userSelect: 'none',
+                            }}
+                        />
+                    </div>
+                    <div style={{
+                        color: 'white',
+                        fontSize: '0.55rem',
+                        textTransform: "none"
+                    }}>
+                        {translate.video}
+                    </div>
+                </div>
+            </Button>
+        )
+    }
+
+    const renderAgendaButton = () => (
+        <Button
+            className={"NoOutline"}
+            style={styles.button}
+            onClick={() => props.setContent('agenda')}
+        >
+            <div style={{ display: "unset" }}>
+                <Badge badgeContent={8} dot color="primary" hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
+                    <div>
+                        <i className="material-icons" style={{
+                            color: props.modalContent === "agenda" ? secondary : "",
+                            fontSize: '24px', padding: '0', margin: "0",
+                            width: '1em',
+                            height: '1em',
+                            overflow: 'hidden',
+                            userSelect: 'none',
+                        }}>
+                            calendar_today
+                        </i>
+                    </div>
+                </Badge>
+                <div style={{
+                    color: 'white',
+                    fontSize: '0.55rem',
+                    textTransform: "none"
+                }}>
+                    Agenda {/*TRADUCCION*/}
+                </div>
+            </div>
+        </Button>
+    )
+
+    const renderPrivateMessageButton = () => (
+        <Button
+            className={"NoOutline"}
+            style={styles.button}
+            onClick={() => props.setAdminMessage(!props.adminMessage)}>
+            <div style={{ display: "unset" }}>
+                <div>
+                    <i className="material-icons" style={{
+                        fontSize: '24px', padding: '0', margin: "0",
+                        width: '1em',
+                        height: '1em',
+                        overflow: 'hidden',
+                        userSelect: 'none',
+                        color: props.adminMessage ? primary : "#ffffffcc",
+                    }}>
+                        chat_bubble_outline
+                        </i>
+                </div>
+                <div style={{
+                    color: "white",
+                    fontSize: '0.55rem',
+                    textTransform: "none"
+                }}>
+                    Mensaje al admin {/*TRADUCCION*/}
+                </div>
+            </div>
+        </Button>
+    )
 
     if (props.isMobile) {
         return (
@@ -67,7 +146,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
 
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            {!state.modalContent ?
+                            {!props.modalContent ?
                                 <FloatGroup
                                     delay={0.02}
                                     style={{
@@ -80,35 +159,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                         fontSize: '10px'
                                     }}
                                 >
-                                    <Button
-                                        className={"NoOutline prueba"}
-                                        style={styles.button}
-                                        onClick={closeAll}
-                                    >
-                                        <div style={{ display: "unset" }}>
-                                            <div>
-                                                <FontAwesome
-                                                    name={"video-camera"}
-                                                    style={{
-                                                        color: !state.modalContent ? secondary : "",
-                                                        fontSize: '24px', padding: '0', margin: "0",
-                                                        marginTop: "4px",
-                                                        width: '1em',
-                                                        height: '1em',
-                                                        overflow: 'hidden',
-                                                        userSelect: 'none',
-                                                    }}
-                                                />
-                                            </div>
-                                            <div style={{
-                                                color: 'white',
-                                                fontSize: '0.55rem',
-                                                textTransform: "none"
-                                            }}>
-                                                Video {/*TRADUCCION*/}
-                                            </div>
-                                        </div>
-                                    </Button>
+                                    {renderVideoButton()}
                                     <Button style={{
                                         left: '0.9em',
                                         bottom: '20px',
@@ -123,14 +174,12 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                     }}
                                         onClick={props.middle}>
                                         <div>
-                                            <FontAwesome
-                                                name={"compress"}
+                                            <i
+                                                className="fa fa-compress"
                                                 style={{
                                                     color: 'grey',
                                                     padding: '0', margin: "0",
                                                     fontSize: '24px',
-                                                    // width: '1em',
-                                                    // height: '1em',
                                                     overflow: 'hidden',
                                                     userSelect: 'none'
                                                 }}
@@ -151,8 +200,8 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                     }}
                                         onClick={props.full}>
                                         <div>
-                                            <FontAwesome
-                                                name={"expand"}
+                                            <i
+                                                className={"fa fa-expand"}
                                                 style={{
                                                     color: 'grey',
                                                     padding: '0', margin: "0",
@@ -166,108 +215,28 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                         </div>
                                     </Button>
                                 </FloatGroup>
-                                :
-                                <Button
-                                    className={"NoOutline prueba"}
-                                    style={styles.button}
-                                    onClick={closeAll}
-                                >
-                                    <div style={{ display: "unset" }}>
-                                        <div>
-                                            <FontAwesome
-                                                name={"video-camera"}
-                                                style={{
-                                                    color: !state.modalContent ? secondary : "",
-                                                    fontSize: '24px', padding: '0', margin: "0",
-                                                    marginTop: "0px",
-                                                    width: '1em',
-                                                    height: '1em',
-                                                    overflow: 'hidden',
-                                                    userSelect: 'none',
-                                                }}
-                                            />
-                                        </div>
-                                        <div style={{
-                                            color: 'white',
-                                            fontSize: '0.55rem',
-                                            textTransform: "none"
-                                        }}>
-                                            Video {/*TRADUCCION*/}
-                                        </div>
-                                    </div>
-                                </Button>}
+                            :
+                                renderVideoButton()
+                            }
                         </div>
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <Button
-                                className={"NoOutline"}
-                                style={styles.button}
-                                onClick={() => toggle('agenda')}
-                            >
-                                <div style={{ display: "unset" }}>
-                                    <Badge badgeContent={8} color="primary" /*className={'fadeToggle'}*/>
-                                        <div>
-                                            <i className="material-icons" style={{
-                                                color: state.modalContent === "agenda" ? secondary : "",
-                                                fontSize: '24px', padding: '0', margin: "0",
-                                                width: '1em',
-                                                height: '1em',
-                                                overflow: 'hidden',
-                                                userSelect: 'none',
-                                            }}>
-                                                calendar_today
-                                            </i>
-                                        </div>
-                                    </Badge>
-                                    <div style={{
-                                        color: 'white',
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Agenda {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
+                            {renderAgendaButton()}
                         </div>
                         {props.pedirPalabra}
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
-                            <Button
-                                className={"NoOutline"}
-                                style={styles.button}
-                                onClick={() => setState({ ...state, showModalComentario: !state.showModalComentario, modalContent: false, })}>
-                                <div style={{ display: "unset" }}>
-                                    <div>
-                                        <i className="material-icons" style={{
-                                            fontSize: '24px', padding: '0', margin: "0",
-                                            width: '1em',
-                                            height: '1em',
-                                            overflow: 'hidden',
-                                            userSelect: 'none',
-                                            color: state.showModalComentario ? primary : "#ffffffcc",
-                                        }}>
-                                            chat_bubble_outline
-                                            </i>
-                                    </div>
-                                    <div style={{
-                                        color: "white",
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Mensaje al admin {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
+                            {renderPrivateMessageButton()}
                         </div>
                         <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
                             <TimelineButton
                                 council={council}
-                                onClick={() => toggle('timeline')}
+                                onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
                             />
                         </div>
                     </div>
                 </div>
                 <AlertConfirm
-                    open={!!state.modalContent}
+                    open={!!props.modalContent}
                     classNameDialog={'modal100'}
                     PaperProps={{
                         style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
@@ -275,10 +244,10 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
                     bodyText={
                         <div style={{ height: '100%' }}>
-                            {state.modalContent === 'agenda' &&
+                            {props.modalContent === 'agenda' &&
                                 props.agenda
                             }
-                            {state.modalContent === 'timeline' &&
+                            {props.modalContent === 'timeline' &&
                                 <TimelineSection
                                     council={council}
                                     translate={translate}
@@ -288,9 +257,9 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                         </div>
                     }
                 />
-                {state.showModalComentario &&
+                {props.adminMessage &&
                     <div style={{
-                        transition: "bottom 0.7s",
+                        transition: "bottom 0.4s",
                         display: "flex",
                         position: "fixed",
                         minHeight: '50px',
@@ -353,32 +322,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 borderRight: "1px solid dimgrey"
                             }}
                         >
-                            <Button
-                                className={"NoOutline"}
-                                style={styles.button}
-                                onClick={() => setState({ ...state, showModalComentario: !state.showModalComentario, modalContent: false })}>
-                                <div style={{ display: "unset" }}>
-                                    <div>
-                                        <i className="material-icons" style={{
-                                            fontSize: '24px', padding: '0', margin: "0",
-                                            width: '1em',
-                                            height: '1em',
-                                            overflow: 'hidden',
-                                            userSelect: 'none',
-                                            color: state.showModalComentario ? primary : "#ffffffcc",
-                                        }}>
-                                            chat_bubble_outline
-                                            </i>
-                                    </div>
-                                    <div style={{
-                                        color: "white",
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Mensaje al admin {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
+                            {renderPrivateMessageButton()}
                         </div>
                     </Grid>
                     <Grid
@@ -401,47 +345,19 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 borderLeft: "1px solid dimgrey"
                             }}
                         >
-                            <Button
-                                className={"NoOutline"}
-                                style={styles.button}
-                                onClick={() => props.toggle('agenda')}
-                            >
-                                <div style={{ display: "unset" }}>
-                                    <Badge badgeContent={8} color="primary" dot={true} /*className={'fadeToggle'}*/>
-                                        <div>
-                                            <i className="material-icons" style={{
-                                                color: props.modalContent === "agenda" ? secondary : "",
-                                                fontSize: '24px', padding: '0', margin: "0",
-                                                width: '1em',
-                                                height: '1em',
-                                                overflow: 'hidden',
-                                                userSelect: 'none',
-                                            }}>
-                                                calendar_today
-                                            </i>
-                                        </div>
-                                    </Badge>
-                                    <div style={{
-                                        color: 'white',
-                                        fontSize: '0.55rem',
-                                        textTransform: "none"
-                                    }}>
-                                        Agenda {/*TRADUCCION*/}
-                                    </div>
-                                </div>
-                            </Button>
+                            {renderAgendaButton()}
                         </div>
                         <div style={{ width: "50%", textAlign: "center", paddingTop: '0.35rem', borderTop: "1px solid dimgrey", borderRight: "1px solid dimgrey", }}>
                             <TimelineButton
                                 council={council}
-                                onClick={() => props.toggle('timeline')}
+                                onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
                             />
                         </div>
                     </Grid>
                 </div>
 
-                {state.showModalComentario &&
+                {props.adminMessage &&
                     <Grid item xs={6} md={8} style={{
                         transition: "bottom 0.7s",
                         display: "flex",

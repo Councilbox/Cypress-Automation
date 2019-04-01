@@ -109,7 +109,8 @@ class Agendas extends React.Component {
         }
     }
 
-    toastChanges = (message, onClose) => (
+    toastChanges = (message, onClose) => {
+        this.props.setAgendaBadge(true);
         toast(
             <LiveToast
                 message={message}
@@ -121,7 +122,7 @@ class Agendas extends React.Component {
                 className: "liveToast"
             }
         )
-    )
+    }
 
 	render() {
         return (

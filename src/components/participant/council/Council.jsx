@@ -120,10 +120,11 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
         full: true,
         middle: false,
         activeInput: false,
-        modalContent: "agenda",
+        adminMessage: false,
+        modalContent: isMobile? null : "agenda",
         avisoVideo: false
     });
-
+    const [agendaBadge, setAgendaBadge] = React.useState(false);
     const grantedWord = React.useRef(participant.grantedWord);
 
     const leaveRoom = React.useCallback(() => {
@@ -174,35 +175,34 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
         grantedWord.current = participant.requestWord;
     }, [participant.requestWord]);
 
-    const toggle = type => {
+    const setContent = type => {
         setState({
             ...state,
             modalContent: type
         });
     }
 
+    const setAdminMessage = value => {
+        setState({
+            ...state,
+            adminMessage: value
+        })
+    }
+
 
     const _renderAgendaSection = () => {
         return (
             <Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{ minHeight: '45%', }}>
-                {state.modalContent === "agenda" ?
-                    <Agendas
-                        participant={participant}
-                        council={council}
-                        anchorToggle={state.hasVideo}
-                        agendasAnchor={state.agendasAnchor}
-                        inPc={true}
-                    />
-                    :
-                    <Agendas
-                        participant={participant}
-                        council={council}
-                        anchorToggle={state.hasVideo}
-                        agendasAnchor={state.agendasAnchor}
-                        inPc={true}
-                        timeline={true}
-                    />
-                }
+                <Agendas
+                    participant={participant}
+                    council={council}
+                    setAgendaBadge={setAgendaBadge}
+                    agendaBadge={agendaBadge}
+                    anchorToggle={state.hasVideo}
+                    agendasAnchor={state.agendasAnchor}
+                    inPc={true}
+                    timeline={state.modalContent !== "agenda"}
+                />
             </Grid>
         )
     }
@@ -212,6 +212,8 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
             <Agendas
                 participant={participant}
                 council={council}
+                setAgendaBadge={setAgendaBadge}
+                agendaBadge={agendaBadge}
                 anchorToggle={state.hasVideo}
                 agendasAnchor={state.agendasAnchor}
                 sinCabecera={true}
@@ -229,6 +231,12 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
                     isMobile={isMobile}
                     council={council}
                     translate={translate}
+                    setAgendaBadge={setAgendaBadge}
+                    agendaBadge={agendaBadge}
+                    setContent={setContent}
+                    adminMessage={state.adminMessage}
+                    setAdminMessage={setAdminMessage}
+                    modalContent={state.modalContent}
                     agenda={_renderAgendaSectionMobile()}
                     full={() => setState({ ...state, full: true, middle: false })}
                     middle={() => setState({ ...state, full: false, middle: true })}
@@ -348,11 +356,15 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
                                 isMobile={isMobile}
                                 council={council}
                                 translate={translate}
+                                setAgendaBadge={setAgendaBadge}
+                                agendaBadge={agendaBadge}
                                 full={() => setState({ ...state, full: true, middle: false })}
                                 middle={() => setState({ ...state, full: false, middle: true })}
                                 click={state.activeInput}
                                 agenda={_renderAgendaSection()}
-                                toggle={toggle}
+                                setContent={setContent}
+                                adminMessage={state.adminMessage}
+                                setAdminMessage={setAdminMessage}
                                 modalContent={state.modalContent}
                                 participant={participant}
                                 comentario={
@@ -360,6 +372,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
                                         translate={translate}
                                         council={council}
                                         participant={participant}
+                                        setAdminMessage={setAdminMessage}
                                         menuRender={true}
                                         activeInput={() => setState({ ...state, activeInput: true })}
                                         onblur={() => setState({ ...state, activeInput: false })}

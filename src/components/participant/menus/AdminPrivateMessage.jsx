@@ -51,6 +51,9 @@ class AdminPrivateMessage extends React.Component {
                         loading: false,
                         text: ''
                     })
+                    if(this.props.setAdminMessage){
+                        this.props.setAdminMessage(false);
+                    }
                     toast(
                         <LiveToast
                             message={'Se ha enviado su comentario'} /*TRADUCCION*/
