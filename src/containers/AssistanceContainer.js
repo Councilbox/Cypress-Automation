@@ -63,6 +63,8 @@ const participantQuery = gql`
 			email
 			personOrEntity
 			language
+			numParticipations
+			socialCapital
 			delegateId
 			assistanceIntention
 			assistanceComment

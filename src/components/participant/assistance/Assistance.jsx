@@ -189,6 +189,8 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	let canDelegate = canDelegateVotes(council.statute, participant);
 
+	console.log(participant.type, participant.numParticipants);
+
 	return (
 		<NotLoggedLayout
 			translate={translate}
@@ -314,13 +316,16 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 															}
 														</React.Fragment>
 													}
-													<AssistanceOption
-														title={translate.want_to_delegate_in}
-														select={showDelegation}
-														disabled={!canDelegate}
-														value={PARTICIPANT_STATES.DELEGATED}
-														selected={state.assistanceIntention}
-													/>
+													{((participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) || (participant.numParticipations > 0 || participant.socialCapital > 0)) &&
+														<AssistanceOption
+															title={translate.want_to_delegate_in}
+															select={showDelegation}
+															disabled={!canDelegate}
+															value={PARTICIPANT_STATES.DELEGATED}
+															selected={state.assistanceIntention}
+														/>
+													}
+
 													{state.delegateInfoUser && state.assistanceIntention === 4 ?
 														<DelegationItem participant={state.delegateInfoUser} /> : ""
 													}
