@@ -304,7 +304,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
             />
 
             {grantedWord && props.avisoVideoState &&
-                <Grid item xs={isMobile?8:12} md={8} style={{
+                <Grid item xs={isMobile?12:12} md={8} style={{
                     transition: "all .3s ease-in-out",
                     display: "flex",
                     position: "fixed",

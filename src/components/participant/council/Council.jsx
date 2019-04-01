@@ -192,7 +192,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props}) 
 
     const _renderAgendaSection = () => {
         return (
-            <Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{ minHeight: '45%', }}>
+            <Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{  }}> {/*minHeight: '45%', */}
                 <Agendas
                     participant={participant}
                     council={council}
