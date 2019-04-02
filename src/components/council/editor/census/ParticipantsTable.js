@@ -149,8 +149,6 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	}
 	headers.push({ text: '' });
 
-	console.log(council.selectedCensusId);
-
 	return (
 		<div style={{ width: "100%" }}>
 			<ChangeCensusMenu
