@@ -27,6 +27,10 @@ const Councils = ({ data, translate, ...props }) => {
 		selectedIds: new Map()
 	});
 
+	React.useEffect(() => {
+		data.refetch();
+	}, [props.link])
+
 	const select = id => {
         if(state.selectedIds.has(id)){
             state.selectedIds.delete(id);

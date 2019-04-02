@@ -173,7 +173,9 @@ export const canEditPresentVotings = agenda => {
 
 export const approvedByQualityVote = (agenda, qualityVoteId) => {
 	if (agenda.votings && qualityVoteId) {
-		const qualityVote = agenda.votings.find(item => item.participantId === qualityVoteId);
+		const qualityVote = agenda.votings.find(item => {
+			return item.participantId === qualityVoteId
+		});
 		if (qualityVote) {
 			if (qualityVote.vote === VOTE_VALUES.POSITIVE) {
 				return true;

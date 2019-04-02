@@ -546,8 +546,11 @@ export const agendaManager = gql`
 				state
 			}
 			votings {
+				id
 				vote
+				participantId
 				author {
+					id
 					socialCapital
 				}
 			}
@@ -1533,6 +1536,7 @@ export const councilLiveQuery = gql`
 			president
 			proposedActSent
 			prototype
+			qualityVoteId
 			quorumPrototype
 			room {
 				id
