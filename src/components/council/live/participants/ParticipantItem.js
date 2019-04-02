@@ -106,7 +106,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={mode === 'ATTENDANCE' ? 1 : 2}
 		>
 			<div >
-				{ mode === 'STATES'?
+				{ mode === 'STATES' && participant.personOrEntity === 0?
 					<DropDownMenu
 						claseHover={"classHover "}
 						color="transparent"
@@ -225,7 +225,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 		>
 			<div style={{ width: '65%', display: 'flex', height: "84px" }}>
 				<div>
-					{ mode === 'STATES' ?
+					{ mode === 'STATES' && participant.personOrEntity === 0?
 						<DropDownMenu
 							claseHover={"classHover "}
 							color="transparent"
