@@ -106,9 +106,9 @@ const StepCensus = ({ translate, data, ...props }) => {
 		});
 	};
 
-	const nextPage = () => {
+	const nextPage = async () => {
 		if(state.participantsLength > 0){
-			saveDraft(3);
+			await saveDraft(3);
 			props.nextStep();
 		} else {
 			setState({
@@ -117,8 +117,8 @@ const StepCensus = ({ translate, data, ...props }) => {
 		}
 	};
 
-	const previousPage = () => {
-		saveDraft(2);
+	const previousPage = async () => {
+		await saveDraft(2);
 		props.previousStep();
 	};
 
