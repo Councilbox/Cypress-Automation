@@ -717,7 +717,7 @@ export const councilIsFinished = council => {
 };
 
 export const councilIsNotCelebrated = council => {
-	return council.state === COUNCIL_STATES.NOT_CELEBRATED;
+	return council.state === COUNCIL_STATES.NOT_CELEBRATED || council.active === 0;
 };
 
 export const councilHasAssistanceConfirmation = council => {

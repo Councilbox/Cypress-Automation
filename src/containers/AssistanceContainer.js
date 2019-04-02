@@ -7,6 +7,7 @@ import InvalidUrl from "../components/participant/InvalidUrl";
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
+import CouncilState from '../components/participant/login/CouncilState';
 
 class AssistanceContainer extends React.PureComponent {
 
@@ -34,7 +35,7 @@ class AssistanceContainer extends React.PureComponent {
 				participant={data.participant}
 				council={data.councilVideo}
 				company={data.councilVideo.company}
-				refetch = {data.refetch}
+				refetch={data.refetch}
 			/>
 		);
 	}

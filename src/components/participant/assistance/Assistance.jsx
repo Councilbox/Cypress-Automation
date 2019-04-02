@@ -18,6 +18,8 @@ import { primary, secondary } from "../../../styles/colors";
 import { toast } from 'react-toastify';
 import { participantsToDelegate } from "../../../queries";
 import AddRepresentativeModal from "../../council/live/AddRepresentativeModal";
+import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
+
 
 const styles = {
 	viewContainer: {
@@ -189,7 +191,37 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 	let canDelegate = canDelegateVotes(council.statute, participant);
 
-	console.log(participant.type, participant.numParticipants);
+	if(council.active === 0){
+		return (
+			<NotLoggedLayout
+				translate={translate}
+				helpIcon={true}
+				languageSelector={true}
+			>
+				<div style={styles.mainContainer}>
+					<Card style={styles.cardContainer}>
+						<div
+							style={{
+								height: '100%',
+								width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw',
+								maxWidth: '98vw',
+								display: 'flex',
+								alignItems: 'center',
+								flexDirection: 'column'
+							}}
+						>
+							<div style={{width: '100%', marginTop: '5em', textAlign: 'center', marginBottom: '2em'}}>
+								<img src={emptyMeetingTable} style={{width: '55%', height: 'auto', margin: 'auto'}} alt="empty-table" />
+							</div>
+							<div style={{fontWeight: '700', fontSize: '1.2em'}} >
+								Lo sentimos, esta reunión ha sido eliminada.{/*TRADUCCION*/}
+							</div>
+						</div>
+					</Card>
+				</div>
+			</NotLoggedLayout>
+		)
+	}
 
 	return (
 		<NotLoggedLayout
