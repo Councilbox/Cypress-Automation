@@ -8,68 +8,70 @@ import { councils } from '../../../queries';
 import { COUNCIL_STATES } from '../../../constants';
 import { ConfigContext } from '../../../containers/AppControl';
 import CouncilDetails from '../display/CouncilDetails'
+import { useOldState } from '../../../hooks';
 
-class LoadFromPreviousCouncil extends React.Component {
-
-    state = {
+const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
+    const [state, setState] = useOldState({
         modal: false,
         council: null
-    }
+    });
 
-    closeModal = () => {
-        this.setState({
+    const config = React.useContext(ConfigContext);
+
+    const closeModal = () => {
+        setState({
             modal: false
         });
     }
 
-    showCouncilDetails = council => {
-        this.setState({
+    const showCouncilDetails = council => {
+        setState({
             council
         });
     }
 
-    closeCouncilDetails = () => {
-        this.setState({
+    const closeCouncilDetails = () => {
+        setState({
             council: null
         });
     }
 
-    loadFromCouncil = council => async () => {
-        const response = await this.props.loadFromPreviousCouncil({
+    const loadFromCouncil = originCouncil => async () => {
+        await props.loadFromPreviousCouncil({
             variables: {
-                councilId: this.props.council.id,
-                originId: council.id
+                councilId: council.id,
+                originId: originCouncil.id
             }
         });
 
-        this.props.refetch();
-        this.closeModal();
+        props.refetch();
+        closeModal();
 
     }
 
-    showModal = () => {
-        this.setState({
+    const showModal = () => {
+        setState({
             modal: true
         });
     }
 
-    _renderBody = () => {
+    const _renderBody = () => {
 
-        if(!this.props.data.loading && this.props.data.councils.length === 0){
-            return <span>{this.props.translate.no_celebrated_councils}</span>
+        if(!data.loading && data.councils.length === 0){
+            return <span>{translate.no_celebrated_councils}</span>
         }
 
-        if(!this.props.data.councils){
+        if(!data.councils){
             return <LoadingSection />;
         }
 
-        if(this.state.council){
-            return <CouncilDetails council={this.state.council} translate={this.props.translate} />;
+        if(state.council){
+            return <CouncilDetails council={state.council} translate={translate} />;
         }
 
         return (
             <div>
-                {this.props.data.councils.map(council => (
+                {data.councils.map(council => (
                     <Paper
                         key={`loadFromCouncil_${council.id}`}
                         style={{
@@ -80,18 +82,18 @@ class LoadFromPreviousCouncil extends React.Component {
                             display: 'flex',
                             justifyContent: 'space-between'
                         }}
-                        onClick={this.loadFromCouncil(council)}
+                        onClick={loadFromCouncil(council)}
                     >
                         <div className="truncate" style={{width: '70%'}}>
                             {council.name}
                         </div>
                         <BasicButton
-                            text={this.props.translate.read_details}
+                            text={translate.read_details}
                             type="flat"
                             textStyle={{color: getSecondary(), fontWeight: '700'}}
                             onClick={event => {
                                 event.stopPropagation();
-                                this.showCouncilDetails(council)
+                                showCouncilDetails(council)
                             }}
                         />
                     </Paper>
@@ -100,49 +102,41 @@ class LoadFromPreviousCouncil extends React.Component {
         )
     }
 
-    render() {
-        const { translate } = this.props;
+    return (
+        config.cloneCouncil ?
+            <React.Fragment>
+                <BasicButton
+                    text={translate.clone_council_btn}
+                    color={getSecondary()}
+                    textStyle={{
+                        color: "white",
+                        fontWeight: "600",
+                        fontSize: "0.9em",
+                        textTransform: "none"
+                    }}
+                    buttonStyle={{
+                        marginBottom: '0.6em'
+                    }}
+                    textPosition="after"
+                    onClick={showModal}
+                    icon={
+                        <i className="fa fa-clone" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>
+                    }
+                />
+                <AlertConfirm
+                    requestClose={!!state.council? closeCouncilDetails : closeModal}
+                    open={state.modal}
+                    hideAccept={!!state.council || data.loading || (!data.loading && data.councils.length === 0)}
+                    buttonAccept={translate.accept}
+                    buttonCancel={!!state.council? translate.back : translate.cancel}
+                    bodyText={_renderBody()}
+                    title={'Cargar una reunión pasada'/*TRADUCCION*/}
+                />
+            </React.Fragment>
+        :
+            <span />
+    )
 
-        return (
-            <ConfigContext.Consumer>
-                {value => (
-                    value.cloneCouncil ?
-                        <React.Fragment>
-                            <BasicButton
-                                text={translate.clone_council_btn}
-                                color={getSecondary()}
-                                textStyle={{
-                                    color: "white",
-                                    fontWeight: "600",
-                                    fontSize: "0.9em",
-                                    textTransform: "none"
-                                }}
-                                buttonStyle={{
-                                    marginBottom: '0.6em'
-                                }}
-                                textPosition="after"
-                                onClick={this.showModal}
-                                icon={
-                                    <i className="fa fa-clone" aria-hidden="true" style={{marginLeft: '0.3em'}}></i>
-                                }
-                            />
-                            <AlertConfirm
-                                requestClose={!!this.state.council? this.closeCouncilDetails : this.closeModal}
-                                open={this.state.modal}
-                                hideAccept={!!this.state.council || this.props.data.loading || (!this.props.data.loading && this.props.data.councils.length === 0)}
-                                acceptAction={this.changeCensus}
-                                buttonAccept={translate.accept}
-                                buttonCancel={!!this.state.council? translate.back : translate.cancel}
-                                bodyText={this._renderBody()}
-                                title={'Cargar una reunión pasada'}
-                            />
-                        </React.Fragment>
-                    :
-                        <span />
-                )}
-            </ConfigContext.Consumer>
-        )
-    }
 }
 
 const loadFromPreviousCouncil = gql`

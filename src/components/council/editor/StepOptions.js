@@ -94,9 +94,9 @@ class StepOptions extends React.Component {
 		});
 	}
 
-	nextPage = () => {
+	nextPage = async () => {
 		if (!this.checkRequiredFields()) {
-			this.updateCouncil(6);
+			await this.updateCouncil(6);
 			this.props.nextStep();
 		}
 	};
@@ -119,11 +119,9 @@ class StepOptions extends React.Component {
 		return false;
 	}
 
-	previousPage = () => {
-		if (true) {
-			this.updateCouncil(5);
-			this.props.previousStep();
-		}
+	previousPage = async () => {
+		await this.updateCouncil(5);
+		this.props.previousStep();
 	};
 
 	updateCouncilData(data) {

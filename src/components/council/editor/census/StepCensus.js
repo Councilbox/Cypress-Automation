@@ -21,10 +21,11 @@ import { councilStepTwo, updateCouncil } from "../../../../queries";
 import { compose, graphql } from "react-apollo";
 import gql from "graphql-tag";
 import EditorStepLayout from '../EditorStepLayout';
+import { useOldState } from "../../../../hooks";
 
 
-class StepCensus extends React.Component {
-	state = {
+const StepCensus = ({ translate, data, ...props }) => {
+	const [state, setState] = useOldState({
 		placeModal: false,
 		censusChangeAlert: false,
 		addParticipant: false,
@@ -34,55 +35,47 @@ class StepCensus extends React.Component {
 		data: {
 			censuses: []
 		}
-	};
+	});
+	const primary = getPrimary();
+	const secondary = getSecondary();
 
-	componentDidMount() {
-		this.props.data.refetch();
-	}
-
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(!nextProps.data.loading){
-			if(nextProps.data.council.id !== prevState.data.id){
-				const { __typename, statute, ...council } = nextProps.data.council;
-				return {
-					data: {
-						...council
-					},
+	React.useEffect(() => {
+		if(!data.loading){
+			setState({
+				data: {
+					...data.council
 				}
-			}
-			if(nextProps.participants){
-				if(nextProps.participants.councilParticipants){
-					if(nextProps.participants.councilParticipants.total > 0){
-						return {
-							participantsLength: nextProps.participants.councilParticipants.total
-						}
+			});
+		}
+		if(props.participants){
+			const { councilParticipants } = props.participants;
+			if(councilParticipants){
+				if(councilParticipants.total > 0){
+					if(state.participantsLength !== councilParticipants.total){
+						setState({
+							participantsLength: councilParticipants.total
+						});
 					}
 				}
 			}
 		}
 
-		return null;
-	}
+	}, [data.loading, props.participants.councilParticipants]);
 
-	closeAddParticipantModal = () => {
-		this.setState({
-			addParticipant: false
-		});
-	};
 
-	resetButtonStates = () => {
-		this.setState({
+	const resetButtonStates = () => {
+		setState({
 			loading: false,
 			success: false
 		})
 	}
 
-	saveDraft = async step => {
-		this.setState({
+	 const saveDraft = async step => {
+		setState({
 			loading: true
 		})
-		const { __typename, participants, ...council } = this.props.data.council;
-		await this.props.updateCouncil({
+		const { __typename, participants, ...council } = data.council;
+		await props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -91,64 +84,64 @@ class StepCensus extends React.Component {
 			}
 		});
 
-		this.setState({
+		setState({
 			loading: false,
 			success: true
 		});
 	};
 
-	handleCensusChange = event => {
-		if (event.target.value !== this.props.data.council.selectedCensusId) {
-			this.setState({
+	const handleCensusChange = event => {
+		if (event.target.value !== data.council.selectedCensusId) {
+			setState({
 				censusChangeAlert: true,
 				censusChangeId: event.target.value
 			});
 		}
 	};
 
-	reloadCensus = () => {
-		this.setState({
+	const reloadCensus = () => {
+		setState({
 			censusChangeAlert: true,
-			censusChangeId: this.props.data.council.selectedCensusId
+			censusChangeId: data.council.selectedCensusId
 		});
 	};
 
-	nextPage = () => {
-		if(this.state.participantsLength > 0){
-			this.saveDraft(3);
-			this.props.nextStep();
+	const nextPage = async () => {
+		if(state.participantsLength > 0){
+			await saveDraft(3);
+			props.nextStep();
 		} else {
-			this.setState({
+			setState({
 				noParticipantsError: true
 			});
 		}
 	};
 
-	previousPage = () => {
-		this.saveDraft(2);
-		this.props.previousStep();
+	const previousPage = async () => {
+		await saveDraft(2);
+		props.previousStep();
 	};
 
-	sendCensusChange = async () => {
-		this.setState({
+	const sendCensusChange = async () => {
+		setState({
 			loading: true
-		})
-		const response = await this.props.changeCensus({
+		});
+		const response = await props.changeCensus({
 			variables: {
-				censusId: this.state.censusChangeId,
-				councilId: this.props.data.council.id
+				censusId: state.censusChangeId,
+				councilId: data.council.id
 			}
 		});
 		if (response) {
-			this.setState({
-				censusChangeAlert: false,
-				loading: false
-			});
-			const newData = await this.props.data.refetch();
+			const newData = await data.refetch();
+			const newParticipants = await props.participants.refetch();
 			if (newData) {
-				this.setState({
+				setState({
+					censusChangeAlert: false,
+					loading: false,
+					participantsLength: newParticipants.data.councilParticipants.total,
 					data: {
-						...this.state.data,
+						...state.data,
 						...newData.data.council
 					}
 				});
@@ -156,10 +149,7 @@ class StepCensus extends React.Component {
 		}
 	};
 
-	_renderCensusChangeButtons() {
-		const { translate } = this.props;
-		const primary = getPrimary();
-
+	function _renderCensusChangeButtons() {
 		return (
 			<React.Fragment>
 				<BasicButton
@@ -172,7 +162,7 @@ class StepCensus extends React.Component {
 						textTransform: "none"
 					}}
 					textPosition="after"
-					onClick={() => this.setState({ censusChangeAlert: false })}
+					onClick={() => setState({ censusChangeAlert: false })}
 					buttonStyle={{ marginRight: "1em" }}
 				/>
 				<BasicButton
@@ -186,174 +176,170 @@ class StepCensus extends React.Component {
 					}}
 					icon={<ButtonIcon type="save" color="white" />}
 					textPosition="after"
-					onClick={this.sendCensusChange}
+					onClick={sendCensusChange}
 				/>
 			</React.Fragment>
 		);
 	}
 
-	checkParticipants = () => {
-		return !this.props.data.loading && this.state.participantsLength <= 0;
+	const checkParticipants = () => {
+		return !data.loading && state.participantsLength <= 0;
 	}
 
-	render() {
-		const { translate } = this.props;
-		const { council, error } = this.props.data;
-		const primary = getPrimary();
-		const secondary = getSecondary();
+	const { council, error } = data;
 
-		if (error) {
-			return (
-				<div
-					style={{
-						width: "100%",
-						height: "100%",
-						padding: "2em"
-					}}
-				>
-					<ErrorWrapper error={error} translate={translate} />
-				</div>
-			);
-		}
-
-		if(this.state.loading){
-			return <LoadingSection />
-		}
-
+	if (error) {
 		return (
-			<EditorStepLayout
-				body={
-					<React.Fragment>
-						{!council?
-							<div
-								style={{
-									height: "300px",
-									width: "100%",
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center"
-								}}
-							>
-								<LoadingSection />
-							</div>
-						:
-							<React.Fragment>
-								<ParticipantsTable
-									translate={translate}
-									data={this.props.participants}
-									refetch={async type => {
-										this.props.data.refetch();
-										const participants = await this.props.participants.refetch();
-										if(type === 'delete'){
-											this.setState({
-												participantsLength: participants.data.councilParticipants.total
-											})
-										}
-									}}
-									key={`${this.props.data.council.selectedCensusId}`}
-									council={council}
-									updateParticipantLength={this.updateParticipantLength}
-									handleCensusChange={this.handleCensusChange}
-									reloadCensus={this.reloadCensus}
-									showAddModal={() => this.setState({ addParticipant: true })}
-									censuses={this.props.data.censuses}
-									editable={true}
-									totalVotes={this.props.data.councilTotalVotes}
-									totalSocialCapital={this.props.data.councilSocialCapital}
-									participations={CBX.hasParticipations(council)}
-								/>
-								{this.checkParticipants() &&
-									<div
-										style={{
-											color: 'red',
-											fontWeight: '700',
-											marginTop: '1em',
-											width: '100%',
-											display: 'flex',
-											justifyContent: 'center'
-										}}
-									>
-										{translate.participants_required}
-									</div>
-
-								}
-							</React.Fragment>
-						}
-						<Dialog
-							disableBackdropClick={false}
-							open={this.state.censusChangeAlert}
-							onClose={() =>
-								this.setState({ censusChangeAlert: false })
-							}
-						>
-							<DialogTitle>{translate.census_change}</DialogTitle>
-							<DialogContent>
-								{translate.census_change_warning.replace(
-									"<br/>",
-									""
-								)}
-							</DialogContent>
-							<DialogActions>
-								{this._renderCensusChangeButtons()}
-							</DialogActions>
-						</Dialog>
-					</React.Fragment>
-				}
-				buttons={
-					<React.Fragment>
-						<BasicButton
-							text={translate.previous}
-							color={secondary}
-							disabled={this.props.data.loading}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={this.previousPage}
-						/>
-						<BasicButton
-							text={translate.save}
-							color={secondary}
-							disabled={this.props.data.loading}
-							reset={this.resetButtonStates}
-							loading={this.state.loading}
-							success={this.state.success}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								marginLeft: "0.5em",
-								marginRight: "0.5em",
-								textTransform: "none"
-							}}
-							icon={
-								<ButtonIcon type="save" color="white" />
-							}
-							textPosition="after"
-							onClick={() => this.saveDraft(2)}
-						/>
-						<BasicButton
-							text={translate.table_button_next}
-							color={primary}
-							disabled={this.props.data.loading}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
-							}}
-							textPosition="after"
-							onClick={this.nextPage}
-						/>
-					</React.Fragment>
-				}
-			/>
+			<div
+				style={{
+					width: "100%",
+					height: "100%",
+					padding: "2em"
+				}}
+			>
+				<ErrorWrapper error={error} translate={translate} />
+			</div>
 		);
 	}
+
+	if(state.loading){
+		return <LoadingSection />
+	}
+
+	return (
+		<EditorStepLayout
+			body={
+				<React.Fragment>
+					{!council?
+						<div
+							style={{
+								height: "300px",
+								width: "100%",
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center"
+							}}
+						>
+							<LoadingSection />
+						</div>
+					:
+						<React.Fragment>
+							<ParticipantsTable
+								translate={translate}
+								data={props.participants}
+								refetch={async type => {
+									data.refetch();
+									const participants = await props.participants.refetch();
+									if(type === 'delete'){
+										setState({
+											participantsLength: participants.data.councilParticipants.total
+										})
+									}
+								}}
+								key={`${council.selectedCensusId}`}
+								council={council}
+								handleCensusChange={handleCensusChange}
+								reloadCensus={reloadCensus}
+								showAddModal={() => setState({ addParticipant: true })}
+								censuses={data.censuses}
+								editable={true}
+								totalVotes={data.councilTotalVotes}
+								totalSocialCapital={data.councilSocialCapital}
+								participations={CBX.hasParticipations(council)}
+							/>
+							{checkParticipants() &&
+								<div
+									style={{
+										color: 'red',
+										fontWeight: '700',
+										marginTop: '1em',
+										width: '100%',
+										display: 'flex',
+										justifyContent: 'center'
+									}}
+								>
+									{translate.participants_required}
+								</div>
+
+							}
+						</React.Fragment>
+					}
+					<Dialog
+						disableBackdropClick={false}
+						open={state.censusChangeAlert}
+						onClose={() =>
+							setState({ censusChangeAlert: false })
+						}
+					>
+						<DialogTitle>{translate.census_change}</DialogTitle>
+						<DialogContent>
+							{translate.census_change_warning.replace(
+								"<br/>",
+								""
+							)}
+						</DialogContent>
+						<DialogActions>
+							{_renderCensusChangeButtons()}
+						</DialogActions>
+					</Dialog>
+				</React.Fragment>
+			}
+			buttons={
+				<React.Fragment>
+					<BasicButton
+						text={translate.previous}
+						color={secondary}
+						disabled={data.loading}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={previousPage}
+					/>
+					<BasicButton
+						text={translate.save}
+						color={secondary}
+						disabled={data.loading}
+						reset={resetButtonStates}
+						loading={state.loading}
+						success={state.success}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							marginLeft: "0.5em",
+							marginRight: "0.5em",
+							textTransform: "none"
+						}}
+						icon={
+							<ButtonIcon type="save" color="white" />
+						}
+						textPosition="after"
+						onClick={() => saveDraft(2)}
+					/>
+					<BasicButton
+						text={translate.table_button_next}
+						color={primary}
+						disabled={data.loading}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							fontSize: "0.9em",
+							textTransform: "none"
+						}}
+						textPosition="after"
+						onClick={nextPage}
+					/>
+				</React.Fragment>
+			}
+		/>
+	);
+
 }
+
 
 const changeCensus = gql`
 	mutation changeCensus($councilId: Int!, $censusId: Int!) {

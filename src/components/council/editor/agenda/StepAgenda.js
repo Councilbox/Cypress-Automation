@@ -118,11 +118,9 @@ class StepAgenda extends React.Component {
 		}
 	};
 
-	previousPage = () => {
-		if (true) {
-			this.updateCouncil(3);
-			this.props.previousStep();
-		}
+	previousPage = async () => {
+		await this.updateCouncil(3);
+		this.props.previousStep();
 	};
 
 	saveAsDraft = id => {

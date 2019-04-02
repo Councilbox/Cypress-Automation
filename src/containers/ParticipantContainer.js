@@ -78,7 +78,7 @@ class ParticipantContainer extends React.PureComponent {
                                             council={{
 												...this.props.council.councilVideo,
 												state: this.props.state.councilState.state,
-												councilStarted: this.props.state.councilState.councilStarted
+												councilStarted: this.props.state.councilState.councilStarted,
 											}}
                                             company={this.props.council.councilVideo.company}
                                         />
@@ -88,8 +88,7 @@ class ParticipantContainer extends React.PureComponent {
                                             council={{
 												...this.props.council.councilVideo,
 												state: this.props.state.councilState.state,
-												councilStarted: this.props.state.councilState.councilStarted
-
+												councilStarted: this.props.state.councilState.councilStarted,
 											}}
                                             company={this.props.council.councilVideo.company}
 											refetchParticipant={data.refetch}
@@ -102,8 +101,7 @@ class ParticipantContainer extends React.PureComponent {
                                 council={{
 									...this.props.council.councilVideo,
 									state: this.props.state.councilState.state,
-									councilStarted: this.props.state.councilState.councilStarted
-
+									councilStarted: this.props.state.councilState.councilStarted,
 								}}
                                 company={this.props.council.councilVideo.company}
                             />

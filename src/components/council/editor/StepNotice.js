@@ -97,11 +97,10 @@ class StepNotice extends React.Component {
 		});
 	}
 
-	reloadData = () => {
+	reloadData = async () => {
+		await this.props.data.refetch();
 		this.setState({
 			data: {}
-		}, () => {
-			this.props.data.refetch();
 		});
 	}
 
