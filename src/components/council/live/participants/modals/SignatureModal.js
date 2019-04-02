@@ -12,11 +12,10 @@ import { getPrimary } from "../../../../../styles/colors";
 import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
 import gql from "graphql-tag";
+import { useOldState } from "../../../../../hooks";
 
-
-class SignatureModal extends React.Component {
-
-	state = {
+const SignatureModal = ({ data, translate, council, participant, ...props }) => {
+	const [state, setState] = useOldState({
 		success: "",
 		loading: false,
 		errors: {},
@@ -24,185 +23,181 @@ class SignatureModal extends React.Component {
 		participant: {},
 		clean: true,
 		participantState: PARTICIPANT_STATES.PHYSICALLY_PRESENT
+	});
+
+	const signature = React.useRef(null);
+	const primary = getPrimary();
+
+	const close = () => {
+		props.requestClose();
 	};
 
-	signature = null;
-
-	close = () => {
-		this.props.requestClose();
-	};
-
-
-	componentDidUpdate(prevProps) {
-		if(!this.props.data.loading && !this.signature){
-			this.setSignature();
+	React.useEffect(() => {
+		if(!data.loading && !signature.current){
+			setSignature();
 		}
-	}
+	}, [data.loading]);
 
-	save = async () => {
-		let signatureData = this.signature.toDataURL();
+
+	const save = async () => {
+		let signatureData = signature.current.toDataURL();
 		let response;
-		if(this.state.clean){
-			response = await this.props.removeLiveParticipantSignature({
+		if(state.clean){
+			response = await props.removeLiveParticipantSignature({
 				variables: {
-					participantId: this.props.participant.id
+					participantId: participant.id
 				}
 			});
 		} else {
-			response = await this.props.setLiveParticipantSignature({
+			response = await props.setLiveParticipantSignature({
 				variables: {
 					signature: {
-						...(this.props.data.liveParticipantSignature? { id: this.props.data.liveParticipantSignature.id } : {}),
+						...(data.liveParticipantSignature? { id: data.liveParticipantSignature.id } : {}),
 						data: signatureData,
-						participantId: this.props.participant.id
+						participantId: participant.id
 					},
-					state: this.state.participantState
+					state: state.participantState
 				}
 			});
 		}
 
 		if (!response.errors) {
-			await this.props.data.refetch();
-			await this.props.refetch();
-			this.close();
+			await data.refetch();
+			await props.refetch();
+			close();
 		}
 	};
 
-	openModal = () => {
-		this.setState({ modal: true });
-	};
-
-	clear = () => {
-		this.setState({
+	const clear = () => {
+		setState({
 			clean: true
 		});
-		this.signature.clear();
+		signature.current.clear();
 	};
 
-	setSignature = () => {
-		let data = this.props.data;
+	const setSignature = () => {
 		if (data.liveParticipantSignature && data.liveParticipantSignature.data) {
-			this.signature.fromDataURL(data.liveParticipantSignature.data);
+			signature.current.fromDataURL(data.liveParticipantSignature.data);
+			setState({ clean: false });
 		}
 	};
 
-	render() {
-		const { translate, council, participant } = this.props;
-		const { participantState } = this.state;
-		const primary = getPrimary();
-		const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
-			council.statute
-		);
+	const { participantState } = state;
 
-		const maxWidth = 600;
-		const minWidth = window.innerWidth * 0.7;
-		let width = minWidth;
+	const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
+		council.statute
+	);
 
-		if(minWidth > maxWidth){
-			width = maxWidth;
-		}
+	const maxWidth = 600;
+	const minWidth = window.innerWidth * 0.7;
+	let width = minWidth;
 
-		const height = width * 0.41;
+	if(minWidth > maxWidth){
+		width = maxWidth;
+	}
 
-		return (
-			<Fragment>
-				<CustomDialog
-					title={translate.to_sign_and_confirm}
-					requestClose={this.close}
-					open={this.props.show}
-					onEntered={this.setSignature}
-					disableBackdropClick
-					actions={
-						<Fragment>
-							<BasicButton
-								text={translate.clean}
-								type="flat"
-								color="transparent"
-								textStyle={{
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								onClick={this.clear}
-							/>
-							<BasicButton
-								text={translate.cancel}
-								type="flat"
-								color="transparent"
-								buttonStyle={{marginLeft: '0.6em'}}
-								textStyle={{
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								onClick={this.close}
-							/>
-							<BasicButton
-								text={translate.save_changes}
-								textStyle={{
-									color: "white",
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								buttonStyle={{ marginLeft: "1em" }}
-								color={primary}
-								onClick={() => {
-									this.save();
-								}}
-							/>
-						</Fragment>
-					}
-				>
-					<div style={{ width: `calc(${width}px +  2em)`}}>
-						<div
-							style={{
-								height: "400px",
-								width: '100%',
-								display: 'flex',
-								alignItems: 'center',
-								flexDirection: 'column',
-								position: "relative"
+	const height = width * 0.41;
+
+	return (
+		<Fragment>
+			<CustomDialog
+				title={translate.to_sign_and_confirm}
+				requestClose={close}
+				open={props.show}
+				onEntered={setSignature}
+				disableBackdropClick
+				actions={
+					<Fragment>
+						<BasicButton
+							text={translate.clean}
+							type="flat"
+							color="transparent"
+							textStyle={{
+								textTransform: "none",
+								fontWeight: "700"
 							}}
-						>
-							<ParticipantDisplay
-								participant={participant}
-								translate={translate}
-								delegate={true}
-								council={council}
-							/>
-							{_canBePresentWithRemoteVote ? (
-								<div>
-									<Checkbox
-										label={translate.has_remote_vote}
-										value={
-											participantState ===
-											PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-										}
-										onChange={(event, isInputChecked) =>
-											this.setState({
-												participantState: isInputChecked
-													? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-													: PARTICIPANT_STATES.PHYSICALLY_PRESENT
-											})
-										}
-									/>
-								</div>
-							) : (
-									<br />
-								)}
-							<div style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }} onClick={() => this.setState({clean: false})}>
-								<ReactSignature
-									height={height}
-									width={width}
-									dotSize={1}
-									style={{ border: "solid 1px" }}
-									ref={ref => (this.signature = ref)}
+							onClick={clear}
+						/>
+						<BasicButton
+							text={translate.cancel}
+							type="flat"
+							color="transparent"
+							buttonStyle={{marginLeft: '0.6em'}}
+							textStyle={{
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							onClick={close}
+						/>
+						<BasicButton
+							text={translate.save_changes}
+							textStyle={{
+								color: "white",
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginLeft: "1em" }}
+							color={primary}
+							onClick={save}
+						/>
+					</Fragment>
+				}
+			>
+				<div style={{ width: `calc(${width}px +  2em)`}}>
+					<div
+						style={{
+							height: "400px",
+							width: '100%',
+							display: 'flex',
+							alignItems: 'center',
+							flexDirection: 'column',
+							position: "relative"
+						}}
+					>
+						<ParticipantDisplay
+							participant={participant}
+							translate={translate}
+							delegate={true}
+							council={council}
+						/>
+						{_canBePresentWithRemoteVote ? (
+							<div>
+								<Checkbox
+									label={translate.has_remote_vote}
+									value={
+										participantState ===
+										PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+									}
+									onChange={(event, isInputChecked) =>
+										setState({
+											participantState: isInputChecked
+												? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+												: PARTICIPANT_STATES.PHYSICALLY_PRESENT
+										})
+									}
 								/>
 							</div>
+						) : (
+								<br />
+							)}
+						<div
+							style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}
+							onClick={() => setState({clean: false})}
+						>
+							<ReactSignature
+								height={height}
+								width={width}
+								dotSize={1}
+								style={{ border: "solid 1px" }}
+								ref={signature}
+							/>
 						</div>
 					</div>
-				</CustomDialog>
-			</Fragment>
-		);
-	}
+				</div>
+			</CustomDialog>
+		</Fragment>
+	);
+
 }
 
 const removeLiveParticipantSignature = gql`
