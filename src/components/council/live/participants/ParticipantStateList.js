@@ -18,6 +18,7 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, ...
 	});
 	const secondary = getSecondary();
 	const landscape = isLandscape() || window.innerWidth > 700;
+	const primary = getPrimary();
 
 
 	const changeParticipantState = async (state, index) => {
