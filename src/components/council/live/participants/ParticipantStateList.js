@@ -2,7 +2,7 @@ import React from "react";
 import { graphql } from "react-apollo";
 import * as CBX from "../../../../utils/CBX";
 import { isLandscape } from "../../../../utils/screen";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { getSecondary } from "../../../../styles/colors";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
 import { FilterButton, Grid, GridItem } from "../../../../displayComponents";
@@ -18,7 +18,6 @@ const ParticipantStateList = ({ participant, translate, council, inDropDown, ...
 	});
 	const secondary = getSecondary();
 	const landscape = isLandscape() || window.innerWidth > 700;
-	const primary = getPrimary();
 
 
 	const changeParticipantState = async (state, index) => {
