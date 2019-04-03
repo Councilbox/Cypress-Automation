@@ -14,8 +14,8 @@ import { moment } from "../../containers/App";
 const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
 	const config = React.useContext(ConfigContext);
-	
-	console.log(config);
+
+	console.log(company);
 
 	const closeCouncilsModal = () => {
 		setOpen(false);
@@ -24,6 +24,15 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	const showCouncilsModal = () => {
 		setOpen(true);
 	}
+
+	const companyHasBook = () => {
+		return config.partnerBook;
+	}
+
+	const hasBook = companyHasBook();
+
+	const size = !hasBook? 4 : 3;
+	const blankSize = !hasBook? 2 : 3;
 
 	return(
 		<Grid
@@ -38,7 +47,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				requestClose={closeCouncilsModal}
 				translate={translate}
 			/>
-			<GridItem xs={12} md={3} lg={3}>
+			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/statutes`}
 					icon="gavel"
@@ -46,19 +55,20 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.council_types}
 				/>
 			</GridItem>
+			{hasBook &&
+				<GridItem xs={12} md={3} lg={3}>
+					<Block
+						link={`/company/${company.id}/book`}
+						icon="contacts"
+						id={'edit-company-block'}
+						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+						disabledOnClick={showCouncilsModal}
+						text={translate.book}
+					/>
+				</GridItem>
+			}
 
-			<GridItem xs={12} md={3} lg={3}>
-				<Block
-					link={`/company/${company.id}/book`}
-					icon="contacts"
-					id={'edit-company-block'}
-					disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
-					disabledOnClick={showCouncilsModal}
-					text={translate.book}
-				/>
-			</GridItem>
-
-			<GridItem xs={12} md={3} lg={3}>
+			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/censuses`}
 					icon="person"
@@ -67,7 +77,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				/>
 			</GridItem>
 
-			<GridItem xs={12} md={3} lg={3}>
+			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/drafts`}
 					icon="class"
@@ -75,10 +85,10 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.drafts}
 				/>
 			</GridItem>
-			<GridItem xs={12} md={3} lg={3}>
+			<GridItem xs={12} md={blankSize} lg={blankSize}>
 			</GridItem>
 
-			<GridItem xs={12} md={3} lg={3}>
+			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/council/new`}
 					customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} alt="councilbox-logo" />}
@@ -88,7 +98,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.dashboard_new}
 				/>
 			</GridItem>
-			<GridItem xs={12} md={3} lg={3}>
+			<GridItem xs={12} md={size} lg={size}>
 				<Block
 					link={`/company/${company.id}/meeting/new`}
 					icon="video_call"
@@ -96,8 +106,8 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.start_conference}
 				/>
 			</GridItem>
-			{user.roles === 'devAdmin' &&
-				<GridItem xs={12} md={3} lg={3}>
+			{user.roles === 'devAdmin' && false &&
+				<GridItem xs={12} md={size} lg={size}>
 					<Block
 						link={`/admin`}
 						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{fontSize: '7em'}}></i>}
