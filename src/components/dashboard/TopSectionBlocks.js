@@ -5,116 +5,110 @@ import {
 	GridItem
 } from "../../displayComponents";
 import logo from '../../assets/img/logo-icono.png';
+import { ConfigContext } from '../../containers/AppControl';
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
 import { TRIAL_DAYS } from "../../config";
 import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
 
-class TopSectionBlocks extends React.Component {
+const TopSectionBlocks = ({ translate, company, user }) => {
+	const [open, setOpen] = React.useState(false);
+	const config = React.useContext(ConfigContext);
+	
+	console.log(config);
 
-	state = {
-		open: false
+	const closeCouncilsModal = () => {
+		setOpen(false);
 	}
 
-	closeCouncilsModal = () => {
-		this.setState({
-			open: false
-		})
+	const showCouncilsModal = () => {
+		setOpen(true);
 	}
 
-	showCouncilsModal = () => {
-		this.setState({
-			open: true
-		});
-	}
-
-	render(){
-		const { translate, company } = this.props;
-
-		return(
-			<Grid
-				style={{
-					width: "90%",
-					marginTop: "4vh"
-				}}
-				spacing={8}
-			>
-				<CantCreateCouncilsModal
-					open={this.state.open}
-					requestClose={this.closeCouncilsModal}
-					translate={translate}
+	return(
+		<Grid
+			style={{
+				width: "90%",
+				marginTop: "4vh"
+			}}
+			spacing={8}
+		>
+			<CantCreateCouncilsModal
+				open={open}
+				requestClose={closeCouncilsModal}
+				translate={translate}
+			/>
+			<GridItem xs={12} md={3} lg={3}>
+				<Block
+					link={`/company/${company.id}/statutes`}
+					icon="gavel"
+					id={'edit-statutes-block'}
+					text={translate.council_types}
 				/>
-				<GridItem xs={12} md={3} lg={3}>
-					<Block
-						link={`/company/${company.id}/statutes`}
-						icon="gavel"
-						id={'edit-statutes-block'}
-						text={translate.council_types}
-					/>
-				</GridItem>
+			</GridItem>
 
-				<GridItem xs={12} md={3} lg={3}>
-					<Block
-						link={`/company/${company.id}/book`}
-						icon="contacts"
-						id={'edit-company-block'}
-						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
-						disabledOnClick={this.showCouncilsModal}
-						text={translate.book}
-					/>
-				</GridItem>
+			<GridItem xs={12} md={3} lg={3}>
+				<Block
+					link={`/company/${company.id}/book`}
+					icon="contacts"
+					id={'edit-company-block'}
+					disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+					disabledOnClick={showCouncilsModal}
+					text={translate.book}
+				/>
+			</GridItem>
 
-				<GridItem xs={12} md={3} lg={3}>
-					<Block
-						link={`/company/${company.id}/censuses`}
-						icon="person"
-						id={'edit-censuses-block'}
-						text={translate.censuses}
-					/>
-				</GridItem>
+			<GridItem xs={12} md={3} lg={3}>
+				<Block
+					link={`/company/${company.id}/censuses`}
+					icon="person"
+					id={'edit-censuses-block'}
+					text={translate.censuses}
+				/>
+			</GridItem>
 
-				<GridItem xs={12} md={3} lg={3}>
-					<Block
-						link={`/company/${company.id}/drafts`}
-						icon="class"
-						id={'edit-drafts-block'}
-						text={translate.drafts}
-					/>
-				</GridItem>
-				<GridItem xs={12} md={3} lg={3}>
-				</GridItem>
+			<GridItem xs={12} md={3} lg={3}>
+				<Block
+					link={`/company/${company.id}/drafts`}
+					icon="class"
+					id={'edit-drafts-block'}
+					text={translate.drafts}
+				/>
+			</GridItem>
+			<GridItem xs={12} md={3} lg={3}>
+			</GridItem>
 
+			<GridItem xs={12} md={3} lg={3}>
+				<Block
+					link={`/company/${company.id}/council/new`}
+					customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} alt="councilbox-logo" />}
+					id={'create-council-block'}
+					disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
+					disabledOnClick={showCouncilsModal}
+					text={translate.dashboard_new}
+				/>
+			</GridItem>
+			<GridItem xs={12} md={3} lg={3}>
+				<Block
+					link={`/company/${company.id}/meeting/new`}
+					icon="video_call"
+					id={'init-meeting-block'}
+					text={translate.start_conference}
+				/>
+			</GridItem>
+			{user.roles === 'devAdmin' &&
 				<GridItem xs={12} md={3} lg={3}>
 					<Block
-						link={`/company/${company.id}/council/new`}
-						customIcon={<img src={logo} style={{height: '7em', width: 'auto'}} alt="councilbox-logo" />}
-						id={'create-council-block'}
-						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
-						disabledOnClick={this.showCouncilsModal}
-						text={translate.dashboard_new}
+						link={`/admin`}
+						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{fontSize: '7em'}}></i>}
+						id={'admin-panel'}
+						text={'Panel devAdmin'}
 					/>
 				</GridItem>
-				<GridItem xs={12} md={3} lg={3}>
-					<Block
-						link={`/company/${company.id}/meeting/new`}
-						icon="video_call"
-						id={'init-meeting-block'}
-						text={translate.start_conference}
-					/>
-				</GridItem>
-				{this.props.user.roles === 'devAdmin' &&
-					<GridItem xs={12} md={3} lg={3}>
-						<Block
-							link={`/admin`}
-							customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{fontSize: '7em'}}></i>}
-							id={'admin-panel'}
-							text={'Panel devAdmin'}
-						/>
-					</GridItem>
-				}
-			</Grid>
-		);
-	}
+			}
+		</Grid>
+	);
 }
+
 
 export default TopSectionBlocks;
