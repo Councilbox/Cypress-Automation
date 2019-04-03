@@ -120,6 +120,7 @@ export const companies = gql`
 				tin
 				logo
 				id
+				category
 				businessName
 				address
 				city

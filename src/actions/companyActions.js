@@ -50,6 +50,35 @@ export const setCompany = company => {
 	};
 };
 
+let initialTranslations = null;
+
+export const addSpecificTranslations = category => {
+	if(!initialTranslations){
+		initialTranslations = store.getState().translate;
+	}
+	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, category);
+
+	return {
+		type: "LOADED_LANG",
+		value: {
+			...initialTranslations,
+			...specificTranslations
+		},
+		selected: initialTranslations.selectedLanguage
+	};
+}
+
+const getSpecificTranslations = (language, category) => {
+	const specificTranslations = {
+		society: {},
+		realEstate: {
+			censuses: 'Propietarios'
+		}
+	}
+
+	return specificTranslations[category]? specificTranslations[category] : specificTranslations.society;
+}
+
 export const changeCompany = (index, id) => {
 	return async dispatch => {
 		const companies = [...store.getState().companies.list];
@@ -60,6 +89,7 @@ export const changeCompany = (index, id) => {
 				companyId: !!id? id: companies[index].id
 			}
 		});
+		//dispatch());
 		dispatch({
 			type: "CHANGE_SELECTED",
 			value: index

@@ -15,10 +15,17 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
-	console.log(company);
-
 	const closeCouncilsModal = () => {
 		setOpen(false);
+	}
+
+	const getCensusSectionName = () => {
+		const categories = {
+			society: translate.censuses,
+			realEstate: 'Propietarios',
+		};
+
+		return categories.society;
 	}
 
 	const showCouncilsModal = () => {
@@ -26,7 +33,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	}
 
 	const companyHasBook = () => {
-		return config.partnerBook;
+		return company.category === 'society';
 	}
 
 	const hasBook = companyHasBook();
@@ -73,7 +80,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					link={`/company/${company.id}/censuses`}
 					icon="person"
 					id={'edit-censuses-block'}
-					text={translate.censuses}
+					text={getCensusSectionName()}
 				/>
 			</GridItem>
 

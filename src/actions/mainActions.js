@@ -1,5 +1,5 @@
 import { getCompanies } from "./companyActions";
-import { client, bHistory } from "../containers/App";
+import { client, bHistory, store } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
@@ -90,6 +90,8 @@ export const setLanguage = language => {
 			});
 			if(!response.errors){
 				const translationObject = {};
+
+
 				response.data.translations.forEach(translation => {
 					translationObject[translation.label] = translation.text;
 				});
