@@ -1,58 +1,75 @@
 import React from 'react';
 import VotingsTable from './VotingsTable';
+import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
+import { agendaVotings } from "../../../../queries/agenda";
+import { useOldState } from '../../../../hooks';
+import { LoadingSection } from '../../../../displayComponents';
 const pageLimit = 10;
-let page = 1;
 
-class VotingsTableFiltersContainer extends React.Component {
-
-    state = {
+const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
+	const [state, setState] = useOldState({
 		open: false,
 		voteFilter: "all",
 		stateFilter: "all",
 		filterText: "",
 		page: 1,
-		agendaId: this.props.agenda.id
-    };
+		loading: true,
+		agendaId: agenda.id
+	});
 
-    updateFilterText = value => {
-		page = 1;
-		this.setState(
-			{
-                page: 1,
-				filterText: value
+	const [data, setData] = React.useState({});
+
+	React.useEffect(() => {
+		let timeout = setTimeout(getData, 200);
+		let interval = setInterval(getData, 7000);
+		return () => {
+			clearTimeout(timeout);
+			clearInterval(interval);
+		}
+	}, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
+
+	const getData = async() => {
+		const response = await client.query({
+			query: agendaVotings,
+			variables: {
+				agendaId: agenda.id,
+				...buildVariables()
 			}
-		);
+		});
+
+		setData(response.data);
+	}
+
+	const updateFilterText = value => {
+		setState({
+			page: 1,
+			filterText: value
+		});
 	};
 
-    changeVoteFilter = value => {
-		page = 1;
-		this.setState(
-			{
-                page: 1,
-				voteFilter: this.state.voteFilter === value ? "all" : value
-			},
-		);
-    };
+	const changeVoteFilter = value => {
+		this.setState({
+			page: 1,
+			voteFilter: state.voteFilter === value ? "all" : value
+		});
+	};
 
+	const changeStateFilter = value => {
+		setState({
+			page: 1,
+			stateFilter: state.stateFilter === value ? "all" : value
+		});
+	};
 
-	changeStateFilter = value => {
-		page = 1;
-		this.setState(
-			{
-                page: 1,
-				stateFilter: this.state.stateFilter === value ? "all" : value
-			},
-		);
-    };
-
-    changePage = value => {
+	const changePage = value => {
 		this.setState({
             page: value,
             offset: pageLimit * (value - 1)
         })
     };
 
-    buildVariables = () => {
+    const buildVariables = () => {
 		let variables = {
 			filters: [],
 			authorFilters: null
@@ -63,32 +80,32 @@ class VotingsTableFiltersContainer extends React.Component {
 			offset: pageLimit * (this.state.page - 1)
 		}; */
 
-		if (this.state.voteFilter !== "all") {
+		if (state.voteFilter !== "all") {
 			variables.filters = [
 				{
 					field: "vote",
-					text: this.state.voteFilter
+					text: state.voteFilter
 				}
 			];
 		}
 
-		if (this.state.filterText) {
+		if (state.filterText) {
 			variables = {
 				...variables,
 				authorFilters: {
-					username: this.state.filterText
+					username: state.filterText
 				}
 			};
 		}
 
-		if (this.state.stateFilter !== "all") {
+		if (state.stateFilter !== "all") {
 			variables = {
 				...variables,
 				filters: [
 					...variables.filters,
 					{
 						field: "presentVote",
-						text: this.state.stateFilter
+						text: state.stateFilter
 					}
 				]
 			};
@@ -97,23 +114,24 @@ class VotingsTableFiltersContainer extends React.Component {
 		return variables;
 	};
 
-    render(){
-        return (
-            <VotingsTable
-                {...this.props}
-                changePage={this.changePage}
-                page={this.state.page}
-                state={this.state}
-                pageLimit={pageLimit}
-                changeStateFilter={this.changeStateFilter}
-                changeVoteFilter={this.changeVoteFilter}
-                updateFilterText={this.updateFilterText}
-                variables={this.buildVariables()}
-            />
-        )
-    }
-
+	return (
+		<VotingsTable
+			{...props}
+			changePage={changePage}
+			page={state.page}
+			state={state}
+			pageLimit={pageLimit}
+			data={data}
+			refetch={getData}
+			agenda={agenda}
+			loading={state.loading}
+			changeStateFilter={changeStateFilter}
+			changeVoteFilter={changeVoteFilter}
+			updateFilterText={updateFilterText}
+		/>
+	)
 
 }
 
-export default VotingsTableFiltersContainer;
+
+export default withApollo(VotingsTableFiltersContainer);
