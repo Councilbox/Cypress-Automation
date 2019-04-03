@@ -134,7 +134,7 @@ class LiveUtil {
 				let positiveNeeded = against_votes + 1;
 				if (quorum_prototype === 1) {
 					//ACCIONES
-					let minimumNeeded = Math.ceil((total_votes * 1) / 3);
+					let minimumNeeded = Math.ceil(total_votes / 3);
 					return against_votes > (minimumNeeded / 2)?
 						positiveNeeded
 					:

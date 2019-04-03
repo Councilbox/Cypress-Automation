@@ -49,7 +49,7 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 	};
 
 	const changeVoteFilter = value => {
-		this.setState({
+		setState({
 			page: 1,
 			voteFilter: state.voteFilter === value ? "all" : value
 		});
@@ -63,7 +63,7 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 	};
 
 	const changePage = value => {
-		this.setState({
+		setState({
             page: value,
             offset: pageLimit * (value - 1)
         })
@@ -74,11 +74,6 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 			filters: [],
 			authorFilters: null
 		};
-
-/* 		variables.options = {
-			limit: pageLimit,
-			offset: pageLimit * (this.state.page - 1)
-		}; */
 
 		if (state.voteFilter !== "all") {
 			variables.filters = [
