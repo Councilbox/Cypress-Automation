@@ -48,7 +48,7 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 			);
 		}
 
-	}, [data.loading]);
+	}, [data.loading, data.council]);
 
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();
