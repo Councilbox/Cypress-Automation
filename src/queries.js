@@ -93,6 +93,7 @@ export const company = gql`
 			balance
 			logo
 			id
+			category
 			businessName
 			address
 			city
