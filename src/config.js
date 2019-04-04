@@ -1,17 +1,17 @@
 const LOCATION_URL =
 	process.env.REACT_APP_MODE === "dev"
-		? `http://${process.env.REACT_APP_LOCAL_API}/graphql`
+		? `http://localhost:5000/graphql`
 		: `https://${process.env.REACT_APP_API_URL}/graphql`;
 
-export const WS_URL = process.env.REACT_APP_MODE === "dev" ? "ws://:5000/subscriptions" : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;
+export const WS_URL = process.env.REACT_APP_MODE === "dev" ? "ws://localhost:5000/subscriptions" : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;
 export const singleVoteCompanies = [449];
 if(process.env.REACT_APP_MODE === 'dev'){
 	//singleVoteCompanies.push(375);
 }
 
-export const EXPLORER_URL = 'https://arrakis.alastria.councilbox.com';
+export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = '2.2.3';
+export const CLIENT_VERSION = '2.2.5';
 export const API_URL = LOCATION_URL;
 export const videoVersions = {
 	CMP: 'CMP',

@@ -24,7 +24,7 @@ const styles = {
 const CouncilSidebar = ({ translate, council, participant, ...props }) => {
     const closeAll = () => {
         props.setContent(null);
-        props.toggl();
+        // props.toggl;
     }
 
     const renderVideoButton = () => {
@@ -68,7 +68,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             onClick={() => props.setContent('agenda')}
         >
             <div style={{ display: "unset" }}>
-                <Badge badgeContent={8} dot color="primary" hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
+                <Badge badgeContent={8} dot color="primary" styleDot={{color:primary}} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
                     <div>
                         <i className="material-icons" style={{
                             color: props.modalContent === "agenda" ? secondary : "",
@@ -116,11 +116,33 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     fontSize: '0.55rem',
                     textTransform: "none"
                 }}>
-                    Mensaje al admin {/*TRADUCCION*/}
+                    {props.isMobile ?
+                        'Mensaje' /*TRADUCCION*/
+                        :
+                        'Mensaje al admin'/*TRADUCCION*/
+                    }
                 </div>
             </div>
         </Button>
     )
+                   
+    if ( !props.noSession && props.isMobile) {
+        return (
+            <AlertConfirm
+                open={true}
+                classNameDialog={'modal100SinMenu'}
+                PaperProps={{
+                    style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
+                }}
+                bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
+                bodyText={
+                    <div style={{ height: '100%' }}>
+                            { props.agenda}
+                    </div>
+                }
+            />
+        )
+    }
 
     if (props.isMobile) {
         return (
@@ -215,7 +237,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                         </div>
                                     </Button>
                                 </FloatGroup>
-                            :
+                                :
                                 renderVideoButton()
                             }
                         </div>
@@ -281,7 +303,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             </div>
         );
     } else {
-        return(
+        return (
             <div style={{
                 float: 'left',
                 zIndex: '0'
@@ -390,7 +412,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
 
 
 const TimelineButton = withApollo(({ onClick, actived, council, client }) => {
-    const [total , setTotal] = React.useState(0);
+    const [total, setTotal] = React.useState(0);
     const [readed, setReaded] = React.useState(0);
 
     React.useEffect(() => {
@@ -402,7 +424,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client }) => {
                 }
             });
 
-            if(response.data && response.data.councilTimeline){
+            if (response.data && response.data.councilTimeline) {
                 setTotal(response.data.councilTimeline.length);
             }
         }
@@ -431,7 +453,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client }) => {
                         <FontAwesome
                             name={"file-text-o"}
                             style={{
-                                color: actived? secondary : "",
+                                color: actived ? secondary : "",
                                 fontSize: '24px',
                                 width: '1em',
                                 height: '1em',

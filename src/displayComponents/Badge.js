@@ -3,7 +3,7 @@ import { Badge } from 'material-ui';
 import { getPrimary } from '../styles/colors';
 
 
-const CBXBadge = ({ children, hide, dot, ...props }) => {
+const CBXBadge = ({ children, hide, dot, styleDot, ...props }) => {
     const primary = getPrimary();
 
     if(hide){
@@ -31,6 +31,7 @@ const CBXBadge = ({ children, hide, dot, ...props }) => {
                         style={{
                             color: '#ffffffcc',
                             fontSize: '12px',
+                            ...styleDot
                     }}></i>
                 </div>
             </div>

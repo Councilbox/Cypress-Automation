@@ -17,8 +17,8 @@ class VotingSection extends React.Component {
 
     downloadVotePDF = async () => {
         this.setState({
-			loading: true
-		});
+            loading: true
+        });
         const response = await this.props.downloadVotePDF({
             variables: {
                 id: this.props.agenda.votings[0].id
@@ -26,29 +26,29 @@ class VotingSection extends React.Component {
         })
 
         if (response) {
-			if (response.data.downloadVotePDF) {
-				downloadFile(
-					response.data.downloadVotePDF,
-					"application/pdf",
-					`Voto_${this.props.agenda.votings[0].id}`
-				);
-				this.setState({
-					loading: false
-				});
-			}
-		}
+            if (response.data.downloadVotePDF) {
+                downloadFile(
+                    response.data.downloadVotePDF,
+                    "application/pdf",
+                    `Voto_${this.props.agenda.votings[0].id}`
+                );
+                this.setState({
+                    loading: false
+                });
+            }
+        }
     }
 
 
-    render(){
+    render() {
         const { agenda, translate } = this.props;
         const primary = getPrimary();
         const singleVoteMode = this.state.singleVoteMode;
 
-        return(
+        return (
             <React.Fragment>
-                <div style={{ alignItems: 'center', marginTop: '0.6em'}}>
-                    <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px"}}>
+                <div style={{ alignItems: 'center', marginTop: '0.6em' }}>
+                    {/* <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px"}}>
                         {agenda.votings[0].vote === -1 &&
                             translate.you_havent_voted_yet
                         }
@@ -131,12 +131,14 @@ class VotingSection extends React.Component {
                             icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
                             onClick={this.props.activateVoting}
                         />
-                    }
+                    } */}
                 </div>
-                <CollapsibleSection
+                {/*Esto es cla parte collapsible */}
+                {/* <CollapsibleSection
                     trigger={() => <span/>}
                     onTriggerClick={() => {}}
-                    open={this.props.open}
+                    open={true}
+                    // open={this.props.open}
                     collapse={() =>
                         <VotingMenu
                             translate={this.props.translate}
@@ -146,6 +148,14 @@ class VotingSection extends React.Component {
                             agenda={agenda}
                         />
                     }
+                /> */}
+                {/*TODO Son 4 botones !!!!!!!!*/}
+                <VotingMenu
+                    translate={this.props.translate}
+                    close={this.props.toggle}
+                    singleVoteMode={singleVoteMode}
+                    refetch={this.props.refetch}
+                    agenda={agenda}
                 />
             </React.Fragment>
         )

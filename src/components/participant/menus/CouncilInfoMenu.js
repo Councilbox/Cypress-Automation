@@ -102,7 +102,7 @@ class CouncilInfoMenu extends React.Component {
                     Component={() =>
                         <IconButton
                             size={'small'}
-                            style={{ outline: 0, color: secondary }}
+                            style={{ outline: 0, color: secondary, }}
                         >
                             <i className="fa fa-info"></i>
                         </IconButton>
