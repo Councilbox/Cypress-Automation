@@ -318,7 +318,11 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 																		...state,
 																		assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
 																		locked: false,
-																		noAttendWarning: participant.delegatedVotes.length > 0? true : false,
+																		noAttendWarning: (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
+																			participant.delegatedVotes.length > 0) ||
+																			participant.delegatedVotes.length > 1
+																			?
+																			true : false,
 																		delegateId: null
 																	})
 																}}
@@ -396,7 +400,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 												{state.noAttendWarning &&
 													<NoAttendDelegationWarning
 														translate={translate}
-														representative={participant.type}
+														representative={participant.type === PARTICIPANT_TYPE.REPRESENTATIVE}
 														requestClose={() => setState({ ...state, noAttendWarning: false})}
 													/>
 												}
