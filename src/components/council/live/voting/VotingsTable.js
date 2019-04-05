@@ -79,7 +79,6 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 
  	const refreshTable = async () => {
 		clearTimeout(timeout);
-		console.log(timeout, 'entra por aquí');
 		setTimeout(props.refetch, 1000);
 	};
 

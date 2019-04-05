@@ -396,6 +396,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 												{state.noAttendWarning &&
 													<NoAttendDelegationWarning
 														translate={translate}
+														representative={participant.type}
 														requestClose={() => setState({ ...state, noAttendWarning: false})}
 													/>
 												}

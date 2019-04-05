@@ -7,7 +7,6 @@ import Dialog, {
 import BasicButton from "./BasicButton";
 import { getPrimary, getSecondary } from "../styles/colors";
 import FontAwesome from "react-fontawesome";
-import { BorderBottom } from "material-ui-icons";
 
 const AlertConfirm = ({
 	title,

@@ -126,6 +126,7 @@ class AgendaEditor extends React.Component {
 					break;
 				case VOTE_VALUES.NO_VOTE:
 					noVoteSC += vote.author.socialCapital;
+					break;
 				default:
 					noVotes++;
 			}

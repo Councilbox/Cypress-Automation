@@ -3,24 +3,22 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 
-class ToggleVideo extends React.Component {
+const ToggleVideo = ({ toggleVideo }) => {
 
-    toggle = async () => {
-        const response = await this.props.toggleVideo({
+    const toggle = async () => {
+        await toggleVideo({
             variables: {
                 id: 2
             }
         });
     }
 
-    render(){
-        return(
-            <BasicButton
-                text="Toggle video"
-                onClick={this.toggle}
-            />
-        )
-    }
+    return(
+        <BasicButton
+            text="Toggle video"
+            onClick={this.toggle}
+        />
+    )
 }
 
 const toggleVideo = gql`

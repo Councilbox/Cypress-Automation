@@ -7,9 +7,8 @@ import InvalidUrl from "../components/participant/InvalidUrl";
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
-import CouncilState from '../components/participant/login/CouncilState';
 
-class AssistanceContainer extends React.PureComponent {
+class AttendanceContainer extends React.PureComponent {
 
 	componentDidUpdate(){
 		if(!this.props.data.loading){
@@ -132,4 +131,4 @@ export default graphql(participantQuery, {
 		},
 		fetchPolicy: "network-only"
 	})
-})(withApollo(connect(mapStateToProps, mapDispatchToProps)(AssistanceContainer)));
+})(withApollo(connect(mapStateToProps, mapDispatchToProps)(AttendanceContainer)));
