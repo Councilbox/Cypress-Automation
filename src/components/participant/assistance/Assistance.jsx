@@ -141,17 +141,19 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		});
 		const { assistanceComment } = state.participant;
 		if (!checkForUnclosedBraces(assistanceComment)) {
-			if (state.delegateId !== null) {
-				const response = await setAssistanceIntention({
-					variables: {
-						assistanceIntention: PARTICIPANT_STATES.DELEGATED,
-						representativeId: state.delegateId
-					}
-				});
-			} else {
-				await selectSimpleOption(state.assistanceIntention);
+			if(participant.state !== PARTICIPANT_STATES.REPRESENTATED){
+				if (state.delegateId !== null) {
+					await setAssistanceIntention({
+						variables: {
+							assistanceIntention: state.assistanceIntention,
+							representativeId: state.delegateId
+						}
+					});
+				} else {
+					await selectSimpleOption(state.assistanceIntention);
+				}
 			}
-
+		
 			await setAssistanceComment({
 				variables: {
 					assistanceComment: assistanceComment || ''
