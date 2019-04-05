@@ -132,7 +132,7 @@ export const ExplorerLink = ({ txHash, translate }) => {
     return (
         <React.Fragment>
             {txHash ?
-                <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}
+                <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">
                     {translate.see_blockchain_explorer.toUpperCase()}
                 </Button>
                 :

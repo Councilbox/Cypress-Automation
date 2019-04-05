@@ -42,13 +42,13 @@ const DelegationsModal = ({ open, requestClose, translate, refuseDelegation, ref
         return (
             <div>
                 {participant.delegatedVotes.length > 0 &&
-                    'Tiene los siguientes votos delegados en usted:'
+                    translate.you_have_following_delegated_votes
                 }
                 {participant.delegatedVotes.map(vote => (
                     <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <span>{`${vote.name} ${vote.surname} - Votos: ${vote.numParticipations}`/*TRADUCCION*/}</span>
+                        <span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
                         <BasicButton
-                            text="Rechazar"
+                            text={translate.refuse}
                             color="white"
                             onClick={() => setDelegation(vote)}
                             buttonStyle={{ border: `1px solid ${getSecondary()}`}}

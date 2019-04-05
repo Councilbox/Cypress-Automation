@@ -257,11 +257,11 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 												}}
 											>
 												{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-													<React.Fragment>{/*TRADUCCION*/}
+													<React.Fragment>
 														{vote.vote !== -1?
-															'Ha votado'
+															translate.has_voted
 														:
-															'No ha votado'
+															translate.no_vote_lowercase
 														}
 													</React.Fragment>
 												:

@@ -1,7 +1,7 @@
 import React from "react";
 import { Radio, HelpPopover } from '../../../displayComponents';
 
-const AssistanceOption = ({ title, value, disabled, subtitle, selected, select }) => {
+const AssistanceOption = ({ title, value, disabled, subtitle, translate, selected, select }) => {
     return (
         <div>
             <Radio
@@ -13,8 +13,8 @@ const AssistanceOption = ({ title, value, disabled, subtitle, selected, select }
                 name="security"
                 label={
                     <HelpPopover
-                        title="Advertencia"//TRADUCCION
-                        content="Un representante o un participante con votos delegados no puede delegar su voto"//TRADUCCION
+                        title={translate.warning}
+                        content={translate.delegated_representant_cant_delegate}
                         TriggerComponent={props =>
                             <div onClick={disabled? props.onClick : () => {}}>
                                 {title}

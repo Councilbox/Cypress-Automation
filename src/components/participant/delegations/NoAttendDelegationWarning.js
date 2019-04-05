@@ -3,8 +3,6 @@ import { AlertConfirm } from '../../../displayComponents';
 
 
 const NoAttendDelegationWarning = ({ translate, requestClose }) => {
-//TRADUCCION
-
     return(
         <AlertConfirm
             open={true}
@@ -14,7 +12,7 @@ const NoAttendDelegationWarning = ({ translate, requestClose }) => {
             buttonCancel={translate.close}
             bodyText={
                 <div>
-                    Antes de confirmar, recuerde que tiene votos delegados.
+                    {translate.before_confirm_no_attend}
                 </div>
             }
         />

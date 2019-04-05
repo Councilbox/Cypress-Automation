@@ -286,6 +286,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 														<React.Fragment>
 															<AssistanceOption
 																title={translate.attend_remotely_through_cbx}
+																translate={translate}
 																select={() => {
 																	setState({
 																		...state,
@@ -299,6 +300,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 															/>
 															<AssistanceOption
 																title={translate.attending_in_person}
+																translate={translate}
 																select={() => {
 																	setState({
 																		...state,
@@ -312,6 +314,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 
 															/>
 															<AssistanceOption
+																translate={translate}
 																title={translate.not_attending}
 																select={() => {
 																	setState({
@@ -334,6 +337,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 														<React.Fragment>
 															<div onClick={showAddRepresentative}>
 																<AssistanceOption
+																	translate={translate}
 																	title={participant.representative? translate.change_representative : translate.add_representative}
 																	value={PARTICIPANT_STATES.REPRESENTATED}
 																	selected={state.assistanceIntention !== 4? participant.state : null}
@@ -356,6 +360,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 													}
 													{((participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) || (participant.numParticipations > 0 || participant.socialCapital > 0)) &&
 														<AssistanceOption
+															translate={translate}
 															title={translate.want_to_delegate_in}
 															select={showDelegation}
 															disabled={!canDelegate}
@@ -463,7 +468,7 @@ const DelegationSection = ({ participant, translate, refetch }) => {
 		<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
 			<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
 				<SectionTitle
-					text={`${'Representaciones / Delegaciones'}:`/*TRADUCCION*/}
+					text={`${translate.representations_delegations}:`}
 					color={primary}
 				/>
 			</div>
@@ -494,11 +499,11 @@ const DelegationSection = ({ participant, translate, refetch }) => {
 						}}
 						key={vote.id}
 					>
-						<span>{`${vote.state === PARTICIPANT_STATES.REPRESENTATED? 'Representante de: ' : 'Voto delegado: '}`}<b>{`${vote.name} ${vote.surname}`}</b></span>
+						<span>{`${vote.state === PARTICIPANT_STATES.REPRESENTATED? `${translate.representative_of}: ` : `${translate.customer_delegated}: ` }`}<b>{`${vote.name} ${vote.surname}`}</b></span>
 						<div>
 							{vote.state !== PARTICIPANT_STATES.REPRESENTATED &&
 								<BasicButton
-									text="Rechazar"//TRADUCCION
+									text={translate.refuse}
 									textStyle={{color: secondary}}
 									color="transparent"
 									loadingColor={secondary}

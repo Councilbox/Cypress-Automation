@@ -2,9 +2,9 @@ import React from "react";
 import { Checkbox } from './';
 import { delegatedVotesLimitReached } from '../utils/CBX';
 import { Paper } from 'material-ui';
+import withTranslations from "../HOCs/withTranslations";
 
-const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper }) => {
-	/*TRADUCCION*/
+const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate }) => {
 	let limitReached = null;
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length);
@@ -35,15 +35,15 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 						fontSize: "0.9rem"
 					}}
 				>
-					{`${participant.name} ${participant.surname} ${toDelegate && limitReached ? ' - NO SE PUEDEN DELEGAR MÁS VOTOS EN ESTE PARTICIPANTE' : ''}`}
+					{`${participant.name} ${participant.surname} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
 				</div>
 				{toDelegate && participant.assistanceIntention === 6 &&
-					<div style={{ fontSize: "0.9rem", fontWeight: '700' }}>Ha marcado que posiblemente no asista</div>
+					<div style={{ fontSize: "0.9rem", fontWeight: '700' }}>{translate.participant_wont_attend}</div>
 				}
 			</div>
 		</Paper>
 	);
 }
 
-export default ParticipantRow;
+export default withTranslations()(ParticipantRow);
 
