@@ -19,15 +19,6 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 		setOpen(false);
 	}
 
-	const getCensusSectionName = () => {
-		const categories = {
-			society: translate.censuses,
-			realEstate: 'Propietarios',
-		};
-
-		return categories.society;
-	}
-
 	const showCouncilsModal = () => {
 		setOpen(true);
 	}
@@ -80,7 +71,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					link={`/company/${company.id}/censuses`}
 					icon="person"
 					id={'edit-censuses-block'}
-					text={getCensusSectionName()}
+					text={translate.censuses}
 				/>
 			</GridItem>
 
