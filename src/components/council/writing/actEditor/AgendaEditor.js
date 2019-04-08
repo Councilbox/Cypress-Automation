@@ -9,7 +9,7 @@ import { graphql } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint } from '../../../../utils/CBX';
+import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject } from '../../../../utils/CBX';
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
@@ -38,11 +38,11 @@ class AgendaEditor extends React.Component {
 				updating: true
 			});
 
-			const { __typename, votings, items, ballots, options, ...agenda } = this.props.agenda;
+			const clean = cleanAgendaObject(this.props.agenda);
 			await this.props.updateAgenda({
 				variables: {
 					agenda: {
-						...agenda,
+						...clean,
 						comment: this.state.comment,
 						councilId: this.props.council.id
 					}

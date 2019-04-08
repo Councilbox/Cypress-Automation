@@ -4,6 +4,8 @@ import { graphql } from 'react-apollo';
 import { getSecondary } from '../../../../styles/colors';
 import { updateAgenda } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
+import { cleanAgendaObject } from '../../../../utils/CBX';
+
 
 const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
     const [state, setState] = useOldState({
@@ -23,7 +25,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
     }
 
     const saveManualVotings = async () => {
-        const { attachments, votings, __typename, ...toSend } = agenda;
+        const toSend = cleanAgendaObject(agenda);
         setState({
             loading: true
         });

@@ -1229,12 +1229,16 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		}
 	}
 
-
-
 	updateErrors(errors);
 
 	return hasError;
 };
+
+export const cleanAgendaObject = agenda => {
+	const { attachments, ballots, items, options, __typename, votings, ...clean } = agenda;
+
+	return clean;
+}
 
 export const formatSize = size => {
 	let mb = Math.pow(1024, 2);

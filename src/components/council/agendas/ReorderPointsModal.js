@@ -17,7 +17,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props}) => {
 
 	const updateOrder = async () => {
 		const reorderedAgenda = agendas.map((agenda, index) => {
-			const { __typename, attachments, votings, items, ballots, options, ...updatedAgenda } = agenda;
+			const updatedAgenda = CBX.cleanAgendaObject(agenda);
 			updatedAgenda.orderIndex = index + 1;
 			return updatedAgenda;
 		});
