@@ -65,8 +65,8 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props}) => {
             return <LoadingSection />;
         }
 
-        if(this.state.council){
-            return <CouncilDetails council={this.state.council} translate={this.props.translate} inIndex={true} />;
+        if(state.council){
+            return <CouncilDetails council={state.council} translate={translate} inIndex={true} />;
         }
 
         return (
