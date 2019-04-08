@@ -177,61 +177,64 @@ class Sidebar extends React.Component {
 								this.props.classes[this.props.color]]: this.activeRoute(key)
 						});
 						return (
-							<NavLink
-								to={route.path}
+							<div
 								className={`${this.props.classes.item} dropdown-wrapper`}
-								activeClassName="active"
 								key={key}
-								style={{
-									display: 'flex',
-									width: '100%',
-									alignItems: 'center',
-									justifyContent: 'center'
-								}}
-								onClick={() => this.setState({ selectedRoute: key })}
 							>
-								<ListItem
-									button
-									className={
-										this.props.classes.itemLink + listItemClasses
-									}
+								<NavLink
+									to={route.path}
+									activeClassName="active"
 									style={{
-										display: "flex",
-										flexDirection: "column",
+										display: 'flex',
+										width: '100%',
 										alignItems: 'center',
 										justifyContent: 'center'
 									}}
+									onClick={() => this.setState({ selectedRoute: key })}
 								>
-									<div
+									<ListItem
+										button
+										className={
+											this.props.classes.itemLink + listItemClasses
+										}
 										style={{
-											width: "24px",
-											height: "30px",
-											display: 'flex',
+											display: "flex",
+											flexDirection: "column",
 											alignItems: 'center',
-											justifyContent: 'center',
-											color: "rgba(255, 255, 255, 0.8)"
+											justifyContent: 'center'
 										}}
 									>
-										<Icon>
-											{route.icon}
-										</Icon>
-									</div>
-									<span
-										style={{
-											color: 'white',
-											fontSize: '0.55em'
-										}}
-									>
-										{route.sidebarName}
-									</span>
-								</ListItem>
+										<div
+											style={{
+												width: "24px",
+												height: "30px",
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												color: "rgba(255, 255, 255, 0.8)"
+											}}
+										>
+											<Icon>
+												{route.icon}
+											</Icon>
+										</div>
+										<span
+											style={{
+												color: 'white',
+												fontSize: '0.55em'
+											}}
+										>
+											{route.sidebarName}
+										</span>
+									</ListItem>
+								</NavLink>
 								{route.name === "dashboard" && (
-									<LateralMenuOptions company={this.props.company} clase={"dropdown-container"} cambioMenu={"dashboard"} />
+									<LateralMenuOptions company={this.props.company} clase={"dropdown-container"} menuType={"dashboard"} />
 								)}
 								{route.name === "council" && (
-									<LateralMenuOptions company={this.props.company} clase={"dropdown-container-reunion"} cambioMenu={"council"}/>
+									<LateralMenuOptions company={this.props.company} clase={"dropdown-container-reunion"} menuType={"council"}/>
 								)}
-							</NavLink>
+							</div>
 						);
 					})}
 				</React.Fragment>

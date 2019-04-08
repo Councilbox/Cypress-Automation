@@ -4,7 +4,7 @@ import { getPrimary, getSecondary, darkGrey } from "../../styles/colors";
 import { ListItem } from "material-ui";
 import { bHistory } from '../../containers/App';
 
-const LateralOptions = ({ icon, text, first, link, customIcon, style }) => {
+const LateralOption = ({ icon, text, first, link, customIcon, style }) => {
 
 	const followLink = link => {
 		bHistory.push(link);
@@ -22,7 +22,7 @@ const LateralOptions = ({ icon, text, first, link, customIcon, style }) => {
 				justifyContent: 'center',
 				...style
 			}}
-			onClick={() => { followLink(link) }}
+			onClick={() => followLink(link)}
 		>
 			<ListItem
 				button
@@ -86,4 +86,4 @@ const LateralOptions = ({ icon, text, first, link, customIcon, style }) => {
 }
 
 
-export default LateralOptions;
+export default LateralOption;
