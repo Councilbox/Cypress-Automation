@@ -8,7 +8,6 @@ import { bHistory } from "../../containers/App";
 import { ConfigContext } from '../../containers/AppControl';
 import { toast } from 'react-toastify';
 import withTranslations from "../../HOCs/withTranslations";
-import { darkGrey } from "../../styles/styles";
 import { getSecondary } from "../../styles/colors";
 import CreateWithSession from "./CreateWithSession";
 import CreateWithoutSession from "./CreateWithoutSession";
@@ -23,8 +22,6 @@ const CreateCouncil = props => {
 	const [state, setState] = React.useState({
 		creating: false
 	});
-
-	const [loading, setLoading] = React.useState(false);
 
 	const config = React.useContext(ConfigContext);
 

@@ -237,7 +237,9 @@ export default graphql(agendaManager, {
 			companyId: props.company.id,
 			councilId: props.council.id
 		},
-		pollInterval: 5000
+		pollInterval: 5000,
+		fetchPolicy: 'network-only',
+		forceFetch: true
 	}),
 	withRef: true
 })(AgendaManager);

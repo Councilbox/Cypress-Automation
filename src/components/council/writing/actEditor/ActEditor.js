@@ -211,8 +211,6 @@ class ActEditor extends Component {
 	}
 
 	loadDraft = draft => {
-
-		console.log(this.state.data.council)
  		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.state.data.council

@@ -117,6 +117,7 @@ export default compose(
 		options: props => ({
 			variables: {
 				companyId: props.companyId,
+				prototype: 3,
 				filters: [
 					{
 						field: "type",

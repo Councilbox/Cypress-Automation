@@ -280,7 +280,7 @@ class CouncilState extends React.Component {
 						</React.Fragment>
 					)}
 				</div>
-			</div >
+			</div>
 		);
 	}
 }

@@ -104,8 +104,8 @@ const AssistanceTokenContainer = Loadable({
 	loading: LoadingMainApp
 });
 
-const AssistanceContainer = Loadable({
-	loader: () => import('./AssistanceContainer'),
+const AttendanceContainer = Loadable({
+	loader: () => import('./AttendanceContainer'),
 	loading: LoadingMainApp
 });
 
@@ -282,7 +282,7 @@ class AppRouter extends React.Component {
 					<Route
 						exact
 						path="/attendance/participant/:participantId/council/:councilId"
-						component={AssistanceContainer}
+						component={AttendanceContainer}
 					/>
 
 					<Route path="*" component={this.redirectToRoot} />

@@ -5,31 +5,15 @@ import VotingValueIcon from "./VotingValueIcon";
 import { graphql } from "react-apollo";
 import { updateAgendaVoting } from "../../../../queries/agenda";
 import { MenuItem } from "material-ui";
-import { LoadingSection } from '../../../../displayComponents';
 import { CircularProgress } from "material-ui/Progress";
 
+const PresentVoteMenu = ({ agenda, active, agendaVoting, ...props }) => {
+	const [loading, setLoading] = React.useState(false);
 
-class PresentVoteMenu extends React.Component {
-	state = {
-		loading: false
-	};
+	const updateAgendaVoting = async value => {
+		setLoading(value);
 
-	updateAgendaVoting = async value => {
-		const {
-			author,
-			authorRepresentative,
-			items,
-			ballots,
-			options,
-			__typename,
-			...agendaVoting
-		} = this.props.agendaVoting;
-
-		this.setState({
-			loading: value
-		})
-
-		await this.props.updateAgendaVoting({
+		await props.updateAgendaVoting({
 			variables: {
 				agendaVoting: {
 					id: agendaVoting.id,
@@ -38,16 +22,12 @@ class PresentVoteMenu extends React.Component {
 			}
 		});
 
-		this.setState({
-			loading: false
-		});
-
-		this.props.refetch();
+		setLoading(false);
+		props.refetch();
 	};
 
-	_block = (value, active) => {
-
-		if(!agendaVotingsOpened(this.props.agenda)){
+	const _block = (value, active) => {
+		if(!agendaVotingsOpened(agenda)){
 			if(!active){
 				return <span />
 			}
@@ -66,7 +46,7 @@ class PresentVoteMenu extends React.Component {
 					alignItems: "center",
 					justifyContent: "center"
 				}}
-				onClick={() => this.updateAgendaVoting(value)}
+				onClick={() => updateAgendaVoting(value)}
 			>
 				<MenuItem
 					selected={active}
@@ -81,7 +61,7 @@ class PresentVoteMenu extends React.Component {
 						margin: 0
 					}}
 				>
-					{this.state.loading === value?
+					{loading === value?
 						<CircularProgress size={12} thickness={7} color={'primary'} style={{marginBottom: '0.35em'}} />
 					:
 						<VotingValueIcon
@@ -89,37 +69,27 @@ class PresentVoteMenu extends React.Component {
 							color={active ? undefined : "grey"}
 						/>
 					}
-
 				</MenuItem>
 			</div>
 		);
 	};
 
-	render() {
-		return (
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "row",
-					marginRight: "0.7em"
-				}}
-			>
-				{this._block(
-					VOTE_VALUES.POSITIVE,
-					this.props.active === VOTE_VALUES.POSITIVE
-				)}
-				{this._block(
-					VOTE_VALUES.NEGATIVE,
-					this.props.active === VOTE_VALUES.NEGATIVE
-				)}
-				{this._block(
-					VOTE_VALUES.ABSTENTION,
-					this.props.active === VOTE_VALUES.ABSTENTION
-				)}
-			</div>
-		);
-	}
+	return (
+		<div
+			style={{
+				display: "flex",
+				flexDirection: "row",
+				marginRight: "0.7em"
+			}}
+		>
+			{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
+			{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
+			{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
+		</div>
+	);
+
 }
+
 
 export default graphql(updateAgendaVoting, {
 	name: "updateAgendaVoting"

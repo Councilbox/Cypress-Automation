@@ -93,6 +93,7 @@ export const company = gql`
 			balance
 			logo
 			id
+			category
 			businessName
 			address
 			city
@@ -120,6 +121,7 @@ export const companies = gql`
 				tin
 				logo
 				id
+				category
 				businessName
 				address
 				city
@@ -563,8 +565,10 @@ export const agendaManager = gql`
 				state
 			}
 			votings {
+				id
 				vote
 				id
+				participantId
 				author {
 					id
 					socialCapital
@@ -1561,6 +1565,7 @@ export const councilLiveQuery = gql`
 			president
 			proposedActSent
 			prototype
+			qualityVoteId
 			quorumPrototype
 			room {
 				id
@@ -2061,11 +2066,13 @@ export const noCelebrateCouncil = gql`
 export const participantsToDelegate = gql`
 	query liveParticipantsToDelegate(
 		$councilId: Int!
+		$participantId: Int
 		$filters: [FilterInput]
 		$options: OptionsInput
 	) {
 		liveParticipantsToDelegate(
-			councilId: $councilId
+			councilId: $councilId,
+			participantId: $participantId
 			filters: $filters
 			options: $options
 		) {
@@ -2074,6 +2081,7 @@ export const participantsToDelegate = gql`
 				name
 				surname
 				phone
+				assistanceIntention
 				delegatedVotes {
 					id
 					name

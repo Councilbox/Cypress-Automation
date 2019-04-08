@@ -375,13 +375,11 @@ class HoverableRow extends React.Component {
 
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
-
 		let representative = this.props.representative;
 
 		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}
-
 
 		if(isMobile){
             return(
@@ -397,8 +395,8 @@ class HoverableRow extends React.Component {
 							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
 							{!!representative &&
 								<React.Fragment>
-									<br />
-									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
+									<br/>
+									{`${participant.live.state === PARTICIPANT_STATES.DELEGATED? translate.delegated_in : this.props.translate.represented_by}: ${representative.name} ${representative.surname}`}
 								</React.Fragment>
 							}
                         </GridItem>

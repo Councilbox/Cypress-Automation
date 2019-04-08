@@ -174,7 +174,9 @@ export const canEditPresentVotings = agenda => {
 
 export const approvedByQualityVote = (agenda, qualityVoteId) => {
 	if (agenda.votings && qualityVoteId) {
-		const qualityVote = agenda.votings.find(item => item.participantId === qualityVoteId);
+		const qualityVote = agenda.votings.find(item => {
+			return item.participantId === qualityVoteId
+		});
 		if (qualityVote) {
 			if (qualityVote.vote === VOTE_VALUES.POSITIVE) {
 				return true;
@@ -231,7 +233,8 @@ export const canAddDelegateVotes = (statute, participant) => {
 	return (
 		statute.existsDelegatedVote === 1 &&
 		(participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) &&
-		(participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
+		(participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED) &&
+		participant.personOrEntity !== 1
 	);
 };
 
@@ -719,7 +722,7 @@ export const checkRepeatedItemValue = items => {
 
 export const councilIsPreparing = council => {
 	return (
-		council.state === COUNCIL_STATES.PREPARING
+		council.state === COUNCIL_STATES.PREPARING || council.state === COUNCIL_STATES.SAVED
 	);
 };
 
@@ -738,7 +741,7 @@ export const councilIsFinished = council => {
 };
 
 export const councilIsNotCelebrated = council => {
-	return council.state === COUNCIL_STATES.NOT_CELEBRATED;
+	return council.state === COUNCIL_STATES.NOT_CELEBRATED || council.active === 0;
 };
 
 export const councilHasAssistanceConfirmation = council => {

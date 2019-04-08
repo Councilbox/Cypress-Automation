@@ -124,9 +124,8 @@ class LiveParticipantEditor extends React.Component {
 					padding: this.props.windowSize === 'xs' ? '1.3em' : "1em",
 				}}
 			>
-				<div >
+				<div>
 					<Grid >
-						{/* Titulos en el modal */}
 						<GridItem xs={landscape ? 12 : 6} md={4}
 							style={{
 								display: isMobile ? "none" : "flex",
@@ -145,7 +144,9 @@ class LiveParticipantEditor extends React.Component {
 								marginBottom: "0.8em",
 								paddingBottom: "0.5em"
 							}}>
-							<h4 style={{ width: '100%' }}>{translate.state}</h4>
+							{participant.personOrEntity !== 1 &&
+								<h4 style={{ width: '100%' }}>{translate.state}</h4>
+							}
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 6} md={4}
 							style={{
@@ -171,7 +172,7 @@ class LiveParticipantEditor extends React.Component {
 										<div style={{ paddingLeft: '1em' }}>
 										</div>
 										<div >
-											<ParticipantDisplay //lista de datos
+											<ParticipantDisplay
 												participant={participant}
 												translate={translate}
 												council={this.props.council}
@@ -183,72 +184,76 @@ class LiveParticipantEditor extends React.Component {
 							</GridItem>
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
-							<GridItem xs={landscape ? 1 : 12} xs={3} md={3} >
-								<div >
-									<DropDownMenu
-										claseHover={"classHover"}
-										color="transparent"
-										id={'dropdownEstados'}
-										style={{ paddingLeft: '0px', paddingRight: '0px' }}
-										icon={
-											<StateIcon
-												translate={translate}
-												state={participant.state}
-												ratio={1.3}
-											/>
-										}
-										items={
-											<React.Fragment>
-												<ParticipantStateList
+						{participant.personOrEntity !== 1 &&
+							<React.Fragment>
+								<GridItem xs={landscape ? 1 : 12} xs={3} md={3}>
+									<div >
+										<DropDownMenu
+											claseHover={"classHover"}
+											color="transparent"
+											id={'dropdownEstados'}
+											style={{ paddingLeft: '0px', paddingRight: '0px' }}
+											icon={
+												<StateIcon
+													translate={translate}
+													state={participant.state}
+													ratio={1.3}
+												/>
+											}
+											items={
+												<React.Fragment>
+													<ParticipantStateList
+														participant={participant}
+														council={this.props.council}
+														translate={translate}
+														refetch={this.props.refetch}
+														inDropDown={true}
+													/>
+												</React.Fragment>
+											}
+											anchorOrigin={{
+												vertical: 'bottom',
+												horizontal: 'left',
+											}}
+										/>
+									</div>
+									<div
+										style={{
+
+											marginTop: "1em"
+										}}
+									>
+									</div>
+									<div
+										style={{
+											marginLeft: isMobile ? '0' : "0",
+											marginTop: "0.5em"
+										}}
+									>
+									</div>
+								</GridItem>
+								<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
+									<div style={{ marginLeft: '1.3em', width: "100%" }}>
+										<Typography variant="body2" >
+											<div style={{ paddingLeft: landscape ? '1em' : "0", height: "45px", marginBottom: "0.5em" }}>
+												<b>{`${translate.current_status}:  `}</b>
+												{translate[CBX.getParticipantStateField(participant)]}
+											</div>
+											<div style={{ paddingLeft: '1em', display: isMobile ? "none": "block" }}>
+												<ParticipantStateSelector
+													inDropDown={true}
 													participant={participant}
 													council={this.props.council}
 													translate={translate}
-													refetch={this.props.refetch}
-													inDropDown={true}
+													refetch={this.props.data.refetch}
 												/>
-											</React.Fragment>
-										}
-										anchorOrigin={{
-											vertical: 'bottom',
-											horizontal: 'left',
-										}}
-									/>
-								</div>
-								<div
-									style={{
+											</div>
+										</Typography>
 
-										marginTop: "1em"
-									}}
-								>
-								</div>
-								<div
-									style={{
-										marginLeft: isMobile ? '0' : "0",
-										marginTop: "0.5em"
-									}}
-								>
-								</div>
-							</GridItem>
-							<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
-								<div style={{ marginLeft: '1.3em', width: "100%" }}>
-									<Typography variant="body2" >
-										<div style={{ paddingLeft: landscape ? '1em' : "0", height: "45px", marginBottom: "0.5em" }}>
-											<b>{`${translate.current_status}:  `}</b>
-											{translate[CBX.getParticipantStateField(participant)]}
-										</div>
-										<div style={{ paddingLeft: '1em', display: isMobile ? "none": "block" }}>
-											<ParticipantStateSelector
-												inDropDown={true}
-												participant={participant}
-												council={this.props.council}
-												translate={translate}
-												refetch={this.props.data.refetch}
-											/>
-										</div>
-									</Typography>
-
-								</div>
-							</GridItem>
+									</div>
+								</GridItem>
+							</React.Fragment>
+						}
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
 							<GridItem xs={landscape ? 3 : 12} xs={12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
@@ -263,7 +268,7 @@ class LiveParticipantEditor extends React.Component {
 							</GridItem>
 						</GridItem>
 					</Grid>
-				</div >
+				</div>
 				<hr
 					style={{
 						width: "100%"
@@ -291,10 +296,9 @@ class LiveParticipantEditor extends React.Component {
 									)}
 									{participant.representative && (
 										<ParticipantTable
+											representative={true}
 											translate={translate}
-											participants={[
-												participant.representative
-											]}
+											participants={[participant.representative]}
 										/>
 									)}
 								</GridItem>
@@ -308,13 +312,9 @@ class LiveParticipantEditor extends React.Component {
 									</Typography>
 									<ParticipantTable
 										translate={translate}
-										participants={
-											[participant.representing]
-										}
+										participants={[participant.representing]}
 										enableActions
-										quitDelegatedVote={
-											this.removeDelegatedVote
-										}
+										quitDelegatedVote={this.removeDelegatedVote}
 										primary={primary}
 									/>
 								</GridItem>
@@ -345,19 +345,11 @@ class LiveParticipantEditor extends React.Component {
 										marginRight: "1em"
 									}}
 								>
-									{'Comentario de asistencia'}
+									{translate.assistance_comment}
 								</Typography>
 								<div dangerouslySetInnerHTML={{ __html: participant.assistanceComment }} />
 							</GridItem>
 						}
-						{/* {CBX.showSendCredentials(participant.state) &&
-							<ResendCredentialsModal
-								participant={participant}
-								council={this.props.council}
-								translate={translate}
-								refetch={this.props.data.refetch}
-							/>
-						} */}
 						<React.Fragment>
 							<GridItem
 								xs={12}
@@ -397,7 +389,6 @@ class LiveParticipantEditor extends React.Component {
 											display: "flex",
 											justifyContent: 'flex-end',
 											marginLeft: isMobile ? '0' : "0",
-											// marginTop: "0.5em"
 											marginLeft: "auto"
 										}}
 									>
@@ -411,7 +402,7 @@ class LiveParticipantEditor extends React.Component {
 												/>
 											</div>
 										}
-										{!CBX.isRepresented(participant) && /*Boton de firmar*/
+										{!CBX.isRepresented(participant) && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
 												<BasicButton
 													text={participant.signed ? translate.user_signed : translate.to_sign}
@@ -484,13 +475,14 @@ class LiveParticipantEditor extends React.Component {
 						</React.Fragment>
 					</Grid>
 				</div>
-			</div >
+			</div>
 		);
 	}
 }
 
 const ParticipantTable = ({
 	participants,
+	representative,
 	translate,
 	enableActions,
 	quitDelegatedVote,
@@ -509,11 +501,10 @@ const ParticipantTable = ({
 						{translate.position}
 					</TableCell>
 					<TableCell style={{ padding: "0.2em" }}>
-						{translate.votes}
+						{!representative && translate.votes}
 					</TableCell>
-					{enableActions && <TableCell style={{ padding: "0.2em" }}>
-						&nbsp;
-					</TableCell>}
+					<TableCell style={{ padding: "0.2em" }}>
+					</TableCell>
 				</TableRow>
 			</TableHead>
 			<TableBody style={{ height: "100px", overflowY: 'auto', overflowX: 'hidden' }}>
@@ -523,6 +514,7 @@ const ParticipantTable = ({
 						primary={primary}
 						participant={participant}
 						enableActions={enableActions}
+						representative={representative}
 						quitDelegatedVote={quitDelegatedVote}
 					/>
 				))}
@@ -565,9 +557,7 @@ class HoverableRow extends React.PureComponent {
 				<TableCell style={{ padding: "0.2em" }}>{`${
 					participant.position
 					}`}</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>{`${
-					participant.numParticipations
-					}`}</TableCell>
+				<TableCell style={{ padding: "0.2em" }}>{!this.props.representative && participant.numParticipations}</TableCell>
 				<TableCell style={{ padding: "0.2em" }}>
 					<div style={{ width: '4em' }}>
 						{showActions &&

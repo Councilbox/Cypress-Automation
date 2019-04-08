@@ -158,7 +158,7 @@ class ActLiveSection extends React.Component {
 				positive: 1,
 				negative: 43
 			}
-		});
+		}, this.props.translate);
 		this.editor.setValue(correctedText);
 		this.updateAct(correctedText);
 		this.modal.close();

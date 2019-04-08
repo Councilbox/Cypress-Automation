@@ -1,6 +1,6 @@
 const LOCATION_URL =
 	process.env.REACT_APP_MODE === "dev"
-		? `http://localhost:5000/graphql`
+		? `http://${process.env.REACT_APP_LOCAL_API}/graphql`
 		: `https://${process.env.REACT_APP_API_URL}/graphql`;
 
 export const WS_URL = process.env.REACT_APP_MODE === "dev" ? "ws://localhost:5000/subscriptions" : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;
@@ -11,7 +11,7 @@ if(process.env.REACT_APP_MODE === 'dev'){
 
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = '2.2.2';
+export const CLIENT_VERSION = '2.3.0';
 export const API_URL = LOCATION_URL;
 export const videoVersions = {
 	CMP: 'CMP',

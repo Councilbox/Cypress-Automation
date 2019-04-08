@@ -7,7 +7,6 @@ import {
 	BasicButton
 } from "../../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../../styles/colors";
-import { Card } from "material-ui";
 import FontAwesome from "react-fontawesome";
 import { graphql } from "react-apollo";
 import { moment } from "../../../../../containers/App";

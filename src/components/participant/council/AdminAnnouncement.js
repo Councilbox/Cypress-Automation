@@ -8,7 +8,7 @@ import icono from "../../../assets/img/logo-icono.png";
 const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, context }) => {
 
     const closeAnnouncement = async () => {
-        const response = await closeRoomAnnouncement({
+        await closeRoomAnnouncement({
             variables: {
                 councilId: council.id
             }

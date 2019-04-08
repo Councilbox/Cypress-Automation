@@ -132,7 +132,7 @@ export const ExplorerLink = ({ txHash, translate }) => {
     return (
         <React.Fragment>
             {txHash ?
-                <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">{/*TRADUCCION*/}
+                <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">
                     {translate.see_blockchain_explorer.toUpperCase()}
                 </Button>
                 :
@@ -417,35 +417,34 @@ const EvidenceDisplay = ({ evidence, translate, txHash }) => {
 };
 
 export const getTranslateFieldFromType = type => {
-
-    switch (type) {
-        case 'START_COUNCIL':
-            return 'start_council';
-        case 'LOGIN':
-            return 'login_to_enter';
-        case 'OPEN_POINT_DISCUSSION':
-            return 'discuss_agenda';
-        case 'CLOSE_POINT_DISCUSSION':
-            return 'close_point';
-        case 'OPEN_VOTING':
-            return 'active_votings';
-        case 'CLOSE_VOTING':
-            return 'closed_votings';
-        case 'REOPEN_VOTING':
-            return 'reopen_voting';
-        case 'END_COUNCIL':
-            return 'finish_council';
-        case 'VOTE':
-            return 'has_voted';
-        case 'UPDATE_VOTE':
-            return 'update_vote';
-        case 'PARTICIPANT_LOGIN':
-            return 'participant_login';
-        case 'PARTICIPANT_CONNECT':
-            return 'participant_enter_room';
-        case 'PARTICIPANT_DISCONNECT':
-            return 'participant_disconnect';
+    const types = {
+        'CLOSE_POINT_DISCUSSION': 'close_point',
+        'CLOSE_VOTING': 'closed_votings',
+        'CONVENE_COUNCIL_WITH_NOTICE': 'convene_council_with_notice',
+        'CONVENE_COUNCIL_WITHOUT_NOTICE': 'convene_council_without_notice',
+        'END_COUNCIL': 'finish_council',
+        'LOGIN': 'login_to_enter',
+        'OPEN_COUNCIL_ROOM': 'room_opened',
+        'OPEN_POINT_DISCUSSION': 'discuss_agenda',
+        'OPEN_VOTING': 'active_votings',
+        'PARTICIPANT_CONNECT': 'participant_enter_room',
+        'PARTICIPANT_DISCONNECT': 'participant_disconnect',
+        'PARTICIPANT_LOGIN': 'participant_login',
+        'PARTICIPANT_SIGNED': 'participant_signed',
+        'REFUSED_DELEGATION': 'refused_delegation',
+        'REOPEN_VOTING': 'reopen_voting',
+        'SEND_ACCESS_KEY_EMAIL': 'send_access_key_email',
+        'SEND_ACCESS_KEY_SMS': 'send_access_key_phone',
+        'SEND_NOTICE': 'send_convene',
+        'SEND_ROOM_ACCESS_EMAIL': 'send_room_access_email',
+        'START_COUNCIL': 'start_council',
+        'UPDATE_VOTE': 'update_vote',
+        'VOTE': 'has_voted',
+        'VOTE_DELEGATION': 'vote_delegation',
+        default: () => type
     }
+
+    return types[type]? types[type] : types.default();
 }
 
 const getTypeTranslation = type => {

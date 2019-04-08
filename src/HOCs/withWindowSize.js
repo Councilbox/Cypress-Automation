@@ -6,7 +6,6 @@ if(isMobile){
 
 	const updateHeights = () => {
 		const html = document.getElementsByTagName('html');
-		console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
 		for(let el of html){
 			el.style.height = window.innerHeight+ 'px';
 		}	
@@ -59,12 +58,19 @@ const withWindowSize = WrappedComponent => {
 					}
 					const element = document.getElementById('root');
 					const html = document.getElementsByTagName('html');
-					 if(element){
+					if(element){
 						//element.style.height = window.innerHeight + 'px';
 						for(let el of html){
 							el.style.height = window.innerHeight + 'px';
 						}
 					}
+					const body = document.getElementsByTagName('body');
+					if(body){
+						for(let el of body){
+							el.style.height = window.innerHeight + 'px';
+						}
+					}
+					document.getElementById('root').height = window.innerHeight + 'px';
 				}
 
 				if(state.size !== this.state.size || state.innerHeight !== this.state.innerHeight || state.innerWidth !== this.state.innerWidth || state.orientation !== this.state.orientation){

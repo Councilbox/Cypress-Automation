@@ -1,15 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import { AlertConfirm } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
 import { addRepresentative } from "../../../queries";
 import RepresentativeForm from "../participants/RepresentativeForm";
 import { languages } from "../../../queries/masters";
 
-class AddRepresentativeModal extends Component {
+class AddRepresentativeModal extends React.Component {
+
+	state = {
+		success: "",
+		errors: {},
+		representative: {
+			...newRepresentativeInitialValues
+		}
+	};
+
 	close = () => {
 		this.props.requestClose();
 		this.resetForm();
 	};
+
 	addRepresentative = async () => {
 		const response = await this.props.addRepresentative({
 			variables: {
@@ -17,21 +27,23 @@ class AddRepresentativeModal extends Component {
 				participantId: this.props.participant.id
 			}
 		});
-		if (response) {
+		if (response.data.addRepresentative) {
 			if (response.data.addRepresentative.success) {
 				this.props.refetch();
 				this.close();
-			} else {
-				if (response.data.addRepresentative.message === "601") {
-					this.setState({
-						errors: {
-							email: this.props.translate.repeated_email
-						}
-					});
-				}
+			}
+		}
+		if(response.errors){
+			if(response.errors[0].message = 'Email already used'){
+				this.setState({
+					errors: {
+						email: this.props.translate.repeated_email
+					}
+				})
 			}
 		}
 	};
+
 	resetForm = () => {
 		this.setState({
 			representative: {
@@ -39,6 +51,7 @@ class AddRepresentativeModal extends Component {
 			}
 		});
 	};
+
 	updateRepresentative = object => {
 		this.setState({
 			representative: {
@@ -47,17 +60,6 @@ class AddRepresentativeModal extends Component {
 			}
 		});
 	};
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			success: "",
-			errors: {},
-			representative: {
-				...newRepresentativeInitialValues
-			}
-		};
-	}
 
 	_renderReminderBody() {
 		const { translate } = this.props;
@@ -88,7 +90,7 @@ class AddRepresentativeModal extends Component {
 				buttonAccept={translate.send}
 				buttonCancel={translate.close}
 				bodyText={this._renderReminderBody()}
-				title={translate.add_representative}
+				title={this.props.participant.representative? translate.change_representative : translate.add_representative}
 			/>
 		);
 	}

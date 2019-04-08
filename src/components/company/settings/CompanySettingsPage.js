@@ -42,6 +42,7 @@ export const info = gql`
 	}
 `;
 
+
 class CompanySettingsPage extends React.Component {
 
 	state = {
@@ -506,6 +507,27 @@ class CompanySettingsPage extends React.Component {
 									))}
 							</SelectInput>
 						</GridItem>
+						{this.props.root &&
+							<GridItem xs={12} md={6} lg={3}>
+								<SelectInput
+									floatingText={'Categoría'}
+									value={data.category}
+									onChange={event =>
+										this.updateState({
+											category: event.target.value
+										})
+									}
+									errorText={errors.language}
+								>
+									<MenuItem value="society">
+										Sociedad
+									</MenuItem>
+									<MenuItem value="realEstate">
+										Administración de fincas
+									</MenuItem>
+								</SelectInput>
+							</GridItem>
+						}
 					</Grid>
 					<br />
 					<BasicButton

@@ -7,14 +7,12 @@ import withDetectRTC from "../../../HOCs/withDetectRTC";
 import { PARTICIPANT_STATES } from '../../../constants';
 import Agendas from '../agendas/Agendas';
 import Header from "../Header";
-import { LiveToast } from '../../../displayComponents';
 import { darkGrey } from '../../../styles/colors';
 import RequestWordMenu from '../menus/RequestWordMenu';
 import { councilHasVideo } from '../../../utils/CBX';
 import { isLandscape } from '../../../utils/screen';
 import VideoContainer from '../VideoContainer';
 import { toast } from 'react-toastify';
-import { councilStarted } from '../../../utils/CBX';
 import { API_URL } from "../../../config";
 import AdminAnnouncement from './AdminAnnouncement';
 import { ConfigContext } from '../../../containers/AppControl';
@@ -98,6 +96,7 @@ class ParticipantCouncil extends React.Component {
             <Grid item xs={isLandscape() && this.state.hasVideo? 6 : 12} md={this.state.hasVideo? 4 : 6} style={{minHeight: '45%'}}>
                 <Agendas
                     participant={this.props.participant}
+                    refetchParticipant={this.props.refetchParticipant}
                     council={this.props.council}
                     anchorToggle={this.state.hasVideo}
                     agendasAnchor={this.state.agendasAnchor}
@@ -155,12 +154,14 @@ class ParticipantCouncil extends React.Component {
                                         videoURL={this.state.videoURL}
                                         refetchParticipant={this.props.refetchParticipant}
                                     />
-                                    <VideoContainer
-                                        council={council}
-                                        participant={participant}
-                                        videoURL={this.state.videoURL}
-                                        setVideoURL={url => this.setState({videoURL: url})}
-                                    />
+                                    <div style={{height: 'calc(100% - 2.5em)', width: '100%'}}>
+                                        <VideoContainer
+                                            council={council}
+                                            participant={participant}
+                                            videoURL={this.state.videoURL}
+                                            setVideoURL={url => this.setState({videoURL: url})}
+                                        />
+                                    </div>
                                 </div>
                             </Grid>
                         }

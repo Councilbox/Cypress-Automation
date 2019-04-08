@@ -61,7 +61,7 @@ class AgendaDescriptionModal extends React.Component {
 		const correctedText = changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council
-		});
+		}, this.props.translate);
 		this.setState({
             description: correctedText,
             loadDraft: false

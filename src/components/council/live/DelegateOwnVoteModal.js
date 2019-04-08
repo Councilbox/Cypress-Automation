@@ -220,7 +220,8 @@ export default compose(
 	graphql(participantsToDelegate, {
 		options: props => ({
 			variables: {
-				councilId: props.council.id
+				councilId: props.council.id,
+				participantId: props.participant.id
 			}
 		})
 	}),

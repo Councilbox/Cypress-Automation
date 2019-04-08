@@ -25,12 +25,17 @@ const BasicButton = ({
 	claseHover,
 	backgroundColor
 }) => {
-	if ((error || success) && !!reset) {
-		let timeout = setTimeout(() => {
-			reset();
-			clearTimeout(timeout);
-		}, resetDelay);
-	}
+
+	React.useEffect(() => {
+		let timeout;
+		if ((error || success) && !!reset) {
+			timeout = setTimeout(reset, resetDelay);
+		}
+		return () => {
+			clearTimeout(timeout)
+		};
+	}, [error, success, reset, resetDelay]);
+
 
 	return (
 		<Button

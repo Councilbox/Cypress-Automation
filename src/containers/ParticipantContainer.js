@@ -77,7 +77,8 @@ class ParticipantContainer extends React.PureComponent {
                                             participant={data.participant}
                                             council={{
 												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state
+												state: this.props.state.councilState.state,
+												councilStarted: this.props.state.councilState.councilStarted,
 											}}
                                             company={this.props.council.councilVideo.company}
                                         />
@@ -86,7 +87,8 @@ class ParticipantContainer extends React.PureComponent {
                                             participant={data.participant}
                                             council={{
 												...this.props.council.councilVideo,
-												state: this.props.state.councilState.state
+												state: this.props.state.councilState.state,
+												councilStarted: this.props.state.councilState.councilStarted,
 											}}
                                             company={this.props.council.councilVideo.company}
 											refetchParticipant={data.refetch}
@@ -98,7 +100,8 @@ class ParticipantContainer extends React.PureComponent {
                                 participant={data.participant}
                                 council={{
 									...this.props.council.councilVideo,
-									state: this.props.state.councilState.state
+									state: this.props.state.councilState.state,
+									councilStarted: this.props.state.councilState.councilStarted,
 								}}
                                 company={this.props.council.councilVideo.company}
                             />
@@ -121,7 +124,6 @@ const councilQuery = gql`
 				logo
 			}
 			conveneText
-			councilStarted
 			councilType
 			country
 			countryState
@@ -206,6 +208,7 @@ const stateQuery = gql`
 	query info($councilId: Int!) {
 		councilState(id: $councilId) {
 			state
+			councilStarted
 			id
 		}
 	}
@@ -276,7 +279,7 @@ export default compose(
 		options: props => ({
 			fetchPolicy: "network-only",
 			notifyOnNetworkStatusChange: true,
-			pollInterval: 15000
+			pollInterval: 8000
 		})
 	})
 )(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));

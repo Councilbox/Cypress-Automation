@@ -50,7 +50,7 @@ class PointEditor extends React.Component {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council
-		});
+		}, this.props.translate);
 		this.updateState({
 			description: correctedText,
 			majority: draft.majority,
