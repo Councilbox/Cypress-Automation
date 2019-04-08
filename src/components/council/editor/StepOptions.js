@@ -48,7 +48,6 @@ const StepOptions = ({ translate, data, ...props }) => {
 		}
 	});
 	const council = state.data.council;
-	console.log(council);
 
 	const updateCouncil = async step => {
 		setState({
@@ -96,6 +95,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 		}
 
 		if(council.autoClose === 1){
+			//TRADUCCION
 			if(!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)){
 				setState({
 					...state,
@@ -125,86 +125,17 @@ const StepOptions = ({ translate, data, ...props }) => {
 	}
 
 
-	const nextPage = () => {
+	const nextPage = async () => {
 		if (!checkRequiredFields()) {
-			updateCouncil(6);
+			await updateCouncil(6);
 			props.nextStep();
 		}
 	};
 
-	const previousPage = () => {
-		updateCouncil(5);
+	const previousPage = async () => {
+		await updateCouncil(5);
 		props.previousStep();
 	};
-
-	function _renderNumberInput() {
-		const { council } = state.data;
-
-		return (
-			<div className="row" style={{padding: '1.1em'}}>
-				<div style={{ width: "3em" }}>
-					<TextInput
-						type={"number"}
-						errorText={state.errors.actPointMajority}
-						value={council.actPointMajority}
-						onChange={event =>
-							updateCouncilData({
-								actPointMajority: event.nativeEvent.target.value
-							})
-						}
-					/>
-				</div>
-				<div
-					style={{
-						display: "flex",
-						alignItems: "center"
-					}}
-				>
-					{council.actPointMajorityType === 0 && (
-						<span
-							style={{
-								color: "white",
-								padding: "0.5em",
-								backgroundColor: primary,
-								marginRight: "1em"
-							}}
-						>
-							%
-						</span>
-					)}
-					{council.actPointMajorityType === 5 && (
-						<span
-							style={{
-								color: "white",
-								padding: "0.5em",
-								backgroundColor: primary,
-								marginRight: "1em"
-							}}
-						>
-							/
-						</span>
-					)}
-				</div>
-				<div style={{ width: "3em" }}>
-					{council.actPointMajorityType === 5 && (
-						<TextInput
-							type={"number"}
-							errorText={
-								state.errors.act_point_majority_divider
-							}
-							value={council.actPointMajorityDivider}
-							onChange={event =>
-								updateCouncilData({
-									actPointMajorityDivider:
-										event.nativeEvent.target.value
-								})
-							}
-						/>
-					)}
-				</div>
-			</div>
-		);
-	}
 
 	function _renderSecurityForm() {
 		return (
@@ -251,7 +182,6 @@ const StepOptions = ({ translate, data, ...props }) => {
 			</React.Fragment>
 		);
 	}
-	console.log(council);
 
 	return (
 		<EditorStepLayout
@@ -518,39 +448,6 @@ const StepOptions = ({ translate, data, ...props }) => {
 	);
 }
 
-/*
-class StepOptions extends React.Component {
-	state = {
-		
-	};
-
-	componentDidMount() {
-		data.refetch();
-	}
-
-	componentDidUpdate(){
-
-	}
-
-
-
-
-
-	
-
-	render() {
-		const {  } = props;
-		const { council } = state.data;
-		const primary = getPrimary();
-		let statute = {}
-
-		if(!data.loading){
-			statute = data.council.statute;
-		}
-
-		
-}
-*/
 
 export default compose(
 	graphql(councilStepFive, {
