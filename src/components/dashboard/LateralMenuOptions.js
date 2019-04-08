@@ -57,12 +57,13 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 						link={`/company/${company.id}/statutes`}
 						style={{ marginTop: "10px" }}
 					/>
-
-					<LateralOption
-						icon={'contacts'}
-						text={translate.book}
-						link={`/company/${company.id}/book`}
-					/>
+					{company.category === 'society' &&
+						<LateralOption
+							icon={'contacts'}
+							text={translate.book}
+							link={`/company/${company.id}/book`}
+						/>
+					}
 					<LateralOption
 						link={`/company/${company.id}/censuses`}
 						icon={'person'}
