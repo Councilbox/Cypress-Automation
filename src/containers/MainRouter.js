@@ -28,20 +28,22 @@ import PartnersBookPage from '../components/partners/PartnersBookPage';
 import PartnerEditorPage from '../components/partners/PartnerEditorPage';
 import NewPartnerPage from '../components/partners/NewPartnerPage';
 import Loadable from 'react-loadable';
+import { bHistory } from './App';
 
 const DevAdminPanel = Loadable({
 	loader: () => import('../components/admin/DevAdminPanel'),
 	loading: LoadingMainApp
 });
 
-const redirect = company => () => (
-    <Redirect to={`/company/${company.id}`} />
-)
+const redirect = company => () => {
+    return <Redirect to={`/company/${company.id}`} />
+}
 
 const MainRouter = ({ company, user, location, disabled }) => {
 
     if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')){
-        return <Redirect to={`/company/${company.id}`} />
+        bHistory.push(`/company/${company.id}`);
+        //return <Redirect to={`/company/${company.id}`} />
     }
 
     const companySettings = () => {

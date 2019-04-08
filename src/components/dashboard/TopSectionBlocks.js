@@ -1,26 +1,15 @@
 import React from "react";
 import {
-	Block, Grid, GridItem, LoadingSection, AlertConfirm, Link, BasicButton
+	Block,
+	Grid,
+	GridItem
 } from "../../displayComponents";
 import logo from '../../assets/img/logo-icono.png';
 import { ConfigContext } from '../../containers/AppControl';
 import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
+import { TRIAL_DAYS } from "../../config";
+import { trialDaysLeft } from "../../utils/CBX";
 import { moment } from "../../containers/App";
-import BigCalendar from 'react-big-calendar'
-import "react-big-calendar/lib/css/react-big-calendar.css";
-import CouncilDetails from '../../components/council/display/CouncilDetails'
-import gql from 'graphql-tag';
-import AgendaEvent from './AgendaEvent';
-import { isMobile } from "react-device-detect";
-import Grafica from "./Grafica";
-import UltimasAcciones from "./UltimasAcciones";
-import ButtonsDirectAccess from "./ButtonsDirectAccess";
-import _ from "lodash";
-import RGL, { WidthProvider, Responsive } from "react-grid-layout";
-import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
-import SinSesion from "./SinSesion"
-import { Tooltip } from "material-ui";
 
 const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
@@ -131,57 +120,3 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 
 
 export default TopSectionBlocks;
-
-}
-
-
-function layoutPositivo(layout) {
-	let aux = [];
-	layout.forEach(element => {
-		let datoX = element.x;
-		if (Math.sign(element.x) === -1) {
-			datoX = 0
-		}
-		aux.push({ w: element.w, h: element.h, x: Math.round(datoX), y: element.y, i: element.i, moved: element.moved, static: element.static })
-	});
-	return aux;
-}
-
-
-const loadFromPreviousCouncil = gql`
-    mutation LoadFromPreviousCouncil($councilId: Int!, $originId: Int!){
-					loadFromAnotherCouncil(councilId: $councilId, originId: $originId){
-					success
-            message
-				}
-			}
-		`;
-
-export default compose(
-	graphql(loadFromPreviousCouncil, { name: 'loadFromPreviousCouncil' }),
-	graphql(councils, {
-		options: props => ({
-			variables: {
-				state: [5, 10, 20, 30, 40, 60, 70],
-				companyId: props.company.id,
-				isMeeting: false,
-				active: 1
-			},
-			errorPolicy: 'all'
-		})
-	})
-)(TopSectionBlocks);
-
-	// CANCELED: -1,
-	// DRAFT: 0,
-	// PRECONVENE: 3,
-	// SAVED: 5,
-	// PREPARING: 10,
-	// ROOM_OPENED: 20,
-	// APPROVING_ACT_DRAFT: 30,
-	// FINISHED: 40,
-	// APPROVED: 60,
-	// FINAL_ACT_SENT: 70,
-	// NOT_CELEBRATED: 80,
-	// FINISHED_WITHOUT_ACT: 90,
-	// MEETING_FINISHED: 100

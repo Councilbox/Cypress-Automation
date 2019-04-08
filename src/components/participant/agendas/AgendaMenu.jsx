@@ -106,8 +106,10 @@ class AgendaMenu extends React.Component {
 
     render() {
         const { translate, agenda } = this.props;
-
+        const secondary = getSecondary();
+        const primary = getPrimary();
         const ownVote = this.findOwnVote(agenda.votings, this.props.participant);
+
         return (
             <div>
                 <Typography style={{ fontWeight: '700', fontSize: '16px' }}>

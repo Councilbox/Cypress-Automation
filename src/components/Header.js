@@ -15,164 +15,124 @@ import FontAwesome from 'react-fontawesome';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION } from "../config";
 
+const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
+	const [companyMenu, setCompanyMenu] = React.useState(false);
 
-class Header extends React.PureComponent {
-	state = {
-		companyMenu: false,
-		unsavedChanges: false
-	}
-
-	logout = () => {
-		this.props.actions.logout();
+	const logout = () => {
+		actions.logout();
 	};
 
-	goBack = () => {
+	const goBack = () => {
 		bHistory.goBack();
-/* 		if(!this.props.main.unsavedChanges){
-			bHistory.goBack();
-		} else {
-			this.setState({
-				unsavedChanges: true
-			})
-		} */
 	};
 
-	toggleCompanyMenu = () => {
-		this.setState({
-			companyMenu: !this.state.companyMenu
-		});
+
+	const toggleCompanyMenu = () => {
+		setCompanyMenu(!companyMenu);
 	}
 
-	closeUnsavedModal = () => {
-		this.setState({unsavedChanges: false});
+	const showVerticalLayout = () => {
+		return windowSize === 'xs' && !isLandscape();
 	}
 
-	showVerticalLayout = () => {
-		return this.props.windowSize === 'xs' && !isLandscape();
-	}
-	
+	const secondary = getSecondary();
+	const language = translate && translate.selectedLanguage;
 
-	render() {
-		const secondary = getSecondary();
-		const language =
-			this.props.translate && this.props.translate.selectedLanguage;
-		const {
-			backButton,
-			windowSize,
-			languageSelector,
-			drawerIcon
-		} = this.props;
-
-		return (
-			<Paper
-				elevation={0}
+	return (
+		<Paper
+			elevation={0}
+			style={{
+				height: "3em",
+				zIndex: 1000,
+				display: "flex",
+				flexDirection: "row",
+				borderBottom: '1px solid gainsboro',
+				width: "100%",
+				justifyContent: "space-between",
+				alignItems: "center",
+				backgroundColor: "white"
+			}}
+		>
+			<div
 				style={{
-					height: "3em",
-					zIndex: 1000,
 					display: "flex",
 					flexDirection: "row",
-					borderBottom: '1px solid gainsboro',
-					width: "100%",
-					justifyContent: "space-between",
-					alignItems: "center",
-					backgroundColor: "white"
+					height: "100%",
+					alignItems: "center"
 				}}
 			>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						height: "100%",
-						alignItems: "center"
-					}}
-				>
-					{/* Quitado porque en el header ya se coloca el logo de la empresa en otro lado */}
-					{/* {(this.props.companyMenu && this.showVerticalLayout()) &&
-						<React.Fragment>
-							{!!this.props.company.logo?
-								<img src={this.props.company.logo} style={{maxWidth: '4em', height: '1.8em'}} alt="company-logo" />
-							:
-								<FontAwesome
-									name={"building-o"}
-								/>}
-						</React.Fragment>
-					} */}
-					{backButton && (
-						<Tooltip
-							title={this.props.translate.back}
-							placement="bottom"
-						>
-							<div
-								style={{
-									cursor: "pointer",
-									width: "2em",
-									height: "60%",
-									borderRight: "1px solid darkgrey",
-									display: "flex",
-									alignItems: "center"
-								}}
-								id="back-button"
-								onClick={this.goBack}
-							>
-								<Icon
-									className="material-icons"
-									style={{ color: secondary }}
-								>
-									keyboard_arrow_left
-								</Icon>
-							</div>
-						</Tooltip>
-					)}
-					<Link to="/">
-						<img
-							src={!this.showVerticalLayout() ? logo : icono}
-							className="App-logo"
+				{backButton && (
+					<Tooltip
+						title={translate.back}
+						placement="bottom"
+					>
+						<div
 							style={{
-								height: "1.5em",
-								marginLeft: "1em",
-								// marginLeft: "2em",
-								userSelect: 'none'
+								cursor: "pointer",
+								width: "2em",
+								height: "60%",
+								borderRight: "1px solid darkgrey",
+								display: "flex",
+								alignItems: "center"
 							}}
-							alt="logo"
-						/>
-					</Link>
-				</div>
+							id="back-button"
+							onClick={this.goBack}
+						>
+							<Icon
+								className="material-icons"
+								style={{ color: secondary }}
+							>
+								keyboard_arrow_left
+							</Icon>
+						</div>
+					</Tooltip>
+				)}
+				<Link to="/">
+					<img
+						src={!showVerticalLayout() ? logo : icono}
+						className="App-logo"
+						style={{
+							height: "1.5em",
+							marginLeft: "1em",
+							// marginLeft: "2em",
+							userSelect: 'none'
+						}}
+						alt="logo"
+					/>
+				</Link>
+			</div>
 
-				{this.props.commandLine && false &&
-					<CommandLine />
+			{props.commandLine && false &&
+				<CommandLine />
+			}
+
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center"
+				}}
+			>
+				{languageSelector &&
+					<span style={{fontSize: '0.85em'}}>
+						{`v${CLIENT_VERSION}`}
+					</span>
 				}
-
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
-					}}
-				>
-					{languageSelector &&
-						<span style={{fontSize: '0.85em'}}>
-							{`v${CLIENT_VERSION}`}
-						</span>
-					}
-					{languageSelector && (
-						<LanguageSelector selectedLanguage={language} />
-					)}
-					{this.props.user && (
-						<UserMenu
-							user={this.props.user}
-							translate={this.props.translate}
-							company={this.props.company}
-						/>
-					)}
-					{drawerIcon && "DRAWER"}
-				</div>
-				<UnsavedChangesModal
-					open={this.state.unsavedChanges}
-					requestClose={this.closeUnsavedModal}
-				/>
-			</Paper>
-		);
-	}
+				{languageSelector && (
+					<LanguageSelector selectedLanguage={language} />
+				)}
+				{props.user && (
+					<UserMenu
+						user={props.user}
+						translate={translate}
+						company={props.company}
+					/>
+				)}
+				{drawerIcon && "DRAWER"}
+			</div>
+		</Paper>
+	);
 }
+
 
 export default withWindowSize(Header);
