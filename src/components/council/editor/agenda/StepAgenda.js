@@ -2,27 +2,27 @@ import React from "react";
 import {
 	BasicButton,
 	ButtonIcon,
-	ErrorWrapper,
 	Grid,
 	GridItem,
 	DropDownMenu,
 	LoadingSection
 } from "../../../../displayComponents/index";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { Typography } from "material-ui";
 import { councilStepThree, updateCouncil } from "../../../../queries";
 import { removeAgenda } from "../../../../queries/agenda";
-import { MenuItem, Divider } from 'material-ui';
+import { MenuItem, Divider } from "material-ui";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import NewAgendaPointModal from "./modals/NewAgendaPointModal";
 import PointEditor from "./modals/PointEditor";
 import ReorderPointsModal from "../../agendas/ReorderPointsModal";
 import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
 import AgendaItem from "./AgendaItem";
-import EditorStepLayout from '../EditorStepLayout';
-import NewCustomPointModal from './modals/NewCustomPointModal';
-import CustomPointEditor from './modals/CustomPointEditor';
+import EditorStepLayout from "../EditorStepLayout";
+import NewCustomPointModal from "./modals/NewCustomPointModal";
+import CustomPointEditor from "./modals/CustomPointEditor";
 import { ConfigContext } from "../../../../containers/AppControl";
+import { useOldState } from "../../../../hooks";
 
 const buttonStyle = {
 	color: "white",
@@ -31,33 +31,52 @@ const buttonStyle = {
 	textTransform: "none"
 };
 
-class StepAgenda extends React.Component {
-	state = {
+const StepAgenda = ({ client, translate, ...props }) => {
+	const [state, setState] = useOldState({
 		votingTypes: [],
 		edit: false,
 		editIndex: 0,
-		loading: false,
 		success: false,
-		saveAsDraft: false,
-		saveAsDraftId: 0,
+		loading: false,
+		saveAsDraftId: null,
 		errors: {
 			agendaSubject: "",
 			description: "",
 			emptyAgendas: ""
 		}
+	});
+	const [loading, setLoading] = React.useState(true);
+	const [data, setData] = React.useState({});
+	const primary = getPrimary();
+	const secondary = getSecondary();
+
+	React.useEffect(() => {
+		getData();
+	},[props.councilID]);
+
+
+	const getData = async () => {
+		setLoading(true);
+		const response = await client.query({
+			query: councilStepThree,
+			variables: {
+				id: props.councilID,
+				companyId: props.company.id
+			}
+		});
+
+		if (response.data) {
+			setData(response.data);
+		}
+
+		setLoading(false);
 	};
 
-	componentDidMount() {
-		this.props.data.refetch();
-	}
+	const updateCouncil = async step => {
+		setState({ loading: true });
+		const { agendas, statute, __typename, ...council } = data.council;
 
-	updateCouncil = async step => {
-		this.setState({
-			loading: true
-		})
-		const { agendas, statute, __typename, ...council } = this.props.data.council;
-
-		await this.props.updateCouncil({
+		await props.updateCouncil({
 			variables: {
 				council: {
 					...council,
@@ -66,359 +85,360 @@ class StepAgenda extends React.Component {
 			}
 		});
 
-		await this.setState({
+		setLoading(false);
+		setState({
 			loading: false,
 			success: true
-		})
+		});
 	};
 
-	resetButtonStates = () => {
-		this.setState({
+	const resetButtonStates = () => {
+		setState({
 			loading: false,
 			success: false
-		})
-	}
+		});
+	};
 
-	removeAgenda = async agendaId => {
-		const response = await this.props.removeAgenda({
+	const removeAgenda = async agendaId => {
+		const response = await props.removeAgenda({
 			variables: {
 				agendaId: agendaId,
-				councilId: this.props.councilID
+				councilId: props.councilID
 			}
 		});
 
 		if (response) {
-			this.props.data.refetch();
+			getData();
 		}
 	};
 
-	selectAgenda = index => {
-		const agenda = this.props.data.council.agendas.find(
+	const selectAgenda = index => {
+		const agenda = data.council.agendas.find(
 			item => item.orderIndex === index
 		);
 
-		if(agenda.items.length > 0){
-			this.setState({
+		if (agenda.items.length > 0) {
+			setState({
 				editCustomAgenda: agenda
 			});
 		} else {
-			this.setState({
+			setState({
 				editAgenda: agenda
 			});
 		}
-
 	};
 
-	nextPage = async () => {
-		if (this.checkConditions()) {
-			await this.updateCouncil(4);
-			this.props.nextStep();
+	const nextPage = async () => {
+		if (checkConditions()) {
+			await updateCouncil(4);
+			props.nextStep();
 		}
 	};
 
-	checkConditions = () => {
-		const { errors } = this.state;
-		const agendas = this.props.data.council.agendas;
+	const checkConditions = () => {
+		const { errors } = state;
+		const agendas = data.council.agendas;
 
 		if (agendas.length !== 0) {
 			return true;
 		} else {
-			this.setState({
+			setState({
 				errors: {
 					...errors,
-					emptyAgendas: this.props.translate.required_agendas
+					emptyAgendas: translate.required_agendas
 				}
 			});
 			return false;
 		}
 	};
 
-	previousPage = async () => {
-		await this.updateCouncil(3);
-		this.props.previousStep();
+	const previousPage = async () => {
+		await updateCouncil(3);
+		props.previousStep();
 	};
 
-	saveAsDraft = id => {
-		this.setState({
-			saveAsDraft: true,
+	const saveAsAgendaDraft = id => {
+		setState({
 			saveAsDraftId: id
 		});
 	};
 
-	render() {
-		const { translate } = this.props;
-		const {
-			errors,
-			saveAsDraft,
-			saveAsDraftId
-		} = this.state;
-		const {
-			votingTypes,
-			council,
-			majorityTypes,
-			draftTypes
-		} = this.props.data;
-		const primary = getPrimary();
-		const secondary = getSecondary();
+	const { errors, saveAsDraftId } = state;
+	const { votingTypes, council, majorityTypes, draftTypes } = data;
 
-		let agendas = [];
+	let agendas = [];
 
-		if (!this.props.data.loading) {
-			agendas = !!council.agendas ? council.agendas : [];
-		}
-		let newDraft = agendas.find(item => item.id === saveAsDraftId);
+	if (!loading) {
+		agendas = !!council.agendas ? council.agendas : [];
+	}
+	let newDraft = agendas.find(item => item.id === saveAsDraftId);
 
-
-		if (this.props.data.errors) {
-			return <ErrorWrapper error={this.props.data.errors.graph} />;
-		}
-
-		return (
-			<React.Fragment>
-				<EditorStepLayout
-					body={
-						<React.Fragment>
-							<Grid>
-								{this.props.data.loading?
-									<div
+	return (
+		<React.Fragment>
+			<EditorStepLayout
+				body={
+					<React.Fragment>
+						<Grid>
+							{loading ? (
+								<div
+									style={{
+										height: "300px",
+										width: "100%",
+										display: "flex",
+										alignItems: "center",
+										justifyContent: "center"
+									}}
+								>
+									<LoadingSection />
+								</div>
+							) : agendas.length > 0 ? (
+								<React.Fragment>
+									<GridItem
+										xs={12}
+										lg={12}
+										md={12}
 										style={{
-											height: "300px",
-											width: "100%",
 											display: "flex",
-											alignItems: "center",
-											justifyContent: "center"
+											flexDirection: "row"
 										}}
 									>
-										<LoadingSection />
-									</div>
-									:
-									agendas.length > 0 ? (
-										<React.Fragment>
-											<GridItem
-												xs={12}
-												lg={12}
-												md={12}
-												style={{
-													display: "flex",
-													flexDirection: "row"
-												}}
-											>
-												<AddAgendaPoint
-													translate={translate}
-													agendas={council.agendas}
-													votingTypes={votingTypes}
-													majorityTypes={majorityTypes}
-													draftTypes={draftTypes}
-													statute={council.statute}
-													company={this.props.company}
-													council={council}
-													companyStatutes={this.props.data.companyStatutes}
-													refetch={this.props.data.refetch}
+										<AddAgendaPoint
+											translate={translate}
+											agendas={council.agendas}
+											votingTypes={votingTypes}
+											majorityTypes={majorityTypes}
+											draftTypes={draftTypes}
+											statute={council.statute}
+											company={props.company}
+											council={council}
+											companyStatutes={data.companyStatutes}
+											refetch={getData}
+										/>
+										<ReorderPointsModal
+											translate={translate}
+											agendas={council.agendas}
+											councilID={props.councilID}
+											refetch={getData}
+											style={{ marginLeft: "0.8em" }}
+										>
+											<BasicButton
+												text={
+													translate.reorder_agenda_points
+												}
+												color={secondary}
+												textStyle={buttonStyle}
+												icon={
+													<ButtonIcon
+														type="cached"
+														color="white"
+													/>
+												}
+												textPosition="after"
+											/>
+										</ReorderPointsModal>
+									</GridItem>
+									<div
+										style={{
+											width: "100%"
+										}}
+									>
+										{agendas.map((agenda, index) => {
+											return (
+												<AgendaItem
+													agenda={agenda}
+													key={`agenda${index}`}
+													typeText={
+														translate[
+															votingTypes.find(
+																item =>
+																	item.value ===
+																	agenda.subjectType
+															).label
+														]
+													}
+													removeAgenda={removeAgenda}
+													selectAgenda={selectAgenda}
+													saveAsDraft={saveAsAgendaDraft}
 												/>
-												<ReorderPointsModal
-													translate={translate}
-													agendas={council.agendas}
-													councilID={this.props.councilID}
-													refetch={this.props.data.refetch}
-													style={{ marginLeft: "0.8em" }}
-												>
-													<BasicButton
-														text={translate.reorder_agenda_points}
-														color={secondary}
-														textStyle={buttonStyle}
-														icon={
-															<ButtonIcon
-																type="cached"
-																color="white"
-															/>
-														}
-														textPosition="after"
-													/>
-												</ReorderPointsModal>
-											</GridItem>
-											<div
-												style={{
-													width: "100%"
-												}}
-											>
-												{agendas.map((agenda, index) => {
-													return (
-														<AgendaItem
-															agenda={agenda}
-															key={`agenda${index}`}
-															typeText={
-																translate[
-																votingTypes.find(
-																	item =>
-																		item.value ===
-																		agenda.subjectType
-																).label
-																]
-															}
-															removeAgenda={this.removeAgenda}
-															selectAgenda={this.selectAgenda}
-															saveAsDraft={this.saveAsDraft}
-														/>
-													);
-												})}
-											</div>
-										</React.Fragment>
-									) : (
-											<div
-												style={{
-													width: "100%",
-													display: "flex",
-													flexDirection: "column",
-													alignItems: "center",
-													marginTop: "2em",
-													marginBottom: "3em"
-												}}
-											>
-												<Typography variant="subheading">
-													{translate.empty_agendas}
-												</Typography>
-												<br />
-												<div>
-													<AddAgendaPoint
-														translate={translate}
-														agendas={council.agendas}
-														votingTypes={votingTypes}
-														majorityTypes={majorityTypes}
-														draftTypes={draftTypes}
-														statute={council.statute}
-														company={this.props.company}
-														council={council}
-														companyStatutes={this.props.data.companyStatutes}
-														refetch={this.props.data.refetch}
-													/>
-												</div>
-												<Typography variant="subheading" style={{ color: "red", fontWeight: '700', marginTop: '1.2em'}}>
-													{errors.emptyAgendas}
-												</Typography>
-											</div>
-										)
-								}
-							</Grid>
-							{!this.props.data.loading &&
-								<React.Fragment>
-									<PointEditor
+											);
+										})}
+									</div>
+								</React.Fragment>
+							) : (
+								<div
+									style={{
+										width: "100%",
+										display: "flex",
+										flexDirection: "column",
+										alignItems: "center",
+										marginTop: "2em",
+										marginBottom: "3em"
+									}}
+								>
+									<Typography variant="subheading">
+										{translate.empty_agendas}
+									</Typography>
+									<br />
+									<div>
+										<AddAgendaPoint
+											translate={translate}
+											agendas={council.agendas}
+											votingTypes={votingTypes}
+											majorityTypes={majorityTypes}
+											draftTypes={draftTypes}
+											statute={council.statute}
+											company={props.company}
+											council={council}
+											companyStatutes={data.companyStatutes}
+											refetch={getData}
+										/>
+									</div>
+									<Typography
+										variant="subheading"
+										style={{
+											color: "red",
+											fontWeight: "700",
+											marginTop: "1.2em"
+										}}
+									>
+										{errors.emptyAgendas}
+									</Typography>
+								</div>
+							)}
+						</Grid>
+						{!loading && (
+							<React.Fragment>
+								<PointEditor
+									translate={translate}
+									draftTypes={draftTypes}
+									statute={council.statute}
+									company={props.company}
+									council={council}
+									companyStatutes={data.companyStatutes}
+									open={!!state.editAgenda}
+									agenda={state.editAgenda}
+									votingTypes={votingTypes}
+									majorityTypes={majorityTypes}
+									refetch={getData}
+									requestClose={() =>
+										setState({ editAgenda: null })
+									}
+								/>
+								{!!state.editCustomAgenda && (
+									<CustomPointEditor
 										translate={translate}
 										draftTypes={draftTypes}
 										statute={council.statute}
-										company={this.props.company}
+										company={props.company}
 										council={council}
-										companyStatutes={this.props.data.companyStatutes}
-										open={!!this.state.editAgenda}
-										agenda={this.state.editAgenda}
+										companyStatutes={data.companyStatutes}
+										open={!!state.editCustomAgenda}
+										agenda={state.editCustomAgenda}
 										votingTypes={votingTypes}
 										majorityTypes={majorityTypes}
-										refetch={this.props.data.refetch}
-										requestClose={() => this.setState({ editAgenda: null })}
+										refetch={getData}
+										requestClose={() =>
+											setState({ editCustomAgenda: null })
+										}
 									/>
-									{!!this.state.editCustomAgenda &&
-										<CustomPointEditor
-											translate={translate}
-											draftTypes={draftTypes}
+								)}
+								{saveAsDraftId &&
+									newDraft && (
+										<SaveDraftModal
+											open={saveAsDraftId}
 											statute={council.statute}
-											company={this.props.company}
-											council={council}
-											companyStatutes={this.props.data.companyStatutes}
-											open={!!this.state.editCustomAgenda}
-											agenda={this.state.editCustomAgenda}
+											data={{
+												...newDraft,
+												text: newDraft.description,
+												description: "",
+												title: newDraft.agendaSubject,
+												votationType:
+													newDraft.subjectType,
+												type: draftTypes.filter(
+													draft =>
+														draft.label === "agenda"
+												)[0].value,
+												statuteId:
+													council.statute.statuteId
+											}}
+											company={props.company}
+											requestClose={() =>
+												setState({ saveAsDraftId: null })
+											}
+											companyStatutes={data.companyStatutes}
 											votingTypes={votingTypes}
 											majorityTypes={majorityTypes}
-											refetch={this.props.data.refetch}
-											requestClose={() => this.setState({ editCustomAgenda: null })}
+											draftTypes={draftTypes}
 										/>
-									}
-									{saveAsDraft &&
-										newDraft && (
-											<SaveDraftModal
-												open={saveAsDraft}
-												statute={council.statute}
-												data={{
-													...newDraft,
-													text: newDraft.description,
-													description: "",
-													title: newDraft.agendaSubject,
-													votationType: newDraft.subjectType,
-													type: draftTypes.filter(
-														draft => draft.label === "agenda"
-													)[0].value,
-													statuteId: council.statute.statuteId
-												}}
-												company={this.props.company}
-												requestClose={() =>
-													this.setState({ saveAsDraft: false })
-												}
-												companyStatutes={this.props.data.companyStatutes}
-												votingTypes={votingTypes}
-												majorityTypes={majorityTypes}
-												draftTypes={draftTypes}
-											/>
-										)
-									}
-								</React.Fragment>
-							}
-						</React.Fragment>
-					}
-					buttons={
-						<React.Fragment>
-							<BasicButton
-								text={translate.previous}
-								disable={this.props.data.loading}
-								color={secondary}
-								textStyle={buttonStyle}
-								textPosition="after"
-								onClick={this.previousPage}
-							/>
-							<BasicButton
-								text={translate.save}
-								disable={this.props.data.loading}
-								success={this.state.success}
-								loading={this.state.loading}
-								reset={this.resetButtonStates}
-								color={secondary}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									marginLeft: "0.5em",
-									marginRight: "0.5em",
-									textTransform: "none"
-								}}
-								icon={<ButtonIcon type="save" color="white" />}
-								textPosition="after"
-								onClick={() => this.updateCouncil(3)}
-							/>
-							<BasicButton
-								text={translate.next}
-								color={primary}
-								disable={this.props.data.loading}
-								loadingColor={'white'}
-								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
-								}}
-								textPosition="after"
-								onClick={this.nextPage}
-							/>
-						</React.Fragment>
-					}
-				/>
-			</React.Fragment>
-		);
-	}
-}
+									)}
+							</React.Fragment>
+						)}
+					</React.Fragment>
+				}
+				buttons={
+					<React.Fragment>
+						<BasicButton
+							text={translate.previous}
+							disable={loading}
+							color={secondary}
+							textStyle={buttonStyle}
+							textPosition="after"
+							onClick={previousPage}
+						/>
+						<BasicButton
+							text={translate.save}
+							disable={data.loading}
+							success={state.success}
+							loading={state.loading}
+							reset={resetButtonStates}
+							color={secondary}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								marginLeft: "0.5em",
+								marginRight: "0.5em",
+								textTransform: "none"
+							}}
+							icon={<ButtonIcon type="save" color="white" />}
+							textPosition="after"
+							onClick={() => updateCouncil(3)}
+						/>
+						<BasicButton
+							text={translate.next}
+							color={primary}
+							disable={loading}
+							loadingColor={"white"}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							onClick={nextPage}
+						/>
+					</React.Fragment>
+				}
+			/>
+		</React.Fragment>
+	);
+};
 
-export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes, draftTypes, Component, ...props }) => {
+export const AddAgendaPoint = ({
+	translate,
+	council,
+	votingTypes,
+	majorityTypes,
+	draftTypes,
+	Component,
+	...props
+}) => {
 	const config = React.useContext(ConfigContext);
 	const [state, setState] = React.useState({
 		yesNoModal: false,
 		customPointModal: false
-	})
+	});
 	const [loading, setLoading] = React.useState(false);
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -428,57 +448,66 @@ export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes,
 			...state,
 			customPointModal: true
 		});
-	}
+	};
 
 	const closeCustomPointModal = () => {
 		setState({
 			...state,
 			customPointModal: false
 		});
-	}
+	};
 
 	const showYesNoModal = () => {
 		setState({
 			...state,
 			yesNoModal: true
-		})
-	}
+		});
+	};
 
 	const closeYesNoModal = () => {
 		setState({
 			...state,
 			yesNoModal: false
-		})
-	}
+		});
+	};
 
 	return (
 		<React.Fragment>
-			{config.customPoints && council.councilType === 2 ?
+			{config.customPoints && council.councilType === 2 ? (
 				<DropDownMenu
 					color={primary}
-					id={'new-agenda-trigger'}
+					id={"new-agenda-trigger"}
 					loading={loading}
-					{...(!!Component? Component={Component} : {})}
+					{...(!!Component ? (Component = { Component }) : {})}
 					text={translate.add_agenda_point}
 					textStyle={buttonStyle}
-					icon={
-						<ButtonIcon type="add" color="white" />
-					}
+					icon={<ButtonIcon type="add" color="white" />}
 					items={
 						<React.Fragment>
 							<MenuItem onClick={showYesNoModal}>
 								<div
 									style={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'row',
-										justifyContent: 'space-between'
+										width: "100%",
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between"
 									}}
 								>
-									<i className="material-icons" style={{fontSize: '1.2em', color: secondary}}>
+									<i
+										className="material-icons"
+										style={{
+											fontSize: "1.2em",
+											color: secondary
+										}}
+									>
 										thumbs_up_down
 									</i>
-									<span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+									<span
+										style={{
+											marginLeft: "2.5em",
+											marginRight: "0.8em"
+										}}
+									>
 										Punto si / no / abstención
 									</span>
 								</div>
@@ -487,16 +516,27 @@ export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes,
 							<MenuItem onClick={showCustomPointModal}>
 								<div
 									style={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'row',
-										justifyContent: 'space-between'
+										width: "100%",
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between"
 									}}
 								>
-									<i className="material-icons" style={{fontSize: '1.2em', color: secondary}}>
+									<i
+										className="material-icons"
+										style={{
+											fontSize: "1.2em",
+											color: secondary
+										}}
+									>
 										poll
 									</i>
-									<span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+									<span
+										style={{
+											marginLeft: "2.5em",
+											marginRight: "0.8em"
+										}}
+									>
 										Punto personalizado
 									</span>
 								</div>
@@ -504,25 +544,19 @@ export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes,
 						</React.Fragment>
 					}
 				/>
-			:
-				!!Component?
-					<Component
-						onClick={showYesNoModal}
-					/>
-				:
-					<BasicButton
-						text={translate.add_agenda_point}
-						color={primary}
-						onClick={showYesNoModal}
-						textStyle={buttonStyle}
-						icon={
-							<ButtonIcon type="add" color="white" />
-						}
-						textPosition="after"
-					/>
-
-			}
-			{state.yesNoModal &&
+			) : !!Component ? (
+				<Component onClick={showYesNoModal} />
+			) : (
+				<BasicButton
+					text={translate.add_agenda_point}
+					color={primary}
+					onClick={showYesNoModal}
+					textStyle={buttonStyle}
+					icon={<ButtonIcon type="add" color="white" />}
+					textPosition="after"
+				/>
+			)}
+			{state.yesNoModal && (
 				<NewAgendaPointModal
 					translate={translate}
 					agendas={council.agendas}
@@ -537,8 +571,8 @@ export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes,
 					companyStatutes={props.companyStatutes}
 					refetch={props.refetch}
 				/>
-			}
-			{state.customPointModal &&
+			)}
+			{state.customPointModal && (
 				<NewCustomPointModal
 					translate={translate}
 					agendas={council.agendas}
@@ -553,21 +587,12 @@ export const AddAgendaPoint = ({ translate, council, votingTypes, majorityTypes,
 					companyStatutes={props.companyStatutes}
 					refetch={props.refetch}
 				/>
-			}
+			)}
 		</React.Fragment>
-	)
-}
+	);
+};
 
 export default compose(
-	graphql(councilStepThree, {
-		name: "data",
-		options: props => ({
-			variables: {
-				id: props.councilID,
-				companyId: props.company.id
-			}
-		})
-	}),
 	graphql(removeAgenda, { name: "removeAgenda" }),
 	graphql(updateCouncil, { name: "updateCouncil" })
-)(StepAgenda);
+)(withApollo(StepAgenda));
