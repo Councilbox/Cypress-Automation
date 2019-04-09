@@ -17,25 +17,22 @@ import * as CBX from "../../../../../utils/CBX";
 import { getSecondary } from "../../../../../styles/colors";
 import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
 import { toast } from 'react-toastify';
+import { useOldState } from "../../../../../hooks";
 
+const defaultValues = {
+	agendaSubject: "",
+	subjectType: 0,
+	description: "",
+	majority: null,
+	majorityType: 1,
+	majorityDivider: null
+}
 
-class NewAgendaPointModal extends React.Component {
+//let sending = false;
 
-	sending = false;
-
-	defaultValues = {
-		agendaSubject: "",
-		subjectType: 0,
-		description: "",
-		majority: null,
-		majorityType: 1,
-		majorityDivider: null
-	}
-
-	state = {
-		newPoint: {
-			...this.defaultValues
-		},
+const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, ...props }) => {
+	const [state, setState] = useOldState({
+		newPoint: defaultValues,
 		loadDraft: false,
 		newPointModal: false,
 		saveAsDraft: false,
@@ -45,69 +42,67 @@ class NewAgendaPointModal extends React.Component {
 			subjectType: "",
 			description: ""
 		}
-	};
+	});
+	const editor = React.useRef(null);
 
-	addAgenda = async () => {
-		if (!this.checkRequiredFields() && !this.sending) {
-			this.sending = true;
-			const { newPoint } = this.state;
-			const response = await this.props.addAgenda({
+	const [sending, setSending] = React.useState(false);
+
+	const addAgenda = async () => {
+		if (!checkRequiredFields() && !sending) {
+			setSending(true);
+			const { newPoint } = state;
+			const response = await props.addAgenda({
 				variables: {
 					agenda: {
-						councilId: this.props.council.id,
+						councilId: council.id,
 						...newPoint,
 						sortable: 1,
-						orderIndex: this.props.agendas.length + 1
+						orderIndex: agendas.length + 1
 					}
 				}
 			});
 
 			if (response) {
-				this.setState({ loadDraft: false });
-				this.close();
-				this.sending = false;
-				this.props.refetch();
+				setState({ loadDraft: false });
+				setSending(false);
+				close();
+				props.refetch();
 			}
 		}
-	};
+	}
 
-	close = () => {
-		this.setState({
-			newPoint: {
-				...this.defaultValues
-			},
-
+	const close = () => {
+		setState({
+			newPoint: defaultValues,
 			newPointModal: false,
 			loadDraft: false,
-
 			errors: {
 				agendaSubject: "",
 				subjectType: "",
 				description: ""
 			}
 		});
-		this.sending = false;
-		this.props.requestClose();
-	};
+		setSending(false);
+		props.requestClose();
+	}
 
-	updateState = object => {
-		this.setState({
+	const updateState = object => {
+		setState({
 			newPoint: {
-				...this.state.newPoint,
+				...state.newPoint,
 				...object
 			},
 			loadDraft: false
 		});
 	};
 
-	loadDraft = draft => {
-
+	const loadDraft = draft => {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
-			company: this.props.company,
-			council: this.props.council
-		}, this.props.translate);
+			company,
+			council
+		}, translate);
 
-		this.updateState({
+		updateState({
 			description: correctedText,
 			majority: draft.majority,
 			majorityType: draft.majorityType,
@@ -116,20 +111,12 @@ class NewAgendaPointModal extends React.Component {
 			agendaSubject: draft.title
 		});
 
-		this.editor.setValue(correctedText);
-	};
+		editor.current.setValue(correctedText);
+	}
 
-	_renderNewPointBody = () => {
-		const {
-			translate,
-			votingTypes,
-			statute,
-			council,
-			company,
-			companyStatutes
-		} = this.props;
-		const errors = this.state.errors;
-		const agenda = this.state.newPoint;
+	const _renderNewPointBody = () => {
+		const errors = state.errors;
+		const agenda = state.newPoint;
 		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 		const secondary = getSecondary();
 
@@ -139,18 +126,18 @@ class NewAgendaPointModal extends React.Component {
 					width: window.innerWidth > 800? '800px' : '100%'
 				}}
 			>
-				{this.state.loadDraft && (
+				{state.loadDraft && (
 					<LoadDraft
 						translate={translate}
 						companyId={company.id}
-						loadDraft={this.loadDraft}
+						loadDraft={loadDraft}
 						statute={statute}
 						statutes={companyStatutes}
 						draftType={1}
 					/>
 				)}
 
-				<div style={{ display: this.state.loadDraft && "none" }}>
+				<div style={{ display: state.loadDraft && "none" }}>
 					<Grid>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
@@ -159,7 +146,7 @@ class NewAgendaPointModal extends React.Component {
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
 								onChange={event =>
-									this.updateState({
+									updateState({
 										agendaSubject: event.target.value
 									})
 								}
@@ -171,7 +158,7 @@ class NewAgendaPointModal extends React.Component {
 								floatingText={translate.type}
 								value={"" + agenda.subjectType}
 								onChange={event =>
-									this.updateState({
+									updateState({
 										subjectType: +event.target.value
 									})
 								}
@@ -198,13 +185,13 @@ class NewAgendaPointModal extends React.Component {
 									value={"" + agenda.majorityType}
 									errorText={errors.majorityType}
 									onChange={event =>
-										this.updateState({
+										updateState({
 											majorityType: +event.target.value
 										})
 									}
 									required
 								>
-									{this.props.majorityTypes.map(majority => {
+									{props.majorityTypes.map(majority => {
 										return (
 											<MenuItem
 												value={"" + majority.value}
@@ -225,16 +212,16 @@ class NewAgendaPointModal extends React.Component {
 									<MajorityInput
 										type={agenda.majorityType}
 										value={agenda.majority}
-										majorityError={!!this.state.majorityError}
-										dividerError={!!this.state.majorityError}
+										majorityError={!!state.majorityError}
+										dividerError={!!state.majorityError}
 										divider={agenda.majorityDivider}
 										onChange={value =>
-											this.updateState({
+											updateState({
 												majority: +value
 											})
 										}
 										onChangeDivider={value =>
-											this.updateState({
+											updateState({
 												majorityDivider: +value
 											})
 										}
@@ -245,10 +232,10 @@ class NewAgendaPointModal extends React.Component {
 						</Grid>
 					)}
 					<div>
-						<span style={{color: 'red'}}>{this.state.majorityError}</span>
+						<span style={{color: 'red'}}>{state.majorityError}</span>
 					</div>
 					<RichTextInput
-						ref={editor => (this.editor = editor)}
+						ref={editor}
 						floatingText={translate.description}
 						translate={translate}
 						type="text"
@@ -266,9 +253,7 @@ class NewAgendaPointModal extends React.Component {
 									lineHeight: "1em"
 								}}
 								textPosition="after"
-								onClick={() =>
-									this.setState({ loadDraft: true })
-								}
+								onClick={() => setState({ loadDraft: true })}
 							/>
 						}
 						tags={[
@@ -288,7 +273,7 @@ class NewAgendaPointModal extends React.Component {
 						errorText={errors.description}
 						value={agenda.description}
 						onChange={value =>
-							this.updateState({
+							updateState({
 								description: value
 							})
 						}
@@ -298,36 +283,33 @@ class NewAgendaPointModal extends React.Component {
 		);
 	};
 
-	checkRequiredFields() {
-		const { translate } = this.props;
-		const agenda = this.state.newPoint;
+	function checkRequiredFields() {
+		const agenda = state.newPoint;
 		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
 		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
-		this.setState({
+		setState({
 			errors: errors.errors,
 			majorityError: majorityCheckResult.message
 		});
 		return errors.hasError || majorityCheckResult.error;
 	}
 
-	render() {
-		const { translate, children } = this.props;
+	return (
+		<React.Fragment>
+			<AlertConfirm
+				requestClose={props.requestClose}
+				open={props.open}
+				acceptAction={addAgenda}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
+				bodyText={_renderNewPointBody()}
+				title={translate.new_point}
+			/>
+		</React.Fragment>
+	);
 
-		return (
-			<React.Fragment>
-				<AlertConfirm
-					requestClose={this.props.requestClose}
-					open={this.props.open}
-					acceptAction={this.addAgenda}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					bodyText={this._renderNewPointBody()}
-					title={translate.new_point}
-				/>
-			</React.Fragment>
-		);
-	}
 }
+
 
 export default graphql(addAgenda, {
 	name: "addAgenda"
