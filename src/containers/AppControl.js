@@ -14,55 +14,44 @@ const ConfigContext = React.createContext({
 
 export { ConfigContext };
 
+const AppControl = ({ subscribeToAppControl, companies, user = {}, data, children }) => {
 
-class AppControl extends React.Component {
-
-    state = {
-        configForCompany: ''
-    }
-
-    componentDidUpdate(prevProps, prevState){
-        if(!prevProps.user.id && !!this.props.user.id){
-            this.props.subscribeToAppControl({userId: this.props.user.id});
+    React.useEffect(() => {
+        if(!!user && !!user.id){
+            subscribeToAppControl({userId: user.id});
         }
-        if(this.props.companies){
-            if(this.props.companies.list[this.props.companies.selected] && prevProps.companies.list[this.props.companies.selected]){
-                if(this.props.companies.list[this.props.companies.selected].id !== this.state.configForCompany){
-                    this.updateCompanyConfig();
-                }
-            }
+    }, [user.id]);
 
+    React.useEffect(() => {
+        if(companies.selected || companies.selected === 0){
+            updateCompanyConfig();
         }
-    }
+    }, [companies.selected]);
 
-    updateCompanyConfig = () => {
-        const company = this.props.companies.list[this.props.companies.selected];
-        this.setState({
-            configForCompany: company.id
+    const updateCompanyConfig = async () => {
+        await data.refetch({
+            companyId: companies.list[companies.selected].id
         });
-
-        this.props.data.refetch({
-            companyId: company.id
-        })
     }
 
 
-    render(){
-        let config = {};
-        if(!this.props.data.loading){
-            for(let field of this.props.data.appConfig){
-                config[field.name] = field.active;
-            }
+    let config = {};
+    if(!data.loading){
+        for(let field of data.appConfig){
+            config[field.name] = field.active;
         }
-
-        return(
-            <ConfigContext.Provider value={config}>
-                {this.props.children}
-            </ConfigContext.Provider>
-        )
     }
 
+    console.log(config);
+
+
+    return(
+        <ConfigContext.Provider value={config}>
+            {children}
+        </ConfigContext.Provider>
+    )
 }
+
 
 const appControlChange = gql`
     subscription AppControlChange($userId: String!) {
