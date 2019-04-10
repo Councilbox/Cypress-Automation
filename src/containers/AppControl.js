@@ -42,9 +42,6 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, data, childre
         }
     }
 
-    console.log(config);
-
-
     return(
         <ConfigContext.Provider value={config}>
             {children}

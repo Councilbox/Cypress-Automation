@@ -67,7 +67,6 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	}, [state.statute]);
 
 	React.useEffect(() => {
-		console.log('censos');
 		const requestCensus = async () => {
 			const response = await client.query({
 				query: censuses,
