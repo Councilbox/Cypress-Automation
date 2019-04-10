@@ -21,10 +21,11 @@ import * as CBX from "../../../utils/CBX";
 import withWindowSize from '../../../HOCs/withWindowSize';
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
-let primary = getPrimary();
-let secondary = getSecondary();
+
 
 const StepOptions = ({ translate, data, ...props }) => {
+	const primary = getPrimary();
+	const secondary = getSecondary();
 
 	const [state, setState] = React.useState({
 		data: {},
@@ -39,15 +40,13 @@ const StepOptions = ({ translate, data, ...props }) => {
 	});
 
 	React.useEffect(() => {
-		primary = getPrimary();
-		secondary = getSecondary();
 		if(!data.loading){
 			if(!state.data.council){
 				updateCouncilData(data.council);
 			}
 		}
 	});
-	const council = state.data.council;
+	let council = state.data.council;
 
 	const updateCouncil = async step => {
 		setState({
@@ -108,6 +107,10 @@ const StepOptions = ({ translate, data, ...props }) => {
 			}
 		}
 
+		if(council.councilType === 3){
+
+		}
+
 		return false;
 	}
 
@@ -136,6 +139,112 @@ const StepOptions = ({ translate, data, ...props }) => {
 		await updateCouncil(5);
 		props.previousStep();
 	};
+
+	function renderCouncilTypeSpecificOptions(type){
+		const councilOptions = {
+			1: (
+				<React.Fragment>
+					<SectionTitle
+						text={translate.video}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
+					<Checkbox
+						label={translate.room_video_broadcast}
+						value={council.councilType === 0}
+						onChange={(event, isInputChecked) =>
+							updateCouncilData({
+								councilType: isInputChecked ? 0 : 1,
+								autoClose: 0,
+								fullVideoRecord: 0
+							})
+						}
+					/>
+					<Checkbox
+						disabled={council.councilType !== 0}
+						label={translate.full_video_record}
+						value={council.fullVideoRecord !== 0}
+						onChange={(event, isInputChecked) =>
+							updateCouncilData({
+								fullVideoRecord: isInputChecked ? 1 : 0
+							})
+						}
+					/>
+				</React.Fragment>
+			),
+			2: (
+				<React.Fragment>
+					<SectionTitle
+						text={translate.auto_close}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
+
+					<div style={{display: 'flex'}}>
+						{council.autoClose === 1 &&
+							<div style={{width: '22em'}}>
+								<DateTimePicker
+									required
+									errorText={state.errors.closeDate}
+									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+									onChange={date => {
+										const newDate = new Date(date);
+										const dateString = newDate.toISOString();
+										updateCouncilData({
+											closeDate: dateString
+										})
+									}}
+									minDateMessage={""}
+									acceptText={translate.accept}
+									cancelText={translate.cancel}
+									value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+								/>
+							</div>
+						}
+					</div>
+				</React.Fragment>
+			),
+			3: (
+				<React.Fragment>
+					<SectionTitle
+						text={'Cierre de votaciones telemáticas' /**TRADUCCION */}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
+					<div style={{display: 'flex'}}>
+						{council.autoClose === 1 &&
+							<div style={{width: '22em'}}>
+								<DateTimePicker
+									required
+									errorText={state.errors.closeDate}
+									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+									onChange={date => {
+										const newDate = new Date(date);
+										const dateString = newDate.toISOString();
+										updateCouncilData({
+											closeDate: dateString
+										})
+									}}
+									minDateMessage={""}
+									acceptText={translate.accept}
+									cancelText={translate.cancel}
+									value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+								/>
+							</div>
+						}
+					</div>
+				</React.Fragment>
+			),
+		}
+
+		return councilOptions[type]? councilOptions[type] : councilOptions[1];
+	}
 
 	function _renderSecurityForm() {
 		return (
@@ -201,85 +310,24 @@ const StepOptions = ({ translate, data, ...props }) => {
 						</div>
 					:
 						<React.Fragment>
-							<SectionTitle
-								text={translate.confirm_assistance}
-								color={primary}
-							/>
-							<Checkbox
-								label={translate.confirm_assistance_desc}
-								value={council.confirmAssistance === 1}
-								onChange={(event, isInputChecked) =>
-									updateCouncilData({
-										confirmAssistance: isInputChecked ? 1 : 0
-									})
-								}
-							/>
-							{council.councilType === 2?
-								<React.Fragment>
-										<SectionTitle
-										text={translate.auto_close}
-										color={primary}
-										style={{
-											marginTop: '1.6em'
-										}}
-									/>
-
-									<div style={{display: 'flex'}}>
-										{council.autoClose === 1 &&
-											<div style={{width: '22em'}}>
-												<DateTimePicker
-													required
-													errorText={state.errors.closeDate}
-													minDate={moment(new Date(council.dateStart)).add(1, 'm')}
-													onChange={date => {
-														const newDate = new Date(date);
-														const dateString = newDate.toISOString();
-														updateCouncilData({
-															closeDate: dateString
-														})
-													}}
-													minDateMessage={""}
-													acceptText={translate.accept}
-													cancelText={translate.cancel}
-													value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
-												/>
-											</div>
-										}
-									</div>
-								</React.Fragment>
-							:
+							{council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
-										text={translate.video}
+										text={translate.confirm_assistance}
 										color={primary}
-										style={{
-											marginTop: '1.6em'
-										}}
 									/>
 									<Checkbox
-										label={translate.room_video_broadcast}
-										value={council.councilType === 0}
+										label={translate.confirm_assistance_desc}
+										value={council.confirmAssistance === 1}
 										onChange={(event, isInputChecked) =>
 											updateCouncilData({
-												councilType: isInputChecked ? 0 : 1,
-												autoClose: 0,
-												fullVideoRecord: 0
-											})
-										}
-									/>
-									<Checkbox
-										disabled={council.councilType !== 0}
-										label={translate.full_video_record}
-										value={council.fullVideoRecord !== 0}
-										onChange={(event, isInputChecked) =>
-											updateCouncilData({
-												fullVideoRecord: isInputChecked ? 1 : 0
+												confirmAssistance: isInputChecked ? 1 : 0
 											})
 										}
 									/>
 								</React.Fragment>
-							}
-
+							)}
+							{renderCouncilTypeSpecificOptions(council.councilType)}
 							<SectionTitle
 								text={translate.security}
 								color={primary}
@@ -289,7 +337,7 @@ const StepOptions = ({ translate, data, ...props }) => {
 							/>
 							{_renderSecurityForm()}
 
-							{CBX.hasAct(council.statute) && council.councilType !== 2 && (
+							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
 										text={translate.approve_act_draft_at_end}
