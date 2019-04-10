@@ -98,7 +98,7 @@ class SaveDraftModal extends React.Component {
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={this._renderNewPointBody()}
-				title={translate.new_point}
+				title={translate.new_draft}
 			/>
 		);
 	}

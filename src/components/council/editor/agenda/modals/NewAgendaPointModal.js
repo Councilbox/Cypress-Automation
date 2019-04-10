@@ -28,11 +28,15 @@ const defaultValues = {
 	majorityDivider: null
 }
 
-//let sending = false;
 
 const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, ...props }) => {
+	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
+	const secondary = getSecondary();
 	const [state, setState] = useOldState({
-		newPoint: defaultValues,
+		newPoint: {
+			...defaultValues,
+			subjectType: filteredTypes[0].value
+		},
 		loadDraft: false,
 		newPointModal: false,
 		saveAsDraft: false,
@@ -44,7 +48,6 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		}
 	});
 	const editor = React.useRef(null);
-
 	const [sending, setSending] = React.useState(false);
 
 	const addAgenda = async () => {
@@ -96,6 +99,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		});
 	};
 
+
 	const loadDraft = draft => {
 		const correctedText = CBX.changeVariablesToValues(draft.text, {
 			company,
@@ -107,7 +111,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			majority: draft.majority,
 			majorityType: draft.majorityType,
 			majorityDivider: draft.majorityDivider,
-			subjectType: draft.votationType,
+			subjectType: filteredTypes.find(type => type.value === draft.votationType)? draft.votationType : filteredTypes[0].value,
 			agendaSubject: draft.title
 		});
 
@@ -117,8 +121,6 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 	const _renderNewPointBody = () => {
 		const errors = state.errors;
 		const agenda = state.newPoint;
-		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
-		const secondary = getSecondary();
 
 		return (
 			<div

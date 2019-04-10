@@ -1,5 +1,6 @@
 import React from "react";
 import { CloseIcon, Grid, GridItem } from "../../../../displayComponents";
+import { isCustomPoint } from "../../../../utils/CBX";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import { IconButton, Paper } from "material-ui";
 
@@ -91,22 +92,24 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 									removeAgenda(agenda.id);
 								}}
 							/>
-							<IconButton
-								style={{
-									float: "right",
-									height: "28px",
-									outline: 0
-								}}
-								onClick={event => {
-									event.stopPropagation();
-									saveAsDraft(agenda.id);
-								}}
-							>
-								<i
-									className="fa fa-save"
-									style={{ color: secondary }}
-								/>
-							</IconButton>
+							{!isCustomPoint(agenda.subjectType) &&
+								<IconButton
+									style={{
+										float: "right",
+										height: "28px",
+										outline: 0
+									}}
+									onClick={event => {
+										event.stopPropagation();
+										saveAsDraft(agenda.id);
+									}}
+								>
+									<i
+										className="fa fa-save"
+										style={{ color: secondary }}
+									/>
+								</IconButton>
+							}
 						</GridItem>
 					</Grid>
 				</GridItem>

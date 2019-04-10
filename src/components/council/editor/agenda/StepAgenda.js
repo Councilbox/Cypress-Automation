@@ -166,12 +166,13 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	const { errors, saveAsDraftId } = state;
 	const { votingTypes, council, majorityTypes, draftTypes } = data;
 
-	let agendas = [];
+	let agendas = null;
+	let newDraft;
 
-	if (!loading) {
+	if (council) {
 		agendas = !!council.agendas ? council.agendas : [];
+		newDraft = agendas.find(item => item.id === saveAsDraftId);
 	}
-	let newDraft = agendas.find(item => item.id === saveAsDraftId);
 
 	return (
 		<React.Fragment>
@@ -179,7 +180,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 				body={
 					<React.Fragment>
 						<Grid>
-							{loading ? (
+							{agendas === null? (
 								<div
 									style={{
 										height: "300px",
