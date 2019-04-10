@@ -9,9 +9,6 @@ import { createMuiTheme } from 'material-ui';
 
 
 
-
-
-
 const example = {
     agendaSubject: "Prueba de punto selección unica",
     attachments: [],
@@ -107,66 +104,92 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
         //TRADUCCION
         return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
-    
-    
-  
+
+
+
     return (
         <div>
             {agenda.options.maxSelections === 1 ?
-                agenda.items.map(item => (
-                    <div key={`item_${item.id}`}>
-                        <VotingButton
-                            styleButton={{ padding: '0' }}
-                            selectCheckBox={getSelectedRadio(item.id)}
-                            onClick={() => setSelection(item)}
-                            text={item.value
-                                // <div style={{ width: "100%" }}>
-                                //     <Radio
-                                //         checked={getSelectedRadio(item.id)}
-                                //         onChange={() => setSelection(item)}
-                                //         name="security"
-                                //         label={item.value}//TRADUCCION
-                                //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px', marginBottom: "0", marginRight: '0',  }}
-                                //     />
-                                // </div>
-                            }
-                        />
-                    </div>
-                ))
+                <React.Fragment>
+                    {agenda.items.map(item => (
+                        <div key={`item_${item.id}`}>
+                            <VotingButton
+                                styleButton={{ padding: '0' }}
+                                selectCheckBox={getSelectedRadio(item.id)}
+                                onClick={() => setSelection(item)}
+                                text={item.value
+                                    // <div style={{ width: "100%" }}>
+                                    //     <Radio
+                                    //         checked={getSelectedRadio(item.id)}
+                                    //         onChange={() => setSelection(item)}
+                                    //         name="security"
+                                    //         label={item.value}//TRADUCCION
+                                    //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px', marginBottom: "0", marginRight: '0',  }}
+                                    //     />
+                                    // </div>
+                                }
+                            />
+                        </div>
+                    ))
+                    }
+                    <VotingButton
+                        text={"No votar"} //TRADUCCION
+                        // selectCheckBox={getSelectedRadio(item.id)}
+                    // onClick={() => {
+                    //     if (singleVoteMode) {
+                    //         this.showModal(-1)
+                    //     } else {
+                    //         this.updateAgendaVoting(-1)
+                    //     }
+                    // }}
+                    />
+                </React.Fragment>
                 :
-                agenda.items.map(item => (
-                    <div key={`item_${item.id}`}>
-                        <VotingButton //TODO hacer que se desmarque bien
-                            styleButton={{ padding: '0' }}
-                            selectCheckBox={getSelectedRadio(item.id)}
-                            disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
-                            onClick={() => {
-                                            if (!getSelectedRadio(item.id)) {
-                                                addSelection(item)
-                                            } else {
-                                                removeSelection(item)
-                                            }
-                                        }}
-                            text={item.value
-                                // <div style={{ width: "100%" }}>
-                                //     <Checkbox
-                                //         label={item.value}
-                                //         value={getSelectedRadio(item.id)}
-                                //         disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
-                                //         onChange={(event, isInputChecked) => {
-                                //             if (isInputChecked) {
-                                //                 addSelection(item)
-                                //             } else {
-                                //                 removeSelection(item)
-                                //             }
-                                //         }}
-                                //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px' }}
-                                //     />
-                                // </div>
-                            }
-                        />
-                    </div>
-                ))
+                <React.Fragment>
+                    {agenda.items.map(item => (
+                        <div key={`item_${item.id}`}>
+                            <VotingButton //TODO hacer que se desmarque bien
+                                styleButton={{ padding: '0' }}
+                                selectCheckBox={getSelectedRadio(item.id)}
+                                disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
+                                onClick={() => {
+                                    if (!getSelectedRadio(item.id)) {
+                                        addSelection(item)
+                                    } else {
+                                        removeSelection(item)
+                                    }
+                                }}
+                                text={item.value
+                                    // <div style={{ width: "100%" }}>
+                                    //     <Checkbox
+                                    //         label={item.value}
+                                    //         value={getSelectedRadio(item.id)}
+                                    //         disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
+                                    //         onChange={(event, isInputChecked) => {
+                                    //             if (isInputChecked) {
+                                    //                 addSelection(item)
+                                    //             } else {
+                                    //                 removeSelection(item)
+                                    //             }
+                                    //         }}
+                                    //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px' }}
+                                    //     />
+                                    // </div>
+                                }
+                            />
+                        </div>
+                    ))}
+                    <VotingButton
+                        text={"No votar"} //TRADUCCION
+                    // onClick={() => {
+                    //     if (singleVoteMode) {
+                    //         this.showModal(-1)
+                    //     } else {
+                    //         this.updateAgendaVoting(-1)
+                    //     }
+                    // }}
+                    />
+                </React.Fragment>
             }
             {/* <BasicButton
                 text="Enviar selección"
