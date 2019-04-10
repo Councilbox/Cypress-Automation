@@ -1,6 +1,6 @@
 import React from "react";
 import withSharedProps from "../../../HOCs/withSharedProps";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import {
 	AlertConfirm,
 	BasicButton,
@@ -19,6 +19,7 @@ import {
 	statutes,
 	updateStatute
 } from "../../../queries";
+import { censuses } from "../../../queries/census";
 import { withRouter } from "react-router-dom";
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
@@ -28,10 +29,9 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { useOldState } from "../../../hooks";
-import ReactQuill from "react-quill";
 
 
-const StatutesPage = ({ data, translate, ...props }) => {
+const StatutesPage = ({ data, translate, client, ...props }) => {
 	const [state, setState] = useOldState({
 		selectedStatute: 0,
 		newStatute: false,
@@ -48,6 +48,7 @@ const StatutesPage = ({ data, translate, ...props }) => {
 		errors: {},
 		deleteModal: false
 	});
+	const [censusList, setCensusList] = React.useState(null);
 
 	React.useEffect(() => {
 		if(!data.loading){
@@ -64,6 +65,22 @@ const StatutesPage = ({ data, translate, ...props }) => {
 			});
 		}
 	}, [state.statute]);
+
+	React.useEffect(() => {
+		console.log('censos');
+		const requestCensus = async () => {
+			const response = await client.query({
+				query: censuses,
+				variables: {
+					companyId: props.company.id
+				}
+			});
+
+			setCensusList(response.data);
+		}
+
+		requestCensus();
+	}, [censuses]);
 
 	function checkRequiredFields() {
 		let errors = {
@@ -340,6 +357,7 @@ const StatutesPage = ({ data, translate, ...props }) => {
 											<StatuteEditor
 												companyStatutes={companyStatutes}
 												statute={statute}
+												censusList={censusList}
 												company={props.company}
 												translate={translate}
 												updateState={updateState}
@@ -523,5 +541,5 @@ export default withSharedProps()(
 				fetchPolicy: 'network-only'
 			})
 		})
-	)(withRouter(StatutesPage))
+	)(withRouter(withApollo(StatutesPage)))
 );
