@@ -971,6 +971,7 @@ export const councilStepThree = gql`
 				options {
 					id
 					maxSelections
+					minSelections
 				}
 				currentRemoteCensus
 				dateEnd

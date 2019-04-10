@@ -72,6 +72,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		setLoading(false);
 	};
 
+	console.log(data);
+
 	const updateCouncil = async step => {
 		setState({ loading: true });
 		const { agendas, statute, __typename, ...council } = data.council;
