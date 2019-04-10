@@ -99,7 +99,7 @@ export const setLanguage = language => {
 				if (language === "cat" || language === "gal") {
 					locale = "es";
 				}
-				moment.locale(locale, {
+				moment.updateLocale(locale, {
 					months: translationObject.datepicker_months.split(","),
 					monthsShort: translationObject.datepicker_months
 						.split(",")
