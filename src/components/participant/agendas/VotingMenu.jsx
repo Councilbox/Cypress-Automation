@@ -147,7 +147,7 @@ class VotingMenu extends React.Component {
     }
 }
 
-export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox }) => {
+export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color }) => {
 
     const primary = getPrimary();
    
@@ -155,7 +155,7 @@ export const VotingButton = ({ onClick, text, selected, icon, loading, onChange,
         <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
             <BasicButton
                 text={text}
-                color={"white"}
+                color={color ? color : "white"}
                 disabled={selected || disabled}
                 loading={loading}
                 loadingColor={primary}

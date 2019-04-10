@@ -105,90 +105,161 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
         return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
-
+    console.log(agenda.options.maxSelections )
+    console.log(selections.length )
 
     return (
         <div>
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
-                    {agenda.items.map(item => (
-                        <div key={`item_${item.id}`}>
-                            <VotingButton
-                                styleButton={{ padding: '0' }}
-                                selectCheckBox={getSelectedRadio(item.id)}
-                                onClick={() => setSelection(item)}
-                                text={item.value
-                                    // <div style={{ width: "100%" }}>
-                                    //     <Radio
-                                    //         checked={getSelectedRadio(item.id)}
-                                    //         onChange={() => setSelection(item)}
-                                    //         name="security"
-                                    //         label={item.value}//TRADUCCION
-                                    //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px', marginBottom: "0", marginRight: '0',  }}
-                                    //     />
-                                    // </div>
-                                }
-                            />
-                        </div>
+                    {agenda.items.map((item, index) => (
+                        <React.Fragment>
+                            <div key={`item_${item.id}`}>
+                                <VotingButton
+                                    styleButton={{ padding: '0' }}
+                                    selectCheckBox={getSelectedRadio(item.id)}
+                                    onClick={() => setSelection(item)}
+                                    text={item.value
+                                        // <div style={{ width: "100%" }}>
+                                        //     <Radio
+                                        //         checked={getSelectedRadio(item.id)}
+                                        //         onChange={() => setSelection(item)}
+                                        //         name="security"
+                                        //         label={item.value}//TRADUCCION
+                                        //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px', marginBottom: "0", marginRight: '0',  }}
+                                        //     />
+                                        // </div>
+                                    }
+                                />
+                            </div>
+                            {agenda.items.length - 1 === index &&
+                                <React.Fragment>
+                                    <VotingButton
+                                        text={"Votar"} //TRADUCCION
+                                        selectCheckBox={getSelectedRadio(item.id)}
+                                    // onClick={() => {
+                                    //     if (singleVoteMode) {
+                                    //         this.showModal(-1)
+                                    //     } else {
+                                    //         this.updateAgendaVoting(-1)
+                                    //     }
+                                    // }}
+                                    />
+                                    <div>
+                                        <VotingButton
+                                            text={"Abstencion"} //TRADUCCION
+                                            selectCheckBox={getSelectedRadio(item.id)}
+                                        // onClick={() => {
+                                        //     if (singleVoteMode) {
+                                        //         this.showModal(-1)
+                                        //     } else {
+                                        //         this.updateAgendaVoting(-1)
+                                        //     }
+                                        // }}
+                                        />
+                                        <VotingButton
+                                            text={"No votar"} //TRADUCCION
+                                            selectCheckBox={getSelectedRadio(item.id)}
+                                            onClick={() => setSelection(-1)}
+                                        // onClick={() => {
+                                        //     if (singleVoteMode) {
+                                        //         this.showModal(-1)
+                                        //     } else {
+                                        //         this.updateAgendaVoting(-1)
+                                        //     }
+                                        // }}
+                                        />
+                                    </div>
+                                </React.Fragment>
+                            }
+                        </React.Fragment>
                     ))
                     }
-                    <VotingButton
-                        text={"No votar"} //TRADUCCION
-                        // selectCheckBox={getSelectedRadio(item.id)}
-                    // onClick={() => {
-                    //     if (singleVoteMode) {
-                    //         this.showModal(-1)
-                    //     } else {
-                    //         this.updateAgendaVoting(-1)
-                    //     }
-                    // }}
-                    />
+
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    {agenda.items.map(item => (
-                        <div key={`item_${item.id}`}>
-                            <VotingButton //TODO hacer que se desmarque bien
-                                styleButton={{ padding: '0' }}
-                                selectCheckBox={getSelectedRadio(item.id)}
-                                disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
-                                onClick={() => {
-                                    if (!getSelectedRadio(item.id)) {
-                                        addSelection(item)
-                                    } else {
-                                        removeSelection(item)
+                    {agenda.items.map((item, index) => (
+                        <React.Fragment key={`item_${item.id}`}>
+                            <div >
+                                <VotingButton //TODO hacer que se desmarque bien
+                                    styleButton={{ padding: '0' }}
+                                    selectCheckBox={getSelectedRadio(item.id)}
+                                    disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
+                                    styleButton={{ width: "100%" }}
+                                    onClick={() => {
+                                        if (!getSelectedRadio(item.id)) {
+                                            addSelection(item)
+                                        } else {
+                                            removeSelection(item)
+                                        }
+                                    }}
+                                    text={item.value
+                                        // <div style={{ width: "100%" }}>
+                                        //     <Checkbox
+                                        //         label={item.value}
+                                        //         value={getSelectedRadio(item.id)}
+                                        //         disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
+                                        //         onChange={(event, isInputChecked) => {
+                                        //             if (isInputChecked) {
+                                        //                 addSelection(item)
+                                        //             } else {
+                                        //                 removeSelection(item)
+                                        //             }
+                                        //         }}
+                                        //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px' }}
+                                        //     />
+                                        // </div>
                                     }
-                                }}
-                                text={item.value
-                                    // <div style={{ width: "100%" }}>
-                                    //     <Checkbox
-                                    //         label={item.value}
-                                    //         value={getSelectedRadio(item.id)}
-                                    //         disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
-                                    //         onChange={(event, isInputChecked) => {
-                                    //             if (isInputChecked) {
-                                    //                 addSelection(item)
-                                    //             } else {
-                                    //                 removeSelection(item)
-                                    //             }
-                                    //         }}
-                                    //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px' }}
-                                    //     />
-                                    // </div>
-                                }
-                            />
-                        </div>
+                                />
+                            </div>
+                            {agenda.items.length - 1 === index &&
+                                <div style={{paddingTop: "20px"}}>
+                                    <VotingButton
+                                        text={"Votar"} //TRADUCCION
+                                        styleButton={{ width: "100%" }}
+                                        color={"silver"}
+                                        // selectCheckBox={getSelectedRadio(item.id)}
+                                    // onClick={() => {
+                                    //     if (singleVoteMode) {
+                                    //         this.showModal(-1)
+                                    //     } else {
+                                    //         this.updateAgendaVoting(-1)
+                                    //     }
+                                    // }}
+                                    />
+                                    <div style={{ display: "flex", width: "52.5%" }}>
+                                        <VotingButton
+                                            styleButton={{ width: "90%" }}
+                                            text={"Abstencion"} //TRADUCCION
+                                        // selectCheckBox={getSelectedRadio(item.id)}
+                                        // onClick={() => {
+                                        //     if (singleVoteMode) {
+                                        //         this.showModal(-1)
+                                        //     } else {
+                                        //         this.updateAgendaVoting(-1)
+                                        //     }
+                                        // }}
+                                        />
+                                        <VotingButton
+                                            styleButton={{ width: "90%" }}
+                                            text={"No votar"} //TRADUCCION
+                                            selectCheckBox={selections.length === 0}
+                                            // onClick={() => }
+                                        // onClick={() => {
+                                        //     if (singleVoteMode) {
+                                        //         this.showModal(-1)
+                                        //     } else {
+                                        //         this.updateAgendaVoting(-1)
+                                        //     }
+                                        // }}
+                                        />
+                                    </div>
+                                </div>
+                            }
+                        </React.Fragment>
                     ))}
-                    <VotingButton
-                        text={"No votar"} //TRADUCCION
-                    // onClick={() => {
-                    //     if (singleVoteMode) {
-                    //         this.showModal(-1)
-                    //     } else {
-                    //         this.updateAgendaVoting(-1)
-                    //     }
-                    // }}
-                    />
+
                 </React.Fragment>
             }
             {/* <BasicButton
