@@ -205,13 +205,11 @@ class App extends React.Component {
 											path="/cmp/:id"
 											component={CouncilLiveTestContainer}
 										/>
-										{!window.location.hostname.includes('app.councilbox') &&
-											<Route
-												exact
-												path="/evidence/:uuid?"
-												component={ValidatorPage}
-											/>
-										}
+										<Route
+											exact
+											path="/evidence/:uuid?"
+											component={ValidatorPage}
+										/>
 										<Route
 											exact
 											path="/convene/:id"
