@@ -89,7 +89,9 @@ export default graphql(appConfig, {
     options: props => ({
         variables: {
             userId: 'u152'
-        }
+        },
+		fetchPolicy: 'network-only',
+		forceFetch: true
     }),
     props: props => {
 		return {
