@@ -18,6 +18,56 @@ const defaultValues = {
     description: "",
 }
 
+export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
+    let hasError = false;
+    let newErrors = {
+        items: items.map(item => ({error: ''}))
+    }
+
+    if(items.length === 0){
+        newErrors.itemsLength = 'Es necesario añadir al menos una opción';//TRADUCCION
+        hasError = true;
+    }
+
+    if(!agenda.agendaSubject){
+        newErrors.agendaSubject = translate.required_field;
+        hasError = true;
+    }
+
+    if(options.multiselect && options.maxSelections > items.length){
+        newErrors.maxSelections = 'Ha indicado un número máximo mayor que las opciones disponibles';//TRADUCCION
+        hasError = true;
+    }
+
+    if(options.multiselect && options.minSelections > items.length){
+        newErrors.minSelections = 'Ha indicado un número mínimor mayor que las opciones disponibles';//TRADUCCION
+        hasError = true;
+    }
+
+    if(options.multiselect && options.minSelections > options.maxSelections){
+        newErrors.minSelections = 'Ha indicado un número mínimor mayor que el número máximo';//TRADUCCION
+        hasError = true;
+    }
+
+    items.forEach((item, index) => {
+        if(!item.value){
+            newErrors.items[index].error = 'No ha indicado valor a esta opción';//TRADUCCION
+            hasError = true;
+        }
+    });
+
+    const repeatedItems = checkRepeatedItemValue(items);
+    if(repeatedItems.length > 0){
+        hasError = true;
+        repeatedItems.forEach(repeated => {
+            newErrors.items[repeated].error = 'Valor repetido en otra opción';
+        });
+    }
+
+    setErrors(newErrors);
+    return hasError;
+}
+
 const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     const [agenda, setAgenda] = React.useState({
         ...defaultValues,
@@ -29,9 +79,10 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         value: ''
     }]);
     const [options, setOptions] = React.useState(defaultPollOptions);
+    const validateCustomAgenda = useValidateAgenda(translate, setErrors);
 
     const addCustomPoint = async () => {
-        if(!validateCustomAgenda()){
+        if(!validateCustomAgenda(items, options, agenda)){
             const response = await addCustomAgenda({
                 variables: {
                     agenda,
@@ -77,56 +128,12 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         });
     }
 
-
-    const validateCustomAgenda = () => {
-        let hasError = false;
-        let newErrors = {
-            items: items.map(item => ({error: ''}))
-        }
-
-        if(items.length === 0){
-            newErrors.itemsLength = 'Es necesario añadir al menos una opción';//TRADUCCION
-            hasError = true;
-        }
-
-        if(!agenda.agendaSubject){
-            newErrors.agendaSubject = translate.required_field;
-            hasError = true;
-        }
-
-        if(options.multiselect && options.maxSelections > items.length){
-            newErrors.maxSelections = 'Ha indicando un número máximo mayor que las opciones disponibles';//TRADUCCION
-            hasError = true;
-        }
-
-        items.forEach((item, index) => {
-            if(!item.value){
-                newErrors.items[index].error = 'No ha indicado valor a esta opción';//TRADUCCION
-                hasError = true;
-            }
-        });
-
-        const repeatedItems = checkRepeatedItemValue(items);
-        if(repeatedItems.length > 0){
-            hasError = true;
-            repeatedItems.forEach(repeated => {
-                newErrors.items[repeated].error = 'Valor repetido en otra opción';
-            });
-        }
-
-
-        setErrors(newErrors);
-        return hasError;
-    }
-
     const updateAgenda = object => {
         setAgenda({
             ...agenda,
             ...object
         });
     }
-
-    //console.log(errors);
 
     const renderBody = () => {
         return (

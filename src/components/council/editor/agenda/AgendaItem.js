@@ -58,9 +58,9 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, removeAgenda, saveAsDraft 
 						</GridItem>
 						{agenda.items.length > 0 &&
 							<GridItem xs={12} md={12} lg={12} style={{marginTop: '2em'}}>
-								{`Respuestas posibles (${
-									agenda.options.minSelections > 1? `Mínimo: ${agenda.options.minSelections}` : ''
-								}${agenda.options.maxSelections} por participante)`/*TRADUCCION*/}
+								{`Respuestas posibles: Máximo: ${agenda.options.maxSelections}${
+									agenda.options.minSelections > 1? ` - Mínimo: ${agenda.options.minSelections}` : ''
+								}`/*TRADUCCION*/}
 								<ul>
 									{agenda.items.map(item => (
 										<li key={`agenda_item_${item.id}`}>

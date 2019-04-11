@@ -3,18 +3,23 @@ import { AlertConfirm } from "../../../../../displayComponents";
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import CustomPointForm from './CustomPointForm';
-import { checkRepeatedItemValue } from '../../../../../utils/CBX';
+import { useValidateAgenda } from './NewCustomPointModal';
 
 
 const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
     const [agenda, setAgenda] = React.useState(cleanObject(props.agenda));
     const [errors, setErrors] = React.useState({});
     const [items, setItems] = React.useState(props.agenda.items.map(item => cleanObject(item)));
-    const [options, setOptions] = React.useState(cleanObject(props.agenda.options));
+    const [options, setOptions] = React.useState({
+        ...cleanObject(props.agenda.options),
+        multiselect: props.agenda.options.maxSelections > 1
+    });
+    const validateCustomAgenda = useValidateAgenda(translate, setErrors);
+
 
     const addCustomPoint = async () => {
-        if(!validateCustomAgenda()){
-            const response = await updateCustomAgenda({
+        if(!validateCustomAgenda(items, options, agenda)){
+            await updateCustomAgenda({
                 variables: {
                     agenda: agenda,
                     items: items,
@@ -59,54 +64,12 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
         });
     }
 
-    const validateCustomAgenda = () => {
-        let hasError = false;
-        let newErrors = {
-            items: items.map(item => ({error: ''}))
-        }
-
-        if(items.length === 0){
-            newErrors.itemsLength = 'Es necesario añadir al menos una opción';//TRADUCCION
-            hasError = true;
-        }
-
-        if(!agenda.agendaSubject){
-            newErrors.agendaSubject = translate.required_field;
-            hasError = true;
-        }
-
-        if(options.multiselect && options.maxSelections > items.length){
-            newErrors.maxSelections = 'Ha indicando un número máximo mayor que las opciones disponibles';//TRADUCCION
-            hasError = true;
-        }
-
-        items.forEach((item, index) => {
-            if(!item.value){
-                newErrors.items[index].error = 'No ha indicado valor a esta opción';//TRADUCCION
-                hasError = true;
-            }
-        });
-
-        const repeatedItems = checkRepeatedItemValue(items);
-        if(repeatedItems.length > 0){
-            hasError = true;
-            repeatedItems.forEach(repeated => {
-                newErrors.items[repeated].error = 'Valor repetido en otra opción';
-            });
-        }
-
-        setErrors(newErrors);
-        return hasError;
-    }
-
     const updateAgenda = object => {
         setAgenda({
             ...agenda,
             ...object
         });
     }
-
-    console.log(errors);
 
     const renderBody = () => {
         return (

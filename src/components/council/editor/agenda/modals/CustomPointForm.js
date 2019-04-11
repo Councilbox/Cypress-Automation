@@ -183,6 +183,16 @@ const CustomPointForm = ({
                                 {errors.maxSelections}
                             </div>
                         }
+                        <TextInput
+                            floatingText="Elecciones mínimas"//TRADUCCION
+                            value={options.minSelections}
+                            onChange={event => updateOptions({ minSelections: event.target.value})}
+                        />
+                        {errors.minSelections &&
+                            <div style={{color: 'red'}}>
+                                {errors.minSelections}
+                            </div>
+                        }
                     </React.Fragment>
                 }
                 <SectionTitle
