@@ -30,7 +30,12 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, data, childre
             for(let field of data.appConfig){
                 newConfig[field.name] = field.active;
             }
-            //console.log(config, newConfig);
+
+            if(companies.selected || companies.selected === 0){
+                if(companies.list[companies.selected].id === 488){
+                    newConfig.blockchain = true;
+                }
+            }
             setConfig(newConfig);
         }
     }, [data]);
@@ -87,17 +92,9 @@ const mapStateToProps = state => ({
 
 export default graphql(appConfig, {
     options: props => {
-        let company = null;
-        if(props.companies && (props.companies.selected || props.companies.selected === 0)){
-            props.companies.list[props.companies.selected].id
-        }
-
         return {
             variables: {
             userId: 'u152',
-            ...(company? {
-                companyId: company.id
-            } : {}),
             },
             fetchPolicy: 'network-only',
             forceFetch: true,
