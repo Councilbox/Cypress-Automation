@@ -93,7 +93,6 @@ const SetUserPasswordPage = Loadable({
 	loading: LoadingMainApp
 });
 
-
 const ParticipantContainer = Loadable({
 	loader: () => import('./ParticipantContainer'),
 	loading: LoadingMainApp

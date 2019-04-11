@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { connect } from "react-redux";
 import * as mainActions from '../actions/mainActions';
@@ -14,55 +14,86 @@ const ConfigContext = React.createContext({
 
 export { ConfigContext };
 
+const AppControl = ({ subscribeToAppControl, companies, user = {}, children, client }) => {
+    const [config, setConfig] = React.useState(null);
 
-class AppControl extends React.Component {
-
-    state = {
-        configForCompany: ''
-    }
-
-    componentDidUpdate(prevProps, prevState){
-        if(!prevProps.user.id && !!this.props.user.id){
-            this.props.subscribeToAppControl({userId: this.props.user.id});
-        }
-        if(this.props.companies){
-            if(this.props.companies.list[this.props.companies.selected] && prevProps.companies.list[this.props.companies.selected]){
-                if(this.props.companies.list[this.props.companies.selected].id !== this.state.configForCompany){
-                    this.updateCompanyConfig();
+    const getData = React.useCallback(async companyId => {
+        const response = await client.query({
+            query: appConfig,
+            variables: {
+                userId: 'u152',
+                ...(companyId? {
+                    companyId
+                } : {})
+            }
+        });
+        if(response.data){
+            let newConfig = {};
+            for(let field of response.data.appConfig){
+                newConfig[field.name] = field.active;
+            }
+            if(companies.selected || companies.selected === 0){
+                if(companies.list[companies.selected].id === 488){
+                    //newConfig.blockchain = true;
                 }
             }
-
+            setConfig(newConfig);
         }
-    }
+    }, [client]);
 
-    updateCompanyConfig = () => {
-        const company = this.props.companies.list[this.props.companies.selected];
-        this.setState({
-            configForCompany: company.id
-        });
-
-        this.props.data.refetch({
-            companyId: company.id
-        })
-    }
+    React.useEffect(() => {
+        getData();
+    }, [getData]);
 
 
-    render(){
-        let config = {};
-        if(!this.props.data.loading){
-            for(let field of this.props.data.appConfig){
-                config[field.name] = field.active;
+    React.useEffect(() => {
+        if(!!user && !!user.id){
+            const subscribir = async () => {
+                const response = await client.subscribe({
+                    query: appControlChange,
+                    variables: {
+                        userId: user.id
+                    }
+                });
+                response.subscribe(subscriptionData => {
+                    if(subscriptionData.data.appControlChange.command === 'logout'){
+                        store.dispatch(mainActions.logout());
+                    }
+
+                    if(subscriptionData.data.appControlChange.command === 'refresh'){
+                        window.location.reload(true);
+                    }
+
+                    if(!subscriptionData.data.appControlChange.config) return;
+                    const newConfig = {};
+                    for(let field of subscriptionData.data.appControlChange.config){
+                        newConfig[field.name] = field.active;
+                    }
+                    setConfig({
+                        ...config,
+                        ...newConfig
+                    });
+                });
             }
+            subscribir();
+
         }
+    }, [user.id]);
 
-        return(
-            <ConfigContext.Provider value={config}>
-                {this.props.children}
-            </ConfigContext.Provider>
-        )
-    }
 
+    React.useEffect(() => {
+        if(companies.selected || companies.selected === 0){
+            getData(companies.list[companies.selected].id);
+        }
+    }, [companies.selected]);
+
+    return(
+        <ConfigContext.Provider value={config}>
+            {children}
+        </ConfigContext.Provider>
+    )
 }
+
 
 const appControlChange = gql`
     subscription AppControlChange($userId: String!) {
@@ -94,12 +125,19 @@ const mapStateToProps = state => ({
 });
 
 
-export default graphql(appConfig, {
-    options: props => ({
-        variables: {
-            userId: 'u152'
-        }
-    }),
+export default (connect(mapStateToProps)(withApollo(AppControl)));
+
+/*
+graphql(appConfig, {
+    options: props => {
+        return {
+            variables: {
+            userId: 'u152',
+            },
+            fetchPolicy: 'network-only',
+            forceFetch: true,
+            notifyOnNetworkStatusChange: true
+    }},
     props: props => {
 		return {
 		    ...props,
@@ -140,4 +178,6 @@ export default graphql(appConfig, {
 		    }
 		};
 	}
-})(connect(mapStateToProps)(AppControl));
+})
+
+*/

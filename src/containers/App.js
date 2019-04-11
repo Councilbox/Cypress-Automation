@@ -229,12 +229,15 @@ const App = () => {
 											path="/docs"
 											component={DocsPage}
 										/>
-									}
-									{!window.location.hostname.includes('app.councilbox') &&
 										<Route
 											exact
-											path="/docs/tryit"
-											component={PlaygroundPage}
+											path="/evidence/:uuid?"
+											component={ValidatorPage}
+										/>
+										<Route
+											exact
+											path="/convene/:id"
+											component={ConveneDisplay}
 										/>
 									}
 									<Route
