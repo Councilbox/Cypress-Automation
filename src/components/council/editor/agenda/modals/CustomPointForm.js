@@ -7,6 +7,7 @@ import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import { Card } from 'material-ui';
 import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { changeVariablesToValues } from '../../../../../utils/CBX';
+import { parse } from 'path';
 
 const CustomPointForm = ({
     errors,
@@ -32,6 +33,17 @@ const CustomPointForm = ({
 
     const hideLoadDraft = () => {
         setLoadDraft(false);
+    }
+
+    const validateNumber = number => {
+        if(number < 0 || isNaN(number)){
+            let value = Math.abs(parseInt(number, 10));
+            if(isNaN(value)){
+                return '';
+            }
+            return value;
+        }
+        return number;
     }
 
     const loadDraft = draft => {
@@ -176,7 +188,7 @@ const CustomPointForm = ({
                         <TextInput
                             floatingText="Máximo de elecciones por usuario"//TRADUCCION
                             value={options.maxSelections}
-                            onChange={event => updateOptions({ maxSelections: event.target.value})}
+                            onChange={event => updateOptions({ maxSelections: validateNumber(event.target.value)})}
                         />
                         {errors.maxSelections &&
                             <div style={{color: 'red'}}>
@@ -186,7 +198,7 @@ const CustomPointForm = ({
                         <TextInput
                             floatingText="Elecciones mínimas"//TRADUCCION
                             value={options.minSelections}
-                            onChange={event => updateOptions({ minSelections: event.target.value})}
+                            onChange={event => updateOptions({ minSelections: validateNumber(event.target.value) })}
                         />
                         {errors.minSelections &&
                             <div style={{color: 'red'}}>
