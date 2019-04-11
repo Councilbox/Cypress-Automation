@@ -16,11 +16,24 @@ export { ConfigContext };
 
 const AppControl = ({ subscribeToAppControl, companies, user = {}, data, children }) => {
 
+    const [config, setConfig] = React.useState(null);
+
     React.useEffect(() => {
         if(!!user && !!user.id){
             subscribeToAppControl({userId: user.id});
         }
     }, [user.id]);
+
+    React.useEffect(() => {
+        let config = {};
+        if(!data.loading){
+            for(let field of data.appConfig){
+                config[field.name] = field.active;
+            }
+            console.log(config);
+            setConfig(config);
+        }
+    }, [data]);
 
     React.useEffect(() => {
         if(companies.selected || companies.selected === 0){
@@ -32,14 +45,6 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, data, childre
         await data.refetch({
             companyId: companies.list[companies.selected].id
         });
-    }
-
-
-    let config = {};
-    if(!data.loading){
-        for(let field of data.appConfig){
-            config[field.name] = field.active;
-        }
     }
 
     return(
