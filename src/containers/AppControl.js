@@ -25,13 +25,13 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, data, childre
     }, [user.id]);
 
     React.useEffect(() => {
-        let config = {};
+        let newConfig = {};
         if(!data.loading){
             for(let field of data.appConfig){
-                config[field.name] = field.active;
+                newConfig[field.name] = field.active;
             }
-            console.log(config);
-            setConfig(config);
+            console.log(config, newConfig);
+            setConfig(newConfig);
         }
     }, [data]);
 
@@ -91,7 +91,8 @@ export default graphql(appConfig, {
             userId: 'u152'
         },
 		fetchPolicy: 'network-only',
-		forceFetch: true
+        forceFetch: true,
+        notifyOnNetworkStatusChange: true
     }),
     props: props => {
 		return {
