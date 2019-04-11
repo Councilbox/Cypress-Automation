@@ -211,35 +211,30 @@ const App = () => {
 										path="/cmp/:id"
 										component={CouncilLiveTestContainer}
 									/>
-									{!window.location.hostname.includes('app.councilbox') &&
-										<Route
-											exact
-											path="/evidence/:uuid?"
-											component={ValidatorPage}
-										/>
-									}
+									<Route
+										exact
+										path="/evidence/:uuid?"
+										component={ValidatorPage}
+									/>
 									<Route
 										exact
 										path="/convene/:id"
 										component={ConveneDisplay}
 									/>
 									{!window.location.hostname.includes('app.councilbox') &&
-										<Route
-											exact
-											path="/docs"
-											component={DocsPage}
-										/>
-										<Route
-											exact
-											path="/evidence/:uuid?"
-											component={ValidatorPage}
-										/>
-										<Route
-											exact
-											path="/convene/:id"
-											component={ConveneDisplay}
-										/>
-									}
+											<Route
+												exact
+												path="/docs"
+												component={DocsPage}
+											/>
+										}
+										{!window.location.hostname.includes('app.councilbox') &&
+											<Route
+												exact
+												path="/docs/tryit"
+												component={PlaygroundPage}
+											/>
+										}
 									<Route
 										exact
 										path="/company/:company/meeting/live"
