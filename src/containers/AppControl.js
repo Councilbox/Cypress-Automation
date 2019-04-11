@@ -30,7 +30,7 @@ const AppControl = ({ subscribeToAppControl, companies, user = {}, data, childre
             for(let field of data.appConfig){
                 newConfig[field.name] = field.active;
             }
-            console.log(config, newConfig);
+            //console.log(config, newConfig);
             setConfig(newConfig);
         }
     }, [data]);
@@ -86,14 +86,23 @@ const mapStateToProps = state => ({
 
 
 export default graphql(appConfig, {
-    options: props => ({
-        variables: {
-            userId: 'u152'
-        },
-		fetchPolicy: 'network-only',
-        forceFetch: true,
-        notifyOnNetworkStatusChange: true
-    }),
+    options: props => {
+        let company = null;
+        if(props.companies && (props.companies.selected || props.companies.selected === 0)){
+            props.companies.list[props.companies.selected].id
+        }
+
+        return {
+            variables: {
+            userId: 'u152',
+            ...(company? {
+                companyId: company.id
+            } : {}),
+            },
+            fetchPolicy: 'network-only',
+            forceFetch: true,
+            notifyOnNetworkStatusChange: true
+    }},
     props: props => {
 		return {
 		    ...props,
