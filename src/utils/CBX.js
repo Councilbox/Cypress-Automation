@@ -254,7 +254,6 @@ export const canBePresentWithRemoteVote = statute => {
 
 
 export const filterAgendaVotingTypes = (votingTypes, statute) => {
-	console.log(votingTypes);
 	if (statute.existsPresentWithRemoteVote === 1) {
 		return votingTypes.filter(
 			type => type.label === "text" || type.label === "public_votation"
