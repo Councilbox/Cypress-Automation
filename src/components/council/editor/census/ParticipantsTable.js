@@ -258,7 +258,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	);
 }
 
-const useHoverRow = () => {
+export const useHoverRow = () => {
 	const [showActions, setShowActions] = React.useState(false);
 
 	const mouseEnterHandler = () => {
@@ -274,7 +274,7 @@ const useHoverRow = () => {
 }
 
 const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
-	const [showActions, rowHandlers] = useHoverRow()
+	const [showActions, rowHandlers] = useHoverRow();
 
 	if(isMobile){
 		return(

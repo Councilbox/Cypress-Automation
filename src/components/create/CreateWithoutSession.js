@@ -3,7 +3,7 @@ import { Grid, GridItem, BlockButton, DateTimePicker } from '../../displayCompon
 import { moment } from '../../containers/App';
 import { checkSecondDateAfterFirst } from '../../utils/CBX';
 
-const CreateWithoutSession = ({ setOptions, translate, errors, ...props }) => {
+const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props }) => {
     const [dates, setDates] = React.useState({
         dateStart: null,
         closeDate: null
@@ -70,7 +70,7 @@ const CreateWithoutSession = ({ setOptions, translate, errors, ...props }) => {
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
                     minDate={moment().add(30, 'minutes')}
-                    label={translate.date_end}//TRADUCCION
+                    label={hybrid? 'Cierre de votación remota' : translate.date_end}//TRADUCCION
                     value={dates.closeDate}
                 />
             </div>

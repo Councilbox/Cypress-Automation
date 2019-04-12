@@ -14,6 +14,7 @@ import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
 import { isMobile } from "react-device-detect";
 import { Paper } from "material-ui";
+import { useHoverRow } from "../council/editor/census/ParticipantsTable";
 
 
 //props.council.id
@@ -85,7 +86,8 @@ const CreateCouncil = props => {
 
 const steps = {
 	NO_SESSION: 'NO_SESSION',
-	COUNCIL: 'COUNCIL'
+	COUNCIL: 'COUNCIL',
+	HYBRID_VOTING: 'HYBRID_VOTING'
 }
 
 const secondary = getSecondary();
@@ -160,6 +162,10 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		setStep(steps.NO_SESSION);
 	}
 
+	const noSessionHybridStep = () => {
+		setStep(steps.HYBRID_VOTING);
+	}
+
 	return (
 		<AlertConfirm
 			open={true}
@@ -186,6 +192,20 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 							<ButtonCreateCouncil
 								onClick={noSessionStep}
 								title={'Sin sesión'}
+								styleButton={{ marginRight: "3%" }}
+								icon={<i className="fa fa-users" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
+								isMobile={isMobile}
+								list={
+									<ul>
+										<li>Lorem ipdasdassum dolor sit amet, condasectetur adidaspiscidasdng elit. Nullamdasdornare justo arcu, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amsdfdet, consectetur adipiscing g sdfgs dfg ssdfgdelit. Nullam ornare g sgf justo arcu,sdfgsf uasdggsdfgasdt ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor s sdfgdfgit amet, conseasctetur adipiscing elit. Nullam ornsdfgasfgre justasdfsdo argdfcugsdfg, ut ultricies turpis luctus id. Done</li>
+									</ul>
+								}
+							/>
+							<ButtonCreateCouncil
+								onClick={noSessionHybridStep}
+								title={'Sin sesión en 2 pasos'}
 								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
 								isMobile={isMobile}
 								list={
@@ -200,6 +220,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 					}
 					{step === steps.NO_SESSION &&
 						<CreateWithoutSession
+							hybrid={false}
 							setOptions={setOptions}
 							translate={translate}
 							setTitle={setTitle}
@@ -209,12 +230,21 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 					{step === steps.COUNCIL &&
 						<CreateWithSession setOptions={setOptions} />
 					}
+					{step === steps.HYBRID_VOTING &&
+						<CreateWithoutSession
+							hybrid={true}
+							setOptions={setOptions}
+							translate={translate}
+							setTitle={setTitle}
+							errors={errors}
+						/>
+					}
 				</React.Fragment>
 
 			}
-			hideAccept={step !== steps.NO_SESSION}
+			hideAccept={step === steps.COUNCIL}
 			buttonAccept={translate.accept}
-			acceptAction={() => sendCreateCouncil(2)}
+			acceptAction={() => sendCreateCouncil(steps.HYBRID_VOTING? 3 : 2)}
 			requestClose={history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel='Cancelar'
@@ -222,89 +252,70 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 	)
 }
 
-class ButtonCreateCouncil extends React.Component {
-
-	state = {
-		showActions: false
-	}
-
-	mouseEnterHandler = () => {
-		this.setState({
-			showActions: true
-		})
-	}
-
-	mouseLeaveHandler = () => {
-		this.setState({
-			showActions: false
-		})
-	}
 
 
-	render() {
-		const { isMobile, title, icon, list, styleButton, onClick } = this.props
-		if (isMobile) {
-			return (
-				<Paper
-					elevation={6}
+const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick  }) => {
+	const [hover, hoverHandlers] = useHoverRow();
+
+	if (isMobile) {
+		return (
+			<Paper
+				elevation={6}
+				style={{
+					width:'100%',
+					marginTop: "15px"
+				}}
+			>
+				<div
+					onClick={onClick}
+					{...hoverHandlers}
 					style={{
-						width:'100%',
-						marginTop: "15px"
+						cursor: "pointer",
+						width: "100%",
+						border: "1px solid gainsboro",
+						background: hover ? "gainsboro" : "",
+						paddingTop: '0.5em',
 					}}
 				>
-					<div
-						onClick={onClick}
-						onMouseOver={this.mouseEnterHandler}
-						onMouseLeave={this.mouseLeaveHandler}
-						style={{
-							cursor: "pointer",
-							width: "100%",
-							border: "1px solid gainsboro",
-							background: this.state.showActions ? "gainsboro" : "",
-							paddingTop: '0.5em',
-						}}
-					>
-						<div style={{ textAlign: " center", }}>
-							<h2>{title}</h2>
-							{icon}
-							<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
-						</div>
+					<div style={{ textAlign: " center", }}>
+						<h2>{title}</h2>
+						{icon}
+						<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
 					</div>
-				</ Paper>
-			);
-		} else {
-			return (
-				<Paper
-					elevation={6}
+				</div>
+			</ Paper>
+		);
+	} else {
+		return (
+			<Paper
+				elevation={6}
+				style={{
+					width: "45%",
+					...styleButton
+				}}
+			>
+				<div
+					onClick={onClick}
+					{...hoverHandlers}
 					style={{
-						width: "45%",
-						...styleButton
+						cursor: "pointer",
+						width: "100%",
+						border: "1px solid gainsboro",
+						background: hover ? "gainsboro" : "",
+						padding: '1.5em',
 					}}
 				>
-					<div
-						onClick={onClick}
-						onMouseOver={this.mouseEnterHandler}
-						onMouseLeave={this.mouseLeaveHandler}
-						style={{
-							cursor: "pointer",
-							width: "100%",
-							border: "1px solid gainsboro",
-							background: this.state.showActions ? "gainsboro" : "",
-							padding: '1.5em',
-						}}
-					>
-						<div style={{ textAlign: " center", }}>
-							<h2>{title}</h2>
-							{icon}
-							{list}
-						</div>
+					<div style={{ textAlign: " center", }}>
+						<h2>{title}</h2>
+						{icon}
+						{list}
 					</div>
-				</ Paper>
-			);
-		}
+				</div>
+			</ Paper>
+		);
 	}
-
 }
+
 
 
 const mapStateToProps = state => ({
