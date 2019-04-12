@@ -285,14 +285,19 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 																/>
 															</div>
 															{council.statute.existsDelegatedVote === 1?
-																<AssistanceOption
-																	translate={translate}
-																	title={translate.want_to_delegate_in}
-																	select={showDelegation}
-																	disabled={!canDelegate}
-																	value={PARTICIPANT_STATES.DELEGATED}
-																	selected={state.assistanceIntention}
-																/>
+																<React.Fragment>
+																	<AssistanceOption
+																		translate={translate}
+																		title={translate.want_to_delegate_in}
+																		select={showDelegation}
+																		disabled={!canDelegate}
+																		value={PARTICIPANT_STATES.DELEGATED}
+																		selected={false}
+																	/>
+																	{state.delegateInfoUser && state.assistanceIntention === 4 ?
+																		<DelegationItem participant={state.delegateInfoUser} /> : ""
+																	}
+																</React.Fragment>
 															:
 																<React.Fragment>
 																	<AssistanceOption
