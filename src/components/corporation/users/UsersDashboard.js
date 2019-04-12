@@ -3,10 +3,11 @@ import { graphql, compose } from 'react-apollo';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
-import { MenuItem } from 'material-ui';
+import { MenuItem, Table, TableRow, TableCell, TableBody } from 'material-ui';
 import { corporationUsers } from '../../../queries/corporation';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
+import { TableHead } from 'material-ui';
 
 const DEFAULT_OPTIONS = {
     limit: 100,
@@ -44,14 +45,14 @@ class UsersDashboard extends React.PureComponent {
             options: DEFAULT_OPTIONS
         };
         variables.options.limit = this.state.limit;
-        variables.filters = [{field: 'fullName', text: this.state.filterText}];
+        variables.filters = [{ field: 'fullName', text: this.state.filterText }];
         this.props.data.refetch(variables);
     }
 
     render() {
 
-        if(this.state.addUser){
-            return <NewUser translate={this.props.translate} requestClose={() => this.setState({ addUser: false})} />
+        if (this.state.addUser) {
+            return <NewUser translate={this.props.translate} requestClose={() => this.setState({ addUser: false })} />
         }
 
         return (
@@ -72,34 +73,9 @@ class UsersDashboard extends React.PureComponent {
                         borderBottom: '1px solid gainsboro'
                     }}
                 >
-                    <div>
-                        <SelectInput
-                            value={this.state.limit}
-                            onChange={event => {
-                                this.updateLimit(event.target.value);
-                            }}
-                        >
-                            <MenuItem value={10}>
-                                10
-                            </MenuItem>
-                            <MenuItem value={20}>
-                                20
-                            </MenuItem>
-                        </SelectInput>
-                    </div>
-                    <div style={{width: '600px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-                        <div>
-                            <BasicButton
-                                text={this.props.translate.users_add}
-                                color={getSecondary()}
-                                icon={<ButtonIcon type="add" color="white" />}
-                                textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
-                                onClick={() => this.setState({
-                                    addUser: true
-                                })}
-                            />
-                        </div>
-                        <div style={{marginLeft: '0.6em'}}>
+
+                    <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <div style={{ marginLeft: '0.6em', justifyContent: 'flex-end'  }}>
                             <TextInput
                                 adornment={<Icon>search</Icon>}
                                 floatingText={" "}
@@ -115,23 +91,97 @@ class UsersDashboard extends React.PureComponent {
                 <div style={{
                     height: 'calc(100% - 6em)',
                     flexDirection: 'column',
+                    padding: "2em"
                 }}>
-                    <Scrollbar>
-                        {this.props.data.loading?
-                            <LoadingSection />
-                        :
-                            this.props.data.corporationUsers.list.map(user => (
-                                <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
-                                    <UserItem
-                                        user={user}
-                                        clickable={true}
-                                        translate={this.props.translate}
-                                    />
-                                </Link>
-                            ))
-                        }
-                    </Scrollbar>
+                    <div
+                        style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "space-between"
+                        }}
+                    >
+                        <div>
+                            <BasicButton
+                                text={this.props.translate.users_add}
+                                color={getSecondary()}
+                                icon={<ButtonIcon type="add" color="white" />}
+                                textStyle={{ textTransform: 'none', color: 'white', fontWeight: '700' }}
+                                onClick={() => this.setState({
+                                    addUser: true
+                                })}
+                            />
+                        </div>
+                        <div>
+                            <SelectInput
+                                value={this.state.limit}
+                                onChange={event => {
+                                    this.updateLimit(event.target.value);
+                                }}
+                            >
+                                <MenuItem value={10}>
+                                    10
+                                </MenuItem>
+                                <MenuItem value={20}>
+                                    20
+                            </MenuItem>
+                            </SelectInput>
+                        </div>
+                    </div>
+                    <Table
+                        style={{ width: "100%", maxWidth: "100%" }}
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Estado</TableCell>
+                                <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
+                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Nombre</TableCell>
+                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Email</TableCell>
+                                <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Ultima Conexion</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                    <div style={{ height: "calc( 100% - 5em)" }}>
+                        <Scrollbar>
+                            {this.props.data.loading ?
+                                <LoadingSection />
+                                :
+                                this.props.data.corporationUsers.list.map(user => (
+                                    <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
+                                        <UserItem
+                                            user={user}
+                                            clickable={true}
+                                            translate={this.props.translate}
+                                        />
+                                    </Link>
+                                ))
+                            }
+                        </Scrollbar>
+                    </div>
                 </div>
+
+
+
+                {/* <div style={{
+                        height: 'calc(100% - 6em)',
+                        flexDirection: 'column',
+                        padding: "1em"
+                    }}>
+                        <Scrollbar>
+                            {this.props.data.loading ?
+                                <LoadingSection />
+                                :
+                                this.props.data.corporationUsers.list.map(user => (
+                                    <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
+                                        <UserItem
+                                            user={user}
+                                            clickable={true}
+                                            translate={this.props.translate}
+                                        />
+                                    </Link>
+                                ))
+                            }
+                        </Scrollbar>
+                    </div> */}
             </div>
         );
     }

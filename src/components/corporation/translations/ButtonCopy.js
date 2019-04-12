@@ -4,7 +4,7 @@ import { Tooltip } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 
 
-const ButtonCopy = ({ value }) => {
+const ButtonCopy = ({ val }) => {
     const [state, setState] = React.useState({
         showCopyTooltip: false,
         showActions: false
@@ -12,12 +12,19 @@ const ButtonCopy = ({ value }) => {
 
 
     const copy = () => {
-        console.log(value)
         setState({
             showCopyTooltip: true
         });
         startCloseTimeout();
-        CBX.copyStringToClipboard(value);
+        console.log(val)
+        // var element = document.createElement('input');
+        // element.type = 'hidden'
+        // element.value = val;
+        // element.id = '';
+        // console.log(element)
+        // element.select();
+        // document.execCommand('copy');
+        // CBX.copyStringToClipboard(value);
     }
 
     const startCloseTimeout = () => {

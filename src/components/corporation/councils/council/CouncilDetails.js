@@ -182,8 +182,8 @@ class CouncilDetails extends React.Component {
 		//const { council } = this.props.data;
 
         return (
-            <div style={{width: '100%', height: '100%', overflow: 'auto'}}>
-                <CouncilItem council={council} hideFixedUrl={council.state > 30} />
+            <div style={{width: '100%', height: '100%', overflow: 'auto', padding: "1em"}}>
+                <CouncilItem council={council} hideFixedUrl={council.state > 30} enRoot={true} />
                 <div
                     style={{
                         width: '100%',
@@ -194,7 +194,7 @@ class CouncilDetails extends React.Component {
                         display: 'flex',
 						flexDirection: 'column',
                         justifyContent: 'center',
-                        alignItems: 'center'
+                        // alignItems: 'center'
                     }}
                 >
                     Asistentes

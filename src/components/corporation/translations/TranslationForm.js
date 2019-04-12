@@ -1,11 +1,44 @@
 import React from 'react';
 import { TextInput, Grid, GridItem } from '../../../displayComponents';
 import ButtonCopy from './ButtonCopy';
+import FontAwesome from "react-fontawesome";
+import { Tooltip } from 'antd';
 
 
 
 
 const TranslationForm = ({ data, errors, translate, updateState, values }) => {
+    const [state, setState] = React.useState({
+        showCopyTooltip: false,
+        showActions: false
+    });
+
+    const copy = (val) => {
+        setState({
+            showCopyTooltip: true
+        });
+        const el = document.createElement('span')
+
+        el.textContent = 'Text to copy'
+
+        // styles to prevent scrolling to the end of the page
+        el.style.position = 'fixed'
+        el.style.top = 0
+        el.style.clip = 'rect(0, 0, 0, 0)'
+
+        document.body.appendChild(el)
+        console.log(el)
+        document.execCommand('copy')
+    }
+
+    const startCloseTimeout = () => {
+        let timeout = setTimeout(() => {
+            setState({
+                showCopyTooltip: false
+            });
+        }, 2000);
+    }
+
 
     return (
         <Grid>
@@ -15,9 +48,22 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Nombre"
                     errorText={errors.label}
                     onChange={event => updateState({ label: event.target.value })}
-
                 />
-                <ButtonCopy value={data.label} />
+                {state.showCopyTooltip &&
+                    <Tooltip title="Copiado" open={state.showCopyTooltip}><div> </div></Tooltip>
+                }
+                <FontAwesome
+                    name={"clone"}
+                    style={{
+                        cursor: "pointer",
+                        marginTop: "18px",
+                        marginLeft: "0.5em",
+                    }}
+                    onClick={() => copy(data.label)}
+                />
+                {/* {data.label &&
+                    <ButtonCopy val={data.label} />
+                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -26,7 +72,18 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Español"
                     onChange={event => updateState({ es: event.target.value })}
                 />
-                <ButtonCopy value={data.es} />
+                <FontAwesome
+                    name={"clone"}
+                    style={{
+                        cursor: "pointer",
+                        marginTop: "18px",
+                        marginLeft: "0.5em",
+                    }}
+                    onClick={() => copy(data.es)}
+                />
+                {/* {data.es &&
+                    <ButtonCopy value={data.es} />
+                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -35,7 +92,9 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Inglés"
                     onChange={event => updateState({ en: event.target.value })}
                 />
-                <ButtonCopy value={data.en} />
+                {/* {data.en &&
+                    <ButtonCopy value={data.en} />
+                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -44,7 +103,9 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Gallego"
                     onChange={event => updateState({ gal: event.target.value })}
                 />
-                <ButtonCopy value={data.gal} />
+                {/* {data.gal &&
+                    <ButtonCopy value={data.gal} />
+                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -53,7 +114,9 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Portugués"
                     onChange={event => updateState({ pt: event.target.value })}
                 />
-                <ButtonCopy value={data.pt} />
+                {/* {data.pt &&
+                    <ButtonCopy value={data.pt} />
+                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -62,7 +125,9 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Catalan"
                     onChange={event => updateState({ cat: event.target.value })}
                 />
-                <ButtonCopy value={data.cat} />
+                {/* {data.cat &&
+                    <ButtonCopy value={data.cat} />
+                } */}
             </GridItem>
         </Grid>
     )
