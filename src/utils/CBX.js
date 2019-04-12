@@ -271,8 +271,8 @@ export const filterAgendaVotingTypes = (votingTypes, statute, council) => {
 			type.label !== 'custom_point' &&
 			type.label !== 'custom_anonym_point');
 	}
-	return votingTypes.filter(type => type.label !== 'custom_point');
 	//return votingTypes;
+	return votingTypes.filter(type => type.label !== 'custom_point' && type.label !== 'custom_anonym_point');
 };
 
 export const hasSecondCall = statute => {

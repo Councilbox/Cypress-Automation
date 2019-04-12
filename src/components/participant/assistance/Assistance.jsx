@@ -275,140 +275,204 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 										}
 										{council.confirmAssistance !== 0 &&
 											<React.Fragment>
-												<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
-													<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
-														<SectionTitle
-															text={`${translate.indicate_status}:`}
-															color={primary}
-														/>
-													</div>
-													{participant.personOrEntity === 0?
-														<React.Fragment>
-															<AssistanceOption
-																title={translate.attend_remotely_through_cbx}
-																translate={translate}
-																select={() => {
-																	setState({
-																		...state,
-																		assistanceIntention: PARTICIPANT_STATES.REMOTE,
-																		locked: false,
-																		delegateId: null
-																	})
-																}}
-																value={PARTICIPANT_STATES.REMOTE}
-																selected={state.assistanceIntention}
-															/>
-															<AssistanceOption
-																title={translate.attending_in_person}
-																translate={translate}
-																select={() => {
-																	setState({
-																		...state,
-																		assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-																		locked: false,
-																		delegateId: null
-																	})
-																}}
-																value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-																selected={state.assistanceIntention}
+												{council.companyId === 375 || council.companyId === 443?
+													<React.Fragment>
+														<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+															<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+																<SectionTitle
+																	text={`${translate.indicate_status}:`}
+																	color={primary}
+																/>
+															</div>
+															{council.statute.existsDelegatedVote === 1?
+																<React.Fragment>
+																	<AssistanceOption
+																		translate={translate}
+																		title={translate.want_to_delegate_in}
+																		select={showDelegation}
+																		disabled={!canDelegate}
+																		value={PARTICIPANT_STATES.DELEGATED}
+																		selected={false}
+																	/>
+																	{state.delegateInfoUser && state.assistanceIntention === 4 ?
+																		<DelegationItem participant={state.delegateInfoUser} /> : ""
+																	}
+																</React.Fragment>
+															:
+																<React.Fragment>
+																	<AssistanceOption
+																		title={translate.attend_remotely_through_cbx}
+																		translate={translate}
+																		select={() => {
+																			setState({
+																				...state,
+																				assistanceIntention: PARTICIPANT_STATES.REMOTE,
+																				locked: false,
+																				delegateId: null
+																			})
+																		}}
+																		value={PARTICIPANT_STATES.REMOTE}
+																		selected={state.assistanceIntention}
+																	/>
+																	<AssistanceOption
+																		title={translate.attending_in_person}
+																		translate={translate}
+																		select={() => {
+																			setState({
+																				...state,
+																				assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																				locked: false,
+																				delegateId: null
+																			})
+																		}}
+																		value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+																		selected={state.assistanceIntention}
 
-															/>
-															<AssistanceOption
-																translate={translate}
-																title={translate.not_attending}
-																select={() => {
-																	setState({
-																		...state,
-																		assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
-																		locked: false,
-																		noAttendWarning: (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
-																			participant.delegatedVotes.length > 0) ||
-																			participant.delegatedVotes.length > 1
-																			?
-																			true : false,
-																		delegateId: null
-																	})
-																}}
-																value={PARTICIPANT_STATES.NO_PARTICIPATE}
-																selected={state.assistanceIntention}
-															/>
-														</React.Fragment>
-													:
-														<React.Fragment>
-															<div onClick={showAddRepresentative}>
+																	/>
+																</React.Fragment>
+															}
+														</Card>
+													</React.Fragment>
+												:
+													<React.Fragment>
+														<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+															<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+																<SectionTitle
+																	text={`${translate.indicate_status}:`}
+																	color={primary}
+																/>
+															</div>
+															{participant.personOrEntity === 0?
+																<React.Fragment>
+																	<AssistanceOption
+																		title={translate.attend_remotely_through_cbx}
+																		translate={translate}
+																		select={() => {
+																			setState({
+																				...state,
+																				assistanceIntention: PARTICIPANT_STATES.REMOTE,
+																				locked: false,
+																				delegateId: null
+																			})
+																		}}
+																		value={PARTICIPANT_STATES.REMOTE}
+																		selected={state.assistanceIntention}
+																	/>
+																	<AssistanceOption
+																		title={translate.attending_in_person}
+																		translate={translate}
+																		select={() => {
+																			setState({
+																				...state,
+																				assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																				locked: false,
+																				delegateId: null
+																			})
+																		}}
+																		value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+																		selected={state.assistanceIntention}
+
+																	/>
+																	<AssistanceOption
+																		translate={translate}
+																		title={translate.not_attending}
+																		select={() => {
+																			setState({
+																				...state,
+																				assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+																				locked: false,
+																				noAttendWarning: (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
+																					participant.delegatedVotes.length > 0) ||
+																					participant.delegatedVotes.length > 1
+																					?
+																					true : false,
+																				delegateId: null
+																			})
+																		}}
+																		value={PARTICIPANT_STATES.NO_PARTICIPATE}
+																		selected={state.assistanceIntention}
+																	/>
+																</React.Fragment>
+															:
+																<React.Fragment>
+																	<div onClick={showAddRepresentative}>
+																		<AssistanceOption
+																			translate={translate}
+																			title={participant.representative? translate.change_representative : translate.add_representative}
+																			value={PARTICIPANT_STATES.REPRESENTATED}
+																			selected={state.assistanceIntention !== 4? participant.state : null}
+																		/>
+																		{participant.representative && state.assistanceIntention !== 4 &&
+																			<DelegationItem participant={participant.representative} />
+																		}
+																	</div>
+																	{state.addRepresentative &&
+																		<AddRepresentativeModal
+																			show={state.addRepresentative}
+																			council={council}
+																			participant={participant}
+																			refetch={refetch}
+																			requestClose={closeAddRepresentative}
+																			translate={translate}
+																		/>
+																	}
+																</React.Fragment>
+															}
+															{((participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) || (participant.numParticipations > 0 || participant.socialCapital > 0)) &&
 																<AssistanceOption
 																	translate={translate}
-																	title={participant.representative? translate.change_representative : translate.add_representative}
-																	value={PARTICIPANT_STATES.REPRESENTATED}
-																	selected={state.assistanceIntention !== 4? participant.state : null}
-																/>
-																{participant.representative && state.assistanceIntention !== 4 &&
-																	<DelegationItem participant={participant.representative} />
-																}
-															</div>
-															{state.addRepresentative &&
-																<AddRepresentativeModal
-																	show={state.addRepresentative}
-																	council={council}
-																	participant={participant}
-																	refetch={refetch}
-																	requestClose={closeAddRepresentative}
-																	translate={translate}
+																	title={translate.want_to_delegate_in}
+																	select={showDelegation}
+																	disabled={!canDelegate}
+																	value={PARTICIPANT_STATES.DELEGATED}
+																	selected={state.assistanceIntention}
 																/>
 															}
-														</React.Fragment>
-													}
-													{((participant.type === PARTICIPANT_TYPE.REPRESENTATIVE) || (participant.numParticipations > 0 || participant.socialCapital > 0)) &&
-														<AssistanceOption
-															translate={translate}
-															title={translate.want_to_delegate_in}
-															select={showDelegation}
-															disabled={!canDelegate}
-															value={PARTICIPANT_STATES.DELEGATED}
-															selected={state.assistanceIntention}
-														/>
-													}
 
-													{state.delegateInfoUser && state.assistanceIntention === 4 ?
-														<DelegationItem participant={state.delegateInfoUser} /> : ""
-													}
-													<br />
-												</Card>
-												<Card style={{ padding: '1.5em', width: '100%', }}>
-													<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
-														<SectionTitle
-															text={`${translate.comments}:`}
-															color={primary}
-														/>
-													</div>
-													<h4 style={{ paddingBottom: "0.6em" }}>{translate.attendance_comment}:</h4>
-													<RichTextInput
-														errorText={state.commentError}
-														translate={translate}
-														value={
-															!!participant.assistanceComment
-																? participant.assistanceComment
-																: ""
+															{state.delegateInfoUser && state.assistanceIntention === 4 ?
+																<DelegationItem participant={state.delegateInfoUser} /> : ""
+															}
+															<br />
+														</Card>
+														<Card style={{ padding: '1.5em', width: '100%', }}>
+															<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+																<SectionTitle
+																	text={`${translate.comments}:`}
+																	color={primary}
+																/>
+															</div>
+															<h4 style={{ paddingBottom: "0.6em" }}>{translate.attendance_comment}:</h4>
+															<RichTextInput
+																errorText={state.commentError}
+																translate={translate}
+																value={
+																	!!participant.assistanceComment
+																		? participant.assistanceComment
+																		: ""
+																}
+																onChange={value =>
+																	setState({
+																		...state,
+																		participant: {
+																			...state.participant,
+																			assistanceComment: value
+																		},
+																		locked: false
+																	})
+																}
+															/>
+														</Card>
+														{state.noAttendWarning &&
+															<NoAttendDelegationWarning
+																translate={translate}
+																representative={participant.type === PARTICIPANT_TYPE.REPRESENTATIVE}
+																requestClose={() => setState({ ...state, noAttendWarning: false})}
+															/>
 														}
-														onChange={value =>
-															setState({
-																...state,
-																participant: {
-																	...state.participant,
-																	assistanceComment: value
-																},
-																locked: false
-															})
-														}
-													/>
-												</Card>
-												{state.noAttendWarning &&
-													<NoAttendDelegationWarning
-														translate={translate}
-														representative={participant.type === PARTICIPANT_TYPE.REPRESENTATIVE}
-														requestClose={() => setState({ ...state, noAttendWarning: false})}
-													/>
+													</React.Fragment>
+
 												}
+												
 											</React.Fragment>
 										}
 										<br />
