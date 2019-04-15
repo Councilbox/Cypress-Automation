@@ -81,12 +81,12 @@ export const checkRequiredFieldsParticipant = (
 		errors.language = translate.field_required;
 	}
 
-	if (!participant.numParticipations) {
+	if (!participant.numParticipations && participant.numParticipations !== 0) {
 		hasError = true;
 		errors.numParticipations = translate.field_required;
 	}
 
-	if (hasSocialCapital && !participant.socialCapital) {
+	if (hasSocialCapital && !participant.socialCapital && participant.socialCapital !== 0) {
 		hasError = true;
 		errors.socialCapital = translate.field_required;
 	}
