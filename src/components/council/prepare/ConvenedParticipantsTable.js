@@ -376,7 +376,7 @@ class HoverableRow extends React.Component {
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
 		let representative = this.props.representative;
-
+		const { notifications } = participant.live.state === PARTICIPANT_STATES.REPRESENTATED? representative : participant;
 		if(participant.live && participant.live.representative){
 			representative = participant.live.representative;
 		}
@@ -560,15 +560,14 @@ class HoverableRow extends React.Component {
 				{!hideNotifications &&
 					<React.Fragment>
 						<TableCell>
-							{participant.notifications
+
+							{notifications
 								.length > 0 ? (
 								<Tooltip
 									title={
 										translate[
 											CBX.getTranslationReqCode(
-												participant
-													.notifications[0]
-													.reqCode
+												notifications[0].reqCode
 											)
 										]
 									}
@@ -581,9 +580,7 @@ class HoverableRow extends React.Component {
 												"auto"
 										}}
 										src={CBX.getEmailIconByReqCode(
-											participant
-												.notifications[0]
-												.reqCode
+											notifications[0].reqCode
 										)}
 										alt="email-state-icon"
 									/>
