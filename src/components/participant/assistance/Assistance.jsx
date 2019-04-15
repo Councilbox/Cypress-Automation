@@ -275,63 +275,65 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 										}
 										{council.confirmAssistance !== 0 &&
 											<React.Fragment>
-												{council.companyId === 375 || council.companyId === 443?
+												{council.companyId === 443?
 													<React.Fragment>
-														<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
-															<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
-																<SectionTitle
-																	text={`${translate.indicate_status}:`}
-																	color={primary}
-																/>
-															</div>
-															{council.statute.existsDelegatedVote === 1?
-																<React.Fragment>
-																	<AssistanceOption
-																		translate={translate}
-																		title={translate.want_to_delegate_in}
-																		select={showDelegation}
-																		disabled={!canDelegate}
-																		value={PARTICIPANT_STATES.DELEGATED}
-																		selected={false}
+														{participant.position === 'B' &&
+															<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
+																<div style={{ borderBottom: '1px solid gainsboro', width: '100%', marginBottom: "1em" }}>
+																	<SectionTitle
+																		text={`${translate.indicate_status}:`}
+																		color={primary}
 																	/>
-																	{state.delegateInfoUser && state.assistanceIntention === 4 ?
-																		<DelegationItem participant={state.delegateInfoUser} /> : ""
-																	}
-																</React.Fragment>
-															:
-																<React.Fragment>
-																	<AssistanceOption
-																		title={translate.attend_remotely_through_cbx}
-																		translate={translate}
-																		select={() => {
-																			setState({
-																				...state,
-																				assistanceIntention: PARTICIPANT_STATES.REMOTE,
-																				locked: false,
-																				delegateId: null
-																			})
-																		}}
-																		value={PARTICIPANT_STATES.REMOTE}
-																		selected={state.assistanceIntention}
-																	/>
-																	<AssistanceOption
-																		title={translate.attending_in_person}
-																		translate={translate}
-																		select={() => {
-																			setState({
-																				...state,
-																				assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
-																				locked: false,
-																				delegateId: null
-																			})
-																		}}
-																		value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
-																		selected={state.assistanceIntention}
+																</div>
+																{council.statute.existsDelegatedVote === 1?
+																	<React.Fragment>
+																		<AssistanceOption
+																			translate={translate}
+																			title={translate.want_to_delegate_in}
+																			select={showDelegation}
+																			disabled={!canDelegate}
+																			value={PARTICIPANT_STATES.DELEGATED}
+																			selected={false}
+																		/>
+																		{state.delegateInfoUser && state.assistanceIntention === 4 ?
+																			<DelegationItem participant={state.delegateInfoUser} /> : ""
+																		}
+																	</React.Fragment>
+																:
+																	<React.Fragment>
+																		<AssistanceOption
+																			title={translate.attend_remotely_through_cbx}
+																			translate={translate}
+																			select={() => {
+																				setState({
+																					...state,
+																					assistanceIntention: PARTICIPANT_STATES.REMOTE,
+																					locked: false,
+																					delegateId: null
+																				})
+																			}}
+																			value={PARTICIPANT_STATES.REMOTE}
+																			selected={state.assistanceIntention}
+																		/>
+																		<AssistanceOption
+																			title={translate.attending_in_person}
+																			translate={translate}
+																			select={() => {
+																				setState({
+																					...state,
+																					assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
+																					locked: false,
+																					delegateId: null
+																				})
+																			}}
+																			value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
+																			selected={state.assistanceIntention}
 
-																	/>
-																</React.Fragment>
-															}
-														</Card>
+																		/>
+																	</React.Fragment>
+																}
+															</Card>
+														}
 													</React.Fragment>
 												:
 													<React.Fragment>
@@ -472,7 +474,6 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 													</React.Fragment>
 
 												}
-												
 											</React.Fragment>
 										}
 										<br />
