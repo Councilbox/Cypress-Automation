@@ -9,6 +9,7 @@ import { checkRepeatedItemValue } from '../../../../../utils/CBX';
 const defaultPollOptions = {
     writeIn: false,
     maxSelections: 1,
+    minSelections: 1,
     multiselect: false
 }
 
