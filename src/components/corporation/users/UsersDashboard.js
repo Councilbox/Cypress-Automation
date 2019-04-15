@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
-import { MenuItem, Table, TableRow, TableCell, TableBody } from 'material-ui';
+import { MenuItem, Table, TableRow, TableCell, TableBody, InputAdornment } from 'material-ui';
 import { corporationUsers } from '../../../queries/corporation';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
@@ -75,9 +75,13 @@ class UsersDashboard extends React.PureComponent {
                 >
 
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
-                        <div style={{ marginLeft: '0.6em', justifyContent: 'flex-end'  }}>
+                        <div style={{ marginLeft: '0.6em', justifyContent: 'flex-end' }}>
                             <TextInput
-                                adornment={<Icon>search</Icon>}
+                                startAdornment={
+                                    <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                                        <i className="fa fa-search" aria-hidden="true"></i>
+                                    </InputAdornment>
+                                }
                                 floatingText={" "}
                                 type="text"
                                 value={this.state.filterText}

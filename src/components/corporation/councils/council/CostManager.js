@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { TextInput, BasicButton } from '../../../../displayComponents';
 
-const CostManager = ({ council, updateCouncil}) => {
+const CostManager = ({ council, updateCouncil }) => {
     const [formData, setFormData] = React.useState({
         price: council.price,
         priceObservations: council.priceObservations
@@ -45,6 +45,7 @@ const CostManager = ({ council, updateCouncil}) => {
                 floatingText="Coste"
                 value={formData.price || ''}
                 onChange={updatePrice}
+                styles={{marginBottom: "0.8em"}}
             />
             <TextInput
                 floatingText="Observaciones sobre el coste"
@@ -52,6 +53,7 @@ const CostManager = ({ council, updateCouncil}) => {
                 onChange={updateObservations}
             />
             <BasicButton
+                buttonStyle={{ marginTop: "1em" }}
                 text="Guardar"
                 loading={loading}
                 onClick={sendUpdate}

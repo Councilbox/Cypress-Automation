@@ -92,16 +92,16 @@ class UserItem extends React.Component {
                             }
                         </div>
                     </div>
-                    <div style={{ width: "10%", padding: "4px 8px 4px 0px" }}>
+                    <div style={{ width: "10%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
                         <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.id}`}</span>
                     </div>
-                    <div style={{ width: "25%", padding: "4px 8px 4px 0px" }}>
+                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
                         <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.name} ${user.surname}`}</span>
                     </div>
-                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", }}>
+                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
                         <span style={{ fontSize: '0.9rem' }}>{`${user.email || '-'}`}</span>
                     </div>
-                    <div style={{ width: "25%", padding: "4px 8px 4px 0px" }}>
+                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
                         {!!user.lastConnectionDate ?
                             <DateWrapper
                                 format="DD/MM/YYYY HH:mm"

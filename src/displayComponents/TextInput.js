@@ -32,7 +32,8 @@ const TextInput = ({
 	id,
 	max,
 	disabled,
-	startAdornment
+	startAdornment,
+	styles
 }) => (
 		<FormControl
 			style={{
@@ -67,7 +68,8 @@ const TextInput = ({
 				multiline={multiline}
 				style={{
 					marginTop: 0,
-					width: "100%"
+					width: "100%",
+					...styles
 				}}
 				placeholder={placeholder}
 				InputLabelProps={{

@@ -101,6 +101,7 @@ class FixedVideoURLModal extends React.Component {
                     color="white"
                     textStyle={{color: primary, fontWeight: '700'}}
                     onClick={this.openURLModal}
+                    buttonStyle={{border: "1px solid "}}
                 />
                 <AlertConfirm
 					requestClose={this.closeURLModal}
