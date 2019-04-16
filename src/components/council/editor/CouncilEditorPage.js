@@ -148,6 +148,7 @@ class CouncilEditorPage extends React.Component {
 							actualStep={this.state.actualStep}
 							councilID={this.props.council.id}
 							company={this.props.company}
+							goToPage={this.goToPage}
 							translate={translate}
 						/>
 					)}

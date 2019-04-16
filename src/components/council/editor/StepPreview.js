@@ -12,7 +12,7 @@ import {
 } from "../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import { withRouter } from "react-router-dom";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import {
 	councilStepSix
 } from "../../../queries";
@@ -30,16 +30,19 @@ import { checkValidEmail } from "../../../utils/validation";
 import { toast } from "react-toastify";
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
+import { useOldState } from "../../../hooks";
 
 
-class StepPreview extends React.Component {
-
-	state = {
+const StepPreview = ({ translate, company, client, ...props }) => {
+	const [loading, setLoading] = React.useState(false);
+	const [fetchLoading, setFetchLoading] = React.useState(true);
+	const [errors, setErrors] = React.useState({});
+	const [data, setData] = React.useState({});
+	const [state, setState] = useOldState({
 		conveneTestModal: false,
 		conveneTestSuccess: false,
 		preConveneModal: false,
 		preConveneSuccess: false,
-		loading: false,
 		success: false,
 		sendConveneWithoutNoticeModal: false,
 		conveneWithoutNoticeSuccess: false,
@@ -50,177 +53,254 @@ class StepPreview extends React.Component {
 		errors: {
 			conveneTestEmail: ""
 		}
-	};
+	});
 
-	componentDidMount() {
-		this.props.data.refetch();
+	const primary = getPrimary();
+	const secondary = getSecondary();
+
+	const getData = React.useCallback(async () => {
+		setFetchLoading(true);
+		const response = await client.query({
+			query: councilStepSix,
+			variables: {
+				id: props.councilID,
+				timezone: moment().utcOffset()
+			}
+		});
+
+		if(response.data){
+			setData(response.data);
+		}
+
+		setFetchLoading(false);
+	}, [props.councilID]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	const conveneWithNotice = async () => {
+		const { __typename, ...council } = data.council;
+		if(!checkInvalidDates()){
+			console.log('entra');
+			/* setLoading(true);
+			const response = await props.conveneWithNotice({
+				variables: {
+					councilId: council.id,
+					timezone: moment().utcOffset(),
+				}
+			});
+
+			if(!response.errors){
+				setLoading(false);
+				if (response.data.conveneWithNotice.success) {
+					toast(
+						<LiveToast
+							message={translate.council_sended}
+						/>, {
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: "successToast"
+						}
+					)
+					bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
+				}
+			} */
+		}
+
 	}
 
-	conveneWithNotice = async () => {
-		const { __typename, ...council } = this.props.data.council;
-		this.props.data.loading = true;
-		this.setState({
-			loading: true
-		});
-		const response = await this.props.conveneWithNotice({
-			variables: {
-				councilId: council.id,
-				timezone: moment().utcOffset(),
-			}
-		});
-
-		if(!response.errors){
-			this.setState({
-				loading: false
-			});
-			if (response.data.conveneWithNotice.success) {
-				toast(
-					<LiveToast
-						message={this.props.translate.council_sended}
-					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
-				)
-				bHistory.push(`/company/${this.props.company.id}/council/${council.id}/prepare`);
-			}
-		}
-	};
-
-	sendConveneTest = async () => {
-		if (checkValidEmail(this.state.data.conveneTestEmail)) {
-			this.setState({
-				loading: true
-			});
-			const response = await this.props.sendConveneTest({
+	const sendConveneTest = async () => {
+		if (checkValidEmail(state.data.conveneTestEmail)) {
+			setLoading(true);
+			const response = await props.sendConveneTest({
 				variables: {
-					councilId: this.props.data.council.id,
-					email: this.state.data.conveneTestEmail,
+					councilId: data.council.id,
+					email: state.data.conveneTestEmail,
 					timezone: moment().utcOffset(),
 				}
 			});
 
 			if (!response.errors) {
-				this.setState({
-					loading: false,
+				setLoading(false);
+				setState({
 					conveneTestSuccess: true
 				});
 			}
 		} else {
-			this.setState({
-				loading: false,
+			setLoading(false);
+			setState({
 				errors: {
-					...this.state.errors,
-					conveneTestEmail: this.props.translate.tooltip_invalid_email_address
+					...state.errors,
+					conveneTestEmail: translate.tooltip_invalid_email_address
 				}
 			});
 		}
-	};
+	}
 
-	conveneTestKeyUp = event => {
+	const conveneTestKeyUp = event => {
 		if (event.nativeEvent.keyCode === 13) {
-			this.sendConveneTest();
+			sendConveneTest();
 		}
 	};
 
-	updateState = object => {
-		this.setState({
+	const updateState = object => {
+		setState({
 			data: {
-				...this.state.data,
+				...state.data,
 				...object
 			}
 		});
-	};
+	}
 
-	resetConveneTestValues = () => {
-		this.setState({
+	const resetConveneTestValues = () => {
+		setState({
 			conveneTestModal: false,
 			conveneTestSuccess: false,
+			data: { conveneTestEmail: '' },
 			errors: { conveneTestEmail: "" }
 		});
-		this.updateState({ conveneTestEmail: "" });
 	};
 
-	sendPreConvene = async () => {
-		this.setState({
-			loading: true
-		});
-		const response = await this.props.sendPreConvene({
+	const sendPreConvene = async () => {
+		setLoading(true);
+		const response = await props.sendPreConvene({
 			variables: {
-				councilId: this.props.data.council.id,
+				councilId: data.council.id,
 				timezone: moment().utcOffset(),
 			}
 		});
 
-		this.setState({
-			loading: false
-		});
+		setLoading(false);
 
 		if (!response.errors) {
-			this.setState({
+			setState({
 				preConveneSuccess: true
 			});
 		}
-	};
+	}
 
-	sendConveneWithoutNotice = async () => {
-		this.setState({
-			loading: true
-		});
-		const response = await this.props.conveneWithoutNotice({
-			variables: {
-				councilId: this.props.data.council.id,
-				timezone: moment().utcOffset(),
+	const resetErrors = () => {
+		setErrors({});
+	}
+
+	const checkInvalidDates = () => {
+		let hasError = false;
+		let errors = {}
+		const { council } = data;
+
+		if (council.councilType > 1) {
+			if (!council.dateStart) {
+				hasError = true;
+				errors.dateStart = {
+					message: translate.required_field,
+					action: () => props.goToPage(1)
+				};
 			}
-		});
+			if (!council.closeDate) {
+				hasError = true;
+				errors.closeDate = {
+					message: translate.required_field,
+					action: () => props.goToPage(5)
+				};
+			}
 
-		this.setState({
-			loading: false
-		});
-		if (!response.errors) {
-			this.setState({
-				conveneWithoutNoticeSuccess: true
-			});
-			if (response.data.conveneWithoutNotice.success) {
-				toast(
-					<LiveToast
-						message={this.props.translate.changes_saved}
-					/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: "successToast"
-					}
-				);
-				bHistory.push(`/company/${this.props.company.id}/council/${this.props.data.council.id}/prepare`);
+			if (council.dateStart && council.closeDate) {
+				if (CBX.checkSecondDateAfterFirst(council.dateStart, new Date())) {
+					hasError = true;
+					errors.dateStart = {
+						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor',//TRADUCCION
+						action: () => props.goToPage(1)
+					};
+				}
+				if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
+					hasError = true;
+					errors.closeDate = {
+						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor',//TRADUCCION
+						action: () => props.goToPage(5)
+					};
+				}
 			}
 		}
-	};
 
-	_renderPreConveneModalBody = () => {
-		if (this.state.preConveneSuccess) {
-			return <SuccessMessage message={this.props.translate.sent} />;
+		setErrors(errors);
+
+		return hasError;
+	}
+
+	const sendConveneWithoutNotice = async () => {
+		if(!checkInvalidDates()){
+			setLoading(true);
+			const response = await props.conveneWithoutNotice({
+				variables: {
+					councilId: data.council.id,
+					timezone: moment().utcOffset(),
+				}
+			});
+			setLoading(false);
+			if (!response.errors) {
+				setState({
+					conveneWithoutNoticeSuccess: true
+				});
+				if (response.data.conveneWithoutNotice.success) {
+					toast(
+						<LiveToast
+							message={translate.changes_saved}
+						/>, {
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: "successToast"
+						}
+					);
+					bHistory.push(`/company/${company.id}/council/${data.council.id}/prepare`);
+				}
+			}
+		}
+	}
+
+	const _renderPreConveneModalBody = () => {
+		if (state.preConveneSuccess) {
+			return <SuccessMessage message={translate.sent} />;
 		}
 
 		return (
 			<div style={{ width: "500px" }}>
-				{this.props.translate.send_preconvene_desc}
+				{translate.send_preconvene_desc}
 			</div>
 		);
 	};
 
-	_renderSendConveneWithoutNoticeBody = () => {
-		return <div>{this.props.translate.new_save_convene}</div>;
+	const _renderSendConveneWithoutNoticeBody = () => {
+		return <div>{translate.new_save_convene}</div>;
 	};
 
-	_renderConveneTestModalBody() {
-		const { translate } = this.props;
-		const { data, errors } = this.state;
-		const texts = CBX.removeHTMLTags(
-			translate.send_convene_test_email_modal_text
-		).split(".");
+	const _renderErrorModalBody = () => {
+		if(Object.keys(errors).length === 0){
+			return <div />
+		}
 
-		if (this.state.conveneTestSuccess) {
+		return (
+			<div>
+				{Object.keys(errors).map(key => (
+					<div style={{display: 'flex', justifyContent: 'space-between'}}>
+						<div>{errors[key].message}</div>
+						<BasicButton
+							onClick={errors[key].action}
+							text={'Ir'}
+							color="white"
+							buttonStyle={{border: `1px solid ${secondary}`}}
+						/>
+					</div>
+				))}
+			</div>
+		)
+	}
+
+	function _renderConveneTestModalBody() {
+		const { data, errors } = state;
+		const texts = CBX.removeHTMLTags(translate.send_convene_test_email_modal_text).split(".");
+
+		if (state.conveneTestSuccess) {
 			return <SuccessMessage message={translate.sent} />;
 		}
 
@@ -234,12 +314,12 @@ class StepPreview extends React.Component {
 					<TextInput
 						required
 						floatingText={translate.email}
-						onKeyUp={this.conveneTestKeyUp}
+						onKeyUp={conveneTestKeyUp}
 						type="text"
 						errorText={errors.conveneTestEmail}
 						value={data.conveneTestEmail}
 						onChange={event =>
-							this.updateState({
+							updateState({
 								conveneTestEmail: event.nativeEvent.target.value
 							})
 						}
@@ -249,278 +329,255 @@ class StepPreview extends React.Component {
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
-		const primary = getPrimary();
-		const secondary = getSecondary();
+	if (fetchLoading) {
+		return <LoadingSection />;
+	}
 
-		if (this.props.data.loading) {
-			return <LoadingSection />;
-		}
-
-		return (
-			<EditorStepLayout
-				body={
-					<div
+	return (
+		<EditorStepLayout
+			body={
+				<div
+					style={{
+						width: "100%",
+						height: "100%",
+						padding: '1.2em',
+						paddingTop: '0.8em',
+						display: 'flex',
+						justifyContent: 'center'
+					}}
+				>
+					<Paper className="htmlPreview">
+						<div
+							style={{
+								padding: '2em',
+							}}
+							dangerouslySetInnerHTML={{
+								__html: data.councilPreviewHTML
+							}}
+						/>
+					</Paper>
+					<AlertConfirm
+						requestClose={resetConveneTestValues}
+						open={state.conveneTestModal}
+						loadingAction={loading}
+						acceptAction={
+							state.conveneTestSuccess
+								? resetConveneTestValues
+								: sendConveneTest
+						}
+						buttonAccept={
+							state.conveneTestSuccess
+								? translate.accept
+								: translate.send
+						}
+						buttonCancel={translate.close}
+						bodyText={_renderConveneTestModalBody()}
+						title={translate.send_test_convene}
+					/>
+					<AlertConfirm
+						requestClose={resetErrors}
+						open={Object.keys(errors).length > 0}
+						acceptAction={resetErrors}
+						buttonAccept={translate.accept}
+						bodyText={_renderErrorModalBody()}
+						title={translate.warning}
+					/>
+					<AlertConfirm
+						requestClose={() =>
+							setState({
+								sendConveneWithoutNoticeModal: false,
+								sendWithoutNoticeSuccess: false
+							})
+						}
+						open={state.sendConveneWithoutNoticeModal}
+						loadingAction={loading}
+						acceptAction={
+							state.sendWithoutNoticeSuccess
+								? () => {
+										this.setState(
+											{
+												sendConveneWithoutNoticeModal: false,
+												sendWithoutNoticeSuccess: false
+											},
+											() => bHistory.push(`/`)
+										);
+								}
+								: sendConveneWithoutNotice
+						}
+						buttonAccept={
+							state.sendWithoutNoticeSuccess
+								? translate.accept
+								: translate.send
+						}
+						buttonCancel={translate.close}
+						bodyText={<div/>}
+						title={translate.new_save_convene}
+					/>
+				</div>
+			}
+			buttons={
+				<Grid>
+					<GridItem
+						xs={12} lg={12} md={12}
 						style={{
-							width: "100%",
-							height: "100%",
-							padding: '1.2em',
-							paddingTop: '0.8em',
 							display: 'flex',
-							justifyContent: 'center'
+							flexDirection: 'row',
+							justifyContent: 'flex-end'
 						}}
 					>
-						<Paper className="htmlPreview">
+						<div>
 							<div
 								style={{
-									padding: '2em',
+									float: "right"
 								}}
-								dangerouslySetInnerHTML={{
-									__html: this.props.data.councilPreviewHTML
-								}}
-							/>
-						</Paper>
-						<AlertConfirm
-							requestClose={this.resetConveneTestValues}
-							open={this.state.conveneTestModal}
-							loadingAction={this.state.loading}
-							acceptAction={
-								this.state.conveneTestSuccess
-									? this.resetConveneTestValues
-									: this.sendConveneTest
-							}
-							buttonAccept={
-								this.state.conveneTestSuccess
-									? translate.accept
-									: translate.send
-							}
-							buttonCancel={translate.close}
-							bodyText={this._renderConveneTestModalBody()}
-							title={translate.send_test_convene}
-						/>
-						<AlertConfirm
-							requestClose={() =>
-								this.setState({
-									preConveneModal: false,
-									preConveneSuccess: false
-								})
-							}
-							open={this.state.preConveneModal}
-							loadingAction={this.state.loading}
-							acceptAction={
-								this.state.preConveneSuccess
-									? () =>
-											this.setState({
-												preConveneSuccess: false,
-												preConveneModal: false
-											})
-									: this.sendPreConvene
-							}
-							buttonAccept={
-								this.state.preConveneSuccess
-									? translate.accept
-									: translate.send
-							}
-							buttonCancel={translate.close}
-							bodyText={this._renderPreConveneModalBody()}
-							title={translate.send_preconvene}
-						/>
-						<AlertConfirm
-							requestClose={() =>
-								this.setState({
-									sendConveneWithoutNoticeModal: false,
-									sendWithoutNoticeSuccess: false
-								})
-							}
-							open={this.state.sendConveneWithoutNoticeModal}
-							loadingAction={this.state.loading}
-							acceptAction={
-								this.state.sendWithoutNoticeSuccess
-									? () => {
-											this.setState(
-												{
-													sendConveneWithoutNoticeModal: false,
-													sendWithoutNoticeSuccess: false
-												},
-												() => bHistory.push(`/`)
-											);
-									}
-									: this.sendConveneWithoutNotice
-							}
-							buttonAccept={
-								this.state.sendWithoutNoticeSuccess
-									? translate.accept
-									: translate.send
-							}
-							buttonCancel={translate.close}
-							bodyText={<div/>}
-							title={translate.new_save_convene}
-						/>
-					</div>
-				}
-				buttons={
-					<Grid>
-						<GridItem
-							xs={12} lg={12} md={12}
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'flex-end'
-							}}
-						>
-							<div>
-								<div
-									style={{
-										float: "right"
-									}}
-								>
-									<DropDownMenu
-										color="transparent"
-										Component={() =>
-											<Paper
-												elevation={1}
+							>
+								<DropDownMenu
+									color="transparent"
+									Component={() =>
+										<Paper
+											elevation={1}
+											style={{
+												boxSizing: "border-box",
+												padding: "0",
+												width: '5em',
+												height: '36px',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center',
+												border: `1px solid ${primary}`,
+												marginLeft: "0.3em"
+											}}
+										>
+											<MenuItem
 												style={{
-													boxSizing: "border-box",
-													padding: "0",
-													width: '5em',
-													height: '36px',
+													width: '100%',
+													height: '100%',
+													margin: 0,
+													padding: 0,
 													display: 'flex',
 													alignItems: 'center',
-													justifyContent: 'center',
-													border: `1px solid ${primary}`,
-													marginLeft: "0.3em"
+													justifyContent: 'center'
 												}}
 											>
-												<MenuItem
+												<FontAwesome
+													name={"bars"}
 													style={{
-														width: '100%',
-														height: '100%',
-														margin: 0,
-														padding: 0,
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center'
+														cursor: "pointer",
+														fontSize: "0.8em",
+														height: "0.8em",
+														color: primary
+													}}
+												/>
+												<Icon
+													className="material-icons"
+													style={{ color: primary }}
+												>
+													keyboard_arrow_down
+												</Icon>
+											</MenuItem>
+										</Paper>
+									}
+									textStyle={{ color: primary }}
+									type="flat"
+									items={
+										<React.Fragment>
+											<MenuItem
+												onClick={() =>
+													setState({
+														conveneTestModal: true
+													})
+												}
+											>
+												<Icon
+													className="fa fa-flask"
+													style={{
+														color: secondary,
+														marginLeft: "0.4em",
+														marginRight: '0.4em'
 													}}
 												>
-													<FontAwesome
-														name={"bars"}
-														style={{
-															cursor: "pointer",
-															fontSize: "0.8em",
-															height: "0.8em",
-															color: primary
-														}}
-													/>
-													<Icon
-														className="material-icons"
-														style={{ color: primary }}
-													>
-														keyboard_arrow_down
-													</Icon>
-												</MenuItem>
-											</Paper>
-										}
-										textStyle={{ color: primary }}
-										type="flat"
-										items={
-											<React.Fragment>
-												<MenuItem
-													onClick={() =>
-														this.setState({
-															conveneTestModal: true
-														})
-													}
+													{" "}
+												</Icon>
+												{translate.send_test_convene}
+											</MenuItem>
+											<MenuItem
+												onClick={() =>
+													setState({
+														preConveneModal: true
+													})
+												}
+											>
+												<Icon
+													className="material-icons"
+													style={{
+														color: secondary,
+														marginLeft: "0.4em",
+														marginRight: '0.4em'
+													}}
 												>
-													<Icon
-														className="fa fa-flask"
-														style={{
-															color: secondary,
-															marginLeft: "0.4em",
-															marginRight: '0.4em'
-														}}
-													>
-														{" "}
-													</Icon>
-													{translate.send_test_convene}
-												</MenuItem>
-												<MenuItem
-													onClick={() =>
-														this.setState({
-															preConveneModal: true
-														})
-													}
+													query_builder
+												</Icon>
+												{translate.send_preconvene}
+											</MenuItem>
+											<MenuItem
+												onClick={() =>
+													setState({
+														sendConveneWithoutNoticeModal: true
+													})
+												}
+											>
+												<Icon
+													className="material-icons"
+													style={{
+														color: secondary,
+														marginLeft: "0.4em",
+														marginRight: '0.4em'
+													}}
 												>
-													<Icon
-														className="material-icons"
-														style={{
-															color: secondary,
-															marginLeft: "0.4em",
-															marginRight: '0.4em'
-														}}
-													>
-														query_builder
-													</Icon>
-													{translate.send_preconvene}
-												</MenuItem>
-												<MenuItem
-													onClick={() =>
-														this.setState({
-															sendConveneWithoutNoticeModal: true
-														})
-													}
-												>
-													<Icon
-														className="material-icons"
-														style={{
-															color: secondary,
-															marginLeft: "0.4em",
-															marginRight: '0.4em'
-														}}
-													>
-														notifications_off
-													</Icon>
-													{translate.new_save_convene}
-												</MenuItem>
-											</React.Fragment>
-										}
-									/>
-								</div>
-								<BasicButton
-									text={translate.new_save_and_send}
-									color={primary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										marginLeft: "0.3em",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									floatRight
-									textPosition="after"
-									onClick={this.conveneWithNotice}
-								/>
-								<BasicButton
-									text={translate.previous}
-									color={secondary}
-									textStyle={{
-										color: "white",
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
-									}}
-									floatRight
-									textPosition="after"
-									onClick={this.props.previousStep}
+													notifications_off
+												</Icon>
+												{translate.new_save_convene}
+											</MenuItem>
+										</React.Fragment>
+									}
 								/>
 							</div>
-						</GridItem>
-					</Grid>
-				}
-			/>
-		);
-	}
+							<BasicButton
+								text={translate.new_save_and_send}
+								color={primary}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									marginLeft: "0.3em",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								floatRight
+								textPosition="after"
+								onClick={conveneWithNotice}
+							/>
+							<BasicButton
+								text={translate.previous}
+								color={secondary}
+								textStyle={{
+									color: "white",
+									fontWeight: "700",
+									fontSize: "0.9em",
+									textTransform: "none"
+								}}
+								floatRight
+								textPosition="after"
+								onClick={props.previousStep}
+							/>
+						</div>
+					</GridItem>
+				</Grid>
+			}
+		/>
+	);
+
 }
+
 
 
 export default compose(
@@ -542,14 +599,4 @@ export default compose(
 			errorPolicy: "all"
 		}
 	}),
-	graphql(councilStepSix, {
-		name: "data",
-		options: props => ({
-			variables: {
-				id: props.councilID,
-				timezone: moment().utcOffset()
-			},
-			notifyOnNetworkStatusChange: true
-		})
-	})
-)(withRouter(StepPreview));
+)(withRouter(withApollo(StepPreview)));

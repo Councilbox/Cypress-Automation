@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, GridItem, BlockButton, DateTimePicker } from '../../displayComponents';
 import { moment } from '../../containers/App';
-import { checkSecondDateAfterFirst } from '../../utils/CBX';
 
 const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props }) => {
     const [dates, setDates] = React.useState({

@@ -1225,7 +1225,9 @@ export const councilStepSix = gql`
 			actPointQuorumType
 			approveActDraft
 			autoClose
+			dateStart
 			closeDate
+			councilType
 			companyId
 			sendPointsMode
 			confirmAssistance

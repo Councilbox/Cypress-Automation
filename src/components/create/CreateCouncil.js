@@ -130,7 +130,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		let hasError = false;
 		let errors = {}
 
-		if (step === steps.NO_SESSION) {
+		if (step !== steps.COUNCIL) {
 			if (!options.dateStart) {
 				hasError = true;
 				errors.dateStart = translate.required_field;
@@ -143,7 +143,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 			if (options.dateStart && options.closeDate) {
 				if (!checkSecondDateAfterFirst(options.dateStart, options.closeDate)) {
 					hasError = true;
-					errors.errorMessage = 'La fecha de fin no puede ser anterior a la fecha de comienzo.';
+					errors.errorMessage = 'La fecha de fin no puede ser anterior a la fecha de comienzo.';//TRADUCCION
 				}
 			}
 		}
@@ -155,7 +155,6 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 
 	const councilStep = () => {
 		sendCreateCouncil(0);
-		//setStep(steps.COUNCIL);
 	}
 
 	const noSessionStep = () => {
