@@ -9,21 +9,19 @@ import { getActPointSubjectType } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { AGENDA_STATES } from '../../../constants';
 
-class ToggleAgendaButton extends React.Component {
-
-	openAgenda = async () => {
-		const { agenda, translate } = this.props;
+const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) => {
+	const openAgenda = async () => {
 		if(agenda.subjectType === getActPointSubjectType()){
-			const response = await this.props.openActPoint({
+			const response = await props.openActPoint({
 				variables: {
 					councilId: agenda.councilId
 				}
 			});
 			if (response) {
-				this.props.refetch();
+				props.refetch();
 			}
 		}else{
-			const response = await this.props.openAgenda({
+			const response = await props.openAgenda({
 				variables: {
 					agendaId: agenda.id
 				}
@@ -40,98 +38,99 @@ class ToggleAgendaButton extends React.Component {
 						}
 					);
 				}
-				this.props.refetch();
+				props.refetch();
 			}
 		}
 	};
 
-	closeAgenda = async () => {
-		const { agenda } = this.props;
-		const response = await this.props.closeAgenda({
+	const closeAgenda = async () => {
+		const response = await props.closeAgenda({
 			variables: {
 				agendaId: agenda.id
 			}
 		});
 		if (response) {
-			this.props.refetch();
-			this.props.nextPoint();
+			props.refetch();
+			props.nextPoint();
 		}
-	};
+	}
 
+	const primary = getPrimary();
+	const secondary = getSecondary();
 
-	render() {
-		const { translate, agenda, active } = this.props;
-		const primary = getPrimary();
+	if(council.councilType > 1){
+		return <span/>
+	}
 
-		return (
-			<React.Fragment>
-				{agenda.pointState === AGENDA_STATES.INITIAL ? (
-					active ? (
-						<BasicButton
-							text={translate.discuss_agenda}
-							color={"white"}
-							textPosition="before"
-							icon={
-								<Icon
-									className="material-icons"
-									style={{
-										fontSize: "1.1em",
-										color: primary
-									}}
-								>
-									lock_open
-								</Icon>
-							}
-							buttonStyle={{ width: "11em" }}
-							onClick={this.openAgenda}
-							textStyle={{
-								fontSize: "0.75em",
-								fontWeight: "700",
-								textTransform: "none",
-								color: primary
-							}}
-						/>
-					) : (
-						<Tooltip title={translate.warning_unclosed_agenda}>
-							<FontAwesome
-								name="lock"
-								style={{
-									color: getSecondary(),
-									fontSize: "2em"
-								}}
-							/>
-						</Tooltip>
-					)
-				) : (
+	return (
+		<React.Fragment>
+			{agenda.pointState === AGENDA_STATES.INITIAL ? (
+				active ? (
 					<BasicButton
-						text={translate.close_point}
-						color={primary}
+						text={translate.discuss_agenda}
+						color={"white"}
 						textPosition="before"
 						icon={
 							<Icon
 								className="material-icons"
 								style={{
 									fontSize: "1.1em",
-									color: "white"
+									color: primary
 								}}
 							>
 								lock_open
 							</Icon>
 						}
 						buttonStyle={{ width: "11em" }}
-						onClick={this.closeAgenda}
+						onClick={openAgenda}
 						textStyle={{
 							fontSize: "0.75em",
 							fontWeight: "700",
 							textTransform: "none",
-							color: "white"
+							color: primary
 						}}
 					/>
-				)}
-			</React.Fragment>
-		);
-	}
+				) : (
+					<Tooltip title={translate.warning_unclosed_agenda}>
+						<FontAwesome
+							name="lock"
+							style={{
+								color: secondary,
+								fontSize: "2em"
+							}}
+						/>
+					</Tooltip>
+				)
+			) : (
+				<BasicButton
+					text={translate.close_point}
+					color={primary}
+					textPosition="before"
+					icon={
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: "1.1em",
+								color: "white"
+							}}
+						>
+							lock_open
+						</Icon>
+					}
+					buttonStyle={{ width: "11em" }}
+					onClick={closeAgenda}
+					textStyle={{
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none",
+						color: "white"
+					}}
+				/>
+			)}
+		</React.Fragment>
+	)
 }
+
 
 export default compose(
 	graphql(openAgenda, {

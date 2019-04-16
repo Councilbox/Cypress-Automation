@@ -1,5 +1,5 @@
 import React from "react";
-import { councilOfficials } from "../../../queries";
+import { councilOfficials } from "../../../../queries";
 import { compose, graphql } from "react-apollo";
 import {
 	AlertConfirm,
@@ -11,13 +11,14 @@ import {
 	ParticipantRow,
 	TextInput,
 	Scrollbar
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { DELEGATION_USERS_LOAD } from "../../../constants";
+} from "../../../../displayComponents";
+import { getPrimary } from "../../../../styles/colors";
+import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import { Typography } from "material-ui";
-import { existsQualityVote } from "../../../utils/CBX";
-import ConveneSelector from "./ConveneSelector";
-import { startCouncil } from "../../../queries/council";
+import { existsQualityVote } from "../../../../utils/CBX";
+import ConveneSelector from "../ConveneSelector";
+import { startCouncil } from "../../../../queries/council";
+import { useOldState } from "../../../../hooks";
 
 const buttonStyle = primary => ({
 	backgroundColor: "white",
@@ -27,13 +28,14 @@ const buttonStyle = primary => ({
 	borderRadius: '2px'
 });
 
-class StartCouncilButton extends React.Component {
-	state = {
+
+const StartCouncilButton = ({ council, translate, data, ...props }) => {
+	const [state, setState] = useOldState({
 		alert: false,
 		selecting: 0,
 		loading: false,
 		data: {
-			firstOrSecondConvene: this.props.council.firstOrSecondConvene,
+			firstOrSecondConvene: council.firstOrSecondConvene,
 			neededQuorum: 2,
 			president: "",
 			presidentId: ""
@@ -43,20 +45,21 @@ class StartCouncilButton extends React.Component {
 			secretary: "",
 			qualityVote: ""
 		}
-	};
+	});
+	const primary = getPrimary();
 
-	startCouncil = async () => {
-		if (!this.checkRequiredFields()) {
-			this.setState({
+	const startCouncil = async () => {
+		if (!checkRequiredFields()) {
+			setState({
 				loading: true
 			});
-			const { council, refetch, startCouncil } = this.props;
+			const { refetch, startCouncil } = props;
 			const {
 				presidentId,
 				secretaryId,
 				qualityVoteId,
 				firstOrSecondConvene
-			} = this.state.data;
+			} = state.data;
 			const response = await startCouncil({
 				variables: {
 					councilId: council.id,
@@ -70,9 +73,9 @@ class StartCouncilButton extends React.Component {
 				await refetch();
 			}
 		}
-	};
+	}
 
-	checkRequiredFields = () => {
+	const checkRequiredFields = () => {
 		let hasError = false;
 		let errors = {
 			president: "",
@@ -80,87 +83,81 @@ class StartCouncilButton extends React.Component {
 			qualityVote: ""
 		};
 
-		if (!this.state.data.president) {
+		if (!state.data.president) {
 			hasError = true;
 			errors.president = true;
 		}
 
-		if (!this.state.data.secretary) {
+		if (!state.data.secretary) {
 			hasError = true;
 			errors.secretary = true;
 		}
 
-		if (existsQualityVote(this.props.council.statute)) {
-			if (!this.state.data.qualityVoteName) {
+		if (existsQualityVote(council.statute)) {
+			if (!state.data.qualityVoteName) {
 				hasError = true;
 				errors.qualityVote = true;
 			}
 		}
 
-		this.setState({
+		setState({
 			errors
 		});
 
 		return hasError;
-	};
+	}
 
-	actionSwitch = () => {
-		switch (this.state.selecting) {
-			case 1:
-				return (id, name) => {
-					this.setState({
-						data: {
-							...this.state.data,
-							president: name,
-							presidentId: id
-						},
-						selecting: 0
-					});
-				};
-
-			case 2:
-				return (id, name) => {
-					this.setState({
-						data: {
-							...this.state.data,
-							secretary: name,
-							secretaryId: id
-						},
-						selecting: 0
-					});
-				};
-
-			case 3:
-				return (id, name) => {
-					this.setState({
-						data: {
-							...this.state.data,
-							qualityVoteName: name,
-							qualityVoteId: id
-						},
-						selecting: 0
-					});
-				};
-
-			default:
-				return;
+	const actionSwitch = () => {
+		const actions = {
+			'1': (id, name) => {
+				setState({
+					data: {
+						...state.data,
+						president: name,
+						presidentId: id
+					},
+					selecting: 0
+				});
+			},
+			'2': (id, name) => {
+				setState({
+					data: {
+						...state.data,
+						secretary: name,
+						secretaryId: id
+					},
+					selecting: 0
+				});
+			},
+			'3': (id, name) => {
+				setState({
+					data: {
+						...state.data,
+						qualityVoteName: name,
+						qualityVoteId: id
+					},
+					selecting: 0
+				});
+			}
 		}
-	};
 
-	changeConvene = value => {
-		this.setState({
+		return actions[state.selecting];
+	}
+
+	const changeConvene = value => {
+		setState({
 			data: {
-				...this.state.data,
+				...state.data,
 				firstOrSecondConvene: value
 			}
 		});
 	};
 
-	loadMore = () => {
-		this.props.data.fetchMore({
+	const loadMore = () => {
+		data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.councilOfficials.list.length,
+					offset: data.councilOfficials.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -180,10 +177,10 @@ class StartCouncilButton extends React.Component {
 				};
 			}
 		});
-	};
+	}
 
-	updateFilterText = text => {
-		this.props.data.refetch({
+	const updateFilterText = text => {
+		data.refetch({
 			filters: [{
 				field: 'fullName',
 				text: text
@@ -191,27 +188,23 @@ class StartCouncilButton extends React.Component {
 		});
 	}
 
-	_startCouncilForm = () => {
-		const { translate } = this.props;
-		const { loading } = this.props.data;
+	const _startCouncilForm = () => {
+		const { loading } = data;
 
-		const participants = loading
-			? []
-			: this.props.data.councilOfficials.list;
-		const { total } = loading ? 0 : this.props.data.councilOfficials;
+		const participants = loading ? [] : data.councilOfficials.list;
+		const { total } = loading ? 0 : data.councilOfficials;
 		const rest = total - participants.length - 1;
-		const primary = getPrimary();
 
-		if (this.state.selecting !== 0) {
+		if (state.selecting !== 0) {
 			return (
 				<div style={{ width: "600px" }}>
 					<TextInput
 						adornment={<Icon>search</Icon>}
 						floatingText={" "}
 						type="text"
-						value={this.state.filterText}
+						value={state.filterText}
 						onChange={event => {
-							this.updateFilterText(event.target.value);
+							updateFilterText(event.target.value);
 						}}
 					/>
 
@@ -235,7 +228,7 @@ class StartCouncilButton extends React.Component {
 													participant.id
 												}`}
 												onClick={() =>
-													this.actionSwitch()(
+													actionSwitch()(
 														participant.id,
 														`${participant.name} ${
 															participant.surname
@@ -245,7 +238,7 @@ class StartCouncilButton extends React.Component {
 											/>
 										))}
 										{participants.length < total - 1 && (
-											<div onClick={this.loadMore} style={{
+											<div onClick={loadMore} style={{
 												display: 'flex',
 												alignItems: 'center',
 												padding: '0.45em',
@@ -282,18 +275,18 @@ class StartCouncilButton extends React.Component {
 				<GridItem xs={4} md={4} lg={4}>
 					<button
 						style={buttonStyle(primary)}
-						onClick={() => this.setState({ selecting: 1 })}
+						onClick={() => setState({ selecting: 1 })}
 					>
 						{translate.select_president}
 					</button>
 				</GridItem>
 				<GridItem xs={5} md={5} lg={5}>
-					{!!this.state.data.president ? (
-						this.state.data.president
+					{!!state.data.president ? (
+						state.data.president
 					) : (
 						<span
 							style={{
-								color: this.state.errors.president
+								color: state.errors.president
 									? "red"
 									: "inherit"
 							}}
@@ -309,18 +302,18 @@ class StartCouncilButton extends React.Component {
 				<GridItem xs={4} md={4} lg={4}>
 					<button
 						style={buttonStyle(primary)}
-						onClick={() => this.setState({ selecting: 2 })}
+						onClick={() => setState({ selecting: 2 })}
 					>
 						{translate.select_secretary}
 					</button>
 				</GridItem>
 				<GridItem xs={5} md={5} lg={5}>
-					{!!this.state.data.secretary ? (
-						this.state.data.secretary
+					{!!state.data.secretary ? (
+						state.data.secretary
 					) : (
 						<span
 							style={{
-								color: this.state.errors.secretary
+								color: state.errors.secretary
 									? "red"
 									: "inherit"
 							}}
@@ -330,7 +323,7 @@ class StartCouncilButton extends React.Component {
 					)}
 				</GridItem>
 
-				{existsQualityVote(this.props.council.statute) && (
+				{existsQualityVote(council.statute) && (
 					<React.Fragment>
 						<GridItem xs={3} md={3} lg={3}>
 							{translate.quality_vote}
@@ -338,18 +331,18 @@ class StartCouncilButton extends React.Component {
 						<GridItem xs={4} md={4} lg={4}>
 							<button
 								style={buttonStyle(primary)}
-								onClick={() => this.setState({ selecting: 3 })}
+								onClick={() => setState({ selecting: 3 })}
 							>
 								{translate.select_quality_vote}
 							</button>
 						</GridItem>
 						<GridItem xs={5} md={5} lg={5}>
-							{!!this.state.data.qualityVoteName ? (
-								this.state.data.qualityVoteName
+							{!!state.data.qualityVoteName ? (
+								state.data.qualityVoteName
 							) : (
 								<span
 									style={{
-										color: this.state.errors.qualityVote
+										color: state.errors.qualityVote
 											? "red"
 											: "inherit"
 									}}
@@ -361,73 +354,70 @@ class StartCouncilButton extends React.Component {
 					</React.Fragment>
 				)}
 				<ConveneSelector
-					council={this.props.council}
+					council={council}
 					translate={translate}
-					convene={this.state.data.firstOrSecondConvene}
-					changeConvene={this.changeConvene}
-					recount={this.props.recount}
+					convene={state.data.firstOrSecondConvene}
+					changeConvene={changeConvene}
+					recount={props.recount}
 				/>
 			</Grid>
 		);
-	};
-
-	render() {
-		const { translate } = this.props;
-		const primary = getPrimary();
-		if (!this.props.data.councilOfficials) {
-			return <LoadingSection />;
-		}
-
-		return (
-			<React.Fragment>
-				<BasicButton
-					text={translate.start_council}
-					color={primary}
-					textPosition="before"
-					onClick={() =>
-						this.setState({
-							alert: true
-						})
-					}
-					icon={
-						<Icon
-							className="material-icons"
-							style={{
-								fontSize: "1.1em",
-								color: "white"
-							}}
-						>
-							play_arrow
-						</Icon>
-					}
-					buttonStyle={{ width: "11em" }}
-					textStyle={{
-						color: "white",
-						fontSize: "0.9em",
-						fontWeight: "700",
-						textTransform: "none"
-					}}
-				/>
-				<AlertConfirm
-					title={translate.start_council}
-					bodyText={this._startCouncilForm()}
-					open={this.state.alert}
-					loadingAction={this.state.loading}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					hideAccept={this.state.selecting !== 0}
-					modal={true}
-					acceptAction={this.startCouncil}
-					requestClose={
-						this.state.selecting === 0
-							? () => this.setState({ alert: false })
-							: () => this.setState({ selecting: 0 })
-					}
-				/>
-			</React.Fragment>
-		);
 	}
+
+	if (!data.councilOfficials) {
+		return <LoadingSection />;
+	}
+
+	return (
+		<React.Fragment>
+			<BasicButton
+				text={translate.start_council}
+				color={primary}
+				textPosition="before"
+				onClick={() =>
+					setState({
+						alert: true
+					})
+				}
+				icon={
+					<Icon
+						className="material-icons"
+						style={{
+							fontSize: "1.1em",
+							color: "white"
+						}}
+					>
+						play_arrow
+					</Icon>
+				}
+				buttonStyle={{ width: "11em" }}
+				textStyle={{
+					color: "white",
+					fontSize: "0.9em",
+					fontWeight: "700",
+					textTransform: "none"
+				}}
+			/>
+			<AlertConfirm
+				title={translate.start_council}
+				bodyText={_startCouncilForm()}
+				open={state.alert}
+				loadingAction={state.loading}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
+				hideAccept={state.selecting !== 0}
+				modal={true}
+				acceptAction={startCouncil}
+				requestClose={
+					state.selecting === 0
+						? () => setState({ alert: false })
+						: () => setState({ selecting: 0 })
+				}
+			/>
+		</React.Fragment>
+	)
 }
+
 
 export default compose(
 	graphql(startCouncil, { name: "startCouncil" }),

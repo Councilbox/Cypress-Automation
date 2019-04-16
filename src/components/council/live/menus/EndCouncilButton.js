@@ -1,11 +1,11 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { endCouncil } from "../../../queries/council";
-import { AlertConfirm, BasicButton, Icon } from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { AGENDA_STATES } from "../../../constants";
-import { bHistory } from "../../../containers/App";
-import { pointIsClosed } from "../../../utils/CBX";
+import { endCouncil } from "../../../../queries/council";
+import { AlertConfirm, BasicButton, Icon } from "../../../../displayComponents";
+import { getPrimary, getSecondary } from "../../../../styles/colors";
+import { AGENDA_STATES } from "../../../../constants";
+import { bHistory } from "../../../../containers/App";
+import { pointIsClosed } from "../../../../utils/CBX";
 
 class EndCouncilButton extends React.Component {
 

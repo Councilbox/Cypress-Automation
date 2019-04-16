@@ -1,14 +1,14 @@
 import React from "react";
 import { graphql } from "react-apollo";
-import { openCouncilRoom } from "../../../queries/live";
+import { openCouncilRoom } from "../../../../queries/live";
 import {
 	AlertConfirm,
 	BasicButton,
 	Checkbox,
 	Icon
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { moment } from '../../../containers/App';
+} from "../../../../displayComponents";
+import { getPrimary } from "../../../../styles/colors";
+import { moment } from '../../../../containers/App';
 
 class OpenRoomButton extends React.Component {
 	state = {

@@ -82,8 +82,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 	const conveneWithNotice = async () => {
 		const { __typename, ...council } = data.council;
 		if(!checkInvalidDates()){
-			console.log('entra');
-			/* setLoading(true);
+			setLoading(true);
 			const response = await props.conveneWithNotice({
 				variables: {
 					councilId: council.id,
@@ -105,7 +104,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 					)
 					bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
 				}
-			} */
+			}
 		}
 
 	}

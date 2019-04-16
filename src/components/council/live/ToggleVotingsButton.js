@@ -2,162 +2,156 @@ import React from "react";
 import { compose, graphql } from "react-apollo";
 import { closeAgendaVoting, openAgendaVoting } from "../../../queries";
 import { BasicButton, ButtonIcon } from "../../../displayComponents";
+import { moment } from "../../../containers/App";
 import { getPrimary } from "../../../styles/colors";
+import { useOldState } from "../../../hooks";
 import gql from 'graphql-tag';
 
-class ToggleVotingsButton extends React.Component {
-	state = {
-		sendCredentials: true,
+const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
+	const [loading, setLoading] = React.useState(false);
+	const [state, setState] = useOldState({
+		sendCredentials: !council.videoEmailsDate,
 		confirmModal: false
-	};
+	});
+	const primary = getPrimary();
 
-	openVoting = async () => {
-		this.setState({
-			loading: true
-		});
-		const response = await this.props.openAgendaVoting({
+	React.useEffect(() => {
+		if(state.sendCredentials !== !council.videoEmailsDate){
+			setState({
+				sendCredentials: !council.videoEmailsDate
+			});
+		}
+	}, [council.videoEmailsDate]);
+
+	const openVoting = async () => {
+		setLoading(true);
+		const response = await props.openAgendaVoting({
 			variables: {
-				agendaId: this.props.agenda.id
+				agendaId: agenda.id
 			}
 		});
 		if (response) {
-			this.setState({
-				loading: false
-			});
-			this.props.refetch();
+			setLoading(false);
+			props.refetch();
 		}
-	};
+	}
 
-	reopenAgendaVoting = async () => {
-		this.setState({
-			loading: true
-		});
-		const response = await this.props.reopenAgendaVoting({
+	const reopenAgendaVoting = async () => {
+		setLoading(true);
+		const response = await props.reopenAgendaVoting({
 			variables: {
-				agendaId: this.props.agenda.id
+				agendaId: agenda.id
 			}
 		});
 		if (response) {
-			this.setState({
-				loading: false
-			});
-			this.props.refetch();
+			setLoading(false);
+			props.refetch();
 		}
-	};
+	}
 
-	closeAgendaVoting = async () => {
+	const closeAgendaVoting = async () => {
 		const cb = async () => {
-			this.setState({
-				loading: true
-			});
-			const { agenda } = this.props;
-			const response = await this.props.closeAgendaVoting({
+			setLoading(true);
+			const response = await props.closeAgendaVoting({
 				variables: {
 					agendaId: agenda.id
 				}
 			});
 			if (response) {
-				this.setState({
-					loading: false
-				});
-				this.props.refetch();
+				setLoading(false);
+				props.refetch();
 			}
 		}
 
-		if(!this.props.editedVotings){
+		if(!props.editedVotings){
 			cb();
 		} else {
-			this.props.showVotingsAlert(cb);
-		}
-
-	};
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.council) {
-			this.setState({
-				sendCredentials: !nextProps.council.videoEmailsDate
-			});
+			props.showVotingsAlert(cb);
 		}
 	}
 
-	render() {
-		const { translate, agenda } = this.props;
-		const primary = getPrimary();
 
-		return (
-			<React.Fragment>
-				{agenda.votingState === 0 && (
-					<BasicButton
-						text={translate.active_votings}
-						color={"white"}
-						loading={this.state.loading}
-						disabled={this.state.loading}
-						onClick={this.openVoting}
-						textPosition="before"
-						icon={
-							<ButtonIcon
-								type="thumbs_up_down"
-								color={primary}
-							/>
-						}
-						buttonStyle={{ minWidth: "11em" }}
-						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
-							color: primary
-						}}
-					/>
-				)}
-				{agenda.votingState === 1 &&(
-					<BasicButton
-						text={translate.close_point_votations}
-						color={primary}
-						loading={this.state.loading}
-						disabled={this.state.loading}
-						textPosition="before"
-						icon={
-							<ButtonIcon
-								type="lock_open"
-								color="white"
-							/>
-						}
-						buttonStyle={{ width: "18em" }}
-						onClick={this.closeAgendaVoting}
-						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
-							color: "white"
-						}}
-					/>
-				)}
-				{agenda.votingState === 2 &&(
-					<BasicButton
-						text={translate.reopen_voting}
-						color={'white'}
-						loading={this.state.loading}
-						disabled={this.state.loading}
-						textPosition="before"
-						icon={
-							<ButtonIcon
-								type="thumbs_up_down"
-								color={primary}
-							/>
-						}
-						buttonStyle={{ width: "18em" }}
-						onClick={this.reopenAgendaVoting}
-						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
-							color: primary
-						}}
-					/>
-				)}
-			</React.Fragment>
-		);
-	}
+	return (
+		<React.Fragment>
+			{agenda.votingState === 0 && (
+				<BasicButton
+					text={translate.active_votings}
+					color={"white"}
+					loading={loading}
+					disabled={loading}
+					onClick={openVoting}
+					textPosition="before"
+					icon={
+						<ButtonIcon
+							type="thumbs_up_down"
+							color={primary}
+						/>
+					}
+					buttonStyle={{ minWidth: "11em" }}
+					textStyle={{
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none",
+						color: primary
+					}}
+				/>
+			)}
+			{agenda.votingState === 1 && (
+				<React.Fragment>
+					{council.councilType === 3?
+						<div style={{fontSize: '0.9em'}}>
+							{`Las votaciones se cerrarán automáticamente ${moment(council.closeDate).format('LLL')}`/*TRADUCCION*/}
+						</div>
+					:
+						<BasicButton
+							text={translate.close_point_votations}
+							color={primary}
+							loading={loading}
+							disabled={loading}
+							textPosition="before"
+							icon={
+								<ButtonIcon
+									type="lock_open"
+									color="white"
+								/>
+							}
+							buttonStyle={{ width: "18em" }}
+							onClick={closeAgendaVoting}
+							textStyle={{
+								fontSize: "0.75em",
+								fontWeight: "700",
+								textTransform: "none",
+								color: "white"
+							}}
+						/>
+					}
+				</React.Fragment>
+			)}
+			{agenda.votingState === 2 &&(
+				<BasicButton
+					text={translate.reopen_voting}
+					color={'white'}
+					loading={loading}
+					disabled={loading}
+					textPosition="before"
+					icon={
+						<ButtonIcon
+							type="thumbs_up_down"
+							color={primary}
+						/>
+					}
+					buttonStyle={{ width: "18em" }}
+					onClick={reopenAgendaVoting}
+					textStyle={{
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none",
+						color: primary
+					}}
+				/>
+			)}
+		</React.Fragment>
+	)
 }
 
 const reopenAgendaVoting = gql`

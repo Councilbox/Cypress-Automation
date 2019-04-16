@@ -1,7 +1,4 @@
 import React from "react";
-import OpenRoomButton from "./OpenRoomButton";
-import StartCouncilButton from "./StartCouncilButton";
-import EndCouncilButton from "./EndCouncilButton";
 import ToggleAgendaButton from "./ToggleAgendaButton";
 import ToggleVotingsButton from "./ToggleVotingsButton";
 import CouncilMenu from './councilMenu/CouncilMenu';
@@ -17,6 +14,7 @@ import AgendaDetailsTabs from './AgendaDetailsTabs';
 import AgendaDescriptionModal from './AgendaDescriptionModal';
 import { updateAgenda } from "../../../queries/agenda";
 import PointEditorLive from './PointEditorLive';
+import CouncilStateButton from './menus/CouncilStateButton';
 
 
 class AgendaDetailsSection extends React.Component {
@@ -128,36 +126,14 @@ class AgendaDetailsSection extends React.Component {
 					{smallLayout &&
 						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ display: 'flex', marginBottom: '0.6em', flexDirection: 'row', justifyContent: 'flex-end' }}>
 							<div>
-								{council.state === 20 || council.state === 30 ? (
-									!CBX.councilStarted(council) ? (
-										<div>
-											<StartCouncilButton
-												recount={this.props.recount}
-												council={council}
-												translate={translate}
-												participants={participants}
-												refetch={this.props.refetchCouncil}
-											/>
-										</div>
-									) : (
-											<div>
-												<EndCouncilButton
-													council={{
-														...council,
-														agendas: this.props.agendas
-													}}
-													translate={translate}
-												/>
-											</div>
-										)
-								) : (
-										<OpenRoomButton
-											translate={translate}
-											council={council}
-											refetch={this.props.refetchCouncil}
-										/>
-									)
-								}
+								<CouncilStateButton
+									council={council}
+									translate={translate}
+									recount={this.props.recount}
+									agendas={this.props.agendas}
+									participants={participants}
+									refetch={this.props.refetchCouncil}
+								/>
 							</div>
 							<div>
 								<CouncilMenu
@@ -243,6 +219,7 @@ class AgendaDetailsSection extends React.Component {
 											:
 											<ToggleAgendaButton
 												agenda={agenda}
+												council={council}
 												nextPoint={this.props.nextPoint}
 												translate={translate}
 												refetch={this.props.data.refetch}
@@ -269,36 +246,14 @@ class AgendaDetailsSection extends React.Component {
 					{!smallLayout &&
 						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
 							<div style={{marginLeft: 'auto'}}>
-								{council.state === 20 || council.state === 30 ? (
-									!CBX.councilStarted(council) ? (
-										<div>
-											<StartCouncilButton
-												recount={this.props.recount}
-												council={council}
-												translate={translate}
-												participants={participants}
-												refetch={this.props.refetchCouncil}
-											/>
-										</div>
-									) : (
-											<div>
-												<EndCouncilButton
-													council={{
-														...council,
-														agendas: this.props.agendas
-													}}
-													translate={translate}
-												/>
-											</div>
-										)
-								) : (
-										<OpenRoomButton
-											translate={translate}
-											council={council}
-											refetch={this.props.refetchCouncil}
-										/>
-									)
-								}
+								<CouncilStateButton
+									council={council}
+									translate={translate}
+									participants={participants}
+									recount={this.props.recount}
+									agendas={this.props.agendas}
+									refetch={this.props.refetchCouncil}
+								/>
 							</div>
 							<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
 								<CouncilMenu
