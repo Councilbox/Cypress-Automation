@@ -80,27 +80,10 @@ class TranslationsPage extends React.Component {
         }
 
         return (
-            <div style={{ width: '100%', height: 'calc(100% - 3em)', overflow: 'hidden' }}>
-                <div style={{ borderBottom: '1px solid gainsboro', paddingRight: '1em', paddingLeft: '1em', display: 'flex', justifyContent: 'space-between', alignItems: "center" }}>
-                    <div>
-                        <BasicButton
-                            text={
-                                <div>
-                                    Nueva traducción
-                                    <i className="fa fa-plus" aria-hidden="true" style={{ paddingLeft: "0.5em" }}></i>
-                                </div>
-                            }
-                            onClick={this.showNewModal}
-                            color={secondary}
-                            textStyle={{ color: "white" }}
-                        />
-                        <NewTranslationModal
-                            open={this.state.newModal}
-                            requestClose={this.closeNewModal}
-                            translate={this.props.translate}
-                        />
-                    </div>
-                    <div style={{ width: '30%' }}>
+            <div style={{ width: '100%', height: 'calc(100% - 1em)', overflow: 'hidden' }}>
+                <div style={{ borderBottom: '1px solid gainsboro', paddingRight: '1em', paddingLeft: '1em', display: 'flex', justifyContent: 'flex-end', alignItems: "center" }}>
+
+                    <div >
                         <TextInput
                             value={this.state.filterText}
                             onChange={event => this.updateFilterSearch(event.target.value)}
@@ -112,10 +95,28 @@ class TranslationsPage extends React.Component {
                         />
                     </div>
                 </div>
+                <div style={{ width: '100%', padding: '1em' ,alignItems: "center"}}>
+                    <BasicButton
+                        text={
+                            <div>
+                                Nueva traducción
+                                    <i className="fa fa-plus" aria-hidden="true" style={{ paddingLeft: "0.5em" }}></i>
+                            </div>
+                        }
+                        onClick={this.showNewModal}
+                        color={secondary}
+                        textStyle={{ color: "white" }}
+                    />
+                    <NewTranslationModal
+                        open={this.state.newModal}
+                        requestClose={this.closeNewModal}
+                        translate={this.props.translate}
+                    />
+                </div>
                 <Scrollbar onScrollStop={this.handleScrollStop} ref={ref => this.scrollbar = ref}>
                     <div style={{ width: '100%', padding: '1em' }}>
                         {this.props.data.rootTranslations.map(translation =>
-                            <Card style={{ padding: '1.5em', marginBottom: "1.5em" }}  key={`translation_${translation.label}`}>
+                            <Card style={{ padding: '1.5em', marginBottom: "1.5em" }} key={`translation_${translation.label}`}>
                                 <CardHeader
                                     title={<h5>{`${translation.label}:`}</h5>}
                                 />
@@ -151,7 +152,7 @@ class TranslationsPage extends React.Component {
                                     </div>
                                 </CardContent>
                                 <CardActions>
-                                    
+
                                     <div>
                                         <EditTranslationsModal
                                             translation={translation}

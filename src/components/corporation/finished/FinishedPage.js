@@ -45,52 +45,51 @@ const FinishedPage = ({ client, translate, ...props }) => {
                 height: '100%',
             }}
         >
-            <Scrollbar>
-                <div style={{ padding: "1em" }}>
-                    <Grid>
-                        <GridItem xs={12} md={3} lg={3}>
-                            <SelectInput
-                                floatingText='Mes'
-                                value={options.month}
-                                onChange={event => setOptions({ ...options, month: event.target.value })}
-                            >
-                                {months.map((month, index) => (
-                                    <MenuItem value={index + 1} key={`month_${month}`}>
-                                        {month}
-                                    </MenuItem>
-                                ))}
-                            </SelectInput>
-                        </GridItem>
-                        <GridItem xs={12} md={3} lg={3}>
-                            <SelectInput
-                                floatingText='Año'
-                                value={options.year}
-                                onChange={event => setOptions({ ...options, year: event.target.value })}
-                            >
-                                {years.map((year, index) => (
-                                    <MenuItem value={year} key={`year_${year}`}>
-                                        {year}
-                                    </MenuItem>
-                                ))}
-                            </SelectInput>
-                        </GridItem>
-                        <GridItem xs={12} md={3} lg={3}>
-                            <TextInput
-                                floatingText='Id de la compañía'
-                                value={options.companyId || ''}
-                                onChange={event => setOptions({ ...options, companyId: event.target.value ? + event.target.value : null })}
-                            />
-                        </GridItem>
-                        <GridItem xs={12} md={3} lg={3}>
-                            <BasicButton
-                                text="Buscar"
-                                onClick={send}
-                            />
-                        </GridItem>
-                    </Grid>
+            <div style={{ padding: "1em", height: 'calc( 100% - 3em )', }}>
+                <Grid style={{ display: "flex", alignItems: "center" }}>
+                    <GridItem xs={12} md={3} lg={3}>
+                        <SelectInput
+                            floatingText='Mes'
+                            value={options.month}
+                            onChange={event => setOptions({ ...options, month: event.target.value })}
+                        >
+                            {months.map((month, index) => (
+                                <MenuItem value={index + 1} key={`month_${month}`}>
+                                    {month}
+                                </MenuItem>
+                            ))}
+                        </SelectInput>
+                    </GridItem>
+                    <GridItem xs={12} md={3} lg={3}>
+                        <SelectInput
+                            floatingText='Año'
+                            value={options.year}
+                            onChange={event => setOptions({ ...options, year: event.target.value })}
+                        >
+                            {years.map((year, index) => (
+                                <MenuItem value={year} key={`year_${year}`}>
+                                    {year}
+                                </MenuItem>
+                            ))}
+                        </SelectInput>
+                    </GridItem>
+                    <GridItem xs={12} md={3} lg={3}>
+                        <TextInput
+                            floatingText='Id de la compañía'
+                            value={options.companyId || ''}
+                            onChange={event => setOptions({ ...options, companyId: event.target.value ? + event.target.value : null })}
+                        />
+                    </GridItem>
+                    <GridItem xs={12} md={3} lg={3} style={{ textAlign: "right" }}>
+                        <BasicButton
+                            text="Buscar"
+                            onClick={send}
+                        />
+                    </GridItem>
+                </Grid>
+                <Scrollbar>
                     {loading ?
                         <LoadingSection />
-
                         :
                         councils.map(council => (
                             // <Card style={{marginBottom: '1.2em'}}>
@@ -103,8 +102,8 @@ const FinishedPage = ({ client, translate, ...props }) => {
                             // </Card>
                         ))
                     }
-                </div>
-            </Scrollbar>
+                </Scrollbar>
+            </div>
         </div>
     )
 

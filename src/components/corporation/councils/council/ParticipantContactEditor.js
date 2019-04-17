@@ -69,21 +69,21 @@ class ParticipantContactEditor extends React.Component {
 
         return (
             <div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', paddingBottom: "10px" }}>
                     <TextInput
                         value={this.state.email}
                         floatingText={this.props.translate.email}
                         onChange={this.updateEmail}
                     />
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', paddingBottom: "10px" }}>
                     <TextInput
                         value={this.state.phone}
                         floatingText={this.props.translate.phone}
                         onChange={this.updatePhone}
                     />
                 </div>
-                <div style={{display: 'flex'}}>
+                <div style={{display: 'flex', justifyContent: "space-between",  paddingBottom: "10px"}}>
                     <BasicButton
                         color={secondary}
                         text="Reenviar credenciales a este participante"

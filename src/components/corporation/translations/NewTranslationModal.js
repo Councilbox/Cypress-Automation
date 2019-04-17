@@ -119,6 +119,7 @@ class NewTranslationModal extends React.Component {
                 errors={this.state.errors}
                 updateState={this.updateState}
                 data={this.state.data}
+                flagEdit={this.props.values ? true: false}
             />
         )
     }
@@ -136,7 +137,7 @@ class NewTranslationModal extends React.Component {
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
                 bodyText={this._renderModalBody()}
-                title={translate.edit}
+                title={this.props.values ?  translate.edit: "Nueva traducción"}
             />
         )
     }

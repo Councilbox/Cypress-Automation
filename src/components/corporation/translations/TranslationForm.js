@@ -2,68 +2,25 @@ import React from 'react';
 import { TextInput, Grid, GridItem } from '../../../displayComponents';
 import ButtonCopy from './ButtonCopy';
 import FontAwesome from "react-fontawesome";
-import { Tooltip } from 'antd';
+import { Tooltip, InputAdornment } from 'material-ui';
+import * as CBX from '../../../utils/CBX';
 
 
 
 
-const TranslationForm = ({ data, errors, translate, updateState, values }) => {
-    const [state, setState] = React.useState({
-        showCopyTooltip: false,
-        showActions: false
-    });
-
-    const copy = (val) => {
-        setState({
-            showCopyTooltip: true
-        });
-        const el = document.createElement('span')
-
-        el.textContent = 'Text to copy'
-
-        // styles to prevent scrolling to the end of the page
-        el.style.position = 'fixed'
-        el.style.top = 0
-        el.style.clip = 'rect(0, 0, 0, 0)'
-
-        document.body.appendChild(el)
-        console.log(el)
-        document.execCommand('copy')
-    }
-
-    const startCloseTimeout = () => {
-        let timeout = setTimeout(() => {
-            setState({
-                showCopyTooltip: false
-            });
-        }, 2000);
-    }
-
+const TranslationForm = ({ data, errors, translate, updateState, values, flagEdit }) => {
 
     return (
         <Grid>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
-                <TextInput
+                <Row
                     value={data.label}
+                    disabled={flagEdit}
                     floatingText="Nombre"
                     errorText={errors.label}
                     onChange={event => updateState({ label: event.target.value })}
-                />
-                {state.showCopyTooltip &&
-                    <Tooltip title="Copiado" open={state.showCopyTooltip}><div> </div></Tooltip>
-                }
-                <FontAwesome
-                    name={"clone"}
-                    style={{
-                        cursor: "pointer",
-                        marginTop: "18px",
-                        marginLeft: "0.5em",
-                    }}
-                    onClick={() => copy(data.label)}
-                />
-                {/* {data.label &&
-                    <ButtonCopy val={data.label} />
-                } */}
+                    flagEdit={flagEdit}>
+                </Row>
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -72,18 +29,6 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Español"
                     onChange={event => updateState({ es: event.target.value })}
                 />
-                <FontAwesome
-                    name={"clone"}
-                    style={{
-                        cursor: "pointer",
-                        marginTop: "18px",
-                        marginLeft: "0.5em",
-                    }}
-                    onClick={() => copy(data.es)}
-                />
-                {/* {data.es &&
-                    <ButtonCopy value={data.es} />
-                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -92,9 +37,6 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Inglés"
                     onChange={event => updateState({ en: event.target.value })}
                 />
-                {/* {data.en &&
-                    <ButtonCopy value={data.en} />
-                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -103,9 +45,6 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Gallego"
                     onChange={event => updateState({ gal: event.target.value })}
                 />
-                {/* {data.gal &&
-                    <ButtonCopy value={data.gal} />
-                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -114,9 +53,6 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Portugués"
                     onChange={event => updateState({ pt: event.target.value })}
                 />
-                {/* {data.pt &&
-                    <ButtonCopy value={data.pt} />
-                } */}
             </GridItem>
             <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
                 <TextInput
@@ -125,12 +61,71 @@ const TranslationForm = ({ data, errors, translate, updateState, values }) => {
                     floatingText="Catalan"
                     onChange={event => updateState({ cat: event.target.value })}
                 />
-                {/* {data.cat &&
-                    <ButtonCopy value={data.cat} />
-                } */}
             </GridItem>
         </Grid>
     )
+}
+
+class Row extends React.Component {
+    state = {
+        showCopyTooltip: false,
+        showActions: false
+    }
+
+    timeout = null;
+
+    componentWillUnmount() {
+        clearTimeout(this.timeout);
+    }
+
+    startCloseTimeout() {
+        this.timeout = setTimeout(() => {
+            this.setState({
+                showCopyTooltip: false
+            });
+        }, 2000);
+    }
+
+    copy = () => {
+        this.setState({
+            showCopyTooltip: true
+        });
+        this.startCloseTimeout();
+        CBX.copyStringToClipboard(this.props.value);
+    }
+
+    mouseEnterHandler = () => {
+        this.setState({
+            showActions: true
+        })
+    }
+
+    mouseLeaveHandler = () => {
+        this.setState({
+            showActions: false
+        })
+    }
+
+    render() {
+        //TRADUCCION
+        const { value, disabled, floatingText, errorText, onChange, flagEdit } = this.props
+        return (
+            <div onClick={this.copy} style={{ overflow: "hidden", width: '100%', display: "flex", }}>
+                <Tooltip title={'copiado'} open={this.state.showCopyTooltip}>
+                    <TextInput
+                        pointerInput={true}
+                        value={value}
+                        disabled={disabled}
+                        floatingText={floatingText}
+                        errorText={errorText}
+                        onChange={onChange}
+                    />
+                </Tooltip>
+
+
+            </div>
+        )
+    }
 }
 
 export default TranslationForm

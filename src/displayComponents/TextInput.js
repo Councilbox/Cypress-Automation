@@ -33,7 +33,8 @@ const TextInput = ({
 	max,
 	disabled,
 	startAdornment,
-	styles
+	styles,
+	pointerInput
 }) => (
 		<FormControl
 			style={{
@@ -82,7 +83,8 @@ const TextInput = ({
 						id: id,
 						max: max,
 						style: {
-							fontSize: '15px'
+							fontSize: '15px',
+							cursor: pointerInput? 'pointer' : ""
 						}
 					},
 					endAdornment: passwordToggler ? (

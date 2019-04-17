@@ -142,8 +142,8 @@ class DraftsDashboard extends React.PureComponent {
             >
                 <div
                     style={{
-                        marginLeft: '1.4em',
-                        marginRight: '1.4em',
+                        paddingLeft: '1.4em',
+                        paddingRight: '1.4em',
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -281,35 +281,38 @@ class DraftsDashboard extends React.PureComponent {
                             </Table>
                             <div style={{ height: "calc( 100% - 5em)", width: "100%" }}>
                                 <Scrollbar>
-                                    {this.props.data.loading ?
-                                        <LoadingSection />
-                                        :
-                                        this.props.data.platformDrafts.list.length > 0 ?
-                                            <TableBody style={{ marginBottom: "1em" }}>
-                                                {this.props.data.platformDrafts.list.map(draft => (
-                                                    <TableRow hover={true} onClick={() => this.edit(draft.id)} key={`draft_${draft.id}`}>
-                                                        <TableCell style={{ width: "70%" }}>
-                                                            {draft.title}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            {this.props.translate[this.props.data.draftTypes[draft.type].label]}
-                                                        </TableCell>
-                                                        <TableCell>
-                                                            <CloseIcon
-                                                                style={{ color: getPrimary() }}
-                                                                onClick={event => {
-                                                                    this.openDeleteModal(draft.id);
-                                                                    event.stopPropagation();
-                                                                }}
-                                                            />
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))}
-                                            </TableBody>
+                                    <Table
+                                        style={{ width: "100%", maxWidth: "100%" }}
+                                    >
+                                        {this.props.data.loading ?
+                                            <LoadingSection />
                                             :
-                                            translate.no_results
-                                    }
-
+                                            this.props.data.platformDrafts.list.length > 0 ?
+                                                <TableBody style={{ marginBottom: "1em" }}>
+                                                    {this.props.data.platformDrafts.list.map(draft => (
+                                                        <TableRow hover={true} onClick={() => this.edit(draft.id)} key={`draft_${draft.id}`}>
+                                                            <TableCell style={{ width: "70%" }}>
+                                                                {draft.title}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {this.props.translate[this.props.data.draftTypes[draft.type].label]}
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                <CloseIcon
+                                                                    style={{ color: getPrimary() }}
+                                                                    onClick={event => {
+                                                                        this.openDeleteModal(draft.id);
+                                                                        event.stopPropagation();
+                                                                    }}
+                                                                />
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))}
+                                                </TableBody>
+                                                :
+                                                translate.no_results
+                                        }
+                                    </Table>
                                 </Scrollbar>
                             </div>
                         </React.Fragment>

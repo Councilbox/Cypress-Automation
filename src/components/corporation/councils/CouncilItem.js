@@ -47,7 +47,7 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enRoot }) => {
                                 Archivo
                             </div>
                             <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                Fecha
+                                Fechas
                             </div>
                             <div style={{ width: '20%', fontSize: '0.75rem', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: "flex", alignItems: "center", justifyContent: "center" }}>
                                 Estado

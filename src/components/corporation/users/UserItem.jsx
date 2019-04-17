@@ -52,10 +52,10 @@ class UserItem extends React.Component {
         const { user, translate, clickable, closeSession } = this.props;
         const secondary = getSecondary();
 
-        const bodyTable = () => (
+        const bodyTable = (centrado) => (
             <React.Fragment>
-                <div style={{ display: "flex", width: "100%", alignItems: "center" }}>
-                    <div style={{ width: "15%", padding: "4px 70px 4px 0px" }}>
+                <div style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: centrado ? "space-between" : "", padding: centrado ? "0px 2em" : "" }}>
+                    <div style={{ width: centrado ? "":"15%", padding: centrado ? "":"4px 70px 4px 0px" }}>
                         <div
                             style={{
                                 width: '100%',
@@ -92,16 +92,16 @@ class UserItem extends React.Component {
                             }
                         </div>
                     </div>
-                    <div style={{ width: "10%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
+                    <div style={{ width:centrado ? "": "10%", padding: centrado ? "":"4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.id}`}</span>
                     </div>
-                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
+                    <div style={{ width:centrado ? "": "25%", padding: centrado ? "":"4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         <span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.name} ${user.surname}`}</span>
                     </div>
-                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
+                    <div style={{ width:centrado ? "": "25%", padding: centrado ? "":"4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         <span style={{ fontSize: '0.9rem' }}>{`${user.email || '-'}`}</span>
                     </div>
-                    <div style={{ width: "25%", padding: "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis' }}>
+                    <div style={{ width: centrado ? "":"25%", padding: centrado ? "":"4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {!!user.lastConnectionDate ?
                             <DateWrapper
                                 format="DD/MM/YYYY HH:mm"
@@ -282,20 +282,84 @@ class UserItem extends React.Component {
                     {/* {body()} */}
                 </MenuItem>
                 :
-                <div
-                    style={{
-                        border: '1px solid gainsboro',
-                        height: '3.5em',
-                        width: '100%',
-                        minHeight: '4.5em',
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between'
-                    }}
-                >
-                    {/* {bodyTable()} */}
-                    {body()}
+                <div style={{width: "100%",}}>
+                    <div style={{ width: "100%",display: "flex", justifyContent: "flex-end", marginBottom: "1em" }}>
+                        {closeSession &&
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '10em'
+                                }}
+                            >
+                                <CloseSessionButton
+                                    user={user}
+                                    translate={translate}
+                                />
+                            </div>
+
+                        }
+                        {this.props.unsubscribeUser &&
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '10em'
+                                }}
+                            >
+                                <BasicButton
+                                    text="Dar de baja"
+                                    color={secondary}
+                                    textStyle={{ fontWeight: '700', color: 'white' }}
+                                    onClick={this.unsubscribeUser}
+                                />
+                            </div>
+                        }
+                        {this.props.activatePremium &&
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: '10em'
+                                }}
+                            >
+                                {user.actived !== USER_ACTIVATIONS.PREMIUM ?
+                                    <BasicButton
+                                        text="Activar Premium"
+                                        color={secondary}
+                                        textStyle={{ fontWeight: '700', color: 'white' }}
+                                        onClick={this.activatePremium}
+                                    />
+                                    :
+                                    <BasicButton
+                                        text="Cancelar Premium"
+                                        color={secondary}
+                                        textStyle={{ fontWeight: '700', color: 'white' }}
+                                        onClick={this.cancelUserPremium}
+                                    />
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div
+                        style={{
+                            border: '1px solid gainsboro',
+                            height: '3.5em',
+                            width: '100%',
+                            minHeight: '4.5em',
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
+                        }}
+                    >
+                        {bodyTable(true)}
+                        {/* {body()} */}
+                    </div>
                 </div>
+
         )
     }
 }

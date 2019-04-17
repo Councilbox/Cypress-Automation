@@ -65,8 +65,8 @@ class UsersDashboard extends React.PureComponent {
             >
                 <div
                     style={{
-                        marginLeft: '1.4em',
-                        marginRight: '1.4em',
+                        paddingLeft: '1.4em',
+                        paddingRight: '1.4em',
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -95,13 +95,14 @@ class UsersDashboard extends React.PureComponent {
                 <div style={{
                     height: 'calc(100% - 6em)',
                     flexDirection: 'column',
-                    padding: "2em"
+                    padding: "1em"
                 }}>
                     <div
                         style={{
                             width: "100%",
                             display: "flex",
-                            justifyContent: "space-between"
+                            justifyContent: "space-between",
+                            alignItems: "center"
                         }}
                     >
                         <div>

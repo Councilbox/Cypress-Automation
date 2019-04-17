@@ -307,6 +307,8 @@ class CouncilDetails extends React.Component {
 								requestClose={this.closeCredManager}
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
+								classNameDialog={'height100'}
+								bodyStyle={{minWidth: "100vh",maxWidth: "100vh",height: '100%',overflowY: 'hidden'}}
 								bodyText={
 									<CredentialsManager
 										council={council}
@@ -325,7 +327,6 @@ class CouncilDetails extends React.Component {
 						<div
 							style={{
 								width: '100%',
-								// border: `2px solid ${secondary}`,
 								fontSize: '18px',
 								color: secondary,
 								fontWeight: '700',

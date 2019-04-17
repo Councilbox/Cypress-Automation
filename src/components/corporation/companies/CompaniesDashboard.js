@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
-import { MenuItem, Table, TableCell, TableRow, TableHead } from 'material-ui';
+import { MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment } from 'material-ui';
 import NewCompanyPage from '../../company/new/NewCompanyPage';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
@@ -65,8 +65,8 @@ class CompaniesDashboard extends React.PureComponent {
             >
                 <div
                     style={{
-                        marginLeft: '1.4em',
-                        marginRight: '1.4em',
+                        paddingLeft: '1.4em',
+                        paddingRight: '1.4em',
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -77,7 +77,11 @@ class CompaniesDashboard extends React.PureComponent {
                     <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
                         <div style={{ marginLeft: '0.6em' }}>
                             <TextInput
-                                adornment={<Icon>search</Icon>}
+                                startAdornment={
+                                    <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                                        <i className="fa fa-search" aria-hidden="true"></i>
+                                    </InputAdornment>
+                                }
                                 floatingText={" "}
                                 type="text"
                                 value={this.state.filterText}
@@ -91,13 +95,14 @@ class CompaniesDashboard extends React.PureComponent {
                 <div style={{
                     height: 'calc(100% - 6em)',
                     flexDirection: 'column',
-                    padding: "2em"
+                    padding: "1em"
                 }}>
                     <div
                         style={{
                             width: "100%",
                             display: "flex",
-                            justifyContent: "space-between"
+                            justifyContent: "space-between",
+                            alignItems: "center"
                         }}
                     >
                         <div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { LoadingSection } from '../../../displayComponents';
+import { LoadingSection, Scrollbar, } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
 import { graphql, compose } from 'react-apollo';
 import CompanyLinksManager from './CompanyLinksManager';
@@ -8,7 +8,6 @@ import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import withTranslations from '../../../HOCs/withTranslations';
 import UserItem from './UserItem';
-
 
 class UserEdit extends React.PureComponent {
     state = {
@@ -37,8 +36,8 @@ class UserEdit extends React.PureComponent {
             }
         })
 
-        if(!response.errors){
-            if(response.data.linkCompanies.success){
+        if (!response.errors) {
+            if (response.data.linkCompanies.success) {
                 this.props.data.refetch();
             }
         }
@@ -46,30 +45,37 @@ class UserEdit extends React.PureComponent {
 
     render() {
         const { translate } = this.props;
-        if(this.props.data.loading){
+        if (this.props.data.loading) {
             return <LoadingSection />
         }
 
-        return(
-            <div style={{height: '100%', overflow: 'auto', padding: '1.2em'}}>
-                <UserItem
-                    key={`user_${this.props.data.user.id}`}
-                    user={this.props.data.user}
-                    refetch={this.props.data.refetch}
-                    closeSession={true}
-                    activatePremium={true}
-                    translate={this.props.translate}
-                />
-                <CompanyLinksManager
-                    linkedCompanies={this.props.data.user.companies}
-                    translate={translate}
-                    addCheckedCompanies={this.linkCompanies}
-                />
-                <UserSendsList
-                    user={this.props.data.user}
-                    translate={this.props.translate}
-                    refetch={this.props.data.refetch}
-                />
+        return (
+            <div style={{ height: '100%' }}>
+                <Scrollbar>
+                    <div style={{ height: '100%', padding: '1.2em' }}>
+                        <UserItem
+                            key={`user_${this.props.data.user.id}`}
+                            user={this.props.data.user}
+                            refetch={this.props.data.refetch}
+                            closeSession={true}
+                            activatePremium={true}
+                            translate={this.props.translate}
+                        />
+                        <CompanyLinksManager
+                            linkedCompanies={this.props.data.user.companies}
+                            translate={translate}
+                            addCheckedCompanies={this.linkCompanies}
+                        />
+                        <div>
+                            <UserSendsList
+                                enRoot={true}
+                                user={this.props.data.user}
+                                translate={this.props.translate}
+                                refetch={this.props.data.refetch}
+                            />
+                        </div>
+                    </div>
+                </Scrollbar>
             </div>
         )
     }
@@ -116,9 +122,9 @@ export default compose(
     graphql(languages),
     graphql(user, {
         options: props => ({
-           variables: {
-               id: props.match.params.id
-           }
+            variables: {
+                id: props.match.params.id
+            }
         })
     }),
     graphql(linkCompanies, {
