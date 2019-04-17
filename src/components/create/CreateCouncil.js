@@ -243,7 +243,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 			}
 			hideAccept={step === steps.COUNCIL}
 			buttonAccept={translate.accept}
-			acceptAction={() => sendCreateCouncil(steps.HYBRID_VOTING? 3 : 2)}
+			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING? 3 : 2)}
 			requestClose={history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel='Cancelar'

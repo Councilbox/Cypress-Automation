@@ -1545,6 +1545,7 @@ export const councilLiveQuery = gql`
 			conveneText
 			councilStarted
 			councilType
+			closeDate
 			country
 			countryState
 			currentQuorum

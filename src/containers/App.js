@@ -29,7 +29,6 @@ import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
 export { moment as moment };
 
-
 const httpLink = new HttpLink({
 	uri: API_URL
 });
