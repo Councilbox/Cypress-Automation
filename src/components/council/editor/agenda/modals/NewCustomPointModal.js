@@ -72,6 +72,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
 const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     const [agenda, setAgenda] = React.useState({
         ...defaultValues,
+        subjectType: props.council.councilType === 3? 7 : 6,
         councilId: props.council.id,
         orderIndex: props.agendas.length + 1
     });

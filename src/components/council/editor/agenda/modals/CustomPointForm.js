@@ -99,16 +99,25 @@ const CustomPointForm = ({
                             }
                             required
                         >
-                            {Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => {
-                                return (
+                            {council.councilType === 3?
                                     <MenuItem
-                                        value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
-                                        key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
+                                        value={"" + CUSTOM_AGENDA_VOTING_TYPES[1].value}
+                                        key={`voting${CUSTOM_AGENDA_VOTING_TYPES[1].value}`}
                                     >
-                                        {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
+                                        {translate[CUSTOM_AGENDA_VOTING_TYPES[1].label]}
                                     </MenuItem>
-                                );
-                            })}
+                            :
+                                Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => {
+                                    return (
+                                        <MenuItem
+                                            value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
+                                            key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
+                                        >
+                                            {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
+                                        </MenuItem>
+                                    );
+                                })
+                            }
                         </SelectInput>
                     </GridItem>
                     <RichTextInput
