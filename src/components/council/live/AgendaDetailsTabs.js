@@ -102,15 +102,21 @@ class AgendaDetailsTabs extends React.Component {
                                             />
                                         :
                                             <React.Fragment>
-                                                <RecountSection
-                                                    agenda={agenda}
-                                                    key={`agendaRecount_${agenda.id}`}
-                                                    council={council}
-                                                    translate={translate}
-                                                    recount={this.props.recount}
-                                                    refetch={this.props.refetch}
-                                                    majorityTypes={this.props.majorityTypes}
-                                                />
+                                                {agenda.votingState !== 2 || agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
+                                                    <div style={{width: '100%', padding: '2em', border: `2px solid gainsboro`}}>
+                                                        {'Por motivos de privacidad en los puntos de votación anónima, el recuento está oculto hasta el cierre de votaciones' /*TRADUCCION*/}
+                                                    </div>
+                                                :
+                                                    <RecountSection
+                                                        agenda={agenda}
+                                                        key={`agendaRecount_${agenda.id}`}
+                                                        council={council}
+                                                        translate={translate}
+                                                        recount={this.props.recount}
+                                                        refetch={this.props.refetch}
+                                                        majorityTypes={this.props.majorityTypes}
+                                                    />
+                                                }
                                                 <Votings
                                                     key={`agendaVotings_${agenda.id}`}
                                                     ref={votings => (this.votings = votings)}

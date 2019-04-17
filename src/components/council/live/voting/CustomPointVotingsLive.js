@@ -15,33 +15,20 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
     return (
         <div>
             <Grid style={{width: '100%', display: 'flex'}}>
-                {agenda.subjectType === 7 && agenda.votingState === AGENDA_STATES.DISCUSSION?
-                    <React.Fragment>
-                        <div>
-                            <div style={{width: '100%', padding: '2em', border: `2px solid gainsboro`}}>
-                                {'Por motivos de privacidad en los puntos de votación anónima, el recuento está oculto hasta el cierre de votaciones' /*TRADUCCION*/}
-                            </div>
-                            <div style={{marginTop: '2em'}}>
-                                <VotingsTableFiltersContainer
-                                    recount={recount}
-                                    translate={translate}
-                                    agenda={agenda}
-                                />
-                            </div>
-                        </div>
-                    </React.Fragment>
+                {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED?
+                    <div style={{width: '100%', padding: '2em', border: `2px solid gainsboro`}}>
+                        {'Por motivos de privacidad en los puntos de votación anónima, el recuento está oculto hasta el cierre de votaciones' /*TRADUCCION*/}
+                    </div>
                 :
-                    <React.Fragment>
-                        <CustomAgendaRecount agenda={agenda} />
-                        <GridItem xs={12} md={12} lg={12}>
-                            <VotingsTableFiltersContainer
-                                recount={recount}
-                                translate={translate}
-                                agenda={agenda}
-                            />
-                        </GridItem>
-                    </React.Fragment>
+                    <CustomAgendaRecount agenda={agenda} />
                 }
+                <GridItem xs={12} md={12} lg={12}>
+                    <VotingsTableFiltersContainer
+                        recount={recount}
+                        translate={translate}
+                        agenda={agenda}
+                    />
+                </GridItem>
             </Grid>
         </div>
     )

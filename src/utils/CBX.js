@@ -258,6 +258,10 @@ export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
 
+export const isAnonym = subjectType => {
+	return subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
+}
+
 
 export const filterAgendaVotingTypes = (votingTypes, statute, council) => {
 	if (statute.existsPresentWithRemoteVote === 1 && council.councilType < 2) {

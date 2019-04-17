@@ -5,6 +5,7 @@ import { BasicButton, ButtonIcon } from "../../../displayComponents";
 import { moment } from "../../../containers/App";
 import { getPrimary } from "../../../styles/colors";
 import { useOldState } from "../../../hooks";
+import { isAnonym } from '../../../utils/CBX';
 import gql from 'graphql-tag';
 
 const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
@@ -70,6 +71,43 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 		}
 	}
 
+	const getVotingClosedSection = () => {
+		/* if(council.councilType === 3){
+			return (
+				<div>
+					1
+				</div>
+			)
+		}
+
+		if(isAnonym(agenda.subjectType)){
+			return <span/>
+		} */
+
+		return (
+			<BasicButton
+				text={translate.reopen_voting}
+				color={'white'}
+				loading={loading}
+				disabled={loading}
+				textPosition="before"
+				icon={
+					<ButtonIcon
+						type="thumbs_up_down"
+						color={primary}
+					/>
+				}
+				buttonStyle={{ width: "18em" }}
+				onClick={reopenAgendaVoting}
+				textStyle={{
+					fontSize: "0.75em",
+					fontWeight: "700",
+					textTransform: "none",
+					color: primary
+				}}
+			/>
+		)
+	}
 
 	return (
 		<React.Fragment>
@@ -101,6 +139,27 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 					{council.councilType === 3?
 						<div style={{fontSize: '0.9em'}}>
 							{`Las votaciones se cerrarán automáticamente ${moment(council.closeDate).format('LLL')}`/*TRADUCCION*/}
+							<BasicButton
+								text={translate.close_point_votations}
+								color={primary}
+								loading={loading}
+								disabled={loading}
+								textPosition="before"
+								icon={
+									<ButtonIcon
+										type="lock_open"
+										color="white"
+									/>
+								}
+								buttonStyle={{ width: "18em" }}
+								onClick={closeAgendaVoting}
+								textStyle={{
+									fontSize: "0.75em",
+									fontWeight: "700",
+									textTransform: "none",
+									color: "white"
+								}}
+							/>
 						</div>
 					:
 						<BasicButton
@@ -127,12 +186,14 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 					}
 				</React.Fragment>
 			)}
-			{agenda.votingState === 2 &&(
+			{agenda.votingState === 2 && getVotingClosedSection()}
+			{agenda.votingState === 3 &&
 				<BasicButton
-					text={translate.reopen_voting}
-					color={'white'}
+					text={'Abrir votaciones presentes' /*TRADUCCION*/}
+					color={"white"}
 					loading={loading}
 					disabled={loading}
+					onClick={openVoting}
 					textPosition="before"
 					icon={
 						<ButtonIcon
@@ -140,8 +201,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 							color={primary}
 						/>
 					}
-					buttonStyle={{ width: "18em" }}
-					onClick={reopenAgendaVoting}
+					buttonStyle={{ minWidth: "11em" }}
 					textStyle={{
 						fontSize: "0.75em",
 						fontWeight: "700",
@@ -149,7 +209,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 						color: primary
 					}}
 				/>
-			)}
+			}
 		</React.Fragment>
 	)
 }
