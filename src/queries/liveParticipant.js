@@ -62,8 +62,8 @@ export const addDelegation = gql`
 `;
 
 export const resendRoomEmails = gql`
-	mutation resendRoomEmails($councilId: Int!, $timezone: String!, $participantsIds: [Int]!) {
-		resendRoomEmails(councilId: $councilId, timezone: $timezone, participantsIds: $participantsIds) {
+	mutation resendRoomEmails($councilId: Int!, $timezone: String!, $participantsIds: [Int]!, $onlyAccessLink: Boolean) {
+		resendRoomEmails(councilId: $councilId, timezone: $timezone, participantsIds: $participantsIds, onlyAccessLink: $onlyAccessLink) {
 			success
 			message
 		}
