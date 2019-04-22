@@ -6,8 +6,9 @@ import gql from 'graphql-tag';
 import { resendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
+import { updateParticipantSends } from '../../../../queries';
 
-const ParticipantContactEditor = ({ translate, council, sendAccessKey, participant, ...props }) => {
+const ParticipantContactEditor = ({ translate, council, updateParticipantSends, sendAccessKey, participant, ...props }) => {
     const [state, setState] = useOldState({
         email: participant.email,
         phone: participant.phone,
@@ -22,7 +23,7 @@ const ParticipantContactEditor = ({ translate, council, sendAccessKey, participa
             loading: true
         });
 
-        const response = await props.updateParticipantContactInfo({
+        await props.updateParticipantContactInfo({
             variables: {
                 participantId: participant.id,
                 email: state.email,
@@ -53,6 +54,24 @@ const ParticipantContactEditor = ({ translate, council, sendAccessKey, participa
             sendsLoading: false
         });
     }
+
+    const refreshEmailStates = async () => {
+		setState({
+			sendsLoading: true
+		});
+		const response = await updateParticipantSends({
+			variables: {
+				participantId: participant.id
+			}
+		});
+
+		if (response.data.updateParticipantSends.success) {
+			props.refetch();
+			setState({
+				sendsLoading: false
+			});
+		}
+	};
 
     const resendRoomAccessKey = async () => {
         setState({
@@ -125,12 +144,19 @@ const ParticipantContactEditor = ({ translate, council, sendAccessKey, participa
                     loading={state.loading}
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
+                <BasicButton
+                    color={secondary}
+                    text="Actualizar"
+                    onClick={refreshEmailStates}
+                    loading={state.sendsLoading}
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                />
                 {council.securityType !== 0 &&
                     <BasicButton
                         color={secondary}
                         text="Enviar contraseña de entrada"
                         onClick={resendRoomAccessKey}
-                        loading={state.loading}
+                        loading={state.sendsLoading}
                         textStyle={{ color: 'white', fontWeight: '700' }}
                     />
                 }
@@ -157,10 +183,14 @@ const sendParticipantRoomKey = gql`
     }
 `;
 
+
 export default compose(
     graphql(updateParticipantContactInfo, {
         name: 'updateParticipantContactInfo'
     }),
+    graphql(updateParticipantSends, {
+		name: "updateParticipantSends"
+	}),
     graphql(resendRoomEmails, {
         name: 'resendRoomEmails'
     }),
