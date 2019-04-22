@@ -13,7 +13,8 @@ class CredentialsManager extends React.Component {
     state = {
         page: 1,
         limit: 10,
-        filterText: ''
+        filterText: '',
+        visible: false
     }
 
     refreshSends = async id => {
@@ -24,6 +25,13 @@ class CredentialsManager extends React.Component {
         });
 
         this.props.data.refetch();
+    }
+
+    toggleVisible = () => {
+        const visible = !this.state.visible;
+        this.setState({
+            visible
+        })
     }
 
     updatePage = page => {
@@ -65,6 +73,8 @@ class CredentialsManager extends React.Component {
                                     council={this.props.council}
                                 />
                                 <NotificationsTable
+                                    handleToggleVisib={this.toggleVisible}
+                                    visib={this.state.visible}
                                     translate={this.props.translate}
                                     notifications={participant.notifications}
                                 />
