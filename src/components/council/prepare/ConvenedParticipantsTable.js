@@ -711,7 +711,7 @@ export default compose(
 				councilId: props.council.id,
 			},
 			forceFetch: true,
-			pollInterval: 8000
+			pollInterval: 12000
 		})
 	})
 )(ConvenedParticipantsTable);

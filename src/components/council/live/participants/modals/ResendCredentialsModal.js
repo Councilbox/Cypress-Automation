@@ -17,6 +17,7 @@ import gql from 'graphql-tag';
 
 const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
 	const [modal, setModal] = React.useState(false);
+	const [phoneError, setPhoneError] = React.useState(false);
 	const primary = getPrimary();
 	const translation = translate.sure_send_video.replace(
 		"{{name}}",
@@ -67,10 +68,8 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 
         if(response.errors){
             if(response.errors[0].message = 'Invalid phone number'){
-                /* setState({
-                    phoneError: translate.invalid_phone_number,
-                    loading: false
-                }); */
+                setPhoneError(true);
+                //translate.invalid_phone_number,
             }
         } else {
             props.refetch();
