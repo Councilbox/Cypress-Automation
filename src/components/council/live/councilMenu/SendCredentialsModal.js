@@ -22,6 +22,8 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 		requestClose();
 		setState({
 			success: false,
+			error: null,
+			showSMS: false,
 			sending: false,
 			error: false,
 			sendAgenda: false
