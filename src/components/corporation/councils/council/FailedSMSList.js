@@ -131,6 +131,7 @@ const getStatusByCode = reqCode => {
     const status = {
         22: 'Entregado',
         20: 'Enviado',
+        '-2': 'Número no válido',
         default: 'Fallido'
     }
 
