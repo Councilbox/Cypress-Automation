@@ -24,6 +24,7 @@ export const openCouncilRoom = gql`
 			timezone: $timezone
 		) {
 			success
+			message
 		}
 	}
 `;

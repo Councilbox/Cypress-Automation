@@ -9,116 +9,148 @@ import {
 } from "../../../displayComponents";
 import { getPrimary } from "../../../styles/colors";
 import { moment } from '../../../containers/App';
+import { useOldState } from "../../../hooks";
+import LiveSMS from "./councilMenu/LiveSMS";
 
-class OpenRoomButton extends React.Component {
-	state = {
-		sendCredentials: true,
+const OpenRoomButton = ({ council, translate, ...props }) => {
+	const [state, setState] = useOldState({
+		sendCredentials: !council.videoEmailsDate,
 		confirmModal: false,
-		loading: false
-	};
+		showSMS: false
+	});
+	const [loading, setLoading] = React.useState(false);
+	const [error, setError] = React.useState(null);
+	const primary = getPrimary();
 
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.council) {
-			this.setState({
-				sendCredentials: !nextProps.council.videoEmailsDate
-			});
-		}
-	}
-
-	openCouncilRoom = async () => {
-		const { council } = this.props;
-		this.setState({
-			loading: true
-		});
-		const response = await this.props.openCouncilRoom({
+	const openCouncilRoom = async () => {
+		setLoading(true);
+		const response = await props.openCouncilRoom({
 			variables: {
 				councilId: council.id,
 				timezone: moment().utcOffset(),
-				sendCredentials: this.state.sendCredentials
+				sendCredentials: state.sendCredentials
 			}
 		});
 		if (response.data.openCouncilRoom.success) {
-			await this.props.refetch();
+			if(response.data.openCouncilRoom.message === 'Failed SMS'){
+				setError(response.data.openCouncilRoom.message);
+				setLoading(false);
+			}
+			//await this.props.refetch();
 		}
-	};
+	}
 
-	render() {
-		const { translate } = this.props;
-		const primary = getPrimary();
+	const getBody = () => {
+		console.log(state);
+		if(state.showSMS){
+			return (
+				<LiveSMS
+					translate={translate}
+					council={council}
+				/>
+			)
+		}
 
-		return (
-			<React.Fragment>
+		if(error === 'Failed SMS'){
+			//TRADUCCION
+			return (
 				<div>
+					<div>
+						La sala ha sido abierta correctamente, pero ha fallado el envió de algunos SMS de acceso.
+						Posiblemente el problema haya sido la existencia de teléfonos no válidos o sin prefijo. Puede revisarlos/reenviarlos pulsando aquí.
+					</div>
 					<BasicButton
-						text={translate.open_room}
-						color={primary}
-						loading={this.state.loading}
-						onClick={() => this.setState({ confirmModal: true })}
-						textPosition="before"
-						icon={
-							<Icon
-								className="material-icons"
-								style={{
-									fontSize: "1.1em",
-									color: "white"
-								}}
-							>
-								play_arrow
-							</Icon>
-						}
+						text={'Ver'}
+						color={'white'}
+						onClick={() => setState({ showSMS: true })}
 						buttonStyle={{ width: "11em" }}
 						textStyle={{
-							color: "white",
-							fontSize: "0.75em",
 							fontWeight: "700",
 							textTransform: "none"
 						}}
 					/>
 				</div>
-				<AlertConfirm
-					title={translate.open_room}
-					bodyText={
-						<React.Fragment>
-							<div>{translate.open_room_continue}</div>
-							<Checkbox
-								label={translate.send_video_credentials}
-								value={this.state.sendCredentials}
-								onChange={(event, isInputChecked) =>
-									this.setState({
-										sendCredentials: isInputChecked
-									})
-								}
-							/>
-							{this.props.council.videoEmailsDate &&
-								<span>{`Enviadas por última vez ${moment(this.props.council.videoEmailsDate).format('LLL')}`}</span>
-							}
-							<a
-								href={`https://app.councilbox.com/recommendations/${this.props.council.language}`}
-								rel="noopener noreferrer"
-								target="_blank"
-							>
-								<div
-									dangerouslySetInnerHTML={{
-										__html:
-											translate.room_permits_firs_time_msg
-									}}
-									style={{ color: primary }}
-								/>
-							</a>
-						</React.Fragment>
+			)
+		}
+
+		return (
+			<React.Fragment>
+				<div>{translate.open_room_continue}</div>
+				<Checkbox
+					label={translate.send_video_credentials}
+					value={state.sendCredentials}
+					onChange={(event, isInputChecked) =>
+						setState({
+							sendCredentials: isInputChecked
+						})
 					}
-					open={this.state.confirmModal}
-					buttonAccept={translate.accept}
-					loadingAction={this.state.loading}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={this.openCouncilRoom}
-					requestClose={() => this.setState({ confirmModal: false })}
 				/>
+				{council.videoEmailsDate &&
+					<span>{`Enviadas por última vez ${moment(council.videoEmailsDate).format('LLL')}`/*TRADUCCION*/}</span>
+				}
+				<a
+					href={`https://app.councilbox.com/recommendations/${council.language}`}
+					rel="noopener noreferrer"
+					target="_blank"
+				>
+					<div
+						dangerouslySetInnerHTML={{
+							__html:
+								translate.room_permits_firs_time_msg
+						}}
+						style={{ color: primary }}
+					/>
+				</a>
 			</React.Fragment>
-		);
+		)
 	}
+
+	return (
+		<React.Fragment>
+			<div>
+				<BasicButton
+					text={translate.open_room}
+					color={primary}
+					loading={loading}
+					onClick={() => setState({ confirmModal: true })}
+					textPosition="before"
+					icon={
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: "1.1em",
+								color: "white"
+							}}
+						>
+							play_arrow
+						</Icon>
+					}
+					buttonStyle={{ width: "11em" }}
+					textStyle={{
+						color: "white",
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none"
+					}}
+				/>
+			</div>
+			<AlertConfirm
+				title={translate.open_room}
+				bodyText={getBody()}
+				open={state.confirmModal}
+				buttonAccept={translate.accept}
+				loadingAction={loading}
+				buttonCancel={translate.cancel}
+				hideAccept={state.showSMS || !!error}
+				modal={true}
+				acceptAction={openCouncilRoom}
+				requestClose={() => setState({ confirmModal: false })}
+			/>
+		</React.Fragment>
+	);
+
 }
+
 
 export default graphql(openCouncilRoom, {
 	name: "openCouncilRoom"

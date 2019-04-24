@@ -2,6 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo, graphql } from 'react-apollo';
 import { BasicButton, AlertConfirm, LoadingSection } from '../../../../displayComponents';
+import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { moment } from '../../../../containers/App';
 import { Table, TableRow, TableCell } from 'material-ui';
 
@@ -38,6 +39,7 @@ const sendParticipantRoomKey = gql`
     mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
         sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
             success
+            message
         }
     }
 `;
@@ -57,7 +59,6 @@ const FailedList = graphql(sendParticipantRoomKey, { name: 'sendAccessKey' })(wi
                 timezone: moment().utcOffset()
             }
         });
-
         setResendLoading(null);
         getData();
     }
@@ -65,14 +66,12 @@ const FailedList = graphql(sendParticipantRoomKey, { name: 'sendAccessKey' })(wi
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
-            query: getFailedSMS,
+            query: getSMS,
             variables: {
                 councilId: council.id,
                 ...(filter? { filter } : {})
             }
         });
-
-        console.log(response);
 
         if(response.data.sendsSMS){
             setData(response.data);
@@ -105,10 +104,10 @@ const FailedList = graphql(sendParticipantRoomKey, { name: 'sendAccessKey' })(wi
                                     {send.recipient.surname}
                                 </TableCell>
                                 <TableCell>
-                                    {send.recipient.email}
+                                    {send.recipient.phone}
                                 </TableCell>
                                 <TableCell>
-                                    {getStatusByCode(send.reqCode)}
+                                    {getSMSStatusByCode(send.reqCode)}
                                 </TableCell>
                                 <TableCell>
                                     <BasicButton
@@ -127,18 +126,8 @@ const FailedList = graphql(sendParticipantRoomKey, { name: 'sendAccessKey' })(wi
     )
 }));
 
-const getStatusByCode = reqCode => {
-    const status = {
-        22: 'Entregado',
-        20: 'Enviado',
-        '-2': 'Número no válido',
-        default: 'Fallido'
-    }
 
-    return status[reqCode]? status[reqCode] : status.default;
-}
-
-const getFailedSMS = gql`
+export const getSMS = gql`
     query sendsSMS($councilId: Int!, $filter: String){
         sendsSMS(councilId: $councilId, filter: $filter){
             liveParticipantId

@@ -252,6 +252,17 @@ export const canBePresentWithRemoteVote = statute => {
 	return statute.existsPresentWithRemoteVote === 1;
 };
 
+export const getSMSStatusByCode = reqCode => {
+    const status = {
+        22: 'Entregado',
+        20: 'Enviado',
+        '-2': 'Número no válido',
+        default: 'Fallido'
+    }
+
+    return status[reqCode]? status[reqCode] : status.default;
+}
+
 
 export const filterAgendaVotingTypes = (votingTypes, statute) => {
 	if (statute.existsPresentWithRemoteVote === 1) {
