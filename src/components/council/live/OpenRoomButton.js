@@ -41,7 +41,6 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	}
 
 	const getBody = () => {
-		console.log(state);
 		if(state.showSMS){
 			return (
 				<LiveSMS

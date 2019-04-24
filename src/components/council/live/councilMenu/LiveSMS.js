@@ -1,14 +1,15 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { withApollo } from 'react-apollo';
+import { withApollo, graphql } from 'react-apollo';
 import { LoadingSection, BasicButton, TextInput } from '../../../../displayComponents';
 import { getSMS } from '../../../corporation/councils/council/FailedSMSList';
 import { moment } from '../../../../containers/App';
 import { Table, TableCell, TableRow, TableBody } from 'material-ui';
 import { getSMSStatusByCode } from '../../../../utils/CBX';
+import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
 
 
-const LiveSMS = ({ council, client, translate, ...props }) => {
+const LiveSMS = ({ council, client, translate, sendAccessKey, ...props }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [resendLoading, setResendLoading] = React.useState(null);
@@ -38,6 +39,20 @@ const LiveSMS = ({ council, client, translate, ...props }) => {
         setModifiedValues(new Map(modifiedValues));
     }
 
+    const resendRoomAccessKey = async (id, sendId) => {
+        setResendLoading(sendId);
+        await sendAccessKey({
+            variables: {
+                councilId: council.id,
+                participantIds: [id],
+                timezone: moment().utcOffset(),
+                newPhone: modifiedValues.get(id)
+            }
+        });
+        setResendLoading(null);
+        getData();
+    }
+
     return (
         <div>
             {loading?
@@ -64,7 +79,7 @@ const LiveSMS = ({ council, client, translate, ...props }) => {
                                         color="transparent"
                                         text={'Reenviar'}
                                         loading={resendLoading === send.id}
-                                        //onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
+                                        onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
                                     />
                                 </TableCell>
                             </TableRow>
@@ -94,4 +109,6 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
     )
 }
 
-export default withApollo(LiveSMS);
+export default graphql(sendParticipantRoomKey, {
+    name: 'sendAccessKey'
+})(withApollo(LiveSMS));

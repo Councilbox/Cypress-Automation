@@ -35,9 +35,9 @@ const FailedSMSList = ({ council }) => {
     )
 }
 
-const sendParticipantRoomKey = gql`
-    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
-        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+export const sendParticipantRoomKey = gql`
+    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!, $newPhone: String){
+        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone, newPhone: $newPhone){
             success
             message
         }
