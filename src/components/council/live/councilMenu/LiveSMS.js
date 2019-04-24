@@ -9,9 +9,10 @@ import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
 
 
-const LiveSMS = ({ council, client, translate, sendAccessKey, ...props }) => {
+const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const [filter, setFilter] = React.useState(showAll? null : 'failed');
     const [resendLoading, setResendLoading] = React.useState(null);
     const [modifiedValues, setModifiedValues] = React.useState(new Map());
 
@@ -20,7 +21,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, ...props }) => {
             query: getSMS,
             variables: {
                 councilId: council.id,
-                filter: 'failed'
+                filter
             }
         });
 
@@ -28,7 +29,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, ...props }) => {
             setData(response.data);
             setLoading(false);
         }
-    }, [council.id]);
+    }, [council.id, filter]);
 
     React.useEffect(() => {
         getData();
@@ -58,34 +59,41 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, ...props }) => {
             {loading?
                 <LoadingSection />
             :
-                <Table>
-                    <TableBody>
-                        {data.sendsSMS.map(send => (
-                            <TableRow key={send.id}>
-                                <TableCell>
-                                    {send.recipient.name}
-                                </TableCell>
-                                <TableCell>
-                                    {send.recipient.surname}
-                                </TableCell>
-                                <TableCell>
-                                    <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
-                                </TableCell>
-                                <TableCell>
-                                    {getSMSStatusByCode(send.reqCode)}
-                                </TableCell>
-                                <TableCell>
-                                    <BasicButton
-                                        color="transparent"
-                                        text={'Reenviar'}
-                                        loading={resendLoading === send.id}
-                                        onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
-                                    />
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
+                <React.Fragment>
+                    <BasicButton
+                        color="transparent"
+                        text={filter? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                        onClick={filter? () => setFilter(null) : () => setFilter('failed')}
+                    />
+                    <Table>
+                        <TableBody>
+                            {data.sendsSMS.map(send => (
+                                <TableRow key={send.id}>
+                                    <TableCell>
+                                        {send.recipient.name}
+                                    </TableCell>
+                                    <TableCell>
+                                        {send.recipient.surname}
+                                    </TableCell>
+                                    <TableCell>
+                                        <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
+                                    </TableCell>
+                                    <TableCell>
+                                        {getSMSStatusByCode(send.reqCode)}
+                                    </TableCell>
+                                    <TableCell>
+                                        <BasicButton
+                                            color="transparent"
+                                            text={'Reenviar'}
+                                            loading={resendLoading === send.id}
+                                            onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
+                                        />
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </React.Fragment>
             }
         </div>
     )

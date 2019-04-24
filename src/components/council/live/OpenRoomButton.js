@@ -11,6 +11,7 @@ import { getPrimary } from "../../../styles/colors";
 import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import LiveSMS from "./councilMenu/LiveSMS";
+import FailedSMSMessage from "./councilMenu/FailedSMSMessage";
 
 const OpenRoomButton = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -36,7 +37,6 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				setError(response.data.openCouncilRoom.message);
 				setLoading(false);
 			}
-			//await this.props.refetch();
 		}
 	}
 
@@ -51,25 +51,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 		}
 
 		if(error === 'Failed SMS'){
-			//TRADUCCION
-			return (
-				<div>
-					<div>
-						La sala ha sido abierta correctamente, pero ha fallado el envió de algunos SMS de acceso.
-						Posiblemente el problema haya sido la existencia de teléfonos no válidos o sin prefijo. Puede revisarlos/reenviarlos pulsando aquí.
-					</div>
-					<BasicButton
-						text={'Ver'}
-						color={'white'}
-						onClick={() => setState({ showSMS: true })}
-						buttonStyle={{ width: "11em" }}
-						textStyle={{
-							fontWeight: "700",
-							textTransform: "none"
-						}}
-					/>
-				</div>
-			)
+			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
 		}
 
 		return (
@@ -139,7 +121,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				open={state.confirmModal}
 				buttonAccept={translate.accept}
 				loadingAction={loading}
-				buttonCancel={translate.cancel}
+				buttonCancel={(state.showSMS || !!error)? translate.close : translate.cancel}
 				hideAccept={state.showSMS || !!error}
 				modal={true}
 				acceptAction={openCouncilRoom}

@@ -11,6 +11,7 @@ import OriginalConveneModal from "./OriginalConveneModal";
 import CouncilInfoModal from "./CouncilInfoModal";
 import { councilHasVideo } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
+import SMSManagerModal from "./SMSManagerModal";
 
 class CouncilMenu extends React.Component {
 	state = {
@@ -19,6 +20,7 @@ class CouncilMenu extends React.Component {
 		noCelebrate: false,
 		originalConvene: false,
 		councilInfo: false,
+		SMSManager: false,
 		announcementModal: false
 	};
 
@@ -115,6 +117,24 @@ class CouncilMenu extends React.Component {
 										/>
 										{translate.send_video_emails}
 									</MenuItem>
+									{council.securityType === 2 &&
+										<MenuItem
+											onClick={() =>
+												this.setState({ SMSManager: true })
+											}
+										>
+											<i
+												className="fa fa-commenting-o"
+												aria-hidden="true"
+												style={{
+													marginRight: "0.8em",
+													color: secondary
+												}}
+											></i>
+											{'Administrador de SMS' /*TRADUCCION*/}
+										</MenuItem>
+
+									}
 									{!(council.state === 20 || council.state === 30) &&
 										<React.Fragment>
 											<MenuItem
@@ -201,6 +221,14 @@ class CouncilMenu extends React.Component {
 						this.setState({ sendCredentials: false })
 					}
 					translate={translate}
+				/>
+				<SMSManagerModal
+					council={council}
+					translate={translate}
+					open={this.state.SMSManager}
+					requestClose={() => {
+						this.setState({ SMSManager: false })
+					}}
 				/>
 				<AnnouncementModal
 					show={this.state.announcementModal}
