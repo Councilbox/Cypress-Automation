@@ -36,6 +36,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			if(response.data.openCouncilRoom.message === 'Failed SMS'){
 				setError(response.data.openCouncilRoom.message);
 				setLoading(false);
+			} else {
+				props.refetch();
 			}
 		}
 	}

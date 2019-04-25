@@ -520,6 +520,7 @@ const CouncilDetailsRoot = gql`
 
 		councilRecount(councilId: $id) {
 			socialCapitalTotal
+			weighedPartTotal
 			partTotal
 			numTotal
 			socialCapitalRightVoting

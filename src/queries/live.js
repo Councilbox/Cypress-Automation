@@ -4,7 +4,8 @@ export const liveRecount = gql`
     query LiveRecount($councilId: Int!){
         councilRecount(councilId: $councilId){
             socialCapitalTotal
-            partTotal
+			partTotal
+			weighedPartTotal
             numTotal
             socialCapitalRightVoting
             numRightVoting
