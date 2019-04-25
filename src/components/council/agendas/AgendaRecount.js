@@ -35,7 +35,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
     const getPartTotal = () => {
 
-        if(council.companyId === 375 || council.companyId === 443){
+        if(council.companyId === 443){
             if(agenda.orderIndex >= 2 && agenda.orderIndex <=9){
                 return `${translate.votes}: ${recount.weighedPartTotal || 0}`
             }
