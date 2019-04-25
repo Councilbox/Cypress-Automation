@@ -168,7 +168,9 @@ class PartnersBookPage extends React.Component {
                 canOrder: false
             },
         ];
-
+        console.log("------------------------------------")
+        console.log(translate)
+        console.log("------------------------------------")
         return (
             <CardPageLayout title={this.props.translate.simple_book}>
                 <AlertConfirm
