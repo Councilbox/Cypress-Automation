@@ -244,16 +244,19 @@ class ParticipantStateSelector extends React.Component {
 						}
 						translate={translate}
 					/>
-					<DelegateOwnVoteModal
-						show={this.state.delegateOwnVote}
-						council={council}
-						participant={participant}
-						refetch={this.props.refetch}
-						requestClose={() =>
-							this.setState({ delegateOwnVote: false })
-						}
-						translate={translate}
-					/>
+					{this.state.delegateOwnVote &&
+						<DelegateOwnVoteModal
+							show={this.state.delegateOwnVote}
+							council={council}
+							participant={participant}
+							refetch={this.props.refetch}
+							requestClose={() =>
+								this.setState({ delegateOwnVote: false })
+							}
+							translate={translate}
+						/>
+					}
+
 					{(participant.state === PARTICIPANT_STATES.REMOTE ||
 						participant.state === PARTICIPANT_STATES.NO_PARTICIPATE ||
 						participant.state ===
