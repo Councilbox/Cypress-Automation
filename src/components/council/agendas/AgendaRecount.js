@@ -8,6 +8,7 @@ import * as CBX from '../../../utils/CBX';
 import { Input } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import withSharedProps from '../../../HOCs/withSharedProps';
+import { CONSENTIO_ID } from '../../../config';
 
 const columnStyle = {
     display: 'flex',
@@ -35,7 +36,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
     const getPartTotal = () => {
 
-        if(council.companyId === 443){
+        if(council.companyId === CONSENTIO_ID){
             if(agenda.orderIndex >= 2 && agenda.orderIndex <=9){
                 return `${translate.votes}: ${recount.weighedPartTotal || 0}`
             }

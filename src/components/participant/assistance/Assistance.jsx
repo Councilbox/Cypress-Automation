@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import { participantsToDelegate } from "../../../queries";
 import AddRepresentativeModal from "../../council/live/AddRepresentativeModal";
 import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
+import { CONSENTIO_ID } from "../../../config";
 
 
 const styles = {
@@ -275,7 +276,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 										}
 										{council.confirmAssistance !== 0 &&
 											<React.Fragment>
-												{council.companyId === 443?
+												{council.companyId === CONSENTIO_ID?
 													<React.Fragment>
 														{participant.position === 'B' &&
 															<Card style={{ padding: '1.5em', width: '100%', marginBottom: "1em" }}>
