@@ -128,18 +128,24 @@ class AgendaDetailsSection extends React.Component {
 					{smallLayout &&
 						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ display: 'flex', marginBottom: '0.6em', flexDirection: 'row', justifyContent: 'flex-end' }}>
 							<div>
-								{council.state === 20 || council.state === 30 ? (
-									!CBX.councilStarted(council) ? (
-										<div>
-											<StartCouncilButton
-												recount={this.props.recount}
-												council={council}
-												translate={translate}
-												participants={participants}
-												refetch={this.props.refetchCouncil}
-											/>
-										</div>
-									) : (
+								<OpenRoomButton
+									translate={translate}
+									council={council}
+									refetch={this.props.refetchCouncil}
+								/>
+								{(council.state === 20 || council.state === 30) &&
+									<React.Fragment>
+										{!CBX.councilStarted(council) ? (
+											<div>
+												<StartCouncilButton
+													recount={this.props.recount}
+													council={council}
+													translate={translate}
+													participants={participants}
+													refetch={this.props.refetchCouncil}
+												/>
+											</div>
+										) : (
 											<div>
 												<EndCouncilButton
 													council={{
@@ -149,14 +155,8 @@ class AgendaDetailsSection extends React.Component {
 													translate={translate}
 												/>
 											</div>
-										)
-								) : (
-										<OpenRoomButton
-											translate={translate}
-											council={council}
-											refetch={this.props.refetchCouncil}
-										/>
-									)
+										)}
+									</React.Fragment>
 								}
 							</div>
 							<div>
@@ -269,18 +269,24 @@ class AgendaDetailsSection extends React.Component {
 					{!smallLayout &&
 						<GridItem xs={smallLayout? 12 : 4} md={3} style={{ borderLeft: '1px solid gainsboro', display: 'flex', flexDirection: 'column' }}>
 							<div style={{marginLeft: 'auto'}}>
-								{council.state === 20 || council.state === 30 ? (
-									!CBX.councilStarted(council) ? (
-										<div>
-											<StartCouncilButton
-												recount={this.props.recount}
-												council={council}
-												translate={translate}
-												participants={participants}
-												refetch={this.props.refetchCouncil}
-											/>
-										</div>
-									) : (
+								<OpenRoomButton
+									translate={translate}
+									council={council}
+									refetch={this.props.refetchCouncil}
+								/>
+								{(council.state === 20 || council.state === 30) &&
+									<React.Fragment>
+										{!CBX.councilStarted(council) ? (
+											<div>
+												<StartCouncilButton
+													recount={this.props.recount}
+													council={council}
+													translate={translate}
+													participants={participants}
+													refetch={this.props.refetchCouncil}
+												/>
+											</div>
+										) : (
 											<div>
 												<EndCouncilButton
 													council={{
@@ -290,14 +296,9 @@ class AgendaDetailsSection extends React.Component {
 													translate={translate}
 												/>
 											</div>
-										)
-								) : (
-										<OpenRoomButton
-											translate={translate}
-											council={council}
-											refetch={this.props.refetchCouncil}
-										/>
-									)
+										)}
+									</React.Fragment>
+									
 								}
 							</div>
 							<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>

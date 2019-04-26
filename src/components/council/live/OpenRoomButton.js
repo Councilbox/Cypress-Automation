@@ -38,6 +38,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				setLoading(false);
 			} else {
 				props.refetch();
+				setState({ confirmModal: false });
 			}
 		}
 	}
@@ -91,31 +92,33 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	return (
 		<React.Fragment>
 			<div>
-				<BasicButton
-					text={translate.open_room}
-					color={primary}
-					loading={loading}
-					onClick={() => setState({ confirmModal: true })}
-					textPosition="before"
-					icon={
-						<Icon
-							className="material-icons"
-							style={{
-								fontSize: "1.1em",
-								color: "white"
-							}}
-						>
-							play_arrow
-						</Icon>
-					}
-					buttonStyle={{ width: "11em" }}
-					textStyle={{
-						color: "white",
-						fontSize: "0.75em",
-						fontWeight: "700",
-						textTransform: "none"
-					}}
-				/>
+				{council.state < 20 &&
+					<BasicButton
+						text={translate.open_room}
+						color={primary}
+						loading={loading}
+						onClick={() => setState({ confirmModal: true })}
+						textPosition="before"
+						icon={
+							<Icon
+								className="material-icons"
+								style={{
+									fontSize: "1.1em",
+									color: "white"
+								}}
+							>
+								play_arrow
+							</Icon>
+						}
+						buttonStyle={{ width: "11em" }}
+						textStyle={{
+							color: "white",
+							fontSize: "0.75em",
+							fontWeight: "700",
+							textTransform: "none"
+						}}
+					/>
+				}
 			</div>
 			<AlertConfirm
 				title={translate.open_room}
