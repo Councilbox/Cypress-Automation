@@ -1,6 +1,8 @@
 import React from 'react';
 import { AlertConfirm } from '../../../../displayComponents';
 import LiveSMS from './LiveSMS';
+import { isMobile } from 'react-device-detect';
+
 
 const SMSManagerModal = ({ open, translate, council, requestClose }) => {
 
@@ -13,6 +15,8 @@ const SMSManagerModal = ({ open, translate, council, requestClose }) => {
 				buttonCancel={translate.close}
 				modal={true}
 				requestClose={requestClose}
+				classNameDialog={isMobile ? "noMarginM": 'noMargin'}
+				bodyStyle={{overflowY: "hidden",height: "50vh", width: "100%",  maxWidth: isMobile && "100vw" }}
 			/>
         </div>
     )

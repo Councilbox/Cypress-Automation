@@ -1,20 +1,25 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo, graphql } from 'react-apollo';
-import { LoadingSection, BasicButton, TextInput } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, TextInput, Scrollbar, PaginationFooter } from '../../../../displayComponents';
 import { getSMS } from '../../../corporation/councils/council/FailedSMSList';
 import { moment } from '../../../../containers/App';
-import { Table, TableCell, TableRow, TableBody } from 'material-ui';
+import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHeader, Card, CardActions, Button, TextField } from 'material-ui';
 import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
+import { getSecondary, getPrimary } from '../../../../styles/colors';
+import { isMobile } from 'react-device-detect';
+
 
 
 const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const [filter, setFilter] = React.useState(showAll? null : 'failed');
+    const [filter, setFilter] = React.useState(showAll ? null : 'failed');
     const [resendLoading, setResendLoading] = React.useState(null);
     const [modifiedValues, setModifiedValues] = React.useState(new Map());
+
+
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -25,7 +30,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
             }
         });
 
-        if(response.data.sendsSMS){
+        if (response.data.sendsSMS) {
             setData(response.data);
             setLoading(false);
         }
@@ -54,48 +59,155 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
         getData();
     }
 
-    return (
-        <div>
-            {loading?
-                <LoadingSection />
-            :
-                <React.Fragment>
-                    <BasicButton
-                        color="transparent"
-                        text={filter? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
-                        onClick={filter? () => setFilter(null) : () => setFilter('failed')}
-                    />
-                    <Table>
-                        <TableBody>
-                            {data.sendsSMS.map(send => (
-                                <TableRow key={send.id}>
-                                    <TableCell>
-                                        {send.recipient.name}
-                                    </TableCell>
-                                    <TableCell>
-                                        {send.recipient.surname}
-                                    </TableCell>
-                                    <TableCell>
-                                        <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
-                                    </TableCell>
-                                    <TableCell>
-                                        {getSMSStatusByCode(send.reqCode)}
-                                    </TableCell>
-                                    <TableCell>
-                                        <BasicButton
-                                            color="transparent"
-                                            text={'Reenviar'}
-                                            loading={resendLoading === send.id}
-                                            onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
+    //calcular total entre 10
+
+    let total
+    if (!loading) {
+        total = data.sendsSMS / 2;
+    }
+
+    if (isMobile) {
+        return (
+            <div style={{ height: "100%" }}>
+                {loading ?
+                    <LoadingSection />
+                    :
+                    <React.Fragment>
+                        <div style={{ marginBottom: "1em", marginLeft: "5px" }}>
+                            <BasicButton
+                                color="transparent"
+                                text={filter ? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                                onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
+                                textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
+                            />
+                        </div>
+                        <div style={{ height: "calc( 100% - 2em )", }}>
+                            <Scrollbar>
+                                {data.sendsSMS.map(send => (
+                                    <Card style={{ margin: "5px", marginBottom: "15px" }} key={send.id}>
+                                        <CardHeader
+                                            title={send.recipient.name + " " + send.recipient.surname}
+                                            subheader={translate.state + ": " + getSMSStatusByCode(send.reqCode)}
                                         />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </React.Fragment>
-            }
-        </div>
+                                        <CardContent>
+                                            <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
+                                        </CardContent>
+                                        <CardActions>
+                                            <BasicButton
+                                                size="small"
+                                                color="primary"
+                                                text={'Reenviar'}
+                                                textStyle={{ background: "none", boxShadow: "none", color: getPrimary(), background: "white" }}
+                                                loading={resendLoading === send.id}
+                                                onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
+                                                loadingColor={getPrimary()}
+                                            />
+                                        </CardActions>
+                                    </Card>
+                                ))}
+                            </Scrollbar>
+                        </div>
+                    </React.Fragment>
+                }
+            </div>
+        )
+    } else {
+        return (
+            <div style={{ height: "100%" }}>
+                {loading ?
+                    <LoadingSection />
+                    :
+                    <React.Fragment>
+                        <div style={{ marginBottom: "1em" }}>
+                            <BasicButton
+                                color="transparent"
+                                text={filter ? 'Todos' : 'Ver fallidos' /*TRADUCCION*/}
+                                onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
+                                textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
+                            />
+                        </div>
+                        <div style={{ height: "calc( 100% - 2em )", }}>
+                            <Scrollbar>
+                                <Table style={{ maxWidth: "100%", width: "100%" }} >
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>
+                                                {translate.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {translate.phone}
+                                            </TableCell>
+                                            <TableCell>
+                                                {translate.state}
+                                            </TableCell>
+                                            <TableCell>
+                                                Reenviar
+                                </TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {data.sendsSMS.map(send => (
+                                            <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading }key={send.id}>
+                                                <TableCell>
+                                                    {send.recipient.name + " " + send.recipient.surname}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
+                                                </TableCell>
+                                                <TableCell>
+                                                    {getSMSStatusByCode(send.reqCode)}
+                                                </TableCell>
+                                                <TableCell>
+                                                    <BasicButton
+                                                        color="white"
+                                                        text={'Reenviar'}
+                                                        loading={resendLoading === send.id}
+                                                        onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
+                                                        loadingColor={"#000000de"}
+                                                    />
+                                                </TableCell>
+                                            </Row>
+
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                                {/* <div style={{ display: "flex", width: "100%", textAlign: "right" }}>
+                                    {loading ?
+                                        <div></div>
+                                        :
+                                        <React.Fragment>
+                                            <div style={{ cursor: "pointer", marginRight: "10px" }}>1</div>
+                                            <div style={{ cursor: "pointer" }}>2</div>
+                                        </React.Fragment>
+                                    }
+
+                                </div> */}
+                            </Scrollbar>
+                        </div>
+
+                    </React.Fragment>
+                }
+            </div>
+        )
+    }
+}
+
+
+const Row = ({ send, children }) => {
+    const [state, setState] = React.useState(false);
+
+    const onMouseEnter = () => {
+        setState(true)
+    }
+
+    const onMouseLeave = () => {
+        setState(false)
+    }
+
+    return (
+        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: state && "#e8e8e8" }}>
+            {children}
+        </TableRow>
     )
 }
 
@@ -112,10 +224,14 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
             <TextInput
                 value={value}
                 onChange={updateValue}
+                styles={{ border: "1px solid black" }}
+                clasName={'inputTableSMS'}
+                styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
         </React.Fragment>
     )
 }
+
 
 export default graphql(sendParticipantRoomKey, {
     name: 'sendAccessKey'
