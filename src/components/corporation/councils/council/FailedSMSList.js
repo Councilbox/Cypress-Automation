@@ -127,21 +127,43 @@ const FailedList = graphql(sendParticipantRoomKey, { name: 'sendAccessKey' })(wi
 }));
 
 
+// export const getSMS = gql`
+//     query sendsSMS($councilId: Int!, $filter: String){
+//         sendsSMS(councilId: $councilId, filter: $filter){
+//             liveParticipantId
+//             sendType
+//             id
+//             reqCode
+//             councilId
+//             recipient{
+//                 name
+//                 id
+//                 surname
+//                 phone
+//                 email
+//             }
+//         }
+//     }
+// `;
+
 export const getSMS = gql`
-    query sendsSMS($councilId: Int!, $filter: String){
-        sendsSMS(councilId: $councilId, filter: $filter){
-            liveParticipantId
-            sendType
-            id
-            reqCode
-            councilId
-            recipient{
-                name
+    query sendsSMS($councilId: Int!, $filter: String,  $options: OptionsInput){
+        sendsSMS(councilId: $councilId, filter: $filter, options: $options){
+            list{
+                liveParticipantId
+                sendType
                 id
-                surname
-                phone
-                email
+                reqCode
+                councilId
+                recipient{
+                    name
+                    id
+                    surname
+                    phone
+                    email
+                }
             }
+            total
         }
     }
 `;

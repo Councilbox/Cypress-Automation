@@ -13,6 +13,9 @@ import { isMobile } from 'react-device-detect';
 
 
 const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props }) => {
+    const [state, setState] = React.useState({
+        page: 1
+    });
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [filter, setFilter] = React.useState(showAll ? null : 'failed');
@@ -21,24 +24,34 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
 
 
 
-    const getData = React.useCallback(async () => {
+    const getData = React.useCallback(async (value) => {
         const response = await client.query({
             query: getSMS,
             variables: {
                 councilId: council.id,
-                filter
+                filter,
+                options: {
+                    limit: 10,
+                    offset: 10 * (value - 1)
+                }
             }
         });
 
         if (response.data.sendsSMS) {
             setData(response.data);
             setLoading(false);
+            console.log(response.data)
         }
     }, [council.id, filter]);
 
     React.useEffect(() => {
         getData();
     }, [getData]);
+
+    const changePage = value => {
+        setState({ page: value })
+        getData(value)
+    }
 
     const updateParticipantPhone = participantId => newPhone => {
         modifiedValues.set(participantId, newPhone);
@@ -126,7 +139,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                 textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
                             />
                         </div>
-                        <div style={{ height: "calc( 100% - 2em )", }}>
+                        <div style={{ height: "calc( 100% - 5em )", }}>
                             <Scrollbar>
                                 <Table style={{ maxWidth: "100%", width: "100%" }} >
                                     <TableHead>
@@ -146,8 +159,8 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {data.sendsSMS.map(send => (
-                                            <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading }key={send.id}>
+                                        {data.sendsSMS.list.map(send => (
+                                            <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading} key={send.id}>
                                                 <TableCell>
                                                     {send.recipient.name + " " + send.recipient.surname}
                                                 </TableCell>
@@ -167,22 +180,24 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                                     />
                                                 </TableCell>
                                             </Row>
-
                                         ))}
                                     </TableBody>
                                 </Table>
-                                {/* <div style={{ display: "flex", width: "100%", textAlign: "right" }}>
-                                    {loading ?
-                                        <div></div>
-                                        :
-                                        <React.Fragment>
-                                            <div style={{ cursor: "pointer", marginRight: "10px" }}>1</div>
-                                            <div style={{ cursor: "pointer" }}>2</div>
-                                        </React.Fragment>
-                                    }
-
-                                </div> */}
                             </Scrollbar>
+                            <div style={{ display: "flex", width: "100%", padding: "1em", }}>
+                                {loading ?
+                                    <div></div>
+                                    :
+                                    <PaginationFooter
+                                        page={state.page}
+                                        translate={translate}
+                                        length={data.sendsSMS.list.length}
+                                        total={data.sendsSMS.total}
+                                        limit={10}
+                                        changePage={changePage}
+                                    />
+                                }
+                            </div>
                         </div>
 
                     </React.Fragment>
