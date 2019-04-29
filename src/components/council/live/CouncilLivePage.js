@@ -147,6 +147,8 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 				companyName={!!company && company.businessName}
 				councilName={council.name}
 				translate={translate}
+				participants={state.participants}
+				toggleScreens={toggleScreens}
 			/>
 
 			<div

@@ -1,15 +1,17 @@
 import React from "react";
 import { getPrimary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
-import { AlertConfirm, Icon } from "../../../displayComponents";
-import { Paper, Tooltip } from 'material-ui';
+import { AlertConfirm, Icon, BasicButton, ButtonIcon } from "../../../displayComponents";
+import { Paper, Tooltip, IconButton } from 'material-ui';
 import logo from "../../../assets/img/logo.png";
 import icono from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
 
+
+
 class LiveHeader extends React.Component {
 	state = {
-		showConfirm: false
+		showConfirm: false,
 	};
 
 	exitAction = () => {
@@ -21,6 +23,8 @@ class LiveHeader extends React.Component {
 			councilName,
 			translate,
 			windowSize,
+			participants,
+			toggleScreens,
 		} = this.props;
 		const primary = getPrimary();
 
@@ -69,7 +73,7 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "10%",
+							width: "18%",
 							display: "flex",
 							flexDirection: "row",
 							justifyContent: "flex-end",
@@ -81,7 +85,36 @@ class LiveHeader extends React.Component {
                      style={{fontSize: '1.5em', color: 'white'}}
                      >
                      help
-                     </Icon>*/}
+					 </Icon>*/}
+						<BasicButton
+							text={
+								participants
+									? translate.agenda
+									: translate.participants
+							}
+							color={"white"}
+							textStyle={{
+								color: primary,
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							textPosition="after"
+							icon={
+								<i className="material-icons">
+									{participants
+										? "developer_board"
+										: "group"
+									}
+								</i>
+							}
+							onClick={toggleScreens}
+							buttonStyle={{
+								marginRight: "1em",
+								border: `2px solid ${primary}`
+							}}
+						/>
+						
 						<Icon
 							className="material-icons"
 							style={{
