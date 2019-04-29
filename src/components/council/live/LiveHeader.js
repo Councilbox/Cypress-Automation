@@ -59,7 +59,7 @@ class LiveHeader extends React.Component {
 					<div
 						style={{
 							width: "35%",
-							marginRight: "10%",
+							// marginRight: "10%",
 							whiteSpace: 'nowrap',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
@@ -73,11 +73,12 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "18%",
+							width: "20%",
 							display: "flex",
 							flexDirection: "row",
 							justifyContent: "flex-end",
-							paddingRight: "2em"
+							paddingRight: "2em",
+							alignItems: "center"
 						}}
 					>
 						{/*<Icon
@@ -97,11 +98,11 @@ class LiveHeader extends React.Component {
 								color: primary,
 								fontWeight: "700",
 								fontSize: "0.9em",
-								textTransform: "none"
+								textTransform: "none",
 							}}
 							textPosition="after"
 							icon={
-								<i className="material-icons">
+								<i className="material-icons" style={{ marginLeft: "5px" }}>
 									{participants
 										? "developer_board"
 										: "group"
@@ -111,7 +112,9 @@ class LiveHeader extends React.Component {
 							onClick={toggleScreens}
 							buttonStyle={{
 								marginRight: "1em",
-								border: `2px solid ${primary}`
+								border: `2px solid ${primary}`,
+								paddingBottom: "0",
+								paddingTop: "0"
 							}}
 						/>
 						

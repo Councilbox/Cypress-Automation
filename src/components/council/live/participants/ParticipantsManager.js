@@ -17,7 +17,7 @@ const initialState = {
     view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
 }
 
-const ParticipantsManager = ({ client, translate, council }) => {
+const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
     const [state, setState] = useOldState(initialState);
     const [participants, setParticipants] = React.useState(null);
     const [filters, setFilters] = useOldState({
@@ -229,7 +229,8 @@ const ParticipantsManager = ({ client, translate, council }) => {
                 overflowX: 'hidden',
                 padding: 0,
                 margin: '0.6em',
-                outline: 0
+                outline: 0,
+                ...stylesDiv
             }}
         >
             <i
@@ -238,9 +239,11 @@ const ParticipantsManager = ({ client, translate, council }) => {
                     position: 'absolute',
                     zIndex: 600,
                     cursor: 'pointer',
-                    top: isMobile? '2.5em' : '1.8em',
+                    top: isMobile? '2.5em' : '1.2em',
+                    // top: isMobile? '2.5em' : '1.8em',
                     right: '1em',
-                    color: secondary
+                    color: secondary,
+                    background: "white"
                 }}
                 onClick={toggleSettings}
             >

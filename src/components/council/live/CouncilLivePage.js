@@ -1,5 +1,5 @@
 import React from "react";
-import { FabButton, Icon, LoadingMainApp } from "../../../displayComponents";
+import { FabButton, Icon, LoadingMainApp, TabsScreen } from "../../../displayComponents";
 import LiveHeader from "./LiveHeader";
 import { darkGrey, lightGrey } from "../../../styles/colors";
 import { graphql } from "react-apollo";
@@ -15,13 +15,14 @@ import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
 import { useOldState } from "../../../hooks";
+import { isMobile } from "react-device-detect";
 const calcMinWidth = () => window.innerWidth * 0.33 > 450 ? 33 : 100 / (window.innerWidth / 450);
-const calcMinHeight = () => window.innerHeight * 0.42 > 300? "42vh" : '300px';
+const calcMinHeight = () => window.innerHeight * 0.42 > 300 ? "42vh" : '300px';
 
 let minVideoWidth = calcMinWidth();
 let minVideoHeight = calcMinHeight();
 
-const CouncilLivePage = ({ translate, data, ...props}) => {
+const CouncilLivePage = ({ translate, data, ...props }) => {
 	const [state, setState] = useOldState({
 		participants: true,
 		wall: false,
@@ -36,7 +37,7 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 	const company = props.companies.list[props.companies.selected];
 
 	React.useEffect(() => {
-		if(!data.loading){
+		if (!data.loading) {
 			checkCouncilState(
 				{
 					state: data.council.state,
@@ -81,9 +82,9 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 			});
 		}
 
-		if(agendaManager.current){
-			if(agendaManager.current.wrappedInstance){
-				if(agendaManager.current.wrappedInstance.state.editedVotings){
+		if (agendaManager.current) {
+			if (agendaManager.current.wrappedInstance) {
+				if (agendaManager.current.wrappedInstance.state.editedVotings) {
 					return agendaManager.current.wrappedInstance.showVotingsAlert(cb);
 				} else {
 					return cb();
@@ -155,7 +156,7 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 				style={{
 					position: "absolute",
 					bottom: "5%",
-					right: state.fullScreen? "5%" : "2%",
+					right: state.fullScreen ? "5%" : "2%",
 					display: "flex",
 					flexDirection: "column",
 					zIndex: 2
@@ -193,7 +194,7 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 										/>
 									</div>
 								</Badge>
-							:
+								:
 								<div style={{ marginBottom: "0.3em" }}>
 									<FabButton
 										icon={
@@ -377,35 +378,85 @@ const CouncilLivePage = ({ translate, data, ...props}) => {
 								? 100 - state.videoWidth - '0.5'
 								: 100
 							}%`,
-						height: "100%"
+						height: "100%",
+						marginLeft: "5px",
 					}}
 				>
-					{state.participants && !state.fullScreen ? (
-						<ParticipantsManager
-							translate={translate}
-							participants={
-								data.council.participants
-							}
-							council={council}
-						/>
-					) : (
-							<AgendaManager
-								ref={agendaManager}
-								recount={data.councilRecount}
-								council={council}
-								company={company}
+					{isMobile ?
+						state.participants && !state.fullScreen ? (
+							<ParticipantsManager
 								translate={translate}
-								fullScreen={state.fullScreen}
-								refetch={data.refetch}
-								openMenu={() =>
-									setState({
-										videoWidth: minVideoWidth,
-										videoHeight: minVideoHeight,
-										fullScreen: false
-									})
+								participants={
+									data.council.participants
 								}
+								council={council}
 							/>
-						)}
+						) : (
+								<AgendaManager
+									ref={agendaManager}
+									recount={data.councilRecount}
+									council={council}
+									company={company}
+									translate={translate}
+									fullScreen={state.fullScreen}
+									refetch={data.refetch}
+									openMenu={() =>
+										setState({
+											videoWidth: minVideoWidth,
+											videoHeight: minVideoHeight,
+											fullScreen: false
+										})
+									}
+								/>
+							)
+						:
+						<TabsScreen
+							uncontrolled={true}
+							styles={{ height: "calc( 100% - 1em )", marginTop: "5px" }}
+							tabsInfo={[
+								{
+									text: translate.participants,
+									component: () => {
+										return (
+											<ParticipantsManager
+												stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+												translate={translate}
+												participants={
+													data.council.participants
+												}
+												council={council}
+											/>
+										);
+									}
+								},
+								{
+									text: translate.agenda,
+									component: () => {
+										return (
+											<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )",width: "100%" }}>
+												<AgendaManager
+													ref={agendaManager}
+													recount={data.councilRecount}
+													council={council}
+													company={company}
+													translate={translate}
+													fullScreen={state.fullScreen}
+													refetch={data.refetch}
+													openMenu={() =>
+														setState({
+															videoWidth: minVideoWidth,
+															videoHeight: minVideoHeight,
+															fullScreen: false
+														})
+													}
+												/>
+											</div>
+										);
+									}
+								},
+							]}
+						/>
+					}
 				</div>
 			</div>
 		</div>

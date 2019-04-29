@@ -20,7 +20,7 @@ class AgendaSelector extends React.Component {
 	}
 
 	render() {
-		const { agendas, translate, council, onClick, selected } = this.props;
+		const { agendas, translate, council, onClick, selected, stylesDiv } = this.props;
 
 		return (
 			<div
@@ -31,14 +31,14 @@ class AgendaSelector extends React.Component {
 					display: "flex",
 					alignItems: "center",
 				}}
-			>
+				>
 				<div
 					style={{
 						marginBottom: "0.8em",
 						marginTop: '1.2em',
 						flexDirection: "column",
 						display: "flex",
-						alignItems: "center"
+						alignItems: "center",
 					}}
 				>
 					{agendas.map((agenda, index) => {

@@ -29,6 +29,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 				style={{
 					width: '98%',
 					marginRight: '5%',
+					marginBottom:"10px",
 					height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
 					...(layout !== 'squares' ? {
 						height: '3.2em',
@@ -42,7 +43,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 						width: "100%",
 						height: '100%',
 						borderRadius: '2px',
-						padding: '0px 2px',
+						padding: '2px 2px',
 						textOverflow: "ellipsis",
 						overflow: "hidden",
 					}}

@@ -6,7 +6,7 @@ import Tabs from 'antd/lib/tabs';
 import CBXFooter from './CBXFooter';
 import { bHistory } from "../containers/App";
 
-const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowSize }) => {
+const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles }) => {
 	const [selectedTab, setSelected] = React.useState(0);
 
 	React.useEffect(() => {
@@ -37,13 +37,14 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 				flexDirection: "column",
 				borderBottom: '1px solid gainsboro',
 				borderRadius: '4px',
+				...styles
 			}}
 			className="card-container"
 		>
 			<Tabs
 				activeKey={''+selectedTab}
 				type="card"
-				style={{ width: '100%', height: '100%', paddingBottom: '1em' }}
+				style={{ width: '100%', height: '100%', paddingBottom: '1em',  }}
 				onChange={handleChange}
 			>
 				{tabsInfo.map((tab, index) => {
