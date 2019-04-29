@@ -171,7 +171,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         ))}
                                     </TableBody>
                                 </Table>
-                                <div style={{ display: "flex", width: "100%", textAlign: "right" }}>
+                                {/* <div style={{ display: "flex", width: "100%", textAlign: "right" }}>
                                     {loading ?
                                         <div></div>
                                         :
@@ -181,7 +181,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         </React.Fragment>
                                     }
 
-                                </div>
+                                </div> */}
                             </Scrollbar>
                         </div>
 
