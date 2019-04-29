@@ -316,7 +316,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 									</TableCell>
 									<TableCell>
 										{vote.author.numParticipations > 0 && `${
-											vote.numParticipations > 0? vote.numParticipations : ''
+											vote.author.numParticipations > 0? vote.author.numParticipations : ''
 										}`}
 										{!!vote.representing &&
 											`${
