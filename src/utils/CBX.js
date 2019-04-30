@@ -256,8 +256,8 @@ export const getSMSStatusByCode = reqCode => {
     const status = {
         22: 'Entregado',
         20: 'Enviado',
-        '-2': 'Número no válido',
-        default: 'Fallido'
+        '-2': <span style={{color: 'red'}}>Número no válido</span>,
+        default: <span style={{color: 'red'}}>Fallido</span>
     }
 
     return status[reqCode]? status[reqCode] : status.default;
