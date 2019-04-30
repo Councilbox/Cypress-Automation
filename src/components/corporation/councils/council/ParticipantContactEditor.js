@@ -5,104 +5,166 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { resendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
+import { useOldState } from '../../../../hooks';
+import { updateParticipantSends } from '../../../../queries';
 
-class ParticipantContactEditor extends React.Component {
-
-    state = {
-        email: this.props.participant.email,
-        phone: this.props.participant.phone,
+const ParticipantContactEditor = ({ translate, council, updateParticipantSends, sendAccessKey, participant, ...props }) => {
+    const [state, setState] = useOldState({
+        email: participant.email,
+        phone: participant.phone,
         sendsLoading: false,
         loading: false
-    }
+    });
+    const secondary = getSecondary();
 
-    updateParticipantContactInfo = async () => {
-        this.setState({
+
+    const updateParticipantContactInfo = async () => {
+        setState({
             loading: true
         });
 
-        const response = await this.props.updateParticipantContactInfo({
+        await props.updateParticipantContactInfo({
             variables: {
-                participantId: this.props.participant.id,
-                email: this.state.email,
-                phone: this.state.phone
+                participantId: participant.id,
+                email: state.email,
+                phone: state.phone
             }
         })
-        this.setState({
+        setState({
             loading: false
         });
     }
 
-    resendRoomEmails = async () => {
-        this.setState({
+    const resendRoomEmails = async () => {
+        setState({
             sendsLoading: true
         });
 
-        await this.props.resendRoomEmails({
+        await props.resendRoomEmails({
 			variables: {
-				councilId: this.props.council.id,
+				councilId: council.id,
 				timezone: moment().utcOffset(),
-				participantsIds: [this.props.participant.id]
+				participantsIds: [participant.id]
 			}
         });
 
-        this.props.refetch();
+        props.refetch();
 
-        this.setState({
+        setState({
             sendsLoading: false
         });
     }
 
-    updateEmail = event => {
-        this.setState({
+    const refreshEmailStates = async () => {
+		setState({
+			sendsLoading: true
+		});
+		const response = await updateParticipantSends({
+			variables: {
+				participantId: participant.id
+			}
+		});
+
+		if (response.data.updateParticipantSends.success) {
+			props.refetch();
+			setState({
+				sendsLoading: false
+			});
+		}
+	};
+
+    const resendRoomAccessKey = async () => {
+        setState({
+            sendsLoading: true
+        });
+        const response = await sendAccessKey({
+            variables: {
+                councilId: council.id,
+                participantIds: [participant.id],
+                timezone: moment().utcOffset()
+            }
+        });
+
+        if(response.errors){
+            if(response.errors[0].message = 'Invalid phone number'){
+                setState({
+                    phoneError: translate.invalid_phone_number,
+                    loading: false
+                });
+            }
+        } else {
+            setState({
+                sendsLoading: false,
+                phoneError: ''
+            });
+            props.refetch();
+        }
+    }
+
+    const updateEmail = event => {
+        setState({
             email: event.target.value
         });
     }
 
-    updatePhone = event => {
-        this.setState({
+    const updatePhone = event => {
+        setState({
             phone: event.target.value
         });
     }
 
-    render(){
-        const secondary = getSecondary();
-
-        return (
-            <div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextInput
-                        value={this.state.email}
-                        floatingText={this.props.translate.email}
-                        onChange={this.updateEmail}
-                    />
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextInput
-                        value={this.state.phone}
-                        floatingText={this.props.translate.phone}
-                        onChange={this.updatePhone}
-                    />
-                </div>
-                <div style={{display: 'flex'}}>
-                    <BasicButton
-                        color={secondary}
-                        text="Reenviar credenciales a este participante"
-                        textStyle={{ color: 'white', fontWeight: '700' }}
-                        loading={this.state.sendsLoading}
-                        onClick={this.resendRoomEmails}
-                    />
-                    <BasicButton
-                        color={secondary}
-                        text="Guardar"
-                        onClick={this.updateParticipantContactInfo}
-                        loading={this.state.loading}
-                        textStyle={{ color: 'white', fontWeight: '700' }}
-                    />
-                </div>
+    return (
+        <div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <TextInput
+                    value={state.email}
+                    floatingText={translate.email}
+                    onChange={updateEmail}
+                />
             </div>
-        )
-    }
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <TextInput
+                    value={state.phone}
+                    floatingText={translate.phone}
+                    onChange={updatePhone}
+                />
+            </div>
+            <div style={{display: 'flex'}}>
+                <BasicButton
+                    color={secondary}
+                    text="Reenviar credenciales a este participante"
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                    loading={state.sendsLoading}
+                    onClick={resendRoomEmails}
+                />
+                <BasicButton
+                    color={secondary}
+                    text="Guardar"
+                    onClick={updateParticipantContactInfo}
+                    loading={state.loading}
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                />
+                <BasicButton
+                    color={secondary}
+                    text="Actualizar"
+                    onClick={refreshEmailStates}
+                    loading={state.sendsLoading}
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                />
+                {council.securityType !== 0 &&
+                    <BasicButton
+                        color={secondary}
+                        text="Enviar contraseña de entrada"
+                        onClick={resendRoomAccessKey}
+                        loading={state.sendsLoading}
+                        textStyle={{ color: 'white', fontWeight: '700' }}
+                    />
+                }
+            </div>
+        </div>
+    )
 }
+
 
 const updateParticipantContactInfo = gql`
     mutation UpdateParticipantContactInfo($participantId: Int!, $email: String!, $phone: String!){
@@ -113,11 +175,26 @@ const updateParticipantContactInfo = gql`
     }
 `;
 
+const sendParticipantRoomKey = gql`
+    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
+        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+            success
+        }
+    }
+`;
+
+
 export default compose(
     graphql(updateParticipantContactInfo, {
         name: 'updateParticipantContactInfo'
     }),
+    graphql(updateParticipantSends, {
+		name: "updateParticipantSends"
+	}),
     graphql(resendRoomEmails, {
         name: 'resendRoomEmails'
+    }),
+    graphql(sendParticipantRoomKey, {
+        name: 'sendAccessKey'
     })
 )(ParticipantContactEditor);

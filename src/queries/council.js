@@ -231,6 +231,7 @@ export const councilRecount = gql`
 		councilRecount(councilId: $councilId) {
 			numTotal
 			partTotal
+			weighedPartTotal
 			socialCapitalTotal
 			numRemote
 			partRemote

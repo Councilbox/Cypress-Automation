@@ -11,7 +11,7 @@ if(process.env.REACT_APP_MODE === 'dev'){
 
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = '2.3.1';
+export const CLIENT_VERSION = '2.4.1';
 export const API_URL = LOCATION_URL;
 export const videoVersions = {
 	CMP: 'CMP',
@@ -23,6 +23,7 @@ export const config = {
 }
 
 export const CONTACT_URL = "https://www.councilbox.com/contactar/";
+export const CONSENTIO_ID = 443;
 export const TRIAL_DAYS = 5;
 
 // POINT CLIENT TO VPS SERVER

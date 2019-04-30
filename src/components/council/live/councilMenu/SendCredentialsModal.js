@@ -4,91 +4,111 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { sendVideoEmails } from "../../../../queries";
 import { moment } from '../../../../containers/App';
+import { useOldState } from '../../../../hooks';
+import FailedSMSMessage from "./FailedSMSMessage";
+import LiveSMS from "./LiveSMS";
 
-class SendCredentialsModal extends React.Component {
-	state = {
+
+const SendCredentialsModal = ({ translate, council, requestClose, ...props }) => {
+	const [state, setState] = useOldState({
 		success: "",
 		error: "",
 		sendAgenda: false,
-		sendType: 'all'
-	};
+		sendType: 'all',
+		showSMS: false
+	});
 
-	close = () => {
-		this.props.requestClose();
-		this.setState({
+	const close = () => {
+		requestClose();
+		setState({
 			success: false,
+			error: null,
+			showSMS: false,
 			sending: false,
 			error: false,
 			sendAgenda: false
 		});
 	};
 
-	sendAll = () => {
-		this.setState({
+	const sendAll = () => {
+		setState({
 			sendType: 'all'
 		});
 	}
 
-	sendNoEnter = () => {
-		this.setState({
+	const sendNoEnter = () => {
+		setState({
 			sendType: 'noEnter'
 		});
 	}
 
-	sendVideoEmails = async () => {
-		this.setState({
+	const sendVideoEmails = async () => {
+		setState({
 			sending: true
 		});
-		const response = await this.props.sendVideoEmails({
+		const response = await props.sendVideoEmails({
 			variables: {
-				councilId: this.props.council.id,
+				councilId: council.id,
 				timezone: moment().utcOffset(),
-				type: this.state.sendType
+				type: state.sendType
 			}
 		});
 		if (response.data.sendRoomEmails.success) {
-			this.setState({
+			setState({
+				error: response.data.sendRoomEmails.message,
 				sending: false,
 				success: true
 			});
 		} else {
-			this.setState({
+			setState({
 				sending: false,
 				error: true
 			});
 		}
-	};
+	}
 
-	_renderBody() {
-		const { translate } = this.props;
-
-		if (this.state.sending) {
+	function _renderBody() {
+		if (state.sending) {
 			return <div>{translate.sending}</div>;
 		}
 
-		if (this.state.success) {
+		if(state.showSMS){
+			return (
+				<LiveSMS
+					translate={translate}
+					council={council}
+				/>
+			)
+		}
+
+		if(state.error === 'Failed SMS'){
+			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
+
+		}
+
+		if (state.success) {
 			return (
 				<div style={{width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 					<SuccessMessage message={translate.sent} />
 				</div>
 			);
 		}
-
+		//TRADUCCION
 		return (
 			<div>
 				{translate.send_to}
 				<br/>
 				<Radio
 					value={"all"}
-					checked={this.state.sendType === 'all'}
-					onChange={this.sendAll}
+					checked={state.sendType === 'all'}
+					onChange={sendAll}
 					name="sendType"
 					label="Todos"
 				/><br/>
 				<Radio
 					value={"noEnter"}
-					checked={this.state.sendType === 'noEnter'}
-					onChange={this.sendNoEnter}
+					checked={state.sendType === 'noEnter'}
+					onChange={sendNoEnter}
 					name="sendType"
 					label='No han entrado a la sala'
 				/>
@@ -96,29 +116,21 @@ class SendCredentialsModal extends React.Component {
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
-
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				loadingAction={this.state.sending}
-				acceptAction={
-					this.state.success
-						? () => this.close()
-						: this.sendVideoEmails
-				}
-				buttonAccept={
-					this.state.success ? translate.accept : translate.send
-				}
-				buttonCancel={translate.close}
-				bodyText={this._renderBody()}
-				title={translate.send_video_credentials}
-			/>
-		);
-	}
+	return (
+		<AlertConfirm
+			requestClose={close}
+			open={props.show}
+			loadingAction={state.sending}
+			acceptAction={state.success? () => close() : sendVideoEmails}
+			buttonAccept={state.success ? translate.accept : translate.send}
+			hideAccept={state.error || state.showSMS}
+			buttonCancel={translate.close}
+			bodyText={_renderBody()}
+			title={translate.send_video_credentials}
+		/>
+	)
 }
+
 
 export default graphql(sendVideoEmails, {
 	name: "sendVideoEmails"

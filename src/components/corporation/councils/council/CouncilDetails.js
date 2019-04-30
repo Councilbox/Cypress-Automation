@@ -16,6 +16,7 @@ import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import LiveParticipantStats from './LiveParticipantStats';
+import FailedSMSList from './FailedSMSList';
 
 
 class CouncilDetails extends React.Component {
@@ -329,6 +330,12 @@ class CouncilDetails extends React.Component {
 						requestClose={this.closeCredsModal}
 						translate={translate}
 					/>
+					{council.securityType === 2 &&
+						<FailedSMSList
+							council={council}
+							translate={translate}
+						/>
+					}
                 </div>
 				<div
                     style={{
@@ -514,6 +521,7 @@ const CouncilDetailsRoot = gql`
 
 		councilRecount(councilId: $id) {
 			socialCapitalTotal
+			weighedPartTotal
 			partTotal
 			numTotal
 			socialCapitalRightVoting

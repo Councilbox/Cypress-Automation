@@ -117,6 +117,7 @@ const CouncilActData = gql`
 		councilRecount(councilId: $councilId){
 			socialCapitalTotal
 			partTotal
+			weighedPartTotal
 			numTotal
 		}
 

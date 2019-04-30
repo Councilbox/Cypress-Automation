@@ -31,7 +31,9 @@ const TextInput = ({
 	helpDescription,
 	id,
 	max,
-	disabled
+	disabled,
+	styles,
+	clasName
 }) => (
 	<FormControl
 		style={{
@@ -40,6 +42,7 @@ const TextInput = ({
 		}}
 	>
 		<TextField
+			className={clasName}
 			onBlur={onBlur}
 			label={
 				<div style={{display: 'flex'}}>
@@ -66,7 +69,8 @@ const TextInput = ({
 			multiline={multiline}
 			style={{
 				marginTop: 0,
-				width: "100%"
+				width: "100%",
+				...styles
 			}}
 			placeholder={placeholder}
 			InputLabelProps={{

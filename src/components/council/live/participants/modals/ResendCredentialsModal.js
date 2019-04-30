@@ -4,94 +4,155 @@ import {
 } from "../../../../../queries/liveParticipant";
 import {
 	CustomDialog,
-	BasicButton
+	BasicButton,
+	DropDownMenu
 } from "../../../../../displayComponents";
 import { getPrimary, getSecondary } from "../../../../../styles/colors";
 import FontAwesome from "react-fontawesome";
-import { graphql } from "react-apollo";
+import { graphql, compose } from "react-apollo";
 import { moment } from "../../../../../containers/App";
 import { isMobile } from 'react-device-detect';
+import { MenuItem } from 'material-ui';
+import gql from 'graphql-tag';
 
+const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
+	const [modal, setModal] = React.useState(false);
+	const [phoneError, setPhoneError] = React.useState(false);
+	const primary = getPrimary();
+	const translation = translate.sure_send_video.replace(
+		"{{name}}",
+		`${participant.name} ${participant.surname}`
+	);
 
-class ResendCredentialsModal extends React.Component {
-	state = {
-		modal: false
-	};
+	const close = () => {
+		setModal(false);
+	}
 
-	close = () => {
-		this.setState({ modal: false });
-	};
-
-	resend = async () => {
-		const response = await this.props.resendRoomEmails({
+	const resend = async () => {
+		const response = await props.resendRoomEmails({
 			variables: {
-				councilId: this.props.council.id,
+				councilId: council.id,
 				timezone: moment().utcOffset(),
-				participantsIds: [this.props.participant.id]
+				participantsIds: [participant.id]
 			}
 		});
 		if (!response.errors) {
-			this.props.refetch();
-			this.close();
+			props.refetch();
+			close();
 		}
-	};
+	}
 
-	openModal = () => {
-		this.setState({ modal: true });
-	};
+	const resendOnlyAccessLink = async () => {
+		const response = await props.resendRoomEmails({
+			variables: {
+				councilId: council.id,
+				timezone: moment().utcOffset(),
+				participantsIds: [participant.id],
+				onlyAccessLink: true
+			}
+		});
+		if (!response.errors) {
+			props.refetch();
+			close();
+		}
+	}
 
-	render() {
-		const { translate, participant } = this.props;
-		const primary = getPrimary();
-		const translation = translate.sure_send_video.replace(
-			"{{name}}",
-			`${participant.name} ${participant.surname}`
-		);
+	const sendKey = async () => {
+        const response = await sendAccessKey({
+            variables: {
+                councilId: council.id,
+                participantIds: [participant.id],
+                timezone: moment().utcOffset()
+            }
+        });
 
-		return (
-			<React.Fragment>
+        if(response.errors){
+            if(response.errors[0].message = 'Invalid phone number'){
+                setPhoneError(true);
+                //translate.invalid_phone_number,
+            }
+        } else {
+            props.refetch();
+        }
+	}
+
+	const openModal = () => {
+		setModal(true);
+	}
+
+	return (
+		<React.Fragment>
+			{props.security?
+				<DropDownMenu
+					color="transparent"
+					Component={() =>
+						<ResendButton
+							translate={translate}
+							active={participant.signed === 1}
+						/>
+					}
+					textStyle={{ color: primary }}
+					type="flat"
+					items={
+						<React.Fragment>
+							<MenuItem onClick={resendOnlyAccessLink}>
+								Enviar email de acceso
+							</MenuItem>
+							<MenuItem onClick={sendKey}>
+								Enviar clave de entrada
+							</MenuItem>
+							<MenuItem onClick={resend}>
+								Enviar ambos
+							</MenuItem>
+						</React.Fragment>
+					}
+				/>
+			:
 				<ResendButton
-					action={this.openModal}
+					action={openModal}
 					translate={translate}
 					active={participant.signed === 1}
 				/>
-				<CustomDialog
-					title={translate.attention}
-					requestClose={this.close}
-					open={this.state.modal}
-					actions={
-						<React.Fragment>
-							<BasicButton
-								text={translate.cancel}
-								type="flat"
-								textStyle={{
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								onClick={this.close}
-							/>
-							<BasicButton
-								text={translate.continue}
-								textStyle={{
-									color: "white",
-									textTransform: "none",
-									fontWeight: "700"
-								}}
-								buttonStyle={{ marginLeft: "1em" }}
-								color={primary}
-								onClick={() => {
-									this.resend();
-								}}
-							/>
-						</React.Fragment>
-					}
-				>
-					<div style={{ width: "400px" }}>{translation}</div>
-				</CustomDialog>
-			</React.Fragment>
-		);
-	}
+			}
+			<CustomDialog
+				title={translate.attention}
+				requestClose={close}
+				open={modal}
+				actions={
+					<React.Fragment>
+						<BasicButton
+							text={translate.cancel}
+							type="flat"
+							textStyle={{
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							onClick={close}
+						/>
+						<BasicButton
+							text={translate.continue}
+							textStyle={{
+								color: "white",
+								textTransform: "none",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginLeft: "1em" }}
+							color={primary}
+							onClick={() => {
+								resend();
+							}}
+						/>
+					</React.Fragment>
+				}
+			>
+				<div style={{ width: "400px" }}>{translation}</div>
+			</CustomDialog>
+		</React.Fragment>
+	)
+
 }
+
+
 
 const ResendButton = ({ active, action, translate }) => {
 	return (
@@ -124,11 +185,24 @@ const ResendButton = ({ active, action, translate }) => {
 			</BasicButton>
 		// </Tooltip>
 	);
-};
+}
 
-export default graphql(resendRoomEmails, {
-	name: "resendRoomEmails",
-	options: {
-		errorPolicy: "all"
-	}
-})(ResendCredentialsModal);
+const sendParticipantRoomKey = gql`
+    mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!){
+        sendParticipantRoomKey(participantsIds: $participantIds, councilId: $councilId, timezone: $timezone){
+            success
+        }
+    }
+`;
+
+export default compose(
+	graphql(resendRoomEmails, {
+		name: "resendRoomEmails",
+		options: {
+			errorPolicy: "all"
+		}
+	}),
+	graphql(sendParticipantRoomKey, {
+		name: 'sendAccessKey'
+	})
+)(ResendCredentialsModal);

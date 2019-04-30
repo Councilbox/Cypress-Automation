@@ -320,7 +320,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 										}`}
 										{!!vote.representing &&
 											`${
-												vote.representing[0].author.numParticipations > 0 && vote.representing[0].author.numParticipations
+												vote.numParticipations > 0 && vote.numParticipations
 											}`
 										}
 										{!!vote.delegatedVotes &&
@@ -328,7 +328,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 												<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 													<br/>
 													{`${
-														delegatedVote.author.numParticipations > 0 && delegatedVote.author.numParticipations
+														delegatedVote.numParticipations > 0 && delegatedVote.numParticipations
 													}`}
 												</React.Fragment>
 											))

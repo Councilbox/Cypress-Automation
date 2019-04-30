@@ -327,7 +327,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 	return (
 		<CardPageLayout title={translate.statutes} disableScroll={true}>
 			{companyStatutes.length > 0? (
-				<React.Fragment>
+				<div style={{height:"calc( 100% - 4em )", paddingRight: "0"}} >
 					<VTabs
 						tabs={tabs}
 						changeTab={handleStatuteChange}
@@ -429,7 +429,7 @@ const StatutesPage = ({ data, translate, client, ...props }) => {
 							</React.Fragment>
 						)}
 					</VTabs>
-				</React.Fragment>
+				</div>
 			) : (
 				<div
 					style={{

@@ -466,3 +466,23 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 
 .colorTable:nth-child(odd) { background: gainsboro }
 .colorTable { padding-left: 5px }
+
+.noMargin>div{
+    margin: 0;
+    min-width:830px
+}
+
+.noMarginM>div{
+    margin: 0;
+    width: 100%
+}
+
+.inputTableSMS>div{
+    position: inherit;
+    margin-top: 0px!important;
+
+}
+.inputTableSMS>div>input{
+    padding-left: 5px
+
+}

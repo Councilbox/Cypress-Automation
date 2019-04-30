@@ -5,79 +5,118 @@ import {
 	LoadingSection,
 	ParticipantRow,
 	TextInput,
+	Scrollbar,
 	LiveToast
 } from "../../../displayComponents";
 import { Typography } from "material-ui";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
-import Scrollbar from "react-perfect-scrollbar";
 import { addDelegation } from "../../../queries/liveParticipant";
 import { toast } from "react-toastify";
 
-class DelegateOwnVoteModal extends React.Component {
-	state = {
-		success: "",
-		errors: {}
-	};
+const DelegateOwnVoteModal = ({ translate, participant, show, client, council, ...props }) => {
+	const [data, setData] = React.useState({});
+	const [loading, setLoading] = React.useState(true);
+	const [filters, setFilters] = React.useState({
+		text: ''
+	});
+	const [options, setOptions] = React.useState({
+		offset: 0,
+		limit: DELEGATION_USERS_LOAD
+	})
 
-	componentDidUpdate(prevProps) {
-		if (!prevProps.show && this.props.show) {
-			this.props.data.refetch();
+	const getData = React.useCallback(async () => {
+		setLoading(true);
+		const response = await client.query({
+			query: participantsToDelegate,
+			variables: buildVariables()
+		});
+
+		setData(response.data);
+		setLoading(false);
+	}, [filters.text, participant.id]);
+
+	const getMore = React.useCallback(async () => {
+		if(options.offset !== 0){
+			setLoading(true);
+			const response = await client.query({
+				query: participantsToDelegate,
+				variables: buildVariables()
+			});
+			setData({
+				...data,
+				liveParticipantsToDelegate: {
+					...data.liveParticipantsToDelegate,
+					list: [
+						...data.liveParticipantsToDelegate.list,
+						...response.data.liveParticipantsToDelegate.list
+					]
+				}
+			});
+			setLoading(false);
 		}
+	}, [options.offset]);
+
+	React.useEffect(() => {
+		getMore();
+	}, [getMore]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	const buildVariables = () => {
+		const variables = {
+			councilId: council.id,
+			participantId: participant.id,
+		}
+
+		if(filters.text){
+			variables.filters = [{
+				field: "fullName",
+				text: filters.text
+			}]
+		}
+
+		variables.options = options;
+
+		console.log(variables);
+
+		return variables;
 	}
 
-	loadMore = () => {
-		this.props.data.fetchMore({
-			variables: {
-				options: {
-					offset: this.props.data.liveParticipantsToDelegate.list
-						.length,
-					limit: DELEGATION_USERS_LOAD
-				}
-			},
-			updateQuery: (prev, { fetchMoreResult }) => {
-				if (!fetchMoreResult) {
-					return prev;
-				}
-				return {
-					...prev,
-					liveParticipantsToDelegate: {
-						...prev.liveParticipantsToDelegate,
-						list: [
-							...prev.liveParticipantsToDelegate.list,
-							...fetchMoreResult.liveParticipantsToDelegate.list
-						]
-					}
-				};
-			}
+	const loadMore = () => {
+		setOptions({
+			offset: data.liveParticipantsToDelegate.list.length,
+			limit: DELEGATION_USERS_LOAD
 		});
-	};
+	}
 
-	close = () => {
-		this.props.requestClose();
-	};
+	const close = () => {
+		props.requestClose();
+	}
 
-	delegateVote = async id => {
+	const delegateVote = async id => {
 		//For attendance
-		if (this.props.addRepresentative) {
-			this.props.addRepresentative(id);
+		if (props.addRepresentative) {
+			props.addRepresentative(id);
 		} else {
-			let response = await this.props.delegateVote(
+			let response = await props.delegateVote(
 				{
 					variables: {
-						participantId: this.props.participant.id,
+						participantId: participant.id,
 						delegateId: id
 					}
 				}
 			);
 			if (!response.errors) {
-				this.props.refetch();
-				this.close();
+				props.refetch();
+				close();
 			} else if (response.errors[0].code === 710) {
 				toast(
 					<LiveToast
-						message={this.props.translate.just_delegate_vote}
+						message={translate.just_delegate_vote}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
@@ -87,7 +126,7 @@ class DelegateOwnVoteModal extends React.Component {
 			} else if (response.errors[0].code === 711) {
 				toast(
 					<LiveToast
-						message={this.props.translate.number_of_delegated_votes_exceeded}
+						message={translate.number_of_delegated_votes_exceeded}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
@@ -97,7 +136,7 @@ class DelegateOwnVoteModal extends React.Component {
 			} else if (response.errors[0].code === 715) {
 				toast(
 					<LiveToast
-						message={this.props.translate.cant_delegate_has_delegated_votes}
+						message={translate.cant_delegate_has_delegated_votes}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
@@ -106,29 +145,19 @@ class DelegateOwnVoteModal extends React.Component {
 				)
 			}
 		}
-	};
+	}
 
-	updateFilterText = async text => {
-		await this.props.data.refetch({
-			filters: [
-				{
-					field: "fullName",
-					text: text
-				}
-			]
-		});
-	};
+	const updateFilterText = text => {
+		setFilters({ text });
+	}
 
-	_renderBody() {
-		const { translate } = this.props;
-		const { loading } = this.props.data;
-
+	function _renderBody() {
 		const participants = loading
 			? []
-			: this.props.data.liveParticipantsToDelegate.list;
+			: data.liveParticipantsToDelegate.list;
 		const { total } = loading
 			? 0
-			: this.props.data.liveParticipantsToDelegate;
+			: data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
 		return (
@@ -137,9 +166,9 @@ class DelegateOwnVoteModal extends React.Component {
 					adornment={<Icon>search</Icon>}
 					floatingText={" "}
 					type="text"
-					value={this.state.filterText}
+					value={filters.text}
 					onChange={event => {
-						this.updateFilterText(event.target.value);
+						updateFilterText(event.target.value);
 					}}
 				/>
 
@@ -153,37 +182,30 @@ class DelegateOwnVoteModal extends React.Component {
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
+							<Scrollbar>
 								{participants.length > 0 ? (
 									<React.Fragment>
-										{participants.map(participant => {
-											if (
-												participant.id !==
-												this.props.participant.id
-											) {
+										{participants.map(liveParticipant => {
+											if (liveParticipant.id !== participant.id) {
 												return (
 													<ParticipantRow
 														key={`delegateVote_${
-															participant.id
+															liveParticipant.id
 															}`}
-														council={this.props.council}
+														council={council}
 														toDelegate={true}
-														participant={participant}
-														onClick={() =>
-															this.delegateVote(
-																participant.id
-															)
-														}
+														participant={liveParticipant}
+														onClick={() => delegateVote(liveParticipant.id)}
 													/>
 												);
 											}
 											return false;
 										})}
-										{participants.length < total - 1 && (
-											<div onClick={this.loadMore}>
+										{participants.length < total && (
+											<div onClick={loadMore}>
 												{`DESCARGAR ${
 													rest > DELEGATION_USERS_LOAD
-														? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														? `${1} de ${DELEGATION_USERS_LOAD} RESTANTES`
 														: translate.all_plural.toLowerCase()
 													}`}
 											</div>
@@ -199,33 +221,21 @@ class DelegateOwnVoteModal extends React.Component {
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
+	return (
+		<AlertConfirm
+			requestClose={close}
+			open={show}
+			acceptAction={delegateVote}
+			buttonAccept={translate.send}
+			buttonCancel={translate.close}
+			bodyText={_renderBody()}
+			title={translate.to_delegate_vote}
+		/>
+	);
 
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				acceptAction={this.delegateVote}
-				buttonAccept={translate.send}
-				buttonCancel={translate.close}
-				bodyText={this._renderBody()}
-				title={translate.to_delegate_vote}
-			/>
-		);
-	}
 }
 
-export default compose(
-	graphql(participantsToDelegate, {
-		options: props => ({
-			variables: {
-				councilId: props.council.id,
-				participantId: props.participant.id
-			}
-		})
-	}),
-	graphql(addDelegation, {
-		name: "delegateVote"
-	})
-)(DelegateOwnVoteModal);
+
+export default graphql(addDelegation, {
+	name: "delegateVote"
+})(withApollo(DelegateOwnVoteModal));

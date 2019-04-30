@@ -261,7 +261,16 @@ export const canBePresentWithRemoteVote = statute => {
 export const isAnonym = subjectType => {
 	return subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
 }
+export const getSMSStatusByCode = reqCode => {
+    const status = {
+        22: 'Entregado',
+        20: 'Enviado',
+        '-2': <span style={{color: 'red'}}>Número no válido</span>,
+        default: <span style={{color: 'red'}}>Fallido</span>
+    }
 
+    return status[reqCode]? status[reqCode] : status.default;
+}
 
 export const filterAgendaVotingTypes = (votingTypes, statute, council) => {
 	if (statute.existsPresentWithRemoteVote === 1 && council.councilType < 2) {

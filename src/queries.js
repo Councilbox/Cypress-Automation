@@ -1640,6 +1640,7 @@ export const councilLiveQuery = gql`
 			socialCapitalTotal
 			partTotal
 			numTotal
+			weighedPartTotal
 			socialCapitalRightVoting
 			numRightVoting
 		}
