@@ -9,7 +9,7 @@ import ParticipantsLive from "./ParticipantsLive";
 import ParticipantsManager from "./participants/ParticipantsManager";
 import CommentWall from "./CommentWall";
 import { showVideo } from "../../../utils/CBX";
-import { Tooltip, Badge } from "material-ui";
+import { Tooltip, Badge, Tabs, Tab } from "material-ui";
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
@@ -23,6 +23,7 @@ let minVideoWidth = calcMinWidth();
 let minVideoHeight = calcMinHeight();
 
 const CouncilLivePage = ({ translate, data, ...props }) => {
+	const [value, setValue] = React.useState(0);
 	const [state, setState] = useOldState({
 		participants: true,
 		wall: false,
@@ -33,6 +34,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		videoHeight: minVideoHeight,
 		fullScreen: false
 	});
+
 	const agendaManager = React.useRef(null);
 	const company = props.companies.list[props.companies.selected];
 
@@ -410,52 +412,94 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 								/>
 							)
 						:
-						<TabsScreen
-							uncontrolled={true}
-							styles={{ height: "calc( 100% - 1em )", marginTop: "5px" }}
-							tabsInfo={[
-								{
-									text: translate.participants,
-									component: () => {
-										return (
-											<ParticipantsManager
-												stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
-												translate={translate}
-												participants={
-													data.council.participants
-												}
+						<React.Fragment>
+							<Tabs value={value}>
+								<Tab label={translate.participants} onClick={() => setValue(0)} />
+								<Tab label={translate.agenda} onClick={() => setValue(1)} />
+							</Tabs>
+							<div style={{ height: "100%" }}>
+								{value === 0 &&
+									<div style={{ height: "calc( 100% - 2em )" }}>
+										<ParticipantsManager
+											stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+											translate={translate}
+											participants={
+												data.council.participants
+											}
+											council={council}
+										/>
+									</div>
+								}
+								{value === 1 &&
+									<div style={{ height: "calc( 100% - 2em )" }}>
+									<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
+											<AgendaManager
+												ref={agendaManager}
+												recount={data.councilRecount}
 												council={council}
+												company={company}
+												translate={translate}
+												fullScreen={state.fullScreen}
+												refetch={data.refetch}
+												openMenu={() =>
+													setState({
+														videoWidth: minVideoWidth,
+														videoHeight: minVideoHeight,
+														fullScreen: false
+													})
+												}
 											/>
-										);
-									}
-								},
-								{
-									text: translate.agenda,
-									component: () => {
-										return (
-											<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )",width: "100%" }}>
-												<AgendaManager
-													ref={agendaManager}
-													recount={data.councilRecount}
-													council={council}
-													company={company}
-													translate={translate}
-													fullScreen={state.fullScreen}
-													refetch={data.refetch}
-													openMenu={() =>
-														setState({
-															videoWidth: minVideoWidth,
-															videoHeight: minVideoHeight,
-															fullScreen: false
-														})
-													}
-												/>
-											</div>
-										);
-									}
-								},
-							]}
-						/>
+										</div>
+									</div>
+								}
+							</div>
+						</React.Fragment>
+						// <TabsScreen
+						// 	uncontrolled={true}
+						// 	styles={{ height: "calc( 100% - 1em )", marginTop: "5px" }}
+						// 	tabsInfo={[
+						// 		{
+						// 			text: translate.participants,
+						// 			component: () => {
+						// 				return (
+						// 					<ParticipantsManager
+						// 						stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+						// 						translate={translate}
+						// 						participants={
+						// 							data.council.participants
+						// 						}
+						// 						council={council}
+						// 					/>
+						// 				);
+						// 			}
+						// 		},
+						// 		{
+						// 			text: translate.agenda,
+						// 			component: () => {
+						// 				return (
+						// 					<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )",width: "100%" }}>
+						// 						<AgendaManager
+						// 							ref={agendaManager}
+						// 							recount={data.councilRecount}
+						// 							council={council}
+						// 							company={company}
+						// 							translate={translate}
+						// 							fullScreen={state.fullScreen}
+						// 							refetch={data.refetch}
+						// 							openMenu={() =>
+						// 								setState({
+						// 									videoWidth: minVideoWidth,
+						// 									videoHeight: minVideoHeight,
+						// 									fullScreen: false
+						// 								})
+						// 							}
+						// 						/>
+						// 					</div>
+						// 				);
+						// 			}
+						// 		},
+						// 	]}
+						// />
 					}
 				</div>
 			</div>
