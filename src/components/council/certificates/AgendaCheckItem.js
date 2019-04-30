@@ -27,7 +27,6 @@ const AgendaCheckItem = ({ agenda, translate, updatePoints, checked }) => (
             <Typography variant="body2" style={{fontSize: '0.8em'}}>
                 {agenda.description}
             </Typography>
-            
         </div>
     </Card>
 )

@@ -9,12 +9,14 @@ import {
 	DropDownMenu,
 	PaginationFooter,
 	Icon,
+	Checkbox,
 	FilterButton,
 	TextInput,
 	Grid,
 	Table,
 	GridItem
 } from "../../../../displayComponents";
+import { updateAgendaVoting } from "../../../../queries/agenda";
 import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
@@ -257,13 +259,11 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 												}}
 											>
 												{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-													<React.Fragment>
-														{vote.vote !== -1?
-															translate.has_voted
-														:
-															translate.no_vote_lowercase
-														}
-													</React.Fragment>
+													<PrivateVotingDisplay
+														vote={vote}
+														agenda={agenda}
+														translate={translate}
+													/>
 												:
 													<React.Fragment>
 														<Tooltip
@@ -365,6 +365,59 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 		</Grid>
 	);
 }
+
+
+const PrivateVotingDisplay = graphql(updateAgendaVoting, {
+	name: "updateAgendaVoting"
+})(({ translate, agenda, vote, updateAgendaVoting, ...props }) => {
+	const [loading, setLoading] = React.useState(false);
+
+
+	const toggleVote = async () => {
+		setLoading(true);
+		await updateAgendaVoting({
+			variables: {
+				agendaVoting: {
+					id: vote.id,
+					vote: vote.vote === -1 ? -2 : -1
+				}
+			}
+		});
+		setLoading(false);
+
+	}
+
+	return (
+		<React.Fragment>
+			{agenda.votingState === 4 && vote.presentVote !== 0?
+				<React.Fragment>
+					{loading?
+						<LoadingSection />
+					:
+						<Checkbox
+							value={vote.vote !== -1}
+							label={vote.vote !== -1?
+								translate.has_voted
+							:
+								translate.no_vote_lowercase
+							}
+							onChange={toggleVote}
+						/>
+					}
+				</React.Fragment>
+			:
+				<React.Fragment>
+					{vote.vote !== -1?
+						translate.has_voted
+					:
+						translate.no_vote_lowercase
+					}
+				</React.Fragment>
+
+			}
+		</React.Fragment>
+	)
+})
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
