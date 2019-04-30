@@ -83,17 +83,10 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 	}
 
 	const getVotingClosedSection = () => {
-		/* if(council.councilType === 3){
-			return (
-				<div>
-					1
-				</div>
-			)
-		}
 
 		if(isAnonym(agenda.subjectType)){
 			return <span/>
-		} */
+		}
 
 		return (
 			<BasicButton
@@ -198,6 +191,29 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 				</React.Fragment>
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
+			{agenda.votingState === 4 &&
+				<BasicButton
+					text={translate.close_point_votations}
+					color={primary}
+					loading={loading}
+					disabled={loading}
+					textPosition="before"
+					icon={
+						<ButtonIcon
+							type="lock_open"
+							color="white"
+						/>
+					}
+					buttonStyle={{ width: "18em" }}
+					onClick={closeAgendaVoting}
+					textStyle={{
+						fontSize: "0.75em",
+						fontWeight: "700",
+						textTransform: "none",
+						color: "white"
+					}}
+				/>
+			}
 			{agenda.votingState === 3 &&
 				<BasicButton
 					text={'Abrir votaciones presentes' /*TRADUCCION*/}

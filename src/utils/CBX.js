@@ -103,7 +103,7 @@ export const userCanCreateCompany = (user, companies) => {
 }
 
 export const agendaVotingsOpened = agenda => {
-	return agenda.votingState === AGENDA_STATES.DISCUSSION;
+	return agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === 4;
 };
 export const agendaClosed = agenda => {
 	return agenda.pointState === AGENDA_STATES.CLOSED;
@@ -166,7 +166,8 @@ export const haveQualityVoteConditions = (agenda, council) => {
 };
 
 export const canEditPresentVotings = agenda => {
-	return agenda.votingState === AGENDA_STATES.DISCUSSION &&
+	return (agenda.votingState === AGENDA_STATES.DISCUSSION ||
+		agenda.votingState === 4) &&
 		agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING &&
 		agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
 		agenda.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
