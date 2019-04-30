@@ -15,6 +15,7 @@ import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
+import { checkSecondDateAfterFirst } from "../utils/CBX";
 
 
 class ParticipantContainer extends React.PureComponent {
@@ -32,7 +33,7 @@ class ParticipantContainer extends React.PureComponent {
 	}
 
 	render() {
-		const { data, detectRTC, main, match, council, state } = this.props;
+		const { data, detectRTC, main, match, state } = this.props;
 
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
@@ -41,10 +42,13 @@ class ParticipantContainer extends React.PureComponent {
 				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
 				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
 			) {
+				if (!this.props.council.councilVideo) {
+					return <LoadingMainApp />;
+				}
 				return (
 					<ErrorState
 						code={code}
-						data={data.error.graphQLErrors["0"].data}
+						data={{ council: this.props.council.councilVideo }}
 					/>
 				);
 			} else {
@@ -54,6 +58,15 @@ class ParticipantContainer extends React.PureComponent {
 
 		if (!data.participant || !this.props.council.councilVideo || !this.props.state.councilState || Object.keys(detectRTC).length === 0) {
 			return <LoadingMainApp />;
+		}
+
+		if(checkHybridConditions(this.props.council.councilVideo)){
+			return (
+				<ErrorState
+					code={'REMOTE_CLOSED'}
+					data={{ council: this.props.council.councilVideo }}
+				/>
+			);
 		}
 
 		return (
@@ -112,6 +125,16 @@ class ParticipantContainer extends React.PureComponent {
 	}
 }
 
+const checkHybridConditions = council => {
+	if(council.councilType !== 3){
+		return false;
+	}
+
+	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
+		return true;
+	}
+}
+
 const councilQuery = gql`
 	query info($councilId: Int!) {
 		councilVideo(id: $councilId) {
@@ -119,6 +142,7 @@ const councilQuery = gql`
 			autoClose
 			businessName
 			city
+			closeDate
 			companyId
 			company {
 				logo

@@ -56,9 +56,8 @@ const styles = {
 	}
 };
 
-class ErrorState extends React.Component {
-	handleError = code => {
-		const { translate } = this.props;
+const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) => {
+	const renderError = code => {
 		switch (code) {
 			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
 				return <ParticipantBlocked translate={translate} />;
@@ -66,111 +65,105 @@ class ErrorState extends React.Component {
 			case PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE:
 				return <ParticipantNotInRemoteState translate={translate} />;
 
+			case 'REMOTE_CLOSED':
+				return <RemoteClosed translate={translate} />;
+
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
 				return <TimeLimitExceeded translate={translate} />;
 			default:
 				return <div />;
 		}
-	};
+	}
 
-	render() {
-		const {
-			translate,
-			code,
-			data,
-			windowSize,
-			windowOrientation
-		} = this.props;
-
-		return (
+	return (
+		<div
+			style={{
+				height: "100vh",
+				width: "100vw"
+			}}
+		>
+			<Header />
 			<div
 				style={{
-					height: "100vh",
-					width: "100vw"
+					display: "flex",
+					height: "calc(100% - 3em)",
+					width: "100%",
+					alignItems: "center",
+					justifyContent: "center",
+					background: `url(${background})`,
+					backgroundSize: 'cover',
+					backgroundRepeat: 'no-repeat',
+					backgroundPosition: 'center center',
 				}}
 			>
-				<Header />
-				<div
-					style={{
-						display: "flex",
-						height: "calc(100% - 3em)",
-						width: "100%",
-						alignItems: "center",
-						justifyContent: "center",
-						background: `url(${background})`,
-						backgroundSize: 'cover',
-						backgroundRepeat: 'no-repeat',
-						backgroundPosition: 'center center',
-					}}
-				>
-					<Card style={styles.cardContainer}>
+				<Card style={styles.cardContainer}>
+					<div
+						style={
+							windowSize === "xs" &&
+							windowOrientation === "portrait"
+								? styles.container
+								: styles.splittedContainer
+						}
+					>
 						<div
-							style={
-								windowSize === "xs" &&
+							style={{
+								...styles.textContainer,
+								...(windowSize === "xs" &&
 								windowOrientation === "portrait"
-									? styles.container
-									: styles.splittedContainer
-							}
+									? { maxWidth: "100%" }
+									: { maxWidth: "50%", minWidth: "50%" })
+							}}
 						>
+							{renderError(code)}
+						</div>
+
+						<div style={styles.councilInfoContainer}>
 							<div
 								style={{
-									...styles.textContainer,
-									...(windowSize === "xs" &&
-									windowOrientation === "portrait"
-										? { maxWidth: "100%" }
-										: { maxWidth: "50%", minWidth: "50%" })
+									backgroundColor: lightTurquoise,
+									padding: "5px",
+									borderRadius: "4px",
+									display: "flex",
+									flexDirection: "column",
+									alignItems: "center",
+									justifyContent: "center",
+									textAlign: "center"
 								}}
 							>
-								{this.handleError(code)}
-							</div>
+								<Avatar
+									src={data.council && data.council.company.logo}
+									aria-label="CouncilLogo"
+								/>
+								<h3>{data.council.name}</h3>
+								<span>
+									{moment(
+										new Date(data.council.dateStart)
+									).format("LLL")}
+								</span>
 
-							<div style={styles.councilInfoContainer}>
-								<div
-									style={{
-										backgroundColor: lightTurquoise,
-										padding: "5px",
-										borderRadius: "4px",
-										display: "flex",
-										flexDirection: "column",
-										alignItems: "center",
-										justifyContent: "center",
-										textAlign: "center"
-									}}
-								>
-									<Avatar
-										src={data.council.company.logo}
-										aria-label="CouncilLogo"
-									/>
-									<h3>{data.council.name}</h3>
-									<span>
-										{moment(
-											new Date(data.council.dateStart)
-										).format("LLL")}
-									</span>
-
-									{(data.council.statute.existsLimitedAccessRoom === 1) &&
-										<p>
-											{translate.room_access_closed_at}
-											<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
-												{
-													moment(
-														new Date(data.council.dateRealStart)
-													)
-													.add(data.council.statute.limitedAccessRoomMinutes, 'm')
-													.format("HH:mm")
-												}
-											</span>
-										</p>
-									}
-								</div>
+								{(data.council.statute.existsLimitedAccessRoom === 1) &&
+									<p>
+										{translate.room_access_closed_at}
+										<span style={{fontWeight: 'bold', marginLeft: '2px'}}>
+											{
+												moment(
+													new Date(data.council.dateRealStart)
+												)
+												.add(data.council.statute.limitedAccessRoomMinutes, 'm')
+												.format("HH:mm")
+											}
+										</span>
+									</p>
+								}
 							</div>
 						</div>
-					</Card>
-				</div>
+					</div>
+				</Card>
 			</div>
-		);
-	}
+		</div>
+	);
 }
+
 
 const ParticipantBlocked = ({ translate }) => (
 	<React.Fragment>
@@ -192,6 +185,29 @@ const ParticipantBlocked = ({ translate }) => (
 		</div>
 
 		{translate.cant_access_video_room_expelled}
+	</React.Fragment>
+);
+
+const RemoteClosed = ({ translate }) => (
+	<React.Fragment>
+		<h5 style={{ color: primary, fontWeight: "bold" }}>
+			{translate.we_are_sorry}
+		</h5>
+
+		<div className="fa-stack fa-lg" style={{ fontSize: "8vh" }}>
+			<FontAwesome
+				name={"user"}
+				stack={"1x"}
+				style={{ color: primary }}
+			/>
+			<FontAwesome
+				name={"ban"}
+				stack={"2x"}
+				style={{ color: secondary }}
+			/>
+		</div>
+
+		{'Las votaciones remotas han finalizado' /*TRADUCCION*/}
 	</React.Fragment>
 );
 
