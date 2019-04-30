@@ -37,6 +37,17 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 		}
 	}
 
+	const openHybridVotings = async () => {
+		setLoading(true);
+		await props.openHybridVoting({
+			variables: {
+				agendaId: agenda.id
+			}
+		});
+		setLoading(false);
+		props.refetch();
+	}
+
 	const reopenAgendaVoting = async () => {
 		setLoading(true);
 		const response = await props.reopenAgendaVoting({
@@ -193,7 +204,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 					color={"white"}
 					loading={loading}
 					disabled={loading}
-					onClick={openVoting}
+					onClick={openHybridVotings}
 					textPosition="before"
 					icon={
 						<ButtonIcon
@@ -223,9 +234,22 @@ const reopenAgendaVoting = gql`
 	}
 `;
 
+const openHybridVoting = gql`
+	mutation OpenHybridVoting($agendaId: Int!){
+		openHybridVoting(agendaId: $agendaId){
+			success
+			message
+		}
+	}
+`;
+
 export default compose(
 	graphql(openAgendaVoting, {
 		name: "openAgendaVoting"
+	}),
+
+	graphql(openHybridVoting, {
+		name: "openHybridVoting"
 	}),
 
 	graphql(closeAgendaVoting, {
