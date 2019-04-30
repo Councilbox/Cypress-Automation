@@ -46,52 +46,54 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
     return(
         <React.Fragment>
-            <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em'}}>
-                <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                    <div style={itemStyle}>
-                        {translate.convene_census}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.participants}: ${recount.numTotal || 0}`}
-                    </div>
-                    <div style={itemStyle}>
-                        {getPartTotal()}
-                    </div>
-                </GridItem>
-                <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                    <div style={itemStyle}>
-                        {translate.present_census}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.participants}: ${agenda.numPresentCensus || 0}`}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numPresentCensus : agenda.presentCensus || 0}`}
-                    </div>
-                </GridItem>
-                <GridItem xs={3} lg={3} md={3} style={columnStyle}>
-                    <div style={itemStyle}>
-                        {translate.current_remote_census}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.votes}: ${agenda.currentRemoteCensus || 0}`}
-                    </div>
-                </GridItem>
-                <GridItem xs={3} lg={3} md={3} style={{...columnStyle, backgroundColor: 'lightcyan'}}>
-                    <div style={itemStyle}>
-                        {translate.voting_rights_census}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
-                    </div>
-                    <div style={itemStyle}>
-                        {`${translate.votes}: ${agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
-                    </div>
-                </GridItem>
-            </Grid>
+            {council.autoClose !== 1 &&
+                <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em'}}>
+                    <GridItem xs={3} lg={3} md={3} style={columnStyle}>
+                        <div style={itemStyle}>
+                            {translate.convene_census}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.participants}: ${recount.numTotal || 0}`}
+                        </div>
+                        <div style={itemStyle}>
+                            {getPartTotal()}
+                        </div>
+                    </GridItem>
+                    <GridItem xs={3} lg={3} md={3} style={columnStyle}>
+                        <div style={itemStyle}>
+                            {translate.present_census}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.participants}: ${agenda.numPresentCensus || 0}`}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.votes}: ${editable && activatePresentOneVote? agenda.numPresentCensus : agenda.presentCensus || 0}`}
+                        </div>
+                    </GridItem>
+                    <GridItem xs={3} lg={3} md={3} style={columnStyle}>
+                        <div style={itemStyle}>
+                            {translate.current_remote_census}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.votes}: ${agenda.currentRemoteCensus || 0}`}
+                        </div>
+                    </GridItem>
+                    <GridItem xs={3} lg={3} md={3} style={{...columnStyle, backgroundColor: 'lightcyan'}}>
+                        <div style={itemStyle}>
+                            {translate.voting_rights_census}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
+                        </div>
+                        <div style={itemStyle}>
+                            {`${translate.votes}: ${agenda.presentCensus + agenda.currentRemoteCensus || 0}`}
+                        </div>
+                    </GridItem>
+                </Grid>
+            }
             <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em'}}>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
                     <div style={itemStyle}>
