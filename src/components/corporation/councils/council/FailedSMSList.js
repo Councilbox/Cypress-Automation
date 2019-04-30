@@ -5,9 +5,10 @@ import { BasicButton, AlertConfirm, LoadingSection } from '../../../../displayCo
 import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { moment } from '../../../../containers/App';
 import { Table, TableRow, TableCell } from 'material-ui';
+import LiveSMS from '../../../council/live/councilMenu/LiveSMS';
 
 
-const FailedSMSList = ({ council }) => {
+const FailedSMSList = ({ council, translate }) => {
     const [modal, setModal] = React.useState(false);
 
     const closeModal = () => {
@@ -28,7 +29,13 @@ const FailedSMSList = ({ council }) => {
                 requestClose={closeModal}
                 open={modal}
                 buttonCancel={'Cancelar'}
-                bodyText={<FailedList council={council} />}
+                bodyStyle={{overflowY: "hidden",height: "50vh", width: "100%"}}
+                bodyText={
+                    <LiveSMS
+                        translate={translate}
+                        council={council}
+                    />
+                }
                 title={'Lista de SMS'}
             />
         </React.Fragment>

@@ -171,17 +171,6 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         ))}
                                     </TableBody>
                                 </Table>
-                                {/* <div style={{ display: "flex", width: "100%", textAlign: "right" }}>
-                                    {loading ?
-                                        <div></div>
-                                        :
-                                        <React.Fragment>
-                                            <div style={{ cursor: "pointer", marginRight: "10px" }}>1</div>
-                                            <div style={{ cursor: "pointer" }}>2</div>
-                                        </React.Fragment>
-                                    }
-
-                                </div> */}
                             </Scrollbar>
                         </div>
 

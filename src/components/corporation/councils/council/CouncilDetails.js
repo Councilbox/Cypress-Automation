@@ -333,6 +333,7 @@ class CouncilDetails extends React.Component {
 					{council.securityType === 2 &&
 						<FailedSMSList
 							council={council}
+							translate={translate}
 						/>
 					}
                 </div>
