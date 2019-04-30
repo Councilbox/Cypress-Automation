@@ -12,6 +12,7 @@ import { moment } from '../../../containers/App';
 import { useOldState } from "../../../hooks";
 import LiveSMS from "./councilMenu/LiveSMS";
 import FailedSMSMessage from "./councilMenu/FailedSMSMessage";
+import { isMobile } from "react-device-detect";
 
 const OpenRoomButton = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -131,6 +132,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				modal={true}
 				acceptAction={openCouncilRoom}
 				requestClose={() => setState({ confirmModal: false })}
+				classNameDialog={isMobile ? "noMarginM": 'noMargin'}
+				bodyStyle={{overflowY: "hidden",height: "50vh", width: "100%",  maxWidth: isMobile && "100vw" }}
 			/>
 		</React.Fragment>
 	);
