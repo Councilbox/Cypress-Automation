@@ -211,7 +211,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						</div>
 					</Tooltip>
 				}
-				<Tooltip
+				{/* <Tooltip
 					title={
 						state.participants
 							? translate.agenda
@@ -237,7 +237,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 							onClick={toggleScreens}
 						/>
 					</div>
-				</Tooltip>
+				</Tooltip> */}
 			</div>
 
 			<CommentWall
@@ -432,7 +432,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 								}
 								{value === 1 &&
 									<div style={{ height: "calc( 100% - 2em )" }}>
-									<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
+										<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
 											<AgendaManager
 												ref={agendaManager}
 												recount={data.councilRecount}

@@ -20,7 +20,8 @@ import {
 	DropDownMenu,
 	ParticipantDisplay,
 	RefreshButton,
-	CloseIcon
+	CloseIcon,
+	Scrollbar
 } from "../../../../displayComponents";
 import * as CBX from "../../../../utils/CBX";
 import SignatureModal from "./modals/SignatureModal";
@@ -116,364 +117,350 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 				flexDirection: "column",
 				justifyContent: "flex-start",
 				alignItems: "stretch",
-				overflow: 'auto',
 				alignContent: "stretch",
 				marginTop: "30px",
-				padding: props.windowSize === 'xs' ? '1.3em' : "1em",
+				padding: isMobile ? "" : props.windowSize === 'xs' ? '1.3em' : "1em",
 			}}
 		>
-			<div>
-				<Grid >
-					<GridItem xs={landscape ? 12 : 6} md={4}
-						style={{
-							display: isMobile ? "none" : "flex",
-							textAlign: "center",
-							borderBottom: '1px solid #ddd',
-							marginBottom: "0.8em",
-							paddingBottom: "0.5em"
-						}}>
-						<h4 style={{ width: '100%' }}>Info</h4>
-					</GridItem>
-					<GridItem xs={landscape ? 12 : 6} md={4}
-						style={{
-							display: isMobile ? "none" : "flex",
-							textAlign: "center",
-							borderBottom: '1px solid #ddd',
-							marginBottom: "0.8em",
-							paddingBottom: "0.5em"
-						}}>
-						{participant.personOrEntity !== 1 &&
-							<h4 style={{ width: '100%' }}>{translate.state}</h4>
-						}
-					</GridItem>
-					<GridItem xs={landscape ? 12 : 6} md={4}
-						style={{
-							display: isMobile ? "none" : "flex",
-							textAlign: "center",
-							borderBottom: '1px solid #ddd',
-							marginBottom: "0.8em",
-							paddingBottom: "0.5em"
-						}}>
-						<h4 style={{ width: '100%' }}>{translate.actions}</h4>
-					</GridItem>
-					<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
-						<GridItem xs={landscape ? 2 : 12} xs={3} md={2} style={{ textAlign: "center", display : isMobile ? "none": "block" }}>
-							<TypeIcon
-								translate={translate}
-								type={participant.type}
-								ratio={1.3}
-							/>
-						</GridItem>
-						<GridItem xs={landscape ? 3 : 12} xs={9} md={10} style={{ marginLeft: isMobile ? '1.3em': "2.3em" , display: 'flex', ...(isMobile ? { justifyContent: 'left' } : {}) }}>
-							<div style={{ marginLeft: "-1.4em" }}>
-								<Typography variant="body2" >
-									<div style={{ paddingLeft: '1em' }}>
+			<Scrollbar>
+				<div>
+					<Grid >
+						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
+							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
+								<h4 style={{ width: '100%' }}>Info</h4>{/**TRADUCCION */}
+							</div>
+							<div style={{ display: "flex", padding: "5px" }} >
+								<GridItem xs={landscape ? 2 : 12} xs={3} md={2} style={{ textAlign: "center" }}>
+									<TypeIcon
+										translate={translate}
+										type={participant.type}
+										ratio={1.3}
+									/>
+								</GridItem>
+								<GridItem xs={landscape ? 3 : 12} xs={9} md={10} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'left' } : {}) }}>
+									<div style={{ marginLeft: isMobile ? "1em" : "2em", width: "100%", overflow: "hidden" }}>
+										<Typography variant="body2" >
+											<div style={{ paddingLeft: '1em' }}>
+											</div>
+											<div >
+												<ParticipantDisplay
+													participant={participant}
+													translate={translate}
+													council={props.council}
+												/>
+											</div>
+										</Typography>
 									</div>
-									<div >
-										<ParticipantDisplay
-											participant={participant}
-											translate={translate}
-											council={props.council}
-										/>
-									</div>
-								</Typography>
-
+								</GridItem>
 							</div>
 						</GridItem>
-					</GridItem>
-					<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
-					{participant.personOrEntity !== 1 &&
+						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
+							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
+								{participant.personOrEntity !== 1 &&
+									<h4 style={{ width: '100%' }}>{translate.state}</h4>
+								}
+							</div>
+							<div style={{ display: "flex", padding: "5px" }} >
+								{participant.personOrEntity !== 1 &&
+									<React.Fragment>
+										<GridItem xs={landscape ? 1 : 12} xs={3} md={3}>
+											<div >
+												<DropDownMenu
+													claseHover={"classHover"}
+													color="transparent"
+													id={'dropdownEstados'}
+													style={{ paddingLeft: '0px', paddingRight: '0px' }}
+													icon={
+														<StateIcon
+															translate={translate}
+															state={participant.state}
+															ratio={1.3}
+														/>
+													}
+													items={
+														<React.Fragment>
+															<ParticipantStateList
+																participant={participant}
+																council={props.council}
+																translate={translate}
+																refetch={props.refetch}
+																inDropDown={true}
+															/>
+														</React.Fragment>
+													}
+													anchorOrigin={{
+														vertical: 'bottom',
+														horizontal: 'left',
+													}}
+												/>
+											</div>
+											<div
+												style={{
+
+													marginTop: "1em"
+												}}
+											>
+											</div>
+											<div
+												style={{
+													marginLeft: isMobile ? '0' : "0",
+													marginTop: "0.5em"
+												}}
+											>
+											</div>
+										</GridItem>
+										<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
+											<div style={{ marginLeft: '1.3em', width: "100%" }}>
+												<Typography variant="body2" >
+													<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
+														<b>{`${translate.current_status}:  `}</b>
+														{translate[CBX.getParticipantStateField(participant)]}
+													</div>
+													<div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
+														<ParticipantStateSelector
+															inDropDown={true}
+															participant={participant}
+															council={props.council}
+															translate={translate}
+															refetch={data.refetch}
+														/>
+													</div>
+												</Typography>
+
+											</div>
+										</GridItem>
+									</React.Fragment>
+								}
+							</div>
+						</GridItem>
+						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
+							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
+								<h4 style={{ width: '100%' }}>{translate.actions}</h4>
+							</div>
+							<div style={{ display: "flex", padding: "5px" }} >
+								<GridItem xs={landscape ? 3 : 12} xs={12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
+									<React.Fragment>
+										<ParticipantSelectActions
+											participant={participant}
+											council={props.council}
+											translate={translate}
+											refetch={data.refetch}
+										/>
+									</React.Fragment>
+								</GridItem>
+							</div>
+						</GridItem>
+					</Grid>
+				</div>
+				<hr
+					style={{
+						width: "100%"
+					}}>
+				</hr>
+				<div
+					style={{
+						minHeight: 0,
+						paddingRight: "0.5em"
+					}}
+				>
+					<Grid>
+						{(CBX.isRepresented(participant) ||
+							CBX.hasHisVoteDelegated(participant)) && (
+								<GridItem xs={12} lg={12} md={12}>
+									{CBX.isRepresented(participant) && (
+										<Typography variant="subheading">
+											{translate.represented_by}
+										</Typography>
+									)}
+									{CBX.hasHisVoteDelegated(participant) && (
+										<Typography variant="subheading">
+											{translate.voting_delegate}
+										</Typography>
+									)}
+									{participant.representative && (
+										<ParticipantTable
+											representative={true}
+											translate={translate}
+											participants={[participant.representative]}
+										/>
+									)}
+								</GridItem>
+							)}
+
+						{participant.representing && (
+							<React.Fragment>
+								<GridItem xs={12} lg={12} md={12} style={{ marginBottom: '1em' }}>
+									<Typography variant="subheading">
+										{'Representando a'}
+									</Typography>
+									<ParticipantTable
+										translate={translate}
+										participants={[participant.representing]}
+										enableActions
+										quitDelegatedVote={removeDelegatedVote}
+										primary={primary}
+									/>
+								</GridItem>
+							</React.Fragment>
+						)}
+						{participant.delegatedVotes.length > 0 && (
+							<React.Fragment>
+								<GridItem xs={12} lg={12} md={12}>
+									<Typography variant="subheading">
+										{translate.delegated_votes}
+									</Typography>
+									<ParticipantTable
+										translate={translate}
+										participants={participant.delegatedVotes}
+										enableActions
+										quitDelegatedVote={removeDelegatedVote}
+										primary={primary}
+									/>
+								</GridItem>
+							</React.Fragment>
+						)}
+
+						{!!participant.assistanceComment &&
+							<GridItem xs={12} md={12} lg={12}>
+								<Typography
+									variant="subheading"
+									style={{
+										marginRight: "1em"
+									}}
+								>
+									{translate.assistance_comment}
+								</Typography>
+								<div dangerouslySetInnerHTML={{ __html: participant.assistanceComment }} />
+							</GridItem>
+						}
 						<React.Fragment>
-							<GridItem xs={landscape ? 1 : 12} xs={3} md={3}>
-								<div >
-									<DropDownMenu
-										claseHover={"classHover"}
-										color="transparent"
-										id={'dropdownEstados'}
-										style={{ paddingLeft: '0px', paddingRight: '0px' }}
-										icon={
-											<StateIcon
-												translate={translate}
-												state={participant.state}
-												ratio={1.3}
+							<GridItem
+								xs={12}
+								lg={12}
+								md={12}
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center",
+									margin: "0"
+								}}
+							>
+								<Grid>
+									{!isMobile &&
+										<GridItem xs={12} md={3} lg={2}
+											style={{
+												display: "flex"
+											}}
+										>
+											<Typography
+												variant="subheading"
+												style={{
+													marginRight: "1em"
+												}}
+											>
+												{translate.sends}
+											</Typography>
+											<RefreshButton
+												tooltip={translate.refresh_emails}
+												loading={state.loadingSends}
+												onClick={refreshEmailStates}
 											/>
-										}
-										items={
-											<React.Fragment>
-												<ParticipantStateList
+										</GridItem>
+									}
+									<GridItem xs={12} md={9} lg={10}
+										style={{
+											display: "flex",
+											justifyContent: 'flex-end',
+											marginLeft: isMobile ? '0' : "0",
+											marginLeft: "auto"
+										}}
+									>
+										{CBX.showSendCredentials(participant.state) &&
+											<div>
+												<ResendCredentialsModal
 													participant={participant}
 													council={props.council}
 													translate={translate}
-													refetch={props.refetch}
-													inDropDown={true}
+													security={props.council.securityType > 0}
+													refetch={data.refetch}
 												/>
-											</React.Fragment>
+											</div>
 										}
-										anchorOrigin={{
-											vertical: 'bottom',
-											horizontal: 'left',
-										}}
-									/>
-								</div>
-								<div
-									style={{
-
-										marginTop: "1em"
-									}}
-								>
-								</div>
-								<div
-									style={{
-										marginLeft: isMobile ? '0' : "0",
-										marginTop: "0.5em"
-									}}
-								>
-								</div>
-							</GridItem>
-							<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
-								<div style={{ marginLeft: '1.3em', width: "100%" }}>
-									<Typography variant="body2" >
-										<div style={{ paddingLeft: landscape ? '1em' : "0", height: "45px", marginBottom: "0.5em" }}>
-											<b>{`${translate.current_status}:  `}</b>
-											{translate[CBX.getParticipantStateField(participant)]}
-										</div>
-										<div style={{ paddingLeft: '1em', display: isMobile ? "none": "block" }}>
-											<ParticipantStateSelector
-												inDropDown={true}
-												participant={participant}
+										{!CBX.isRepresented(participant) && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+											<div>
+												<BasicButton
+													text={participant.signed ? translate.user_signed : translate.to_sign}
+													fullWidth
+													buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
+													type="flat"
+													color={"white"}
+													onClick={openSignModal}
+													textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+												/>
+											</div>
+										}
+										{state.showSignatureModal &&
+											<SignatureModal
+												show={state.showSignatureModal}
 												council={props.council}
-												translate={translate}
+												participant={participant}
 												refetch={data.refetch}
+												requestClose={closeSignModal}
+												translate={translate}
 											/>
-										</div>
-									</Typography>
+										}
 
-								</div>
+										{!isMobile &&
+											<DownloadCBXDataButton
+												style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
+												translate={translate}
+												participantId={participant.id}
+											/>
+										}
+									</GridItem>
+									{isMobile &&
+										<GridItem xs={12} md={3} lg={2}
+											style={{
+												display: "flex"
+											}}
+										>
+											<Typography
+												variant="subheading"
+												style={{
+													marginRight: "1em"
+												}}
+											>
+												{translate.sends}
+											</Typography>
+											<RefreshButton
+												tooltip={translate.refresh_emails}
+												loading={state.loadingSends}
+												onClick={refreshEmailStates}
+											/>
+										</GridItem>
+									}
+								</Grid>
 							</GridItem>
-						</React.Fragment>
-					}
-					</GridItem>
-					<GridItem xs={landscape ? 12 : 12} md={4} style={{ display: 'flex',marginBottom: "0.8em" }}>
-						<GridItem xs={landscape ? 3 : 12} xs={12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
-							<React.Fragment>
-								<ParticipantSelectActions
-									participant={participant}
-									council={props.council}
-									translate={translate}
-									refetch={data.refetch}
-								/>
-							</React.Fragment>
-						</GridItem>
-					</GridItem>
-				</Grid>
-			</div>
-			<hr
-				style={{
-					width: "100%"
-				}}>
-			</hr>
-			<div
-				style={{
-					minHeight: 0,
-					paddingRight: "0.5em"
-				}}
-			>
-				<Grid>
-					{(CBX.isRepresented(participant) ||
-						CBX.hasHisVoteDelegated(participant)) && (
-							<GridItem xs={12} lg={12} md={12}>
-								{CBX.isRepresented(participant) && (
-									<Typography variant="subheading">
-										{translate.represented_by}
-									</Typography>
-								)}
-								{CBX.hasHisVoteDelegated(participant) && (
-									<Typography variant="subheading">
-										{translate.voting_delegate}
-									</Typography>
-								)}
-								{participant.representative && (
-									<ParticipantTable
-										representative={true}
+							{participant.notifications.length > 0 ? (
+								<GridItem xs={12} lg={12} md={12}>
+									<NotificationsTable
+										liveMobil={isMobile}
+										notifications={participant.notifications}
 										translate={translate}
-										participants={[participant.representative]}
+										handleToggleVisib={handleToggleVisib}
+										visib={state.visib}
 									/>
-								)}
-							</GridItem>
-						)}
-
-					{participant.representing && (
-						<React.Fragment>
-							<GridItem xs={12} lg={12} md={12} style={{ marginBottom: '1em' }}>
-								<Typography variant="subheading">
-									{'Representando a'}
-								</Typography>
-								<ParticipantTable
-									translate={translate}
-									participants={[participant.representing]}
-									enableActions
-									quitDelegatedVote={removeDelegatedVote}
-									primary={primary}
-								/>
-							</GridItem>
-						</React.Fragment>
-					)}
-					{participant.delegatedVotes.length > 0 && (
-						<React.Fragment>
-							<GridItem xs={12} lg={12} md={12}>
-								<Typography variant="subheading">
-									{translate.delegated_votes}
-								</Typography>
-								<ParticipantTable
-									translate={translate}
-									participants={participant.delegatedVotes}
-									enableActions
-									quitDelegatedVote={removeDelegatedVote}
-									primary={primary}
-								/>
-							</GridItem>
-						</React.Fragment>
-					)}
-
-					{!!participant.assistanceComment &&
-						<GridItem xs={12} md={12} lg={12}>
-							<Typography
-								variant="subheading"
-								style={{
-									marginRight: "1em"
-								}}
-							>
-								{translate.assistance_comment}
-							</Typography>
-							<div dangerouslySetInnerHTML={{ __html: participant.assistanceComment }} />
-						</GridItem>
-					}
-					<React.Fragment>
-						<GridItem
-							xs={12}
-							lg={12}
-							md={12}
-							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center",
-								margin:"0"
-							}}
-						>
-							<Grid>
-								{!isMobile &&
-									<GridItem xs={12} md={3} lg={2}
-										style={{
-											display: "flex"
-										}}
-									>
-										<Typography
-											variant="subheading"
-											style={{
-												marginRight: "1em"
-											}}
-										>
-											{translate.sends}
-										</Typography>
-										<RefreshButton
-											tooltip={translate.refresh_emails}
-											loading={state.loadingSends}
-											onClick={refreshEmailStates}
-										/>
-									</GridItem>
-								}
-								<GridItem xs={12} md={9} lg={10}
-									style={{
-										display: "flex",
-										justifyContent: 'flex-end',
-										marginLeft: isMobile ? '0' : "0",
-										marginLeft: "auto"
-									}}
-								>
-									{CBX.showSendCredentials(participant.state) &&
-										<div>
-											<ResendCredentialsModal
-												participant={participant}
-												council={props.council}
-												translate={translate}
-												security={props.council.securityType > 0}
-												refetch={data.refetch}
-											/>
-										</div>
-									}
-									{!CBX.isRepresented(participant) && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-										<div>
-											<BasicButton
-												text={participant.signed ? translate.user_signed : translate.to_sign}
-												fullWidth
-												buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-												type="flat"
-												color={"white"}
-												onClick={openSignModal}
-												textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-											/>
-										</div>
-									}
-									{state.showSignatureModal &&
-										<SignatureModal
-											show={state.showSignatureModal}
-											council={props.council}
-											participant={participant}
-											refetch={data.refetch}
-											requestClose={closeSignModal}
-											translate={translate}
-										/>
-									}
-
-									{!isMobile &&
-										<DownloadCBXDataButton
-											style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
-											translate={translate}
-											participantId={participant.id}
-										/>
-									}
 								</GridItem>
-								{isMobile &&
-									<GridItem xs={12} md={3} lg={2}
-										style={{
-											display: "flex"
-										}}
-									>
-										<Typography
-											variant="subheading"
-											style={{
-												marginRight: "1em"
-											}}
-										>
-											{translate.sends}
-										</Typography>
-										<RefreshButton
-											tooltip={translate.refresh_emails}
-											loading={state.loadingSends}
-											onClick={refreshEmailStates}
-										/>
+							) : (
+									<GridItem xs={12} md={12} lg={12}>
+										{translate.no_files_sent}
 									</GridItem>
-								}
-							</Grid>
-						</GridItem>
-						{participant.notifications.length > 0 ? (
-							<GridItem xs={12} lg={12} md={12}>
-								<NotificationsTable
-									notifications={participant.notifications}
-									translate={translate}
-									handleToggleVisib={handleToggleVisib}
-									visib={state.visib}
-								/>
-							</GridItem>
-						) : (
-							<GridItem xs={12} md={12} lg={12}>
-								{translate.no_files_sent}
-							</GridItem>
-						)
-					}
-					</React.Fragment>
-				</Grid>
-			</div>
+								)
+							}
+						</React.Fragment>
+					</Grid>
+				</div>
+			</Scrollbar>
 		</div>
 	);
 }

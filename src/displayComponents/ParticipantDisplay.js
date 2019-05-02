@@ -112,7 +112,7 @@ const ParticipantDisplay = ({ participant, translate, council, delegate }) => {
 					/>
 				</div>
 				<Typography variant="body1" className="truncate">
-					{`${participant.email}`}
+				{`${participant.email}`}
 				</Typography>
 			</div>
 			{!CBX.participantIsGuest(participant) &&!CBX.participantIsRepresentative(participant) &&

@@ -18,6 +18,7 @@ const CustomDialog = ({
 	actions,
 	children,
 	onEntered,
+	dialogActionsStyles,
 	...restProps
 }) => {
 	return (
@@ -63,7 +64,8 @@ const CustomDialog = ({
 			<DialogActions
 				style={{
 					paddingRight: "0.6em",
-					textAlign: "right"
+					textAlign: "right",
+					...dialogActionsStyles
 				}}
 			>
 				{actions}

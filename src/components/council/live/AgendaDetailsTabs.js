@@ -60,7 +60,7 @@ class AgendaDetailsTabs extends React.Component {
                     }
                     <Tab label={isMobile? translate.attachments : translate.attachment_files} />
                 </Tabs>
-                <div style={{borderTop: '1px solid gainsboro', height: 'calc(100% - 48px)'}}>
+                <div style={{borderTop: '1px solid gainsboro', height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)'}}>
                     <Scrollbar>
                         {this.state.selectedTab === 0 &&
                             <div style={{padding: '1em'}}>

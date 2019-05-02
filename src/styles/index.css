@@ -265,3 +265,7 @@ h4 {
         position: fixed;
     }
 }
+
+.livePArticipants>div{
+    margin: 0px;
+}

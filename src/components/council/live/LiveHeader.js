@@ -45,7 +45,7 @@ class LiveHeader extends React.Component {
 						justifyContent: "space-between"
 					}}
 				>
-					<div style={{ width: "20%" }}>
+					<div > {/**style={{ width: "20%" }} */}
 						<img
 							src={windowSize !== "xs" ? logo : icono}
 							className="App-logo"
@@ -58,13 +58,12 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "35%",
 							// marginRight: "10%",
 							whiteSpace: 'nowrap',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
 						}}
-					>
+					>{/**style={{width: "35%",}} */}
 						<Tooltip title={councilName}>
 							<div style={{ textAlign: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
 								{councilName}
@@ -73,51 +72,19 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "20%",
 							display: "flex",
 							flexDirection: "row",
 							justifyContent: "flex-end",
 							paddingRight: "2em",
 							alignItems: "center"
 						}}
-					>
+					>{/**style={{width: "20%",}} */}
 						{/*<Icon
                      className="material-icons"
                      style={{fontSize: '1.5em', color: 'white'}}
                      >
                      help
 					 </Icon>*/}
-						<BasicButton
-							text={
-								participants
-									? translate.agenda
-									: translate.participants
-							}
-							color={"white"}
-							textStyle={{
-								color: primary,
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none",
-							}}
-							textPosition="after"
-							icon={
-								<i className="material-icons" style={{ marginLeft: "5px" }}>
-									{participants
-										? "developer_board"
-										: "group"
-									}
-								</i>
-							}
-							onClick={toggleScreens}
-							buttonStyle={{
-								marginRight: "1em",
-								border: `2px solid ${primary}`,
-								paddingBottom: "0",
-								paddingTop: "0"
-							}}
-						/>
-						
 						<Icon
 							className="material-icons"
 							style={{
