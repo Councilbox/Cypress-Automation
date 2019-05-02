@@ -27,8 +27,6 @@ const itemStyle = {
     alignItems: 'center'
 }
 
-
-
 const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda }) => {
 
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);

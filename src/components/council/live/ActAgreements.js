@@ -2,7 +2,7 @@ import React from "react";
 import { Icon, LiveToast, LoadingSection } from "../../../displayComponents";
 import RichTextInput from "../../../displayComponents/RichTextInput";
 import { darkGrey } from "../../../styles/colors";
-import { compose, graphql } from "react-apollo";
+import { compose, graphql, withApollo } from "react-apollo";
 import { updateAgenda } from "../../../queries/agenda";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import LoadDraftModal from "../../company/drafts/LoadDraftModal";
@@ -11,6 +11,23 @@ import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 import { VOTE_VALUES } from "../../../constants";
+import gql from 'graphql-tag';
+
+
+const query = gql`
+	query AgendaRecount($agendaId: Int!) {
+		agendaRecount(agendaId: $agendaId){
+			positiveVotings
+            negativeVotings
+			abstentionVotings
+			noVotes
+			positiveSC
+			negativeSC
+			abstentionSC
+			noVoteSC
+		}
+	}
+`;
 
 
 class ActAgreements extends React.Component {
@@ -35,6 +52,17 @@ class ActAgreements extends React.Component {
 			this.editor.setValue(this.props.agenda.comment);
 		}
 	};
+
+	async componentDidMount(){
+		const response = await this.props.client.query({
+			query,
+			variables: {
+				agendaId: this.props.agenda.id
+			}
+		});
+
+		console.log(response);
+	}
 
 	updateAgreement = async value => {
 
@@ -341,5 +369,5 @@ class ActAgreements extends React.Component {
 }
 
 export default compose(graphql(updateAgenda, { name: "updateAgenda" }))(
-	withSharedProps()(ActAgreements)
+	withSharedProps()(withApollo(ActAgreements))
 );

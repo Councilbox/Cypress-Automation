@@ -38,6 +38,8 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 			}
 		});
 
+		console.log(response.data);
+
 		setData(response.data);
 	}
 

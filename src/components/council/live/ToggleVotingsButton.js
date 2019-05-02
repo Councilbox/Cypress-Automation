@@ -91,6 +91,7 @@ class ToggleVotingsButton extends React.Component {
 						text={translate.active_votings}
 						color={"white"}
 						loading={this.state.loading}
+						loadingColor={primary}
 						disabled={this.state.loading}
 						onClick={this.openVoting}
 						textPosition="before"
@@ -115,6 +116,7 @@ class ToggleVotingsButton extends React.Component {
 						color={primary}
 						loading={this.state.loading}
 						disabled={this.state.loading}
+						loadingColor={'white'}
 						textPosition="before"
 						icon={
 							<ButtonIcon
@@ -138,6 +140,7 @@ class ToggleVotingsButton extends React.Component {
 						color={'white'}
 						loading={this.state.loading}
 						disabled={this.state.loading}
+						loadingColor={primary}
 						textPosition="before"
 						icon={
 							<ButtonIcon
