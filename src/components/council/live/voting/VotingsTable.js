@@ -263,6 +263,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 														vote={vote}
 														agenda={agenda}
 														translate={translate}
+														refetch={refreshTable}
 													/>
 												:
 													<React.Fragment>
@@ -369,7 +370,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 
 const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 	name: "updateAgendaVoting"
-})(({ translate, agenda, vote, updateAgendaVoting, ...props }) => {
+})(({ translate, agenda, vote, refetch, updateAgendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 
 
@@ -383,8 +384,9 @@ const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 				}
 			}
 		});
-		setLoading(false);
-
+		await refetch();
+		let timeout = setTimeout(() => {setLoading(false); clearTimeout(timeout);}, 1500);
+		//setLoading(false);
 	}
 
 	return (
@@ -392,7 +394,11 @@ const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 			{agenda.votingState === 4 && vote.presentVote !== 0?
 				<React.Fragment>
 					{loading?
-						<LoadingSection />
+						<div style={{width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start'}}>
+							<div>
+								<LoadingSection size={16} />
+							</div>
+						</div>
 					:
 						<Checkbox
 							value={vote.vote !== -1}
