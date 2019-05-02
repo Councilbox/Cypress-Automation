@@ -41,10 +41,13 @@ class ParticipantContainer extends React.PureComponent {
 				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
 				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
 			) {
+				if (!this.props.council.councilVideo) {
+					return <LoadingMainApp />;
+				}
 				return (
 					<ErrorState
 						code={code}
-						data={data.error.graphQLErrors["0"].data}
+						data={{ council: this.props.council.councilVideo }}
 					/>
 				);
 			} else {
