@@ -403,7 +403,11 @@ const showSendsRecount = sends => {
 		'5': 'Clave de acceso',
 		'6': 'Acta',
 		'13': 'Propuesta de acta',
-		'16': 'Notificación de apertura de votación'
+		'16': 'Notificación de apertura de votación',
+		'18': 'Delegación de voto',
+		'19': 'Rechazo de delegación',
+		'20': 'Delegación retirada',
+		'21': 'Notificación de delegación'
 	}
 
 	const recount = {
@@ -417,11 +421,19 @@ const showSendsRecount = sends => {
 		'Acta': 0,
 		'Propuesta de acta': 0,
 		'Notificación de apertura de votación': 0,
+		'Notificación de delegación': 0,
+		'Delegación de voto': 0,
+		'Rechazo de delegación': 0,
+		'Delegación retirada': 0,
 		'Otros': 0
 	}
 
 	sends.forEach(send => {
-		recount[list[send.sendType]]++;
+		if(recount[list[send.sendType]] !== undefined ){
+			recount[list[send.sendType]]++;
+		} else {
+			recount['Otros']++;
+		}
 	});
 
 	return (
