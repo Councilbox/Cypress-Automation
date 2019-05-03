@@ -106,7 +106,12 @@ class SignUpUser extends React.Component {
 			hasError = true;
 			errors.confirmPWD = translate.no_match_pwd;
 		}
-
+		
+		if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
+			hasError = true;
+			errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
+		}
+		
 		this.props.updateErrors({
 			...errors,
 			hasError: hasError

@@ -74,7 +74,6 @@ class ChangePasswordForm extends React.Component {
 	checkChangePassword() {
 		const { translate } = this.props;
 		const { data } = this.state;
-
 		let hasError = false;
 		const errors = {
 			currentPassword: "",
@@ -98,6 +97,10 @@ class ChangePasswordForm extends React.Component {
 			errors.currentPassword = translate.no_empty_pwd;
 		}
 
+		if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.newPassword))) {
+			errors.currentPassword = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
+		}
+
 		this.setState({
 			errors: errors
 		});
@@ -114,10 +117,17 @@ class ChangePasswordForm extends React.Component {
 	}
 
 	handleButtonSuccess() {
-		this.setState({
-			success: true,
-			loading: false
-		});
+		if (this.state.error) {
+			this.setState({
+				success: true,
+				loading: false
+			});
+		}else{
+			this.setState({
+				success: false,
+				loading: false
+			});
+		}
 	}
 
 	render() {
@@ -133,6 +143,13 @@ class ChangePasswordForm extends React.Component {
 				/>
 				<br />
 				<Grid>
+					<GridItem xs={12} md={12} lg={12} style={{ marginBottom: "1em" }}>
+						Please confirm that passwords must contain three of the following sets of characters:
+						uppercase letters
+						lowercase letters
+						numbers
+						symbols and minimum 8 characters
+					</GridItem>
 					<GridItem xs={12} md={6} lg={4}>
 						<TextInput
 							floatingText={translate.current_password}
