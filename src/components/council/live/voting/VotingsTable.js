@@ -82,43 +82,12 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 		setTimeout(props.refetch, 1000);
 	};
 
-	let mappedVotings = [];
+	let votings = [];
 	let presentVotes = 0;
 
 	if(data.agendaVotings){
-		if(data.agendaVotings.list.length > 0){
-			data.agendaVotings.list.forEach(voting => {
-				if (voting.presentVote === 5) presentVotes++;
-				if(voting.authorRepresentative){
-					const sameRepresentative = mappedVotings.findIndex(vote => vote.delegateId === voting.delegateId || vote.participantId === voting.delegateId);
-					if(sameRepresentative !== -1){
-						if(voting.author.state === PARTICIPANT_STATES.REPRESENTATED){
-							mappedVotings[sameRepresentative].representing = [voting];
-						} else {
-							mappedVotings[sameRepresentative].delegatedVotes = !!mappedVotings[sameRepresentative].delegatedVotes?
-								[...mappedVotings[sameRepresentative].delegatedVotes, voting]
-							:
-								[voting];
-						}
-					} else {
-						if(voting.author.state === PARTICIPANT_STATES.REPRESENTATED){
-							mappedVotings.push({...voting, author: voting.authorRepresentative, representing: [voting]});
-						} else {
-							mappedVotings.push({...voting, author: voting.authorRepresentative, delegatedVotes: [voting]});
-						}
-					}
-				} else {
-					const authorAlreadyInList = mappedVotings.findIndex(vote => vote.author.id === voting.participantId);
-					if(authorAlreadyInList === -1) {
-						mappedVotings.push({...voting, delegatedVotes: []});
-					}
-				}
-			})
-		}
+		votings = data.agendaVotings.list;
 	}
-
-	const offset = (props.page - 1) * props.pageLimit;
-	const slicedVotings = mappedVotings.slice(offset, offset + props.pageLimit);
 
 	return (
 		<Grid
@@ -242,7 +211,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 								{ name: translate.votes }
 							]}
 						>
-							{slicedVotings.map(vote => (
+							{votings.map(vote => (
 								<TableRow key={`vote_${vote.id}`}>
 									<TableCell>
 										{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0?
@@ -299,10 +268,11 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 									<TableCell>
 										<div style={{minWidth: '7em', fontSize: '0.9em'}}>
 											<span style={{fontWeight: '700'}}>
-												{!!vote.representing &&
-													`${vote.representing[0].author.name} ${vote.representing[0].author.surname} - Representado por: `
+												{!!vote.authorRepresentative?
+													`${vote.author.name} ${vote.author.surname} - Representado por: ${vote.authorRepresentative.name} ${vote.authorRepresentative.surname} ${vote.authorRepresentative.position? ` - ${vote.authorRepresentative.position}` : ''}`
+												:
+													`${vote.author.name} ${vote.author.surname} ${vote.author.position? ` - ${vote.author.position}` : ''}`
 												}
-												{`${vote.author.name} ${vote.author.surname} ${vote.author.position? ` - ${vote.author.position}` : ''}`}
 											</span>
 											{!!vote.delegatedVotes &&
 												vote.delegatedVotes.map(delegatedVote => (
@@ -328,7 +298,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 												<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 													<br/>
 													{`${
-														delegatedVote.numParticipations > 0 && delegatedVote.numParticipations
+														delegatedVote.author.numParticipations > 0 && delegatedVote.author.numParticipations
 													}`}
 												</React.Fragment>
 											))
@@ -351,8 +321,8 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 							<PaginationFooter
 								page={props.page}
 								translate={translate}
-								length={slicedVotings.length}
-								total={mappedVotings.length}
+								length={votings.length}
+								total={data.agendaVotings.total}
 								limit={props.pageLimit}
 								changePage={props.changePage}
 							/>

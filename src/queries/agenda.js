@@ -95,6 +95,17 @@ export const agendaVotings = gql`
 		) {
 			list {
 				id
+				delegatedVotes {
+					id
+					delegateId
+					author {
+						name
+						surname
+						numParticipations
+						state
+						type
+					}
+				}
 				author {
 					id
 					name
