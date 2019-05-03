@@ -17,6 +17,7 @@ import AgendaDetailsTabs from './AgendaDetailsTabs';
 import AgendaDescriptionModal from './AgendaDescriptionModal';
 import { updateAgenda } from "../../../queries/agenda";
 import PointEditorLive from './PointEditorLive';
+import { useOldState } from "../../../hooks";
 
 
 class AgendaDetailsSection extends React.Component {
