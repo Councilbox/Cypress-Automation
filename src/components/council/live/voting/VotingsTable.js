@@ -1,5 +1,5 @@
 import React from 'react';
-import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES } from "../../../../constants";
+import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
 import { TableRow, TableCell } from "material-ui";
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -225,34 +225,49 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 													alignItems: "center"
 												}}
 											>
-												{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-													<React.Fragment>
-														{vote.vote !== -1?
-															translate.has_voted
-														:
-															translate.no_vote_lowercase
-														}
-													</React.Fragment>
+												{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED?
+													translate.customer_delegated
 												:
 													<React.Fragment>
+														{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
+															<React.Fragment>
+																{vote.vote !== -1?
+																	translate.has_voted
+																:
+																	translate.no_vote_lowercase
+																}
+															</React.Fragment>
+														:
+															<React.Fragment>
+																<Tooltip
+																	title={getTooltip(vote.vote)}
+																>
+																	<VotingValueIcon
+																		vote={vote.vote}
+																	/>
+																</Tooltip>
+																{isPresentVote(vote) && (
+																	<PresentVoteMenu
+																		agenda={agenda}
+																		agendaVoting={vote}
+																		active={vote.vote}
+																		refetch={refreshTable}
+																	/>
+																)}
+															</React.Fragment>
+														}
+		
 														<Tooltip
-															title={getTooltip(vote.vote)}
+															title={
+																vote.presentVote === 1
+																	? translate.customer_present
+																	: translate.customer_initial
+															}
 														>
-															<VotingValueIcon
-																vote={vote.vote}
-															/>
+															{getStateIcon(vote.presentVote)}
 														</Tooltip>
-														{isPresentVote(vote) && (
-															<PresentVoteMenu
-																agenda={agenda}
-																agendaVoting={vote}
-																active={vote.vote}
-																refetch={refreshTable}
-															/>
-														)}
 													</React.Fragment>
 												}
-
 												<Tooltip
 													title={
 														vote.presentVote === 1
