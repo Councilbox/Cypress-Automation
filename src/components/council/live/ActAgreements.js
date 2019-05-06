@@ -36,7 +36,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 
 	const startUpdateTimeout = value => {
 		clearTimeout(timeout.current);
-	
+
 		timeout.current = setTimeout(() => {
 			updateAgreement(value);
 		}, 450);

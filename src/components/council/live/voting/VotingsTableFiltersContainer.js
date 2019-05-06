@@ -36,8 +36,6 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 			}
 		});
 
-		console.log(response.data);
-
 		setData(response.data);
 	}
 
@@ -46,28 +44,29 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 			page: 1,
 			filterText: value
 		});
-	};
+	}
 
 	const changeVoteFilter = value => {
 		setState({
 			page: 1,
 			voteFilter: state.voteFilter === value ? "all" : value
 		});
-	};
+	}
 
 	const changeStateFilter = value => {
 		setState({
 			page: 1,
 			stateFilter: state.stateFilter === value ? "all" : value
 		});
-	};
+	}
 
 	const changePage = value => {
+		setData({});
 		setState({
             page: value,
             offset: pageLimit * (value - 1)
         })
-    };
+    }
 
     const buildVariables = () => {
 		let variables = {
