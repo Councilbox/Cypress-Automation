@@ -410,7 +410,7 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												tags={generateActTags('intro', { council, company, recount: this.state.data.councilRecount }, translate)}
+												tags={generateActTags('intro', { council, company, recount: this.props.councilRecount }, translate)}
 												errorText={errors.intro}
 												value={data.council.act.intro || ''}
 												onChange={value => {
@@ -452,7 +452,7 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												tags={generateActTags('constitution', { council, company, recount: this.state.data.councilRecount}, translate)}
+												tags={generateActTags('constitution', { council, company, recount: this.props.councilRecount }, translate)}
 												errorText={errors.constitution}
 												value={data.council.act.constitution || ''}
 												onChange={value => {
@@ -522,7 +522,7 @@ class ActEditor extends Component {
 															}
 														/>
 													}
-													tags={generateActTags('conclusion', { council, company, recount: this.state.data.councilRecount }, translate)}
+													tags={generateActTags('conclusion', { council, company, recount: this.props.councilRecount }, translate)}
 													errorText={errors.conclusion}
 													value={data.council.act.conclusion || ''}
 													onChange={value => {
@@ -762,7 +762,7 @@ const generateActTags = (type, data, translate) => {
 					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
 				},
 				{
-					value: (council.currentQuorum / parseInt(base, 10) * 100).toFixed(3),
+					value: (data.recount.partRightVoting / parseInt(base, 10) * 100).toFixed(3),
 					label: translate.social_capital_percentage
 				},
 				{

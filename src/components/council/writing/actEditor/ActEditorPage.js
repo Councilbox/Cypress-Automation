@@ -7,7 +7,6 @@ import gql from 'graphql-tag';
 import ActEditor from "./ActEditor";
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import Convene from '../../convene/Convene';
-//import Scrollbar from 'react-perfect-scrollbar';
 import SendActPage from './SendActPage';
 import ActAttachments from './ActAttachments';
 import AgendaTab from './AgendaTab';
