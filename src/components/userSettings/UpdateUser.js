@@ -4,7 +4,8 @@ import { checkValidEmail } from "../../utils";
 import {
 	BasicButton,
 	ButtonIcon,
-	SectionTitle
+	SectionTitle,
+	AlertConfirm
 } from "../../displayComponents";
 import { updateUser } from "../../queries";
 import { store } from "../../containers/App";
@@ -14,13 +15,15 @@ import UserForm from './UserForm';
 import { checkEmailExists } from "../../queries/userAndCompanySignUp";
 
 
+
 class UpdateUserForm extends React.Component {
 	state = {
 		data: this.props.user,
 		error: false,
 		loading: false,
 		success: false,
-		errors: {}
+		errors: {},
+		modal: false
 	};
 
 	static getDerivedStateFromProps(nextProps, prevState){
@@ -39,6 +42,12 @@ class UpdateUserForm extends React.Component {
 				loading: true
 			});
 			const { __typename, type, actived, roles, ...data } = this.state.data;
+			
+			if(this.props.user.email !== data.email) {
+				this.setState({
+					modal: true
+				});
+			}
 
 			const response = await this.props.updateUser({
 				variables: {
@@ -149,6 +158,13 @@ class UpdateUserForm extends React.Component {
 
 		return response.data.checkEmailExists.success;
 	}
+	_renderBodyModal = () => {
+		return (
+			<React.Fragment>
+				Se va a enviar un Email para confirmar el cambio de Email.
+			</React.Fragment>
+		)
+	}
 
 	render() {
 		const { translate } = this.props;
@@ -188,6 +204,14 @@ class UpdateUserForm extends React.Component {
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
 				</div>
+				<AlertConfirm
+					requestClose={() => this.setState({ modal: false })}
+					open={this.state.modal}
+					acceptAction={() => this.setState({ modal: false })}
+					buttonAccept={translate.accept}
+					bodyText={this._renderBodyModal()}
+					title={"Envio Email"}
+				/>
 			</React.Fragment>
 		);
 	}
