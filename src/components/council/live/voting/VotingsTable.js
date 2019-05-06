@@ -267,15 +267,6 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 														</Tooltip>
 													</React.Fragment>
 												}
-												<Tooltip
-													title={
-														vote.presentVote === 1
-															? translate.customer_present
-															: translate.customer_initial
-													}
-												>
-													{getStateIcon(vote.presentVote)}
-												</Tooltip>
 											</div>
 										}
 									</TableCell>
