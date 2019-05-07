@@ -214,7 +214,7 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
                 value={value}
                 onChange={updateValue}
                 styles={{ border: "1px solid black" }}
-                clasName={'inputTableSMS'}
+                className={'inputTableSMS'}
                 styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
         </React.Fragment>

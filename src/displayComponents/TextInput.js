@@ -5,10 +5,7 @@ import {
 	InputAdornment,
 	TextField
 } from "material-ui";
-import Visibility from "material-ui-icons/Visibility";
-import VisibilityOff from "material-ui-icons/VisibilityOff";
-import FontAwesome from 'react-fontawesome';
-import HelpPopover from './HelpPopover';
+import { Visibility, VisibilityOff } from "material-ui-icons";
 
 const TextInput = ({
 	floatingText = "",
@@ -21,23 +18,11 @@ const TextInput = ({
 	errorText,
 	classes,
 	onKeyUp,
-	multiline = false,
 	placeholder,
 	required,
 	min,
-	helpPopover,
-	helpTitle,
-	onBlur,
-	helpDescription,
-	id,
 	max,
-	disabled,
-	startAdornment,
-	styles,
-	pointerInput
-	disabled,
-	styles,
-	clasName
+	disabled
 }) => (
 	<FormControl
 		style={{
@@ -46,119 +31,60 @@ const TextInput = ({
 		}}
 	>
 		<TextField
-			className={clasName}
-			onBlur={onBlur}
-			label={
-				<div style={{display: 'flex'}}>
-					{`${floatingText}${required ? "*" : ""}` }
-					{!!errorText &&
-						<FontAwesome
-							name={"times"}
-							style={{
-								fontSize: "17px",
-								color: 'red',
-								marginLeft: '0.2em'
-							}}
-						/>
-					}
-					{helpPopover &&
-						<HelpPopover
-							title={helpTitle}
-							content={helpDescription}
-						/>
-					}
-				</div>
-			}
+			label={`${floatingText}${required ? "*" : ""}`}
 			value={value}
-			multiline={multiline}
 			style={{
 				marginTop: 0,
-				width: "100%",
-				...styles
+				width: "100%"
 			}}
-		>
-			<TextField
-				onBlur={onBlur}
-				label={
-					<div style={{ display: 'flex' }}>
-						{`${floatingText}${required ? "*" : ""}`}
-						{!!errorText &&
-							<FontAwesome
-								name={"times"}
-								style={{
-									fontSize: "17px",
-									color: 'red',
-									marginLeft: '0.2em'
-								}}
-							/>
-						}
-						{helpPopover &&
-							<HelpPopover
-								title={helpTitle}
-								content={helpDescription}
-							/>
-						}
-					</div>
-				}
-				value={value}
-				multiline={multiline}
-				style={{
-					marginTop: 0,
-					width: "100%",
-					...styles
-				}}
-				placeholder={placeholder}
-				InputLabelProps={{
-					shrink: true
-				}}
-				InputProps={{
-					startAdornment: startAdornment,
-					inputProps: {
-						min: min,
-						id: id,
-						max: max,
-						style: {
-							fontSize: '15px',
-							cursor: pointerInput? 'pointer' : ""
-						}
-					},
-					endAdornment: passwordToggler ? (
-						<InputAdornment position="end">
-							<IconButton
-								aria-label="Toggle password visibility"
-								style={{
-									outline: 0
-								}}
-								onClick={event => {
-									event.stopPropagation();
-									passwordToggler();
-								}}
-							>
-								{showPassword ? <VisibilityOff /> : <Visibility />}
-							</IconButton>
-						</InputAdornment>
-					) : adornment ? (
-						<InputAdornment position="end">
-							{adornment}
-						</InputAdornment>
-					) : (
-								""
-							)
-				}}
-				FormHelperTextProps={{
-					error: !!errorText,
-					className: 'error-text'
-				}}
-				color="secondary"
-				type={type}
-				disabled={!!disabled}
-				onKeyUp={onKeyUp}
-				onChange={onChange}
-				margin="normal"
-				helperText={errorText}
-				error={!!errorText}
-			/>
-		</FormControl>
-	);
+			placeholder={placeholder}
+			InputLabelProps={{
+				shrink: true
+			}}
+			InputProps={{
+				startAdornment: adornment ? (
+					<InputAdornment position="start">
+						{adornment}
+					</InputAdornment>
+				) : (
+					""
+				),
+				inputProps: {
+					min: min,
+					max: max
+				},
+				endAdornment: passwordToggler ? (
+					<InputAdornment position="end">
+						<IconButton
+							aria-label="Toggle password visibility"
+							style={{
+								outline: 0
+							}}
+							onClick={event => {
+								event.stopPropagation();
+								passwordToggler();
+							}}
+						>
+							{showPassword ? <VisibilityOff /> : <Visibility />}
+						</IconButton>
+					</InputAdornment>
+				) : (
+					""
+				)
+			}}
+			FormHelperTextProps={{
+				error: !!errorText
+			}}
+			color="secondary"
+			type={type}
+			disabled={!!disabled}
+			onKeyUp={onKeyUp}
+			onChange={onChange}
+			margin="normal"
+			helperText={errorText}
+			error={!!errorText}
+		/>
+	</FormControl>
+);
 
 export default TextInput;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput, Scrollbar } from '../../../../displayComponents';
-import { LoadingSection,  CollapsibleSection, TextInput } from '../../../../displayComponents';
+import { InputAdornment, Card, Avatar, IconButton, CardHeader, Typography, Collapse, CardContent } from 'material-ui';
+import FontAwesome from "react-fontawesome";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import NotificationsTable from '../../../notifications/NotificationsTable';
@@ -27,13 +28,6 @@ const CredentialsManager = ({ translate, ...props }) => {
         props.data.refetch();
     }
 
-    const toggleVisible = () => {
-        const visible = !state.visible;
-        setState({
-            visible
-        });
-    }
-
     const updatePage = page => {
         setState({
             page
@@ -48,66 +42,50 @@ const CredentialsManager = ({ translate, ...props }) => {
     const slicedParticipants = filteredParticipants.slice((state.page - 1 ) * state.limit, ((state.page  - 1 ) * state.limit) + state.limit);
 
     return (
-        <div>
-            <TextInput
-                value={state.filterText}
-                onChange={event => setState({filterText: event.target.value})}
-            />
-            {slicedParticipants.map(participant => (
-                <CollapsibleSection
-                    trigger={() => (
-                        <div style={{width: '100%', padding: '1em', border: '2px solid gainsboro', display: 'flex', alignItems: 'center'}} onClick={() => refreshSends(participant.id)}>
-                            <StateIcon state={participant.state} translate={translate} />
-                            <span style={{marginLeft: '0.6em'}}>{`${participant.name} ${participant.surname} - tlf: ${participant.phone} - @: ${participant.email}`}</span>
-                        </div>
-                    )}
-                    collapse={() => (
-                        <div style={{border: '2px solid gainsboro', borderTop: '0px', marginBottom: '1.4em', padding: '1em'}}>
-                            <ParticipantContactEditor
-                                participant={participant}
-                                translate={translate}
-                                refetch={props.data.refetch}
-                                key={participant.id}
-                                council={props.council}
-                            />
-                            <NotificationsTable
-                                handleToggleVisib={toggleVisible}
-                                visib={state.visible}
-                                translate={translate}
-                                notifications={participant.notifications}
-                            />
-                        </div>
-                    )}
-                    key={`participant_${participant.id}`}
+         <div style={{ height: "100%", overflow: "hidden", width: "100%" }}>
+                <TextInput
+                    value={state.filterText}
+                    onChange={event => setState({ filterText: event.target.value })}
+                    startAdornment={
+                        <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                        </InputAdornment>
+                    }
                 />
+                <div style={{ overflow: "hidden", height: "calc( 100% - 56px )", }}>
+                    <Scrollbar>
+                        {slicedParticipants.map(participant => (
+                            <div key={`participant_${participant.id}`}>
+                                <Content
+                                    participant={participant}
+                                    translate={translate}
+                                    refetch={props.data.refetch}
+                                    council={props.council}
+                                />
+                            </div>
+                        ))}
+                        <div style={{ display: 'flex', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
+                            {state.page > 1 &&
+                                <div onClick={() => updatePage(state.page - 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
+                            }
+                            <div style={{ margin: '0 0.3em' }}>{state.page}</div>
+                            {(state.page < (props.data.liveParticipants.total / state.limit)) &&
+                                <div onClick={() => updatePage(state.page + 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
+                            }
 
-            ))}
-            <div style={{display: 'flex', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'}}>
-                {state.page > 1 &&
-                    <div onClick={() => updatePage(state.page - 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
-                }
-                <div style={{margin: '0 0.3em'}}>{state.page}</div>
-                {(state.page < (props.data.liveParticipants.total / state.limit)) &&
-                    <div onClick={() => updatePage(state.page + 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
-                }
-
+                        </div>
+                    </Scrollbar>
+                </div>
             </div>
-        </div>
     )
 }
 
 
-const CardContenido = ({ participant, translate, refetch, council }) => {
-
-    const [state, setState] = React.useState({
-        expanded: false,
-    })
+const Content = ({ participant, translate, refetch, council }) => {
+    const [expanded, setExpanded] = React.useState(false)
 
     const toggleExpanded = () => {
-        setState({
-            ...state,
-            expanded: !state.expanded
-        });
+        setExpanded(!expanded);
     }
 
     return (
@@ -122,14 +100,14 @@ const CardContenido = ({ participant, translate, refetch, council }) => {
                     <IconButton
                         style={{ top: '20px', }}
                         onClick={toggleExpanded}
-                        aria-expanded={state.expanded}
+                        aria-expanded={expanded}
                         aria-label="Show more"
                         className={"expandButtonModal"}
                     >
                         <FontAwesome
                             name={"angle-down"}
                             style={{
-                                transform: state.expanded ? "rotate(180deg)" : "rotate(0deg)",
+                                transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
                                 transition: "all 0.3s"
                             }}
                         />
@@ -143,7 +121,7 @@ const CardContenido = ({ participant, translate, refetch, council }) => {
                     </React.Fragment>
                 }
             />
-            <Collapse in={state.expanded} timeout="auto" unmountOnExit>
+            <Collapse in={expanded} timeout="auto" unmountOnExit>
                 <CardContent>
                     <div style={{  }}>
                         <ParticipantContactEditor

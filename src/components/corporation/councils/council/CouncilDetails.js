@@ -343,18 +343,18 @@ class CouncilDetails extends React.Component {
 								textStyle={{ fontWeight: '700', color: 'white' }}
 								onClick={this.showAgendaManager}
 							/>
+							{council.securityType === 2 &&
+								<FailedSMSList
+									council={council}
+									translate={translate}
+								/>
+							}
 						</div>
 					</div>
 				</Scrollbar>
 			</div>
 		)
 	}
-					{council.securityType === 2 &&
-						<FailedSMSList
-							council={council}
-							translate={translate}
-						/>
-					}
 }
 
 const showGroupAttendees = attendees => {

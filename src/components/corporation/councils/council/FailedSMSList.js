@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import { withApollo, graphql } from 'react-apollo';
 import { BasicButton, AlertConfirm, LoadingSection } from '../../../../displayComponents';
 import { getSMSStatusByCode } from '../../../../utils/CBX';
+import { getSecondary } from '../../../../styles/colors';
 import { moment } from '../../../../containers/App';
 import { Table, TableRow, TableCell } from 'material-ui';
 import LiveSMS from '../../../council/live/councilMenu/LiveSMS';
@@ -10,6 +11,7 @@ import LiveSMS from '../../../council/live/councilMenu/LiveSMS';
 
 const FailedSMSList = ({ council, translate }) => {
     const [modal, setModal] = React.useState(false);
+    const secondary = getSecondary();
 
     const closeModal = () => {
         setModal(false);
@@ -23,6 +25,8 @@ const FailedSMSList = ({ council, translate }) => {
         <React.Fragment>
             <BasicButton
                 text="Ver envios SMS"
+                color={secondary}
+				textStyle={{ fontWeight: '700', color: 'white' }}
                 onClick={showModal}
             />
             <AlertConfirm
