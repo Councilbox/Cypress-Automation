@@ -31,7 +31,7 @@ const itemStyle = {
     alignItems: 'center'
 }
 
-const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda }) => {
+const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda, classes }) => {
 
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
@@ -45,7 +45,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
         }
         return `${translate.votes}: ${recount.partTotal || 0}`
     }
-    
+
     if (isMobile) {
         return (
             <React.Fragment>
@@ -578,4 +578,4 @@ class EditableCell extends React.Component {
 AgendaRecount.propTypes = {
     classes: PropTypes.object.isRequired,
     cardTitle: PropTypes.node,
-};
+}
