@@ -1,16 +1,15 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { withApollo, graphql } from 'react-apollo';
 import { LoadingSection, BasicButton, TextInput, Scrollbar, PaginationFooter } from '../../../../displayComponents';
 import { getSMS } from '../../../corporation/councils/council/FailedSMSList';
 import { moment } from '../../../../containers/App';
-import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHeader, Card, CardActions, Button, TextField } from 'material-ui';
+import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHeader, Card, CardActions } from 'material-ui';
 import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { isMobile } from 'react-device-detect';
 
-
+const limitPerPage = 10;
 
 const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props }) => {
     const [state, setState] = React.useState({
@@ -31,8 +30,8 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                 councilId: council.id,
                 filter,
                 options: {
-                    limit: 10,
-                    offset: 10 * (value - 1)
+                    limit: limitPerPage,
+                    offset: limitPerPage * (value - 1)
                 }
             }
         });
@@ -40,7 +39,6 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
         if (response.data.sendsSMS) {
             setData(response.data);
             setLoading(false);
-            console.log(response.data)
         }
     }, [council.id, filter]);
 
@@ -72,13 +70,6 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
         getData();
     }
 
-    //calcular total entre 10
-
-    let total
-    if (!loading) {
-        total = data.sendsSMS / 2;
-    }
-
     if (isMobile) {
         return (
             <div style={{ height: "100%" }}>
@@ -103,7 +94,10 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                             subheader={translate.state + ": " + getSMSStatusByCode(send.reqCode)}
                                         />
                                         <CardContent>
-                                            <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
+                                            <EditableCell
+                                                defaultValue={send.recipient.phone}
+                                                setModifiedValues={updateParticipantPhone(send.recipient.id)}
+                                            />
                                         </CardContent>
                                         <CardActions>
                                             <BasicButton
@@ -193,7 +187,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         translate={translate}
                                         length={data.sendsSMS.list.length}
                                         total={data.sendsSMS.total}
-                                        limit={10}
+                                        limit={limitPerPage}
                                         changePage={changePage}
                                     />
                                 }
@@ -207,20 +201,19 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
     }
 }
 
-
 const Row = ({ send, children }) => {
-    const [state, setState] = React.useState(false);
+    const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
-        setState(true)
+        setHover(true)
     }
 
     const onMouseLeave = () => {
-        setState(false)
+        setHover(false)
     }
 
     return (
-        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: state && "#e8e8e8" }}>
+        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: hover && "#e8e8e8" }}>
             {children}
         </TableRow>
     )

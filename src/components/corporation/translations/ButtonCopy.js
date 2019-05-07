@@ -1,7 +1,6 @@
 import React from 'react';
 import FontAwesome from "react-fontawesome";
 import { Tooltip } from 'material-ui';
-import * as CBX from '../../../utils/CBX';
 
 
 const ButtonCopy = ({ val }) => {
