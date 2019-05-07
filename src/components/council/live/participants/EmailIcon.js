@@ -42,7 +42,7 @@ const _renderIcon = (color, reqCode, number, translate, ratio) => {
 	}
 	return (
 		<Tooltip
-			title={translation}
+			title={translate.all_plural}
 		>
 			<div style={{ padding: "0.5em" }}>
 				<img

@@ -13,6 +13,7 @@ import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
 import { PARTICIPANT_STATES } from "../../../../../constants";
 import gql from "graphql-tag";
 import { useOldState } from "../../../../../hooks";
+import { isMobile } from "react-device-detect";
 
 const SignatureModal = ({ data, translate, council, participant, ...props }) => {
 	const [state, setState] = useOldState({
@@ -33,7 +34,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 	};
 
 	React.useEffect(() => {
-		if(!data.loading && !signature.current){
+		if (!data.loading && !signature.current) {
 			setSignature();
 		}
 	}, [data.loading]);
@@ -42,7 +43,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 	const save = async () => {
 		let signatureData = signature.current.toDataURL();
 		let response;
-		if(state.clean){
+		if (state.clean) {
 			response = await props.removeLiveParticipantSignature({
 				variables: {
 					participantId: participant.id
@@ -52,7 +53,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 			response = await props.setLiveParticipantSignature({
 				variables: {
 					signature: {
-						...(data.liveParticipantSignature? { id: data.liveParticipantSignature.id } : {}),
+						...(data.liveParticipantSignature ? { id: data.liveParticipantSignature.id } : {}),
 						data: signatureData,
 						participantId: participant.id
 					},
@@ -92,7 +93,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 	const minWidth = window.innerWidth * 0.7;
 	let width = minWidth;
 
-	if(minWidth > maxWidth){
+	if (minWidth > maxWidth) {
 		width = maxWidth;
 	}
 
@@ -106,6 +107,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 				open={props.show}
 				onEntered={setSignature}
 				disableBackdropClick
+				dialogActionsStyles={{ padding: "0px", marginRight: isMobile ? "" : "1em" }}
 				actions={
 					<Fragment>
 						<BasicButton
@@ -122,7 +124,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							text={translate.cancel}
 							type="flat"
 							color="transparent"
-							buttonStyle={{marginLeft: '0.6em'}}
+							// buttonStyle={{marginLeft: '0.6em'}}
 							textStyle={{
 								textTransform: "none",
 								fontWeight: "700"
@@ -136,14 +138,14 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 								textTransform: "none",
 								fontWeight: "700"
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							// buttonStyle={{ marginLeft: "1em" }}
 							color={primary}
 							onClick={save}
 						/>
 					</Fragment>
 				}
 			>
-				<div style={{ width: `calc(${width}px +  2em)`}}>
+				<div> {/**style={{ width: `calc(${width}px +  2em)`}} */}
 					<div
 						style={{
 							height: "400px",
@@ -154,12 +156,19 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							position: "relative"
 						}}
 					>
-						<ParticipantDisplay
-							participant={participant}
-							translate={translate}
-							delegate={true}
-							council={council}
-						/>
+						<div
+							style={{
+								width: '100%',
+								textAlign: "left"
+							}}
+						>
+							<ParticipantDisplay
+								participant={participant}
+								translate={translate}
+								delegate={true}
+								council={council}
+							/>
+						</div>
 						{_canBePresentWithRemoteVote ? (
 							<div>
 								<Checkbox
@@ -182,7 +191,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							)}
 						<div
 							style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}
-							onClick={() => setState({clean: false})}
+							onClick={() => setState({ clean: false })}
 						>
 							<ReactSignature
 								height={height}

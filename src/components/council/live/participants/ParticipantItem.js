@@ -29,6 +29,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 				style={{
 					width: '98%',
 					marginRight: '5%',
+					marginBottom:"10px",
 					height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
 					...(layout !== 'squares' ? {
 						height: '3.2em',
@@ -42,7 +43,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 						width: "100%",
 						height: '100%',
 						borderRadius: '2px',
-						padding: '0px 2px',
+						padding: '2px 2px',
 						textOverflow: "ellipsis",
 						overflow: "hidden",
 					}}
@@ -223,14 +224,14 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 				overflow: "hidden"
 			}}
 		>
-			<div style={{ width: '65%', display: 'flex', height: "84px" }}>
+			<div style={{ width: '60%', display: 'flex', height: "84px" }}>
 				<div>
 					{ mode === 'STATES' && participant.personOrEntity === 0?
 						<DropDownMenu
 							claseHover={"classHover "}
 							color="transparent"
 							style={{ paddingLeft: '0px', paddingRight: '0px' }}
-							textStyle={{ boxShadow: "none", height: '100%' }}
+							textStyle={{ boxShadow: "none", height: '100%', minWidth: "15px" }}
 							icon={
 								<StateIcon
 									translate={translate}
@@ -280,7 +281,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						width: "100%",
 						textOverflow: "ellipsis",
 						overflow: "hidden",
-						paddingTop: '15px'
+						// paddingTop: '15px'
+						justifyContent:"center"
 					}}
 				>
 					<div

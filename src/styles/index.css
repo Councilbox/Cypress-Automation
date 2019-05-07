@@ -486,3 +486,8 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
     padding-left: 5px
 
 }
+
+
+.livePArticipants>div{
+    margin: 0px;
+}

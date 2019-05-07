@@ -228,7 +228,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 			</Grid>
 			<div
 				style={{
-					height: `calc(100% - 3em - ${isMobile && orientation === 'portrait'? '8em' : `${props.menuOpen? '6.5' : '3.5'}em`} )`,
+					height: `calc(100% - 4em - ${isMobile && orientation === 'portrait'? '8em' : `${props.menuOpen? '6.5' : '3.5'}em`} )`,
 					overflow: "hidden",
 					display: 'flex',
 				}}

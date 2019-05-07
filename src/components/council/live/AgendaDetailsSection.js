@@ -264,7 +264,7 @@ class AgendaDetailsSection extends React.Component {
 						</GridItem>
 					}
 				</Grid>
-				<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc(100vh - ${smallLayout? '14em' : '11em'})`, overflow: 'hidden' }}>
+				<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout? '100vh' : '100%' } - ${smallLayout? '14em' : '6.5em'})`, overflow: 'hidden' }}>
 						<Collapse isOpened={this.state.expanded}>
 							<div
 								style={{

@@ -108,7 +108,7 @@ class AgendaManager extends React.Component {
 	};
 
 	render() {
-		const { council, translate, company } = this.props;
+		const { council, translate, company, stylesDiv } = this.props;
 
 		if (!this.props.data.agendas) {
 			return <LoadingSection />;
@@ -126,7 +126,7 @@ class AgendaManager extends React.Component {
 						maxHeight: 'calc(100% - 3em)',
 						borderLeft: '1px solid gainsboro',
 						overflow: "hidden",
-						backgroundColor: "white"
+						backgroundColor: "white",
 					}}
 					onClick={this.props.openMenu}
 				>
@@ -155,7 +155,7 @@ class AgendaManager extends React.Component {
 					width: "100%",
 					height: "100%",
 					display: "flex",
-					flexDirection: "row"
+					flexDirection: "row",
 				}}
 			>
 				<Card

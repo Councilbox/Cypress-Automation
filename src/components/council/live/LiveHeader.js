@@ -1,15 +1,17 @@
 import React from "react";
 import { getPrimary } from "../../../styles/colors";
 import { bHistory } from "../../../containers/App";
-import { AlertConfirm, Icon } from "../../../displayComponents";
-import { Paper, Tooltip } from 'material-ui';
+import { AlertConfirm, Icon, BasicButton, ButtonIcon } from "../../../displayComponents";
+import { Paper, Tooltip, IconButton } from 'material-ui';
 import logo from "../../../assets/img/logo.png";
 import icono from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
 
+
+
 class LiveHeader extends React.Component {
 	state = {
-		showConfirm: false
+		showConfirm: false,
 	};
 
 	exitAction = () => {
@@ -21,6 +23,8 @@ class LiveHeader extends React.Component {
 			councilName,
 			translate,
 			windowSize,
+			participants,
+			toggleScreens,
 		} = this.props;
 		const primary = getPrimary();
 
@@ -41,7 +45,7 @@ class LiveHeader extends React.Component {
 						justifyContent: "space-between"
 					}}
 				>
-					<div style={{ width: "20%" }}>
+					<div > {/**style={{ width: "20%" }} */}
 						<img
 							src={windowSize !== "xs" ? logo : icono}
 							className="App-logo"
@@ -54,13 +58,12 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "35%",
-							marginRight: "10%",
+							// marginRight: "10%",
 							whiteSpace: 'nowrap',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
 						}}
-					>
+					>{/**style={{width: "35%",}} */}
 						<Tooltip title={councilName}>
 							<div style={{ textAlign: "center", color: primary, fontWeight: '700', fontSize: '1.1em' }}>
 								{councilName}
@@ -69,19 +72,19 @@ class LiveHeader extends React.Component {
 					</div>
 					<div
 						style={{
-							width: "10%",
 							display: "flex",
 							flexDirection: "row",
 							justifyContent: "flex-end",
-							paddingRight: "2em"
+							paddingRight: "2em",
+							alignItems: "center"
 						}}
-					>
+					>{/**style={{width: "20%",}} */}
 						{/*<Icon
                      className="material-icons"
                      style={{fontSize: '1.5em', color: 'white'}}
                      >
                      help
-                     </Icon>*/}
+					 </Icon>*/}
 						<Icon
 							className="material-icons"
 							style={{

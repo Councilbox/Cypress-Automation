@@ -94,16 +94,18 @@ class ParticipantsList extends React.PureComponent {
 							{this.state.editParticipant &&
 								<AlertConfirm
 									open={!!this.state.editParticipant}
+									classNameDialog={isMobile? 'livePArticipants' : ""}
 									bodyStyle={
-										isMobile? { padding: '0.3em'} : { minWidth: "95vw",  overflowY: 'hidden' }
+										isMobile? { padding: '0.3em', maxWidth: "100%"} : { minWidth: "90vw",  overflowY: 'hidden' }
 									}
+									fullWidth={true}
+									// fullScreen={true}
 									requestClose={() => {
 										this.setState({
 											editParticipant: undefined
 										});
 										this.props.refetch();
 									}}
-
 									bodyText={
 										<div style={{height: '70vh'}}>
 											<LiveParticipantEditor
@@ -115,6 +117,7 @@ class ParticipantsList extends React.PureComponent {
 											/>
 										</div>
 									}
+
 								/>
 							}
 						</Scrollbar>
