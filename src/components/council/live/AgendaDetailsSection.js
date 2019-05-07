@@ -299,7 +299,6 @@ class AgendaDetailsSection extends React.Component {
 											</div>
 										)}
 									</React.Fragment>
-									
 								}
 							</div>
 							<div style={{marginLeft: 'auto', marginTop: '0.5em' }}>
