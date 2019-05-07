@@ -1,12 +1,13 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link } from '../../../displayComponents';
+import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Icon, Link, Scrollbar } from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
-import { MenuItem } from 'material-ui';
+import { MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment } from 'material-ui';
 import NewCompanyPage from '../../company/new/NewCompanyPage';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
+
 
 const DEFAULT_OPTIONS = {
     limit: 25,
@@ -44,64 +45,43 @@ class CompaniesDashboard extends React.PureComponent {
             options: DEFAULT_OPTIONS
         };
         variables.options.limit = this.state.limit;
-        variables.filters = [{field: 'businessName', text: this.state.filterText}];
+        variables.filters = [{ field: 'businessName', text: this.state.filterText }];
         this.props.data.refetch(variables);
     }
 
-    render(){
+    render() {
 
-        if(this.state.addCompany){
+        if (this.state.addCompany) {
             return <NewCompanyPage />
         }
 
-        return(
+        return (
             <div
                 style={{
                     height: '100%',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
                 }}
             >
                 <div
                     style={{
-                        marginLeft: '1.4em',
-                        marginRight: '1.4em',
+                        paddingLeft: '1.4em',
+                        paddingRight: '1.4em',
                         display: 'flex',
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         borderBottom: '1px solid gainsboro'
                     }}
                 >
-                    <div>
-                        <SelectInput
-                            value={this.state.limit}
-                            onChange={event => {
-                                this.updateLimit(event.target.value);
-                            }}
-                        >
-                            <MenuItem value={10}>
-                                10
-                            </MenuItem>
-                            <MenuItem value={20}>
-                                20
-                            </MenuItem>
-                        </SelectInput>
-                    </div>
-                    <div style={{width: '600px', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'}}>
-                        <div>
-                            <BasicButton
-                                text={this.props.translate.companies_add}
-                                color={getSecondary()}
-                                icon={<ButtonIcon type="add" color="white" />}
-                                textStyle={{textTransform: 'none', color: 'white', fontWeight: '700'}}
-                                onClick={() => this.setState({
-                                    addCompany: true
-                                })}
-                            />
-                        </div>
-                        <div style={{marginLeft: '0.6em'}}>
+
+                    <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                        <div style={{ marginLeft: '0.6em' }}>
                             <TextInput
-                                adornment={<Icon>search</Icon>}
+                                startAdornment={
+                                    <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                                        <i className="fa fa-search" aria-hidden="true"></i>
+                                    </InputAdornment>
+                                }
                                 floatingText={" "}
                                 type="text"
                                 value={this.state.filterText}
@@ -113,14 +93,83 @@ class CompaniesDashboard extends React.PureComponent {
                     </div>
                 </div>
                 <div style={{
+                    height: 'calc(100% - 6em)',
+                    flexDirection: 'column',
+                    padding: "1em"
+                }}>
+                    <div
+                        style={{
+                            width: "100%",
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center"
+                        }}
+                    >
+                        <div>
+                            <BasicButton
+                                text={this.props.translate.companies_add}
+                                color={getSecondary()}
+                                icon={<ButtonIcon type="add" color="white" />}
+                                textStyle={{ textTransform: 'none', color: 'white', fontWeight: '700' }}
+                                onClick={() => this.setState({
+                                    addCompany: true
+                                })}
+                            />
+                        </div>
+                        <div>
+                            <SelectInput
+                                value={this.state.limit}
+                                onChange={event => {
+                                    this.updateLimit(event.target.value);
+                                }}
+                            >
+                                <MenuItem value={10}>
+                                    10
+                            </MenuItem>
+                                <MenuItem value={20}>
+                                    20
+                            </MenuItem>
+                            </SelectInput>
+                        </div>
+                    </div>
+                    <Table
+                        style={{ width: "100%", maxWidth: "100%" }}
+                    >
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Logo</TableCell>
+                                <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
+                                <TableCell style={{ width: "75%", padding: '4px 56px 4px 15px' }}>Nombre</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                    <div style={{ height: "calc( 100% - 5em)" }}>
+                        <Scrollbar>
+                            {this.props.data.loading ?
+                                <LoadingSection />
+                                :
+                                this.props.data.corporationCompanies.list.map(company => (
+                                    <Link to={`/companies/edit/${company.id}`} key={`company_${company.id}`}>
+                                        <CompanyItem
+                                            tableRoot={true}
+                                            key={`company_${company.id}`}
+                                            company={company}
+                                        />
+                                    </Link>
+                                ))
+                            }
+                        </Scrollbar>
+                    </div>
+                </div>
+                {/* <div style={{
                     height: 'calc(100vh - 6.5em)',
                     flexDirection: 'column',
                     overflowY: 'auto',
                     overflowX: 'hidden'
                 }}>
-                    {this.props.data.loading?
+                    {this.props.data.loading ?
                         <LoadingSection />
-                    :
+                        :
                         this.props.data.corporationCompanies.list.map(company => (
                             <Link to={`/companies/edit/${company.id}`} key={`company_${company.id}`}>
                                 <CompanyItem
@@ -130,7 +179,7 @@ class CompaniesDashboard extends React.PureComponent {
                             </Link>
                         ))
                     }
-                </div>
+                </div> */}
             </div>
         )
     }

@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput } from '../../../../displayComponents';
+import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput, Scrollbar } from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -16,7 +16,9 @@ import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';
 import { COUNCIL_STATES } from '../../../../constants';
 import LiveParticipantStats from './LiveParticipantStats';
+import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
+
 
 
 class CouncilDetails extends React.Component {
@@ -30,9 +32,9 @@ class CouncilDetails extends React.Component {
 		data: null
 	}
 
-	static getDerivedStateFromProps(nextProps, prevState){
-		if(!prevState.data){
-			if(!nextProps.data.loading){
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (!prevState.data) {
+			if (!nextProps.data.loading) {
 				return {
 					data: nextProps.data
 				}
@@ -98,26 +100,26 @@ class CouncilDetails extends React.Component {
 		});
 	}
 
-    render(){
-        const { translate } = this.props;
+	render() {
+		const { translate } = this.props;
 		const secondary = getSecondary();
 
-        if(this.props.data.loading){
-            return <LoadingSection />
+		if (this.props.data.loading) {
+			return <LoadingSection />
 		}
 
 		const { council } = this.state.data;
 
-		if(this.state.showAgenda && council){
+		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
 					<BasicButton
 						text="Cerrar agenda manager"
 						color={secondary}
-						textStyle={{fontWeight: '700', color: 'white'}}
+						textStyle={{ fontWeight: '700', color: 'white' }}
 						onClick={this.closeAgendaManager}
 					/>
-					{council.state > COUNCIL_STATES.ROOM_OPENED?
+					{council.state > COUNCIL_STATES.ROOM_OPENED ?
 						<div
 							style={{
 								width: '100%',
@@ -129,11 +131,11 @@ class CouncilDetails extends React.Component {
 								justifyContent: 'center'
 							}}
 						>
-							<i className="fa fa-hourglass-end" aria-hidden="true" style={{color: 'grey', fontSize: '6em'}}></i>
+							<i className="fa fa-hourglass-end" aria-hidden="true" style={{ color: 'grey', fontSize: '6em' }}></i>
 							REUNIÓN FINALIZADA
 						</div>
-					:
-						<div style={{backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative'}}>
+						:
+						<div style={{ backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative' }}>
 							<AgendaManager
 								recount={this.state.data.councilRecount}
 								council={council}
@@ -141,10 +143,10 @@ class CouncilDetails extends React.Component {
 								translate={translate}
 								fullScreen={this.state.fullScreen}
 								refetch={this.props.data.refetch}
-								openMenu={() => {}}
+								openMenu={() => { }}
 							/>
 							{this.state.locked &&
-								<div style={{position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000}} onClick={() => alert('Se mira pero no se toca')}>
+								<div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000 }} onClick={() => alert('Se mira pero no se toca')}>
 
 								</div>
 							}
@@ -168,9 +170,9 @@ class CouncilDetails extends React.Component {
 								}}
 							>
 								<i
-									className={this.state.locked? "fa fa-lock" : 'fa fa-unlock-alt'}
+									className={this.state.locked ? "fa fa-lock" : 'fa fa-unlock-alt'}
 									aria-hidden="true"
-									style={{color: 'white', fontSize: '2em'}}
+									style={{ color: 'white', fontSize: '2em' }}
 								></i>
 							</div>
 
@@ -182,184 +184,177 @@ class CouncilDetails extends React.Component {
 
 		//const { council } = this.props.data;
 
-        return (
-            <div style={{width: '100%', height: '100%', overflow: 'auto'}}>
-                <CouncilItem council={council} hideFixedUrl={council.state > 30} />
-                <div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-                        display: 'flex',
-						flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    Asistentes
-					{showGroupAttendees(this.state.data.councilAttendants.list)}
-					{`(Total: ${this.state.data.councilAttendants.list.length})`}
-                    <div style={{fontSize: '1rem', marginLeft: '0.6em'}}>
-                        <DownloadAttendantsPDF
-                            council={council}
-                            translate={translate}
-                            color={secondary}
-                        />
-                    </div>
-
-                </div>
-				<div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-						padding: '1em',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-					<BasicButton
-						text="Ver tipo de reunión"
-						color={secondary}
-						textStyle={{fontWeight: '700', color: 'white'}}
-						onClick={this.showCouncilType}
-					/>
-					<AlertConfirm
-						requestClose={this.closeCouncilType}
-						open={this.state.councilTypeModal}
-						buttonCancel={'Cancelar'}
-						bodyText={
-							<React.Fragment>
-								<h6>Opciones</h6>
-								<OptionsDisplay
+		return (
+			<div style={{ width: '100%', height: '100%', }}>
+				<Scrollbar>
+					<div style={{ padding: "1em" }}>
+						<CouncilItem council={council} hideFixedUrl={council.state > 30} enRoot={true} />
+						<div
+							style={{
+								width: '100%',
+								// border: `2px solid ${secondary}`,
+								fontSize: '18px',
+								color: secondary,
+								fontWeight: '700',
+								display: 'flex',
+								flexDirection: 'column',
+								justifyContent: 'center',
+								margin: "1em 0px"
+								// alignItems: 'center'
+							}}
+						>
+							<div style={{ fontSize: '1rem', marginLeft: '0.6em', justifyContent: "flex-end", display: "flex" }}>
+								<DownloadAttendantsPDF
 									council={council}
 									translate={translate}
+									color={secondary}
 								/>
-								<h6 style={{marginTop: '1.4em'}}>Tipo de reunión</h6>
-								<StatuteDisplay
-									statute={council.statute}
-									translate={translate}
-									quorumTypes={this.state.data.quorumTypes}
+								<BasicButton
+									text="Ver tipo de reunión"
+									color={secondary}
+									textStyle={{ fontWeight: '700', color: 'white', marginTop: "0.5em", marginBottom: '1.4em', marginLeft: "1.5em" }}
+									onClick={this.showCouncilType}
 								/>
-							</React.Fragment>
-						}
-						title={"Detalle del tipo de reunión"}
-					/>
-                </div>
-				<div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-						padding: '1em',
-                        display: 'flex',
-						flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-					Envios: <br/>
-					{showSendsRecount(this.state.data.rootCouncilSends)}
-                </div>
-				<div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-						padding: '1em',
-                        display: 'flex',
-						flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-					<CostManager
-						council={council}
-					/>
-                </div>
-				<div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-						padding: '1em',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-					<BasicButton
-						text="Administrador de credenciales"
-						color={secondary}
-						textStyle={{fontWeight: '700', color: 'white'}}
-						onClick={this.showCredManager}
-					/>
-					<BasicButton
-						text="Reenviar credenciales de acceso a sala"
-						color={secondary}
-						textStyle={{fontWeight: '700', color: 'white'}}
-						onClick={this.showCredsModal}
-						buttonStyle={{marginLeft: '0.6em'}}
-					/>
-					<AlertConfirm
-						requestClose={this.closeCredManager}
-						open={this.state.credManager}
-						buttonCancel={'Cancelar'}
-						bodyText={
-							<CredentialsManager
+								<AlertConfirm
+									requestClose={this.closeCouncilType}
+									open={this.state.councilTypeModal}
+									buttonCancel={'Cancelar'}
+									bodyText={
+										<React.Fragment>
+											<h6>Opciones</h6>
+											<OptionsDisplay
+												council={council}
+												translate={translate}
+											/>
+											<h6 style={{ marginTop: '1.4em' }}>Tipo de reunión</h6>
+											<StatuteDisplay
+												statute={council.statute}
+												translate={translate}
+												quorumTypes={this.state.data.quorumTypes}
+											/>
+										</React.Fragment>
+									}
+									title={"Detalle del tipo de reunión"}
+								/>
+							</div>
+							<div style={{ display: "flex" }}>
+								<Table style={{ width: "45%" }}>
+									<TableHead>
+										<TableRow>
+											<TableCell colSpan={2} style={{ textAlign: "center" }}>Asistentes</TableCell>
+										</TableRow>
+									</TableHead>
+									<TableBody>
+										{showGroupAttendees(this.state.data.councilAttendants.list)}
+										<TableRow>
+											<TableCell>Total</TableCell>
+											<TableCell>{this.state.data.councilAttendants.list.length}</TableCell>
+										</TableRow>
+									</TableBody>
+								</Table>
+								<Table style={{ maxWidth: "45%", marginLeft: "10%" }}>
+									<TableHead>
+										<TableRow>
+											<TableCell colSpan={2} style={{ textAlign: "center" }}>Envios</TableCell>
+										</TableRow>
+									</TableHead>
+									<TableBody>
+										{showSendsRecount(this.state.data.rootCouncilSends)}
+									</TableBody>
+								</Table>
+							</div>
+						</div>
+						<div
+							style={{
+								width: '100%',
+								fontSize: '18px',
+								color: secondary,
+								fontWeight: '700',
+								padding: '1em',
+								display: 'flex',
+								flexDirection: 'column',
+							}}
+						>
+							<CostManager
 								council={council}
-								translate={this.props.translate}
 							/>
-						}
-						title={"Administrador de credenciales"}
-					/>
-					<SendCredentialsModal
-						show={this.state.sendCredentials}
-						council={council}
-						requestClose={this.closeCredsModal}
-						translate={translate}
-					/>
+						</div>
+						<div
+							style={{
+								width: '100%',
+								fontSize: '18px',
+								color: secondary,
+								fontWeight: '700',
+								padding: '1em',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}
+						>
+							<BasicButton
+								text="Administrador de credenciales"
+								color={secondary}
+								textStyle={{ fontWeight: '700', color: 'white' }}
+								onClick={this.showCredManager}
+							/>
+							<BasicButton
+								text="Reenviar credenciales de acceso a sala"
+								color={secondary}
+								textStyle={{ fontWeight: '700', color: 'white' }}
+								onClick={this.showCredsModal}
+								buttonStyle={{ marginLeft: '0.6em' }}
+							/>
+							<AlertConfirm
+								requestClose={this.closeCredManager}
+								open={this.state.credManager}
+								buttonCancel={'Cancelar'}
+								classNameDialog={'height100'}
+								bodyStyle={{minWidth: "100vh",maxWidth: "100vh",height: '100%',overflowY: 'hidden'}}
+								bodyText={
+									<CredentialsManager
+										council={council}
+										translate={this.props.translate}
+									/>
+								}
+								title={"Administrador de credenciales"}
+							/>
+							<SendCredentialsModal
+								show={this.state.sendCredentials}
+								council={council}
+								requestClose={this.closeCredsModal}
+								translate={translate}
+							/>
+						</div>
+						<div
+							style={{
+								width: '100%',
+								fontSize: '18px',
+								color: secondary,
+								fontWeight: '700',
+								padding: '1em',
+								display: 'flex',
+								justifyContent: 'center',
+								alignItems: 'center'
+							}}
+						>
+							<BasicButton
+								text="Abrir agenda Manager"
+								color={secondary}
+								textStyle={{ fontWeight: '700', color: 'white' }}
+								onClick={this.showAgendaManager}
+							/>
+						</div>
+					</div>
+				</Scrollbar>
+			</div>
+		)
+	}
 					{council.securityType === 2 &&
 						<FailedSMSList
 							council={council}
 							translate={translate}
 						/>
 					}
-                </div>
-				<div
-                    style={{
-                        width: '100%',
-                        border: `2px solid ${secondary}`,
-                        fontSize: '18px',
-                        color: secondary,
-                        fontWeight: '700',
-						padding: '1em',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-					<BasicButton
-						text="Abrir agenda Manager"
-						color={secondary}
-						textStyle={{fontWeight: '700', color: 'white'}}
-						onClick={this.showAgendaManager}
-					/>
-                </div>
-            </div>
-        )
-    }
 }
 
 const showGroupAttendees = attendees => {
@@ -370,29 +365,35 @@ const showGroupAttendees = attendees => {
 	};
 
 	attendees.forEach(attendee => {
-		if(attendee.state === 5){
+		if (attendee.state === 5) {
 			list.presenciales++;
 		}
-		if(attendee.state === 0){
+		if (attendee.state === 0) {
 			list.remotos++;
 		}
-		if(attendee.state === 7){
+		if (attendee.state === 7) {
 			list.presenteVotoRemoto++;
 		}
 	})
 
 	return (
-		<div>
-			{Object.keys(list).map((key, index) => (
-				<li key={key}>
-					{`${key}: ${list[key]}`}
-				</li>
-			))}
-		</div>
+		Object.keys(list).map((key, index) => (
+			<TableRow key={key}>
+				<TableCell style={{ textTransform: 'capitalize' }} >
+					{`${key}`}
+				</TableCell>
+				<TableCell>
+					{`${list[key]}`}
+				</TableCell>
+			</TableRow>
+		))
 	)
 }
 
-const showSendsRecount = sends => {
+
+
+const showSendsRecount = (sends) => {
+
 	const list = {
 		'-1': 'Preconvocatoria',
 		'0': 'Convocatoria',
@@ -436,16 +437,27 @@ const showSendsRecount = sends => {
 		}
 	});
 
+
 	return (
-		<div>
+		<React.Fragment>
 			{Object.keys(recount).filter(key => recount[key] > 0).map(key => (
-				<li key={key}>{`${key}: ${recount[key]}`}</li>
+				<TableRow key={key}>
+					<TableCell style={{ textTransform: 'capitalize' }}>
+						{`${key}`}
+					</TableCell>
+					<TableCell >
+						{`${recount[key]}`}
+					</TableCell>
+				</TableRow>
 			))}
-			{`Total: ${sends.length}`}
-		</div>
+
+
+			<TableRow>
+				<TableCell>Total</TableCell>
+				<TableCell colSpan={3}>{sends.length}</TableCell>
+			</TableRow>
+		</React.Fragment>
 	)
-
-
 }
 
 const CouncilDetailsRoot = gql`
@@ -598,9 +610,9 @@ const CouncilDetailsRoot = gql`
 
 
 export default graphql(CouncilDetailsRoot, {
-    options: props => ({
-        variables: {
+	options: props => ({
+		variables: {
 			id: props.match.params.id
-        }
-    })
+		}
+	})
 })(withRouter(withTranslations()(CouncilDetails)));

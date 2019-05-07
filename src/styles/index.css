@@ -285,3 +285,11 @@ h4 {
     padding-left: 5px
 
 }
+
+
+.height100>div{
+    height: 100%;
+}
+.expandButtonModal:focus{
+    outline: none;
+}

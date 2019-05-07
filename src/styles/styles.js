@@ -1,6 +1,6 @@
 import { darkGrey } from "./colors";
 
-const drawerWidth = 250;
+const drawerWidth = 75;
 
 const transition = {
 	transition: "all 0.33s cubic-bezier(0.685, 0.0473, 0.346, 1)"

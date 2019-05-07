@@ -1,4 +1,5 @@
 import React from 'react';
+import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput, Scrollbar } from '../../../../displayComponents';
 import { LoadingSection,  CollapsibleSection, TextInput } from '../../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -95,8 +96,80 @@ const CredentialsManager = ({ translate, ...props }) => {
     )
 }
 
+
+const CardContenido = ({ participant, translate, refetch, council }) => {
+
+    const [state, setState] = React.useState({
+        expanded: false,
+    })
+
+    const toggleExpanded = () => {
+        setState({
+            ...state,
+            expanded: !state.expanded
+        });
+    }
+
+    return (
+        <Card style={{ marginLeft: '1px', marginRight: '15px', marginTop: "15px" }}  >
+            <CardHeader
+                onClick={toggleExpanded}
+                style={{ cursor: "pointer" }}
+                avatar={
+                    <StateIcon state={participant.state} translate={translate} ratio={1.4} />
+                }
+                action={
+                    <IconButton
+                        style={{ top: '20px', }}
+                        onClick={toggleExpanded}
+                        aria-expanded={state.expanded}
+                        aria-label="Show more"
+                        className={"expandButtonModal"}
+                    >
+                        <FontAwesome
+                            name={"angle-down"}
+                            style={{
+                                transform: state.expanded ? "rotate(180deg)" : "rotate(0deg)",
+                                transition: "all 0.3s"
+                            }}
+                        />
+                    </IconButton>
+                }
+                title={`${participant.name} ${participant.surname}`}
+                subheader={
+                    <React.Fragment>
+                        <Typography style={{ color: 'grey' }}>{participant.email}</Typography>
+                        <Typography style={{ color: 'grey' }}>{participant.phone}</Typography>
+                    </React.Fragment>
+                }
+            />
+            <Collapse in={state.expanded} timeout="auto" unmountOnExit>
+                <CardContent>
+                    <div style={{  }}>
+                        <ParticipantContactEditor
+                            participant={participant}
+                            translate={translate}
+                            refetch={refetch}
+                            key={participant.id}
+                            council={council}
+                        />
+                    </div>
+                    <div style={{ padding: "1em 0px" }}>
+                        <NotificationsTable
+                            maxEmail={{maxWidth: '100px'}}
+                            translate={translate}
+                            notifications={participant.notifications}
+                        />
+                    </div>
+                </CardContent>
+            </Collapse>
+        </Card>
+    )
+}
+
+
 const filter = (participants, text) => {
-    if(!text){
+    if (!text) {
         return participants;
     }
     const lText = text.toLowerCase();
@@ -107,26 +180,26 @@ const filter = (participants, text) => {
 
 const participants = gql`
     query CredsParticipants($councilId: Int!, $options: OptionsInput){
-        liveParticipants(councilId: $councilId, options: $options){
-            list {
-                name
-                surname
-                phone
-                email
-                state
-                id
+                liveParticipants(councilId: $councilId, options: $options){
+                list {
+            name
+            surname
+            phone
+            email
+            state
+            id
                 notifications {
-                    participantId
+                participantId
                     email
-                    reqCode
-                    refreshDate
-                    sendDate
-                    sendType
-                }
-            }
-            total
+            reqCode
+            refreshDate
+            sendDate
+            sendType
         }
     }
+    total
+}
+}
 `;
 
 export default compose(
@@ -142,7 +215,7 @@ export default compose(
         })
     }),
     graphql(updateParticipantSends, {
-		name: "updateParticipantSends"
-	})
+        name: "updateParticipantSends"
+    })
 )(CredentialsManager);
 

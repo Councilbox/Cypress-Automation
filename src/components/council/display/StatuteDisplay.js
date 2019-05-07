@@ -1,90 +1,92 @@
 import React from 'react';
 
 const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
-    <div style={{maxWidth: '900px'}}>
-        <div style={{display: 'flex', alignItems: 'center'}}>
+    <div style={{ maxWidth: '900px' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsAdvanceNoticeDays)}
             <span>{translate.exists_advance_notice_days}</span>
-            {getSelectionIcon(statute.existsAdvanceNoticeDays)}{
-                statute.existsAdvanceNoticeDays?
+            {
+                statute.existsAdvanceNoticeDays ?
                     `${' '}   -  ${statute.advanceNoticeDays} ${translate.input_group_days}`
-                : ''
+                    : ''
             }
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_second_call}</span>{getSelectionIcon(statute.existsSecondCall)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsSecondCall)}<span>{translate.exists_second_call}</span>
         </div>
         {statute.existsSecondCall === 1 &&
-            <div style={{display: 'flex', alignItems: 'center'}}>
-                <span>{translate.minimum_separation_between_call}</span>{` - ${statute.minimumSeparationBetweenCall} ${translate.minutes}`}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div style={{width: "15px", marginRight: "0.4em"}}></div><span>{translate.minimum_separation_between_call}</span>{` - ${statute.minimumSeparationBetweenCall} ${translate.minutes}`}
             </div>
         }
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span style={{marginRight: '0.3em'}}>{translate.quorum_type}:</span>{statute.quorumPrototype? translate.social_capital : translate.census_type_assistants}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{width: "15px", marginRight: "0.4em" }}></div> <span style={{ marginRight: '0.3em' }}>{translate.quorum_type}:</span>{statute.quorumPrototype ? translate.social_capital : translate.census_type_assistants}
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span style={{marginRight: '0.3em'}}>{translate.exist_quorum_assistance_first_call}:</span>{translate[getQuorumType(statute.firstCallQuorumType, quorumTypes)]}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ width: "15px", marginRight: "0.4em" }}></div>   <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_first_call}:</span>{translate[getQuorumType(statute.firstCallQuorumType, quorumTypes)]}
         </div>
 
         {statute.existsSecondCall === 1 &&
-            <div style={{display: 'flex', alignItems: 'center'}}>
-                <span style={{marginRight: '0.3em'}}>{translate.exist_quorum_assistance_second_call}:</span>{translate[getQuorumType(statute.secondCallQuorumType, quorumTypes)]}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_second_call}:</span>{translate[getQuorumType(statute.secondCallQuorumType, quorumTypes)]}
             </div>
         }
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_delegated_vote}</span>{getSelectionIcon(statute.existsDelegatedVote)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsDelegatedVote)} <span>{translate.exists_delegated_vote}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exist_max_num_delegated_votes}</span>{getSelectionIcon(statute.existMaxNumDelegatedVotes)}
-               {`${statute.existMaxNumDelegatedVotes? ` - ${statute.maxNumDelegatedVotes}` : ''}`}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existMaxNumDelegatedVotes)}
+            <span>{translate.exist_max_num_delegated_votes}</span>
+            {`${statute.existMaxNumDelegatedVotes ? ` - ${statute.maxNumDelegatedVotes}` : ''}`}
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_limited_access_room}</span>{getSelectionIcon(statute.existsLimitedAccessRoom)}
-            {`${statute.existsLimitedAccessRoom? ` - ${statute.limitedAccessRoomMinutes} min` : ''}`}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsLimitedAccessRoom)} <span>{translate.exists_limited_access_room}</span>
+            {`${statute.existsLimitedAccessRoom ? ` - ${statute.limitedAccessRoomMinutes} min` : ''}`}
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_comments}</span>{getSelectionIcon(statute.existsComments)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsComments)}<span>{translate.exists_comments}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_notify_points}</span>{getSelectionIcon(statute.notifyPoints)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.notifyPoints)} <span>{translate.exists_notify_points}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_quality_vote}</span>{getSelectionIcon(statute.existsQualityVote)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsQualityVote)}<span>{translate.exists_quality_vote}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exist_present_with_remote_vote}</span>{getSelectionIcon(statute.existsPresentWithRemoteVote)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsPresentWithRemoteVote)}  <span>{translate.exist_present_with_remote_vote}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.can_add_points}</span>{getSelectionIcon(statute.canAddPoints)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.canAddPoints)} <span>{translate.can_add_points}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.can_reorder_points}</span>{getSelectionIcon(statute.canReorderPoints)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.canReorderPoints)} <span>{translate.can_reorder_points}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.can_unblock}</span>{getSelectionIcon(statute.canUnblock)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.canUnblock)} <span>{translate.can_unblock}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.exists_act}</span>{getSelectionIcon(statute.existsAct)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsAct)}<span>{translate.exists_act}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.included_in_act_book}</span>{getSelectionIcon(statute.includedInActBook)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.includedInActBook)}  <span>{translate.included_in_act_book}</span>
         </div>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-            <span>{translate.include_participants_list_in_act}</span>{getSelectionIcon(statute.includeParticipantsList)}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.includeParticipantsList)}<span>{translate.include_participants_list_in_act}</span>
         </div>
     </div>
 )
 
 const getSelectionIcon = value => {
-    if(value === 1){
-        return <i className="fa fa-check" style={{color: 'limegreen', marginLeft: '0.3em'}} aria-hidden="true"></i>
+    if (value === 1) {
+        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
     }
 
-    return <i className="fa fa-times" style={{color: 'red', marginLeft: '0.3em'}} aria-hidden="true"></i>
+    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
 }
 
 const getQuorumType = (type, quorumTypes) => {
     const quorum = quorumTypes.find(quorum => type = quorum.value);
-    if(quorum){
+    if (quorum) {
         return quorum.label;
     }
     return '-';

@@ -31,10 +31,10 @@ class UserSendsList extends React.PureComponent {
     }
 
     render(){
-        const { translate } = this.props;
+        const { translate, enRoot } = this.props;
 
         return(
-            <React.Fragment>
+            <div style={{marginBottom: this.state.visible && enRoot ? "3em" : ""}}>
                 <div style={{width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center'}}>
                     <Typography variant="subheading" style={{color: getPrimary(), marginRight: '0.6em'}}>
                         {translate.sends}
@@ -49,7 +49,7 @@ class UserSendsList extends React.PureComponent {
                 <div style={{width: '100%', display: 'flex'}}>
                     <NotificationsTable notifications={this.props.user.sends} translate={translate} visib={this.state.visible} handleToggleVisib={this.toggleVisible} />
                 </div>
-            </React.Fragment>
+            </div>
         )
     }
 }
