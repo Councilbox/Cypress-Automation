@@ -83,7 +83,6 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 	};
 
 	let votings = [];
-	let presentVotes = 0;
 
 	if(data.agendaVotings){
 		votings = data.agendaVotings.list;
@@ -199,7 +198,7 @@ const VotingsTable = ({ data, agenda, translate, state, ...props }) => {
 							style={{width: '100%'}}
 							forceMobileTable={true}
 							headers={[
-								presentVotes > 0?
+								agenda.presentCensus > 0?
 								{name:
 									<SelectAllMenu
 										translate={translate}
