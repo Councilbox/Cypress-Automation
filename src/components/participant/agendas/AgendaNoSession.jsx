@@ -14,6 +14,8 @@ import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
 import CommentMenu from "./CommentMenu";
 import RichTextInput from "../../../displayComponents/RichTextInput";
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
 
 
@@ -31,13 +33,14 @@ const styles = {
     }
 };
 
-const AgendaNoSession = ({ translate, council, participant, data, noSession, ...props }) => {
+const AgendaNoSession = ({ translate, council, participant, data, noSession,client, ...props }) => {
     const secondary = getSecondary();
     const primary = getPrimary();
     let agendas = [];
     const [state, setState] = React.useState({
-        open: false
+        open: false,
     })
+    const [timelineSeeId, settimelineSeeId] = React.useState(0);
 
     const toggle = () => {
         setState({
@@ -58,6 +61,23 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, ...
             return <div></div>;
         }
     }
+
+    React.useEffect(() => {
+        const readTimelines = async () => {
+            const response2 = await client.query({
+                query: readTimeline,
+                variables: {
+                    councilId: council.id,
+                }
+            });
+            
+            if (response2.data && response2.data.readTimeline ) {
+                settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
+            }
+        }
+
+        readTimelines();
+    }, [council.id]);
 
     const agendaStateIcon = (agenda) => {
         // const { agenda } = this.props;
@@ -349,8 +369,17 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, ...
     );
 }
 
-
-export default AgendaNoSession;
+const readTimeline = gql`
+    query ReadTimeline($councilId: Int!){
+        readTimeline(councilId: $councilId){
+            id
+            type
+            date
+            content
+        }
+    }
+`;
+export default withApollo(AgendaNoSession);
 
 ///////////////////////////////////////////////
 // <Card style={{ padding: "1em" }}>

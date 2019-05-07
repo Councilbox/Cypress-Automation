@@ -8,6 +8,7 @@ import gql from 'graphql-tag';
 import { darkGrey, secondary, primary } from '../../../styles/colors';
 import { AlertConfirm, BasicButton, Badge } from '../../../displayComponents';
 
+
 const styles = {
     button: {
         width: '100%',
@@ -68,7 +69,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             onClick={() => props.setContent('agenda')}
         >
             <div style={{ display: "unset" }}>
-                <Badge badgeContent={8} dot color="primary" styleDot={{color:primary}} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
+                <Badge badgeContent={8} dot color="primary" styleDot={{ color: primary }} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
                     <div>
                         <i className="material-icons" style={{
                             color: props.modalContent === "agenda" ? secondary : "",
@@ -125,8 +126,8 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             </div>
         </Button>
     )
-                   
-    if ( !props.noSession && props.isMobile) {
+
+    if (!props.noSession && props.isMobile) {
         return (
             <AlertConfirm
                 open={true}
@@ -137,7 +138,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                 bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
                 bodyText={
                     <div style={{ height: '100%' }}>
-                            { props.agenda}
+                        {props.agenda}
                     </div>
                 }
             />
@@ -374,6 +375,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 council={council}
                                 onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
+                                participant={participant}
                             />
                         </div>
                     </Grid>
@@ -411,36 +413,77 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
 }
 
 
-const TimelineButton = withApollo(({ onClick, actived, council, client }) => {
+const TimelineButton = withApollo(({ onClick, actived, council, client, participant }) => {
     const [total, setTotal] = React.useState(0);
+    const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
     const [readed, setReaded] = React.useState(0);
+    const [timelineSeeId, settimelineSeeId] = React.useState(0);
+    const [arrayTimeline, setArrayTimeline] = React.useState(null);
+
 
     React.useEffect(() => {
         const getTimeline = async () => {
             const response = await client.query({
                 query: councilTimelineQuery,
                 variables: {
-                    councilId: council.id
+                    councilId: council.id,
                 }
             });
 
             if (response.data && response.data.councilTimeline) {
                 setTotal(response.data.councilTimeline.length);
+                setArrayTimeline(response.data.councilTimeline)
+                if (response.data.councilTimeline[response.data.councilTimeline.length - 1] !== undefined) {
+                    setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id)
+                }
             }
         }
+        const readTimelines = async () => {
+            const response2 = await client.query({
+                query: readTimeline,
+                variables: {
+                    councilId: council.id,
+                }
+            });
+
+            if (response2.data && response2.data.readTimeline && response2.data.readTimeline[0] !== undefined) {
+                settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
+            }
+        }
+
         getTimeline();
-        const interval = setInterval(getTimeline, 10000);
+        readTimelines();
+        const interval = setInterval(function () { getTimeline(); readTimelines(); }, 10000);
         return () => clearInterval(interval);
     }, [council.id, client, councilTimelineQuery]);
+
+
+    const evidenceRead = async () => {
+        const response = await client.mutate({
+            mutation: createEvidenceRead,
+            variables: {
+                evidenceId: lastEvidenceId,
+                councilId: council.id,
+                participantId: participant.id,
+            }
+        });
+    }
+
 
     const enterTimeline = () => {
         setReaded(total);
         onClick();
+        evidenceRead()
     }
 
-    const unread = total - readed;
-
-
+    
+    let resultado
+    let unread = 0
+    if (arrayTimeline != null) {
+        resultado = arrayTimeline.findIndex( item => item.id === timelineSeeId);
+        unread = total - (resultado+1);
+    }
+    
     return (
         <Button
             className={"NoOutline"}
@@ -476,9 +519,28 @@ const TimelineButton = withApollo(({ onClick, actived, council, client }) => {
 })
 
 const councilTimelineQuery = gql`
-    query CouncilTimeline($councilId: Int!){
+    query CouncilTimeline($councilId: Int!, ){
         councilTimeline(councilId: $councilId){
             id
+        }
+    }
+`;
+
+const readTimeline = gql`
+    query ReadTimeline($councilId: Int!){
+        readTimeline(councilId: $councilId){
+            id
+            type
+            date
+            content
+        }
+    }
+`;
+
+const createEvidenceRead = gql`
+    mutation CreateEvidenceRead($evidenceId: Int!, $councilId: Int!, $participantId: Int! ){
+        createEvidenceRead(evidenceId: $evidenceId, councilId: $councilId, participantId: $participantId){
+            success
         }
     }
 `;

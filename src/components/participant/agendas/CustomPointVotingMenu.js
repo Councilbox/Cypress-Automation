@@ -105,8 +105,8 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
         return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
-    console.log(agenda.options.maxSelections )
-    console.log(selections.length )
+    // console.log(agenda.options.maxSelections )
+    // console.log(selections.length )
 
     return (
         <div>

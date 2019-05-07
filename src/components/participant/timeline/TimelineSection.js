@@ -13,9 +13,10 @@ import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 const TimelineSection = ({ translate, participant, council, isMobile, client }) => {
     const [timeline, setTimeline] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
+    const [timelineSeeId, settimelineSeeId] = React.useState(0);
 
     React.useEffect(() => {
-        const getTimeline = async() => {
+        const getTimeline = async () => {
             const response = await client.query({
                 query: councilTimelineQuery,
                 variables: {
@@ -26,9 +27,10 @@ const TimelineSection = ({ translate, participant, council, isMobile, client }) 
             setLoading(false);
             setTimeline(response.data.councilTimeline);
         }
-
+       
         getTimeline();
     }, [council.id]);
+    
 
     //TRADUCCION
     return (
@@ -90,6 +92,8 @@ const councilTimelineQuery = gql`
         }
     }
 `;
+
+
 
 //TRADUCCION
 const getTimelineTranslation = (type, content) => {
