@@ -5,9 +5,6 @@ import FontAwesome from "react-fontawesome";
 import { Tooltip, InputAdornment } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 
-
-
-
 const TranslationForm = ({ data, errors, translate, updateState, values, flagEdit }) => {
 
     return (
@@ -108,9 +105,9 @@ class Row extends React.Component {
 
     render() {
         //TRADUCCION
-        const { value, disabled, floatingText, errorText, onChange, flagEdit } = this.props
+        const { value, disabled, floatingText, errorText, onChange, flagEdit } = this.props;
         return (
-            <div onClick={this.copy} style={{ overflow: "hidden", width: '100%', display: "flex", }}>
+            <div onClick={flagEdit && this.copy} style={{ overflow: "hidden", width: '100%', display: "flex", }}>
                 <Tooltip title={'copiado'} open={this.state.showCopyTooltip}>
                     <TextInput
                         pointerInput={true}

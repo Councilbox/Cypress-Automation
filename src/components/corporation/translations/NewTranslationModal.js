@@ -3,12 +3,11 @@ import { AlertConfirm } from '../../../displayComponents';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import TranslationForm from './TranslationForm';
+import { useOldState } from '../../../hooks';
 
-
-class NewTranslationModal extends React.Component {
-
-    state = {
-        data: this.props.values ? this.props.values : {
+const NewTranslationModal = ({ translate, ...props }) => {
+    const [state, setState] = useOldState({
+        data: props.values ? props.values : {
             label: '',
             es: '',
             cat: '',
@@ -18,52 +17,54 @@ class NewTranslationModal extends React.Component {
         },
         errors: {},
         success: false
-    }
+    });
 
-    initialState = this.state;
+    const initialState = React.useRef(state);
 
-    updateState = object => {
-        this.setState({
+    const updateState = object => {
+        setState({
             data: {
-                ...this.state.data,
+                ...state.data,
                 ...object
             }
         });
     }
 
-    saveNewTranslation = async () => {
-        if (!this.checkRequiredFields()) {
-            const response = await this.props.createTranslation({
+    const saveNewTranslation = async () => {
+        if (!checkRequiredFields()) {
+            const response = await  props.createTranslation({
                 variables: {
-                    translation: this.state.data
+                    translation: state.data
                 }
             });
 
             if (!response.errors) {
-                this.setState({
-                    ...this.initialState,
+                setState({
+                    ...initialState.current,
                     success: true,
-                })
+                });
             }
         }
     }
 
-    updateTranslationAction = async () => {
-        if (!this.checkRequiredFields()) {
-            const { __typename, ...translation } = this.state.data;
-            const response = await this.props.updateTranslation({
+
+    const updateTranslationAction = async () => {
+        if (!checkRequiredFields()) {
+            const { __typename, ...translation } = state.data;
+            const response = await props.updateTranslation({
                 variables: {
                     translation
                 }
             });
-            
+
             if(!response.errors){
-                const response = await this.props.refresh();
+                await props.refresh();
+                props.requestClose();
             }
         }
     }
 
-    checkRequiredFields = () => {
+    const checkRequiredFields = () => {
         let errors = {
             label: '',
             es: '',
@@ -74,7 +75,7 @@ class NewTranslationModal extends React.Component {
         }
         let hasError = false;
 
-        const { data } = this.state;
+        const { data } = state;
 
         if (!data.label) {
             hasError = true;
@@ -106,41 +107,36 @@ class NewTranslationModal extends React.Component {
             errors.pt = 'Campo requerido';
         }
 
-        this.setState({
+        setState({
             errors
         });
 
         return hasError;
     }
 
-    _renderModalBody = () => {
+    const _renderModalBody = () => {
         return (
             <TranslationForm
-                errors={this.state.errors}
-                updateState={this.updateState}
-                data={this.state.data}
-                flagEdit={this.props.values ? true: false}
+                errors={state.errors}
+                updateState={updateState}
+                data={state.data}
+                flagEdit={props.values ? true: false}
             />
         )
     }
 
+    return (
+        <AlertConfirm
+            requestClose={props.requestClose}
+            open={props.open}
+            acceptAction={props.values ? updateTranslationAction : saveNewTranslation}
+            buttonAccept={translate.accept}
+            buttonCancel={translate.cancel}
+            bodyText={_renderModalBody()}
+            title={props.values ?  translate.edit : "Nueva traducción"}
+        />
+    )
 
-    render() {
-        const { translate } = this.props;
-
-        return (
-            <AlertConfirm
-                requestClose={this.props.requestClose}
-                open={this.props.open}
-                acceptAction={this.updateTranslationAction}
-                // acceptAction={this.saveNewTranslation}
-                buttonAccept={translate.accept}
-                buttonCancel={translate.cancel}
-                bodyText={this._renderModalBody()}
-                title={this.props.values ?  translate.edit: "Nueva traducción"}
-            />
-        )
-    }
 }
 
 const saveTranslation = gql`
@@ -157,7 +153,7 @@ const updateTranslation = gql`
         updateTranslation(translation: $translation){
             id
         }
-    }   
+    }
 `;
 
 
