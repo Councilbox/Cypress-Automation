@@ -381,6 +381,8 @@ const getQuery = type => {
                     dni
                     type
                     signed
+                    assistanceIntention
+                    assistanceLastDateConfirmed
                     online
                     requestWord
                     numParticipations
