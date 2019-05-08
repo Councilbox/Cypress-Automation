@@ -9,13 +9,12 @@ import { isMobile } from 'react-device-detect';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 
 
-
-const TimelineSection = ({ translate, participant, council, isMobile, client }) => {
+const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client }) => {
     const [timeline, setTimeline] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
-    const [timelineSeeId, settimelineSeeId] = React.useState(0);
+    const [loaded, setLoaded] = React.useState(false);
 
-    React.useEffect(() => {
+    const getData = React.useCallback(async () => {
         const getTimeline = async () => {
             const response = await client.query({
                 query: councilTimelineQuery,
@@ -25,12 +24,27 @@ const TimelineSection = ({ translate, participant, council, isMobile, client }) 
             });
 
             setLoading(false);
+            setLoaded(true);
             setTimeline(response.data.councilTimeline);
         }
-       
+
         getTimeline();
-    }, [council.id]);
-    
+    }, [council.id, setLoading, setLoaded, setTimeline, client]);
+
+    React.useEffect(() => {
+        getData();
+        let interval = setInterval(() => getData(), 6000);
+        return () => clearInterval(interval);
+    }, [getData]);
+
+    React.useEffect(() => {
+        if(loaded){
+            setTimeout(() => {
+                scrollToBottom();
+            }, 80);
+        }
+    }, [loaded]);
+   
 
     //TRADUCCION
     return (
@@ -48,13 +62,11 @@ const TimelineSection = ({ translate, participant, council, isMobile, client }) 
                         />
                     </div>
                 }
-                <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
+                <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }} className={"hola"}>
                     {timeline.map(event => {
                         const content = JSON.parse(event.content);
                         return (
-
-
-                            <Step active key={`event_${event.id}`}>
+                            <Step active key={`event_${event.id}`} id={event.id}>
                                 <StepLabel>
                                     <b>{getTimelineTranslation(event.type, content)}</b><br />
                                     <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>

@@ -1,8 +1,7 @@
 import React from "react";
 import { Steps } from 'antd';
 import { Paper, Typography, Divider, IconButton, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Button, Tooltip } from "material-ui";
-import Scrollbar from '../../../displayComponents/Scrollbar';
-import { AgendaNumber, LoadingSection, LiveToast, AlertConfirm } from '../../../displayComponents';
+import { AgendaNumber, LoadingSection, LiveToast, AlertConfirm, Scrollbar } from '../../../displayComponents';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
@@ -33,9 +32,10 @@ const styles = {
     }
 };
 
-const AgendaNoSession = ({ translate, council, participant, data, noSession,client, ...props }) => {
+const AgendaNoSession = ({ translate, council, participant, data, noSession, client, ...props }) => {
     const secondary = getSecondary();
     const primary = getPrimary();
+    const scrollbar = React.useRef();
     let agendas = [];
     const [state, setState] = React.useState({
         open: false,
@@ -62,6 +62,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
         }
     }
 
+    const scrollToBottom = () => {
+        scrollbar.current.scrollToBottom();
+    }
+
     React.useEffect(() => {
         const readTimelines = async () => {
             const response2 = await client.query({
@@ -70,14 +74,15 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
                     councilId: council.id,
                 }
             });
-            
-            if (response2.data && response2.data.readTimeline ) {
+
+            if (response2.data && response2.data.readTimeline) {
                 settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
             }
         }
 
         readTimelines();
     }, [council.id]);
+
 
     const agendaStateIcon = (agenda) => {
         // const { agenda } = this.props;
@@ -98,8 +103,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
             }
         });
     }
-
-
+    
     if (props.inPc) {
         return (
             <Paper style={styles.container} elevation={4}>
@@ -146,7 +150,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
                             />
                         </div>
                     }
-                    <Scrollbar>
+                    {/* <ScrollbarStartBottom   > */}
+                        <Scrollbar ref={scrollbar}>
                         {!councilStarted(council) &&
                             <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
                                 {translate.council_not_started_yet}
@@ -156,7 +161,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
                             {data.agendas ?
                                 props.timeline ? (
                                     <TimelineSection
+                                        timelineSeeId={timelineSeeId}
                                         council={council}
+                                        scrollToBottom={scrollToBottom}
                                         councilTimeline={data.councilTimeline}
                                         isMobile={isMobile}
                                     />
@@ -221,6 +228,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
                                 <LoadingSection />
                             }
                         </div>
+                    {/* </ScrollbarStartBottom> */}
                     </Scrollbar>
                 </div>
                 <AlertConfirm
@@ -269,7 +277,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
                 </React.Fragment>
             }
             {props.sinCabecera &&
-               <div style={{ position: "relative", top: '5px', left: "80%", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                <div style={{ position: "relative", top: '5px', left: "80%", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
                     <CouncilInfoMenu
                         {...props}
                         translate={translate}
@@ -283,7 +291,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession,clie
                     {translate.council_not_started_yet}
                 </div>
             }
-            <div style={{ padding: '0.8em', paddingLeft: '1.2em',  height: "100%" }}> {/*marginTop: '10px',*/}
+            <div style={{ padding: '0.8em', paddingLeft: '1.2em', height: "100%" }}> {/*marginTop: '10px',*/}
 
                 {data.agendas ?
                     agendas.map((agenda, index) => {
