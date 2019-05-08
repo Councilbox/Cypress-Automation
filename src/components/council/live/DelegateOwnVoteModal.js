@@ -142,16 +142,16 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 	}
 
 	const updateFilterText = text => {
+		setOptions({
+			offset: 0,
+			limit: DELEGATION_USERS_LOAD
+		});
 		setFilters({ text });
 	}
 
 	function _renderBody() {
-		const participants = loading
-			? []
-			: data.liveParticipantsToDelegate.list;
-		const { total } = loading
-			? 0
-			: data.liveParticipantsToDelegate;
+		const participants = loading ? [] : data.liveParticipantsToDelegate.list;
+		const { total } = loading ? 0 : data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
 		return (
@@ -214,7 +214,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 												<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
 													{`DESCARGAR ${
 													rest > DELEGATION_USERS_LOAD
-														? `${1} de ${DELEGATION_USERS_LOAD} RESTANTES`
+														? `${1} de ${rest} RESTANTES`
 														: translate.all_plural.toLowerCase()
 													}`}
 													{loading &&
@@ -240,8 +240,6 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 		<AlertConfirm
 			requestClose={close}
 			open={show}
-			acceptAction={delegateVote}
-			buttonAccept={translate.send}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={translate.to_delegate_vote}
