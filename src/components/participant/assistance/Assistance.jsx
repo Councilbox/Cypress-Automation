@@ -154,7 +154,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					await selectSimpleOption(state.assistanceIntention);
 				}
 			}
-		
+
 			await setAssistanceComment({
 				variables: {
 					assistanceComment: assistanceComment || ''
