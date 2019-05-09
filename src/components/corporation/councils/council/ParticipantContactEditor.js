@@ -144,6 +144,13 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                     loading={state.loading}
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
+                <BasicButton
+                    color={secondary}
+                    text="Actualizar"
+                    onClick={refreshEmailStates}
+                    loading={state.loading}
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                />
             </div>
             {council.securityType !== 0 &&
                 <BasicButton

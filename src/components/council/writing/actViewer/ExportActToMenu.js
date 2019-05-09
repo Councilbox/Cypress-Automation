@@ -7,6 +7,7 @@ import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import gql from 'graphql-tag';
+import FileSaver from 'file-saver';
 
 
 const exportActPDF = gql`
@@ -60,6 +61,7 @@ class ExportActToMenu extends React.Component {
         const postHtml = "</body></html>";
         const body = response.data.councilAct.emailAct.replace(/<!--[\s\S]*?-->/g, '').replace(/style="page-break-before: always"/g, '').replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)').replace(/font-size: 11px/g, 'font-size: 12.5px');
         const html = preHtml+body+postHtml;
+        console.log(body);
         const css = (`\
             <style>\
             body {font-family: Arial; font-size: 12pt;}\
@@ -71,22 +73,23 @@ class ExportActToMenu extends React.Component {
             </style>\
        `);
 
-       const value = css + html;
+        const value = css + html;
         const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURI(value);
         filename = filename?filename+'.doc':'document.doc';
         const downloadLink = document.createElement("a");
-        document.body.appendChild(downloadLink);
-        if(navigator.msSaveOrOpenBlob ){
+        //document.body.appendChild(downloadLink);
+        //if(navigator.msSaveOrOpenBlob ){
             const blob = new Blob(['\ufeff', css+html], {
                 type: 'application/msword'
             });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        }else{
+            FileSaver.saveAs(blob, filename);
+            //navigator.msSaveOrOpenBlob(blob, filename);
+        /*}else{
             downloadLink.href = url;
             downloadLink.download = filename;
             downloadLink.click();
         }
-        document.body.removeChild(downloadLink);
+        document.body.removeChild(downloadLink);*/
     }
 
 

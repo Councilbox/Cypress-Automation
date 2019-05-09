@@ -17,15 +17,10 @@ const CredentialsManager = ({ translate, ...props }) => {
         filterText: '',
         visible: false
     });
+    const [filter, setFilter] = React.useState(null);
 
-    const refreshSends = async id => {
-        await props.updateParticipantSends({
-            variables: {
-                participantId: id
-            }
-        });
-
-        props.data.refetch();
+    const toggleFilter = () => {
+        setFilter(!filter? 'failed' : null);
     }
 
     const updatePage = page => {
@@ -38,7 +33,7 @@ const CredentialsManager = ({ translate, ...props }) => {
         return <LoadingSection />
     }
 
-    const filteredParticipants = filter(props.data.liveParticipants.list, state.filterText);
+    const filteredParticipants = filterParticipants(props.data.liveParticipants.list, state.filterText);
     const slicedParticipants = filteredParticipants.slice((state.page - 1 ) * state.limit, ((state.page  - 1 ) * state.limit) + state.limit);
 
     return (
@@ -51,6 +46,12 @@ const CredentialsManager = ({ translate, ...props }) => {
                             <i className="fa fa-search" aria-hidden="true"></i>
                         </InputAdornment>
                     }
+                />
+                <BasicButton
+                    text="Ver solo fallidos"
+                    textStyle={{ fontWeight: '700' }}
+                    loading={state.sendsLoading}
+                    onClick={toggleFilter}
                 />
                 <div style={{ overflow: "hidden", height: "calc( 100% - 56px )", }}>
                     <Scrollbar>
@@ -146,7 +147,7 @@ const Content = ({ participant, translate, refetch, council }) => {
 }
 
 
-const filter = (participants, text) => {
+const filterParticipants = (participants, text) => {
     if (!text) {
         return participants;
     }
@@ -158,25 +159,25 @@ const filter = (participants, text) => {
 
 const participants = gql`
     query CredsParticipants($councilId: Int!, $options: OptionsInput){
-                liveParticipants(councilId: $councilId, options: $options){
-                list {
-            name
-            surname
-            phone
-            email
-            state
-            id
+        liveParticipants(councilId: $councilId, options: $options){
+            list {
+                name
+                surname
+                phone
+                email
+                state
+                id
                 notifications {
-                participantId
+                    participantId
                     email
-            reqCode
-            refreshDate
-            sendDate
-            sendType
-        }
+                    reqCode
+                    refreshDate
+                    sendDate
+                    sendType
+                }
+            }
+        total
     }
-    total
-}
 }
 `;
 
