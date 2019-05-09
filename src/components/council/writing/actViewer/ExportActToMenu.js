@@ -7,6 +7,7 @@ import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import gql from 'graphql-tag';
+import FileSaver from 'file-saver';
 
 
 const exportActPDF = gql`
@@ -74,19 +75,10 @@ class ExportActToMenu extends React.Component {
        const value = css + html;
         const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURI(value);
         filename = filename?filename+'.doc':'document.doc';
-        const downloadLink = document.createElement("a");
-        document.body.appendChild(downloadLink);
-        if(navigator.msSaveOrOpenBlob ){
-            const blob = new Blob(['\ufeff', css+html], {
-                type: 'application/msword'
-            });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        }else{
-            downloadLink.href = url;
-            downloadLink.download = filename;
-            downloadLink.click();
-        }
-        document.body.removeChild(downloadLink);
+        const blob = new Blob(['\ufeff', css+html], {
+            type: 'application/msword'
+        });
+        FileSaver.saveAs(blob, filename);
     }
 
 
