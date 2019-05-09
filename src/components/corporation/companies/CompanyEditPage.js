@@ -5,11 +5,16 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import { company } from '../../../queries';
+import { bHistory } from '../../../containers/App';
 
 const CompanyEditPage = ({ data, match, translate }) => {
 
     if(data.loading){
         return <LoadingSection />
+    }
+
+    if(!data.company){
+        bHistory.replace('/companies');
     }
 
     return(

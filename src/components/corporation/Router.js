@@ -24,7 +24,6 @@ import("../../assets/img/sidebar-2.jpg").then(data => image = data);
 
 
 const Router = ({ user, translate, location, data, classes }) => {
-    console.log(data);
 
     if(data.loading){
         return <LoadingMainApp />;
