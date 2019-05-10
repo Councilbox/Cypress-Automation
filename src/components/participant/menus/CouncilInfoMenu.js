@@ -103,6 +103,7 @@ class CouncilInfoMenu extends React.Component {
                         <IconButton
                             size={'small'}
                             style={{ outline: 0, color: secondary, }}
+                            title={"information"}
                         >
                             <i className="fa fa-info"></i>
                         </IconButton>

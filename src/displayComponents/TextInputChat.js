@@ -32,7 +32,7 @@ const TextInputChat = ({
 				InputProps={{
 					disableUnderline: true,
 				}}
-				defaultValue="Bare"
+				// defaultValue="Bare"
 				variant="outlined"
 				onSelect={onClick}
 				onBlur={onBlur}
