@@ -50,7 +50,6 @@ const CouncilActData = gql`
 			act {
 				id
 				intro
-				emailAct
 				constitution
 				conclusion
 			}

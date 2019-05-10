@@ -68,7 +68,6 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				refetch={data.refetch}
 				participantsWithDelegatedVote={data.participantsWithDelegatedVote}
 				socialCapital={data.councilSocialCapital}
-				councilAttendants={data.councilAttendants}
 				totalVotes={data.councilTotalVotes}
 			/>
 		);
@@ -85,7 +84,6 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				refetch={data.refetch}
 				participantsWithDelegatedVote={data.participantsWithDelegatedVote}
 				socialCapital={data.councilSocialCapital}
-				councilAttendants={data.councilAttendants}
 				totalVotes={data.councilTotalVotes}
 			/>
 		)
@@ -103,7 +101,6 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				refetch={getData}
 				participantsWithDelegatedVote={data.participantsWithDelegatedVote}
 				socialCapital={data.councilSocialCapital}
-				councilAttendants={data.councilAttendants}
 				totalVotes={data.councilTotalVotes}
 				{...data}
 			/>
@@ -269,25 +266,6 @@ export const councilDetails = gql`
 		majorityTypes {
 			label
 			value
-		}
-
-		councilAttendants(
-			councilId: $councilID
-		) {
-			list {
-				id
-				name
-				surname
-				state
-				delegationsAndRepresentations {
-					id
-					state
-					type
-					name
-					surname
-				}
-			}
-			total
 		}
 
 		councilTotalVotes(councilId: $councilID)
