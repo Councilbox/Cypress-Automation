@@ -130,21 +130,41 @@ class PartnersBookPage extends React.Component {
         this.props.data.refetch();
         let lista = this.props.data.bookParticipants.list;
         let arrayFinal = []
+        let translatState = this.props.translate.state;
+        let translatParticipant_data = this.props.translate.participant_data;
+        let translateDni = this.props.translate.dni;
+        let translatPosition = this.props.translate.position;
+        let translatSubscribe_date = this.props.translate.subscribe_date;
+        let translatUnsubscribe_date = this.props.translate.unsubscribe_date;
+        let translatSubscribe_act_number = this.props.translate.subscribe_act_number;
+        let translatUnsubscribe_act_number = this.props.translate.unsubscribe_act_number;
         for (let index = 0; index < lista.length; index++) {
             let arrayRepresentative
-            let { representative, __typename, ...list } = lista[index];
+            let { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
+            let listaFinal = {
+                id: id,
+                [this.props.translate.state]: state==1 ? "Alta" : "Baja",
+                [this.props.translate.name]:name,
+                [this.props.translate.surname]:surname,
+                [this.props.translate.dni]:dni,
+                [this.props.translate.position]:position,
+                [this.props.translate.subscribe_date]:subscribeDate,
+                [this.props.translate.unsubscribe_date]:unsubscribeDate,
+                [this.props.translate.subscribe_act_number]:subscribeActNumber,
+                [this.props.translate.unsubscribe_act_number]:unsubscribeActNumber,
+            }
             if (representative !== null) {
                 let { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
-                    rDni: dni,
-                    rName: name,
-                    rPosition: position,
-                    rState: state,
-                    rSurname: surname
+                    ["r" + this.props.translate.state]: state==1 ? "Alta" : "Baja",
+                    ["r" + this.props.translate.name]: name,
+                    ["r" + this.props.translate.surname]: surname,
+                    ["r" + this.props.translate.dni]: dni,
+                    ["r" + this.props.translate.position]: position,
                 }
             }
-            let a = Object.assign(list, arrayRepresentative)
+            let a = Object.assign(listaFinal, arrayRepresentative)
             arrayFinal.push(a);
         }
 
