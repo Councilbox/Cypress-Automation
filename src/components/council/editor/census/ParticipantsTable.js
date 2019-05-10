@@ -10,7 +10,7 @@ import { PARTICIPANTS_LIMITS } from "../../../../constants";
 import ChangeCensusMenu from "./ChangeCensusMenu";
 import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
 import { isMobile } from 'react-device-detect';
-import { useOldState } from "../../../../hooks";
+import { useOldState, useHoverRow } from "../../../../hooks";
 
 
 const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {
@@ -258,23 +258,8 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	);
 }
 
-const useHoverRow = () => {
-	const [showActions, setShowActions] = React.useState(false);
-
-	const mouseEnterHandler = () => {
-		setShowActions(true);
-	}
-
-	const mouseLeaveHandler = () => {
-		setShowActions(false);
-	}
-
-
-	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
-}
-
 const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
-	const [showActions, rowHandlers] = useHoverRow()
+	const [showActions, rowHandlers] = useHoverRow();
 
 	if(isMobile){
 		return(
