@@ -15,7 +15,7 @@ import {
 } from "../../../displayComponents";
 import gql from 'graphql-tag';
 import RichTextInput from "../../../displayComponents/RichTextInput";
-import StatuteDisplay from '../display/StatuteDisplay';
+import { StatuteDisplay } from '../display/StatuteDisplay';
 import LoadFromPreviousCouncil from './LoadFromPreviousCouncil';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import PlaceModal from "./PlaceModal";

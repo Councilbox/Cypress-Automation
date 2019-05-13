@@ -1,5 +1,3 @@
-import { version } from '../package.json';
-
 const LOCATION_URL =
 	process.env.REACT_APP_MODE === "dev"
 		? `http://${process.env.REACT_APP_LOCAL_API}/graphql`
@@ -13,7 +11,7 @@ if(process.env.REACT_APP_MODE === 'dev'){
 
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = version;
+export const CLIENT_VERSION = process.env.REACT_APP_VERSION;
 export const API_URL = LOCATION_URL;
 export const videoVersions = {
 	CMP: 'CMP',

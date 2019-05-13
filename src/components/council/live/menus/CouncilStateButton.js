@@ -60,18 +60,24 @@ const CouncilStateButton = ({ translate, council, participants, refetch, agendas
     }
 
     return (
-        council.state === 20 || council.state === 30 ? (
-            !councilStarted(council) ? (
-                <div>
-                    <StartCouncilButton
-                        recount={recount}
-                        council={council}
-                        translate={translate}
-                        participants={participants}
-                        refetch={refetch}
-                    />
-                </div>
-            ) : (
+        <React.Fragment>
+            <OpenRoomButton
+                translate={translate}
+                council={council}
+                refetch={refetch}
+            />
+            {(council.state === 20 || council.state === 30) && (
+                !councilStarted(council) ? (
+                    <div>
+                        <StartCouncilButton
+                            recount={recount}
+                            council={council}
+                            translate={translate}
+                            participants={participants}
+                            refetch={refetch}
+                        />
+                    </div>
+                ) : (
                     <div>
                         <EndCouncilButton
                             council={{
@@ -82,13 +88,9 @@ const CouncilStateButton = ({ translate, council, participants, refetch, agendas
                         />
                     </div>
                 )
-        ) : (
-                <OpenRoomButton
-                    translate={translate}
-                    council={council}
-                    refetch={refetch}
-                />
-            )
+            )}
+        </React.Fragment>
+
     )
 }
 

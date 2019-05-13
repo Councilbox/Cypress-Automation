@@ -1,6 +1,6 @@
 import React from 'react';
 
-const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
+export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
     <div style={{ maxWidth: '900px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
             {getSelectionIcon(statute.existsAdvanceNoticeDays)}
@@ -166,5 +166,3 @@ const getQuorumType = (type, quorumTypes) => {
     }
     return '-';
 }
-
-export default StatuteDisplay;

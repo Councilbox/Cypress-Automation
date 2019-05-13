@@ -92,17 +92,6 @@ const CouncilActData = gql`
 				value
 				itemId
 			}
-			votings {
-				id
-				participantId
-				comment
-				vote
-				author {
-					id
-					socialCapital
-					numParticipations
-				}
-			}
 			numNoVoteVotings
 			numPositiveVotings
 			numNegativeVotings

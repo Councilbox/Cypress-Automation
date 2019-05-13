@@ -14,10 +14,8 @@ import CreateWithoutSession from "./CreateWithoutSession";
 import { checkSecondDateAfterFirst } from "../../utils/CBX";
 import { isMobile } from "react-device-detect";
 import { Paper } from "material-ui";
-import { useHoverRow } from "../council/editor/census/ParticipantsTable";
+import { useHoverRow } from "../../hooks";
 
-
-//props.council.id
 
 const CreateCouncil = props => {
 	const [state, setState] = React.useState({
@@ -100,7 +98,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 
 
 	const sendCreateCouncil = async type => {
-		if (!checkRequiredFields()) {
+		if (!checkRequiredFields(type)) {
 			const response = await createCouncil({
 				variables: {
 					companyId: company,
@@ -126,11 +124,11 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		}
 	}
 
-	const checkRequiredFields = () => {
+	const checkRequiredFields = type => {
 		let hasError = false;
 		let errors = {}
 
-		if (step !== steps.COUNCIL) {
+		if (type !== 0) {
 			if (!options.dateStart) {
 				hasError = true;
 				errors.dateStart = translate.required_field;
@@ -241,7 +239,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 				</React.Fragment>
 
 			}
-			hideAccept={step === steps.COUNCIL}
+			hideAccept={step === steps.COUNCIL || step === 1}
 			buttonAccept={translate.accept}
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING? 3 : 2)}
 			requestClose={history.goBack}
@@ -282,7 +280,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 						<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
 					</div>
 				</div>
-			</ Paper>
+			</Paper>
 		);
 	} else {
 		return (
@@ -310,7 +308,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 						{list}
 					</div>
 				</div>
-			</ Paper>
+			</Paper>
 		);
 	}
 }

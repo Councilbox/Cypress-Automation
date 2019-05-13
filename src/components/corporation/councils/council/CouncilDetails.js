@@ -10,7 +10,7 @@ import withTranslations from '../../../../HOCs/withTranslations';
 import { exceedsOnlineTimeout, isAskingForWord } from '../../../../utils/CBX';
 import SendCredentialsModal from "../../../council/live/councilMenu/SendCredentialsModal";
 import AgendaManager from "../../../council/live/AgendaManager";
-import StatuteDisplay from '../../../council/display/StatuteDisplay';
+import { StatuteDisplay } from '../../../council/display/StatuteDisplay';
 import OptionsDisplay from '../../../council/display/OptionsDisplay';
 import CostManager from './CostManager';
 import CredentialsManager from './CredentialsManager';

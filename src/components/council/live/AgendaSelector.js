@@ -74,7 +74,7 @@ class AgendaSelector extends React.Component {
 					<div style={{ marginBottom: "0.8em" }}>
 						<AddAgendaPoint
 							translate={translate}
-							Component={() => (
+							Component={props => (
 								<Tooltip
 									title={translate.add_agenda_point}
 									placement="top-end"
@@ -82,6 +82,7 @@ class AgendaSelector extends React.Component {
 									<div>
 										<AgendaNumber
 											index={"+"}
+											onClick={props.onClick}
 											active={false}
 											secondaryColor={"#888888"}
 										/>

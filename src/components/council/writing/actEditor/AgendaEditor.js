@@ -17,6 +17,7 @@ import CustomAgendaRecount from "../../live/voting/CustomAgendaRecount";
 import { agendaRecountQuery } from "../../live/ActAgreements";
 import { useOldState } from "../../../../hooks";
 
+
 const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
 	const [comment, setComment] = React.useState(agenda.comment);
 	const editor = React.useRef();
@@ -31,20 +32,12 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	const updateAgenda = React.useCallback(async () => {
 		if(!checkForUnclosedBraces(comment)){
 			setLoading(true);
-
-	updateAgenda = async () => {
-		if(!checkForUnclosedBraces(this.state.comment)){
-			this.setState({
-				updating: true
-			});
-
-			const { __typename, votings, ...agenda } = this.props.agenda;
-			await this.props.updateAgenda({
+			await props.updateAgenda({
 				variables: {
 					agenda: {
-						...agenda,
-						comment: this.state.comment,
-						councilId: this.props.council.id
+						...cleanAgendaObject(agenda),
+						comment: comment,
+						councilId: council.id
 					}
 				}
 			});
@@ -63,9 +56,11 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	});
 
 	React.useEffect(() => {
+		let timeout;
 		if(comment !== agenda.comment){
-			updateAgenda();
+			timeout = setTimeout(updateAgenda, 500);
 		}
+		return () => clearTimeout(timeout);
 	}, [comment]);
 
 	const update = () => {
@@ -220,13 +215,19 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 			component: () => {
 				return (
 					<div style={{minHeight: '8em', padding: '1em'}}>
-						<AgendaRecount
-							agenda={agenda}
-							council={council}
-							translate={translate}
-							recount={recount}
-							majorityTypes={majorityTypes}
-						/>
+						{!isCustomPoint(agenda.subjectType)?
+							<AgendaRecount
+								agenda={agenda}
+								council={council}
+								translate={translate}
+								recount={recount}
+								majorityTypes={majorityTypes}
+							/>
+						:
+							<CustomAgendaRecount
+								agenda={agenda}
+							/>
+						}
 						<VotingsTableFiltersContainer
 							translate={translate}
 							hideStatus
@@ -238,39 +239,30 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		});
 	}
 
-		if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
-			tabs.push({
-				text: translate.voting,
-				component: () => {
-					return (
-						<div style={{minHeight: '8em', padding: '1em'}}>
-							<AgendaRecount
-								agenda={agenda}
-								council={council}
-								translate={translate}
-								recount={recount}
-								majorityTypes={majorityTypes}
-							/>
-							<VotingsTableFiltersContainer
-								translate={translate}
-								hideStatus
-								agenda={agenda}
-							/>
-						</div>
-					);
-				}
-			});
-		}
-
-		return (
-			<div
-				style={{
-					width: "100%",
-					margin: "0.6em 0",
-				}}
-			>
-				<Grid spacing={16} style={{marginBottom: '1em'}}>
-					<GridItem xs={1}
+	return (
+		<div
+			style={{
+				width: "100%",
+				margin: "0.6em 0",
+			}}
+		>
+			<Grid spacing={16} style={{marginBottom: '1em'}}>
+				<GridItem xs={1}
+					style={{
+						color: primary,
+						width: "30px",
+						margin: "-0.25em 0",
+						fontWeight: "700",
+						fontSize: "1.5em",
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+				>
+					{agenda.orderIndex}
+				</GridItem>
+				<GridItem xs={9}>
+					<div
 						style={{
 							fontWeight: "600",
 							fontSize: "1.1em",

@@ -172,8 +172,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					</React.Fragment>
 				}
 			</GridItem>
-
-			<GridItem xs={4} md={2} lg={2} >
+			<GridItem xs={4} md={2} lg={2}>
 				{!agendaVotingsOpened(agenda) && !props.hideStatus && translate.closed_votings}
 			</GridItem>
 			<GridItem xs={8} md={4} lg={4}>
@@ -227,13 +226,12 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												:
 													<React.Fragment>
 														{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-															<React.Fragment>
-																{vote.vote !== -1?
-																	translate.has_voted
-																:
-																	translate.no_vote_lowercase
-																}
-															</React.Fragment>
+															<PrivateVotingDisplay
+																vote={vote}
+																agenda={agenda}
+																translate={translate}
+																refetch={refreshTable}
+															/>
 														:
 															<React.Fragment>
 																<Tooltip
@@ -253,15 +251,6 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 																)}
 															</React.Fragment>
 														}
-												{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
-													<PrivateVotingDisplay
-														vote={vote}
-														agenda={agenda}
-														translate={translate}
-														refetch={refreshTable}
-													/>
-												:
-													<React.Fragment>
 														<Tooltip
 															title={
 																vote.presentVote === 1
@@ -370,7 +359,6 @@ const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 		});
 		await refetch();
 		let timeout = setTimeout(() => {setLoading(false); clearTimeout(timeout);}, 1500);
-		//setLoading(false);
 	}
 
 	return (
