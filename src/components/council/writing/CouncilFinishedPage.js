@@ -201,17 +201,6 @@ export const councilDetails = gql`
 			majorityType
 			majority
 			majorityDivider
-			votings {
-				id
-				participantId
-				comment
-				author {
-					id
-					socialCapital
-					numParticipations
-				}
-				vote
-			}
 			numPresentCensus
 			presentCensus
 			numCurrentRemoteCensus
@@ -244,18 +233,6 @@ export const councilDetails = gql`
 			numDelegations
 			numRepresentations
 			numGuests
-		}
-
-		participantsWithDelegatedVote(councilId: $councilID){
-			name
-			id
-			surname
-			state
-			representative {
-				id
-				name
-				surname
-			}
 		}
 
 		votingTypes {

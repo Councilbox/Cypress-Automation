@@ -1,11 +1,11 @@
 import React from "react";
-import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from "../../../../displayComponents";
+import { Grid, GridItem, TabsScreen, BasicButton, LiveToast, LoadingSection } from "../../../../displayComponents";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import AgendaRecount from '../../agendas/AgendaRecount';
 import { AGENDA_TYPES, DRAFT_TYPES, VOTE_VALUES } from '../../../../constants';
 import { toast } from 'react-toastify';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import VotingsTableFiltersContainer from '../../../council/live/voting/VotingsTableFiltersContainer';
 import CommentsTable from "../../live/comments/CommentsTable";
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
@@ -13,45 +13,39 @@ import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations } fr
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda } from "../../../../queries/agenda";
+import { agendaRecountQuery } from "../../live/ActAgreements";
+import { useOldState } from "../../../../hooks";
 
-class AgendaEditor extends React.Component {
-
-	state = {
+const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
+	const [comment, setComment] = React.useState(agenda.comment);
+	const editor = React.useRef();
+	const [loading, setLoading] = React.useState(false);
+	const [state, setState] = useOldState({
 		loadDraft: false,
-		draftType: '',
-		comment: this.props.agenda.comment
-	}
+		draftType: ''
+	});
+	const secondary = getSecondary();
+	const primary = getPrimary();
 
-	updateAgendaState = object => {
-		this.setState({
-			...object
-		}, async () => {
-			clearTimeout(this.timeout);
-			this.timeout = setTimeout(() => this.updateAgenda(), 450);
-		});
-	};
+	const updateAgenda = React.useCallback(async () => {
+		if(!checkForUnclosedBraces(comment)){
+			setLoading(true);
 
-	updateAgenda = async () => {
-		if(!checkForUnclosedBraces(this.state.comment)){
-			this.setState({
-				updating: true
-			});
-
-			const { __typename, votings, ...agenda } = this.props.agenda;
-			await this.props.updateAgenda({
+			const { __typename, votings, ...rest } = agenda;
+			await props.updateAgenda({
 				variables: {
 					agenda: {
-						...agenda,
-						comment: this.state.comment,
-						councilId: this.props.council.id
+						...rest,
+						comment: comment,
+						councilId: council.id
 					}
 				}
 			});
-			this.props.updateCouncilAct();
+			props.updateCouncilAct();
 		} else {
 			toast(
 				<LiveToast
-					message={this.props.translate.revise_text}
+					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
@@ -59,305 +53,274 @@ class AgendaEditor extends React.Component {
 				}
 			);
 		}
+	});
+
+	React.useEffect(() => {
+		if(comment !== agenda.comment){
+			updateAgenda();
+		}
+	}, [comment]);
+
+	const update = () => {
+		data.refetch();
+		props.updateCouncilAct();
 	}
 
-	update = () => {
-		this.props.data.refetch();
-		this.props.updateCouncilAct();
-	}
-
-	loadDraft = draft => {
+	const loadDraft = draft => {
 		const correctedText = changeVariablesToValues(draft.text, {
-		   company: this.props.company,
-		   council: this.props.council
-	    }, this.props.translate);
+		   company: company,
+		   council: council
+	    }, translate);
 
-/* 		this.updateAgendaState({
-			comment: correctedText
-		}); */
-
-		this.editor.paste(correctedText);
-		this.setState({
+		editor.currentpaste(correctedText);
+		setState({
 			loadDraft: false
 		});
 	}
 
-	render(){
-		const {
-			agenda,
-			council,
-			typeText,
-			translate,
-			error,
-			recount,
-			readOnly,
-			majorityTypes
-		} = this.props;
-		const secondary = getSecondary();
-		const primary = getPrimary();
 
-		let tabs = [];
+	if(agendaData.loading){
+		return <span />;
+	}
+	let tabs = [];
+	let { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
+	let { positiveSC, negativeSC, abstentionSC, noVoteSC } = agendaData.agendaRecount;
+	const participations = hasParticipations(council);
+	const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
+	const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 
-		let positiveVotings = 0;
-		let negativeVotings = 0;
-		let abstentionVotings = 0;
-		let noVotes = 0;
 
-		const participations = hasParticipations(council);
+	let tags = [
+		{
+			value: numPositive,
+			label: translate.num_positive
+		},
+		{
+			value: numNegative,
+			label: translate.num_negative
+		},
+		{
+			value: numAbstention,
+			label: translate.num_abstention
+		},
+		{
+			value: numNoVote,
+			label: translate.num_no_vote
+		},
+	]
 
-		let positiveSC = 0;
-		let negativeSC = 0;
-		let abstentionSC = 0;
-		let noVoteSC = 0;
-
-		agenda.votings.forEach(vote => {
-			switch(vote.vote){
-				case VOTE_VALUES.ABSTENTION:
-					abstentionVotings++;
-					abstentionSC += vote.author.socialCapital;
-					break;
-				case VOTE_VALUES.POSITIVE:
-					positiveVotings++;
-					positiveSC += vote.author.socialCapital;
-					break;
-				case VOTE_VALUES.NEGATIVE:
-					negativeVotings++;
-					negativeSC += vote.author.socialCapital;
-					break;
-				case VOTE_VALUES.NO_VOTE:
-					noVoteSC += vote.author.socialCapital;
-					break;
-				default:
-					noVotes++;
-			}
+	if(participations){
+		tags.push({
+			value: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
+			label: '% a favor / total capital social'
+		},
+		{
+			value: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
+			label: '% en contra / total capital social'
+		},
+		{
+			value: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
+			label: '% abstención / total capital social'
+		},
+		{
+			value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
+			label: '% a favor / capital social presente'
+		},
+		{
+			value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
+			label: '% en contra / capital social presente'
+		},
+		{
+			value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
+			label: '% abstención / capital social presente'
 		});
-
-		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
-		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-
-		let tags = [
-			{
-				value: positiveVotings,
-				label: translate.num_positive
-			},
-			{
-				value: negativeVotings,
-				label: translate.num_negative
-			},
-			{
-				value: abstentionVotings,
-				label: translate.num_abstention
-			},
-			{
-				value: noVotes,
-				label: translate.num_no_vote
-			},
-		]
-
-		if(participations){
-			tags.push({
-				value: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
-				label: '% a favor / total capital social'
-			},
-			{
-				value: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
-				label: '% en contra / total capital social'
-			},
-			{
-				value: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
-				label: '% abstención / total capital social'
-			},
-			{
-				value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
-				label: '% a favor / capital social presente'
-			},
-			{
-				value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
-				label: '% en contra / capital social presente'
-			},
-			{
-				value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
-				label: '% abstención / capital social presente'
-			});
-		} else {
-			tags.push({
-				value: `${agenda.positiveVotings + agenda.positiveManual} `,
-				label: translate.positive_votings
-			},
-			{
-				value: `${agenda.negativeVotings + agenda.negativeManual} `,
-				label: translate.negative_votings
-			});
-		}
+	} else {
+		tags.push({
+			value: `${agenda.positiveVotings + agenda.positiveManual} `,
+			label: translate.positive_votings
+		},
+		{
+			value: `${agenda.negativeVotings + agenda.negativeManual} `,
+			label: translate.negative_votings
+		});
+	}
 
 
-		if(!readOnly){
-			tabs.push({
-				text: translate.comments_and_agreements,
-				component: () => {
-					return (
-						<div style={{padding: '1em'}}>
-							<RichTextInput
-								ref={editor => (this.editor = editor)}
-								translate={translate}
-								type="text"
-								errorText={error}
-								loadDraft={
-									<BasicButton
-										text={translate.load_draft}
-										color={secondary}
-										textStyle={{
-											color: "white",
-											fontWeight: "600",
-											fontSize: "0.8em",
-											textTransform: "none",
-											marginLeft: "0.4em",
-											minHeight: 0,
-											lineHeight: "1em"
-										}}
-										textPosition="after"
-										onClick={() =>
-											this.setState({
-												loadDraft: true,
-												draftType: DRAFT_TYPES.COMMENTS_AND_AGREEMENTS
-											})
-										}
-									/>
-								}
-								tags={tags}
-								value={agenda.comment || ''}
-								onChange={value =>{
-									if(value !== agenda.comment){
-										this.updateAgendaState({
-											comment: value
-										})
-									}
-								}}
-							/>
-						</div>
-					);
-				}
-			})
-		}
-
+	if(!readOnly){
 		tabs.push({
-			text: translate.act_comments,
+			text: translate.comments_and_agreements,
 			component: () => {
 				return (
-					<div style={{minHeight: '8em', padding: '1em', paddingBottom: '1.4em'}}>
-						<CommentsTable
+					<div style={{padding: '1em'}}>
+						<RichTextInput
+							ref={editor}
 							translate={translate}
+							type="text"
+							errorText={error}
+							loadDraft={
+								<BasicButton
+									text={translate.load_draft}
+									color={secondary}
+									textStyle={{
+										color: "white",
+										fontWeight: "600",
+										fontSize: "0.8em",
+										textTransform: "none",
+										marginLeft: "0.4em",
+										minHeight: 0,
+										lineHeight: "1em"
+									}}
+									textPosition="after"
+									onClick={() =>
+										setState({
+											loadDraft: true,
+											draftType: DRAFT_TYPES.COMMENTS_AND_AGREEMENTS
+										})
+									}
+								/>
+							}
+							tags={tags}
+							value={agenda.comment || ''}
+							onChange={value =>{
+								if(value !== agenda.comment){
+									setComment(value)
+								}
+							}}
+						/>
+					</div>
+				);
+			}
+		})
+	}
+
+	tabs.push({
+		text: translate.act_comments,
+		component: () => {
+			return (
+				<div style={{minHeight: '8em', padding: '1em', paddingBottom: '1.4em'}}>
+					<CommentsTable
+						translate={translate}
+						agenda={agenda}
+					/>
+				</div>
+			);
+		}
+	});
+
+	if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
+		tabs.push({
+			text: translate.voting,
+			component: () => {
+				return (
+					<div style={{minHeight: '8em', padding: '1em'}}>
+						<AgendaRecount
+							agenda={agenda}
+							council={council}
+							translate={translate}
+							recount={recount}
+							majorityTypes={majorityTypes}
+						/>
+						<VotingsTableFiltersContainer
+							translate={translate}
+							hideStatus
 							agenda={agenda}
 						/>
 					</div>
 				);
 			}
 		});
+	}
 
-		if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
-			tabs.push({
-				text: translate.voting,
-				component: () => {
-					return (
-						<div style={{minHeight: '8em', padding: '1em'}}>
-							<AgendaRecount
-								agenda={agenda}
-								council={council}
-								translate={translate}
-								recount={recount}
-								majorityTypes={majorityTypes}
-							/>
-							<VotingsTableFiltersContainer
-								translate={translate}
-								hideStatus
-								agenda={agenda}
-							/>
-						</div>
-					);
-				}
-			});
-		}
-
-		return (
-			<div
-				style={{
-					width: "100%",
-					margin: "0.6em 0",
-				}}
-			>
-				<Grid spacing={16} style={{marginBottom: '1em'}}>
-					<GridItem xs={1}
+	return (
+		<div
+			style={{
+				width: "100%",
+				margin: "0.6em 0",
+			}}
+		>
+			<Grid spacing={16} style={{marginBottom: '1em'}}>
+				<GridItem xs={1}
+					style={{
+						color: primary,
+						width: "30px",
+						margin: "-0.25em 0",
+						fontWeight: "700",
+						fontSize: "1.5em",
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center'
+					}}
+				>
+					{agenda.orderIndex}
+				</GridItem>
+				<GridItem xs={9}>
+					<div
 						style={{
-							color: primary,
-							width: "30px",
-							margin: "-0.25em 0",
-							fontWeight: "700",
-							fontSize: "1.5em",
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center'
+							fontWeight: "600",
+							fontSize: "1.1em",
+							marginBottom: '1em'
 						}}
 					>
-						{agenda.orderIndex}
-					</GridItem>
-					<GridItem xs={9}>
+						{agenda.agendaSubject}
+					</div>
+					<AgendaDescriptionModal
+						agenda={agenda}
+						translate={translate}
+						council={council}
+						companyStatutes={props.statutes}
+						majorityTypes={majorityTypes}
+						draftTypes={props.draftTypes}
+						refetch={update}
+					/>
+					{agenda.description && (
 						<div
 							style={{
-								fontWeight: "600",
-								fontSize: "1.1em",
-								marginBottom: '1em'
+								width: "100%",
+								marginTop: "0.3em",
+								fontSize: '0.87rem'
 							}}
-						>
-							{agenda.agendaSubject}
-						</div>
-						<AgendaDescriptionModal
-							agenda={agenda}
-							translate={translate}
-							council={council}
-							companyStatutes={this.props.statutes}
-							majorityTypes={this.props.majorityTypes}
-							draftTypes={this.props.draftTypes}
-							refetch={this.update}
+							dangerouslySetInnerHTML={{ __html: agenda.description }}
 						/>
-						{agenda.description && (
-							<div
-								style={{
-									width: "100%",
-									marginTop: "0.3em",
-									fontSize: '0.87rem'
-								}}
-								dangerouslySetInnerHTML={{ __html: agenda.description }}
-							/>
-						)}
-					</GridItem>
-					<GridItem xs={2}>{typeText}</GridItem>
-				</Grid>
-				<TabsScreen
-					uncontrolled={true}
-					tabsInfo={tabs}
-				/>
-				<Dialog
-					open={this.state.loadDraft}
-					maxWidth={false}
-					onClose={() => this.setState({ loadDraft: false })}
-				>
-					<DialogTitle>{translate.load_draft}</DialogTitle>
-					<DialogContent style={{ width: "800px" }}>
-						<LoadDraft
-							translate={translate}
-							companyId={this.props.company? this.props.company.id : ''}
-							loadDraft={this.loadDraft}
-							statute={this.props.council.statute}
-							statutes={this.props.data? this.props.data.companyStatutes : ''}
-							draftType={this.state.draftType}
-						/>
-					</DialogContent>
-				</Dialog>
-			</div>
-		);
-	}
+					)}
+				</GridItem>
+				<GridItem xs={2}>{typeText}</GridItem>
+			</Grid>
+			<TabsScreen
+				uncontrolled={true}
+				tabsInfo={tabs}
+			/>
+			<Dialog
+				open={state.loadDraft}
+				maxWidth={false}
+				onClose={() => setState({ loadDraft: false })}
+			>
+				<DialogTitle>{translate.load_draft}</DialogTitle>
+				<DialogContent style={{ width: "800px" }}>
+					<LoadDraft
+						translate={translate}
+						companyId={company? company.id : ''}
+						loadDraft={loadDraft}
+						statute={council.statute}
+						statutes={data? data.companyStatutes : ''}
+						draftType={state.draftType}
+					/>
+				</DialogContent>
+			</Dialog>
+		</div>
+	);
 }
 
-export default graphql(updateAgenda, {
-	name: 'updateAgenda'
-})(AgendaEditor);
+
+export default compose(
+	graphql(agendaRecountQuery, {
+		name: 'agendaData',
+		options: props => ({
+			variables: {
+				agendaId: props.agenda.id
+			}
+		})
+	}),
+	graphql(updateAgenda, {
+		name: 'updateAgenda'
+	})
+)(AgendaEditor);

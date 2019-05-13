@@ -77,17 +77,10 @@ const CouncilActData = gql`
 			majorityType
 			majority
 			majorityDivider
-			votings {
-				id
-				participantId
-				comment
-				vote
-				author {
-					id
-					socialCapital
-					numParticipations
-				}
-			}
+			numNoVoteVotings
+			numPositiveVotings
+			numNegativeVotings
+			numAbstentionVotings
 			numPresentCensus
 			presentCensus
 			numCurrentRemoteCensus

@@ -11,13 +11,17 @@ import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 
 
-const query = gql`
+export const agendaRecountQuery = gql`
 	query AgendaRecount($agendaId: Int!) {
 		agendaRecount(agendaId: $agendaId){
 			positiveVotings
             negativeVotings
 			abstentionVotings
 			noVotes
+			numPositive
+			numNegative
+			numAbstention
+			numNoVote
 			positiveSC
 			negativeSC
 			abstentionSC
@@ -48,7 +52,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 
 	const getData = React.useCallback(async () => {
 		const response = await props.client.query({
-			query,
+			query: agendaRecountQuery,
 			variables: {
 				agendaId: agenda.id
 			}
@@ -99,7 +103,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 	}
 
 	const loadDraft = draft => {
-		let { positiveVotings, negativeVotings, abstentionVotings, noVotes } = data;
+		let { numPositive, numNegative, numAbstention, numNoVote } = data;
 		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 		const participations = hasParticipations(council);
 
@@ -120,10 +124,10 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 				SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				numPositive: positiveVotings,
-				numNegative: negativeVotings,
-				numAbstention: abstentionVotings,
-				numNoVote: noVotes,
+				numPositive,
+				numNegative,
+				numAbstention,
+				numNoVote
 			}
 		}, translate);
 		editor.current.paste(correctedText);
@@ -136,7 +140,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		let tags = [];
 
 		if(data) {
-			let { positiveVotings, negativeVotings, abstentionVotings, noVotes } = data;
+			let { numPositive, numNegative, numAbstention, numNoVote } = data;
 			let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 			const participations = hasParticipations(council);
 
@@ -161,19 +165,19 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					label: translate.company_new_country
 				},
 				{
-					value: positiveVotings,
+					value: numPositive,
 					label: translate.num_positive
 				},
 				{
-					value: negativeVotings,
+					value: numNegative,
 					label: translate.num_negative
 				},
 				{
-					value: abstentionVotings,
+					value: numAbstention,
 					label: translate.num_abstention
 				},
 				{
-					value: noVotes,
+					value: numNoVote,
 					label: translate.num_no_vote
 				},
 			]
