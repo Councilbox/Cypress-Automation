@@ -1,10 +1,8 @@
 import React from 'react';
 import VotingsTable from './VotingsTable';
-import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { agendaVotings } from "../../../../queries/agenda";
 import { useOldState } from '../../../../hooks';
-import { LoadingSection } from '../../../../displayComponents';
 const pageLimit = 10;
 
 const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
@@ -46,34 +44,40 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 			page: 1,
 			filterText: value
 		});
-	};
+	}
 
 	const changeVoteFilter = value => {
 		setState({
 			page: 1,
 			voteFilter: state.voteFilter === value ? "all" : value
 		});
-	};
+	}
 
 	const changeStateFilter = value => {
 		setState({
 			page: 1,
 			stateFilter: state.stateFilter === value ? "all" : value
 		});
-	};
+	}
 
 	const changePage = value => {
+		setData({});
 		setState({
             page: value,
             offset: pageLimit * (value - 1)
         })
-    };
+    }
 
     const buildVariables = () => {
 		let variables = {
 			filters: [],
 			authorFilters: null
 		};
+
+		variables.options = {
+			limit: pageLimit,
+			offset: (state.page - 1) * pageLimit
+		}
 
 		if (state.voteFilter !== "all") {
 			variables.filters = [

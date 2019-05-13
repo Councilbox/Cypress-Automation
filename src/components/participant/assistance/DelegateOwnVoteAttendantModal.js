@@ -11,25 +11,14 @@ import { Typography } from "material-ui";
 import { graphql } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
+import { Card, MenuItem } from 'material-ui';
 
-class DelegateOwnVoteAttendantModal extends React.Component {
-	state = {
-		success: "",
-		errors: {}
-	};
-
-	componentDidUpdate(prevProps) {
-		if (!prevProps.show && this.props.show) {
-			this.props.data.refetch();
-		}
-	}
-
-	loadMore = () => {
-		this.props.data.fetchMore({
+const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
+	const loadMore = () => {
+		data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.liveParticipantsToDelegate.list
-						.length,
+					offset: data.liveParticipantsToDelegate.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -49,14 +38,14 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 				};
 			}
 		});
-	};
+	}
 
-	close = () => {
-		this.props.requestClose();
-	};
+	const close = () => {
+		props.requestClose();
+	}
 
-	updateFilterText = async text => {
-		await this.props.data.refetch({
+	const updateFilterText = async text => {
+		await data.refetch({
 			filters: [
 				{
 					field: "fullName",
@@ -64,18 +53,17 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 				}
 			]
 		});
-	};
+	}
 
-	_renderBody() {
-		const { translate } = this.props;
-		const { loading } = this.props.data;
+	function _renderBody() {
+		const { loading } = data;
 
 		const participants = loading
 			? []
-			: this.props.data.liveParticipantsToDelegate.list;
+			: data.liveParticipantsToDelegate.list;
 		const { total } = loading
 			? 0
-			: this.props.data.liveParticipantsToDelegate;
+			: data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
 		return (
@@ -84,9 +72,8 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 					adornment={<Icon>search</Icon>}
 					floatingText={" "}
 					type="text"
-					value={this.state.filterText}
 					onChange={event => {
-						this.updateFilterText(event.target.value);
+						updateFilterText(event.target.value);
 					}}
 				/>
 
@@ -105,18 +92,16 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 									{participants.length > 0 ? (
 										<div style={{ width: "99%" }}>
 											{participants.map(participant => {
-												if (participant.id !== this.props.participant.id ) {
+												if (participant.id !== props.participant.id ) {
 													return (
 														<React.Fragment key={`delegateVote_${participant.id}`}>
 															<ParticipantRow
-																council={this.props.council}
+																council={props.council}
 																toDelegate={true}
 																cantDelegate={false}
 																participant={participant}
 																onClick={() =>
-																	this.props.addRepresentative(
-																		participant.id
-																	)
+																	props.addRepresentative(participant.id)
 																}
 															/>
 														</React.Fragment>
@@ -125,16 +110,37 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 												return false;
 											})}
 											{participants.length < total - 1 && (
-												<div onClick={this.loadMore}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-												</div>
+												<Card
+													style={{
+														width: '90%',
+														border: '2px solid grey',
+														margin: 'auto',
+														marginBottom: '1.2em',
+														marginTop: '0.6em',
+														cursor: 'pointer',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center'
+													}}
+													elevation={1}
+													onClick={loadMore}
+												>
+													<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+														{`DESCARGAR ${
+															rest > DELEGATION_USERS_LOAD
+																? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+																: translate.all_plural.toLowerCase()
+															}`
+														}
+														{loading &&
+															<div>
+																<LoadingSection size={25} />
+															</div>
+														}
+													</MenuItem>
+												</Card>
 											)}
 										</div>
-										// </React.Fragment>
 									) : (
 											<Typography>{translate.no_results}</Typography>
 										)
@@ -147,28 +153,29 @@ class DelegateOwnVoteAttendantModal extends React.Component {
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
+	return (
+		<AlertConfirm
+			bodyStyle={{ minWidth: "" }}
+			classNameDialog={"modalParticipant"}
+			requestClose={close}
+			open={show}
+			buttonCancel={translate.close}
+			bodyText={_renderBody()}
+			title={translate.to_delegate_vote}
+		/>
+	);
 
-		return (
-			<AlertConfirm
-				bodyStyle={{ minWidth: "" }}
-				classNameDialog={"modalParticipant"}
-				requestClose={this.close}
-				open={this.props.show}
-				buttonCancel={translate.close}
-				bodyText={this._renderBody()}
-				title={translate.to_delegate_vote}
-			/>
-		);
-	}
 }
 
 export default graphql(participantsToDelegate, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id,
-			participantId: props.participant.id
+			participantId: props.participant.id,
+			options: {
+				offset: 0,
+				limit: DELEGATION_USERS_LOAD
+			}
 		}
 	})
 })(DelegateOwnVoteAttendantModal);

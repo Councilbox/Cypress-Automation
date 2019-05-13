@@ -5,7 +5,7 @@ import { canEditPresentVotings } from '../../../utils/CBX';
 const RecountSection = ({ translate, council, agenda, ...props }) => {
 	const _section = () => {
 		return (
-			<div style={{backgroundColor: 'white'}}>
+			<div style={{ backgroundColor: 'white' }}>
 				<AgendaRecount
 					agenda={agenda}
 					council={council}

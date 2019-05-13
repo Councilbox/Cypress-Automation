@@ -1,18 +1,20 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { withApollo, graphql } from 'react-apollo';
 import { LoadingSection, BasicButton, TextInput, Scrollbar, PaginationFooter } from '../../../../displayComponents';
 import { getSMS } from '../../../corporation/councils/council/FailedSMSList';
 import { moment } from '../../../../containers/App';
-import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHeader, Card, CardActions, Button, TextField } from 'material-ui';
+import { Table, TableCell, TableRow, TableBody, TableHead, CardContent, CardHeader, Card, CardActions } from 'material-ui';
 import { getSMSStatusByCode } from '../../../../utils/CBX';
 import { sendParticipantRoomKey } from "../../../corporation/councils/council/FailedSMSList";
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { isMobile } from 'react-device-detect';
 
-
+const limitPerPage = 10;
 
 const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props }) => {
+    const [state, setState] = React.useState({
+        page: 1
+    });
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [filter, setFilter] = React.useState(showAll ? null : 'failed');
@@ -21,12 +23,16 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
 
 
 
-    const getData = React.useCallback(async () => {
+    const getData = React.useCallback(async (value) => {
         const response = await client.query({
             query: getSMS,
             variables: {
                 councilId: council.id,
-                filter
+                filter,
+                options: {
+                    limit: limitPerPage,
+                    offset: limitPerPage * (value - 1)
+                }
             }
         });
 
@@ -39,6 +45,11 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
     React.useEffect(() => {
         getData();
     }, [getData]);
+
+    const changePage = value => {
+        setState({ page: value })
+        getData(value)
+    }
 
     const updateParticipantPhone = participantId => newPhone => {
         modifiedValues.set(participantId, newPhone);
@@ -57,13 +68,6 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
         });
         setResendLoading(null);
         getData();
-    }
-
-    //calcular total entre 10
-
-    let total
-    if (!loading) {
-        total = data.sendsSMS / 2;
     }
 
     if (isMobile) {
@@ -90,7 +94,10 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                             subheader={translate.state + ": " + getSMSStatusByCode(send.reqCode)}
                                         />
                                         <CardContent>
-                                            <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
+                                            <EditableCell
+                                                defaultValue={send.recipient.phone}
+                                                setModifiedValues={updateParticipantPhone(send.recipient.id)}
+                                            />
                                         </CardContent>
                                         <CardActions>
                                             <BasicButton
@@ -126,7 +133,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                 textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
                             />
                         </div>
-                        <div style={{ height: "calc( 100% - 2em )", }}>
+                        <div style={{ height: "calc( 100% - 5em )", }}>
                             <Scrollbar>
                                 <Table style={{ maxWidth: "100%", width: "100%" }} >
                                     <TableHead>
@@ -146,8 +153,8 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {data.sendsSMS.map(send => (
-                                            <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading }key={send.id}>
+                                        {data.sendsSMS.list.map(send => (
+                                            <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading} key={send.id}>
                                                 <TableCell>
                                                     {send.recipient.name + " " + send.recipient.surname}
                                                 </TableCell>
@@ -167,11 +174,24 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                                     />
                                                 </TableCell>
                                             </Row>
-
                                         ))}
                                     </TableBody>
                                 </Table>
                             </Scrollbar>
+                            <div style={{ display: "flex", width: "100%", padding: "1em", }}>
+                                {loading ?
+                                    <div></div>
+                                    :
+                                    <PaginationFooter
+                                        page={state.page}
+                                        translate={translate}
+                                        length={data.sendsSMS.list.length}
+                                        total={data.sendsSMS.total}
+                                        limit={limitPerPage}
+                                        changePage={changePage}
+                                    />
+                                }
+                            </div>
                         </div>
 
                     </React.Fragment>
@@ -181,20 +201,19 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
     }
 }
 
-
 const Row = ({ send, children }) => {
-    const [state, setState] = React.useState(false);
+    const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
-        setState(true)
+        setHover(true)
     }
 
     const onMouseLeave = () => {
-        setState(false)
+        setHover(false)
     }
 
     return (
-        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: state && "#e8e8e8" }}>
+        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: hover && "#e8e8e8" }}>
             {children}
         </TableRow>
     )
@@ -214,7 +233,7 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
                 value={value}
                 onChange={updateValue}
                 styles={{ border: "1px solid black" }}
-                clasName={'inputTableSMS'}
+                className={'inputTableSMS'}
                 styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
         </React.Fragment>

@@ -1,88 +1,78 @@
 import React from "react";
 import { withApollo } from "react-apollo";
-import { downloadCouncilAttachment, downloadAgendaAttachment } from "../../queries";
 import { CircularProgress } from "material-ui";
 import { getSecondary } from "../../styles/colors";
 import FontAwesome from "react-fontawesome";
-import { downloadFile, printPrettyFilesize } from "../../utils/CBX";
+import { printPrettyFilesize } from "../../utils/CBX";
 
-class AttachmentDownload extends React.Component {
-	state = {
-		downloading: false
-	};
+const API_URL =
+	process.env.REACT_APP_MODE === "dev"
+		? `http://${process.env.REACT_APP_LOCAL_API}`
+		: `https://${process.env.REACT_APP_API_URL}`;
 
-	downloadAttachment = async id => {
-		this.setState({
-			downloading: true
+const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
+	const [downloading, setDownloading] = React.useState(false);
+	const secondary = getSecondary();
+
+	const downloadAttachment = async id => {
+		setDownloading(true);
+		const token = sessionStorage.getItem("token");
+		const apiToken = sessionStorage.getItem('apiToken');
+		const participantToken = sessionStorage.getItem("participantToken");
+		const endpoint = agenda ? 'agendaAttachment' : 'councilAttachment'
+		const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
+			headers: new Headers({
+				"x-jwt-token": token ? token : apiToken? apiToken : participantToken,
+			})
 		});
 
-		const response = await this.props.client.query({
-			query: this.props.agenda? downloadAgendaAttachment : downloadCouncilAttachment,
-			variables: {
-				attachmentId: this.props.attachment.id
-			}
-		});
-
-		if (response) {
-			if(this.props.agenda){
-				if (response.data.agendaAttachment.base64) {
-					const file = response.data.agendaAttachment;
-					downloadFile(file.base64, file.filetype, file.filename);
-				}
-				this.setState({
-					downloading: false
-				});
-			}else{
-				if (response.data.councilAttachment.base64) {
-					const file = response.data.councilAttachment;
-					downloadFile(file.base64, file.filetype, file.filename);
-				}
-				this.setState({
-					downloading: false
-				});
-			}
-
+		if(response.status === 200){
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = attachment.filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
 		}
-	};
-
-	render() {
-		const { attachment } = this.props;
-		const secondary = getSecondary();
-
-		return (
-			<div
-				style={{
-					cursor: "pointer",
-					padding: "0.2em 0.5em",
-					border: `1px solid ${secondary}`,
-					borderRadius: "3px",
-					color: secondary
-				}}
-				onClick={() => this.downloadAttachment(attachment.filename)}
-			>
-				{this.state.downloading ? (
-					<CircularProgress
-						size={14}
-						color={"secondary"}
-						style={{ marginRight: "0.8em" }}
-					/>
-				) : (
-					<FontAwesome
-						name={"download"}
-						style={{
-							fontSize: "0.9em",
-							marginRight: '0.3em',
-							color: secondary
-						}}
-					/>
-				)}
-
-				{`${attachment.filename} (${printPrettyFilesize(
-					attachment.filesize
-				)})`}
-			</div>
-		);
+		setDownloading(false);
 	}
+
+	return (
+		<div
+			style={{
+				cursor: "pointer",
+				padding: "0.2em 0.5em",
+				border: `1px solid ${secondary}`,
+				borderRadius: "3px",
+				marginTop: '5px',
+				color: secondary
+			}}
+			onClick={() => downloadAttachment(attachment.id)}
+		>
+			{downloading ? (
+				<CircularProgress
+					size={14}
+					color={"secondary"}
+					style={{ marginRight: "0.8em" }}
+				/>
+			) : (
+				<FontAwesome
+					name={"download"}
+					style={{
+						fontSize: "0.9em",
+						marginRight: '0.3em',
+						color: secondary
+					}}
+				/>
+			)}
+
+			{`${attachment.filename} (${printPrettyFilesize(
+				attachment.filesize
+			)})`}
+		</div>
+	);
 }
 
 export default withApollo(AttachmentDownload);

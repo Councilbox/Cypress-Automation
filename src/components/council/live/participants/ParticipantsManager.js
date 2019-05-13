@@ -18,7 +18,7 @@ const initialState = {
 }
 
 const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
-    const [state, setState] = useOldState(initialState);
+    const [state, setState] = React.useState(initialState);
     const [participants, setParticipants] = React.useState(null);
     const [filters, setFilters] = useOldState({
         typeStatus: null,
@@ -29,7 +29,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
 		status: null,
 		onlyNotSigned: false,
 		addGuest: false
-    })
+    });
 
     const secondary = getSecondary();
     const primary = getPrimary();
@@ -82,13 +82,11 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
 			]
 		}
 
-		///CORREGIR
-
 		return variables;
 	};
 
     const updateParticipants = async () => {
-        setState({loading: true});
+        setState(state => ({ ...state, loading: true}));
         const response = await client.query({
             query: getQuery(state.view),
             variables: {
@@ -101,16 +99,17 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
             ...response.data,
             refetch: updateParticipants
         });
-        setState({loading: false});
+        setState(state => ({ ...state, loading: false}));
     }
 
     const toggleSettings = () => {
 		const newValue = !state.open;
-		setState({open: newValue});
+		setState({...state, open: newValue});
     }
 
     const updateState = object => {
 		setState({
+            ...state,
 			...object
 		});
     };
@@ -119,11 +118,12 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
     const changeView = object => {
         //setParticipants(null);
         setFilters({ type: null });
-        setState(object);
+        setState({ ...state, ...object });
     }
 
     const editParticipant = id => {
 		setState({
+            ...state,
 			editParticipant: id
 		});
 	};
@@ -174,7 +174,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
 				<div style={{overflow: 'hidden', marginRight: '0.6em', display: 'flex'}}>
 					<FilterButton
 						tooltip={translate.grid}
-						onClick={() => setState({ layout: 'squares', open: false })}
+						onClick={() => setState({ ...state, layout: 'squares', open: false })}
 						active={state.layout === "squares"}
 						size= {'2.55em'}
 					>
@@ -185,7 +185,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv }) => {
 					</FilterButton>
 					<FilterButton
 						tooltip={translate.table}
-						onClick={() => setState({ layout: 'table', open: false })}
+						onClick={() => setState({ ...state, layout: 'table', open: false })}
 						active={state.layout === "table"}
 						size= {'2.55em'}
 					>
@@ -384,6 +384,8 @@ const getQuery = type => {
                     dni
                     type
                     signed
+                    assistanceIntention
+                    assistanceLastDateConfirmed
                     online
                     requestWord
                     numParticipations

@@ -24,6 +24,7 @@ import { getCompanies, setCompany } from "../../../actions/companyActions";
 import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButton";
+import DeleteCompanyButton from "./DeleteCompanyButton";
 
 export const info = gql`
 	query info {
@@ -569,6 +570,12 @@ class CompanySettingsPage extends React.Component {
 							translate={translate}
 							company={this.props.company}
 							refetch={this.props.refetch}
+						/>
+					}
+					{this.props.root &&
+						<DeleteCompanyButton
+							translate={translate}
+							company={this.props.company}
 						/>
 					}
 					<AlertConfirm

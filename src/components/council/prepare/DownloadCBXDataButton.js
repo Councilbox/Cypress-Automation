@@ -8,20 +8,15 @@ import FontAwesome from "react-fontawesome";
 import { getSecondary } from "../../../styles/colors";
 import { moment } from "../../../containers/App";
 
-class DownloadCBXDataButton extends Component {
+const DownloadCBXDataButton = props => {
+	const [loading, setLoading] = React.useState(false);
 
-	state = {
-		loading: false
-	};
-
-	downloadCBXData = async id => {
-		this.setState({
-			loading: true
-		});
-		if(this.props.updateState){
-			this.props.updateState({loading: true});
+	const downloadCBXData = async id => {
+		setLoading(true);
+		if(props.updateState){
+			props.updateState({loading: true});
 		}
-		const response = await this.props.downloadCBXData({
+		const response = await props.downloadCBXData({
 			variables: {
 				participantId: id,
 				timezone: moment().utcOffset()
@@ -35,55 +30,51 @@ class DownloadCBXDataButton extends Component {
 					"application/pdf",
 					`CbxData_${id}`
 				);
-				this.setState({
-					loading: false
-				});
-				if(this.props.updateState){
-					this.props.updateState({loading: false});
+				setLoading(false);
+				if(props.updateState){
+					props.updateState({loading: false});
 				}
 			}
 		}
-	};
-
-	render() {
-		const secondary = getSecondary();
-
-		return (
-			<Tooltip title={this.props.translate.download_cbxdata}>
-				<div
-					onClick={event => {
-						event.stopPropagation();
-						this.downloadCBXData(this.props.participantId);
-					}}
-					style={{
-						height: "1.8em",
-						width: "3em",
-						marginLeft: "1.5em",
-						backgroundColor: 'white',
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center",
-						border: `1px solid ${secondary}`,
-						borderRadius: "3px",
-						...this.props.style
-					}}
-				>
-					{this.state.loading ? (
-						<LoadingSection size={14} color={"secondary"} />
-					) : (
-						<FontAwesome
-							name={"download"}
-							style={{
-								cursor: "pointer",
-								fontSize: "1.1em",
-								color: secondary
-							}}
-						/>
-					)}
-				</div>
-			</Tooltip>
-		);
 	}
+
+	const secondary = getSecondary();
+
+	return (
+		<Tooltip title={props.translate.download_cbxdata}>
+			<div
+				onClick={event => {
+					event.stopPropagation();
+					downloadCBXData(props.participantId);
+				}}
+				style={{
+					height: "1.8em",
+					width: "3em",
+					marginLeft: "1.5em",
+					backgroundColor: 'white',
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					border: `1px solid ${secondary}`,
+					borderRadius: "3px",
+					...props.style
+				}}
+			>
+				{loading ? (
+					<LoadingSection size={14} color={"secondary"} />
+				) : (
+					<FontAwesome
+						name={"download"}
+						style={{
+							cursor: "pointer",
+							fontSize: "1.1em",
+							color: secondary
+						}}
+					/>
+				)}
+			</div>
+		</Tooltip>
+	)
 }
 
 export default graphql(downloadCBXData, { name: "downloadCBXData" })(

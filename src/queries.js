@@ -564,16 +564,6 @@ export const agendaManager = gql`
 				councilId
 				state
 			}
-			votings {
-				id
-				vote
-				id
-				participantId
-				author {
-					id
-					socialCapital
-				}
-			}
 			comment
 			councilId
 			currentRemoteCensus

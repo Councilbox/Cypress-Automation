@@ -102,6 +102,17 @@ export const agendaVotings = gql`
 					value
 					itemId
 				}
+				delegatedVotes {
+					id
+					delegateId
+					author {
+						name
+						surname
+						numParticipations
+						state
+						type
+					}
+				}
 				author {
 					id
 					name
@@ -111,15 +122,6 @@ export const agendaVotings = gql`
 					type
 					socialCapital
 					position
-					delegatedVotes {
-						id
-						name
-						surname
-						dni
-						position
-						socialCapital
-						numParticipations
-					}
 				}
 				authorRepresentative {
 					id
@@ -131,16 +133,6 @@ export const agendaVotings = gql`
 					dni
 					socialCapital
 					numParticipations
-					delegatedVotes {
-						id
-						name
-						surname
-						dni
-						type
-						position
-						socialCapital
-						numParticipations
-					}
 				}
 				participantId
 				agendaId

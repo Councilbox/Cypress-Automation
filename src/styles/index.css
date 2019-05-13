@@ -469,7 +469,7 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 
 .noMargin>div{
     margin: 0;
-    min-width:830px
+    min-width:880px
 }
 
 .noMarginM>div{
@@ -490,4 +490,11 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 
 .livePArticipants>div{
     margin: 0px;
+}
+
+.height100>div{
+    height: 100%;
+}
+.expandButtonModal:focus{
+    outline: none;
 }

@@ -115,21 +115,21 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
 
     return (
         <div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', paddingBottom: "10px" }}>
                 <TextInput
                     value={state.email}
                     floatingText={translate.email}
                     onChange={updateEmail}
                 />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', paddingBottom: "10px" }}>
                 <TextInput
                     value={state.phone}
                     floatingText={translate.phone}
                     onChange={updatePhone}
                 />
             </div>
-            <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', justifyContent: "space-between",  paddingBottom: "10px"}}>
                 <BasicButton
                     color={secondary}
                     text="Reenviar credenciales a este participante"
@@ -148,19 +148,19 @@ const ParticipantContactEditor = ({ translate, council, updateParticipantSends, 
                     color={secondary}
                     text="Actualizar"
                     onClick={refreshEmailStates}
+                    loading={state.loading}
+                    textStyle={{ color: 'white', fontWeight: '700' }}
+                />
+            </div>
+            {council.securityType !== 0 &&
+                <BasicButton
+                    color={secondary}
+                    text="Enviar contraseña de entrada"
+                    onClick={resendRoomAccessKey}
                     loading={state.sendsLoading}
                     textStyle={{ color: 'white', fontWeight: '700' }}
                 />
-                {council.securityType !== 0 &&
-                    <BasicButton
-                        color={secondary}
-                        text="Enviar contraseña de entrada"
-                        onClick={resendRoomAccessKey}
-                        loading={state.sendsLoading}
-                        textStyle={{ color: 'white', fontWeight: '700' }}
-                    />
-                }
-            </div>
+            }
         </div>
     )
 }

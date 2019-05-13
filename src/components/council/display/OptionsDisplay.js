@@ -4,22 +4,22 @@ import React from 'react';
 export const OptionsDisplay = ({ council, translate }) => (
     <div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.confirm_assistance}</span>{getSelectionIcon(council.confirmAssistance)}
+            {getSelectionIcon(council.confirmAssistance)} <span>{translate.confirm_assistance}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.room_video_broadcast}</span>{getSelectionIcon(council.councilType ? 0 : 1)}
+            {getSelectionIcon(council.councilType ? 0 : 1)}<span>{translate.room_video_broadcast}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.full_video_record}</span>{getSelectionIcon(council.fullVideoRecord)}
+            {getSelectionIcon(council.fullVideoRecord)} <span>{translate.full_video_record}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.auto_close}</span>{getSelectionIcon(council.autoClose)}
+            {getSelectionIcon(council.autoClose)}  <span>{translate.auto_close}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            {`${translate.security}: ${getSecurityTypeText(council.securityType, translate)}`}
+            <div style={{width: "15px", marginRight: "0.4em" }}></div>{`${translate.security}: ${getSecurityTypeText(council.securityType, translate)} `}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.approve_act_draft_at_end}</span>{getSelectionIcon(council.approveActDraft)}
+            {getSelectionIcon(council.approveActDraft)} <span>{translate.approve_act_draft_at_end}</span>
         </div>
     </div>
 )
@@ -50,10 +50,10 @@ export const OptionsDisplayIconIzq = ({ council, translate }) => (
 
 const getSelectionIcon = value => {
     if (value === 1) {
-        return <i className="fa fa-check" style={{ color: 'limegreen', marginLeft: '0.3em' }} aria-hidden="true"></i>
+        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
     }
 
-    return <i className="fa fa-times" style={{ color: 'red', marginLeft: '0.3em' }} aria-hidden="true"></i>
+    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
 }
 
 const getSecurityTypeText = (type, translate) => {

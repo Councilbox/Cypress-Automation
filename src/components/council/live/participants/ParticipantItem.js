@@ -154,8 +154,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 				}
 			</div>
 		</GridItem>
-		{
-			mode === 'ATTENDANCE' &&
+		{mode === 'ATTENDANCE' &&
 			<GridItem
 				xs={1}
 				lg={1}

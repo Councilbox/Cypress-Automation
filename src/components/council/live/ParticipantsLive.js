@@ -21,77 +21,80 @@ import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from 'react-device-detect';
 
+const countParticipants = participants => {
+	let online = 0;
+	let offline = 0;
+	let broadcasting = 0;
+	let askingForWord = 0;
+	let banned = 0;
+	participants.forEach(
+		participant => {
+			if (participantIsBlocked(participant)) {
+				banned++;
+			}
+			if(isAskingForWord(participant)){
+				askingForWord++;
+			}
+			if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
+				offline++;
+			} else {
+				if (participant.requestWord === 2) {
+					broadcasting++;
+				}
+				online++;
+			}
+		}
+	);
+	return {
+		online,
+		offline,
+		broadcasting,
+		askingForWord,
+		banned
+	};
+}
 
 
-class ParticipantsLive extends React.Component {
-	state = {
+const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}) => {
+	const [stats, setStats] = React.useState({
 		online: "-",
 		offline: "-",
 		broadcasting: "-",
-		banned: "-",
+		banned: "-"
+	});
+	const [options, setOptions] = React.useState({
 		banParticipant: false,
 		page: 1,
 		limit: isMobile? 15 : 10
-	};
+	});
 
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if (!nextProps.data.loading) {
-			if (nextProps.data.videoParticipants) {
-				if (nextProps.data.videoParticipants.list.length > 0) {
-					let online = 0;
-					let offline = 0;
-					let broadcasting = 0;
-					let askingForWord = 0;
-					let banned = 0;
-					nextProps.data.videoParticipants.list.forEach(
-						participant => {
-							if (participantIsBlocked(participant)) {
-								banned++;
-							}
-							if(isAskingForWord(participant)){
-								askingForWord++;
-							}
-							if (exceedsOnlineTimeout(participant.lastDateConnection) || participant.online !== 1) {
-								offline++;
-							} else {
-								if (participant.requestWord === 2) {
-									broadcasting++;
-								}
-								online++;
-							}
-						}
-					);
-					return {
-						online,
-						offline,
-						broadcasting,
-						askingForWord,
-						banned
-					};
-				}
+	React.useEffect(() => {
+		if(!data.loading){
+			if(data.videoParticipants){
+				setStats(countParticipants(data.videoParticipants.list));
 			}
 		}
-		return null;
-	}
+	}, [data.loading, data.videoParticipants, setStats]);
 
-	banParticipant = async () => {
-		const response = await this.props.banParticipant({
+	const banParticipant = async () => {
+		const response = await props.banParticipant({
 			variables: {
-				participantId: this.state.banParticipant.id
+				participantId: options.banParticipant.id
 			}
 		});
 
 		if (response) {
 			if (response.data.banParticipant.success) {
-				this.props.data.refetch();
-				this.setState({
+				data.refetch();
+				setOptions({
+					...options,
 					banParticipant: false
 				});
 			}
 		}
-	};
+	}
 
-	_participantVideoIcon = participant => {
+	const _participantVideoIcon = participant => {
 		if (participantIsBlocked(participant)) {
 			return (
 				<Icon
@@ -114,7 +117,7 @@ class ParticipantsLive extends React.Component {
 					style={{
 						fontSize: "1.1em",
 						marginRight: "0.3em",
-						color: this.participantLiveColor(participant)
+						color: participantLiveColor(participant)
 					}}
 				>
 					language
@@ -127,15 +130,15 @@ class ParticipantsLive extends React.Component {
 				style={{
 					fontSize: "1.1em",
 					marginRight: "0.3em",
-					color: this.participantLiveColor(participant)
+					color: participantLiveColor(participant)
 				}}
 			>
 				videocam
 			</Icon>
 		);
-	};
+	}
 
-	_participantEntry = participant => {
+	const _participantEntry = participant => {
 		return (
 			<Grid
 				key={`participant${participant.id}`}
@@ -155,7 +158,7 @@ class ParticipantsLive extends React.Component {
 					md={6}
 					style={{ display: "flex", flexDirection: "row" }}
 				>
-					{this._participantVideoIcon(participant)}
+					{_participantVideoIcon(participant)}
 					<Tooltip
 						title={`${participant.name} ${participant.surname}`}
 					>
@@ -197,9 +200,9 @@ class ParticipantsLive extends React.Component {
 					}}
 				>
 					{true && <MuteToggleButton
-						translate={this.props.translate}
+						translate={translate}
 						participant={participant}
-						refetch={this.props.data.refetch}
+						refetch={data.refetch}
 					/>}
 				</GridItem>
 				<GridItem
@@ -213,9 +216,9 @@ class ParticipantsLive extends React.Component {
 					}}
 				>
 					<ChangeRequestWordButton
-						translate={this.props.translate}
+						translate={translate}
 						participant={participant}
-						refetch={this.props.data.refetch}
+						refetch={data.refetch}
 					/>
 				</GridItem>
 				<GridItem
@@ -229,28 +232,28 @@ class ParticipantsLive extends React.Component {
 					}}
 				>
 					<VideoParticipantMenu
-						council={this.props.council}
+						council={council}
 						participant={participant}
-						refetch={this.props.data.refetch}
+						refetch={data.refetch}
 						setBanParticipant={() =>
-							this.setState({ banParticipant: participant })
+							setOptions({ ...options, banParticipant: participant })
 						}
 						setParticipantHistory={() =>
-							this.setState({ participantHistory: participant })
+							setOptions({ ...options, participantHistory: participant })
 						}
-						translate={this.props.translate}
+						translate={translate}
 					/>
 				</GridItem>
 			</Grid>
 		);
-	};
+	}
 
-	participantLiveColor = participant => {
+	const participantLiveColor = participant => {
 		if (participant.online !== 1) {
 			return "crimson";
 		} else {
 			if(exceedsOnlineTimeout(participant.lastDateConnection)){
-				this.props.changeParticipantOnlineState({
+				props.changeParticipantOnlineState({
 					variables: {
 						participantId: participant.id,
 						online: 2
@@ -260,124 +263,120 @@ class ParticipantsLive extends React.Component {
 			}
 		}
 		return getSecondary();
-	};
+	}
 
-	_button = () => {
-		const videoParticipants = !this.props.data.videoParticipants
+	const _button = () => {
+		const videoParticipants = !data.videoParticipants
 			? []
-			: this.props.data.videoParticipants.list;
+			: data.videoParticipants.list;
 
 		return (
 			<VideoParticipantsStats
-				videoFullScreen={this.props.videoFullScreen}
-				translate={this.props.translate}
+				videoFullScreen={props.videoFullScreen}
+				translate={translate}
 				stats={{
-					...this.state,
+					...stats,
 					total: videoParticipants.length
 				}}
-				toggleFullScreen={this.props.toggleFullScreen}
+				toggleFullScreen={props.toggleFullScreen}
 			/>
 		);
-	};
+	}
 
-	_section = () => {
-		const { videoParticipants } = this.props.data;
+	const _section = () => {
+		const { videoParticipants } = data;
 
-		if (!this.props.data.videoParticipants) {
+		if (!data.videoParticipants) {
 			return <LoadingSection />;
 		}
 
 		const preparedParticipants = prepareParticipants([...videoParticipants.list]);
-		const slicedParticipants = preparedParticipants.slice((this.state.page - 1) * this.state.limit, ((this.state.page - 1) * this.state.limit) + this.state.limit);
+		const slicedParticipants = preparedParticipants.slice((options.page - 1) * options.limit, ((options.page - 1) * options.limit) + options.limit);
 
 		return (
 			<div style={{ backgroundColor: darkGrey, width: "100%", height: `calc(100vh - ${!isMobile? '45vh' : '17vh'} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
 				<div style={{height: `calc(100% - ${videoParticipants.list.length > 10? '1.5em' : '0px'})`}}>
 					<Scrollbar>
 						{slicedParticipants.map(participant => {
-							return this._participantEntry(participant);
+							return _participantEntry(participant);
 						})}
 					</Scrollbar>
 				</div>
-				{videoParticipants.list.length > this.state.limit &&
+				{videoParticipants.list.length > options.limit &&
 					<div style={{height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'}}>
-							{this._paginationFooter(videoParticipants)}
+							{_paginationFooter(videoParticipants)}
 					</div>
 				}
 			</div>
 		);
-	};
+	}
 
-	_paginationFooter = participants => {
+	const _paginationFooter = participants => {
 		return (
 			<div style={{display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'}}>
-				{this.state.page > 1 &&
-					<div onClick={() => this.setState({page: this.state.page - 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
+				{options.page > 1 &&
+					<div onClick={() => setOptions({ ...options, page: options.page - 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'<'}</div>
 				}
-				<div style={{margin: '0 0.3em'}}>{this.state.page}</div>
-				{(this.state.page < (participants.list.length / this.state.limit)) &&
-					<div onClick={() => this.setState({page: this.state.page + 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
+				<div style={{margin: '0 0.3em'}}>{options.page}</div>
+				{(options.page < (participants.list.length / options.limit)) &&
+					<div onClick={() => setOptions({ ...options, page: options.page + 1})} style={{color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'}}>{'>'}</div>
 				}
 
 			</div>
 		)
 	}
 
-	render() {
-		const { videoFullScreen, translate } = this.props;
-		const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
+	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
-		if (videoFullScreen) {
-			return <div style={{ height: "100%" }}>{
-				CMPVideo && this._button()
-			}</div>;
-		}
-		return (
-			<div style={{height: '100%'}}>
-				{CMPVideo &&
-					<React.Fragment>
-						<CollapsibleSection
-							trigger={this._button}
-							controlled={true}
-							collapse={this._section}
-							open={true}
-							style={{ cursor: 'auto'}}
-						/>
-						<AlertConfirm
-							requestClose={() =>
-								this.setState({ banParticipant: false })
-							}
-							open={this.state.banParticipant}
-							acceptAction={this.banParticipant}
-							buttonAccept={translate.accept}
-							buttonCancel={translate.cancel}
-							bodyText={
-								<div>
-									{!!this.state.banParticipant &&
-										`${translate.want_eject} ${
-											this.state.banParticipant.name
-										} ${this.state.banParticipant.surname} ${
-											translate.from_room
-										}?`
-									}
-								</div>
-							}
-							title={translate.attention}
-						/>
-						{!!this.state.participantHistory && (
-							<ParticipantHistoryModal
-								requestClose={() =>
-									this.setState({ participantHistory: false })
-								}
-								participant={this.state.participantHistory}
-								translate={translate}
-							/>
-						)}
-					</React.Fragment>
-				}
-			</div>
-		);
+	if (videoFullScreen) {
+		return <div style={{ height: "100%" }}>{CMPVideo && _button()}</div>;
 	}
+	return (
+		<div style={{height: '100%'}}>
+			{CMPVideo &&
+				<React.Fragment>
+					<CollapsibleSection
+						trigger={_button}
+						controlled={true}
+						collapse={_section}
+						open={true}
+						style={{ cursor: 'auto'}}
+					/>
+					<AlertConfirm
+						requestClose={() =>
+							setOptions({ ...options, banParticipant: false })
+						}
+						open={options.banParticipant}
+						acceptAction={banParticipant}
+						buttonAccept={translate.accept}
+						buttonCancel={translate.cancel}
+						bodyText={
+							<div>
+								{!!options.banParticipant &&
+									`${translate.want_eject} ${
+										options.banParticipant.name
+									} ${options.banParticipant.surname} ${
+										translate.from_room
+									}?`
+								}
+							</div>
+						}
+						title={translate.attention}
+					/>
+					{!!options.participantHistory && (
+						<ParticipantHistoryModal
+							requestClose={() =>
+								setOptions({ ...options, participantHistory: false })
+							}
+							participant={options.participantHistory}
+							translate={translate}
+						/>
+					)}
+				</React.Fragment>
+			}
+		</div>
+	);
+
 }
 
 const prepareParticipants = participants => {

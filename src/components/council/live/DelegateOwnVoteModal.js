@@ -8,7 +8,7 @@ import {
 	Scrollbar,
 	LiveToast
 } from "../../../displayComponents";
-import { Typography } from "material-ui";
+import { Typography, Card, MenuItem } from "material-ui";
 import { compose, graphql, withApollo } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
@@ -27,7 +27,6 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 	})
 
 	const getData = React.useCallback(async () => {
-		setLoading(true);
 		const response = await client.query({
 			query: participantsToDelegate,
 			variables: buildVariables()
@@ -39,7 +38,6 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 
 	const getMore = React.useCallback(async () => {
 		if(options.offset !== 0){
-			setLoading(true);
 			const response = await client.query({
 				query: participantsToDelegate,
 				variables: buildVariables()
@@ -75,14 +73,11 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 		if(filters.text){
 			variables.filters = [{
 				field: "fullName",
-				text: filters.text
+				text: filters.text.trim()
 			}]
 		}
 
 		variables.options = options;
-
-		console.log(variables);
-
 		return variables;
 	}
 
@@ -98,7 +93,6 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 	}
 
 	const delegateVote = async id => {
-		//For attendance
 		if (props.addRepresentative) {
 			props.addRepresentative(id);
 		} else {
@@ -148,16 +142,16 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 	}
 
 	const updateFilterText = text => {
+		setOptions({
+			offset: 0,
+			limit: DELEGATION_USERS_LOAD
+		});
 		setFilters({ text });
 	}
 
 	function _renderBody() {
-		const participants = loading
-			? []
-			: data.liveParticipantsToDelegate.list;
-		const { total } = loading
-			? 0
-			: data.liveParticipantsToDelegate;
+		const participants = loading ? [] : data.liveParticipantsToDelegate.list;
+		const { total } = loading ? 0 : data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
 		return (
@@ -202,13 +196,34 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 											return false;
 										})}
 										{participants.length < total && (
-											<div onClick={loadMore}>
-												{`DESCARGAR ${
+											<Card
+												style={{
+													width: '90%',
+													border: '2px solid grey',
+													margin: 'auto',
+													marginBottom: '1.2em',
+													marginTop: '0.6em',
+													cursor: 'pointer',
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center'
+												}}
+												elevation={1}
+												onClick={loadMore}
+											>
+												<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+													{`DESCARGAR ${
 													rest > DELEGATION_USERS_LOAD
-														? `${1} de ${DELEGATION_USERS_LOAD} RESTANTES`
+														? `${1} de ${rest} RESTANTES`
 														: translate.all_plural.toLowerCase()
 													}`}
-											</div>
+													{loading &&
+														<div>
+															<LoadingSection size={25} />
+														</div>
+													}
+												</MenuItem>
+											</Card>
 										)}
 									</React.Fragment>
 								) : (
@@ -225,8 +240,6 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, .
 		<AlertConfirm
 			requestClose={close}
 			open={show}
-			acceptAction={delegateVote}
-			buttonAccept={translate.send}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={translate.to_delegate_vote}

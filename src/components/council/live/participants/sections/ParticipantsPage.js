@@ -22,6 +22,7 @@ import TypesHeader from './TypesHeader';
 import AttendanceHeader from './AttendanceHeader';
 import CredentialsHeader from './CredentialsHeader';
 import ConveneHeader from './ConveneHeader';
+import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
 
 
 
@@ -44,7 +45,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				translation: translate.position
 			}
 		];
-	};
+	}
 
 	const _renderAddGuestButton = () => {
 		return (
@@ -173,10 +174,15 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 					<BasicButton
 						text={filters.onlyNotSigned? translate.show_all : translate.show_unsigned}
 						color='white'
+						buttonStyle={{marginRight: '1em'}}
 						type="flat"
 						textStyle={{color: secondary, fontWeight: '700', border: `1px solid ${secondary}`}}
 						onClick={toggleOnlyNotSigned}
 					/>
+					{props.view === 'CREDENTIALS' &&
+						<RefreshCredsSendsButton translate={translate} council={council} />
+					}
+					
 				</GridItem>
 				<GridItem xs={orientation === 'landscape'? 6 : 12} md={6} lg={6} style={{display: 'flex', height: '4em', alignItems: 'center', justifyContent: orientation === 'portrait'? 'space-between' : 'flex-end'}}>
 					{orientation === 'landscape' && isMobile &&

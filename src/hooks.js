@@ -32,3 +32,18 @@ export const useOldState = initialValue => {
 
 	return [state, oldSetState];
 }
+
+export const useHoverRow = () => {
+	const [showActions, setShowActions] = React.useState(false);
+
+	const mouseEnterHandler = () => {
+		setShowActions(true);
+	}
+
+	const mouseLeaveHandler = () => {
+		setShowActions(false);
+	}
+
+
+	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
+}

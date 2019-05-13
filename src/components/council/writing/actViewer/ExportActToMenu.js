@@ -7,6 +7,7 @@ import { downloadAct } from '../../../../queries';
 import { withApollo } from 'react-apollo';
 import { councilActEmail } from '../../../../queries';
 import gql from 'graphql-tag';
+import FileSaver from 'file-saver';
 
 
 const exportActPDF = gql`
@@ -15,45 +16,36 @@ const exportActPDF = gql`
     }
 `;
 
+const ExportActToMenu = ({ translate, council, client, ...props }) => {
+    const [loading, setLoading] = React.useState(false);
+    const secondary = getSecondary();
 
-class ExportActToMenu extends React.Component {
-
-    state = {
-        loading: false
-    }
-
-    downloadPDF = async () => {
-		this.setState({
-			loading: true
-		})
-		const response = await this.props.client.query({
+    const downloadPDF = async () => {
+		setLoading(true);
+		const response = await client.query({
 			query: exportActPDF,
 			variables: {
-				councilId: this.props.council.id
+				councilId: council.id
 			}
         });
 
 		if (response) {
 			if (response.data.exportActPDF) {
-				this.setState({
-					loading: false
-				});
 				downloadFile(
 					response.data.exportActPDF,
 					"application/pdf",
-					`${this.props.translate.act.replace(/ /g, '_')}-${
-				    this.props.council.name.replace(/ /g, '_').replace(/\./g, '_')
-					}`
-				);
+					`${translate.act.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '_')}`
+                );
+                setLoading(false);
 			}
 		}
     };
 
-    export2Doc = async (element, filename = `${this.props.translate.act} - ${this.props.council.name}`) => {
-        const response = await this.props.client.query({
+    const export2Doc = async () => {
+        const response = await client.query({
 			query: councilActEmail,
 			variables: {
-				councilId: this.props.council.id
+				councilId: council.id
 			}
         });
         console.log(response.data.councilAct.emailAct);
@@ -70,94 +62,79 @@ class ExportActToMenu extends React.Component {
             h4 {font-family: Arial; font-size: 12pt;}
             b {font-family: Arial; font-size: 12pt;}
             </style>\
-       `);
-
-       const value = css + html;
-        const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURI(value);
-        filename = filename?filename+'.doc':'document.doc';
-        const downloadLink = document.createElement("a");
-        document.body.appendChild(downloadLink);
-        if(navigator.msSaveOrOpenBlob ){
-            const blob = new Blob(['\ufeff', css+html], {
-                type: 'application/msword'
-            });
-            navigator.msSaveOrOpenBlob(blob, filename);
-        }else{
-            downloadLink.href = url;
-            downloadLink.download = filename;
-            downloadLink.click();
-        }
-        document.body.removeChild(downloadLink);
+        `);
+        
+        let filename = `${translate.act} - ${council.name}.doc`;
+        const blob = new Blob(['\ufeff', css+html], {
+            type: 'application/msword'
+        });
+        FileSaver.saveAs(blob, filename);
     }
 
-
-    render(){
-        const secondary = getSecondary();
-        return (
-            <DropDownMenu
-                color="transparent"
-                id={'user-menu-trigger'}
-                loading={this.state.loading}
-                text={this.props.translate.export_act_to}
-                textStyle={{ color: secondary }}
-                type="flat"
-                buttonStyle={{border: `1px solid ${secondary}`}}
-                icon={
-                    <i className="fa fa-download" style={{
-                            fontSize: "1em",
-                            color: secondary,
-                            marginLeft: "0.3em"
-                        }}
-                    />
-                }
-                items={
-                    <React.Fragment>
-                        <MenuItem onClick={this.downloadPDF}>
-                            <div
-                                style={{
-                                    width: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between'
+    return (
+        <DropDownMenu
+            color="transparent"
+            id={'user-menu-trigger'}
+            loading={loading}
+            text={translate.export_act_to}
+            textStyle={{ color: secondary }}
+            type="flat"
+            buttonStyle={{border: `1px solid ${secondary}`}}
+            icon={
+                <i className="fa fa-download" style={{
+                        fontSize: "1em",
+                        color: secondary,
+                        marginLeft: "0.3em"
+                    }}
+                />
+            }
+            items={
+                <React.Fragment>
+                    <MenuItem onClick={downloadPDF}>
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}
+                        >
+                            <i className="fa fa-file-pdf-o" style={{
+                                    fontSize: "1em",
+                                    color: secondary,
+                                    marginLeft: "0.3em"
                                 }}
-                            >
-                                <i className="fa fa-file-pdf-o" style={{
-                                        fontSize: "1em",
-                                        color: secondary,
-                                        marginLeft: "0.3em"
-                                    }}
-                                />
-                                <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
-                                    PDF
-                                </span>
-                            </div>
-                        </MenuItem>
-                        <Divider />
-                        <MenuItem onClick={this.export2Doc}>
-                            <div
-                                style={{
-                                    width: '100%',
-                                    display: 'flex',
-                                    flexDirection: 'row',
-                                    justifyContent: 'space-between'
+                            />
+                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                PDF
+                            </span>
+                        </div>
+                    </MenuItem>
+                    <Divider />
+                    <MenuItem onClick={export2Doc}>
+                        <div
+                            style={{
+                                width: '100%',
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }}
+                        >
+                            <i className="fa fa-file-word-o" style={{
+                                    fontSize: "1em",
+                                    color: secondary,
+                                    marginLeft: "0.3em"
                                 }}
-                            >
-                                <i className="fa fa-file-word-o" style={{
-                                        fontSize: "1em",
-                                        color: secondary,
-                                        marginLeft: "0.3em"
-                                    }}
-                                />
-                                <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
-                                    Word
-                                </span>
-                            </div>
-                        </MenuItem>
-                    </React.Fragment>
-                }
-            />
-        )
-    }
+                            />
+                            <span style={{marginLeft: '2.5em', marginRight: '0.8em'}}>
+                                Word
+                            </span>
+                        </div>
+                    </MenuItem>
+                </React.Fragment>
+            }
+        />
+    )
 }
 
 export default withApollo(ExportActToMenu);

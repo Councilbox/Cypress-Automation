@@ -1,28 +1,29 @@
 import React from 'react';
 
-export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
+const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
     <div style={{ maxWidth: '900px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
+            {getSelectionIcon(statute.existsAdvanceNoticeDays)}
             <span>{translate.exists_advance_notice_days}</span>
-            {getSelectionIcon(statute.existsAdvanceNoticeDays)}{
+            {
                 statute.existsAdvanceNoticeDays ?
                     `${' '}   -  ${statute.advanceNoticeDays} ${translate.input_group_days}`
                     : ''
             }
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_second_call}</span>{getSelectionIcon(statute.existsSecondCall)}
+            {getSelectionIcon(statute.existsSecondCall)}<span>{translate.exists_second_call}</span>
         </div>
         {statute.existsSecondCall === 1 &&
             <div style={{ display: 'flex', alignItems: 'center' }}>
-                <span>{translate.minimum_separation_between_call}</span>{` - ${statute.minimumSeparationBetweenCall} ${translate.minutes}`}
+                <div style={{width: "15px", marginRight: "0.4em"}}></div><span>{translate.minimum_separation_between_call}</span>{` - ${statute.minimumSeparationBetweenCall} ${translate.minutes}`}
             </div>
         }
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '0.3em' }}>{translate.quorum_type}:</span>{statute.quorumPrototype ? translate.social_capital : translate.census_type_assistants}
+            <div style={{width: "15px", marginRight: "0.4em" }}></div> <span style={{ marginRight: '0.3em' }}>{translate.quorum_type}:</span>{statute.quorumPrototype ? translate.social_capital : translate.census_type_assistants}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_first_call}:</span>{translate[getQuorumType(statute.firstCallQuorumType, quorumTypes)]}
+            <div style={{ width: "15px", marginRight: "0.4em" }}></div>   <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_first_call}:</span>{translate[getQuorumType(statute.firstCallQuorumType, quorumTypes)]}
         </div>
 
         {statute.existsSecondCall === 1 &&
@@ -31,45 +32,46 @@ export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
             </div>
         }
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_delegated_vote}</span>{getSelectionIcon(statute.existsDelegatedVote)}
+            {getSelectionIcon(statute.existsDelegatedVote)} <span>{translate.exists_delegated_vote}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exist_max_num_delegated_votes}</span>{getSelectionIcon(statute.existMaxNumDelegatedVotes)}
+            {getSelectionIcon(statute.existMaxNumDelegatedVotes)}
+            <span>{translate.exist_max_num_delegated_votes}</span>
             {`${statute.existMaxNumDelegatedVotes ? ` - ${statute.maxNumDelegatedVotes}` : ''}`}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_limited_access_room}</span>{getSelectionIcon(statute.existsLimitedAccessRoom)}
+            {getSelectionIcon(statute.existsLimitedAccessRoom)} <span>{translate.exists_limited_access_room}</span>
             {`${statute.existsLimitedAccessRoom ? ` - ${statute.limitedAccessRoomMinutes} min` : ''}`}
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_comments}</span>{getSelectionIcon(statute.existsComments)}
+            {getSelectionIcon(statute.existsComments)}<span>{translate.exists_comments}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_notify_points}</span>{getSelectionIcon(statute.notifyPoints)}
+            {getSelectionIcon(statute.notifyPoints)} <span>{translate.exists_notify_points}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_quality_vote}</span>{getSelectionIcon(statute.existsQualityVote)}
+            {getSelectionIcon(statute.existsQualityVote)}<span>{translate.exists_quality_vote}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exist_present_with_remote_vote}</span>{getSelectionIcon(statute.existsPresentWithRemoteVote)}
+            {getSelectionIcon(statute.existsPresentWithRemoteVote)}  <span>{translate.exist_present_with_remote_vote}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.can_add_points}</span>{getSelectionIcon(statute.canAddPoints)}
+            {getSelectionIcon(statute.canAddPoints)} <span>{translate.can_add_points}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.can_reorder_points}</span>{getSelectionIcon(statute.canReorderPoints)}
+            {getSelectionIcon(statute.canReorderPoints)} <span>{translate.can_reorder_points}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.can_unblock}</span>{getSelectionIcon(statute.canUnblock)}
+            {getSelectionIcon(statute.canUnblock)} <span>{translate.can_unblock}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.exists_act}</span>{getSelectionIcon(statute.existsAct)}
+            {getSelectionIcon(statute.existsAct)}<span>{translate.exists_act}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.included_in_act_book}</span>{getSelectionIcon(statute.includedInActBook)}
+            {getSelectionIcon(statute.includedInActBook)}  <span>{translate.included_in_act_book}</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span>{translate.include_participants_list_in_act}</span>{getSelectionIcon(statute.includeParticipantsList)}
+            {getSelectionIcon(statute.includeParticipantsList)}<span>{translate.include_participants_list_in_act}</span>
         </div>
     </div>
 )
@@ -151,10 +153,10 @@ export const StatuteDisplayIconsIzq = ({ statute, translate, quorumTypes }) => (
 
 const getSelectionIcon = value => {
     if (value === 1) {
-        return <i className="fa fa-check" style={{ color: 'limegreen',/* marginLeft: '0.3em'*/ }} aria-hidden="true"></i>
+        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
     }
 
-    return <i className="fa fa-times" style={{ color: 'red',/* marginLeft: '0.3em'*/ }} aria-hidden="true"></i>
+    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: "15px" }} aria-hidden="true"></i>
 }
 
 const getQuorumType = (type, quorumTypes) => {
