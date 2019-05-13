@@ -50,9 +50,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, ...
         let mostrar = agenda.subjectType !== 0;
         if (mostrar) {
             if (CBX.agendaVotingsOpened(agenda)) {
-                return <i className={"material-icons"} aria-label="votacion abierta" style={{ marginRight: '0.6em', fontSize: "20px", color: "#278289" }}>how_to_vote</i>;
+                return <i className={"material-icons"} aria-label="votación abierta" /*TRADUCCION*/ style={{ marginRight: '0.6em', fontSize: "20px", color: "#278289" }}>how_to_vote</i>;
             } else {
-                return <i className={"material-icons colorGrey"} aria-label="votacion cerrada"  style={{ marginRight: '0.6em', fontSize: "20px", }}>how_to_vote</i>;
+                return <i className={"material-icons colorGrey"} aria-label="votación cerrada" /*TRADUCCION*/ style={{ marginRight: '0.6em', fontSize: "20px", }}>how_to_vote</i>;
             }
         } else {
             return <div></div>;
@@ -78,7 +78,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, ...
             }
         });
     }
-
 
     if (props.inPc) {
         return (
