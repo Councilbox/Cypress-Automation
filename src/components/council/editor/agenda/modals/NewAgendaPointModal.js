@@ -302,7 +302,7 @@ class NewAgendaPointModal extends React.Component {
 		const { translate } = this.props;
 		const agenda = this.state.newPoint;
 		let errors = checkRequiredFieldsAgenda(agenda, translate, toast);
-		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType, translate);
 		this.setState({
 			errors: errors.errors,
 			majorityError: majorityCheckResult.message
