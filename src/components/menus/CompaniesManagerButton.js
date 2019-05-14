@@ -5,79 +5,74 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { userCanCreateCompany } from '../../utils/CBX';
 import CBXContactButton from '../noCompany/CBXContactButton';
 
-class CompaniesManagerButton extends React.Component {
 
-    state = {
-        cantCreateModal: false
+const CompaniesManagerButton = props => {
+    const [modal, setModal] = React.useState(false);
+    const secondary = getSecondary();
+
+    const showCantCreateModal = () => {
+        setModal(true);
     }
 
-    showCantCreateModal = () => {
-        this.setState({
-            cantCreateModal: true
-        });
+    const hideCantCreateModal = () => {
+        setModal(false);
     }
-
-    hideCantCreateModal = () => {
-        this.setState({
-            cantCreateModal: false
-        });
-    }
-
-    render(){
-        return(
-            <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                <div>
-                    {userCanCreateCompany(this.props.user, this.props.companies.list)?
-                        <Link to={`/company/${this.props.company.id}/create`}>
-                            <BasicButton
-                                text={this.props.translate.companies_add}
-                                color={getSecondary()}
-                                icon={<ButtonIcon type="add" color="white" />}
-                                textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
-                            />
-                        </Link>
-                    :
+    
+    return(
+        <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+            <div>
+                {userCanCreateCompany(props.user, props.companies.list)?
+                    <Link to={`/company/${props.company.id}/create`}>
                         <BasicButton
-                            text={this.props.translate.companies_add}
-                            color={'#A0A0A0'}
-                            onClick={this.showCantCreateModal}
+                            text={props.translate.companies_add}
+                            color={secondary}
                             icon={<ButtonIcon type="add" color="white" />}
                             textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
                         />
-                    }
-                </div>
+                    </Link>
+                :
+                    <BasicButton
+                        text={props.translate.companies_add}
+                        color={'#A0A0A0'}
+                        onClick={showCantCreateModal}
+                        icon={<ButtonIcon type="add" color="white" />}
+                        textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
+                    />
+                }
+            </div>
 
-                <Link to={`/company/${this.props.company.id}/link`}>
-                    <div>
-                        <BasicButton
-                            text={this.props.translate.companies_link}
-                            color={getSecondary()}
-                            icon={<ButtonIcon type="link" color="white" />}
-                            textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white'}}
+            <Link to={`/company/${props.company.id}/link`}>
+                <div>
+                    <BasicButton
+                        text={props.translate.companies_link}
+                        color={secondary}
+                        icon={<ButtonIcon type="link" color="white" />}
+                        textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white'}}
+                    />
+                </div>
+            </Link>
+
+            <AlertConfirm
+                title={props.translate.warning}
+                open={modal}
+                hideAccept
+                buttonCancel={props.translate.close}
+                requestClose={hideCantCreateModal}
+                bodyText={
+                    <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
+                        <div style={{marginBottom: '0.8em'}}>
+                            {props.translate.to_create_more_need_premium_account}
+                        </div>
+                        <CBXContactButton
+                            translate={props.translate}
                         />
                     </div>
-                </Link>
+                }
+            />
+        </div>
+    )
 
-                <AlertConfirm
-                    title={this.props.translate.warning}
-                    open={this.state.cantCreateModal}
-                    hideAccept
-                    buttonCancel={this.props.translate.close}
-                    requestClose={this.hideCantCreateModal}
-                    bodyText={
-                        <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'}}>
-                            <div style={{marginBottom: '0.8em'}}>
-                                {this.props.translate.to_create_more_need_premium_account}
-                            </div>
-                            <CBXContactButton
-                                translate={this.props.translate}
-                            />
-                        </div>
-                    }
-                />
-            </div>
-        )
-    }
 }
+
 
 export default withSharedProps()(CompaniesManagerButton);
