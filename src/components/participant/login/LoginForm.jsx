@@ -14,8 +14,30 @@ import { getPrimary, getSecondary } from "../../../styles/colors";
 import { ButtonIcon, TextInput, BasicButton, AlertConfirm } from "../../../displayComponents";
 import { councilStarted, participantNeverConnected } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
+import icono from "../../../assets/img/logo-icono.png";
+
 
 const styles = {
+    loginContainer: {
+        width: "100%",
+        height: "100%",
+        padding: '1em',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative"
+    },
+    loginContainerMax: {
+        width: "100%",
+        height: "100%",
+        padding: '1em',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "relative"
+    },
     loginContainer: {
         width: "100%",
         height: "100%",
@@ -69,7 +91,8 @@ class LoginForm extends React.Component {
         errors: {
             email: "",
             password: ""
-        }
+        },
+        hover: false
     };
 
     checkFieldsValidationState = () => {
@@ -127,7 +150,7 @@ class LoginForm extends React.Component {
     login = async () => {
         const { participant, council } = this.props;
         const isValidForm = this.checkFieldsValidationState();
-        if(council.securityType !== 0){
+        if (council.securityType !== 0) {
             try {
                 const response = await this.props.checkParticipantKey({
                     variables: {
@@ -136,7 +159,7 @@ class LoginForm extends React.Component {
                     }
                 });
 
-                if(!response.data.checkParticipantKey.success){
+                if (!response.data.checkParticipantKey.success) {
                     this.setState({
                         errors: {
                             password: this.props.translate.password_err
@@ -144,7 +167,7 @@ class LoginForm extends React.Component {
                     });
                     return;
                 }
-            }catch(error){
+            } catch (error) {
                 this.setState({
                     errors: {
                         password: this.props.translate.password_err
@@ -176,7 +199,7 @@ class LoginForm extends React.Component {
                     this.props.translate.receive_access_key_phone
                 }
                 {!!this.state.phoneError &&
-                    <div style={{color: 'red'}}>{this.state.phoneError}</div>
+                    <div style={{ color: 'red' }}>{this.state.phoneError}</div>
                 }
             </div>
         )
@@ -194,8 +217,8 @@ class LoginForm extends React.Component {
             }
         });
 
-        if(response.errors){
-            if(response.errors[0].message = 'Invalid phone number'){
+        if (response.errors) {
+            if (response.errors[0].message = 'Invalid phone number') {
                 this.setState({
                     phoneError: this.props.translate.invalid_phone_number,
                     loading: false
@@ -208,6 +231,17 @@ class LoginForm extends React.Component {
             });
             this.closeSendPassModal();
         }
+    }
+
+    onMouseEnter = () => {
+        this.setState({
+            hover: true
+        })
+    }
+    onMouseLeave = () => {
+        this.setState({
+            hover: false
+        })
     }
 
     render() {
@@ -224,123 +258,266 @@ class LoginForm extends React.Component {
         const secondaryColor = getSecondary();
 
         return (
-            <div
-                style={
-                    windowSize === "xs" && windowOrientation === "landscape"
-                        ? styles.splittedLoginContainer
-                        : styles.loginContainer
-                }
-            >
-                <div style={styles.councilInfoContainer}>
-                    <Tooltip
-                        title={council.businessName}
-                        placement={"top"}
-                        enterDelay={300}
-                        leaveDelay={300}
-                    >
-                        {!!company.logo?
+            <div style={
+                // windowSize === "xs" && windowOrientation === "landscape"
+                // ? styles.splittedLoginContainer
+                styles.loginContainerMax
+            }>
+                <div style={{ width: "100%", height: "100%", display: "flex" }}>
+                    <div style={{ width: "50%", borderRight: "1px solid gainsboro", paddingRight: "4px" }}>
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
                             <img
-                                src={company.logo}
-                                alt="company_logo"
-                                style={{
-                                    maxWidth: '80px',
-                                    maxHeight: '80px'
-                                }}
-                            />
-                        :
-                            <i className="fa fa-building-o" style={{fontSize: '75px', color: 'grey', marginBottom: '10px'}} />
-                        }
-                    </Tooltip>
-                    <h3 style={{ color: secondaryColor, fontSize: '1.8em' }}>{council.name}</h3>
-                    <span>
-                        {moment(new Date(council.dateStart)).format("LLL")}
-                    </span>
-
-                    {(councilStarted(council) && (council.statute.existsLimitedAccessRoom === 1) && participantNeverConnected(participant)) &&
-                        <p>
-                            {translate.room_access_close_at}
-                            <span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
-                                {
-                                    moment(new Date(council.dateRealStart))
-                                        .add(council.statute.limitedAccessRoomMinutes, 'm')
-                                        .format("HH:mm")
-                                }
-                            </span>
-                        </p>
-                    }
-                </div>
-
-                <div style={styles.loginFormContainer}>
-                    <form style={{width: '100%'}}>
-                        <TextInput
-                            floatingText={translate.email}
-                            type="email"
-                            fullWidth
-                            errorText={errors.email}
-                            value={email}
-                            onChange={event =>
-                                this.handleChange("email", event)
-                            }
-                            disabled={true}
-                        />
-
-                        {council.securityType !== 0 && (
-                            <React.Fragment>
-                                <TextInput
-                                    onKeyUp={this.handleKeyUp}
-                                    floatingText={translate.login_password}
-                                    type={showPassword ? "text" : "password"}
-                                    errorText={errors.password}
-                                    value={password}
-                                    onChange={event =>
-                                        this.handleChange("password", event)
-                                    }
-                                    required={true}
-                                    showPassword={showPassword}
-                                    passwordToggler={() =>
-                                        this.setState({
-                                            showPassword: !showPassword
-                                        })
-                                    }
-                                />
-                                <span style={{cursor: 'pointer'}} onClick={this.showSendPassModal}>
-                                    {translate.didnt_receive_access_key}
-                                </span>
-                                <AlertConfirm
-                                    requestClose={this.closeSendPassModal}
-                                    open={this.state.sendPassModal}
-                                    loadingAction={this.state.loading}
-                                    acceptAction={this.sendParticipantRoomKey}
-                                    buttonAccept={translate.accept}
-                                    buttonCancel={translate.cancel}
-                                    bodyText={this._sendPassModalBody()}
-                                    title={translate.resend_access_key}
-                                />
-                            </React.Fragment>
-                        )}
-
-                        <div style={styles.enterButtonContainer}>
-                            <BasicButton
-                                text={translate.enter_room}
-                                color={primaryColor}
-                                textStyle={{
-                                    color: "white",
-                                    fontWeight: "700"
-                                }}
-                                textPosition="before"
-                                fullWidth={true}
-                                icon={
-                                    <ButtonIcon
-                                        color="white"
-                                        type="directions_walk"
-                                    />
-                                }
-                                onClick={this.login}
+                                src={icono}
+                                alt="logo"
+                                style={{ height: '3em', width: 'auto' }}
                             />
                         </div>
-                    </form>
+                    </div>
+                    <div style={{
+                        width: "50%",
+                        paddingLeft: "4px",
+                        display: 'inline-grid',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        {/* <div style={styles.councilInfoContainer}> */}
+                        <div style={{ textAlign: "center" }} >
+                            <Tooltip
+                                title={council.businessName}
+                                placement={"top"}
+                                enterDelay={300}
+                                leaveDelay={300}
+                            >
+                                {!!company.logo ?
+                                    <img
+                                        src={company.logo}
+                                        alt="company_logo"
+                                        style={{
+                                            maxWidth: '80px',
+                                            maxHeight: '80px'
+                                        }}
+                                    />
+                                    :
+                                    <i className="fa fa-building-o" style={{ fontSize: '75px', color: 'grey', marginBottom: '10px' }} />
+                                }
+                            </Tooltip>
+                            <h3 style={{ color: secondaryColor, fontSize: '1.8em' }}>{council.name}</h3>
+                            <span>
+                                {moment(new Date(council.dateStart)).format("LLL")}
+                            </span>
+
+                            {(councilStarted(council) && (council.statute.existsLimitedAccessRoom === 1) && participantNeverConnected(participant)) &&
+                                <p>
+                                    {translate.room_access_close_at}
+                                    <span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
+                                        {
+                                            moment(new Date(council.dateRealStart))
+                                                .add(council.statute.limitedAccessRoomMinutes, 'm')
+                                                .format("HH:mm")
+                                        }
+                                    </span>
+                                </p>
+                            }
+                        </div>
+
+                        {/* <div style={styles.loginFormContainer}> */}
+                        <div style={{padding: "0.3em"}}>
+                            <form style={{ width: '100%' }}>
+                                <TextInput
+                                    floatingText={translate.email}
+                                    type="email"
+                                    fullWidth
+                                    errorText={errors.email}
+                                    value={email}
+                                    onChange={event =>
+                                        this.handleChange("email", event)
+                                    }
+                                    disabled={true}
+                                />
+
+                                {council.securityType !== 0 && (
+                                    <React.Fragment>
+                                        <TextInput
+                                            onKeyUp={this.handleKeyUp}
+                                            floatingText={council.securityType === 2 ? translate.key_by_sms : translate.key_by_email}
+                                            type={showPassword ? "text" : "password"}
+                                            errorText={errors.password}
+                                            value={password}
+                                            onChange={event =>
+                                                this.handleChange("password", event)
+                                            }
+                                            required={true}
+                                            showPassword={showPassword}
+                                            passwordToggler={() =>
+                                                this.setState({
+                                                    showPassword: !showPassword
+                                                })
+                                            }
+                                        />
+                                        <span style={{ cursor: 'pointer', color: this.state.hover ? secondaryColor : "", borderBottom: this.state.hover ? `1px solid ${secondaryColor}` : "" }} onClick={this.showSendPassModal} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+                                            {translate.didnt_receive_access_key}
+                                        </span>
+                                        <AlertConfirm
+                                            requestClose={this.closeSendPassModal}
+                                            open={this.state.sendPassModal}
+                                            loadingAction={this.state.loading}
+                                            acceptAction={this.sendParticipantRoomKey}
+                                            buttonAccept={translate.accept}
+                                            buttonCancel={translate.cancel}
+                                            bodyText={this._sendPassModalBody()}
+                                            title={translate.resend_access_key}
+                                        />
+                                    </React.Fragment>
+                                )}
+
+                                <div style={styles.enterButtonContainer}>
+                                    <BasicButton
+                                        text={translate.enter_room}
+                                        color={primaryColor}
+                                        textStyle={{
+                                            color: "white",
+                                            fontWeight: "700"
+                                        }}
+                                        textPosition="before"
+                                        fullWidth={true}
+                                        icon={
+                                            <ButtonIcon
+                                                color="white"
+                                                type="directions_walk"
+                                            />
+                                        }
+                                        onClick={this.login}
+                                    />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
+            // <div
+            //     style={
+            //         windowSize === "xs" && windowOrientation === "landscape"
+            //             ? styles.splittedLoginContainer
+            //             : styles.loginContainer
+            //     }
+            // >
+            //     <div style={styles.councilInfoContainer}>
+            //         <Tooltip
+            //             title={council.businessName}
+            //             placement={"top"}
+            //             enterDelay={300}
+            //             leaveDelay={300}
+            //         >
+            //             {!!company.logo ?
+            //                 <img
+            //                     src={company.logo}
+            //                     alt="company_logo"
+            //                     style={{
+            //                         maxWidth: '80px',
+            //                         maxHeight: '80px'
+            //                     }}
+            //                 />
+            //                 :
+            //                 <i className="fa fa-building-o" style={{ fontSize: '75px', color: 'grey', marginBottom: '10px' }} />
+            //             }
+            //         </Tooltip>
+            //         <h3 style={{ color: secondaryColor, fontSize: '1.8em' }}>{council.name}</h3>
+            //         <span>
+            //             {moment(new Date(council.dateStart)).format("LLL")}
+            //         </span>
+
+            //         {(councilStarted(council) && (council.statute.existsLimitedAccessRoom === 1) && participantNeverConnected(participant)) &&
+            //             <p>
+            //                 {translate.room_access_close_at}
+            //                 <span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
+            //                     {
+            //                         moment(new Date(council.dateRealStart))
+            //                             .add(council.statute.limitedAccessRoomMinutes, 'm')
+            //                             .format("HH:mm")
+            //                     }
+            //                 </span>
+            //             </p>
+            //         }
+            //     </div>
+
+            //     <div style={styles.loginFormContainer}>
+            //         <form style={{ width: '100%' }}>
+            //             <TextInput
+            //                 floatingText={translate.email}
+            //                 type="email"
+            //                 fullWidth
+            //                 errorText={errors.email}
+            //                 value={email}
+            //                 onChange={event =>
+            //                     this.handleChange("email", event)
+            //                 }
+            //                 disabled={true}
+            //             />
+
+            //             {council.securityType !== 0 && (
+            //                 <React.Fragment>
+            //                     <TextInput
+            //                         onKeyUp={this.handleKeyUp}
+            //                         floatingText={council.securityType === 2 ? translate.key_by_sms : translate.key_by_email}
+            //                         type={showPassword ? "text" : "password"}
+            //                         errorText={errors.password}
+            //                         value={password}
+            //                         onChange={event =>
+            //                             this.handleChange("password", event)
+            //                         }
+            //                         required={true}
+            //                         showPassword={showPassword}
+            //                         passwordToggler={() =>
+            //                             this.setState({
+            //                                 showPassword: !showPassword
+            //                             })
+            //                         }
+            //                     />
+            //                     <span style={{ cursor: 'pointer', color: this.state.hover ? secondaryColor :"", borderBottom: this.state.hover ? `1px solid ${secondaryColor}` :"" }} onClick={this.showSendPassModal} onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+            //                         {translate.didnt_receive_access_key}
+            //                     </span>
+            //                     <AlertConfirm
+            //                         requestClose={this.closeSendPassModal}
+            //                         open={this.state.sendPassModal}
+            //                         loadingAction={this.state.loading}
+            //                         acceptAction={this.sendParticipantRoomKey}
+            //                         buttonAccept={translate.accept}
+            //                         buttonCancel={translate.cancel}
+            //                         bodyText={this._sendPassModalBody()}
+            //                         title={translate.resend_access_key}
+            //                     />
+            //                 </React.Fragment>
+            //             )}
+
+            //             <div style={styles.enterButtonContainer}>
+            //                 <BasicButton
+            //                     text={translate.enter_room}
+            //                     color={primaryColor}
+            //                     textStyle={{
+            //                         color: "white",
+            //                         fontWeight: "700"
+            //                     }}
+            //                     textPosition="before"
+            //                     fullWidth={true}
+            //                     icon={
+            //                         <ButtonIcon
+            //                             color="white"
+            //                             type="directions_walk"
+            //                         />
+            //                     }
+            //                     onClick={this.login}
+            //                 />
+            //             </div>
+            //         </form>
+            //     </div>
+            // </div>
         );
     }
 }
