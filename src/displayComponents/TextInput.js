@@ -22,7 +22,8 @@ const TextInput = ({
 	required,
 	min,
 	max,
-	disabled
+	disabled,
+	helpPopoverInLabel
 }) => (
 	<FormControl
 		style={{
@@ -31,7 +32,8 @@ const TextInput = ({
 		}}
 	>
 		<TextField
-			label={`${floatingText}${required ? "*" : ""}`}
+			label={helpPopoverInLabel ? floatingText:`${floatingText}${required ? "*" : ""}`}
+			// label={`${floatingText}${required ? "*" : ""}`}
 			value={value}
 			style={{
 				marginTop: 0,

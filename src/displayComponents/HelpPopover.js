@@ -22,36 +22,40 @@ class HelpPopover extends React.Component {
     }
 
 
-    render(){
+    render() {
         const {
             title = 'title',
             content = 'content',
             TriggerComponent = DefaultTrigger,
+            errorText
         } = this.props;
-
-        return(
+        
+        return (
             <Popover
-                title={<span style={{userSelect: "none"}}>{title}</span>}
-                content={<span style={{userSelect: "none"}}>{content}</span>}
+                title={<span style={{ userSelect: "none" }}>{title}</span>}
+                content={<span style={{ userSelect: "none" }}>{content}</span>}
                 visible={this.state.visible}
                 onVisibleChange={this.onVisibleChange}
                 trigger={'hover'}
             >
-                <TriggerComponent onClick={this.toggleVisible} />
+                <TriggerComponent
+                    onClick={this.toggleVisible}
+                    colorFail={errorText}
+                />
             </Popover>
         )
     }
 }
 
-const DefaultTrigger = ({ onClick }) => (
+const DefaultTrigger = ({ onClick, colorFail }) => (
     <span
         onClick={onClick}
         style={{
             borderRadius: '1em',
-            color: getSecondary(),
+            color: colorFail ? "#f44336" : getSecondary(),
             cursor: 'pointer',
             fontSize: '0.82em',
-            border: `1px solid ${getSecondary()}`,
+            border: colorFail ? `1px solid #f44336` : `1px solid ${getSecondary()}`,
             width: '1.1em',
             height: '1.1em',
             marginLeft: '0.4em',

@@ -1,5 +1,5 @@
 import React from "react";
-import { Tooltip } from "material-ui";
+import { Tooltip, Card } from "material-ui";
 import * as mainActions from "../../../actions/mainActions";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -11,10 +11,10 @@ import withWindowSize from "../../../HOCs/withWindowSize";
 import withWindowOrientation from "../../../HOCs/withWindowOrientation";
 import { checkValidEmail } from "../../../utils/validation";
 import { getPrimary, getSecondary } from "../../../styles/colors";
-import { ButtonIcon, TextInput, BasicButton, AlertConfirm } from "../../../displayComponents";
+import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover } from "../../../displayComponents";
 import { councilStarted, participantNeverConnected } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
-import icono from "../../../assets/img/logo-icono.png";
+
 
 
 const styles = {
@@ -32,7 +32,7 @@ const styles = {
         width: "100%",
         height: "100%",
         padding: '1em',
-        display: "flex",
+        // display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
@@ -92,7 +92,8 @@ class LoginForm extends React.Component {
             email: "",
             password: ""
         },
-        hover: false
+        hover: false,
+        helpPopover: true
     };
 
     checkFieldsValidationState = () => {
@@ -258,37 +259,15 @@ class LoginForm extends React.Component {
         const secondaryColor = getSecondary();
 
         return (
-            <div style={
-                // windowSize === "xs" && windowOrientation === "landscape"
-                // ? styles.splittedLoginContainer
-                styles.loginContainerMax
-            }>
-                <div style={{ width: "100%", height: "100%", display: "flex" }}>
-                    <div style={{ width: "50%", borderRight: "1px solid gainsboro", paddingRight: "4px" }}>
-                        <div
-                            style={{
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            <img
-                                src={icono}
-                                alt="logo"
-                                style={{ height: '3em', width: 'auto' }}
-                            />
-                        </div>
-                    </div>
+            <div style={styles.loginContainerMax}>
+
+                <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: 'center', alignItems: 'center' }}>
+
                     <div style={{
-                        width: "50%",
-                        paddingLeft: "4px",
-                        display: 'inline-grid',
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        width: "100%",
+                        paddingLeft: "4px"
                     }}>
-                        {/* <div style={styles.councilInfoContainer}> */}
-                        <div style={{ textAlign: "center" }} >
+                        <div style={{ textAlign: "center", padding: "1em" }} >
                             <Tooltip
                                 title={council.businessName}
                                 placement={"top"}
@@ -300,8 +279,9 @@ class LoginForm extends React.Component {
                                         src={company.logo}
                                         alt="company_logo"
                                         style={{
-                                            maxWidth: '80px',
-                                            maxHeight: '80px'
+                                            maxWidth: '130px',
+                                            maxHeight: '80px',
+                                            marginBottom: "1em"
                                         }}
                                     />
                                     :
@@ -328,7 +308,7 @@ class LoginForm extends React.Component {
                         </div>
 
                         {/* <div style={styles.loginFormContainer}> */}
-                        <div style={{padding: "0.3em"}}>
+                        <Card elevation={1} style={{ padding: "1.5em", border: "1px solid gainsboro" }}>
                             <form style={{ width: '100%' }}>
                                 <TextInput
                                     floatingText={translate.email}
@@ -346,7 +326,34 @@ class LoginForm extends React.Component {
                                     <React.Fragment>
                                         <TextInput
                                             onKeyUp={this.handleKeyUp}
-                                            floatingText={council.securityType === 2 ? translate.key_by_sms : translate.key_by_email}
+                                            helpPopoverInLabel={true}
+                                            floatingText={council.securityType === 2 ?
+                                                (
+                                                    <div style={{ display: "flex" }}>
+                                                        {translate.key_by_sms}
+                                                        <div>
+                                                            <HelpPopover
+                                                                errorText={!!errors.password}
+                                                                title={translate.key_by_sms}
+                                                                content={this._sendPassModalBody()}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )
+                                                :
+                                                (
+                                                    <div style={{ display: "flex" }}>
+                                                        {translate.key_by_email}
+                                                        <div>
+                                                            <HelpPopover
+                                                                errorText={!!errors.password}
+                                                                title={translate.key_by_email}
+                                                                content={this._sendPassModalBody()}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
                                             type={showPassword ? "text" : "password"}
                                             errorText={errors.password}
                                             value={password}
@@ -397,7 +404,7 @@ class LoginForm extends React.Component {
                                     />
                                 </div>
                             </form>
-                        </div>
+                        </Card>
                     </div>
                 </div>
             </div>
