@@ -239,6 +239,26 @@ const StepOptions = ({ translate, data, ...props }) => {
 							</div>
 						}
 					</div>
+					<SectionTitle
+						text={'Opciones de voto' /**TRADUCCION */}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
+					<div style={{display: 'flex'}}>
+						<div>
+							<Checkbox
+								label={'Se acepta voto presencial de usuario que ha votado telemáticamente (presencial prevalece)' /*TRADUCCION*/}
+								value={council.presentVoteOverwrite === 1}
+								onChange={(event, isInputChecked) =>
+									updateCouncilData({
+										presentVoteOverwrite: isInputChecked ? 1 : 0
+									})
+								}
+							/>
+						</div>
+					</div>
 				</React.Fragment>
 			),
 		}

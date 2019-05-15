@@ -12,6 +12,8 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
         return <LoadingSection />
     }
 
+    console.log(council);
+
     return (
         <div>
             <Grid style={{width: '100%', display: 'flex'}}>
@@ -25,6 +27,7 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
                 <GridItem xs={12} md={12} lg={12}>
                     <VotingsTableFiltersContainer
                         recount={recount}
+                        council={council}
                         translate={translate}
                         agenda={agenda}
                     />
@@ -35,8 +38,6 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
 }
 
 const Votings = ({ votings }) => {
-    console.log(votings);
-
     return (
         <React.Fragment>
             {votings.map(vote => (

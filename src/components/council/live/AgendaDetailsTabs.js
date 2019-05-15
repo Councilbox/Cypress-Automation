@@ -97,6 +97,7 @@ class AgendaDetailsTabs extends React.Component {
                                                 changeEditedVotings={this.props.changeEditedVotings}
                                                 editedVotings={this.props.editedVotings}
                                                 agenda={agenda}
+                                                council={this.props.council}
                                                 recount={this.props.recount}
                                                 translate={translate}
                                             />
@@ -124,6 +125,7 @@ class AgendaDetailsTabs extends React.Component {
                                                     changeEditedVotings={this.props.changeEditedVotings}
                                                     editedVotings={this.props.editedVotings}
                                                     agenda={agenda}
+                                                    council={this.props.council}
                                                     recount={this.props.recount}
                                                     translate={translate}
                                                 />

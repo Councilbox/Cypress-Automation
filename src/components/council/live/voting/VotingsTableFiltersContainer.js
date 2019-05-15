@@ -111,7 +111,7 @@ const VotingsTableFiltersContainer = ({ agenda, client, ...props }) => {
 		}
 
 		return variables;
-	};
+	}
 
 	return (
 		<VotingsTable

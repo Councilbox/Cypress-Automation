@@ -3,11 +3,11 @@ import VotingsTableFiltersContainer from "./voting/VotingsTableFiltersContainer"
 import { canEditPresentVotings, agendaVotingsOpened } from '../../../utils/CBX';
 import ManualVotingsMenu from './voting/ManualVotingsMenu';
 
-const Votings = ({ translate, agenda, ...props }) => {
+const Votings = ({ translate, agenda, council, ...props }) => {
 	const _section = () => {
 		return(
 			<div style={{backgroundColor: 'white', paddingTop: '1em'}}>
-				{canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) &&
+				{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
 					<ManualVotingsMenu
 						refetch={props.refetch}
 						changeEditedVotings={props.changeEditedVotings}

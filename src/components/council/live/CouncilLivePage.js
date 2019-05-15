@@ -133,7 +133,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		return <LoadingMainApp />;
 	}
 
-
 	return (
 		<div
 			style={{

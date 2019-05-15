@@ -14,7 +14,8 @@ import {
 	TextInput,
 	Grid,
 	Table,
-	GridItem
+	GridItem,
+	AlertConfirm
 } from "../../../../displayComponents";
 import { updateAgendaVoting } from "../../../../queries/agenda";
 import FontAwesome from "react-fontawesome";
@@ -225,9 +226,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													translate.customer_delegated
 												:
 													<React.Fragment>
-														{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING?
+														{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || props.council.councilType === 3?
 															<PrivateVotingDisplay
 																vote={vote}
+																council={props.council}
 																agenda={agenda}
 																translate={translate}
 																refetch={refreshTable}
@@ -340,29 +342,77 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 	);
 }
 
+const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }) => {
+
+	const body = () => {
+		return (
+			<div>
+				Este participante ha votado telemáticamente, el voto se eliminará del recuento para que no se sume al recuento presencial. Esta acción no se puede deshacer.
+			</div>
+		)
+	}
+
+	return (
+		<AlertConfirm
+			requestClose={requestClose}
+			open={open}
+			acceptAction={props.acceptAction}
+			buttonAccept={translate.accept}
+			buttonCancel={translate.cancel}
+			bodyText={body()}
+			title={translate.warning}
+		/>
+	)
+}
+
 
 const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 	name: "updateAgendaVoting"
-})(({ translate, agenda, vote, refetch, updateAgendaVoting, ...props }) => {
+})(({ translate, agenda, vote, refetch, updateAgendaVoting, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
+	const [modal, setModal] = React.useState(false);
 
+	const closeModal = () => {
+		setModal(false);
+	}
 
-	const toggleVote = async () => {
+	const toggleVote = () => {
 		setLoading(true);
+		if(vote.vote === -3){
+			setModal(true);
+			setLoading(false);
+			return;
+		}
+		setVoting();
+	}
+
+	const setVoting = async () => {
 		await updateAgendaVoting({
 			variables: {
 				agendaVoting: {
 					id: vote.id,
-					vote: vote.vote === -1 ? -2 : -1
+					vote: vote.vote !== -2? -2 : -1
 				}
 			}
 		});
 		await refetch();
-		let timeout = setTimeout(() => {setLoading(false); clearTimeout(timeout);}, 1500);
+		let timeout = setTimeout(() => {
+			setLoading(false);
+			clearTimeout(timeout);
+			if(modal){
+				setModal(false);
+			}
+		}, 1500);
 	}
 
 	return (
 		<React.Fragment>
+			<RemoveRemoteVoteAlert
+				open={modal}
+				translate={translate}
+				requestClose={closeModal}
+				acceptAction={setVoting}
+			/>
 			{agenda.votingState === 4 && vote.presentVote !== 0?
 				<React.Fragment>
 					{loading?

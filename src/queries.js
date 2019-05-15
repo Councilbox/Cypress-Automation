@@ -1140,6 +1140,7 @@ export const councilStepFive = gql`
 			companyId
 			confirmAssistance
 			councilType
+			presentVoteOverwrite
 			dateStart
 			fullVideoRecord
 			id
@@ -1534,6 +1535,7 @@ export const councilLiveQuery = gql`
 			conveneSendDate
 			conveneText
 			councilStarted
+			presentVoteOverwrite
 			councilType
 			closeDate
 			country
