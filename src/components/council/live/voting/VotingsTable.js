@@ -1,7 +1,7 @@
 import React from 'react';
 import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
 import { TableRow, TableCell, CardHeader, CardContent, withStyles, Card } from "material-ui";
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
 import {
@@ -22,9 +22,8 @@ import FontAwesome from "react-fontawesome";
 import VotingValueIcon from "./VotingValueIcon";
 import PresentVoteMenu from "./PresentVoteMenu";
 import { Tooltip, MenuItem } from "material-ui";
-import { isPresentVote, agendaVotingsOpened } from "../../../../utils/CBX";
+import { isPresentVote, agendaVotingsOpened, isCustomPoint } from "../../../../utils/CBX";
 import { isMobile } from 'react-device-detect';
-import { useOldState } from '../../../../hooks';
 import PropTypes from "prop-types";
 
 
@@ -366,9 +365,20 @@ const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }
 }
 
 
-const PrivateVotingDisplay = graphql(updateAgendaVoting, {
-	name: "updateAgendaVoting"
-})(({ translate, agenda, vote, refetch, updateAgendaVoting, council, ...props }) => {
+const PrivateVotingDisplay = compose(
+	graphql(updateAgendaVoting, {
+		name: "updateAgendaVoting"
+	}),
+	graphql(gql`
+		mutation updateCustomPointVoting($selections: [PollItemInput]!, $votingId: Int!){
+			updateCustomPointVoting(selections: $selections, votingId: $votingId){
+				success
+			}
+		}
+	`, {
+		name: "updateCustomVoting"
+	})
+)(({ translate, agenda, vote, refetch, updateAgendaVoting, updateCustomVoting, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [modal, setModal] = React.useState(false);
 
@@ -378,7 +388,7 @@ const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 
 	const toggleVote = () => {
 		setLoading(true);
-		if(vote.vote === -3){
+		if(vote.vote === -3 || vote.vote === 3){
 			setModal(true);
 			setLoading(false);
 			return;
@@ -387,14 +397,23 @@ const PrivateVotingDisplay = graphql(updateAgendaVoting, {
 	}
 
 	const setVoting = async () => {
-		await updateAgendaVoting({
-			variables: {
-				agendaVoting: {
-					id: vote.id,
-					vote: vote.vote !== -2? -2 : -1
+		if(isCustomPoint(agenda.subjectType)){
+			await updateCustomVoting({
+				variables: {
+					votingId: vote.id,
+					selections: []
 				}
-			}
-		});
+			});
+		} else {
+			await updateAgendaVoting({
+				variables: {
+					agendaVoting: {
+						id: vote.id,
+						vote: vote.vote !== -2? -2 : -1
+					}
+				}
+			});
+		}
 		await refetch();
 		let timeout = setTimeout(() => {
 			setLoading(false);

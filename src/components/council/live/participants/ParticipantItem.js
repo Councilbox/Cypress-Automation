@@ -225,7 +225,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 		>
 			<div style={{ width: '60%', display: 'flex', height: "84px" }}>
 				<div>
-					{ mode === 'STATES' && participant.personOrEntity === 0?
+					{ mode === 'STATES' && participant.personOrEntity === 0 && council.councilType < 2?
 						<DropDownMenu
 							claseHover={"classHover "}
 							color="transparent"

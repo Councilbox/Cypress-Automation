@@ -76,6 +76,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         councilId: props.council.id,
         orderIndex: props.agendas.length + 1
     });
+    const [loading, setLoading] = React.useState(false);
     const [errors, setErrors] = React.useState({});
     const [items, setItems] = React.useState([{
         value: ''
@@ -85,7 +86,8 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 
     const addCustomPoint = async () => {
         if(!validateCustomAgenda(items, options, agenda)){
-            const response = await addCustomAgenda({
+            setLoading(true);
+            await addCustomAgenda({
                 variables: {
                     agenda,
                     items,
@@ -94,6 +96,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             });
 
             await props.refetch();
+            setLoading(false);
             props.requestClose();
         }
     }
@@ -167,6 +170,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             requestClose={props.requestClose}
             open={props.open}
             acceptAction={addCustomPoint}
+            loadingAction={loading}
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
             bodyText={renderBody()}

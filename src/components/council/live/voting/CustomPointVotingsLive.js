@@ -1,10 +1,12 @@
 import React from 'react';
 import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
+import * as CBX from '../../../../utils/CBX';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AGENDA_STATES } from '../../../../constants';
 import VotingsTableFiltersContainer from './VotingsTableFiltersContainer';
 import CustomAgendaRecount from './CustomAgendaRecount';
+import CustomAgendaManualVotings from './CustomAgendaManualVotings';
 
 const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, data: fetchedData, ...props}) => {
 
@@ -12,18 +14,16 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
         return <LoadingSection />
     }
 
-    console.log(council);
-
     return (
         <div>
             <Grid style={{width: '100%', display: 'flex'}}>
-                {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED?
-                    <div style={{width: '100%', padding: '2em', border: `2px solid gainsboro`}}>
-                        {'Por motivos de privacidad en los puntos de votación anónima, el recuento está oculto hasta el cierre de votaciones' /*TRADUCCION*/}
-                    </div>
-                :
+                
                     <CustomAgendaRecount agenda={agenda} />
-                }
+                
+                {((CBX.canEditPresentVotings(agenda) && CBX.agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
+                    <CustomAgendaManualVotings agenda={agenda} translate={translate} />
+				}
+
                 <GridItem xs={12} md={12} lg={12}>
                     <VotingsTableFiltersContainer
                         recount={recount}
@@ -48,7 +48,6 @@ const Votings = ({ votings }) => {
         </React.Fragment>
     )
 }
-
 
 const agendaBallots = gql`
     query AgendaBallots($id: Int!){
