@@ -17,6 +17,7 @@ import Table, {
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
 import { isMobile } from 'react-device-detect';
+import { Button } from "antd";
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -153,7 +154,8 @@ class EnhancedTable extends React.Component {
 			loading,
 			headers,
 			children,
-			categories
+			categories,
+			exporXLSX
 		} = this.props;
 		const {
 			filterText,
@@ -250,23 +252,23 @@ class EnhancedTable extends React.Component {
 						}
 					</div>
 				</div>
-				{!isMobile?
-					<Table style={{ maxWidth: "100%", tableLayout: 'auto'}}>
+				{!isMobile ?
+					<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
 						<TableHead>
 							<TableRow>
 								{headers.map((header, index) => {
 									return (
-										header.selectAll?
+										header.selectAll ?
 											<TableCell key={`header_${index}`}>
 												{header.selectAll}
 											</TableCell>
-										:
+											:
 											<TableCell
 												key={`header_${index}`}
 												sortDirection={
 													this.state.orderDirection
 												}
-												style={TableStyles.TH}
+												style={{ ...TableStyles.TH, paddingRight: "40px" }}
 											>
 												{header.canOrder ? (
 													<TableSortLabel
@@ -293,7 +295,7 @@ class EnhancedTable extends React.Component {
 						</TableHead>
 						<TableBody>{!loading && children}</TableBody>
 					</Table>
-				:
+					:
 					children
 				}
 				{loading &&
