@@ -12,9 +12,23 @@ import { checkValidEmail } from "../../../utils/index";
 import { getPrimary } from "../../../styles/colors";
 import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
 import { withApollo } from "react-apollo/index";
+import { LinearProgress } from "material-ui/Progress";
+import PropTypes from 'prop-types';
+import { withStyles } from "material-ui";
+
+const styles = theme => ({
+	bar1Determinate: {
+		background: 'linear-gradient(to right, rgba(240,47,23,1) 0%, rgba(246,41,12,1) 0%, rgba(93,230,39,1) 100%)',
+	},
+	bar2Determinate: {
+		background: '#333333',
+	}
+});
 
 class SignUpUser extends React.Component {
 	state = {
+		errorsBar: null,
+		porcentaje: 0,
 		repeatEmail: '',
 		confirmPWD: "",
 		subscriptions: [],
@@ -107,6 +121,11 @@ class SignUpUser extends React.Component {
 			errors.confirmPWD = translate.no_match_pwd;
 		}
 
+		if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
+			hasError = true;
+			errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
+		}
+
 		this.props.updateErrors({
 			...errors,
 			hasError: hasError
@@ -124,17 +143,45 @@ class SignUpUser extends React.Component {
 	}
 
 	handleKeyUp = event => {
+		const data = this.props.formData;
+		let errorsBar
+		let porcentaje = 100
+
+		if (!(/[a-z]/.test(data.pwd))) {
+			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			porcentaje = porcentaje - 20;
+		}
+		if (!(/(?=.*[A-Z])/.test(data.pwd))) {
+			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			porcentaje = porcentaje - 20;
+		}
+		if (!(/(?=.*[0-9])/.test(data.pwd))) {
+			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			porcentaje = porcentaje - 20;
+		}
+		if (!(/[\&.!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\-]+$/.test(data.pwd))) {
+			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			porcentaje = porcentaje - 20;
+		}
+		if (!(/.{8,}/.test(data.pwd))) {
+			errorsBar = "Contraseña Insegura"; //TRADUCCION
+			porcentaje = porcentaje - 20;
+		}
+		this.setState({
+			errorsBar: errorsBar,
+			porcentaje,
+		})
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
 		}
-		if(this.props.errors.hasError){
+		if (this.props.errors.hasError) {
 			this.checkRequiredFields();
 		}
 	};
 
 	render() {
 		const primary = getPrimary();
-		const { translate } = this.props;
+		const { translate, classes } = this.props;
 		const data = this.props.formData;
 
 		return (
@@ -211,7 +258,7 @@ class SignUpUser extends React.Component {
 						>
 							{this.state.languages.map(language => {
 								return (
-									<MenuItem
+									<MenuItem 
 										key={language.id}
 										value={language.columnName}
 									>
@@ -280,6 +327,27 @@ class SignUpUser extends React.Component {
 					<GridItem xs={12} md={6} lg={6}>
 						{" "}
 					</GridItem>
+					<GridItem xs={12} md={6} lg={6}  style={{ height: "50px" }}>
+						<div style={{ width: "100%", marginRight: "3em" }}>
+							<LinearProgress
+								variant="determinate"
+								value={this.state.porcentaje}
+								style={{
+									height: "18px",
+									backgroundColor: 'lightgrey',
+								}}
+								classes={{
+									bar1Determinate: classes.bar1Determinate,
+								}}
+							/>
+						</div>
+						<div style={{ width: "100%" }}>
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
+						</div>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						{" "}
+					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
 						<BasicButton
 							text={translate.send}
@@ -303,5 +371,9 @@ class SignUpUser extends React.Component {
 		);
 	}
 }
+SignUpUser.propTypes = {
+	classes: PropTypes.object.isRequired,
+};
 
-export default withApollo(SignUpUser);
+
+export default withApollo(withStyles(styles)(SignUpUser));
