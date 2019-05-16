@@ -18,7 +18,7 @@ const VideoContainer = ({ data, setVideoURL, videoURL, announcement }) => {
                 src={`https://${data.participantVideoURL}?rand=${rand}`}
                 allowFullScreen={true}
                 style={{
-                    border: "none !important"
+                    border: "none !important",
                 }}
             >
                 Something wrong...

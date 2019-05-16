@@ -2,7 +2,7 @@ import { version } from '../package.json';
 
 const LOCATION_URL =
 	process.env.REACT_APP_MODE === "dev"
-		? `http://${process.env.REACT_APP_LOCAL_API}/graphql`
+		? `http://localhost:5000/graphql`
 		: `https://${process.env.REACT_APP_API_URL}/graphql`;
 
 export const WS_URL = process.env.REACT_APP_MODE === "dev" ? "ws://localhost:5000/subscriptions" : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;

@@ -979,8 +979,10 @@ export const getAgendaTypeLabel = agenda => {
 			return 'public_act';
 		case AGENDA_TYPES.PRIVATE_VOTING:
 			return 'private_votation';
+		case AGENDA_TYPES.CUSTOM_POINT:
+			return 'custom_point';
 		default:
-			return 'informative';
+			return 'custom_point';
 	}
 }
 

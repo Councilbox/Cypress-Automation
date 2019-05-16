@@ -9,11 +9,15 @@ import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary } from "../../styles/colors";
 import { IconButton, Tooltip } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
+import { isMobile } from "react-device-detect";
+// import * as CBX from '../../../utils/CBX';
+
+
 
 class Header extends React.Component {
-	componentDidUpdate(){
-		if(this.props.council) {
-			if(councilIsFinished(this.props.council)){
+	componentDidUpdate() {
+		if (this.props.council) {
+			if (councilIsFinished(this.props.council)) {
 				this.logout();
 			}
 		}
@@ -24,10 +28,12 @@ class Header extends React.Component {
 		this.props.actions.logoutParticipant(participant, council);
 	};
 
+
 	render() {
 		const { logoutButton, windowSize, primaryColor } = this.props;
 		const { council } = this.props;
 		const primary = getPrimary();
+		const textPrueba = "1. Lorem ipsum dolo Lorem ipsumLorem ipsum dolo Lorem ipsumLorem ipsum dolo Lorem ipsum ";
 
 
 		return (
@@ -50,7 +56,7 @@ class Header extends React.Component {
 						display: "flex",
 						flexDirection: "row",
 						height: "100%",
-						width: windowSize === "xs"? '5em' : '15em',
+						width: windowSize === "xs" ? '5em' : '15em',
 						alignItems: "center"
 					}}
 				>
@@ -67,10 +73,19 @@ class Header extends React.Component {
 
 
 
-                {(council && council.name) &&
-                    <div
+				{(council.autoClose !== 1) &&
+					<Marquee
+						isMobile={isMobile}
+					>
+						{textPrueba}
+					</Marquee>
+				}
+
+
+				{(council && council.name) && council.autoClose === 1 &&
+					<div
 						style={{
-							width: windowSize === "xs"? '65%' : "35%",
+							width: windowSize === "xs" ? '65%' : "35%",
 							display: 'flex',
 							justifyContent: 'center'
 						}}
@@ -88,13 +103,13 @@ class Header extends React.Component {
 							</div>
 						</Tooltip>
 					</div>
-                }
+				}
 				<div
 					style={{
 						display: "flex",
 						flexDirection: "row",
 						justifyContent: 'flex-end',
-						width: windowSize === "xs"? '5em' : '15em',
+						width: windowSize === "xs" ? '5em' : '15em',
 						alignItems: "center"
 					}}
 				>
@@ -119,9 +134,64 @@ class Header extends React.Component {
 						</IconButton>
 					)}
 				</div>
-			</header>
+			</header >
 		);
 	}
+}
+
+
+const Marquee = ({ children, isMobile }) => {
+	const [state, setState] = React.useState({
+		stop: false
+	});
+
+	const stylesMove = {
+		display: 'inline-block',
+		paddingLeft: '100%',
+		textIndent: '0',
+		animation: 'marquee 30s linear infinite', //TODO Hacer algo para calcular los segundos
+		marginBottom: '0'
+	}
+	const stylesNoMove = {
+		marginBottom: '0',
+		textAlign: 'center'
+	}
+	let style = {}
+	if (isMobile) {
+		if (children.length > 20) { 
+			style = stylesMove
+		} else {
+			style = stylesNoMove
+		}
+	} else {
+		if (children.length > 45) {
+			style = stylesMove
+		} else {
+			style = stylesNoMove
+		}
+	}
+
+	const toggle = () => {
+		setState({
+			stop: !state.stop
+		})
+	}
+
+	return (
+		<div className={'marquee'} style={{
+			width: '45%',
+			margin: '0 auto',
+			whiteSpace: 'nowrap',
+			overflow: 'hidden',
+			boxSizing: 'border-box'
+		}}
+		onClick={toggle}
+		>
+			<p style={state.stop ? stylesNoMove : style }>
+				{children}
+			</p>
+		</div>
+	)
 }
 
 const mapStateToProps = state => ({

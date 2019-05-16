@@ -3,7 +3,7 @@ import { Checkbox } from "material-ui";
 import { FormControlLabel } from "material-ui/Form";
 import HelpPopover from './HelpPopover';
 
-const CheckBox = ({ value, label, onChange, style, disabled, helpPopover, helpTitle, helpDescription }) => (
+const CheckBox = ({ value, label, onChange, style, disabled, helpPopover, helpTitle, helpDescription, styleLabel }) => (
 	<div
 		style={{
 			display: 'flex',
@@ -17,7 +17,7 @@ const CheckBox = ({ value, label, onChange, style, disabled, helpPopover, helpTi
 					<span>{label}</span>
 				</React.Fragment>
 			}
-			style={{ marginBottom: "0", marginRight: '0' }}
+			style={{ marginBottom: "0", marginRight: '0', ...styleLabel }}
 		/>
 		{helpPopover &&
 			<HelpPopover

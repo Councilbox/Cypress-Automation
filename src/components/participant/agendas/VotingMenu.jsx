@@ -12,7 +12,8 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         // justifyContent: 'center',
-        height: '5em',
+        // height: '5em',
+        marginTop: ".5em"
     },
     divisionM: {
         display: 'flex',
@@ -63,7 +64,7 @@ class VotingMenu extends React.Component {
         if (response) {
             this.setState({
                 modal: false,
-                loading:false
+                loading: false
             });
             await this.props.refetch();
             this.props.close();
@@ -79,57 +80,60 @@ class VotingMenu extends React.Component {
                 style={{
                     width: '100%',
                     backgroundColor: 'white',
-                    height: isMobile ? "14em" : '6em',
-                    paddingTop: '1em',
                     display: 'flex',
                     flexDirection: 'row'
                 }}
             >
-                <GridItem xs={12} md={4} lg={4} style={isMobile ? styles.divisionM : styles.division}>
-                    <VotingButton
-                        text={this.props.translate.in_favor_btn}
-                        loading={this.state.loading === 1}
-                        selected={agenda.votings[0].vote === 1}
-                        icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1 ? 'white' : primary }}></i>}
-                        onClick={() => {
-                            if (singleVoteMode) {
-                                this.showModal(1)
-                            } else {
-                                this.updateAgendaVoting(1)
-                            }
-                        }}
-                    />
-                </GridItem>
-                <GridItem xs={12} md={4} lg={4} style={isMobile ? styles.divisionM : styles.division}>
-                    <VotingButton
-                        text={this.props.translate.against_btn}
-                        loading={this.state.loading === 0}
-                        selected={agenda.votings[0].vote === 0}
-                        icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0 ? 'white' : primary }}></i>}
-                        onClick={() => {
-                            if (singleVoteMode) {
-                                this.showModal(0)
-                            } else {
-                                this.updateAgendaVoting(0)
-                            }
-                        }}
-                    />
-                </GridItem>
-                <GridItem xs={12} md={4} lg={4} style={isMobile ? styles.divisionM : styles.division}>
-                    <VotingButton
-                        text={this.props.translate.abstention_btn}
-                        loading={this.state.loading === 2}
-                        icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2 ? 'white' : primary }}></i>}
-                        selected={agenda.votings[0].vote === 2}
-                        onClick={() => {
-                            if (singleVoteMode) {
-                                this.showModal(2)
-                            } else {
-                                this.updateAgendaVoting(2)
-                            }
-                        }}
-                    />
-                </GridItem>
+                <VotingButton
+                    text={this.props.translate.in_favor_btn}
+                    loading={this.state.loading === 1}
+                    selected={agenda.votings[0].vote === 1}
+                    icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                    onClick={() => {
+                        if (singleVoteMode) {
+                            this.showModal(1)
+                        } else {
+                            this.updateAgendaVoting(1)
+                        }
+                    }}
+                />
+                <VotingButton
+                    text={this.props.translate.against_btn}
+                    loading={this.state.loading === 0}
+                    selected={agenda.votings[0].vote === 0}
+                    icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                    onClick={() => {
+                        if (singleVoteMode) {
+                            this.showModal(0)
+                        } else {
+                            this.updateAgendaVoting(0)
+                        }
+                    }}
+                />
+
+                <VotingButton
+                    text={this.props.translate.abstention_btn}
+                    loading={this.state.loading === 2}
+                    icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                    selected={agenda.votings[0].vote === 2}
+                    onClick={() => {
+                        if (singleVoteMode) {
+                            this.showModal(2)
+                        } else {
+                            this.updateAgendaVoting(2)
+                        }
+                    }}
+                />
+                <VotingButton
+                    text={"Quitar Voto"} //TRADUCCION
+                    onClick={() => { 
+                        if (singleVoteMode) {
+                            this.showModal(-1)
+                        } else {
+                            this.updateAgendaVoting(-1)
+                        }
+                    }}
+                />
                 {singleVoteMode &&
                     <VoteConfirmationModal
                         open={this.state.modal}
@@ -143,28 +147,32 @@ class VotingMenu extends React.Component {
     }
 }
 
-const VotingButton = ({ onClick, text, selected, icon, loading }) => {
+export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color }) => {
 
     const primary = getPrimary();
-
+   
     return (
-        <BasicButton
-            text={text}
-            color={selected ? primary : 'white'}
-            disabled={selected}
-            loading={loading}
-            loadingColor={primary}
-            icon={icon}
-            textStyle={{
-                color: selected ? 'white' : primary,
-                fontWeight: '700'
-            }}
-            buttonStyle={{
-                width: '160px',
-                border: `2px solid ${primary}`
-            }}
-            onClick={onClick}
-        />
+        <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
+            <BasicButton
+                text={text}
+                color={color ? color : "white"}
+                disabled={selected || disabled}
+                loading={loading}
+                loadingColor={primary}
+                icon={icon}
+                textStyle={{
+                    color: '#000000de',
+                    fontWeight: '700'
+                }}
+                buttonStyle={{
+                    width: '200px',
+                    border: selected || selectCheckBox && `2px solid ${primary}`,
+                    ...styleButton
+                }}
+                onClick={onClick}
+                onChange={onChange}
+            />
+        </GridItem>
     )
 }
 
