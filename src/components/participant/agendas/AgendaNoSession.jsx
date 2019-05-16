@@ -53,9 +53,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         let mostrar = agenda.subjectType !== 0;
         if (mostrar) {
             if (CBX.agendaVotingsOpened(agenda)) {
-                return <i className={"material-icons"} aria-hidden="true" style={{ marginRight: '0.6em', fontSize: "20px", color: secondary }}>how_to_vote</i>;
+                return <i className={"material-icons"} aria-label="votación abierta" /*TRADUCCION*/ style={{ marginRight: '0.6em', fontSize: "20px", color: "#278289" }}>how_to_vote</i>;
             } else {
-                return <i className={"material-icons colorGrey"} aria-hidden="true" style={{ marginRight: '0.6em', fontSize: "20px", }}>how_to_vote</i>;
+                return <i className={"material-icons colorGrey"} aria-label="votación cerrada" /*TRADUCCION*/ style={{ marginRight: '0.6em', fontSize: "20px", }}>how_to_vote</i>;
             }
         } else {
             return <div></div>;
@@ -90,9 +90,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         let color = ""
         if (CBX.agendaPointNotOpened(agenda)) icon = "fa fa-lock colorGrey";
         if (CBX.agendaPointOpened(agenda)) icon = "fa fa-unlock-alt colorGren";
-        if (CBX.agendaPointOpened(agenda)) color = secondary;
+        if (CBX.agendaPointOpened(agenda)) color = "#278289";
         if (CBX.agendaClosed(agenda)) icon = "fa fa-lock colorGrey";
-        return <i className={icon} aria-hidden="true" style={{ marginRight: '0.6em', fontSize: "18px", color: color }}></i>;
+        return <i className={icon} aria-label={icon==="fa fa-lock colorGrey" ?"punto cerrado":"punto abierto"} style={{ marginRight: '0.6em', fontSize: "18px", color: color }}></i>;
     }
 
     if (data.agendas) {
@@ -103,7 +103,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             }
         });
     }
-    
     if (props.inPc) {
         return (
             <Paper style={styles.container} elevation={4}>
@@ -175,10 +174,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             // }
                                             return (
                                                 <div style={{ margin: "0 auto", marginBottom: "15px", width: "93%", }} key={agenda.id}>
-                                                    <Card>
+                                                    <Card aria-label={"punto" + (index + 1) + " "+ translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
                                                         <CardHeader
                                                             avatar={
-                                                                <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
+                                                                <Avatar aria-label={`punto ${index + 1}`} style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid #474747", color: CBX.agendaPointOpened(agenda) ? "purple" : '#474747' }}>
                                                                     {index + 1}
                                                                 </Avatar>
                                                             }

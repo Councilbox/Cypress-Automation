@@ -98,6 +98,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
     const renderPrivateMessageButton = () => (
         <Button
             className={"NoOutline"}
+            title={"sendMessage"}
             style={styles.button}
             onClick={() => props.setAdminMessage(!props.adminMessage)}>
             <div style={{ display: "unset" }}>

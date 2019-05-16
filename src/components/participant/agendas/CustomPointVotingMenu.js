@@ -5,7 +5,8 @@ import { BasicButton, Radio, ButtonIcon, Checkbox } from '../../../displayCompon
 import { getPrimary, secondary } from '../../../styles/colors';
 import { AGENDA_TYPES } from '../../../constants';
 import { VotingButton } from './VotingMenu';
-import { createMuiTheme } from 'material-ui';
+import { createMuiTheme, FormControl } from 'material-ui';
+
 
 
 
@@ -112,42 +113,31 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
         <div>
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
-                    {agenda.items.map((item, index) => (
-                        <React.Fragment>
-                            <div key={`item_${item.id}`}>
-                                <VotingButton
-                                    styleButton={{ padding: '0' }}
-                                    selectCheckBox={getSelectedRadio(item.id)}
-                                    onClick={() => setSelection(item)}
-                                    text={item.value
-                                        // <div style={{ width: "100%" }}>
-                                        //     <Radio
-                                        //         checked={getSelectedRadio(item.id)}
-                                        //         onChange={() => setSelection(item)}
-                                        //         name="security"
-                                        //         label={item.value}//TRADUCCION
-                                        //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px', marginBottom: "0", marginRight: '0',  }}
-                                        //     />
-                                        // </div>
-                                    }
-                                />
-                            </div>
-                            {agenda.items.length - 1 === index &&
-                                <React.Fragment>
+                    <FormControl>
+                        {agenda.items.map((item, index) => (
+                            <React.Fragment>
+                                <div key={`item_${item.id}`}>
                                     <VotingButton
-                                        text={"Votar"} //TRADUCCION
+                                        styleButton={{ padding: '0' }}
                                         selectCheckBox={getSelectedRadio(item.id)}
-                                    // onClick={() => {
-                                    //     if (singleVoteMode) {
-                                    //         this.showModal(-1)
-                                    //     } else {
-                                    //         this.updateAgendaVoting(-1)
-                                    //     }
-                                    // }}
+                                        onClick={() => setSelection(item)}
+                                        text={item.value
+                                            // <div style={{ width: "100%" }}>
+                                            //     <Radio
+                                            //         checked={getSelectedRadio(item.id)}
+                                            //         onChange={() => setSelection(item)}
+                                            //         name="security"
+                                            //         label={item.value}//TRADUCCION
+                                            //         styleLabel={{ width: "100%", marginLeft: "0", padding: '8px 16px', marginBottom: "0", marginRight: '0',  }}
+                                            //     />
+                                            // </div>
+                                        }
                                     />
-                                    <div>
+                                </div>
+                                {agenda.items.length - 1 === index &&
+                                    <React.Fragment>
                                         <VotingButton
-                                            text={"Abstencion"} //TRADUCCION
+                                            text={"Votar"} //TRADUCCION
                                             selectCheckBox={getSelectedRadio(item.id)}
                                         // onClick={() => {
                                         //     if (singleVoteMode) {
@@ -157,25 +147,37 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
                                         //     }
                                         // }}
                                         />
-                                        <VotingButton
-                                            text={"No votar"} //TRADUCCION
-                                            selectCheckBox={getSelectedRadio(item.id)}
-                                            onClick={() => setSelection(-1)}
-                                        // onClick={() => {
-                                        //     if (singleVoteMode) {
-                                        //         this.showModal(-1)
-                                        //     } else {
-                                        //         this.updateAgendaVoting(-1)
-                                        //     }
-                                        // }}
-                                        />
-                                    </div>
-                                </React.Fragment>
-                            }
-                        </React.Fragment>
-                    ))
-                    }
-
+                                        <div>
+                                            <VotingButton
+                                                text={"Abstencion"} //TRADUCCION
+                                                selectCheckBox={getSelectedRadio(item.id)}
+                                            // onClick={() => {
+                                            //     if (singleVoteMode) {
+                                            //         this.showModal(-1)
+                                            //     } else {
+                                            //         this.updateAgendaVoting(-1)
+                                            //     }
+                                            // }}
+                                            />
+                                            <VotingButton
+                                                text={"No votar"} //TRADUCCION
+                                                selectCheckBox={getSelectedRadio(item.id)}
+                                                onClick={() => setSelection(-1)}
+                                            // onClick={() => {
+                                            //     if (singleVoteMode) {
+                                            //         this.showModal(-1)
+                                            //     } else {
+                                            //         this.updateAgendaVoting(-1)
+                                            //     }
+                                            // }}
+                                            />
+                                        </div>
+                                    </React.Fragment>
+                                }
+                            </React.Fragment>
+                        ))
+                        }
+                    </FormControl>
                 </React.Fragment>
                 :
                 <React.Fragment>
@@ -214,12 +216,12 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
                                 />
                             </div>
                             {agenda.items.length - 1 === index &&
-                                <div style={{paddingTop: "20px"}}>
+                                <div style={{ paddingTop: "20px" }}>
                                     <VotingButton
                                         text={"Votar"} //TRADUCCION
                                         styleButton={{ width: "100%" }}
                                         color={"silver"}
-                                        // selectCheckBox={getSelectedRadio(item.id)}
+                                    // selectCheckBox={getSelectedRadio(item.id)}
                                     // onClick={() => {
                                     //     if (singleVoteMode) {
                                     //         this.showModal(-1)
@@ -245,7 +247,7 @@ const CustomPointVotingMenu = ({ agenda = example, translate, updateCustomPointV
                                             styleButton={{ width: "90%" }}
                                             text={"No votar"} //TRADUCCION
                                             selectCheckBox={selections.length === 0}
-                                            // onClick={() => }
+                                        // onClick={() => }
                                         // onClick={() => {
                                         //     if (singleVoteMode) {
                                         //         this.showModal(-1)

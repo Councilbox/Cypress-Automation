@@ -242,7 +242,8 @@ h4 {
 }
 
 .colorGrey {
-    color: grey
+    /* color: grey */
+    color: #474747
 }
 
 .modalParticipant>div:nth-child(2n) {

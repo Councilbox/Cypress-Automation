@@ -44,9 +44,8 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
             }, 80);
         }
     }, [loaded]);
-   
-
     //TRADUCCION
+    
     return (
         loading ?
             <LoadingSection />
@@ -62,11 +61,11 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                         />
                     </div>
                 }
-                <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }} className={"hola"}>
-                    {timeline.map(event => {
+                <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
+                    {timeline.map((event, index ) => {
                         const content = JSON.parse(event.content);
                         return (
-                            <Step active key={`event_${event.id}`} id={event.id}>
+                            <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation(event.type, content) + " Hora: " + moment(event.date).format('LLL') } >
                                 <StepLabel>
                                     <b>{getTimelineTranslation(event.type, content)}</b><br />
                                     <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
@@ -76,12 +75,10 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                                         <React.Fragment>
                                             <span>
                                                 {`Resultados:`}
-                                                <br />A favor: {content.data.agendaPoint.results.positive}
-                                                <br />En contra: {content.data.agendaPoint.results.negative}
-                                                <br />Abstención: {content.data.agendaPoint.results.abstention}
-                                                <br />No vota: {content.data.agendaPoint.results.noVote}
-                                            </span>
-                                            <br />
+                                                <div aria-label={"A favor: " + content.data.agendaPoint.results.positive} /*TRADUCCION*/ >A favor: {content.data.agendaPoint.results.positive}</div>
+                                                <div aria-label={"En contra: " + content.data.agendaPoint.results.negative}/*TRADUCCION*/ >En contra: {content.data.agendaPoint.results.negative}</div>
+                                                <div aria-label={"Abstención: " + content.data.agendaPoint.results.abstention} /*TRADUCCION*/>Abstención: {content.data.agendaPoint.results.abstention}</div>
+                                                <div aria-label={"No vota: " + content.data.agendaPoint.results.noVote} /*TRADUCCION*/>No vota: {content.data.agendaPoint.results.noVote}</div>                                            </span>
                                         </React.Fragment>
                                     }
                                 </StepContent>
