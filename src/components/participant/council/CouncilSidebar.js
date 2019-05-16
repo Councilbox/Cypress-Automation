@@ -145,7 +145,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             />
         )
     }
-    console.log(props.agendaBadge)
+    
     if (props.isMobile) {
         return (
             <div style={{
