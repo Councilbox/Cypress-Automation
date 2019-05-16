@@ -74,8 +74,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     councilId: council.id,
                 }
             });
-            
-            if (response2.data && response2.data.readTimeline) {
+
+            if (response2.data && response2.data.readTimeline && response2.data.readTimeline > 0) {
                 settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
             }
         }
@@ -92,7 +92,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         if (CBX.agendaPointOpened(agenda)) icon = "fa fa-unlock-alt colorGren";
         if (CBX.agendaPointOpened(agenda)) color = "#278289";
         if (CBX.agendaClosed(agenda)) icon = "fa fa-lock colorGrey";
-        return <i className={icon} aria-label={icon==="fa fa-lock colorGrey" ?"punto cerrado":"punto abierto"} style={{ marginRight: '0.6em', fontSize: "18px", color: color }}></i>;
+        return <i className={icon} aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"} style={{ marginRight: '0.6em', fontSize: "18px", color: color }}></i>;
     }
 
     if (data.agendas) {
@@ -150,7 +150,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                         </div>
                     }
                     {/* <ScrollbarStartBottom   > */}
-                        <Scrollbar ref={scrollbar}>
+                    <Scrollbar ref={scrollbar}>
                         {!councilStarted(council) &&
                             <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
                                 {translate.council_not_started_yet}
@@ -174,7 +174,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             // }
                                             return (
                                                 <div style={{ margin: "0 auto", marginBottom: "15px", width: "93%", }} key={agenda.id}>
-                                                    <Card aria-label={"punto" + (index + 1) + " "+ translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
+                                                    <Card aria-label={"punto" + (index + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
                                                         <CardHeader
                                                             avatar={
                                                                 <Avatar aria-label={`punto ${index + 1}`} style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid #474747", color: CBX.agendaPointOpened(agenda) ? "purple" : '#474747' }}>
@@ -227,7 +227,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 <LoadingSection />
                             }
                         </div>
-                    {/* </ScrollbarStartBottom> */}
+                        {/* </ScrollbarStartBottom> */}
                     </Scrollbar>
                 </div>
                 <AlertConfirm
