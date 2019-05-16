@@ -288,8 +288,8 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 										</div>
 									</TableCell>
 									<TableCell>
-										{vote.author.numParticipations > 0 && `${
-											vote.author.numParticipations > 0? vote.author.numParticipations : ''
+										{vote.numParticipations > 0 && `${
+											vote.numParticipations > 0? vote.numParticipations : ''
 										}`}
 										{!!vote.representing &&
 											`${
