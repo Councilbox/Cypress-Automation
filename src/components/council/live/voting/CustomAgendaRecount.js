@@ -12,9 +12,7 @@ const CustomAgendaRecount = ({ agenda }) => {
                     data={data}
                     height={120}
                     width={120}
-                    options={{
-                        maintainAspectRatio: false
-                    }}
+                    options={{maintainAspectRatio: false}}
                 />
             </GridItem>
             <GridItem lg={8} md={6} xs={12}>

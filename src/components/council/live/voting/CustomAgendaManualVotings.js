@@ -17,26 +17,24 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
 
     const [ballots, setBallots] = React.useState(new Map(agenda.ballots.map(ballot => [ballot.itemId, ballot])));
 
-    console.log(ballots);
+    const updateBallotValue = (itemId, value) => {
+        let ballot = {
+            ...ballots.get(itemId)
+        };
+        ballot.weight = value;
+        ballot.itemId = itemId;
+        ballots.set(itemId, ballot);
+        setBallots(new Map(ballots));
+    }
 
 
     const sendBallots = async () => {
         const response = await createManualBallots({
             variables: {
-                ballots: [
-                    {
-                        itemId: agenda.items[0].id,
-                        value: 100
-                    },
-                    {
-                        itemId: agenda.items[1].id,
-                        value: 20
-                    },
-                    {
-                        itemId: agenda.items[2].id,
-                        value: 5
-                    }
-                ],
+                ballots: Array.from(ballots.values()).map(ballot => ({
+                    weight: ballot.weight,
+                    itemId: ballot.itemId
+                })),
                 agendaId: agenda.id
             }
         });
@@ -49,6 +47,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                     <TextInput
                         floatingText={item.value}
                         value={ballots.get(item.id)? ballots.get(item.id).weight : 0}
+                        onChange={event => updateBallotValue(item.id, event.target.value)}
                     />
                 </div>
             ))}

@@ -226,11 +226,13 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 						:
 							<CustomAgendaRecount
 								agenda={agenda}
+								council={council}
 							/>
 						}
 						<VotingsTableFiltersContainer
 							translate={translate}
 							hideStatus
+							council={council}
 							agenda={agenda}
 						/>
 					</div>
