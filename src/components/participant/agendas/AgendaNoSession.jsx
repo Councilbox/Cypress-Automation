@@ -74,7 +74,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     councilId: council.id,
                 }
             });
-
+            
             if (response2.data && response2.data.readTimeline) {
                 settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
             }

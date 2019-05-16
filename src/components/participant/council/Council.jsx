@@ -176,6 +176,9 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props })
     }, [participant.requestWord]);
 
     const setContent = type => {
+        if(type === "agenda"){
+            setAgendaBadge(false)
+        }
         setState({
             ...state,
             modalContent: type

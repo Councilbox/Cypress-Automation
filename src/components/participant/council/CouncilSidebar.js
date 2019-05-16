@@ -67,6 +67,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             className={"NoOutline"}
             style={styles.button}
             onClick={() => props.setContent('agenda')}
+            // onClick={() => props.setContent('agenda')}
         >
             <div style={{ display: "unset" }}>
                 <Badge badgeContent={8} dot color="primary" styleDot={{ color: primary }} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
@@ -144,7 +145,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             />
         )
     }
-
+    console.log(props.agendaBadge)
     if (props.isMobile) {
         return (
             <div style={{
@@ -450,10 +451,10 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
                 settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
             }
         }
-
+        
         getTimeline();
         readTimelines();
-        const interval = setInterval(function () { getTimeline(); readTimelines(); }, 10000);
+        const interval = setInterval(function () { getTimeline(); readTimelines(); }, 1000);
         return () => clearInterval(interval);
     }, [council.id, client, councilTimelineQuery]);
 
@@ -483,7 +484,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
         resultado = arrayTimeline.findIndex( item => item.id === timelineSeeId);
         unread = total - (resultado+1);
     }
-    
+   
     return (
         <Button
             className={"NoOutline"}
