@@ -348,3 +348,13 @@ h4 {
 .expandButtonModal:focus{
     outline: none;
 }
+
+.barColorRed>div {
+    background-color: red;
+}
+.barColorGreen>div {
+    background-color: green;
+}
+.barColorOrange>div {
+    background-color: orange;
+}

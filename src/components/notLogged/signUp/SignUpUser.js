@@ -14,16 +14,7 @@ import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
 import { withApollo } from "react-apollo/index";
 import { LinearProgress } from "material-ui/Progress";
 import PropTypes from 'prop-types';
-import { withStyles } from "material-ui";
 
-const styles = theme => ({
-	bar1Determinate: {
-		background: 'linear-gradient(to right, rgba(240,47,23,1) 0%, rgba(246,41,12,1) 0%, rgba(93,230,39,1) 100%)',
-	},
-	bar2Determinate: {
-		background: '#333333',
-	}
-});
 
 class SignUpUser extends React.Component {
 	state = {
@@ -159,7 +150,7 @@ class SignUpUser extends React.Component {
 			errorsBar = "Contraseña Insegura"; //TRADUCCION
 			porcentaje = porcentaje - 20;
 		}
-		if (!(/[\&.!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\-]+$/.test(data.pwd))) {
+		if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
 			errorsBar = "Contraseña Insegura"; //TRADUCCION
 			porcentaje = porcentaje - 20;
 		}
@@ -167,9 +158,12 @@ class SignUpUser extends React.Component {
 			errorsBar = "Contraseña Insegura"; //TRADUCCION
 			porcentaje = porcentaje - 20;
 		}
+		let color = "Green"
+		color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? "Orange" : "Green";
 		this.setState({
 			errorsBar: errorsBar,
 			porcentaje,
+			color:color,
 		})
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
@@ -258,7 +252,7 @@ class SignUpUser extends React.Component {
 						>
 							{this.state.languages.map(language => {
 								return (
-									<MenuItem 
+									<MenuItem
 										key={language.id}
 										value={language.columnName}
 									>
@@ -327,7 +321,7 @@ class SignUpUser extends React.Component {
 					<GridItem xs={12} md={6} lg={6}>
 						{" "}
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6}  style={{ height: "50px" }}>
+					<GridItem xs={12} md={6} lg={6} style={{ height: "50px" }}>
 						<div style={{ width: "100%", marginRight: "3em" }}>
 							<LinearProgress
 								variant="determinate"
@@ -335,10 +329,10 @@ class SignUpUser extends React.Component {
 								style={{
 									height: "18px",
 									backgroundColor: 'lightgrey',
+									borderRadius: "10px",
+									boxShadow: "rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px"
 								}}
-								classes={{
-									bar1Determinate: classes.bar1Determinate,
-								}}
+								className={"barColor" + this.state.color}
 							/>
 						</div>
 						<div style={{ width: "100%" }}>
@@ -376,4 +370,4 @@ SignUpUser.propTypes = {
 };
 
 
-export default withApollo(withStyles(styles)(SignUpUser));
+export default withApollo(SignUpUser);

@@ -11,17 +11,7 @@ import {
 import { getPrimary } from "../../styles/colors";
 import { updatePassword } from "../../queries";
 import { LinearProgress } from "material-ui/Progress";
-import PropTypes from 'prop-types';
-import { withStyles } from "material-ui";
 
-const styles = theme => ({
-  bar1Determinate:{
-    background: 'linear-gradient(to right, rgba(240,47,23,1) 0%, rgba(246,41,12,1) 0%, rgba(93,230,39,1) 100%)',
-  },
-  bar2Determinate:{
-    background: '#333333',
-  }
-});
 
 class ChangePasswordForm extends React.Component {
 
@@ -36,7 +26,8 @@ class ChangePasswordForm extends React.Component {
 		},
 		errors: {},
 		errorsBar: null,
-		porcentaje: 0
+		porcentaje: 0,
+		color: "#333333"
 	};
 
 
@@ -121,39 +112,50 @@ class ChangePasswordForm extends React.Component {
 		return hasError;
 	}
 
-	updateState(newValues) {
+	updateState(newValues, validate) {
 		let errorsBar
 		let porcentaje = 100
 
-		if (!(/[a-z]/.test(newValues.newPassword))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
-			porcentaje = porcentaje - 20;
-		}
-		if (!(/(?=.*[A-Z])/.test(newValues.newPassword))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
-			porcentaje = porcentaje - 20;
-		}
-		if (!(/(?=.*[0-9])/.test(newValues.newPassword))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
-			porcentaje = porcentaje - 20;
-		}
-		if (!(/[\&.!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?\-]+$/.test(newValues.newPassword))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
-			porcentaje = porcentaje - 20;
-		}
-		if (!(/.{8,}/.test(newValues.newPassword))) {
-			errorsBar = "Contraseña Insegura"; //TRADUCCION
-			porcentaje = porcentaje - 20;
-		}
-
-		this.setState({
-			errorsBar: errorsBar,
-			porcentaje,
-			data: {
-				...this.state.data,
-				...newValues
+		if (validate) {
+			if (!(/[a-z]/.test(newValues.newPassword))) {
+				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				porcentaje = porcentaje - 20;
 			}
-		});
+			if (!(/(?=.*[A-Z])/.test(newValues.newPassword))) {
+				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				porcentaje = porcentaje - 20;
+			}
+			if (!(/(?=.*[0-9])/.test(newValues.newPassword))) {
+				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				porcentaje = porcentaje - 20;
+			}
+			if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newValues.newPassword))) {
+				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				porcentaje = porcentaje - 20;
+			}
+			if (!(/.{8,}/.test(newValues.newPassword))) {
+				errorsBar = "Contraseña Insegura"; //TRADUCCION
+				porcentaje = porcentaje - 20;
+			}
+			let color = "Green"
+			color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? "Orange" : "Green";
+			this.setState({
+				errorsBar: errorsBar,
+				porcentaje,
+				color: color,
+				data: {
+					...this.state.data,
+					...newValues
+				}
+			});
+		} else {
+			this.setState({
+				data: {
+					...this.state.data,
+					...newValues
+				}
+			});
+		}
 	}
 
 	handleButtonSuccess() {
@@ -174,16 +176,6 @@ class ChangePasswordForm extends React.Component {
 		const { translate, classes } = this.props;
 		const { data, errors, success, loading, error } = this.state;
 		const primary = getPrimary();
-		let color
-		if(this.state.porcentaje < 50){
-			color = "red"
-		}
-		if(this.state.porcentaje > 50 && this.state.porcentaje < 80 ){
-			color = "yellow"
-		}
-		if(this.state.porcentaje === 100 ){
-			color = "green"
-		}
 		return (
 			<Fragment>
 				<SectionTitle
@@ -210,7 +202,7 @@ class ChangePasswordForm extends React.Component {
 								this.updateState({
 									currentPassword:
 										event.nativeEvent.target.value
-								})
+								}, false)
 							}
 							required
 						/>
@@ -224,7 +216,8 @@ class ChangePasswordForm extends React.Component {
 							onChange={event =>
 								this.updateState({
 									newPassword: event.nativeEvent.target.value
-								})
+								}, true)
+
 							}
 							errorText={errors.newPassword}
 							required
@@ -240,7 +233,7 @@ class ChangePasswordForm extends React.Component {
 								this.updateState({
 									newPasswordConfirm:
 										event.nativeEvent.target.value
-								})
+								}, false)
 							}
 							errorText={errors.newPasswordConfirm}
 							required
@@ -254,14 +247,14 @@ class ChangePasswordForm extends React.Component {
 								style={{
 									height: "18px",
 									backgroundColor: 'lightgrey',
+									borderRadius: "10px",
+									boxShadow: "rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px"
 								}}
-								classes={{
-									bar1Determinate: classes.bar1Determinate,
-								}}
+								className={"barColor" + this.state.color}
 							/>
 						</div>
 						<div style={{ width: "30%" }}>
-							{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"  } {/*TRADUCCION*/}
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : "Contraseña segura"} {/*TRADUCCION*/}
 						</div>
 					</GridItem>
 				</Grid>
@@ -286,12 +279,7 @@ class ChangePasswordForm extends React.Component {
 	}
 }
 
-ChangePasswordForm.propTypes = {
-	classes: PropTypes.object.isRequired,
-  };
-  
-
 export default graphql(updatePassword, {
 	name: "updatePassword",
 	options: { errorPolicy: "all" }
-})(withStyles(styles)(ChangePasswordForm));
+})(ChangePasswordForm);

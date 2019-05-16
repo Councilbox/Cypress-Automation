@@ -484,6 +484,8 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
     if (arrayTimeline != null) {
         resultado = arrayTimeline.findIndex( item => item.id === timelineSeeId);
         unread = total - (resultado+1);
+    }else{
+        unread = 0;
     }
    
     return (

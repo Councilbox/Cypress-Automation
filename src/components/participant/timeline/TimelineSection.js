@@ -27,7 +27,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
             setLoaded(true);
             setTimeline(response.data.councilTimeline);
         }
-
+        
         getTimeline();
     }, [council.id, setLoading, setLoaded, setTimeline, client]);
 
@@ -110,6 +110,7 @@ const getTimelineTranslation = (type, content) => {
         'START_COUNCIL': () => 'Comienzo de reunión',
         'OPEN_VOTING': () => `${content.data.agendaPoint.name} - Apertura de votaciones`,
         'END_COUNCIL': () => 'Fin de reunión',
+        'OPEN_POINT_DISCUSSION': () => `${content.data.agendaPoint.name} - Apertura de discusión de punto`,
         'CLOSE_POINT_DISCUSSION': () => `${content.data.agendaPoint.name} - Cierre de discusión de punto`,
         'CLOSE_VOTING': () => `${content.data.agendaPoint.name} - Cierre de votaciones`,
         'REOPEN_VOTING': () => `${content.data.agendaPoint.name} - Reapertura de votaciones`,
