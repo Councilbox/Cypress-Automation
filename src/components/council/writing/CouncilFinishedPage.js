@@ -65,7 +65,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				council={council}
 				agendas={data.agendas}
 				councilRecount={data.councilRecount}
-				refetch={data.refetch}
+				refetch={getData}
 				participantsWithDelegatedVote={data.participantsWithDelegatedVote}
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
@@ -81,7 +81,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				confirmed={true}
 				agendas={data.agendas}
 				councilRecount={data.councilRecount}
-				refetch={data.refetch}
+				refetch={getData}
 				participantsWithDelegatedVote={data.participantsWithDelegatedVote}
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
@@ -98,11 +98,11 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				council={council}
 				agendas={data.agendas}
 				councilRecount={data.councilRecount}
-				refetch={getData}
 				participantsWithDelegatedVote={data.participantsWithDelegatedVote}
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
 				{...data}
+				refetch={getData}
 			/>
 		)
 	}
