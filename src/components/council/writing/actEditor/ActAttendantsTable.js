@@ -38,11 +38,10 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
 
 		setFilters(appliedFilters);
     }
-    
+
     React.useEffect(() => {
         if(!data.loading){
             const councilParticipants = data.councilAttendants;
-            console.log(councilParticipants);
             const filtered = applyFilters(councilParticipants? councilParticipants.list : [], filters)
             const offset = (filters.page - 1) * filters.limit;
             setParticipants(filtered.slice(offset, offset + filters.limit));

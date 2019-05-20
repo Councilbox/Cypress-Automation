@@ -717,8 +717,6 @@ const generateActTags = (type, data, translate) => {
 				];
 			}
 
-			council.attendants.forEach(attendant => attendantsString += `${attendant.name} ${attendant.surname} <br/>`);
-
 			tags = [...tags,
 				{
 					value: attendantsString,
@@ -756,7 +754,7 @@ const generateActTags = (type, data, translate) => {
 					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
 				},
 				{
-					value: (data.recount.partRightVoting / parseInt(base, 10) * 100).toFixed(3),
+					value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
 					label: translate.social_capital_percentage
 				},
 				{
