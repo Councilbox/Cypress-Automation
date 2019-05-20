@@ -119,6 +119,7 @@ const CouncilActData = gql`
 			list {
 				name
 				surname
+				lastDateConnection
 			}
 		}
 
@@ -404,7 +405,7 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												tags={generateActTags('intro', { council, company, recount: this.props.councilRecount }, translate)}
+												tags={generateActTags('intro', { council, company, recount: this.props.councilRecount || data.councilRecount }, translate)}
 												errorText={errors.intro}
 												value={data.council.act.intro || ''}
 												onChange={value => {
@@ -446,7 +447,7 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												tags={generateActTags('constitution', { council, company, recount: this.props.councilRecount }, translate)}
+												tags={generateActTags('constitution', { council, company, recount: this.props.councilRecount || data.councilRecount }, translate)}
 												errorText={errors.constitution}
 												value={data.council.act.constitution || ''}
 												onChange={value => {
@@ -516,7 +517,7 @@ class ActEditor extends Component {
 															}
 														/>
 													}
-													tags={generateActTags('conclusion', { council, company, recount: this.props.councilRecount }, translate)}
+													tags={generateActTags('conclusion', { council, company, recount: this.props.councilRecount || data.councilRecount }, translate)}
 													errorText={errors.conclusion}
 													value={data.council.act.conclusion || ''}
 													onChange={value => {
