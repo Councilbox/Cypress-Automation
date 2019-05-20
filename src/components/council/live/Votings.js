@@ -20,6 +20,7 @@ const Votings = ({ translate, agenda, council, ...props }) => {
 					recount={props.recount}
 					translate={translate}
 					agenda={agenda}
+					council={council}
 				/>
 			</div>
 		)
