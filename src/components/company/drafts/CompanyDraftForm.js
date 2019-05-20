@@ -146,7 +146,7 @@ const CompanyDraftForm = ({
 						})
 					}
 				>
-					{votingTypes.map(votingType => {
+					{CBX.filterAgendaVotingTypes(votingTypes, {}).map(votingType => {
 						return (
 							<MenuItem
 								value={"" + votingType.value}
