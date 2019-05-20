@@ -13,6 +13,7 @@ import RichTextInput from "../../../displayComponents/RichTextInput";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { client } from "../../../containers/App";
+import { PARTICIPANT_STATES } from '../../../constants';
 
 
 
@@ -220,39 +221,12 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                             <ModalEnvioComentario
                                                                 translate={translate}
                                                                 agenda={agenda}
-                                                                open={state.open}
-
+                                                                participant={participant}
+                                                                council={council}
                                                             />
                                                         </CardActions>
                                                     </Card>
-                                                    {/* <AlertConfirm
-                                                        open={state.open}
-                                                        requestClose={() => setState({
-                                                            ...state,
-                                                            open: !state.open
-                                                        })}
-                                                        bodyText={
-                                                            <RichTextInput
-                                                                value={state.comment || ""} //TODO hacer que funcione
-                                                                translate={translate}
-                                                                onChange={value =>
-                                                                    setState({
-                                                                        ...state,
-                                                                        comment: value
 
-                                                                        // vote: {
-                                                                        //     id: agenda.id,
-                                                                        // }
-                                                                    })
-                                                                }
-                                                            />
-                                                        }
-                                                        title={"Enviar comentario"}
-                                                        acceptAction={() => updateComments(agenda.id)}
-                                                        buttonAccept={translate.send}
-                                                        buttonCancel={translate.cancel}
-                                                    >
-                                                    </AlertConfirm> */}
                                                 </div>
                                             )
                                         })
@@ -347,9 +321,15 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                     </Collapse>
 
                                     <CardActions>
-                                        <Button size="small" color="primary" onClick={toggle}>
-                                            Enviar comentario
-                                        </Button>
+                                        {/* <Button size="small" color="primary" onClick={toggle}>
+                                                                Enviar comentario
+                                                            </Button> */}
+                                        <ModalEnvioComentario
+                                            translate={translate}
+                                            agenda={agenda}
+                                            participant={participant}
+                                            council={council}
+                                        />
                                     </CardActions>
                                 </Card>
                             </div>
@@ -360,38 +340,18 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     <LoadingSection />
                 }
             </div>
-            <AlertConfirm
-                open={state.open}
-                requestClose={() => setState({
-                    ...state,
-                    open: !state.open
-                })}
-                bodyText={
-                    <RichTextInput 
-                        value={state.comentario}
-                        translate={translate}
-                        onChange={value =>
-                            console.log(value)
-                            // setState({
-                            //     vote: {
-                            //         ...state.vote,
-                            //         comment: value
-                            //     }
-                            // })
-                        }
-                    />
-                }
-                title={"Enviar comentario"}
-            >
-            </AlertConfirm>
         </div>
     );
 }
 
-const ModalEnvioComentario = ({translate, agenda, } ) => {
+const ModalEnvioComentario = ({ translate, agenda, participant, council }) => {
+
     const [state, setState] = React.useState({
         open: false,
-        comment: null
+        vote: agenda.votings.find(voting =>
+            voting.participantId === participant.id ||
+            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
+        ),
     })
 
     const toggle = () => {
@@ -402,44 +362,44 @@ const ModalEnvioComentario = ({translate, agenda, } ) => {
     }
 
     const updateComments = async (id) => {
-        
+        console.log(state);
         let response = await client.mutate({
             mutation: updateComment,
             variables: {
-                id: id,
-                text: state.comment
+                id: state.vote.id,
+                text: state.vote.comment
             }
         });
 
-        console.log(response);
-    }   
-    
+    }
+
     return (
         <React.Fragment>
-            <Button size="small" color="primary" onClick={toggle}>
+            <Button size="small" color="primary" onClick={toggle} disabled={CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute) ? false : true}>
                 Enviar comentario
-            </Button>
+                </Button>
+
+
             <AlertConfirm
                 open={state.open}
                 requestClose={toggle}
                 bodyText={
                     <RichTextInput
-                        value={state.comment || ""} //TODO hacer que funcione
+                        value={state.vote !== undefined ? state.vote.comment : ""}
                         translate={translate}
                         onChange={value =>
                             setState({
                                 ...state,
-                                comment: value
-
-                                // vote: {
-                                //     id: agenda.id,
-                                // }
+                                vote: {
+                                    ...state.vote,
+                                    comment: value
+                                }
                             })
                         }
                     />
                 }
                 title={"Enviar comentario"}
-                acceptAction={()=>updateComments(agenda.id)}
+                acceptAction={() => updateComments(agenda.id)}
                 buttonAccept={translate.send}
                 buttonCancel={translate.cancel}
             />
