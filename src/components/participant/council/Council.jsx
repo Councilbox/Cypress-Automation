@@ -111,7 +111,7 @@ const stylesVideo = {
     }],
 }
 
-const ParticipantCouncil = ({ translate, participant, data, council, ...props }) => {
+const ParticipantCouncil = ({ translate, participant, data, council, agendas, ...props }) => {
     const [state, setState] = React.useState({
         agendasAnchor: 'right',
         hasVideo: councilHasVideo(council),
@@ -175,7 +175,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props })
     }, [participant.requestWord]);
 
     const setContent = type => {
-        if(type === "agenda"){
+        if (type === "agenda") {
             setAgendaBadge(false)
         }
         setState({
@@ -190,7 +190,6 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props })
             adminMessage: value
         })
     }
-
 
     const _renderAgendaSection = () => {
         return (
@@ -228,7 +227,10 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props })
     const { agendasAnchor } = state;
     let type = "agenda";
     let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
-
+    let titleHeader = null
+    if(!agendas.loading){
+        titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
+    }
     if (isMobile) {
         return (
             <div style={styles.viewContainerM}>
@@ -276,6 +278,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props })
                     participant={participant}
                     council={council}
                     primaryColor={'white'}
+                    titleHeader={titleHeader}
                 />
                 <div style={styles.mainContainerM}>
                     <Grid container spacing={8} style={{
@@ -322,6 +325,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, ...props })
                     participant={participant}
                     council={council}
                     primaryColor={'white'}
+                    titleHeader={titleHeader}
                 />
                 <div style={styles.mainContainer}>
                     <Grid container spacing={8} style={{
@@ -422,7 +426,55 @@ const participantPing = gql`
     query participantPing {
         participantPing
     }
-`
+`;
+const agendas = gql`
+    query Agendas($councilId: Int!, $participantId: Int!){
+        agendas(councilId: $councilId){
+            agendaSubject
+            attachments {
+                id
+                agendaId
+                filename
+                filesize
+                filetype
+                councilId
+                state
+            }
+            councilId
+            dateEndVotation
+            dateStart
+            dateStartVotation
+            description
+            id
+            orderIndex
+            pointState
+            subjectType
+            votingState
+        }
+
+        participantVotings(participantId: $participantId){
+            id
+            comment
+            participantId
+            delegateId
+            agendaId
+            numParticipations
+            author {
+                id
+                state
+                name
+                type
+                surname
+                representative {
+                    id
+                    name
+                    surname
+                }
+            }
+            vote
+        }
+    }
+`;
 
 export default compose(
     graphql(participantPing, {
@@ -432,5 +484,15 @@ export default compose(
     }),
     graphql(changeParticipantOnlineState, {
         name: 'changeParticipantOnlineState'
+    }),
+    graphql(agendas, {
+        options: props => ({
+            variables: {
+                councilId: props.council.id,
+                participantId: props.participant.id
+            },
+            pollInterval: 7000
+        }),
+        name: 'agendas'
     })
 )(withApollo(withTranslations()(withDetectRTC()(ParticipantCouncil))));

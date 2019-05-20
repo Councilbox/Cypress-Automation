@@ -30,11 +30,10 @@ class Header extends React.Component {
 
 
 	render() {
-		const { logoutButton, windowSize, primaryColor } = this.props;
+		const { logoutButton, windowSize, primaryColor, titleHeader } = this.props;
 		const { council } = this.props;
 		const primary = getPrimary();
-		const textPrueba = "1. Lorem ipsum dolo Lorem ipsumLorem ipsum dolo Lorem ipsumLorem ipsum dolo Lorem ipsum ";
-
+		
 
 		return (
 			<header
@@ -77,7 +76,7 @@ class Header extends React.Component {
 					<Marquee
 						isMobile={isMobile}
 					>
-						{textPrueba}
+						{titleHeader}
 					</Marquee>
 				}
 
@@ -157,18 +156,24 @@ const Marquee = ({ children, isMobile }) => {
 		textAlign: 'center'
 	}
 	let style = {}
-	if (isMobile) {
-		if (children.length > 20) { 
-			style = stylesMove
+	let title 
+	
+	if (children !== undefined && children !== null && children[0] !== undefined) {
+		if (isMobile) {
+			if (children.length > 20) {
+				style = stylesMove
+			} else {
+				style = stylesNoMove
+			}
 		} else {
-			style = stylesNoMove
+			if (children.length > 45) {
+				style = stylesMove
+			} else {
+				style = stylesNoMove
+			}
 		}
-	} else {
-		if (children.length > 45) {
-			style = stylesMove
-		} else {
-			style = stylesNoMove
-		}
+		
+		title = children[0].agendaSubject
 	}
 
 	const toggle = () => {
@@ -185,10 +190,10 @@ const Marquee = ({ children, isMobile }) => {
 			overflow: 'hidden',
 			boxSizing: 'border-box'
 		}}
-		onClick={toggle}
+			onClick={toggle}
 		>
-			<p style={state.stop ? stylesNoMove : style }>
-				{children}
+			<p style={state.stop ? stylesNoMove : style}>
+				{title}
 			</p>
 		</div>
 	)
