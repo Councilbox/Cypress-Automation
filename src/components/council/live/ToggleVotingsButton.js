@@ -17,7 +17,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 	const primary = getPrimary();
 
 	React.useEffect(() => {
-		if(state.sendCredentials !== !council.videoEmailsDate){
+		if (state.sendCredentials !== !council.videoEmailsDate) {
 			setState({
 				sendCredentials: !council.videoEmailsDate
 			});
@@ -75,7 +75,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			}
 		}
 
-		if(!props.editedVotings){
+		if (!props.editedVotings) {
 			cb();
 		} else {
 			props.showVotingsAlert(cb);
@@ -84,8 +84,8 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 
 	const getVotingClosedSection = () => {
 
-		if(isAnonym(agenda.subjectType)){
-			return <span/>
+		if (isAnonym(agenda.subjectType)) {
+			return <span />
 		}
 
 		return (
@@ -101,48 +101,79 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 						color={primary}
 					/>
 				}
+				floatRight={true}
 				buttonStyle={{ width: "18em" }}
 				onClick={reopenAgendaVoting}
 				textStyle={{
 					fontSize: "0.75em",
 					fontWeight: "700",
 					textTransform: "none",
-					color: primary
+					color: primary,
 				}}
 			/>
 		)
 	}
 
 	return (
-		<React.Fragment>
+		<React.Fragment >
 			{agenda.votingState === 0 && (
-				<BasicButton
-					text={translate.active_votings}
-					color={"white"}
-					loading={loading}
-					disabled={loading}
-					onClick={openVoting}
-					textPosition="before"
-					icon={
-						<ButtonIcon
-							type="thumbs_up_down"
-							color={primary}
-						/>
-					}
-					buttonStyle={{ minWidth: "11em" }}
-					textStyle={{
-						fontSize: "0.75em",
-						fontWeight: "700",
-						textTransform: "none",
-						color: primary
-					}}
-				/>
+				<div style={{ float: "right", width: "100%" }}>
+					<BasicButton
+						text={translate.active_votings}
+						color={"white"}
+						loading={loading}
+						disabled={loading}
+						onClick={openVoting}
+						textPosition="before"
+						icon={
+							<ButtonIcon
+								type="thumbs_up_down"
+								color={primary}
+							/>
+						}
+						floatRight={true}
+						buttonStyle={{ minWidth: "11em" }}
+						textStyle={{
+							fontSize: "0.75em",
+							fontWeight: "700",
+							textTransform: "none",
+							color: primary
+						}}
+					/>
+				</div>
 			)}
 			{agenda.votingState === 1 && (
 				<React.Fragment>
-					{council.councilType === 3?
-						<div style={{fontSize: '0.9em'}}>
-							{`Las votaciones se cerrarán automáticamente ${moment(council.closeDate).format('LLL')}`/*TRADUCCION*/}
+					{council.councilType === 3 ?
+						<div style={{ fontSize: '0.9em' }}>
+							<div>{`Las votaciones se cerrarán automáticamente ${moment(council.closeDate).format('LLL')}`/*TRADUCCION*/}</div>
+							<div style={{ float: "right" }}>
+								<BasicButton
+									text={translate.close_point_votations}
+									color={primary}
+									loading={loading}
+									disabled={loading}
+									textPosition="before"
+									icon={
+										<ButtonIcon
+											type="lock_open"
+											color="white"
+										/>
+									}
+									floatRight={true}
+									buttonStyle={{ width: "18em" }}
+									onClick={closeAgendaVoting}
+									textStyle={{
+										fontSize: "0.75em",
+										fontWeight: "700",
+										textTransform: "none",
+										color: "white"
+									}}
+								/>
+							</div>
+						</div>
+						:
+						<div style={{ float: "right", width: "100%" }}>
 							<BasicButton
 								text={translate.close_point_votations}
 								color={primary}
@@ -155,6 +186,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 										color="white"
 									/>
 								}
+								floatRight={true}
 								buttonStyle={{ width: "18em" }}
 								onClick={closeAgendaVoting}
 								textStyle={{
@@ -165,77 +197,61 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 								}}
 							/>
 						</div>
-					:
-						<BasicButton
-							text={translate.close_point_votations}
-							color={primary}
-							loading={loading}
-							disabled={loading}
-							textPosition="before"
-							icon={
-								<ButtonIcon
-									type="lock_open"
-									color="white"
-								/>
-							}
-							buttonStyle={{ width: "18em" }}
-							onClick={closeAgendaVoting}
-							textStyle={{
-								fontSize: "0.75em",
-								fontWeight: "700",
-								textTransform: "none",
-								color: "white"
-							}}
-						/>
 					}
 				</React.Fragment>
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
 			{agenda.votingState === 4 &&
-				<BasicButton
-					text={translate.close_point_votations}
-					color={primary}
-					loading={loading}
-					disabled={loading}
-					textPosition="before"
-					icon={
-						<ButtonIcon
-							type="lock_open"
-							color="white"
-						/>
-					}
-					buttonStyle={{ width: "18em" }}
-					onClick={closeAgendaVoting}
-					textStyle={{
-						fontSize: "0.75em",
-						fontWeight: "700",
-						textTransform: "none",
-						color: "white"
-					}}
-				/>
+				<div style={{ float: "right" , width: "100%"}}>
+					<BasicButton
+						text={translate.close_point_votations}
+						color={primary}
+						loading={loading}
+						disabled={loading}
+						textPosition="before"
+						icon={
+							<ButtonIcon
+								type="lock_open"
+								color="white"
+							/>
+						}
+						floatRight={true}
+						buttonStyle={{ width: "18em" }}
+						onClick={closeAgendaVoting}
+						textStyle={{
+							fontSize: "0.75em",
+							fontWeight: "700",
+							textTransform: "none",
+							color: "white",
+						}}
+					/>
+				</div>
 			}
 			{agenda.votingState === 3 &&
-				<BasicButton
-					text={'Abrir votaciones presentes' /*TRADUCCION*/}
-					color={"white"}
-					loading={loading}
-					disabled={loading}
-					onClick={openHybridVotings}
-					textPosition="before"
-					icon={
-						<ButtonIcon
-							type="thumbs_up_down"
-							color={primary}
-						/>
-					}
-					buttonStyle={{ minWidth: "11em" }}
-					textStyle={{
-						fontSize: "0.75em",
-						fontWeight: "700",
-						textTransform: "none",
-						color: primary
-					}}
-				/>
+				<div style={{ float: "right", width: "100%" }}>
+					<BasicButton
+						text={'Abrir votaciones presentes' /*TRADUCCION*/}
+						color={"white"}
+						loading={loading}
+						disabled={loading}
+						onClick={openHybridVotings}
+						textPosition="before"
+						icon={
+							<ButtonIcon
+								type="thumbs_up_down"
+								color={primary}
+							/>
+						}
+						floatRight={true}
+						buttonStyle={{ minWidth: "11em"}}
+						textStyle={{
+							fontSize: "0.75em",
+							fontWeight: "700",
+							textTransform: "none",
+							color: primary
+						}}
+					/>
+				</div>
 			}
 		</React.Fragment>
 	)

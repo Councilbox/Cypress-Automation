@@ -484,6 +484,10 @@ export const AddAgendaPoint = ({
 					text={translate.add_agenda_point}
 					textStyle={buttonStyle}
 					icon={<ButtonIcon type="add" color="white" />}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'left',
+					}}
 					items={
 						<React.Fragment>
 							<MenuItem onClick={showYesNoModal}>

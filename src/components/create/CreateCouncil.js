@@ -167,7 +167,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 		<AlertConfirm
 			open={true}
 			title={title}
-			bodyStyle={{maxWidth: "75vw"}}
+			bodyStyle={{ maxWidth: isMobile ? "" : "75vw" }}
 			bodyText={
 				<React.Fragment>
 					{step === 1 &&
@@ -180,9 +180,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 								isMobile={isMobile}
 								list={
 									<ul>
-										<li>Lorem ipdasdassum dolor sit amet, condasectetur adidaspiscidasdng elit. Nullamdasdornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor sit amsdfdet, consectetur adipiscing g sdfgs dfg ssdfgdelit. Nullam ornare g sgf justo arcu,sdfgsf uasdggsdfgasdt ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor s sdfgdfgit amet, conseasctetur adipiscing elit. Nullam ornsdfgasfgre justasdfsdo argdfcugsdfg, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
 									</ul>
 								}
 							/>
@@ -194,9 +194,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 								isMobile={isMobile}
 								list={
 									<ul>
-										<li>Lorem ipdasdassum dolor sit amet, condasectetur adidaspiscidasdng elit. Nullamdasdornare justo arcu, ut ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor sit amsdfdet, consectetur adipiscing g sdfgs dfg ssdfgdelit. Nullam ornare g sgf justo arcu,sdfgsf uasdggsdfgasdt ultricies turpis luctus id. Done</li>
-										<li>Lorem ipsum dolor s sdfgdfgit amet, conseasctetur adipiscing elit. Nullam ornsdfgasfgre justasdfsdo argdfcugsdfg, ut ultricies turpis luctus id. Done</li>
+										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
 									</ul>
 								}
 							/>
@@ -206,11 +206,11 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
 								isMobile={isMobile}
 								list={
-									 <ul>
-										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgflam ornsaresfg justo arcu, ut ultricies turpis lusfgctus id. Done</li>
-										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit. Nullam ornaresfg sdgjsgusto srcu, ut dfgsudf sdfg sdfg ltricies turpis luctus id. Done</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.sdfg Nulsdfg lsdfg ams dgsdf gsdf forn areg justo arcu, ut ultricies turpis luctus id. Done</li>
-									 </ul>
+									<ul>
+										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
+										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
+									</ul>
 								}
 							/>
 						</div>
@@ -241,7 +241,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 			}
 			hideAccept={step === steps.COUNCIL || step === 1}
 			buttonAccept={translate.accept}
-			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING? 3 : 2)}
+			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ? 3 : 2)}
 			requestClose={history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel='Cancelar'
@@ -251,7 +251,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 
 
 
-const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick  }) => {
+const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick }) => {
 	const [hover, hoverHandlers] = useHoverRow();
 
 	if (isMobile) {
@@ -259,7 +259,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 			<Paper
 				elevation={6}
 				style={{
-					width:'100%',
+					width: '100%',
 					marginTop: "15px"
 				}}
 			>
@@ -275,7 +275,7 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 					}}
 				>
 					<div style={{ textAlign: " center", }}>
-						<h2>{title}</h2>
+						<h2 style={{ padding: "0 0.3em 0.3em 0.3em" }}>{title}</h2>
 						{icon}
 						<div style={{ textAlign: isMobile ? "left" : '', width: isMobile ? "90%" : '' }}>{list}</div>
 					</div>
@@ -288,6 +288,8 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 				elevation={6}
 				style={{
 					width: "45%",
+					height: "450px",
+					overflow: 'hidden',
 					...styleButton
 				}}
 			>
@@ -297,9 +299,10 @@ const ButtonCreateCouncil = ({ isMobile, title, icon, list, styleButton, onClick
 					style={{
 						cursor: "pointer",
 						width: "100%",
-						border: "1px solid gainsboro",
+						// border: "1px solid gainsboro",
 						background: hover ? "gainsboro" : "",
 						padding: '1.5em',
+						height: "100%"
 					}}
 				>
 					<div style={{ textAlign: " center", }}>
