@@ -9,40 +9,41 @@ import { PARTICIPANT_STATES } from '../../../constants';
 import { toast } from 'react-toastify';
 import { Typography } from 'material-ui';
 
-class CommentMenu extends React.Component {
-
-    state = {
-        vote: this.props.agenda.votings.find(voting =>
-            voting.participantId === this.props.participant.id ||
-            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
-        ),
+const CommentMenu = ({ agenda, translate, participant, ...props }) => {
+    const [vote, setVote] = React.useState(getVote());
+    const [state, setState] = React.useState({
         open: false,
         success: false,
         loading: false
-    }
+    });
+    const primary = getPrimary();
+    const secondary = getSecondary();
 
-    resetButtonStates = () => {
-        this.setState({
+
+    const resetButtonStates = () => {
+        setState({
+            ...state,
             success: false,
             loading: false
-        })
+        });
     }
 
-    updateComment = async () => {
-        if (!this.checkRequiredFields()) {
-            this.setState({
+    const updateComment = async () => {
+        if (!checkRequiredFields()) {
+            setState({
+                ...state,
                 loading: true
             });
-            const response = await this.props.updateComment({
+            const response = await props.updateComment({
                 variables: {
-                    id: this.state.vote.id,
-                    text: this.state.vote.comment
+                    id: vote.id,
+                    text: vote.comment
                 }
             });
 
             if (!!response) {
-                await this.props.refetch();
-                this.setState({
+                await props.refetch();
+                setState({
                     loading: false,
                     success: true,
                     open: false
@@ -51,11 +52,11 @@ class CommentMenu extends React.Component {
         }
     }
 
-    checkRequiredFields = () => {
-        if (checkForUnclosedBraces(this.state.comment)) {
+    const checkRequiredFields = () => {
+        if (checkForUnclosedBraces(vote.comment)) {
             toast(
                 <LiveToast
-                    message={this.props.translate.revise_text}
+                    message={translate.revise_text}
                 />, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: true,
@@ -66,116 +67,109 @@ class CommentMenu extends React.Component {
         }
     }
 
-    toggle = () => {
-        this.setState({
-            open: !this.state.open
+    const getVote = () => {
+        return agenda.votings.find(voting =>
+            voting.participantId === participant.id ||
+            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === participant.id)
+        )
+    }
+
+    const toggle = () => {
+        setState({
+            open: !state.open
         });
     }
 
-    render() {
-        const secondary = getSecondary();
-        const { translate } = this.props;
-        const primary = getPrimary();
-        const { vote } = this.state;
-        const savedVote = this.props.agenda.votings.find(voting =>
-            voting.participantId === this.props.participant.id ||
-            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
-        );
+    const savedVote = getVote();
 
-        if (!vote) {
-            return (<span />);
-        }
+    if (!vote) {
+        return (<span />);
+    }
 
-        const comment = vote.comment;
+    const comment = vote.comment;
 
-        return (
-            <React.Fragment>
-                <div
-                    style={{
-                        width: "100%",
-                        // display: 'flex',
-                        alignItems: 'center',
-                        marginTop: '0.6em'
-                    }}
-                >
-                    <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px" }}>
-                        {(!!savedVote.comment && removeHTMLTags(comment).length > 0) ?
-                            translate.you_have_commented
-                            :
-                            translate.you_didnt_comment
-                        }
-                    </Typography>
-                    <BasicButton
-                        color={'white'}
-                        text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0) ? translate.edit_comment : translate.send_minutes_comment}
-                        textStyle={{
-                            color: secondary,
-                            //fontWeight: '700',
-                            fontSize: '14px'
-                        }}
-                        //type={'flat'}
-                        buttonStyle={{
-                            width: "160px",
-                            float: 'left',
-                            // marginLeft: '0.6em',
-                            padding: '0.3em',
-                            border: `1px solid ${secondary}`
-                            // background: "grey",
-                        }}
-                        onClick={this.toggle}
-                    />
-
-                </div>
-                <CollapsibleSection
-                    trigger={() =>
-                        <span></span>
+    return (
+        <React.Fragment>
+            <div
+                style={{
+                    width: "100%",
+                    alignItems: 'center',
+                    marginTop: '0.6em'
+                }}
+            >
+                <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px" }}>
+                    {(!!savedVote.comment && removeHTMLTags(comment).length > 0) ?
+                        translate.you_have_commented
+                        :
+                        translate.you_didnt_comment
                     }
-                    open={this.state.open}
-                    collapse={() =>
+                </Typography>
+                <BasicButton
+                    color={'white'}
+                    text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0) ? translate.edit_comment : translate.send_minutes_comment}
+                    textStyle={{
+                        color: secondary,
+                        fontSize: '14px'
+                    }}
+                    buttonStyle={{
+                        width: "160px",
+                        float: 'left',
+                        padding: '0.3em',
+                        border: `1px solid ${secondary}`
+                    }}
+                    onClick={toggle}
+                />
+
+            </div>
+            <CollapsibleSection
+                trigger={() =>
+                    <span></span>
+                }
+                open={state.open}
+                collapse={() =>
+                    <div
+                        style={{
+                            marginTop: '1.2em',
+                            padding: '0.3em'
+                        }}
+                    >
+                        <RichTextInput
+                            value={comment || ''}
+                            translate={translate}
+                            onChange={value =>
+                                setVote({
+                                    ...vote,
+                                    comment: value
+                                })
+                            }
+                        />
                         <div
                             style={{
-                                marginTop: '1.2em',
-                                padding: '0.3em'
+                                display: 'flex',
+                                width: '100%',
+                                justifyContent: 'flex-end',
+                                marginTop: '0.6em'
                             }}
                         >
-                            <RichTextInput
-                                value={comment || ''}
-                                translate={translate}
-                                onChange={value =>
-                                    this.setState({
-                                        vote: {
-                                            ...this.state.vote,
-                                            comment: value
-                                        }
-                                    })
-                                }
+                            <BasicButton
+                                text={translate.save}
+                                onClick={updateComment}
+                                loading={state.loading}
+                                success={state.success}
+                                reset={resetButtonStates}
+                                color={secondary}
+                                icon={<ButtonIcon type="save" color="white" />}
+                                textStyle={{ color: 'white', fontWeight: '700' }}
                             />
-                            <div
-                                style={{
-                                    display: 'flex',
-                                    width: '100%',
-                                    justifyContent: 'flex-end',
-                                    marginTop: '0.6em'
-                                }}
-                            >
-                                <BasicButton
-                                    text={this.props.translate.save}
-                                    onClick={this.updateComment}
-                                    loading={this.state.loading}
-                                    success={this.state.success}
-                                    reset={this.resetButtonStates}
-                                    color={secondary}
-                                    icon={<ButtonIcon type="save" color="white" />}
-                                    textStyle={{ color: 'white', fontWeight: '700' }}
-                                />
-                            </div>
                         </div>
-                    }
-                />
-            </React.Fragment>
-        )
-    }
+                    </div>
+                }
+            />
+        </React.Fragment>
+    )
+
 }
+
 
 const updateComment = gql`
     mutation UpdateComment($text: String!, $id: Int!){

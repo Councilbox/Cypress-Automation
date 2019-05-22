@@ -1,6 +1,6 @@
 import React from "react";
-import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Button, Tooltip } from "material-ui";
-import { LoadingSection, AlertConfirm, Scrollbar } from '../../../displayComponents';
+import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip } from "material-ui";
+import { LoadingSection, Scrollbar } from '../../../displayComponents';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
@@ -9,13 +9,9 @@ import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import { isMobile } from "react-device-detect";
 import TimelineSection from "../timeline/TimelineSection";
 import * as CBX from '../../../utils/CBX';
-import RichTextInput from "../../../displayComponents/RichTextInput";
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { client } from "../../../containers/App";
-import { PARTICIPANT_STATES } from '../../../constants';
-
-
+import CommentModal from "./CommentModal";
 
 
 const styles = {
@@ -218,7 +214,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                             {/* <Button size="small" color="primary" onClick={toggle}>
                                                                 Enviar comentario
                                                             </Button> */}
-                                                            <ModalEnvioComentario
+                                                            <CommentModal
                                                                 translate={translate}
                                                                 agenda={agenda}
                                                                 participant={participant}
@@ -324,7 +320,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                         {/* <Button size="small" color="primary" onClick={toggle}>
                                                                 Enviar comentario
                                                             </Button> */}
-                                        <ModalEnvioComentario
+                                        <CommentModal
                                             translate={translate}
                                             agenda={agenda}
                                             participant={participant}
@@ -344,70 +340,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     );
 }
 
-const ModalEnvioComentario = ({ translate, agenda, participant, council }) => {
-
-    const [state, setState] = React.useState({
-        open: false,
-        vote: agenda.votings.find(voting =>
-            voting.participantId === participant.id ||
-            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
-        ),
-    })
-
-    const toggle = () => {
-        setState({
-            ...state,
-            open: !state.open
-        })
-    }
-
-    const updateComments = async (id) => {
-        console.log(state);
-        let response = await client.mutate({
-            mutation: updateComment,
-            variables: {
-                id: state.vote.id,
-                text: state.vote.comment
-            }
-        });
-
-    }
-
-    return (
-        <React.Fragment>
-            <Button size="small" color="primary" onClick={toggle} disabled={CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute) ? false : true}>
-                Enviar comentario
-                </Button>
-
-
-            <AlertConfirm
-                open={state.open}
-                requestClose={toggle}
-                bodyText={
-                    <RichTextInput
-                        value={state.vote !== undefined ? state.vote.comment : ""}
-                        translate={translate}
-                        onChange={value =>
-                            setState({
-                                ...state,
-                                vote: {
-                                    ...state.vote,
-                                    comment: value
-                                }
-                            })
-                        }
-                    />
-                }
-                title={"Enviar comentario"}
-                acceptAction={() => updateComments(agenda.id)}
-                buttonAccept={translate.send}
-                buttonCancel={translate.cancel}
-            />
-        </React.Fragment>
-    )
-
-}
-
 const readTimeline = gql`
     query ReadTimeline($councilId: Int!){
         readTimeline(councilId: $councilId){
@@ -419,58 +351,4 @@ const readTimeline = gql`
     }
 `;
 
-const updateComment = gql`
-    mutation UpdateComment($text: String!, $id: Int!){
-        updateComment(text: $text, id: $id){
-            success
-            message
-        }
-    }
-`;
-
 export default withApollo(AgendaNoSession);
-
-///////////////////////////////////////////////
-// <Card style={{ padding: "1em" }}>
-//     <div
-//         style={{
-//             display: "flex",
-//             marginRight: "10px",
-//             marginBottom: "1.5em"
-//         }}
-//     >
-//         <div style={{
-//             marginRight: "10px",
-//             color: "#000000de",
-//             fontWeight: '700',
-//             fontSize: '16px'
-//         }}
-//         >
-//             {index + 1}. </div>
-//         <div>
-
-//             <div style={{
-//                 color: "#000000de",
-//                 fontWeight: '700',
-//                 fontSize: '16px',
-//                 display: "flex"
-//             }}>
-//                 <div style={{ width: "55px" }}>{translate.title}:</div> {agenda.agendaSubject}
-//             </div>
-//             <Typography variant="body1" style={{ color: secondary, fontWeight: '700', display: "flex" }}>
-//                 <span style={{ width: "38px" }}>{translate.type}:</span> {translate[getAgendaTypeLabel(agenda)]}
-//             </Typography>
-//             <div style={{ display: "flex", minHeight: '25px', display: "flex" }}>
-//                 <AgendaDescription agenda={agenda} translate={translate} />
-//             </div>
-//             <AgendaMenu
-//                 horizontal={true}
-//                 agenda={agenda}
-//                 council={council}
-//                 participant={participant}
-//                 translate={translate}
-//                 refetch={data.refetch}
-//             />
-//         </div>
-//     </div>
-// </Card>

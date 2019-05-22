@@ -141,20 +141,20 @@ class AgendaMenu extends React.Component {
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
                                                     translate.your_vote_is_delegated
                                                     :
-                                                    <CustomPointVotingMenu
-                                                        // agenda={agenda}
+                                                    //<CustomPointVotingMenu
+                                                    //    // agenda={agenda}
+                                                    //    translate={translate}
+                                                    ///>
+                                                    <VotingSection
+                                                        agenda={agenda}
+                                                        open={this.state.open}
+                                                        council={this.props.council}
+                                                        voting={this.state.voting}
                                                         translate={translate}
+                                                        activateVoting={this.activateVoting}
+                                                        refetch={this.props.refetch}
+                                                        toggle={this.toggle}
                                                     />
-                                                    // <VotingSection
-                                                    //     agenda={agenda}
-                                                    //     open={this.state.open}
-                                                    //     council={this.props.council}
-                                                    //     voting={this.state.voting}
-                                                    //     translate={translate}
-                                                    //     activateVoting={this.activateVoting}
-                                                    //     refetch={this.props.refetch}
-                                                    //     toggle={this.toggle}
-                                                    // />
                                                 }
                                             </React.Fragment>
                                         }
