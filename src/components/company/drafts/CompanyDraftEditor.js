@@ -46,10 +46,11 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 	const updateCompanyDraft = async () => {
 		if (!checkRequiredFields(translate, data, updateErrors)) {
 			setLoading(true);
+			const { __typename, ...cleanData } = data;
 			const response = await props.updateCompanyDraft({
 				variables: {
 					draft: {
-						...data,
+						...cleanData,
 						companyId: props.match.params.company
 					}
 				}
