@@ -18,7 +18,26 @@ import { getPrimary } from "../../../styles/colors";
 
 
 const CompanyDraftEditor = ({ translate, ...props }) => {
-	const [data, setData] = React.useState({});
+	const [data, setData] = React.useState({
+		companyId: '',
+		companyType: '',
+		corporationId: '',
+		creationDate: "",
+		description: "",
+		draftId: '',
+		id: '',
+		language: '',
+		lastModificationDate: '',
+		majority: '',
+		majorityDivider: '',
+		majorityType: '',
+		statuteId: '',
+		text: "",
+		title: "",
+		type: '',
+		userId: '',
+		votationType: '',
+	});
 	const [errors, setErrors] = React.useState({});
 	const [loading, setLoading] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
@@ -63,9 +82,11 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 		}
 	}
 
+	console.log(data);
+
 	return (
 		<CardPageLayout title={translate.edit_draft}>
-			{!props.data.loading && (
+			{(!props.data.loading && data.id) && (
 				<div>
 					<div style={{ marginTop: "1.8em" }}>
 						<CompanyDraftForm
