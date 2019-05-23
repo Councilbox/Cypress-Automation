@@ -195,7 +195,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							style={{ width: '100%' }}
 							forceMobileTable={true}
 							headers={[
-								agenda.presentCensus > 0?
+								(agenda.presentCensus > 0 && !isCustomPoint(agenda) && props.council.councilType !== 3)?
 								{name:
 									<SelectAllMenu
 										translate={translate}
@@ -346,7 +346,7 @@ const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }
 	const body = () => {
 		return (
 			<div>
-				Este participante ha votado telemáticamente, el voto se eliminará del recuento para que no se sume al recuento presencial. Esta acción no se puede deshacer.
+				Se va a anular el voto telemático de este participante. Esta acción no se puede deshacer.
 			</div>
 		)
 	}
@@ -409,7 +409,7 @@ const PrivateVotingDisplay = compose(
 				variables: {
 					agendaVoting: {
 						id: vote.id,
-						vote: vote.vote !== -2? -2 : -1
+						vote: -2
 					}
 				}
 			});
@@ -441,30 +441,45 @@ const PrivateVotingDisplay = compose(
 							</div>
 						</div>
 					:
-						<Checkbox
-							value={vote.vote !== -1}
-							label={vote.vote !== -1?
-								translate.has_voted
-							:
-								translate.no_vote_lowercase
-							}
-							onChange={toggleVote}
-						/>
+						vote.vote === -2?
+							'Voto telemático anulado'
+						:
+							<div onClick={toggleVote} style={{cursor: 'pointer'}}>
+								<i className="fa fa-times"  style={{marginRight: '1em'}}/>
+								Anular voto telemático
+							</div>
 					}
 				</React.Fragment>
 			:
-				<React.Fragment>
-					{vote.vote !== -1?
-						translate.has_voted
-					:
-						translate.no_vote_lowercase
-					}
-				</React.Fragment>
-
+				council.councilType === 3?
+					vote.vote === -2?
+							'Voto telemático anulado'
+						:
+							'Ha votado telemáticamente'
+				:
+					<React.Fragment>
+						{vote.vote !== -1?
+							translate.has_voted
+						:
+							translate.no_vote_lowercase
+						}
+					</React.Fragment>
 			}
 		</React.Fragment>
 	)
 })
+
+
+/*
+quitar mensaje de punto cerrado cuando son sin sesión
+substituir boton de iniciar sesión por "activa ahora"
+lo mismo con el botón de cerrar abrir votaciones
+cambiar frase acceder a sala por acceder
+cambiar seguimiento en directo en los emails que son de sin sesión
+comprobar carga de censos cuando fueron borrados
+quitar botón de añadir punto del día
+quitar firma en sin sesión o hibrida
+*/
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
