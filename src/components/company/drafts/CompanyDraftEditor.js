@@ -81,9 +81,7 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 			}
 		}
 	}
-
-	console.log(data);
-
+	
 	return (
 		<CardPageLayout title={translate.edit_draft}>
 			{(!props.data.loading && data.id) && (
