@@ -346,7 +346,7 @@ const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }
 	const body = () => {
 		return (
 			<div>
-				Se va a anular el voto telemático de este participante. Esta acción no se puede deshacer.
+				Anulará de forma permanente el voto telemático de este asistente, ¿Desea continuar?
 			</div>
 		)
 	}

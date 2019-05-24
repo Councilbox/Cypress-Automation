@@ -17,7 +17,7 @@ const createManualBallotsMutation = gql`
 
 const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...props }) => {
     const [state, setState] = React.useState(false)
-    const [ballots, setBallots] = React.useState(new Map(agenda.ballots.map(ballot => [ballot.itemId, ballot])));
+    const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
 
     const updateBallotValue = (itemId, value) => {
         let ballot = {

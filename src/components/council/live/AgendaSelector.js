@@ -17,7 +17,7 @@ class AgendaSelector extends React.Component {
 				activePoint.subjectType !== AGENDA_TYPES.PRIVATE_ACT &&
 				activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
 		}
-		return CBX.canAddPoints(this.props.council)
+		return CBX.canAddPoints(this.props.council);
 	}
 
 	render() {
@@ -70,7 +70,7 @@ class AgendaSelector extends React.Component {
 						);
 					})}
 				</div>
-				{this.canAddPoints(council) && (
+				{this.canAddPoints(council) &&  (
 					<div style={{ marginBottom: "0.8em" }}>
 						<AddAgendaPoint
 							translate={translate}

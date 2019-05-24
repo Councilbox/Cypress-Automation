@@ -83,6 +83,7 @@ class VotingMenu extends React.Component {
                     refetch={this.props.refetch}
                     ownVote={this.props.ownVote}
                     translate={this.props.translate}
+                    close={this.props.close}
                 />
             )
         }

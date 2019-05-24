@@ -48,6 +48,8 @@ const CustomPointVotingMenu = ({ agenda, translate, updateCustomPointVoting, ...
         });
         await props.refetch();
         setLoading(false);
+        props.close();
+
     }
 
 
