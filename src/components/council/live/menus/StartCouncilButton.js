@@ -368,6 +368,55 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		return <LoadingSection />;
 	}
 
+	if(council.councilType > 1){
+		<React.Fragment>
+			<BasicButton
+				text={'Iniciar ahora' /*TRADUCCION*/}
+				color={primary}
+				textPosition="before"
+				onClick={() =>
+					setState({
+						noSessionAlert: true
+					})
+				}
+				icon={
+					<Icon
+						className="material-icons"
+						style={{
+							fontSize: "1.1em",
+							color: "white"
+						}}
+					>
+						play_arrow
+					</Icon>
+				}
+				buttonStyle={{ width: "11em" }}
+				textStyle={{
+					color: "white",
+					fontSize: "0.9em",
+					fontWeight: "700",
+					textTransform: "none"
+				}}
+			/>
+			<AlertConfirm
+				title={translate.start_council}
+				bodyText={_startCouncilForm()}
+				open={state.alert}
+				loadingAction={state.loading}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
+				hideAccept={state.selecting !== 0}
+				modal={true}
+				acceptAction={startCouncil}
+				requestClose={
+					state.selecting === 0
+						? () => setState({ alert: false })
+						: () => setState({ selecting: 0 })
+				}
+			/>
+		</React.Fragment>
+	}
+
 	return (
 		<React.Fragment>
 			<BasicButton
