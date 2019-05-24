@@ -137,7 +137,7 @@ class NewCompanyPage extends React.PureComponent {
 						demo: this.props.user.actived === USER_ACTIVATIONS.FREE_TRIAL? 1 : 0
 					},
 					userId: this.props.user.id,
-					...(this.props.company.corporationId !== 1? { organization: this.props.company.id } : {})
+					...((this.props.company && this.props.company.corporationId !== 1)? { organization: this.props.company.id } : {})
 				}
 			});
 
