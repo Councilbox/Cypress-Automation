@@ -1098,7 +1098,7 @@ export const showVideo = council => {
 };
 
 export const canAddPoints = council => {
-	return council.statute.canAddPoints === 1;
+	return council.statute.canAddPoints === 1 && council.councilType < 2;
 };
 
 export const hasHisVoteDelegated = participant => {
