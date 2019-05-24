@@ -112,10 +112,12 @@ class AgendaMenu extends React.Component {
 
         return (
             <div>
-                <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-                    {this.agendaStateIcon()}
-                    {this.agendaStateMessage()}
-                </Typography>
+                {this.props.council.councilType < 2 &&
+                    <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
+                        {this.agendaStateIcon()}
+                        {this.agendaStateMessage()}
+                    </Typography>
+                }
                 {agenda.attachments &&
                     agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment =>
                         <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />
