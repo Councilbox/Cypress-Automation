@@ -101,6 +101,7 @@ export const agendaVotings = gql`
 					author {
 						name
 						surname
+						position
 						numParticipations
 						state
 						type
