@@ -386,7 +386,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												/>
 											</div>
 										}
-										{!CBX.isRepresented(participant) && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
 												<BasicButton
 													text={participant.signed ? translate.user_signed : translate.to_sign}

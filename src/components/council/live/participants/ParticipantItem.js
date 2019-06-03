@@ -192,7 +192,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 			md={2}
 			lg={2}
 		>
-			{!isRepresented(participant) && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+			{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 				<BasicButton
 					text={participant.signed ? translate.user_signed : translate.to_sign}
 					fullWidth
@@ -431,7 +431,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 					justifyContent: 'center'
 				}}
 			>
-				{!isRepresented(participant) && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+				{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 					<BasicButton
 						text={participant.signed ? translate.user_signed : translate.to_sign}
 						fullWidth
