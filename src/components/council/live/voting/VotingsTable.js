@@ -477,7 +477,7 @@ lo mismo con el botón de cerrar abrir votaciones
 cambiar frase acceder a sala por acceder - done
 cambiar seguimiento en directo en los emails que son de sin sesión - done
 comprobar carga de censos cuando fueron borrados - done
-quitar botón de añadir punto del día
+quitar botón de añadir punto del día - done
 quitar firma en sin sesión o hibrida
 */
 

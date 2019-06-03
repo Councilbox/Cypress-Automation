@@ -113,7 +113,7 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 		state
 	}))
 
-	if (!data.agendas || !state.selectedPoint) {
+	if (!data.agendas || state.selectedPoint === null) {
 		return <LoadingSection />;
 	}
 
