@@ -2,7 +2,7 @@ import React from "react";
 import { Radio } from "material-ui";
 import { FormControlLabel } from "material-ui/Form";
 
-export default ({ value, checked, label, disabled, style, name, onChange }) => (
+export default ({ value, checked, label, disabled, style, name, onChange, styleLabel }) => (
 	<FormControlLabel
 		control={
 			<Radio
@@ -13,6 +13,7 @@ export default ({ value, checked, label, disabled, style, name, onChange }) => (
 				name={name}
 			/>
 		}
+		style={{ ...styleLabel, }}
 		label={label}
 	/>
 );

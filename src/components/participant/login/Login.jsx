@@ -8,6 +8,8 @@ import LoginForm from "./LoginForm";
 import CouncilState from "./CouncilState";
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import IncompatibleDeviceBrowser from '../IncompatibleDeviceBrowser';
+import { isMobile } from "react-device-detect";
+
 
 const width = window.innerWidth > 450 ? '550px' : '100%'
 
@@ -25,55 +27,49 @@ const styles = {
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		padding: "10px"
+		padding: isMobile ? "" : "10px"
 	},
 	cardContainer: {
-		margin: "20px",
+		margin: isMobile ? "" : "20px",
 		minWidth: width,
 		maxWidth: "100%",
-		height: '65vh'
+		height: '70vh'
 	}
 };
 
-class ParticipantLogin extends React.Component {
-	state = {
-		isCompatible: null
-	};
+const ParticipantLogin = ({ participant, council, company, ...props }) => {
+	const [isCompatible, setIsCompatible] = React.useState(null);
 
-	static getDerivedStateFromProps(props, state){
-		const isCompatible = checkIsCompatible(props.detectRTC, props.council, props.participant);
-		return {isCompatible: isCompatible}
-	}
+	React.useEffect(() => {
+		let isCompatible = checkIsCompatible(props.detectRTC, council, participant);
+		setIsCompatible(isCompatible)
+	}, [props.detectRTC, council, participant]);
 
-	render() {
-		const { participant, council, company } = this.props;
-		const { isCompatible } = this.state;
-		return (
-			<NotLoggedLayout
-				translate={this.props.translate}
-				helpIcon={true}
-				languageSelector={false}
-			>
-				<div style={styles.mainContainer}>
-					<Card style={styles.cardContainer} elevation={6}>
-						<Scrollbar>
-							<React.Fragment>
-								{councilIsLive(council) ? (
-									<LoginForm
-										participant={participant}
-										council={council}
-										company={company}
-									/>
-								) : (
+	return (
+		<NotLoggedLayout
+			translate={props.translate}
+			helpIcon={true}
+			languageSelector={false}
+		>
+			<div style={styles.mainContainer}>
+				<Card style={styles.cardContainer} elevation={6}>
+					<Scrollbar>
+						<React.Fragment>
+							{councilIsLive(council) ? (
+								<LoginForm
+									participant={participant}
+									council={council}
+									company={company}
+								/>
+							) : (
 									<CouncilState council={council} company={company} participant={participant} />
 								)}
-							</React.Fragment>
-						</Scrollbar>
-					</Card>
-				</div>
-			</NotLoggedLayout>
-		);
-	}
+						</React.Fragment>
+					</Scrollbar>
+				</Card>
+			</div>
+		</NotLoggedLayout>
+	);
 }
 
 export default withTranslations()(withDetectRTC()(ParticipantLogin));

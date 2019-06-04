@@ -351,8 +351,9 @@ h4 {
 }
 
 
-.colorRed {
-    color: #bd0000
+.colorGrey {
+    /* color: grey */
+    color: #474747
 }
   .colorGreen {color: #009034}
 
@@ -365,13 +366,42 @@ h4 {
     color: #009034
 }
 
-.intento::after{
+.intento::after {
     right: 10px!important;
+}
+
+.NoOutline:focus {
+    outline: none;
+    min-width: 0;
+}
+
+.heightDrawer>div {
+    height: calc( 100% - 3.5rem - 45px);
+    box-shadow: none;
+    top: 45px
+}
+
+.modal100 {
+    height: calc( 100% - 6.5rem)!important;
+    top: 45px!important
+}
+.modal100SinMenu {
+    height: calc( 100% - 4rem)!important;
+    top: 45px!important
+}
+
+.modal100SinMenu>div:first-child {
+    width: 0;
+    height: 0;
+}
+.modal100>div:first-child {
+    width: 0;
+    height: 0;
 }
 
 @media only screen and (max-width: 960px) and (orientation: portrait) {
     #root {
-        width:100%;
+        width: 100%;
         /* margin-left:2%; */
         position: fixed;
     }
@@ -467,6 +497,31 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .colorTable:nth-child(odd) { background: gainsboro }
 .colorTable { padding-left: 5px }
 
+.overflowEllipsisDangerousHtml>p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: height 4s;
+}
+
+.overflowNoEllipsisDangerousHtml>p {
+    overflow: hidden;
+    cursor: pointer;
+    white-space: normal;
+}
+
+
+
+/*------------------------------------*/
+
+
+/* Make it move */
+@keyframes marquee {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-100%, 0); }
+}
+
 .noMargin>div{
     margin: 0;
     min-width:880px
@@ -497,4 +552,14 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 }
 .expandButtonModal:focus{
     outline: none;
+}
+
+.barColorRed>div {
+    background-color: red;
+}
+.barColorGreen>div {
+    background-color: green;
+}
+.barColorOrange>div {
+    background-color: orange;
 }

@@ -8,135 +8,44 @@ import gql from 'graphql-tag';
 import { downloadFile } from '../../../utils/CBX';
 import { singleVoteCompanies } from '../../../config';
 
-class VotingSection extends React.Component {
+const VotingSection = ({ translate, agenda, council, ...props }) => {
+    const [loading, setLoading] = React.useState(false);
+    const [singleVoteMode, setSingleVoteMode] = React.useState(singleVoteCompanies.includes(council.companyId));
+    const primary = getPrimary();
 
-    state = {
-        loading: false,
-        singleVoteMode: singleVoteCompanies.includes(this.props.council.companyId)
-    }
 
-    downloadVotePDF = async () => {
-        this.setState({
-			loading: true
-		});
-        const response = await this.props.downloadVotePDF({
+    const downloadVotePDF = async () => {
+        setLoading(true);
+        const response = await props.downloadVotePDF({
             variables: {
-                id: this.props.agenda.votings[0].id
+                id: agenda.votings[0].id
             }
         })
 
         if (response) {
-			if (response.data.downloadVotePDF) {
-				downloadFile(
-					response.data.downloadVotePDF,
-					"application/pdf",
-					`Voto_${this.props.agenda.votings[0].id}`
-				);
-				this.setState({
-					loading: false
-				});
-			}
-		}
+            if (response.data.downloadVotePDF) {
+                downloadFile(
+                    response.data.downloadVotePDF,
+                    "application/pdf",
+                    `Voto_${agenda.votings[0].id}`
+                );
+                setLoading(false);
+            }
+        }
     }
 
+    return (
+        <React.Fragment>
+            <VotingMenu
+                translate={translate}
+                close={props.toggle}
+                singleVoteMode={singleVoteMode}
+                refetch={props.refetch}
+                agenda={agenda}
+            />
+        </React.Fragment>
+    )
 
-    render(){
-        const { agenda, translate } = this.props;
-        const primary = getPrimary();
-        const singleVoteMode = this.state.singleVoteMode;
-
-        return(
-            <React.Fragment>
-                <div style={{alignItems: 'center', marginTop: '0.6em'}}>
-                    <div style={{marginBottom: '5px'}}>
-                        <Typography style={{ fontWeight: '700', fontSize: '14px'}}>
-                            {getVotingInfoText(agenda.votings[0].vote, translate)}
-                        </Typography>
-                    </div>
-
-                    {singleVoteMode?
-                        <React.Fragment>
-                            {agenda.votings[0].vote === -1?
-                                <BasicButton
-                                    color={this.props.voting && this.props.open? primary : 'white'}
-                                    text={this.props.translate.exercise_voting}
-                                    textStyle={{
-                                        color: this.props.voting && this.props.open? 'white' : primary,
-                                        fontWeight: '700',
-                                        fontSize: '14px'
-                                    }}
-                                    buttonStyle={{
-                                        width: "160px",
-                                        float: 'left',
-                                        // marginLeft: '0.6em',
-                                        padding: '0.3em',
-                                        border: `1px solid ${primary}`
-                                    }}
-                                    icon={<ButtonIcon type="thumbs_up_down" color={this.props.voting && this.props.open? 'white' : primary}/>}
-                                    onClick={this.props.activateVoting}
-                                />
-                            :
-                                <BasicButton
-                                    color={this.props.voting && this.props.open? primary : 'white'}
-                                    text={this.props.translate.download_vote_pdf}
-                                    loading={this.state.loading}
-                                    loadingColor={primary}
-                                    textStyle={{
-                                        color: this.props.voting && this.props.open? 'white' : primary,
-                                        fontWeight: '700',
-                                        fontSize: '14px'
-                                    }}
-                                    buttonStyle={{
-                                        width: "160px",
-                                        float: 'left',
-                                        // marginLeft: '0.6em',
-                                        padding: '0.3em',
-                                        border: `1px solid ${primary}`
-                                    }}
-                                    icon={<ButtonIcon type="save_alt" color={this.props.voting && this.props.open? 'white' : primary}/>}
-                                    onClick={this.downloadVotePDF}
-                                />
-                            }
-                        </React.Fragment>
-                    :
-                        <BasicButton
-                            color={'white'}
-                            text={agenda.votings[0].vote === -1? this.props.translate.exercise_voting : translate.change_vote}
-                            textStyle={{
-                                color: primary,
-                                fontWeight: '700',
-                                fontSize: '14px'
-                            }}
-                            buttonStyle={{
-                                width: "160px",
-                                float: 'left',
-                                // marginLeft: '0.6em',
-                                padding: '0.3em',
-                                border: `${this.props.voting && this.props.open? '2' : '1'}px solid ${primary}`,
-                            }}
-                            icon={<ButtonIcon type="thumbs_up_down" color={primary}/>}
-                            onClick={this.props.activateVoting}
-                        />
-                    }
-                </div>
-                <CollapsibleSection
-                    trigger={() => <span/>}
-                    onTriggerClick={() => {}}
-                    open={this.props.open}
-                    collapse={() =>
-                        <VotingMenu
-                            translate={this.props.translate}
-                            close={this.props.toggle}
-                            ownVote={this.props.ownVote}
-                            singleVoteMode={singleVoteMode}
-                            refetch={this.props.refetch}
-                            agenda={agenda}
-                        />
-                    }
-                />
-            </React.Fragment>
-        )
-    }
 }
 
 const getVotingInfoText = (vote, translate) => {

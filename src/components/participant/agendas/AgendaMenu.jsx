@@ -9,6 +9,8 @@ import AttachmentDownload from '../../attachments/AttachmentDownload';
 import { PARTICIPANT_TYPE } from '../../../constants';
 import VotingSection from './VotingSection';
 import VotingMenu from './VotingMenu';
+import CustomPointVotingMenu from './CustomPointVotingMenu';
+
 
 
 class AgendaMenu extends React.Component {
@@ -112,12 +114,10 @@ class AgendaMenu extends React.Component {
 
         return (
             <div>
-                {this.props.council.councilType < 2 &&
-                    <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-                        {this.agendaStateIcon()}
-                        {this.agendaStateMessage()}
-                    </Typography>
-                }
+                <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
+                    {/* {this.agendaStateIcon()} */}
+                    {/* {this.agendaStateMessage()} */}
+                </Typography>
                 {agenda.attachments &&
                     agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment =>
                         <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />
@@ -127,8 +127,8 @@ class AgendaMenu extends React.Component {
                     <React.Fragment>
                         <div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
                             <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-                                {this.agendaVotingIcon()}
-                                {this.agendaVotingMessage()}
+                                {/* {this.agendaVotingIcon()} */}
+                                {/* {this.agendaVotingMessage()} */}
                             </Typography>
                         </div>
                         {CBX.agendaVotingsOpened(agenda) &&
@@ -138,8 +138,12 @@ class AgendaMenu extends React.Component {
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-                                                        translate.your_vote_is_delegated
+                                                    translate.your_vote_is_delegated
                                                     :
+                                                    //<CustomPointVotingMenu
+                                                    //    // agenda={agenda}
+                                                    //    translate={translate}
+                                                    ///>
                                                     <VotingSection
                                                         agenda={agenda}
                                                         ownVote={ownVote}
@@ -154,14 +158,15 @@ class AgendaMenu extends React.Component {
                                                 }
                                             </React.Fragment>
                                         }
-                                        {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
+                                        {/**Esto es el comentario a la votacion */}
+                                        {/* {this.canComment(agenda, this.props.participant) && CBX.councilHasComments(this.props.council.statute) &&
                                             <CommentMenu
                                                 agenda={agenda}
                                                 participant={this.props.participant}
                                                 translate={this.props.translate}
                                                 refetch={this.props.refetch}
                                             />
-                                        }
+                                        } */}
                                     </React.Fragment>
                                     :
                                     translate.cant_exercise_vote
@@ -171,30 +176,30 @@ class AgendaMenu extends React.Component {
                     </React.Fragment>
                 }
                 {agenda.subjectType === CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
-                    <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
+                    <div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
 
-                    {!CBX.agendaVotingsOpened(agenda)?
-                            <Typography variant="caption" style={{fontSize: '0.8rem'}}>{translate.agenda_votations_closed}</Typography>
-                        :
+                        {!CBX.agendaVotingsOpened(agenda) ?
+                            <Typography variant="caption" style={{ fontSize: '0.8rem' }}>{translate.agenda_votations_closed}</Typography>
+                            :
                             <React.Fragment>
                                 <BasicButton
                                     text={this.props.translate.show_act_draft}
-                                    textStyle={{color: secondary, fontWeight: '700'}}
-                                    buttonStyle={{border: `2px solid ${secondary}`, marginBottom: '1.2em'}}
+                                    textStyle={{ color: secondary, fontWeight: '700' }}
+                                    buttonStyle={{ border: `2px solid ${secondary}`, marginBottom: '1.2em' }}
                                     color={'white'}
                                     onClick={() => this.setState({
                                         showModal: true
                                     })}
                                 />
-                                <div style={{marginTop: '0.8em', paddingRight: '2em'}}>
-                                    <Typography style={{ fontWeight: '700', fontSize: '16px'}}>
-                                        {this.agendaVotingIcon()}
-                                        {this.agendaVotingMessage()}
+                                <div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
+                                    <Typography style={{ fontWeight: '700', fontSize: '16px' }}>
+                                        {/* {this.agendaVotingIcon()} */}
+                                        {/* {this.agendaVotingMessage()} */}
                                     </Typography>
                                 </div>
                                 {CBX.agendaVotingsOpened(agenda) &&
                                     <React.Fragment>
-                                        {(agenda.votings && agenda.votings.length > 0)?
+                                        {(agenda.votings && agenda.votings.length > 0) ?
                                             <React.Fragment>
                                                 {checkVotings(agenda.votings) &&
                                                     <VotingSection
@@ -217,13 +222,13 @@ class AgendaMenu extends React.Component {
                                                     />
                                                 }
                                             </React.Fragment>
-                                        :
+                                            :
                                             translate.cant_exercise_vote
                                         }
                                     </React.Fragment>
                                 }
                             </React.Fragment>
-                    }
+                        }
                     </div>
                 }
                 <AlertConfirm

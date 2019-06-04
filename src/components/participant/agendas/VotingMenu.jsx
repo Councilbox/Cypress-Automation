@@ -14,7 +14,8 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         // justifyContent: 'center',
-        height: '5em',
+        // height: '5em',
+        marginTop: ".5em"
     },
     divisionM: {
         display: 'flex',
@@ -23,36 +24,26 @@ const styles = {
     }
 }
 
-class VotingMenu extends React.Component {
+const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
+    const [loading, setLoading] = React.useState(false);
+    const [modal, setModal] = React.useState(false);
+    const [vote, setVote] = React.useState(-1);
+    const primary = getPrimary();
 
-    state = {
-        loading: true,
-        modal: false,
-        vote: -1,
+    const showModal = vote => {
+        setModal(true);
+        setVote(vote);
     }
 
-    showModal = vote => {
-        this.setState({
-            modal: true,
-            vote: vote
-        });
+    const closeModal = () => {
+        setModal(false);
+        setVote(-1);
     }
 
-    closeModal = () => {
-        this.setState({
-            modal: false,
-            vote: -1
-        });
-    }
-
-    updateAgendaVoting = async vote => {
-        this.setState({
-            loading: vote
-        });
-
-        const updateAgendaVoting = this.props.updateAgendaVoting;
-        const response = await Promise.all(this.props.agenda.votings.map(voting =>
-            updateAgendaVoting({
+    const updateAgendaVoting = async vote => {
+        setLoading(vote);
+        const response = await Promise.all(agenda.votings.map(voting =>
+            props.updateAgendaVoting({
                 variables: {
                     agendaVoting: {
                         id: voting.id,
@@ -63,123 +54,111 @@ class VotingMenu extends React.Component {
         ));
 
         if (response) {
-            this.setState({
-                modal: false,
-                loading:false
-            });
-            await this.props.refetch();
-            this.props.close();
+            setModal(false);
+            setLoading(false);
+            await props.refetch();
+            props.close();
         }
     }
 
-    render() {
-        const { agenda, singleVoteMode } = this.props;
-        const primary = getPrimary();
-
-        if(isCustomPoint(agenda.subjectType)){
-            return(
-                <CustomPointVotingMenu
-                    agenda={agenda}
-                    refetch={this.props.refetch}
-                    ownVote={this.props.ownVote}
-                    translate={this.props.translate}
-                    close={this.props.close}
-                />
-            )
-        }
-
-
-        return(
-            <Grid
-                style={{
-                    width: '100%',
-                    backgroundColor: 'white',
-                    height: isMobile ? "14em" : '6em',
-                    paddingTop: '1em',
-                    display: 'flex',
-                    flexDirection: 'row'
+    return (
+        <Grid
+            style={{
+                width: '100%',
+                backgroundColor: 'white',
+                display: 'flex',
+                flexDirection: 'row'
+            }}
+        >
+            <VotingButton
+                text={translate.in_favor_btn}
+                loading={loading === 1}
+                selected={agenda.votings[0].vote === 1}
+                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                onClick={() => {
+                    if (singleVoteMode) {
+                        showModal(1)
+                    } else {
+                        updateAgendaVoting(1)
+                    }
                 }}
-            >
-                <GridItem xs={12} md={4} lg={4} style={isMobile ? styles.divisionM : styles.division}>
-                    <VotingButton
-                        text={this.props.translate.in_favor_btn}
-                        loading={this.state.loading === 1}
-                        selected={agenda.votings[0].vote === 1}
-                        icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1 ? 'white' : primary }}></i>}
-                        onClick={() => {
-                            if (singleVoteMode) {
-                                this.showModal(1)
-                            } else {
-                                this.updateAgendaVoting(1)
-                            }
-                        }}
-                    />
-                </GridItem>
-                <GridItem xs={12} md={4} lg={4} style={isMobile ? styles.divisionM : styles.division}>
-                    <VotingButton
-                        text={this.props.translate.against_btn}
-                        loading={this.state.loading === 0}
-                        selected={agenda.votings[0].vote === 0}
-                        icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0 ? 'white' : primary }}></i>}
-                        onClick={() => {
-                            if (singleVoteMode) {
-                                this.showModal(0)
-                            } else {
-                                this.updateAgendaVoting(0)
-                            }
-                        }}
-                    />
-                </GridItem>
-                <GridItem xs={12} md={4} lg={4} style={isMobile ? styles.divisionM : styles.division}>
-                    <VotingButton
-                        text={this.props.translate.abstention_btn}
-                        loading={this.state.loading === 2}
-                        icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2 ? 'white' : primary }}></i>}
-                        selected={agenda.votings[0].vote === 2}
-                        onClick={() => {
-                            if (singleVoteMode) {
-                                this.showModal(2)
-                            } else {
-                                this.updateAgendaVoting(2)
-                            }
-                        }}
-                    />
-                </GridItem>
-                {singleVoteMode &&
-                    <VoteConfirmationModal
-                        open={this.state.modal}
-                        requestClose={this.closeModal}
-                        translate={this.props.translate}
-                        acceptAction={() => this.updateAgendaVoting(this.state.vote)}
-                    />
-                }
-            </Grid>
-        )
-    }
+            />
+            <VotingButton
+                text={translate.against_btn}
+                loading={loading === 0}
+                selected={agenda.votings[0].vote === 0}
+                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                onClick={() => {
+                    if (singleVoteMode) {
+                        showModal(0)
+                    } else {
+                        updateAgendaVoting(0)
+                    }
+                }}
+            />
+
+            <VotingButton
+                text={translate.abstention_btn}
+                loading={loading === 2}
+                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                selected={agenda.votings[0].vote === 2}
+                onClick={() => {
+                    if (singleVoteMode) {
+                        showModal(2)
+                    } else {
+                        updateAgendaVoting(2)
+                    }
+                }}
+            />
+            <VotingButton
+                text={"No votar"} //TRADUCCION
+                onClick={() => {
+                    if (singleVoteMode) {
+                        showModal(-1)
+                    } else {
+                        updateAgendaVoting(-1)
+                    }
+                }}
+            />
+            {singleVoteMode &&
+                <VoteConfirmationModal
+                    open={modal}
+                    requestClose={closeModal}
+                    translate={translate}
+                    acceptAction={() => updateAgendaVoting(vote)}
+                />
+            }
+        </Grid>
+    )
+
 }
 
-const VotingButton = ({ onClick, text, selected, icon, loading }) => {
+export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color }) => {
 
     const primary = getPrimary();
 
     return (
-        <BasicButton
-            text={text}
-            color={selected ? primary : 'white'}
-            disabled={selected}
-            loading={loading}
-            loadingColor={primary}
-            icon={icon}
-            textStyle={{
-                color: selected ? 'white' : primary,
-                fontWeight: '700'
-            }}
-            buttonStyle={{
-                width: '160px',
-                border: `2px solid ${primary}`
-            }}
-            onClick={onClick}
-        />
+        <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
+            <BasicButton
+                text={text}
+                color={color ? color : "white"}
+                disabled={disabled || selected}
+                loading={loading}
+                loadingColor={primary}
+                icon={icon}
+                textStyle={{
+                    color: '#000000de',
+                    fontWeight: '700'
+                }}
+                buttonStyle={{
+                    width: '200px',
+                    border: (selected || selectCheckBox) && `2px solid ${primary}`,
+                    ...styleButton
+                }}
+                onClick={onClick}
+                onChange={onChange}
+            />
+        </GridItem>
     )
 }
 

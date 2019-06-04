@@ -65,7 +65,7 @@ class Convene extends React.Component {
 					response.data.downloadConvenePDF,
 					"application/pdf",
 					`${this.props.translate.convene.replace(/ /g, '_')}-${
-						this.props.council.name.replace(/ /g, '_').replace(/\./, '')
+					this.props.council.name.replace(/ /g, '_').replace(/\./, '')
 					}`
 				);
 			}
@@ -73,7 +73,7 @@ class Convene extends React.Component {
 	};
 
 	handlePublicChange = () => {
-		if(this.props.data.council.publicConvene === 0){
+		if (this.props.data.council.publicConvene === 0) {
 			this.setState({
 				publicConveneModal: true
 			});
@@ -88,7 +88,7 @@ class Convene extends React.Component {
 			variables: {
 				council: {
 					id: this.props.data.council.id,
-					publicConvene: this.props.data.council.publicConvene === 1? 0 : 1
+					publicConvene: this.props.data.council.publicConvene === 1 ? 0 : 1
 				}
 			}
 		});
@@ -103,7 +103,7 @@ class Convene extends React.Component {
 		this.setState({
 			htmlCopiedTooltip: true
 		});
-		setTimeout(() => this.setState({htmlCopiedTooltip: false}), 3000);
+		setTimeout(() => this.setState({ htmlCopiedTooltip: false }), 3000);
 	}
 
 	copyConveneHTML = () => {
@@ -127,41 +127,42 @@ class Convene extends React.Component {
 		if (error) {
 			return <ErrorWrapper error={error} translate={translate} />;
 		}
-
-		return (
-			<React.Fragment>
-				{council.attachments.length > 0 && !this.props.hideAttachments && (
-					<div
-						style={{
-							paddingTop: "1em 0",
-							width: "98%"
-						}}
-					>
-						<Typography
-							variant="title"
-							style={{ color: getPrimary() }}
+		if (this.props.agendaNoSession) {
+			return (
+				<React.Fragment>
+					{council.attachments.length > 0 && !this.props.hideAttachments && (
+						<div
+							style={{
+								paddingTop: "1em 0",
+								width: "98%"
+							}}
 						>
-							{translate.new_files_title}
-						</Typography>
-						<div style={{ marginTop: "1em" }}>
-							<Grid>
-								{council.attachments.map(attachment => {
-									return (
-										<GridItem
-											key={`attachment${attachment.id}`}
-										>
-											<AttachmentDownload
-												attachment={attachment}
-												loading={this.state.downloading}
-												spacing={0.5}
-											/>
-										</GridItem>
-									);
-								})}
-							</Grid>
+							<Typography
+								variant="title"
+								style={{ color: getPrimary() }}
+							>
+								{translate.new_files_title}
+							</Typography>
+							<div style={{ marginTop: "1em" }}>
+								<Grid>
+									{council.attachments.map(attachment => {
+										return (
+											<GridItem
+												key={`attachment${attachment.id}`}
+											>
+												<AttachmentDownload
+													attachment={attachment}
+													loading={this.state.downloading}
+													spacing={0.5}
+												/>
+											</GridItem>
+										);
+									})}
+								</Grid>
+							</div>
 						</div>
-					</div>
-				)}
+					)
+				}
 				<div>
 					<BasicButton
 						text={translate.export_convene}
@@ -231,19 +232,17 @@ class Convene extends React.Component {
 							marginTop: '0.8em'
 						}}
 					>
-						<Paper
-							className={this.props.windowSize !== 'xs'? 'htmlPreview' : ''}
+						<div
+							className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
 						>
 							<div
 								dangerouslySetInnerHTML={{ __html: council.emailText }}
 								style={{
 									padding: "2em",
-									cursor: 'pointer',
 									margin: "0 auto"
 								}}
-								onClick={this.copyConveneHTML}
 							/>
-						</Paper>
+						</div>
 					</div>
 				</Tooltip>
 				<AlertConfirm
@@ -255,10 +254,143 @@ class Convene extends React.Component {
 					bodyText={<div>
 						{translate.share_convene_warning}
 					</div>}
-					title={translate.warning}
-				/>
-			</React.Fragment>
-		);
+						title={translate.warning}
+					/>
+				</React.Fragment>
+			);
+		} else {
+			return (
+				<React.Fragment>
+					{council.attachments.length > 0 && !this.props.hideAttachments && (
+						<div
+							style={{
+								paddingTop: "1em 0",
+								width: "98%"
+							}}
+						>
+							<Typography
+								variant="title"
+								style={{ color: getPrimary() }}
+							>
+								{translate.new_files_title}
+							</Typography>
+							<div style={{ marginTop: "1em" }}>
+								<Grid>
+									{council.attachments.map(attachment => {
+										return (
+											<GridItem
+												key={`attachment${attachment.id}`}
+											>
+												<AttachmentDownload
+													attachment={attachment}
+													loading={this.state.downloading}
+													spacing={0.5}
+												/>
+											</GridItem>
+										);
+									})}
+								</Grid>
+							</div>
+						</div>
+					)}
+					<div>
+						<BasicButton
+							text={translate.export_convene}
+							color={secondary}
+							loading={this.state.downloadingPDF}
+							buttonStyle={{ marginTop: "0.5em" }}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							icon={
+								<FontAwesome
+									name={"file-pdf-o"}
+									style={{
+										fontSize: "1em",
+										color: "white",
+										marginLeft: "0.3em"
+									}}
+								/>
+							}
+							textPosition="after"
+							onClick={this.downloadPDF}
+						/>
+						<BasicButton
+							text={translate.copy_html_clipboard}
+							color={secondary}
+							buttonStyle={{ marginTop: "0.5em", marginLeft: '0.6em' }}
+							textStyle={{
+								color: "white",
+								fontWeight: "700",
+								fontSize: "0.9em",
+								textTransform: "none"
+							}}
+							icon={<i className="fa fa-clipboard" aria-hidden="true" style={{ marginLeft: '0.3em' }}></i>}
+							textPosition="after"
+							onClick={this.copyConveneHTML}
+						/>
+					</div>
+					<div style={{ marginTop: '0.6em' }}>
+						<FormControlLabel
+							control={
+								<Switch
+									checked={council.publicConvene === 1}
+									onChange={this.handlePublicChange}
+									value='true'
+									color="primary"
+								/>
+							}
+							label={council.publicConvene === 1 ? 'Convocatoria pública' : 'Convocatoria privada'}
+						/>
+						{council.publicConvene === 1 &&
+							<div style={{ userSelect: 'text' }}>
+								{`Enlace para compartir: ${window.location.origin}/convene/${this.props.data.council.id}`/*TRADUCCION*/}
+							</div>
+						}
+
+					</div>
+					<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
+						<div
+							style={{
+								display: 'flex',
+								flexDirection: 'column',
+								alignItems: 'center',
+								justifyContent: 'center',
+								marginTop: '0.8em'
+							}}
+						>
+							<Paper
+								className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
+							>
+								<div
+									dangerouslySetInnerHTML={{ __html: council.emailText }}
+									style={{
+										padding: "2em",
+										cursor: 'pointer',
+										margin: "0 auto"
+									}}
+									onClick={this.copyConveneHTML}
+								/>
+							</Paper>
+						</div>
+					</Tooltip>
+					<AlertConfirm
+						requestClose={() => this.setState({ publicConveneModal: false })}
+						open={this.state.publicConveneModal}
+						acceptAction={this.togglePublicConvene}
+						buttonAccept={translate.accept}
+						buttonCancel={translate.cancel}
+						bodyText={<div>
+							Al realizar está acción se mostrará un link el cual cualquier persona podrá ver la convocatoria, para deshacer está acción puede volver a configurar su convocatoria como privada.
+					</div>}
+						title={translate.warning}
+					/>
+				</React.Fragment>
+			);
+		}
 	}
 }
 

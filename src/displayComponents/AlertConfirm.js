@@ -25,6 +25,7 @@ const AlertConfirm = ({
 	bodyStyle = {},
 	hideAccept,
 	classNameDialog,
+	PaperProps
 	widthModal
 }) => {
 	const primary = getPrimary();
@@ -70,24 +71,27 @@ const AlertConfirm = ({
 			fullWidth={fullWidth}
 			fullScreen={fullScreen}
 			maxWidth={false}
+			PaperProps={PaperProps}
 			open={open}
 			onClose={requestClose}
 			PaperProps={{
 				style: {...widthModal},
 			}}
 		>
-			<FontAwesome
-				name={"close"}
-				style={{
-					cursor: "pointer",
-					fontSize: "1.5em",
-					color: getSecondary(),
-					position: "absolute",
-					right: "12px",
-					top: "18px"
-				}}
-				onClick={() => requestClose()}
-			/>
+			{!!requestClose && (
+				< FontAwesome
+					name={"close"}
+					style={{
+						cursor: "pointer",
+						fontSize: "1.5em",
+						color: getSecondary(),
+						position: "absolute",
+						right: "12px",
+						top: "18px"
+					}}
+					onClick={() => requestClose()}
+				/>
+				)}
 			{!!title && (
 				<DialogTitle
 					style={{
@@ -109,17 +113,20 @@ const AlertConfirm = ({
 			>
 				{bodyText}
 			</DialogContent>
-			<DialogActions
-				style={{
-					paddingRight: "0.6em",
-					borderTop: "1px solid gainsboro",
-					paddingTop: '0.5em',
-					margin: '8px 8px',
-					minHeight: '25px'
-				}}
-			>
-				{buttons}
-			</DialogActions>
+			{!!buttonCancel && !hideAccept &&
+				!!buttonAccept &&
+				<DialogActions
+					style={{
+						paddingRight: "0.6em",
+						borderTop: "1px solid gainsboro",
+						paddingTop: '0.5em',
+						margin: '8px 8px',
+						minHeight: '25px'
+					}}
+				>
+					{buttons}
+				</DialogActions>
+			}
 		</Dialog>
 	);
 };

@@ -25,16 +25,16 @@ class Agendas extends React.Component {
     agendaStateToastId = null;
     agendaVotingsToastId = null;
 
-    componentDidMount(){
-        if(this.props.participant.delegatedVotes.length > 0){
-            if(!sessionStorage.getItem('delegationsNotify')){
+    componentDidMount() {
+        const { translate, ordenDiaTitle } = this.props;
+        if (this.props.participant.delegatedVotes.length > 0) {
+            if (!sessionStorage.getItem('delegationsNotify')) {
                 this.setState({
                     delegationsModal: true
                 });
                 sessionStorage.setItem('delegationsNotify', true);
             }
         }
-
     }
 
     showDelegationsModal = () => {
@@ -49,13 +49,13 @@ class Agendas extends React.Component {
         });
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         toast.dismiss(this.agendaStateToastId);
         toast.dismiss(this.agendaVotingsToastId);
     }
 
     componentDidUpdate(prevProps) {
-        const { translate } = this.props;
+        const { translate, ordenDiaTitle } = this.props;
 
         if (prevProps.data.agendas) {
             const { agendas: actualAgendas } = this.props.data;
@@ -65,7 +65,6 @@ class Agendas extends React.Component {
                     :
                     actualAgendas.find(item => item.id === agenda.id)
                     ;
-
                 if (!agendaPointOpened(agenda) && agendaPointOpened(agendaToCheck)) {
                     if (this.agendaStateToastId) {
                         toast.dismiss(this.agendaStateToastId);
@@ -109,7 +108,8 @@ class Agendas extends React.Component {
         }
     }
 
-    toastChanges = (message, onClose) => (
+    toastChanges = (message, onClose) => {
+        this.props.setAgendaBadge(true);
         toast(
             <LiveToast
                 message={message}
@@ -121,9 +121,9 @@ class Agendas extends React.Component {
                 className: "liveToast"
             }
         )
-    )
+    }
 
-	render() {
+    render() {
         return (
             <React.Fragment>
                 {this.state.delegationsModal &&
@@ -175,6 +175,7 @@ const agendas = gql`
             subjectType
             votingState
         }
+
         participantVotings(participantId: $participantId){
             id
             comment

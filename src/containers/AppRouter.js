@@ -88,6 +88,11 @@ const ActiveUserPage = Loadable({
 	loading: LoadingMainApp
 });
 
+const ChangeEmail = Loadable({
+	loader: () => import('../components/notLogged/ChangeEmail'),
+	loading: LoadingMainApp
+});
+
 const SetUserPasswordPage = Loadable({
 	loader: () => import('../components/notLogged/SetUserPasswordPage'),
 	loading: LoadingMainApp
@@ -126,7 +131,7 @@ class AppRouter extends React.Component {
 	redirectToRoot = () => {
 		return <Redirect to="/" />
 	}
-
+	
 	render() {
 		const { translate } = this.props;
 		const verticalLayout = this.showVerticalLayout();
@@ -283,6 +288,8 @@ class AppRouter extends React.Component {
 						path="/attendance/participant/:participantId/council/:councilId"
 						component={AttendanceContainer}
 					/>
+
+					<Route path="/activeUser/email/:token" component={ChangeEmail} />
 
 					<Route path="*" component={this.redirectToRoot} />
 				</Switch>
