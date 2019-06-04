@@ -200,6 +200,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                     setAgendaBadge={setAgendaBadge}
                     agendaBadge={agendaBadge}
                     anchorToggle={state.hasVideo}
+                    data={agendas}
                     agendasAnchor={state.agendasAnchor}
                     inPc={true}
                     timeline={state.modalContent !== "agenda"}
@@ -440,6 +441,14 @@ const agendas = gql`
                 councilId
                 state
             }
+            options {
+                maxSelections
+                id
+            }
+            items {
+                id
+                value
+            }
             councilId
             dateEndVotation
             dateStart
@@ -457,6 +466,13 @@ const agendas = gql`
             comment
             participantId
             delegateId
+            ballots {
+                participantId
+                value
+                weight
+                itemId
+                id
+            }
             agendaId
             numParticipations
             author {

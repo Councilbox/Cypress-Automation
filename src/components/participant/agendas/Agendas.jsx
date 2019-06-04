@@ -136,84 +136,12 @@ class Agendas extends React.Component {
                         translate={this.props.translate}
                     />
                 }
-                <AgendaNoSession {...this.props} />
+                <AgendaNoSession
+                    {...this.props}
+                />
             </React.Fragment>
         )
     }
 }
 
-
-const agendas = gql`
-    query Agendas($councilId: Int!, $participantId: Int!){
-        agendas(councilId: $councilId){
-            agendaSubject
-            attachments {
-                id
-                agendaId
-                filename
-                filesize
-                filetype
-                councilId
-                state
-            }
-            options {
-                maxSelections
-                id
-            }
-            items {
-                id
-                value
-            }
-            councilId
-            dateEndVotation
-            dateStart
-            dateStartVotation
-            description
-            id
-            orderIndex
-            pointState
-            subjectType
-            votingState
-        }
-
-        participantVotings(participantId: $participantId){
-            id
-            comment
-            participantId
-            delegateId
-            agendaId
-            ballots {
-                participantId
-                value
-                weight
-                itemId
-                id
-            }
-            numParticipations
-            author {
-                id
-                state
-                name
-                type
-                surname
-                representative {
-                    id
-                    type
-                    name
-                    surname
-                }
-            }
-            vote
-        }
-    }
-`;
-
-export default graphql(agendas, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id,
-            participantId: props.participant.id
-        },
-        pollInterval: 7000
-    })
-})(withTranslations()(Agendas));
+export default withTranslations()(Agendas);

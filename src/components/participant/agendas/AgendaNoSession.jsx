@@ -45,7 +45,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         })
     }
 
-    const agendaVotingIcon = (agenda) => {
+    const agendaVotingIcon = agenda => {
         let mostrar = agenda.subjectType !== 0;
         if (mostrar) {
             if (CBX.agendaVotingsOpened(agenda)) {
@@ -64,15 +64,15 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     React.useEffect(() => {
         const readTimelines = async () => {
-            const response2 = await client.query({
+            const response = await client.query({
                 query: readTimeline,
                 variables: {
                     councilId: council.id,
                 }
             });
 
-            if (response2.data && response2.data.readTimeline && response2.data.readTimeline > 0) {
-                settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
+            if (response.data && response.data.readTimeline && response.data.readTimeline > 0) {
+                settimelineSeeId(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
             }
         }
 

@@ -24,7 +24,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
         open: false,
         vote: agenda.votings.find(voting =>
             voting.participantId === participant.id ||
-            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === this.props.participant.id)
+            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === participant.id)
         ),
     })
 

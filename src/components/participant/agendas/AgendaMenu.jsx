@@ -77,7 +77,8 @@ class AgendaMenu extends React.Component {
     findOwnVote = (votings, participant) => {
         return votings.find(voting => (
             voting.participantId === participant.id
-            || (voting.author.representative.id === participant.id && voting.author.representative.type ===  PARTICIPANT_TYPE.REPRESENTATIVE)
+            || voting.delegateId === participant.id ||
+            voting.author.representative.id === participant.id
         ));
     }
 
@@ -133,28 +134,35 @@ class AgendaMenu extends React.Component {
                         </div>
                         {CBX.agendaVotingsOpened(agenda) &&
                             <React.Fragment>
-                                {(agenda.votings && agenda.votings.length > 0) ?
+                                {((agenda.votings && agenda.votings.length > 0) && ownVote)?
                                     <React.Fragment>
                                         {checkVotings(agenda.votings) &&
                                             <React.Fragment>
                                                 {!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
                                                     translate.your_vote_is_delegated
                                                     :
-                                                    //<CustomPointVotingMenu
-                                                    //    // agenda={agenda}
-                                                    //    translate={translate}
-                                                    ///>
-                                                    <VotingSection
-                                                        agenda={agenda}
-                                                        ownVote={ownVote}
-                                                        open={this.state.open}
-                                                        council={this.props.council}
-                                                        voting={this.state.voting}
-                                                        translate={translate}
-                                                        activateVoting={this.activateVoting}
-                                                        refetch={this.props.refetch}
-                                                        toggle={this.toggle}
-                                                    />
+                                                        <React.Fragment>
+                                                            {CBX.isCustomPoint(agenda.subjectType)?
+                                                                <CustomPointVotingMenu
+                                                                    agenda={agenda}
+                                                                    refetch={this.props.refetch}
+                                                                    ownVote={ownVote}
+                                                                    translate={translate}
+                                                                />
+                                                            :
+                                                                <VotingSection
+                                                                    agenda={agenda}
+                                                                    ownVote={ownVote}
+                                                                    open={this.state.open}
+                                                                    council={this.props.council}
+                                                                    voting={this.state.voting}
+                                                                    translate={translate}
+                                                                    activateVoting={this.activateVoting}
+                                                                    refetch={this.props.refetch}
+                                                                    toggle={this.toggle}
+                                                                />
+                                                            }
+                                                        </React.Fragment>
                                                 }
                                             </React.Fragment>
                                         }

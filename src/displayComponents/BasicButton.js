@@ -23,7 +23,7 @@ const BasicButton = ({
 	success,
 	floatRight,
 	claseHover,
-	backgroundColor
+	backgroundColor,
 	resetSuccess,
 	successSoloColor
 }) => {
