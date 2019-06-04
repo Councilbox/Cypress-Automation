@@ -12,6 +12,7 @@ import {
 	TextInput,
 	Scrollbar
 } from "../../../../displayComponents";
+import gql from 'graphql-tag';
 import { getPrimary } from "../../../../styles/colors";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";
 import { Typography } from "material-ui";
@@ -153,6 +154,20 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 		});
 	};
 
+	const startAuto = async () => {
+		setState({ loading: true });
+
+		const response = await props.startAutoCouncil({
+			variables: {
+				councilId: council.id
+			}
+		});
+
+		if(response.data.startAutoCouncil.success){
+			await props.refetch();
+		}
+	}
+
 	const loadMore = () => {
 		data.fetchMore({
 			variables: {
@@ -186,6 +201,16 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 				text: text
 			}]
 		});
+	}
+
+	const forceStartWarning = () => {
+
+		//TRADUCCION
+		return (
+			<div>
+				La reunión se iniciará ahora, ¿Desea continuar?
+			</div>
+		)
 	}
 
 	const _startCouncilForm = () => {
@@ -369,52 +394,48 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 	}
 
 	if(council.councilType > 1){
-		<React.Fragment>
-			<BasicButton
-				text={'Iniciar ahora' /*TRADUCCION*/}
-				color={primary}
-				textPosition="before"
-				onClick={() =>
-					setState({
-						noSessionAlert: true
-					})
-				}
-				icon={
-					<Icon
-						className="material-icons"
-						style={{
-							fontSize: "1.1em",
-							color: "white"
-						}}
-					>
-						play_arrow
-					</Icon>
-				}
-				buttonStyle={{ width: "11em" }}
-				textStyle={{
-					color: "white",
-					fontSize: "0.9em",
-					fontWeight: "700",
-					textTransform: "none"
-				}}
-			/>
-			<AlertConfirm
-				title={translate.start_council}
-				bodyText={_startCouncilForm()}
-				open={state.alert}
-				loadingAction={state.loading}
-				buttonAccept={translate.accept}
-				buttonCancel={translate.cancel}
-				hideAccept={state.selecting !== 0}
-				modal={true}
-				acceptAction={startCouncil}
-				requestClose={
-					state.selecting === 0
-						? () => setState({ alert: false })
-						: () => setState({ selecting: 0 })
-				}
-			/>
-		</React.Fragment>
+		return (
+			<React.Fragment>
+				<BasicButton
+					text={'Iniciar ahora' /*TRADUCCION*/}
+					color={primary}
+					textPosition="before"
+					onClick={() =>
+						setState({
+							alert: true
+						})
+					}
+					icon={
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: "1.1em",
+								color: "white"
+							}}
+						>
+							play_arrow
+						</Icon>
+					}
+					buttonStyle={{ width: "11em" }}
+					textStyle={{
+						color: "white",
+						fontSize: "0.9em",
+						fontWeight: "700",
+						textTransform: "none"
+					}}
+				/>
+				<AlertConfirm
+					title={translate.start_council}
+					bodyText={forceStartWarning()}
+					open={state.alert}
+					loadingAction={state.loading}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					acceptAction={startAuto}
+					requestClose={() => setState({ alert: false })}
+				/>
+			</React.Fragment>
+		)
 	}
 
 	return (
@@ -467,9 +488,19 @@ const StartCouncilButton = ({ council, translate, data, ...props }) => {
 	)
 }
 
+const startAutoCouncil = gql`
+	mutation StartAutoCouncil($councilId: Int!){
+		startAutoCouncil(councilId: $councilId){
+			success
+			message
+		}
+	}
+`;
+
 
 export default compose(
 	graphql(startCouncil, { name: "startCouncil" }),
+	graphql(startAutoCouncil, { name: "startAutoCouncil" }),
 	graphql(councilOfficials, {
 		options: props => ({
 			variables: {
