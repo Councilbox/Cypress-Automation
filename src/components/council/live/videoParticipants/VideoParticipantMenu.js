@@ -63,7 +63,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 					{participantIsBlocked(participant) ? (
 						canUnblockParticipant(props.council) && (
 							<MenuItem
-								onClick={() => unbanParticipant()}
+								onClick={unbanParticipant}
 							>
 								<Icon
 									className="material-icons"
@@ -79,7 +79,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 						)
 					) : (
 						<MenuItem
-							onClick={() => props.setBanParticipant()}
+							onClick={props.setBanParticipant}
 						>
 							<Icon
 								className="material-icons"
@@ -94,7 +94,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 						</MenuItem>
 					)}
 					<MenuItem
-						onClick={() => props.setParticipantHistory()}
+						onClick={props.setParticipantHistory}
 					>
 						<Icon
 							className="material-icons"

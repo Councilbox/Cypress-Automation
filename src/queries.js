@@ -669,6 +669,7 @@ export const platformDrafts = gql`
 		$companyType: Int
 	) {
 		platformDrafts(
+			companyId: $companyId
 			filters: $filters
 			options: $options
 			companyType: $companyType

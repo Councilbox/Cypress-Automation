@@ -30,19 +30,19 @@ const MajorityInput = ({
 
 	if (CBX.isMajorityFraction(type)) {
 		return (
-			<div style={{ width: "100%", display: 'flex', alignItems: 'center', ...style }}>
+			<div style={{ width: "100%", display: 'flex', alignItems: 'center', marginTop: '0.95em', ...style }}>
 				<div style={{width: '5em', display: 'flex', alignItems: 'center'}}>
 					<TextInput
 						type={"number"}
 						value={value}
 						min="1"
 						errorText={majorityError}
-						adornment={"/"}
 						onChange={event =>
 							onChange(divider? event.target.value > divider? divider : event.nativeEvent.target.value : event.target.value)
 						}
 					/>
 				</div>
+				/
 				<div style={{width: '5em', marginLeft: '0.8em', isplay: 'flex', alignItems: 'center'}}>
 					<TextInput
 						type={"number"}

@@ -280,7 +280,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 															<br/>
-															{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${vote.author.position? ` - ${vote.author.position}` : ''} ${`(Ha delegado su voto)`}`}
+															{`${delegatedVote.author.name} ${delegatedVote.author.surname} ${delegatedVote.author.position? ` - ${delegatedVote.author.position}` : ''} ${`(Ha delegado su voto)`}`}
 														</React.Fragment>
 													))
 												}

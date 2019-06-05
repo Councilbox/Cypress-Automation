@@ -320,35 +320,32 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 											dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}
 										/>
 									}
-
-									<Tooltip title={`ALT + T`}>
-										<div
-											style={{
-												borderRadius: "5px",
-												cursor: "pointer",
-												position: "absolute",
-												right: "5%",
-												top: "20px",
-												backgroundColor:
-													"rgba(0, 0, 0, 0.5)",
-												width: "2.5em",
-												height: "2.5em",
-												display: "flex",
-												alignItems: "center",
-												justifyContent: "center"
-											}}
-											onClick={toggleFullScreen}
+									<div
+										style={{
+											borderRadius: "5px",
+											cursor: "pointer",
+											position: "absolute",
+											right: "5%",
+											top: "20px",
+											backgroundColor:
+												"rgba(0, 0, 0, 0.5)",
+											width: "2.5em",
+											height: "2.5em",
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "center"
+										}}
+										onClick={toggleFullScreen}
+									>
+										<Icon
+											className="material-icons"
+											style={{ color: lightGrey }}
 										>
-											<Icon
-												className="material-icons"
-												style={{ color: lightGrey }}
-											>
-												{state.fullScreen
-													? "zoom_out"
-													: "zoom_in"}
-											</Icon>
-										</div>
-									</Tooltip>
+											{state.fullScreen
+												? "zoom_out"
+												: "zoom_in"}
+										</Icon>
+									</div>
 								</div>
 							</React.Fragment>
 						}
