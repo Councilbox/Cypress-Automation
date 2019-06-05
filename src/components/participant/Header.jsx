@@ -33,7 +33,6 @@ class Header extends React.Component {
 		const { logoutButton, windowSize, primaryColor, titleHeader } = this.props;
 		const { council } = this.props;
 		const primary = getPrimary();
-		
 
 		return (
 			<header
@@ -72,7 +71,7 @@ class Header extends React.Component {
 
 
 
-				{(council.autoClose !== 1) &&
+				{(council && council.autoClose !== 1) &&
 					<Marquee
 						isMobile={isMobile}
 					>
