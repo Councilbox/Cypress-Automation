@@ -71,11 +71,10 @@ const AlertConfirm = ({
 			fullWidth={fullWidth}
 			fullScreen={fullScreen}
 			maxWidth={false}
-			PaperProps={PaperProps}
 			open={open}
 			onClose={requestClose}
 			PaperProps={{
-				style: {...widthModal},
+				style: {...widthModal, ...(PaperProps? PaperProps.style : {})},
 			}}
 		>
 			{!!requestClose && (
@@ -89,7 +88,7 @@ const AlertConfirm = ({
 						right: "12px",
 						top: "18px"
 					}}
-					onClick={() => requestClose()}
+					onClick={requestClose}
 				/>
 				)}
 			{!!title && (

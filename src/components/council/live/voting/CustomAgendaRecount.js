@@ -21,6 +21,9 @@ const CustomAgendaRecount = ({ agenda }) => {
                         {`${item.value}: Votos ${agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0)}`}
                     </div>
                 ))}
+                <div key={`custom_item_abstention_votes`}>
+                    {`${'Abstención'}: ${agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0)}`}
+                </div>
 
             </GridItem>
         </Grid>

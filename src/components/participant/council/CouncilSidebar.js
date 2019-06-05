@@ -146,7 +146,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             />
         )
     }
-    
+
     if (props.isMobile) {
         return (
             <div style={{

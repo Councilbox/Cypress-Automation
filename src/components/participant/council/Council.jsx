@@ -216,6 +216,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                 noSession={noSession}
                 participant={participant}
                 council={council}
+                data={agendas}
                 setAgendaBadge={setAgendaBadge}
                 agendaBadge={agendaBadge}
                 anchorToggle={state.hasVideo}
