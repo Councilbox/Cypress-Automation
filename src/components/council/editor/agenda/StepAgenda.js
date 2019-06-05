@@ -475,7 +475,7 @@ export const AddAgendaPoint = ({
 
 	return (
 		<React.Fragment>
-			{config.customPoints && council.councilType >= 2 ? (
+			{config.customPoints? (
 				<DropDownMenu
 					color={primary}
 					id={"new-agenda-trigger"}

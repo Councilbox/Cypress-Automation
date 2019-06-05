@@ -92,9 +92,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
 
     const agendaStateIcon = agenda => {
-        // const { agenda } = this.props;
         let title = '';
-        if(council.councilType > 2){
+        if(council.councilType >= 2){
             return <span />;
         }
 

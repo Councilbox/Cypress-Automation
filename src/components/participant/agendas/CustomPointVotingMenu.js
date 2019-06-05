@@ -28,7 +28,12 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     const [loading, setLoading] = React.useState(false);
 
     const addSelection = item => {
-        const newSelections = [...selections, cleanObject(item)];
+        let newSelections = [...selections, cleanObject(item)]; ;
+        if(selections.length === 1){
+            if(selections[0].id === -1){
+                newSelections = [cleanObject(item)];
+            }
+        }
         setSelections(newSelections);
         if(newSelections.length >= agenda.options.minSelections){
             sendCustomAgendaVote(newSelections);
@@ -73,6 +78,15 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         });
         await props.refetch();
         setLoading(false);
+    }
+
+    const getRemainingOptions = () => {
+        if(selections.length === 1){
+            if(selections[0].id === -1){
+                return agenda.options.minSelections;
+            }
+        }
+        return agenda.options.minSelections - selections.length
     }
 
     if (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
@@ -140,7 +154,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                             </div>
                         :
                             (selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) ?
-                                `Tiene que marcar ${agenda.options.minSelections - selections.length} opciones más`
+                                `Tiene que marcar ${getRemainingOptions()} opciones más`
                             :
                                 selections.length > 0?
                                     `Voto registrado (${moment(ownVote.date).format('LLL')})`
