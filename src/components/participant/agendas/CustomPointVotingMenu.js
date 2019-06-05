@@ -5,6 +5,7 @@ import { LoadingSection } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { AGENDA_TYPES } from '../../../constants';
 import { VotingButton } from './VotingMenu';
+import { moment } from "../../../containers/App";
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -15,6 +16,11 @@ const createSelectionsFromBallots = (ballots = [], participantId) => {
                 value: ballot.value
             }
         });
+}
+
+const asbtentionOption = {
+    id: -1,
+    value: 'Abstention'
 }
 
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVoting, ...props }) => {
@@ -47,6 +53,11 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         sendCustomAgendaVote([cleanObject(item)]);
     }
 
+    const setAbstentionOption = () => {
+        setSelections([asbtentionOption]);
+        sendCustomAgendaVote([asbtentionOption]);
+    }
+
     const resetSelections = () => {
         setSelections([]);
         sendCustomAgendaVote([]);
@@ -64,7 +75,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         setLoading(false);
     }
 
-
     if (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
         return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
@@ -72,11 +82,12 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     const renderCommonButtons = () => {
         return (
             <div style={{ paddingTop: "20px" }}>
-                <div style={{ display: "flex", width: "52.5%" }}>
+                <div style={{ display: "flex", width: "52.5%", height: '2.5em' }}>
                     <VotingButton
                         text={translate.abstention_btn}
                         styleButton={{ width: "90%" }}
-                        //selectCheckBox={getSelectedRadio(item.id)}
+                        onClick={setAbstentionOption}
+                        selectCheckBox={getSelectedRadio(-1)}
                     />
                     <VotingButton
                         text={"No votar"} //TRADUCCION
@@ -93,14 +104,14 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         <div>
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
-                    <div style={{fontSize: '0.85em', textAlign: 'left'}}>
+                    <div style={{fontSize: '0.85em', height: '1.2em', textAlign: 'left'}}>
                         {loading?
                             <div style={{width: '3em'}}>
                                 <LoadingSection size={10} />
                             </div>
                         :
                             selections.length > 0?
-                                'Voto guardado'
+                                `Voto registrado (${moment(ownVote.date).format('LLL')})`
                             :
                                 ''
 
@@ -122,7 +133,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                 </React.Fragment>
                 :
                 <React.Fragment>
-                    <div style={{fontSize: '0.85em', textAlign: 'left'}}>
+                    <div style={{fontSize: '0.85em', height: '1.2em', textAlign: 'left'}}>
                         {loading?
                             <div style={{width: '3em'}}>
                                 <LoadingSection size={10} />
@@ -132,7 +143,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                                 `Tiene que marcar ${agenda.options.minSelections - selections.length} opciones más`
                             :
                                 selections.length > 0?
-                                    'Voto guardado'
+                                    `Voto registrado (${moment(ownVote.date).format('LLL')})`
                                 :
                                     ''
 

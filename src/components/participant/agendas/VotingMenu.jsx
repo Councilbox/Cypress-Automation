@@ -5,16 +5,13 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { isMobile } from 'react-device-detect';
-import CustomPointVotingMenu from './CustomPointVotingMenu';
-import { isCustomPoint } from '../../../utils/CBX';
+import { moment } from '../../../containers/App';
 
 
 const styles = {
     division: {
         display: 'flex',
         alignItems: 'center',
-        // justifyContent: 'center',
-        // height: '5em',
         marginTop: ".5em"
     },
     divisionM: {
@@ -70,16 +67,16 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 flexDirection: 'row'
             }}
         >
-            {agenda.votings[0].vote !== -1 &&
-                <div style={{fontSize: '0.85em', textAlign: 'left'}}>
-                    Voto guardado
-                </div>
-            }
+            <div style={{fontSize: '0.85em', height: '1em', textAlign: 'left', marginLeft: '0.2em'}}>
+                {agenda.votings[0].vote !== -1 &&
+                    `Voto registrado (${moment(agenda.votings[0].date).format('LLL')})`
+                }
+            </div>
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
                 selected={agenda.votings[0].vote === 1}
-                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 1? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (singleVoteMode) {
                         showModal(1)
@@ -92,7 +89,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 text={translate.against_btn}
                 loading={loading === 0}
                 selected={agenda.votings[0].vote === 0}
-                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 0? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (singleVoteMode) {
                         showModal(0)
@@ -105,7 +102,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
             <VotingButton
                 text={translate.abstention_btn}
                 loading={loading === 2}
-                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: primary }}></i>}
+                icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: agenda.votings[0].vote === 2? primary : 'silver' }}></i>}
                 selected={agenda.votings[0].vote === 2}
                 onClick={() => {
                     if (singleVoteMode) {

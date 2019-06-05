@@ -465,6 +465,7 @@ const agendas = gql`
         participantVotings(participantId: $participantId){
             id
             comment
+            date
             participantId
             delegateId
             ballots {
