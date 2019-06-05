@@ -70,6 +70,11 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 flexDirection: 'row'
             }}
         >
+            {agenda.votings[0].vote !== -1 &&
+                <div style={{fontSize: '0.85em', textAlign: 'left'}}>
+                    Voto guardado
+                </div>
+            }
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}
@@ -112,6 +117,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
             />
             <VotingButton
                 text={"No votar"} //TRADUCCION
+                selected={agenda.votings[0].vote === -1}
                 onClick={() => {
                     if (singleVoteMode) {
                         showModal(-1)
@@ -151,7 +157,7 @@ export const VotingButton = ({ onClick, text, selected, icon, loading, onChange,
                     fontWeight: '700'
                 }}
                 buttonStyle={{
-                    width: '200px',
+                    width: '100%',
                     border: (selected || selectCheckBox) && `2px solid ${primary}`,
                     ...styleButton
                 }}

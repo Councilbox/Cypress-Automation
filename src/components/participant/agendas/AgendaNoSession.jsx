@@ -48,14 +48,25 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     const agendaVotingIcon = agenda => {
         let mostrar = agenda.subjectType !== 0;
         if (mostrar) {
+            let title = translate.closed_votings;
+            let color = 'default';
             if (CBX.agendaVotingsOpened(agenda)) {
-                return <i className={"material-icons"} aria-label="votación abierta" /*TRADUCCION*/ style={{ marginRight: '0.6em', fontSize: "20px", color: "#278289" }}>how_to_vote</i>;
-            } else {
-                return <i className={"material-icons colorGrey"} aria-label="votación cerrada" /*TRADUCCION*/ style={{ marginRight: '0.6em', fontSize: "20px", }}>how_to_vote</i>;
+                title = translate.opened_votings;
+                color = "#278289";
             }
-        } else {
-            return <div></div>;
+            return (
+                <Tooltip title={title}>
+                    <i
+                        className={"material-icons"}
+                        aria-label={title}
+                        style={{ marginRight: '0.6em', fontSize: "20px", color, cursor: 'context-menu', }}
+                    >
+                        how_to_vote
+                    </i>
+                </Tooltip>
+            );
         }
+        return <span/>;
     }
 
     const scrollToBottom = () => {
@@ -80,15 +91,33 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }, [council.id]);
 
 
-    const agendaStateIcon = (agenda) => {
+    const agendaStateIcon = agenda => {
         // const { agenda } = this.props;
+        let title = '';
+        if(council.councilType > 2){
+            return <span />;
+        }
+
         let icon = 'fa fa-lock';
         let color = ""
-        if (CBX.agendaPointNotOpened(agenda)) icon = "fa fa-lock colorGrey";
-        if (CBX.agendaPointOpened(agenda)) icon = "fa fa-unlock-alt colorGren";
-        if (CBX.agendaPointOpened(agenda)) color = "#278289";
-        if (CBX.agendaClosed(agenda)) icon = "fa fa-lock colorGrey";
-        return <i className={icon} aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"} style={{ marginRight: '0.6em', fontSize: "18px", color: color }}></i>;
+        if (CBX.agendaPointNotOpened(agenda) || CBX.agendaClosed(agenda)){
+            icon = "fa fa-lock colorGrey";
+            title = translate.closed;
+        }
+        if (CBX.agendaPointOpened(agenda)){
+            icon = "fa fa-unlock-alt colorGren";
+            color = "#278289";
+            title = translate.in_discussion;
+        }
+        return (
+            <Tooltip title={title}>
+                <i
+                    className={icon}
+                    aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"}
+                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color: color }}
+                ></i>
+            </Tooltip>
+        );
     }
 
     if (data.agendas) {
@@ -181,14 +210,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                             action={
                                                                 <div style={{ display: "flex" }}>
                                                                     <div>
-                                                                        <Tooltip title={"Agenda"}>
-                                                                            {agendaStateIcon(agenda)}
-                                                                        </Tooltip>
+                                                                        {agendaStateIcon(agenda)}
                                                                     </div>
                                                                     <div>
-                                                                        <Tooltip title={"Voto"}>
-                                                                            {agendaVotingIcon(agenda)}
-                                                                        </Tooltip>
+                                                                        {agendaVotingIcon(agenda)}
                                                                     </div>
                                                                 </div>
                                                             }
@@ -287,14 +312,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                         action={
                                             <div style={{ display: "flex" }}>
                                                 <div>
-                                                    <Tooltip title={"Agenda"}>
-                                                        {agendaStateIcon(agenda)}
-                                                    </Tooltip>
+                                                    {agendaStateIcon(agenda)}
                                                 </div>
                                                 <div>
-                                                    <Tooltip title={"Voto"}>
-                                                        {agendaVotingIcon(agenda)}
-                                                    </Tooltip>
+                                                    {agendaVotingIcon(agenda)}
                                                 </div>
                                             </div>
                                         }

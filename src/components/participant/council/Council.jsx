@@ -443,6 +443,7 @@ const agendas = gql`
             }
             options {
                 maxSelections
+                minSelections
                 id
             }
             items {

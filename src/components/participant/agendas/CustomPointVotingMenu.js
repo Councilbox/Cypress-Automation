@@ -1,11 +1,10 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, Radio, ButtonIcon, Checkbox } from '../../../displayComponents';
-import { getPrimary, secondary } from '../../../styles/colors';
+import { LoadingSection } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
 import { AGENDA_TYPES } from '../../../constants';
 import { VotingButton } from './VotingMenu';
-import { createMuiTheme, FormControl } from 'material-ui';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => {
     return ballots
@@ -21,12 +20,13 @@ const createSelectionsFromBallots = (ballots = [], participantId) => {
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVoting, ...props }) => {
     const [selections, setSelections] = React.useState(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId)); //(props.ownVote.ballots, props.ownVote.participantId));
     const [loading, setLoading] = React.useState(false);
-    const primary = getPrimary();
 
     const addSelection = item => {
         const newSelections = [...selections, cleanObject(item)];
         setSelections(newSelections);
-        sendCustomAgendaVote(newSelections);
+        if(newSelections.length >= agenda.options.minSelections){
+            sendCustomAgendaVote(newSelections);
+        }
     }
 
     const getSelectedRadio = id => {
@@ -36,8 +36,10 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
     const removeSelection = item => {
         const newSelections = selections.filter(selection => selection.id !== item.id);
         setSelections(newSelections);
-        sendCustomAgendaVote(newSelections);
-
+        if(newSelections.length < agenda.options.minSelections){
+            return sendCustomAgendaVote([]);
+        }
+        return sendCustomAgendaVote(newSelections);
     }
 
     const setSelection = item => {
@@ -64,60 +66,85 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
 
 
     if (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
-        //TRADUCCION
-        console.log(agenda, ownVote);
-
         return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
-    // console.log(agenda.options.maxSelections )
-    // console.log(selections.length )
+    const renderCommonButtons = () => {
+        return (
+            <div style={{ paddingTop: "20px" }}>
+                <div style={{ display: "flex", width: "52.5%" }}>
+                    <VotingButton
+                        text={translate.abstention_btn}
+                        styleButton={{ width: "90%" }}
+                        //selectCheckBox={getSelectedRadio(item.id)}
+                    />
+                    <VotingButton
+                        text={"No votar"} //TRADUCCION
+                        styleButton={{ width: "90%" }}
+                        selectCheckBox={selections.length === 0}
+                        onClick={resetSelections}
+                    />
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div>
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
-                    <FormControl>
-                        {agenda.items.map((item, index) => (
-                            <React.Fragment>
-                                <div key={`item_${item.id}`}>
-                                    <VotingButton
-                                        styleButton={{ padding: '0' }}
-                                        selectCheckBox={getSelectedRadio(item.id)}
-                                        onClick={() => setSelection(item)}
-                                        text={item.value}
-                                    />
-                                </div>
-                                {agenda.items.length - 1 === index &&
-                                    <React.Fragment>
-                                        <div>
-                                            <VotingButton
-                                                text={"Abstencion"} //TRADUCCION
-                                                selectCheckBox={getSelectedRadio(item.id)}
-                                            />
-                                            <VotingButton
-                                                text={"No votar"} //TRADUCCION
-                                                selectCheckBox={ownVote.ballots.length === 0}
-                                                onClick={resetSelections}
-                                            />
-                                        </div>
-                                    </React.Fragment>
-                                }
-                            </React.Fragment>
-                        ))
+                    <div style={{fontSize: '0.85em', textAlign: 'left'}}>
+                        {loading?
+                            <div style={{width: '3em'}}>
+                                <LoadingSection size={10} />
+                            </div>
+                        :
+                            selections.length > 0?
+                                'Voto guardado'
+                            :
+                                ''
+
                         }
-                    </FormControl>
+                    </div>
+                    {agenda.items.map((item, index) => (
+                        <React.Fragment key={`item_${item.id}`}>
+                            <div>
+                                <VotingButton
+                                    styleButton={{ padding: '0', width: '100%' }}
+                                    selectCheckBox={getSelectedRadio(item.id)}
+                                    onClick={() => setSelection(item)}
+                                    text={item.value}
+                                />
+                            </div>
+                            {agenda.items.length - 1 === index && renderCommonButtons()}
+                        </React.Fragment>
+                    ))}
                 </React.Fragment>
                 :
                 <React.Fragment>
+                    <div style={{fontSize: '0.85em', textAlign: 'left'}}>
+                        {loading?
+                            <div style={{width: '3em'}}>
+                                <LoadingSection size={10} />
+                            </div>
+                        :
+                            (selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) ?
+                                `Tiene que marcar ${agenda.options.minSelections - selections.length} opciones más`
+                            :
+                                selections.length > 0?
+                                    'Voto guardado'
+                                :
+                                    ''
+
+                        }
+                    </div>
                     {agenda.items.map((item, index) => (
                         <React.Fragment key={`item_${item.id}`}>
                             <div >
-                                <VotingButton //TODO hacer que se desmarque bien
-                                    styleButton={{ padding: '0' }}
+                                <VotingButton
+                                    styleButton={{ padding: '0', width: '100%' }}
                                     selectCheckBox={getSelectedRadio(item.id)}
                                     disabled={agenda.options.maxSelections === selections.length && !getSelectedRadio(item.id)}
-                                    styleButton={{ width: "100%" }}
                                     onClick={() => {
                                         if (!getSelectedRadio(item.id)) {
                                             addSelection(item)
@@ -128,25 +155,9 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                                     text={item.value}
                                 />
                             </div>
-                            {agenda.items.length - 1 === index &&
-                                <div style={{ paddingTop: "20px" }}>
-                                    <div style={{ display: "flex", width: "52.5%" }}>
-                                        <VotingButton
-                                            styleButton={{ width: "90%" }}
-                                            text={"Abstencion"} //TRADUCCION
-                                        />
-                                        <VotingButton
-                                            styleButton={{ width: "90%" }}
-                                            text={"No votar"} //TRADUCCION
-                                            onClick={resetSelections}
-                                            selectCheckBox={selections.length === 0}
-                                        />
-                                    </div>
-                                </div>
-                            }
+                            {agenda.items.length - 1 === index && renderCommonButtons()}
                         </React.Fragment>
                     ))}
-
                 </React.Fragment>
             }
         </div>
