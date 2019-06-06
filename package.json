@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "private": true,
   "dependencies": {
+    "adom-client": "^0.1.8",
     "antd": "^3.6.4",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",
@@ -79,6 +80,7 @@
   },
   "scripts": {
     "start": "cross-env REACT_APP_MODE=dev react-scripts start",
+    "startS": "cross-env HTTPS=true REACT_APP_MODE=dev react-scripts start",
     "startlinux": "REACT_APP_MODE=dev react-scripts start",
     "build": "cross-env REACT_APP_MODE=alpha react-scripts build",
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",

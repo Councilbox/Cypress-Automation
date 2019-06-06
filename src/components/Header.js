@@ -14,9 +14,16 @@ import Paper from 'material-ui/Paper';
 import FontAwesome from 'react-fontawesome';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION } from "../config";
+import { useAdom } from 'adom-client';
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
 	const [companyMenu, setCompanyMenu] = React.useState(false);
+	const adomContext = useAdom();
+
+	const init = () => {
+		console.log('iniciar');
+		adomContext.initialize();
+	}
 
 	const logout = () => {
 		actions.logout();
@@ -53,6 +60,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 				backgroundColor: "white"
 			}}
 		>
+			<div onClick={init}>INIT</div>
 			<div
 				style={{
 					display: "flex",

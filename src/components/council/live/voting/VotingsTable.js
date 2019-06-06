@@ -1,6 +1,6 @@
 import React from 'react';
-import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
-import { TableRow, TableCell, CardHeader, CardContent, withStyles, Card } from "material-ui";
+import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES } from "../../../../constants";
+import { TableRow, TableCell, withStyles } from "material-ui";
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from "../../../../styles/colors";
@@ -114,7 +114,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					margin: "0px"
 				}}
 			>
-				{agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING &&
+				{(agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING && !isCustomPoint(agenda.subjectType)) &&
 					<React.Fragment>
 						<div style={{ display: isMobile ? "block" : "flex", flexDirection: "row", alignItems: 'center', width: "100%", padding: "0px", }}>
 							<div   >
@@ -172,8 +172,19 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					</React.Fragment>
 				}
 			</GridItem>
-			<GridItem xs={4} md={2} lg={2}>
-				{!agendaVotingsOpened(agenda) && !props.hideStatus && translate.closed_votings}
+			{!agendaVotingsOpened(agenda) && !props.hideStatus && 
+				<GridItem xs={12} md={12} lg={12}
+					style={{
+						margin: '1em 0em',
+						border: '1px solid gainsboro',
+						fontWeight: '700',
+						padding: '2em 0em',
+						textAlign: 'center'
+					}}>
+					{translate.closed_votings}
+				</GridItem>
+			}
+			<GridItem xs={4} md={8} lg={8}>
 			</GridItem>
 			<GridItem xs={8} md={4} lg={4}>
 				<TextInput
@@ -250,17 +261,17 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 																		refetch={refreshTable}
 																	/>
 																)}
+																<Tooltip
+																	title={
+																		vote.presentVote === 1
+																			? translate.customer_present
+																			: translate.customer_initial
+																	}
+																>
+																	{getStateIcon(vote.presentVote)}
+																</Tooltip>
 															</React.Fragment>
 														}
-														<Tooltip
-															title={
-																vote.presentVote === 1
-																	? translate.customer_present
-																	: translate.customer_initial
-															}
-														>
-															{getStateIcon(vote.presentVote)}
-														</Tooltip>
 													</React.Fragment>
 												}
 											</div>
@@ -366,21 +377,28 @@ const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }
 
 
 const PrivateVotingDisplay = compose(
-	graphql(updateAgendaVoting, {
-		name: "updateAgendaVoting"
-	}),
 	graphql(gql`
-		mutation updateCustomPointVoting($selections: [PollItemInput]!, $votingId: Int!){
-			updateCustomPointVoting(selections: $selections, votingId: $votingId){
+		mutation TogglePresentVote($votingId: Int!){
+			togglePresentVote(votingId: $votingId){
 				success
 			}
 		}
 	`, {
-		name: "updateCustomVoting"
+		name: "togglePresentVote"
+	}),
+	graphql(gql`
+		mutation cancelRemoteVote($votingId: Int!){
+			cancelRemoteVote(votingId: $votingId){
+				success
+			}
+		}
+	`, {
+		name: "cancelRemoteVote"
 	})
-)(({ translate, agenda, vote, refetch, updateAgendaVoting, updateCustomVoting, council, ...props }) => {
+)(({ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [modal, setModal] = React.useState(false);
+	const secondary = getSecondary();
 
 	const closeModal = () => {
 		setModal(false);
@@ -388,7 +406,7 @@ const PrivateVotingDisplay = compose(
 
 	const toggleVote = () => {
 		setLoading(true);
-		if(vote.vote === -3 || vote.vote === 3){
+		if(vote.vote === 3){
 			setModal(true);
 			setLoading(false);
 			return;
@@ -397,20 +415,16 @@ const PrivateVotingDisplay = compose(
 	}
 
 	const setVoting = async () => {
-		if(isCustomPoint(agenda.subjectType)){
-			await updateCustomVoting({
+		if(isCustomPoint(agenda.subjectType) && agenda.votingState === 4 && vote.vote === 3){
+			await cancelRemoteVote({
 				variables: {
-					votingId: vote.id,
-					selections: []
+					votingId: vote.id
 				}
 			});
 		} else {
-			await updateAgendaVoting({
+			await togglePresentVote({
 				variables: {
-					agendaVoting: {
-						id: vote.id,
-						vote: -2
-					}
+					votingId: vote.id,
 				}
 			});
 		}
@@ -424,6 +438,12 @@ const PrivateVotingDisplay = compose(
 		}, 1500);
 	}
 
+	// console.log(vote.vote, vote.id);
+	// console.log(agenda.votingState);
+	console.log(vote.presentVote);
+
+	//TRADUCCION
+
 	return (
 		<React.Fragment>
 			<RemoveRemoteVoteAlert
@@ -432,7 +452,7 @@ const PrivateVotingDisplay = compose(
 				requestClose={closeModal}
 				acceptAction={setVoting}
 			/>
-			{agenda.votingState === 4 && vote.presentVote !== 0?
+			{agenda.votingState === 4?
 				<React.Fragment>
 					{loading?
 						<div style={{width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start'}}>
@@ -441,21 +461,50 @@ const PrivateVotingDisplay = compose(
 							</div>
 						</div>
 					:
-						vote.vote === -2?
-							'Voto telemático anulado'
-						:
+						vote.vote === 3 && council.presentVoteOverwrite === 1?
 							<div onClick={toggleVote} style={{cursor: 'pointer'}}>
 								<i className="fa fa-times"  style={{marginRight: '1em'}}/>
-								Anular voto telemático
+								{'Anular voto telemático'}
 							</div>
+						:
+							<Checkbox
+								label={vote.vote === -1 ?
+									'No ha votado presencialmente' :
+									vote.vote === -3?
+									'Voto remoto anulado - Ha votado presencialmente'
+									:
+									'Ha votado presencialmente'
+								}
+								onChange={toggleVote}
+								loading={loading}
+								value={vote.vote === -2 || vote.vote === -3}
+							/>
 					}
 				</React.Fragment>
 			:
 				council.councilType === 3?
-					vote.vote === -2?
-							'Voto telemático anulado'
+					<React.Fragment>
+						{loading?
+							<div style={{width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start'}}>
+								<div>
+									<LoadingSection size={16} />
+								</div>
+							</div>
 						:
-							'Ha votado telemáticamente'
+							vote.vote === 3 && council.presentVoteOverwrite === 1?
+								<div onClick={toggleVote} style={{cursor: 'pointer'}}>
+									<i className="fa fa-times"  style={{marginRight: '1em'}}/>
+									{'Anular voto telemático'}
+								</div>
+							:
+								vote.vote === -1 ?
+									'No ha votado presencialmente' :
+									vote.vote === -3?
+									'Voto remoto anulado - Ha votado presencialmente'
+									:
+									'Ha votado presencialmente'
+						}
+					</React.Fragment>
 				:
 					<React.Fragment>
 						{vote.vote !== -1?

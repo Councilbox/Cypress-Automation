@@ -160,10 +160,10 @@ const EvidenceContentDisplay = (data, txHash) => {
     )
 }
 
-const UserEvidence = withTranslations()(({ evidence, translate }) => {
+const UserEvidence = withTranslations()(({ evidence, translate, txHash }) => {
     return (
         <div>
-            <EvidenceDisplay evidence={evidence} translate={translate} />
+            <EvidenceDisplay evidence={evidence} translate={translate} txHash={txHash} />
             <UserSection evidence={evidence} translate={translate} />
         </div>
     )
@@ -462,7 +462,7 @@ const getTypeTranslation = type => {
 
 const getEvidenceComponent = (evidence, txHash) => {
     if (evidence.data.type === 'LOGIN') {
-        return <UserEvidence evidence={evidence} />
+        return <UserEvidence evidence={evidence} txHash={txHash} />
     }
 
     return <CouncilEvidence evidence={evidence} txHash={txHash} />

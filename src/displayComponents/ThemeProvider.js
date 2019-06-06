@@ -131,6 +131,17 @@ const theme = createMuiTheme({
 	}
 });
 
+export const adomTheme = createMuiTheme({
+	palette: {
+		primary: {
+			main: primary
+		},
+		secondary: {
+			main: secondary
+		}
+	}
+});
+
 const ThemeProvider = ({ children }) => (
 	<MuiThemeProvider theme={theme}>
 		<MuiPickersUtilsProvider
