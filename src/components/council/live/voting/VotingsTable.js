@@ -254,12 +254,20 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 																	/>
 																</Tooltip>
 																{isPresentVote(vote) && (
-																	<PresentVoteMenu
-																		agenda={agenda}
-																		agendaVoting={vote}
-																		active={vote.vote}
-																		refetch={refreshTable}
-																	/>
+																	<React.Fragment>
+																		{isCustomPoint(agenda.subjectType)?
+																			<div>CUSTOM MODAL</div>
+																		:
+																			<PresentVoteMenu
+																				agenda={agenda}
+																				agendaVoting={vote}
+																				active={vote.vote}
+																				refetch={refreshTable}
+																			/>
+																		}
+
+																	</React.Fragment>
+
 																)}
 																<Tooltip
 																	title={

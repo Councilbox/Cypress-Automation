@@ -169,8 +169,9 @@ export const AGENDA_TYPES = {
 	FAKE_PUBLIC_VOTING: 3,
 	PRIVATE_ACT: 4,
 	PRIVATE_VOTING: 5,
-	CUSTOM_NOMINAL: 6,
-	CUSTOM_PRIVATE: 7
+	CUSTOM_PUBLIC: 8,
+	CUSTOM_PRIVATE: 7,
+	CUSTOM_NOMINAL: 6
 };
 
 //CONTINUATION OF AGENDA_TYPES
@@ -182,6 +183,10 @@ export const CUSTOM_AGENDA_VOTING_TYPES = [
 	{
 		label: 'private_voting',
 		value: 7
+	},
+	{
+		label: 'fake_public_votation',
+		value: 8
 	}
 ];
 

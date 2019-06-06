@@ -60,7 +60,6 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 				backgroundColor: "white"
 			}}
 		>
-			<div onClick={init}>INIT</div>
 			<div
 				style={{
 					display: "flex",

@@ -167,10 +167,11 @@ export const haveQualityVoteConditions = (agenda, council) => {
 
 export const canEditPresentVotings = agenda => {
 	return (agenda.votingState === AGENDA_STATES.DISCUSSION ||
-		agenda.votingState === 4) &&
-		agenda.subjectType !== AGENDA_TYPES.PUBLIC_VOTING &&
-		agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
-		agenda.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
+		agenda.votingState === 4) && (
+		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING ||
+		agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ||
+		agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE ||
+		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
 }
 
 export const approvedByQualityVote = (agenda, qualityVoteId) => {
