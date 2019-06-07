@@ -27,15 +27,15 @@ import '../styles/antd.css';
 import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
-import {adomTheme} from '../displayComponents/ThemeProvider';
-//import { AdomClient, AdomProvider, Assisted } from 'adom-client';
+import { theme } from '../displayComponents/ThemeProvider';
+import { AdomClient, AdomProvider, Assisted } from 'adom-client';
 export { moment as moment };
 
 const httpLink = new HttpLink({
 	uri: API_URL
 });
 
-//const adomClient = new AdomClient('adom-test.councilbox.com', 443);
+const adomClient = new AdomClient('adom-test.councilbox.com', 443);
 
 const wsLink = new WebSocketLink({
 	uri: WS_URL,
@@ -198,6 +198,8 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 const App = () => {
 	return (
 		<ApolloProvider client={client}>
+			<AdomProvider client={adomClient}>
+				<Assisted theme={theme}>
 			<Provider store={store}>
 				<ErrorHandler>
 					<AppControl>
@@ -264,6 +266,8 @@ const App = () => {
 					</AppControl>
 				</ErrorHandler>
 			</Provider>
+			</Assisted>
+			</AdomProvider>
 		</ApolloProvider>
 	);
 }

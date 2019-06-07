@@ -68,6 +68,9 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
+				<div onClick={init}>
+					INIT
+				</div>
 				{backButton && (
 					<Tooltip
 						title={translate.back}

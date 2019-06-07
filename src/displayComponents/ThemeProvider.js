@@ -7,7 +7,7 @@ import { moment } from '../containers/App';
 
 const primary = getPrimary();
 const secondary = getSecondary();
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
 	palette: {
 		primary: {
 			main: primary
