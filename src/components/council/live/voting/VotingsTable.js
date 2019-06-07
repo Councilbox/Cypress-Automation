@@ -25,6 +25,7 @@ import { Tooltip, MenuItem } from "material-ui";
 import { isPresentVote, agendaVotingsOpened, isCustomPoint } from "../../../../utils/CBX";
 import { isMobile } from 'react-device-detect';
 import PropTypes from "prop-types";
+import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 
 
 let timeout = null;
@@ -206,7 +207,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							style={{ width: '100%' }}
 							forceMobileTable={true}
 							headers={[
-								(agenda.presentCensus > 0 && !isCustomPoint(agenda) && props.council.councilType !== 3)?
+								(agenda.presentCensus > 0 && !isCustomPoint(agenda.subjectType) && props.council.councilType !== 3)?
 								{name:
 									<SelectAllMenu
 										translate={translate}
@@ -246,17 +247,26 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 															/>
 														:
 															<React.Fragment>
-																<Tooltip
-																	title={getTooltip(vote.vote)}
-																>
-																	<VotingValueIcon
-																		vote={vote.vote}
-																	/>
-																</Tooltip>
+																{!isCustomPoint(agenda.subjectType) &&
+																	<Tooltip
+																		title={getTooltip(vote.vote)}
+																	>
+																		<VotingValueIcon
+																			vote={vote.vote}
+																		/>
+																	</Tooltip>
+																}
+
 																{isPresentVote(vote) && (
 																	<React.Fragment>
 																		{isCustomPoint(agenda.subjectType)?
-																			<div>CUSTOM MODAL</div>
+																			<NominalCustomVoting
+																				agenda={agenda}
+																				translate={translate}
+																				agendaVoting={vote}
+																				active={vote.vote}
+																				refetch={refreshTable}
+																			/>
 																		:
 																			<PresentVoteMenu
 																				agenda={agenda}
@@ -278,6 +288,12 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 																>
 																	{getStateIcon(vote.presentVote)}
 																</Tooltip>
+																{isCustomPoint(agenda.subjectType) && !isPresentVote(vote) &&
+																	<DisplayVoting
+																		ballots={vote.ballots}
+																		translate={translate}
+																	/>
+																}
 															</React.Fragment>
 														}
 													</React.Fragment>

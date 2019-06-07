@@ -3,7 +3,7 @@ import AgendaDetailsSection from "./AgendaDetailsSection";
 import AgendaSelector from "./AgendaSelector";
 import { Card } from "material-ui";
 import { graphql } from "react-apollo";
-import { agendaManager } from "../../../queries";
+import gql from 'graphql-tag';
 import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
 import { AGENDA_STATES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
@@ -230,6 +230,117 @@ const AgendaManager = ({ data, translate, council, company, stylesDiv, ...props 
 		</div>
 	);
 }
+
+export const agendaManager = gql`
+	query AgendaManagerFields($companyId: Int!, $councilId: Int!) {
+		agendas(councilId: $councilId) {
+			abstentionManual
+			abstentionVotings
+			agendaSubject
+			items {
+				id
+				value
+			}
+			ballots {
+				id
+				weight
+				admin
+				value
+				participantId
+				itemId
+			}
+			options {
+				maxSelections
+				minSelections
+				id
+				writeIn
+			}
+			attachments {
+				id
+				agendaId
+				filename
+				filesize
+				filetype
+				councilId
+				state
+			}
+			comment
+			councilId
+			currentRemoteCensus
+			dateEndVotation
+			dateStart
+			dateStartVotation
+			description
+			id
+			majority
+			majorityDivider
+			majorityType
+			negativeManual
+			negativeVotings
+			noParticipateCensus
+			noVoteManual
+			noVoteVotings
+			numAbstentionManual
+			numAbstentionVotings
+			numCurrentRemoteCensus
+			numNegativeManual
+			numNegativeVotings
+			numNoParticipateCensus
+			numNoVoteManual
+			numNoVoteVotings
+			numPositiveManual
+			numPositiveVotings
+			numPresentCensus
+			numRemoteCensus
+			numTotalManual
+			numTotalVotings
+			orderIndex
+			pointState
+			positiveManual
+			positiveVotings
+			presentCensus
+			remoteCensus
+			socialCapitalCurrentRemote
+			socialCapitalNoParticipate
+			socialCapitalPresent
+			socialCapitalRemote
+			sortable
+			subjectType
+			totalManual
+			totalVotings
+			votingState
+		}
+		languages {
+			desc
+			columnName
+		}
+
+		companyStatutes(companyId: $companyId) {
+			title
+			id
+		}
+
+		majorityTypes {
+			value
+			label
+		}
+
+		quorumTypes {
+			label
+			value
+		}
+
+		votingTypes {
+			label
+			value
+		}
+
+		draftTypes {
+			id
+			label
+		}
+	}
+`;
 
 export default graphql(agendaManager, {
 	options: props => ({
