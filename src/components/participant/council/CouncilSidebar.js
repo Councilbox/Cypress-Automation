@@ -272,21 +272,21 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     }}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
                     bodyText={
-                        <Scrollbar ref={scrollbar}>
-                            <div style={{ height: '100%' }}>
+                        <div style={{ height: '100%' }}>
                                 {props.modalContent === 'agenda' &&
                                     props.agenda
                                 }
                                 {props.modalContent === 'timeline' &&
+                                    <Scrollbar ref={scrollbar}>
                                     <TimelineSection
                                         council={council}
                                         translate={translate}
                                         participant={participant}
                                         scrollToBottom={scrollToBottom}
                                     />
+                                </Scrollbar>
                                 }
                             </div>
-                        </Scrollbar>
                     }
                 />
                 {props.adminMessage &&
