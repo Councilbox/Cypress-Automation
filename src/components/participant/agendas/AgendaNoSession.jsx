@@ -217,7 +217,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                                 </div>
                                                             }
                                                             title={agenda.agendaSubject}
-                                                            subheader={translate[getAgendaTypeLabel(agenda)] + " - Max " /*+ agenda.options.maxSelections */}
+                                                            subheader={translate[getAgendaTypeLabel(agenda)] /*+ agenda.options.maxSelections */}
                                                         />
                                                         <Collapse in={true} timeout="auto" unmountOnExit>
                                                             <CardContent style={{ paddingTop: "0" }}>

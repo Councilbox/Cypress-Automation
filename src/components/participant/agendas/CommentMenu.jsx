@@ -67,7 +67,8 @@ const CommentMenu = ({ agenda, translate, participant, ...props }) => {
         }
     }
 
-    const getVote = () => {
+    function getVote() {
+        return {};
         return agenda.votings.find(voting =>
             voting.participantId === participant.id ||
             (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === participant.id)
@@ -79,8 +80,6 @@ const CommentMenu = ({ agenda, translate, participant, ...props }) => {
             open: !state.open
         });
     }
-
-    const savedVote = getVote();
 
     if (!vote) {
         return (<span />);
@@ -98,7 +97,7 @@ const CommentMenu = ({ agenda, translate, participant, ...props }) => {
                 }}
             >
                 <Typography style={{ fontWeight: '700', fontSize: '14px', marginBottom: "5px" }}>
-                    {(!!savedVote.comment && removeHTMLTags(comment).length > 0) ?
+                    {(!!vote.comment && removeHTMLTags(comment).length > 0) ?
                         translate.you_have_commented
                         :
                         translate.you_didnt_comment
@@ -106,7 +105,7 @@ const CommentMenu = ({ agenda, translate, participant, ...props }) => {
                 </Typography>
                 <BasicButton
                     color={'white'}
-                    text={(!!savedVote.comment && removeHTMLTags(savedVote.comment).length > 0) ? translate.edit_comment : translate.send_minutes_comment}
+                    text={(!!vote.comment && removeHTMLTags(vote.comment).length > 0) ? translate.edit_comment : translate.send_minutes_comment}
                     textStyle={{
                         color: secondary,
                         fontSize: '14px'
