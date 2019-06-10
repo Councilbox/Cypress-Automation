@@ -118,7 +118,7 @@ const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
         <div>
             {`${'Su voto'}: `/* TRADUCCION */}
             {agenda.subjectType === AGENDA_TYPES.CUSTOM_NOMINAL?
-                Array.from(votes.values()).map((ballot, index) => <span>{index > 0? ' / ' : '' }{ballot}</span>)
+                Array.from(votes.values()).map((ballot, index) => <span key={`voting_${index}`}>{index > 0? ' / ' : '' }{ballot}</span>)
             :
                 <span style={{color: getPrimary(), fontWeight: '700'}}>{`${getVote(voting.vote, translate)}`}</span>
             }

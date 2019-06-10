@@ -63,6 +63,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
                     {timeline.map((event, index) => {
                         const content = JSON.parse(event.content);
+                        //console.log(content);
                         return (
                             <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation(event.type, content) + " Hora: " + moment(event.date).format('LLL')} >
                                 <StepLabel>
@@ -70,7 +71,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                                     <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
                                 </StepLabel>
                                 <StepContent style={{ fontSize: '0.9em' }}>
-                                    {event.type === 'CLOSE_VOTING' &&
+                                    {(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
                                         <React.Fragment>
                                             <span>
                                                 {`Resultados:`}
@@ -88,6 +89,17 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 </Stepper>
             </React.Fragment>
     );
+}
+
+const isValidResult = type => {
+    const types = {
+        PUBLIC_CUSTOM: true,
+        PRIVATE_CUSTOM: true,
+        CUSTOM_NOMINAL: true,
+        default: false
+    }
+
+    return types[type]? !types[type] : types.default;
 }
 
 const councilTimelineQuery = gql`
