@@ -173,7 +173,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					</React.Fragment>
 				}
 			</GridItem>
-			{!agendaVotingsOpened(agenda) && !props.hideStatus && 
+			{!agendaVotingsOpened(agenda) && !props.hideStatus &&
 				<GridItem xs={12} md={12} lg={12}
 					style={{
 						margin: '1em 0em',
@@ -237,7 +237,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 													translate.customer_delegated
 												:
 													<React.Fragment>
-														{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || props.council.councilType === 3?
+														{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3?
 															<PrivateVotingDisplay
 																vote={vote}
 																council={props.council}
@@ -542,17 +542,6 @@ const PrivateVotingDisplay = compose(
 	)
 })
 
-
-/*
-quitar mensaje de punto cerrado cuando son sin sesión - done
-substituir boton de iniciar sesión por "activa ahora" -
-lo mismo con el botón de cerrar abrir votaciones
-cambiar frase acceder a sala por acceder - done
-cambiar seguimiento en directo en los emails que son de sin sesión - done
-comprobar carga de censos cuando fueron borrados - done
-quitar botón de añadir punto del día - done
-quitar firma en sin sesión o hibrida
-*/
 
 const setAllPresentVotingsMutation = gql`
 	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){

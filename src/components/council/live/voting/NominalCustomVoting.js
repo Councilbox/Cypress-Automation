@@ -30,14 +30,15 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...prop
         )
     }
 
-    console.log(props);
-
     return (
         <div>
             <AlertConfirm
                 open={modal}
+                modal={false}
                 title="Marcar selección"
                 requestClose={closeModal}
+                cancelAction={closeModal}
+                buttonCancel={translate.close}
                 bodyText={renderVotingMenu()}
             />
             <BasicButton
@@ -52,11 +53,11 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...prop
             :
                 <div>
                     <DisplayVoting
-                        ballots={agendaVoting.ballots}  
+                        ballots={agendaVoting.ballots}
                         translate={translate}
                     />
                 </div>
-            }                  
+            }
         </div>
     )
 }

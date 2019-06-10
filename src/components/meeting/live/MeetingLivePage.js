@@ -6,7 +6,7 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import { Icon } from '../../../displayComponents';
 import { ConfigContext } from "../../../containers/AppControl";
 import { useOldState } from "../../../hooks";
-import { useAdom } from 'adom-client';
+//import { useAdom } from 'adom-client';
 
 let logo;
 import("../../../assets/img/logo-white.png").then(data => logo = data);
@@ -28,13 +28,13 @@ const MeetingLivePage = ({ data }) => {
 		fullScreen: false,
 		url: sessionStorage.getItem('meetingUrl'),
 	});
-	const config = React.useContext(ConfigContext);
-	const adom = useAdom();
+	//const config = React.useContext(ConfigContext);
+	//const adom = useAdom();
 
-	console.log(adom);
+	//console.log(adom);
 
 	const init = () => {
-		adom.initialize();
+		//adom.initialize();
 	}
 
 	React.useEffect(() => {
@@ -78,54 +78,48 @@ const MeetingLivePage = ({ data }) => {
 				justifyContent: "space-between"
 			}}
 		>
-				{config && config.adom && 
-					<div onClick={init} style={{ color: 'white' }}>
-						INIT
-					</div>
-
-				}
-				<div style={{ width: "20%" }}>
-					<img
-						src={logo}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "2em"
-						}}
-						alt="logo"
-					/>
-				</div>
-				<div
+			<div style={{ width: "20%" }}>
+				<img
+					src={logo}
+					className="App-logo"
 					style={{
-						width: "35%",
-						marginRight: "10%",
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
+						height: "1.5em",
+						marginLeft: "2em"
 					}}
-				>
-				</div>
-				<div
+					alt="logo"
+				/>
+			</div>
+			<div
+				style={{
+					width: "35%",
+					marginRight: "10%",
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+				}}
+			>
+			</div>
+			<div
+				style={{
+					width: "10%",
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: "flex-end",
+					paddingRight: "2em"
+				}}
+			>
+				<Icon
+					className="material-icons"
 					style={{
-						width: "10%",
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: "flex-end",
-						paddingRight: "2em"
+						fontSize: "1.5em",
+						color: 'white',
+						cursor: "pointer"
 					}}
+					onClick={bHistory.goBack}
 				>
-					<Icon
-						className="material-icons"
-						style={{
-							fontSize: "1.5em",
-							color: 'white',
-							cursor: "pointer"
-						}}
-						onClick={bHistory.goBack}
-					>
-						exit_to_app
-					</Icon>
-				</div>
+					exit_to_app
+				</Icon>
+			</div>
 			</div>
 			<div
 				style={{
