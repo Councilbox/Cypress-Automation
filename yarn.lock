@@ -347,9 +347,9 @@ adler-32@~1.2.0:
     exit-on-epipe "~1.0.1"
     printj "~1.1.0"
 
-adom-client@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/adom-client/-/adom-client-0.1.10.tgz#298b17d022e2ed08f1ffd5f9657019e9ca7b42f2"
+adom-client@^0.1.11:
+  version "0.1.11"
+  resolved "https://registry.yarnpkg.com/adom-client/-/adom-client-0.1.11.tgz#d088ffee3d007526eb859f348161f74d9a5c6dab"
   dependencies:
     "@material-ui/core" "3.9.0"
     hark "^1.2.3"
