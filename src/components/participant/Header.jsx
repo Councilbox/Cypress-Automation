@@ -155,24 +155,24 @@ const Marquee = ({ children, isMobile }) => {
 		textAlign: 'center'
 	}
 	let style = {}
-	let title 
-	
+	let title
+
 	if (children !== undefined && children !== null && children[0] !== undefined) {
+		title = children[0].agendaSubject
+		
 		if (isMobile) {
-			if (children.length > 20) {
+			if (title.length > 20) {
 				style = stylesMove
 			} else {
 				style = stylesNoMove
 			}
 		} else {
-			if (children.length > 45) {
+			if (title.length > 45) {
 				style = stylesMove
 			} else {
 				style = stylesNoMove
 			}
 		}
-		
-		title = children[0].agendaSubject
 	}
 
 	const toggle = () => {
@@ -180,7 +180,7 @@ const Marquee = ({ children, isMobile }) => {
 			stop: !state.stop
 		})
 	}
-
+	
 	return (
 		<div className={'marquee'} style={{
 			width: '45%',
