@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab } from 'material-ui';
+import { Tabs, Tab, } from 'material-ui';
 import * as CBX from "../../../utils/CBX";
 import { Scrollbar } from '../../../displayComponents';
 import ActAgreements from './ActAgreements';
@@ -10,7 +10,15 @@ import { AGENDA_TYPES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
+import { withStyles } from '@material-ui/core';
 
+
+
+const styles = theme => ({
+    scrollable: {
+        overflow: "hidden"
+    }
+});
 
 class AgendaDetailsTabs extends React.Component {
 
@@ -35,7 +43,7 @@ class AgendaDetailsTabs extends React.Component {
 
 
     render() {
-        const { agenda, translate, council } = this.props;
+        const { agenda, translate, council, classes } = this.props;
 
         return (
             <div style={{
@@ -58,6 +66,7 @@ class AgendaDetailsTabs extends React.Component {
                     scrollButtons={"on"}
                     scroller={true}
                     scrollable={true}
+                    classes={{ scrollable: classes.scrollable }}
                 >
                     <Tab label={isMobile ? translate.agreements : translate.comments_and_agreements} />
                     <Tab label={isMobile ? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />
@@ -166,4 +175,4 @@ class AgendaDetailsTabs extends React.Component {
     }
 }
 
-export default AgendaDetailsTabs;
+export default withStyles(styles)(AgendaDetailsTabs);
