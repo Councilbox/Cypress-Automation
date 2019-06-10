@@ -27,7 +27,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
             setLoaded(true);
             setTimeline(response.data.councilTimeline);
         }
-        
+
         getTimeline();
     }, [council.id, setLoading, setLoaded, setTimeline, client]);
 
@@ -38,14 +38,14 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
     }, [getData]);
 
     React.useEffect(() => {
-        if(loaded){
+        if (loaded) {
             setTimeout(() => {
                 scrollToBottom();
             }, 80);
         }
     }, [loaded]);
     //TRADUCCION
-    
+
     return (
         loading ?
             <LoadingSection />
@@ -62,10 +62,10 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                     </div>
                 }
                 <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
-                    {timeline.map((event, index ) => {
+                    {timeline.map((event, index) => {
                         const content = JSON.parse(event.content);
                         return (
-                            <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation(event.type, content) + " Hora: " + moment(event.date).format('LLL') } >
+                            <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation(event.type, content) + " Hora: " + moment(event.date).format('LLL')} >
                                 <StepLabel>
                                     <b>{getTimelineTranslation(event.type, content)}</b><br />
                                     <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>

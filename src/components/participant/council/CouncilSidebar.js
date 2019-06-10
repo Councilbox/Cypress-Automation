@@ -6,7 +6,7 @@ import { withApollo } from 'react-apollo';
 import TimelineSection from '../timeline/TimelineSection';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary } from '../../../styles/colors';
-import { AlertConfirm, BasicButton, Badge } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, Badge, Scrollbar } from '../../../displayComponents';
 
 
 const styles = {
@@ -23,6 +23,7 @@ const styles = {
 
 
 const CouncilSidebar = ({ translate, council, participant, ...props }) => {
+    const scrollbar = React.useRef();
     const closeAll = () => {
         props.setContent(null);
         // props.toggl;
@@ -67,7 +68,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             className={"NoOutline"}
             style={styles.button}
             onClick={() => props.setContent('agenda')}
-            // onClick={() => props.setContent('agenda')}
+        // onClick={() => props.setContent('agenda')}
         >
             <div style={{ display: "unset" }}>
                 <Badge badgeContent={8} dot color="primary" styleDot={{ color: primary }} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
@@ -146,7 +147,9 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             />
         )
     }
-
+    const scrollToBottom = () => {
+        scrollbar.current.scrollToBottom();
+    }
     if (props.isMobile) {
         return (
             <div style={{
@@ -256,6 +259,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 council={council}
                                 onClick={() => props.setContent('timeline')}
                                 actived={props.modalContent === "timeline"}
+                                participant={participant}
                             />
                         </div>
                     </div>
@@ -269,17 +273,20 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
                     bodyText={
                         <div style={{ height: '100%' }}>
-                            {props.modalContent === 'agenda' &&
-                                props.agenda
-                            }
-                            {props.modalContent === 'timeline' &&
-                                <TimelineSection
-                                    council={council}
-                                    translate={translate}
-                                    participant={participant}
-                                />
-                            }
-                        </div>
+                                {props.modalContent === 'agenda' &&
+                                    props.agenda
+                                }
+                                {props.modalContent === 'timeline' &&
+                                    <Scrollbar ref={scrollbar}>
+                                    <TimelineSection
+                                        council={council}
+                                        translate={translate}
+                                        participant={participant}
+                                        scrollToBottom={scrollToBottom}
+                                    />
+                                </Scrollbar>
+                                }
+                            </div>
                     }
                 />
                 {props.adminMessage &&
@@ -452,7 +459,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
                 settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
             }
         }
-        
+
         getTimeline();
         readTimelines();
         const interval = setInterval(function () { getTimeline(); readTimelines(); }, 3000);
@@ -478,16 +485,16 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
         evidenceRead()
     }
 
-    
+
     let resultado
     let unread = 0
     if (arrayTimeline != null) {
-        resultado = arrayTimeline.findIndex( item => item.id === timelineSeeId);
-        unread = total - (resultado+1);
-    }else{
+        resultado = arrayTimeline.findIndex(item => item.id === timelineSeeId);
+        unread = total - (resultado + 1);
+    } else {
         unread = 0;
     }
-   
+
     return (
         <Button
             className={"NoOutline"}
