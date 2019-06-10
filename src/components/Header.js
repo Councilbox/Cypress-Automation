@@ -15,10 +15,12 @@ import FontAwesome from 'react-fontawesome';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION } from "../config";
 import { useAdom } from 'adom-client';
+import { ConfigContext } from "../containers/AppControl";
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
 	const [companyMenu, setCompanyMenu] = React.useState(false);
 	const adomContext = useAdom();
+	const config = React.useContext(ConfigContext);
 
 	const init = () => {
 		console.log('iniciar');
@@ -68,9 +70,11 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
-				<div onClick={init}>
-					INIT
-				</div>
+				{(config && config.adom) &&
+					<div onClick={init}>
+						INIT
+					</div>
+				}
 				{backButton && (
 					<Tooltip
 						title={translate.back}

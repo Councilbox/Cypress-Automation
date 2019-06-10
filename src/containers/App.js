@@ -24,18 +24,16 @@ import { API_URL, CLIENT_VERSION, WS_URL } from "../config";
 import { toast, ToastContainer } from "react-toastify";
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
 import '../styles/antd.css';
+import AdomWrapper from './AdomWrapper';
 import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
-import { theme } from '../displayComponents/ThemeProvider';
-import { AdomClient, AdomProvider, Assisted } from 'adom-client';
 export { moment as moment };
 
 const httpLink = new HttpLink({
 	uri: API_URL
 });
 
-const adomClient = new AdomClient('adom-test.councilbox.com', 443);
 
 const wsLink = new WebSocketLink({
 	uri: WS_URL,
@@ -198,76 +196,74 @@ if(sessionStorage.getItem("participantLoginSuccess")){
 const App = () => {
 	return (
 		<ApolloProvider client={client}>
-			<AdomProvider client={adomClient}>
-				<Assisted theme={theme}>
 			<Provider store={store}>
 				<ErrorHandler>
 					<AppControl>
-						<Router history={bHistory}>
-							<React.Fragment>
-								<Switch>
-									<Route
-										exact
-										path="/company/:company/council/:id/live"
-										component={CouncilLiveContainer}
-									/>
-									<Route
-										exact
-										path="/cmp/:id"
-										component={CouncilLiveTestContainer}
-									/>
-									<Route
-										exact
-										path="/evidence/:uuid?"
-										component={ValidatorPage}
-									/>
-									<Route
-										exact
-										path="/convene/:id"
-										component={ConveneDisplay}
-									/>
-									{!window.location.hostname.includes('app.councilbox') &&
-											<Route
-												exact
-												path="/docs"
-												component={DocsPage}
-											/>
-										}
+						<AdomWrapper>
+							<Router history={bHistory}>
+								<React.Fragment>
+									<Switch>
+										<Route
+											exact
+											path="/company/:company/council/:id/live"
+											component={CouncilLiveContainer}
+										/>
+										<Route
+											exact
+											path="/cmp/:id"
+											component={CouncilLiveTestContainer}
+										/>
+										<Route
+											exact
+											path="/evidence/:uuid?"
+											component={ValidatorPage}
+										/>
+										<Route
+											exact
+											path="/convene/:id"
+											component={ConveneDisplay}
+										/>
 										{!window.location.hostname.includes('app.councilbox') &&
-											<Route
-												exact
-												path="/docs/tryit"
-												component={PlaygroundPage}
-											/>
-										}
-									<Route
-										exact
-										path="/company/:company/meeting/live"
-										component={MeetingLivePage}
+												<Route
+													exact
+													path="/docs"
+													component={DocsPage}
+												/>
+											}
+											{!window.location.hostname.includes('app.councilbox') &&
+												<Route
+													exact
+													path="/docs/tryit"
+													component={PlaygroundPage}
+												/>
+											}
+										<Route
+											exact
+											path="/company/:company/meeting/live"
+											component={MeetingLivePage}
+										/>
+										<Route
+											exact
+											path="/meeting/"
+											component={MeetingLivePage}
+										/>
+										<Route
+											exact
+											path="/meeting/new"
+											component={MeetingCreateContainer}
+										/>
+										<Route path="/" component={AppRouter} />
+									</Switch>
+									<ToastContainer
+										position="top-right"
+										progressClassName={'toastProgressBar'}
 									/>
-									<Route
-										exact
-										path="/meeting/"
-										component={MeetingLivePage}
-									/>
-									<Route
-										exact
-										path="/meeting/new"
-										component={MeetingCreateContainer}
-									/>
-									<Route path="/" component={AppRouter} />
-								</Switch>
-								<ToastContainer
-									position="top-right"
-									progressClassName={'toastProgressBar'}
-								/>
-							</React.Fragment>
-						</Router>
+								</React.Fragment>
+							</Router>
+						</AdomWrapper>
 					</AppControl>
 				</ErrorHandler>
 			</Provider>
-			</Assisted>
-			</AdomProvider>
 		</ApolloProvider>
 	);
 }
