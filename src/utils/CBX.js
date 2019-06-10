@@ -1013,8 +1013,12 @@ export const getAgendaTypeLabel = agenda => {
 			return 'public_act';
 		case AGENDA_TYPES.PRIVATE_VOTING:
 			return 'private_votation';
-		case AGENDA_TYPES.CUSTOM_POINT:
-			return 'custom_point';
+		case AGENDA_TYPES.CUSTOM_PUBLIC:
+			return 'fake_public_votation';
+		case AGENDA_TYPES.CUSTOM_PRIVATE:
+			return 'private_votation';
+		case AGENDA_TYPES.CUSTOM_NOMINAL:
+			return 'public_votation';
 		default:
 			return 'custom_point';
 	}

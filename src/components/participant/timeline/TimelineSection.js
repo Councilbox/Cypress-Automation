@@ -38,13 +38,12 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
     }, [getData]);
 
     React.useEffect(() => {
-        if (loaded) {
+        if (loaded && scrollToBottom) {
             setTimeout(() => {
                 scrollToBottom();
             }, 80);
         }
     }, [loaded]);
-    //TRADUCCION
 
     return (
         loading ?

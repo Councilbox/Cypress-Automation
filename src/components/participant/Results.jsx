@@ -63,7 +63,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                                 <div>
                                     {`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
                                 </div>
-                                {hasVotation(agenda.subjectType) &&
+                                {(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
                                     <React.Fragment>
                                         {agenda.voting?
                                             <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
@@ -77,7 +77,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
                                         {agenda.voting?
                                             <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
                                         :
-                                        translate.not_present_at_time_of_voting 
+                                        translate.not_present_at_time_of_voting
                                         }
                                     </React.Fragment>
                                 }
@@ -94,13 +94,22 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
 const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
     const votes = new Set();
 
+
     voting.ballots.forEach(ballot => votes.add(ballot.value));
-    
     if(agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE){
         return  (
             <div>
                 {`${'Su voto'}: `/* TRADUCCION */}
                 <span style={{color: getPrimary(), fontWeight: '700'}}>{`${voting.vote !== -1? translate.has_voted : 'No ha votado'}`/* TRADUCCION */}</span>
+            </div>
+        )
+    }
+
+    if(voting.ballots.length === 0){
+        return (
+            <div>
+                {`${'Su voto'}: `/* TRADUCCION */}
+                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${'No ha votado'}`/* TRADUCCION */}</span>
             </div>
         )
     }
@@ -111,7 +120,7 @@ const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
             {agenda.subjectType === AGENDA_TYPES.CUSTOM_NOMINAL?
                 Array.from(votes.values()).map((ballot, index) => <span>{index > 0? ' / ' : '' }{ballot}</span>)
             :
-                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${getVote(voting.vote, translate)}`}</span>    
+                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${getVote(voting.vote, translate)}`}</span>
             }
         </div>
     )
