@@ -67,11 +67,6 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, ...props }) => {
                 flexDirection: 'row'
             }}
         >
-            <div style={{fontSize: '0.85em', height: '1em', textAlign: 'left', marginLeft: '0.2em'}}>
-                {agenda.votings[0].vote !== -1 &&
-                    `Voto registrado (${moment(agenda.votings[0].date).format('LLL')})`
-                }
-            </div>
             <VotingButton
                 text={translate.in_favor_btn}
                 loading={loading === 1}

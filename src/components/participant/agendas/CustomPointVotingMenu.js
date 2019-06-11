@@ -118,19 +118,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
         <div>
             {agenda.options.maxSelections === 1 ?
                 <React.Fragment>
-                    <div style={{fontSize: '0.85em', height: '1.2em', textAlign: 'left'}}>
-                        {loading?
-                            <div style={{width: '3em'}}>
-                                <LoadingSection size={10} />
-                            </div>
-                        :
-                            selections.length > 0?
-                                `Voto registrado (${moment(ownVote.date).format('LLL')})`
-                            :
-                                ''
-
-                        }
-                    </div>
                     {agenda.items.map((item, index) => (
                         <React.Fragment key={`item_${item.id}`}>
                             <div>
@@ -148,19 +135,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, updateCustomPointVo
                 :
                 <React.Fragment>
                     <div style={{fontSize: '0.85em', height: '1.2em', textAlign: 'left'}}>
-                        {loading?
-                            <div style={{width: '3em'}}>
-                                <LoadingSection size={10} />
-                            </div>
-                        :
-                            (selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) ?
-                                `Tiene que marcar ${getRemainingOptions()} opciones más`
-                            :
-                                selections.length > 0?
-                                    `Voto registrado (${moment(ownVote.date).format('LLL')})`
-                                :
-                                    ''
-
+                        {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
+                            `Tiene que marcar ${getRemainingOptions()} opciones más`
                         }
                     </div>
                     {agenda.items.map((item, index) => (

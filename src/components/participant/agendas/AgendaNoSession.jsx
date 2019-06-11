@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip } from "material-ui";
+import { Paper, Typography, Divider, Card, Avatar, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from "material-ui";
 import { LoadingSection, Scrollbar } from '../../../displayComponents';
 import { getPrimary, getSecondary } from "../../../styles/colors";
 import AgendaMenu from './AgendaMenu';
@@ -12,6 +12,7 @@ import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import CommentModal from "./CommentModal";
+import { moment } from "../../../containers/App";
 
 
 const styles = {
@@ -216,6 +217,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 }
 
 const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props }) => {
+    const ownVote = agenda.votings.find(voting => (
+        voting.participantId === participant.id
+        || voting.delegateId === participant.id ||
+        voting.author.representative.id === participant.id
+    ));
+    const primary = getPrimary();
+
 
     const agendaStateIcon = agenda => {
         let title = '';
@@ -308,7 +316,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                     </CardContent>
                 </Collapse>
 
-                <CardActions>
+                <CardActions style={{display: 'flex', justifyContent: 'space-between'}}>
                     <CommentModal
                         translate={translate}
                         agenda={agenda}
@@ -316,6 +324,22 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                         council={council}
                         refetch={refetch}
                     />
+                    {(ownVote && ownVote.vote !== -1) &&
+                        <Button
+                            disableRipple
+                            disabled
+                            disableFocusRipple
+                            style={{
+                                textTransform: 'none',
+                                fontStyle: 'italic',
+                                fontSize: '12px',
+                                color: primary,
+                                fontWeight: '700'
+                            }}
+                        >
+                            {`Voto registrado (${moment(ownVote.date).format('LLL')})`}
+                        </Button>
+                    }
                 </CardActions>
             </Card>
         </div>
