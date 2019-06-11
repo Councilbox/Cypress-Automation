@@ -5,7 +5,7 @@ import { LiveToast, AlertConfirm } from '../../../displayComponents';
 import { Button } from 'material-ui';
 import * as CBX from '../../../utils/CBX';
 import gql from 'graphql-tag';
-import { PARTICIPANT_STATES } from '../../../constants';
+import { PARTICIPANT_STATES, AGENDA_STATES } from '../../../constants';
 import RichTextInput from "../../../displayComponents/RichTextInput";
 
 
@@ -22,18 +22,26 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     const [loading, setLoading] = React.useState(false);
     const [state, setState] = React.useState({
         open: false,
-        vote: agenda.votings.find(voting => (
-            voting.participantId === participant.id
-            || voting.delegateId === participant.id ||
-            voting.author.representative.id === participant.id
-        )),
+        vote: getOwnVote(),
     });
 
-    const originalComment = agenda.votings.find(voting => (
-        voting.participantId === participant.id
-        || voting.delegateId === participant.id ||
-        voting.author.representative.id === participant.id
-    ))
+    React.useEffect(() => {
+        if(agenda.votingState !== AGENDA_STATES.INITIAL){
+            setState({
+                ...state,
+                vote: getOwnVote()
+            })
+        }
+    }, [agenda.votingState]);
+
+    function getOwnVote() {
+        return agenda.votings.find(voting => (
+            voting.participantId === participant.id
+            || voting.delegateId === participant.id ||
+            voting.author.representative.id === participant.id));
+    }
+
+    const originalComment = getOwnVote();
 
     const toggle = () => {
         setState({
@@ -82,8 +90,6 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
                     {(!!originalComment && originalComment.comment)? 'Editar comentario' : 'Enviar comentario'}
                 </Button>
             }
-
-
 
             <AlertConfirm
                 open={state.open}
