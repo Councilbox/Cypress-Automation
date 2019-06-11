@@ -381,6 +381,19 @@ h4 {
     top: 45px
 }
 
+.modal100Comentario {
+    height: 3.5rem!important;
+    top: calc( 100% - 7.5em )!important;
+}
+.modal100Comentario>div:first-child {
+    width: 0;
+    height: 0;
+}
+.modal100Comentario>div:first-child {
+    width: 0;
+    height: 0;
+}
+
 .modal100 {
     height: calc( 100% - 6.5rem)!important;
     top: 45px!important
