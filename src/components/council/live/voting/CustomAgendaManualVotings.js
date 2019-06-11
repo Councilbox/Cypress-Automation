@@ -159,7 +159,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                             // justifyContent: "center"
                         }}
                         >
-                            <Table style={{ width: "100%" }}>
+                            <Table style={{ width: "100%", maxWidth: "100%" }}>
                                 <TableBody>
                                     <TableRow>
                                         <TableCell>
