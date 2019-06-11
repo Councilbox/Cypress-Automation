@@ -77,9 +77,12 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     //TRADUCCION
     return (
         <React.Fragment>
-            <Button size="small" color="primary" onClick={toggle} disabled={CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute) ? false : true}>
-                {(!!originalComment && originalComment.comment)? 'Editar comentario' : 'Enviar comentario'}
-            </Button>
+            {state.vote &&
+                <Button size="small" color="primary" onClick={toggle} disabled={CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute) ? false : true}>
+                    {(!!originalComment && originalComment.comment)? 'Editar comentario' : 'Enviar comentario'}
+                </Button>
+            }
+
 
 
             <AlertConfirm

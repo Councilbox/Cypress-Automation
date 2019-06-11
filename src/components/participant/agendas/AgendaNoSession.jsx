@@ -29,44 +29,21 @@ const styles = {
 };
 
 const AgendaNoSession = ({ translate, council, participant, data, noSession, client, updateComment, ...props }) => {
-    const secondary = getSecondary();
     const primary = getPrimary();
     const scrollbar = React.useRef();
     let agendas = [];
-    const [state, setState] = React.useState({
-        open: false
-    })
     const [timelineSeeId, settimelineSeeId] = React.useState(0);
 
-    const toggle = () => {
-        setState({
-            ...state,
-            open: !state.open
-        })
-    }
-
-    const agendaVotingIcon = agenda => {
-        let mostrar = agenda.subjectType !== 0;
-        if (mostrar) {
-            let title = translate.closed_votings;
-            let color = 'default';
-            if (CBX.agendaVotingsOpened(agenda)) {
-                title = translate.opened_votings;
-                color = "#278289";
-            }
-            return (
-                <Tooltip title={title}>
-                    <i
-                        className={"material-icons"}
-                        aria-label={title}
-                        style={{ marginRight: '0.6em', fontSize: "20px", color, cursor: 'context-menu', }}
-                    >
-                        how_to_vote
-                    </i>
-                </Tooltip>
-            );
-        }
-        return <span/>;
+    const renderAgendaCard = agenda => {
+        return (
+            <AgendaCard
+                agenda={agenda}
+                council={council}
+                translate={translate}
+                participant={participant}
+                refetch={data.refetch}
+            />
+        )
     }
 
     const scrollToBottom = () => {
@@ -91,33 +68,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }, [council.id]);
 
 
-    const agendaStateIcon = agenda => {
-        let title = '';
-        if(council.councilType >= 2){
-            return <span />;
-        }
-
-        let icon = 'fa fa-lock';
-        let color = ""
-        if (CBX.agendaPointNotOpened(agenda) || CBX.agendaClosed(agenda)){
-            icon = "fa fa-lock colorGrey";
-            title = translate.closed;
-        }
-        if (CBX.agendaPointOpened(agenda)){
-            icon = "fa fa-unlock-alt colorGren";
-            color = "#278289";
-            title = translate.in_discussion;
-        }
-        return (
-            <Tooltip title={title}>
-                <i
-                    className={icon}
-                    aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"}
-                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color: color }}
-                ></i>
-            </Tooltip>
-        );
-    }
 
     if (data.agendas) {
         agendas = data.agendas.map(agenda => {
@@ -174,7 +124,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                             />
                         </div>
                     }
-                    {/* <ScrollbarStartBottom   > */}
                     <Scrollbar ref={scrollbar}>
                         {!councilStarted(council) &&
                             <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
@@ -198,57 +147,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             //     id: 140
                                             // }
                                             return (
-                                                <div style={{ margin: "0 auto", marginBottom: "15px", width: "93%", }} key={agenda.id}>
-                                                    <Card aria-label={"punto" + (index + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
-                                                        <CardHeader
-                                                            avatar={
-                                                                <Avatar aria-label={`punto ${index + 1}`} style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid #474747", color: CBX.agendaPointOpened(agenda) ? "purple" : '#474747' }}>
-                                                                    {index + 1}
-                                                                </Avatar>
-                                                            }
-                                                            action={
-                                                                <div style={{ display: "flex" }}>
-                                                                    <div>
-                                                                        {agendaStateIcon(agenda)}
-                                                                    </div>
-                                                                    <div>
-                                                                        {agendaVotingIcon(agenda)}
-                                                                    </div>
-                                                                </div>
-                                                            }
-                                                            title={agenda.agendaSubject}
-                                                            subheader={translate[getAgendaTypeLabel(agenda)] /*+ agenda.options.maxSelections */}
-                                                        />
-                                                        <Collapse in={true} timeout="auto" unmountOnExit>
-                                                            <CardContent style={{ paddingTop: "0" }}>
-                                                                <AgendaDescription agenda={agenda} translate={translate} />
-
-                                                                <AgendaMenu
-                                                                    horizontal={true}
-                                                                    agenda={agenda}
-                                                                    council={council}
-                                                                    participant={participant}
-                                                                    translate={translate}
-                                                                    refetch={data.refetch}
-                                                                />
-                                                            </CardContent>
-                                                        </Collapse>
-
-                                                        <CardActions>
-                                                            {/* <Button size="small" color="primary" onClick={toggle}>
-                                                                Enviar comentario
-                                                            </Button> */}
-                                                            <CommentModal
-                                                                translate={translate}
-                                                                agenda={agenda}
-                                                                refetch={data.refetch}
-                                                                participant={participant}
-                                                                council={council}
-                                                            />
-                                                        </CardActions>
-                                                    </Card>
-
-                                                </div>
+                                                <React.Fragment key={`agenda_card_${index}`}>
+                                                    {renderAgendaCard(agenda)}
+                                                </React.Fragment>
                                             )
                                         })
                                     )
@@ -256,7 +157,6 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 <LoadingSection />
                             }
                         </div>
-                        {/* </ScrollbarStartBottom> */}
                     </Scrollbar>
                 </div>
             </Paper>
@@ -301,55 +201,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 {data.agendas ?
                     agendas.map((agenda, index) => {
                         return (
-                            <div style={{ margin: "0 auto", marginBottom: "15px", width: "93%", }} key={agenda.id}>
-                                <Card >
-                                    <CardHeader
-                                        avatar={
-                                            <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
-                                                {index + 1}
-                                            </Avatar>
-                                        }
-                                        action={
-                                            <div style={{ display: "flex" }}>
-                                                <div>
-                                                    {agendaStateIcon(agenda)}
-                                                </div>
-                                                <div>
-                                                    {agendaVotingIcon(agenda)}
-                                                </div>
-                                            </div>
-                                        }
-                                        title={agenda.agendaSubject}
-                                        subheader={translate[getAgendaTypeLabel(agenda)]}
-                                    />
-                                    <Collapse in={true} timeout="auto" unmountOnExit>
-                                        <CardContent>
-                                            <AgendaDescription agenda={agenda} translate={translate} />
-
-                                            <AgendaMenu
-                                                horizontal={true}
-                                                agenda={agenda}
-                                                council={council}
-                                                participant={participant}
-                                                translate={translate}
-                                                refetch={data.refetch}
-                                            />
-                                        </CardContent>
-                                    </Collapse>
-
-                                    <CardActions>
-                                        {/* <Button size="small" color="primary" onClick={toggle}>
-                                                                Enviar comentario
-                                                            </Button> */}
-                                        <CommentModal
-                                            translate={translate}
-                                            agenda={agenda}
-                                            participant={participant}
-                                            council={council}
-                                        />
-                                    </CardActions>
-                                </Card>
-                            </div>
+                            <React.Fragment key={`agenda_card_${index}`}>
+                                {renderAgendaCard(agenda)}
+                            </React.Fragment>
                         )
 
                     })
@@ -359,6 +213,113 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
             </div>
         </div>
     );
+}
+
+const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props }) => {
+
+    const agendaStateIcon = agenda => {
+        let title = '';
+        if(council.councilType >= 2){
+            return <span />;
+        }
+
+        let icon = 'fa fa-lock';
+        let color = ""
+        if (CBX.agendaPointNotOpened(agenda) || CBX.agendaClosed(agenda)){
+            icon = "fa fa-lock colorGrey";
+            title = translate.closed;
+        }
+        if (CBX.agendaPointOpened(agenda)){
+            icon = "fa fa-unlock-alt colorGren";
+            color = "#278289";
+            title = translate.in_discussion;
+        }
+        return (
+            <Tooltip title={title}>
+                <i
+                    className={icon}
+                    aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"}
+                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color: color }}
+                ></i>
+            </Tooltip>
+        );
+    }
+
+
+    const agendaVotingIcon = agenda => {
+        let mostrar = agenda.subjectType !== 0;
+        if (mostrar) {
+            let title = translate.closed_votings;
+            let color = 'default';
+            if (CBX.agendaVotingsOpened(agenda)) {
+                title = translate.opened_votings;
+                color = "#278289";
+            }
+            return (
+                <Tooltip title={title}>
+                    <i
+                        className={"material-icons"}
+                        aria-label={title}
+                        style={{ marginRight: '0.6em', fontSize: "20px", color, cursor: 'context-menu', }}
+                    >
+                        how_to_vote
+                    </i>
+                </Tooltip>
+            );
+        }
+        return <span/>;
+    }
+
+
+    return (
+        <div style={{ margin: "0 auto", marginBottom: "15px", width: "93%", }} key={agenda.id}>
+            <Card aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
+                <CardHeader
+                    avatar={
+                        <Avatar aria-label="Recipe" style={{ background: "white", border: CBX.agendaPointOpened(agenda) ? "2px solid purple" : "1px solid grey", color: CBX.agendaPointOpened(agenda) ? "purple" : 'grey' }}>
+                            {agenda.orderIndex}
+                        </Avatar>
+                    }
+                    action={
+                        <div style={{ display: "flex" }}>
+                            <div>
+                                {agendaStateIcon(agenda)}
+                            </div>
+                            <div>
+                                {agendaVotingIcon(agenda)}
+                            </div>
+                        </div>
+                    }
+                    title={agenda.agendaSubject}
+                    subheader={translate[getAgendaTypeLabel(agenda)]}
+                />
+                <Collapse in={true} timeout="auto" unmountOnExit>
+                    <CardContent>
+                        <AgendaDescription agenda={agenda} translate={translate} />
+
+                        <AgendaMenu
+                            horizontal={true}
+                            agenda={agenda}
+                            council={council}
+                            participant={participant}
+                            translate={translate}
+                            refetch={refetch}
+                        />
+                    </CardContent>
+                </Collapse>
+
+                <CardActions>
+                    <CommentModal
+                        translate={translate}
+                        agenda={agenda}
+                        participant={participant}
+                        council={council}
+                        refetch={refetch}
+                    />
+                </CardActions>
+            </Card>
+        </div>
+    )
 }
 
 const readTimeline = gql`
