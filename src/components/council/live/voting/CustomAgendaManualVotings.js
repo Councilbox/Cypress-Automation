@@ -67,31 +67,53 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                     marginBottom: '1em',
                     border: '1px solid gainsboro',
                     alignItems: 'center',
-                    padding: '0.6em 1em'
+
                 }}
             >
-                {agenda.items.map(item => (
-                    <div key={item.id} >
-                        <TextInput
-                            floatingText={item.value}
-                            value={ballots.get(item.id) ? ballots.get(item.id).weight : 0}
-                            onChange={event => updateBallotValue(item.id, event.target.value)}
-                        />
+                <div style={{
+                    width: '100%',
+                    marginBottom: '1em',
+                    borderBottom: "1px solid gainsboro",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    padding: '0.6em 1em',
+                    color: "red"
+                }}
+                >
+                    <div>
+                        * Máximos totales: 10 {/**TRADUCCION */}
                     </div>
-                ))}
-                <BasicButton
-                    loading={state.loading}
-                    success={state.success}
-                    reset={resetButtonStates}
-                    text={translate.save}
-                    textStyle={{ color: 'white', fontWeight: '700' }}
-                    color={getSecondary()}
-                    onClick={sendBallots}
-                />
-                {/* <BasicButton
+                    <div>
+                        * Máximo por opción: 5 {/**TRADUCCION */}
+                    </div>
+                </div>
+                <div style={{
+                    padding: '0.6em 1em'
+                }}
+                >
+                    {agenda.items.map(item => (
+                        <div key={item.id} >
+                            <TextInput
+                                floatingText={item.value}
+                                value={ballots.get(item.id) ? ballots.get(item.id).weight : 0}
+                                onChange={event => updateBallotValue(item.id, event.target.value)}
+                            />
+                        </div>
+                    ))}
+                    <BasicButton
+                        loading={state.loading}
+                        success={state.success}
+                        reset={resetButtonStates}
+                        text={translate.save}
+                        textStyle={{ color: 'white', fontWeight: '700' }}
+                        color={getSecondary()}
+                        onClick={sendBallots}
+                    />
+                    {/* <BasicButton
                     text={translate.save}
                     onClick={sendBallots}
                 /> */}
+                </div>
             </div>
         </div>
         // <div style={{width: '100%'}}>

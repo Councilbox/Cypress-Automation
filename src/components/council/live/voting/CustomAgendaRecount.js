@@ -2,7 +2,7 @@ import React from 'react';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../../constants';
 import { Pie, Polar, HorizontalBar, Bar } from 'react-chartjs-2';
 import { Grid, GridItem } from '../../../../displayComponents';
-import { Table, TableCell, TableRow, TableHead } from 'material-ui';
+import { Table, TableCell, TableRow, TableHead, TableBody } from 'material-ui';
 
 
 const CustomAgendaRecount = ({ agenda }) => {
@@ -21,32 +21,36 @@ const CustomAgendaRecount = ({ agenda }) => {
             </GridItem>
             <GridItem lg={8} md={6} xs={12}>
                 <Table>
-                    <TableRow>
-                        <TableCell>
-                            <span style={{ fontWeight: "700" }}> Opciones</span>
-                        </TableCell>
-                        <TableCell >
-                            <span style={{ fontWeight: "700" }}>Votos</span>
-                        </TableCell>
-                    </TableRow>
-                    {agenda.items.map(item => (
-                        <TableRow key={`custom_item_${item.id}`}>
-                            <TableCell >
-                                {item.value}
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>
+                                <span style={{ fontWeight: "700" }}> Opciones</span>
                             </TableCell>
                             <TableCell >
-                                {` ${agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0)}`}
+                                <span style={{ fontWeight: "700" }}>Votos</span>
                             </TableCell>
                         </TableRow>
-                    ))}
-                    <TableRow >
-                        <TableCell >
-                            Abstención {/*TRADUCCION*/}
-                        </TableCell>
-                        <TableCell >
-                            {`${agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0)}`}
-                        </TableCell>
-                    </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {agenda.items.map(item => (
+                            <TableRow key={`custom_item_${item.id}`}>
+                                <TableCell >
+                                    {item.value}
+                                </TableCell>
+                                <TableCell >
+                                    {` ${agenda.ballots.filter(ballot => ballot.itemId === item.id).reduce((a, b) => a + b.weight, 0)}`}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                        <TableRow >
+                            <TableCell >
+                                Abstención {/*TRADUCCION*/}
+                            </TableCell>
+                            <TableCell >
+                                {`${agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0)}`}
+                            </TableCell>
+                        </TableRow>
+                    </TableBody>
                 </Table>
 
                 {/* <div key={`custom_item_abstention_votes`} style={{ fontWeight: "700" }}>

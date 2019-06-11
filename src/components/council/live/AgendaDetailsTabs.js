@@ -64,7 +64,7 @@ class AgendaDetailsTabs extends React.Component {
                     textColor="primary"
                     variant="scrollable"
                     scrollButtons={"on"}
-                    scroller={true}
+                    // scroller={true}
                     scrollable={true}
                     classes={{ scrollable: classes.scrollable }}
                 >
