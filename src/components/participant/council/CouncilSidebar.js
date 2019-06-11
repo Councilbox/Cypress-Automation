@@ -267,7 +267,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                 <AlertConfirm
                     // open={!!props.modalContent}
                     open={true}
-                    classNameDialog={'modal100'}
+                    classNameDialog={!!props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
                         // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
                         style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px",display: !!props.modalContent ? "block": "none" }
