@@ -1,59 +1,81 @@
 import React from 'react';
 import { AlertConfirm, SelectInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
-import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput } from '../../../utils/CBX';
+import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint } from '../../../utils/CBX';
 import { checkValidMajority } from '../../../utils/validation';
 import { MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { updateAgenda } from "../../../queries/agenda";
+import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../constants';
+import { useOldState } from '../../../hooks';
 
-class PointEditorLive extends React.Component {
+const PointEditorLive = ({ agenda, translate, council, ...props }) => {
+    const [state, setState] = useOldState({
+        id: agenda.id,
+        councilId: council.id,
+        subjectType: agenda.subjectType,
+        majorityType: agenda.majorityType,
+        majority: agenda.majority,
+        majorityDivider: agenda.majorityDivider
+    });
 
-    state = {
-        id: this.props.agenda.id,
-        councilId: this.props.council.id,
-        subjectType: this.props.agenda.subjectType,
-        majorityType: this.props.agenda.majorityType,
-        majority: this.props.agenda.majority,
-        majorityDivider: this.props.agenda.majorityDivider
-    }
 
-    updateState = object => {
-        this.setState({
+    const updateState = object => {
+        setState({
             ...object,
             majorityError: ''
         });
     }
 
-    updateAgenda = async () => {
-        const majorityCheckResult = checkValidMajority(this.state.majority, this.state.majorityDivider, this.state.majorityType);
+    const updateAgenda = async () => {
+        const majorityCheckResult = checkValidMajority(state.majority, state.majorityDivider, state.majorityType);
         if(majorityCheckResult.error){
-            this.setState({
+            setState({
                 majorityError: majorityCheckResult.message
             });
             return;
         }
-        const { majorityError, items, ballots, options, ...agenda } = this.state;
-        const response = await this.props.updateAgenda({
+        const { majorityError, items, ballots, options, ...agenda } = state;
+        await props.updateAgenda({
             variables: {
-                agenda: agenda
+                agenda
             }
         })
 
-        this.props.refetch();
-        this.props.requestClose();
+        props.refetch();
+        props.requestClose();
     }
 
-    _renderModalBody = () => {
-        const filteredTypes = filterAgendaVotingTypes(this.props.votingTypes, this.props.council.statute, this.props.council);
-        const { translate, agenda } = this.props;
+    const _renderModalBody = () => {
+        const filteredTypes = filterAgendaVotingTypes(props.votingTypes, council.statute, council);
+
+        if(isCustomPoint(agenda.subjectType)){
+            return (
+                <SelectInput
+                    floatingText={translate.type}
+                    value={"" + state.subjectType}
+                    onChange={event => updateState({subjectType: +event.target.value})}
+                >
+                    {Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => {
+                        return (
+                            <MenuItem
+                                value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
+                                key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
+                            >
+                                {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
+                            </MenuItem>
+                        );
+                    })}
+                </SelectInput>
+            )
+        }
 
         return (
             <React.Fragment>
                 <SelectInput
-                    floatingText={this.props.translate.type}
-                    value={"" + this.state.subjectType}
-                    onChange={event => this.updateState({subjectType: +event.target.value})}
+                    floatingText={translate.type}
+                    value={"" + state.subjectType}
+                    onChange={event => updateState({subjectType: +event.target.value})}
                 >
                     {filteredTypes.map(voting => {
                         return (
@@ -61,26 +83,26 @@ class PointEditorLive extends React.Component {
                                 value={"" + voting.value}
                                 key={`voting${voting.value}`}
                             >
-                                {this.props.translate[voting.label]}
+                                {translate[voting.label]}
                             </MenuItem>
                         );
                     })}
                 </SelectInput>
-                {hasVotation(this.state.subjectType) && (
+                {hasVotation(state.subjectType) && (
                     <Grid>
                         <GridItem xs={6} lg={3} md={3}>
                             <SelectInput
                                 floatingText={translate.majority_label}
-                                value={''+this.state.majorityType}
+                                value={''+state.majorityType}
                                 //errorText={errors.majorityType}
                                 onChange={event =>
-                                    this.updateState({
+                                    updateState({
                                         majorityType: +event.target.value
                                     })
                                 }
                                 required
                             >
-                                {this.props.majorityTypes.map(majority => {
+                                {props.majorityTypes.map(majority => {
                                     return (
                                         <MenuItem
                                             value={"" + majority.value}
@@ -95,29 +117,27 @@ class PointEditorLive extends React.Component {
                             </SelectInput>
                         </GridItem>
                         <GridItem xs={6} lg={3} md={3}>
-                            {majorityNeedsInput(this.state.majorityType) && (
+                            {majorityNeedsInput(state.majorityType) && (
                                 <MajorityInput
-                                    type={this.state.majorityType}
-                                    value={this.state.majority}
-                                    //majorityError={!!this.state.majorityError}
-                                    //dividerError={!!this.state.majorityError}
-                                    divider={this.state.majorityDivider}
+                                    type={state.majorityType}
+                                    value={state.majority}
+                                    divider={state.majorityDivider}
                                     onChange={value =>
-                                        this.updateState({
+                                        updateState({
                                             majority: +value
                                         })
                                     }
                                     onChangeDivider={value =>
-                                        this.updateState({
+                                        updateState({
                                             majorityDivider: +value
                                         })
                                     }
                                 />
                             )}
                         </GridItem>
-                        {this.state.majorityError &&
+                        {state.majorityError &&
                             <div>
-                                <span style={{color: 'red'}}>{this.state.majorityError}</span>
+                                <span style={{color: 'red'}}>{state.majorityError}</span>
                             </div>
                         }
                     </Grid>
@@ -127,22 +147,19 @@ class PointEditorLive extends React.Component {
         )
     }
 
-    render() {
-        const { translate } = this.props;
+    return(
+        <AlertConfirm
+            open={props.open}
+            requestClose={props.requestClose}
+            bodyText={_renderModalBody()}
+            title={translate.edit}
+            buttonAccept={translate.save}
+            buttonCancel={translate.cancel}
+            acceptAction={updateAgenda}
+            cancelAction={props.requestClose}
+        />
+    )
 
-        return(
-            <AlertConfirm
-                open={this.props.open}
-                requestClose={this.props.requestClose}
-                bodyText={this._renderModalBody()}
-                title={translate.edit}
-                buttonAccept={translate.save}
-                buttonCancel={translate.cancel}
-                acceptAction={this.updateAgenda}
-                cancelAction={this.props.requestClose}
-            />
-        )
-    }
 }
 
 
