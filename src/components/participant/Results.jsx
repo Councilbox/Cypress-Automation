@@ -27,8 +27,6 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
         });
     }
 
-    console.log(agendas);
-
     return(
         <AlertConfirm
             requestClose={requestClose}

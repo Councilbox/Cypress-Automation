@@ -197,8 +197,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     {translate.council_not_started_yet}
                 </div>
             }
-            <div style={{ padding: '0.8em', paddingLeft: '1.2em', height: "100%" }}> {/*marginTop: '10px',*/}
-
+            <div style={{ padding: '0.6em', height: "100%" }}> {/*marginTop: '10px',*/}
                 {data.agendas ?
                     agendas.map((agenda, index) => {
                         return (
@@ -280,7 +279,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
 
 
     return (
-        <div style={{ margin: "0 auto", marginBottom: "15px", width: "93%", }} key={agenda.id}>
+        <div style={{ margin: "0 auto", marginBottom: "15px", width: isMobile? "100%" : '93%', }} key={agenda.id}>
             <Card aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
                 <CardHeader
                     avatar={

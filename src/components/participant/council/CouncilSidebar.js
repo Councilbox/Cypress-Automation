@@ -68,7 +68,6 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
             className={"NoOutline"}
             style={styles.button}
             onClick={() => props.setContent('agenda')}
-        // onClick={() => props.setContent('agenda')}
         >
             <div style={{ display: "unset" }}>
                 <Badge badgeContent={8} dot color="primary" styleDot={{ color: primary }} hide={!props.agendaBadge} /*className={'fadeToggle'}*/>
@@ -433,7 +432,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
     const [readed, setReaded] = React.useState(0);
-    const [timelineSeeId, settimelineSeeId] = React.useState(0);
+    const [timelineLastRead, setTimelineLastRead] = React.useState(0);
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
 
 
@@ -455,27 +454,30 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
             }
         }
         const readTimelines = async () => {
-            const response2 = await client.query({
+            const response = await client.query({
                 query: readTimeline,
                 variables: {
                     councilId: council.id,
                 }
             });
 
-            if (response2 && response2.data && response2.data.readTimeline && response2.data.readTimeline[0] !== undefined) {
-                settimelineSeeId(JSON.parse(response2.data.readTimeline[response2.data.readTimeline.length - 1].content).data.participant.timeline)
+            if (response.data && response.data.readTimeline.length > 0) {
+                setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
             }
         }
 
         getTimeline();
         readTimelines();
-        const interval = setInterval(function () { getTimeline(); readTimelines(); }, 3000);
+        const interval = setInterval(() => {
+            getTimeline();
+            readTimelines();
+        }, 5000);
         return () => clearInterval(interval);
     }, [council.id, client, councilTimelineQuery]);
 
 
     const evidenceRead = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: createEvidenceRead,
             variables: {
                 evidenceId: lastEvidenceId,
@@ -496,7 +498,7 @@ const TimelineButton = withApollo(({ onClick, actived, council, client, particip
     let resultado
     let unread = 0
     if (arrayTimeline != null) {
-        resultado = arrayTimeline.findIndex(item => item.id === timelineSeeId);
+        resultado = arrayTimeline.findIndex(item => item.id === timelineLastRead);
         unread = total - (resultado + 1);
     } else {
         unread = 0;
