@@ -265,19 +265,21 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     </div>
                 </div>
                 <AlertConfirm
-                    open={!!props.modalContent}
-                    classNameDialog={'modal100'}
+                    // open={!!props.modalContent}
+                    open={true}
+                    classNameDialog={!!props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
+                        // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
+                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px",display: !!props.modalContent ? "block": "none" }
                     }}
-                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
+                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', height: '100%  ' }}
                     bodyText={
                         <div style={{ height: '100%' }}>
-                                {props.modalContent === 'agenda' &&
-                                    props.agenda
-                                }
-                                {props.modalContent === 'timeline' &&
-                                    <Scrollbar ref={scrollbar}>
+                            {props.modalContent === 'agenda' &&
+                                props.agenda
+                            }
+                            {props.modalContent === 'timeline' &&
+                                <Scrollbar ref={scrollbar}>
                                     <TimelineSection
                                         council={council}
                                         translate={translate}
@@ -285,31 +287,36 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                         scrollToBottom={scrollToBottom}
                                     />
                                 </Scrollbar>
-                                }
-                            </div>
+                            }
+                        </div>
                     }
                 />
-                {props.adminMessage &&
-                    <div style={{
-                        transition: "bottom 0.4s",
-                        display: "flex",
-                        position: "fixed",
-                        minHeight: '50px',
-                        width: "100vw",
-                        bottom: props.click ? "0" : "3.7rem",
-                        left: "0",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        zIndex: '1010',
-                        borderTop: "1px solid gainsboro"
-                    }}>
-                        <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
-                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
-                                {props.comentario}
+                <AlertConfirm
+                    open={props.adminMessage}
+                    classNameDialog={'modal100Comentario'}
+                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
+                    bodyText={
+                        <div style={{
+                            transition: "bottom 0.4s",
+                            display: "flex",
+                            position: "fixed",
+                            minHeight: '50px',
+                            width: "100vw",
+                            bottom: props.click ? "0" : "3.7rem",
+                            left: "0",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            zIndex: '1050',
+                            borderTop: "1px solid gainsboro"
+                        }}>
+                            <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
+                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                    {props.comentario}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                />
             </div>
         );
     } else {
