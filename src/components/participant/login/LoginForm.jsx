@@ -160,10 +160,11 @@ class LoginForm extends React.Component {
                     }
                 });
 
+                    //TRADUCCION
                 if (!response.data.checkParticipantKey.success) {
                     this.setState({
                         errors: {
-                            password: this.props.translate.password_err
+                            password: 'Clave de acceso incorrecta'
                         }
                     });
                     return;
@@ -171,7 +172,7 @@ class LoginForm extends React.Component {
             } catch (error) {
                 this.setState({
                     errors: {
-                        password: this.props.translate.password_err
+                        password: 'Clave de acceso incorrecta'
                     }
                 });
                 return;
@@ -204,6 +205,17 @@ class LoginForm extends React.Component {
                 }
             </div>
         )
+    }
+
+    _tooltipContent = () => {
+        //TRADUCCION
+        const securityTypes = {
+            1: 'Clave de acceso que deberá recibir en su correo electrónico',
+            2: 'Clave de acceso que deberá recibir a través de un SMS en su teléfono'
+        }
+
+        return securityTypes[this.props.council.securityType];
+
     }
 
     sendParticipantRoomKey = async () => {
@@ -335,7 +347,7 @@ class LoginForm extends React.Component {
                                                             <HelpPopover
                                                                 errorText={!!errors.password}
                                                                 title={translate.key_by_sms}
-                                                                content={this._sendPassModalBody()}
+                                                                content={this._tooltipContent()}
                                                             />
                                                         </div>
                                                     </div>
@@ -348,7 +360,7 @@ class LoginForm extends React.Component {
                                                             <HelpPopover
                                                                 errorText={!!errors.password}
                                                                 title={translate.key_by_email}
-                                                                content={this._sendPassModalBody()}
+                                                                content={this._tooltipContent()}
                                                             />
                                                         </div>
                                                     </div>
