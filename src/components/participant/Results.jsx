@@ -8,6 +8,9 @@ import { AGENDA_TYPES } from '../../constants';
 
 
 const Results = ({ data, translate, requestClose, open, participant, council }) => {
+    const primary = getPrimary();
+    const secondary = getSecondary();
+
     if(data.loading){
         return <LoadingSection />;
     }
@@ -24,8 +27,7 @@ const Results = ({ data, translate, requestClose, open, participant, council }) 
         });
     }
 
-    const primary = getPrimary();
-    const secondary = getSecondary();
+    console.log(agendas);
 
     return(
         <AlertConfirm
@@ -99,8 +101,8 @@ const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
     if(agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE){
         return  (
             <div>
-                {`${'Su voto'}: `/* TRADUCCION */}
-                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${voting.vote !== -1? translate.has_voted : 'No ha votado'}`/* TRADUCCION */}</span>
+                {`${translate.your_vote_is}: `}
+                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${voting.vote !== -1? translate.has_voted : translate.no_vote_lowercase}`}</span>
             </div>
         )
     }
@@ -108,17 +110,22 @@ const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
     if(voting.ballots.length === 0){
         return (
             <div>
-                {`${'Su voto'}: `/* TRADUCCION */}
-                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${'No ha votado'}`/* TRADUCCION */}</span>
+                {`${translate.your_vote_is}: `}
+                <span style={{color: getPrimary(), fontWeight: '700'}}>{`${translate.no_vote_lowercase}`}</span>
             </div>
         )
     }
 
     return (
         <div>
-            {`${'Su voto'}: `/* TRADUCCION */}
-            {agenda.subjectType === AGENDA_TYPES.CUSTOM_NOMINAL?
-                Array.from(votes.values()).map((ballot, index) => <span key={`voting_${index}`}>{index > 0? ' / ' : '' }{ballot}</span>)
+            {`${translate.your_vote_is}: `}
+            {(agenda.subjectType === AGENDA_TYPES.CUSTOM_NOMINAL || agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC)?
+                Array.from(votes.values()).map((ballot, index) => <span key={`voting_${index}`}>{index > 0? ' / ' : '' }{
+                    ballot === 'Abstention'?
+                        translate.abstention_btn
+                    :
+                        ballot
+                }</span>)
             :
                 <span style={{color: getPrimary(), fontWeight: '700'}}>{`${getVote(voting.vote, translate)}`}</span>
             }
@@ -137,7 +144,7 @@ const getVote = (vote, translate) => {
         case 2:
             return translate.abstention_btn;
         default:
-            return 'No ha votado'
+            return translate.no_vote_lowercase
     }
 }
 
