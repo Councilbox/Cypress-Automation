@@ -65,7 +65,7 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, ...prop
 export const DisplayVoting = ({ ballots, translate }) => {
     const getVoteValueText = value => {
         const texts = {
-            'abstention': translate.abstention_btn,
+            'Abstention': translate.abstention_btn,
             'default': value
         }
 
@@ -76,7 +76,7 @@ export const DisplayVoting = ({ ballots, translate }) => {
         <div style={{display: 'flex', flexDirection: 'column'}}>
             {ballots.map(ballot => (
                 <div className="truncate" style={{marginTop: '0.3em', maxWidth: '20em'}}>
-                    - {getVoteValueText(ballot.value)}
+                    {getVoteValueText(ballot.value)}
                 </div>
             ))}
         </div>

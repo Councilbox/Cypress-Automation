@@ -9,6 +9,7 @@ import Votings from "./Votings";
 import { AGENDA_TYPES } from '../../../constants';
 import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
+import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
 
 
@@ -103,7 +104,9 @@ class AgendaDetailsTabs extends React.Component {
                                             />
                                         :
                                             <React.Fragment>
-                                                
+                                                {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
+                                                    <PrivateRecountMessage translate={translate} />
+                                                :
                                                     <RecountSection
                                                         agenda={agenda}
                                                         key={`agendaRecount_${agenda.id}`}
@@ -113,7 +116,7 @@ class AgendaDetailsTabs extends React.Component {
                                                         refetch={this.props.refetch}
                                                         majorityTypes={this.props.majorityTypes}
                                                     />
-                                                
+                                                }
                                                 <Votings
                                                     key={`agendaVotings_${agenda.id}`}
                                                     ref={votings => (this.votings = votings)}

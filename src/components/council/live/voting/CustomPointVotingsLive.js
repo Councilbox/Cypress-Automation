@@ -4,15 +4,18 @@ import * as CBX from '../../../../utils/CBX';
 import VotingsTableFiltersContainer from './VotingsTableFiltersContainer';
 import CustomAgendaRecount from './CustomAgendaRecount';
 import CustomAgendaManualVotings from './CustomAgendaManualVotings';
+import PrivateRecountMessage from './PrivateRecountMessage';
 import { AGENDA_STATES } from '../../../../constants';
 
 const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, data: fetchedData, ...props}) => {
     return (
         <div>
             <Grid style={{width: '100%', display: 'flex'}}>
-				
+                {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED?
+					<PrivateRecountMessage translate={translate} />
+				:
                     <CustomAgendaRecount agenda={agenda} />
-				
+                }
                 {((CBX.canEditPresentVotings(agenda) && CBX.agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
                     <CustomAgendaManualVotings agenda={agenda} translate={translate} />
 				}
