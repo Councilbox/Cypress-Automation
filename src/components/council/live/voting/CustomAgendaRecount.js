@@ -15,7 +15,17 @@ const CustomAgendaRecount = ({ agenda }) => {
                         data={data}
                         height={160}
                         width={130}
-                        options={{ maintainAspectRatio: false }}
+                        options={{
+                            maintainAspectRatio: false, 
+                            scales: {
+                                xAxes: [{
+                                    ticks: {
+                                        beginAtZero: true,
+                                        min: 0
+                                    }
+                                }]
+                            }
+                        }}
                     />
                 </div>
             </GridItem>
@@ -73,7 +83,7 @@ const formatDataFromAgenda = agenda => {
             label: 'Votaciones',
             data: dataSet,
             backgroundColor: colors,
-            hoverBackgroundColor: colors
+            hoverBackgroundColor: colors,
         }]
     }
 
