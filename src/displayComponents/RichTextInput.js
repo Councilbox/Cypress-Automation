@@ -5,14 +5,11 @@ import { getSecondary } from "../styles/colors";
 import FontAwesome from 'react-fontawesome';
 import { removeHTMLTags } from '../utils/CBX';
 // import RichTextEditor from 'react-rte';
-import { isMobile, isChrome } from 'react-device-detect';
-import { TextArea } from 'antd/lib/input/index';
+import { isChrome } from 'react-device-detect';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
-import withTranslations from '../HOCs/withTranslations';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { Link } from 'quill';
 
 if (isChrome) {
 	let style = document.createElement("style");

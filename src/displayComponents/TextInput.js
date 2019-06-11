@@ -5,7 +5,8 @@ import {
 	InputAdornment,
 	TextField
 } from "material-ui";
-import { Visibility, VisibilityOff } from "material-ui-icons";
+import Visibility from "material-ui-icons/Visibility";
+import VisibilityOff from "material-ui-icons/VisibilityOff";
 import FontAwesome from "react-fontawesome";
 import { HelpPopover } from ".";
 

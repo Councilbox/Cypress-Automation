@@ -17,7 +17,6 @@ import Table, {
 import TableStyles from "../styles/table";
 import PaginationFooter from "./PaginationFooter";
 import { isMobile } from 'react-device-detect';
-import { Button } from "antd";
 
 class EnhancedTable extends React.Component {
 	state = {
