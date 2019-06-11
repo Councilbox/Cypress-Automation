@@ -31,7 +31,6 @@ const defaultValues = {
 
 const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, ...props }) => {
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
-	console.log(filteredTypes);
 	const secondary = getSecondary();
 	const [state, setState] = useOldState({
 		newPoint: {

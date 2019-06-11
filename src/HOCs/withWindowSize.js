@@ -85,8 +85,6 @@ const withWindowSize = WrappedComponent => {
 					});
 				}
 			}
-
-			//console.log(window.innerHeight, window.screen.availHeight, window.screen.height);
 		};
 
 		componentDidMount() {

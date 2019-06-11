@@ -28,14 +28,6 @@ const MeetingLivePage = ({ data }) => {
 		fullScreen: false,
 		url: sessionStorage.getItem('meetingUrl'),
 	});
-	//const config = React.useContext(ConfigContext);
-	//const adom = useAdom();
-
-	//console.log(adom);
-
-	const init = () => {
-		//adom.initialize();
-	}
 
 	React.useEffect(() => {
 		if(!state.url){

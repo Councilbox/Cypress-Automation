@@ -28,14 +28,12 @@ class Sidebar extends React.Component {
 	};
 
 	enter = () => {
-		console.log("Entro")
 		this.setState({
 			hovered: true
 		})
 	}
 
 	leave = () => {
-		console.log("Salgo")
 		this.setState({
 			hovered: false
 		})
@@ -118,8 +116,6 @@ class Sidebar extends React.Component {
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
-				position:'absolute',
-				top:'0',
 				display: 'flex',
 				flexDirection: 'column',
 				position: isMobile ? "" : "absolute",

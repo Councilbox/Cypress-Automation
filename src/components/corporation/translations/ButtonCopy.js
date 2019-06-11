@@ -15,7 +15,6 @@ const ButtonCopy = ({ val }) => {
             showCopyTooltip: true
         });
         startCloseTimeout();
-        console.log(val)
         // var element = document.createElement('input');
         // element.type = 'hidden'
         // element.value = val;

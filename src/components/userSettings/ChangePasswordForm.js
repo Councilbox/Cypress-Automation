@@ -103,9 +103,9 @@ class ChangePasswordForm extends React.Component {
 			errors.currentPassword = translate.no_empty_pwd;
 		}
 
-		if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.newPassword))) {
-			errors.currentPassword = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
-		}
+		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.newPassword))) {
+		// 	errors.currentPassword = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
+		// }
 
 		this.setState({
 			errors: errors
@@ -174,7 +174,7 @@ class ChangePasswordForm extends React.Component {
 	}
 
 	render() {
-		const { translate, classes } = this.props;
+		const { translate } = this.props;
 		const { data, errors, success, loading, error } = this.state;
 		const primary = getPrimary();
 		return (
@@ -185,13 +185,6 @@ class ChangePasswordForm extends React.Component {
 				/>
 				<br />
 				<Grid>
-					<GridItem xs={12} md={12} lg={12} style={{ marginBottom: "1em" }}>
-						Please confirm that passwords must contain three of the following sets of characters:
-						uppercase letters
-						lowercase letters
-						numbers
-						symbols and minimum 8 characters
-					</GridItem>
 					<GridItem xs={12} md={12} lg={12} >
 						<div style={{ width: isMobile ? "100%" : "30%" }}>
 							<TextInput

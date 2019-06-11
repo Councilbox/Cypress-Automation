@@ -6,7 +6,7 @@ import { withApollo } from 'react-apollo';
 import TimelineSection from '../timeline/TimelineSection';
 import gql from 'graphql-tag';
 import { darkGrey, secondary, primary } from '../../../styles/colors';
-import { AlertConfirm, BasicButton, Badge, Scrollbar } from '../../../displayComponents';
+import { AlertConfirm, Badge, Scrollbar } from '../../../displayComponents';
 
 
 const styles = {
@@ -308,7 +308,12 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                             zIndex: '1050',
                             borderTop: "1px solid gainsboro"
                         }}>
-                            <div style={{ borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
+                            <div style={{
+                                borderRadiusTopLeft: "5px",
+                                position: "relative",
+                                width: "100%",
+                                height: "100%",
+                                background: "#f1f1f1" }}>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                                     {props.comentario}
                                 </div>
@@ -414,7 +419,15 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                             paddingRight: "6px"
                         }}
                         >
-                            <div style={{ borderTop: "1px solid gainsboro", borderRadiusTopLeft: "5px", position: "relative", width: "100%", background: "white", height: "100%", background: "#f1f1f1" }}>
+                            <div style={{
+                                borderTop: "1px solid gainsboro",
+                                borderRadiusTopLeft: "5px",
+                                position: "relative",
+                                width: "100%",
+                                height: "100%",
+                                background: "#f1f1f1"
+                                }}
+                            >
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                                     {props.comentario}
                                 </div>

@@ -9,10 +9,9 @@ import TypeIcon from "./TypeIcon";
 import { removeHTMLTags, isRepresented, hasHisVoteDelegated } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
-import { DropDownMenu, Icon } from '../../../../displayComponents';
+import { DropDownMenu } from '../../../../displayComponents';
 import ParticipantStateList from "./ParticipantStateList";
-import { compose, graphql } from "react-apollo";
-import { liveParticipant, updateParticipantSends } from "../../../../queries";
+
 
 const ParticipantItem = ({ participant, translate, layout, editParticipant, mode, council, ...props }) => {
 	const secondary = getSecondary();

@@ -23,7 +23,6 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 	const config = React.useContext(ConfigContext);
 
 	const init = () => {
-		console.log('iniciar');
 		//adomContext.initialize();
 	}
 

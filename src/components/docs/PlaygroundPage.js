@@ -10,7 +10,6 @@ export const PlaygroundContext = React.createContext();
 
 
 const PlaygroundPage = ({ apiLogin, createUser, client }) => {
-    const [loading, setLoading] = React.useState(false);
     const [operation, setOperation] = React.useState(null);
 
     const setVariables = variables => {

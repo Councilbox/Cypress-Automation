@@ -9,7 +9,7 @@ import {
 	LiveToast
 } from "../../../displayComponents";
 import { Typography, Card, MenuItem } from "material-ui";
-import { compose, graphql, withApollo } from "react-apollo";
+import { graphql, withApollo } from "react-apollo";
 import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { addDelegation } from "../../../queries/liveParticipant";

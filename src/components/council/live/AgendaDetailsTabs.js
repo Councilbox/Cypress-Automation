@@ -13,155 +13,143 @@ import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
 
 
-class AgendaDetailsTabs extends React.Component {
+const AgendaDetailsTabs = ({ agenda, translate, council, refetch, ...props }) => {
+    const [selected, setSelected] = React.useState(0);
 
-    state = {
-        selectedTab: 0
-    }
-
-    handleChange = (event, index) => {
+    const handleChange = (event, index) => {
         const cb = () => {
-            this.setState({
-                selectedTab: index
-            })
+            setSelected(0);
         }
 
-        if(this.props.editedVotings){
-            this.props.showVotingsAlert(cb);
+        if(props.editedVotings){
+            props.showVotingsAlert(cb);
         } else {
             cb();
         }
-
     }
 
 
-    render() {
-        const { agenda, translate, council } = this.props;
-
-        return (
-            <div style={{
-                    width: '100%',
-                    height: isMobile? `calc(100% - ${window.screen.availHeight -window.innerHeight}px)` : '100%',
-                    backgroundColor: 'white',
-                    borderTop: '1px solid gainsboro',
-                    paddingBottom: '10px',
-                    display: 'flex',
-                    flexDirection: 'column'
-                }}
+    return (
+        <div style={{
+                width: '100%',
+                height: isMobile? `calc(100% - ${window.screen.availHeight -window.innerHeight}px)` : '100%',
+                backgroundColor: 'white',
+                borderTop: '1px solid gainsboro',
+                paddingBottom: '10px',
+                display: 'flex',
+                flexDirection: 'column'
+            }}
+        >
+            <Tabs
+                value={selected}
+                indicatorColor="secondary"
+                textColor="secondary"
+                onChange={handleChange}
             >
-                <Tabs
-                    value={this.state.selectedTab}
-                    indicatorColor="secondary"
-                    textColor="secondary"
-                    onChange={this.handleChange}
-                >
-                    <Tab label={isMobile? translate.agreements : translate.comments_and_agreements} />
-                    <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />
-                    {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
-                        <Tab label={translate.voting} disabled={!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda)}/>
+                <Tab label={isMobile? translate.agreements : translate.comments_and_agreements} />
+                <Tab label={isMobile? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />
+                {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
+                    <Tab label={translate.voting} disabled={!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda)}/>
+                }
+                <Tab label={isMobile? translate.attachments : translate.attachment_files} />
+            </Tabs>
+            <div style={{borderTop: '1px solid gainsboro', height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)'}}>
+                <Scrollbar>
+                    {selected === 0 &&
+                        <div style={{padding: '1em'}}>
+                            <ActAgreements
+                                agenda={agenda}
+                                key={`agendaAgreements_${agenda.id}`}
+                                translate={translate}
+                                recount={props.recount}
+                                council={council}
+                                refetch={refetch}
+                                data={props.data}
+                            />
+                        </div>
                     }
-                    <Tab label={isMobile? translate.attachments : translate.attachment_files} />
-                </Tabs>
-                <div style={{borderTop: '1px solid gainsboro', height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)'}}>
-                    <Scrollbar>
-                        {this.state.selectedTab === 0 &&
-                            <div style={{padding: '1em'}}>
-                                <ActAgreements
-                                    agenda={agenda}
-                                    key={`agendaAgreements_${agenda.id}`}
-                                    translate={translate}
-                                    recount={this.props.recount}
-                                    council={this.props.council}
-                                    refetch={this.props.refetch}
-                                    data={this.props.data}
-                                />
-                            </div>
-                        }
-                        {this.state.selectedTab === 1 &&
-                            <div style={{marginTop: '6px'}}>
-                                <Comments
-                                    agenda={agenda}
-                                    council={council}
-                                    translate={translate}
-                                />
-                            </div>
-                        }
-                        {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE?
-                            <React.Fragment>
-                                {this.state.selectedTab === 2 &&
-                                    <div style={{padding: '1em'}}>
-                                        {CBX.isCustomPoint(agenda.subjectType)?
-                                            <CustomPointVotingsLive
-                                                agenda={agenda}
+                    {selected === 1 &&
+                        <div style={{marginTop: '6px'}}>
+                            <Comments
+                                agenda={agenda}
+                                council={council}
+                                translate={translate}
+                            />
+                        </div>
+                    }
+                    {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE?
+                        <React.Fragment>
+                            {selected === 2 &&
+                                <div style={{padding: '1em'}}>
+                                    {CBX.isCustomPoint(agenda.subjectType)?
+                                        <CustomPointVotingsLive
+                                            agenda={agenda}
+                                            key={`agendaVotings_${agenda.id}`}
+                                            refetch={refetch}
+                                            changeEditedVotings={props.changeEditedVotings}
+                                            editedVotings={props.editedVotings}
+                                            council={council}
+                                            recount={props.recount}
+                                            translate={translate}
+                                        />
+                                    :
+                                        <React.Fragment>
+                                            {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
+                                                <PrivateRecountMessage translate={translate} />
+                                            :
+                                                <RecountSection
+                                                    agenda={agenda}
+                                                    key={`agendaRecount_${agenda.id}`}
+                                                    council={council}
+                                                    translate={translate}
+                                                    recount={props.recount}
+                                                    refetch={refetch}
+                                                    majorityTypes={props.majorityTypes}
+                                                />
+                                            }
+                                            <Votings
                                                 key={`agendaVotings_${agenda.id}`}
-                                                refetch={this.props.refetch}
-                                                changeEditedVotings={this.props.changeEditedVotings}
-                                                editedVotings={this.props.editedVotings}
+                                                refetch={refetch}
+                                                changeEditedVotings={props.changeEditedVotings}
+                                                editedVotings={props.editedVotings}
                                                 agenda={agenda}
-                                                council={this.props.council}
-                                                recount={this.props.recount}
+                                                council={council}
+                                                recount={props.recount}
                                                 translate={translate}
                                             />
-                                        :
-                                            <React.Fragment>
-                                                {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
-                                                    <PrivateRecountMessage translate={translate} />
-                                                :
-                                                    <RecountSection
-                                                        agenda={agenda}
-                                                        key={`agendaRecount_${agenda.id}`}
-                                                        council={council}
-                                                        translate={translate}
-                                                        recount={this.props.recount}
-                                                        refetch={this.props.refetch}
-                                                        majorityTypes={this.props.majorityTypes}
-                                                    />
-                                                }
-                                                <Votings
-                                                    key={`agendaVotings_${agenda.id}`}
-                                                    ref={votings => (this.votings = votings)}
-                                                    refetch={this.props.refetch}
-                                                    changeEditedVotings={this.props.changeEditedVotings}
-                                                    editedVotings={this.props.editedVotings}
-                                                    agenda={agenda}
-                                                    council={this.props.council}
-                                                    recount={this.props.recount}
-                                                    translate={translate}
-                                                />
-                                            </React.Fragment>
-                                        }
-                                    </div>
-                                }
-                            </React.Fragment>
-                        :
-                            <React.Fragment>
-                                {this.state.selectedTab === 2 &&
-                                    <AgendaAttachmentsManager
-                                        attachments={agenda.attachments}
-                                        translate={translate}
-                                        key={`agendaAttachments_${agenda.id}`}
-                                        councilID={this.props.council.id}
-                                        refetch={this.props.refetch}
-                                        agendaID={agenda.id}
-                                    />
-                                }
-                            </React.Fragment>
-                        }
-                        {this.state.selectedTab === 3 &&
-                            <AgendaAttachmentsManager
-                                attachments={agenda.attachments}
-                                translate={translate}
-                                key={`agendaAttachments_${agenda.id}`}
-                                councilID={this.props.council.id}
-                                refetch={this.props.refetch}
-                                agendaID={agenda.id}
-                            />
-                        }
-                    </Scrollbar>
-                </div>
+                                        </React.Fragment>
+                                    }
+                                </div>
+                            }
+                        </React.Fragment>
+                    :
+                        <React.Fragment>
+                            {selected === 2 &&
+                                <AgendaAttachmentsManager
+                                    attachments={agenda.attachments}
+                                    translate={translate}
+                                    key={`agendaAttachments_${agenda.id}`}
+                                    councilID={council.id}
+                                    refetch={refetch}
+                                    agendaID={agenda.id}
+                                />
+                            }
+                        </React.Fragment>
+                    }
+                    {selected === 3 &&
+                        <AgendaAttachmentsManager
+                            attachments={agenda.attachments}
+                            translate={translate}
+                            key={`agendaAttachments_${agenda.id}`}
+                            councilID={council.id}
+                            refetch={refetch}
+                            agendaID={agenda.id}
+                        />
+                    }
+                </Scrollbar>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default AgendaDetailsTabs;

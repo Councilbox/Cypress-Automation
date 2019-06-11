@@ -87,7 +87,6 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                     defaultOrder={["name", "asc"]}
                                     limits={PARTICIPANTS_LIMITS}
                                     page={1}
-                                    refetch={updateFilters}
                                     loading={loading}
                                     length={councilAttendants.list.length}
                                     total={councilAttendants.total}

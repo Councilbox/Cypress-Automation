@@ -10,8 +10,6 @@ import { getSecondary } from '../../../../styles/colors';
 
 
 const ActHTML = ({ data, translate, council, ...props }) => {
-	const config = React.useContext(ConfigContext);
-
 	if (data.loading) {
 		return (
 			<LoadingSection />

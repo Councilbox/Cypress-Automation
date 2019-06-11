@@ -63,7 +63,6 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px' }}>
                     {timeline.map((event, index) => {
                         const content = JSON.parse(event.content);
-                        //console.log(content);
                         return (
                             <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation(event.type, content) + " Hora: " + moment(event.date).format('LLL')} >
                                 <StepLabel>

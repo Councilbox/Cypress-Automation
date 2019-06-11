@@ -84,8 +84,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 			});
 		}
 
-		console.log(agendaManager);
-
 		if (agendaManager.current) {
 			if (agendaManager.current.wrappedInstance) {
 				if (agendaManager.current.wrappedInstance.state.editedVotings) {

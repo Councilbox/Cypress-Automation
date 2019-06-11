@@ -9,11 +9,11 @@ import { approveAct } from '../../../../queries';
 import ActHTML from "../actViewer/ActHTML";
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
-import { darkGrey, getSecondary } from "../../../../styles/colors";
-import { Card, MenuItem } from 'material-ui';
+import { getSecondary } from "../../../../styles/colors";
+import { useHoverRow } from "../../../../hooks";
+import { Card } from 'material-ui';
 import logo from '../../../../assets/img/logo-icono.png';
 import { isMobile } from "react-device-detect";
-
 
 
 class FinishActModal extends React.Component {
@@ -122,7 +122,7 @@ class FinishActModal extends React.Component {
 								<GridItem xs={12} md={5} lg={5} style={{ height: "100%" }} >
 									<ButtonInModal
 										click={this.goToCBXAct}
-										img={<img src={logo} style={{ height: '4em', width: 'auto' }} />}
+										img={<img src={logo} alt="councilbox_icon" style={{ height: '4em', width: 'auto' }} />}
 										body={'Usar acta generada por Councilbox'}
 									/>
 								</GridItem>
@@ -183,134 +183,93 @@ class FinishActModal extends React.Component {
 	}
 }
 
-const Block = ({ text, icon, onClick, color = darkGrey }) => {
+const ButtonInModal = ({ body, img, click }) => {
+	const [showActions, onMouseOver, onMouseLeave] = useHoverRow();
 
 	return (
 		<Card
-			onClick={onClick}
+			elevation={5}
+			onClick={click}
 			style={{
-				backgroundColor: color,
-				color: 'white',
-				cursor: 'pointer',
-				display: 'flex',
-				flexDirection: 'column',
-				padding: '0.6em',
-				alignItems: 'center',
-				justifyContent: 'center'
+				height: "100%",
+				cursor: "pointer",
+				textAlign: "center",
+				padding: "25px",
+				background: showActions ? "gainsboro" : "" 
 			}}
+			onMouseOver={onMouseOver}
+			onMouseLeave={onMouseLeave}
 		>
-			{icon && icon}
-			{text}
+			<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
+				{img}
+			</div>
+			<div style={{fontSize: "1.1em"}}>
+				{body}
+			</div>
 		</Card>
-	)
+	);
 }
 
-class ButtonInModal extends React.Component {
-	state = {
-		showActions: false
-	}
+const UploadAct = ({ ...props }) => {
+	const [error, setError] = React.useState('');
 
-	mouseEnterHandler = () => {
-		this.setState({
-			showActions: true
-		})
-	}
-
-	mouseLeaveHandler = () => {
-		this.setState({
-			showActions: false
-		})
-	}
-	render() {
-		const { body, img, click } = this.props;
-		return (
-			<Card elevation={5} onClick={click} style={{ height: "100%", cursor: "pointer", textAlign: "center", padding: "25px", background: this.state.showActions ? "gainsboro" : "" }} onMouseOver={this.mouseEnterHandler} onMouseLeave={this.mouseLeaveHandler} >
-				<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
-					{img}
-				</div>
-				<div style={{fontSize: "1.1em"}}>
-					{body}
-				</div>
-			</Card>
-		);
-	}
-
-}
-
-class UploadAct extends React.Component {
-
-	state = {
-		error: ''
-	}
-
-	onDrop = (accepted, rejected) => {
+	const onDrop = (accepted, rejected) => {
 		if (accepted.length === 0) {
-			this.setState({
-				error: 'Tipo de archivo no válido, solo son admiten archivos PDF'//TRADUCCION
-			});
+			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/*TRADUCCION*/);
 			return;
 		}
-
-		this.handleFile(accepted[0]);
+		handleFile(accepted[0]);
 	}
 
-	handleFile = file => {
+	const handleFile = file => {
 
 		let reader = new FileReader();
 		reader.readAsDataURL(file);
 
+		/*TODO ADD LIMIT TO FILE*/
+
 		reader.onload = async () => {
-			let fileInfo = {
-				filename: file.name,
-				filetype: file.type,
-				filesize: Math.round(file.size / 1000),
-				base64: reader.result,
-				councilId: this.props.councilID
-			};
-			this.props.setFile(reader.result, file.name);
+			props.setFile(reader.result, file.name);
 		};
-	};
-
-
-
-	render() {
-		return (
-			<Dropzone
-				onDrop={this.onDrop}
-				multiple={false}
-				accept="application/pdf"
-			>
-				{({ getRootProps, getInputProps, isDragActive }) => {
-					return (
-						<div
-							{...getRootProps()}
-							className={`dropzone`}
-							style={{
-								height: '8em',
-								border: '2px dashed gainsboro',
-								borderRadius: '3px',
-								padding: '0.6em',
-								...(this.state.error ? dropzoneStyles.invalid : {}),
-								...(isDragActive ? dropzoneStyles.active : {})
-							}}
-						>
-							<input {...getInputProps()} />
-							{this.state.error ?
-								this.state.error
-
-								:
-								isDragActive ?
-									<p>Arrastre los archivos aquí</p>//TRADUCCION
-									:
-									<p>Arrastre el archivo o haga click para seleccionarlo.</p>
-							}
-						</div>
-					)
-				}}
-			</Dropzone>
-		)
 	}
+
+	return (
+		<Dropzone
+			onDrop={onDrop}
+			multiple={false}
+			accept="application/pdf"
+		>
+			{({ getRootProps, getInputProps, isDragActive }) => {
+				return (
+					<div
+						{...getRootProps()}
+						className={`dropzone`}
+						style={{
+							height: '8em',
+							border: '2px dashed gainsboro',
+							borderRadius: '3px',
+							padding: '0.6em',
+							...(error ? dropzoneStyles.invalid : {}),
+							...(isDragActive ? dropzoneStyles.active : {})
+						}}
+					>
+						<input {...getInputProps()} />
+						{error ?
+							error
+
+							:
+							isDragActive ?
+								<p>Arrastre los archivos aquí</p>//TRADUCCION
+								:
+								<p>Arrastre el archivo o haga click para seleccionarlo.</p>
+						}
+					</div>
+				)
+			}}
+		</Dropzone>
+	)
 }
+
 
 const dropzoneStyles = {
 	active: {

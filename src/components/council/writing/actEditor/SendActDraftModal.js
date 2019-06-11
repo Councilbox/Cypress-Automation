@@ -10,7 +10,7 @@ import {
 	CollapsibleSection,
 	SuccessMessage
 } from "../../../../displayComponents";
-import { Typography, Card } from "material-ui";
+import { Typography } from "material-ui";
 import { compose, graphql } from "react-apollo";
 import { councilParticipants } from "../../../../queries/councilParticipant";
 import { DELEGATION_USERS_LOAD } from "../../../../constants";

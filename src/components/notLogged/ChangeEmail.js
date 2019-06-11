@@ -20,7 +20,6 @@ const ChangeEmail = ({ match, translate, ...props }) => {
     })
 
     React.useEffect(() => {
-        console.log(match.params.token)
         const confirEmailUser = async () => {
             const response = await props.updateEmail({
                 variables: {

@@ -10,14 +10,13 @@ import { graphql } from "react-apollo";
 import gql from "graphql-tag";
 import NewTranslationModal from "./NewTranslationModal";
 import {
-	Button,
 	InputAdornment,
 	Card,
 	CardActions,
 	CardContent,
 	CardHeader
 } from "material-ui";
-import { getSecondary, primary, secondary } from "../../../styles/colors";
+import { secondary } from "../../../styles/colors";
 import EditTranslationsModal from "./EditTranslationsModal";
 
 

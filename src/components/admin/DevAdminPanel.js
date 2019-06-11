@@ -6,13 +6,12 @@ import LogoutUser from './featureControl/LogoutUser';
 import RefreshUser from './featureControl/RefreshUser';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { ConfigContext } from '../../containers/AppControl';
 import { Switch, FormControlLabel } from 'material-ui';
 
 class DevAdminPage extends React.Component {
 
     toggleFeature = async name => {
-        const response = await this.props.toggleFeature({
+        await this.props.toggleFeature({
             variables: {
                 name: name
             }

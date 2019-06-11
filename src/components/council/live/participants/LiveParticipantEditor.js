@@ -130,14 +130,14 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								<h4 style={{ width: '100%' }}>Info</h4>{/**TRADUCCION */}
 							</div>
 							<div style={{ display: "flex", padding: "5px" }} >
-								<GridItem xs={landscape ? 2 : 12} xs={3} md={2} style={{ textAlign: "center" }}>
+								<GridItem xs={landscape ? 2 : 12} md={2} style={{ textAlign: "center" }}>
 									<TypeIcon
 										translate={translate}
 										type={participant.type}
 										ratio={1.3}
 									/>
 								</GridItem>
-								<GridItem xs={landscape ? 3 : 12} xs={9} md={10} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'left' } : {}) }}>
+								<GridItem xs={landscape ? 3 : 12} md={10} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'left' } : {}) }}>
 									<div style={{ marginLeft: isMobile ? "1em" : "2em", width: "100%", overflow: "hidden" }}>
 										<Typography variant="body2" >
 											<div style={{ paddingLeft: '1em' }}>
@@ -163,7 +163,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							<div style={{ display: "flex", padding: "5px" }} >
 								{participant.personOrEntity !== 1 &&
 									<React.Fragment>
-										<GridItem xs={landscape ? 1 : 12} xs={3} md={3}>
+										<GridItem xs={landscape ? 1 : 12} md={3}>
 											<div >
 												<DropDownMenu
 													claseHover={"classHover"}
@@ -209,7 +209,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											>
 											</div>
 										</GridItem>
-										<GridItem xs={landscape ? 3 : 12} xs={9} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
+										<GridItem xs={landscape ? 3 : 12} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
 											<div style={{ marginLeft: '1.3em', width: "100%" }}>
 												<Typography variant="body2" >
 													<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
@@ -238,7 +238,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								<h4 style={{ width: '100%' }}>{translate.actions}</h4>
 							</div>
 							<div style={{ display: "flex", padding: "5px" }} >
-								<GridItem xs={landscape ? 3 : 12} xs={12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
+								<GridItem xs={landscape ? 3 : 12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
 									<React.Fragment>
 										<ParticipantSelectActions
 											participant={participant}
@@ -371,7 +371,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										style={{
 											display: "flex",
 											justifyContent: 'flex-end',
-											marginLeft: isMobile ? '0' : "0",
 											marginLeft: "auto"
 										}}
 									>

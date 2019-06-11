@@ -10,7 +10,6 @@ import { bHistory } from "../../../containers/App";
 import { checkCouncilState } from "../../../utils/CBX";
 import EditorStepper from './EditorStepper';
 import { withRouter } from 'react-router-dom';
-import withWindowSize from "../../../HOCs/withWindowSize";
 
 
 

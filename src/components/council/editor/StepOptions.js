@@ -10,8 +10,7 @@ import {
 	Radio,
 	AlertConfirm,
 	SectionTitle,
-	SelectInput,
-	TextInput
+	SelectInput
 } from "../../../displayComponents";
 import { councilStepFive, updateCouncil } from "../../../queries";
 import { checkValidMajority } from '../../../utils/validation';

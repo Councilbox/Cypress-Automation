@@ -11,7 +11,6 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { moment } from '../../containers/App';
 import { unaccent } from '../../utils/CBX';
-import { council } from '../../queries';
 let XLSX;
 import('xlsx').then(data => XLSX = data);
 
@@ -129,21 +128,13 @@ class PartnersBookPage extends React.Component {
     createXLSX = () => {
         this.props.data.refetch();
         let lista = this.props.data.bookParticipants.list;
-        let arrayFinal = []
-        let translatState = this.props.translate.state;
-        let translatParticipant_data = this.props.translate.participant_data;
-        let translateDni = this.props.translate.dni;
-        let translatPosition = this.props.translate.position;
-        let translatSubscribe_date = this.props.translate.subscribe_date;
-        let translatUnsubscribe_date = this.props.translate.unsubscribe_date;
-        let translatSubscribe_act_number = this.props.translate.subscribe_act_number;
-        let translatUnsubscribe_act_number = this.props.translate.unsubscribe_act_number;
+        let arrayFinal = [];
         for (let index = 0; index < lista.length; index++) {
             let arrayRepresentative
             let { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
             let listaFinal = {
                 id: id,
-                [this.props.translate.state]: state==1 ? "Alta" : "Baja",
+                [this.props.translate.state]: state === 1 ? "Alta" : "Baja",
                 [this.props.translate.name]:name,
                 [this.props.translate.surname]:surname,
                 [this.props.translate.dni]:dni,
@@ -157,7 +148,7 @@ class PartnersBookPage extends React.Component {
                 let { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
-                    ["r" + this.props.translate.state]: state==1 ? "Alta" : "Baja",
+                    ["r" + this.props.translate.state]: state === 1 ? "Alta" : "Baja",
                     ["r" + this.props.translate.name]: name,
                     ["r" + this.props.translate.surname]: surname,
                     ["r" + this.props.translate.dni]: dni,
@@ -593,11 +584,11 @@ const applyFilters = (participants, filters) => {
 
 const applyOrder = (participants, orderBy, orderDirection) => {
     return participants;
-    return participants.sort((a, b) => {
-        let participantA = a;
-        let participantB = b;
-        return participantA[orderBy] > participantB[orderBy]
-    });
+    // return participants.sort((a, b) => {
+    //     let participantA = a;
+    //     let participantB = b;
+    //     return participantA[orderBy] > participantB[orderBy]
+    // });
 }
 
 const bookParticipants = gql`

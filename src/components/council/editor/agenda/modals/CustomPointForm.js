@@ -7,7 +7,6 @@ import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import { Card } from 'material-ui';
 import LoadDraft from "../../../../company/drafts/LoadDraft";
 import { changeVariablesToValues } from '../../../../../utils/CBX';
-import { parse } from 'path';
 
 const CustomPointForm = ({
     errors,
@@ -26,15 +25,6 @@ const CustomPointForm = ({
 }) => {
     const [loadDraftModal, setLoadDraft] = React.useState(false);
     const editor = React.useRef();
-
-    const showLoadDraft = () => {
-        setLoadDraft(true);
-    }
-
-    const hideLoadDraft = () => {
-        setLoadDraft(false);
-    }
-
     const validateNumber = number => {
         if(number < 0 || isNaN(number)){
             let value = Math.abs(parseInt(number, 10));
@@ -46,37 +36,12 @@ const CustomPointForm = ({
         return number;
     }
 
-    const loadDraft = draft => {
-
-		const correctedText = changeVariablesToValues(draft.text, {
-			company,
-			council
-		});
-
-		updateAgenda({
-			description: correctedText,
-        });
-        hideLoadDraft();
-
-	    editor.current.setValue(correctedText);
-    };
-
     const primary = getPrimary();
     const secondary = getSecondary();
 
     return (
         <React.Fragment>
-            {loadDraftModal && (
-					<LoadDraft
-						translate={translate}
-						companyId={company.id}
-						loadDraft={loadDraft}
-						statute={props.statute}
-						statutes={props.companyStatutes}
-						draftType={1}
-					/>
-				)}
-            <div style={{display: loadDraftModal && 'none'}}>
+            <div>
                 <Grid>
                     <GridItem xs={12} md={9} lg={9}>
                         <TextInput
@@ -125,23 +90,6 @@ const CustomPointForm = ({
                         floatingText={translate.description}
                         translate={translate}
                         type="text"
-/*                         loadDraft={
-                            <BasicButton
-                                text={translate.load_draft}
-                                color={secondary}
-                                textStyle={{
-                                    color: "white",
-                                    fontWeight: "600",
-                                    fontSize: "0.8em",
-                                    textTransform: "none",
-                                    marginLeft: "0.4em",
-                                    minHeight: 0,
-                                    lineHeight: "1em"
-                                }}
-                                textPosition="after"
-                                onClick={showLoadDraft}
-                            />
-                        } */
                         tags={[
                             {
                                 value: `${council.street}, ${council.country}`,

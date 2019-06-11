@@ -462,10 +462,6 @@ const PrivateVotingDisplay = compose(
 		}, 1500);
 	}
 
-	// console.log(vote.vote, vote.id);
-	// console.log(agenda.votingState);
-	console.log(vote.presentVote);
-
 	//TRADUCCION
 
 	return (

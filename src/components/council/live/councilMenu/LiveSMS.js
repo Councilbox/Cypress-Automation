@@ -104,7 +104,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll, ...props 
                                                 size="small"
                                                 color="primary"
                                                 text={'Reenviar'}
-                                                textStyle={{ background: "none", boxShadow: "none", color: getPrimary(), background: "white" }}
+                                                textStyle={{ boxShadow: "none", color: getPrimary(), background: "white" }}
                                                 loading={resendLoading === send.id}
                                                 onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
                                                 loadingColor={getPrimary()}
@@ -232,7 +232,6 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
             <TextInput
                 value={value}
                 onChange={updateValue}
-                styles={{ border: "1px solid black" }}
                 className={'inputTableSMS'}
                 styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
