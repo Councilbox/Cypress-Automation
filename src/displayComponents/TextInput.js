@@ -33,12 +33,15 @@ const TextInput = ({
 	helpDescription,
 	multiline,
 	id,
-	helpPopoverInLabel
+	helpPopoverInLabel,
+	styles,
+	styleInInput
 }) => (
 		<FormControl
 			style={{
 				width: "100%",
-				marginTop: 0
+				marginTop: 0,
+				...styles
 			}}
 		>
 			<TextField
@@ -82,7 +85,8 @@ const TextInput = ({
 						id: id,
 						max: max,
 						style: {
-							fontSize: '15px'
+							fontSize: '15px',
+							...styleInInput
 						}
 					},
 					endAdornment: passwordToggler ? (

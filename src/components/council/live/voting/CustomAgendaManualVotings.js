@@ -3,6 +3,9 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { BasicButton, TextInput } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
+import { Table, TableHead, TableBody, TableCell, TableRow, CardHeader } from 'material-ui';
+import { isMobile } from 'react-device-detect';
+import { Card } from '@material-ui/core';
 
 
 
@@ -58,64 +61,152 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         });
     }
 
-    return (
-        <div style={{ width: '100%', backgroundColor: 'white', paddingTop: '1em' }}> {/**padding: '0 1em' */}
-            <div
-                style={{
-                    backgroundColor: 'white',
-                    width: '100%',
-                    marginBottom: '1em',
-                    border: '1px solid gainsboro',
-                    alignItems: 'center',
-
-                }}
-            >
+    const renderInMobil = () => {
+        return (
+            <React.Fragment>
                 <div style={{
-                    width: '100%',
-                    marginBottom: '1em',
-                    borderBottom: "1px solid gainsboro",
-                    display: "flex",
-                    justifyContent: "space-between",
-                    padding: '0.6em 1em',
-                    color: "red"
+                    color: "#e02e2e",
+                    marginBottom: "1em"
                 }}
                 >
-                    <div>
-                        * Máximos totales: 10 {/**TRADUCCION */}
-                    </div>
                     <div>
                         * Máximo por opción: 5 {/**TRADUCCION */}
                     </div>
+                    <div>
+                        * Máximos totales: 10 {/**TRADUCCION */}
+                    </div>
                 </div>
-                <div style={{
-                    padding: '0.6em 1em'
-                }}
+                <div >
+                    <div>
+                        {agenda.items.map(item => (
+                            <Card style={{ marginBottom: "1em" }}>
+                                <CardHeader
+                                    title={
+                                        <div style={{ fontSize: "0.8rem" }}>
+                                            <div>Opción: {item.value}</div>
+                                            <div>Votos:
+                                            <TextInput
+                                                    styles={{ width: "50px" }}
+                                                    styleInInput={{ textAlign: 'center' }}
+                                                    value={ballots.get(item.id) ? ballots.get(item.id).weight : 0}
+                                                    onChange={event => updateBallotValue(item.id, event.target.value)}
+                                                />
+                                            </div>
+                                        </div>
+                                    }
+                                />
+                            </Card>
+                        ))}
+                    </div>
+                    <div>
+                        <BasicButton
+                            loading={state.loading}
+                            success={state.success}
+                            reset={resetButtonStates}
+                            text={translate.save}
+                            textStyle={{ color: 'white', fontWeight: '700' }}
+                            color={getSecondary()}
+                            onClick={sendBallots}
+                        />
+                    </div>
+                </div>
+            </React.Fragment>
+        )
+    }
+
+    return (
+        <div style={{ width: '100%', backgroundColor: 'white', paddingTop: '1em' }}> {/**padding: '0 1em' */}
+            <hr></hr>
+            <div>
+                <h4>
+                    Editar votos
+                </h4>
+            </div>
+            {isMobile ?
+                renderInMobil()
+                :
+                <div
+                    style={{
+                        backgroundColor: 'white',
+                        width: '100%',
+                        marginBottom: '1em',
+                        border: '1px solid gainsboro',
+                        alignItems: 'center',
+
+                    }}
                 >
-                    {agenda.items.map(item => (
-                        <div key={item.id} >
-                            <TextInput
-                                floatingText={item.value}
-                                value={ballots.get(item.id) ? ballots.get(item.id).weight : 0}
-                                onChange={event => updateBallotValue(item.id, event.target.value)}
+                    <div style={{
+                        width: '100%',
+                        marginBottom: '1em',
+                        borderBottom: "1px solid gainsboro",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        padding: '0.6em 1em',
+                        color: "#e02e2e"
+                    }}
+                    >
+                        <div>
+                            * Máximo por opción: 5 {/**TRADUCCION */}
+                        </div>
+                        <div>
+                            * Máximos totales: 10 {/**TRADUCCION */}
+                        </div>
+                    </div>
+                    <div>
+                        <div style={{
+                            padding: '0.6em 1em',
+                            // display: "flex",
+                            // justifyContent: "center"
+                        }}
+                        >
+                            <Table style={{ width: "100%" }}>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>
+                                            Opciones
+                                </TableCell>
+                                        <TableCell>
+                                            Votos
+                                </TableCell>
+                                    </TableRow>
+                                    {agenda.items.map(item => (
+                                        <TableRow key={item.id}>
+                                            <TableCell>
+                                                {item.value}
+                                            </TableCell>
+                                            <TableCell>
+                                                <TextInput
+                                                    styles={{ width: "50px" }}
+                                                    styleInInput={{ textAlign: 'center' }}
+                                                    value={ballots.get(item.id) ? ballots.get(item.id).weight : 0}
+                                                    onChange={event => updateBallotValue(item.id, event.target.value)}
+                                                />
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                        <div style={{
+                            width: "100%",
+                            display: "flex",
+                            padding: '0.6em 1em',
+                        }}
+                        >
+                            <BasicButton
+                                loading={state.loading}
+                                success={state.success}
+                                reset={resetButtonStates}
+                                text={translate.save}
+                                textStyle={{ color: 'white', fontWeight: '700' }}
+                                color={getSecondary()}
+                                onClick={sendBallots}
                             />
                         </div>
-                    ))}
-                    <BasicButton
-                        loading={state.loading}
-                        success={state.success}
-                        reset={resetButtonStates}
-                        text={translate.save}
-                        textStyle={{ color: 'white', fontWeight: '700' }}
-                        color={getSecondary()}
-                        onClick={sendBallots}
-                    />
-                    {/* <BasicButton
-                    text={translate.save}
-                    onClick={sendBallots}
-                /> */}
+                    </div>
                 </div>
-            </div>
-        </div>
+            }
+        </div >
         // <div style={{width: '100%'}}>
         //     {agenda.items.map(item => (
         //         <div key={item.id} style={{display: 'flex'}}>
