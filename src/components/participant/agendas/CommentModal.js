@@ -22,11 +22,18 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     const [loading, setLoading] = React.useState(false);
     const [state, setState] = React.useState({
         open: false,
-        vote: agenda.votings.find(voting =>
-            voting.participantId === participant.id ||
-            (voting.author.representative && (voting.author.state === PARTICIPANT_STATES.REPRESENTATED) && voting.author.representative.id === participant.id)
-        ),
-    })
+        vote: agenda.votings.find(voting => (
+            voting.participantId === participant.id
+            || voting.delegateId === participant.id ||
+            voting.author.representative.id === participant.id
+        )),
+    });
+
+    const originalComment = agenda.votings.find(voting => (
+        voting.participantId === participant.id
+        || voting.delegateId === participant.id ||
+        voting.author.representative.id === participant.id
+    ))
 
     const toggle = () => {
         setState({
@@ -47,9 +54,9 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
             });
 
             setLoading(false);
+            props.refetch();
             toggle();
         }
-
     }
 
     const checkRequiredFields = () => {
@@ -67,10 +74,11 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
         }
     }
 
+    //TRADUCCION
     return (
         <React.Fragment>
             <Button size="small" color="primary" onClick={toggle} disabled={CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute) ? false : true}>
-                Enviar comentario
+                {(!!originalComment && originalComment.comment)? 'Editar comentario' : 'Enviar comentario'}
             </Button>
 
 

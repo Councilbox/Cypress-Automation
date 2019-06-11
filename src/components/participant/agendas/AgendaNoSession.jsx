@@ -241,6 +241,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                                             <CommentModal
                                                                 translate={translate}
                                                                 agenda={agenda}
+                                                                refetch={data.refetch}
                                                                 participant={participant}
                                                                 council={council}
                                                             />
