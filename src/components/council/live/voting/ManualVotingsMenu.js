@@ -61,9 +61,13 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 
     const votesLeft = (agenda.presentCensus - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
     const maxVoteManual = votesLeft <= 0 ? 0 : votesLeft;
-    
+
     const width = window.innerWidth ;
-    
+
+    if(agenda.presentCensus <= 0){
+        return <span/>
+    }
+
     return (
         <div style={{ width: '100%', backgroundColor: 'white', }}> {/**padding: '0 1em' */}
             <div

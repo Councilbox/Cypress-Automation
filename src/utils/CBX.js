@@ -284,9 +284,11 @@ export const filterAgendaVotingTypes = (votingTypes, statute, council) => {
 	if(council.councilType === 2){
 		return votingTypes.filter(type =>
 			type.label !== 'text' &&
-			type.label !== 'custom_point' &&
-			type.label !== 'custom_anonym_point');
+			type.label !== 'custom_nominal_point' &&
+			type.label !== 'custom_anonym_point' &&
+			type.label !== 'custom_public_point');
 	}
+
 	if(council.councilType === 3){
 		return votingTypes.filter(type => type.label === 'private_votation');
 	}

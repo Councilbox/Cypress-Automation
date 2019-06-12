@@ -118,6 +118,7 @@ const councilTimelineQuery = gql`
 const getTimelineTranslation = (type, content) => {
     const types = {
         'START_COUNCIL': () => 'Comienzo de reunión',
+        'START_AUTO_COUNCIL': () => 'Comienzo de reunión',
         'OPEN_VOTING': () => `${content.data.agendaPoint.name} - Apertura de votaciones`,
         'END_COUNCIL': () => 'Fin de reunión',
         'OPEN_POINT_DISCUSSION': () => `${content.data.agendaPoint.name} - Apertura de discusión de punto`,

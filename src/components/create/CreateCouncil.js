@@ -76,6 +76,7 @@ const CreateCouncil = props => {
 				createCouncil={props.createCouncil}
 				company={props.match.params.company}
 				translate={props.translate}
+				config={config}
 			/>
 			:
 			<LoadingMainApp />
@@ -90,7 +91,7 @@ const steps = {
 
 const secondary = getSecondary();
 
-const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
+const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
@@ -200,19 +201,22 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate }) => {
 									</ul>
 								}
 							/>
-							<ButtonCreateCouncil
-								onClick={noSessionHybridStep}
-								title={'Sin sesión en 2 pasos'}
-								icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
-								isMobile={isMobile}
-								list={
-									<ul>
-										<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
-										<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
-										<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
-									</ul>
-								}
-							/>
+							{config['2stepsCouncil'] &&
+								<ButtonCreateCouncil
+									onClick={noSessionHybridStep}
+									title={'Sin sesión en 2 pasos'}
+									icon={<i className="fa fa-list-alt" aria-hidden="true" style={{ marginBottom: "0.3em", fontSize: '4em', color: secondary }}></i>}
+									isMobile={isMobile}
+									list={
+										<ul>
+											<li>Lorem ipsum dolor sit amet, consectetsfgur afgdipiscing gfselit. Nulgfl</li>
+											<li>Lorem i sgsdgfspsum dolor ssfgit amesfdgt, consectetur adipiscing elit.</li>
+											<li>Lorem sfg gsdolor sitsf ametsf consectetgdur adisgspiscing dfgelidgft.s</li>
+										</ul>
+									}
+								/>
+							}
+
 						</div>
 					}
 					{step === steps.NO_SESSION &&

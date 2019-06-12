@@ -58,6 +58,10 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         });
     }
 
+    if(agenda.presentCensus === 0){
+        return <span />
+    }
+
     return (
         <div style={{ width: '100%', backgroundColor: 'white', paddingTop: '1em' }}> {/**padding: '0 1em' */}
             <div

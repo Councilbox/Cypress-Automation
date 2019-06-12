@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertConfirm, LoadingSection, AgendaNumber } from '../../displayComponents';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getAgendaTypeLabel, hasVotation, getActPointSubjectType } from '../../utils/CBX';
+import { getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint } from '../../utils/CBX';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { AGENDA_TYPES } from '../../constants';
 
@@ -99,13 +99,12 @@ const VoteDisplay = ({ voting, translate, agenda, ballots }) => {
     if(agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE){
         return  (
             <div>
-                {`${translate.your_vote_is}: `}
                 <span style={{color: getPrimary(), fontWeight: '700'}}>{`${voting.vote !== -1? translate.has_voted : translate.no_vote_lowercase}`}</span>
             </div>
         )
     }
 
-    if(voting.ballots.length === 0){
+    if(isCustomPoint(agenda.subjectType) && voting.ballots.length === 0){
         return (
             <div>
                 {`${translate.your_vote_is}: `}
