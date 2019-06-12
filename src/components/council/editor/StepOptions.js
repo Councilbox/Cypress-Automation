@@ -171,6 +171,37 @@ const StepOptions = ({ translate, data, ...props }) => {
 							})
 						}
 					/>
+					<div style={{display: 'flex'}}>
+						<Checkbox
+							disabled={council.councilType === 0}
+							label={translate.auto_close}
+							value={council.autoClose !== 0}
+							onChange={(event, isInputChecked) =>
+								updateCouncilData({
+									autoClose: isInputChecked ? 1 : 0
+								})
+							}
+						/>
+						{council.autoClose === 1 &&
+							<div style={{width: '22em', marginLeft: '0.9em'}}>
+								<DateTimePicker
+									required
+									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
+									onChange={date => {
+										const newDate = new Date(date);
+										const dateString = newDate.toISOString();
+										updateCouncilData({
+											closeDate: dateString
+										})
+									}}
+									minDateMessage={""}
+									acceptText={translate.accept}
+									cancelText={translate.cancel}
+									value={!!council.closeDate? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
+								/>
+							</div>
+						}
+					</div>
 				</React.Fragment>
 			),
 			2: (
