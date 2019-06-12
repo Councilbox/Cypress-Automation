@@ -6,77 +6,65 @@ import { connect } from "react-redux";
 import { LoadingMainApp } from "../displayComponents";
 import InvalidUrl from "../components/participant/InvalidUrl.jsx";
 
-class AssistanceTokenContainer extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			loading: true,
-			error: false,
-			participant: null
-		};
-	}
+const AssistanceTokenContainer = ({ participantToken, client, translate, match, ...props }) => {
+	const [loading, setLoading] = React.useState(true);
+	const [error, setError] = React.useState(false);
+	const [participant, setParticipant] = React.useState(null);
 
-	async componentDidMount(prevProps) {
-		this.setState({ loading: true });
+	const getData = React.useCallback(async () => {
 		try {
-			const response = await this.props.participantToken();
+			const response = await participantToken();
 			if (response && !response.errors) {
 				const token = response.data.assistanceToken;
 				sessionStorage.setItem("participantToken", token);
-				const responseQueryMe = await this.props.client.query({
+				const responseQueryMe = await client.query({
 					query: getMe,
 					variables: {},
 					fetchPolicy: "network-only"
 				});
 				const participant = responseQueryMe.data.participantMe;
 
-				this.setState({
-					token: token,
-					loading: false,
-					participant: participant
-				});
+				setParticipant(participant);
+				setLoading(false);
 			} else {
 				throw new Error("Error getting participant token");
 			}
 		} catch (error) {
-			//TODO ADD TOAST OR LOAD MESSAGE VIEW
-			this.setState({
-				error: true,
-				loading: false
-			});
+			setError(true);
+			setLoading(false);
 		}
+	}, [match.params.token]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	if (Object.keys(translate).length === 0 || loading) {
+		return <LoadingMainApp />;
 	}
 
-	render() {
-		const { loading, error, participant } = this.state;
-		const { translate, match } = this.props;
-
-		if (Object.keys(translate).length === 0 && loading) {
-			return <LoadingMainApp />;
-		}
-
-		if (error) {
-			return <InvalidUrl test={this.props.match.params.token === 'fake' || this.props.match.params.token === 'test'} />;
-		}
-		if (match.params.token === 'fake') {
-			return <div style={{ textAlign: 'center', padding: '20vh' }}>
-				<h2>{translate.corfirm_assistance_test}</h2>
-			</div>;
-		}
-
-		return (
-			<React.Fragment>
-				{participant ? (
-					<Redirect
-						to={`/attendance/participant/${participant.id}/council/${
-							participant.councilId
-							}`}
-					/>
-				) : <div>No participante</div>}
-			</React.Fragment>
-		);
+	if (error) {
+		return <InvalidUrl test={match.params.token === 'fake' || match.params.token === 'test'} />;
 	}
+	if (match.params.token === 'fake') {
+		return <div style={{ textAlign: 'center', padding: '20vh' }}>
+			<h2>{translate.corfirm_assistance_test}</h2>
+		</div>;
+	}
+
+	return (
+		<React.Fragment>
+			{participant ? (
+				<Redirect
+					to={`/attendance/participant/${participant.id}/council/${
+						participant.councilId
+						}`}
+				/>
+			) : <div>Not found</div>}
+		</React.Fragment>
+	);
 }
+
 
 const mapStateToProps = state => ({
 	main: state.main,
