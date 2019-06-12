@@ -47,6 +47,10 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, ...props }) =>
             }}
         >
             <Tabs
+                variant="scrollable"
+                scrollButtons={"on"}
+                scrollable={true}
+                classes={{ scrollable: classes.scrollable }}
                 value={selected}
                 indicatorColor="secondary"
                 textColor="secondary"

@@ -227,7 +227,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 															translate.customer_delegated
 															:
 															<React.Fragment>
-																{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || props.council.councilType === 3 ?
+																{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3 ?
 																	<PrivateVotingDisplay
 																		vote={vote}
 																		council={props.council}
@@ -395,7 +395,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 														translate.customer_delegated
 														:
 														<React.Fragment>
-															{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || props.council.councilType === 3 ?
+															{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3 ?
 																<PrivateVotingDisplay
 																	vote={vote}
 																	council={props.council}
