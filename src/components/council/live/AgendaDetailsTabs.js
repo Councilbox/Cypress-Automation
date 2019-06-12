@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab } from 'material-ui';
+import { Tabs, Tab, } from 'material-ui';
 import * as CBX from "../../../utils/CBX";
 import { Scrollbar } from '../../../displayComponents';
 import ActAgreements from './ActAgreements';
@@ -11,8 +11,14 @@ import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
+import { withStyles } from '@material-ui/core';
 
 
+const styles = theme => ({
+    scrollable: {
+        overflow: "hidden"
+    }
+});
 const AgendaDetailsTabs = ({ agenda, translate, council, refetch, ...props }) => {
     const [selected, setSelected] = React.useState(0);
 
@@ -152,4 +158,4 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, ...props }) =>
     )
 }
 
-export default AgendaDetailsTabs;
+export default withStyles(styles)(AgendaDetailsTabs);

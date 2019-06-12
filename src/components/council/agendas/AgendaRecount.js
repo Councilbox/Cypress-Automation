@@ -248,7 +248,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
     return (
         <React.Fragment>
             {council.autoClose !== 1 &&
-                <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em'}}>
+                <Grid style={{border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em'}}>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
                         <div style={itemStyle}>
                             {translate.convene_census}

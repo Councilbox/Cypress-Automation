@@ -233,6 +233,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     if(!agendas.loading){
         titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
     }
+    
     if (isMobile) {
         return (
             <div style={styles.viewContainerM}>
