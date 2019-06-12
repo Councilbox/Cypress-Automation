@@ -19,7 +19,7 @@ const styles = theme => ({
         overflow: "hidden"
     }
 });
-const AgendaDetailsTabs = ({ agenda, translate, council, refetch, ...props }) => {
+const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...props }) => {
     const [selected, setSelected] = React.useState(0);
 
     const handleChange = (event, index) => {

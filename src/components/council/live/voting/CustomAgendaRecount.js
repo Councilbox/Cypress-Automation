@@ -1,11 +1,10 @@
 import React from 'react';
-import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../../constants';
 import { Pie, Polar, HorizontalBar, Bar } from 'react-chartjs-2';
 import { Grid, GridItem } from '../../../../displayComponents';
 import { Table, TableCell, TableRow, TableHead, TableBody } from 'material-ui';
 
 
-const CustomAgendaRecount = ({ agenda }) => {
+const CustomAgendaRecount = ({ agenda, translate }) => {
     const data = formatDataFromAgenda(agenda);
     return (
         <Grid>
@@ -16,7 +15,7 @@ const CustomAgendaRecount = ({ agenda }) => {
                         height={160}
                         width={130}
                         options={{
-                            maintainAspectRatio: false, 
+                            maintainAspectRatio: false,
                             scales: {
                                 xAxes: [{
                                     ticks: {
@@ -29,15 +28,15 @@ const CustomAgendaRecount = ({ agenda }) => {
                     />
                 </div>
             </GridItem>
-            <GridItem lg={8} md={6} xs={12}>
+            <GridItem lg={8} md={6} xs={12} style={{paddingLeft: '1em'}}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>
-                                <span style={{ fontWeight: "700" }}> Opciones</span>
+                                <span style={{ fontWeight: "700" }}>{translate.options}</span>
                             </TableCell>
                             <TableCell >
-                                <span style={{ fontWeight: "700" }}>Votos</span>
+                                <span style={{ fontWeight: "700" }}>{translate.votes}</span>
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -54,7 +53,7 @@ const CustomAgendaRecount = ({ agenda }) => {
                         ))}
                         <TableRow >
                             <TableCell >
-                                Abstención {/*TRADUCCION*/}
+                                {translate.abstention_btn}
                             </TableCell>
                             <TableCell >
                                 {`${agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0)}`}
@@ -62,11 +61,6 @@ const CustomAgendaRecount = ({ agenda }) => {
                         </TableRow>
                     </TableBody>
                 </Table>
-
-                {/* <div key={`custom_item_abstention_votes`} style={{ fontWeight: "700" }}>
-                    {`${'Abstención'}: ${agenda.ballots.filter(ballot => ballot.itemId === -1).reduce((a, b) => a + b.weight, 0)}`}
-                </div> */}
-
             </GridItem>
         </Grid>
     )

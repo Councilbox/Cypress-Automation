@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
+import { Grid, GridItem } from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
 import VotingsTableFiltersContainer from './VotingsTableFiltersContainer';
 import CustomAgendaRecount from './CustomAgendaRecount';
@@ -14,7 +14,7 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
                 {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED?
 					<PrivateRecountMessage translate={translate} />
 				:
-                    <CustomAgendaRecount agenda={agenda} />
+                    <CustomAgendaRecount agenda={agenda} translate={translate} />
                 }
                 {((CBX.canEditPresentVotings(agenda) && CBX.agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
                     <CustomAgendaManualVotings agenda={agenda} translate={translate} />
