@@ -18,7 +18,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, ...props }) =>
 
     const handleChange = (event, index) => {
         const cb = () => {
-            setSelected(0);
+            setSelected(index);
         }
 
         if(props.editedVotings){
