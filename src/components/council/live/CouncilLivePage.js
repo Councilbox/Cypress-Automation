@@ -23,7 +23,6 @@ let minVideoWidth = calcMinWidth();
 let minVideoHeight = calcMinHeight();
 
 const CouncilLivePage = ({ translate, data, ...props }) => {
-	const [value, setValue] = React.useState(0);
 	const [state, setState] = useOldState({
 		participants: true,
 		wall: false,
@@ -210,33 +209,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						</div>
 					</Tooltip>
 				}
-				{/* <Tooltip
-					title={
-						state.participants
-							? translate.agenda
-							: translate.participants
-					}
-				>
-					<div>
-						<FabButton
-							icon={
-								<React.Fragment>
-									<Icon className="material-icons">
-										{state.participants
-											? "developer_board"
-											: "group"}
-									</Icon>
-									<Icon className="material-icons">
-										{state.participants
-											? "keyboard_arrow_left"
-											: "keyboard_arrow_right"}
-									</Icon>
-								</React.Fragment>
-							}
-							onClick={toggleScreens}
-						/>
-					</div>
-				</Tooltip> */}
 			</div>
 
 			<CommentWall
@@ -384,9 +356,7 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						state.participants && !state.fullScreen ? (
 							<ParticipantsManager
 								translate={translate}
-								participants={
-									data.council.participants
-								}
+								participants={data.council.participants}
 								council={council}
 							/>
 						) : (
@@ -409,24 +379,24 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 							)
 						:
 						<React.Fragment>
-							<Tabs value={value}>
-								<Tab label={translate.participants} onClick={() => setValue(0)} />
-								<Tab label={translate.agenda} onClick={() => setValue(1)} />
-							</Tabs>
+							{!state.fullScreen &&
+								<Tabs value={state.participants? 0 : 1}>
+									<Tab label={translate.participants} onClick={toggleScreens} />
+									<Tab label={translate.agenda} onClick={toggleScreens} />
+								</Tabs>
+							}
 							<div style={{ height: "100%" }}>
-								{value === 0 &&
+								{(state.participants && !state.fullScreen) &&
 									<div style={{ height: "calc( 100% - 2em )" }}>
 										<ParticipantsManager
 											stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
 											translate={translate}
-											participants={
-												data.council.participants
-											}
+											participants={data.council.participants}
 											council={council}
 										/>
 									</div>
 								}
-								{value === 1 &&
+								{(!state.participants || state.fullScreen) &&
 									<div style={{ height: "calc( 100% - 2em )" }}>
 										<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
 											<AgendaManager
@@ -450,52 +420,6 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 								}
 							</div>
 						</React.Fragment>
-						// <TabsScreen
-						// 	uncontrolled={true}
-						// 	styles={{ height: "calc( 100% - 1em )", marginTop: "5px" }}
-						// 	tabsInfo={[
-						// 		{
-						// 			text: translate.participants,
-						// 			component: () => {
-						// 				return (
-						// 					<ParticipantsManager
-						// 						stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
-						// 						translate={translate}
-						// 						participants={
-						// 							data.council.participants
-						// 						}
-						// 						council={council}
-						// 					/>
-						// 				);
-						// 			}
-						// 		},
-						// 		{
-						// 			text: translate.agenda,
-						// 			component: () => {
-						// 				return (
-						// 					<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )",width: "100%" }}>
-						// 						<AgendaManager
-						// 							ref={agendaManager}
-						// 							recount={data.councilRecount}
-						// 							council={council}
-						// 							company={company}
-						// 							translate={translate}
-						// 							fullScreen={state.fullScreen}
-						// 							refetch={data.refetch}
-						// 							openMenu={() =>
-						// 								setState({
-						// 									videoWidth: minVideoWidth,
-						// 									videoHeight: minVideoHeight,
-						// 									fullScreen: false
-						// 								})
-						// 							}
-						// 						/>
-						// 					</div>
-						// 				);
-						// 			}
-						// 		},
-						// 	]}
-						// />
 					}
 				</div>
 			</div>

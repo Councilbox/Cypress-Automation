@@ -272,7 +272,7 @@ const ParticipantsLive = ({ videoFullScreen, data, council, translate, ...props}
 
 		return (
 			<VideoParticipantsStats
-				videoFullScreen={props.videoFullScreen}
+				videoFullScreen={videoFullScreen}
 				translate={translate}
 				stats={{
 					...stats,
