@@ -117,7 +117,8 @@ const CompanyDraftForm = ({
 					errorText={errors.type}
 					onChange={event =>
 						updateState({
-							type: +event.target.value
+							type: +event.target.value,
+							votationType: 0
 						})
 					}
 				>
