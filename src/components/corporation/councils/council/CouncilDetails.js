@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { LoadingSection, BasicButton, CollapsibleSection, AlertConfirm, TextInput, Scrollbar } from '../../../../displayComponents';
@@ -19,6 +19,15 @@ import LiveParticipantStats from './LiveParticipantStats';
 import { Table, TableHead, TableRow, TableCell, TableBody, TableFooter } from 'material-ui';
 import FailedSMSList from './FailedSMSList';
 
+
+const cancelAct = gql`
+	mutation CancelAct($councilId: Int!){
+		cancelApprovedAct(councilId: $councilId){
+			success
+			message
+		}
+	}
+`;
 
 
 class CouncilDetails extends React.Component {
@@ -98,6 +107,16 @@ class CouncilDetails extends React.Component {
 		this.setState({
 			showAgenda: false
 		});
+	}
+
+	cancelCouncilAct = async () => {
+		const response = await this.props.cancelAct({
+			variables: {
+				councilId: this.state.data.council.id
+			}
+		});
+
+		this.props.data.refetch();
 	}
 
 	render() {
@@ -337,6 +356,14 @@ class CouncilDetails extends React.Component {
 								alignItems: 'center'
 							}}
 						>
+							{council.state > 40 &&
+								<BasicButton
+									text="Cancelar acta"
+									color={secondary}
+									onClick={this.cancelCouncilAct}
+									textStyle={{ fontWeight: '700', color: 'white' }}
+								/>
+							}
 							<BasicButton
 								text="Abrir agenda Manager"
 								color={secondary}
@@ -609,10 +636,15 @@ const CouncilDetailsRoot = gql`
 `;
 
 
-export default graphql(CouncilDetailsRoot, {
-	options: props => ({
-		variables: {
-			id: props.match.params.id
-		}
+export default compose(
+	graphql(CouncilDetailsRoot, {
+		options: props => ({
+			variables: {
+				id: props.match.params.id
+			}
+		}),
+	}),
+	graphql(cancelAct, {
+		name: 'cancelAct'
 	})
-})(withRouter(withTranslations()(CouncilDetails)));
+)(withRouter(withTranslations()(CouncilDetails)));
