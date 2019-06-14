@@ -81,7 +81,7 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 			}
 		}
 	}
-	
+		
 	return (
 		<CardPageLayout title={translate.edit_draft}>
 			{(!props.data.loading && data.id) && (
@@ -92,7 +92,7 @@ const CompanyDraftEditor = ({ translate, ...props }) => {
 							errors={errors}
 							updateState={updateState}
 							draft={data}
-							companyStatutes={data.companyStatutes}
+							companyStatutes={props.data.companyStatutes}
 							draftTypes={props.data.draftTypes}
 							votingTypes={props.data.votingTypes}
 							majorityTypes={props.data.majorityTypes}
