@@ -3,6 +3,7 @@ import FontAwesome from "react-fontawesome";
 import { getPrimary } from "../styles/colors";
 import { isLandscape } from '../utils/screen';
 import { isMobile } from "react-device-detect";
+import { Typography } from "material-ui";
 
 
 const MainTitle = ({ icon, title, subtitle, size }) => (
@@ -32,7 +33,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 					flexDirection: "column"
 				}}
 			>
-				<h5 style={{ fontWeight: "700" }}>{title}</h5>
+				<h5 style={{ fontWeight: "700" }}><Typography>{title}</Typography></h5>
 			</div>
 		</div>
 		:
@@ -64,7 +65,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 			>
 				<h3 style={{ fontWeight: "600", whiteSpace: 'nowrap', overflow: 'hidden',textOverflow: 'ellipsis', width: '100%' }}>{title}</h3>
 				{!isMobile &&
-					<div style={{ fontSize: '13px' }}>{subtitle}</div>
+					<Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
 				}
 			</div>
 		</div>

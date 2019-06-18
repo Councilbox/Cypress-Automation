@@ -12,6 +12,11 @@
     background: var(--secondary);
 }
 
+h1, h2, h3,
+h4, h5, h6 {
+    font-family: var(--font-family);
+}
+
 #root {
     overflow: hidden;
     padding: 0;
@@ -26,7 +31,7 @@
 }
 
 html {
-    font-family: 'Lato';
+    font-family: var(--font-family);
     height: 100%;
     overflow: hidden !important;
 }
@@ -99,7 +104,7 @@ h4 {
 }
 
 .text-editor {
-    font-family: 'Lato' !important;
+    font-family: var(--font-family) !important;
 }
 
 .text-editor-error {
@@ -107,7 +112,7 @@ h4 {
 }
 
 .ant-steps {
-    font-family: 'Lato' !important;
+    font-family: var(--font-family) !important;
 }
 
 .ant-steps-item-process>.ant-steps-item-content>.ant-steps-item-title {
@@ -195,7 +200,7 @@ h4 {
 /*Fuente y tamano del editor react-quill */
 
 .ql-editor {
-    font-family: lato;
+    font-family: var(--font-family);
     min-height: 120px;
     max-height: 250px;
     overflow: hidden;

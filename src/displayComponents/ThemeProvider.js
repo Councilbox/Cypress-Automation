@@ -4,6 +4,7 @@ import { getPrimary, getSecondary } from "../styles/colors";
 import MomentUtils from "material-ui-pickers/utils/moment-utils";
 import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
 import { moment } from '../containers/App';
+import { variant } from "../config";
 
 const primary = getPrimary();
 const secondary = getSecondary();

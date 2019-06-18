@@ -9,6 +9,17 @@ if(process.env.REACT_APP_MODE === 'dev'){
 	//singleVoteCompanies.push(375);
 }
 
+export const variants = {
+	COE: 'COE'
+}
+
+export const variant = process.env.REACT_APP_VARIANT;
+
+if(process.env.REACT_APP_VARIANT === variants.COE){
+	//document.getElementById('root').style.fontFamily = 'Futura Hv BT';
+	//document.documentElement.style.setProperty('--font-family', 'Futura Hv BT');
+}
+
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
 export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '3.0.0';
