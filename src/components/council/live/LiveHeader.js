@@ -4,9 +4,11 @@ import { bHistory } from "../../../containers/App";
 import { AlertConfirm, Icon, BasicButton, ButtonIcon } from "../../../displayComponents";
 import { Paper, Tooltip, IconButton } from 'material-ui';
 import logo from "../../../assets/img/logo.png";
+import conpaasLogo from "../../../assets/img/conpaas_logo.png";
+import coeLogo from "../../../assets/img/coe.png";
 import icono from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
-
+import { variant } from "../../../config";
 
 
 class LiveHeader extends React.Component {
@@ -46,6 +48,32 @@ class LiveHeader extends React.Component {
 					}}
 				>
 					<div > {/**style={{ width: "20%" }} */}
+					{variant === 'COE'?
+						<div>
+							<img
+								src={windowSize !== "xs" ? conpaasLogo : icono}
+								className="App-logo"
+								style={{
+									height: "1.5em",
+									marginLeft: "1em",
+									// marginLeft: "2em",
+									userSelect: 'none'
+								}}
+								alt="logo"
+							/>
+							<img
+								src={windowSize !== "xs" ? coeLogo : icono}
+								className="App-logo"
+								style={{
+									height: "1.5em",
+									marginLeft: "1em",
+									// marginLeft: "2em",
+									userSelect: 'none'
+								}}
+								alt="logo"
+							/>
+						</div>
+					:
 						<img
 							src={windowSize !== "xs" ? logo : icono}
 							className="App-logo"
@@ -55,6 +83,8 @@ class LiveHeader extends React.Component {
 							}}
 							alt="logo"
 						/>
+					}
+
 					</div>
 					<div
 						style={{

@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import * as mainActions from "../../actions/mainActions";
 import logo from "../../assets/img/logo.png";
 import icono from "../../assets/img/logo-icono.png";
+import { variant } from "../../config";
+import conpaasLogo from "../../assets/img/conpaas_logo.png";
+import coeLogo from "../../assets/img/coe.png";
 import { Icon } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary } from "../../styles/colors";
@@ -58,15 +61,42 @@ class Header extends React.Component {
 						alignItems: "center"
 					}}
 				>
-					<img
-						src={windowSize !== "xs" ? logo : icono}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "2em"
-						}}
-						alt="councilbox-logo"
-					/>
+					{variant === 'COE'?
+						<div>
+							<img
+								src={windowSize !== "xs" ? conpaasLogo : icono}
+								className="App-logo"
+								style={{
+									height: "1.5em",
+									marginLeft: "1em",
+									// marginLeft: "2em",
+									userSelect: 'none'
+								}}
+								alt="logo"
+							/>
+							<img
+								src={windowSize !== "xs" ? coeLogo : icono}
+								className="App-logo"
+								style={{
+									height: "1.5em",
+									marginLeft: "1em",
+									// marginLeft: "2em",
+									userSelect: 'none'
+								}}
+								alt="logo"
+							/>
+						</div>
+					:
+						<img
+							src={windowSize !== "xs" ? logo : icono}
+							className="App-logo"
+							style={{
+								height: "1.5em",
+								marginLeft: "2em"
+							}}
+							alt="logo"
+						/>
+					}
 				</div>
 
 
@@ -132,7 +162,7 @@ class Header extends React.Component {
 						</IconButton>
 					)}
 				</div>
-			</header >
+			</header>
 		);
 	}
 }

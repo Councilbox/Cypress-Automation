@@ -1,43 +1,28 @@
 import React from "react";
 import logo from "../assets/img/logo.png";
+import conpaasLogo from "../assets/img/conpaas_logo.png";
+import coeLogo from "../assets/img/coe.png";
 import icono from "../assets/img/logo-icono.png";
 import { Link } from "react-router-dom";
 import LanguageSelector from "./menus/LanguageSelector";
 import UserMenu from "./menus/UserMenu";
 import CommandLine from './dashboard/CommandLine';
-import { Icon, UnsavedChangesModal } from "../displayComponents";
+import { Icon } from "../displayComponents";
 import { bHistory } from "../containers/App";
 import withWindowSize from "../HOCs/withWindowSize";
 import { getSecondary } from "../styles/colors";
 import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
-import FontAwesome from 'react-fontawesome';
 import { isLandscape } from '../utils/screen';
-import { CLIENT_VERSION } from "../config";
-//import { useAdom } from 'adom-client';
+import { CLIENT_VERSION, variant } from "../config";
 import { ConfigContext } from "../containers/AppControl";
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
-	const [companyMenu, setCompanyMenu] = React.useState(false);
-	//const adomContext = useAdom();
 	const config = React.useContext(ConfigContext);
-
-	const init = () => {
-		//adomContext.initialize();
-	}
-
-	const logout = () => {
-		actions.logout();
-	};
 
 	const goBack = () => {
 		bHistory.goBack();
 	};
-
-
-	const toggleCompanyMenu = () => {
-		setCompanyMenu(!companyMenu);
-	}
 
 	const showVerticalLayout = () => {
 		return windowSize === 'xs' && !isLandscape();
@@ -69,11 +54,6 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: "center"
 				}}
 			>
-				{(config && config.adom && false) &&
-					<div onClick={init}>
-						INIT
-					</div>
-				}
 				{backButton && (
 					<Tooltip
 						title={translate.back}
@@ -89,7 +69,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								alignItems: "center"
 							}}
 							id="back-button"
-							onClick={this.goBack}
+							onClick={goBack}
 						>
 							<Icon
 								className="material-icons"
@@ -101,17 +81,45 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					<img
-						src={!showVerticalLayout() ? logo : icono}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "1em",
-							// marginLeft: "2em",
-							userSelect: 'none'
-						}}
-						alt="logo"
-					/>
+					{variant === 'COE'?
+						<div>
+							<img
+								src={!showVerticalLayout() ? conpaasLogo : icono}
+								className="App-logo"
+								style={{
+									height: "1.5em",
+									marginLeft: "1em",
+									// marginLeft: "2em",
+									userSelect: 'none'
+								}}
+								alt="logo"
+							/>
+							<img
+								src={!showVerticalLayout() ? coeLogo : icono}
+								className="App-logo"
+								style={{
+									height: "1.5em",
+									marginLeft: "1em",
+									// marginLeft: "2em",
+									userSelect: 'none'
+								}}
+								alt="logo"
+							/>
+						</div>
+					:
+						<img
+							src={!showVerticalLayout() ? logo : icono}
+							className="App-logo"
+							style={{
+								height: "1.5em",
+								marginLeft: "1em",
+								// marginLeft: "2em",
+								userSelect: 'none'
+							}}
+							alt="logo"
+						/>
+					}
+
 				</Link>
 			</div>
 
