@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, Tab, } from 'material-ui';
+import { Tabs, Tab, withStyles } from 'material-ui';
 import * as CBX from "../../../utils/CBX";
 import { Scrollbar } from '../../../displayComponents';
 import ActAgreements from './ActAgreements';
@@ -11,7 +11,6 @@ import { isMobile } from 'react-device-detect';
 import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
-import { withStyles } from '@material-ui/core';
 
 
 const styles = theme => ({

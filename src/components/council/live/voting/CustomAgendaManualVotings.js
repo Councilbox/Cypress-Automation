@@ -3,9 +3,8 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { BasicButton, TextInput } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { Table, TableHead, TableBody, TableCell, TableRow, CardHeader } from 'material-ui';
+import { Table, TableHead, Card, TableBody, TableCell, TableRow, CardHeader } from 'material-ui';
 import { isMobile } from 'react-device-detect';
-import { Card } from '@material-ui/core';
 
 
 
