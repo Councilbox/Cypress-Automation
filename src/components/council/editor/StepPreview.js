@@ -374,6 +374,21 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						title={translate.send_test_convene}
 					/>
 					<AlertConfirm
+						requestClose={() => setState({ preConveneModal: false})}
+						open={state.preConveneModal}
+						loadingAction={loading}
+						acceptAction={
+							state.preConveneSuccess
+								? () => setState({ preConveneModal: false })
+								: sendPreConvene
+						}
+						buttonAccept={translate.send}
+						hideAccept={state.preConveneSuccess}
+						buttonCancel={translate.close}
+						bodyText={_renderPreConveneModalBody()}
+						title={translate.send_preconvene}
+					/>
+					<AlertConfirm
 						requestClose={resetErrors}
 						open={Object.keys(errors).length > 0}
 						acceptAction={resetErrors}
@@ -393,7 +408,7 @@ const StepPreview = ({ translate, company, client, ...props }) => {
 						acceptAction={
 							state.sendWithoutNoticeSuccess
 								? () => {
-										this.setState(
+										setState(
 											{
 												sendConveneWithoutNoticeModal: false,
 												sendWithoutNoticeSuccess: false
