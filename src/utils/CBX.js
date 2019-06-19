@@ -228,7 +228,7 @@ export const canDelegateVotes = (statute, participant) => {
 	return (
 		statute.existsDelegatedVote === 1 &&
 		!(participant.delegatedVotes.length > 0) &&
-		participant.type === 0
+		participant.type !== 1 && participant.type !== 2
 	);
 };
 export const canAddDelegateVotes = (statute, participant) => {
