@@ -13,6 +13,7 @@ import {
 import { PARTICIPANT_ERRORS } from "../../../constants";
 import background from "../../../assets/img/fondo_test_mundo2.jpg";
 import { moment } from '../../../containers/App';
+import { variant } from "../../../config";
 //import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
@@ -90,7 +91,7 @@ const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) =>
 					width: "100%",
 					alignItems: "center",
 					justifyContent: "center",
-					background: `url(${background})`,
+					background: `url(${variant === 'COE'? '/img/fondo-conpaas.jpg' : background})`,
 					backgroundSize: 'cover',
 					backgroundRepeat: 'no-repeat',
 					backgroundPosition: 'center center',
