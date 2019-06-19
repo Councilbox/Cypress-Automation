@@ -1063,6 +1063,7 @@ export const councilStepFive = gql`
 				councilId
 				existPublicUrl
 				existsAct
+				existsDelegatedVote
 				existsAdvanceNoticeDays
 				existsSecondCall
 				id
