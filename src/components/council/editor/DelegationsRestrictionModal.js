@@ -1,4 +1,6 @@
-import React from "react";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	AlertConfirm,
 	Icon,
@@ -7,17 +9,16 @@ import {
 	Scrollbar,
 	TextInput
 } from "../../../displayComponents";
-import { graphql } from "react-apollo";
-import { participantsToDelegate } from "../../../queries";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Card, MenuItem, Typography } from 'material-ui';
+import { councilParticipants } from "../../../queries/councilParticipant";
 
-const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
-	const loadMore = () => {
+const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
+    const loadMore = () => {
 		data.fetchMore({
 			variables: {
 				options: {
-					offset: data.liveParticipantsToDelegate.list.length,
+					offset: data.councilParticipants.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -27,19 +28,20 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 				}
 				return {
 					...prev,
-					liveParticipantsToDelegate: {
-						...prev.liveParticipantsToDelegate,
+					councilParticipants: {
+						...prev.councilParticipants,
 						list: [
-							...prev.liveParticipantsToDelegate.list,
-							...fetchMoreResult.liveParticipantsToDelegate.list
+							...prev.councilParticipants.list,
+							...fetchMoreResult.councilParticipants.list
 						]
 					}
 				};
 			}
 		});
-	}
+    }
 
-	const close = () => {
+
+    const close = () => {
 		props.requestClose();
 	}
 
@@ -54,16 +56,19 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 		});
 	}
 
-	function _renderBody() {
+
+
+    function _renderBody() {
 		const { loading } = data;
 
 		const participants = loading
 			? []
-			: data.liveParticipantsToDelegate.list;
+			: data.councilParticipants.list;
 		const { total } = loading
 			? 0
-			: data.liveParticipantsToDelegate;
-		const rest = total - participants.length - 1;
+			: data.councilParticipants;
+        const rest = total - participants.length - 1;
+
 
 		return (
 			<div >
@@ -91,22 +96,18 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 									{participants.length > 0 ? (
 										<div style={{ width: "99%" }}>
 											{participants.map(participant => {
-												if (participant.id !== props.participant.id ) {
-													return (
-														<React.Fragment key={`delegateVote_${participant.id}`}>
-															<ParticipantRow
-																council={props.council}
-																toDelegate={true}
-																cantDelegate={false}
-																participant={participant}
-																onClick={() =>
-																	props.addRepresentative(participant.id)
-																}
-															/>
-														</React.Fragment>
-													);
-												}
-												return false;
+                                                return (
+                                                    <React.Fragment key={`delegateVote_${participant.id}`}>
+                                                        <ParticipantRow
+                                                            council={props.council}
+                                                            cantDelegate={false}
+                                                            participant={participant}
+                                                            onClick={() =>
+                                                                props.addCouncilDelegate(participant.id)
+                                                            }
+                                                        />
+                                                    </React.Fragment>
+                                                );
 											})}
 											{participants.length < total - 1 && (
 												<Card
@@ -152,29 +153,33 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 		);
 	}
 
+
 	return (
 		<AlertConfirm
 			bodyStyle={{ minWidth: "" }}
 			classNameDialog={"modalParticipant"}
 			requestClose={close}
-			open={show}
+			open={open}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={translate.to_delegate_vote}
 		/>
 	);
-
 }
 
-export default graphql(participantsToDelegate, {
-	options: props => ({
-		variables: {
-			councilId: props.council.id,
-			participantId: props.participant.id,
-			options: {
-				offset: 0,
-				limit: DELEGATION_USERS_LOAD
-			}
-		}
-	})
-})(DelegateOwnVoteAttendantModal);
+
+export default graphql(councilParticipants, {
+    options: props => ({
+        variables: {
+            councilId: props.council.id,
+            options: {
+                limit: DELEGATION_USERS_LOAD,
+                offset: 0,
+                orderBy: 'fullName',
+                orderDirection: 'asc'
+            }
+        },
+        forceFetch: true,
+        notifyOnNetworkStatusChange: true
+    })
+})(withApollo(DelegationsRestrictionModal));
