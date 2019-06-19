@@ -7,7 +7,11 @@ import withTranslations from "../HOCs/withTranslations";
 const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate }) => {
 	let limitReached = null;
 	if (toDelegate) {
-		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length);
+		console.log(participant.name, participant.delegatedVotes.filter(p =>{
+			console.log(participant.name, p.type);
+			return p.type !== 3
+		}).length);
+		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length);
 	}
 
 	return (
