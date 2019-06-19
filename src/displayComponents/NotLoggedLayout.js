@@ -2,8 +2,7 @@ import React from 'react';
 import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getPrimary, getSecondary } from '../styles/colors';
-const primary = getPrimary();
-const secondary = getSecondary();
+import { variant } from '../config';
 
 const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => (
     <div
@@ -13,7 +12,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
             flexDirection: "column",
             height: "100%",
             overflow: "auto",
-            background: `url(${bg})`,
+            background: `url(${variant === 'COE'? '/img/fondo-conpaas.jpg' : bg})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
