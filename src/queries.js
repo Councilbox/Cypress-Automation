@@ -1974,6 +1974,8 @@ export const participantsToDelegate = gql`
 				assistanceIntention
 				delegatedVotes {
 					id
+					type
+					state
 					name
 				}
 				email
