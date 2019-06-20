@@ -241,7 +241,7 @@ export const canAddDelegateVotes = (statute, participant) => {
 };
 
 export const canHaveRepresentative = participant => {
-	return participant.type === PARTICIPANT_TYPE.PARTICIPANT;
+	return participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 };
 
 export const delegatedVotesLimitReached = (statute, length) => {

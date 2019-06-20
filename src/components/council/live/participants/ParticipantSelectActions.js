@@ -72,10 +72,6 @@ class ParticipantSelectActions extends React.Component {
 											addRepresentative: true
 										})
 									}
-									active={
-										participant.state ===
-										PARTICIPANT_STATES.REPRESENTATED
-									}
 								>
 									<div style={{ display: 'flex', width: '30%' }}>
 										<StateIcon
