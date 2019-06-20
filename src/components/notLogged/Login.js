@@ -334,6 +334,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 const COELeftSide = ({ translate, windowSize }) => {
 	const primary = getPrimary();
 
+	return <span />
+
 	return (
 		<Card
 			style={{
