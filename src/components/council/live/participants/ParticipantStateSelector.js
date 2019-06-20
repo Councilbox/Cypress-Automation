@@ -152,10 +152,6 @@ class ParticipantStateSelector extends React.Component {
 											addRepresentative: true
 										})
 									}
-									active={
-										participant.state ===
-										PARTICIPANT_STATES.REPRESENTATED
-									}
 								>
 									<StateIcon
 										translate={translate}

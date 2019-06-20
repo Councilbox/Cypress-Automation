@@ -36,7 +36,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 	}
 
 	const loadDraft = draft => {
-		props.updateState({
+		updateState({
 			conveneHeader: draft.text
 		});
 		editor.current.setValue(draft.text);

@@ -153,7 +153,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 		const { total } = loading ? 0 : data.liveParticipantsWhoCanDelegate;
 		const rest = total - participants.length - 1;
 
-		if (delegatedVotesLimitReached(council.statute, participant.delegatedVotes.length)) {
+		if (delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length)) {
 			return (
 				<div>
 					{translate.number_of_delegated_votes_exceeded}
