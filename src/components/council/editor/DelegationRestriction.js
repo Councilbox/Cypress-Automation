@@ -2,6 +2,7 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
+import { AlertConfirm } from '../../../displayComponents';
 
 
 const councilDelegates = gql`
@@ -36,6 +37,7 @@ const DelegationRestriction = ({ translate, council, client, ...props }) => {
     const [participants, setParticipants] = React.useState([]);
     const [modal, setModal] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
+    const [warningModal, setWarningModal] = React.useState(false);
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -48,6 +50,7 @@ const DelegationRestriction = ({ translate, council, client, ...props }) => {
         setParticipants(response.data.councilDelegates.map(item => item.participant));
 
         console.log(response);
+        setLoading(false);
     }, [council.id]);
 
     const openSelectModal = () => {
@@ -56,6 +59,14 @@ const DelegationRestriction = ({ translate, council, client, ...props }) => {
 
     const closeModal = () => {
         setModal(false);
+    }
+
+    const openDeleteWarning =  participantId => {
+        setWarningModal(participantId);
+    }
+
+    const closeDeleteWarning = () => {
+        setWarningModal(false);
     }
 
     const addCouncilDelegate = async participantId => {
@@ -70,6 +81,15 @@ const DelegationRestriction = ({ translate, council, client, ...props }) => {
         if(response.data.addCouncilDelegate.success){
             getData();
         }
+    }
+
+    const renderWarningText = () => {
+        //TRADUCCION
+        return (
+            <div>
+                Si quita a este usuario de la lista se le borrarán todos las posibles delegaciones que tenga asignadas. ¿Continuar?
+            </div>
+        )
     }
 
     const removeCouncilDelegate = async participantId => {
@@ -98,7 +118,13 @@ const DelegationRestriction = ({ translate, council, client, ...props }) => {
             {participants.map(participant => (
                 <div key={`participant_${participant.id}`}>
                     {participant.name}
-                    <button onClick={() => removeCouncilDelegate(participant.id)}>Borrar</button>
+                    <button onClick={() => {
+                        if(council.state < 5){
+                            removeCouncilDelegate(participant.id)
+                        } else {
+                            openDeleteWarning(participant.id);
+                        }
+                    }}>Borrar</button>
                 </div>
             ))}
             <DelegationsRestrictionModal
@@ -107,6 +133,14 @@ const DelegationRestriction = ({ translate, council, client, ...props }) => {
                 open={modal}
                 addCouncilDelegate={addCouncilDelegate}
                 requestClose={closeModal}
+            />
+            <AlertConfirm
+                requestClose={closeDeleteWarning}
+                open={warningModal}
+                title={translate.warning}
+                acceptAction={() => removeCouncilDelegate(warningModal)}
+                buttonAccept={translate.accept}
+                bodyText={renderWarningText()}
             />
         </div>
     )
