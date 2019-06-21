@@ -4,6 +4,7 @@ import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getPrimary, getSecondary } from '../styles/colors';
 import { variant } from '../config';
 
+
 const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => (
     <div
         style={{
@@ -12,7 +13,10 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
             flexDirection: "column",
             height: "100%",
             overflow: "auto",
-            background: `url(${variant === 'COE'? '/img/fondo-conpaas.jpg' : bg})`,
+            background: `url(${variant === 'COE'?
+                window.location.pathname.includes('participant')? '/img/bg-conpaas.jpg' : '/img/fondo-conpaas.jpg'
+                : 
+            bg})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center center',
