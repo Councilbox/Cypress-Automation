@@ -206,6 +206,8 @@ const StepCensus = ({ translate, data, ...props }) => {
 		return <LoadingSection />
 	}
 
+	console.log(props.participants);
+
 	return (
 		<EditorStepLayout
 			body={

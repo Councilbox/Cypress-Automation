@@ -34,6 +34,11 @@ export const councilParticipants = gql`
 				uuid
 				delegateUuid
 				delegateId
+				representatives {
+					id
+					name
+					surname
+				}
 				representative {
 					id
 					name
@@ -82,7 +87,7 @@ export const updateCouncilParticipant = gql`
 		$participant: ParticipantInput
 		$representative: RepresentativeInput
 	) {
-		upsertCouncilParticipant(
+		updateCouncilParticipant(
 			participant: $participant
 			representative: $representative
 		) {
