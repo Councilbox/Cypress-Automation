@@ -102,7 +102,7 @@ export const upsertConvenedParticipant = gql`
 		$representative: RepresentativeInput
 		$sendConvene: Boolean
 	) {
-		upsertConvenedParticipant(
+		updateConvenedParticipant(
 			participant: $participant
 			representative: $representative
 			sendConvene: $sendConvene
@@ -111,6 +111,23 @@ export const upsertConvenedParticipant = gql`
 		}
 	}
 `;
+
+export const addConvenedParticipant = gql`
+	mutation upsertConvenedParticipant(
+		$participant: ParticipantInput
+		$representative: RepresentativeInput
+		$sendConvene: Boolean
+	) {
+		addConvenedParticipant(
+			participant: $participant
+			representative: $representative
+			sendConvene: $sendConvene
+		) {
+			success
+		}
+	}
+`;
+
 
 export const convenedcouncilParticipants = gql`
 	query participants(
