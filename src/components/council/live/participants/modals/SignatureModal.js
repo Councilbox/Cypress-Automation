@@ -191,7 +191,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							)}
 						<div
 							style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}
-							onClick={() => setState({ clean: false })}
+							onMouseDown={() => setState({ clean: false })}
 						>
 							<ReactSignature
 								height={height}
