@@ -191,12 +191,14 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							)}
 						<div
 							style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}
-							onClick={() => setState({ clean: false })}
+							onMouseDown={() => setState({ clean: false })}
+							onTouchStart={() => setState({ clean: false })}
 						>
 							<ReactSignature
 								height={height}
 								width={width}
 								dotSize={1}
+								onEnd={() => setState({ clean: false })}
 								style={{ border: "solid 1px" }}
 								ref={signature}
 							/>
