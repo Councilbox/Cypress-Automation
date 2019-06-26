@@ -155,6 +155,8 @@ class ConvenedParticipantsTable extends React.Component {
 		const councilParticipants = this.props.data.councilParticipantsWithNotifications;
 		const { participant, editingParticipant } = this.state;
 
+		console.log(councilParticipants);
+
 		let headers = [
 			{
 				text: translate.name,
@@ -392,7 +394,8 @@ class HoverableRow extends React.Component {
                             {translate.participant_data}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname}`}</span>
+							<span style={{fontWeight: '700'}}>{`${participant.name} ${participant.surname} ${
+								participant.representatives.length > 0? ` - Representado por: ${participant.representatives[0].name} ${participant.representatives[0].surname}` : ''}`}</span>
 							{!!representative &&
 								<React.Fragment>
 									<br/>
@@ -486,7 +489,10 @@ class HoverableRow extends React.Component {
 				<TableCell>
 					<span style={{fontWeight: '700'}}>{`${participant.name} ${
 						participant.surname
-					}`}</span>
+					}  ${
+						participant.representatives.length > 0? ` - Representado por: ${
+							participant.representatives[0].name} ${
+								participant.representatives[0].surname}` : ''}`}</span>
 					{!!representative &&
 						<React.Fragment>
 							<br/>
