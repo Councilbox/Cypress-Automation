@@ -11,14 +11,14 @@ import {
 } from "../../../displayComponents";
 import { DELEGATION_USERS_LOAD } from "../../../constants";
 import { Card, MenuItem, Typography } from 'material-ui';
-import { councilParticipants } from "../../../queries/councilParticipant";
+import { councilParticipantsFilterIds } from "../../../queries/councilParticipant";
 
-const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
-    const loadMore = () => {
+const DelegationsRestrictionModal = ({ open, data, translate, participantsTable, ...props }) => {
+	const loadMore = () => {
 		data.fetchMore({
 			variables: {
 				options: {
-					offset: data.councilParticipants.list.length,
+					offset: data.councilParticipantsFilterIds.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -28,20 +28,20 @@ const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
 				}
 				return {
 					...prev,
-					councilParticipants: {
-						...prev.councilParticipants,
+					councilParticipantsFilterIds: {
+						...prev.councilParticipantsFilterIds,
 						list: [
-							...prev.councilParticipants.list,
-							...fetchMoreResult.councilParticipants.list
+							...prev.councilParticipantsFilterIds.list,
+							...fetchMoreResult.councilParticipantsFilterIds.list
 						]
 					}
 				};
 			}
 		});
-    }
+	}
 
 
-    const close = () => {
+	const close = () => {
 		props.requestClose();
 	}
 
@@ -56,20 +56,24 @@ const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
 		});
 	}
 
+	React.useEffect(() => {
+		data.refetch()
+	}, [ participantsTable ]);
 
 
-    function _renderBody() {
+	function _renderBody() {
 		const { loading } = data;
-
-		const participants = loading
-			? []
-			: data.councilParticipants.list;
+		let participants = {}
+		if (data.councilParticipantsFilterIds) {
+			participants = loading
+				? []
+				: data.councilParticipantsFilterIds.list;
+		}
 		const { total } = loading
 			? 0
-			: data.councilParticipants;
-        const rest = total - participants.length - 1;
-
-
+			: data.councilParticipantsFilterIds;
+		const rest = total - participants.length - 1;
+		
 		return (
 			<div >
 				<TextInput
@@ -96,19 +100,20 @@ const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
 									{participants.length > 0 ? (
 										<div style={{ width: "99%" }}>
 											{participants.map(participant => {
-                                                return (
-                                                    <React.Fragment key={`delegateVote_${participant.id}`}>
-                                                        <ParticipantRow
-                                                            council={props.council}
-                                                            cantDelegate={false}
-                                                            participant={participant}
-                                                            onClick={() =>
-                                                                props.addCouncilDelegate(participant.id)
-                                                            }
-                                                        />
-                                                    </React.Fragment>
-                                                );
-											})}
+												return (
+													<React.Fragment key={`delegateVote_${participant.id}`}>
+														<ParticipantRow
+															council={props.council}
+															cantDelegate={false}
+															participant={participant}
+															onClick={() =>
+																props.addCouncilDelegate(participant.id)
+															}
+														/>
+													</React.Fragment>
+												);
+											})
+											}
 											{participants.length < total - 1 && (
 												<Card
 													style={{
@@ -125,7 +130,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
 													elevation={1}
 													onClick={loadMore}
 												>
-													<MenuItem style={{padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'}}>
+													<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 														{`DESCARGAR ${
 															rest > DELEGATION_USERS_LOAD
 																? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
@@ -168,18 +173,18 @@ const DelegationsRestrictionModal = ({ open, data, translate, ...props }) => {
 }
 
 
-export default graphql(councilParticipants, {
-    options: props => ({
-        variables: {
-            councilId: props.council.id,
-            options: {
-                limit: DELEGATION_USERS_LOAD,
-                offset: 0,
-                orderBy: 'fullName',
-                orderDirection: 'asc'
-            }
-        },
-        forceFetch: true,
-        notifyOnNetworkStatusChange: true
-    })
+export default graphql(councilParticipantsFilterIds, {
+	options: props => ({
+		variables: {
+			councilId: props.council.id,
+			options: {
+				limit: DELEGATION_USERS_LOAD,
+				offset: 0,
+				orderBy: 'fullName',
+				orderDirection: 'asc'
+			}
+		},
+		forceFetch: true,
+		notifyOnNetworkStatusChange: true
+	})
 })(withApollo(DelegationsRestrictionModal));
