@@ -126,7 +126,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 										height: '100%'
 									}}
 								>
-									<DelegationRestriction translate={translate} council={council} />
+									<DelegationRestriction translate={translate} council={council} fullScreen={true} />
 								</div>
 							</Scrollbar>
 						</div>
