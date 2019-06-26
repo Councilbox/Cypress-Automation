@@ -8,36 +8,32 @@ import { bindActionCreators } from 'redux';
 import * as mainActions from '../actions/mainActions';
 import Assistance from "../components/participant/assistance/Assistance";
 
-class AttendanceContainer extends React.PureComponent {
-
-	componentDidUpdate(){
-		if(!this.props.data.loading){
-			if(this.props.translate.selectedLanguage !== this.props.data.participant.language){
-				this.props.actions.setLanguage(this.props.data.participant.language);
-			}
+const AttendanceContainer = ({ data, translate, actions }) => {
+	React.useEffect(() => {
+		if(!data.loading && translate.selectedLanguage !== data.participant.language){
+			actions.setLanguage(data.participant.language);
 		}
+	}, [data.loading, data.participant]);
+
+	if (data.error && data.error.graphQLErrors["0"]) {
+		return <InvalidUrl />;
 	}
 
-	render() {
-		const { data } = this.props;
-
-		if (data.error && data.error.graphQLErrors["0"]) {
-			return <InvalidUrl />;
-		}
-
-		if (!this.props.translate || data.loading) {
-			return <LoadingMainApp />;
-		}
-
-		return (
-			<Assistance
-				participant={data.participant}
-				council={data.councilVideo}
-				company={data.councilVideo.company}
-				refetch={data.refetch}
-			/>
-		);
+	if (!translate || data.loading) {
+		return <LoadingMainApp />;
 	}
+
+	console.log(data.participant);
+
+	return (
+		<Assistance
+			participant={data.participant}
+			council={data.councilVideo}
+			company={data.councilVideo.company}
+			refetch={data.refetch}
+		/>
+	);
+
 }
 
 const mapStateToProps = state => ({
@@ -70,6 +66,18 @@ const participantQuery = gql`
 			assistanceComment
 			state
 			type
+			represented {
+				name
+				id
+				surname
+				numParticipations
+				state
+				delegateId
+				representative {
+					name
+					surname
+				}
+			}
 			representative {
 				id
 				name
