@@ -111,7 +111,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ width: '5em' }}>
+                                    <div style={{ width: '7em' }}>
 
                                         <CouncilInfoMenu
                                             {...props}
@@ -119,6 +119,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             participant={participant}
                                             council={council}
                                             agendaNoSession={true}
+                                            noSession={noSession}
                                         />
 
                                     </div>
@@ -130,6 +131,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                             <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
                                 <CouncilInfoMenu
                                     {...props}
+                                    noSession={noSession}
                                     translate={translate}
                                     participant={participant}
                                     council={council}
@@ -184,7 +186,8 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 fontSize: "13px",
                                 textTransform: "none",
                                 minHeight: "0px",
-                                lineHeight: '0.8'
+                                lineHeight: '0.8',
+
                             }}
                         >
                             <b> Salir </b>
@@ -207,6 +210,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                 translate={translate}
                                 participant={participant}
                                 council={council}
+                                noSession={noSession}
                             />
                         </div>
                     </div>
@@ -214,8 +218,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 </React.Fragment>
             }
             {props.sinCabecera &&
-                <div style={{ position: "relative", top: '5px', left: "80%", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                <div style={{ position: "relative", top: '5px',  width: "100%", height: "32px", }}>
                     <CouncilInfoMenu
+                     noSession={noSession}
                         {...props}
                         translate={translate}
                         participant={participant}
@@ -254,7 +259,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                             fontSize: "13px",
                             textTransform: "none",
                             minHeight: "0px",
-                            lineHeight: '0.8'
+                            lineHeight: '0.5',
+                            borderColor: getPrimary(),
+                            border: '2px solid',
+                            marginRight: "0.5em"
                         }}
                     >
                         <b> Salir </b>

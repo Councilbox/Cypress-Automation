@@ -97,22 +97,27 @@ class CouncilInfoMenu extends React.Component {
 
         const diff = fecha1.diff(fecha2);
         const diffDuration = moment.duration(diff);
-        let data =  diffDuration.days() +":"+ diffDuration.hours() +":"+ diffDuration.minutes();
+        let data = diffDuration.days()
+            + ":" + (diffDuration.hours() < 10 ? '0' + diffDuration.hours() : diffDuration.hours())
+            + ":" + (diffDuration.minutes() < 10 ? '0' + diffDuration.minutes() : diffDuration.minutes());
 
-     
+
         return (
             <React.Fragment>
-                <div style={{ display: "flex", alignItems: "center" }}>
-                    <div style={{ display: "flex", color: secondary, }} >
-                        {data} 
+                <div style={{ display: "flex", justifyContent:"flex-end" }}>
+                {!this.props.noSession &&
+                    <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
+                        {data}
                         <i className="fa fa-hourglass-half"
                             style={{
                                 outline: 0,
                                 color: secondary,
-                                fontSize: '16px'
+                                fontSize: '16px',
+                                paddingLeft: " 0.2em"
                             }}
                         ></i>
                     </div>
+                }
 
                     <IconButton
                         size={'small'}
@@ -125,6 +130,7 @@ class CouncilInfoMenu extends React.Component {
                             outline: 0,
                             color: secondary,
                             cursor: 'pointer',
+                            width:"42px"
                         }}
                         title={"information"}
                     >

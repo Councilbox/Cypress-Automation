@@ -43,7 +43,7 @@ class Header extends React.Component {
 
 	_renderConveneBody = () => {
 		return (
-			<div style={{ borderTop: `5px solid ${getPrimary()}`, marginBottom: "1em" }}>
+			<div style={{ borderTop: `5px solid ${getPrimary()}`, marginBottom: "1em",  }}>
 				<div style={{ marginTop: "1em", marginRight: "1em", justifyContent: "flex-end", display: "flex" }}>
 					< i
 						className={"fa fa-close"}
@@ -168,7 +168,6 @@ class Header extends React.Component {
 				</div>
 
 
-				
 				{(council && council.autoClose !== 1) &&
 					<Marquee
 						isMobile={isMobile}
@@ -176,23 +175,11 @@ class Header extends React.Component {
 						{titleHeader}
 					</Marquee>
 				}
-				<Tooltip title={translate.view_original_convene}>
-					<Icon
-						onClick={() => this.setState({ drawerTop: !this.state.drawerTop })}
-						className="material-icons"
-						style={{
-							cursor: "pointer",
-							color: getPrimary(),
-							marginRight: "0.4em"
-						}}
-					>
-						list_alt
-            		</Icon>
-				</Tooltip>
+
 				{(council && council.name) && council.autoClose === 1 &&
 					<div
 						style={{
-							width: windowSize === "xs" ? '65%' : "35%",
+							width: '65%',
 							display: 'flex',
 							justifyContent: 'center'
 						}}
@@ -211,12 +198,26 @@ class Header extends React.Component {
 						</Tooltip>
 					</div>
 				}
+				<Tooltip title={translate.view_original_convene}>
+					<Icon
+						onClick={() => this.setState({ drawerTop: !this.state.drawerTop })}
+						className="material-icons"
+						style={{
+							cursor: "pointer",
+							color: getPrimary(),
+							marginRight: "0.4em",
+							width:"30px"
+						}}
+					>
+						list_alt
+            		</Icon>
+				</Tooltip>
 				<div
 					style={{
 						display: "flex",
 						flexDirection: "row",
 						justifyContent: 'flex-end',
-						width: windowSize === "xs" ? '5em' : '15em',
+						width: windowSize === "xs" ? '6em' : '15em',
 						alignItems: "center"
 					}}
 				>
@@ -368,6 +369,7 @@ const Marquee = ({ children, isMobile }) => {
 const styles = {
 	paperAnchorTop: {
 		top: "44px",
+		borderBottom: `5px solid ${getPrimary()}`,
 	},
 	paper: {
 		top: "44px",
