@@ -160,8 +160,14 @@ export const convenedcouncilParticipants = gql`
 				position
 				language
 				representatives {
+					id
 					name
 					surname
+					dni
+					email
+					phone
+					position
+					language
 				}
 				representative {
 					id

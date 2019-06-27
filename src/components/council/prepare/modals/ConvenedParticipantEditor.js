@@ -31,14 +31,14 @@ class ConvenedParticipantEditor extends React.Component {
 	}
 
 	setParticipantData(){
-		let { representative, ...participant } = extractTypeName(
+		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = extractTypeName(
 			this.props.participant
 		);
 
-		representative = (!!representative && this.props.participant.live.state !== PARTICIPANT_STATES.DELEGATED)
+		representative = (participant.representatives.length > 0)
 			? {
 					hasRepresentative: true,
-					...extractTypeName(representative)
+					...extractTypeName(participant.representatives[0])
 			  }
 			: initialRepresentative;
 
@@ -47,9 +47,10 @@ class ConvenedParticipantEditor extends React.Component {
 		delete participant.live;
 		delete participant.notifications;
 
+
 		this.setState({
 			data: participant,
-			representative: representative
+			representative
 		});
 	}
 
@@ -62,6 +63,8 @@ class ConvenedParticipantEditor extends React.Component {
 			  }
 			: null;
 
+		console.log(representative);
+
 		if (!await this.checkRequiredFields()) {
 			const { representatives, ...participant } = this.state.data;
 			const response = await this.props.updateConvenedParticipant({
@@ -70,10 +73,11 @@ class ConvenedParticipantEditor extends React.Component {
 						...participant,
 						councilId: this.props.councilId
 					},
-					representative: representative,
-					sendConvene: sendConvene
+					representative,
+					sendConvene
 				}
 			});
+			console.log(response);
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
@@ -184,6 +188,8 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
+		console.log(this.state);
+
 
 		return (
 			<CustomDialog
