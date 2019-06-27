@@ -12,7 +12,7 @@ import * as CBX from '../../../utils/CBX';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import CommentModal from "./CommentModal";
-import { moment } from "../../../containers/App";
+import { moment, store } from "../../../containers/App";
 import { logoutParticipant } from "../../../actions/mainActions";
 
 
@@ -76,12 +76,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
     }, [council.id]);
 
     const logout = () => {
-        console.log("ENTRO AKI")
-        console.log(props)
-        console.log(logoutParticipant)
-        // logout()
-        logout();
-        // logoutParticipant(participant, council);
+        store.dispatch(logoutParticipant(participant, council));
     };
 
 
@@ -116,7 +111,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                                             </React.Fragment>
                                         )
                                     }
-                                    <div style={{ width: '3em' }}>
+                                    <div style={{ width: '5em' }}>
 
                                         <CouncilInfoMenu
                                             {...props}
@@ -180,7 +175,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                 {!noSession &&
                     <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
                         <Button
-                            onClick={() => logout}
+                            onClick={logout}
                             style={{
                                 borderRadius: "25px",
                                 background: "white",

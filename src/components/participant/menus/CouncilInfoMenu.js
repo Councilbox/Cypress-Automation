@@ -90,26 +90,43 @@ class CouncilInfoMenu extends React.Component {
         const primary = getPrimary();
         const secondary = getSecondary();
         const { translate } = this.props;
-
+        let fecha1 = new Date(this.props.council.closeDate).getTime()
+        let fecha2 = new Date().getTime()
+        console.log(fecha1)
+        console.log(fecha2)
+        let resta = fecha1 - fecha2
+        console.log(resta)
+        console.log(resta/ (1000*60*60*24))
         return (
             <React.Fragment>
-                <IconButton
-                    size={'small'}
-                    onClick={() =>
-                        this.setState({
-                            showCouncilInfo: true
-                        })
-                    }
-                    style={{
-                        outline: 0,
-                        color: secondary,
-                        cursor: 'pointer',
-                    }}
-                    title={"information"}
-                >
-                    <i className="fa fa-info"></i>
-                </IconButton>
-            
+                <div style={{ display: "flex", alignItems:"center" }}>
+                    <div style={{ display: "flex" }} >
+                        <i className="fa fa-hourglass-half"
+                            style={{
+                                outline: 0,
+                                color: secondary,
+                                fontSize: '16px'
+                            }}
+                        ></i>
+                    </div>
+
+                    <IconButton
+                        size={'small'}
+                        onClick={() =>
+                            this.setState({
+                                showCouncilInfo: true
+                            })
+                        }
+                        style={{
+                            outline: 0,
+                            color: secondary,
+                            cursor: 'pointer',
+                        }}
+                        title={"information"}
+                    >
+                        <i className="fa fa-info"></i>
+                    </IconButton>
+                </div>
                 {this.state.showCouncilInfo &&
                     <AlertConfirm
                         requestClose={this.closeInfoModal}
