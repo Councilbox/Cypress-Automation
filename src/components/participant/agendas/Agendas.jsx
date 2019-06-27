@@ -122,7 +122,6 @@ class Agendas extends React.Component {
             }
         )
     }
-
     render() {
         return (
             <React.Fragment>

@@ -192,9 +192,11 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     }
 
     const _renderAgendaSection = () => {
+        let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
         return (
             <Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{}}> {/*minHeight: '45%', */}
                 <Agendas
+                    noSession={noSession}
                     participant={participant}
                     council={council}
                     setAgendaBadge={setAgendaBadge}
@@ -230,10 +232,10 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     let type = "agenda";
     let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
     let titleHeader = null
-    if(!agendas.loading){
+    if (!agendas.loading) {
         titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
     }
-    
+
     if (isMobile) {
         return (
             <div style={styles.viewContainerM}>
@@ -277,6 +279,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                     }
                 />
                 <Header
+                    translate={translate}
                     logoutButton={true}
                     participant={participant}
                     council={council}
@@ -324,6 +327,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
         return (
             <div style={styles.viewContainer}>
                 <Header
+                    translate={translate}
                     logoutButton={true}
                     participant={participant}
                     council={council}

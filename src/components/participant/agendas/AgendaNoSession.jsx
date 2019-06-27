@@ -13,10 +13,17 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import CommentModal from "./CommentModal";
 import { moment } from "../../../containers/App";
+import { logoutParticipant } from "../../../actions/mainActions";
+
 
 
 const styles = {
     container: {
+        width: "100%",
+        height: "calc( 100% - 2em )",
+        overflow: 'hidden'
+    },
+    container100: {
         width: "100%",
         height: "100%",
         overflow: 'hidden'
@@ -68,6 +75,14 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
         readTimelines();
     }, [council.id]);
 
+    const logout = () => {
+        console.log("ENTRO AKI")
+        console.log(props)
+        console.log(logoutParticipant)
+        // logout()
+        logout();
+        // logoutParticipant(participant, council);
+    };
 
 
     if (data.agendas) {
@@ -81,91 +96,112 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
     if (props.inPc) {
         return (
-            <Paper style={styles.container} elevation={4}>
-                <div style={{ height: "100%" }}>
-                    {!props.sinCabecera &&
-                        <React.Fragment>
-                            <div style={styles.agendasHeader}>
-                                <div style={{ width: '3em' }}>
+            <React.Fragment>
+                <Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
+                    <div style={{ height: "100%" }}>
+                        {!props.sinCabecera &&
+                            <React.Fragment>
+                                <div style={styles.agendasHeader}>
+                                    <div style={{ width: '3em' }}>
 
+                                    </div>
+                                    {props.timeline ?
+                                        (
+                                            <React.Fragment>
+                                                <Typography variant="title" style={{ fontWeight: '700' }}>Resumen</Typography>{/*TRADUCCION*/}
+                                            </React.Fragment>
+                                        ) : (
+                                            <React.Fragment>
+                                                <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
+                                            </React.Fragment>
+                                        )
+                                    }
+                                    <div style={{ width: '3em' }}>
+
+                                        <CouncilInfoMenu
+                                            {...props}
+                                            translate={translate}
+                                            participant={participant}
+                                            council={council}
+                                            agendaNoSession={true}
+                                        />
+
+                                    </div>
                                 </div>
-                                {props.timeline ?
-                                    (
-                                        <React.Fragment>
-                                            <Typography variant="title" style={{ fontWeight: '700' }}>Resumen</Typography>{/*TRADUCCION*/}
-                                        </React.Fragment>
-                                    ) : (
-                                        <React.Fragment>
-                                            <Typography variant="title" style={{ fontWeight: '700' }}>{translate.agenda}</Typography>
-                                        </React.Fragment>
-                                    )
-                                }
-                                <div style={{ width: '3em' }}>
-
-                                    <CouncilInfoMenu
-                                        {...props}
-                                        translate={translate}
-                                        participant={participant}
-                                        council={council}
-                                        agendaNoSession={true}
-                                    />
-
-                                </div>
-                            </div>
-                            <Divider />
-                        </React.Fragment>
-                    }
-                    {props.sinCabecera &&
-                        <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
-                            <CouncilInfoMenu
-                                {...props}
-                                translate={translate}
-                                participant={participant}
-                                council={council}
-                            />
-                        </div>
-                    }
-                    <Scrollbar ref={scrollbar}>
-                        {!councilStarted(council) &&
-                            <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-                                {translate.council_not_started_yet}
+                                <Divider />
+                            </React.Fragment>
+                        }
+                        {props.sinCabecera &&
+                            <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                                <CouncilInfoMenu
+                                    {...props}
+                                    translate={translate}
+                                    participant={participant}
+                                    council={council}
+                                />
                             </div>
                         }
-                        <div style={{ marginTop: '20px', marginBottom: '5rem', }}>
-                            {data.agendas ?
-                                props.timeline ? (
-                                    <TimelineSection
-                                        timelineSeeId={timelineSeeId}
-                                        council={council}
-                                        scrollToBottom={scrollToBottom}
-                                        councilTimeline={data.councilTimeline}
-                                        isMobile={isMobile}
-                                    />
-                                ) : (
-                                        agendas.map((agenda, index) => {
-                                            // agenda.options =  {
-                                            //     maxSelections: 2,
-                                            //     id: 140
-                                            // }
-                                            return (
-                                                <React.Fragment key={`agenda_card_${index}`}>
-                                                    {renderAgendaCard(agenda)}
-                                                </React.Fragment>
-                                            )
-                                        })
-                                    )
-                                :
-                                <LoadingSection />
+                        <Scrollbar ref={scrollbar}>
+                            {!councilStarted(council) &&
+                                <div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+                                    {translate.council_not_started_yet}
+                                </div>
                             }
-                        </div>
-                    </Scrollbar>
-                </div>
-            </Paper>
+                            <div style={{ marginTop: '20px', marginBottom: '5rem', }}>
+                                {data.agendas ?
+                                    props.timeline ? (
+                                        <TimelineSection
+                                            timelineSeeId={timelineSeeId}
+                                            council={council}
+                                            scrollToBottom={scrollToBottom}
+                                            councilTimeline={data.councilTimeline}
+                                            isMobile={isMobile}
+                                        />
+                                    ) : (
+                                            agendas.map((agenda, index) => {
+                                                // agenda.options =  {
+                                                //     maxSelections: 2,
+                                                //     id: 140
+                                                // }
+                                                return (
+                                                    <React.Fragment key={`agenda_card_${index}`}>
+                                                        {renderAgendaCard(agenda)}
+                                                    </React.Fragment>
+                                                )
+                                            })
+                                        )
+                                    :
+                                    <LoadingSection />
+                                }
+                            </div>
+                        </Scrollbar>
+                    </div>
+                </Paper>
+                {!noSession &&
+                    <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
+                        <Button
+                            onClick={() => logout}
+                            style={{
+                                borderRadius: "25px",
+                                background: "white",
+                                color: getPrimary(),
+                                height: "25px",
+                                fontSize: "13px",
+                                textTransform: "none",
+                                minHeight: "0px",
+                                lineHeight: '0.8'
+                            }}
+                        >
+                            <b> Salir </b>
+                        </Button>
+                    </div>
+                }
+            </React.Fragment>
         );
     }
 
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: !noSession ? "calc( 100% - 3em )" : "100%" }}>
             {!props.sinCabecera &&
                 <React.Fragment>
                     <div style={styles.agendasHeader}>
@@ -211,6 +247,25 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
                     <LoadingSection />
                 }
             </div>
+            {!noSession &&
+                <div style={{ marginTop: "0.5em", display: "flex", justifyContent: "flex-end" }}>
+                    <Button
+                        onClick={() => logout}
+                        style={{
+                            borderRadius: "25px",
+                            background: "white",
+                            color: getPrimary(),
+                            height: "25px",
+                            fontSize: "13px",
+                            textTransform: "none",
+                            minHeight: "0px",
+                            lineHeight: '0.8'
+                        }}
+                    >
+                        <b> Salir </b>
+                    </Button>
+                </div>
+            }
         </div>
     );
 }
@@ -226,17 +281,17 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
 
     const agendaStateIcon = agenda => {
         let title = '';
-        if(council.councilType >= 2){
+        if (council.councilType >= 2) {
             return <span />;
         }
 
         let icon = 'fa fa-lock';
         let color = ""
-        if (CBX.agendaPointNotOpened(agenda) || CBX.agendaClosed(agenda)){
+        if (CBX.agendaPointNotOpened(agenda) || CBX.agendaClosed(agenda)) {
             icon = "fa fa-lock colorGrey";
             title = translate.closed;
         }
-        if (CBX.agendaPointOpened(agenda)){
+        if (CBX.agendaPointOpened(agenda)) {
             icon = "fa fa-unlock-alt colorGren";
             color = "#278289";
             title = translate.in_discussion;
@@ -274,12 +329,12 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                 </Tooltip>
             );
         }
-        return <span/>;
+        return <span />;
     }
 
 
     return (
-        <div style={{ margin: "0 auto", marginBottom: "15px", width: isMobile? "100%" : '93%', }} key={agenda.id}>
+        <div style={{ margin: "0 auto", marginBottom: "15px", width: isMobile ? "100%" : '93%', }} key={agenda.id}>
             <Card aria-label={"punto" + (agenda.orderIndex + 1) + " " + translate[getAgendaTypeLabel(agenda)] + " título " + agenda.agendaSubject}>
                 <CardHeader
                     avatar={
@@ -315,7 +370,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council, ...props
                     </CardContent>
                 </Collapse>
 
-                <CardActions style={{display: 'flex', justifyContent: 'space-between'}}>
+                <CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <CommentModal
                         translate={translate}
                         agenda={agenda}
