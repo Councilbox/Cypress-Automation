@@ -5,6 +5,8 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
 import withTranslations from '../../../HOCs/withTranslations';
+import { moment } from '../../../containers/App';
+
 
 
 
@@ -90,17 +92,19 @@ class CouncilInfoMenu extends React.Component {
         const primary = getPrimary();
         const secondary = getSecondary();
         const { translate } = this.props;
-        let fecha1 = new Date(this.props.council.closeDate).getTime()
-        let fecha2 = new Date().getTime()
-        console.log(fecha1)
-        console.log(fecha2)
-        let resta = fecha1 - fecha2
-        console.log(resta)
-        console.log(resta/ (1000*60*60*24))
+        let fecha1 = moment(new Date(this.props.council.closeDate))
+        let fecha2 = moment(new Date())
+
+        const diff = fecha1.diff(fecha2);
+        const diffDuration = moment.duration(diff);
+        let data =  diffDuration.days() +":"+ diffDuration.hours() +":"+ diffDuration.minutes();
+
+     
         return (
             <React.Fragment>
-                <div style={{ display: "flex", alignItems:"center" }}>
-                    <div style={{ display: "flex" }} >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <div style={{ display: "flex", color: secondary, }} >
+                        {data} 
                         <i className="fa fa-hourglass-half"
                             style={{
                                 outline: 0,
