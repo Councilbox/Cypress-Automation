@@ -73,10 +73,10 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 		})
 	}
 
-	const toggleScreens = () => {
+	const toggleScreens = screen => {
 		const cb = () => {
 			setState({
-				participants: !state.participants,
+				participants: screen,
 				videoWidth: minVideoWidth,
 				videoHeight: minVideoHeight,
 				fullScreen: false
@@ -381,8 +381,8 @@ const CouncilLivePage = ({ translate, data, ...props }) => {
 						<React.Fragment>
 							{!state.fullScreen &&
 								<Tabs value={state.participants? 0 : 1}>
-									<Tab label={translate.participants} onClick={toggleScreens} />
-									<Tab label={translate.agenda} onClick={toggleScreens} />
+									<Tab label={translate.participants} onClick={() => toggleScreens(true)} />
+									<Tab label={translate.agenda} onClick={() => toggleScreens(false)} />
 								</Tabs>
 							}
 							<div style={{ height: "100%" }}>
