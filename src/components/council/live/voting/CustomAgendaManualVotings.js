@@ -39,6 +39,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         ballot.itemId = itemId;
         ballots.set(itemId, ballot);
         setBallots(new Map(ballots));
+        props.changeEditedVotings(true);
     }
 
     function getActualRecount(ballotsMap) {
@@ -65,6 +66,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                 success: true
             });
         }
+        props.changeEditedVotings(false);
     }
 
     const resetButtonStates = () => {
