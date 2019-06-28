@@ -269,7 +269,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     classNameDialog={!!props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
                         // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px",display: !!props.modalContent ? "block": "none" }
+                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px", display: !!props.modalContent ? "block" : "none" }
                     }}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', height: '100%  ' }}
                     bodyText={
@@ -294,31 +294,46 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                     open={props.adminMessage}
                     classNameDialog={'modal100Comentario'}
                     bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
+                    PaperProps={{
+                        style: { width:"100%", margin:"0",
+                        transition: "bottom 0.4s",
+                        display: "flex",
+                        position: "fixed",
+                        minHeight: '50px',
+                        width: "100vw",
+                        bottom: props.click ? "0" : "3.7rem",
+                        left: "0",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        // zIndex: '1050',
+                        borderTop: "1px solid gainsboro" }
+                    }}
                     bodyText={
-                        <div style={{
-                            transition: "bottom 0.4s",
-                            display: "flex",
-                            position: "fixed",
-                            minHeight: '50px',
-                            width: "100vw",
-                            bottom: props.click ? "0" : "3.7rem",
-                            left: "0",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            zIndex: '1050',
-                            borderTop: "1px solid gainsboro"
-                        }}>
+                        // <div style={{
+                            // transition: "bottom 0.4s",
+                            // display: "flex",
+                            // position: "fixed",
+                            // minHeight: '50px',
+                            // width: "100vw",
+                            // bottom: props.click ? "0" : "3.7rem",
+                            // left: "0",
+                            // alignItems: "center",
+                            // justifyContent: "center",
+                            // // zIndex: '1050',
+                            // borderTop: "1px solid gainsboro"
+                        // }}>
                             <div style={{
                                 borderRadiusTopLeft: "5px",
                                 position: "relative",
                                 width: "100%",
                                 height: "100%",
-                                background: "#f1f1f1" }}>
+                                background: "#f1f1f1"
+                            }}>
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                                     {props.comentario}
                                 </div>
-                            </div>
-                        </div>
+                         </div>
+                        // </div>
                     }
                 />
             </div>
@@ -426,7 +441,7 @@ const CouncilSidebar = ({ translate, council, participant, ...props }) => {
                                 width: "100%",
                                 height: "100%",
                                 background: "#f1f1f1"
-                                }}
+                            }}
                             >
                                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
                                     {props.comentario}
