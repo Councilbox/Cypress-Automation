@@ -2081,6 +2081,8 @@ export const liveParticipant = gql`
 				dni
 				email
 				phone
+				state
+				signed
 				position
 				language
 				numParticipations

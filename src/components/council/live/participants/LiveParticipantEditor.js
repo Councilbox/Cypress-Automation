@@ -37,6 +37,7 @@ import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
 import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 import { PARTICIPANT_STATES, PARTICIPANT_ERRORS, PARTICIPANT_TYPE } from "../../../../constants";
 import { useOldState, useHoverRow } from "../../../../hooks";
+import SignatureButton from "./SignatureButton";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -277,10 +278,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											<Typography variant="subheading">
 												{translate.represented_by}
 											</Typography>
-											<ParticipantTable
-												representative={true}
+											<RepresentativeMenu
+												council={props.council}
 												translate={translate}
-												participants={participant.representatives}
+												data={data}
+												participant={participant}
 											/>
 										</React.Fragment>
 									)}
@@ -399,14 +401,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										}
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
 											<div>
-												<BasicButton
-													text={participant.signed ? translate.user_signed : translate.to_sign}
-													fullWidth
-													buttonStyle={{ marginRight: "10px", width: "150px", border: `1px solid ${participant.signed ? primary : secondary}` }}
-													type="flat"
-													color={"white"}
-													onClick={openSignModal}
-													textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+												<SignatureButton
+													participant={participant}
+													open={openSignModal}
+													translate={translate}
 												/>
 											</div>
 										}
@@ -474,6 +472,91 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			</Scrollbar>
 		</div>
 	);
+}
+
+const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
+	const [signatureModal, setSignatureModal] = React.useState(false);
+	const representative = CBX.getMainRepresentative(participant);
+
+	console.log(representative);
+
+	return (
+		<div style={{display: 'flex'}}>
+			VAMOS A ELLO
+			{representative.name}
+			{CBX.showSendCredentials(representative.state) &&
+				<div>
+					<ResendCredentialsModal
+						participant={representative}
+						council={props.council}
+						translate={translate}
+						security={props.council.securityType > 0}
+						refetch={data.refetch}
+					/>
+				</div>
+			}
+
+			{/* <div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
+				<ParticipantStateSelector
+					inDropDown={true}
+					participant={{
+						...representative,
+						delegatedVotes: participant.delegatedVotes
+					}}
+					council={props.council}
+					translate={translate}
+					refetch={data.refetch}
+				/>
+			</div> */}
+			{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative) &&
+				<div>
+					<SignatureButton
+						participant={representative}
+						open={() => setSignatureModal(true)}
+						translate={translate}
+					/>
+				</div>
+			}
+			<DropDownMenu
+				claseHover={"classHover"}
+				color="transparent"
+				id={'dropdownEstados'}
+				style={{ paddingLeft: '0px', paddingRight: '0px' }}
+				icon={
+					<StateIcon
+						translate={translate}
+						state={representative.state}
+						ratio={1.3}
+					/>
+				}
+				items={
+					<React.Fragment>
+						<ParticipantStateList
+							participant={representative}
+							council={props.council}
+							translate={translate}
+							refetch={props.refetch}
+							inDropDown={true}
+						/>
+					</React.Fragment>
+				}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left',
+				}}
+			/>
+			{signatureModal &&
+				<SignatureModal
+					show={signatureModal}
+					council={props.council}
+					participant={representative}
+					refetch={data.refetch}
+					requestClose={() => setSignatureModal(false)}
+					translate={translate}
+				/>
+			}
+		</div>
+	)
 }
 
 
