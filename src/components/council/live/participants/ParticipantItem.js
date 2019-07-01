@@ -216,7 +216,6 @@ const participantRepresentativeSigned = participant => {
 
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
 	const representative = getMainRepresentative(participant);
-	console.log(representative);
 
 	return (
 		<React.Fragment>
@@ -232,7 +231,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 			>
 				<div style={{ width: '60%', display: 'flex', height: "84px" }}>
 					<div>
-						{ mode === 'STATES' && participant.personOrEntity === 0 && council.councilType < 2?
+						{ mode === 'STATES' && council.councilType < 2?
 							<DropDownMenu
 								claseHover={"classHover "}
 								color="transparent"
@@ -241,14 +240,14 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								icon={
 									<StateIcon
 										translate={translate}
-										state={participant.state}
+										state={representative? representative.state : participant.state}
 										ratio={1.3}
 									/>
 								}
 								items={
 									<React.Fragment>
 										<ParticipantStateList
-											participant={participant}
+											participant={representative? representative : participant}
 											council={council}
 											refetch={refetch}
 											translate={translate}
@@ -500,7 +499,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							type="flat"
 							color={"white"}
 							onClick={event => {
-								alert('hola');
+								event.stopPropagation();
+								showSignatureModal();
 							}}
 							textStyle={{ color: participantRepresentativeSigned(participant)? primary : secondary, fontWeight: '700' }}
 						/>
