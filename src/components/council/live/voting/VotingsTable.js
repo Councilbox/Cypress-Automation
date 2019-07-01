@@ -331,12 +331,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 											{votings.map(vote => (
 												<div>
 													{/* {translate.votes} */}
-													{vote.numParticipations > 0 && `${
-														vote.numParticipations > 0 ? vote.numParticipations : ''
-														}`}
+													{vote.numParticipations > 0? `${vote.numParticipations}` : 0}
 													{!!vote.representing &&
 														`${
-														vote.numParticipations > 0 && vote.numParticipations
+														vote.numParticipations > 0? vote.numParticipations : 0
 														}`
 													}
 													<React.Fragment>
@@ -344,9 +342,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 															vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 																<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 																	<br />
-																	{`${
-																		delegatedVote.author.numParticipations > 0 && delegatedVote.author.numParticipations
-																		}`}
+																	{`${delegatedVote.author.numParticipations > 0? delegatedVote.author.numParticipations : 0}`}
 																</React.Fragment>
 															))
 														}
@@ -481,22 +477,16 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 											</div>
 										</TableCell>
 										<TableCell>
-											{vote.numParticipations > 0 && `${
-												vote.numParticipations > 0 ? vote.numParticipations : ''
-												}`}
+											{vote.numParticipations > 0? `${vote.numParticipations}` : 0}
 											{!!vote.representing &&
-												`${
-												vote.numParticipations > 0 && vote.numParticipations
-												}`
+												`${vote.numParticipations > 0? vote.numParticipations : 0}`
 											}
 											<React.Fragment>
 												{!!vote.delegatedVotes &&
 													vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 														<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 															<br />
-															{`${
-																delegatedVote.author.numParticipations > 0 && delegatedVote.author.numParticipations
-																}`}
+															{`${delegatedVote.author.numParticipations > 0? delegatedVote.author.numParticipations : 0}`}
 														</React.Fragment>
 													))
 												}
