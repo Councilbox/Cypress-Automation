@@ -6,6 +6,8 @@ import SignatureModal from "./modals/SignatureModal";
 import LiveParticipantEditor from "./LiveParticipantEditor";
 import { isMobile } from 'react-device-detect';
 import { useOldState } from "../../../../hooks";
+import { PARTICIPANT_STATES } from "../../../../constants";
+import { getMainRepresentative } from "../../../../utils/CBX";
 
 const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants }) => {
 	const [state, setState] = useOldState({
@@ -17,8 +19,15 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 	const showSignatureModal = participant => () => {
 		setState({
 			showSignatureModal: true,
-			participantToSign: participant
-		})
+			participantToSign: getSignatureParticipant(participant)
+		});
+	}
+
+	const getSignatureParticipant = participant => {
+		if(participant.state === PARTICIPANT_STATES.REPRESENTATED){
+			return getMainRepresentative(participant);
+		}
+		return participant;
 	}
 
 	return (
