@@ -694,7 +694,7 @@ const generateActTags = (type, data, translate) => {
 	let attendantsString = '';
 	let delegatedVotesString = '';
 	council.attendants.forEach(attendant => attendantsString += `${attendant.name} ${attendant.surname} <br/>`);
-	council.delegatedVotes.forEach(vote => delegatedVotesString += `${vote.name} ${vote.surname} ${translate.delegates.toLowerCase()} ${vote.representative.name} ${vote.representative.surname} <br/>`)
+	council.delegatedVotes.forEach(vote => delegatedVotesString += `${vote.name} ${vote.surname} ${translate.delegates.toLowerCase()} ${vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} <br/>`);
 
 	switch(type){
 		case 'intro':
