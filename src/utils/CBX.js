@@ -1102,6 +1102,10 @@ export const showVideo = council => {
 	return (council.state === 20 || council.state === 30) && council.councilType === 0;
 };
 
+export const getMainRepresentative = participant => {
+	return (participant.representatives && participant.representatives.length > 0)? participant.representatives[0] : null;
+}
+
 export const canAddPoints = council => {
 	return council.statute.canAddPoints === 1 && council.councilType < 2;
 };

@@ -6,7 +6,7 @@ import { getSecondary, primary } from "../../../../styles/colors";
 import StateIcon from "./StateIcon";
 import EmailIcon from "./EmailIcon";
 import TypeIcon from "./TypeIcon";
-import { removeHTMLTags, isRepresented, hasHisVoteDelegated } from '../../../../utils/CBX';
+import { removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from "./AttendIntentionIcon";
 import { DropDownMenu } from '../../../../displayComponents';
@@ -209,177 +209,88 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 	</Grid>
 )
 
-const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => (
 
-	<React.Fragment>
-		<Card
-			style={{
-				display: "flex",
-				flexDirection: "row",
-				alignItems: "center",
-				width: "100%",
-				textOverflow: "ellipsis",
-				overflow: "hidden"
-			}}
-		>
-			<div style={{ width: '60%', display: 'flex', height: "84px" }}>
-				<div>
-					{ mode === 'STATES' && participant.personOrEntity === 0 && council.councilType < 2?
-						<DropDownMenu
-							claseHover={"classHover "}
-							color="transparent"
-							style={{ paddingLeft: '0px', paddingRight: '0px' }}
-							textStyle={{ boxShadow: "none", height: '100%', minWidth: "15px" }}
-							icon={
-								<StateIcon
-									translate={translate}
-									state={participant.state}
-									ratio={1.3}
-								/>
-							}
-							items={
-								<React.Fragment>
-									<ParticipantStateList
-										participant={participant}
-										council={council}
-										refetch={refetch}
+const participantRepresentativeSigned = participant => {
+	return participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
+}
+
+const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
+	const representative = getMainRepresentative(participant);
+	console.log(representative);
+
+	return (
+		<React.Fragment>
+			<Card
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					alignItems: "center",
+					width: "100%",
+					textOverflow: "ellipsis",
+					overflow: "hidden"
+				}}
+			>
+				<div style={{ width: '60%', display: 'flex', height: "84px" }}>
+					<div>
+						{ mode === 'STATES' && participant.personOrEntity === 0 && council.councilType < 2?
+							<DropDownMenu
+								claseHover={"classHover "}
+								color="transparent"
+								style={{ paddingLeft: '0px', paddingRight: '0px' }}
+								textStyle={{ boxShadow: "none", height: '100%', minWidth: "15px" }}
+								icon={
+									<StateIcon
 										translate={translate}
-										inDropDown={true}
+										state={participant.state}
+										ratio={1.3}
 									/>
-								</React.Fragment>
-							}
-							anchorOrigin={{
-								vertical: 'bottom',
-								horizontal: 'left',
-							}}
-
-						/>
-					:
-						<div
-							style={{
-								width: '88px',
-								height: '100%',
-								display: 'flex',
-								fontSize: '1.3em',
-								paddingLeft: '0.4em',
-								alignItems: 'center',
-								justifyContent: 'center'
-							}}
-						>
-							{_getIcon(mode, participant, translate)}
-						</div>
-					}
-				</div>
-
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "column",
-						marginLeft: "0.6em",
-						width: "100%",
-						textOverflow: "ellipsis",
-						overflow: "hidden",
-						// paddingTop: '15px'
-						justifyContent:"center"
-					}}
-				>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center"
-						}}
-					>
-						<div
-							style={{
-								width: "2.2em",
-								display: "flex",
-								justifyContent: "center"
-							}}
-						>
-							<FontAwesome
-								name={"info"}
-								style={{
-									color: secondary,
-									fontSize: "1em",
-									marginRight: 0
+								}
+								items={
+									<React.Fragment>
+										<ParticipantStateList
+											participant={participant}
+											council={council}
+											refetch={refetch}
+											translate={translate}
+											inDropDown={true}
+										/>
+									</React.Fragment>
+								}
+								anchorOrigin={{
+									vertical: 'bottom',
+									horizontal: 'left',
 								}}
+
 							/>
-						</div>
-						<Tooltip title={`${participant.name} ${participant.surname}`}>
-							<Typography
-								variant="body1"
-								className="truncate"
+						:
+							<div
 								style={{
-									fontWeight: "600",
-									width: 'calc(100% - 2.2em)'
+									width: '88px',
+									height: '100%',
+									display: 'flex',
+									fontSize: '1.3em',
+									paddingLeft: '0.4em',
+									alignItems: 'center',
+									justifyContent: 'center'
 								}}
 							>
-								{`${participant.name} ${participant.surname}`}
-							</Typography>
-						</Tooltip>
+								{_getIcon(mode, participant, translate)}
+							</div>
+						}
 					</div>
+
 					<div
 						style={{
 							display: "flex",
-							flexDirection: "row",
-							alignItems: "center"
+							flexDirection: "column",
+							marginLeft: "0.6em",
+							width: "100%",
+							textOverflow: "ellipsis",
+							overflow: "hidden",
+							// paddingTop: '15px'
+							justifyContent:"center"
 						}}
 					>
-						<div
-							style={{
-								width: "2.2em",
-								display: "flex",
-								justifyContent: "center"
-							}}
-						>
-							<FontAwesome
-								name={"id-card"}
-								style={{
-									color: secondary,
-									fontSize: "1em",
-									marginRight: 0
-								}}
-							/>
-						</div>
-						<Typography
-							variant="body1"
-							style={{ color: "grey", fontSize: "0.75rem" }}
-						>
-							{`${participant.dni}`}
-						</Typography>
-					</div>
-					<div
-						style={{
-							display: "flex",
-							flexDirection: "row",
-							alignItems: "center"
-						}}
-					>
-						<div
-							style={{
-								width: "2.2em",
-								display: "flex",
-								justifyContent: "center"
-							}}
-						>
-							<FontAwesome
-								name={"tag"}
-								style={{
-									color: secondary,
-									fontSize: "1em",
-									marginRight: 0
-								}}
-							/>
-						</div>
-						<Typography
-							variant="body1"
-							style={{ color: "grey", fontSize: "0.75rem" }}
-						>
-							{`${participant.position ? participant.position : '-'}`}
-						</Typography>
-					</div>
-					{mode === 'ATTENDANCE' && participant.assistanceComment &&
 						<div
 							style={{
 								display: "flex",
@@ -391,63 +302,214 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								style={{
 									width: "2.2em",
 									display: "flex",
-									justifyContent: "center",
-									alignItems: 'center'
+									justifyContent: "center"
 								}}
 							>
 								<FontAwesome
-									name={"comment"}
+									name={"info"}
 									style={{
-										color: primary,
+										color: secondary,
 										fontSize: "1em",
 										marginRight: 0
 									}}
 								/>
 							</div>
+							<Tooltip title={`${participant.name} ${participant.surname}`}>
+								<Typography
+									variant="body1"
+									className="truncate"
+									style={{
+										fontWeight: "600",
+										width: 'calc(100% - 2.2em)'
+									}}
+								>
+									{`${participant.name} ${participant.surname}`}
+								</Typography>
+							</Tooltip>
+						</div>
+						{(participant.representatives && participant.representatives.length > 0) &&
 							<div
 								style={{
-									color: "grey",
-									fontSize: "0.75rem",
-									textOverflow: "ellipsis",
-									height: '1.5em',
-									overflow: "hidden"
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center"
 								}}
 							>
-								{removeHTMLTags(participant.assistanceComment)}
+								<div
+									style={{
+										width: "2.2em",
+										display: "flex",
+										justifyContent: "center"
+									}}
+								>
+									<FontAwesome
+										name={"user-circle-o"}
+										style={{
+											color: secondary,
+											fontSize: "1em",
+											marginRight: 0
+										}}
+									/>
+								</div>
+								<Tooltip title={`${representative.name} ${representative.surname}`}>
+									<Typography
+										variant="body1"
+										className="truncate"
+										style={{
+											width: 'calc(100% - 2.2em)'
+										}}
+									>
+										{`Representado por: ${representative.name} ${representative.surname}`}
+									</Typography>
+								</Tooltip>
 							</div>
+						}
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center"
+							}}
+						>
+							<div
+								style={{
+									width: "2.2em",
+									display: "flex",
+									justifyContent: "center"
+								}}
+							>
+								<FontAwesome
+									name={"id-card"}
+									style={{
+										color: secondary,
+										fontSize: "1em",
+										marginRight: 0
+									}}
+								/>
+							</div>
+							<Typography
+								variant="body1"
+								style={{ color: "grey", fontSize: "0.75rem" }}
+							>
+								{`${participant.dni}`}
+							</Typography>
 						</div>
+						<div
+							style={{
+								display: "flex",
+								flexDirection: "row",
+								alignItems: "center"
+							}}
+						>
+							<div
+								style={{
+									width: "2.2em",
+									display: "flex",
+									justifyContent: "center"
+								}}
+							>
+								<FontAwesome
+									name={"tag"}
+									style={{
+										color: secondary,
+										fontSize: "1em",
+										marginRight: 0
+									}}
+								/>
+							</div>
+							<Typography
+								variant="body1"
+								style={{ color: "grey", fontSize: "0.75rem" }}
+							>
+								{`${participant.position ? participant.position : '-'}`}
+							</Typography>
+						</div>
+						{mode === 'ATTENDANCE' && participant.assistanceComment &&
+							<div
+								style={{
+									display: "flex",
+									flexDirection: "row",
+									alignItems: "center"
+								}}
+							>
+								<div
+									style={{
+										width: "2.2em",
+										display: "flex",
+										justifyContent: "center",
+										alignItems: 'center'
+									}}
+								>
+									<FontAwesome
+										name={"comment"}
+										style={{
+											color: primary,
+											fontSize: "1em",
+											marginRight: 0
+										}}
+									/>
+								</div>
+								<div
+									style={{
+										color: "grey",
+										fontSize: "0.75rem",
+										textOverflow: "ellipsis",
+										height: '1.5em',
+										overflow: "hidden"
+									}}
+								>
+									{removeHTMLTags(participant.assistanceComment)}
+								</div>
+							</div>
+						}
+					</div>
+				</div>
+				<div
+					style={{
+						width: '35%',
+						padding: '0.3em',
+						paddingRight: '0.6em',
+						height: '6em',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center'
+					}}
+				>
+					{!isRepresented(participant)?
+						<React.Fragment>
+							{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
+								<BasicButton
+									text={participant.signed ? translate.user_signed : translate.to_sign}
+									fullWidth
+									buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
+									type="flat"
+									color={"white"}
+									onClick={event => {
+										event.stopPropagation();
+										showSignatureModal();
+									}}
+									textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+								/>
+							}
+						</React.Fragment>
+					:
+						<BasicButton
+							text={participantRepresentativeSigned(participant)? translate.user_signed : translate.to_sign}
+							fullWidth
+							buttonStyle={{ border: `1px solid ${participantRepresentativeSigned(participant) ? primary : secondary}` }}
+							type="flat"
+							color={"white"}
+							onClick={event => {
+								alert('hola');
+							}}
+							textStyle={{ color: participantRepresentativeSigned(participant)? primary : secondary, fontWeight: '700' }}
+						/>
 					}
 				</div>
-			</div>
-			<div
-				style={{
-					width: '35%',
-					padding: '0.3em',
-					paddingRight: '0.6em',
-					height: '6em',
-					display: 'flex',
-					flexDirection: 'column',
-					justifyContent: 'center'
-				}}
-			>
-				{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-					<BasicButton
-						text={participant.signed ? translate.user_signed : translate.to_sign}
-						fullWidth
-						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-						type="flat"
-						color={"white"}
-						onClick={event => {
-							event.stopPropagation();
-							showSignatureModal()
-						}}
-						textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-					/>
-				}
-			</div>
-		</Card>
-	</React.Fragment>
-)
+			</Card>
+		</React.Fragment>
+	)
+}
 
 const _getIcon = (mode, participant, translate, showCommentModal) => {
 	switch (mode) {
