@@ -80,24 +80,30 @@ const UserMenu = ({ user, actions, translate, company }) => {
 							minWidth: isMobile ? "270px" : "300px"
 						}}
 					>
-						<Link to={`/user/${user.id}`}>
-							<MenuItem style={{ height: "100%" }}>
+						<Link to={`/user/${user.id}`} style={{ width: "100%" }}>
+							<MenuItem style={{ height: "100%", width: "auto" }}>
 								<div
 									style={{
 										display: "flex",
 										paddingBottom: "0.5em",
 										justifyContent: "center",
 										alignItems: "center",
-										width: "100%"
+										width: "100%",
+										justifyContent: 'space-between'
 									}}
 								>
 									<div
 										style={{
-											width: "85%",
-											marginRight: "3%"
+											minWidth: "50%",
+											marginRight: "3%",
+											maxWidth: "215px"
 										}}
 									>
-										<b style={styles}>
+										<b style={{
+											...styles,
+											display: "block",
+											width: "100%",
+										}}>
 											{user.name + " " + user.surname}{" "}
 										</b>
 										<div>{user.phone}</div>
@@ -124,7 +130,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 						</Link>
 						<Divider />
 						<Link to={`/company/${company.id}/settings`}>
-							<MenuItem style={{ height: "100%" }}>
+							<MenuItem style={{ height: "100%", maxWidth: "270px" }}>
 								<div
 									style={{
 										display: "flex",
@@ -132,7 +138,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 										paddingTop: "0.5em",
 										width: "100%",
 										justifyContent: "center",
-										alignItems: "center"
+										alignItems: "center",
 									}}
 								>
 									<div
@@ -143,7 +149,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 											position: "relative",
 											borderRadius: "50%",
 											overflow: "hidden",
-											marginRight: "2em"
+											marginRight: "1.5em",
 										}}
 									>
 										<ImageCircular
@@ -161,11 +167,12 @@ const UserMenu = ({ user, actions, translate, company }) => {
 									<div
 										style={{
 											width: "65%",
-											padding: "0.2em"
+											padding: "0.4em",
+											...styles
 										}}
 									>
 										<b>{company.businessName}</b>
-										<div>{company.tin}</div>
+										<div style={{ whiteSpace:'nowrap',textOverflow: 'ellipsis', overflow: 'hidden'}}>{company.tin}</div>
 									</div>
 									<div style={{ width: "10%" }}>
 										<Icon
@@ -276,25 +283,55 @@ const UserMenu = ({ user, actions, translate, company }) => {
 			}
 		/>
 	) : (
-		<DropDownMenu
-			color="transparent"
-			id={"user-menu-trigger"}
-			text={
-				<Icon className="material-icons" style={{ color: secondary }}>
-					account_circle
+			<DropDownMenu
+				color="transparent"
+				id={"user-menu-trigger"}
+				text={
+					<Icon className="material-icons" style={{ color: secondary }}>
+						account_circle
 				</Icon>
-			}
-			textStyle={{ color: secondary }}
-			type="flat"
-			icon={
-				<Icon className="material-icons" style={{ color: secondary }}>
-					keyboard_arrow_down
+				}
+				textStyle={{ color: secondary }}
+				type="flat"
+				icon={
+					<Icon className="material-icons" style={{ color: secondary }}>
+						keyboard_arrow_down
 				</Icon>
-			}
-			items={
-				<Fragment>
-					<MenuItem>
-						<Link to={`/user/${user.id}`}>
+				}
+				items={
+					<Fragment>
+						<MenuItem>
+							<Link to={`/user/${user.id}`}>
+								<div
+									style={{
+										width: "100%",
+										display: "flex",
+										flexDirection: "row",
+										justifyContent: "space-between"
+									}}
+									id={"user-menu-settings"}
+								>
+									<FontAwesome
+										name={"edit"}
+										style={{
+											cursor: "pointer",
+											fontSize: "1.2em",
+											color: secondary
+										}}
+									/>
+									<span
+										style={{
+											marginLeft: "2.5em",
+											marginRight: "0.8em"
+										}}
+									>
+										{translate.settings}
+									</span>
+								</div>
+							</Link>
+						</MenuItem>
+						<Divider />
+						<MenuItem onClick={actions.logout}>
 							<div
 								style={{
 									width: "100%",
@@ -302,14 +339,14 @@ const UserMenu = ({ user, actions, translate, company }) => {
 									flexDirection: "row",
 									justifyContent: "space-between"
 								}}
-								id={"user-menu-settings"}
+								id={"user-menu-logout"}
 							>
 								<FontAwesome
-									name={"edit"}
+									name={"external-link"}
 									style={{
 										cursor: "pointer",
 										fontSize: "1.2em",
-										color: secondary
+										color: "red"
 									}}
 								/>
 								<span
@@ -318,44 +355,14 @@ const UserMenu = ({ user, actions, translate, company }) => {
 										marginRight: "0.8em"
 									}}
 								>
-									{translate.settings}
+									{translate.logout}
 								</span>
 							</div>
-						</Link>
-					</MenuItem>
-					<Divider />
-					<MenuItem onClick={actions.logout}>
-						<div
-							style={{
-								width: "100%",
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between"
-							}}
-							id={"user-menu-logout"}
-						>
-							<FontAwesome
-								name={"external-link"}
-								style={{
-									cursor: "pointer",
-									fontSize: "1.2em",
-									color: "red"
-								}}
-							/>
-							<span
-								style={{
-									marginLeft: "2.5em",
-									marginRight: "0.8em"
-								}}
-							>
-								{translate.logout}
-							</span>
-						</div>
-					</MenuItem>
-				</Fragment>
-			}
-		/>
-	);
+						</MenuItem>
+					</Fragment>
+				}
+			/>
+		);
 };
 
 const ImageCircular = ({ src, styles, children }) => {
