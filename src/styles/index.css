@@ -719,3 +719,10 @@ tr.rbc-cell-10 td:last-child::before {content: "\f133"; position: absolute;font-
 .barColorOrange>div {
     background-color: orange;
 }
+/*Con esto cambia la orientacion y fuerzas a que se vea portrait, pero no se quita el evento*/
+/* @media only screen and (orientation:landscape){
+    body {
+      height: 100vw;
+      transform: rotate(90deg);
+    }
+  } */
