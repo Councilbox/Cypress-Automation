@@ -252,7 +252,7 @@ const App = () => {
 											path="/meeting/new"
 											component={MeetingCreateContainer}
 										/>
-										{/* <Route path="/" component={AppRouter} /> */}
+										<Route path="/" component={AppRouter} />
 									</Switch>
 									<ToastContainer
 										position="top-right"

@@ -481,9 +481,8 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 	console.log(representative);
 
 	return (
-		<div style={{display: 'flex'}}>
-			VAMOS A ELLO
-			{representative.name}
+		<div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+			{`${representative.name} ${representative.surname}`}
 			{CBX.showSendCredentials(representative.state) &&
 				<div>
 					<ResendCredentialsModal
@@ -535,7 +534,7 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 							participant={representative}
 							council={props.council}
 							translate={translate}
-							refetch={props.refetch}
+							refetch={data.refetch}
 							inDropDown={true}
 						/>
 					</React.Fragment>
