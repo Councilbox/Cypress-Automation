@@ -40,7 +40,8 @@ class ParticipantContainer extends React.PureComponent {
 			if (
 				code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
 				code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
-				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
+				code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED ||
+				code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
 			) {
 				if (!this.props.council.councilVideo) {
 					return <LoadingMainApp />;
