@@ -42,6 +42,13 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 		editor.current.setValue(draft.text);
 	};
 
+	const loadFooterDraft = draft => {
+		updateState({
+			conveneFooter: draft.text
+		});
+		editor.current.setValue(draft.text);
+	};
+
 
 	const { quorumTypes, loading } = props.data;
 	return (
@@ -571,6 +578,26 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 							ref={editor}
 							errorText={errors.conveneFooter}
 							translate={translate}
+							saveDraft={
+								<SaveDraftIcon
+									onClick={showSaveDraft('CONVENE_HEADER')}
+									translate={translate}
+								/>
+							}
+							tags={getTagsByActSection('conveneHeader', translate)}
+							loadDraft={
+								<LoadDraftModal
+									translate={translate}
+									companyId={props.company.id}
+									loadDraft={loadFooterDraft}
+									statute={{
+										...statute,
+										statuteId: statute.id
+									}}
+									statutes={props.companyStatutes}
+									draftType={6}
+								/>
+							}
 							floatingText={'Pie de convocatoria'/*TRADUCCION*/}
 							value={statute.conveneFooter || ""}
 							onChange={value =>
