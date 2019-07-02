@@ -38,6 +38,8 @@ import ResendCredentialsModal from "./modals/ResendCredentialsModal";
 import { PARTICIPANT_STATES, PARTICIPANT_ERRORS, PARTICIPANT_TYPE } from "../../../../constants";
 import { useOldState, useHoverRow } from "../../../../hooks";
 import SignatureButton from "./SignatureButton";
+import { client } from "../../../../containers/App";
+import gql from "graphql-tag";
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -90,6 +92,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		if (response) {
 			data.refetch();
 		}
+	}
+
+	const showStateMenu = () => {
+		return !(participant.representatives && participant.representatives.length > 0);
 	}
 
 	const handleToggleVisib = () => {
@@ -167,7 +173,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									<React.Fragment>
 										<GridItem xs={landscape ? 1 : 12} md={3}>
 											<div>
-												{participant.type !== PARTICIPANT_TYPE.REPRESENTATED &&
+												{showStateMenu() &&
 													<DropDownMenu
 														claseHover={"classHover"}
 														color="transparent"
@@ -220,7 +226,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 														<b>{`${translate.current_status}:  `}</b>
 														{translate[CBX.getParticipantStateField(participant)]}
 													</div>
-													{participant.type !== PARTICIPANT_TYPE.REPRESENTATED &&
+													{showStateMenu() &&
 														<div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
 															<ParticipantStateSelector
 																inDropDown={true}
@@ -273,19 +279,14 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						{(CBX.isRepresented(participant) ||
 							CBX.hasHisVoteDelegated(participant)) && (
 								<GridItem xs={12} lg={12} md={12}>
-									{CBX.isRepresented(participant) && (
-										<React.Fragment>
-											<Typography variant="subheading">
-												{translate.represented_by}
-											</Typography>
-											<RepresentativeMenu
-												council={props.council}
-												translate={translate}
-												data={data}
-												participant={participant}
-											/>
-										</React.Fragment>
-									)}
+									<React.Fragment>
+										<RepresentativeMenu
+											council={props.council}
+											translate={translate}
+											data={data}
+											participant={participant}
+										/>
+									</React.Fragment>
 									{CBX.hasHisVoteDelegated(participant) && (
 										<React.Fragment>
 											<Typography variant="subheading">
@@ -474,86 +475,127 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 }
 
+
+const setMainRepresentative = gql`
+	mutation setMainRepresentative($participantId: Int!, $representativeId: Int!){
+		setMainRepresentative(participantId: $participantId, representativeId: $representativeId){
+			success
+		}
+	}
+`;
+
 const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 	const [signatureModal, setSignatureModal] = React.useState(false);
 	const representative = CBX.getMainRepresentative(participant);
+	const secondary = getSecondary();
 
-	console.log(representative);
+	const appointRepresentative = async () => {
+		const response = await client.mutate({
+			mutation: setMainRepresentative,
+			variables: {
+				participantId: participant.id,
+				representativeId: representative.id
+			}
+		});
+
+		console.log(response);
+
+		if(response.data){
+			data.refetch();
+		}
+	}
 
 	return (
-		<div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
-			{`${representative.name} ${representative.surname}`}
-			{CBX.showSendCredentials(representative.state) &&
-				<div>
-					<ResendCredentialsModal
-						participant={representative}
-						council={props.council}
-						translate={translate}
-						security={props.council.securityType > 0}
-						refetch={data.refetch}
-					/>
-				</div>
-			}
-
-			{/* <div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
-				<ParticipantStateSelector
-					inDropDown={true}
-					participant={{
-						...representative,
-						delegatedVotes: participant.delegatedVotes
-					}}
-					council={props.council}
-					translate={translate}
-					refetch={data.refetch}
-				/>
-			</div> */}
-			{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative) &&
-				<div>
-					<SignatureButton
-						participant={representative}
-						open={() => setSignatureModal(true)}
-						translate={translate}
-					/>
-				</div>
-			}
-			<DropDownMenu
-				claseHover={"classHover"}
-				color="transparent"
-				id={'dropdownEstados'}
-				style={{ paddingLeft: '0px', paddingRight: '0px' }}
-				icon={
-					<StateIcon
-						translate={translate}
-						state={representative.state}
-						ratio={1.3}
-					/>
-				}
-				items={
+		<div style={{marginBottom: '1em'}}>
+			<Typography variant="subheading">
+				{translate.representative}
+			</Typography>
+			<div style={{display: 'flex', width: '100%', justifyContent: 'space-between'}}>
+				{`${representative.name} ${representative.surname}`}
+				{participant.state !== PARTICIPANT_STATES.DELEGATED?
 					<React.Fragment>
-						<ParticipantStateList
-							participant={representative}
-							council={props.council}
-							translate={translate}
-							refetch={data.refetch}
-							inDropDown={true}
+						{CBX.showSendCredentials(representative.state) &&
+							<div>
+								<ResendCredentialsModal
+									participant={representative}
+									council={props.council}
+									translate={translate}
+									security={props.council.securityType > 0}
+									refetch={data.refetch}
+								/>
+							</div>
+						}
+
+						{/* <div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
+							<ParticipantStateSelector
+								inDropDown={true}
+								participant={{
+									...representative,
+									delegatedVotes: participant.delegatedVotes
+								}}
+								council={props.council}
+								translate={translate}
+								refetch={data.refetch}
+							/>
+						</div> */}
+						{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative) &&
+							<div>
+								<SignatureButton
+									participant={representative}
+									open={() => setSignatureModal(true)}
+									translate={translate}
+								/>
+							</div>
+						}
+						<DropDownMenu
+							claseHover={"classHover"}
+							color="transparent"
+							id={'dropdownEstados'}
+							style={{ paddingLeft: '0px', paddingRight: '0px' }}
+							icon={
+								<StateIcon
+									translate={translate}
+									state={representative.state}
+									ratio={1.3}
+								/>
+							}
+							items={
+								<React.Fragment>
+									<ParticipantStateList
+										participant={representative}
+										council={props.council}
+										translate={translate}
+										refetch={data.refetch}
+										inDropDown={true}
+									/>
+								</React.Fragment>
+							}
+							anchorOrigin={{
+								vertical: 'bottom',
+								horizontal: 'left',
+							}}
 						/>
+						{signatureModal &&
+							<SignatureModal
+								show={signatureModal}
+								council={props.council}
+								participant={representative}
+								refetch={data.refetch}
+								requestClose={() => setSignatureModal(false)}
+								translate={translate}
+							/>
+						}
 					</React.Fragment>
+				:
+					<BasicButton
+						text="Otogar voto"
+						color="white"
+						textStyle={{ color: secondary }}
+						onClick={appointRepresentative}
+						buttonStyle={{ border: `1px solid ${secondary}` }}
+					/>
 				}
-				anchorOrigin={{
-					vertical: 'bottom',
-					horizontal: 'left',
-				}}
-			/>
-			{signatureModal &&
-				<SignatureModal
-					show={signatureModal}
-					council={props.council}
-					participant={representative}
-					refetch={data.refetch}
-					requestClose={() => setSignatureModal(false)}
-					translate={translate}
-				/>
-			}
+			</div>
 		</div>
 	)
 }
