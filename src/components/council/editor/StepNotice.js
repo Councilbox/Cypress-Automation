@@ -53,6 +53,7 @@ class StepNotice extends React.Component {
 	baseState = this.state;
 
 	editor = null;
+	footerEditor = null;
 
  	componentDidUpdate(prevProps, prevState){
 		if(!this.props.data.loading){
@@ -192,6 +193,9 @@ class StepNotice extends React.Component {
 			this.loadDraft({
 				text: response.data.changeCouncilStatute.conveneHeader
 			});
+			this.loadFooterDraft({
+				text: response.data.changeCouncilStatute.conveneFooter
+			});
 			await this.props.data.refetch();
 			this.checkAssociatedCensus(statuteId);
 			this.updateDate();
@@ -288,6 +292,17 @@ class StepNotice extends React.Component {
 		});
 		this.editor.setValue(correctedText);
 	};
+
+	loadFooterDraft = draft => {
+		const correctedText = CBX.changeVariablesToValues(draft.text, {
+			company: this.props.company,
+			council: this.state.data
+		}, this.props.translate);
+		this.updateState({
+			conveneFooter: correctedText
+		});
+		this.footerEditor.setValue(correctedText);
+	}
 
 	checkRequiredFields() {
 		const { translate } = this.props;
@@ -611,6 +626,7 @@ class StepNotice extends React.Component {
 									<GridItem xs={12} md={12} lg={12}>
 										<RichTextInput
 											key={this.props.versionControl}
+											ref={editor => this.footerEditor = editor}
 											translate={translate}
 											errorText={errors.conveneFooter}
 											tags={tags}
