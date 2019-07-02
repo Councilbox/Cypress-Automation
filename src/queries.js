@@ -376,6 +376,7 @@ export const councilStepOne = gql`
 		council(id: $id) {
 			id
 			conveneText
+			conveneFooter
 			name
 			street
 			councilType
