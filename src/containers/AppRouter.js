@@ -186,8 +186,9 @@ class AppRouter extends React.Component {
 					style={{
 						width: "100%",
 						height: '100%',
-						position: "relative",
-						overflow: 'hidden'
+						position: "fixed",
+						overflow: 'hidden',
+						marginLeft: isMobile && isLandscape() && '5em'
 					}}
 				>
 					<LoadNoConnectionModal open={!this.props.main.serverStatus} />
@@ -198,7 +199,7 @@ class AppRouter extends React.Component {
 						height: '100%',
 						...(!verticalLayout ?
 							{
-								marginLeft: '5em',
+								marginLeft: isMobile && isLandscape() ? '0em' : '5em',
 								width: `calc(100% - 5em)`
 							} : {}
 						)
@@ -221,7 +222,7 @@ class AppRouter extends React.Component {
 						<div
 							style={{
 								// height: '100%',
-								height: `calc(100% - ${isMobile ? '6.5rem' : '3rem'})`,
+								height: `calc(100% - ${isMobile ? isLandscape() ? "3.5em" : '6.5rem' : '3rem'})`,
 								display: "flex",
 								width: "100%",
 								overflow: 'hidden',
@@ -237,7 +238,7 @@ class AppRouter extends React.Component {
 				</div>
 			</div>
 		) : (
-				<Switch>
+			<Switch>
 					<Route exact path="/" component={Login} />
 					<Route path="/signup" component={SignUpPage} />
 					<Route path="/forgetPwd" component={ForgetPwd} />

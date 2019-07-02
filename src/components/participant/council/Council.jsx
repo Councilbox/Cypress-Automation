@@ -33,7 +33,8 @@ const styles = {
         width: "100vw",
         height: "100%",
         // height: "calc( 100vh - 50px )",
-        position: "relative"
+        position: "fixed"
+        // position: "relative"
     },
     mainContainerM: {
         width: "100%",
@@ -234,12 +235,13 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
         titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item) })
     }
 
-    const landscape = isLandscape() || window.innerWidth > 700;
+    const landscape = isLandscape() && window.innerWidth < 700;
+    //|| window.innerWidth > 700;
     
     if (isMobile) {
         if (landscape) {
             return (
-                <div style={{ height: "100vh", overflow: "hidden" }}>
+                <div style={{ height: "100vh", overflow: "hidden", position:" fixed", width: "100vw" }}>
                     {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                         <Grid item xs={12} md={12} style={{ height: "100%" }}>
                             <div style={{ height: "100%" }}>
@@ -325,7 +327,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                             } : {})
                         }}>
                             {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={isLandscape() ? 12 : 12} md={8} style={{ height: "100%" }}>
+                                <Grid item xs={isLandscape() ? 12 : 12} md={12} style={{ height: "100%" }}>
                                     <div style={state.full ? stylesVideo.portrait[0].fullPadre : isLandscape() ? stylesVideo.landscape[0].middlePadre : stylesVideo.portrait[0].middlePadre}>
                                         <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
                                             <ConfigContext.Consumer>
