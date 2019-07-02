@@ -789,6 +789,7 @@ export const statutes = gql`
 			conclusion
 			actTemplate
 			conveneHeader
+			conveneFooter
 			censusId
 			quorumPrototype
 			existsComments

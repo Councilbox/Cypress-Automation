@@ -565,6 +565,22 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 						</GridItem>
 					</React.Fragment>
 				)}
+				{statute.conveneFooter !== undefined && (
+					<GridItem xs={12} md={12} lg={12}>
+						<RichTextInput
+							ref={editor}
+							errorText={errors.conveneFooter}
+							translate={translate}
+							floatingText={'Pie de convocatoria'/*TRADUCCION*/}
+							value={statute.conveneFooter || ""}
+							onChange={value =>
+								updateState({
+									conveneFooter: value
+								})
+							}
+						/>
+					</GridItem>
+				)}
 			</Grid>
 			{statute.existsAct === 1 && (
 				<Fragment>
@@ -735,9 +751,7 @@ const SaveDraftIcon = ({ onClick, translate }) => {
 	)
 }
 
-export default compose(
-	graphql(draftDetails)
-)(StatuteEditor);
+export default graphql(draftDetails)(StatuteEditor);
 
 
 
