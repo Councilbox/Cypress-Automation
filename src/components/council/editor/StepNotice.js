@@ -608,6 +608,21 @@ class StepNotice extends React.Component {
 											}
 										/>
 									</GridItem>
+									<GridItem xs={12} md={12} lg={12}>
+										<RichTextInput
+											key={this.props.versionControl}
+											translate={translate}
+											errorText={errors.conveneFooter}
+											tags={tags}
+											floatingText={'Pie de convocatoria'}
+											value={council.conveneFooter || ""}
+											onChange={value =>
+												this.updateState({
+													conveneFooter: value
+												})
+											}
+										/>
+									</GridItem>
 								</Grid>
 								<PlaceModal
 									open={this.state.placeModal}
