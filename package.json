@@ -51,6 +51,7 @@
     "react-dropzone": "^8.0.3",
     "react-float-button": "^0.1.2",
     "react-fontawesome": "^1.6.1",
+    "react-ga": "^2.6.0",
     "react-grid-layout": "^0.16.6",
     "react-loadable": "^5.4.0",
     "react-moment": "^0.7.0",

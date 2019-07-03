@@ -6,6 +6,9 @@ import "./styles/index.css";
 import LoadingMainApp from "./displayComponents/LoadingMainApp";
 import "react-toastify/dist/ReactToastify.css";
 import { unregister } from './registerServiceWorker';
+import ReactGa from 'react-ga';
+
+ReactGa.initialize(process.env.REACT_APP_GTAG_ID);
 
 const ThemeProviderLoad = Loadable({
 	loader: () => import('./displayComponents/ThemeProvider'),

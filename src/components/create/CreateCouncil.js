@@ -15,6 +15,7 @@ import { checkSecondDateAfterFirst } from "../../utils/CBX";
 import { isMobile } from "react-device-detect";
 import { Paper } from "material-ui";
 import { useHoverRow } from "../../hooks";
+import ReactGa from 'react-ga';
 
 
 const CreateCouncil = props => {
@@ -39,6 +40,10 @@ const CreateCouncil = props => {
 				props.match.params.company
 			);
 			if (newCouncilId) {
+				ReactGa.event({
+					category: "Council created",
+					action: "User created a new council with session",
+				});
 				bHistory.replace(`/company/${props.match.params.company}/council/${newCouncilId}`);
 			} else {
 				bHistory.replace(`/company/${props.match.params.company}`);
@@ -109,6 +114,10 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			});
 			const newCouncilId = response.data.createCouncil.id;
 			if (newCouncilId) {
+				ReactGa.event({
+					category: "Council created",
+					action: "User created a new council with session",
+				});
 				bHistory.replace(`/company/${company}/council/${newCouncilId}`);
 			} else {
 				bHistory.replace(`/company/${company}`);
