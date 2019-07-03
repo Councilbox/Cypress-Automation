@@ -123,7 +123,7 @@ class RichTextInput extends React.Component {
 								paddingRight: "0.8em"
 							}}
 						>
-							{!!tags && (
+							{
 								<React.Fragment>
 									<div
 										style={{
@@ -136,35 +136,37 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											<DropDownMenu
-												color="transparent"
-												text={translate.markers}
-												textStyle={{ color: secondary, paddingTop: '0px' }}
-												type="flat"
-												icon={
-													<Icon className="material-icons" style={{ color: secondary }}>
-														keyboard_arrow_down
-													</Icon>
-												}
-												items={
-													<React.Fragment>
-														{tags.map(tag => {
-															return (
-																<MenuItem
-																	key={`tag_${tag.label}`}
-																	onClick={() =>
-																		this.paste(`<span id="${tag.label}">${tag.value}</span>`)
-																	}
+											{!!tags &&
+												<DropDownMenu
+													color="transparent"
+													text={translate.markers}
+													textStyle={{ color: secondary, paddingTop: '0px' }}
+													type="flat"
+													icon={
+														<Icon className="material-icons" style={{ color: secondary }}>
+															keyboard_arrow_down
+														</Icon>
+													}
+													items={
+														<React.Fragment>
+															{tags.map(tag => {
+																return (
+																	<MenuItem
+																		key={`tag_${tag.label}`}
+																		onClick={() =>
+																			this.paste(`<span id="${tag.label}">${tag.value}</span>`)
+																		}
 
-																>
-																	{tag.label}
-																</MenuItem>
-															);
-														})}
+																	>
+																		{tag.label}
+																	</MenuItem>
+																);
+															})}
 
-													</React.Fragment>
-												}
-											/>
+														</React.Fragment>
+													}
+												/>
+											}
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
@@ -174,7 +176,7 @@ class RichTextInput extends React.Component {
 										</div>
 									</div>
 								</React.Fragment>
-							)}
+							}
 						</div>
 						{
 							<ReactQuill value={this.state.value}
