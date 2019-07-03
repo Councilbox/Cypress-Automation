@@ -22,16 +22,15 @@ const sidebarStyle = theme => ({
 class CompanyMenu extends React.Component {
 	render() {
 		const sideWidth = window.innerWidth > 420 ? 420 : window.innerWidth;
-		// console.log(this.props.classes.paperAnchorLeft)
-
+		
 		return (
 			<Drawer
 				disableBackdropTransition={!iOS}
 				disableDiscovery={iOS}
 				style={{
-					// zIndex: 99999,
 					minWidth: `${sideWidth + isLandscape() ? 100 : 0}px`,
 					maxWidth: "100%",
+					display: !this.props.open && "none"
 				}}
 				variant="persistent"
 				anchor="left"
@@ -42,14 +41,11 @@ class CompanyMenu extends React.Component {
 				<div
 					style={{
 						height: "100%",
-						// zIndex: 99999,
 						minWidth: `calc(${sideWidth}px - 5em)`,
 						maxWidth: '100%',
 						backgroundColor: 'white',
-						// backgroundColor: 'transparent',
 						paddingLeft:   !isMobile  ? "5em" : 0 ,
 						// paddingLeft: isMobile && !isLandscape() ? 0 : '5em',
-						// marginLeft: isMobile && !isLandscape() &&'5em',
 						overflow: "hidden",
 						display: 'flex',
 						flexDirection: 'column',
@@ -58,7 +54,6 @@ class CompanyMenu extends React.Component {
 				>
 					<div
 						style={{
-							// zIndex: 9999,
 							height: '3.1em',
 							backgroundColor: getSecondary(),
 							color: 'white',
