@@ -16,6 +16,7 @@ import { isMobile } from "react-device-detect";
 import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
+import { PARTICIPANT_STATES } from "../../constants";
 // import * as CBX from '../../../utils/CBX';
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
@@ -70,6 +71,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	}
 
 	const _renderParticipantInfo = () => {
+		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
+		const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
+
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
@@ -79,15 +83,24 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					<div style={{ marginBottom: '1em' }}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
-					<div>
-						{`${translate.you_have_following_delegated_votes}:`}
-						{participant.delegatedVotes.map(vote => (
-							<div key={`delegatedVote_${vote.id}`}>
-								<b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
-							</div>
-						))}
-						<br></br>
-					</div>
+						{delegations.length > 0 &&
+                    		translate.you_have_following_delegated_votes
+						}
+						{delegations.map(vote => (
+								<div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+									<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+								</div>
+							)
+						)}
+						{representations.length > 0 &&
+							'Está representando a:'
+						}
+						{representations.map(vote => (
+								<div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+									<span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+								</div>
+							)
+						)}
 					{`${translate.total_votes}: ${calculateParticipantVotes()}`}
 				</Card>
 			</div>

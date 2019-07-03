@@ -4,6 +4,7 @@ import { graphql } from 'react-apollo';
 import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
+import { PARTICIPANT_STATES } from '../../../constants';
 
 const reducer = (state, { type, payload }) => {
     const actions = {
@@ -38,24 +39,37 @@ const DelegationsModal = ({ open, requestClose, translate, refuseDelegation, ref
         setDelegation(false);
     }
 
+    const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
+    const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
+
     function _renderDelegationsModalBody() {
         return (
             <div>
-                {participant.delegatedVotes.length > 0 &&
+                {delegations.length > 0 &&
                     translate.you_have_following_delegated_votes
                 }
-                {participant.delegatedVotes.map(vote => (
-                    <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
-                        <BasicButton
-                            text={translate.refuse}
-                            color="white"
-                            onClick={() => setDelegation(vote)}
-                            buttonStyle={{ border: `1px solid ${getSecondary()}`}}
-                            textStyle={{ color: getSecondary() }}
-                        />
-                    </div>
-                ))}
+                {delegations.map(vote => (
+                        <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+                            <BasicButton
+                                text={translate.refuse}
+                                color="white"
+                                onClick={() => setDelegation(vote)}
+                                buttonStyle={{ border: `1px solid ${getSecondary()}`}}
+                                textStyle={{ color: getSecondary() }}
+                            />
+                        </div>
+                    )
+                )}
+                {representations.length > 0 &&
+                    'Está representando a:'
+                }
+                {representations.map(vote => (
+                        <div key={`delegatedVote_${vote.id}`} style={{padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <span>{`${vote.name} ${vote.surname} - ${translate.votes}: ${vote.numParticipations}`}</span>
+                        </div>
+                    )
+                )}
                 <br/>Total de votos: {calculateParticipantVotes()}
             </div>
         )
