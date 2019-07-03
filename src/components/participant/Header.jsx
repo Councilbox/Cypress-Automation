@@ -14,67 +14,62 @@ import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
 import { councilIsFinished } from '../../utils/CBX';
 import { isMobile } from "react-device-detect";
 import Convene from "../council/convene/Convene";
+import { useOldState } from "../../hooks";
+import withSharedProps from "../../HOCs/withSharedProps";
 // import * as CBX from '../../../utils/CBX';
 
-
-
-class Header extends React.Component {
-
-	state = {
+const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
+	const [state, setState] = useOldState({
 		showConvene: false,
 		showCouncilInfo: false,
 		showParticipantInfo: false,
 		drawerTop: false
-	}
+	});
+	const primary = getPrimary();
+	const secondary = getSecondary();
 
-
-	componentDidUpdate() {
-		if (this.props.council) {
-			if (councilIsFinished(this.props.council)) {
-				this.logout();
-			}
+	React.useEffect(() => {
+		if(councilIsFinished(council)){
+			logout();
 		}
+	}, [council]);
+
+	const logout = () => {
+		props.actions.logoutParticipant(participant, council);
 	}
 
-	logout = () => {
-		const { participant, council } = this.props;
-		this.props.actions.logoutParticipant(participant, council);
-	};
-
-	_renderConveneBody = () => {
+	const _renderConveneBody = () => {
 		return (
-			<div style={{ borderTop: `5px solid ${getPrimary()}`, marginBottom: "1em",  }}>
+			<div style={{ borderTop: `5px solid ${primary}`, marginBottom: "1em",  }}>
 				<div style={{ marginTop: "1em", marginRight: "1em", justifyContent: "flex-end", display: "flex" }}>
 					< i
 						className={"fa fa-close"}
 						style={{
 							cursor: "pointer",
 							fontSize: "1.5em",
-							color: getSecondary(),
+							color: secondary
 						}}
-						onClick={() => this.setState({ drawerTop: false })}
+						onClick={() => setState({ drawerTop: false })}
 					/>
 				</div>
 				<div style={{ margin: "0 auto" }}>
 					<Convene
 						noButtonsDownload={true}
-						council={this.props.council}
-						translate={this.props.translate}
-						agendaNoSession={this.props.agendaNoSession}
+						council={council}
+						translate={translate}
+						agendaNoSession={props.agendaNoSession}
 					/>
 				</div>
-			</div >
+			</div>
 		)
 	}
 
 
-	calculateParticipantVotes = () => {
-		return this.props.participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, this.props.participant.numParticipations);
+	const calculateParticipantVotes = () => {
+		return participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations);
 	}
 
-	_renderParticipantInfo = () => {
-		const { translate, participant } = this.props;
-
+	const _renderParticipantInfo = () => {
 		return (
 			<div>
 				<Card style={{ padding: "20px" }}>
@@ -85,7 +80,7 @@ class Header extends React.Component {
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
 					<div>
-						{`${this.props.translate.you_have_following_delegated_votes}:`}
+						{`${translate.you_have_following_delegated_votes}:`}
 						{participant.delegatedVotes.map(vote => (
 							<div key={`delegatedVote_${vote.id}`}>
 								<b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
@@ -93,217 +88,200 @@ class Header extends React.Component {
 						))}
 						<br></br>
 					</div>
-					{`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
+					{`${translate.total_votes}: ${calculateParticipantVotes()}`}
 				</Card>
-			</div >
+			</div>
 		)
 	}
 
-	
-	render() {
-		const { logoutButton, windowSize, primaryColor, titleHeader, translate, classes } = this.props;
-		const { council } = this.props;
-		const primary = getPrimary();
-		
-		return (
-			<header
-				className="App-header"
+
+	return (
+		<header
+			className="App-header"
+			style={{
+				height: "3em",
+				display: "flex",
+				flexDirection: "row",
+				width: "100%",
+				justifyContent: "space-between",
+				borderBottom: '1px solid gainsboro',
+				alignItems: "center",
+				background: 'white',
+				color: primary
+			}}
+		>
+			<div
 				style={{
-					height: "3em",
 					display: "flex",
 					flexDirection: "row",
-					width: "100%",
-					justifyContent: "space-between",
-					borderBottom: '1px solid gainsboro',
-					alignItems: "center",
-					background: 'white',
-					color: getPrimary()
+					height: "100%",
+					width: windowSize === "xs" ? '5em' : '15em',
+					alignItems: "center"
 				}}
 			>
-				<div
-					style={{
-						display: "flex",
-						flexDirection: "row",
-						height: "100%",
-						width: windowSize === "xs" ? '5em' : '15em',
-						alignItems: "center"
-					}}
-				>
-					{variant === 'COE' ?
-						<div>
-							<img
-								src={windowSize !== "xs" ? conpaasLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-							<img
-								src={windowSize !== "xs" ? coeLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-						</div>
-						:
+				{variant === 'COE' ?
+					<div>
 						<img
-							src={windowSize !== "xs" ? logo : icono}
+							src={windowSize !== "xs" ? conpaasLogo : icono}
 							className="App-logo"
 							style={{
 								height: "1.5em",
-								marginLeft: "2em"
+								marginLeft: "1em",
+								// marginLeft: "2em",
+								userSelect: 'none'
 							}}
 							alt="logo"
 						/>
-					}
-				</div>
-
-
-				{(council && council.autoClose !== 1) &&
-					<Marquee
-						isMobile={isMobile}
-					>
-						{titleHeader}
-					</Marquee>
-				}
-
-				{(council && council.name) && council.autoClose === 1 &&
-					<div
-						style={{
-							width: '65%',
-							display: 'flex',
-							justifyContent: 'center'
-						}}
-					>
-						<Tooltip title={council.name}>
-							<div style={{
-								color: primary,
-								fontWeight: '700',
-								fontSize: '1.1em',
-								whiteSpace: 'nowrap',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis'
-							}}>
-								{council.name}
-							</div>
-						</Tooltip>
+						<img
+							src={windowSize !== "xs" ? coeLogo : icono}
+							className="App-logo"
+							style={{
+								height: "1.5em",
+								marginLeft: "1em",
+								// marginLeft: "2em",
+								userSelect: 'none'
+							}}
+							alt="logo"
+						/>
 					</div>
-				}
-				<Tooltip title={translate.view_original_convene}>
-					<Icon
-						onClick={() => this.setState({ drawerTop: !this.state.drawerTop })}
-						className="material-icons"
+					:
+					<img
+						src={windowSize !== "xs" ? logo : icono}
+						className="App-logo"
 						style={{
-							cursor: "pointer",
-							color: getPrimary(),
-							marginRight: "0.4em",
-							width:"30px"
+							height: "1.5em",
+							marginLeft: "2em"
 						}}
-					>
-						list_alt
-            		</Icon>
-				</Tooltip>
+						alt="logo"
+					/>
+				}
+			</div>
+
+
+			{(council && council.autoClose !== 1) &&
+				<Marquee
+					isMobile={isMobile}
+				>
+					{titleHeader}
+				</Marquee>
+			}
+
+			{(council && council.name) && council.autoClose === 1 &&
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "row",
-						justifyContent: 'flex-end',
-						width: windowSize === "xs" ? '6em' : '15em',
-						alignItems: "center"
+						width: '65%',
+						display: 'flex',
+						justifyContent: 'center'
 					}}
 				>
-					<Tooltip title={translate.participant_data}>
-						<Icon
-							onClick={() =>
-								this.setState({
-									showParticipantInfo: true
-								})
-							}
-							className="material-icons"
-							style={{
-								cursor: 'pointer',
-								color: getPrimary(),
-								marginRight: "0.4em"
-							}}
-						>
-							person
-						</Icon>
+					<Tooltip title={council.name}>
+						<div style={{
+							color: primary,
+							fontWeight: '700',
+							fontSize: '1.1em',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis'
+						}}>
+							{council.name}
+						</div>
 					</Tooltip>
-					{
-						logoutButton && (
-							<IconButton
-								style={{
-									marginRight: "0.5em",
-									outline: "0"
-								}}
-								aria-label="help"
-								onClick={this.logout}
-							>
-								<Icon
-									className="material-icons"
-									style={{
-										color: primaryColor ? primary : 'white',
-										fontSize: "0.9em"
-									}}
-								>
-									exit_to_app
-							</Icon>
-							</IconButton>
-						)
-					}
-				</div >
-				{/* {this.state.showConvene &&
-					<AlertConfirm
-						requestClose={() => this.setState({ showConvene: false })}
-						open={this.state.showConvene}
-						acceptAction={this.closeConveneModal}
-						buttonAccept={translate.accept}
-						bodyText={this._renderConveneBody()}
-						title={translate.original_convene}
-					/>
-				} */}
-				{
-					this.state.drawerTop &&
-					<Drawer
-						className={"drawerConveneRoot"}
-						BackdropProps={{
-							className: "drawerConvene"
+				</div>
+			}
+			<Tooltip title={translate.view_original_convene}>
+				<Icon
+					onClick={() => setState({ drawerTop: !state.drawerTop })}
+					className="material-icons"
+					style={{
+						cursor: "pointer",
+						color: primary,
+						marginRight: "0.4em",
+						width:"30px"
+					}}
+				>
+					list_alt
+				</Icon>
+			</Tooltip>
+			<div
+				style={{
+					display: "flex",
+					flexDirection: "row",
+					justifyContent: 'flex-end',
+					width: windowSize === "xs" ? '6em' : '15em',
+					alignItems: "center"
+				}}
+			>
+				<Tooltip title={translate.participant_data}>
+					<Icon
+						onClick={() =>
+							setState({
+								showParticipantInfo: true
+							})
+						}
+						className="material-icons"
+						style={{
+							cursor: 'pointer',
+							color: primary,
+							marginRight: "0.4em"
 						}}
-						classes={{
-							paperAnchorTop: classes.paperAnchorTop,
-						}}
-						anchor="top"
-						open={this.state.drawerTop}
-						onClose={() => this.setState({ drawerTop: false })}
 					>
-						{this._renderConveneBody()}
-					</Drawer>
+						person
+					</Icon>
+				</Tooltip>
+				{logoutButton && (
+						<IconButton
+							style={{
+								marginRight: "0.5em",
+								outline: "0"
+							}}
+							aria-label="help"
+							onClick={logout}
+						>
+							<Icon
+								className="material-icons"
+								style={{
+									color: primaryColor ? primary : 'white',
+									fontSize: "0.9em"
+								}}
+							>
+								exit_to_app
+						</Icon>
+						</IconButton>
+					)
 				}
-				{
-					this.state.showParticipantInfo &&
-					<AlertConfirm
-						requestClose={() => this.setState({ showParticipantInfo: false })}
-						open={this.state.showParticipantInfo}
-						acceptAction={this.closeParticipantInfoModal}
-						buttonAccept={translate.accept}
-						bodyText={this._renderParticipantInfo()}
-						title={translate.participant_data}
-						bodyStyle={{ paddingTop: "5px", margin: "10px" }}
-					/>
-				}
-			</header >
-		);
-	}
+			</div>
+			{state.drawerTop &&
+				<Drawer
+					className={"drawerConveneRoot"}
+					BackdropProps={{
+						className: "drawerConvene"
+					}}
+					classes={{
+						paperAnchorTop: classes.paperAnchorTop,
+					}}
+					anchor="top"
+					open={state.drawerTop}
+					onClose={() => setState({ drawerTop: false })}
+				>
+					{_renderConveneBody()}
+				</Drawer>
+			}
+			{state.showParticipantInfo &&
+				<AlertConfirm
+					requestClose={() => setState({ showParticipantInfo: false })}
+					open={state.showParticipantInfo}
+					acceptAction={() => setState({ showParticipantInfo: false })}
+					buttonAccept={translate.accept}
+					bodyText={_renderParticipantInfo()}
+					title={translate.participant_data}
+					bodyStyle={{ paddingTop: "5px", margin: "10px" }}
+				/>
+			}
+		</header>
+	);
+
 }
+
 
 
 const Marquee = ({ children, isMobile }) => {
@@ -315,7 +293,7 @@ const Marquee = ({ children, isMobile }) => {
 		display: 'inline-block',
 		paddingLeft: '100%',
 		textIndent: '0',
-		animation: 'marquee 30s linear infinite', //TODO Hacer algo para calcular los segundos
+		animation: 'marquee 30s linear infinite',
 		marginBottom: '0'
 	}
 	const stylesNoMove = {
@@ -389,4 +367,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(withWindowSize(withStyles(styles)(Header)));
+)(withWindowSize(withStyles(styles)(withSharedProps()(Header))));
