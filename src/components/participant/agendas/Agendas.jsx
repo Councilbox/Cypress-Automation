@@ -8,6 +8,7 @@ import DelegationsModal from './DelegationsModal';
 import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import { toast } from 'react-toastify';
 import AgendaNoSession from "./AgendaNoSession";
+import { isMobile } from "react-device-detect";
 
 
 class Agendas extends React.Component {
@@ -110,19 +111,20 @@ class Agendas extends React.Component {
 
     toastChanges = (message, onClose) => {
         this.props.setAgendaBadge(true);
-        toast(
-            <LiveToast
-                message={message}
-                action={() => this.selectAgenda}
-            />, {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: false,
-                onClose: onClose,
-                className: "liveToast"
-            }
-        )
+        if (!isMobile) {
+            toast(
+                <LiveToast
+                    message={message}
+                    action={() => this.selectAgenda}
+                />, {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: false,
+                    onClose: onClose,
+                    className: "liveToast"
+                }
+            )
+        }
     }
-
     render() {
         return (
             <React.Fragment>
