@@ -630,7 +630,19 @@ class StepNotice extends React.Component {
 											translate={translate}
 											errorText={errors.conveneFooter}
 											tags={tags}
-											floatingText={'Pie de convocatoria'}
+											loadDraft={
+												<LoadDraftModal
+													translate={translate}
+													companyId={company.id}
+													loadDraft={this.loadFooterDraft}
+													statute={statute}
+													statutes={companyStatutes}
+													draftType={
+														draftTypes.filter(draft => draft.label === "convene_footer")[0].value
+													}
+												/>
+											}
+											floatingText={translate.convene_footer}
 											value={council.conveneFooter || ""}
 											onChange={value =>
 												this.updateState({
