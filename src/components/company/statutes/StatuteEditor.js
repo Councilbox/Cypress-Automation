@@ -35,6 +35,15 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 		setSaveDraft(type);
 	}
 
+	const getText = type => {
+		const types = {
+			'CONVENE_HEADER': statute.conveneHeader,
+			'CONVENE_FOOTER': statute.conveneFooter,
+			default: statute[type.toString().toLowerCase()]
+		}
+		return types[type]? types[type] : types.default;
+	}
+
 	const loadDraft = draft => {
 		updateState({
 			conveneHeader: draft.text
@@ -580,11 +589,10 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 							translate={translate}
 							saveDraft={
 								<SaveDraftIcon
-									onClick={showSaveDraft('CONVENE_HEADER')}
+									onClick={showSaveDraft('CONVENE_FOOTER')}
 									translate={translate}
 								/>
 							}
-							tags={getTagsByActSection('conveneHeader', translate)}
 							loadDraft={
 								<LoadDraftModal
 									translate={translate}
@@ -598,7 +606,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 									draftType={6}
 								/>
 							}
-							floatingText={'Pie de convocatoria'/*TRADUCCION*/}
+							floatingText={translate.convene_footer}
 							value={statute.conveneFooter || ""}
 							onChange={value =>
 								updateState({
@@ -743,23 +751,27 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 							/>
 						</GridItem>
 					</Grid>
-					<SaveDraftModal
-						open={!!saveDraft}
-						data={{
-							text: saveDraft === 'CONVENE_HEADER'? statute.conveneHeader : statute[saveDraft.toString().toLowerCase()],
-							description: "",
-							title: `${translate[statute.title] || statute.title} - ${saveDraft === 'CONVENE_HEADER'? translate.convene_header : saveDraft.toString().toLowerCase()}`,
-							votationType: 0,
-							type: DRAFT_TYPES[saveDraft],
-							statuteId: statute.id
-						}}
-						company={props.company}
-						requestClose={closeDraftModal}
-						companyStatutes={props.data.companyStatutes}
-						votingTypes={props.data.votingTypes}
-						majorityTypes={props.data.majorityTypes}
-						draftTypes={props.data.draftTypes}
-					/>
+					{!!saveDraft &&
+						<SaveDraftModal
+							key={saveDraft}
+							open={!!saveDraft}
+							data={{
+								text: getText(saveDraft),
+								description: "",
+								title: '',
+								votationType: 0,
+								type: DRAFT_TYPES[saveDraft],
+								statuteId: statute.id
+							}}
+							company={props.company}
+							requestClose={closeDraftModal}
+							companyStatutes={props.data.companyStatutes}
+							votingTypes={props.data.votingTypes}
+							majorityTypes={props.data.majorityTypes}
+							draftTypes={props.data.draftTypes}
+						/>
+					}
+
 				</Fragment>
 			)}
 		</Fragment>

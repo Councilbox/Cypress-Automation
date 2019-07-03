@@ -6,43 +6,24 @@ import { graphql } from "react-apollo";
 import { createCompanyDraft } from "../../../queries/companyDrafts";
 import { checkRequiredFields } from "../../../utils/CBX";
 
-class SaveDraftModal extends React.Component {
-	state = {
-		data: {}
-	};
+const SaveDraftModal = ({ translate, ...props }) => {
+	const [data, setData] = React.useState(props.data);
+	const [errors, setErrors] = React.useState({})
 
-	static getDerivedStateFromProps(nextProps, prevState) {
-		if(prevState.data.id !== nextProps.data.id){
-			return {
-				data: nextProps.data
-			};
-		}
-		return null;
+	const updateState = object => {
+		setData({
+			...data,
+			...object
+		});
 	}
 
+	const updateErrors = object => {
+		setErrors(object);
+	}
 
-	updateState = object => {
-		this.setState({
-			data: {
-				...this.state.data,
-				...object
-			}
-		});
-	};
-
-	updateErrors = errors => {
-		this.setState({
-			errors
-		});
-	};
-
-	createCompanyDraft = async () => {
-		const { translate } = this.props;
-		const draft = this.state.data;
-		if (!checkRequiredFields(translate, draft, this.updateErrors)) {
-			const { data } = this.state;
-			this.setState({ loading: true });
-			const response = await this.props.createCompanyDraft({
+	const createCompanyDraft = async () => {
+		if (!checkRequiredFields(translate, data, updateErrors)) {
+			const response = await props.createCompanyDraft({
 				variables: {
 					draft: {
 						title: data.title,
@@ -54,55 +35,51 @@ class SaveDraftModal extends React.Component {
 						majorityType: data.majorityType,
 						majority: data.majority,
 						majorityDivider: data.majorityDivider,
-						companyId: this.props.company.id
+						companyId: props.company.id
 					}
 				}
 			});
 
 			if (!response.errors) {
-				this.setState({ success: true });
-				this.props.requestClose();
+				props.requestClose();
 			}
 		}
 	};
 
-	_renderNewPointBody = () => {
-		const { translate } = this.props;
-		const { data = {} } = this.state;
+	const _renderNewPointBody = () => {
+		console.log(data);
 
 		return (
 			<div style={{ width: "800px" }}>
 				<CompanyDraftForm
 					translate={translate}
-					errors={{}}
-					updateState={this.updateState}
+					errors={errors}
+					updateState={updateState}
 					draft={data}
-					companyStatutes={this.props.companyStatutes}
-					draftTypes={this.props.draftTypes}
-					votingTypes={this.props.votingTypes}
-					majorityTypes={this.props.majorityTypes}
+					companyStatutes={props.companyStatutes}
+					draftTypes={props.draftTypes}
+					votingTypes={props.votingTypes}
+					majorityTypes={props.majorityTypes}
 				/>
 			</div>
 		);
-	};
-
-	render() {
-		const { translate } = this.props;
-
-		return (
-			<AlertConfirm
-				requestClose={this.props.requestClose}
-				open={this.props.open}
-				acceptAction={this.createCompanyDraft}
-				cancelAction={this.props.requestClose}
-				buttonAccept={translate.accept}
-				buttonCancel={translate.cancel}
-				bodyText={this._renderNewPointBody()}
-				title={translate.new_draft}
-			/>
-		);
 	}
+
+	return (
+		<AlertConfirm
+			requestClose={props.requestClose}
+			open={props.open}
+			acceptAction={createCompanyDraft}
+			cancelAction={props.requestClose}
+			buttonAccept={translate.accept}
+			buttonCancel={translate.cancel}
+			bodyText={_renderNewPointBody()}
+			title={translate.new_draft}
+		/>
+	)
+
 }
+
 
 export default graphql(createCompanyDraft, { name: "createCompanyDraft" })(
 	withTranslations()(SaveDraftModal)
