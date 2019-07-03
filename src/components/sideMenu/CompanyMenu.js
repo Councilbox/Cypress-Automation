@@ -25,8 +25,8 @@ class CompanyMenu extends React.Component {
 		
 		return (
 			<Drawer
-				disableBackdropTransition={!iOS}
-				disableDiscovery={iOS}
+				// disableBackdropTransition={!iOS}
+				// disableDiscovery={iOS}
 				style={{
 					minWidth: `${sideWidth + isLandscape() ? 100 : 0}px`,
 					maxWidth: "100%",
