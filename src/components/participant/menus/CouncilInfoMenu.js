@@ -5,6 +5,8 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import Convene from '../../council/convene/Convene';
 import CouncilInfo from '../../council/convene/CouncilInfo';
 import withTranslations from '../../../HOCs/withTranslations';
+import { moment } from '../../../containers/App';
+
 
 
 
@@ -72,15 +74,15 @@ class CouncilInfoMenu extends React.Component {
                         <b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
                     </div>
                     <div>
-                {`${this.props.translate.you_have_following_delegated_votes}:`}
-                {participant.delegatedVotes.map(vote => (
+                        {`${this.props.translate.you_have_following_delegated_votes}:`}
+                        {participant.delegatedVotes.map(vote => (
                             <div key={`delegatedVote_${vote.id}`}>
                                 <b>{`${vote.name} ${vote.surname} - Votos `}</b> : {`${vote.numParticipations}`/*TRADUCCION*/}
                             </div>
                         ))}
                         <br></br>
                     </div>
-                {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
+                    {`${this.props.translate.total_votes}: ${this.calculateParticipantVotes()}`}
                 </Card>
             </div >
         )
@@ -90,99 +92,51 @@ class CouncilInfoMenu extends React.Component {
         const primary = getPrimary();
         const secondary = getSecondary();
         const { translate } = this.props;
-        
+        let fecha1 = moment(new Date(this.props.council.closeDate))
+        let fecha2 = moment(new Date())
+
+        const diff = fecha1.diff(fecha2);
+        const diffDuration = moment.duration(diff);
+        let data = diffDuration.days()
+            + ":" + (diffDuration.hours() < 10 ? '0' + diffDuration.hours() : diffDuration.hours())
+            + ":" + (diffDuration.minutes() < 10 ? '0' + diffDuration.minutes() : diffDuration.minutes());
+
+
         return (
             <React.Fragment>
-                <DropDownMenu
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    color="transparent"
-                    Component={() =>
-                        <IconButton
-                            size={'small'}
-                            style={{ outline: 0, color: secondary, }}
-                            title={"information"}
-                        >
-                            <i className="fa fa-info"></i>
-                        </IconButton>
-                    }
-                    textStyle={{ color: primary }}
-                    items={
-                        <React.Fragment>
-                            <MenuItem
-                                onClick={() => this.setState({ showConvene: true })}
-                                style={{
-                                    fontSize: '1em'
-                                }}
-                            >
-                                <Icon
-                                    className="material-icons"
-                                    style={{
-                                        color: secondary,
-                                        marginRight: "0.4em"
-                                    }}
-                                >
-                                    list_alt
-                                </Icon>
-                                {translate.view_original_convene}
-                            </MenuItem>
-                            <MenuItem
-                                onClick={() =>
-                                    this.setState({
-                                        showCouncilInfo: true
-                                    })
-                                }
-                                style={{
-                                    fontSize: '1em'
-                                }}
-                            >
-                                <Icon
-                                    className="material-icons"
-                                    style={{
-                                        color: secondary,
-                                        marginRight: "0.4em"
-                                    }}
-                                >
-                                    info
-                                </Icon>
-                                {translate.council_info}
-                            </MenuItem>
-                            <MenuItem
-                                onClick={() =>
-                                    this.setState({
-                                        showParticipantInfo: true
-                                    })
-                                }
-                                style={{
-                                    fontSize: '1em'
-                                }}
-                            >
-                                <Icon
-                                    className="material-icons"
-                                    style={{
-                                        color: secondary,
-                                        marginRight: "0.4em"
-                                    }}
-                                >
-                                    person
-                                </Icon>
-                                {translate.participant_data}
-                            </MenuItem>
-                        </React.Fragment>
-                    }
-                />
-                {this.state.showConvene &&
-                    <AlertConfirm
-                        requestClose={this.closeConveneModal}
-                        open={this.state.showConvene}
-                        acceptAction={this.closeConveneModal}
-                        buttonAccept={translate.accept}
-                        bodyText={this._renderConveneBody()}
-                        title={translate.original_convene}
-                    />
+                <div style={{ display: "flex", justifyContent:"flex-end" }}>
+                {!this.props.noSession &&
+                    <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
+                        {data}
+                        <i className="fa fa-hourglass-half"
+                            style={{
+                                outline: 0,
+                                color: secondary,
+                                fontSize: '16px',
+                                paddingLeft: " 0.2em"
+                            }}
+                        ></i>
+                    </div>
                 }
+
+                    <IconButton
+                        size={'small'}
+                        onClick={() =>
+                            this.setState({
+                                showCouncilInfo: true
+                            })
+                        }
+                        style={{
+                            outline: 0,
+                            color: secondary,
+                            cursor: 'pointer',
+                            width:"42px"
+                        }}
+                        title={"information"}
+                    >
+                        <i className="fa fa-info"></i>
+                    </IconButton>
+                </div>
                 {this.state.showCouncilInfo &&
                     <AlertConfirm
                         requestClose={this.closeInfoModal}
@@ -191,18 +145,7 @@ class CouncilInfoMenu extends React.Component {
                         buttonAccept={translate.accept}
                         bodyText={this._renderCouncilInfo()}
                         title={translate.council_info}
-                        bodyStyle={{paddingTop: "5px", margin: "10px"}}
-                    />
-                }
-                {this.state.showParticipantInfo &&
-                    <AlertConfirm
-                        requestClose={this.closeParticipantInfoModal}
-                        open={this.state.showParticipantInfo}
-                        acceptAction={this.closeParticipantInfoModal}
-                        buttonAccept={translate.accept}
-                        bodyText={this._renderParticipantInfo()}
-                        title={translate.participant_data}
-                        bodyStyle={{paddingTop: "5px", margin: "10px"}}
+                        bodyStyle={{ paddingTop: "5px", margin: "10px" }}
                     />
                 }
             </React.Fragment>

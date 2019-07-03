@@ -193,9 +193,11 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     }
 
     const _renderAgendaSection = () => {
+        let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
         return (
             <Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{}}> {/*minHeight: '45%', */}
                 <Agendas
+                    noSession={noSession}
                     participant={participant}
                     council={council}
                     setAgendaBadge={setAgendaBadge}
@@ -237,11 +239,12 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
 
     const landscape = isLandscape() && window.innerWidth < 700;
     //|| window.innerWidth > 700;
-    
+
+
     if (isMobile) {
         if (landscape) {
             return (
-                <div style={{ height: "100vh", overflow: "hidden", position:" fixed", width: "100vw" }}>
+                <div style={{ height: "100vh", overflow: "hidden", position: " fixed", width: "100vw" }}>
                     {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
                         <Grid item xs={12} md={12} style={{ height: "100%" }}>
                             <div style={{ height: "100%" }}>
@@ -341,11 +344,55 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                                             </ConfigContext.Consumer>
                                             <div style={state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
                                                 <VideoContainer
-                                                    council={council}
-                                                    participant={participant}
-                                                    videoURL={state.videoURL}
-                                                    setVideoURL={url => setState({ ...state, videoURL: url })}
+                                                    pedirPalabra={
+                                                        <RequestWordMenu
+                                                            translate={translate}
+                                                            participant={participant}
+                                                            council={council}
+                                                            videoURL={state.videoURL}
+                                                            refetchParticipant={props.refetchParticipant}
+                                                            isSidebar={true}
+                                                            avisoVideoState={state.avisoVideo}
+                                                            avisoVideoStateCerrar={() => setState({ ...state, avisoVideo: false })}
+                                                        />
+                                                    }
                                                 />
+                                                <Header
+                                                    translate={translate}
+                                                    logoutButton={true}
+                                                    participant={participant}
+                                                    council={council}
+                                                    primaryColor={'white'}
+                                                    titleHeader={titleHeader}
+                                                />
+                                                <div style={styles.mainContainerM}>
+                                                    <Grid container spacing={8} style={{
+                                                        height: '100%',
+                                                        ...(!state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
+                                                            display: 'flex',
+                                                            justifyContent: 'center'
+                                                        } : {})
+                                                    }}>
+                                                        {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
+                                                            <Grid item xs={isLandscape() ? 12 : 12} md={8} style={{ height: "100%" }}>
+                                                                <div style={state.full ? stylesVideo.portrait[0].fullPadre : isLandscape() ? stylesVideo.landscape[0].middlePadre : stylesVideo.portrait[0].middlePadre}>
+                                                                    <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
+                                                                        <ConfigContext.Consumer>
+                                                                            {config => (
+                                                                                <AdminAnnouncement
+                                                                                    council={council}
+                                                                                    participant={participant}
+                                                                                    videoURL={state.videoURL}
+                                                                                    setVideoURL={url => setState({ ...state, videoURL: url })}
+                                                                                />
+                                                                            )}
+                                                                        </ConfigContext.Consumer>
+                                                                    </div>
+                                                                </div>
+                                                            </Grid>
+                                                        }
+                                                    </Grid>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -360,6 +407,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
         return (
             <div style={styles.viewContainer}>
                 <Header
+                    translate={translate}
                     logoutButton={true}
                     participant={participant}
                     council={council}
@@ -454,83 +502,83 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
 
 const changeParticipantOnlineState = gql`
     mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
-        changeParticipantOnlineState(participantId: $participantId, online: $online){
-            success
+                                                changeParticipantOnlineState(participantId: $participantId, online: $online){
+                                                success
             message
-        }
-    }
-`;
+                                            }
+                                        }
+                                    `;
 
 const participantPing = gql`
     query participantPing {
-        participantPing
-    }
-`;
+                                                participantPing
+                                            }
+                                            `;
 const agendas = gql`
     query Agendas($councilId: Int!, $participantId: Int!){
-        agendas(councilId: $councilId){
-            agendaSubject
+                                                agendas(councilId: $councilId){
+                                                agendaSubject
             attachments {
-                id
+                                                id
                 agendaId
-                filename
-                filesize
-                filetype
-                councilId
-                state
-            }
+                                            filename
+                                            filesize
+                                            filetype
+                                            councilId
+                                            state
+                                        }
             options {
-                maxSelections
+                                                maxSelections
                 minSelections
-                id
-            }
+                                            id
+                                        }
             items {
-                id
+                                                id
                 value
-            }
-            councilId
-            dateEndVotation
-            dateStart
-            dateStartVotation
-            description
-            id
-            orderIndex
-            pointState
-            subjectType
-            votingState
-        }
-
+                                            }
+                                            councilId
+                                            dateEndVotation
+                                            dateStart
+                                            dateStartVotation
+                                            description
+                                            id
+                                            orderIndex
+                                            pointState
+                                            subjectType
+                                            votingState
+                                        }
+                                
         participantVotings(participantId: $participantId){
-            id
+                                                id
             comment
-            date
-            participantId
-            delegateId
+                                            date
+                                            participantId
+                                            delegateId
             ballots {
-                participantId
+                                                participantId
                 value
-                weight
-                itemId
-                id
-            }
-            agendaId
-            numParticipations
+                                            weight
+                                            itemId
+                                            id
+                                        }
+                                        agendaId
+                                        numParticipations
             author {
-                id
+                                                id
                 state
-                name
-                type
-                surname
+                                            name
+                                            type
+                                            surname
                 representative {
-                    id
+                                                id
                     name
-                    surname
-                }
-            }
-            vote
-        }
-    }
-`;
+                                            surname
+                                        }
+                                    }
+                                    vote
+                                }
+                            }
+                        `;
 
 export default compose(
     graphql(participantPing, {
