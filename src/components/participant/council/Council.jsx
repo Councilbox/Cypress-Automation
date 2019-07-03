@@ -230,6 +230,36 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
         )
     }
 
+    const renderRequestWordMenu = () => {
+        return (
+            <RequestWordMenu
+                translate={translate}
+                participant={participant}
+                council={council}
+                videoURL={state.videoURL}
+                refetchParticipant={props.refetchParticipant}
+                isSidebar={true}
+                isPc={!isMobile}
+                avisoVideoState={state.avisoVideo}
+                avisoVideoStateCerrar={() => setState({ ...state, avisoVideo: false })}
+            />
+        );
+    }
+
+    const renderAdminMessageMenu = () => {
+        return (
+            <AdminPrivateMessage
+                translate={translate}
+                council={council}
+                participant={participant}
+                setAdminMessage={setAdminMessage}
+                menuRender={true}
+                activeInput={() => setState({ ...state, activeInput: true })}
+                onblur={() => setState({ ...state, activeInput: false })}
+            />
+        )
+    }
+
     const _renderAgendaSectionMobile = () => {
         let noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
         return (
@@ -267,7 +297,7 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
     const landscape = isLandscape() && window.innerWidth < 700;
 
     if (isMobile) {
-        if (landscape) {
+        if (landscape && false) {
             return (
                 <div style={{ height: "100vh", overflow: "hidden", position: " fixed", width: "100vw" }}>
                     {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
@@ -287,64 +317,56 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
         } else {
             return (
                 <div style={styles.viewContainerM}>
-                    <CouncilSidebar
-                        noSession={noSession}
-                        isMobile={isMobile}
-                        council={council}
-                        translate={translate}
-                        setAgendaBadge={setAgendaBadge}
-                        agendaBadge={agendaBadge}
-                        setContent={setContent}
-                        adminMessage={state.adminMessage}
-                        setAdminMessage={setAdminMessage}
-                        modalContent={state.modalContent}
-                        agenda={_renderAgendaSectionMobile()}
-                        full={() => setState({ ...state, full: true, middle: false })}
-                        middle={() => setState({ ...state, full: false, middle: true })}
-                        click={state.activeInput}
-                        participant={participant}
-                        comentario={
-                            <AdminPrivateMessage
-                                translate={translate}
+                    {!landscape &&
+                        <React.Fragment>
+                            <CouncilSidebar
+                                noSession={noSession}
+                                isMobile={isMobile}
                                 council={council}
-                                participant={participant}
-                                menuRender={true}
-                                activeInput={() => setState({ ...state, activeInput: true })}//onFocus puede ser
-                                onblur={() => setState({ ...state, activeInput: false })}
-                            />
-                        }
-                        pedirPalabra={
-                            <RequestWordMenu
                                 translate={translate}
+                                setAgendaBadge={setAgendaBadge}
+                                agendaBadge={agendaBadge}
+                                setContent={setContent}
+                                adminMessage={state.adminMessage}
+                                setAdminMessage={setAdminMessage}
+                                modalContent={state.modalContent}
+                                agenda={_renderAgendaSectionMobile()}
+                                full={() => setState({ ...state, full: true, middle: false })}
+                                middle={() => setState({ ...state, full: false, middle: true })}
+                                click={state.activeInput}
+                                participant={participant}
+                                comentario={renderAdminMessageMenu()}
+                                pedirPalabra={renderRequestWordMenu()}
+                            />
+                            <Header
+                                logoutButton={true}
                                 participant={participant}
                                 council={council}
-                                videoURL={state.videoURL}
-                                refetchParticipant={props.refetchParticipant}
-                                isSidebar={true}
-                                avisoVideoState={state.avisoVideo}
-                                avisoVideoStateCerrar={() => setState({ ...state, avisoVideo: false })}
+                                primaryColor={'white'}
+                                titleHeader={titleHeader}
                             />
-                        }
-                    />
-                    <Header
-                        logoutButton={true}
-                        participant={participant}
-                        council={council}
-                        primaryColor={'white'}
-                        titleHeader={titleHeader}
-                    />
-                    <div style={styles.mainContainerM}>
-                        <Grid container spacing={8} style={{
+                        </React.Fragment>
+                    }
+
+                    <div style={!landscape? styles.mainContainerM : {height: '100%', width: '100%'}}>
+                        <Grid container spacing={!landscape? 8 : '0'} style={{
                             height: '100%',
                             ...(!state.hasVideo || participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ? {
                                 display: 'flex',
                                 justifyContent: 'center'
-                            } : {})
+                            } : {}),
+                            ...(landscape? {
+                                height: "100vh", overflow: "hidden", position: " fixed", width: "100vw"
+                            }: {})
                         }}>
                             {state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-                                <Grid item xs={isLandscape() ? 12 : 12} md={12} style={{ height: "100%" }}>
-                                    <div style={state.full ? stylesVideo.portrait[0].fullPadre : isLandscape() ? stylesVideo.landscape[0].middlePadre : stylesVideo.portrait[0].middlePadre}>
-                                        <div style={{ transition: "all .3s ease-in-out", width: '100%', height: state.avisoVideo ? "calc( 100% - 55px )" : '100%', position: 'relative', top: state.avisoVideo ? "55px" : "0px" }}>
+                                <Grid item xs={12} md={12} style={{ height: "100%" }}>
+                                    <div style={
+                                        state.full ? stylesVideo.portrait[0].fullPadre:
+                                        landscape? 'height: 100%' :
+                                        isLandscape() ? stylesVideo.landscape[0].middlePadre :
+                                        stylesVideo.portrait[0].middlePadre}>
+                                        <div style={{ height: '100%' }}>
                                             {renderAdminAnnouncement()}
                                             <div style={state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
                                                 {renderVideoContainer()}
@@ -407,30 +429,8 @@ const ParticipantCouncil = ({ translate, participant, data, council, agendas, ..
                                     setAdminMessage={setAdminMessage}
                                     modalContent={state.modalContent}
                                     participant={participant}
-                                    comentario={
-                                        <AdminPrivateMessage
-                                            translate={translate}
-                                            council={council}
-                                            participant={participant}
-                                            setAdminMessage={setAdminMessage}
-                                            menuRender={true}
-                                            activeInput={() => setState({ ...state, activeInput: true })}
-                                            onblur={() => setState({ ...state, activeInput: false })}
-                                        />
-                                    }
-                                    pedirPalabra={
-                                        <RequestWordMenu
-                                            translate={translate}
-                                            participant={participant}
-                                            council={council}
-                                            videoURL={state.videoURL}
-                                            refetchParticipant={props.refetchParticipant}
-                                            isSidebar={true}
-                                            isPc={true}
-                                            avisoVideoState={state.avisoVideo}
-                                            avisoVideoStateCerrar={() => setState({ ...state, avisoVideo: false })}
-                                        />
-                                    }
+                                    comentario={renderAdminMessageMenu()}
+                                    pedirPalabra={renderRequestWordMenu()}
                                 />
                             </div>
                         }
