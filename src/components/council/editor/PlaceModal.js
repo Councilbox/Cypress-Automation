@@ -24,8 +24,6 @@ const PlaceModal = ({ council, translate, ...props }) => {
 		remoteCelebration: 0
 	});
 
-	console.log(data);
-
 	const [state, setState] = useOldState({
 		remoteCelebration: council.remoteCelebration,
 		errors: {
@@ -38,22 +36,8 @@ const PlaceModal = ({ council, translate, ...props }) => {
 	});
 	const primary = getPrimary();
 
-	// React.useEffect(() => {
-	// 	setState({
-	// 		...state,
-	// 		data: {
-	// 			council: {
-	// 				...state.data,
-	// 				...council
-	// 			}
-
-	// 		}
-	// 	})
-	// }, [council]);
-
 
 	const saveAndClose = () => {
-		console.log(data);
 		if (!checkRequiredFields()) {
 			if (!state.remoteCelebration) {
 				props.saveAndClose(data);

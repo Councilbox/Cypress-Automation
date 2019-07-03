@@ -58,8 +58,6 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		setFetching(false);
 	}, [props.match.params.id]);
 
-	console.log(vars);
-
 	React.useEffect(() => {
 		getData();
 	}, [getData]);

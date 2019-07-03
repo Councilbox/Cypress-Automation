@@ -47,8 +47,6 @@ const SaveDraftModal = ({ translate, ...props }) => {
 	};
 
 	const _renderNewPointBody = () => {
-		console.log(data);
-
 		return (
 			<div style={{ width: "800px" }}>
 				<CompanyDraftForm
