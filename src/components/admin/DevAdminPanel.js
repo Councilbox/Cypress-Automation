@@ -68,10 +68,20 @@ const removeException = gql`
     }
 `;
 
+const addExceptionMutation = gql`
+    mutation AddException($companyId: Int!, $active: Boolean!, $featureName: String!){
+        addFeatureException(companyId: $companyId, active: $active, featureName: $featureName){
+            success
+            message
+        }
+    }
+`;
+
 const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     const [data, setData] = React.useState({
         companyId: '',
-        feature: features[0].name
+        featureName: features[0].name,
+        active: true
     });
 
     const deleteException = async id => {
@@ -84,8 +94,15 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         refetch();
     }
 
-    const addException = () => {
-        console.log(data);
+
+    const addException = async () => {
+        const response = await client.mutate({
+            mutation: addExceptionMutation,
+            variables: data
+        });
+
+        console.log(response);
+        refetch();
     }
 
     return (
@@ -103,11 +120,11 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             </div>
             <div style={{maxWidth: '300px'}}>
                 <SelectInput
-                    value={data.feature}
+                    value={data.featureName}
                     floatingText={'Feature'}
                     onChange={event => setData({
                         ...data,
-                        feature: event.target.value
+                        featureName: event.target.value
                     })}
                 >
                     {features.map(feature => (
@@ -117,15 +134,15 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             </div>
             <div style={{maxWidth: '300px'}}>
                 <SelectInput
-                    value={data.companyId}
+                    value={data.active? 1 : 0}
                     floatingText={'Active'}
                     onChange={event => setData({
                         ...data,
-                        active: event.target.value
+                        active: event.target.value === 1? true : false
                     })}
                 >
-                    <MenuItem value={true}>Activar</MenuItem>
-                    <MenuItem value={false}>Desactivar</MenuItem>
+                    <MenuItem value={1}>Activar</MenuItem>
+                    <MenuItem value={0}>Desactivar</MenuItem>
                 </SelectInput>
             </div>
             <BasicButton
