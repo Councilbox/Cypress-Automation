@@ -8,21 +8,22 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Switch, FormControlLabel } from 'material-ui';
 
-class DevAdminPage extends React.Component {
 
-    toggleFeature = async name => {
-        await this.props.toggleFeature({
+const DevAdminPage = ({ data, toggleFeature }) => {
+
+    const toggle = async name => {
+        await toggleFeature({
             variables: {
                 name: name
             }
         });
+        data.refetch();
     }
 
-    render(){
-        let config = {};
+    let config = {};
 
-        if(!this.props.data.loading){
-            for(let field of this.props.data.adminFeatures.features){
+        if(!data.loading){
+            for(let field of data.adminFeatures.features){
                 config[field.name] = field.active;
             }
         }
@@ -43,13 +44,13 @@ class DevAdminPage extends React.Component {
                         <RefreshUser />
                     </GridItem>
                     <GridItem xs={12} md={12} lg={12}>
-                        <Features value={config} toggleFeature={this.toggleFeature} />
+                        <Features value={config} toggleFeature={toggle} />
                     </GridItem>
                 </Grid>
             </div>
         )
-    }
 }
+
 
 const Features = ({ value, toggleFeature }) => {
     const array = Object.keys(value).map(key => ({ name: key, active: value[key] }));
