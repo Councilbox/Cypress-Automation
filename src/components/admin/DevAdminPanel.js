@@ -77,6 +77,14 @@ const addExceptionMutation = gql`
     }
 `;
 
+const createCouncil = gql`
+    mutation createAndConveneCouncil($council: CouncilInput, $agenda: [AgendaPointInput]){
+        createAndConveneCouncil(council: $council, agenda: $agenda){
+            id
+        }
+    }
+`;
+
 const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     const [data, setData] = React.useState({
         companyId: '',
@@ -103,6 +111,26 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
 
         console.log(response);
         refetch();
+    }
+
+    const create = async () => {
+        const response = await client.mutate({
+            mutation: createCouncil,
+            variables: {
+                council: {
+                    name: 'Prueba',
+                    autoClose: 0,
+                    dateStart: new Date(2018,11,17).toISOString(),
+                    companyId: 375,
+                    //censusId: 516
+                },
+                agenda: [{
+
+                }]
+            }
+        });
+
+        console.log(response);
     }
 
     return (
@@ -148,6 +176,10 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             <BasicButton
                 text="añadir"
                 onClick={addException}
+            />
+            <BasicButton
+                text="Probar creacion"
+                onClick={create}
             />
             {exceptions.map(exception => (
                 <div key={`exception_${exception.id}`}>
