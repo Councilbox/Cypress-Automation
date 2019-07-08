@@ -122,10 +122,11 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     autoClose: 0,
                     dateStart: new Date(2018,11,17).toISOString(),
                     companyId: 375,
-                    //censusId: 516
+                    selectedCensusId: 516
                 },
                 agenda: [{
-
+                    type: 0,
+                    name: 'Prueba'
                 }]
             }
         });
