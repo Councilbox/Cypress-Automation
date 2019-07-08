@@ -255,7 +255,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 																item =>
 																	item.value ===
 																	agenda.subjectType
-															).label
+															)? votingTypes.find(
+																item =>
+																	item.value ===
+																	agenda.subjectType
+															).label : ''
 														]
 													}
 													removeAgenda={removeAgenda}
