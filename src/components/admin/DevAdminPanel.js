@@ -127,6 +127,10 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                 agenda: [{
                     type: 0,
                     name: 'Prueba'
+                },
+                {
+                    type: 12,
+                    name: 'Prueba'
                 }]
             }
         });
