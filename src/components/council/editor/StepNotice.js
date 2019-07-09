@@ -82,12 +82,11 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	const reloadData = async () => {
+		setCouncil({});
 		await data.refetch();
-		//setData({});
 	}
 
 	const checkDates = () => {
-		console.log('entra por aquí');
 		const statute = data.council.statute;
 		const firstDate = council.dateStart || new Date().toISOString();
 		const secondDate = council.dateStart2NdCall || new Date().toISOString();
@@ -99,9 +98,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 				.replace('{{days}}', statute.advanceNoticeDays)
 		}
 
-		console.log(CBX.hasSecondCall(council.statute) && !council.dateStart2NdCall, council.dateStart2NdCall, CBX.addMinimumDistance(firstDate, statute).toISOString());
 		if (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || (CBX.hasSecondCall(council.statute) && !council.dateStart2NdCall)) {
-			console.log('entra por aquí2');
 			errors.dateStart2NdCall = translate["2nd_call_date_changed"];
 			updateState({
 				dateStart: firstDate,
@@ -118,8 +115,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			setErrors(errors);
 		}
 	}
-
-	console.log(council);
 
 	const nextPage = async () => {
 		if (!checkRequiredFields()) {
@@ -162,11 +157,11 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		updateState(newData);
 	};
 
-	const updateState = (object, cb) => {
-		setCouncil({
-			...council,
+	const updateState = object => {
+		setCouncil(data => ({
+			...data,
 			...object
-		});
+		}));
 	};
 
 	const updateError = object => {
@@ -388,8 +383,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			dateStart2NdCall: secondDate,
 		});
 	};
-
-	console.log(data);
 
 
 	return (
