@@ -74,7 +74,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		   council: council
 	    }, translate);
 
-		editor.currentpaste(correctedText);
+		editor.current.paste(correctedText);
 		setState({
 			loadDraft: false
 		});

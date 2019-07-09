@@ -43,7 +43,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 				props.saveAndClose(data);
 			} else {
 				props.saveAndClose({
-					street: "remote_celebration",
+					street: translate["remote_celebration"],
 					remoteCelebration: 1,
 					country: "",
 					countryState: "",

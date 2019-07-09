@@ -118,9 +118,10 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             mutation: createCouncil,
             variables: {
                 council: {
-                    name: 'Prueba',
+                    name: 'Prueba desde create and convene',
                     autoClose: 0,
-                    dateStart: new Date(2018,11,17).toISOString(),
+                    councilType: 0,
+                    dateStart: new Date(2019,11,17).toISOString(),
                     companyId: 375,
                     selectedCensusId: 516
                 },
@@ -129,7 +130,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     name: 'Prueba'
                 },
                 {
-                    type: 12,
+                    type: 3,
                     name: 'Prueba'
                 }]
             }

@@ -80,6 +80,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		setModal(true);
 	}
 
+	/*TRADUCCION*/
 	return (
 		<React.Fragment>
 			{props.security?

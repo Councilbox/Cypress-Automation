@@ -131,7 +131,7 @@ class AppRouter extends React.Component {
 	redirectToRoot = () => {
 		return <Redirect to="/" />
 	}
-	
+
 	render() {
 		const { translate } = this.props;
 		const verticalLayout = this.showVerticalLayout();
