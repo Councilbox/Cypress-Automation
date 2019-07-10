@@ -173,7 +173,7 @@ const CompanyDraftForm = ({
 				}
 			/>
 		</GridItem>
-		{CBX.hasVotation(draft.votationType) && (
+		{(CBX.hasVotation(draft.votationType) && draft.type === 1) && (
 			<Fragment>
 				<GridItem xs={6} lg={3} md={3}>
 					<SelectInput

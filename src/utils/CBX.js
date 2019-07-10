@@ -1244,7 +1244,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		errors.votationType = translate.required_field;
 	}
 
-	if (hasVotation(draft.votationType) && draft.majorityType === -1) {
+	if (hasVotation(draft.votationType) && draft.type === 1 && draft.majorityType === -1) {
 		hasError = true;
 		errors.majorityType = translate.required_field;
 		if (majorityNeedsInput(draft.majorityType)) {
@@ -1259,7 +1259,6 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 	}
 
 	updateErrors(errors);
-
 	return hasError;
 };
 
