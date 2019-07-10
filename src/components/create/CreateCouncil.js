@@ -100,11 +100,13 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
+	const [creating, setCreating] = React.useState(false);
 	const [title, setTitle] = React.useState("Seleccionar tipo de reunión");//TRADUCCION
 
 
 	const sendCreateCouncil = async type => {
-		if (!checkRequiredFields(type)) {
+		if (!checkRequiredFields(type) && !creating) {
+			setCreating(true);
 			const response = await createCouncil({
 				variables: {
 					companyId: company,
@@ -118,6 +120,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 					category: "Council created",
 					action: "User created a new council with session",
 				});
+				setCreating(false);
 				bHistory.replace(`/company/${company}/council/${newCouncilId}`);
 			} else {
 				bHistory.replace(`/company/${company}`);
