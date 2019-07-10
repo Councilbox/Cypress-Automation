@@ -123,6 +123,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     councilType: 0,
                     language: 'es',
                     dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
+                    dateStart2NdCall: new Date(2019,11,17, 14, 50, 0).toISOString(),
                     companyId: 375,
                     selectedCensusId: 516
                 },
