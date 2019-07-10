@@ -28,6 +28,8 @@ import AdomWrapper from './AdomWrapper';
 import moment from "moment/min/moment-with-locales.min";
 import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
 import ConveneDisplay from "../components/council/convene/ConveneDisplay";
+import { pageView } from "../utils/analytics";
+import withSharedProps from "../HOCs/withSharedProps";
 export { moment as moment };
 
 const httpLink = new HttpLink({
@@ -201,64 +203,7 @@ const App = () => {
 					<AppControl>
 						<AdomWrapper>
 							<Router history={bHistory}>
-								<React.Fragment>
-									<Switch>
-										<Route
-											exact
-											path="/company/:company/council/:id/live"
-											component={CouncilLiveContainer}
-										/>
-										<Route
-											exact
-											path="/cmp/:id"
-											component={CouncilLiveTestContainer}
-										/>
-										<Route
-											exact
-											path="/evidence/:uuid?"
-											component={ValidatorPage}
-										/>
-										<Route
-											exact
-											path="/convene/:id"
-											component={ConveneDisplay}
-										/>
-										{!window.location.hostname.includes('app.councilbox') &&
-												<Route
-													exact
-													path="/docs"
-													component={DocsPage}
-												/>
-											}
-											{!window.location.hostname.includes('app.councilbox') &&
-												<Route
-													exact
-													path="/docs/tryit"
-													component={PlaygroundPage}
-												/>
-											}
-										<Route
-											exact
-											path="/company/:company/meeting/live"
-											component={MeetingLivePage}
-										/>
-										<Route
-											exact
-											path="/meeting/"
-											component={MeetingLivePage}
-										/>
-										<Route
-											exact
-											path="/meeting/new"
-											component={MeetingCreateContainer}
-										/>
-										<Route path="/" component={AppRouter} />
-									</Switch>
-									<ToastContainer
-										position="top-right"
-										progressClassName={'toastProgressBar'}
-									/>
-								</React.Fragment>
+								<RouterWrapper />
 							</Router>
 						</AdomWrapper>
 					</AppControl>
@@ -267,5 +212,72 @@ const App = () => {
 		</ApolloProvider>
 	);
 }
+
+const RouterWrapper = props => {
+	React.useEffect(() => {
+		pageView();
+	}, [window.location.href]);
+
+	return (
+		<React.Fragment>
+			<Switch>
+				<Route
+					exact
+					path="/company/:company/council/:id/live"
+					component={CouncilLiveContainer}
+				/>
+				<Route
+					exact
+					path="/cmp/:id"
+					component={CouncilLiveTestContainer}
+				/>
+				<Route
+					exact
+					path="/evidence/:uuid?"
+					component={ValidatorPage}
+				/>
+				<Route
+					exact
+					path="/convene/:id"
+					component={ConveneDisplay}
+				/>
+				{!window.location.hostname.includes('app.councilbox') &&
+						<Route
+							exact
+							path="/docs"
+							component={DocsPage}
+						/>
+					}
+					{!window.location.hostname.includes('app.councilbox') &&
+						<Route
+							exact
+							path="/docs/tryit"
+							component={PlaygroundPage}
+						/>
+					}
+				<Route
+					exact
+					path="/company/:company/meeting/live"
+					component={MeetingLivePage}
+				/>
+				<Route
+					exact
+					path="/meeting/"
+					component={MeetingLivePage}
+				/>
+				<Route
+					exact
+					path="/meeting/new"
+					component={MeetingCreateContainer}
+				/>
+				<Route path="/" component={AppRouter} />
+			</Switch>
+			<ToastContainer
+				position="top-right"
+				progressClassName={'toastProgressBar'}
+			/>
+		</React.Fragment>
+	)
+};
 
 export default App;
