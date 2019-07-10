@@ -121,7 +121,8 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     name: 'Prueba desde create and convene',
                     autoClose: 0,
                     councilType: 0,
-                    dateStart: new Date(2019,11,17).toISOString(),
+                    language: 'es',
+                    dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
                     companyId: 375,
                     selectedCensusId: 516
                 },
