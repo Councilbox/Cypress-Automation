@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { LoadingMainApp, Link } from "../displayComponents";
+import { LoadingMainApp } from "../displayComponents";
 import withWindowSize from '../HOCs/withWindowSize';
 import appStyle from "../styles/appStyle.jsx";
 import { isLandscape } from '../utils/screen';
@@ -9,8 +9,7 @@ import image from "../assets/img/sidebar-2.jpg";
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
 import { isMobile } from "react-device-detect";
-import FontAwesome from "react-fontawesome";
-import { Tooltip, Icon } from "material-ui";
+
 
 const LoadRecommendations = Loadable({
 	loader: () => import('../components/noCompany/Recommendations'),
@@ -131,7 +130,7 @@ class AppRouter extends React.Component {
 	redirectToRoot = () => {
 		return <Redirect to="/" />
 	}
-	
+
 	render() {
 		const { translate } = this.props;
 		const verticalLayout = this.showVerticalLayout();
