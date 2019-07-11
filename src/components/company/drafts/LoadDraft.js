@@ -7,6 +7,8 @@ import { DRAFTS_LIMITS } from "../../../constants";
 import { TableCell, TableRow } from "material-ui/Table";
 import { compose } from "react-apollo/index";
 import gql from "graphql-tag";
+import { sendGAevent } from "../../../utils/analytics";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 export const draftTypes = gql`
 	query draftTypes {
@@ -18,98 +20,89 @@ export const draftTypes = gql`
 	}
 `;
 
-class LoadDraft extends React.Component {
-	state = {
-		loadDraft: false
-	};
+const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props }) => {
+	React.useEffect(() => {
+		props.data.refetch();
+	}, [props.data.refetch]);
 
-	componentDidMount(){
-		this.props.data.refetch();
-	}
+	const { companyDrafts, loading } = props.data;
 
-
-	render() {
-		const { translate, statutes, statute } = this.props;
-		const { companyDrafts, loading } = this.props.data;
-
-		return (
-			<React.Fragment>
-				{!!companyDrafts && (
-					<EnhancedTable
-						translate={translate}
-						defaultLimit={DRAFTS_LIMITS[0]}
-						defaultFilter={"title"}
-						limits={DRAFTS_LIMITS}
-						page={1}
-						loading={loading}
-						length={companyDrafts.list.length}
-						total={companyDrafts.total}
-						addedFilters={[
-							{
-								field: "type",
-								text: this.props.draftType
-							}
-						]}
-						refetch={this.props.data.refetch}
-						action={this._renderDeleteIcon}
-						selectedCategories={[{
-							field: "statuteId",
-							value: statute.statuteId,
-							label: translate[statute.title] || statute.title
-						}]}
-						categories={[[
-							...statutes.map(statute => {
-								return {
-									field: "statuteId",
-									value: statute.id,
-									label: translate[statute.title] || statute.title
-								}
-							}),
-							{
+	return (
+		<React.Fragment>
+			{!!companyDrafts && (
+				<EnhancedTable
+					translate={translate}
+					defaultLimit={DRAFTS_LIMITS[0]}
+					defaultFilter={"title"}
+					limits={DRAFTS_LIMITS}
+					page={1}
+					loading={loading}
+					length={companyDrafts.list.length}
+					total={companyDrafts.total}
+					addedFilters={[
+						{
+							field: "type",
+							text: props.draftType
+						}
+					]}
+					refetch={props.data.refetch}
+					selectedCategories={[{
+						field: "statuteId",
+						value: statute.statuteId,
+						label: translate[statute.title] || statute.title
+					}]}
+					categories={[[
+						...statutes.map(statute => {
+							return {
 								field: "statuteId",
-								value: 'all',
-								label: translate.all_plural
-							},
-						]]}
-						headers={[
-							{
-								text: translate.title,
-								name: "title"
-							},
-							{
-								text: translate.type,
-								name: "type"
+								value: statute.id,
+								label: translate[statute.title] || statute.title
 							}
-						]}
-					>
-						{companyDrafts.list.map(draft => {
-							return (
-								<TableRow
-									key={`draft${draft.id}`}
-									style={{ cursor: "pointer" }}
-									onClick={() => {
-										this.props.loadDraft(draft);
-									}}
-								>
-									<TableCell>{draft.title}</TableCell>
-									<TableCell>
-										{
-											translate[
-												this.props.info.draftTypes[
-													draft.type
-												].label
-											]
-										}
-									</TableCell>
-								</TableRow>
-							);
-						})}
-					</EnhancedTable>
-				)}
-			</React.Fragment>
-		);
-	}
-}
+						}),
+						{
+							field: "statuteId",
+							value: 'all',
+							label: translate.all_plural
+						},
+					]]}
+					headers={[
+						{
+							text: translate.title,
+							name: "title"
+						},
+						{
+							text: translate.type,
+							name: "type"
+						}
+					]}
+				>
+					{companyDrafts.list.map(draft => {
+						return (
+							<TableRow
+								key={`draft${draft.id}`}
+								style={{ cursor: "pointer" }}
+								onClick={() => {
+									sendGAevent({
+										category: 'Borradores',
+										action: `Carga de borrador`,
+										label: props.company.businessName
+									})
+									props.loadDraft(draft);
+								}}
+							>
+								<TableCell>{draft.title}</TableCell>
+								<TableCell>
+									{translate[props.info.draftTypes[draft.type].label]}
+								</TableCell>
+							</TableRow>
+						);
+					})}
+				</EnhancedTable>
+			)}
+		</React.Fragment>
+	);
+})
+
 
 export default compose(
 	graphql(companyDrafts, {

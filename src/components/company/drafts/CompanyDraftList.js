@@ -22,16 +22,22 @@ import withSharedProps from "../../../HOCs/withSharedProps";
 import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
+import { sendGAevent } from "../../../utils/analytics.js";
 
 class CompanyDraftList extends React.Component {
 	state = {
 		deleteModal: false,
 		draftID: null,
 		newForm: false
-	};
+	}
 
 	componentDidMount() {
 		this.props.data.refetch();
+		sendGAevent({
+			category: 'Borradores',
+			action: `Entrada a la lista`,
+			label: this.props.company.businessName
+		});
 	}
 
 	_renderDeleteIcon = draftID => {

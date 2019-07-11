@@ -5,7 +5,6 @@ import {
 	CardPageLayout
 } from "../../../displayComponents";
 import CompanyDraftForm from "./CompanyDraftForm";
-import withTranslations from "../../../HOCs/withTranslations";
 import { graphql, withApollo } from "react-apollo";
 import {
 	getCompanyDraftData,
@@ -15,6 +14,8 @@ import { compose } from "react-apollo/index";
 import { checkRequiredFields } from "../../../utils/CBX";
 import { withRouter } from "react-router-dom";
 import { getPrimary } from "../../../styles/colors";
+import { sendGAevent } from "../../../utils/analytics";
+import withSharedProps from "../../../HOCs/withSharedProps";
 
 
 const CompanyDraftEditor = ({ translate, client, ...props }) => {
@@ -87,6 +88,12 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				}
 			});
 
+			sendGAevent({
+				category: 'Borradores',
+				action: `Modificación de borrador`,
+				label: props.company.businessName
+			});
+
 			if (!response.errors) {
 				setSuccess(true);
 				setLoading(false);
@@ -134,4 +141,4 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 export default compose(
 	withApollo,
 	graphql(updateCompanyDraft, { name: "updateCompanyDraft" })
-)(withRouter(withTranslations()(CompanyDraftEditor)));
+)(withRouter(withSharedProps()(CompanyDraftEditor)));
