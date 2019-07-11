@@ -44,10 +44,12 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	React.useEffect(() => {
+	const setCouncilWithRemoveValues = React.useCallback(data => {
 		if(!data.loading && !council.id){
+			console.log(data);
 			setCouncil({
 				...data.council,
+				name: !data.council.name? `${data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
 				conveneText: CBX.changeVariablesToValues(data.council.conveneText, {
 					company,
 					council: {
@@ -68,6 +70,10 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}, [data]);
 
 	React.useEffect(() => {
+		setCouncilWithRemoveValues(data);
+	}, [setCouncilWithRemoveValues]);
+
+	React.useEffect(() => {
 		if(council.id){
 			checkDates();
 		}
@@ -82,8 +88,9 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	const reloadData = async () => {
-		setCouncil({});
-		await data.refetch();
+		const response = await data.refetch();
+		loadDraft({ text: response.data.council.conveneText });
+		loadFooterDraft({ text: response.data.council.conveneFooter });
 	}
 
 	const checkDates = () => {
@@ -164,15 +171,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		}));
 	};
 
-	const updateError = object => {
-		setErrors({
-			errors: {
-				...errors,
-				...object
-			}
-		});
-	};
-
 	const changeCensus = async () => {
 		const response = await props.changeCensus({
 			variables: {
@@ -204,17 +202,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			checkAssociatedCensus(statuteId);
 			updateDate();
 		}
-	}
-
-	const updateConveneText = () => {
-		const correctedText = CBX.changeVariablesToValues(council.conveneText, {
-			company,
-			council
-		}, translate);
-		updateState({
-			conveneText: correctedText
-		});
-		editor.current.setValue(correctedText);
 	}
 
 	const loadDraft = draft => {
