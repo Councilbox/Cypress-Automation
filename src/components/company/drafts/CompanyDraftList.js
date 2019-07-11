@@ -274,7 +274,7 @@ class HoverableRow extends React.Component {
 					{draft.title}
 				</TableCell>
 				<TableCell>
-					{translate[draftTypes[draft.type].label]}
+					{draftTypes[draft.type]? translate[draftTypes[draft.type].label] : ''}
 				</TableCell>
 				<TableCell>
 					<div style={{width: '3em'}}>
