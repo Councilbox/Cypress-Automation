@@ -13,6 +13,7 @@ import { moment } from "./App";
 import { isLandscape } from '../utils/screen';
 import { isMobile } from 'react-device-detect';
 import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
+import { sendGAevent } from "../utils/analytics";
 
 const CouncilContainer = ({ match, company, translate, windowSize }) => {
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
@@ -24,6 +25,27 @@ const CouncilContainer = ({ match, company, translate, windowSize }) => {
 	const closeCantAccessPremiumModal = () => {
 		setNoPremiumModal(false);
 	}
+
+	const getSectionTranslation = type => {
+		const texts = {
+			drafts: translate.companies_draft,
+			calendar: translate.companies_calendar,
+			live: translate.companies_live,
+			act: translate.companies_writing,
+			confirmed: translate.act_book,
+			history: translate.dashboard_historical
+		}
+
+		return texts[type];
+	}
+
+	React.useEffect(() => {
+		sendGAevent({
+			category: 'Reuniones',
+			action: `${getSectionTranslation(match.params.section)} - Listado`,
+			label: company.businessName
+		})
+	}, [match.params.section]);
 
 	const tabsIndex = {
 		drafts: 0,
