@@ -22,6 +22,7 @@ import gql from "graphql-tag";
 import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
+import { sendGAevent } from "../../../utils/analytics";
 
 
 class NewCompanyPage extends React.PureComponent {
@@ -130,6 +131,11 @@ class NewCompanyPage extends React.PureComponent {
 
 	createCompany = async () => {
 		if (!await this.checkRequiredFields()) {
+			sendGAevent({
+				category: 'Editar entidades',
+				action: 'Crear entidad',
+				label: this.props.company.businessName
+			});
 			const response = await this.props.createCompany({
 				variables: {
 					company: {
