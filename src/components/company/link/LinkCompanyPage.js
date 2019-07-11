@@ -15,9 +15,12 @@ import { bHistory, store } from "../../../containers/App";
 import { getCompanies } from "../../../actions/companyActions";
 import { toast } from "react-toastify";
 import { linkCompany } from "../../../queries/company";
+import { useOldState } from "../../../hooks";
+import { sendGAevent } from "../../../utils/analytics";
 
-class LinkCompanyPage extends React.Component {
-	state = {
+
+const LinkCompanyPage = ({ translate, ...props }) => {
+	const [state, setState] = useOldState({
 		data: {
 			linkKey: "",
 			cif: ""
@@ -27,53 +30,53 @@ class LinkCompanyPage extends React.Component {
 		success: false,
 		request: false,
 		requestError: false
-	};
+	});
 
-	updateState = object => {
-		this.setState({
+	const updateState = object => {
+		setState({
 			data: {
-				...this.state.data,
+				...state.data,
 				...object
 			}
 		});
 	};
 
-	checkRequiredFields = () => {
-		let hasError = false;
-		let errors = {
-			cif: "",
-			linkKey: ""
-		};
+	const checkRequiredFields = () => {
+		let errors = {};
 
-		if (!this.state.data.cif) {
-			hasError = true;
-			errors.cif = this.props.translate.required_field;
+		if (!state.data.cif) {
+			errors.cif = translate.required_field;
 		}
 
-		if (!this.state.data.linkKey) {
-			hasError = true;
-			errors.linkKey = this.props.translate.required_field;
+		if (!state.data.linkKey) {
+			errors.linkKey = translate.required_field;
 		}
 
-		this.setState({
+		setState({
 			errors
 		});
 
-		return hasError;
+		return Object.keys(errors).length > 0;
 	};
 
-	linkCompany = async () => {
-		if (!this.checkRequiredFields()) {
-			const response = await this.props.linkCompany({
+	const linkCompany = async () => {
+		if (!checkRequiredFields()) {
+			sendGAevent({
+				category: 'Editar entidades',
+				action: 'Vincular sociedad',
+				label: props.company.businessName
+			});
+
+			const response = await props.linkCompany({
 				variables: {
-					companyTin: this.state.data.cif,
-					linkKey: this.state.data.linkKey
+					companyTin: state.data.cif,
+					linkKey: state.data.linkKey
 				}
 			});
 
 			if (response.errors) {
 				if (response.errors[0].message === "Tin-noExists") {
-					this.setState({
+					setState({
 						errors: {
 							cif: "COMPAÑIA NO EXISTE"
 						}
@@ -85,35 +88,35 @@ class LinkCompanyPage extends React.Component {
 			if (response.data.linkCompany.success) {
 				toast(
 					<LiveToast
-						message={this.props.translate.company_link_success_title}
+						message={translate.company_link_success_title}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,				
+						autoClose: true,
 						className: "successToast"
 					}
 				);
-				store.dispatch(getCompanies(this.props.user.id));
+				store.dispatch(getCompanies(props.user.id));
 				bHistory.push("/");
 			} else {
 				switch (response.data.linkCompany.message) {
 					case "Wrong linkKey":
-						this.setState({
+						setState({
 							errors: {
-								linkKey: this.props.translate.incorrect_master_key
+								linkKey: translate.incorrect_master_key
 							}
 						});
 						break;
 					case "Already Linked":
-						this.setState({
+						setState({
 							errors: {
-								cif: this.props.translate.company_already_linked
+								cif: translate.company_already_linked
 							}
 						});
 						break;
 					default:
-						this.setState({
+						setState({
 							errors: {
-								linkKey: this.props.translate.incorrect_master_key
+								linkKey: translate.incorrect_master_key
 							}
 						});
 				}
@@ -121,90 +124,88 @@ class LinkCompanyPage extends React.Component {
 		}
 	};
 
-	render() {
-		const { translate } = this.props;
-		const { data, errors, requestError, success, request } = this.state;
+	const { data, errors, requestError, success, request } = state;
 
-		return (
-			<CardPageLayout title={translate.companies_link_company}>
-				<Grid style={{ marginTop: "4em" }}>
-					<GridItem xs={12} md={12} lg={12}>
-						<div
-							style={{
-								width: "400px",
-								margin: "auto"
+
+	return (
+		<CardPageLayout title={translate.companies_link_company}>
+			<Grid style={{ marginTop: "4em" }}>
+				<GridItem xs={12} md={12} lg={12}>
+					<div
+						style={{
+							width: "400px",
+							margin: "auto"
+						}}
+					>
+						<TextInput
+							floatingText={translate.entity_cif}
+							type="text"
+							required
+							value={data.cif}
+							errorText={errors.cif}
+							onChange={event =>
+								updateState({
+									cif: event.target.value
+								})
+							}
+						/>
+					</div>
+				</GridItem>
+				<GridItem xs={12} md={12} lg={12}>
+					<div
+						style={{
+							width: "400px",
+							margin: "auto"
+						}}
+					>
+						<TextInput
+							floatingText={translate.company_new_key}
+							type={
+								state.showPassword
+									? "text"
+									: "password"
+							}
+							passwordToggler={() =>
+								setState({
+									showPassword: !state.showPassword
+								})
+							}
+							showPassword={state.showPassword}
+							required
+							helpPopover={true}
+							helpTitle={translate.company_new_key}
+							helpDescription={translate.link_key_tooltip}
+							value={data.linkKey}
+							errorText={errors.linkKey}
+							onChange={event =>
+								updateState({
+									linkKey: event.target.value
+								})
+							}
+						/>
+						<br />
+						<BasicButton
+							text={translate.link}
+							color={getPrimary()}
+							error={requestError}
+							success={success}
+							loading={request}
+							floatRight
+							buttonStyle={{
+								marginTop: "1.5em"
 							}}
-						>
-							<TextInput
-								floatingText={translate.entity_cif}
-								type="text"
-								required
-								value={data.cif}
-								errorText={errors.cif}
-								onChange={event =>
-									this.updateState({
-										cif: event.target.value
-									})
-								}
-							/>
-						</div>
-					</GridItem>
-					<GridItem xs={12} md={12} lg={12}>
-						<div
-							style={{
-								width: "400px",
-								margin: "auto"
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
 							}}
-						>
-							<TextInput
-								floatingText={translate.company_new_key}
-								type={
-									this.state.showPassword
-										? "text"
-										: "password"
-								}
-								passwordToggler={() =>
-									this.setState({
-										showPassword: !this.state.showPassword
-									})
-								}
-								showPassword={this.state.showPassword}
-								required
-								helpPopover={true}
-								helpTitle={translate.company_new_key}
-								helpDescription={translate.link_key_tooltip}
-								value={data.linkKey}
-								errorText={errors.linkKey}
-								onChange={event =>
-									this.updateState({
-										linkKey: event.target.value
-									})
-								}
-							/>
-							<br />
-							<BasicButton
-								text={translate.link}
-								color={getPrimary()}
-								error={requestError}
-								success={success}
-								loading={request}
-								floatRight
-								buttonStyle={{
-									marginTop: "1.5em"
-								}}
-								textStyle={{
-									color: "white",
-									fontWeight: "700"
-								}}
-								onClick={this.linkCompany}
-								icon={<ButtonIcon type="link" color="white" />}
-							/>
-						</div>
-					</GridItem>
-				</Grid>
-			</CardPageLayout>
-		);
-	}
+							onClick={linkCompany}
+							icon={<ButtonIcon type="link" color="white" />}
+						/>
+					</div>
+				</GridItem>
+			</Grid>
+		</CardPageLayout>
+	);
 }
 
 

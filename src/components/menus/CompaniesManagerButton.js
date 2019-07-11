@@ -4,6 +4,7 @@ import { getSecondary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { userCanCreateCompany } from '../../utils/CBX';
 import CBXContactButton from '../noCompany/CBXContactButton';
+import { sendGAevent } from '../../utils/analytics';
 
 
 const CompaniesManagerButton = props => {
@@ -17,7 +18,7 @@ const CompaniesManagerButton = props => {
     const hideCantCreateModal = () => {
         setModal(false);
     }
-    
+
     return(
         <div style={{width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
             <div>
@@ -26,6 +27,11 @@ const CompaniesManagerButton = props => {
                         <BasicButton
                             text={props.translate.companies_add}
                             color={secondary}
+                            onClick={() => sendGAevent({
+                                category: 'Editar entidades',
+                                action: 'Acceso añadir sociedad',
+                                label: props.company.businessName
+                            })}
                             icon={<ButtonIcon type="add" color="white" />}
                             textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em',  color: 'white'}}
                         />
@@ -46,6 +52,11 @@ const CompaniesManagerButton = props => {
                     <BasicButton
                         text={props.translate.companies_link}
                         color={secondary}
+                        onClick={() => sendGAevent({
+                            category: 'Editar entidades',
+                            action: 'Acceso vincular sociedad',
+                            label: props.company.businessName
+                        })}
                         icon={<ButtonIcon type="link" color="white" />}
                         textStyle={{textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white'}}
                     />
