@@ -33,6 +33,6 @@ export const sendGAevent = args => {
 
 export const pageView = () => {
     if(checkShouldTrack()){
-        ReactGa.pageview(window.location.pathname.replace(/\d+\//g, '').replace(/\/\d+$/g, '') + window.location.search);
+        //ReactGa.pageview(window.location.pathname.replace(/\d+\//g, '').replace(/\/\d+$/g, '') + window.location.search);
     }
 }
