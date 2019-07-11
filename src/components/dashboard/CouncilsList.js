@@ -110,9 +110,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
                         })
-                        bHistory.push(
-                            `/company/${company.id}/council/${council.id}${link}`
-                        )
+                        bHistory.push(`/company/${company.id}/council/${council.id}${link}`)
                 }}
             >
                 <Grid>
@@ -137,9 +135,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                                 /> {` - `}
                                 <DateWrapper
                                     format="HH:mm"
-                                    date={
-                                        council.dateEnd
-                                    }
+                                    date={council.dateEnd}
                                 />
                             </GridItem>
                         </React.Fragment>
