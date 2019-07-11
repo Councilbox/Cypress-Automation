@@ -25,6 +25,7 @@ import gql from "graphql-tag";
 import { toast } from "react-toastify";
 import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButton";
 import DeleteCompanyButton from "./DeleteCompanyButton";
+import { sendGAevent } from "../../../utils/analytics";
 
 export const info = gql`
 	query info {
@@ -59,6 +60,11 @@ class CompanySettingsPage extends React.Component {
 
 	componentDidMount(){
 		this.props.info.refetch();
+		sendGAevent({
+			category: 'Editar Datos básico de la empresa',
+			action: 'Entrada',
+			label: this.props.company.businessName
+		});
 	}
 
 	componentDidUpdate() {
@@ -142,6 +148,12 @@ class CompanySettingsPage extends React.Component {
 
 	saveCompany = async () => {
 		if (!this.checkRequiredFields()) {
+			sendGAevent({
+				category: 'Editar Datos básico de la empresa',
+				action: 'Actualización de datos',
+				label: this.props.company.businessName
+			});
+
 			this.setState({
 				loading: true
 			});
