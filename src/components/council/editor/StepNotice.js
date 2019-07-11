@@ -46,7 +46,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 
 	const setCouncilWithRemoveValues = React.useCallback(data => {
 		if(!data.loading && !council.id){
-			console.log(data);
 			setCouncil({
 				...data.council,
 				name: !data.council.name? `${data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
