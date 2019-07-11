@@ -15,42 +15,42 @@ import Scrollbar from "react-perfect-scrollbar";
 import { checkValidEmail } from '../../../../utils/validation';
 import FontAwesome from 'react-fontawesome';
 import { sendAct } from '../../../../queries';
+import { useOldState } from "../../../../hooks";
 
 
-class SendActModal extends React.Component {
-	state = {
+const SendActModal = ({ translate, data, ...props }) => {
+	const [loading, setLoading] = React.useState(false);
+	const [state, setState] = useOldState({
 		newEmail: '',
 		step: 1,
 		success: false,
 		participants: [],
-		loading: false,
 		errors: {}
-	};
+	});
 
-
-	componentDidUpdate(prevProps) {
-		if (!prevProps.show && this.props.show) {
-			this.props.data.refetch();
+	React.useEffect(() => {
+		if(props.show){
+			data.refetch();
 		}
-	}
+	}, [props.show]);
 
-	close = () => {
-		this.props.requestClose();
-		this.setState({
+
+	const close = () => {
+		props.requestClose();
+		setLoading(false);
+		setState({
 			success: false,
-			loading: false,
 			participants: [],
 			errors: {},
 			step: 1,
 		});
-
 	};
 
-	loadMore = () => {
-		this.props.data.fetchMore({
+	const loadMore = () => {
+		data.fetchMore({
 			variables: {
 				options: {
-					offset: this.props.data.councilParticipantsActSends.list.length,
+					offset: data.councilParticipantsActSends.list.length,
 					limit: DELEGATION_USERS_LOAD
 				}
 			},
@@ -73,8 +73,8 @@ class SendActModal extends React.Component {
 		});
 	};
 
-	checkRow = (participant, check) => {
-		let participants = [...this.state.participants];
+	const checkRow = (participant, check) => {
+		let participants = [...state.participants];
 		if(check){
 			const { __typename, ...data } = participant;
 			participants = [...participants, data];
@@ -82,18 +82,18 @@ class SendActModal extends React.Component {
 			const index = participants.findIndex(item => item.id === participant.id);
 			participants.splice(index, 1);
 		}
-		this.setState({
-			participants: participants
+		setState({
+			participants
 		});
 	};
 
-	isChecked = id => {
-		const item = this.state.participants.find(item => item.id === id);
+	const isChecked = id => {
+		const item = state.participants.find(item => item.id === id);
 		return !!item;
 	}
 
-	updateFilterText = async text => {
-		await this.props.data.refetch({
+	const updateFilterText = async text => {
+		await data.refetch({
 			filters: [
 				{
 					field: "fullName",
@@ -103,43 +103,43 @@ class SendActModal extends React.Component {
 		});
 	};
 
-	addEmail = () => {
-		if(checkValidEmail(this.state.newEmail)){
-			if(this.state.participants.findIndex(item => item === this.state.newEmail) === -1){
-				this.setState({
-					participants: [...this.state.participants, this.state.newEmail],
+	const addEmail = () => {
+		if(checkValidEmail(state.newEmail)){
+			if(state.participants.findIndex(item => item === state.newEmail) === -1){
+				setState({
+					participants: [...state.participants, state.newEmail],
 					newEmail: ''
 				});
 			}else{
-				this.setState({
+				setState({
 					errors: {
-						newEmail: this.props.translate.repeated_email
+						newEmail: translate.repeated_email
 					}
 				});
 			}
 		}else{
-			this.setState({
+			setState({
 				errors: {
-					newEmail: this.props.translate.tooltip_invalid_email_address
+					newEmail: translate.tooltip_invalid_email_address
 				}
 			})
 		}
 	};
 
-	deleteEmailFromList = id => {
-		const list = this.state.participants;
+	const deleteEmailFromList = id => {
+		const list = state.participants;
 		const index = list.find(item => id === item.id);
 		list.splice(index, 1);
-		this.setState({
+		setState({
 			participants: [...list],
 		});
 	}
 
-	_renderEmails = () => {
+	const _renderEmails = () => {
 		return(
 			<div style={{width: '100%'}}>
-				{this.state.participants.length > 0?
-					this.state.participants.map((participant, index) => (
+				{state.participants.length > 0?
+					state.participants.map((participant, index) => (
 						<Card
 							style={{
 								width: '98%',
@@ -162,70 +162,71 @@ class SendActModal extends React.Component {
 									color: 'red',
 									cursor: 'pointer'
 								}}
-								onClick={() => this.deleteEmailFromList(participant.id)}
+								onClick={() => deleteEmailFromList(participant.id)}
 							/>
 						</Card>
 					))
 				:
 					<div>
-						{this.props.translate.not_added}
+						{translate.not_added}
 					</div>
 				}
 			</div>
 		)
 	}
 
-
-	sendAct = async () => {
-		let participantsIds = this.state.participants.map(participant=>{
+	const sendAct = async () => {
+		setLoading(true);
+		let participantsIds = state.participants.map(participant=>{
 			return participant.id;
 		});
-		const response = await this.props.sendAct({
+		const response = await props.sendAct({
 			variables: {
-				councilId: this.props.council.id,
+				councilId: props.council.id,
 				participantsIds
 			}
 		});
 		if(!!response){
 			if(!response.data.errors){
-				this.setState({
+				setState({
 					success: true
 				});
 
 			}
-			this.props.refetch();
-			this.props.data.refetch();
+			setLoading(false);
+			props.refetch();
+			data.refetch();
 		}
 	}
 
-	secondStep = () => {
-		this.setState({
+	const secondStep = () => {
+		setState({
 			step: 2
 		});
 	}
 
-	_modalBody() {
-		const { translate } = this.props;
-		const { loading } = this.props.data;
+
+	function _modalBody() {
+		const { loading } = data;
 
 		const participants = loading
 			? []
-			: this.props.data.councilParticipantsActSends.list;
+			: data.councilParticipantsActSends.list;
 		const { total } = loading
 			? 0
-			: this.props.data.councilParticipantsActSends;
+			: data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 
-		if(this.state.step === 1){
+		if(state.step === 1){
 			return (
 				<div style={{ width: "600px" }}>
 					<TextInput
 						adornment={<Icon>search</Icon>}
 						floatingText={" "}
 						type="text"
-						value={this.state.filterText}
+						value={state.filterText}
 						onChange={event => {
-							this.updateFilterText(event.target.value);
+							updateFilterText(event.target.value);
 						}}
 					/>
 					<div
@@ -246,9 +247,12 @@ class SendActModal extends React.Component {
 												<div style={{display: 'flex', flexDirection: 'row'}} key={`participant_${participant.id}`}>
 													<ParticipantRow
 														checkBox={true}
-														selected={this.isChecked(participant.id)}
+														onClick={() => {
+															checkRow(participant, !isChecked(participant.id))
+														}}
+														selected={isChecked(participant.id)}
 														onChange={(event, isInputChecked) =>
-															this.checkRow(participant, isInputChecked)
+															checkRow(participant, isInputChecked)
 														}
 														participant={participant}
 													/>
@@ -257,7 +261,7 @@ class SendActModal extends React.Component {
 										})}
 										{participants.length < total - 1 && (
 											<Card
-												onClick={this.loadMore}
+												onClick={loadMore}
 												style={{
 													width: '100%',
 													border: '1px solid gainsboro',
@@ -284,7 +288,7 @@ class SendActModal extends React.Component {
 			);
 		}
 
-		if(this.state.success){
+		if(state.success){
 			return(
 				<SuccessMessage />
 			)
@@ -292,39 +296,37 @@ class SendActModal extends React.Component {
 
 		return(
 			<div style={{ width: "600px" }}>
-				{this._renderEmails()}
+				{_renderEmails()}
 			</div>
 		)
 	}
 
-	render() {
-		const { translate } = this.props;
-
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				acceptAction={this.state.step === 1? this.secondStep : this.sendAct}
-				hideAccept={this.state.success || (this.state.step === 2 && this.state.participants.length < 1)}
-				buttonAccept={this.state.step === 1? translate.continue : translate.send}
-				cancelAction={this.state.success?
-					this.close
-				:
-					this.state.step !== 1?
-							() => this.setState({step: 1, success: false})
-						:
-							null
-				}
-				buttonCancel={this.state.success?
-					translate.close
-				:
-					this.state.step === 1? translate.close : translate.back}
-				bodyText={this._modalBody()}
-				title={translate.sending_the_minutes}
-			/>
-		);
-	}
+	return (
+		<AlertConfirm
+			requestClose={close}
+			open={props.show}
+			loading={loading}
+			acceptAction={state.step === 1? secondStep : sendAct}
+			hideAccept={state.success || (state.step === 2 && state.participants.length < 1)}
+			buttonAccept={state.step === 1? translate.continue : translate.send}
+			cancelAction={state.success?
+				close
+			:
+				state.step !== 1?
+						() => setState({step: 1, success: false})
+					:
+						null
+			}
+			buttonCancel={state.success?
+				translate.close
+			:
+				state.step === 1? translate.close : translate.back}
+			bodyText={_modalBody()}
+			title={translate.sending_the_minutes}
+		/>
+	);
 }
+
 
 export default compose(
 	graphql(councilParticipantsActSends, {
