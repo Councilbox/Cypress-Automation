@@ -2,9 +2,9 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
-import { AlertConfirm, BasicButton, Checkbox } from '../../../displayComponents';
-import { getPrimary, getSecondary, primary, secondary } from '../../../styles/colors';
-import { Table, TableBody, TableCell, TableRow } from '@material-ui/core';
+import { AlertConfirm, BasicButton, Checkbox, SectionTitle } from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { Table, TableBody, TableCell, TableRow } from 'material-ui';
 import { TableHead, Toolbar, Card } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { Translate } from 'material-ui-icons';
@@ -45,6 +45,8 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
     const [loading, setLoading] = React.useState(true);
     const [selectedIds, setselectedIds] = React.useState(new Map());
     const [warningModal, setWarningModal] = React.useState(false);
+    const primary = getPrimary();
+    const secondary = getSecondary();
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -110,7 +112,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 participantId: selectedIds.size > 0 ? arrayIds : [participantId]
             }
         })
-    
+
         if (response.data.removeCouncilDelegate.success) {
             setselectedIds(new Map());
             getData();
@@ -148,14 +150,18 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         if (!isMobile) {
             return (
                 <div style={{ width: "100%", height: "100%" }}>
-                    <div style={{ textAlign: "center" }}>
-                        <h6>TABLA CON PARTICIPANTES</h6>
-                    </div>
+                    <SectionTitle
+						text={'Limitar quien puede recibir delegaciones a:' /*TRADUCCION*/}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
                     <div style={{ paddingBottom: "1em" }}>
                         <BasicButton
                             color={"white"}
                             textStyle={{
-                                color: getPrimary(),
+                                color: primary,
                                 fontWeight: "700",
                                 fontSize: "0.9em",
                                 textTransform: "none"
@@ -163,10 +169,10 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                             textPosition="after"
                             buttonStyle={{
                                 marginRight: "1em",
-                                border: `2px solid ${getPrimary()}`
+                                border: `2px solid ${primary}`
                             }}
                             onClick={openSelectModal}
-                            text={'Añadir'}
+                            text={translate.add}
                         >
                         </BasicButton>
                         {selectedIds.size > 0 &&
@@ -184,7 +190,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                     border: `2px solid ${secondary}`
                                 }}
                                 onClick={() => setWarningModal(true)}
-                                text={'Borrar ' + selectedIds.size + ' elementos'}
+                                text={selectedIds.size === 1? translate.remove_one_participant : `${translate.remove_one_participant.replace('1', selectedIds.size)}s`}
                             >
                             </BasicButton>
                         }
@@ -203,7 +209,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                     </TableCell>
                                     <TableCell>{translate.name}</TableCell>
                                     <TableCell>{translate.surname}</TableCell>
-                                    <TableCell>Accion</TableCell>{/**TRADUCCION */}
+                                    <TableCell>{translate.delete}</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -243,14 +249,18 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         } else {
             return (
                 <div style={{ width: "100%", height: "100%" }}>
-                    <div style={{ textAlign: "center" }}>
-                        <h6>TABLA CON PARTICIPANTES</h6>
-                    </div>
+                    <SectionTitle
+						text={'Limitar quien puede recibir delegaciones a:' /*TRADUCCION*/}
+						color={primary}
+						style={{
+							marginTop: '1.6em'
+						}}
+					/>
                     <div style={{ paddingBottom: "1em" }}>
                         <BasicButton
                             color={"white"}
                             textStyle={{
-                                color: getPrimary(),
+                                color: primary,
                                 fontWeight: "700",
                                 fontSize: "0.9em",
                                 textTransform: "none"
@@ -258,7 +268,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                             textPosition="after"
                             buttonStyle={{
                                 marginRight: "1em",
-                                border: `2px solid ${getPrimary()}`
+                                border: `2px solid ${primary}`
                             }}
                             onClick={openSelectModal}
                             text={'Añadir'}
@@ -319,12 +329,13 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 {_renderBody()}
             </div>
             :
-            <Card style={{ padding: "1em", marginTop: "1em", maxWidth: isMobile ? "100%" : "70%" }}>
+            <div style={{ padding: "1em", marginTop: "1em", maxWidth: isMobile ? "100%" : "70%" }}>
                 {_renderBody()}
-            </Card>
+            </div>
     );
 
 }
+
 
 const HoverRow = ({ children, participant, council, removeCouncilDelegate, openDeleteWarning, select, selected }) => {
     const [hover, setHover] = React.useState(false)
