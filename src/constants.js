@@ -198,7 +198,7 @@ export const GOVERNING_BODY_TYPES = {
 	},
 	COUNCIL: {
 		value: 5,
-		label: 'Consejo de administra'
+		label: 'Consejo de administración'
 	}
 }
 

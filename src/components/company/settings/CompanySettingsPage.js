@@ -257,7 +257,7 @@ class CompanySettingsPage extends React.Component {
 
 		return (
 			<CardPageLayout title={translate.company_settings}>
-				<div style={{width: '100%', height: '100%', padding: '1.5em'}}>
+				<div style={{width: '100%', height: '100%', padding: '1.5em', paddingBottom: '6em'}}>
 					<SectionTitle
 						text={translate.fiscal_data}
 						color={primary}
