@@ -26,6 +26,7 @@ import { toast } from "react-toastify";
 import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButton";
 import DeleteCompanyButton from "./DeleteCompanyButton";
 import { sendGAevent } from "../../../utils/analytics";
+import GoverningBodyForm from "./GoverningBodyForm";
 
 export const info = gql`
 	query info {
@@ -77,7 +78,7 @@ class CompanySettingsPage extends React.Component {
 		}
 	}
 
-	updateState(newValues) {
+	updateState = newValues => {
 		this.setState({
 			data: {
 				...this.state.data,
@@ -408,6 +409,7 @@ class CompanySettingsPage extends React.Component {
 						</GridItem>
 					</Grid>
 					<br />
+					<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
 					<SectionTitle
 						text={translate.contact_data}
 						color={primary}

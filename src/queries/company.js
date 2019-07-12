@@ -14,6 +14,8 @@ const companyFragment = `
 	countryState
 	linkKey
 	creatorId
+	governingBodyType
+	governingBodyData
 	domain
 	demo
 	type

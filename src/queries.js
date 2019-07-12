@@ -126,6 +126,8 @@ export const companies = gql`
 				address
 				city
 				zipcode
+				governingBodyType
+				governingBodyData
 				country
 				demo
 				countryState

@@ -175,6 +175,33 @@ export const AGENDA_TYPES = {
 	CUSTOM_NOMINAL: 6
 };
 
+export const GOVERNING_BODY_TYPES = {
+	NONE: {
+		value: 0,
+		label: 'Ninguno'
+	},
+	ONE_PERSON: {
+		value: 1,
+		label: 'Administrador único'
+	},
+	ONE_ENTITY: {
+		value: 2,
+		label: 'Ad. único persona jurídica'
+	},
+	JOINT_ADMIN: {
+		value: 3,
+		label: 'Administrador mancomunado'
+	},
+	SOLIDARY_ADMIN: {
+		value: 4,
+		label: 'Administrador solidario'
+	},
+	COUNCIL: {
+		value: 5,
+		label: 'Consejo de administra'
+	}
+}
+
 //CONTINUATION OF AGENDA_TYPES
 export const CUSTOM_AGENDA_VOTING_TYPES = [
 	{
