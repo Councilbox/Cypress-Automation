@@ -9,6 +9,14 @@ import { unregister } from './registerServiceWorker';
 import { init } from './utils/analytics';
 init();
 
+const log = console.log;
+console.warn = (text) => {
+    console.error(text);
+    log(text);
+}
+
+console.log('jivbiri');
+
 if(process.env.REACT_APP_HOTJAR){
     (function(h,o,t,j,a,r){
         h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};

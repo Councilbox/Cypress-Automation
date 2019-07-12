@@ -3,7 +3,7 @@ import { EnhancedTable } from "../../../displayComponents/index";
 import { graphql } from "react-apollo";
 
 import { companyDrafts } from "../../../queries/companyDrafts";
-import { DRAFTS_LIMITS } from "../../../constants";
+import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from "../../../constants";
 import { TableCell, TableRow } from "material-ui/Table";
 import { compose } from "react-apollo/index";
 import gql from "graphql-tag";
@@ -50,6 +50,10 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props })
 						field: "statuteId",
 						value: statute.statuteId,
 						label: translate[statute.title] || statute.title
+					}, {
+						field: "governingBodyType",
+						value: 'all',
+						label: translate.all_plural
 					}]}
 					categories={[[
 						...statutes.map(statute => {
@@ -64,7 +68,13 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props })
 							value: 'all',
 							label: translate.all_plural
 						},
-					]]}
+					], Object.keys(GOVERNING_BODY_TYPES).map(key => {
+						return {
+							field: "governingBodyType",
+							value: GOVERNING_BODY_TYPES[key].value,
+							label: translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label
+						}
+					})]}
 					headers={[
 						{
 							text: translate.title,
