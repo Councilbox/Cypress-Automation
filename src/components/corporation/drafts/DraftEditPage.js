@@ -48,10 +48,10 @@ class DraftEditPage extends React.PureComponent {
     updateCorporationDraft = async () => {
         const { __typename, ...draft } = this.state.data;
         if (!checkRequiredFields(this.props.translate, draft, this.updateErrors, true)) {
-			this.setState({ loading: true });
+            this.setState({ loading: true });
 			const response = await this.props.updateCorporationDraft({
 				variables: {
-					draft: draft
+					draft
 				}
 			});
 

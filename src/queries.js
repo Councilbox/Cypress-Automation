@@ -630,6 +630,7 @@ export const corporationDrafts = gql`
 				corporationId
 				councilType
 				description
+				governingBodyType
 				id
 				language
 				majority
@@ -685,6 +686,7 @@ export const corporationDraft = gql`
 			id
 			language
 			majority
+			governingBodyType
 			majorityDivider
 			majorityType
 			prototype
