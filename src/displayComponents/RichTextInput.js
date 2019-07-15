@@ -192,6 +192,21 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 		loadCompanyTags();
 	}, [loadCompanyTags]);
 
+	const getTextToPaste = tag => {
+		let draftMode = false;
+		if(tags){
+			if(tags[0].value.includes('{{')){
+				draftMode = true;
+			}
+		}
+
+		if(draftMode) {
+			return `{{${tag.key}}}`;
+		}
+
+		return tag.value;
+	}
+
 
 	return (
 		<DropDownMenu
@@ -223,7 +238,7 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 						<MenuItem
 								key={`tag_${tag.id}`}
 								onClick={() =>
-									paste(`<span id="${tag.id}">${tag.value}</span>`)
+									paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
 								}
 
 							>
