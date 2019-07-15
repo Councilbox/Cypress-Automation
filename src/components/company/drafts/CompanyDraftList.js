@@ -95,7 +95,7 @@ class CompanyDraftList extends React.Component {
 		}
 
 		return (
-			<CardPageLayout title={translate.drafts}>
+			<CardPageLayout title={this.state.tags? 'Etiquetas' : translate.drafts}>
 				<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '1em'}}>
 					<BasicButton
 						text={translate.drafts_new}

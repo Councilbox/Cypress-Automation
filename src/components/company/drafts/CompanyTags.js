@@ -1,20 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, CloseIcon } from '../../../displayComponents';
+import { CloseIcon, SectionTitle } from '../../../displayComponents';
 import { useHoverRow } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
 import { Table, TableHead, TableRow, TableCell, TableBody } from 'material-ui';
+import AddCompanyTag from './AddCompanyTag';
 
-const addTag = gql`
-    mutation CreateCompanyTag($tag: CompanyTagInput!){
-        createCompanyTag(tag: $tag){
-            id
-            key
-            value
-        }
-    }
-`;
 
 const query = gql`
     query companyTags($companyId: Int!){
@@ -38,6 +30,7 @@ const deleteCompanyTag = gql`
 const CompanyTags = ({ client, translate, company, ...props }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
+    const primary = getPrimary();
 
     const getData = async () => {
         const response = await client.query({
@@ -56,26 +49,6 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
         }
     }, [company.id]);
 
-    const createCompanyTag = async () => {
-        const response = await client.mutate({
-            mutation: addTag,
-            variables: {
-                tag: {
-                    value: 'Prueba',
-                    key: 'Prueba',
-                    companyId: company.id
-                }
-            }
-        });
-
-        if(response.data.createCompanyTag){
-            setData([
-                ...data,
-                response.data.createCompanyTag
-            ]);
-        }
-
-    }
 
     const deleteTag = async id => {
         const response = await client.mutate({
@@ -92,24 +65,31 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
 
     return (
         <div>
-            <BasicButton
-                onClick={createCompanyTag}
-                text="Probar"
+            <SectionTitle
+                color={primary}
+                title="Etiquetas de compañía"
             />
-            COMPANY TAGS
+
+            <AddCompanyTag
+                translate={translate}
+                company={company}
+                refetch={getData}
+            />
 
             {data &&
                 <React.Fragment>
                     {data.length > 0?
                         <Table>
                             <TableHead>
-                                <TableCell>
-                                    Clave
-                                </TableCell>
-                                <TableCell>
-                                    Valor
-                                </TableCell>
-                                <TableCell/>
+                                <TableRow>
+                                    <TableCell>
+                                        Clave
+                                    </TableCell>
+                                    <TableCell>
+                                        Valor
+                                    </TableCell>
+                                    <TableCell/>
+                                </TableRow>
                             </TableHead>
                             <TableBody>
                                 {data.map(tag => (
