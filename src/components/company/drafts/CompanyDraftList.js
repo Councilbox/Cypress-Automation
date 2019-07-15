@@ -23,7 +23,7 @@ import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
 import { sendGAevent } from "../../../utils/analytics.js";
-import CompanyTags from "./CompanyTags.js";
+import CompanyTags from "./companyTags/CompanyTags.js";
 
 class CompanyDraftList extends React.Component {
 	state = {

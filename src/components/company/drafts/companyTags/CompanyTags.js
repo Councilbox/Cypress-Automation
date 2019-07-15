@@ -1,11 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CloseIcon, SectionTitle } from '../../../displayComponents';
-import { useHoverRow } from '../../../hooks';
-import { getPrimary } from '../../../styles/colors';
-import { Table, TableHead, TableRow, TableCell, TableBody } from 'material-ui';
+import { CloseIcon, SectionTitle, AlertConfirm } from '../../../../displayComponents';
+import { useHoverRow } from '../../../../hooks';
+import { getPrimary } from '../../../../styles/colors';
+import { Table, TableHead, TableRow, TableCell, TableBody, IconButton } from 'material-ui';
 import AddCompanyTag from './AddCompanyTag';
+import EditTagModal from './EditTagModal';
 
 
 const query = gql`
@@ -29,6 +30,7 @@ const deleteCompanyTag = gql`
 
 const CompanyTags = ({ client, translate, company, ...props }) => {
     const [data, setData] = React.useState(null);
+    const [editTag, setEditTag] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const primary = getPrimary();
 
@@ -48,6 +50,14 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
             getData();
         }
     }, [company.id]);
+
+    const openEditTag = tag => {
+        setEditTag(tag);
+    }
+
+    const closeEditTag = () => {
+        setEditTag(null);
+    }
 
 
     const deleteTag = async id => {
@@ -75,6 +85,15 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                 company={company}
                 refetch={getData}
             />
+            {!!editTag &&
+                <EditTagModal
+                    tag={editTag}
+                    open={!!editTag}
+                    requestClose={closeEditTag}
+                    translate={translate}
+                    refetch={getData}
+                />
+            }
 
             {data &&
                 <React.Fragment>
@@ -96,6 +115,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                                     <HoverableRow
                                         key={`tag_${tag.id}`}
                                         tag={tag}
+                                        editTag={openEditTag}
                                         translate={translate}
                                         deleteTag={deleteTag}
                                     />
@@ -112,7 +132,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
     )
 }
 
-const HoverableRow = ({ translate, tag, deleteTag }) => {
+const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
     const [show, handlers] = useHoverRow();
     const primary = getPrimary();
 
@@ -125,15 +145,36 @@ const HoverableRow = ({ translate, tag, deleteTag }) => {
                 {tag.value}
             </TableCell>
             <TableCell>
-                <div style={{width: '3em'}}>
+                <div style={{width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     {show &&
-                        <CloseIcon
-                            style={{ color: primary }}
-                            onClick={event => {
-                                deleteTag(tag.id);
-                                event.stopPropagation();
-                            }}
-                        />
+                        <React.Fragment>
+                            <IconButton
+                                onClick={event => {
+                                    event.stopPropagation();
+                                    editTag(tag);
+                                }}
+                                style={{
+                                    width: '32px',
+                                    height: '32px'
+                                }}
+                            >
+                                <i className="fa fa-edit"
+                                    style={{
+                                        cursor: "pointer",
+                                        fontSize: '22px',
+                                        color: primary
+                                    }}
+                                />
+                            </IconButton>
+                            <CloseIcon
+                                style={{ color: primary }}
+                                onClick={event => {
+                                    deleteTag(tag.id);
+                                    event.stopPropagation();
+                                }}
+                            />
+                        </React.Fragment>
+
                     }
                 </div>
             </TableCell>
