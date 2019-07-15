@@ -67,9 +67,6 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                 tagId: id
             }
         });
-
-        console.log(response);
-
         getData();
     }
 
@@ -88,6 +85,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
             {!!editTag &&
                 <EditTagModal
                     tag={editTag}
+                    company={company}
                     open={!!editTag}
                     requestClose={closeEditTag}
                     translate={translate}

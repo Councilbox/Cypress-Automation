@@ -15,7 +15,7 @@ const addTag = gql`
     }
 `;
 
-const checkUsedKey = gql`
+export const checkUsedKey = gql`
     query CompanyTagKeyUsed($companyId: Int!, $key: String!){
         companyTagKeyUsed(companyId: $companyId, key: $key){
             id
