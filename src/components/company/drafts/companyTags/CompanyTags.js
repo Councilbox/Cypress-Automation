@@ -11,7 +11,7 @@ import EditTagModal from './EditTagModal';
 import { sendGAevent } from '../../../../utils/analytics';
 
 
-const query = gql`
+export const query = gql`
     query companyTags($companyId: Int!){
         companyTags(companyId: $companyId){
             id
@@ -104,7 +104,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
             }
 
             {data &&
-                <React.Fragment>
+                <div style={{marginTop: '1em'}}>
                     {data.length > 0?
                         <Table>
                             <TableHead>
@@ -133,7 +133,7 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
                     :
                         translate.no_results
                     }
-                </React.Fragment>
+                </div>
 
             }
         </div>
