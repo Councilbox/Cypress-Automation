@@ -25,7 +25,8 @@ import pendingShipping from "../assets/img/pending_shipping.png";
 import spam from "../assets/img/spam.png";
 import LiveUtil from './live';
 import { LiveToast } from '../displayComponents';
-import { moment } from '../containers/App';
+import { moment, client, store } from '../containers/App';
+import { query } from "../components/company/drafts/companyTags/CompanyTags";
 
 export const canReorderPoints = council => {
 	return council.statute.canReorderPoints === 1;
@@ -328,10 +329,31 @@ export const addMinimumDistance = (date, statute) => {
 	return momentDate.add(statute.minimumSeparationBetweenCall, "minutes");
 };
 
-export const changeVariablesToValues = (text, data, translate) => {
+export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
 	}
+
+	const state = store.getState();
+	const company = state.companies.list[state.companies.selected];
+
+	if(company){
+		const response = await client.query({
+			query,
+			variables: {
+				companyId: company.id
+			}
+		});
+
+		const { companyTags } = response.data;
+
+		if(companyTags && companyTags.length > 0){
+			companyTags.forEach(tag => {
+				text = text.replace(`{{${tag.key}}}`, tag.value);
+			})
+		}
+	}
+
 
 	if (!text) {
 		return "";

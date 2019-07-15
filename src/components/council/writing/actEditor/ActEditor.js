@@ -206,8 +206,8 @@ class ActEditor extends Component {
 		this.props.data.refetch();
 	}
 
-	loadDraft = draft => {
- 		const correctedText = changeVariablesToValues(draft.text, {
+	loadDraft = async draft => {
+ 		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.state.data.council
 		}, this.props.translate);

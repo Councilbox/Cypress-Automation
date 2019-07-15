@@ -5,8 +5,6 @@ import RichTextInput from "../../../../../displayComponents/RichTextInput";
 import { MenuItem } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import { Card } from 'material-ui';
-import LoadDraft from "../../../../company/drafts/LoadDraft";
-import { changeVariablesToValues } from '../../../../../utils/CBX';
 
 const CustomPointForm = ({
     errors,

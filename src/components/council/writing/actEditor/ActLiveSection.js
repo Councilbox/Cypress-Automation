@@ -150,8 +150,8 @@ class ActLiveSection extends React.Component {
 		);
 	};
 
-    loadDraft = draft => {
-		const correctedText = changeVariablesToValues(draft.text, {
+    loadDraft = async draft => {
+		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
 			council: this.props.council,
 			votings: {

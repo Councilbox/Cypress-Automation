@@ -102,7 +102,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		}
 	}
 
-	const loadDraft = draft => {
+	const loadDraft = async draft => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = data;
 		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 		const participations = hasParticipations(council);
@@ -110,7 +110,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 		const totalPresent = totalSC - noVoteSC;
 
-		const correctedText = changeVariablesToValues(draft.text, {
+		const correctedText = await changeVariablesToValues(draft.text, {
 			company: company,
 			council: council,
 			votings: {
