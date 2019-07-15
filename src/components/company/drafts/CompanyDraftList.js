@@ -23,11 +23,13 @@ import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
 import { sendGAevent } from "../../../utils/analytics.js";
+import CompanyTags from "./CompanyTags.js";
 
 class CompanyDraftList extends React.Component {
 	state = {
 		deleteModal: false,
 		draftID: null,
+		tags: true,
 		newForm: false
 	}
 
@@ -125,6 +127,30 @@ class CompanyDraftList extends React.Component {
 							icon={<ButtonIcon type="add" color="white" />}
 						/>
 					</Link>
+					<BasicButton
+						text={'Etiquetas' /*TRADUCCION*/}
+						onClick={() => {
+							this.setState({
+								tags: true
+							});
+							sendGAevent({
+								category: 'CompanyTags',
+								action: `Entrada a la lista`,
+								label: this.props.company.businessName
+							});
+						}}
+						color={getSecondary()}
+						buttonStyle={
+							{ marginLeft: "1em" }
+						}
+						textStyle={{
+							color: "white",
+							fontWeight: "700",
+							textTransform: 'none'
+						}}
+						icon={<ButtonIcon type="add" color="white" />}
+					/>
+
 				</div>
 				<React.Fragment>
 					{error ? (
@@ -140,52 +166,63 @@ class CompanyDraftList extends React.Component {
 							})}
 						</div>
 					) : (
-						!!companyDrafts && (
-							<React.Fragment>
-								<EnhancedTable
+						<React.Fragment>
+							{this.state.tags?
+								<CompanyTags
+									company={company}
 									translate={translate}
-									defaultLimit={DRAFTS_LIMITS[0]}
-									defaultFilter={"title"}
-									limits={DRAFTS_LIMITS}
-									page={1}
-									loading={loading}
-									length={companyDrafts.list.length}
-									total={companyDrafts.total}
-									refetch={this.props.data.refetch}
-									headers={[
-										{
-											text: translate.name,
-											name: "title",
-											canOrder: true
-										},
-										{
-											name: "type",
-											text: translate.type,
-											canOrder: true
-										},
-										{
-											name: '',
-											text: ''
-										}
-									]}
-									action={this._renderDeleteIcon}
-									companyID={this.props.company.id}
-								>
-									{companyDrafts.list.map(draft => {
-										return (
-											<HoverableRow
-												key={`draft${draft.id}`}
+								/>
+							:
+								<React.Fragment>
+									{!!companyDrafts && (
+										<React.Fragment>
+											<EnhancedTable
 												translate={translate}
-												renderDeleteIcon={this._renderDeleteIcon}
-												draft={draft}
-												draftTypes={draftTypes}
-												company={this.props.company}
-											/>
-										);
-									})}
-								</EnhancedTable>
-							</React.Fragment>
-						)
+												defaultLimit={DRAFTS_LIMITS[0]}
+												defaultFilter={"title"}
+												limits={DRAFTS_LIMITS}
+												page={1}
+												loading={loading}
+												length={companyDrafts.list.length}
+												total={companyDrafts.total}
+												refetch={this.props.data.refetch}
+												headers={[
+													{
+														text: translate.name,
+														name: "title",
+														canOrder: true
+													},
+													{
+														name: "type",
+														text: translate.type,
+														canOrder: true
+													},
+													{
+														name: '',
+														text: ''
+													}
+												]}
+												action={this._renderDeleteIcon}
+												companyID={this.props.company.id}
+											>
+												{companyDrafts.list.map(draft => {
+													return (
+														<HoverableRow
+															key={`draft${draft.id}`}
+															translate={translate}
+															renderDeleteIcon={this._renderDeleteIcon}
+															draft={draft}
+															draftTypes={draftTypes}
+															company={this.props.company}
+														/>
+													);
+												})}
+											</EnhancedTable>
+										</React.Fragment>
+									)}
+								</React.Fragment>
+							}
+						</React.Fragment>
 					)}
 
 					<AlertConfirm
