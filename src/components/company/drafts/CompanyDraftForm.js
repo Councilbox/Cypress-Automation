@@ -18,6 +18,7 @@ const CompanyDraftForm = ({
 	updateState,
 	companyStatutes,
 	draftTypes,
+	rootStatutes,
 	languages,
 	votingTypes,
 	majorityTypes,
@@ -38,6 +39,31 @@ const CompanyDraftForm = ({
 				}
 			/>
 		</GridItem>
+		{!!rootStatutes &&
+			<GridItem xs={12} lg={3} md={3}>
+				<SelectInput
+					floatingText={translate.council_type}
+					value={draft['prototype'] || 0}
+					errorText={errors['prototype']}
+					onChange={event =>
+						updateState({
+							prototype: event.target.value
+						})
+					}
+				>
+					{rootStatutes.map(council => {
+						return (
+							<MenuItem
+								value={council['prototype']}
+								key={`counciltype_${council['prototype']}`}
+							>
+								{translate[council.title] || council.title}
+							</MenuItem>
+						);
+					})}
+				</SelectInput>
+			</GridItem>
+		}
 		{!!companyStatutes &&
 			<GridItem xs={12} lg={3} md={3}>
 				<SelectInput
