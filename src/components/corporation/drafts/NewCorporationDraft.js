@@ -7,6 +7,92 @@ import { checkRequiredFields } from "../../../utils/CBX";
 import { createCorporationDraft } from "../../../queries";
 
 
+const company_types = [ {
+    company_type: 0,//'s_a'
+    statutes: [ {
+        prototype: 1,
+        title: 'ordinary_general_assembly',
+    }, {
+        prototype: 2,
+        title: 'special_general_assembly'
+    }, {
+        prototype: 3,
+        title: 'board_of_directors',
+    } ]
+}, {
+    company_type: 1,//'s_l'
+    statutes: [ {
+        prototype: 4,
+        title: 'ordinary_general_assembly',
+    }, {
+        prototype: 5,
+        title: 'special_general_assembly',
+    }, {
+        prototype: 6,
+        title: 'board_of_directors',
+    } ]
+}, {
+    company_type: 2,//'s_coop'
+    statutes: [ {
+        prototype: 7,
+        title: 'ordinary_general_assembly',
+    }, {
+        prototype: 8,
+        title: 'special_general_assembly',
+    }, {
+        prototype: 9,
+        title: 'board_of_directors',
+    } ]
+}, {
+    company_type: 3, //'professional_association'
+    statutes: [ {
+        prototype: 10,
+        title: 'ordinary_general_assembly_association',
+    }, {
+        prototype: 11,
+        title: 'special_general_assembly_association',
+    }, {
+        prototype: 12,
+        title: 'council_of_directors_association',
+    }, {
+        prototype: 13,
+        title: 'executive_committee',
+    } ]
+}, {
+    company_type: 4,//'association'
+    statutes: [ {
+        prototype: 14,
+        title: 'ordinary_general_assembly_association',
+    }, {
+        prototype: 15,
+        title: 'special_general_assembly_association',
+    }, {
+        prototype: 16,
+        title: 'council_of_directors_association',
+    }, {
+        prototype: 17,
+        title: 'executive_committee',
+    } ]
+}, {
+    company_type: 5,//'other'
+    statutes: [ {
+        prototype: 18,
+        title: 'default_census_name',
+    } ]
+} ];
+
+export const getRootStatutes = companyType => {
+    let rootStatutes = company_types[0].statutes;
+    const filterStatutes = company_types.filter(list => list.company_type === companyType);
+
+    if(filterStatutes && filterStatutes.length > 0){
+        rootStatutes = filterStatutes[0].statutes;
+    }
+
+    return rootStatutes;
+}
+
+
 class NewCorporationDraft extends React.PureComponent {
 
     state = {
@@ -16,6 +102,7 @@ class NewCorporationDraft extends React.PureComponent {
             type: -1,
             description: "",
             text: "",
+            companyType: 0,
             language: 'es',
             corporationId: 1,
             votationType: -1,
@@ -86,10 +173,12 @@ class NewCorporationDraft extends React.PureComponent {
 
 
     render(){
+        let rootStatutes = getRootStatutes(this.state.data.companyId);
 
         return(
             <CardPageLayout title={this.props.translate.drafts_new}>
                 <CompanyDraftForm
+                    rootStatutes={rootStatutes}
                     draft={this.state.data}
                     errors={this.state.errors}
                     translate={this.props.translate}
