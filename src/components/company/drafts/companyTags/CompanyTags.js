@@ -2,11 +2,13 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { CloseIcon, SectionTitle, AlertConfirm } from '../../../../displayComponents';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
 import { Table, TableHead, TableRow, TableCell, TableBody, IconButton } from 'material-ui';
 import AddCompanyTag from './AddCompanyTag';
 import EditTagModal from './EditTagModal';
+import { sendGAevent } from '../../../../utils/analytics';
 
 
 const query = gql`
@@ -50,6 +52,14 @@ const CompanyTags = ({ client, translate, company, ...props }) => {
             getData();
         }
     }, [company.id]);
+
+    React.useEffect(() => {
+        sendGAevent({
+            category: 'Etiquetas',
+            action: `Entrada al listado`,
+            label: company.businessName
+        });
+    }, [sendGAevent]);
 
     const openEditTag = tag => {
         setEditTag(tag);
@@ -180,4 +190,4 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
     )
 }
 
-export default withApollo(CompanyTags);
+export default withSharedProps()(withApollo(CompanyTags));

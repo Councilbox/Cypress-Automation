@@ -21,6 +21,7 @@ const checkShouldTrack = () => {
 }
 
 export const sendGAevent = args => {
+    console.log(args);
     if(checkShouldTrack()){
         ReactGa.event(args);
     }

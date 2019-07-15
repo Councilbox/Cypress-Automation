@@ -2,8 +2,9 @@ import React from 'react';
 import { BasicButton, AlertConfirm, TextInput } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary } from '../../../../styles/colors';
+import { getSecondary, getPrimary } from '../../../../styles/colors';
 import CompanyTagForm from './CompanyTagForm';
+import { sendGAevent } from '../../../../utils/analytics';
 
 const addTag = gql`
     mutation CreateCompanyTag($tag: CompanyTagInput!){
@@ -31,10 +32,13 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
         value: ''
     });
     const secondary = getSecondary();
+    const primary = getPrimary();
     const [tag, setTag] = React.useState({
         key: '',
         value: ''
     });
+
+
 
     const createCompanyTag = async () => {
         if(!await checkRequiredFields()){
@@ -50,6 +54,11 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
             });
 
             if(response.data.createCompanyTag){
+                sendGAevent({
+                    category: 'Etiquetas',
+                    action: `Crear etiqueta`,
+                    label: company.businessName
+                });
                 refetch();
                 setModal(false);
                 setTag({
@@ -119,13 +128,11 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
         <React.Fragment>
             <BasicButton
                 onClick={openModal}
-                color="white"
+                color={primary}
                 text="Añadir"
                 textStyle={{
-                    color: secondary
-                }}
-                buttonStyle={{
-                    border: `1px solid ${secondary}`
+                    color: 'white',
+                    fontWeight: '700'
                 }}
             />
             <AlertConfirm
