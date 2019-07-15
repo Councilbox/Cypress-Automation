@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
 	BasicButton,
 	ButtonIcon,
-	CardPageLayout,
 	LoadingSection
 } from "../../../displayComponents";
 import { compose, graphql } from "react-apollo";
@@ -98,7 +97,7 @@ class CompanyDraftNew extends Component {
 		}
 
 		return (
-			<CardPageLayout title={translate.drafts_new}>
+			<React.Fragment>
 				<div style={{ marginTop: "1.8em" }}>
 					<CompanyDraftForm
 						draft={draft}
@@ -121,8 +120,9 @@ class CompanyDraftNew extends Component {
 						onClick={() => this.createCompanyDraft()}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
+					<br/><br/>
 				</div>
-			</CardPageLayout>
+			</React.Fragment>
 		);
 	}
 }
