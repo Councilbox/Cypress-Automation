@@ -9,6 +9,7 @@ import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations } fr
 import { moment } from '../../../containers/App';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
+import { AGENDA_STATES } from "../../../constants";
 
 
 export const agendaRecountQuery = gql`
@@ -45,6 +46,18 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 			updateAgreement(value);
 		}, 450);
 	}
+
+	const updateText = async () => {
+		const correctedText = await getCorrectedText(agenda.comment);
+		editor.current.setValue(correctedText);
+		updateAgreement(correctedText);
+	}
+
+	React.useEffect(() => {
+		if(agenda.votingState === AGENDA_STATES.CLOSED && data){
+			updateText();
+		}
+	}, [agenda.votingState]);
 
 	React.useEffect(() => {
 		editor.current.setValue(agenda.comment);
@@ -102,7 +115,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		}
 	}
 
-	const loadDraft = async draft => {
+	const getCorrectedText = async text => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = data;
 		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 		const participations = hasParticipations(council);
@@ -110,26 +123,33 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 		const totalPresent = totalSC - noVoteSC;
 
-		const correctedText = await changeVariablesToValues(draft.text, {
+		const correctedText = await changeVariablesToValues(text, {
 			company: company,
 			council: council,
-			votings: {
-				positive: agenda.positiveVotings + agenda.positiveManual,
-				negative: agenda.negativeVotings + agenda.negativeManual,
-				abstention: agenda.abstentionVotings + agenda.abstentionManual,
-				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-				SCFavorTotal: participations? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
-				SCAgainstTotal: participations? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				numPositive,
-				numNegative,
-				numAbstention,
-				numNoVote
-			}
+			...(agenda.votingState === AGENDA_STATES.CLOSED? {
+				votings: {
+					positive: agenda.positiveVotings + agenda.positiveManual,
+					negative: agenda.negativeVotings + agenda.negativeManual,
+					abstention: agenda.abstentionVotings + agenda.abstentionManual,
+					noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
+					SCFavorTotal: participations? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
+					SCAgainstTotal: participations? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAbstentionTotal: participations? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					numPositive,
+					numNegative,
+					numAbstention,
+					numNoVote
+				}
+			} : {})
 		}, translate);
+		return correctedText;
+	}
+
+	const loadDraft = async draft => {
+		const correctedText = await getCorrectedText(draft.text);
 		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
 		modal.current.close();
@@ -138,6 +158,10 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 
 	const _section = () => {
 		let tags = [];
+
+		const shouldPasteValue = agenda => {
+			return agenda.votingState === 2
+		}
 
 		if(data) {
 			let { numPositive, numNegative, numAbstention, numNoVote } = data;
@@ -165,55 +189,55 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					label: translate.company_new_country
 				},
 				{
-					value: numPositive,
+					value: shouldPasteValue(agenda)? numPositive : '{{numPositive}}',
 					label: translate.num_positive
 				},
 				{
-					value: numNegative,
+					value: shouldPasteValue(agenda)? numNegative : '{{numNegative}}',
 					label: translate.num_negative
 				},
 				{
-					value: numAbstention,
+					value: shouldPasteValue(agenda)? numAbstention : '{{numAbstention}}',
 					label: translate.num_abstention
 				},
 				{
-					value: numNoVote,
+					value: shouldPasteValue(agenda)? numNoVote : '{{numNoVote}}',
 					label: translate.num_no_vote
 				},
 			]
 
 			if(participations){
 				tags.push({
-					value: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : '{{positiveSCTotal}}',
 					label: '% a favor / total capital social'
 				},
 				{
-					value: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : '{{negativeSCTotal}}',
 					label: '% en contra / total capital social'
 				},
 				{
-					value: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : '{{abstentionSCTotal}}',
 					label: '% abstención / total capital social'
 				},
 				{
-					value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : '{{positiveSCPresent}}',
 					label: '% a favor / capital social presente'
 				},
 				{
-					value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : '{{negativeSCPresent}}',
 					label: '% en contra / capital social presente'
 				},
 				{
-					value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
+					value: shouldPasteValue(agenda)? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : '{{abstentionSCPresent}}',
 					label: '% abstención / capital social presente'
 				});
 			} else {
 				tags.push({
-					value: `${agenda.positiveVotings + agenda.positiveManual} `,
+					value: shouldPasteValue(agenda)? `${agenda.positiveVotings + agenda.positiveManual} ` : '{{positiveVotings}}',
 					label: translate.positive_votings
 				},
 				{
-					value: `${agenda.negativeVotings + agenda.negativeManual} `,
+					value: shouldPasteValue(agenda)? `${agenda.negativeVotings + agenda.negativeManual} `: '{{negativeVotings}}',
 					label: translate.negative_votings
 				});
 			}

@@ -471,8 +471,8 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		text = text.replace(/{{numNegative}}/g, data.votings.numNegative);
 		text = text.replace(/{{numNoVote}}/g, data.votings.numNoVote);
 	} else {
-		text = text.replace(/{{positiveVotings}}/g, 0);
-		text = text.replace(/{{negativeVotings}}/g, 0);
+		//text = text.replace(/{{positiveVotings}}/g, 0);
+		//text = text.replace(/{{negativeVotings}}/g, 0);
 	}
 	return text;
 };
