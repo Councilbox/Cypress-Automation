@@ -339,6 +339,7 @@ class ActEditor extends Component {
 		council.attendants = this.state.data.councilAttendants.list;
 		council.delegatedVotes = this.state.data.participantsWithDelegatedVote;
 
+		console.log(council.statute);
 
 		return (
 			<ConfigContext.Consumer>
@@ -355,34 +356,36 @@ class ActEditor extends Component {
 												justifyContent: 'flex-end'
 											}}
 										>
-											{config.exportActToWord?
-												<div style={{display: 'flex'}}>
-													<ExportActToMenu
-														translate={this.props.translate}
-														council={council}
-														html={this.state.data.council.act.emailAct}
-													/>
-												</div>
-											:
-												<DownloadActPDF
-													translate={this.props.translate}
-													council={council}
-												/>
+											{!this.props.liveMode &&
+												<React.Fragment>
+													{config.exportActToWord?
+														<div style={{display: 'flex'}}>
+															<ExportActToMenu
+																translate={this.props.translate}
+																council={council}
+																html={this.state.data.council.act.emailAct}
+															/>
+														</div>
+													:
+														<DownloadActPDF
+															translate={this.props.translate}
+															council={council}
+														/>
+													}
+													{config.actCouncilInfo?
+														<BasicButton
+															text={this.props.translate.show_info_panel}
+															color={'white'}
+															type="flat"
+															textStyle={{ color: secondary }}
+															buttonStyle={{border: `1px solid ${secondary}`, marginLeft: '0.6em'}}
+															onClick={this.props.toggleInfoMenu}
+														/>
+													:
+														<Config config={config}/>
+													}
+												</React.Fragment>
 											}
-											{config.actCouncilInfo?
-												<BasicButton
-													text={this.props.translate.show_info_panel}
-													color={'white'}
-													type="flat"
-													textStyle={{ color: secondary }}
-													buttonStyle={{border: `1px solid ${secondary}`, marginLeft: '0.6em'}}
-													onClick={this.props.toggleInfoMenu}
-												/>
-											:
-												<Config config={config}/>
-											}
-
-
 										</div>
 										{!!data.council.act && data.council.act.intro !== undefined &&
 											<RichTextInput

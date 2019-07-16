@@ -1,5 +1,5 @@
 import React from 'react';
-import { BasicButton, AlertConfirm, TextInput } from '../../../../displayComponents';
+import { BasicButton, AlertConfirm, ButtonIcon } from '../../../../displayComponents';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
@@ -129,6 +129,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, ...props }) => {
             <BasicButton
                 onClick={openModal}
                 color={primary}
+                icon={<ButtonIcon type="add" color="white" />}
                 text="Añadir"
                 textStyle={{
                     color: 'white',
