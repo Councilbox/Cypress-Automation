@@ -55,6 +55,7 @@ const CouncilActData = gql`
 			}
 			statute {
 				id
+				statuteId
 				prototype
 				existsQualityVote
 			}
@@ -338,8 +339,6 @@ class ActEditor extends Component {
 
 		council.attendants = this.state.data.councilAttendants.list;
 		council.delegatedVotes = this.state.data.participantsWithDelegatedVote;
-
-		console.log(council.statute);
 
 		return (
 			<ConfigContext.Consumer>
