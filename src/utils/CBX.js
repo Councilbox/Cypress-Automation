@@ -354,7 +354,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 		if(companyTags && companyTags.length > 0){
 			companyTags.forEach(tag => {
-				text = text.replace(`{{${tag.key}}}`, tag.value);
+				text = text.replace(new RegExp(`{{${tag.key}}}`, 'g'), tag.value);
 			})
 		}
 	}
