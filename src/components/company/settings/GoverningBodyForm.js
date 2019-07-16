@@ -39,7 +39,7 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
     }
 
     return (
-        <div>
+        <div style={{width: '100%'}}>
             <SectionTitle
                 text={'Órgano de gobierno'}
                 color={primary}
@@ -189,7 +189,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                 onClick={addRow}
                 text={translate.add}
             />
-            <Table>
+            <Table style={{width: '100%'}}>
                 <TableHead>
                     <TableCell>
                         {translate.name}
@@ -299,8 +299,8 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
 
 
     return (
-        <div>
-            <Table>
+        <div style={{width: '100%', overflowX: 'auto'}}>
+            <Table style={{maxWidth: "100%", tableLayout: 'auto'}}>
                 <TableHead>
                     <TableCell>
                         {translate.position}

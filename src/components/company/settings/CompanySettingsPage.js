@@ -409,7 +409,11 @@ class CompanySettingsPage extends React.Component {
 						</GridItem>
 					</Grid>
 					<br />
-					<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+					<Grid spacing={16}>
+						<GridItem xs={12} md={12} lg={12}>
+							<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
+						</GridItem>
+					</Grid>
 					<SectionTitle
 						text={translate.contact_data}
 						color={primary}
