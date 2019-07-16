@@ -337,6 +337,11 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	const state = store.getState();
 	const company = state.companies.list[state.companies.selected];
 
+	if (!text) {
+		return "";
+	}
+
+
 	if(company){
 		const response = await client.query({
 			query,
@@ -352,11 +357,6 @@ export const changeVariablesToValues = async (text, data, translate) => {
 				text = text.replace(`{{${tag.key}}}`, tag.value);
 			})
 		}
-	}
-
-
-	if (!text) {
-		return "";
 	}
 
 	if (data.council.dateStart) {

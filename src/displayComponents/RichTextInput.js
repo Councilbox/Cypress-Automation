@@ -139,11 +139,13 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											<SmartTags
-												tags={tags}
-												translate={translate}
-												paste={this.paste}
-											/>
+											{!!tags &&
+												<SmartTags
+													tags={tags}
+													translate={translate}
+													paste={this.paste}
+												/>
+											}
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>

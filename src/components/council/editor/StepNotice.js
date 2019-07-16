@@ -44,12 +44,12 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const setCouncilWithRemoveValues = React.useCallback(data => {
+	const setCouncilWithRemoveValues = React.useCallback(async data => {
 		if(!data.loading && !council.id){
 			setCouncil({
 				...data.council,
 				name: !data.council.name? `${data.council.statute.title} - ${moment().format('DD/MM/YYYY')}` : data.council.name,
-				conveneText: CBX.changeVariablesToValues(data.council.conveneText, {
+				conveneText: await CBX.changeVariablesToValues(data.council.conveneText, {
 					company,
 					council: {
 						...data.council,
@@ -57,7 +57,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 					}
 				}, translate),
 				dateStart: !data.council.dateStart? new Date().toISOString() : data.council.dateStart,
-				conveneFooter: CBX.changeVariablesToValues(data.council.conveneFooter, {
+				conveneFooter: await CBX.changeVariablesToValues(data.council.conveneFooter, {
 					company,
 					council: {
 						...data.council,
@@ -117,9 +117,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 			}
 		}
 
-		if(Object.keys(errors).length > 0){
-			setErrors(errors);
-		}
+		setErrors(errors);
 	}
 
 	const nextPage = async () => {
@@ -203,8 +201,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		}
 	}
 
-	const loadDraft = draft => {
-		const correctedText = CBX.changeVariablesToValues(draft.text, {
+	const loadDraft = async draft => {
+		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company,
 			council
 		}, translate);
@@ -214,8 +212,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		editor.current.setValue(correctedText);
 	};
 
-	const loadFooterDraft = draft => {
-		const correctedText = CBX.changeVariablesToValues(draft.text, {
+	const loadFooterDraft = async draft => {
+		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company: company,
 			council
 		}, translate);
