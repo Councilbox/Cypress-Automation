@@ -23,6 +23,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 	const [saveDraft, setSaveDraft] = React.useState(false);
 	const editor = React.useRef();
 	const intro = React.useRef();
+	const footer = React.useRef();
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
 	const primary = getPrimary();
@@ -55,7 +56,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 		updateState({
 			conveneFooter: draft.text
 		});
-		editor.current.setValue(draft.text);
+		footer.current.setValue(draft.text);
 	};
 
 
@@ -584,7 +585,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, ...props }) =>
 				{statute.conveneFooter !== undefined && (
 					<GridItem xs={12} md={12} lg={12}>
 						<RichTextInput
-							ref={editor}
+							ref={footer}
 							errorText={errors.conveneFooter}
 							translate={translate}
 							saveDraft={
