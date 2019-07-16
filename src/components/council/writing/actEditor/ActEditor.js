@@ -212,11 +212,6 @@ class ActEditor extends Component {
 			council: this.state.data.council
 		}, this.props.translate);
 
-
-/* 		this.updateActState({
-			[this.state.load]: this.state.data.council.act[this.state.load] + correctedText
-		}); */
-
 		this[this.state.load].paste(correctedText);
 		this.setState({
 			loadDraft: false
@@ -367,15 +362,11 @@ class ActEditor extends Component {
 														council={council}
 														html={this.state.data.council.act.emailAct}
 													/>
-													{/* <BasicButton
-														text="Añadir adjunto al acta"
-														textStyle={{color: getSecondary()}}
-													/> */}
 												</div>
 											:
 												<DownloadActPDF
 													translate={this.props.translate}
-													council={this.props.council}
+													council={council}
 												/>
 											}
 											{config.actCouncilInfo?

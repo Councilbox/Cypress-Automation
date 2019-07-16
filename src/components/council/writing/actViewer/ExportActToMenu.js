@@ -75,6 +75,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
             color="transparent"
             id={'user-menu-trigger'}
             loading={loading}
+            loadingColor={secondary}
             text={translate.export_act_to}
             textStyle={{ color: secondary }}
             type="flat"

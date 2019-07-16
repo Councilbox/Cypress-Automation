@@ -34,6 +34,7 @@ class DropDownMenu extends React.Component {
 			color,
 			type,
 			icon,
+			loadingColor,
 			anchorOrigin,
 			claseHover
 		} = this.props;
@@ -50,6 +51,7 @@ class DropDownMenu extends React.Component {
 							type={type}
 							id={id}
 							loading={loading}
+							loadingColor={loadingColor}
 							onClick={this.handleClick}
 							textStyle={{
 								...textStyle,
