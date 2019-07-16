@@ -20,8 +20,6 @@ const DevAdminPage = ({ data, toggleFeature }) => {
         data.refetch();
     }
 
-    console.log(data);
-
     let config = {};
 
         if(!data.loading){
@@ -108,8 +106,6 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             mutation: addExceptionMutation,
             variables: data
         });
-
-        console.log(response);
         refetch();
     }
 

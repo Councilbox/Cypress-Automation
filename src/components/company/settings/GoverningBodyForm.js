@@ -145,14 +145,9 @@ const ListAdminForm = ({ translate, setData, data }) => {
         }
     }, [data.list]);
 
-    console.log(data);
 
     const setAdminData = (newData, index) => {
         const list = data.list || [];
-
-        console.log(list);
-        console.log(list[index]);
-
         list[index] = {
             ...list[index],
             ...newData

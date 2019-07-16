@@ -21,7 +21,9 @@ const checkShouldTrack = () => {
 }
 
 export const sendGAevent = args => {
-    console.log(args);
+    if(window.location.hostname.includes('localhost')) {
+        console.log(args);
+    }
     if(checkShouldTrack()){
         ReactGa.event(args);
     }

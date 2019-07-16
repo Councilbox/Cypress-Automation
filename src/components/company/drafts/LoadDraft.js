@@ -68,13 +68,17 @@ const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props })
 							value: 'all',
 							label: translate.all_plural
 						},
-					], Object.keys(GOVERNING_BODY_TYPES).map(key => {
+					], [...Object.keys(GOVERNING_BODY_TYPES).filter(key => GOVERNING_BODY_TYPES[key].value !== 0).map(key => {
 						return {
 							field: "governingBodyType",
 							value: GOVERNING_BODY_TYPES[key].value,
 							label: translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label
 						}
-					})]}
+					}), {
+							field: "governingBodyType",
+							value: 'all',
+							label: translate.all_plural
+					}]]}
 					headers={[
 						{
 							text: translate.title,
