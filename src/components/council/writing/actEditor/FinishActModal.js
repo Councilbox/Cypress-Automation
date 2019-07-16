@@ -65,7 +65,8 @@ const FinishActModal = ({ requestClose, translate, council, ...props }) => {
 		const response = await props.approveActUserPDF({
 			variables: {
 				councilId: council.id,
-				base64: state.file
+				base64: state.file,
+				closeCouncil: props.liveMode
 			}
 		});
 
@@ -130,6 +131,7 @@ const FinishActModal = ({ requestClose, translate, council, ...props }) => {
 						}
 						{state.step === 2 &&
 							<ActHTML
+								key="preview"
 								ref={actViewer}
 								council={council}
 							/>
@@ -181,7 +183,7 @@ const FinishActModal = ({ requestClose, translate, council, ...props }) => {
 }
 
 const ButtonInModal = ({ body, img, click }) => {
-	const [showActions, onMouseOver, onMouseLeave] = useHoverRow();
+	const [showActions, handlers] = useHoverRow();
 
 	return (
 		<Card
@@ -194,8 +196,7 @@ const ButtonInModal = ({ body, img, click }) => {
 				padding: "25px",
 				background: showActions ? "gainsboro" : ""
 			}}
-			onMouseOver={onMouseOver}
-			onMouseLeave={onMouseLeave}
+			{...handlers}
 		>
 			<div style={{ textAlign: "center", marginBottom: '1.6em' }}>
 				{img}
@@ -280,8 +281,8 @@ const dropzoneStyles = {
 }
 
 export const approveActUserPDF = gql`
-	mutation ApproveActUserPDF($base64: String!, $councilId: Int!) {
-		approveCouncilActUserPDF(base64: $base64, councilId: $councilId) {
+	mutation ApproveActUserPDF($base64: String!, $councilId: Int!, $closeCouncil: Boolean) {
+		approveCouncilActUserPDF(base64: $base64, councilId: $councilId, closeCouncil: $closeCouncil) {
 			success
 			message
 		}
