@@ -57,7 +57,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		if(agenda.votingState === AGENDA_STATES.CLOSED && data){
 			updateText();
 		}
-	}, [agenda.votingState]);
+	}, [agenda.votingState, data]);
 
 	React.useEffect(() => {
 		editor.current.setValue(agenda.comment);
@@ -76,7 +76,6 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 
 	React.useEffect(() => {
 		let interval;
-
 		getData();
 		interval = setInterval(getData, 8000);
 		return () => clearInterval(interval);
