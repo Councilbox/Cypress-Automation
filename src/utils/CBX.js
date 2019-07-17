@@ -478,194 +478,187 @@ export const changeVariablesToValues = async (text, data, translate) => {
 };
 
 export const getTagVariablesByDraftType = (draftType, translate) => {
-	switch (draftType) {
-		case DRAFT_TYPES.CONVENE_HEADER:
-			return [
-				{
-					value: '{{dateFirstCall}}',
-					label: translate["1st_call_date"]
-				},
-				{
-					value: '{{dateSecondCall}}',
-					label: translate["2nd_call_date"]
-				},
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: `{{street}}`,
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				},
-				{
-					value: '{{country_state}}',
-					label: translate.company_new_country_state
-				}
-			];
+	const types = {
+		[DRAFT_TYPES.CONVENE_HEADER]: [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			}
+		],
 
-		case DRAFT_TYPES.AGENDA:
-			return [
-				{
-					value: `{{street}}`,
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				},
-				{
-					value: '{{country_state}}',
-					label: translate.company_new_country_state
-				}
-			];
+		[DRAFT_TYPES.AGENDA]: [
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			}
+		],
 
-		case DRAFT_TYPES.INTRO:
-			return [
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: '{{dateRealStart}}',
-					label: translate.date_real_start
-				},
-				{
-					value: '{{firstOrSecondCall}}',
-					label: translate.first_or_second_call
-				},
-				{
-					value: `{{street}}`,
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				}
-			];
+		[DRAFT_TYPES.INTRO]: [
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: '{{dateRealStart}}',
+				label: translate.date_real_start
+			},
+			{
+				value: '{{firstOrSecondCall}}',
+				label: translate.first_or_second_call
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			}
+		],
 
-		case DRAFT_TYPES.CONSTITUTION:
-			return [
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: '{{president}}',
-					label: translate.president
-				},
-				{
-					value: '{{secretary}}',
-					label: translate.secretary
-				},
-				{
-					value: '{{numberOfShares}}',
-					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
-				},
-				{
-					value: '{{percentageOfShares}}',
-					label: translate.social_capital_percentage
-				},
-				{
-					value: `{{street}}`,
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				},
-				{
-					value: '{{dateRealStart}}',
-					label: translate.date_real_start
-				},
-			];
+		[DRAFT_TYPES.CONSTITUTION]: [
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			},
+			{
+				value: '{{numberOfShares}}',
+				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+			},
+			{
+				value: '{{percentageOfShares}}',
+				label: translate.social_capital_percentage
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{dateRealStart}}',
+				label: translate.date_real_start
+			},
+		],
 
-		case DRAFT_TYPES.CONCLUSION:
-			return [
-				{
-					value: '{{dateEnd}}',
-					label: translate.date_end
-				},
-				{
-					value: '{{president}}',
-					label: translate.president
-				},
-				{
-					value: '{{secretary}}',
-					label: translate.secretary
-				}
-			];
+		[DRAFT_TYPES.CONCLUSION]: [
+			{
+				value: '{{dateEnd}}',
+				label: translate.date_end
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			}
+		],
 
-		case DRAFT_TYPES.COMMENTS_AND_AGREEMENTS://TRADUCCION
-			return [
-				{
-					value: '{{dateFirstCall}}',
-					label: translate["1st_call_date"]
-				},
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: `{{street}}`,
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{positiveVotings}}',
-					label: translate.positive_votings
-				},
-				{
-					value: '{{negativeVotings}}',
-					label: translate.negative_votings
-				},
-				{
-					value: '{{numPositive}}',
-					label: translate.num_positive
-				},
-				{
-					value: '{{numAbstention}}',
-					label: translate.num_abstention
-				},
-				{
-					value: '{{numNegative}}',
-					label: translate.num_negative
-				},
-				{
-					value: '{{numNoVote}}',
-					label: translate.num_no_vote
-				},
-				{
-					value: '{{positiveSCTotal}}',
-					label: '% a favor / total capital social'
-				},
-				{
-					value: '{{negativeSCTotal}}',
-					label: '% en contra / total capital social'
-				},
-				{
-					value: '{{abstentionSCTotal}}',
-					label: '% abstención / total capital social'
-				},
-				{
-					value: '{{positiveSCPresent}}',
-					label: '% a favor / capital social presente'
-				},
-				{
-					value: '{{negativeSCPresent}}',
-					label: '% en contra / capital social presente'
-				},
-				{
-					value: '{{abstentionSCPresent}}',
-					label: '% abstención / capital social presente'
-				},
-			];
-
-		default:
-			return null;
+		[DRAFT_TYPES.COMMENTS_AND_AGREEMENTS]: [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{positiveVotings}}',
+				label: translate.positive_votings
+			},
+			{
+				value: '{{negativeVotings}}',
+				label: translate.negative_votings
+			},
+			{
+				value: '{{numPositive}}',
+				label: translate.num_positive
+			},
+			{
+				value: '{{numAbstention}}',
+				label: translate.num_abstention
+			},
+			{
+				value: '{{numNegative}}',
+				label: translate.num_negative
+			},
+			{
+				value: '{{numNoVote}}',
+				label: translate.num_no_vote
+			},
+			{
+				value: '{{positiveSCTotal}}',
+				label: '% a favor / total capital social'
+			},
+			{
+				value: '{{negativeSCTotal}}',
+				label: '% en contra / total capital social'
+			},
+			{
+				value: '{{abstentionSCTotal}}',
+				label: '% abstención / total capital social'
+			},
+			{
+				value: '{{positiveSCPresent}}',
+				label: '% a favor / capital social presente'
+			},
+			{
+				value: '{{negativeSCPresent}}',
+				label: '% en contra / capital social presente'
+			},
+			{
+				value: '{{abstentionSCPresent}}',
+				label: '% abstención / capital social presente'
+			},
+		]
 	}
+
+	return types[draftType]? types[draftType] : types[DRAFT_TYPES.CONVENE_HEADER];
 }
 
 export const hasParticipations = (statute = {}) => {
