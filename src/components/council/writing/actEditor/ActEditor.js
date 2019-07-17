@@ -681,7 +681,7 @@ export default compose(
 	})
 )(withSharedProps()(ActEditor));
 
-const generateActTags = (type, data, translate) => {
+export const generateActTags = (type, data, translate) => {
 	const { council, company } = data;
 	let tags;
 	let attendantsString = '';

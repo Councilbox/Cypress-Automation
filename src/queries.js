@@ -189,6 +189,7 @@ export const councilCertificates = gql`
 		council(id: $councilId) {
 			id
 			name
+			companyId
 			dateStart
 			agendas {
 				id
