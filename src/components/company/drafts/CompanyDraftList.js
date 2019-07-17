@@ -23,269 +23,259 @@ import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 import { bHistory } from "../../../containers/App";
 import { sendGAevent } from "../../../utils/analytics.js";
+import { useOldState, useHoverRow } from "../../../hooks.js";
 
-class CompanyDraftList extends React.Component {
-	state = {
+const CompanyDraftList = ({ data, translate, company, ...props }) => {
+	const [state, setState] = useOldState({
 		deleteModal: false,
 		draftID: null,
 		tags: true,
 		newForm: false
-	}
+	});
+	const primary = getPrimary();
 
-	componentDidMount() {
-		this.props.data.refetch();
+	React.useEffect(() => {
+		data.refetch();
 		sendGAevent({
 			category: 'Borradores',
 			action: `Entrada a la lista`,
-			label: this.props.company.businessName
+			label: company.businessName
 		});
-	}
+	}, [sendGAevent])
 
-	_renderDeleteIcon = draftID => {
-		const primary = getPrimary();
+	const _renderDeleteIcon = draftID => {
 		return (
 			<CloseIcon
 				style={{ color: primary }}
 				onClick={event => {
-					this.openDeleteModal(draftID);
+					openDeleteModal(draftID);
 					event.stopPropagation();
 				}}
 			/>
 		);
-	};
+	}
 
-	openDeleteModal = draftID => {
-		this.setState({
+	const openDeleteModal = draftID => {
+		setState({
 			deleteModal: true,
 			draftID: draftID
 		});
-	};
-	deleteDraft = async () => {
-		this.props.data.loading = true;
-		const response = await this.props.deleteDraft({
+	}
+
+	const deleteDraft = async () => {
+		data.loading = true;
+		const response = await props.deleteDraft({
 			variables: {
-				id: this.state.draftID
+				id: state.draftID
 			}
 		});
 		if (!response.errors) {
-			this.props.data.refetch();
-			this.setState({
+			data.refetch();
+			setState({
 				deleteModal: false
 			});
 		}
-	};
+	}
 
+	const { companyDrafts, draftTypes, loading, error } = data;
 
-	render() {
-		const { translate, company } = this.props;
-		const { companyDrafts, draftTypes, loading, error } = this.props.data;
-
-		if (this.state.newForm) {
-			return (
-				<CompanyDraftNew
-					translate={translate}
-					closeForm={() => {
-						this.setState({ newForm: false });
-						this.props.data.refetch();
-					}}
-					company={company}
-				/>
-			);
-		}
-
+	if (state.newForm) {
 		return (
-			<React.Fragment>
-				<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '1em'}}>
+			<CompanyDraftNew
+				translate={translate}
+				closeForm={() => {
+					setState({ newForm: false });
+					data.refetch();
+				}}
+				company={company}
+			/>
+		);
+	}
+
+	return (
+		<React.Fragment>
+			<div style={{display: 'flex', justifyContent: isMobile? 'space-between' : 'flex-start', marginBottom: '1em'}}>
+				<BasicButton
+					text={translate.drafts_new}
+					color={primary}
+					textStyle={{
+						color: "white",
+						fontWeight: "700",
+						textTransform: 'none'
+					}}
+					onClick={() =>
+						setState({
+							newForm: true
+						})
+					}
+					icon={<ButtonIcon type="add" color="white" />}
+				/>
+				<Link
+					to={`/company/${company.id}/platform/drafts/`}
+					style={{ marginLeft: "1em" }}
+				>
 					<BasicButton
-						text={translate.drafts_new}
-						color={getPrimary()}
+						text={translate.general_drafts}
+						color={getSecondary()}
 						textStyle={{
 							color: "white",
 							fontWeight: "700",
 							textTransform: 'none'
 						}}
-						onClick={() =>
-							this.setState({
-								newForm: true
-							})
-						}
 						icon={<ButtonIcon type="add" color="white" />}
 					/>
-					<Link
-						to={`/company/${company.id}/platform/drafts/`}
-						style={{ marginLeft: "1em" }}
-					>
-						<BasicButton
-							text={translate.general_drafts}
-							color={getSecondary()}
-							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								textTransform: 'none'
-							}}
-							icon={<ButtonIcon type="add" color="white" />}
-						/>
-					</Link>
-				</div>
-				<React.Fragment>
-					{error ? (
-						<div>
-							{error.graphQLErrors.map((error, index) => {
+				</Link>
+			</div>
+			<React.Fragment>
+				{error ? (
+					<div>
+						{error.graphQLErrors.map((error, index) => {
+							return (
+								<ErrorWrapper
+									key={`error_${index}`}
+									error={error}
+									translate={translate}
+								/>
+							);
+						})}
+					</div>
+				) : (
+					!!companyDrafts && (
+						<EnhancedTable
+							translate={translate}
+							defaultLimit={DRAFTS_LIMITS[0]}
+							defaultFilter={"title"}
+							limits={DRAFTS_LIMITS}
+							page={1}
+							loading={loading}
+							length={companyDrafts.list.length}
+							total={companyDrafts.total}
+							selectedCategories={[{
+								field: "type",
+								value: 'all',
+								label: translate.all_plural
+							}]}
+							categories={[[
+								...draftTypes.map(type => {
+									return {
+										field: "type",
+										value: type.value,
+										label: translate[type.label] || type.label
+									}
+								}),
+								{
+									field: "type",
+									value: 'all',
+									label: translate.all_plural
+								},
+							]]}
+							refetch={data.refetch}
+							headers={[
+								{
+									text: translate.name,
+									name: "title",
+									canOrder: true
+								},
+								{
+									name: "type",
+									text: translate.type,
+									canOrder: true
+								},
+								{
+									name: '',
+									text: ''
+								}
+							]}
+							action={_renderDeleteIcon}
+							companyID={company.id}
+						>
+							{companyDrafts.list.map(draft => {
 								return (
-									<ErrorWrapper
-										key={`error_${index}`}
-										error={error}
+									<HoverableRow
+										key={`draft${draft.id}`}
 										translate={translate}
+										renderDeleteIcon={_renderDeleteIcon}
+										draft={draft}
+										draftTypes={draftTypes}
+										company={company}
 									/>
 								);
 							})}
-						</div>
-					) : (
-						!!companyDrafts && (
-							<EnhancedTable
-								translate={translate}
-								defaultLimit={DRAFTS_LIMITS[0]}
-								defaultFilter={"title"}
-								limits={DRAFTS_LIMITS}
-								page={1}
-								loading={loading}
-								length={companyDrafts.list.length}
-								total={companyDrafts.total}
-								refetch={this.props.data.refetch}
-								headers={[
-									{
-										text: translate.name,
-										name: "title",
-										canOrder: true
-									},
-									{
-										name: "type",
-										text: translate.type,
-										canOrder: true
-									},
-									{
-										name: '',
-										text: ''
-									}
-								]}
-								action={this._renderDeleteIcon}
-								companyID={this.props.company.id}
-							>
-								{companyDrafts.list.map(draft => {
-									return (
-										<HoverableRow
-											key={`draft${draft.id}`}
-											translate={translate}
-											renderDeleteIcon={this._renderDeleteIcon}
-											draft={draft}
-											draftTypes={draftTypes}
-											company={this.props.company}
-										/>
-									);
-								})}
-						</EnhancedTable>
-					))}
+					</EnhancedTable>
+				))}
 
-					<AlertConfirm
-						title={translate.attention}
-						bodyText={translate.question_delete}
-						open={this.state.deleteModal}
-						buttonAccept={translate.delete}
-						buttonCancel={translate.cancel}
-						modal={true}
-						acceptAction={this.deleteDraft}
-						requestClose={() =>
-							this.setState({ deleteModal: false })
-						}
-					/>
-				</React.Fragment>
+				<AlertConfirm
+					title={translate.attention}
+					bodyText={translate.question_delete}
+					open={state.deleteModal}
+					buttonAccept={translate.delete}
+					buttonCancel={translate.cancel}
+					modal={true}
+					acceptAction={deleteDraft}
+					requestClose={() =>
+						setState({ deleteModal: false })
+					}
+				/>
 			</React.Fragment>
-		);
-	}
+		</React.Fragment>
+	);
 }
 
-class HoverableRow extends React.Component {
+const HoverableRow = ({ draft, draftTypes, company, translate, ...props }) => {
+	const [show, handlers] = useHoverRow();
 
-	state = {
-		showActions: false
-	}
-
-	mouseEnterHandler = () => {
-		this.setState({
-			showActions: true
-		})
-	}
-
-	mouseLeaveHandler = () => {
-		this.setState({
-			showActions: false
-		})
-	}
-
-	render() {
-		const { draft, draftTypes, translate } = this.props;
-
-		if(isMobile){
-            return(
-                <Card
-                    style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
-					onClick={() => { bHistory.push(`/company/${this.props.company.id}/draft/${draft.id}`);
-				}}
-                >
-                    <Grid>
-                        <GridItem xs={4} md={4} style={{fontWeight: '700'}}>
-                            {translate.name}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
-							{draft.title}
-                        </GridItem>
-
-						<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
-                            {translate.type}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
-							{translate[draftTypes[draft.type].label]}
-                        </GridItem>
-                    </Grid>
-                    <div style={{position: 'absolute', top: '5px', right: '5px'}}>
-						{this.props.renderDeleteIcon(draft.id)}
-                    </div>
-                </Card>
-            )
-        }
-
-		return (
-			<TableRow
-				hover
-				onMouseOver={this.mouseEnterHandler}
-				onMouseLeave={this.mouseLeaveHandler}
-				onClick={() => {
-					bHistory.push(
-						`/company/${
-							this.props.company
-								.id
-						}/draft/${draft.id}`
-					);
-				}}
+	if(isMobile){
+		return(
+			<Card
+				style={{marginBottom: '0.5em', padding: '0.3em', position: 'relative'}}
+				onClick={() => { bHistory.push(`/company/${company.id}/draft/${draft.id}`);
+			}}
 			>
-				<TableCell
-					style={TableStyles.TD}
-				>
-					{draft.title}
-				</TableCell>
-				<TableCell>
-					{translate[draftTypes[draft.type].label]}
-				</TableCell>
-				<TableCell>
-					<div style={{width: '3em'}}>
-						{this.state.showActions && this.props.renderDeleteIcon(
-							draft.id
-						)}
-					</div>
-				</TableCell>
-			</TableRow>
+				<Grid>
+					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						{translate.name}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{draft.title}
+					</GridItem>
+
+					<GridItem xs={4} md={4} style={{fontWeight: '700'}}>
+						{translate.type}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{translate[draftTypes[draft.type].label]}
+					</GridItem>
+				</Grid>
+				<div style={{position: 'absolute', top: '5px', right: '5px'}}>
+					{props.renderDeleteIcon(draft.id)}
+				</div>
+			</Card>
 		)
 	}
+
+	return (
+		<TableRow
+			hover
+			{...handlers}
+			onClick={() => {
+				bHistory.push(`/company/${company.id}/draft/${draft.id}`);
+			}}
+		>
+			<TableCell
+				style={TableStyles.TD}
+			>
+				{draft.title}
+			</TableCell>
+			<TableCell>
+				{translate[draftTypes[draft.type].label]}
+			</TableCell>
+			<TableCell>
+				<div style={{width: '3em'}}>
+					{show && props.renderDeleteIcon(draft.id)}
+				</div>
+			</TableCell>
+		</TableRow>
+	)
 }
 
 export default withSharedProps()(
