@@ -23,7 +23,7 @@ export const draftTypes = gql`
 const LoadDraft = withSharedProps()(({ translate, statutes, statute, ...props }) => {
 	React.useEffect(() => {
 		props.data.refetch();
-	}, [props.data.refetch]);
+	}, []);
 
 	const { companyDrafts, loading } = props.data;
 
