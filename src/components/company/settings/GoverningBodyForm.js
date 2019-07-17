@@ -360,6 +360,7 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                             <TableCell>
                                 <TextInput
                                     value={item? item.phone : ''}
+                                    style={{maxWidth: '10em'}}
                                     onChange={event => setAdminData({ phone: event.target.value }, index)}
                                 />
                             </TableCell>

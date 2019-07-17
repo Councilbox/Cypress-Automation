@@ -76,7 +76,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		if(council.id){
 			checkDates();
 		}
-	}, [council.dateStart, council.dateStart2NdCall, council]);
+	}, [council.dateStart, council.dateStart2NdCall]);
 
 	const resetButtonStates = () => {
 		setState({
@@ -98,22 +98,29 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		const secondDate = council.dateStart2NdCall || new Date().toISOString();
 		const errors = {};
 
+		//console.log(council.dateStart, council.dateStart2NdCall);
+
 		if(!CBX.checkMinimumAdvance(firstDate, statute)){
 			errors.dateStart = translate.new_statutes_warning
 				.replace('{{council_prototype}}', translate[statute.title] || statute.title)
 				.replace('{{days}}', statute.advanceNoticeDays)
 		}
 
-		if (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || (CBX.hasSecondCall(council.statute) && !council.dateStart2NdCall)) {
-			errors.dateStart2NdCall = translate["2nd_call_date_changed"];
-			updateState({
-				dateStart: firstDate,
-				dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
-			});
+		if (CBX.hasSecondCall(council.statute) && (!CBX.checkSecondDateAfterFirst(firstDate, secondDate) || !council.dateStart2NdCall)) {
+			//errors.dateStart2NdCall = translate["2nd_call_date_changed"];
+			const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
+			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
+			const difference = second.diff(first, "minutes");
+			if(difference < statute.minimumSeparationBetweenCall){
+				updateState({
+					dateStart: firstDate,
+					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
+				});
+			}
 			updateConveneDates(firstDate, firstDate, secondDate, CBX.addMinimumDistance(firstDate, statute))
 		} else {
 			if (!CBX.checkMinimumDistanceBetweenCalls(firstDate, secondDate, statute)) {
-				errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
+				//errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
 			}
 		}
 
