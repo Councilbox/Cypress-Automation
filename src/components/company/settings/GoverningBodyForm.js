@@ -1,6 +1,6 @@
 import React from 'react';
-import { SectionTitle, SelectInput, TextInput, BasicButton } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+import { SectionTitle, SelectInput, TextInput, BasicButton, GridItem, ButtonIcon } from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import { MenuItem, TableBody } from 'material-ui';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 import { Table, TableHead, TableRow, TableCell } from 'material-ui';
@@ -47,19 +47,21 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
                     marginTop: '2em'
                 }}
             />
-            <SelectInput
-                value={state.governingBodyType}
-                onChange={changeGoverningType}
-            >
-                {Object.keys(GOVERNING_BODY_TYPES).map(key => (
-                    <MenuItem
-                        value={GOVERNING_BODY_TYPES[key].value}
-                        key={GOVERNING_BODY_TYPES[key].value}
-                    >
-                        {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
-                    </MenuItem>
-                ))}
-            </SelectInput>
+            <GridItem xs={12} md={7} lg={4}>
+                <SelectInput
+                    value={state.governingBodyType}
+                    onChange={changeGoverningType}
+                >
+                    {Object.keys(GOVERNING_BODY_TYPES).map(key => (
+                        <MenuItem
+                            value={GOVERNING_BODY_TYPES[key].value}
+                            key={GOVERNING_BODY_TYPES[key].value}
+                        >
+                            {translate[GOVERNING_BODY_TYPES[key].label] || GOVERNING_BODY_TYPES[key].label}
+                        </MenuItem>
+                    ))}
+                </SelectInput>
+            </GridItem>
             {getGoverningTypeInput()}
         </div>
     )
@@ -68,7 +70,7 @@ const GoverningBodyForm = ({ translate, state, updateState, ...props}) => {
 const SingleAdminForm = ({ translate, setData, data = {} }) => {
 
     return (
-        <div>
+        <GridItem xs={12} md={8} lg={6}>
             <TextInput
                 floatingText={translate.name}
                 value={data? data.name : ''}
@@ -94,13 +96,13 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
                 value={data? data.phone : ''}
                 onChange={event => setData({ phone: event.target.value })}
             />
-        </div>
+        </GridItem>
     )
 }
 
 const EntityAdminForm = ({ translate, setData, data = {} }) => {
     return (
-        <div>
+        <GridItem xs={12} md={8} lg={6}>
             <TextInput
                 floatingText={'Nombre de la entidad'}
                 value={data? data.entityName : ''}
@@ -132,11 +134,12 @@ const EntityAdminForm = ({ translate, setData, data = {} }) => {
                 value={data? data.phone : ''}
                 onChange={event => setData({ phone: event.target.value })}
             />
-        </div>
+        </GridItem>
     )
 }
 
 const ListAdminForm = ({ translate, setData, data }) => {
+    const secondary = getSecondary();
     React.useEffect(() => {
         if(!data.list){
             setData({
@@ -188,6 +191,10 @@ const ListAdminForm = ({ translate, setData, data }) => {
             <BasicButton
                 onClick={addRow}
                 text={translate.add}
+                color="white"
+                textStyle={{ color: secondary }}
+                icon={<ButtonIcon type="add" color={secondary} />}
+                buttonStyle={{ border: `1px solid ${secondary}`, marginBottom: '0.9em' }}
             />
             <Table style={{width: '100%'}}>
                 <TableHead>
@@ -249,7 +256,6 @@ const ListAdminForm = ({ translate, setData, data }) => {
                     ))}
                 </TableBody>
             </Table>
-            
         </div>
     )
 }
@@ -361,7 +367,6 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
                     ))}
                 </TableBody>
             </Table>
-            
         </div>
     )
 }
