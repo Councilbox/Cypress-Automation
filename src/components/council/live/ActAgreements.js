@@ -36,32 +36,43 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
 	const editor = React.useRef(null);
+	const [comment, setComment] = React.useState(agenda.comment);
 	const modal = React.useRef(null);
 	const [data, setData] = React.useState(null);
 
-	const startUpdateTimeout = value => {
-		clearTimeout(timeout.current);
+	React.useEffect(() => {
+		if(comment !== agenda.comment){
+			timeout.current = setTimeout(() => {
+				updateAgreement(comment);
+			}, 300);
+		}
 
-		timeout.current = setTimeout(() => {
-			updateAgreement(value);
-		}, 450);
+		return () => clearTimeout(timeout.current);
+	}, [comment]);
+
+	React.useEffect(() => {
+		if(agenda.comment !== comment){
+			setComment(agenda.comment);
+		}
+	}, [agenda]);
+
+	const updateComment = value => {
+		setComment(value);
 	}
 
 	const updateText = async () => {
-		const correctedText = await getCorrectedText(agenda.comment);
+		const correctedText = await getCorrectedText(comment);
 		editor.current.setValue(correctedText);
 		updateAgreement(correctedText);
 	}
 
 	React.useEffect(() => {
 		if(agenda.votingState === AGENDA_STATES.CLOSED && data){
-			updateText();
+			if(/{{/.test(comment)){
+				updateText();
+			}
 		}
 	}, [agenda.votingState, data]);
-
-	React.useEffect(() => {
-		editor.current.setValue(agenda.comment);
-	}, [agenda.id]);
 
 	const getData = React.useCallback(async () => {
 		const response = await props.client.query({
@@ -109,6 +120,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					}
 				}
 			});
+			props.refetch();
 			setError(false);
 			setLoading(false);
 		}
@@ -266,8 +278,8 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 						/>
 					}
 					tags={tags}
-					value={agenda.comment || ""}
-					onChange={value => startUpdateTimeout(value)}
+					value={comment || ""}
+					onChange={value => updateComment(value)}
 				/>
 			</div>
 		)
