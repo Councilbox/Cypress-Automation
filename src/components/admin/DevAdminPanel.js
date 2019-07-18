@@ -83,6 +83,22 @@ const createCouncil = gql`
     }
 `;
 
+const sendConvene = gql`
+    mutation sendConvene($councilId: Int!){
+        sendConvene(councilId: $councilId){
+            success
+        }
+    }
+`;
+
+const createCensus = gql`
+    mutation createCensus($census: CensusInput!, $participantList: [ImportInput]){
+        createCensus(census: $census, participantList: $participantList){
+            id
+        }
+    }
+`;
+
 const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     const [data, setData] = React.useState({
         companyId: '',
@@ -118,6 +134,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     autoClose: 0,
                     councilType: 0,
                     language: 'es',
+                    confirmAttendance: 1,
                     dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
                     dateStart2NdCall: new Date(2019,11,17, 14, 50, 0).toISOString(),
                     companyId: 375,
@@ -131,6 +148,40 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     type: 3,
                     name: 'Prueba'
                 }]
+            }
+        });
+
+        console.log(response);
+    }
+
+    const createCe = async () => {
+        const response = await client.mutate({
+            mutation: createCensus,
+            variables: {
+                census: {
+                    censusName: 'Prueba completa desde api',
+                    companyId: 375
+                },
+                participantList: [
+                    {
+                        participant: {
+                            name: 'Aaron',
+                            surname: 'Fuentes',
+                            email: 'aaron.fuentes.cocodin@gmail.com'
+                        }
+                    }
+                ]
+            }
+        });
+
+        console.log(response);
+    }
+
+    const convene = async () => {
+        const response = await client.mutate({
+            mutation: sendConvene,
+            variables: {
+               councilId: 7054
             }
         });
 
@@ -184,6 +235,14 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             <BasicButton
                 text="Probar creacion"
                 onClick={create}
+            />
+            <BasicButton
+                text="Enviar convocatoria"
+                onClick={convene}
+            />
+            <BasicButton
+                text="Crear censos"
+                onClick={createCe}
             />
             {exceptions.map(exception => (
                 <div key={`exception_${exception.id}`}>
