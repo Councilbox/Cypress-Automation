@@ -138,7 +138,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
                     dateStart2NdCall: new Date(2019,11,17, 14, 50, 0).toISOString(),
                     companyId: 375,
-                    selectedCensusId: 516
+                    selectedCensusId: 753
                 },
                 agenda: [{
                     type: 0,
@@ -165,10 +165,64 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                 participantList: [
                     {
                         participant: {
-                            name: 'Aaron',
-                            surname: 'Fuentes',
-                            email: 'aaron.fuentes.cocodin@gmail.com'
-                        }
+                            name: 'Participante1',
+                            surname: '1',
+                            email: 'aaron.fuentes.cocodin+1@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
+                        representative: {
+                            name: 'Repre',
+                            surname: 'de participant 1',
+                            email: 'aaron.fuentes.cocodin+11@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
+                    },
+                    {
+                        participant: {
+                            name: 'Participante2',
+                            surname: '2',
+                            email: 'aaron.fuentes.cocodin+2@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
+                        representative: {
+                            name: 'Repre',
+                            surname: 'de participant 2',
+                            email: 'aaron.fuentes.cocodin+22@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
+                    },
+                    {
+                        participant: {
+                            name: 'Participante3',
+                            surname: '3',
+                            email: 'aaron.fuentes.cocodin+3@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
+                    },
+                    {
+                        participant: {
+                            name: 'Participante4',
+                            surname: '4',
+                            numParticipations: 5,
+                            email: 'aaron.fuentes.cocodin+4@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
+                    },
+                    {
+                        participant: {
+                            name: 'Participante5',
+                            surname: '5',
+                            votes: 1,
+                            email: 'aaron.fuentes.cocodin+5@gmail.com',
+                            dni: '1231231J',
+                            phone: '+34deded'
+                        },
                     }
                 ]
             }
@@ -181,7 +235,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         const response = await client.mutate({
             mutation: sendConvene,
             variables: {
-               councilId: 7054
+               councilId: 7057
             }
         });
 
