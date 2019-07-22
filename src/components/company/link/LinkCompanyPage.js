@@ -64,7 +64,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 			sendGAevent({
 				category: 'Editar entidades',
 				action: 'Vincular sociedad',
-				label: props.company.businessName
+				label: props.company? props.company.businessName : 'Sin compañía'
 			});
 
 			const response = await props.linkCompany({

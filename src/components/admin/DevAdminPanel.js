@@ -138,7 +138,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                     dateStart: new Date(2019,11,17, 14, 30, 0).toISOString(),
                     dateStart2NdCall: new Date(2019,11,17, 14, 50, 0).toISOString(),
                     companyId: 375,
-                    selectedCensusId: 753
+                    selectedCensusId: 754
                 },
                 agenda: [{
                     type: 0,
@@ -235,7 +235,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         const response = await client.mutate({
             mutation: sendConvene,
             variables: {
-               councilId: 7057
+               councilId: 7058
             }
         });
 

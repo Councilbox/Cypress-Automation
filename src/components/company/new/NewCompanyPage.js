@@ -134,7 +134,7 @@ class NewCompanyPage extends React.PureComponent {
 			sendGAevent({
 				category: 'Editar entidades',
 				action: 'Crear entidad',
-				label: this.props.company.businessName
+				label: this.props.company? this.props.company.businessName : 'Sin compañía'
 			});
 			const response = await this.props.createCompany({
 				variables: {
