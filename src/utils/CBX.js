@@ -329,6 +329,12 @@ export const addMinimumDistance = (date, statute) => {
 	return momentDate.add(statute.minimumSeparationBetweenCall, "minutes");
 };
 
+export const replaceSpecials = string => {
+	const specials = ["-", "[", "]", "/", "{", "}", "(", ")", "*", "+", "?", ".", "\\", "^", "$", "|"];
+	const regex = RegExp('[' + specials.join('\\') + ']', 'g');
+	return string.replace(regex, "\\$&");
+}
+
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
@@ -354,7 +360,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 		if(companyTags && companyTags.length > 0){
 			companyTags.forEach(tag => {
-				text = text.replace(new RegExp(`{{${tag.key}}}`, 'g'), tag.value);
+				text = text.replace(new RegExp(`{{${replaceSpecials(tag.key)}}}`, 'g'), tag.value);
 			})
 		}
 	}
