@@ -31,7 +31,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 	React.useEffect(() => {
 		getarticipantsOnline()
 		getarticipantsPresents()
-	}, [state.loading, state.loadingPresents]);
+	}, [state.loading, state.loadingPresents, drawerTop]);
 
 
 	const getarticipantsOnline = async () => {

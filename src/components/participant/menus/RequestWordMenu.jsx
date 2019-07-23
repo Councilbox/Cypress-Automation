@@ -309,7 +309,7 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
                     display: "flex",
                     position: "fixed",
                     minHeight: '50px',
-                    top: "3.7rem",
+                    top: "6.7rem",
                     left: "0",
                     alignItems: "center",
                     justifyContent: "center",
