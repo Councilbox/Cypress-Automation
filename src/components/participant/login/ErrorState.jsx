@@ -83,7 +83,9 @@ const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) =>
 				width: "100vw"
 			}}
 		>
-			<Header />
+			<Header
+				council={data.council}
+			/>
 			<div
 				style={{
 					display: "flex",
