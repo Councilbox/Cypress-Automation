@@ -27,6 +27,7 @@ import ConfirmCompanyButton from "../../corporation/companies/ConfirmCompanyButt
 import DeleteCompanyButton from "./DeleteCompanyButton";
 import { sendGAevent } from "../../../utils/analytics";
 import GoverningBodyForm from "./GoverningBodyForm";
+import NewUser from "../../corporation/users/NewUser";
 
 export const info = gql`
 	query info {
@@ -596,6 +597,23 @@ class CompanySettingsPage extends React.Component {
 							company={this.props.company}
 						/>
 					}
+					{this.props.company.corporationId !== 1 &&
+						<BasicButton
+							text={'Añadir administrador'}
+							color={getPrimary()}
+							floatRight
+							textStyle={{
+								color: "white",
+								fontWeight: "700"
+							}}
+							buttonStyle={{ marginRight: "1.2em" }}
+							onClick={() =>
+								this.setState({
+									addAdminModal: true
+								})
+							}
+						/>
+					}
 					<AlertConfirm
 						requestClose={() => this.setState({ unlinkModal: false })}
 						open={this.state.unlinkModal}
@@ -604,6 +622,14 @@ class CompanySettingsPage extends React.Component {
 						buttonCancel={translate.cancel}
 						bodyText={<div>{translate.companies_unlink}</div>}
 						title={translate.edit}
+					/>
+					<AddAdmin
+						open={this.state.addAdminModal}
+						company={this.props.company}
+						requestClose={() => this.setState({
+							addAdminModal: false
+						})}
+						translate={translate}
 					/>
 					<AlertConfirm
 						requestClose={() => this.setState({ fileSizeError: false })}
@@ -616,6 +642,28 @@ class CompanySettingsPage extends React.Component {
 			</CardPageLayout>
 		);
 	}
+}
+
+const AddAdmin = ({ translate, company, open, requestClose }) => {
+	const renderBody = () => {
+		return (
+			<NewUser
+				fixedCompany={company}
+				translate={translate}
+				requestClose={requestClose}
+			/>
+		)
+	}
+
+	return (
+		<AlertConfirm
+			requestClose={requestClose}
+			open={open}
+			buttonCancel={translate.accept}
+			bodyText={renderBody()}
+			title={'Añadir admin'}//TRADUCCION
+		/>
+	)
 }
 
 export default compose(
