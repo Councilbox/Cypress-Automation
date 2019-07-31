@@ -26,7 +26,7 @@ import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 
-const CouncilActData = gql`
+export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
 		council(id: $councilID) {
 			id
