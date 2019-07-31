@@ -1,19 +1,33 @@
 import React from 'react';
 import { arrayMove } from "react-sortable-hoc";
 import { SortableContainer, SortableElement } from "react-sortable-hoc";
-import { Card, Button, MenuItem } from 'material-ui';
-import { Grid, GridItem, Scrollbar, AlertConfirm, SelectInput, LoadingSection } from '../../../displayComponents';
-import { getPrimary } from '../../../styles/colors';
+import { Card, Button, MenuItem, Dialog, DialogTitle, DialogContent } from 'material-ui';
+import { Grid, GridItem, Scrollbar, AlertConfirm, SelectInput, LoadingSection, BasicButton, LiveToast } from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import withTranslations from '../../../HOCs/withTranslations';
 import { generateActTags } from '../../council/writing/actEditor/ActEditor';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { withApollo } from "react-apollo";
 import gql from 'graphql-tag';
+import { DRAFT_TYPES } from '../../../constants';
+import LoadDraft from '../../company/drafts/LoadDraft';
+import { changeVariablesToValues, checkForUnclosedBraces } from '../../../utils/CBX';
+import { updateCouncilAct } from '../../../queries';
+import { toast } from 'react-toastify';
 
 
 
-const OrdenarPrueba = ({ translate, client }) => {
+const defaultTemplates = {
+    "default": ["intro", "constitution", "conclusion"],
+    "default1": ["intro", "constitution", "conclusion"],
+    "default2": ["intro", "constitution", "conclusion"]
+}
+
+
+const OrdenarPrueba = ({ translate, client, ...props }) => {
+
+    const [template, setTemplate] = React.useState(-1)
     const [data, setData] = React.useState(false)
     const [editInfo, setEditInfo] = React.useState(false)
     const [loading, setLoading] = React.useState(true)
@@ -21,6 +35,15 @@ const OrdenarPrueba = ({ translate, client }) => {
     const [agendas, setAgendas] = React.useState({ items: [], });
     const [arrastrables, setArrastrables] = React.useState({ items: [] });
     const [act, setAct] = React.useState(false)
+    const [state, setState] = React.useState({
+        loadDraft: false,
+        load: 'intro',
+        draftType: null,
+        updating: false,
+        disableButtons: false,
+        text: "",
+        errors: {}
+    })
 
     React.useEffect(() => {
         getData()
@@ -56,20 +79,16 @@ const OrdenarPrueba = ({ translate, client }) => {
         });
 
         agendas.forEach((element, index) => {
-            // console.log("-------------")
-            // let objetoArrayAgendas = Object.entries(element);
-            // console.log(objetoArrayAgendas)
-            // console.log("-------------")
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.title, text: element.agendaSubject, editButton: true })//TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.title, text: element.agendaSubject, editButton: true, originalName: 'agendaSubject' })//TRADUCCION
             if (element.description) {
-                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true })//TRADUCCION
+                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - " + translate.description, text: element.description, editButton: true, originalName: 'description' })//TRADUCCION
             }
             if (element.comment) {
-                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true }) //TRADUCCION
+                newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Toma de acuerdos", text: element.comment, editButton: true, originalName: 'comment' }) //TRADUCCION
             }
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: " A FAVOR: ... | EN CONTRA: ... | ABSTENCIONES: ... | NO VOTAN: ...", editButton: false }) //TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votos", text: element.description, editButton: false })//TRADUCCION
-            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Comentarios", text: element.description, editButton: false })//TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votaciones", text: " A FAVOR: ... | EN CONTRA: ... | ABSTENCIONES: ... | NO VOTAN: ...", editButton: false, originalName: 'voting' }) //TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Votos", text: "A FAVOR, EN CONTRA, ABSTENCIÓN", editButton: false, originalName: "votes" })//TRADUCCION
+            newArray.push({ id: Math.random().toString(36).substr(2, 9), name: "Punto " + (index + 1) + " - Comentarios", text: element.description, editButton: false, originalName: 'agendaComments' })//TRADUCCION
         });
         let assistants = ""
         attendants.forEach(element => {
@@ -89,7 +108,6 @@ const OrdenarPrueba = ({ translate, client }) => {
         setArrastrables({ items: arrayArrastrables })
         agendas.items.push(resultado)
         setAgendas(agendas)
-        onSortEnd(0, 0)
     }
 
     const onSortEnd = ({ oldIndex, newIndex }) => {
@@ -118,28 +136,127 @@ const OrdenarPrueba = ({ translate, client }) => {
         setModal(true)
     };
 
+    const updateCouncilActa = async () => {
+
+        if (data.data.council.act) {
+            const { __typename, ...act } = data.data.council.act;
+            if (!checkBraces()) {
+                act[editInfo.originalName] = state.text ? state.text : act[editInfo.originalName]
+                setState({
+                    updating: true,
+                    disableButtons: false
+                });
+                const response = await client.mutate({
+                    mutation: updateCouncilAct,
+                    variables: {
+                        councilAct: {
+                            ...act,
+                            councilId: data.data.council.id
+                        }
+                    }
+                });
+
+                if (!!response) {
+                    let id = editInfo.id;
+                    let indexCambio = agendas.items.findIndex(agendas => agendas.id === id);
+                    agendas.items[indexCambio].text = act[editInfo.originalName];
+                    setAgendas(agendas)
+                    setState({
+                        updating: false
+                    });
+                    setModal(false)
+                }
+            }
+        }
+    }
+
+    const checkBraces = () => {
+        const act = data.data.council.act;
+        let errors = {
+            intro: false,
+            conclusion: false,
+            constitution: false
+        };
+        let hasError = false;
+
+        if (act.intro) {
+            if (checkForUnclosedBraces(act.intro)) {
+                errors.intro = true;
+                hasError = true;
+            }
+        }
+
+        if (act.constitution) {
+            if (checkForUnclosedBraces(act.constitution)) {
+                errors.constitution = true;
+                hasError = true;
+            }
+        }
+
+        if (act.conclusion) {
+            if (checkForUnclosedBraces(act.conclusion)) {
+                errors.conclusion = true;
+                hasError = true;
+            }
+        }
+
+        if (hasError) {
+            toast(
+                <LiveToast
+                    message={this.props.translate.revise_text}
+                />, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: true,
+                    className: "errorToast"
+                }
+            );
+        }
+
+        setState({
+            disableButtons: hasError,
+            errors
+        });
+
+        return hasError;
+    }
+
     const _renderModal = () => {
         if (editInfo) {
-            console.log(data.data)
+            let council = { ...data.data.council, agendas: data.data.agendas, attendants: data.data.councilAttendants.list }
+            // let company = { ...data.data.council, agendas: data.data.agendas, attendants: data.data.councilAttendants.list }
+
             return (
                 <div>
                     <div style={{ paddingBottom: "1em", fontWeight: "700" }}>{editInfo.name}</div>
                     <RichTextInput
                         value={editInfo.text || ''}
                         translate={translate}
-                        tags={generateActTags(editInfo.originalName, { council: data.data.council, company: 7021, recount: data.data.councilRecount }, translate)}
-                    // errorText={"asdasd"}
-                    // onChange={value => this.updateState({ description: value })}
-                    // loadDraft={
-                    //     <LoadDraftModal
-                    //         translate={translate}
-                    //         companyId={council.companyId}
-                    //         loadDraft={loadHeaderDraft}
-                    //         statute={draftData.council.statute}
-                    //         statutes={draftData.companyStatutes}
-                    //         draftType={7}
-                    //     />
-                    // }
+                        // tags={generateActTags(editInfo.originalName, { council, company }, translate)}
+                        errorText={state.errors === undefined ? "" : state.errors[editInfo.originalName]}
+                        onChange={value => setState({ text: value })}
+                        loadDraft={
+                            <BasicButton
+                                text={translate.load_draft}
+                                color={getSecondary()}
+                                textStyle={{
+                                    color: "white",
+                                    fontWeight: "600",
+                                    fontSize: "0.8em",
+                                    textTransform: "none",
+                                    marginLeft: "0.4em",
+                                    minHeight: 0,
+                                    lineHeight: "1em"
+                                }}
+                                textPosition="after"
+                                onClick={() =>
+                                    setState({
+                                        loadDraft: true,
+                                        load: editInfo.originalName,
+                                        draftType: DRAFT_TYPES[editInfo.originalName.toUpperCase()]
+                                    })
+                                }
+                            />
+                        }
                     />
                 </div>
             );
@@ -170,6 +287,42 @@ const OrdenarPrueba = ({ translate, client }) => {
         }
     };
 
+
+    const changeTemplate = event => {
+        setTemplate(event.target.value)
+        renderTemplate(event.target.value)
+    };
+
+    const renderTemplate = (numTemp) => {
+        ordenarTemplate(defaultTemplates[numTemp])
+
+    };
+
+    const ordenarTemplate = (orden) => {
+        let auxTemplate = []
+        if (orden !== undefined) {
+            orden.forEach(element => {
+                auxTemplate.push(arrastrables.items.find(arrastrable => arrastrable.originalName === element));
+            })
+            setAgendas({ items: auxTemplate })
+        } else {
+            setAgendas({ items: [] })
+        }
+
+    }
+
+    const loadDraft = async draft => {
+        const correctedText = await changeVariablesToValues(draft.text, {
+            company: 569,
+            council: 7021
+        }, translate);
+
+        this[state.load].paste(correctedText);
+        setState({
+            loadDraft: false
+        });
+    };
+
     return (
         <div style={{ width: "100%", height: "100%" }}>
             {loading ?
@@ -180,10 +333,13 @@ const OrdenarPrueba = ({ translate, client }) => {
                         <div style={{ display: "flex", alignItems: "center", padding: "0px 1em" }}>
                             <div>
                                 <SelectInput
-                                    value={0}
+                                    value={template}
                                     floatingText={'Plantillas'}
+                                    onChange={changeTemplate}
                                 >
-                                    <MenuItem value={0}>Default</MenuItem>
+                                    <MenuItem value={'none'}> </MenuItem>
+                                    <MenuItem value={'default'}>Default</MenuItem>
+                                    <MenuItem value={'default4'}>Vacia</MenuItem>
                                 </SelectInput>
                             </div>
                         </div>
@@ -233,12 +389,29 @@ const OrdenarPrueba = ({ translate, client }) => {
                     <AlertConfirm
                         requestClose={() => setModal(false)}
                         open={modal}
-                        // acceptAction={this.updateAttachment}
+                        acceptAction={updateCouncilActa}
                         buttonAccept={translate.accept}
                         buttonCancel={translate.cancel}
                         bodyText={_renderModal()}
                         title={translate.edit}
                     />
+                    <Dialog
+                        open={state.loadDraft}
+                        maxWidth={false}
+                        onClose={() => setState({ loadDraft: false })}
+                    >
+                        <DialogTitle>{translate.load_draft}</DialogTitle>
+                        <DialogContent style={{ width: "800px" }}>
+                            <LoadDraft
+                                translate={translate}
+                                companyId={props.match.params.company}
+                                loadDraft={loadDraft}
+                                statute={data.data.council.statute}
+                                statutes={data.data.companyStatutes}
+                                draftType={state.draftType}
+                            />
+                        </DialogContent>
+                    </Dialog>
                 </React.Fragment>
             }
         </div>
@@ -467,7 +640,7 @@ const CouncilActData = gql`
 				statuteId
 				prototype
 				existsQualityVote
-			}
+            }
 		}
 
 		agendas(councilId: $councilID) {
