@@ -300,16 +300,22 @@ const OrdenarPrueba = ({ translate, client, ...props }) => {
 
     const ordenarTemplate = (orden) => {
         let auxTemplate = []
+        let auxArrastrableQuitar = []
         if (orden !== undefined) {
             orden.forEach(element => {
                 auxTemplate.push(arrastrables.items.find(arrastrable => arrastrable.originalName === element));
             })
+            auxArrastrableQuitar =  arrastrables.items.filter(value => !orden.includes(value.originalName))
+            
+            setArrastrables({ items: auxArrastrableQuitar })
             setAgendas({ items: auxTemplate })
         } else {
             setAgendas({ items: [] })
+            setArrastrables({ items: [...agendas.items, ...arrastrables.items] })
         }
-
     }
+
+   
 
     const loadDraft = async draft => {
         const correctedText = await changeVariablesToValues(draft.text, {
