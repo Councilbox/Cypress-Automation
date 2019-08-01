@@ -15,16 +15,24 @@ import TextArea from "antd/lib/input/TextArea";
 
 
 
+const levelColor = ['#b47fb6', '#7fa5b6', '#7f94b6'];
 
-
-const CompanyDraftForm = ({ translate, classes, draft, errors, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, companyTypes }) => {
+const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, companyTypes }) => {
 	const [title, setTitle] = React.useState('');
 	const [search, setSearch] = React.useState('');
 	const [description, setDescription] = React.useState('Añadir una descripcion detallada');
 	const [newTag, setNewTag] = React.useState('Crear etiqueta nueva');
 	const [infoText, setInfoText] = React.useState('');
 	// const [title, setTitle] = React.useState(false);
-
+	console.log(draft)
+	console.log(errors)
+	console.log(companyStatutes)
+	console.log(draftTypes)
+	console.log(rootStatutes)
+	console.log(languages)
+	console.log(votingTypes)
+	console.log(majorityTypes)
+	console.log(companyTypes)
 
 	return (
 		<Grid spacing={16} style={{ height: "100%" }}>
@@ -114,7 +122,7 @@ const CompanyDraftForm = ({ translate, classes, draft, errors, updateState, comp
 				<div style={{ fontSize: "18px", display: "flex" }}>
 					<div style={{ marginRight: "0.6em" }}>Etiquetas</div>
 					<div>
-						<i class="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px" }}>
+						<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: "20px" }}>
 							local_offer
 						</i>
 					</div>
@@ -249,7 +257,7 @@ const Etiqueta = ({ text, color, moreEtiquetas }) => {
 		return (
 			<div style={{ ...styles }} >
 				<div style={{}}>
-					<div style={{ display: "flex", justifyContent: open && "space-between" , cursor: "pointer",}} onClick={() => setOpen(!open)} >
+					<div style={{ display: "flex", justifyContent: open && "space-between", cursor: "pointer", }} onClick={() => setOpen(!open)} >
 						<div>{text}</div>
 						<div style={{ marginTop: '-5px', height: "5px" }}>
 							{open ?
