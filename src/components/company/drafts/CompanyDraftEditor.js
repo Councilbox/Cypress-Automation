@@ -102,10 +102,10 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	}
 
 	return (
-		<CardPageLayout title={translate.edit_draft}>
+		<CardPageLayout title={'Editar Plantillas'}>{/*TRADUCCION*/}
 			{!fetching && (
-				<div>
-					<div style={{ marginTop: "1.8em" }}>
+				<div style={{ height:'100%', padding:"0px 25px" }}>
+					<div style={{ marginTop: "1.8em", height:"calc( 100% - 6em )" }}>
 						<CompanyDraftForm
 							translate={translate}
 							errors={errors}

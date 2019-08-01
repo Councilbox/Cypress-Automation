@@ -91,13 +91,14 @@ const CardPageLayout = ({
 						<Scrollbar>
 							<div
 								style={{
+									height: "100%",
 									paddingTop: "2.5em",
 									paddingBottom: "0.5em",
 									paddingLeft: windowSize === "xl" && "2vw",
 									paddingRight: windowSize === "xl" && "2vw"
 								}}
 							>
-								<div className="container-fluid">
+								<div className="container-fluid" style={{height: "100%", overflow:"hidden"}}>
 									{children}
 								</div>
 							</div>

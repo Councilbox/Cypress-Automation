@@ -6,7 +6,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 
 const CompanyDraftsPage = ({ translate }) => {
     return (
-        <CardPageLayout title={translate.drafts}>
+        <CardPageLayout title={"Plantillas"}>{/*TRADUCCION*/}
             <TabsScreen
                 uncontrolled={true}
                 tabsInfo={[{
