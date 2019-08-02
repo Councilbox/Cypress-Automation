@@ -132,7 +132,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		const participations = hasParticipations(council);
 
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
-		const totalPresent = totalSC - noVoteSC;
+		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 		const correctedText = await changeVariablesToValues(text, {
 			company: company,

@@ -67,13 +67,17 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		data.refetch();
 		props.updateCouncilAct();
 	}
+	console.log(agendaData);
+	console.log(agenda);
 
 	const loadDraft = async draft => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
 		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = agendaData.agendaRecount;
 		const participations = hasParticipations(council);
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
-		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
+
+		console.log(positiveSC, totalSC, positiveSC / totalSC);
 
 		const correctedText = await changeVariablesToValues(draft.text, {
 			company,
