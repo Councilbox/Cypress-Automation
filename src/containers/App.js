@@ -193,7 +193,7 @@ if (sessionStorage.getItem("token")) {
 }
 
 if(shouldLoadSubdomain()){
-	//store.dispatch(loadSubdomainConfig());
+	store.dispatch(loadSubdomainConfig());
 }
 
 if(sessionStorage.getItem("participantLoginSuccess")){

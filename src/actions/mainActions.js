@@ -3,6 +3,7 @@ import { client, bHistory, store } from "../containers/App";
 import { getMe, getTranslations } from "../queries";
 import DetectRTC from "detectrtc";
 import { moment } from '../containers/App';
+import gql from 'graphql-tag';
 export let language = "es";
 
 export const loginSuccess = (token, refreshToken) => {
@@ -18,6 +19,27 @@ export const loginSuccess = (token, refreshToken) => {
 export const setUnsavedChanges = value => (
 	{ type: 'UNSAVED_CHANGES', value: value }
 )
+
+export const loadSubdomainConfig = subdomain => {
+	return async dispatch => {
+		const response = await client.query({
+			query: gql`
+				query SubdomainConfig($subdomain: String!) {
+					subdomainConfig(subdomain: $subdomain)
+				}
+			`,
+			variables: {
+				subdomain: 'app'
+			}
+		});
+
+		if(response.errors){
+			window.location.replace('https://app.councilbox.com');
+		}
+
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG' });
+	}
+}
 
 export const participantLoginSuccess = () => {
 	return dispatch => {
