@@ -101,6 +101,10 @@ const CouncilActData = gql`
 			presentCensus
 			numCurrentRemoteCensus
 			currentRemoteCensus
+			socialCapitalPresent
+			socialCapitalRemote
+			socialCapitalCurrentRemote
+			socialCapitalNoParticipate
 			comment
 		}
 
