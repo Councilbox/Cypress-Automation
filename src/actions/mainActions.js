@@ -25,7 +25,11 @@ export const loadSubdomainConfig = subdomain => {
 		const response = await client.query({
 			query: gql`
 				query SubdomainConfig($subdomain: String!) {
-					subdomainConfig(subdomain: $subdomain)
+					subdomainConfig(subdomain: $subdomain){
+						title
+						primary
+						secondary
+					}
 				}
 			`,
 			variables: {
@@ -37,7 +41,12 @@ export const loadSubdomainConfig = subdomain => {
 			window.location.replace('https://app.councilbox.com');
 		}
 
-		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG' });
+		console.log(response);
+
+		document.documentElement.style.setProperty('--primary', response.data.subdomainConfig.primary);
+		document.documentElement.style.setProperty('--secondary', response.data.subdomainConfig.secondary);
+
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', action: response.data.subdomainConfig });
 	}
 }
 

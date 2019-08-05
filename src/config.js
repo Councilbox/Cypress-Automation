@@ -28,7 +28,7 @@ export const variant = getVariant();
 if(process.env.REACT_APP_VARIANT === variants.COE){
 	//document.getElementById('root').style.fontFamily = 'Futura Hv BT';
 	//document.documentElement.style.setProperty('--font-family', 'Futura Hv BT');
-	document.documentElement.style.setProperty('--primary', '#e61d72');
+	//document.documentElement.style.setProperty('--primary', '#e61d72');
 }
 
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
