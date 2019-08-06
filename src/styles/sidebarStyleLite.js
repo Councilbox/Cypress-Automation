@@ -16,6 +16,8 @@ import {
 } from "./styles";
 
 import { isLandscape } from '../utils/screen';
+import { getSecondary } from "./colors";
+import { variant } from "../config";
 
 const sidebarStyle = theme => ({
 	drawerPaper: {
@@ -159,12 +161,13 @@ const sidebarStyle = theme => ({
 			...primaryBoxShadow
 		}
 	},
+
 	blue: {
-		backgroundColor: infoColor,
+		backgroundColor: variant === 'CUSTOM'? getSecondary() : "#00acc1",
 		boxShadow:
 			"0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)",
 		"&:hover": {
-			backgroundColor: infoColor,
+			backgroundColor: variant === 'CUSTOM'? getSecondary() : "#00acc1",
 			boxShadow:
 				"0 12px 20px -10px rgba(0,188,212,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(0,188,212,.2)"
 		}

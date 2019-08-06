@@ -40,6 +40,8 @@ export const loadSubdomainConfig = () => {
 		if(response.errors){
 			window.location.replace('https://app.councilbox.com');
 		}
+		document.documentElement.style.setProperty('--primary', response.data.subdomainConfig.primary);
+		document.documentElement.style.setProperty('--secondary', response.data.subdomainConfig.secondary);
 
 		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
 	}
