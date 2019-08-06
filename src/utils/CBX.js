@@ -547,6 +547,18 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			{
 				value: '{{city}}',
 				label: translate.company_new_locality
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			},
+			{
+				value: '{{now}}',
+				label: 'Fecha actual' //TRADUCCION
 			}
 		],
 
@@ -583,12 +595,90 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				value: '{{dateRealStart}}',
 				label: translate.date_real_start
 			},
+			{
+				value: '{{now}}',
+				label: 'Fecha actual' //TRADUCCION
+			}
 		],
 
 		[DRAFT_TYPES.CONCLUSION]: [
 			{
 				value: '{{dateEnd}}',
 				label: translate.date_end
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			}
+		],
+
+		[DRAFT_TYPES.CERTIFICATE_HEADER]: [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			}
+		],
+
+		[DRAFT_TYPES.CERTIFICATE_FOOTER]: [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			},
+			{
+				value: '{{now}}',
+				label: 'Fecha actual' //TRADUCCION
 			},
 			{
 				value: '{{president}}',
