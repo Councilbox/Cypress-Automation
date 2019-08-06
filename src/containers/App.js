@@ -5,6 +5,7 @@ import createHistory from "history/createBrowserHistory";
 import LoadingMainApp from '../displayComponents/LoadingMainApp';
 import Loadable from 'react-loadable';
 import configureStore from "../store/store";
+import ThemeProvider from "../displayComponents/ThemeProvider";
 import ErrorHandler from '../components/ErrorHandler';
 import { Provider } from "react-redux";
 import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
@@ -204,15 +205,17 @@ const App = () => {
 	return (
 		<ApolloProvider client={client}>
 			<Provider store={store}>
-				<ErrorHandler>
-					<AppControl>
-						<AdomWrapper>
-							<Router history={bHistory}>
-								<RouterWrapper />
-							</Router>
-						</AdomWrapper>
-					</AppControl>
-				</ErrorHandler>
+				<ThemeProvider>
+					<ErrorHandler>
+						<AppControl>
+							<AdomWrapper>
+								<Router history={bHistory}>
+									<RouterWrapper />
+								</Router>
+							</AdomWrapper>
+						</AppControl>
+					</ErrorHandler>
+				</ThemeProvider>
 			</Provider>
 		</ApolloProvider>
 	);
