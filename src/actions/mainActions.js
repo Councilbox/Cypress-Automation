@@ -44,8 +44,20 @@ export const loadSubdomainConfig = () => {
 		if(response.errors){
 			window.location.replace('https://app.councilbox.com');
 		}
-		document.documentElement.style.setProperty('--primary', response.data.subdomainConfig.primary);
-		document.documentElement.style.setProperty('--secondary', response.data.subdomainConfig.secondary);
+
+		const config = response.data.subdomainConfig;
+
+		if(config.primary){
+			document.documentElement.style.setProperty('--primary', config.primary);
+		}
+
+		if(config.secondary){
+			document.documentElement.style.setProperty('--secondary', config.secondary);
+		}
+
+		if(config.title){
+			document.title = config.title;
+		}
 
 		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
 	}
