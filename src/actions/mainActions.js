@@ -20,7 +20,7 @@ export const setUnsavedChanges = value => (
 	{ type: 'UNSAVED_CHANGES', value: value }
 )
 
-export const loadSubdomainConfig = subdomain => {
+export const loadSubdomainConfig = () => {
 	return async dispatch => {
 		const response = await client.query({
 			query: gql`
@@ -33,7 +33,7 @@ export const loadSubdomainConfig = subdomain => {
 				}
 			`,
 			variables: {
-				subdomain: 'app'
+				subdomain: window.location.hostname.split('.')[0]
 			}
 		});
 
@@ -41,12 +41,7 @@ export const loadSubdomainConfig = subdomain => {
 			window.location.replace('https://app.councilbox.com');
 		}
 
-		console.log(response);
-
-		document.documentElement.style.setProperty('--primary', response.data.subdomainConfig.primary);
-		document.documentElement.style.setProperty('--secondary', response.data.subdomainConfig.secondary);
-
-		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', action: response.data.subdomainConfig });
+		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG', value: response.data.subdomainConfig });
 	}
 }
 

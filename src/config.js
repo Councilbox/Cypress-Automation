@@ -1,3 +1,5 @@
+import { shouldLoadSubdomain } from "./utils/subdomain";
+
 const LOCATION_URL =
 	process.env.REACT_APP_MODE === "dev"
 		? `http://${window.location.hostname}:5000/graphql`
@@ -14,11 +16,7 @@ export const variants = {
 }
 
 const getVariant = () => {
-	if(process.env.REACT_APP_VARIANT){
-		return process.env.REACT_APP_VARIANT;
-	}
-
-	if(window.location.origin.includes('conpaas')) return 'COE';
+	if(shouldLoadSubdomain()) return 'CUSTOM';
 
 	return null;
 }
