@@ -13,10 +13,26 @@ export const getCustomLogo = () => {
 export const getCustomIcon = () => {
     const state = store.getState();
 
-    console.log(state);
-
     if(state.subdomain.icon){
         return `${SERVER_URL}${state.subdomain.icon}`;
+    }
+    return null;
+}
+
+export const getCustomBackground = () => {
+    const state = store.getState();
+
+    if(state.subdomain.background){
+        return `${SERVER_URL}${state.subdomain.background}`;
+    }
+    return null;
+}
+
+export const getCustomRoomBackground = () => {
+    const state = store.getState();
+
+    if(state.subdomain.roomBackground){
+        return `${SERVER_URL}${state.subdomain.roomBackground}`;
     }
     return null;
 }

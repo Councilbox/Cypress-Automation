@@ -32,6 +32,7 @@ export const loadSubdomainConfig = () => {
 						logo
 						icon
 						background
+						roomBackground
 					}
 				}
 			`,

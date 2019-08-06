@@ -14,6 +14,7 @@ import { PARTICIPANT_ERRORS } from "../../../constants";
 import background from "../../../assets/img/fondo_test_mundo2.jpg";
 import { moment } from '../../../containers/App';
 import { variant } from "../../../config";
+import { getCustomBackground } from "../../../utils/subdomain";
 //import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
@@ -58,6 +59,8 @@ const styles = {
 };
 
 const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) => {
+	const customBackground = getCustomBackground();
+
 	const renderError = code => {
 		switch (code) {
 			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
@@ -93,7 +96,7 @@ const ErrorState = ({ code, translate, data, windowSize, windowOrientation }) =>
 					width: "100%",
 					alignItems: "center",
 					justifyContent: "center",
-					background: `url(${variant === 'COE'? '/img/fondo-conpaas.jpg' : background})`,
+					background: `url(${customBackground? customBackground : background})`,
 					backgroundSize: 'cover',
 					backgroundRepeat: 'no-repeat',
 					backgroundPosition: 'center center',
