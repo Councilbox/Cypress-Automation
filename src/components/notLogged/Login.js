@@ -129,7 +129,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingTop: windowSize === "xs" ? "8%" : "12em"
 					}}
 				>
-					{variant === 'COE'?
+					{window.location.origin.includes('conpaas')?
 						<COELeftSide translate={translate} windowSize={windowSize} />
 					:
 						<div

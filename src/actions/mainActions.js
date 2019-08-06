@@ -29,6 +29,8 @@ export const loadSubdomainConfig = () => {
 						title
 						primary
 						secondary
+						logo
+						icon
 					}
 				}
 			`,

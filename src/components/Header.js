@@ -15,11 +15,9 @@ import Tooltip from "material-ui/Tooltip";
 import Paper from 'material-ui/Paper';
 import { isLandscape } from '../utils/screen';
 import { CLIENT_VERSION, variant } from "../config";
-import { ConfigContext } from "../containers/AppControl";
+import { getCustomLogo, getCustomIcon } from "../utils/subdomain";
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, ...props }) => {
-	const config = React.useContext(ConfigContext);
-
 	const goBack = () => {
 		bHistory.goBack();
 	};
@@ -81,21 +79,10 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					</Tooltip>
 				)}
 				<Link to="/">
-					{variant === 'COE'?
+					{variant === 'CUSTOM'?
 						<div>
 							<img
-								src={!showVerticalLayout() ? conpaasLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-							<img
-								src={!showVerticalLayout() ? coeLogo : icono}
+								src={!showVerticalLayout() ? getCustomLogo() : getCustomIcon()}
 								className="App-logo"
 								style={{
 									height: "1.5em",

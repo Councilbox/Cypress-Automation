@@ -17,6 +17,7 @@ import Convene from "../council/convene/Convene";
 import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
+import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
 // import * as CBX from '../../../utils/CBX';
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
@@ -132,10 +133,10 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					alignItems: "center"
 				}}
 			>
-				{variant === 'COE' ?
+				{variant === 'CUSTOM' ?
 					<div>
 						<img
-							src={windowSize !== "xs" ? conpaasLogo : icono}
+							src={windowSize !== "xs" ? getCustomLogo() : getCustomIcon()}
 							className="App-logo"
 							style={{
 								height: "1.5em",

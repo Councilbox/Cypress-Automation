@@ -9,6 +9,7 @@ import coeLogo from "../../../assets/img/coe.png";
 import icono from "../../../assets/img/logo-icono.png";
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { variant } from "../../../config";
+import { getCustomLogo, getCustomIcon } from "../../../utils/subdomain";
 
 
 class LiveHeader extends React.Component {
@@ -48,21 +49,10 @@ class LiveHeader extends React.Component {
 					}}
 				>
 					<div > {/**style={{ width: "20%" }} */}
-					{variant === 'COE'?
+					{variant === 'CUSTOM'?
 						<div>
 							<img
-								src={windowSize !== "xs" ? conpaasLogo : icono}
-								className="App-logo"
-								style={{
-									height: "1.5em",
-									marginLeft: "1em",
-									// marginLeft: "2em",
-									userSelect: 'none'
-								}}
-								alt="logo"
-							/>
-							<img
-								src={windowSize !== "xs" ? coeLogo : icono}
+								src={windowSize !== "xs" ? getCustomLogo() : getCustomIcon()}
 								className="App-logo"
 								style={{
 									height: "1.5em",
