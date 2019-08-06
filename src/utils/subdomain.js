@@ -2,11 +2,23 @@ import { store } from "../containers/App";
 import { SERVER_URL } from "../config";
 
 export const getCustomLogo = () => {
-    return `${SERVER_URL}${store.getState().subdomain.logo}`;
+    const state = store.getState();
+
+    if(state.subdomain.logo){
+        return `${SERVER_URL}${state.subdomain.logo}`;
+    }
+    return null;
 }
 
 export const getCustomIcon = () => {
-    return `${SERVER_URL}${store.getState().subdomain.icon}`;
+    const state = store.getState();
+
+    console.log(state);
+
+    if(state.subdomain.icon){
+        return `${SERVER_URL}${state.subdomain.icon}`;
+    }
+    return null;
 }
 
 export const shouldLoadSubdomain = () => {

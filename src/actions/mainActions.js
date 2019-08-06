@@ -31,6 +31,7 @@ export const loadSubdomainConfig = () => {
 						secondary
 						logo
 						icon
+						background
 					}
 				}
 			`,

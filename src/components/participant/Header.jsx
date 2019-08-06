@@ -3,10 +3,7 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import * as mainActions from "../../actions/mainActions";
 import logo from "../../assets/img/logo.png";
-import icono from "../../assets/img/logo-icono.png";
-import { variant } from "../../config";
-import conpaasLogo from "../../assets/img/conpaas_logo.png";
-import coeLogo from "../../assets/img/coe.png";
+import icon from "../../assets/img/logo-icono.png";
 import { Icon, AlertConfirm } from "../../displayComponents";
 import withWindowSize from "../../HOCs/withWindowSize";
 import { getPrimary, getSecondary } from "../../styles/colors";
@@ -18,7 +15,7 @@ import { useOldState } from "../../hooks";
 import withSharedProps from "../../HOCs/withSharedProps";
 import { PARTICIPANT_STATES } from "../../constants";
 import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
-// import * as CBX from '../../../utils/CBX';
+
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, ...props }) => {
 	const [state, setState] = useOldState({
@@ -29,6 +26,8 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	});
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const customLogo = getCustomLogo();
+	const customIcon = getCustomIcon();
 
 	React.useEffect(() => {
 		if(councilIsFinished(council)){
@@ -133,45 +132,18 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					alignItems: "center"
 				}}
 			>
-				{variant === 'CUSTOM' ?
-					<div>
-						<img
-							src={windowSize !== "xs" ? getCustomLogo() : getCustomIcon()}
-							className="App-logo"
-							style={{
-								height: "1.5em",
-								marginLeft: "1em",
-								// marginLeft: "2em",
-								userSelect: 'none'
-							}}
-							alt="logo"
-						/>
-						<img
-							src={windowSize !== "xs" ? coeLogo : icono}
-							className="App-logo"
-							style={{
-								height: "1.5em",
-								marginLeft: "1em",
-								// marginLeft: "2em",
-								userSelect: 'none'
-							}}
-							alt="logo"
-						/>
-					</div>
-					:
-					<img
-						src={windowSize !== "xs" ? logo : icono}
-						className="App-logo"
-						style={{
-							height: "1.5em",
-							marginLeft: "2em"
-						}}
-						alt="logo"
-					/>
-				}
+				<img
+					src={windowSize !== "xs" ? customLogo? customLogo : logo : customIcon? customIcon : icon}
+					className="App-logo"
+					style={{
+						height: "1.5em",
+						marginLeft: "1em",
+						// marginLeft: "2em",
+						userSelect: 'none'
+					}}
+					alt="logo"
+				/>
 			</div>
-
-
 			{(council && council.autoClose !== 1) &&
 				<Marquee
 					isMobile={isMobile}
