@@ -22,7 +22,7 @@ import { updateCouncilAct } from '../../../../queries';
 import DownloadActPDF from '../actViewer/DownloadActPDF';
 import ExportActToMenu from '../actViewer/ExportActToMenu';
 import { ConfigContext } from '../../../../containers/AppControl';
-import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues } from '../../../../utils/CBX';
+import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues, hasSecondCall } from '../../../../utils/CBX';
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 
@@ -58,6 +58,7 @@ export const CouncilActData = gql`
 				id
 				statuteId
 				prototype
+				existsSecondCall
 				existsQualityVote
 			}
 		}
@@ -181,8 +182,15 @@ export const CouncilActData = gql`
 	}
 `;
 
+const cache = new Map();
+
 export const generateCouncilSmartTagsValues = data => {
-	return {
+	const string = JSON.stringify(data);
+	if(cache.has(string)){
+		return cache.get(string);
+	}
+
+	const calculatedObject = {
 		...data.council,
 		...data.councilRecount,
 		numPresentAttendance: data.councilAttendants.list.filter(p => p.state === 5 || p.state === 7).length,
@@ -202,6 +210,9 @@ export const generateCouncilSmartTagsValues = data => {
 		percentageSCDelegated: ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
 		percentageSCTotal: (((data.councilRecount.partPresent + data.councilRecount.partRemote) / data.councilRecount.partTotal) * 100).toFixed(3)
 	}
+
+	cache.set(string, calculatedObject);
+	return calculatedObject;
 }
 
 class ActEditor extends Component {
@@ -468,7 +479,14 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												tags={generateActTags('intro', { council, company, recount: this.props.councilRecount || data.councilRecount }, translate)}
+												tags={generateActTags('intro', {
+													council: {
+														...council,
+														...generateCouncilSmartTagsValues(data)
+													},
+													company,
+													recount: this.props.councilRecount || data.councilRecount
+												}, translate)}
 												errorText={errors.intro}
 												value={data.council.act.intro || ''}
 												onChange={value => {
@@ -510,7 +528,14 @@ class ActEditor extends Component {
 														}
 													/>
 												}
-												tags={generateActTags('constitution', { council, company, recount: this.props.councilRecount || data.councilRecount }, translate)}
+												tags={generateActTags('constitution', {
+													council: {
+														...council,
+														...generateCouncilSmartTagsValues(data)
+													},
+													company,
+													recount: this.props.councilRecount || data.councilRecount
+												}, translate)}
 												errorText={errors.constitution}
 												value={data.council.act.constitution || ''}
 												onChange={value => {
@@ -580,7 +605,14 @@ class ActEditor extends Component {
 															}
 														/>
 													}
-													tags={generateActTags('conclusion', { council, company, recount: this.props.councilRecount || data.councilRecount }, translate)}
+													tags={generateActTags('conclusion', {
+														council: {
+															...council,
+															...generateCouncilSmartTagsValues(data)
+														},
+														company,
+														recount: this.props.councilRecount || data.councilRecount
+													}, translate)}
 													errorText={errors.conclusion}
 													value={data.council.act.conclusion || ''}
 													onChange={value => {
@@ -733,168 +765,205 @@ export default compose(
 	})
 )(withSharedProps()(ActEditor));
 
+
 export const generateActTags = (type, data, translate) => {
 	const { council, company } = data;
 	let tags;
-	let attendantsString = '';
-	let delegatedVotesString = '';
-	council.attendants.forEach(attendant => attendantsString += `${attendant.name} ${attendant.surname} <br/>`);
-	council.delegatedVotes.forEach(vote => delegatedVotesString += `${vote.name} ${vote.surname} ${translate.delegates.toLowerCase()} ${vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} <br/>`);
+	const base = council.quorumPrototype === 1? data.recount.socialCapitalTotal : data.recount.partTotal;
+	let attendantsString = cache.get(`${council.id}_attendants`);
+	let delegatedVotesString = cache.get(`${council.id}_delegated`);
+
+	if(!attendantsString){
+		attendantsString = council.attendants.reduce((acc, attendant) => acc + `${attendant.name} ${attendant.surname} <br/>`, '');
+		cache.set(`${council.id}_attendants`, attendantsString);
+	}
+
+	if(!delegatedVotesString){
+		delegatedVotesString = council.delegatedVotes.reduce((acc, vote) => {
+			return acc + `${
+				vote.name} ${
+				vote.surname} ${
+				translate.delegates.toLowerCase()} ${
+				vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} <br/>`
+		}, '');
+		cache.set(`${council.id}_delegated`, delegatedVotesString);
+	}
+
+
+	const tagis = {
+		businessName: {
+			value: `${company.businessName} `,
+			label: translate.business_name
+		},
+		dateStart: {
+			value: moment(council.dateStart).format('LLL'),
+			label: translate['1st_call_date']
+		},
+		dateStart2NdCall: {
+			value: moment(council.dateStart2NdCall).format('LLL'),
+			label: translate['2nd_call_date']
+		},
+		dateRealStart: {
+			value: `${moment(council.dateRealStart).format(
+				"LLLL"
+			)} `,
+			label: translate.date_real_start
+		},
+		firstOrSecondConvene: {
+			value: `${
+				council.firstOrSecondConvene
+					? translate.first
+					: translate.second
+			} `,
+			label: translate.first_or_second_call
+		},
+		location: {
+			value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
+			label: translate.new_location_of_celebrate
+		},
+		now: {
+			getValue: () => moment().format('LLL'),
+			label: translate.actual_date
+		},
+		city: {
+			value: council.city,
+			label: translate.company_new_locality
+		},
+		country: {
+			value: council.countryState,
+			label: translate.company_new_country_state
+		},
+		attendants: {
+			value: attendantsString,
+			label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
+		},
+		delegatedVotes: {
+			value: delegatedVotesString,
+			label: translate.delegations
+		},
+		numDelegations: {
+			value: council.delegatedVotes.length,
+			label: translate.num_delegations
+		},
+		president: {
+			value: council.president,
+			label: translate.president
+		},
+		secretary: {
+			value: council.secretary,
+			label: translate.secretary
+		},
+		currentQuorum: {
+			value: council.currentQuorum,
+			label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+		},
+		percentageShares: {
+			value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
+			label: translate.social_capital_percentage
+		},
+		dateEnd: {
+			value: `${moment(council.dateEnd).format(
+				"LLLL"
+			)} `,
+			label: translate.date_end
+		},
+		numPresentOrRemote: {
+			value: council.numPresentAttendance + council.numRemoteAttendance,
+			label: 'Núm. asistentes presentes/remotos'
+		}
+	}
+
+	const handler = {
+		get: (target, name) => {
+			if(!(name in target)){
+				alert(name);
+			}
+
+			return target[name];
+		}
+	}
+
+	const smartTags = new Proxy(tagis, handler);
 
 	switch(type){
 		case 'intro':
 			tags = [
-				{
-					value: `${company.businessName} `,
-					label: translate.business_name
-				},
-				{
-					value: `${moment(council.dateRealStart).format(
-						"LLLL"
-					)} `,
-					label: translate.date_real_start
-				},
-				{
-					value: `${
-						council.firstOrSecondConvene
-							? translate.first
-							: translate.second
-					} `,
-					label: translate.first_or_second_call
-				},
-				{
-					value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
-					label: translate.new_location_of_celebrate
-				},
+				smartTags.businessName,
+				smartTags.dateStart
 			]
 
+			if(hasSecondCall(council.statute)){
+				tags = [...tags, smartTags.dateStart2NdCall];
+			}
+
 			if(council.remoteCelebration !== 1){
-				tags = [...tags,
-					{
-						value: council.city,
-						label: translate.company_new_locality
-					},
-					{
-						value: council.countryState,
-						label: translate.company_new_country_state
-					}
-				];
+				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 			tags = [...tags,
-				{
-					value: attendantsString,
-					label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
-				},
-				{
-					value: delegatedVotesString,
-					label: translate.delegations
-				},
-				{
-					value: council.delegatedVotes.length,
-					label: translate.num_delegations
-				}
+				smartTags.dateRealStart,
+				smartTags.firstOrSecondConvene,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.location,
+				smartTags.now,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
 			]
 
 			return tags;
 
 		case 'constitution':
-			const base = council.quorumPrototype === 1? data.recount.socialCapitalTotal : data.recount.partTotal;
 			tags = [
-				{
-					value: `${company.businessName} `,
-					label: translate.business_name
-				},
-				{
-					value: council.president,
-					label: translate.president
-				},
-				{
-					value: council.secretary,
-					label: translate.secretary
-				},
-				{
-					value: council.currentQuorum,
-					label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
-				},
-				{
-					value: (council.currentQuorum / parseInt(base) * 100).toFixed(3),
-					label: translate.social_capital_percentage
-				},
-				{
-					value: council.remoteCelebration === 1? translate.remote_celebration : council.street,
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: `${moment(council.dateRealStart).format(
-						"LLLL"
-					)} `,
-					label: translate.date_real_start
-				}
+				smartTags.businessName,
+				smartTags.now,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.currentQuorum,
+				smartTags.percentageShares,
+				smartTags.location,
+				smartTags.dateRealStart
 			]
 
 			if(council.remoteCelebration !== 1){
-				tags = [...tags,
-					{
-						value: council.city,
-						label: translate.company_new_locality
-					},
-					{
-						value: council.countryState,
-						label: translate.company_new_country_state
-					}
-				];
+				tags = [...tags, smartTags.city, smartTags.country];
 			}
 
 
 			tags = [...tags,
-				{
-					value: attendantsString,
-					label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
-				},
-				{
-					value: delegatedVotesString,
-					label: translate.delegations
-				},
-				{
-					value: council.delegatedVotes.length,
-					label: translate.num_delegations
-				}
-			]
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+			];
 
 			return tags;
 
 		case 'conclusion':
 			tags = [
-				{
-					value: council.president,
-					label: translate.president
-				},
-				{
-					value: council.secretary,
-					label: translate.secretary
-				},
-				{
-					value: `${moment(council.dateEnd).format(
-						"LLLL"
-					)} `,
-					label: translate.date_end
-				},
-				{
-					value: attendantsString,
-					label: translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)
-				},
-				{
-					value: delegatedVotesString,
-					label: translate.delegations
-				},
-				{
-					value: council.delegatedVotes.length,
-					label: translate.num_delegations
-				}
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.dateEnd,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numDelegations
 			]
 			return tags;
 
+		case 'certFooter': {
+			tags = [
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.now,
+				smartTags.dateEnd,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numDelegations
+			]
+			return tags;
+		}
 		default:
 			return [];
 	}
