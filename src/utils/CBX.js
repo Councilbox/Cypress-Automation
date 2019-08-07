@@ -533,8 +533,20 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate.business_name
 			},
 			{
+				value: '{{now}}',
+				label: 'Fecha actual' //TRADUCCION
+			},
+			{
 				value: '{{dateRealStart}}',
 				label: translate.date_real_start
+			},
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
 			},
 			{
 				value: '{{firstOrSecondCall}}',
@@ -557,9 +569,33 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate.secretary
 			},
 			{
-				value: '{{now}}',
-				label: 'Fecha actual' //TRADUCCION
-			}
+				value: '{{numPresentOrRemote}}',
+				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+			},
+			{
+				value: '{{numRepresented}}',
+				label: 'Núm. de representaciones' //TRADUCCION
+			},
+			{
+				value: '{{numParticipants}}',
+				label: 'Núm. de participantes totales' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCPresent}}',
+				label: '% del capital social que asiste personalmente' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCRepresented}}',
+				label: '% del capital social que asiste representado' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCTotal}}',
+				label: '% del capital social que asiste' //TRADUCCION
+			},
+			{
+				value: '{{convene}}',
+				label: 'Texto de la convocatoria' //TRADUCCION
+			},
 		],
 
 		[DRAFT_TYPES.CONSTITUTION]: [
@@ -576,14 +612,6 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate.secretary
 			},
 			{
-				value: '{{numberOfShares}}',
-				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
-			},
-			{
-				value: '{{percentageOfShares}}',
-				label: translate.social_capital_percentage
-			},
-			{
 				value: `{{street}}`,
 				label: translate.new_location_of_celebrate
 			},
@@ -598,6 +626,38 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			{
 				value: '{{now}}',
 				label: 'Fecha actual' //TRADUCCION
+			},
+			{
+				value: '{{numPresentOrRemote}}',
+				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+			},
+			{
+				value: '{{numRepresented}}',
+				label: 'Núm. de representaciones' //TRADUCCION
+			},
+			{
+				value: '{{numParticipants}}',
+				label: 'Núm. de participantes totales' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCPresent}}',
+				label: '% del capital social que asiste personalmente' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCRepresented}}',
+				label: '% del capital social que asiste representado' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCTotal}}',
+				label: '% del capital social que asiste' //TRADUCCION
+			},
+			{
+				value: '{{numberOfShares}}',
+				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+			},
+			{
+				value: '{{percentageOfShares}}',
+				label: translate.social_capital_percentage
 			}
 		],
 
@@ -626,6 +686,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate["2nd_call_date"]
 			},
 			{
+				value: '{{dateRealStart}}',
+				label: translate.date_real_start
+			},
+			{
 				value: '{{business_name}}',
 				label: translate.business_name
 			},
@@ -648,7 +712,31 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			{
 				value: '{{secretary}}',
 				label: translate.secretary
-			}
+			},
+			{
+				value: '{{percentageSCPresent}}',
+				label: '% del capital social que asiste personalmente' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCRepresented}}',
+				label: '% del capital social que asiste representado' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCTotal}}',
+				label: '% del capital social que asiste' //TRADUCCION
+			},
+			{
+				value: '{{numPresentOrRemote}}',
+				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+			},
+			{
+				value: '{{numRepresented}}',
+				label: 'Núm. de representaciones' //TRADUCCION
+			},
+			{
+				value: '{{numParticipants}}',
+				label: 'Núm. de participantes totales' //TRADUCCION
+			},
 		],
 
 		[DRAFT_TYPES.CERTIFICATE_FOOTER]: [
