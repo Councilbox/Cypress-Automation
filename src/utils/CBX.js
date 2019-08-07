@@ -421,7 +421,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 	text = text.replace(/{{now}}/g, new moment().format('LLL'));
 
-	//text = text.replace(/{{convene}}/g, data.council.emailText);
+	text = text.replace(/{{convene}}/g, data.council.emailText);
 
 	text = text.replace(/{{numPresentOrRemote}}/g, data.council.numPresentAttendance + data.council.numRemoteAttendance);
 	text = text.replace(/{{numRepresented}}/g, data.council.numDelegatedAttendance);
