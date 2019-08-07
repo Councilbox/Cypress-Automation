@@ -12,7 +12,7 @@ import {
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES } from "../../../../constants";
+import { DRAFT_TYPES, PARTICIPANT_STATES } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
@@ -34,6 +34,7 @@ const CouncilActData = gql`
 			country
 			countryState
 			currentQuorum
+			emailText
 			quorumPrototype
 			secretary
 			president
@@ -113,6 +114,14 @@ const CouncilActData = gql`
 			partTotal
 			partPresent
 			partRemote
+			partNoParticipate
+			numCurrentRemote
+			numPresent
+			numNoParticipate
+			numRemote
+			socialCapitalPresent
+			numDelegations
+			numTotal
 			weighedPartTotal
 			numTotal
 		}
@@ -122,6 +131,8 @@ const CouncilActData = gql`
 			name
 			surname
 			state
+			numParticipations
+			socialCapital
 			representative {
 				id
 				name
@@ -141,6 +152,17 @@ const CouncilActData = gql`
 			list {
 				id
 				name
+				state
+				type
+				socialCapital
+				delegationsAndRepresentations {
+					type
+					state
+					name
+					socialCapital
+					numParticipations
+				}
+				numParticipations
 				surname
 				lastDateConnection
 			}
@@ -212,9 +234,29 @@ class ActEditor extends Component {
 	}
 
 	loadDraft = async draft => {
+		const { data } = this.state;
  		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
-			council: this.state.data.council
+			council: {
+				...data.council,
+				...data.councilRecount,
+				numPresentAttendance: data.councilAttendants.list.filter(p => p.state === 5 || p.state === 7).length,
+				numRemoteAttendance: data.councilAttendants.list.filter(p => p.state === 0).length,
+				numDelegatedAttendance: data.participantsWithDelegatedVote.length,
+				numTotalAttendance: data.participantsWithDelegatedVote.length + data.councilAttendants.list.length,
+				percentageSCPresent: ((data.councilAttendants.list.reduce((acc, curr) => {
+					let counter = acc;
+					counter = counter + curr.numParticipations;
+					if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
+						counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
+							return acc + curr.numParticipations;
+						}, 0);
+					}
+					return counter;
+				}, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
+				percentageSCDelegated: ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
+				percentageSCTotal: (((data.councilRecount.partPresent + data.councilRecount.partRemote) / data.councilRecount.partTotal) * 100).toFixed(3)
+			}
 		}, this.props.translate);
 
 		this[this.state.load].paste(correctedText);
@@ -332,6 +374,8 @@ class ActEditor extends Component {
 		} = this.props.data;
 		const { errors, data } = this.state;
 		let { council } = data;
+
+		console.log(this.state.data);
 
 		if (loading) {
 			return <LoadingSection />;
