@@ -26,7 +26,7 @@ import { getActPointSubjectType, checkForUnclosedBraces, changeVariablesToValues
 import { toast } from 'react-toastify';
 import { isMobile } from "react-device-detect";
 
-const CouncilActData = gql`
+export const CouncilActData = gql`
 	query CouncilActData($councilID: Int!, $companyId: Int!, $options: OptionsInput ) {
 		council(id: $councilID) {
 			id
@@ -181,6 +181,29 @@ const CouncilActData = gql`
 	}
 `;
 
+export const generateCouncilSmartTagsValues = data => {
+	return {
+		...data.council,
+		...data.councilRecount,
+		numPresentAttendance: data.councilAttendants.list.filter(p => p.state === 5 || p.state === 7).length,
+		numRemoteAttendance: data.councilAttendants.list.filter(p => p.state === 0).length,
+		numDelegatedAttendance: data.participantsWithDelegatedVote.length,
+		numTotalAttendance: data.participantsWithDelegatedVote.length + data.councilAttendants.list.length,
+		percentageSCPresent: ((data.councilAttendants.list.reduce((acc, curr) => {
+			let counter = acc;
+			counter = counter + curr.numParticipations;
+			if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
+				counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
+					return acc + curr.numParticipations;
+				}, 0);
+			}
+			return counter;
+		}, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
+		percentageSCDelegated: ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
+		percentageSCTotal: (((data.councilRecount.partPresent + data.councilRecount.partRemote) / data.councilRecount.partTotal) * 100).toFixed(3)
+	}
+}
+
 class ActEditor extends Component {
 
 	state = {
@@ -237,26 +260,7 @@ class ActEditor extends Component {
 		const { data } = this.state;
  		const correctedText = await changeVariablesToValues(draft.text, {
 			company: this.props.company,
-			council: {
-				...data.council,
-				...data.councilRecount,
-				numPresentAttendance: data.councilAttendants.list.filter(p => p.state === 5 || p.state === 7).length,
-				numRemoteAttendance: data.councilAttendants.list.filter(p => p.state === 0).length,
-				numDelegatedAttendance: data.participantsWithDelegatedVote.length,
-				numTotalAttendance: data.participantsWithDelegatedVote.length + data.councilAttendants.list.length,
-				percentageSCPresent: ((data.councilAttendants.list.reduce((acc, curr) => {
-					let counter = acc;
-					counter = counter + curr.numParticipations;
-					if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
-						counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
-							return acc + curr.numParticipations;
-						}, 0);
-					}
-					return counter;
-				}, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
-				percentageSCDelegated: ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
-				percentageSCTotal: (((data.councilRecount.partPresent + data.councilRecount.partRemote) / data.councilRecount.partTotal) * 100).toFixed(3)
-			}
+			council: generateCouncilSmartTagsValues(data)
 		}, this.props.translate);
 
 		this[this.state.load].paste(correctedText);
