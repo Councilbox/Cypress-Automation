@@ -545,7 +545,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{now}}',
-				label: 'Fecha actual' //TRADUCCION
+				label: translate.actual_date
 			},
 			{
 				value: '{{dateRealStart}}',
@@ -636,7 +636,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{now}}',
-				label: 'Fecha actual' //TRADUCCION
+				label: translate.actual_date
 			},
 			{
 				value: '{{numPresentOrRemote}}',
@@ -777,7 +777,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{now}}',
-				label: 'Fecha actual' //TRADUCCION
+				label: translate.actual_date
 			},
 			{
 				value: '{{president}}',
