@@ -12,11 +12,32 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 
+const initialState = {
+    loadingDraftData: true,
+    draftData: null
+}
+
+const dataReducer = (state, action) => {
+    const actions = {
+        'LOADED': {
+            ...state,
+            loadingDraftData: false,
+            draftData: action.value
+        },
+
+        default: state
+    }
+
+    return actions[action.type]? actions[action.type] : actions.default;
+
+}
+
 
 const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     const [loading, setLoading] = React.useState(false);
-    const [loadingDraftData, setLoadingDraftData] = React.useState(true);
-    const [draftData, setDraftData] = React.useState(null);
+    const [{ loadingDraftData, draftData }, dispatch] = React.useReducer(dataReducer, initialState);
+    //const [loadingDraftData, setLoadingDraftData] = React.useState(true);
+    //const [draftData, setDraftData] = React.useState(null);
     const [data, setData] = React.useState({
         title: '',
         header: '',
@@ -45,9 +66,10 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                 }
             }
         });
-        setDraftData(response.data);
-        setLoadingDraftData(false);
+        dispatch({ type: 'LOADED', value: response.data });
     }, [council.id]);
+
+    console.log(draftData);
 
     React.useEffect(() => {
         getData();
@@ -185,9 +207,9 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                                 errorText={errors.header}
                                 tags={generateActTags('intro', {
                                     council: {
-                                        ...draftData.council,
                                         attendants: draftData.councilAttendants.list,
-                                        delegatedVotes: draftData.participantsWithDelegatedVote
+                                        delegatedVotes: draftData.participantsWithDelegatedVote,
+                                        ...generateCouncilSmartTagsValues(draftData),
                                     },
                                     company,
                                     recount: draftData.councilRecount
@@ -226,11 +248,11 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
                             value={data.footer}
                             translate={translate}
                             errorText={errors.footer}
-                            tags={generateActTags('intro', {
+                            tags={generateActTags('certFooter', {
                                     council: {
-                                        ...draftData.council,
                                         attendants: draftData.councilAttendants.list,
-                                        delegatedVotes: draftData.participantsWithDelegatedVote
+                                        delegatedVotes: draftData.participantsWithDelegatedVote,
+                                        ...generateCouncilSmartTagsValues(draftData),
                                     },
                                     company,
                                     recount: draftData.councilRecount
