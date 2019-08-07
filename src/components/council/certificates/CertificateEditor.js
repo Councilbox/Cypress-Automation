@@ -10,10 +10,10 @@ import { checkForUnclosedBraces, changeVariablesToValues } from '../../../utils/
 import gql from 'graphql-tag';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
-import { generateActTags } from '../writing/actEditor/ActEditor';
+import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 
 
-const CertificateForm = ({ translate, council, company, client, ...props }) => {
+const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     const [loading, setLoading] = React.useState(false);
     const [loadingDraftData, setLoadingDraftData] = React.useState(true);
     const [draftData, setDraftData] = React.useState(null);
@@ -35,9 +35,9 @@ const CertificateForm = ({ translate, council, company, client, ...props }) => {
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
-            query,
+            query: CouncilActData,
             variables: {
-                councilId: council.id,
+                councilID: council.id,
                 companyId: council.companyId,
                 options: {
                     limit: 10000,
@@ -53,11 +53,10 @@ const CertificateForm = ({ translate, council, company, client, ...props }) => {
         getData();
     }, [getData]);
 
-
     const getCorrectedText = async text => {
 		const correctedText = await changeVariablesToValues(text, {
 			company,
-			council: draftData.council,
+			council: generateCouncilSmartTagsValues(draftData),
 		}, translate);
 		return correctedText;
 	}
@@ -66,22 +65,12 @@ const CertificateForm = ({ translate, council, company, client, ...props }) => {
     const loadFooterDraft = async draft => {
 		const correctedText = await getCorrectedText(draft.text);
 		footerEditor.current.paste(correctedText);
-		// setData({
-        //     ...data,
-        //     footer: correctedText
-        // })
     }
-    
+
     const loadHeaderDraft = async draft => {
         const correctedText = await getCorrectedText(draft.text);
 		headerEditor.current.paste(correctedText);
-		// setData({
-        //     ...data,
-        //     header: correctedText
-        // })
     }
-
-
 
     const createCertificate = async () => {
         if(!checkRequiredFields()){
@@ -428,4 +417,4 @@ export const query = gql`
 
 export default withSharedProps()(withApollo(graphql(createCertificate, {
     name: 'createCertificate'
-})(CertificateForm)));
+})(CerficateEditor)));
