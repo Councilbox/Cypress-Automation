@@ -69,8 +69,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
         dispatch({ type: 'LOADED', value: response.data });
     }, [council.id]);
 
-    console.log(draftData);
-
     React.useEffect(() => {
         getData();
     }, [getData]);
