@@ -113,7 +113,7 @@ class ValidatorPage extends React.Component {
 
                         {this.state.data &&
                             <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
-                                <EvidenceContentDisplay content={this.state.data.content} txHash={this.state.data.cbxEvidence.tx_hash} />
+                                <EvidenceContentDisplay content={this.state.data.content} cbxEvidence={this.state.data.cbxEvidence} />
                                 <hr></hr>
                                 <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} translate={this.props.translate} />
                                 <br />
@@ -151,35 +151,59 @@ export const ValidatorLink = ({ prvHash, translate }) => {
     )
 }
 
-const EvidenceContentDisplay = (data, txHash) => {
-    const parsedContent = JSON.parse(data.content);
+const EvidenceContentDisplay = ({ content, cbxEvidence }) => {
+    const parsedContent = JSON.parse(content);
     return (
         <div>
-            {getEvidenceComponent(parsedContent, txHash)}
+            {getEvidenceComponent(parsedContent, cbxEvidence)}
         </div>
     )
 }
 
-const UserEvidence = withTranslations()(({ evidence, translate, txHash }) => {
+const UserEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => {
     return (
         <div>
-            <EvidenceDisplay evidence={evidence} translate={translate} txHash={txHash} />
+            <EvidenceDisplay evidence={evidence} translate={translate} cbxEvidence={cbxEvidence} />
             <UserSection evidence={evidence} translate={translate} />
         </div>
     )
 });
 
-export const CouncilEvidence = withTranslations()(({ evidence, translate, txHash }) => {
-    const primary = getPrimary()
+const blur = {
+    textShadow: '0 0 6px black',
+    color: 'transparent'
+}
+
+export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => {
     return (
         <React.Fragment>
             <CardHeader
                 avatar={
-                    <EvidenceDisplay evidence={evidence} translate={translate} txHash={txHash} />
+                    <EvidenceDisplay evidence={evidence} translate={translate} cbxEvidence={cbxEvidence} />
                 }
             />
             <hr></hr>
             <CardContent style={{ paddingBottom: '10px' }}>
+                <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
+                    Datos de la evidencia
+                    <hr style={{ margin: '0.5em 0em' }}></hr>
+                </div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ width: '100px' }}>
+                        <b>Evhash:</b>
+                    </div>
+                    <div>
+                        {cbxEvidence.evhash}
+                    </div>
+                </div>
+                <div style={{ display: "flex", marginBottom: '1em' }}>
+                    <div style={{ width: '100px' }}>
+                        <b>Tx hash:</b>
+                    </div>
+                    <div>
+                        {cbxEvidence.tx_hash}
+                    </div>
+                </div>
                 {evidence.data.user &&
                     <UserSection evidence={evidence} translate={translate} />
                 }
@@ -212,7 +236,7 @@ const UserSection = ({ evidence, translate }) => {
                     <div style={{ width: '100px' }}>
                         <b>{translate.email}:</b>
                     </div>
-                    <div>
+                    <div style={blur}>
                         {evidence.data.user.email}
                     </div>
                 </div>
@@ -220,7 +244,7 @@ const UserSection = ({ evidence, translate }) => {
                     <div style={{ width: '100px' }}>
                         <b>{translate.name}:</b>
                     </div>
-                    <div>
+                    <div style={blur}>
                         {evidence.data.user.name}
                     </div>
                 </div>
@@ -228,7 +252,7 @@ const UserSection = ({ evidence, translate }) => {
                     <div style={{ width: '100px' }}>
                         <b>{translate.surname}:</b>
                     </div>
-                    <div>
+                    <div style={blur}>
                         {evidence.data.user.surname}
                     </div>
                 </div>
@@ -326,7 +350,7 @@ const CouncilSection = ({ evidence, translate }) => {
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
-                                <div>
+                                <div style={blur}>
                                     {evidence.agendaPoint.company.businessName}
                                 </div>
                             </div>
@@ -335,7 +359,7 @@ const CouncilSection = ({ evidence, translate }) => {
                             <div style={{ width: '100px' }}>
                                 <b>{translate.name}:</b>
                             </div>
-                            <div>
+                            <div style={blur}>
                                 {evidence.agendaPoint.council.name}
                             </div>
                         </div>
@@ -356,7 +380,7 @@ const CouncilSection = ({ evidence, translate }) => {
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
-                                <div>
+                                <div style={blur}>
                                     {evidence.council.company.businessName}
                                 </div>
                             </div>
@@ -365,7 +389,7 @@ const CouncilSection = ({ evidence, translate }) => {
                             <div style={{ width: '100px' }}>
                                 <b>{translate.name}:</b>
                             </div>
-                            <div>
+                            <div style={blur}>
                                 {evidence.council.name}
                             </div>
                         </div>
@@ -384,7 +408,7 @@ const CouncilSection = ({ evidence, translate }) => {
     )
 }
 
-const EvidenceDisplay = ({ evidence, translate, txHash }) => {
+const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
     const type = getTranslateFieldFromType(evidence.data.type);
     const primerasLetras = translate[type].split(' ').map(palabra => palabra.toUpperCase().substr(0, 1))
 
@@ -394,9 +418,9 @@ const EvidenceDisplay = ({ evidence, translate, txHash }) => {
                 <Avatar>
                     {primerasLetras}
                 </Avatar>
-                <ToolTip text={txHash ? translate.blockchain_registered_content : translate.blockchain_pending_content}>
-                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: txHash ? 'green' : 'red' }}>
-                        {txHash ?
+                <ToolTip text={cbxEvidence.tx_hash ? translate.blockchain_registered_content : translate.blockchain_pending_content}>
+                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: cbxEvidence.tx_hash ? 'green' : 'red' }}>
+                        {cbxEvidence.tx_hash ?
                             'verified_user'
                             :
                             'query_builder'
@@ -460,12 +484,12 @@ const getTypeTranslation = type => {
 }
 
 
-const getEvidenceComponent = (evidence, txHash) => {
+const getEvidenceComponent = (evidence, cbxEvidence) => {
     if (evidence.data.type === 'LOGIN') {
-        return <UserEvidence evidence={evidence} txHash={txHash} />
+        return <UserEvidence evidence={evidence} cbxEvidence={cbxEvidence} />
     }
 
-    return <CouncilEvidence evidence={evidence} txHash={txHash} />
+    return <CouncilEvidence evidence={evidence} cbxEvidence={cbxEvidence} />
 }
 
 const getData = gql`
