@@ -787,12 +787,12 @@ export const generateActTags = (type, data, translate) => {
 				<p style="border: 1px solid black; padding: 5px;">-
 					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
 						represented.name + ' ' + represented.surname
-					} y titular de ${represented.numParticipations} acciones
+					}${(council.quorumPrototype === 1 && attendant.numParticipations > 0)? ` y titular de ${represented.numParticipations} acciones` : ''}
 				<p><br/>`;
 			}
 			return acc + `
 			<p style="border: 1px solid black; padding: 5px;">-
-				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${attendant.numParticipations > 0? ` titular de ${attendant.numParticipations} acciones` : ''}
+				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${(council.quorumPrototype === 1 && attendant.numParticipations > 0)? ` titular de ${attendant.numParticipations} participaciones` : ''}
 			<p><br/>
 		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);
 		cache.set(`${council.id}_attendants`, attendantsString);
