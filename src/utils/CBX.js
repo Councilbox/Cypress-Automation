@@ -419,6 +419,17 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		}
 	}
 
+	text = text.replace(/{{now}}/g, new moment().format('LLL'));
+
+	text = text.replace(/{{convene}}/g, data.council.emailText);
+
+	text = text.replace(/{{numPresentOrRemote}}/g, data.council.numPresentAttendance + data.council.numRemoteAttendance);
+	text = text.replace(/{{numRepresented}}/g, data.council.numDelegatedAttendance);
+	text = text.replace(/{{numParticipants}}/g, data.council.numTotalAttendance);
+	text = text.replace(/{{percentageSCPresent}}/g, data.council.percentageSCPresent);
+	text = text.replace(/{{percentageSCRepresented}}/g, data.council.percentageSCDelegated);
+	text = text.replace(/{{percentageSCTotal}}/g, data.council.percentageSCTotal);
+
 	text = text.replace(/{{dateRealStart}}/g, !!data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
 		moment.ISO_8601).format("LLL") : '');
 	text = text.replace(/{{dateEnd}}/g, !!data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
@@ -533,8 +544,20 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate.business_name
 			},
 			{
+				value: '{{now}}',
+				label: translate.actual_date
+			},
+			{
 				value: '{{dateRealStart}}',
 				label: translate.date_real_start
+			},
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
 			},
 			{
 				value: '{{firstOrSecondCall}}',
@@ -547,7 +570,43 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			{
 				value: '{{city}}',
 				label: translate.company_new_locality
-			}
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			},
+			{
+				value: '{{numPresentOrRemote}}',
+				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+			},
+			{
+				value: '{{numRepresented}}',
+				label: 'Núm. de representaciones' //TRADUCCION
+			},
+			{
+				value: '{{numParticipants}}',
+				label: 'Núm. de participantes totales' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCPresent}}',
+				label: '% del capital social que asiste personalmente' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCRepresented}}',
+				label: '% del capital social que asiste representado' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCTotal}}',
+				label: '% del capital social que asiste' //TRADUCCION
+			},
+			{
+				value: '{{convene}}',
+				label: 'Texto de la convocatoria' //TRADUCCION
+			},
 		],
 
 		[DRAFT_TYPES.CONSTITUTION]: [
@@ -564,14 +623,6 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate.secretary
 			},
 			{
-				value: '{{numberOfShares}}',
-				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
-			},
-			{
-				value: '{{percentageOfShares}}',
-				label: translate.social_capital_percentage
-			},
-			{
 				value: `{{street}}`,
 				label: translate.new_location_of_celebrate
 			},
@@ -583,12 +634,150 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				value: '{{dateRealStart}}',
 				label: translate.date_real_start
 			},
+			{
+				value: '{{now}}',
+				label: translate.actual_date
+			},
+			{
+				value: '{{numPresentOrRemote}}',
+				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+			},
+			{
+				value: '{{numRepresented}}',
+				label: 'Núm. de representaciones' //TRADUCCION
+			},
+			{
+				value: '{{numParticipants}}',
+				label: 'Núm. de participantes totales' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCPresent}}',
+				label: '% del capital social que asiste personalmente' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCRepresented}}',
+				label: '% del capital social que asiste representado' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCTotal}}',
+				label: '% del capital social que asiste' //TRADUCCION
+			},
+			{
+				value: '{{numberOfShares}}',
+				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+			},
+			{
+				value: '{{percentageOfShares}}',
+				label: translate.social_capital_percentage
+			}
 		],
 
 		[DRAFT_TYPES.CONCLUSION]: [
 			{
 				value: '{{dateEnd}}',
 				label: translate.date_end
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			}
+		],
+
+		[DRAFT_TYPES.CERTIFICATE_HEADER]: [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
+			},
+			{
+				value: '{{dateRealStart}}',
+				label: translate.date_real_start
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			},
+			{
+				value: '{{president}}',
+				label: translate.president
+			},
+			{
+				value: '{{secretary}}',
+				label: translate.secretary
+			},
+			{
+				value: '{{percentageSCPresent}}',
+				label: '% del capital social que asiste personalmente' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCRepresented}}',
+				label: '% del capital social que asiste representado' //TRADUCCION
+			},
+			{
+				value: '{{percentageSCTotal}}',
+				label: '% del capital social que asiste' //TRADUCCION
+			},
+			{
+				value: '{{numPresentOrRemote}}',
+				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+			},
+			{
+				value: '{{numRepresented}}',
+				label: 'Núm. de representaciones' //TRADUCCION
+			},
+			{
+				value: '{{numParticipants}}',
+				label: 'Núm. de participantes totales' //TRADUCCION
+			},
+		],
+
+		[DRAFT_TYPES.CERTIFICATE_FOOTER]: [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate["1st_call_date"]
+			},
+			{
+				value: '{{dateSecondCall}}',
+				label: translate["2nd_call_date"]
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: `{{street}}`,
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			},
+			{
+				value: '{{now}}',
+				label: translate.actual_date
 			},
 			{
 				value: '{{president}}',

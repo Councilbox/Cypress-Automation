@@ -228,7 +228,7 @@ const SmartTags = withApollo(withSharedProps()(({ company, translate, tags, past
 							<MenuItem
 								key={`tag_${tag.label}`}
 								onClick={() =>
-									paste(`<span id="${tag.label}">${tag.value}</span>`)
+									paste(`<span id="${tag.label}">${tag.getValue? tag.getValue() : tag.value}</span>`)
 								}
 
 							>

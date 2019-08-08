@@ -73,7 +73,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = agendaData.agendaRecount;
 		const participations = hasParticipations(council);
 		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote + agenda.socialCapitalNoParticipate;
-		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 		const correctedText = await changeVariablesToValues(draft.text, {
 			company,
