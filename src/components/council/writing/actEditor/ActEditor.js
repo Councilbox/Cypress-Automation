@@ -12,7 +12,7 @@ import {
 import LoadDraft from "../../../company/drafts/LoadDraft";
 import RichTextInput from "../../../../displayComponents/RichTextInput";
 import AgendaEditor from "./AgendaEditor";
-import { DRAFT_TYPES, PARTICIPANT_STATES } from "../../../../constants";
+import { DRAFT_TYPES, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../../constants";
 import withSharedProps from "../../../../HOCs/withSharedProps";
 import { moment } from '../../../../containers/App';
 import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
@@ -153,6 +153,7 @@ export const CouncilActData = gql`
 			list {
 				id
 				name
+				dni
 				state
 				type
 				socialCapital
@@ -160,6 +161,7 @@ export const CouncilActData = gql`
 					type
 					state
 					name
+					surname
 					socialCapital
 					numParticipations
 				}
@@ -190,6 +192,19 @@ export const generateCouncilSmartTagsValues = data => {
 		return cache.get(string);
 	}
 
+	const percentageSCPresent = ((data.councilAttendants.list.reduce((acc, curr) => {
+		let counter = acc;
+		counter = counter + curr.numParticipations;
+		if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
+			counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
+				return acc + curr.numParticipations;
+			}, 0);
+		}
+		return counter;
+	}, 0) / data.councilRecount.partTotal) * 100).toFixed(3);
+
+	const percentageSCDelegated = ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3)
+
 	const calculatedObject = {
 		...data.council,
 		...data.councilRecount,
@@ -197,18 +212,9 @@ export const generateCouncilSmartTagsValues = data => {
 		numRemoteAttendance: data.councilAttendants.list.filter(p => p.state === 0).length,
 		numDelegatedAttendance: data.participantsWithDelegatedVote.length,
 		numTotalAttendance: data.participantsWithDelegatedVote.length + data.councilAttendants.list.length,
-		percentageSCPresent: ((data.councilAttendants.list.reduce((acc, curr) => {
-			let counter = acc;
-			counter = counter + curr.numParticipations;
-			if(curr.delegationsAndRepresentations.filter(p => p.state === PARTICIPANT_STATES.REPRESENTATED).length > 0){
-				counter = counter + curr.delegationsAndRepresentations.reduce((acc, curr) => {
-					return acc + curr.numParticipations;
-				}, 0);
-			}
-			return counter;
-		}, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
-		percentageSCDelegated: ((data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0) / data.councilRecount.partTotal) * 100).toFixed(3),
-		percentageSCTotal: (((data.councilRecount.partPresent + data.councilRecount.partRemote) / data.councilRecount.partTotal) * 100).toFixed(3)
+		percentageSCPresent,
+		percentageSCDelegated,
+		percentageSCTotal: (+percentageSCDelegated + (+percentageSCPresent)).toFixed(3)
 	}
 
 	cache.set(string, calculatedObject);
@@ -774,18 +780,32 @@ export const generateActTags = (type, data, translate) => {
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
 	if(!attendantsString){
-		attendantsString = council.attendants.reduce((acc, attendant) => acc + `${attendant.name} ${attendant.surname} <br/>`, '');
+		attendantsString = council.attendants.reduce((acc, attendant) => {
+			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
+				const represented = attendant.delegationsAndRepresentations.find(p => p.state === PARTICIPANT_STATES.REPRESENTATED);
+				return acc + `
+				<p style="border: 1px solid black; padding: 5px;">-
+					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
+						represented.name + ' ' + represented.surname
+					} y titular de ${represented.numParticipations} acciones
+				<p><br/>`;
+			}
+			return acc + `
+			<p style="border: 1px solid black; padding: 5px;">-
+				${attendant.name} ${attendant.surname} - con DNI ${attendant.dni}${attendant.numParticipations > 0? ` titular de ${attendant.numParticipations} acciones` : ''}
+			<p><br/>
+		`}, `<br/><h4>${translate.assistants.charAt(0).toUpperCase() + translate.assistants.slice(1)}</h4><br/>`);
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 
 	if(!delegatedVotesString){
 		delegatedVotesString = council.delegatedVotes.reduce((acc, vote) => {
-			return acc + `${
+			return acc + `<p style="border: 1px solid black; padding: 5px;">-${
 				vote.name} ${
-				vote.surname} ${
+				vote.surname} titular de ${vote.numParticipations} ${
 				translate.delegates.toLowerCase()} ${
-				vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} <br/>`
-		}, '');
+				vote.representative && vote.representative.name} ${vote.representative && vote.representative.surname} </p><br/>`
+		}, `<br/><h4>${translate.delegations}</h4><br/>`);
 		cache.set(`${council.id}_delegated`, delegatedVotesString);
 	}
 
@@ -870,6 +890,18 @@ export const generateActTags = (type, data, translate) => {
 		numPresentOrRemote: {
 			value: council.numPresentAttendance + council.numRemoteAttendance,
 			label: 'Núm. asistentes presentes/remotos'
+		},
+		percentageSCPresent: {
+			value: council.percentageSCPresent,
+			label: '% del capital social que asiste personalmente' //TRADUCCION
+		},
+		percentageSCDelegated: {
+			value: council.percentageSCDelegated,
+			label: '% del capital social que asiste representado' //TRADUCCION
+		},
+		percentageSCTotal: {
+			value: council.percentageSCTotal,
+			label: '% del capital social que asiste' //TRADUCCION
 		}
 	}
 
@@ -911,6 +943,9 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.delegatedVotes,
 				smartTags.numPresentOrRemote,
 				smartTags.numDelegations,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
 			]
 
 			return tags;
@@ -924,7 +959,10 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.currentQuorum,
 				smartTags.percentageShares,
 				smartTags.location,
-				smartTags.dateRealStart
+				smartTags.dateRealStart,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
 			]
 
 			if(council.remoteCelebration !== 1){
