@@ -779,6 +779,8 @@ export const generateActTags = (type, data, translate) => {
 	let attendantsString = cache.get(`${council.id}_attendants`);
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
+	//TRADUCCION
+
 	if(!attendantsString){
 		attendantsString = council.attendants.reduce((acc, attendant) => {
 			if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
@@ -787,7 +789,7 @@ export const generateActTags = (type, data, translate) => {
 				<p style="border: 1px solid black; padding: 5px;">-
 					${attendant.name} ${attendant.surname} con DNI ${attendant.dni} en representación de ${
 						represented.name + ' ' + represented.surname
-					}${(council.quorumPrototype === 1 && attendant.numParticipations > 0)? ` y titular de ${represented.numParticipations} acciones` : ''}
+					}${(council.quorumPrototype === 1)? ` titular de ${represented.numParticipations} acciones` : ''}
 				<p><br/>`;
 			}
 			return acc + `
