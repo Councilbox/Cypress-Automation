@@ -27,7 +27,6 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
         return <LoadingMainApp />
     }
 
-
     return (
         <div
             style={{

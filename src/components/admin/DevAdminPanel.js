@@ -323,6 +323,8 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
 
 const SubdomainImage = ({ client }) => {
     const [image, setImage] = React.useState(null);
+    const [subdomain, setSubdomain] = React.useState('');
+    const [type, setType] = React.useState('');
 
 	const handleFile = event => {
 		const file = event.nativeEvent.target.files[0];
@@ -343,8 +345,8 @@ const SubdomainImage = ({ client }) => {
             mutation: uploadDomainImage,
             variables: {
                 image,
-                subdomain: 'prueba',
-                type: 'background'
+                subdomain,
+                type
             }
         });
 
@@ -366,6 +368,10 @@ const SubdomainImage = ({ client }) => {
                 }}
                 onChange={handleFile}
             />
+            Subdomain
+            <input onChange={event => setSubdomain(event.target.value)}></input>
+            type
+            <input onChange={event => setType(event.target.value)}></input>
             <BasicButton
                 text="Enviar"
                 onClick={upload}
