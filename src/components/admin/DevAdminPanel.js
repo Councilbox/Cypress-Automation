@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput } from '../../displayComponents';
+import { Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput, FileUploadButton } from '../../displayComponents';
 import ToggleRecordings from './featureControl/ToggleRecordings';
 import ToggleVideo from './featureControl/ToggleVideo';
 import LogoutUser from './featureControl/LogoutUser';
@@ -98,6 +98,15 @@ const createCensus = gql`
         }
     }
 `;
+
+const uploadDomainImage = gql`
+    mutation uploadSubdomainImage($image: String!, $type: String!, $subdomain: String!){
+        uploadSubdomainImage(image: $image, type: $type, subdomain: $subdomain){
+            success
+            message
+        }
+    }
+`
 
 const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     const [data, setData] = React.useState({
@@ -298,6 +307,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                 text="Crear censos"
                 onClick={createCe}
             />
+            <SubdomainImage client={client} />
             {exceptions.map(exception => (
                 <div key={`exception_${exception.id}`}>
                     {`${exception.featureName} - ${exception.companyId} - ${exception.active}`}
@@ -310,6 +320,59 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         </div>
     )
 });
+
+const SubdomainImage = ({ client }) => {
+    const [image, setImage] = React.useState(null);
+
+	const handleFile = event => {
+		const file = event.nativeEvent.target.files[0];
+		if (!file) {
+			return;
+		}
+
+		let reader = new FileReader();
+		reader.readAsDataURL(file);
+
+		reader.onload = async () => {
+            setImage(reader.result);
+		};
+    }
+
+    const upload = async () => {
+        const response = await client.mutate({
+            mutation: uploadDomainImage,
+            variables: {
+                image,
+                subdomain: 'prueba',
+                type: 'background'
+            }
+        });
+
+        console.log(response);
+    }
+
+
+    return (
+        <div>
+            <FileUploadButton
+                text={'Imagen'}
+                image
+                color={'cyan'}
+                textStyle={{
+                    color: "white",
+                    fontWeight: "700",
+                    fontSize: "0.9em",
+                    textTransform: "none"
+                }}
+                onChange={handleFile}
+            />
+            <BasicButton
+                text="Enviar"
+                onClick={upload}
+            />
+        </div>
+    )
+} 
 
 
 const Features = ({ value, toggleFeature }) => {
