@@ -143,6 +143,7 @@ const councilQuery = gql`
 	query info($councilId: Int!) {
 		councilVideo(id: $councilId) {
 			active
+			subdomain
 			autoClose
 			businessName
 			subdomain
