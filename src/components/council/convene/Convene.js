@@ -18,7 +18,6 @@ import { downloadConvenePDF } from "../../../queries";
 import * as CBX from '../../../utils/CBX';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Switch, FormControlLabel } from 'material-ui';
-import { useOldState } from "../../../hooks";
 
 export const conveneDetails = gql`
 	query CouncilDetails($councilID: Int!) {
@@ -37,84 +36,83 @@ export const conveneDetails = gql`
 	}
 `;
 
-const Convene = ({ translate, data, ...props }) => {
-	const [state, setState] = useOldState({
+
+class Convene extends React.Component {
+	state = {
 		loading: false,
 		downloadingPDF: false,
 		htmlCopiedTooltip: false,
 		publicConveneModal: false
-	});
-	const secondary = getSecondary();
+	};
 
-
-	const downloadPDF = async () => {
-		setState({
+	downloadPDF = async () => {
+		this.setState({
 			downloadingPDF: true
 		})
-		const response = await props.client.query({
+		const response = await this.props.client.query({
 			query: downloadConvenePDF,
 			variables: {
-				councilId: props.council.id
+				councilId: this.props.council.id
 			}
 		});
 
 		if (response) {
 			if (response.data.downloadConvenePDF) {
-				setState({
+				this.setState({
 					downloadingPDF: false
 				});
 				CBX.downloadFile(
 					response.data.downloadConvenePDF,
 					"application/pdf",
-					`${translate.convene.replace(/ /g, '_')}-${
-					props.council.name.replace(/ /g, '_').replace(/\./, '')
+					`${this.props.translate.convene.replace(/ /g, '_')}-${
+					this.props.council.name.replace(/ /g, '_').replace(/\./, '')
 					}`
 				);
 			}
 		}
 	};
 
-	const handlePublicChange = () => {
-		if (data.council.publicConvene === 0) {
-			setState({
+	handlePublicChange = () => {
+		if (this.props.data.council.publicConvene === 0) {
+			this.setState({
 				publicConveneModal: true
 			});
 			return;
 		}
 
-		togglePublicConvene();
+		this.togglePublicConvene();
 	}
 
-	const togglePublicConvene = async () => {
-		const response = await props.updateCouncil({
+	togglePublicConvene = async () => {
+		const response = await this.props.updateCouncil({
 			variables: {
 				council: {
-					id: data.council.id,
-					publicConvene: data.council.publicConvene === 1 ? 0 : 1
+					id: this.props.data.council.id,
+					publicConvene: this.props.data.council.publicConvene === 1 ? 0 : 1
 				}
 			}
 		});
 
-		data.refetch();
-		setState({
+		this.props.data.refetch();
+		this.setState({
 			publicConveneModal: false
 		});
 	}
 
-	const showTooltip = () => {
-		setState({
+	showTooltip = () => {
+		this.setState({
 			htmlCopiedTooltip: true
 		});
-		setTimeout(() => setState({ htmlCopiedTooltip: false }), 3000);
+		setTimeout(() => this.setState({ htmlCopiedTooltip: false }), 3000);
 	}
 
-	const copyConveneHTML = () => {
+	copyConveneHTML = () => {
 		const html = document.createElement('textarea');
 		document.body.appendChild(html);
-		html.value = data.council.emailText;
+		html.value = this.props.data.council.emailText;
 		html.select();
 		document.execCommand('copy');
-		showTooltip();
+		this.showTooltip();
 	}
 
 	render() {
@@ -122,46 +120,46 @@ const Convene = ({ translate, data, ...props }) => {
 		const { translate, noButtonsDownload } = this.props;
 		const { council, error, loading } = this.props.data;
 
+		if (loading) {
+			return <LoadingSection />;
+		}
 
-	if (loading) {
-		return <LoadingSection />;
-	}
-
-	if (error) {
-		return <ErrorWrapper error={error} translate={translate} />;
-	}
-	if (props.agendaNoSession) {
-		return (
-			<React.Fragment>
-				{council.attachments.length > 0 && !props.hideAttachments && (
-					<div
-						style={{
-							paddingTop: "1em 0",
-							width: "98%"
-						}}
-					>
-						<Typography
-							variant="title"
-							style={{ color: getPrimary() }}
+		if (error) {
+			return <ErrorWrapper error={error} translate={translate} />;
+		}
+		if (this.props.agendaNoSession) {
+			return (
+				<React.Fragment>
+					{council.attachments.length > 0 && !this.props.hideAttachments && (
+						<div
+							style={{
+								paddingTop: "1em 0",
+								width: "98%"
+							}}
 						>
-							{translate.new_files_title}
-						</Typography>
-						<div style={{ marginTop: "1em" }}>
-							<Grid>
-								{council.attachments.map(attachment => {
-									return (
-										<GridItem
-											key={`attachment${attachment.id}`}
-										>
-											<AttachmentDownload
-												attachment={attachment}
-												loading={state.downloading}
-												spacing={0.5}
-											/>
-										</GridItem>
-									);
-								})}
-							</Grid>
+							<Typography
+								variant="title"
+								style={{ color: getPrimary() }}
+							>
+								{translate.new_files_title}
+							</Typography>
+							<div style={{ marginTop: "1em" }}>
+								<Grid>
+									{council.attachments.map(attachment => {
+										return (
+											<GridItem
+												key={`attachment${attachment.id}`}
+											>
+												<AttachmentDownload
+													attachment={attachment}
+													loading={this.state.downloading}
+													spacing={0.5}
+												/>
+											</GridItem>
+										);
+									})}
+								</Grid>
+							</div>
 						</div>
 					)
 					}
@@ -397,15 +395,14 @@ const Convene = ({ translate, data, ...props }) => {
 						buttonCancel={translate.cancel}
 						bodyText={<div>
 							Al realizar está acción se mostrará un link el cual cualquier persona podrá ver la convocatoria, para deshacer está acción puede volver a configurar su convocatoria como privada.
-						</div>
-					}
-					title={translate.warning}
-				/>
-			</React.Fragment>
-		);
+					</div>}
+						title={translate.warning}
+					/>
+				</React.Fragment>
+			);
+		}
 	}
 }
-
 
 export default compose(
 	graphql(conveneDetails, {
