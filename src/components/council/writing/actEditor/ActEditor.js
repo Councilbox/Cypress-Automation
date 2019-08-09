@@ -396,8 +396,6 @@ class ActEditor extends Component {
 		const { errors, data } = this.state;
 		let { council } = data;
 
-		console.log(this.state.data);
-
 		if (loading) {
 			return <LoadingSection />;
 		}
@@ -894,15 +892,15 @@ export const generateActTags = (type, data, translate) => {
 			label: 'Núm. asistentes presentes/remotos'
 		},
 		percentageSCPresent: {
-			value: council.percentageSCPresent,
+			value: council.percentageSCPresent + '%',
 			label: '% del capital social que asiste personalmente' //TRADUCCION
 		},
 		percentageSCDelegated: {
-			value: council.percentageSCDelegated,
+			value: council.percentageSCDelegated + '%',
 			label: '% del capital social que asiste representado' //TRADUCCION
 		},
 		percentageSCTotal: {
-			value: council.percentageSCTotal,
+			value: council.percentageSCTotal + '%',
 			label: '% del capital social que asiste' //TRADUCCION
 		}
 	}
