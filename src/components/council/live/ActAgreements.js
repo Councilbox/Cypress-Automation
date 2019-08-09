@@ -145,8 +145,8 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					SCAgainstTotal: participations? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 					SCAbstentionTotal: participations? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 					SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-					SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-					SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAgainstPresent: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAbstentionPresent: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 					numPositive,
 					numNegative,
 					numAbstention,
@@ -178,7 +178,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			const participations = hasParticipations(council);
 
 			const totalSC = recount.partTotal;
-			const totalPresent = totalSC - noVoteSC;
+			const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 			tags = [
 				{
