@@ -396,8 +396,6 @@ class ActEditor extends Component {
 		const { errors, data } = this.state;
 		let { council } = data;
 
-		console.log(this.state.data);
-
 		if (loading) {
 			return <LoadingSection />;
 		}
