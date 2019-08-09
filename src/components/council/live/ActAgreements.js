@@ -31,7 +31,7 @@ export const agendaRecountQuery = gql`
 	}
 `;
 
-const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
+const ActAgreements = ({ translate, council, company, agenda, recount, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
@@ -130,8 +130,6 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 		let { numPositive, numNegative, numAbstention, numNoVote } = data;
 		let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 		const participations = hasParticipations(council);
-
-		const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
 		const totalPresent =  agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
 
 		const correctedText = await changeVariablesToValues(text, {
@@ -143,9 +141,9 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 					negative: agenda.negativeVotings + agenda.negativeManual,
 					abstention: agenda.abstentionVotings + agenda.abstentionManual,
 					noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-					SCFavorTotal: participations? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
-					SCAgainstTotal: participations? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-					SCAbstentionTotal: participations? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCFavorTotal: participations? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
+					SCAgainstTotal: participations? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+					SCAbstentionTotal: participations? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 					SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 					SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 					SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
@@ -179,7 +177,7 @@ const ActAgreements = ({ translate, council, company, agenda, ...props }) => {
 			let { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 			const participations = hasParticipations(council);
 
-			const totalSC = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
+			const totalSC = recount.partTotal;
 			const totalPresent = totalSC - noVoteSC;
 
 			tags = [

@@ -83,9 +83,9 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				negative: agenda.negativeVotings + agenda.negativeManual,
 				abstention: agenda.abstentionVotings + agenda.abstentionManual,
 				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-				SCFavorTotal: participations? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
-				SCAgainstTotal: participations? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCFavorTotal: participations? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',//TRADUCCION
+				SCAgainstTotal: participations? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionTotal: participations? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				SCFavorPresent: participations? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				SCAgainstTotal: participations? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				SCAbstentionTotal: participations? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
@@ -135,15 +135,15 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 
 	if(participations){
 		tags.push({
-			value: ((positiveSC / totalSC) * 100).toFixed(3) + '%',
+			value: ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%',
 			label: '% a favor / total capital social'
 		},
 		{
-			value: ((negativeSC / totalSC) * 100).toFixed(3) + '%',
+			value: ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%',
 			label: '% en contra / total capital social'
 		},
 		{
-			value: ((abstentionSC / totalSC) * 100).toFixed(3) + '%',
+			value: ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%',
 			label: '% abstención / total capital social'
 		},
 		{
