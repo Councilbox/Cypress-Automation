@@ -35,6 +35,10 @@ class ParticipantContainer extends React.PureComponent {
 	render() {
 		const { data, detectRTC, main, match, state } = this.props;
 
+		// if(this.props.council.councilVideo && (getSubdomain() !== this.props.council.councilVideo.subdomain)){
+		// 	window.location.replace(window.location.origin.replace(getSubdomain(), this.props.council.councilVideo.subdomain));
+		// }
+
 		if (data.error && data.error.graphQLErrors["0"]) {
 			const code = data.error.graphQLErrors["0"].code;
 			if (
@@ -141,6 +145,7 @@ const councilQuery = gql`
 			active
 			autoClose
 			businessName
+			subdomain
 			city
 			closeDate
 			companyId
