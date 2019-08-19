@@ -4,11 +4,29 @@ import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getPrimary, getSecondary } from '../styles/colors';
 import { variant } from '../config';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
+import LoadingMainApp from './LoadingMainApp';
 
 
 const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) => {
+    const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();
+
+    const imgUrl =  window.location.pathname.includes('participant')?
+        customRoomBackground? customRoomBackground : customBackground? customBackground : bg
+        :
+        customBackground? customBackground : bg
+
+    React.useEffect(() => {
+        let img = new Image();
+        img.src = imgUrl;
+        img.onload = () => setLoadingImg(false);
+    }, [customBackground, customRoomBackground]);
+
+    if(loadingImg){
+        return <LoadingMainApp />
+    }
+
 
     return (
         <div
@@ -18,12 +36,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector }) =>
                 flexDirection: "column",
                 height: "100%",
                 overflow: "auto",
-                background: `url(${
-                    window.location.pathname.includes('participant')?
-                        customRoomBackground? customRoomBackground : customBackground? customBackground : bg
-                    :
-                        customBackground? customBackground : bg
-                    })`,
+                background: `url(${imgUrl})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center center',
