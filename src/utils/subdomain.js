@@ -44,5 +44,5 @@ export const shouldLoadSubdomain = () => {
         'app-pre': true
     }
     const subdomain = window.location.hostname.split('.')[0];
-    return validSubdomains[subdomain]? false : true;
+    return validSubdomains[subdomain]? false : window.location.replace('https://app.councilbox.com');
 }
