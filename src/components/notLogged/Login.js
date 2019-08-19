@@ -40,36 +40,45 @@ const Login = ({ translate, windowSize, ...props }) => {
 				}
 			});
 			if (response.errors) {
-				switch (response.errors[0].message) {
-					case "Incorrect password":
+				const errors = {
+					'Incorrect password': () => {
 						setState({
 							loading: false,
 							errors: {
 								password: translate.password_err
 							}
 						});
-						break;
+					},
 
-					case 'Not actived':
+					'Not actived': () => {
 						setState({
 							loading: false,
 							errors: {
 								user: translate.email_not_found
 							}
 						})
-						break;
-					case "Not found":
+					},
+
+					'Not found': () => {
 						setState({
 							loading: false,
 							errors: {
 								user: translate.email_not_found
 							}
 						});
-						break;
+					},
 
-					default:
-						return;
+					'Invalid domain': () => {
+						setState({
+							loading: false,
+							errors: {
+								user: 'Estas credenciales no son válidas para este dominio' //TRADUCCION
+							}
+						})
+					}
 				}
+
+				return errors[response.errors[0].message]? errors[response.errors[0].message]() : null;
 			}
 			if (response.data.login) {
 				setState({
