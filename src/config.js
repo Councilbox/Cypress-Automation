@@ -5,7 +5,7 @@ export const SERVER_URL =
 		? `http://${window.location.hostname}:5000`
 		: `https://${process.env.REACT_APP_API_URL}`;
 
-export const WS_URL = process.env.REACT_APP_MODE === "dev" ? `ws://${SERVER_URL}/subscriptions` : `wss://${SERVER_URL}/subscriptions`;
+export const WS_URL = process.env.REACT_APP_MODE === "dev" ? `ws://${window.location.hostname}:5000/subscriptions` : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;
 export const singleVoteCompanies = [449];
 if(process.env.REACT_APP_MODE === 'dev'){
 	//singleVoteCompanies.push(375);
@@ -23,7 +23,7 @@ const getVariant = () => {
 export const variant = getVariant();
 export const EXPLORER_URL = 'https://alastria-explorer.councilbox.com';
 
-export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '3.0.3';
+export const CLIENT_VERSION = process.env.REACT_APP_VERSION || '3.1.1';
 export const API_URL = `${SERVER_URL}/graphql`;
 export const videoVersions = {
 	CMP: 'CMP',
