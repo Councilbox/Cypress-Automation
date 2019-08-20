@@ -1,17 +1,56 @@
 import React from "react";
 import { Select } from "material-ui";
-import { InputLabel } from "material-ui/Input";
+import Input, { InputLabel } from "material-ui/Input";
 import { FormControl } from "material-ui/Form";
 import { withStyles } from "material-ui";
 import PropTypes from "prop-types";
 
 
 
-
 const styles = {
-	select: {
-		color: '#0000005c'
-	}
+	'#b47fb6': {
+		color: '#b47fb6',
+		'&:after': {
+			borderBottom: `2px solid #b47fb6`,
+		},
+		'&$focused:after': {
+			borderBottomColor: `#b47fb6`,
+		},
+		'&$error:after': {
+			borderBottomColor: `#b47fb6`,
+		},
+		'&:before': {
+			borderBottom: `1px solid #b47fb6`,
+		},
+		'&:hover:not($disabled):not($focused):not($error):before': {
+			borderBottom: `2px solid #b47fb6`,
+		},
+		'&$disabled:before': {
+			borderBottom: `1px dotted #b47fb6`,
+		},
+	},
+	'#7fa5b6': {
+		color: '#7fa5b6',
+		'&:after': {
+			borderBottom: `2px solid #7fa5b6`,
+		},
+		'&$focused:after': {
+			borderBottomColor: `#7fa5b6`,
+		},
+		'&$error:after': {
+			borderBottomColor: `#7fa5b6`,
+		},
+		'&:before': {
+			borderBottom: `1px solid #7fa5b6`,
+		},
+		'&:hover:not($disabled):not($focused):not($error):before': {
+			borderBottom: `2px solid #7fa5b6`,
+		},
+		'&$disabled:before': {
+			borderBottom: `1px dotted #7fa5b6`,
+		},
+	},
+
 };
 
 const SelectInput = ({
@@ -25,9 +64,10 @@ const SelectInput = ({
 	disabled,
 	noLabel,
 	autoWidth,
+	colorText,
 	...props
 }) => {
-	
+
 	return (
 		<FormControl
 			style={{
@@ -49,13 +89,20 @@ const SelectInput = ({
 						fontSize: '12px !important'
 					}
 				}}
-				// classes={{ select: props.classes.select }}
+				input={
+					<Input
+						classes={{
+							underline: props.classes[colorText],
+						}}
+					/>
+				}
+				classes={{ select: props.classes[colorText], icon: props.classes[colorText] }}
 				autoWidth={autoWidth}
 				disabled={!!disabled}
 				value={value}
 				onChange={onChange}
 				error={!!errorText}
-				// color={'red'}
+			// color={'red'}
 			>
 				{children}
 			</Select>

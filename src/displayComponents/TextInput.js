@@ -36,7 +36,9 @@ const TextInput = ({
 	id,
 	helpPopoverInLabel,
 	styles,
-	styleInInput
+	styleInInput,
+	disableUnderline,
+	stylesAdornment
 }) => (
 		<FormControl
 			style={{
@@ -48,7 +50,7 @@ const TextInput = ({
 			<TextField
 				onSelect={onClick}
 				onBlur={onBlur}
-				label={helpPopoverInLabel ? floatingText:
+				label={helpPopoverInLabel ? floatingText :
 					<div style={{ display: 'flex' }}>
 						{`${floatingText}${required ? "*" : ""}`}
 						{!!errorText &&
@@ -81,6 +83,7 @@ const TextInput = ({
 				}}
 				InputProps={{
 					startAdornment: "",
+					disableUnderline: disableUnderline,
 					inputProps: {
 						min: min,
 						id: id,
@@ -106,7 +109,9 @@ const TextInput = ({
 							</IconButton>
 						</InputAdornment>
 					) : adornment ? (
-						<InputAdornment position="end">
+						<InputAdornment position="end"
+						style={{...stylesAdornment}} 
+						>
 							{adornment}
 						</InputAdornment>
 					) : (

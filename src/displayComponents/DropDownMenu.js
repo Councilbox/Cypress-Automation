@@ -36,9 +36,10 @@ class DropDownMenu extends React.Component {
 			icon,
 			loadingColor,
 			anchorOrigin,
-			claseHover
+			claseHover,
+			paperPropsStyles
 		} = this.props;
-		
+
 		return (
 			<Fragment>
 				{!!Component ? (
@@ -63,17 +64,30 @@ class DropDownMenu extends React.Component {
 							text={text}
 						/>
 					)}
-					<Popover
-						id={id}
-						open={Boolean(anchorEl)}
-						anchorEl={anchorEl}
-						onClose={this.handleClose}
-						anchorOrigin={anchorOrigin}
-					>
-						<div onClick={this.props.persistent ? () => { } : this.handleClose}>
-							{items}
-						</div>
-					</Popover>
+				<Popover
+					PaperProps={{
+						style: {
+							...paperPropsStyles
+						}
+					}}
+					id={id}
+					open={Boolean(anchorEl)}
+					anchorEl={anchorEl}
+					onClose={this.handleClose}
+					anchorOrigin={anchorOrigin}
+				// anchorOrigin={{
+				// 	vertical: 'top',
+				// 	horizontal: 'left',
+				//   }}
+				//   transformOrigin={{
+				// 	vertical: 'top',
+				// 	horizontal: 'left',
+				//   }}
+				>
+					<div onClick={this.props.persistent ? () => { } : this.handleClose}>
+						{items}
+					</div>
+				</Popover>
 			</Fragment>
 		);
 	}
