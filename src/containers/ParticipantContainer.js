@@ -36,9 +36,6 @@ class ParticipantContainer extends React.PureComponent {
 			const { subdomain } = this.props.state.councilState;
 			const actualSubdomain = window.location.hostname.split('.')[0];
 
-			console.log(actualSubdomain);
-			console.log(subdomain);
-
 			if(subdomain){
 				if(subdomain !== actualSubdomain){
 					window.location.replace(window.location.origin.replace(actualSubdomain, subdomain) + '/participant/redirect/' + sessionStorage.getItem('participantToken'));

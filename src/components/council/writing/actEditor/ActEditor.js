@@ -889,7 +889,7 @@ export const generateActTags = (type, data, translate) => {
 		},
 		numPresentOrRemote: {
 			value: council.numPresentAttendance + council.numRemoteAttendance,
-			label: 'Núm. asistentes presentes/remotos'
+			label: 'Nº de asistentes personalmente' //TRADUCCION
 		},
 		percentageSCPresent: {
 			value: council.percentageSCPresent + '%',

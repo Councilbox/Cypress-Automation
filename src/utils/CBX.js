@@ -581,15 +581,15 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{numPresentOrRemote}}',
-				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+				label: 'Nº de asistentes personalmente' //TRADUCCION
 			},
 			{
 				value: '{{numRepresented}}',
-				label: 'Núm. de representaciones' //TRADUCCION
+				label: 'Nº de asistentes representados' //TRADUCCION
 			},
 			{
 				value: '{{numParticipants}}',
-				label: 'Núm. de participantes totales' //TRADUCCION
+				label: 'Nº de asistentes totales' //TRADUCCION
 			},
 			{
 				value: '{{percentageSCPresent}}',
@@ -640,15 +640,15 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{numPresentOrRemote}}',
-				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+				label: 'Nº de asistentes personalmente' //TRADUCCION
 			},
 			{
 				value: '{{numRepresented}}',
-				label: 'Núm. de representaciones' //TRADUCCION
+				label: 'Nº de asistentes representados' //TRADUCCION
 			},
 			{
 				value: '{{numParticipants}}',
-				label: 'Núm. de participantes totales' //TRADUCCION
+				label: 'Nº de asistentes totales' //TRADUCCION
 			},
 			{
 				value: '{{percentageSCPresent}}',
@@ -664,7 +664,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{numberOfShares}}',
-				label: `${translate.social_capital}/ ${translate.participants.toLowerCase()}`
+				label: 'Nº participaciones que asiste del total del capital social'
 			},
 			{
 				value: '{{percentageOfShares}}',
@@ -738,15 +738,15 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			},
 			{
 				value: '{{numPresentOrRemote}}',
-				label: 'Núm. asistentes presentes/remotos' //TRADUCCION
+				label: 'Nº de asistentes personalmente' //TRADUCCION
 			},
 			{
 				value: '{{numRepresented}}',
-				label: 'Núm. de representaciones' //TRADUCCION
+				label: 'Nº de asistentes representados' //TRADUCCION
 			},
 			{
 				value: '{{numParticipants}}',
-				label: 'Núm. de participantes totales' //TRADUCCION
+				label: 'Nº de asistentes totales' //TRADUCCION
 			},
 		],
 
