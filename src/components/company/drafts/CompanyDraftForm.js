@@ -45,17 +45,6 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 	const [testTags, setTestTags] = React.useState({});
 
 
-	console.log(draft)
-	console.log(updateState)
-	// console.log(errors)
-	// console.log(companyStatutes)
-	// console.log(draftTypes)
-	// console.log(rootStatutes)
-	// console.log(languages)
-	// console.log(votingTypes)
-	// console.log(majorityTypes)
-	// console.log(companyTypes)
-
 	const removeTag = tag => {
 		delete testTags[tag];
 		setTestTags({ ...testTags });
@@ -130,6 +119,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 				const tag = tags[key];
 				columns[tag.type] = columns[tag.type] ? [...columns[tag.type], key] : [key]
 			});
+			console.log(columns)
 
 			return columns;
 
@@ -245,7 +235,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										border: '1px solid #c196c3',
 										color: '#b47fb6',
 									}}
-									tags={companyStatutes.filter(statute => !testTags[statute.title]).map(statute => (
+									tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 										{
 											label: statute.title,
 											translation: translate[statute.title],
@@ -373,26 +363,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 					<div style={{}}>
 						<Grid>
 							<GridItem xs={12} lg={6} md={6} style={{ display: "flex" }}>
-								<div style={{ marginRight: "1em" }}>
-									<SelectInput
-										colorText={levelColor[0]}
-										value={1}
-									>
-										{companyStatutes.filter(statute => !testTags[statute.title]).map((statute, index) => (
-											<MenuItem value={statute.title} key={index+statute.title}>{translate[statute.title]} - {index} </MenuItem>
-										))}
-									</SelectInput>
-								</div>
-								<div style={{ marginRight: "1em" }}>
-									<SelectInput
-										colorText={levelColor[1]}
-										value={1}
-									>
-										{Object.keys(GOVERNING_BODY_TYPES).filter(key => !testTags[GOVERNING_BODY_TYPES[key].label]).map((key, index) => (
-											<MenuItem value={GOVERNING_BODY_TYPES[key].label} key={index+key}>{GOVERNING_BODY_TYPES[key].label}</MenuItem> //TRADUCCION
-										))}
-									</SelectInput>
-								</div>
+
 								<div style={{ display: "flex", alignItems: "center", marginRight: "1em" }}>
 
 									<DropDownMenu
@@ -400,13 +371,13 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										// textStyle={{height: '100%', minWidth: "15px" }}
 										loading={false}
 										paperPropsStyles={{ border: " solid 1px #353434", borderRadius: '3px', }}
-										styleBody={{ height: "250px", }}
+										styleBody={{}}
 										Component={() =>
 											<MenuItem
 												style={{
 													height: '100%',
-													// border: " solid 1px #353434",
-													// borderRadius: '3px',
+													border: " solid 1px #353434",
+													borderRadius: '3px',
 													width: '100%',
 													margin: 0,
 													padding: 0,
@@ -426,12 +397,8 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 										}
 										text={translate.add_agenda_point}
 										textStyle={"ETIQUETA"}
-										// anchorOrigin={{
-										// 	vertical: 'top',
-										// 	horizontal: 'left',
-										// }}
 										items={
-											<div style={{ height: "250px", width: "700px" }} onClick={event => {
+											<div style={{}} onClick={event => {
 												event.stopPropagation();
 											}}>
 												<div style={{
@@ -494,7 +461,7 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 																			border: '1px solid #c196c3',
 																			color: levelColor[0],
 																		}}
-																		tags={companyStatutes.filter(statute => !testTags[statute.title]).map(statute => (
+																		tags={companyStatutes.filter(statute => !testTags[translate[statute.title] ? translate[statute.title] : statute.title]).map(statute => (
 																			{
 																				label: statute.title,
 																				translation: translate[statute.title],
@@ -638,12 +605,9 @@ const CompanyDraftForm = ({ translate, draft, errors, updateState, companyStatut
 					fontSize: "12px",
 					marginBottom: "0.5em ",
 					flexDirection: 'column',
-					height: "3em"
+					minHeight: "3em"
 				}}>
-					{/* <EtiquetaBase
-						text={"asdasdasd"}
-						color={"red"}
-					/> */}
+					{renderEtiquetasSeleccionadas()}
 				</div>
 				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", minHeight: "12em", height: '0', overflow: "hidden" }}>
 					<Scrollbar>
@@ -812,20 +776,27 @@ const EtiquetasModal = ({ stylesContent, color, last, title, tags, addTag, trans
 				<div>{title}</div>
 			</div>
 			<div style={{ color: color }}>
-				<div style={{ }}>
+				<div style={{
+					display: 'flex',
+					flexFlow: 'wrap column',
+					maxHeight: '135px',
+				}}
+				>
 					{tags.map((tag, index) => (
-
-						<div style={{ ...styles }}>
+						<div
+							style={{
+								marginRight: "1em",
+								cursor: "pointer",
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								maxWidth: '150px',
+							}}
+							key={`tag_${index}`}
+							onClick={() => addTag(tag)}
+						>
 							{tag.translation ? tag.translation : tag.label}
 						</div>
-
-						// <EtiquetaLinkModal
-						// 	key={`tag_${index}`}
-						// 	childs={tag.childs}
-						// 	text={tag.translation ? tag.translation : tag.label}
-						// 	color={getTagColor(tag.type)}
-						// // action={() => addTag(tag)}
-						// />
 					))}
 				</div>
 			</div>
