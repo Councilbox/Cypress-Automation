@@ -365,7 +365,6 @@ export const getGoverningText = (translate, type) => {
 
 export const generateGBSoleDecidesText = (translate, type) => {
 	//TRADUCCION
-	console.log(type);
 	const labels = {
 		0: 'la Junta General acuerda',
 		1: 'la Junta General acuerda',
@@ -380,7 +379,6 @@ export const generateGBSoleDecidesText = (translate, type) => {
 
 export const generateGBSoleProposeText = (translate, type) => {
 	//TRADUCCION
-	console.log(type);
 	const labels = {
 		0: 'la Junta General',
 		1: 'la Junta General',
