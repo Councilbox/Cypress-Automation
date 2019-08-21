@@ -41,7 +41,7 @@ class ParticipantContainer extends React.PureComponent {
 					window.location.replace(window.location.origin.replace(actualSubdomain, subdomain) + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
 				}
 			} else {
-				if(actualSubdomain !== 'app'){
+				if(shouldLoadSubdomain()){
 					window.location.replace(window.location.origin.replace(actualSubdomain, 'app') + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
 				}
 			}
