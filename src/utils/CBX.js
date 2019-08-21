@@ -349,6 +349,52 @@ export const generateGBDecidesText = (translate, type) => {
 	return labels[type]? labels[type] : labels[0];
 }
 
+export const getGoverningText = (translate, type) => {
+	//TRADUCCION
+	const labels = {
+		0: 'Ninguno',
+		1: 'El Administrador único',
+		2: 'El Administrador único persona jurídica',
+		3: 'Los Administradores Mancomunados',
+		4: 'El Administrador Solidario',
+		5: 'El Consejo de Administración'
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const generateGBSoleDecidesText = (translate, type) => {
+	//TRADUCCION
+	console.log(type);
+	const labels = {
+		0: 'la Junta General acuerda',
+		1: 'la Junta General acuerda',
+		6: 'el Socio/Accionista único decide',
+		7: 'el Socio/Accionista único decide',
+		8: 'el Socio/Accionista único decide',
+		9: 'el Socio/Accionista único decide'
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+export const generateGBSoleProposeText = (translate, type) => {
+	//TRADUCCION
+	console.log(type);
+	const labels = {
+		0: 'la Junta General',
+		1: 'la Junta General',
+		6: 'el Socio/Accionista único',
+		7: 'el Socio/Accionista único',
+		8: 'el Socio/Accionista único',
+		9: 'el Socio/Accionista único'
+	}
+
+	return labels[type]? labels[type] : labels[0];
+}
+
+
+
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
 		throw new Error("Missing data");
@@ -488,6 +534,10 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	}
 
 	text = text.replace(/{{GBdecides}}/g, generateGBDecidesText(translate, data.company.governingBodyType));
+	text = text.replace(/{{GoverningBody}}/g, getGoverningText(translate, data.company.governingBodyType));
+	text = text.replace(/{{GM\/SoleDecides}}/g, generateGBSoleDecidesText(translate, data.company.type));
+	text = text.replace(/{{GM\/SolePropose}}/g, generateGBSoleProposeText(translate, data.company.type));
+
 
 	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
@@ -838,8 +888,20 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 				label: translate.new_location_of_celebrate
 			},
 			{
+				value: '{{GoverningBody}}',
+				label: 'Órgano de gobierno'//TRADUCCION
+			},
+			{
 				value: '{{GBdecides}}',
 				label: '[Órgano de gobierno] decide'//TRADUCCION
+			},
+			{
+				value: '{{GM/SoleDecides}}',
+				label: '[Junta Gral./Socio/Accionista único] decide'//TRADUCCION
+			},
+			{
+				value: '{{GM/SolePropose}}',
+				label: '[Junta Gral./Socio/Accionista único] propone'//TRADUCCION
 			},
 			{
 				value: '{{positiveVotings}}',
