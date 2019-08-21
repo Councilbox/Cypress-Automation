@@ -5,21 +5,14 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, AlertConfirm, GridItem, Scrollbar } from "../../displayComponents";
 import * as CBX from '../../utils/CBX';
+import { useInterval } from "../../hooks";
 
-
-const initialState = {
-	layout: 'squares', // table, compact
-	loadingMore: false,
-	loading: true,
-	refreshing: false,
-	editParticipant: undefined,
-	view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
-}
 
 const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 	const [drawerTop, setDrawerTop] = React.useState(false)
 	const [participantsOnline, setParticipantsOnline] = React.useState(false)
 	const [participantsPresents, setParticipantsPresents] = React.useState(false)
+	/*SACAR EL MODAL COMO COMPONENTE SEPARADO Y PEDIR CON INFINITE SCROLL REMOTOS O PRESENTES SEGÚN SEA NECESARIO */
 	const [participantsPresentsAll, setParticipantsPresentsAll] = React.useState(false)
 	const [state, setState] = React.useState({
 		loading: true,
@@ -28,10 +21,16 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 		showModal: false
 	})
 
+	const getData = () => {
+		getarticipantsOnline();
+		getarticipantsPresents();
+	}
+
 	React.useEffect(() => {
-		getarticipantsOnline()
-		getarticipantsPresents()
-	}, [state.loading, state.loadingPresents, drawerTop]);
+		getData();
+	}, [council.id]);
+
+	useInterval(getData, 9000);
 
 
 	const getarticipantsOnline = async () => {
@@ -72,6 +71,8 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 		setState(state => ({ ...state, loadingPresents: false }));
 	}
 
+
+	//ALL COMPONENTE MODAL
 	const verMas = async () => {
 		const response = await client.query({
 			query: roomLiveParticipantsPresents,
@@ -89,7 +90,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 
 	}
 
-
+	//USAR LA VARIABLE TOTAL INDIVIDUALMENTE ENTRE REMOTOS Y PRESENTES
 	let contParticipants
 	if (participantsPresents.list && participantsOnline.list) {
 		contParticipants = participantsPresents.list.length + participantsOnline.list.length;
@@ -205,8 +206,8 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 							}
 						</div>
 						<div style={{ marginLeft: "1.3em", marginTop: "1em" }}>
-							{participantsPresents.list.length >= 30 &&
-								< div style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", cursor: "pointer" }} onClick={verMas} >Ver más</div>
+							{participantsPresents.list.length >= 1 &&
+								<div style={{ display: "flex", alignItems: "center", fontSize: "14px", marginBottom: "0.2em", cursor: "pointer" }} onClick={verMas}>Ver más</div>//TRADUCCION
 							}
 						</div>
 					</div>
@@ -265,7 +266,7 @@ const UsersHeader = ({ isMobile, council, classes, client, ...props }) => {
 						</GridItem>
 					</Grid>
 				}
-				title={"Personas Online / Presenciales"}
+				title={"Personas Online / Presenciales"} //TRADUCCION
 			/>
 		</div>
 	)
